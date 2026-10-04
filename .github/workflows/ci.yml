@@ -1,0 +1,58 @@
+# CI — authoritative checks for every push and PR. Every action is pinned to a full commit SHA (release tag in the
+# comment; resolve with `gh api repos/<owner>/<action>/commits/<tag> --jq .sha`). Dependabot keeps them current.
+name: CI
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # full history for tools/check_tdd.py
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - run: uv sync --all-groups --locked
+      - run: uv run ruff check . && uv run ruff format --check .
+      - run: uv run mypy src
+      - run: uv run pytest -m "not gpu" --cov=src --cov-branch
+      - run: uv run python tools/trace.py --check
+      - run: uv run python tools/check_tdd.py --replay
+      - run: uv run python tools/check_repo.py
+      - name: Pipeline smoke (CPU, samples only)
+        working-directory: pipeline
+        run: uv sync --extra cpu --all-groups --locked && uv run pytest -m "not gpu and not slow"
+
+  web:
+    runs-on: ubuntu-24.04
+    defaults: { run: { working-directory: web } }
+    env:
+      BASE_PATH: "/${{ github.event.repository.name }}/"
+      # Public test phrase for CI builds only; the deployed site is built with the ACCESS_PASSPHRASE secret.
+      ACCESS_PASSPHRASE: ci-demo-gate
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0 — reads "packageManager"
+        with: { package_json_file: web/package.json }
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with: { node-version-file: web/.nvmrc, cache: pnpm, cache-dependency-path: web/pnpm-lock.yaml }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check # biome ci + typegen + tsc + vitest
+      - run: pnpm run build # includes the Pages layout step and the initial-JS budget
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm run test:e2e # served like Pages at BASE_PATH: deep links, 404, gate, theme, language, ⓘ, axe
+      - if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with: { name: playwright-report, path: web/playwright-report, retention-days: 7 }

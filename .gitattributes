@@ -1,0 +1,39 @@
+# Normalise line endings in the repository; scripts keep their native endings.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.sh  text eol=lf
+
+# Binary artifacts (never diffed, never normalised)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.onnx binary
+*.bin binary
+*.npy binary
+*.npz binary
+*.parquet binary
+*.arrow binary
+*.zip binary
+*.gz binary
+*.wasm binary
+*.woff2 binary
+
+# Generated files (collapsed in diffs, excluded from language stats)
+specs/traceability.md linguist-generated=true
+specs/requirements.index.json linguist-generated=true
+requirements/*.txt linguist-generated=true
+docs/assets/figures/** linguist-generated=true
+web/public/assets/** linguist-generated=true
+uv.lock linguist-generated=true
+pipeline/uv.lock linguist-generated=true
+web/pnpm-lock.yaml linguist-generated=true
+
+# Documentation
+docs/** linguist-documentation=true
+manuscripts/** linguist-documentation=true

@@ -1,0 +1,20 @@
+[project]
+name = "pitstudio-accel"
+version = "0.0.0"
+description = "PitStudio acceleration lane: TensorRT 11.3 engine builds and benchmarks of the exported ONNX models. Local-only; engines are never committed."
+requires-python = "==3.14.*"
+# TensorRT 11.3.0.99 (research thread 16): Windows cp314 wheels only on NVIDIA's index; it cannot share a venv with the
+# TensorRT 10.14 libraries used by the ONNX Runtime TensorRT EP in pipeline/.
+dependencies = ["tensorrt-cu13-bindings==11.3.0.99", "tensorrt-cu13-libs==11.3.0.99", "polygraphy", "onnx", "onnxruntime-gpu", "numpy", "nvidia-ml-py"]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+tensorrt-cu13-bindings = { index = "nvidia" }
+tensorrt-cu13-libs = { index = "nvidia" }
+
+[[tool.uv.index]]
+name = "nvidia"
+url = "https://pypi.nvidia.com"
+explicit = true

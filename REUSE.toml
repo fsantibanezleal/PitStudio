@@ -1,0 +1,27 @@
+version = 1
+SPDX-PackageName = "PitStudio"
+SPDX-PackageDownloadLocation = "https://github.com/fsantibanezleal/PitStudio"
+
+[[annotations]]
+path = ["src/**", "api/**", "pipeline/**", "web/src/**", "tools/**", "scripts/**", "tests/**", "contracts/**", "infra/**", "deploy/**", "*.toml", "*.json", "*.yml", "*.yaml", ".github/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Felipe A. Santibanez-Leal"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["docs/**", "manuscripts/**", "specs/**", "*.md", "data/cards/**", "data/samples/**", "models/cards/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Felipe A. Santibanez-Leal"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["CODE_OF_CONDUCT.md"]
+precedence = "override"
+SPDX-FileCopyrightText = "Contributor Covenant contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["data/sources.yaml", "CITATION.cff", ".gitattributes", ".editorconfig", ".gitignore"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Felipe A. Santibanez-Leal"
+SPDX-License-Identifier = "CC0-1.0"

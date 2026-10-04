@@ -1,0 +1,66 @@
+{
+  "pages": {
+    "explore": {
+      "title": "Explore an open pit",
+      "lead": "A 3D open pit with twelve simulation cases — haulage, blasting, slopes, dust, water, autonomy and more — each computed by the repository's own physics, simulation and learned models."
+    },
+    "cases": {
+      "title": "Cases",
+      "lead": "The case catalogue: what each scenario simulates, which tools produce it, and how its results are checked."
+    },
+    "studio": {
+      "title": "Studio",
+      "lead": "The local GPU studio: which simulation, sensor, synthetic-data, training and acceleration tools run where, and what each one produced."
+    },
+    "theory": {
+      "title": "Theory",
+      "lead": "The physics and mining-engineering models behind every case, with equations, assumptions and primary references."
+    },
+    "methods": {
+      "title": "Methods",
+      "lead": "The method ladder for each task: classical baselines, current state of the art, and learned models, compared on held-out data."
+    },
+    "results": {
+      "title": "Results",
+      "lead": "Measured results from committed artifacts: accuracy against baselines, simulation-to-real gaps, and acceleration benchmarks."
+    },
+    "knowledge": {
+      "title": "Knowledge",
+      "lead": "Glossary, equations, parameter tables, datasets, frameworks and bibliography — the knowledge base of the repository."
+    }
+  },
+  "footer": {
+    "licence": "Code Apache-2.0 · docs and original data CC-BY-4.0",
+    "provenanceNone": "No data, models or simulation results are published yet."
+  },
+  "arch": {
+    "what": {
+      "title": "What it is",
+      "body": "PitStudio applies physical-AI simulation to open-pit mining. A local GPU studio builds OpenUSD scenes, runs physics and sensor simulation, generates synthetic data and trains models; this site explains the cases and replays or recomputes their results."
+    },
+    "lanes": {
+      "title": "Lanes",
+      "body": "Live: light computation runs in your browser (WebGPU, then WebAssembly, then a precomputed fallback). Precompute: heavy simulation and training run on a local GPU workstation. Replay: this site animates the committed outputs of those runs."
+    },
+    "studio": {
+      "title": "Studio",
+      "body": "The studio is a set of isolated local environments, one per toolchain (scene authoring and physics, robotics simulation, RTX sensor rendering, reinforcement learning, model acceleration), run by one runner that records GPU telemetry and a manifest for every output."
+    },
+    "webflow": {
+      "title": "Web flow",
+      "body": "Static site on GitHub Pages. Every route is prerendered HTML. Large assets (3D tiles, videos, ONNX models) load on demand with progress and are verified against the published manifest."
+    },
+    "science": {
+      "title": "Science flow",
+      "body": "Download real data → synthesize scenarios → simulate → extract features → train → evaluate on held-out data → export. Every number shown on this site traces back to a manifest of the run that produced it."
+    },
+    "contracts": {
+      "title": "Contracts",
+      "body": "Every artifact that crosses a boundary (pipeline to web, studio to pipeline) is described by a JSON Schema in the repository's contracts folder; the web app validates what it loads."
+    },
+    "tools": {
+      "title": "Tools",
+      "body": "Open tools are used and cited; proprietary SDKs are installed by the user from their official sources and never redistributed by this repository. Performance figures of licence-restricted tools are not published."
+    }
+  }
+}

@@ -1,0 +1,19 @@
+# Data source registry — every real or synthetic source used by the pipeline.
+# Licences are traced to the ORIGINAL publisher (not a mirror's label). Third-party data is downloaded by the
+# pipeline's download stage and never committed. redistribution: redistributable | derived-only | no-redistribution
+sources: []
+# Example entry:
+# - id: example-dataset
+#   kind: real                      # real | synthetic
+#   title: "Example dataset"
+#   landing_url: "https://doi.org/10.xxxx/xxxxx"
+#   files:
+#     - url: "https://…/file.zip"
+#       sha256: "<64 hex>"
+#       bytes: 123456
+#   license: "CC-BY-4.0"            # SPDX id
+#   license_url: "https://…"
+#   attribution: "Author et al. (2024), Example dataset, DOI …"
+#   redistribution: derived-only
+#   citation: "…"
+#   card: data/cards/example-dataset.md

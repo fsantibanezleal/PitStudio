@@ -1,0 +1,11 @@
+name: Feature or method request
+description: Propose a capability, case or method.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes: { label: The need, description: "What question should the project answer that it cannot today?" }
+    validations: { required: true }
+  - type: textarea
+    id: proposal
+    attributes: { label: Proposal, description: "Method/case/data, with references (DOI/URL) where possible." }

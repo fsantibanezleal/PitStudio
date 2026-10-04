@@ -1,0 +1,67 @@
+{
+  "skip": "Skip to content",
+  "home": "PitStudio home",
+  "nav": {
+    "label": "Main",
+    "explore": "Explore",
+    "cases": "Cases",
+    "studio": "Studio",
+    "theory": "Theory",
+    "methods": "Methods",
+    "results": "Results",
+    "knowledge": "Knowledge"
+  },
+  "links": {
+    "github": "Source code on GitHub"
+  },
+  "about": "About this app (architecture)",
+  "theme": {
+    "label": "Theme: {{current}}. Activate to switch to {{next}}.",
+    "system": "system",
+    "light": "light",
+    "dark": "dark"
+  },
+  "lang": {
+    "label": "Language",
+    "en": "English",
+    "es": "Español"
+  },
+  "footer": {
+    "version": "Version {{version}}",
+    "commit": "commit {{sha}}",
+    "built": "built {{date}}",
+    "author": "Author: {{author}}",
+    "provenance": "Provenance",
+    "source": "Source",
+    "licence": "Licence",
+    "disclaimer": "Educational research project. Not affiliated with or endorsed by NVIDIA or any mining company. This site collects no user data beyond GitHub Pages' own server logs.",
+    "gate": "The access gate is a demo gate, not a security boundary: all content of this site is public."
+  },
+  "gate": {
+    "title": "Demo access",
+    "notice": "Demo access gate — not a security boundary. All content of this site is public; the gate only keeps casual visitors on the landing view.",
+    "label": "Passphrase",
+    "submit": "Enter",
+    "error": "That passphrase does not match.",
+    "checking": "Loading…"
+  },
+  "arch": {
+    "title": "How PitStudio works",
+    "description": "The architecture of this app and the repository behind it.",
+    "close": "Close",
+    "tabs": "Architecture views"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "There is no page at this address.",
+    "home": "Go to the start page"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "body": "This view failed to load. Reload the page; if it keeps failing, open an issue on GitHub."
+  },
+  "stub": {
+    "badge": "Not built yet",
+    "body": "This section is planned and will be filled from the repository's real pipelines and results. Nothing shown here is a placeholder result."
+  }
+}

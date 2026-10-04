@@ -1,0 +1,78 @@
+{
+  "requirements": {
+    "US-000-1": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "tasks": [],
+      "tests": []
+    },
+    "FR-000-01": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "tasks": [],
+      "tests": []
+    },
+    "FR-000-02": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "tasks": [],
+      "tests": []
+    },
+    "FR-000-03": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "tasks": [],
+      "tests": [
+        "web/src/shell/prefs.test.ts",
+        "web/e2e/shell.spec.ts"
+      ]
+    },
+    "FR-000-04": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "tasks": [],
+      "tests": [
+        "web/src/shell/AccessGate.test.tsx",
+        "web/src/shell/digest.test.ts",
+        "web/e2e/shell.spec.ts"
+      ]
+    },
+    "NFR-000-01": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "tasks": [],
+      "tests": []
+    },
+    "NFR-000-02": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "tasks": [],
+      "tests": [
+        "web/e2e/shell.spec.ts"
+      ]
+    },
+    "SC-000-01": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "tasks": [],
+      "tests": []
+    },
+    "DC-000-01": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "tasks": [],
+      "tests": []
+    }
+  },
+  "tasks": {},
+  "unknown": []
+}

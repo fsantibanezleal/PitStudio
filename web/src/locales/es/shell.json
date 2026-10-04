@@ -1,0 +1,67 @@
+{
+  "skip": "Saltar al contenido",
+  "home": "Inicio de PitStudio",
+  "nav": {
+    "label": "Principal",
+    "explore": "Explorar",
+    "cases": "Casos",
+    "studio": "Estudio",
+    "theory": "Teoría",
+    "methods": "Métodos",
+    "results": "Resultados",
+    "knowledge": "Conocimiento"
+  },
+  "links": {
+    "github": "Código fuente en GitHub"
+  },
+  "about": "Acerca de esta app (arquitectura)",
+  "theme": {
+    "label": "Tema: {{current}}. Activa para cambiar a {{next}}.",
+    "system": "sistema",
+    "light": "claro",
+    "dark": "oscuro"
+  },
+  "lang": {
+    "label": "Idioma",
+    "en": "English",
+    "es": "Español"
+  },
+  "footer": {
+    "version": "Versión {{version}}",
+    "commit": "commit {{sha}}",
+    "built": "compilado {{date}}",
+    "author": "Autor: {{author}}",
+    "provenance": "Procedencia",
+    "source": "Código",
+    "licence": "Licencia",
+    "disclaimer": "Proyecto educativo de investigación. Sin afiliación ni respaldo de NVIDIA ni de ninguna empresa minera. Este sitio no recopila datos de usuarios más allá de los registros propios del servidor de GitHub Pages.",
+    "gate": "La puerta de acceso es de demostración, no una barrera de seguridad: todo el contenido de este sitio es público."
+  },
+  "gate": {
+    "title": "Acceso de demostración",
+    "notice": "Puerta de acceso de demostración — no es una barrera de seguridad. Todo el contenido de este sitio es público; la puerta solo mantiene a los visitantes casuales en la vista inicial.",
+    "label": "Frase de acceso",
+    "submit": "Entrar",
+    "error": "Esa frase de acceso no coincide.",
+    "checking": "Cargando…"
+  },
+  "arch": {
+    "title": "Cómo funciona PitStudio",
+    "description": "La arquitectura de esta app y del repositorio que la respalda.",
+    "close": "Cerrar",
+    "tabs": "Vistas de arquitectura"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "No existe una página en esta dirección.",
+    "home": "Ir a la página de inicio"
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "body": "Esta vista no se pudo cargar. Recarga la página; si el problema persiste, abre un issue en GitHub."
+  },
+  "stub": {
+    "badge": "Aún no construido",
+    "body": "Esta sección está planificada y se llenará con los pipelines y resultados reales del repositorio. Nada de lo que se muestra aquí es un resultado de relleno."
+  }
+}

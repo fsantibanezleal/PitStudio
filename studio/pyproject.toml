@@ -1,0 +1,25 @@
+[project]
+name = "pitstudio-studio"
+version = "0.0.0"
+description = "PitStudio open studio lane: OpenUSD scene building, GPU physics (Warp, Newton), media encoding and GPU telemetry"
+requires-python = "==3.14.*"
+dependencies = [
+    "pitstudio",
+    "usd-core", "warp-lang", "newton[sim]", "usd-validation-nvidia", "simready-validate",
+    "numpy", "pyyaml", "pydantic", "zarr", "pyarrow",
+    "laspy[lazrs]", "rasterio", "pyproj", "shapely", "trimesh", "ortools",
+    "pynvvideocodec", "nvidia-ml-py", "nvtx",
+]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
+
+[dependency-groups]
+dev = []
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+pitstudio = { path = "..", editable = true }
+
+[tool.pytest]
+addopts = ["-ra", "--strict-markers"]
+markers = ["req(id): links a test to a requirement ID", "gpu: needs CUDA", "slow: long-running"]

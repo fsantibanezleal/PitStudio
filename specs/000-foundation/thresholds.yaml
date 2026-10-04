@@ -1,0 +1,34 @@
+# Numeric gate thresholds for this product. They only ratchet upwards; lowering one needs a spec change and the
+# maintainer's explicit approval. Values below are starting proposals — calibrate in the first milestone.
+coverage:
+  branch_core_min: 0.85
+  changed_lines_min: 0.90
+mutation:
+  numerical_core_min: 0.80
+  numerical_core_fail_below: 0.70
+  other_min: 0.60
+property_tests:
+  ci_examples_per_test: 200
+  release_examples_per_test: 2000
+data:
+  c2st_auc_real_vs_synthetic_max: 0.60        # tabular / 1-D; 0.60-0.70 = warn with attribution
+  c2st_image_auc_gap_vs_real_baseline_max: 0.10
+  train_vs_test_auc_max: 0.60
+  tstr_over_trtr_min: 0.90
+  injected_shift_detection_auc_min: 0.80
+models:
+  corruption_relative_drop_max_pp_at_severity_2: 10
+  onnx_cpu_fp32: { rtol: 1.0e-3, atol: 1.0e-5, max_abs: 1.0e-4 }
+  quantized_task_metric_delta_max_pp: 1.0
+  mask_iou_min_vs_fp32: 0.99
+web:
+  wasm_fp32_max_abs: 1.0e-4
+  webgpu_fp32_max_abs: 1.0e-3
+  fp16_max_abs: 1.0e-2
+  top1_agreement_min: 0.995
+  initial_js_gzip_kb_max: 200
+  lighthouse_accessibility_min: 0.95
+  lighthouse_performance_warn_below: 0.80
+  model_file_mb_target: 25
+  model_file_mb_hard_cap: 95
+  site_total_mb_max: 500

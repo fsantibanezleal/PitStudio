@@ -1,0 +1,12 @@
+name: Data issue
+description: A dataset, licence, checksum or synthetic-data problem.
+labels: [data]
+body:
+  - type: input
+    id: source
+    attributes: { label: Source id, description: "The id in data/sources.yaml." }
+    validations: { required: true }
+  - type: textarea
+    id: problem
+    attributes: { label: Problem, description: "Wrong licence, broken URL, checksum mismatch, unrealistic synthetic data…" }
+    validations: { required: true }

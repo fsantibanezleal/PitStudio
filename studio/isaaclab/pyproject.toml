@@ -1,0 +1,25 @@
+[project]
+name = "pitstudio-isaaclab"
+version = "0.0.0"
+description = "PitStudio optional robot-learning lane: Isaac Lab 3.0 kit-less on Newton (haul-truck ramp driving, excavator digging). Local-only, never in CI."
+requires-python = "==3.12.*"
+# Isaac Lab is BSD-3; pinned to the v3.0.0-EA tag (its own pins: torch 2.11, Warp 1.16, Newton 1.5.2). Moves to the GA tag
+# when it ships (targeted end of October 2026).
+dependencies = ["isaaclab", "isaaclab-newton", "isaaclab-rl", "isaaclab-assets", "torch", "torchvision"]
+
+[tool.uv]
+package = false
+python-preference = "only-managed"
+
+[tool.uv.sources]
+isaaclab = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab" }
+isaaclab-newton = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_newton" }
+isaaclab-rl = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_rl" }
+isaaclab-assets = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_assets" }
+torch = { index = "pytorch-cu130" }
+torchvision = { index = "pytorch-cu130" }
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true

@@ -1,0 +1,30 @@
+[project]
+name = "pitstudio-isaac"
+version = "0.0.0"
+description = "PitStudio NVIDIA studio env: Isaac Sim + Replicator (RTX renders, synthetic data, PhysX vehicle visual twin). Local-only, never in CI."
+requires-python = "==3.12.*"
+# Isaac Sim pins Python 3.12 and its torch; the version is the newest that passes NVIDIA's Compatibility Checker on
+# this machine (see docs/studio). Proprietary NVIDIA software: resolved at install time, never redistributed.
+dependencies = ["isaacsim[all,extscache]==6.1.0.0", "torch==2.11.0", "mujoco-usd-converter"]
+
+[tool.uv]
+package = false
+python-preference = "only-managed"
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
+mujoco-usd-converter = { index = "pypi" }
+
+[[tool.uv.index]]
+name = "nvidia"
+url = "https://pypi.nvidia.com"
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true

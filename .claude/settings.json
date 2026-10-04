@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(/tests/golden/**)",
+      "Edit(/tests/**/__snapshots__/**)",
+      "Edit(/specs/000-foundation/thresholds.yaml)",
+      "Bash(git push --force *)",
+      "Bash(git reset --hard *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit|Bash|PowerShell",
+        "hooks": [
+          { "type": "command", "command": "python", "args": ["${CLAUDE_PROJECT_DIR}/tools/guard_locked_tests.py"], "timeout": 20 }
+        ]
+      }
+    ]
+  }
+}

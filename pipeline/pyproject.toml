@@ -1,0 +1,47 @@
+[project]
+name = "pitstudio-pipeline"
+version = "0.0.0"
+requires-python = "==3.14.*"
+dependencies = [
+    "pitstudio",
+    "onnx", "onnxslim", "polars", "pyarrow", "duckdb", "zarr", "pooch", "pandera", "scikit-learn", "httpx",
+    "minehaulsim", "oreblocks",
+]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
+
+[project.optional-dependencies]
+cpu = ["torch", "torchvision", "onnxruntime"]
+cu126 = ["torch", "torchvision", "onnxruntime"]          # driver >= 525
+cu130 = ["torch", "torchvision", "onnxruntime-gpu"]      # driver >= 580 (this laptop: 582.78)
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.uv]
+package = false
+conflicts = [[{ extra = "cpu" }, { extra = "cu126" }, { extra = "cu130" }]]
+
+[tool.uv.sources]
+pitstudio = { path = "..", editable = true }
+torch = [{ index = "pytorch-cpu", extra = "cpu" }, { index = "pytorch-cu126", extra = "cu126" }, { index = "pytorch-cu130", extra = "cu130" }]
+torchvision = [{ index = "pytorch-cpu", extra = "cpu" }, { index = "pytorch-cu126", extra = "cu126" }, { index = "pytorch-cu130", extra = "cu130" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.pytest]
+addopts = ["-ra", "--strict-markers"]
+markers = ["req(id): links a test to a requirement ID", "gpu: needs CUDA", "slow: long-running"]

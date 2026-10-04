@@ -1,0 +1,66 @@
+{
+  "pages": {
+    "explore": {
+      "title": "Explora un rajo abierto",
+      "lead": "Un rajo abierto en 3D con doce casos de simulación — transporte, tronadura, taludes, polvo, agua, autonomía y más — cada uno calculado con los modelos físicos, de simulación y aprendidos del propio repositorio."
+    },
+    "cases": {
+      "title": "Casos",
+      "lead": "El catálogo de casos: qué simula cada escenario, qué herramientas lo producen y cómo se verifican sus resultados."
+    },
+    "studio": {
+      "title": "Estudio",
+      "lead": "El estudio local en GPU: qué herramientas de simulación, sensores, datos sintéticos, entrenamiento y aceleración corren dónde, y qué produjo cada una."
+    },
+    "theory": {
+      "title": "Teoría",
+      "lead": "Los modelos físicos y de ingeniería de minas detrás de cada caso, con ecuaciones, supuestos y referencias primarias."
+    },
+    "methods": {
+      "title": "Métodos",
+      "lead": "La escalera de métodos de cada tarea: líneas base clásicas, estado del arte actual y modelos aprendidos, comparados en datos no vistos."
+    },
+    "results": {
+      "title": "Resultados",
+      "lead": "Resultados medidos a partir de artefactos versionados: precisión frente a líneas base, brechas entre simulación y realidad, y benchmarks de aceleración."
+    },
+    "knowledge": {
+      "title": "Conocimiento",
+      "lead": "Glosario, ecuaciones, tablas de parámetros, conjuntos de datos, frameworks y bibliografía — la base de conocimiento del repositorio."
+    }
+  },
+  "footer": {
+    "licence": "Código Apache-2.0 · documentación y datos originales CC-BY-4.0",
+    "provenanceNone": "Aún no se publican datos, modelos ni resultados de simulación."
+  },
+  "arch": {
+    "what": {
+      "title": "Qué es",
+      "body": "PitStudio aplica simulación de IA física a la minería a rajo abierto. Un estudio local en GPU construye escenas OpenUSD, ejecuta simulación física y de sensores, genera datos sintéticos y entrena modelos; este sitio explica los casos y reproduce o recalcula sus resultados."
+    },
+    "lanes": {
+      "title": "Carriles",
+      "body": "En vivo: el cálculo liviano corre en tu navegador (WebGPU, luego WebAssembly, luego un respaldo precalculado). Precálculo: la simulación y el entrenamiento pesados corren en una estación de trabajo local con GPU. Repetición: este sitio anima las salidas versionadas de esas ejecuciones."
+    },
+    "studio": {
+      "title": "Estudio",
+      "body": "El estudio es un conjunto de entornos locales aislados, uno por cadena de herramientas (autoría de escenas y física, simulación robótica, renderizado de sensores RTX, aprendizaje por refuerzo, aceleración de modelos), ejecutados por un único runner que registra la telemetría de la GPU y un manifiesto por cada salida."
+    },
+    "webflow": {
+      "title": "Flujo web",
+      "body": "Sitio estático en GitHub Pages. Cada ruta es HTML prerenderizado. Los recursos grandes (teselas 3D, videos, modelos ONNX) se cargan bajo demanda con progreso y se verifican contra el manifiesto publicado."
+    },
+    "science": {
+      "title": "Flujo científico",
+      "body": "Descargar datos reales → sintetizar escenarios → simular → extraer características → entrenar → evaluar en datos no vistos → exportar. Cada número que muestra este sitio se puede rastrear hasta el manifiesto de la ejecución que lo produjo."
+    },
+    "contracts": {
+      "title": "Contratos",
+      "body": "Cada artefacto que cruza un límite (del pipeline a la web, del estudio al pipeline) se describe con un JSON Schema en la carpeta contracts del repositorio; la app web valida lo que carga."
+    },
+    "tools": {
+      "title": "Herramientas",
+      "body": "Las herramientas abiertas se usan y se citan; los SDK propietarios los instala el usuario desde sus fuentes oficiales y este repositorio nunca los redistribuye. No se publican cifras de rendimiento de herramientas con restricciones de licencia."
+    }
+  }
+}

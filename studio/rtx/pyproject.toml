@@ -1,0 +1,21 @@
+[project]
+name = "pitstudio-rtx"
+version = "0.0.0"
+description = "PitStudio Kit-less RTX sensor lane (ovrtx camera/lidar/radar, ovstage, ovphysx). Local-only, never in CI; never imported in the same process as Kit/Isaac Sim."
+requires-python = "==3.12.*"
+# Pre-release NVIDIA libraries: exact builds pinned (research thread 18), wheels only from NVIDIA's index.
+dependencies = ["ovrtx==0.5.0.377615", "ovstage==0.2.0.377349", "ovphysx==0.6.3", "numpy", "openexr", "pyyaml"]
+
+[tool.uv]
+package = false
+python-preference = "only-managed"
+
+[tool.uv.sources]
+ovrtx = { index = "nvidia" }
+ovstage = { index = "nvidia" }
+ovphysx = { index = "nvidia" }
+
+[[tool.uv.index]]
+name = "nvidia"
+url = "https://pypi.nvidia.com"
+explicit = true
