@@ -490,6 +490,15 @@ wheels = [
 ]
 
 [[package]]
+name = "minephys"
+version = "0.0.0"
+source = { git = "https://github.com/fsantibanezleal/minephys#143e709d119258f2defc4a7953663ba6377bd6ae" }
+dependencies = [
+    { name = "numpy" },
+    { name = "pyyaml" },
+]
+
+[[package]]
 name = "more-itertools"
 version = "11.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -619,6 +628,7 @@ version = "0.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "jsonschema" },
+    { name = "minephys" },
     { name = "numpy" },
     { name = "pydantic" },
     { name = "pyyaml" },
@@ -654,6 +664,7 @@ requires-dist = [
     { name = "fastapi", marker = "extra == 'api'", specifier = ">=0.142.2" },
     { name = "filelock", marker = "extra == 'runner'", specifier = ">=4.0.10" },
     { name = "jsonschema", specifier = ">=4.26.0" },
+    { name = "minephys", git = "https://github.com/fsantibanezleal/minephys" },
     { name = "numpy", specifier = ">=2.5.3" },
     { name = "nvidia-ml-py", marker = "extra == 'runner'", specifier = ">=13.615.71" },
     { name = "psutil", marker = "extra == 'runner'", specifier = ">=7.2.2" },
