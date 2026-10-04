@@ -17,6 +17,7 @@ build/
 mutants/
 .mutmut-cache
 session.sqlite
+.tmp/
 
 # --- Node / web
 node_modules/
