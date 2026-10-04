@@ -14,6 +14,9 @@ updates:
     groups:
       react-3d: { patterns: ["react", "react-dom", "@react-three/*", "three"] }
       web: { patterns: ["*"] }
+    ignore:
+      - dependency-name: "@types/node"   # must match the Node major in web/.nvmrc
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: "/"
     schedule: { interval: weekly }
