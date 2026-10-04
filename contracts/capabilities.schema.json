@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/capabilities.schema.json",
+  "title": "PitStudio capability report",
+  "description": "Committed output of `studio/bench/run_bench.py`: which GPU tools run on the reference machine, their versions, and the metrics their licences allow publishing.",
+  "type": "object",
+  "required": ["generated", "gpu", "driver", "probes"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "generated": { "type": "string", "format": "date" },
+    "gpu": { "type": "string", "minLength": 1 },
+    "driver": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]+)+$" },
+    "probes": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
+      "additionalProperties": { "$ref": "#/$defs/probe" }
+    }
+  },
+  "$defs": {
+    "probe": {
+      "type": "object",
+      "required": ["status", "versions"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "enum": ["pass", "fail", "skip"] },
+        "versions": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "metrics": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": { "type": ["number", "string"] }
+            },
+            { "const": "measured locally, not published (licence)" }
+          ]
+        },
+        "telemetry": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        },
+        "notes": { "type": "array", "items": { "type": "string" } },
+        "error": { "type": "string", "maxLength": 300 }
+      }
+    }
+  }
+}
