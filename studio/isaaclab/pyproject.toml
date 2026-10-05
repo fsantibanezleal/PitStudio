@@ -3,23 +3,55 @@ name = "pitstudio-isaaclab"
 version = "0.0.0"
 description = "PitStudio optional robot-learning lane: Isaac Lab 3.0 kit-less on Newton (haul-truck ramp driving, excavator digging). Local-only, never in CI."
 requires-python = "==3.12.*"
-# Isaac Lab is BSD-3; pinned to the v3.0.0-EA tag (its own pins: torch 2.11, Warp 1.16, Newton 1.5.2). Moves to the GA tag
-# when it ships (targeted end of October 2026).
-dependencies = ["isaaclab", "isaaclab-newton", "isaaclab-rl", "isaaclab-assets", "torch", "torchvision"]
+# Isaac Lab (BSD-3) is pinned to the v3.0.0-EA tag; it moves to the GA tag when that ships. Its packages declare no
+# third-party dependencies: upstream keeps them in its repository-root pyproject.toml, which a git subdirectory
+# install never reads. The list below mirrors that file at the same tag (the "generic", "rl utilities" and "newton"
+# blocks, without Kit-only extras), and [tool.uv] mirrors its tested overrides (torch 2.11.0, Warp 1.16.0,
+# Newton 1.5.2, MuJoCo 3.11).
+dependencies = [
+    "isaaclab", "isaaclab-assets", "isaaclab-contrib", "isaaclab-newton", "isaaclab-physx", "isaaclab-rl",
+    "isaaclab-tasks",
+    # generic
+    "numpy>=2", "torch==2.11.0", "torchvision==0.26.0", "onnx>=1.18.0", "prettytable>=3.3.0", "psutil",
+    "protobuf>=4.25.8,!=5.26.0", "hidapi>=0.14.0", "gymnasium>=1.2.0", "trimesh>=4.6.8", "pyglet>=2.1.6,<3", "einops",
+    "warp-lang==1.16.0", "matplotlib>=3.10.3", "pillow>=12.3.0", "filelock", "lazy_loader>=0.4", "usd-exchange==2.3.0",
+    # rl utilities
+    "tensorboard", "numba>=0.63.1", "hydra-core", "h5py>=3.15.0", "packaging", "rich", "tqdm>=4.67.1",
+    "rsl-rl-lib==5.4.1", "onnxscript>=0.5",
+    # newton (the physics engine for the kit-less lane)
+    "newton[sim]>=1.2.0", "newton-usd-schemas>=0.2.0", "requests>=2.25.0", "scipy>=1.11.0", "coacd>=1.0.7",
+    "fast-simplification>=0.1.11", "alphashape>=1.3.1", "meshio>=5.3.5", "pycollada>=0.9",
+    "resolve-robotics-uri-py>=0.4.0", "open3d>=0.19.0", "PyOpenGL-accelerate>=3.1.0", "imgui-bundle>=1.92.5",
+    "typing-extensions>=4.15.0",
+]
 
 [tool.uv]
 package = false
 python-preference = "only-managed"
+index-strategy = "unsafe-best-match"
+prerelease = "allow"
+override-dependencies = [
+    "numpy>=2", "mujoco~=3.11.0", "mujoco-warp~=3.11.0", "newton[sim]==1.5.2", "newton-usd-schemas>=0.4.1",
+    "torch==2.11.0", "torchvision==0.26.0", "packaging>=20,<27",
+]
 
 [tool.uv.sources]
 isaaclab = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab" }
-isaaclab-newton = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_newton" }
-isaaclab-rl = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_rl" }
 isaaclab-assets = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_assets" }
-torch = { index = "pytorch-cu130" }
-torchvision = { index = "pytorch-cu130" }
+isaaclab-contrib = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_contrib" }
+isaaclab-newton = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_newton" }
+isaaclab-physx = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_physx" }
+isaaclab-rl = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_rl" }
+isaaclab-tasks = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_tasks" }
+# Isaac Lab tests torch from the cu128 index on Windows (driver 582.x supports CUDA 12.8)
+torch = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
 
 [[tool.uv.index]]
-name = "pytorch-cu130"
-url = "https://download.pytorch.org/whl/cu130"
+name = "nvidia"
+url = "https://pypi.nvidia.com"
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
 explicit = true
