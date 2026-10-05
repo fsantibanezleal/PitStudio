@@ -34,7 +34,9 @@ PROBES: dict[str, tuple[str, list[str]]] = {
     "ovrtx": ("studio/rtx", []),
     "isaacsim": ("studio/isaac", []),
     "isaaclab": ("studio/isaaclab", []),
+    "stress": ("studio", []),
 }
+OPT_IN = {"stress"}  # long or disruptive: run only when named explicitly
 MIN_FREE_VRAM_MB = 4096  # refuse to start when another job is holding the GPU
 MAX_START_TEMP_C = 80
 
@@ -214,10 +216,9 @@ def public_view(results: list[dict[str, Any]], driver: str, gpu: str) -> dict[st
 
 
 def main(argv: list[str]) -> int:
-    from filelock import FileLock, Timeout  # extra `runner`; the pure helpers above stay importable without it
-
     ap = argparse.ArgumentParser()
-    ap.add_argument("probes", nargs="*", help=f"subset of: {', '.join(PROBES)} (default: all)")
+    default = f"default: all but {', '.join(sorted(OPT_IN))}"
+    ap.add_argument("probes", nargs="*", help=f"subset of: {', '.join(PROBES)} ({default})")
     ap.add_argument("--timeout", type=int, default=1800)
     ap.add_argument("--no-write", action="store_true", help="do not update studio/capabilities.json")
     a = ap.parse_args(argv[1:])
@@ -226,7 +227,10 @@ def main(argv: list[str]) -> int:
     if reason := hold_reason():
         print(f"GPU hold in {lock_dir() / 'gpu0.hold'}: {reason} -- not starting")
         return 4
-    names = a.probes or list(PROBES)
+    # imported only after the hold check: the hold must stop a run even where the `runner` extra is missing
+    from filelock import FileLock, Timeout
+
+    names = a.probes or [p for p in PROBES if p not in OPT_IN]
     lock = FileLock(lock_dir() / "gpu0.compute")
     try:
         lock.acquire(timeout=5)

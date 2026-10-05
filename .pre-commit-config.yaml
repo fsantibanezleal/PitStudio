@@ -1,0 +1,40 @@
+# Local guard rails; CI is authoritative. Install once with `uvx pre-commit install`.
+# Hook revisions are pinned by commit SHA (the tag is in the comment).
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=10240"]
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-toml
+      - id: end-of-file-fixer
+        exclude: \.(svg|lock)$
+      - id: trailing-whitespace
+        args: ["--markdown-linebreak-ext=md"]
+      - id: detect-private-key
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: f12be1ebaa5351c1fc76472de98db2c3446c8253  # frozen: v0.16.10
+    hooks:
+      - id: ruff-check
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: check-repo
+        name: repository hygiene (tools/check_repo.py)
+        entry: uv run --frozen python tools/check_repo.py
+        language: system
+        pass_filenames: false
+      - id: check-docs
+        name: docs links, hygiene and diagrams (tools/check_docs.py)
+        entry: uv run --frozen python tools/check_docs.py
+        language: system
+        pass_filenames: false
+        files: ^docs/
+      - id: trace
+        name: requirement traceability (tools/trace.py --check)
+        entry: uv run --frozen python tools/trace.py --check
+        language: system
+        pass_filenames: false
+        files: ^(specs/|tests/|web/src/|web/e2e/|pipeline/tests/)

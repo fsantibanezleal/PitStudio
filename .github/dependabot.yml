@@ -8,6 +8,12 @@ updates:
     directory: "/pipeline"
     schedule: { interval: weekly }
     groups: { pipeline: { patterns: ["*"] } }
+  - package-ecosystem: uv
+    directory: "/studio/isaac"   # vendor exact pins: security floors are set by hand (override-dependencies) and
+    schedule: { interval: weekly } # re-validated by the Isaac Sim smoke probe, so Dependabot PRs cannot resolve here
+    open-pull-requests-limit: 0
+    ignore:
+      - dependency-name: "*"
   - package-ecosystem: npm
     directory: "/web"
     schedule: { interval: weekly }
