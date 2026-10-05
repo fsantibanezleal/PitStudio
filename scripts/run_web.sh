@@ -8,8 +8,9 @@ repo=$(basename "$PWD")
 mode=${1:-serve}
 cd web
 pnpm install --frozen-lockfile
-# Git Bash on Windows rewrites values that look like POSIX paths (BASE_PATH=/Repo/); MSYS_NO_PATHCONV stops that.
-export MSYS_NO_PATHCONV=1
+# Git Bash on Windows rewrites env values that look like POSIX paths (BASE_PATH=/Repo/). Exempt only BASE_PATH:
+# MSYS_NO_PATHCONV=1 would also break the path conversion the Corepack pnpm shim relies on.
+export MSYS2_ENV_CONV_EXCL="BASE_PATH${MSYS2_ENV_CONV_EXCL:+;$MSYS2_ENV_CONV_EXCL}"
 case "$mode" in
   dev) exec pnpm dev ;;
   build) BASE_PATH="/$repo/" pnpm build ;;
