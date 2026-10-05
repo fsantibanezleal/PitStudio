@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Cosmos Reason 2 evaluation design: exact answers from USD prims, four arms, paired scoring</title>
+  <desc id="d">The USD stage yields exact answers to six templated hazard questions and the renders the arms see; Cosmos Q8_0, Cosmos BF16, the Qwen3-VL base model and a detector plus geometric rule answer the same queries, which are scored with balanced accuracy, Wilson intervals, AUROC and McNemar's test into display-only JSON.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .edge-dash{stroke:var(--fg-muted);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+    .lane-live{fill:none;stroke:var(--chart-2);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-replay{fill:none;stroke:var(--chart-4);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-local{fill:none;stroke:var(--warning);stroke-width:1.8;stroke-dasharray:7 4}
+    .key-live{fill:var(--chart-2)}
+    .key-replay{fill:var(--chart-4)}
+    .key-local{fill:var(--warning)}
+    .ok{fill:var(--success)}
+    .bad{fill:var(--danger)}
+    .warn{fill:var(--warning)}
+    .ok-stroke{stroke:var(--success);stroke-width:2;fill:none}
+    .bad-stroke{stroke:var(--danger);stroke-width:2;fill:none}
+    .cut{stroke:var(--danger);stroke-width:2.4;stroke-dasharray:8 5;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.2;fill:none}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .series{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .series-2{stroke:var(--chart-2);stroke-width:2;stroke-dasharray:6 4;fill:none}
+    .dust{fill:var(--surface-2);stroke:var(--warning);stroke-width:1.5;stroke-dasharray:4 3}
+    .solid{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .ore{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .node{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .node-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .region{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 4}
+    .label-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .label-bad{font:600 13px Inter,system-ui,sans-serif;fill:var(--danger)}
+    .label-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label-accent{font:600 13px Inter,system-ui,sans-serif;fill:var(--accent)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1100" height="640"/>
+  <rect class="band" x="16" y="44" width="290" height="560" rx="10"/>
+  <text class="label" x="30" y="36">Ground truth (exact)</text>
+  <rect class="band" x="326" y="44" width="250" height="560" rx="10"/>
+  <text class="label" x="340" y="36">Inputs</text>
+  <rect class="band" x="596" y="44" width="250" height="560" rx="10"/>
+  <text class="label" x="610" y="36">Arms (same queries)</text>
+  <rect class="band" x="866" y="44" width="218" height="560" rx="10"/>
+  <text class="label" x="880" y="36">Scoring and output</text>
+  <rect class="box" x="30" y="62" width="262" height="168" rx="8"/>
+  <text class="title" x="44" y="86">USD stage</text>
+  <text class="path" x="44" y="106">st40_compose</text>
+  <text class="item" x="44" y="128">prim world positions</text>
+  <text class="item" x="44" y="148">design-variant flags (berm)</text>
+  <text class="item" x="44" y="168">dust-field optical depth</text>
+  <text class="item" x="44" y="188">road grade under the truck</text>
+  <rect class="box" x="30" y="268" width="262" height="322" rx="8"/>
+  <text class="title" x="44" y="292">Exact answers</text>
+  <text class="path" x="44" y="312">answer = f(prims)</text>
+  <text class="item" x="44" y="334">Q1 person within 30 m of a truck?</text>
+  <text class="item" x="44" y="354">Q2 berm along the bench edge?</text>
+  <text class="item" x="44" y="374">Q3 how many trucks visible?</text>
+  <text class="item" x="44" y="394">Q4 visibility reduced by dust?</text>
+  <text class="item" x="44" y="414">Q5 light vehicle in blind zone?</text>
+  <text class="item" x="44" y="434">Q6 ramp steeper than 10 %?</text>
+  <text class="item" x="44" y="454"></text>
+  <text class="item" x="44" y="474">balanced yes/no per type</text>
+  <text class="item" x="44" y="494">≈ 1,000 queries per type</text>
+  <text class="caveat" x="44" y="578">no human or model judge</text>
+  <rect class="box" x="340" y="62" width="222" height="168" rx="8"/>
+  <text class="title" x="354" y="86">Renders</text>
+  <text class="path" x="354" y="106">st55_sdg (Replicator)</text>
+  <text class="item" x="354" y="128">≈ 1,000 frames</text>
+  <text class="item" x="354" y="148">day, night, dust, rain</text>
+  <text class="item" x="354" y="168">road, bench, loading area</text>
+  <rect class="box" x="340" y="268" width="222" height="190" rx="8"/>
+  <text class="title" x="354" y="292">Query set</text>
+  <text class="path" x="354" y="312">≈ 6,000 queries</text>
+  <text class="item" x="354" y="334">frame + templated question</text>
+  <text class="item" x="354" y="354">pre-registered null: 50 %</text>
+  <text class="item" x="354" y="374">reasoning on and off</text>
+  <rect class="box-accent" x="610" y="62" width="210" height="82" rx="8"/>
+  <text class="title" x="624" y="86">Cosmos-Reason2 Q8_0</text>
+  <text class="path" x="624" y="106">llama.cpp b11381</text>
+  <rect class="box" x="610" y="158" width="210" height="82" rx="8"/>
+  <text class="title" x="624" y="182">Cosmos BF16 reference</text>
+  <text class="path" x="624" y="202">transformers, 500</text>
+  <rect class="box" x="610" y="254" width="210" height="82" rx="8"/>
+  <text class="title" x="624" y="278">Qwen3-VL-2B base</text>
+  <text class="path" x="624" y="298">control, Apache-2.0</text>
+  <rect class="box" x="610" y="350" width="210" height="82" rx="8"/>
+  <text class="title" x="624" y="374">D-FINE + geometry rule</text>
+  <text class="path" x="624" y="394">classical baseline</text>
+  <rect class="box" x="610" y="446" width="210" height="82" rx="8"/>
+  <text class="title" x="624" y="470">Majority class</text>
+  <text class="path" x="624" y="490">floor</text>
+  <text class="item" x="610" y="560">studio/reason: local inference</text>
+  <text class="item" x="610" y="580">(weights never published)</text>
+  <rect class="box-accent" x="880" y="62" width="192" height="300" rx="8"/>
+  <text class="title" x="894" y="86">Scoring</text>
+  <text class="path" x="894" y="106">per question type</text>
+  <text class="item" x="894" y="128">balanced accuracy</text>
+  <text class="item" x="894" y="148">Wilson 95 % CI</text>
+  <text class="item" x="894" y="168">AUROC from yes/no</text>
+  <text class="item" x="894" y="188">    log-probs</text>
+  <text class="item" x="894" y="208">McNemar Cosmos vs</text>
+  <text class="item" x="894" y="228">    Qwen: p &lt; 0.05</text>
+  <text class="item" x="894" y="248">Q8_0 vs BF16</text>
+  <text class="item" x="894" y="268">    agreement ≥ 95 %</text>
+  <text class="item" x="894" y="288">dust / night slices</text>
+  <rect class="box" x="880" y="384" width="192" height="206" rx="8"/>
+  <text class="title" x="894" y="408">Display-only JSON</text>
+  <text class="path" x="894" y="428">replay lane</text>
+  <text class="item" x="894" y="450">answer + ground truth</text>
+  <text class="item" x="894" y="470">correct / wrong badge</text>
+  <text class="item" x="894" y="490">rev 9ce19a1, GGUF</text>
+  <text class="item" x="894" y="510">    SHA-256, seed</text>
+  <text class="item" x="894" y="530">Built on NVIDIA Cosmos</text>
+  <rect class="lane-replay" x="874" y="378" width="204" height="218" rx="12"/>
+  <path class="edge-accent" d="M161,230 L161,266" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="170" y="254">compute</text>
+  <path class="edge" d="M292,146 L338,146" marker-end="url(#arrow)"/>
+  <text class="label" x="296" y="136">render</text>
+  <path class="edge" d="M451,230 L451,266" marker-end="url(#arrow)"/>
+  <text class="label" x="460" y="254">frames</text>
+  <path class="edge" d="M562,330 L608,104" marker-end="url(#arrow)"/>
+  <text class="label" x="470" y="486">frame + question</text>
+  <path class="edge" d="M562,340 L608,200" marker-end="url(#arrow)"/>
+  <path class="edge" d="M562,350 L608,296" marker-end="url(#arrow)"/>
+  <path class="edge" d="M562,360 L608,392" marker-end="url(#arrow)"/>
+  <path class="edge" d="M562,370 L608,488" marker-end="url(#arrow)"/>
+  <path class="edge" d="M820,104 L878,160" marker-end="url(#arrow)"/>
+  <text class="label" x="822" y="204">&lt;answer&gt;</text>
+  <path class="edge" d="M820,296 L878,240" marker-end="url(#arrow)"/>
+  <path class="edge-dash" d="M292,590 L300,618 L980,618 L980,592" marker-end="url(#arrow)"/>
+  <text class="label" x="420" y="612">ground truth (paired by query)</text>
+  <path class="edge" d="M976,362 L976,382" marker-end="url(#arrow)"/>
+</svg>

@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 960" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Method ladder of PitStudio</title>
+  <desc id="d">Twenty-three methods arranged by tier in rows and by delivery lane in columns, with the eleven learned methods marked by a dot and local-only performance data marked by a square.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .hdr{fill:var(--surface);stroke:var(--border-strong);stroke-width:1}
+    .empty{fill:none;stroke:var(--border);stroke-width:1;stroke-dasharray:4 4}
+    .lane-live{fill:var(--chart-2)}
+    .lane-pre{fill:var(--chart-4)}
+    .lane-local{fill:var(--warning)}
+    .learned{fill:var(--chart-5)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="960"/>
+  <text x="24" y="34" class="title">Method ladder — 23 methods by tier (rows) and delivery lane (columns)</text>
+  <text x="24" y="54" class="path">docs/methods/ · minephys · pipeline/ · studio/ · web/</text>
+  <rect x="190" y="66" width="245" height="68" rx="6" class="hdr"/>
+  <rect x="190.0" y="66" width="245.0" height="6" class="lane-live"/>
+  <text x="202" y="92" class="title">Live</text>
+  <text x="202" y="110" class="path">web/ workers</text>
+  <text x="202" y="127" class="item">TS · ORT-web · WGSL</text>
+  <rect x="441" y="66" width="245" height="68" rx="6" class="hdr"/>
+  <rect x="441.0" y="66" width="122.5" height="6" class="lane-live"/>
+  <rect x="563.5" y="66" width="122.5" height="6" class="lane-pre"/>
+  <text x="453" y="92" class="title">Live + precompute</text>
+  <text x="453" y="110" class="path">web/ + baked runs</text>
+  <text x="453" y="127" class="item">live engine, baked sweeps</text>
+  <rect x="692" y="66" width="245" height="68" rx="6" class="hdr"/>
+  <rect x="692.0" y="66" width="122.5" height="6" class="lane-pre"/>
+  <rect x="814.5" y="66" width="122.5" height="6" class="lane-live"/>
+  <text x="704" y="92" class="title">Precompute → live</text>
+  <text x="704" y="110" class="path">pipeline/ → ONNX</text>
+  <text x="704" y="127" class="item">trained offline, run live</text>
+  <rect x="943" y="66" width="245" height="68" rx="6" class="hdr"/>
+  <rect x="943.0" y="66" width="245.0" height="6" class="lane-pre"/>
+  <text x="955" y="92" class="title">Replay / precompute</text>
+  <text x="955" y="110" class="path">studio/ → shards</text>
+  <text x="955" y="127" class="item">videos, shards, tables</text>
+  <rect x="16" y="142" width="1176" height="264" rx="8" class="band"/>
+  <text x="28" y="166" class="title">Classical</text>
+  <text x="28" y="185" class="path">minephys/</text>
+  <text x="28" y="203" class="item">10 methods</text>
+  <text x="28" y="221" class="item">1 learned</text>
+  <rect x="190" y="152" width="245" height="44" rx="6" class="box"/>
+  <rect x="192" y="154" width="4" height="40" class="lane-live"/>
+  <text x="203" y="170" class="label">M01 Match factor + MVA</text>
+  <text x="203" y="188" class="path">minephys.haulage</text>
+  <rect x="190" y="202" width="245" height="44" rx="6" class="box"/>
+  <rect x="192" y="204" width="4" height="40" class="lane-live"/>
+  <text x="203" y="220" class="label">M06 Haul energy + A* routing</text>
+  <text x="203" y="238" class="path">minephys.haulage</text>
+  <rect x="190" y="252" width="245" height="44" rx="6" class="box"/>
+  <rect x="192" y="254" width="4" height="40" class="lane-live"/>
+  <text x="203" y="270" class="label">M12 Kuz-Ram/KCO, PPV, flyrock</text>
+  <text x="203" y="288" class="path">minephys.blasting</text>
+  <rect x="190" y="302" width="245" height="44" rx="6" class="box"/>
+  <rect x="192" y="304" width="4" height="40" class="lane-live"/>
+  <text x="203" y="320" class="label">M13 LEM + Hoek–Brown + PoF</text>
+  <text x="203" y="338" class="path">minephys.geotech</text>
+  <rect x="190" y="352" width="245" height="44" rx="6" class="box"/>
+  <rect x="192" y="354" width="4" height="40" class="lane-live"/>
+  <text x="203" y="370" class="label">M17 Bond/PBM + meta-model</text>
+  <text x="203" y="388" class="path">minephys.comminution</text>
+  <circle cx="422" cy="383" r="6" class="learned"/>
+  <rect x="441" y="152" width="245" height="44" rx="6" class="box"/>
+  <rect x="443" y="154" width="4" height="40" class="lane-live"/>
+  <rect x="448" y="154" width="4" height="40" class="lane-pre"/>
+  <text x="459" y="170" class="label">M02 Haulage DES + dispatch</text>
+  <text x="459" y="188" class="path">minehaulsim · TS twin</text>
+  <rect x="441" y="202" width="245" height="44" rx="6" class="box"/>
+  <rect x="443" y="204" width="4" height="40" class="lane-live"/>
+  <rect x="448" y="204" width="4" height="40" class="lane-pre"/>
+  <text x="459" y="220" class="label">M03 Two-stage LP dispatch</text>
+  <text x="459" y="238" class="path">highspy · TS LP</text>
+  <rect x="441" y="252" width="245" height="44" rx="6" class="box"/>
+  <rect x="443" y="254" width="4" height="40" class="lane-live"/>
+  <rect x="448" y="254" width="4" height="40" class="lane-pre"/>
+  <text x="459" y="270" class="label">M16 AP-42 + plume + particles</text>
+  <text x="459" y="288" class="path">minephys.environment</text>
+  <rect x="441" y="302" width="245" height="44" rx="6" class="box"/>
+  <rect x="443" y="304" width="4" height="40" class="lane-live"/>
+  <rect x="448" y="304" width="4" height="40" class="lane-pre"/>
+  <text x="459" y="320" class="label">M18 Min-cut pit + MILP</text>
+  <text x="459" y="338" class="path">own min-cut · HiGHS</text>
+  <rect x="441" y="352" width="245" height="44" rx="6" class="box"/>
+  <rect x="443" y="354" width="4" height="40" class="lane-live"/>
+  <rect x="448" y="354" width="4" height="40" class="lane-pre"/>
+  <text x="459" y="370" class="label">M20 Traffic + TTC + rigid</text>
+  <text x="459" y="388" class="path">TS agents · Rapier</text>
+  <rect x="692" y="152" width="245" height="44" rx="6" class="empty"/>
+  <text x="814.5" y="179" class="item" text-anchor="middle">—</text>
+  <rect x="943" y="152" width="245" height="44" rx="6" class="empty"/>
+  <text x="1065.5" y="179" class="item" text-anchor="middle">—</text>
+  <rect x="16" y="434" width="1176" height="264" rx="8" class="band"/>
+  <text x="28" y="458" class="title">SOTA</text>
+  <text x="28" y="477" class="path">pipeline/ studio/</text>
+  <text x="28" y="495" class="item">8 methods</text>
+  <text x="28" y="513" class="item">6 learned</text>
+  <rect x="190" y="444" width="245" height="44" rx="6" class="box"/>
+  <rect x="192" y="446" width="4" height="40" class="lane-live"/>
+  <text x="203" y="462" class="label">M14 Inverse velocity vs TCN</text>
+  <text x="203" y="480" class="path">minephys.geotech · ONNX</text>
+  <circle cx="422" cy="475" r="6" class="learned"/>
+  <rect x="441" y="444" width="245" height="44" rx="6" class="empty"/>
+  <text x="563.5" y="471" class="item" text-anchor="middle">—</text>
+  <rect x="692" y="444" width="245" height="44" rx="6" class="box"/>
+  <rect x="694" y="446" width="4" height="40" class="lane-pre"/>
+  <rect x="699" y="446" width="4" height="40" class="lane-live"/>
+  <text x="710" y="462" class="label">M04 PPO dispatch</text>
+  <text x="710" y="480" class="path">pipeline/ s30_train</text>
+  <circle cx="924" cy="475" r="6" class="learned"/>
+  <rect x="692" y="494" width="245" height="44" rx="6" class="box"/>
+  <rect x="694" y="496" width="4" height="40" class="lane-pre"/>
+  <rect x="699" y="496" width="4" height="40" class="lane-live"/>
+  <text x="710" y="512" class="label">M10 Synthetic-data detector</text>
+  <text x="710" y="530" class="path">D-FINE → ORT-web</text>
+  <circle cx="924" cy="525" r="6" class="learned"/>
+  <rect x="901" y="519" width="11" height="11" class="lane-local"/>
+  <rect x="692" y="544" width="245" height="44" rx="6" class="box"/>
+  <rect x="694" y="546" width="4" height="40" class="lane-pre"/>
+  <rect x="699" y="546" width="4" height="40" class="lane-live"/>
+  <text x="710" y="562" class="label">M15 Shallow water + FNO</text>
+  <text x="710" y="580" class="path">Warp solver · FNO</text>
+  <circle cx="924" cy="575" r="6" class="learned"/>
+  <rect x="692" y="594" width="245" height="44" rx="6" class="box"/>
+  <rect x="694" y="596" width="4" height="40" class="lane-pre"/>
+  <rect x="699" y="596" width="4" height="40" class="lane-live"/>
+  <text x="710" y="612" class="label">M19 COLMAP → 3DGS → volume</text>
+  <text x="710" y="630" class="path">Brush · Spark</text>
+  <circle cx="924" cy="625" r="6" class="learned"/>
+  <rect x="692" y="644" width="245" height="44" rx="6" class="box"/>
+  <rect x="694" y="646" width="4" height="40" class="lane-pre"/>
+  <rect x="699" y="646" width="4" height="40" class="lane-live"/>
+  <text x="710" y="662" class="label">M21 Isaac Lab policies</text>
+  <text x="710" y="680" class="path">studio/isaaclab</text>
+  <circle cx="924" cy="675" r="6" class="learned"/>
+  <rect x="943" y="444" width="245" height="44" rx="6" class="box"/>
+  <rect x="945" y="446" width="4" height="40" class="lane-pre"/>
+  <rect x="950" y="446" width="4" height="40" class="lane-live"/>
+  <text x="961" y="462" class="label">M07 Warp DEM + Newton MPM</text>
+  <text x="961" y="480" class="path">st50_physics · WGSL</text>
+  <rect x="943" y="494" width="245" height="44" rx="6" class="box"/>
+  <rect x="945" y="496" width="4" height="40" class="lane-pre"/>
+  <text x="956" y="512" class="label">M23 RTX sensor simulation</text>
+  <text x="956" y="530" class="path">studio/rtx · ovrtx</text>
+  <rect x="1152" y="519" width="11" height="11" class="lane-local"/>
+  <rect x="16" y="726" width="1176" height="114" rx="8" class="band"/>
+  <text x="28" y="750" class="title">Beyond-SOTA</text>
+  <text x="28" y="769" class="path">studio/ pipeline/</text>
+  <text x="28" y="787" class="item">5 methods</text>
+  <text x="28" y="805" class="item">4 learned</text>
+  <rect x="190" y="736" width="245" height="44" rx="6" class="box"/>
+  <rect x="192" y="738" width="4" height="40" class="lane-live"/>
+  <text x="203" y="754" class="label">M11 Watershed vs U-Net</text>
+  <text x="203" y="772" class="path">TS watershed · U-Net</text>
+  <circle cx="422" cy="767" r="6" class="learned"/>
+  <rect x="441" y="736" width="245" height="44" rx="6" class="empty"/>
+  <text x="563.5" y="763" class="item" text-anchor="middle">—</text>
+  <rect x="692" y="736" width="245" height="44" rx="6" class="box"/>
+  <rect x="694" y="738" width="4" height="40" class="lane-pre"/>
+  <rect x="699" y="738" width="4" height="40" class="lane-live"/>
+  <text x="710" y="754" class="label">M05 Attention fleet policy</text>
+  <text x="710" y="772" class="path">attention → ONNX</text>
+  <circle cx="924" cy="767" r="6" class="learned"/>
+  <rect x="692" y="786" width="245" height="44" rx="6" class="box"/>
+  <rect x="694" y="788" width="4" height="40" class="lane-pre"/>
+  <rect x="699" y="788" width="4" height="40" class="lane-live"/>
+  <text x="710" y="804" class="label">M08 GNS granular surrogate</text>
+  <text x="710" y="822" class="path">PyTorch MP → ONNX</text>
+  <circle cx="924" cy="817" r="6" class="learned"/>
+  <rect x="943" y="736" width="245" height="44" rx="6" class="box"/>
+  <rect x="945" y="738" width="4" height="40" class="lane-pre"/>
+  <text x="956" y="754" class="label">M09 Diff. DEM calibration</text>
+  <text x="956" y="772" class="path">wp.Tape vs CMA-ES</text>
+  <rect x="943" y="786" width="245" height="44" rx="6" class="box"/>
+  <rect x="945" y="788" width="4" height="40" class="lane-pre"/>
+  <text x="956" y="804" class="label">M22 Cosmos Reason 2 tasks</text>
+  <text x="956" y="822" class="path">llama.cpp Q8_0</text>
+  <circle cx="1175" cy="817" r="6" class="learned"/>
+  <path d="M60,408 V432" class="edge" marker-end="url(#arrow)"/>
+  <text x="70" y="425" class="label">is the baseline for the rung below</text>
+  <path d="M60,700 V724" class="edge" marker-end="url(#arrow)"/>
+  <text x="70" y="717" class="label">is the baseline for the rung below</text>
+  <rect x="16" y="856" width="1176" height="88" rx="8" class="band"/>
+  <text x="28" y="880" class="title">Legend</text>
+  <rect x="110" y="868" width="14" height="14" class="lane-live"/>
+  <text x="132" y="880" class="label">live in the browser (--chart-2)</text>
+  <rect x="360" y="868" width="14" height="14" class="lane-pre"/>
+  <text x="382" y="880" class="label">precompute / replay (--chart-4)</text>
+  <rect x="610" y="868" width="14" height="14" class="lane-local"/>
+  <text x="632" y="880" class="label">performance data local-only (licence)</text>
+  <circle cx="907" cy="875" r="6" class="learned"/>
+  <text x="922" y="880" class="label">learned method (11 of 23)</text>
+  <text x="28" y="904" class="item">Two bars = two lanes in order (left first). Cases per method: see the ladder table.</text>
+  <text x="28" y="926" class="caveat">Status: not yet implemented — built test-first in the build phase; no results yet.</text>
+</svg>

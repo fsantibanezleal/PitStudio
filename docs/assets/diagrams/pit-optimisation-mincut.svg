@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Ultimate pit as a minimum cut: blocks, precedence arcs, s–t network and nested shells</title>
+  <desc id="d">Three waste blocks above one ore block form a precedence graph; the source–sink network built from it has a minimum cut of 3 that leaves all four blocks on the source side, which is the optimal pit, and nested shells, pushbacks and a MILP schedule follow.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .edge-dash{stroke:var(--fg-muted);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+    .lane-live{fill:none;stroke:var(--chart-2);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-replay{fill:none;stroke:var(--chart-4);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-local{fill:none;stroke:var(--warning);stroke-width:1.8;stroke-dasharray:7 4}
+    .key-live{fill:var(--chart-2)}
+    .key-replay{fill:var(--chart-4)}
+    .key-local{fill:var(--warning)}
+    .ok{fill:var(--success)}
+    .bad{fill:var(--danger)}
+    .warn{fill:var(--warning)}
+    .ok-stroke{stroke:var(--success);stroke-width:2;fill:none}
+    .bad-stroke{stroke:var(--danger);stroke-width:2;fill:none}
+    .cut{stroke:var(--danger);stroke-width:2.4;stroke-dasharray:8 5;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.2;fill:none}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .series{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .series-2{stroke:var(--chart-2);stroke-width:2;stroke-dasharray:6 4;fill:none}
+    .dust{fill:var(--surface-2);stroke:var(--warning);stroke-width:1.5;stroke-dasharray:4 3}
+    .solid{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .ore{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .node{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .node-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .region{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 4}
+    .label-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .label-bad{font:600 13px Inter,system-ui,sans-serif;fill:var(--danger)}
+    .label-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label-accent{font:600 13px Inter,system-ui,sans-serif;fill:var(--accent)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1100" height="640"/>
+  <rect class="band" x="16" y="44" width="420" height="400" rx="10"/>
+  <text class="label" x="30" y="36">Block model (section through two benches)</text>
+  <rect class="band" x="456" y="44" width="360" height="400" rx="10"/>
+  <text class="label" x="470" y="36">s–t network and minimum cut</text>
+  <rect class="band" x="836" y="44" width="248" height="400" rx="10"/>
+  <text class="label" x="850" y="36">Shells and design</text>
+  <rect class="band" x="16" y="484" width="1068" height="146" rx="10"/>
+  <text class="label" x="30" y="476">Schedule and KPIs (precomputed)</text>
+  <rect class="solid" x="60" y="90" width="90" height="70"/>
+  <text class="title" x="105" y="122" text-anchor="middle">a</text>
+  <text class="item" x="105" y="144" text-anchor="middle">v = −1</text>
+  <rect class="solid" x="150" y="90" width="90" height="70"/>
+  <text class="title" x="195" y="122" text-anchor="middle">b</text>
+  <text class="item" x="195" y="144" text-anchor="middle">v = −1</text>
+  <rect class="solid" x="240" y="90" width="90" height="70"/>
+  <text class="title" x="285" y="122" text-anchor="middle">c</text>
+  <text class="item" x="285" y="144" text-anchor="middle">v = −1</text>
+  <rect class="ore" x="150" y="160" width="90" height="70"/>
+  <text class="title" x="195" y="192" text-anchor="middle">d</text>
+  <text class="item" x="195" y="214" text-anchor="middle">v = +5 (ore)</text>
+  <path class="edge" d="M195,178 L105,150" marker-end="url(#arrow)"/>
+  <path class="edge" d="M195,178 L195,150" marker-end="url(#arrow)"/>
+  <path class="edge" d="M195,178 L285,150" marker-end="url(#arrow)"/>
+  <text class="label" x="250" y="196">d requires</text>
+  <text class="label" x="250" y="214">a, b and c</text>
+  <rect class="box" x="30" y="262" width="392" height="166" rx="8"/>
+  <text class="title" x="44" y="286">Block economic value</text>
+  <text class="path" x="44" y="306">oreblocks (default) · MineLib optional</text>
+  <text class="item" x="44" y="328">v_i = T_i [g_i r (p − s_r) − c_p] − T_i c_m</text>
+  <text class="item" x="44" y="348">waste: v_i = −T_i c_m</text>
+  <text class="item" x="44" y="368">precedence arcs i → j from the slope angle</text>
+  <text class="item" x="44" y="388">pit = closed set: all predecessors included</text>
+  <text class="caveat" x="44" y="416">BEV notation UNVERIFIED (pinned at spec)</text>
+  <rect class="region" x="468" y="78" width="250" height="244" rx="14"/>
+  <text class="label-accent" x="476" y="340">source side = pit {a, b, c, d}</text>
+  <path class="edge-accent" d="M508,200 L560,200" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="530" y="192">5</text>
+  <path class="edge" d="M593.931,188.602 L674.521,122.665" marker-end="url(#arrow)"/>
+  <path class="edge" d="M598,200 L670,200" marker-end="url(#arrow)"/>
+  <path class="edge" d="M593.931,211.398 L674.521,277.335" marker-end="url(#arrow)"/>
+  <text class="label" x="622" y="140">∞</text>
+  <text class="label" x="626" y="192">∞</text>
+  <text class="label" x="622" y="262">∞</text>
+  <path class="edge" d="M703.379,122.041 L775.134,186.621" marker-end="url(#arrow)"/>
+  <path class="edge" d="M708,200 L770,200" marker-end="url(#arrow)"/>
+  <path class="edge" d="M703.379,277.959 L775.134,213.379" marker-end="url(#arrow)"/>
+  <text class="label" x="742" y="140">1</text>
+  <text class="label" x="742" y="192">1</text>
+  <text class="label" x="742" y="270">1</text>
+  <circle class="node" cx="490" cy="200" r="18"/>
+  <text class="title" x="490" y="205" text-anchor="middle">s</text>
+  <circle class="node-accent" cx="580" cy="200" r="18"/>
+  <text class="title" x="580" y="205" text-anchor="middle">d</text>
+  <circle class="node" cx="690" cy="110" r="18"/>
+  <text class="title" x="690" y="115" text-anchor="middle">a</text>
+  <circle class="node" cx="690" cy="200" r="18"/>
+  <text class="title" x="690" y="205" text-anchor="middle">b</text>
+  <circle class="node" cx="690" cy="290" r="18"/>
+  <text class="title" x="690" y="295" text-anchor="middle">c</text>
+  <circle class="node" cx="790" cy="200" r="18"/>
+  <text class="title" x="790" y="205" text-anchor="middle">t</text>
+  <path class="cut" d="M735,86 L735,312"/>
+  <text class="label-bad" x="472" y="368">min cut severs a→t, b→t, c→t: capacity 3</text>
+  <text class="label" x="472" y="390">closure value = P − mincut = 5 − 3 = 2</text>
+  <text class="item" x="472" y="412">if v_d = +2: cut s→d (2 &lt; 3), pit empty</text>
+  <text class="item" x="472" y="432">finite cuts = closed sets (∞ precedence arcs)</text>
+  <rect class="box" x="850" y="60" width="222" height="176" rx="8"/>
+  <text class="title" x="864" y="84">Nested shells</text>
+  <text class="path" x="864" y="104">revenue factor λ</text>
+  <text class="item" x="864" y="126">v_d(λ) = 6λ − 1</text>
+  <text class="item" x="864" y="146">λ &lt; 2/3: empty pit</text>
+  <text class="item" x="864" y="166">λ ≥ 2/3: {a, b, c, d}</text>
+  <text class="item" x="864" y="186">shells nest as λ grows</text>
+  <rect class="box" x="850" y="252" width="222" height="176" rx="8"/>
+  <text class="title" x="864" y="276">Pushbacks → design</text>
+  <text class="path" x="864" y="296">st20_pit_design</text>
+  <text class="item" x="864" y="318">groups of shells = phases</text>
+  <text class="item" x="864" y="338">crest → toe: H / tan β_f</text>
+  <text class="item" x="864" y="358">ramp: z(s) = z_top − g_r s</text>
+  <text class="item" x="864" y="378">USD variant set pushback</text>
+  <rect class="box" x="30" y="498" width="330" height="124" rx="8"/>
+  <text class="title" x="44" y="522">Solvers and oracles</text>
+  <text class="path" x="44" y="542">own min-cut (Python + TS)</text>
+  <text class="item" x="44" y="564">oracles: OR-Tools 9.15, networkx 3.7</text>
+  <text class="item" x="44" y="584">live ≤ 10⁵ blocks; baked above</text>
+  <text class="caveat" x="44" y="610">PyPI pseudoflow: non-commercial, rejected</text>
+  <rect class="box" x="390" y="498" width="360" height="124" rx="8"/>
+  <text class="title" x="404" y="522">MILP schedule (HiGHS)</text>
+  <text class="path" x="404" y="542">precomputed, baked</text>
+  <text class="item" x="404" y="564">max Σ_t Σ_i v_i (1 + δ)^−t x_it</text>
+  <text class="item" x="404" y="584">precedence by time; capacities M_t, P_t</text>
+  <text class="caveat" x="404" y="610">small instances or aggregated models only</text>
+  <rect class="box" x="780" y="498" width="292" height="124" rx="8"/>
+  <text class="title" x="794" y="522">E1 KPIs</text>
+  <text class="path" x="794" y="542">cases/e1</text>
+  <text class="item" x="794" y="564">NPV, strip ratio, haul km per lift</text>
+  <text class="item" x="794" y="584">Lane cut-off policy (minephys)</text>
+  <text class="caveat" x="794" y="610">status: not yet run</text>
+  <path class="edge" d="M422,330 L480,300" marker-end="url(#arrow)"/>
+  <text class="label" x="432" y="302">build</text>
+  <path class="edge-accent" d="M800,100 L848,100" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="790" y="76">sweep λ</text>
+  <path class="edge" d="M961,236 L961,250" marker-end="url(#arrow)"/>
+  <path class="edge" d="M961,428 L720,498" marker-end="url(#arrow)"/>
+  <text class="label" x="852" y="470">phases</text>
+  <path class="edge" d="M750,556 L778,556" marker-end="url(#arrow)"/>
+  <path class="edge" d="M360,556 L388,556" marker-end="url(#arrow)"/>
+</svg>

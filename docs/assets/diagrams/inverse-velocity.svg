@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 580" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Inverse-velocity time-of-failure forecast</title>
+  <desc id="d">Synthetic slope-radar observations of inverse velocity over six days, a straight-line fit extrapolated to zero at about 9.5 days, the synthetic truth at 10 days and a 90 percent Bayesian interval of 8.9 to 10.2 days; side boxes give the Voight relation, the Bayesian update and the learned forecasters that are compared against it.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .dash{stroke-dasharray:6 4}
+    .plot{fill:var(--bg);stroke:none}
+    .post{fill:var(--primary-soft);stroke:none}
+    .dot{fill:var(--chart-1);stroke:var(--bg);stroke-width:2}
+    .mark-acc{fill:var(--accent);stroke:var(--bg);stroke-width:2}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1000" height="580"/>
+
+  <!-- Left band: chart -->
+  <rect class="band" x="20" y="20" width="600" height="540" rx="8"/>
+  <text class="title" x="36" y="46">Inverse velocity vs time (synthetic event)</text>
+  <circle class="dot" cx="52" cy="66" r="4"/>
+  <text class="label" x="64" y="70">observations: 1/v = 0.01 (10 − t) day/mm, 10 % noise</text>
+  <line class="edge-accent" x1="38" y1="88" x2="66" y2="88"/>
+  <text class="label" x="72" y="92">least-squares line on days 0–6 → t̂_f ≈ 9.46 d</text>
+  <line class="axis dash" x1="38" y1="110" x2="66" y2="110"/>
+  <text class="label" x="72" y="114">synthetic truth → t_f = 10 d</text>
+
+  <rect class="plot" x="90" y="140" width="480" height="300"/>
+  <rect class="post" x="445.2" y="140" width="50.8" height="300"/>
+  <line class="grid" x1="90" y1="340" x2="570" y2="340"/>
+  <line class="grid" x1="90" y1="240" x2="570" y2="240"/>
+  <line class="grid" x1="90" y1="140" x2="570" y2="140"/>
+  <line class="grid dash" x1="330" y1="140" x2="330" y2="440"/>
+  <line class="axis" x1="90" y1="440" x2="570" y2="440"/>
+  <line class="axis" x1="90" y1="140" x2="90" y2="440"/>
+  <text class="item" x="82" y="444" text-anchor="end">0</text>
+  <text class="item" x="82" y="344" text-anchor="end">0.04</text>
+  <text class="item" x="82" y="244" text-anchor="end">0.08</text>
+  <text class="item" x="82" y="144" text-anchor="end">0.12</text>
+  <text class="item" x="90" y="458" text-anchor="middle">0</text>
+  <text class="item" x="170" y="458" text-anchor="middle">2</text>
+  <text class="item" x="250" y="458" text-anchor="middle">4</text>
+  <text class="item" x="330" y="458" text-anchor="middle">6</text>
+  <text class="item" x="410" y="458" text-anchor="middle">8</text>
+  <text class="item" x="490" y="458" text-anchor="middle">10</text>
+  <text class="item" x="570" y="458" text-anchor="middle">12</text>
+  <text class="label" x="330" y="480" text-anchor="middle">time t (days)</text>
+  <text class="label" x="0" y="0" transform="translate(38,290) rotate(-90)" text-anchor="middle">1/v (day/mm)</text>
+  <text class="item" x="98" y="158">observed window</text>
+  <text class="item" x="338" y="158">forecast</text>
+
+  <line class="axis dash" x1="90" y1="190" x2="490" y2="440"/>
+  <line class="edge-accent" x1="90" y1="190.6" x2="468.5" y2="440"/>
+  <circle class="dot" cx="90" cy="190" r="4"/>
+  <circle class="dot" cx="130" cy="208.3" r="4"/>
+  <circle class="dot" cx="170" cy="245.5" r="4"/>
+  <circle class="dot" cx="210" cy="280.6" r="4"/>
+  <circle class="dot" cx="250" cy="296.8" r="4"/>
+  <circle class="dot" cx="290" cy="327.4" r="4"/>
+  <circle class="dot" cx="330" cy="339.4" r="4"/>
+  <circle class="mark-acc" cx="468.5" cy="440" r="6"/>
+  <text class="label" x="440" y="200" text-anchor="end">90 % posterior t_f:</text>
+  <text class="label" x="440" y="218" text-anchor="end">8.9–10.2 d (shaded)</text>
+  <text class="item" x="500" y="420">truth 10 d</text>
+
+  <text class="item" x="36" y="510">α = 2 makes 1/v straight; α ≠ 2 bends it (concave or convex).</text>
+  <text class="item" x="36" y="530">Smoothing trades noise for lag; pixel choice changes the answer.</text>
+
+  <!-- Right column -->
+  <rect class="box" x="640" y="20" width="340" height="160" rx="8"/>
+  <text class="title" x="654" y="44">Voight / Fukuzono</text>
+  <text class="path" x="654" y="64">minephys.geotech</text>
+  <text class="label" x="654" y="88">d²Ω/dt² = A (dΩ/dt)^α</text>
+  <text class="label" x="654" y="110">1/v = [A (α − 1)(t_f − t)]^(1/(α − 1))</text>
+  <text class="label" x="654" y="132">α = 2 → 1/v = A (t_f − t)</text>
+  <text class="caveat" x="654" y="164">Voight 1989; Fukuzono 1985</text>
+
+  <rect class="box-accent" x="640" y="210" width="340" height="160" rx="8"/>
+  <text class="title" x="654" y="234">Bayesian time to failure</text>
+  <text class="path" x="654" y="254">minephys.geotech</text>
+  <text class="label" x="654" y="278">1/v_i = β₀ + β₁ t_i + ε_i</text>
+  <text class="item" x="654" y="300">posterior draws → t_f = −β₀ / β₁</text>
+  <text class="item" x="654" y="322">median 9.45 d, 90 % 8.88–10.15 d</text>
+  <text class="caveat" x="654" y="354">Gaussian noise, vague prior</text>
+
+  <rect class="box" x="640" y="400" width="340" height="160" rx="8"/>
+  <text class="title" x="654" y="424">Learned forecasters (M14)</text>
+  <text class="path" x="654" y="444">pipeline/</text>
+  <text class="item" x="654" y="468">TCN · PatchTST · Chronos-Bolt</text>
+  <text class="item" x="654" y="490">synthetic: TTF error ≤ 10 % of lead time</text>
+  <text class="item" x="654" y="512">real de Wit event: n = 1, descriptive</text>
+  <text class="caveat" x="654" y="544">Not yet run</text>
+
+  <line class="edge" x1="810" y1="180" x2="810" y2="208" marker-end="url(#arrow)"/>
+  <text class="label" x="818" y="199">linear 1/v model</text>
+  <line class="edge" x1="810" y1="370" x2="810" y2="398" marker-end="url(#arrow)"/>
+  <text class="label" x="818" y="389">baseline to beat</text>
+  <line class="edge" x1="600" y1="290" x2="638" y2="290" marker-end="url(#arrow)"/>
+  <text class="label" x="596" y="282" text-anchor="end">1/v series</text>
+</svg>

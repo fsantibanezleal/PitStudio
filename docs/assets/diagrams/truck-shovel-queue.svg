@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Truck–shovel system as a closed queueing network</title>
+  <desc id="d">A fixed population of trucks circulates through a shovel queue, a loaded-haul delay, a dump queue and an empty-return delay; the chart compares exact mean-value-analysis throughput with the deterministic bound for one to eight trucks, showing the queueing loss at match factor one.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .s1{stroke:var(--chart-1);stroke-width:2;fill:none}
+    .dash{stroke-dasharray:6 4}
+    .road{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .slot{fill:var(--bg);stroke:var(--border-strong);stroke-width:1.5}
+    .server{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .dot{fill:var(--chart-1);stroke:var(--surface);stroke-width:2}
+    .mark-acc{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+    .ah-acc{fill:var(--accent)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-acc"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1000" height="650"/>
+
+  <!-- Left band: the closed network -->
+  <rect class="band" x="20" y="20" width="580" height="515" rx="8"/>
+  <text class="title" x="36" y="46">Closed cyclic network: N trucks circulate</text>
+
+  <rect class="road" x="180" y="90" width="260" height="52" rx="26"/>
+  <text class="label" x="310" y="112" text-anchor="middle">Loaded haul: delay (∞ servers)</text>
+  <text class="item" x="310" y="131" text-anchor="middle">travel time = physics + noise</text>
+
+  <rect class="road" x="180" y="400" width="260" height="52" rx="26"/>
+  <text class="label" x="310" y="422" text-anchor="middle">Empty return: delay (∞ servers)</text>
+  <text class="item" x="310" y="441" text-anchor="middle">retarder-limited descent</text>
+
+  <!-- shovel station -->
+  <rect class="slot" x="45" y="260" width="22" height="20" rx="3"/>
+  <rect class="slot" x="73" y="260" width="22" height="20" rx="3"/>
+  <rect class="slot" x="101" y="260" width="22" height="20" rx="3"/>
+  <line class="edge" x1="125" y1="270" x2="134" y2="270" marker-end="url(#arrow)"/>
+  <circle class="server" cx="160" cy="270" r="24"/>
+  <text class="label" x="160" y="275" text-anchor="middle">μ_L</text>
+  <text class="item" x="45" y="252">queue</text>
+  <text class="label" x="36" y="324">Shovel (FCFS, 1 server)</text>
+  <text class="item" x="36" y="342">load time t_L = 1/μ_L</text>
+
+  <!-- dump station -->
+  <rect class="slot" x="509" y="260" width="22" height="20" rx="3"/>
+  <rect class="slot" x="537" y="260" width="22" height="20" rx="3"/>
+  <rect class="slot" x="565" y="260" width="22" height="20" rx="3"/>
+  <line class="edge" x1="507" y1="270" x2="487" y2="270" marker-end="url(#arrow)"/>
+  <circle class="server" cx="460" cy="270" r="24"/>
+  <text class="label" x="460" y="275" text-anchor="middle">μ_D</text>
+  <text class="item" x="509" y="252">queue</text>
+  <text class="label" x="474" y="324">Dump / crusher</text>
+  <text class="item" x="474" y="342">FCFS, service 1/μ_D</text>
+
+  <!-- cycle arrows -->
+  <path class="edge-accent" d="M160,246 V116 H178" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="170" y="200">loaded truck</text>
+  <path class="edge-accent" d="M440,116 H576 V257" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="452" y="108">loaded arrives</text>
+  <path class="edge-accent" d="M460,294 V426 H442" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="468" y="380">empty truck</text>
+  <path class="edge-accent" d="M180,426 H30 V270 H43" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="38" y="390">empty arrives</text>
+
+  <text class="title" x="310" y="236" text-anchor="middle">N trucks (closed population)</text>
+  <text class="label" x="310" y="262" text-anchor="middle">MF = N_T · t_L / (N_L · T_c*)</text>
+  <text class="item" x="310" y="282" text-anchor="middle">T_c* = cycle time without waiting</text>
+
+  <text class="item" x="36" y="486">Exponential times + FCFS → product form → exact MVA.</text>
+  <text class="item" x="36" y="506">Dispatch rules, bunching and breakdowns → DES.</text>
+
+  <!-- Right band: worked example chart -->
+  <rect class="band" x="615" y="20" width="365" height="515" rx="8"/>
+  <text class="title" x="631" y="46">Throughput vs fleet size</text>
+  <line class="s1" x1="631" y1="68" x2="661" y2="68"/>
+  <circle class="dot" cx="646" cy="68" r="4"/>
+  <text class="label" x="667" y="72">exact MVA (1 shovel)</text>
+  <line class="axis dash" x1="631" y1="88" x2="661" y2="88"/>
+  <text class="label" x="667" y="92">deterministic bound min(N/T_c*, μ_L)</text>
+  <text class="item" x="631" y="114">illustrative: 20 min travel, 4 min load</text>
+
+  <line class="grid" x1="680" y1="378" x2="966" y2="378"/>
+  <line class="grid" x1="680" y1="306" x2="966" y2="306"/>
+  <line class="grid" x1="680" y1="234" x2="966" y2="234"/>
+  <line class="grid" x1="680" y1="162" x2="966" y2="162"/>
+  <line class="axis" x1="680" y1="450" x2="966" y2="450"/>
+  <line class="axis" x1="680" y1="162" x2="680" y2="450"/>
+  <text class="item" x="672" y="454" text-anchor="end">0</text>
+  <text class="item" x="672" y="382" text-anchor="end">4</text>
+  <text class="item" x="672" y="310" text-anchor="end">8</text>
+  <text class="item" x="672" y="238" text-anchor="end">12</text>
+  <text class="item" x="672" y="166" text-anchor="end">16</text>
+  <text class="label" x="0" y="0" transform="translate(640,306) rotate(-90)" text-anchor="middle">X (trucks/h)</text>
+
+  <text class="item" x="690" y="468" text-anchor="middle">1</text>
+  <text class="item" x="728" y="468" text-anchor="middle">2</text>
+  <text class="item" x="766" y="468" text-anchor="middle">3</text>
+  <text class="item" x="804" y="468" text-anchor="middle">4</text>
+  <text class="item" x="842" y="468" text-anchor="middle">5</text>
+  <text class="item" x="880" y="468" text-anchor="middle">6</text>
+  <text class="item" x="918" y="468" text-anchor="middle">7</text>
+  <text class="item" x="956" y="468" text-anchor="middle">8</text>
+  <text class="item" x="672" y="468" text-anchor="end">N</text>
+  <text class="item" x="672" y="486" text-anchor="end">MF</text>
+  <text class="item" x="690" y="486" text-anchor="middle">.17</text>
+  <text class="item" x="728" y="486" text-anchor="middle">.33</text>
+  <text class="item" x="766" y="486" text-anchor="middle">.50</text>
+  <text class="item" x="804" y="486" text-anchor="middle">.67</text>
+  <text class="item" x="842" y="486" text-anchor="middle">.83</text>
+  <text class="item" x="880" y="486" text-anchor="middle">1.0</text>
+  <text class="item" x="918" y="486" text-anchor="middle">1.17</text>
+  <text class="item" x="956" y="486" text-anchor="middle">1.33</text>
+  <text class="label" x="823" y="508" text-anchor="middle">trucks N and match factor MF</text>
+
+  <polyline class="axis dash" points="690,405 728,360 766,315 804,270 842,225 880,180 918,180 956,180"/>
+  <polyline class="s1" points="690,405 728,362.4 766,323 804,287.6 842,256.9 880,231.8 918,212.5 956,198.9"/>
+  <circle class="dot" cx="690" cy="405" r="4"/>
+  <circle class="dot" cx="728" cy="362.4" r="4"/>
+  <circle class="dot" cx="766" cy="323" r="4"/>
+  <circle class="dot" cx="804" cy="287.6" r="4"/>
+  <circle class="dot" cx="842" cy="256.9" r="4"/>
+  <circle class="dot" cx="918" cy="212.5" r="4"/>
+  <circle class="dot" cx="956" cy="198.9" r="4"/>
+  <line class="edge-accent dash" x1="880" y1="180" x2="880" y2="450"/>
+  <circle class="mark-acc" cx="880" cy="231.8" r="6"/>
+  <text class="label" x="972" y="140" text-anchor="end">MF = 1: 12.1 vs 15 trucks/h</text>
+  <text class="item" x="631" y="528">Gap = queueing loss from random times.</text>
+
+  <!-- Bottom band -->
+  <rect class="box-accent" x="20" y="550" width="300" height="90" rx="8"/>
+  <text class="title" x="34" y="572">Analytical twin (live)</text>
+  <text class="path" x="34" y="592">minephys.haulage</text>
+  <text class="item" x="34" y="610">MF · Erlang C · M/M/1//N · MVA</text>
+  <text class="caveat" x="34" y="628">product form needs exponential times</text>
+
+  <rect class="box" x="360" y="550" width="280" height="90" rx="8"/>
+  <text class="title" x="374" y="572">Cross-check</text>
+  <text class="path" x="374" y="592">tests/parity/</text>
+  <text class="item" x="374" y="610">DES ≡ MVA in the exponential case</text>
+  <text class="caveat" x="374" y="628">tolerance pinned at specification</text>
+
+  <rect class="box" x="680" y="550" width="300" height="90" rx="8"/>
+  <text class="title" x="694" y="572">Discrete-event reference</text>
+  <text class="path" x="694" y="592">minehaulsim</text>
+  <text class="item" x="694" y="610">event list · physics travel times</text>
+  <text class="caveat" x="694" y="628">exact trace shared with the TS twin</text>
+
+  <line class="edge" x1="320" y1="598" x2="358" y2="598" marker-end="url(#arrow)"/>
+  <text class="label" x="339" y="590" text-anchor="middle">X(N)</text>
+  <line class="edge" x1="680" y1="598" x2="642" y2="598" marker-end="url(#arrow)"/>
+  <text class="label" x="661" y="590" text-anchor="middle">X(N)</text>
+</svg>

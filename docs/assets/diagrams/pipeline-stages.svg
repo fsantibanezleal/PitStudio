@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Pipeline stages s00 to s64 with environments, runtimes and outputs</title>
+  <desc id="d">The pipeline environment runs s00_download through s60_export on CPU, cu126 or cu130; the isolated accel environment runs s62_accel and s64_bench with TensorRT 11.3; outputs split into live ONNX models, replay tables and shards, and local-only engines.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .ah-accent{fill:var(--accent)}
+    .band-warn{fill:var(--surface);stroke:var(--warning);stroke-width:1.5}
+    .head{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .head-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .lane-live{fill:var(--chart-2)} .lane-replay{fill:var(--chart-4)} .lane-local{fill:var(--warning)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="800"/>
+  <text class="title" x="20" y="30">Pipeline lane: data → learn → ship → accelerate</text>
+
+  <!-- band A: pipeline/ -->
+  <rect class="band" x="15" y="46" width="1170" height="474" rx="8"/>
+  <text class="head" x="30" y="68">pipeline/ · Python 3.14 · one lock, extras cpu | cu126 | cu130 · entered with uv run --project pipeline --frozen</text>
+
+  <!-- row 1 -->
+  <rect class="box" x="30" y="84" width="265" height="180" rx="6"/>
+  <text class="title" x="42" y="108">Download</text>
+  <text class="path" x="42" y="128">s00_download</text>
+  <text class="label" x="42" y="150">runtime: hours, once</text>
+  <text class="item" x="42" y="170">pooch with SHA-256 per file</text>
+  <text class="item" x="42" y="188">raw → data/raw/ (git-ignored)</text>
+  <text class="item" x="42" y="206">sources from data/sources.yaml</text>
+  <text class="caveat" x="42" y="250">accounts only via env vars</text>
+
+  <rect class="box" x="325" y="84" width="265" height="180" rx="6"/>
+  <text class="title" x="337" y="108">Synthesize</text>
+  <text class="path" x="337" y="128">s05_synthesize</text>
+  <text class="label" x="337" y="150">runtime: minutes–hours</text>
+  <text class="item" x="337" y="170">DES cycles, Kuz-Ram PSDs</text>
+  <text class="item" x="337" y="188">Voight creep, plume fields</text>
+  <text class="item" x="337" y="206">oreblocks deposits, sweeps</text>
+  <text class="caveat" x="337" y="250">studio outputs arrive as files</text>
+
+  <rect class="box" x="620" y="84" width="265" height="180" rx="6"/>
+  <text class="title" x="632" y="108">Preprocess</text>
+  <text class="path" x="632" y="128">s10_preprocess</text>
+  <text class="label" x="632" y="150">runtime: minutes–1 h</text>
+  <text class="item" x="632" y="170">pandera: reject, never coerce</text>
+  <text class="item" x="632" y="188">AOI crop, DEM grid, tiles</text>
+  <text class="item" x="632" y="206">grouped splits (e.g. Mendeley)</text>
+  <text class="caveat" x="632" y="250">→ data/interim/</text>
+
+  <rect class="box" x="915" y="84" width="255" height="180" rx="6"/>
+  <text class="title" x="927" y="108">Features</text>
+  <text class="path" x="927" y="128">s20_feature_extraction</text>
+  <text class="label" x="927" y="150">runtime: minutes–1 h</text>
+  <text class="item" x="927" y="170">tabular features, embeddings</text>
+  <text class="item" x="927" y="188">C2ST inputs (e.g. DINOv2)</text>
+  <text class="caveat" x="927" y="250">→ data/processed/</text>
+
+  <path class="edge" d="M295,174 H321" marker-end="url(#arrow)"/>
+  <path class="edge" d="M590,174 H616" marker-end="url(#arrow)"/>
+  <path class="edge" d="M885,174 H911" marker-end="url(#arrow)"/>
+  <text class="label" x="420" y="282">each arrow carries files with SHA-256 digests (content-addressed cache)</text>
+  <path class="edge" d="M1042,264 V290 H162 V308" marker-end="url(#arrow)"/>
+  <text class="label" x="172" y="304">features + splits</text>
+
+  <!-- row 2 -->
+  <rect class="box" x="30" y="312" width="265" height="190" rx="6"/>
+  <text class="title" x="42" y="336">Train</text>
+  <text class="path" x="42" y="356">s30_train</text>
+  <text class="label" x="42" y="378">runtime: per model (estimates)</text>
+  <text class="item" x="42" y="398">≈ 45–110 GPU-h incl. evaluation</text>
+  <text class="item" x="42" y="416">lock gpu0.compute, one job</text>
+  <text class="item" x="42" y="434">checkpoints git-ignored</text>
+  <text class="caveat" x="42" y="488">not yet run</text>
+
+  <rect class="box" x="325" y="312" width="265" height="190" rx="6"/>
+  <text class="title" x="337" y="336">Infer</text>
+  <text class="path" x="337" y="356">s40_infer</text>
+  <text class="label" x="337" y="378">runtime: minutes</text>
+  <text class="item" x="337" y="398">held-out predictions</text>
+  <text class="item" x="337" y="416">baselines on the same splits</text>
+
+  <rect class="box" x="620" y="312" width="265" height="190" rx="6"/>
+  <text class="title" x="632" y="336">Evaluate</text>
+  <text class="path" x="632" y="356">s50_evaluate</text>
+  <text class="label" x="632" y="378">runtime: ≈ 0.5–2 h</text>
+  <text class="item" x="632" y="398">held-out metrics, paired 95 % CI</text>
+  <text class="item" x="632" y="416">C2ST / TSTR, corruption curves</text>
+  <text class="item" x="632" y="434">baselines, decision rule</text>
+
+  <rect class="box-accent" x="915" y="312" width="255" height="190" rx="6"/>
+  <text class="title" x="927" y="336">Export</text>
+  <text class="path" x="927" y="356">s60_export</text>
+  <text class="label" x="927" y="378">runtime: minutes</text>
+  <text class="item" x="927" y="398">ONNX opset 17–19, IR 10</text>
+  <text class="item" x="927" y="416">parity vs PyTorch (ORT CPU)</text>
+  <text class="item" x="927" y="434">glTF / 3D Tiles, shards</text>
+  <text class="item" x="927" y="452">manifest, budgets, asset list</text>
+  <text class="caveat" x="927" y="488">last stage of the frozen list</text>
+
+  <path class="edge" d="M295,407 H321" marker-end="url(#arrow)"/>
+  <path class="edge" d="M590,407 H616" marker-end="url(#arrow)"/>
+  <path class="edge" d="M885,407 H911" marker-end="url(#arrow)"/>
+  <text class="label" x="297" y="398">ckpt</text>
+  <text class="label" x="592" y="398">preds</text>
+  <text class="label" x="887" y="398">pass</text>
+
+  <!-- band B: pipeline/accel -->
+  <rect class="band-warn" x="15" y="540" width="1170" height="200" rx="8"/>
+  <text class="head-warn" x="30" y="562">pipeline/accel/ · Python 3.14 · TensorRT 11.3 + Polygraphy · isolated env · engines stay local</text>
+
+  <path class="edge-accent" d="M1042,502 V524 H180 V576" marker-end="url(#arrowA)"/>
+  <text class="label" x="190" y="536">ONNX files (same files the web ships)</text>
+
+  <rect class="box" x="30" y="578" width="300" height="150" rx="6"/>
+  <text class="title" x="42" y="602">Accelerate</text>
+  <text class="path" x="42" y="622">s62_accel</text>
+  <text class="label" x="42" y="644">runtime: 1–2 h</text>
+  <text class="item" x="42" y="664">engines fp32 / fp16 / int8 / fp8</text>
+  <text class="item" x="42" y="682">fp16 cast graph, int8/fp8 Q/DQ</text>
+  <text class="caveat" x="42" y="712">engines: git-ignored, never published</text>
+
+  <rect class="box" x="370" y="578" width="300" height="150" rx="6"/>
+  <text class="title" x="382" y="602">Bench</text>
+  <text class="path" x="382" y="622">s64_bench</text>
+  <text class="label" x="382" y="644">runtime: 2–4 h</text>
+  <text class="item" x="382" y="664">latency, throughput, J/inference</text>
+  <text class="item" x="382" y="682">accuracy Δ, per-engine parity</text>
+  <text class="caveat" x="382" y="712">failing variants: reported rejected</text>
+
+  <path class="edge" d="M330,653 H366" marker-end="url(#arrow)"/>
+  <text class="label" x="332" y="645">.plan</text>
+  <path class="edge" d="M670,653 H706" marker-end="url(#arrow)"/>
+  <text class="label" x="672" y="645">rows</text>
+
+  <rect class="box" x="710" y="578" width="460" height="150" rx="6"/>
+  <text class="title" x="722" y="602">Outputs by lane</text>
+  <rect class="lane-live" x="722" y="614" width="12" height="12" rx="2"/>
+  <text class="item" x="742" y="625">LIVE: ONNX ≤ 25 MB each → ORT-web (WebGPU → WASM)</text>
+  <rect class="lane-replay" x="722" y="638" width="12" height="12" rx="2"/>
+  <text class="item" x="742" y="649">REPLAY: metrics, curves, shards, Acceleration table</text>
+  <rect class="lane-local" x="722" y="662" width="12" height="12" rx="2"/>
+  <text class="item" x="742" y="673">LOCAL-ONLY: engines, checkpoints, TensorRT for RTX</text>
+  <text class="path" x="722" y="700">web/ · models/onnx/ · release assets</text>
+  <text class="caveat" x="722" y="720">regular TensorRT numbers of our models are publishable</text>
+
+  <text class="caveat" x="20" y="764">Runtimes are plan estimates, measured by the runner and recorded in each manifest. Nothing has run yet.</text>
+  <text class="label" x="20" y="786">Training-throughput benchmarks are the runner probe "studio bench", not a stage.</text>
+</svg>

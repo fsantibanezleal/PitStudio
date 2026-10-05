@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Open-pit mining value chain with the five PitStudio case categories</title>
+  <desc id="d">Six stages from exploration and planning through drill and blast, loading, hauling, crushing and grinding, each with the minephys module that models it and the material that moves to the next stage, and below them the five case categories A to E placed on the stages they cover.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-hi{fill:var(--accent)}
+    .dot{fill:var(--accent)}
+    .cat-a{fill:var(--chart-1);fill-opacity:.12;stroke:var(--chart-1);stroke-width:1.5}
+    .cat-b{fill:var(--chart-2);fill-opacity:.12;stroke:var(--chart-2);stroke-width:1.5}
+    .cat-c{fill:var(--chart-3);fill-opacity:.12;stroke:var(--chart-3);stroke-width:1.5}
+    .cat-d{fill:var(--chart-4);fill-opacity:.12;stroke:var(--chart-4);stroke-width:1.5}
+    .cat-e{fill:var(--chart-5);fill-opacity:.12;stroke:var(--chart-5);stroke-width:1.5}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-hi"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="680"/>
+  <text class="title" x="30" y="44">Open-pit value chain: what each stage moves on, and where the five case categories sit</text>
+
+  <!-- stages -->
+  <rect class="box" x="30" y="80" width="160" height="140" rx="8"/>
+  <text class="title" x="44" y="106">Explore &amp; plan</text>
+  <text class="path" x="44" y="128">minephys.planning</text>
+  <text class="item" x="44" y="152">block model →</text>
+  <text class="item" x="44" y="170">pit shell, pushbacks,</text>
+  <text class="item" x="44" y="188">life-of-mine schedule</text>
+
+  <rect class="box" x="214" y="80" width="160" height="140" rx="8"/>
+  <text class="title" x="228" y="106">Drill &amp; blast</text>
+  <text class="path" x="228" y="128">minephys.blasting</text>
+  <text class="item" x="228" y="152">powder factor →</text>
+  <text class="item" x="228" y="170">x50, P80, PPV,</text>
+  <text class="item" x="228" y="188">flyrock radius</text>
+
+  <rect class="box" x="398" y="80" width="160" height="140" rx="8"/>
+  <text class="title" x="412" y="106">Load</text>
+  <text class="path" x="412" y="128">minephys.bulk</text>
+  <text class="item" x="412" y="152">bucket fill, passes,</text>
+  <text class="item" x="412" y="170">payload variance</text>
+  <text class="caveat" x="412" y="204">GPU: Warp DEM, MPM</text>
+
+  <rect class="box" x="582" y="80" width="160" height="140" rx="8"/>
+  <text class="title" x="596" y="106">Haul &amp; dump</text>
+  <text class="path" x="596" y="128">minephys.haulage</text>
+  <text class="item" x="596" y="152">rimpull vs grade + RR,</text>
+  <text class="item" x="596" y="170">queues, match factor,</text>
+  <text class="item" x="596" y="188">energy and CO₂</text>
+
+  <rect class="box" x="766" y="80" width="190" height="140" rx="8"/>
+  <text class="title" x="780" y="106">Crush</text>
+  <text class="path" x="780" y="128">minephys.comminution</text>
+  <text class="item" x="780" y="152">crusher feed, F80,</text>
+  <text class="item" x="780" y="170">oversize boulders</text>
+
+  <rect class="box" x="980" y="80" width="190" height="140" rx="8"/>
+  <text class="title" x="994" y="106">Grind &amp; concentrate</text>
+  <text class="path" x="994" y="128">minephys.comminution</text>
+  <text class="item" x="994" y="152">Bond / Morrell kWh/t,</text>
+  <text class="item" x="994" y="170">PBM, flotation →</text>
+  <text class="item" x="994" y="188">tailings</text>
+
+  <!-- material flow lane -->
+  <path class="edge" d="M110,220 V258 M294,220 V258 M478,220 V258 M662,220 V258 M861,220 V258 M1075,220 V258"/>
+  <circle class="dot" cx="110" cy="258" r="4"/>
+  <circle class="dot" cx="294" cy="258" r="4"/>
+  <circle class="dot" cx="478" cy="258" r="4"/>
+  <circle class="dot" cx="662" cy="258" r="4"/>
+  <circle class="dot" cx="861" cy="258" r="4"/>
+  <circle class="dot" cx="1075" cy="258" r="4"/>
+  <path class="edge-accent" d="M116,258 H286" marker-end="url(#arrow-hi)"/>
+  <path class="edge-accent" d="M300,258 H470" marker-end="url(#arrow-hi)"/>
+  <path class="edge-accent" d="M484,258 H654" marker-end="url(#arrow-hi)"/>
+  <path class="edge-accent" d="M668,258 H853" marker-end="url(#arrow-hi)"/>
+  <path class="edge-accent" d="M867,258 H1067" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="202" y="250" text-anchor="middle">block model</text>
+  <text class="label" x="386" y="250" text-anchor="middle">blasted rock + PSD</text>
+  <text class="label" x="570" y="250" text-anchor="middle">payload (t)</text>
+  <text class="label" x="761" y="250" text-anchor="middle">ROM ore (t/h)</text>
+  <text class="label" x="968" y="250" text-anchor="middle">crushed ore (F80)</text>
+
+  <!-- case categories -->
+  <rect class="cat-e" x="30" y="290" width="712" height="56" rx="6"/>
+  <text class="title" x="42" y="312">E · Planning &amp; survey</text>
+  <text class="item" x="42" y="334">E1 pit shell &amp; pushbacks → life-of-mine haul distance · E2 drone survey → volume reconciliation</text>
+
+  <rect class="cat-d" x="214" y="356" width="956" height="56" rx="6"/>
+  <text class="title" x="226" y="378">D · Drill-blast-to-mill</text>
+  <text class="item" x="226" y="400">D1 blast design: fragmentation, PPV, flyrock, muck pile · D2 mine-to-mill: crusher and SAG throughput, kWh/t</text>
+
+  <rect class="cat-a" x="398" y="422" width="344" height="56" rx="6"/>
+  <text class="title" x="410" y="444">A · Haulage &amp; energy</text>
+  <text class="item" x="410" y="466">A1 dispatch · A2 road energy · A3 payload</text>
+
+  <rect class="cat-b" x="582" y="488" width="374" height="56" rx="6"/>
+  <text class="title" x="594" y="510">B · Safety &amp; autonomy</text>
+  <text class="item" x="594" y="532">B1 traffic &amp; proximity · B2 perception + oversize</text>
+
+  <rect class="cat-c" x="214" y="554" width="956" height="56" rx="6"/>
+  <text class="title" x="226" y="576">C · Geotech &amp; environment</text>
+  <text class="item" x="226" y="598">C1 pit-wall slopes and radar (whole pit) · C3 haul-road and blast dust · C2 tailings breach (downstream of the mill)</text>
+
+  <text class="caveat" x="30" y="650">Exploration geology is out of scope: E1 starts from a block model (synthetic oreblocks deposits, or the optional MineLib instance).</text>
+</svg>

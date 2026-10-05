@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 840" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">PitStudio case catalogue: 12 cases in 5 categories with their KPIs</title>
+  <desc id="d">Five category bands — haulage and energy, safety and autonomy, geotech and environment, drill-blast-to-mill, planning and survey — hold the twelve cases, each with its page, its headline KPIs, its methods and real data anchor, and its main honesty caveat or measured-truth note.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .hdr{font:600 18px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .cat1{fill:var(--chart-1)}
+    .cat2{fill:var(--chart-2)}
+    .cat3{fill:var(--chart-3)}
+    .cat4{fill:var(--chart-4)}
+    .cat5{fill:var(--chart-5)}
+  </style>
+  <rect class="bg" width="1200" height="840"/>
+
+  <text class="hdr" x="20" y="36">PitStudio case catalogue — 12 cases in 5 categories</text>
+  <text class="item" x="20" y="58">Default real site: Bingham Canyon (USGS 3DEP, public domain) · one page per case under docs/cases/ · KPIs reported with units and paired 95 % CIs</text>
+
+  <!-- ===== Band A ===== -->
+  <rect class="band" x="20" y="80" width="1160" height="136" rx="6"/>
+  <rect class="cat1" x="20" y="80" width="6" height="136"/>
+  <text class="title" x="40" y="114">A · Haulage</text>
+  <text class="title" x="40" y="134">&amp; energy</text>
+  <text class="item" x="40" y="160">3 cases</text>
+  <text class="item" x="40" y="180">cost and energy story</text>
+
+  <rect class="box" x="220" y="90" width="314" height="116" rx="4"/>
+  <rect class="cat1" x="220" y="90" width="5" height="116"/>
+  <text class="title" x="234" y="114">A1 Truck–shovel dispatch</text>
+  <text class="path" x="234" y="134">a1-truck-shovel-dispatch.md</text>
+  <text class="item" x="234" y="156">KPI: t/h · queue · MF · cost/t</text>
+  <text class="item" x="234" y="176">M1–M5 · Bingham roads (real)</text>
+  <text class="caveat" x="234" y="198">cycles: calibrated synthetic</text>
+
+  <rect class="box" x="542" y="90" width="314" height="116" rx="4"/>
+  <rect class="cat1" x="542" y="90" width="5" height="116"/>
+  <text class="title" x="556" y="114">A2 Haul-road electrification</text>
+  <text class="path" x="556" y="134">a2-haul-road-electrification.md</text>
+  <text class="item" x="556" y="156">KPI: L/(t·km) · kWh/t · CO₂e/t</text>
+  <text class="item" x="556" y="176">M6 M2 M21 · Bingham ramp (real)</text>
+  <text class="caveat" x="556" y="198">generic truck, no OEM chart</text>
+
+  <rect class="box" x="864" y="90" width="314" height="116" rx="4"/>
+  <rect class="cat1" x="864" y="90" width="5" height="116"/>
+  <text class="title" x="878" y="114">A3 Loading &amp; payload variance</text>
+  <text class="path" x="878" y="134">a3-loading-payload-variance.md</text>
+  <text class="item" x="878" y="156">KPI: payload CV · passes · fuel/t</text>
+  <text class="item" x="878" y="176">M7 M8 M9 M21 · DEM / MPM runs</text>
+  <text class="caveat" x="878" y="198">all synthetic, repose-calibrated</text>
+
+  <!-- ===== Band B ===== -->
+  <rect class="band" x="20" y="226" width="1160" height="136" rx="6"/>
+  <rect class="cat2" x="20" y="226" width="6" height="136"/>
+  <text class="title" x="40" y="260">B · Safety</text>
+  <text class="title" x="40" y="280">&amp; autonomy</text>
+  <text class="item" x="40" y="306">2 cases</text>
+  <text class="item" x="40" y="326">safety story</text>
+
+  <rect class="box" x="220" y="236" width="314" height="116" rx="4"/>
+  <rect class="cat2" x="220" y="236" width="5" height="116"/>
+  <text class="title" x="234" y="260">B1 Traffic &amp; proximity</text>
+  <text class="path" x="234" y="280">b1-traffic-proximity.md</text>
+  <text class="item" x="234" y="302">KPI: min TTC · near-misses / 1,000 h</text>
+  <text class="item" x="234" y="322">M20 M2 M22 M23 · lidar, radar</text>
+  <text class="caveat" x="234" y="344">model-based rates, no event logs</text>
+
+  <rect class="box" x="542" y="236" width="314" height="116" rx="4"/>
+  <rect class="cat2" x="542" y="236" width="5" height="116"/>
+  <text class="title" x="556" y="260">B2 Synthetic perception</text>
+  <text class="path" x="556" y="280">b2-synthetic-perception.md</text>
+  <text class="item" x="556" y="302">KPI: synthetic mAP50 · DR · corruption</text>
+  <text class="item" x="556" y="322">M10 M22 M23 · Replicator, ovrtx</text>
+  <text class="caveat" x="556" y="344">equipment/people sim-to-real: not measured</text>
+
+  <text class="item" x="880" y="286">Mixed-fleet proximity, sensors in dust</text>
+  <text class="item" x="880" y="306">and rain, synthetic-only perception;</text>
+  <text class="item" x="880" y="326">VLM answers are display-only.</text>
+
+  <!-- ===== Band C ===== -->
+  <rect class="band" x="20" y="372" width="1160" height="136" rx="6"/>
+  <rect class="cat3" x="20" y="372" width="6" height="136"/>
+  <text class="title" x="40" y="406">C · Geotech</text>
+  <text class="title" x="40" y="426">&amp; environment</text>
+  <text class="item" x="40" y="452">3 cases</text>
+  <text class="item" x="40" y="472">risk story</text>
+
+  <rect class="box" x="220" y="382" width="314" height="116" rx="4"/>
+  <rect class="cat3" x="220" y="382" width="5" height="116"/>
+  <text class="title" x="234" y="406">C1 Slope → time of failure</text>
+  <text class="path" x="234" y="426">c1-slope-time-of-failure.md</text>
+  <text class="item" x="234" y="448">KPI: FoS · PoF · TTF error · lead time</text>
+  <text class="item" x="234" y="468">M13 M14 M23 · de Wit + Voight</text>
+  <text class="caveat" x="234" y="490">de Wit: one real event, descriptive only</text>
+
+  <rect class="box" x="542" y="382" width="314" height="116" rx="4"/>
+  <rect class="cat3" x="542" y="382" width="5" height="116"/>
+  <text class="title" x="556" y="406">C2 Tailings breach run-out</text>
+  <text class="path" x="556" y="426">c2-tailings-breach.md</text>
+  <text class="item" x="556" y="448">KPI: arrival time · max depth · area</text>
+  <text class="item" x="556" y="468">M15 · Warp shallow water + FNO</text>
+  <text class="caveat" x="556" y="490">educational, hypothetical facility</text>
+
+  <rect class="box" x="864" y="382" width="314" height="116" rx="4"/>
+  <rect class="cat3" x="864" y="382" width="5" height="116"/>
+  <text class="title" x="878" y="406">C3 Dust &amp; water trucks</text>
+  <text class="path" x="878" y="426">c3-dust.md</text>
+  <text class="item" x="878" y="448">KPI: PM10 kg/VKT · µg/m³ · water</text>
+  <text class="item" x="878" y="468">M16 M2 · ERA5 or GHCNh, AP-42</text>
+  <text class="caveat" x="878" y="490">screening plume, not AERMOD</text>
+
+  <!-- ===== Band D ===== -->
+  <rect class="band" x="20" y="518" width="1160" height="136" rx="6"/>
+  <rect class="cat4" x="20" y="518" width="6" height="136"/>
+  <text class="title" x="40" y="552">D · Drill-blast</text>
+  <text class="title" x="40" y="572">to mill</text>
+  <text class="item" x="40" y="598">2 cases</text>
+  <text class="item" x="40" y="618">cost and energy story</text>
+
+  <rect class="box" x="220" y="528" width="314" height="116" rx="4"/>
+  <rect class="cat4" x="220" y="528" width="5" height="116"/>
+  <text class="title" x="234" y="552">D1 Blast design &amp; muck pile</text>
+  <text class="path" x="234" y="572">d1-blast-muck-pile.md</text>
+  <text class="item" x="234" y="594">KPI: P80 · oversize · PPV · flyrock</text>
+  <text class="item" x="234" y="614">M12 M11 M7 · Mendeley labels (real)</text>
+  <text class="ok" x="234" y="636">measured: TSTR ≥ 0.90 × TRTR</text>
+
+  <rect class="box" x="542" y="528" width="314" height="116" rx="4"/>
+  <rect class="cat4" x="542" y="528" width="5" height="116"/>
+  <text class="title" x="556" y="552">D2 Mine-to-mill</text>
+  <text class="path" x="556" y="572">d2-mine-to-mill.md</text>
+  <text class="item" x="556" y="594">KPI: t/h · kWh/t · cost/t</text>
+  <text class="item" x="556" y="614">M17 M12 · cited circuit parameters</text>
+  <text class="caveat" x="556" y="636">generic circuit, no plant data</text>
+
+  <text class="item" x="880" y="578">D1 hands its fragmentation curve</text>
+  <text class="item" x="880" y="598">to D2: blast → crusher → mill,</text>
+  <text class="item" x="880" y="618">the pit-to-plant cost chain.</text>
+
+  <!-- ===== Band E ===== -->
+  <rect class="band" x="20" y="664" width="1160" height="136" rx="6"/>
+  <rect class="cat5" x="20" y="664" width="6" height="136"/>
+  <text class="title" x="40" y="698">E · Planning</text>
+  <text class="title" x="40" y="718">&amp; survey</text>
+  <text class="item" x="40" y="744">2 cases</text>
+  <text class="item" x="40" y="764">twin geometry story</text>
+
+  <rect class="box" x="220" y="674" width="314" height="116" rx="4"/>
+  <rect class="cat5" x="220" y="674" width="5" height="116"/>
+  <text class="title" x="234" y="698">E1 Pit shell &amp; pushbacks</text>
+  <text class="path" x="234" y="718">e1-pit-shell-pushbacks.md</text>
+  <text class="item" x="234" y="740">KPI: NPV · strip ratio · haul km, lift</text>
+  <text class="item" x="234" y="760">M18 M6 · oreblocks (MineLib optional)</text>
+  <text class="caveat" x="234" y="782">synthetic deposits by default</text>
+
+  <rect class="box" x="542" y="674" width="314" height="116" rx="4"/>
+  <rect class="cat5" x="542" y="674" width="5" height="116"/>
+  <text class="title" x="556" y="698">E2 Survey reconciliation</text>
+  <text class="path" x="556" y="718">e2-survey-reconciliation.md</text>
+  <text class="item" x="556" y="740">KPI: volume error % · excavated m³</text>
+  <text class="item" x="556" y="760">M19 M23 · 3DEP 2018 → 2023 (real)</text>
+  <text class="ok" x="556" y="782">ground truth by construction</text>
+
+  <text class="item" x="880" y="724">E1 feeds haul km and lift per period</text>
+  <text class="item" x="880" y="744">to A1 and A2; E2 measures real</text>
+  <text class="item" x="880" y="764">excavation from public DEMs.</text>
+
+  <text class="item" x="20" y="826">Stripe colour = category · italic = honesty caveat · green = measured sim-to-real or exact ground truth · status of every case: not yet run</text>
+</svg>

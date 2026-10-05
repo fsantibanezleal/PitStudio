@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 752" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Studio tool map</title>
+  <desc id="d">The 17 studio tools placed along the file-handoff chain from USD scene to physics, sensors and synthetic data, training, acceleration, encoding and the web, coloured by lane and dashed when the tool is proprietary and reference-only.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .band-label{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .h1{font:600 18px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .lane-live{fill:var(--surface-2);stroke:var(--chart-2);stroke-width:2}
+    .lane-replay{fill:var(--surface-2);stroke:var(--chart-4);stroke-width:2}
+    .lane-local{fill:var(--surface-2);stroke:var(--warning);stroke-width:2}
+    .ref-only{stroke-dasharray:6 4}
+    .hit{fill:var(--surface-2);stroke:var(--success);stroke-width:2;stroke-dasharray:6 4}
+    .tag-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .tag-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .tag-live{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-2)}
+    .tag-replay{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-4)}
+    .label-bg{fill:var(--bg);opacity:0.92}
+    .sw-live{fill:var(--chart-2)}
+    .sw-replay{fill:var(--chart-4)}
+    .sw-local{fill:var(--warning)}
+    .sw-ok{fill:var(--success)}
+
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="752"/>
+  <text x="28" y="30" class="h1">Studio tool map: 17 tools along the file-handoff chain</text>
+  <rect class="lane-live" x="600" y="16" width="28" height="14" rx="3"/>
+  <text x="634" y="28" class="item">live</text>
+  <rect class="lane-replay" x="680" y="16" width="28" height="14" rx="3"/>
+  <text x="714" y="28" class="item">precompute / replay</text>
+  <rect class="lane-local" x="862" y="16" width="28" height="14" rx="3"/>
+  <text x="896" y="28" class="item">performance local-only</text>
+  <rect class="box ref-only" x="600" y="36" width="28" height="14" rx="3"/>
+  <text x="634" y="48" class="item">dashed border = proprietary, reference-only (never redistributed)</text>
+  <rect class="band" x="28" y="130" width="148" height="480" rx="10"/>
+  <text x="40" y="150" class="band-label">1 Scene</text>
+  <rect class="band" x="194" y="130" width="148" height="480" rx="10"/>
+  <text x="206" y="150" class="band-label">2 Physics</text>
+  <rect class="band" x="360" y="130" width="148" height="480" rx="10"/>
+  <text x="372" y="150" class="band-label">3 Sensors &amp; SDG</text>
+  <rect class="band" x="526" y="130" width="148" height="480" rx="10"/>
+  <text x="538" y="150" class="band-label">4 Learn</text>
+  <rect class="band" x="692" y="130" width="148" height="480" rx="10"/>
+  <text x="704" y="150" class="band-label">5 Accelerate</text>
+  <rect class="band" x="858" y="130" width="148" height="480" rx="10"/>
+  <text x="870" y="150" class="band-label">6 Encode</text>
+  <rect class="band" x="1024" y="130" width="148" height="480" rx="10"/>
+  <text x="1036" y="150" class="band-label">7 Web</text>
+  <rect class="lane-replay" x="34" y="160" width="136" height="64" rx="8"/>
+  <text x="44" y="182" class="title">OpenUSD</text>
+  <text x="44" y="200" class="path">studio/</text>
+  <text x="44" y="218" class="item">open · replay</text>
+  <rect class="lane-local ref-only" x="34" y="234" width="136" height="82" rx="8"/>
+  <text x="44" y="256" class="title">USD Composer</text>
+  <text x="44" y="274" class="path">studio/kit/</text>
+  <text x="44" y="292" class="item">+ Explorer (Kit)</text>
+  <text x="44" y="310" class="item">ref-only</text>
+  <rect class="lane-replay" x="200" y="160" width="136" height="64" rx="8"/>
+  <text x="210" y="182" class="title">Warp</text>
+  <text x="210" y="200" class="path">studio/</text>
+  <text x="210" y="218" class="item">open · replay</text>
+  <rect class="lane-replay" x="200" y="234" width="136" height="64" rx="8"/>
+  <text x="210" y="256" class="title">Newton</text>
+  <text x="210" y="274" class="path">studio/</text>
+  <text x="210" y="292" class="item">open · replay</text>
+  <rect class="lane-replay" x="200" y="308" width="136" height="64" rx="8"/>
+  <text x="210" y="330" class="title">MuJoCo-Warp</text>
+  <text x="210" y="348" class="path">studio/</text>
+  <text x="210" y="366" class="item">open · replay</text>
+  <rect class="lane-replay ref-only" x="200" y="382" width="136" height="64" rx="8"/>
+  <text x="210" y="404" class="title">PhysX/ovphysx</text>
+  <text x="210" y="422" class="path">studio/rtx/</text>
+  <text x="210" y="440" class="item">ref-only · replay</text>
+  <rect class="lane-replay" x="200" y="456" width="136" height="64" rx="8"/>
+  <text x="210" y="478" class="title">Isaac Lab</text>
+  <text x="210" y="496" class="path">studio/isaaclab</text>
+  <text x="210" y="514" class="item">open · replay</text>
+  <rect class="lane-local ref-only" x="366" y="160" width="136" height="64" rx="8"/>
+  <text x="376" y="182" class="title">ovrtx</text>
+  <text x="376" y="200" class="path">studio/rtx/</text>
+  <text x="376" y="218" class="item">ref-only</text>
+  <rect class="lane-local ref-only" x="366" y="234" width="136" height="82" rx="8"/>
+  <text x="376" y="256" class="title">Isaac Sim</text>
+  <text x="376" y="274" class="path">studio/isaac/</text>
+  <text x="376" y="292" class="item">+ Replicator</text>
+  <text x="376" y="310" class="item">ref-only</text>
+  <rect class="lane-replay ref-only" x="366" y="326" width="136" height="82" rx="8"/>
+  <text x="376" y="348" class="title">Cosmos</text>
+  <text x="376" y="366" class="path">studio/reason/</text>
+  <text x="376" y="384" class="item">Reason 2 (2B)</text>
+  <text x="376" y="402" class="item">model licence</text>
+  <rect class="lane-replay" x="532" y="160" width="136" height="64" rx="8"/>
+  <text x="542" y="182" class="title">PyTorch</text>
+  <text x="542" y="200" class="path">pipeline/</text>
+  <text x="542" y="218" class="item">open · replay</text>
+  <rect class="lane-live" x="698" y="160" width="136" height="82" rx="8"/>
+  <text x="708" y="182" class="title">ONNX Runtime</text>
+  <text x="708" y="200" class="path">pipeline/, web</text>
+  <text x="708" y="218" class="item">+ ORT-web</text>
+  <text x="708" y="236" class="item">open · live</text>
+  <rect class="lane-replay ref-only" x="698" y="252" width="136" height="82" rx="8"/>
+  <text x="708" y="274" class="title">TensorRT</text>
+  <text x="708" y="292" class="path">pipeline/accel</text>
+  <text x="708" y="310" class="item">ref-only</text>
+  <text x="708" y="328" class="item">numbers published</text>
+  <rect class="lane-replay" x="864" y="160" width="136" height="64" rx="8"/>
+  <text x="874" y="182" class="title">NVENC/FFmpeg</text>
+  <text x="874" y="200" class="path">studio/ + ext.</text>
+  <text x="874" y="218" class="item">open (LGPL, ext.)</text>
+  <rect class="lane-live" x="1030" y="160" width="136" height="82" rx="8"/>
+  <text x="1040" y="182" class="title">three.js/R3F</text>
+  <text x="1040" y="200" class="path">web/</text>
+  <text x="1040" y="218" class="item">+ 3D Tiles</text>
+  <text x="1040" y="236" class="item">open · live</text>
+  <rect class="lane-live" x="1030" y="252" width="136" height="82" rx="8"/>
+  <text x="1040" y="274" class="title">Rapier/WebGPU</text>
+  <text x="1040" y="292" class="path">web/</text>
+  <text x="1040" y="310" class="item">+ Pyodide</text>
+  <text x="1040" y="328" class="item">open · live</text>
+  <path class="edge" d="M142,595 L228,595" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="153" y="568" width="64" height="19" rx="3"/>
+  <text x="185" y="582" class="label" text-anchor="middle">USD stage</text>
+  <path class="edge" d="M308,595 L394,595" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="306" y="568" width="89" height="19" rx="3"/>
+  <text x="351" y="582" class="label" text-anchor="middle">poses, fields</text>
+  <path class="edge" d="M474,595 L560,595" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="466" y="551" width="102" height="36" rx="3"/>
+  <text x="517" y="565" class="label" text-anchor="middle">images, labels,</text>
+  <text x="517" y="582" class="label" text-anchor="middle">clouds</text>
+  <path class="edge" d="M640,595 L726,595" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="667" y="568" width="32" height="19" rx="3"/>
+  <text x="683" y="582" class="label" text-anchor="middle">ONNX</text>
+  <path class="edge" d="M972,595 L1058,595" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="977" y="568" width="76" height="19" rx="3"/>
+  <text x="1015" y="582" class="label" text-anchor="middle">AV1 + H.264</text>
+  <path class="edge" d="M434,130 L434,106 L932,106 L932,130" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="571" y="86" width="224" height="19" rx="3"/>
+  <text x="683" y="100" class="label" text-anchor="middle">PNG/EXR frames (RTX, Kit, sensors)</text>
+  <path class="edge-accent" d="M268,130 L268,82 L1078,82 L1078,130" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="539" y="62" width="268" height="19" rx="3"/>
+  <text x="673" y="76" class="label" text-anchor="middle">replay shards, policies (ONNX → TS twins)</text>
+  <path class="edge" d="M766,610 L766,630 L1118,630 L1118,610" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="827" y="632" width="230" height="19" rx="3"/>
+  <text x="942" y="646" class="label" text-anchor="middle">ONNX models (ORT-web, ≤ 25 MB live)</text>
+  <rect class="lane-replay" x="28" y="664" width="1144" height="76" rx="8"/>
+  <text x="38" y="686" class="title">Nsight / NVML — GPU evidence for every stage above</text>
+  <text x="38" y="704" class="path">runner telemetry (NVML 1–4 Hz + NVTX) · studio profile</text>
+  <text x="38" y="722" class="item">NVML bindings are open (BSD); Nsight captures are run by the maintainer, reference-only; stages of NVIDIA runtimes keep their performance data local.</text>
+</svg>

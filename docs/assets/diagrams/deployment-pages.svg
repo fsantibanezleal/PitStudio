@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Deployment of PitStudio</title>
+  <desc id="d">The maintainer's workstation runs the studio and bakes runs with studio publish; small baked files are pushed to the repository and large ones are uploaded as draft release assets; on every push to main the pages.yml workflow builds and tests the site, copies the release assets by tag after checking their SHA-256, and deploys a static site that the visitor's browser loads tier by tier.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-hi{fill:var(--accent)}
+    .lane-local{fill:var(--warning);fill-opacity:.12;stroke:var(--warning);stroke-width:2}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-hi"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="760"/>
+  <text class="title" x="20" y="40">Deployment: a static site on GitHub Pages, large assets copied from releases at build, the studio stays local</text>
+
+  <!-- workstation band -->
+  <rect class="band" x="20" y="60" width="1160" height="200" rx="10"/>
+  <text class="title" x="36" y="84">Maintainer's workstation (local-only)</text>
+  <rect class="box" x="40" y="100" width="340" height="140" rx="8"/>
+  <text class="title" x="56" y="126">Local studio + pipeline</text>
+  <text class="path" x="56" y="148">studio/ · pipeline/ · runner</text>
+  <text class="item" x="56" y="172">recipes under the gpu0.compute lock;</text>
+  <text class="item" x="56" y="190">every run writes manifest.json</text>
+  <text class="caveat" x="56" y="222">never in CI</text>
+
+  <rect class="box" x="460" y="100" width="340" height="140" rx="8"/>
+  <text class="title" x="476" y="126">studio publish</text>
+  <text class="path" x="476" y="148">web/public/data/**</text>
+  <text class="item" x="476" y="172">bakes a run into web artefacts</text>
+  <text class="item" x="476" y="190">+ a release upload list (SHA-256)</text>
+  <text class="caveat" x="476" y="222">arrives in the build phase</text>
+
+  <rect class="lane-local" x="880" y="100" width="280" height="140" rx="8"/>
+  <text class="title" x="896" y="126">Console + studio link</text>
+  <text class="path" x="896" y="148">127.0.0.1 only</text>
+  <text class="item" x="896" y="172">FastAPI console (api/),</text>
+  <text class="item" x="896" y="190">optional Kit WebRTC link</text>
+  <text class="caveat" x="896" y="222">never in the Pages artifact</text>
+
+  <!-- GitHub band -->
+  <rect class="band" x="20" y="290" width="1160" height="220" rx="10"/>
+  <text class="title" x="36" y="314">GitHub</text>
+  <rect class="box" x="40" y="330" width="300" height="160" rx="8"/>
+  <text class="title" x="56" y="356">Repository (main)</text>
+  <text class="path" x="56" y="378">fsantibanezleal/PitStudio</text>
+  <text class="item" x="56" y="402">code, docs, baked files &lt; 10 MB,</text>
+  <text class="item" x="56" y="420">≤ 100 MB of baked files in total</text>
+  <text class="caveat" x="56" y="470">CI checks sizes on every push</text>
+
+  <rect class="box" x="400" y="330" width="260" height="160" rx="8"/>
+  <text class="title" x="416" y="356">Release assets</text>
+  <text class="path" x="416" y="378">assets-vX.YY.ZZZ</text>
+  <text class="item" x="416" y="402">draft → verify every SHA-256</text>
+  <text class="item" x="416" y="420">→ publish --latest=false;</text>
+  <text class="item" x="416" y="438">a new tag for every re-bake</text>
+  <text class="caveat" x="416" y="470">the browser never fetches these</text>
+
+  <rect class="box-accent" x="780" y="330" width="380" height="160" rx="8"/>
+  <text class="title" x="796" y="356">pages.yml (push to main)</text>
+  <text class="path" x="796" y="378">.github/workflows/pages.yml</text>
+  <text class="item" x="796" y="402">pnpm install --frozen-lockfile, check,</text>
+  <text class="item" x="796" y="420">build (BASE_PATH=/PitStudio/), E2E;</text>
+  <text class="item" x="796" y="438">copy release assets by tag (planned);</text>
+  <text class="item" x="796" y="456">deploy-pages, then smoke on 3 engines</text>
+
+  <!-- browser band -->
+  <rect class="band" x="20" y="540" width="1160" height="200" rx="10"/>
+  <text class="title" x="36" y="564">Visitor's browser</text>
+  <rect class="box" x="40" y="580" width="500" height="140" rx="8"/>
+  <text class="title" x="56" y="606">Compute tiers</text>
+  <text class="path" x="56" y="628">T1 WebGPU · T2 WASM · T0 baked</text>
+  <text class="item" x="56" y="652">the tier badge is always shown;</text>
+  <text class="item" x="56" y="670">heavy 3D, video and models load</text>
+  <text class="item" x="56" y="688">only after a user action</text>
+
+  <rect class="box" x="600" y="580" width="560" height="140" rx="8"/>
+  <text class="title" x="616" y="606">Static site</text>
+  <text class="path" x="616" y="628">fsantibanezleal.github.io/PitStudio/</text>
+  <text class="item" x="616" y="652">prerendered routes, 404.html as the SPA fallback;</text>
+  <text class="item" x="616" y="670">first view ≤ 2 MB, whole site ≤ 500 MB;</text>
+  <text class="item" x="616" y="688">same-origin requests only</text>
+  <text class="caveat" x="616" y="708">demo access gate: not a security boundary</text>
+
+  <!-- edges -->
+  <path class="edge" d="M380,170 H456" marker-end="url(#arrow)"/>
+  <text class="label" x="420" y="162" text-anchor="middle">manifests</text>
+
+  <path class="edge-accent" d="M520,240 V282 H190 V326" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="200" y="276">git push: baked files &lt; 10 MB</text>
+
+  <path class="edge-accent" d="M640,240 V326" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="650" y="300">gh release upload (draft)</text>
+
+  <path class="edge-accent" d="M660,410 H776" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="718" y="400" text-anchor="middle">fetch by tag,</text>
+  <text class="label" x="718" y="428" text-anchor="middle">SHA-256 checked</text>
+
+  <path class="edge-accent" d="M190,490 V525 H880 V494" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="200" y="556">push to main triggers the build</text>
+
+  <path class="edge-accent" d="M1060,490 V576" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="1070" y="530">Pages artifact</text>
+</svg>

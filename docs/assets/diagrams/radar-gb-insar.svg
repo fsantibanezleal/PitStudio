@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Ground-based interferometric slope radar: line-of-sight geometry, phase and wrapping</title>
+  <desc id="d">A radar on the pit rim views a slope pixel; the pixel's displacement is projected on the line of sight, converted to interferometric phase, wrapped into the interval from minus pi to pi, and unwrapped before the inverse-velocity time-of-failure forecast.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .edge-dash{stroke:var(--fg-muted);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+    .lane-live{fill:none;stroke:var(--chart-2);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-replay{fill:none;stroke:var(--chart-4);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-local{fill:none;stroke:var(--warning);stroke-width:1.8;stroke-dasharray:7 4}
+    .key-live{fill:var(--chart-2)}
+    .key-replay{fill:var(--chart-4)}
+    .key-local{fill:var(--warning)}
+    .ok{fill:var(--success)}
+    .bad{fill:var(--danger)}
+    .warn{fill:var(--warning)}
+    .ok-stroke{stroke:var(--success);stroke-width:2;fill:none}
+    .bad-stroke{stroke:var(--danger);stroke-width:2;fill:none}
+    .cut{stroke:var(--danger);stroke-width:2.4;stroke-dasharray:8 5;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.2;fill:none}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .series{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .series-2{stroke:var(--chart-2);stroke-width:2;stroke-dasharray:6 4;fill:none}
+    .dust{fill:var(--surface-2);stroke:var(--warning);stroke-width:1.5;stroke-dasharray:4 3}
+    .solid{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .ore{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .node{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .node-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .region{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 4}
+    .label-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .label-bad{font:600 13px Inter,system-ui,sans-serif;fill:var(--danger)}
+    .label-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label-accent{font:600 13px Inter,system-ui,sans-serif;fill:var(--accent)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1100" height="620"/>
+  <rect class="band" x="16" y="44" width="560" height="380" rx="10"/>
+  <text class="label" x="30" y="36">Geometry (analytical model, case C1)</text>
+  <rect class="band" x="596" y="44" width="488" height="260" rx="10"/>
+  <text class="label" x="610" y="36">Wrapped interferometric phase</text>
+  <rect class="band" x="596" y="324" width="488" height="280" rx="10"/>
+  <text class="label" x="610" y="316">From displacement to forecast</text>
+  <rect class="band" x="16" y="444" width="560" height="166" rx="10"/>
+  <text class="label" x="30" y="436">Phase model</text>
+  <path class="solid" d="M30,170 L150,170 L150,400 L30,400 Z"/>
+  <path class="solid" d="M330,400 L460,110 L560,110 L560,400 Z"/>
+  <path class="axis" d="M150,400 L330,400"/>
+  <rect class="node-accent" x="70" y="142" width="44" height="26" rx="4"/>
+  <text class="label" x="46" y="132">GB-InSAR on the rim</text>
+  <text class="item" x="470" y="140">pit wall</text>
+  <path class="edge-accent" d="M114,155 L387.463,252.318" marker-end="url(#arrow-accent)"/>
+  <text class="label-accent" x="200" y="176">line of sight ê</text>
+  <circle class="ore" cx="395.0" cy="255.0" r="7"/>
+  <text class="label" x="408" y="250">slope pixel</text>
+  <path class="edge" d="M395,255 L331,303" marker-end="url(#arrow)"/>
+  <text class="label" x="323" y="309" text-anchor="end">displacement u</text>
+  <path class="edge-dash" d="M331.0,303.0 L353.4,240.2"/>
+  <path class="series" d="M395.0,255.0 L353.4,240.2"/>
+  <text class="label-accent" x="190" y="250">d_LOS = |u| cos ψ</text>
+  <text class="label-accent" x="190" y="268">(here ψ ≈ 56°)</text>
+  <text class="item" x="166" y="352">the radar sees only the projection on ê;</text>
+  <text class="item" x="166" y="370">at ψ = 90° it sees nothing</text>
+  <text class="item" x="190" y="394">pit floor</text>
+  <rect class="box" x="30" y="456" width="532" height="146" rx="8"/>
+  <text class="title" x="44" y="480">Phase and wrapping</text>
+  <text class="path" x="44" y="500">minephys.geotech (LOS model)</text>
+  <text class="item" x="44" y="522">Δφ = (4π / λ) Δd_LOS + Δφ_atm + Δφ_noise</text>
+  <text class="item" x="44" y="542">measured phase only modulo 2π, in (−π, π]</text>
+  <text class="item" x="44" y="562">unambiguous only if |Δd_LOS| &lt; λ / 4 between scans</text>
+  <text class="caveat" x="44" y="590">RTX radar has no phase output: analytical model</text>
+  <path class="grid" d="M650,110 L1060,110 M650,250 L1060,250"/>
+  <path class="axis" d="M650,180 L1060,180 M650,262 L650,98"/>
+  <text class="item" x="642" y="115" text-anchor="end">π</text>
+  <text class="item" x="642" y="185" text-anchor="end">0</text>
+  <text class="item" x="642" y="255" text-anchor="end">−π</text>
+  <text class="label" x="1060" y="280" text-anchor="end">time →</text>
+  <text class="label" x="654" y="76">wrapped phase of accelerating creep, φ = 6π t²</text>
+  <path class="series" d="M650.0,180.0 L651.7,180.0 L653.4,180.0 L655.1,179.9 L656.8,179.9 L658.5,179.8 L660.2,179.7 L662.0,179.6 L663.7,179.5 L665.4,179.4 L667.1,179.3 L668.8,179.1 L670.5,178.9 L672.2,178.8 L673.9,178.6 L675.6,178.4 L677.3,178.1 L679.0,177.9 L680.8,177.6 L682.5,177.4 L684.2,177.1 L685.9,176.8 L687.6,176.5 L689.3,176.1 L691.0,175.8 L692.7,175.4 L694.4,175.1 L696.1,174.7 L697.8,174.3 L699.5,173.9 L701.2,173.4 L703.0,173.0 L704.7,172.5 L706.4,172.1 L708.1,171.6 L709.8,171.1 L711.5,170.6 L713.2,170.0 L714.9,169.5 L716.6,168.9 L718.3,168.3 L720.0,167.7 L721.8,167.1 L723.5,166.5 L725.2,165.9 L726.9,165.2 L728.6,164.6 L730.3,163.9 L732.0,163.2 L733.7,162.5 L735.4,161.8 L737.1,161.0 L738.8,160.3 L740.5,159.5 L742.2,158.7 L744.0,157.9 L745.7,157.1 L747.4,156.3 L749.1,155.5 L750.8,154.6 L752.5,153.8 L754.2,152.9 L755.9,152.0 L757.6,151.1 L759.3,150.1 L761.0,149.2 L762.8,148.2 L764.5,147.3 L766.2,146.3 L767.9,145.3 L769.6,144.3 L771.3,143.2 L773.0,142.2 L774.7,141.1 L776.4,140.1 L778.1,139.0 L779.8,137.9 L781.5,136.8 L783.2,135.6 L785.0,134.5 L786.7,133.3 L788.4,132.2 L790.1,131.0 L791.8,129.8 L793.5,128.6 L795.2,127.3 L796.9,126.1 L798.6,124.8 L800.3,123.5 L802.0,122.2 L803.8,120.9 L805.5,119.6 L807.2,118.3 L808.9,116.9 L810.6,115.6 L812.3,114.2 L814.0,112.8 L815.7,111.4"/>
+  <path class="series" d="M817.4,250.0 L819.1,248.5 L820.8,247.1 L822.5,245.6 L824.2,244.1 L826.0,242.6 L827.7,241.1 L829.4,239.6 L831.1,238.1 L832.8,236.5 L834.5,234.9 L836.2,233.4 L837.9,231.8 L839.6,230.2 L841.3,228.5 L843.0,226.9 L844.8,225.2 L846.5,223.6 L848.2,221.9 L849.9,220.2 L851.6,218.5 L853.3,216.7 L855.0,215.0 L856.7,213.2 L858.4,211.5 L860.1,209.7 L861.8,207.9 L863.5,206.1 L865.2,204.2 L867.0,202.4 L868.7,200.5 L870.4,198.7 L872.1,196.8 L873.8,194.9 L875.5,192.9 L877.2,191.0 L878.9,189.1 L880.6,187.1 L882.3,185.1 L884.0,183.1 L885.8,181.1 L887.5,179.1 L889.2,177.1 L890.9,175.0 L892.6,173.0 L894.3,170.9 L896.0,168.8 L897.7,166.7 L899.4,164.6 L901.1,162.4 L902.8,160.3 L904.5,158.1 L906.2,155.9 L908.0,153.7 L909.7,151.5 L911.4,149.3 L913.1,147.1 L914.8,144.8 L916.5,142.6 L918.2,140.3 L919.9,138.0 L921.6,135.7 L923.3,133.3 L925.0,131.0 L926.8,128.6 L928.5,126.3 L930.2,123.9 L931.9,121.5 L933.6,119.1 L935.3,116.6 L937.0,114.2 L938.7,111.7"/>
+  <path class="series" d="M940.4,249.3 L942.1,246.8 L943.8,244.3 L945.5,241.8 L947.2,239.2 L949.0,236.7 L950.7,234.1 L952.4,231.6 L954.1,229.0 L955.8,226.4 L957.5,223.8 L959.2,221.1 L960.9,218.5 L962.6,215.8 L964.3,213.1 L966.0,210.4 L967.8,207.7 L969.5,205.0 L971.2,202.3 L972.9,199.5 L974.6,196.8 L976.3,194.0 L978.0,191.2 L979.7,188.4 L981.4,185.6 L983.1,182.7 L984.8,179.9 L986.5,177.0 L988.2,174.1 L990.0,171.2 L991.7,168.3 L993.4,165.4 L995.1,162.5 L996.8,159.5 L998.5,156.6 L1000.2,153.6 L1001.9,150.6 L1003.6,147.6 L1005.3,144.5 L1007.0,141.5 L1008.8,138.4 L1010.5,135.4 L1012.2,132.3 L1013.9,129.2 L1015.6,126.1 L1017.3,122.9 L1019.0,119.8 L1020.7,116.6 L1022.4,113.5 L1024.1,110.3"/>
+  <path class="series" d="M1025.8,247.1 L1027.5,243.9 L1029.2,240.6 L1031.0,237.4 L1032.7,234.1 L1034.4,230.9 L1036.1,227.6 L1037.8,224.3 L1039.5,221.0 L1041.2,217.6 L1042.9,214.3 L1044.6,210.9 L1046.3,207.5 L1048.0,204.1 L1049.8,200.7 L1051.5,197.3 L1053.2,193.9 L1054.9,190.4 L1056.6,187.0 L1058.3,183.5 L1060.0,180.0"/>
+  <text class="label-warn" x="900" y="290" text-anchor="middle">each jump of 2π = λ/2 of motion</text>
+  <rect class="box" x="610" y="340" width="220" height="112" rx="8"/>
+  <text class="title" x="624" y="364">Voight creep field</text>
+  <text class="path" x="624" y="384">synthetic, known t_f</text>
+  <text class="item" x="624" y="406">accelerating creep</text>
+  <text class="item" x="624" y="426">regressive variants</text>
+  <rect class="box" x="850" y="340" width="220" height="112" rx="8"/>
+  <text class="title" x="864" y="364">LOS series + noise</text>
+  <text class="path" x="864" y="384">projection on ê</text>
+  <text class="item" x="864" y="406">atmospheric + phase noise</text>
+  <text class="item" x="864" y="426">matched to de Wit series</text>
+  <rect class="box-accent" x="610" y="474" width="460" height="118" rx="8"/>
+  <text class="title" x="624" y="498">Unwrap + inverse velocity</text>
+  <text class="path" x="624" y="518">C1 forecasters (M14)</text>
+  <text class="item" x="624" y="540">1/v → 0 at failure (Voight α ≈ 2); TCN, PatchTST, Chronos</text>
+  <text class="item" x="624" y="560">HCN 2013: 2 in/day, one scan per 6 min → 0.21 mm/scan ≪ λ/4</text>
+  <text class="caveat" x="624" y="580">real de Wit series = one event: descriptive only</text>
+  <path class="edge" d="M830,396 L848,396" marker-end="url(#arrow)"/>
+  <path class="edge" d="M960,452 L960,472" marker-end="url(#arrow)"/>
+  <text class="label" x="968" y="466">LOS series</text>
+  <path class="edge" d="M578,210 L598,210" marker-end="url(#arrow)"/>
+  <text class="label" x="600" y="232">Δφ(t)</text>
+  <path class="edge" d="M562,540 L608,540" marker-end="url(#arrow)"/>
+  <text class="label" x="574" y="532">Δφ</text>
+</svg>

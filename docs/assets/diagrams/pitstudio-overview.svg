@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">PitStudio overview: four parts, one shared core</title>
+  <desc id="d">The local studio, the static web app, the knowledge base and the scalable base all depend on one shared core (the minephys engine, the slim pitstudio package and the JSON Schema contracts); the studio hands manifests and baked artefacts to the web app.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-hi{fill:var(--accent)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-hi"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1100" height="680"/>
+  <text class="title" x="20" y="40">PitStudio: four parts that share one engine, one data contract and one manifest format</text>
+
+  <!-- 1 Local studio -->
+  <rect class="box" x="20" y="80" width="310" height="240" rx="8"/>
+  <text class="title" x="36" y="108">1 · Local studio</text>
+  <text class="path" x="36" y="132">studio/ · pipeline/ · api/</text>
+  <text class="path" x="36" y="150">src/pitstudio/runner/</text>
+  <text class="item" x="36" y="176">isolated uv envs: 3.14 open stack,</text>
+  <text class="item" x="36" y="194">3.12 for the NVIDIA runtimes</text>
+  <text class="item" x="36" y="218">runner: DAG, CAS cache, GPU locks,</text>
+  <text class="item" x="36" y="236">guards, NVML telemetry, resume</text>
+  <text class="item" x="36" y="260">loopback console on 127.0.0.1</text>
+  <text class="caveat" x="36" y="300">local-only · never in CI</text>
+
+  <!-- 2 Static web app -->
+  <rect class="box" x="770" y="80" width="310" height="240" rx="8"/>
+  <text class="title" x="786" y="108">2 · Static web app</text>
+  <text class="path" x="786" y="132">web/ (React Router 8)</text>
+  <text class="path" x="786" y="150">…github.io/PitStudio/</text>
+  <text class="item" x="786" y="176">3D pit + 12 case workbenches</text>
+  <text class="item" x="786" y="194">live: TS workers, WGSL, ORT-web,</text>
+  <text class="item" x="786" y="212">Pyodide; replays of studio runs</text>
+  <text class="item" x="786" y="236">/studio tool map + GPU evidence</text>
+  <text class="item" x="786" y="254">theory, results, knowledge</text>
+  <text class="caveat" x="786" y="300">probes localhost only on opt-in</text>
+
+  <!-- Shared core -->
+  <rect class="box-accent" x="430" y="190" width="240" height="260" rx="8"/>
+  <text class="title" x="446" y="216">Shared core</text>
+  <text class="path" x="446" y="240">minephys</text>
+  <text class="path" x="446" y="258">src/pitstudio/</text>
+  <text class="path" x="446" y="276">contracts/*.schema.json</text>
+  <text class="item" x="446" y="302">one engine: numpy models</text>
+  <text class="item" x="446" y="320">+ TS / WGSL twins</text>
+  <text class="item" x="446" y="344">JSON Schema 2020-12 →</text>
+  <text class="item" x="446" y="362">Pydantic + TS types</text>
+  <text class="item" x="446" y="386">one manifest format for</text>
+  <text class="item" x="446" y="404">runs and web assets</text>
+  <text class="caveat" x="446" y="432">types are generated</text>
+
+  <!-- 3 Knowledge base -->
+  <rect class="box" x="20" y="430" width="310" height="190" rx="8"/>
+  <text class="title" x="36" y="458">3 · Knowledge base</text>
+  <text class="path" x="36" y="482">docs/</text>
+  <text class="path" x="36" y="500">minephys/knowledge/*.yaml</text>
+  <text class="item" x="36" y="530">cited equations + parameter tables</text>
+  <text class="item" x="36" y="548">bibliography, glossary EN/ES</text>
+  <text class="item" x="36" y="566">catalogue pages generated into docs/</text>
+  <text class="caveat" x="36" y="600">UNVERIFIED rows are flagged</text>
+
+  <!-- 4 Scalable base -->
+  <rect class="box" x="770" y="430" width="310" height="190" rx="8"/>
+  <text class="title" x="786" y="458">4 · Scalable base</text>
+  <text class="path" x="786" y="482">studio/recipes/_profiles/</text>
+  <text class="path" x="786" y="500">studio/containers/Dockerfile.open</text>
+  <text class="item" x="786" y="530">same recipes + locks on a Linux GPU host</text>
+  <text class="item" x="786" y="548">CI plans every recipe (linux-gpu</text>
+  <text class="item" x="786" y="566">profile) against a fake GPU backend</text>
+  <text class="caveat" x="786" y="600">only the machine profile is laptop-specific</text>
+
+  <!-- edges -->
+  <path class="edge-accent" d="M330,110 H766" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="550" y="100" text-anchor="middle">manifest.json + baked artefacts</text>
+  <text class="label" x="550" y="130" text-anchor="middle">tiles · shards · video · ONNX</text>
+
+  <path class="edge" d="M430,252 H334" marker-end="url(#arrow)"/>
+  <text class="label" x="381" y="228" text-anchor="middle">minephys +</text>
+  <text class="label" x="381" y="244" text-anchor="middle">contracts</text>
+
+  <path class="edge" d="M670,252 H766" marker-end="url(#arrow)"/>
+  <text class="label" x="719" y="228" text-anchor="middle">TS types +</text>
+  <text class="label" x="719" y="244" text-anchor="middle">Pyodide wheel</text>
+
+  <path class="edge" d="M330,520 H500 V454" marker-end="url(#arrow)"/>
+  <text class="label" x="345" y="512">cited tables + bib</text>
+
+  <path class="edge" d="M600,450 V520 H766" marker-end="url(#arrow)"/>
+  <text class="label" x="612" y="512">same recipes + locks</text>
+
+  <text class="caveat" x="20" y="662">Not a live digital twin · not design or regulatory software · NVIDIA tools are named nominatively and never redistributed</text>
+</svg>

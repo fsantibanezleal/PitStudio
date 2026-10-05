@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 822" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Example recipe DAG for case C2, tailings breach run-out</title>
+  <desc id="d">An illustrative recipe for case C2 as a stage graph across the pipeline, studio, Kit and runner lanes, showing which stages are cache hits, which take the GPU or encoder lock and which files move between them.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .band-label{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .h1{font:600 18px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .lane-live{fill:var(--surface-2);stroke:var(--chart-2);stroke-width:2}
+    .lane-replay{fill:var(--surface-2);stroke:var(--chart-4);stroke-width:2}
+    .lane-local{fill:var(--surface-2);stroke:var(--warning);stroke-width:2}
+    .ref-only{stroke-dasharray:6 4}
+    .hit{fill:var(--surface-2);stroke:var(--success);stroke-width:2;stroke-dasharray:6 4}
+    .tag-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .tag-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .tag-live{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-2)}
+    .tag-replay{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-4)}
+    .label-bg{fill:var(--bg);opacity:0.92}
+    .sw-live{fill:var(--chart-2)}
+    .sw-replay{fill:var(--chart-4)}
+    .sw-local{fill:var(--warning)}
+    .sw-ok{fill:var(--success)}
+
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="822"/>
+  <text x="30" y="30" class="h1">Example recipe DAG — case C2 tailings breach (illustrative; the real recipe is written in the build phase)</text>
+  <rect class="hit" x="752" y="40" width="34" height="16" rx="3"/>
+  <text x="794" y="53" class="item">cache hit (materialised from the store)</text>
+  <rect class="box" x="752" y="62" width="34" height="16" rx="3"/>
+  <text x="794" y="75" class="item">runs · coloured tag = GPU or encoder lock taken</text>
+  <rect class="band" x="20" y="86" width="282" height="722" rx="10"/>
+  <text x="32" y="106" class="band-label">pipeline (3.14)</text>
+  <rect class="band" x="310" y="86" width="282" height="722" rx="10"/>
+  <text x="322" y="106" class="band-label">studio (3.14)</text>
+  <rect class="band" x="600" y="86" width="282" height="722" rx="10"/>
+  <text x="612" y="106" class="band-label">studio/kit (Kit, 3.12)</text>
+  <rect class="band" x="890" y="86" width="282" height="722" rx="10"/>
+  <text x="902" y="106" class="band-label">runner (root, 3.14)</text>
+  <rect class="hit" x="32" y="112" width="240" height="42" rx="6"/>
+  <text x="42" y="129" class="path">s00_download</text>
+  <text x="42" y="147" class="item">3DEP DEM tiles, SHA-256 pinned</text>
+  <text x="264" y="129" class="tag-ok" text-anchor="end">HIT</text>
+  <rect class="hit" x="322" y="176" width="240" height="42" rx="6"/>
+  <text x="332" y="193" class="path">st10_terrain</text>
+  <text x="332" y="211" class="item">AOI crop → DEM grid → RTIN LODs</text>
+  <text x="554" y="193" class="tag-ok" text-anchor="end">HIT</text>
+  <rect class="hit" x="322" y="240" width="240" height="42" rx="6"/>
+  <text x="332" y="257" class="path">st20_pit_design</text>
+  <text x="332" y="275" class="item">shells, benches, ramps, carve</text>
+  <text x="554" y="257" class="tag-ok" text-anchor="end">HIT</text>
+  <rect class="box" x="322" y="304" width="240" height="42" rx="6"/>
+  <text x="332" y="321" class="path">st40_compose</text>
+  <text x="332" y="339" class="item">root.usda + dam/breach variants</text>
+  <rect class="box" x="322" y="368" width="240" height="42" rx="6"/>
+  <text x="332" y="385" class="path">st45_validate</text>
+  <text x="332" y="403" class="item">validators + build-twice hash</text>
+  <rect class="box" x="322" y="432" width="240" height="42" rx="6"/>
+  <text x="332" y="449" class="path">st50_physics</text>
+  <text x="332" y="467" class="item">Warp shallow water (Bingham)</text>
+  <text x="554" y="449" class="tag-warn" text-anchor="end">gpu0.compute</text>
+  <rect class="box" x="32" y="496" width="240" height="42" rx="6"/>
+  <text x="42" y="513" class="path">s10_preprocess</text>
+  <text x="42" y="531" class="item">split train / held-out terrains</text>
+  <rect class="box" x="612" y="496" width="240" height="42" rx="6"/>
+  <text x="622" y="513" class="path">st58_kit_capture</text>
+  <text x="622" y="531" class="item">path-traced waypoint frames</text>
+  <text x="844" y="513" class="tag-warn" text-anchor="end">gpu0.compute</text>
+  <rect class="box" x="32" y="560" width="240" height="42" rx="6"/>
+  <text x="42" y="577" class="path">s30_train</text>
+  <text x="42" y="595" class="item">FNO-2D surrogate</text>
+  <text x="264" y="577" class="tag-warn" text-anchor="end">gpu0.compute</text>
+  <rect class="box" x="322" y="560" width="240" height="42" rx="6"/>
+  <text x="332" y="577" class="path">st56_encode</text>
+  <text x="332" y="595" class="item">AV1 1080p + H.264 720p, VMAF</text>
+  <text x="554" y="577" class="tag-warn" text-anchor="end">gpu0.nvenc</text>
+  <rect class="box" x="32" y="624" width="240" height="42" rx="6"/>
+  <text x="42" y="641" class="path">s50_evaluate</text>
+  <text x="42" y="659" class="item">rel. L2 vs solver, held-out</text>
+  <rect class="box" x="32" y="688" width="240" height="42" rx="6"/>
+  <text x="42" y="705" class="path">s60_export</text>
+  <text x="42" y="723" class="item">ONNX + parity + replay shards</text>
+  <rect class="box" x="902" y="752" width="240" height="42" rx="6"/>
+  <text x="912" y="769" class="path">studio publish</text>
+  <text x="912" y="787" class="item">web artefacts + run card</text>
+  <path class="edge" d="M370,218 L370,240" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="375" y="220" width="83" height="19" rx="3"/>
+  <text x="378" y="234" class="label">terrain mesh</text>
+  <path class="edge" d="M370,282 L370,304" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="375" y="284" width="96" height="19" rx="3"/>
+  <text x="378" y="298" class="label">design strings</text>
+  <path class="edge" d="M370,346 L370,368" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="375" y="348" width="64" height="19" rx="3"/>
+  <text x="378" y="362" class="label">root.usda</text>
+  <path class="edge" d="M370,410 L370,432" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="375" y="412" width="102" height="19" rx="3"/>
+  <text x="378" y="426" class="label">validated stage</text>
+  <path class="edge" d="M80,538 L80,560" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="85" y="540" width="76" height="19" rx="3"/>
+  <text x="88" y="554" class="label">Zarr shards</text>
+  <path class="edge" d="M80,602 L80,624" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="85" y="604" width="70" height="19" rx="3"/>
+  <text x="88" y="618" class="label">checkpoint</text>
+  <path class="edge" d="M80,666 L80,688" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="85" y="668" width="96" height="19" rx="3"/>
+  <text x="88" y="682" class="label">accepted model</text>
+  <path class="edge" d="M272,133 L290,133 L290,197 L322,197" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="293" y="154" width="64" height="19" rx="3"/>
+  <text x="296" y="168" class="label">DEM tiles</text>
+  <path class="edge" d="M322,453 L300,453 L300,517 L272,517" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="178" y="472" width="121" height="19" rx="3"/>
+  <text x="296" y="486" class="label" text-anchor="end">flow fields (Zarr)</text>
+  <path class="edge-accent" d="M562,453 L580,453 L580,517 L612,517" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="585" y="472" width="64" height="19" rx="3"/>
+  <text x="588" y="486" class="label">flow.usda</text>
+  <path class="edge-accent" d="M612,531 L586,531 L586,581 L562,581" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="591" y="560" width="96" height="19" rx="3"/>
+  <text x="594" y="574" class="label">PNG/EXR frames</text>
+  <path class="edge" d="M272,709 L880,709 L880,773 L902,773" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="515" y="689" width="89" height="19" rx="3"/>
+  <text x="560" y="703" class="label" text-anchor="middle">ONNX + shards</text>
+  <path class="edge-accent" d="M442,602 L442,640 L1000,640 L1000,752" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="640" y="620" width="160" height="19" rx="3"/>
+  <text x="720" y="634" class="label" text-anchor="middle">AV1 + H.264 pair ≤ 25 MB</text>
+</svg>

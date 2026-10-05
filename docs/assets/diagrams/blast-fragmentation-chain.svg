@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Blast fragmentation chain: inputs to Kuz-Ram, Swebrec, outputs, vibration and flyrock</title>
+  <desc id="d">Rock, explosive and pattern inputs feed the Kuz-Ram mean size and the uniformity index, which set the Swebrec passing curve; the curve gives P80, oversize and fines, while the same inputs drive the vibration (PPV) and flyrock models; numbers are an illustrative worked example.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .s1{stroke:var(--chart-1);stroke-width:2;fill:none}
+    .s3{stroke:var(--chart-3);stroke-width:2;fill:none}
+    .dash{stroke-dasharray:6 4}
+    .plot{fill:var(--bg);stroke:none}
+    .mark{fill:var(--fg-muted);stroke:var(--bg);stroke-width:2}
+    .ah-acc{fill:var(--accent)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-acc"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1100" height="600"/>
+
+  <!-- Inputs -->
+  <rect class="box" x="30" y="40" width="230" height="260" rx="8"/>
+  <text class="title" x="44" y="64">Inputs</text>
+  <text class="path" x="44" y="84">minephys.blasting</text>
+  <text class="item" x="44" y="106">rock factor A (RMD, JF, RDI, HF)*</text>
+  <text class="item" x="44" y="124">explosive RWS (ANFO = 100), ρ_e</text>
+  <text class="item" x="44" y="142">pattern B, S, H; hole d; L_c</text>
+  <text class="item" x="44" y="160">drilling deviation W</text>
+  <text class="label" x="44" y="184">Q = ρ_e · π/4 · d² · L_c</text>
+  <text class="item" x="44" y="208">illustrative: B 6, S 7, H 12 m,</text>
+  <text class="item" x="44" y="226">d 250 mm, L_c 7.2 m,</text>
+  <text class="item" x="44" y="244">ρ_e 850 kg/m³ → Q ≈ 300 kg</text>
+  <text class="caveat" x="44" y="284">*A constants UNVERIFIED</text>
+
+  <!-- Kuz-Ram -->
+  <rect class="box-accent" x="300" y="40" width="300" height="160" rx="8"/>
+  <text class="title" x="314" y="64">Kuz-Ram mean size</text>
+  <text class="path" x="314" y="84">minephys.blasting</text>
+  <text class="item" x="314" y="106">K = Q / (B S H) ≈ 0.596 kg/m³</text>
+  <text class="label" x="314" y="128">x50 = A K^−0.8 Q^1/6 (115/RWS)^19/30</text>
+  <text class="item" x="314" y="150">A = 7 (illustrative) → x50 ≈ 29.9 cm</text>
+  <text class="caveat" x="314" y="184">x50 in cm, K in kg/m³, Q in kg</text>
+
+  <!-- n and b -->
+  <rect class="box-accent" x="640" y="40" width="430" height="160" rx="8"/>
+  <text class="title" x="654" y="64">Uniformity n → Swebrec undulation b</text>
+  <text class="path" x="654" y="84">minephys.blasting</text>
+  <text class="item" x="654" y="106">n = (2.2 − 14B/d)·√((1 + S/B)/2)·(1 − W/B)·(…)^0.1·L/H*</text>
+  <text class="item" x="654" y="126">illustrative W 0.3 m → n ≈ 1.12</text>
+  <text class="label" x="654" y="148">b = 2 ln 2 · ln(xmax/x50) · n ≈ 2.49  (xmax 1.5 m)</text>
+  <text class="caveat" x="654" y="184">*Cunningham form; transcription UNVERIFIED</text>
+
+  <!-- Chart -->
+  <rect class="box" x="300" y="250" width="490" height="320" rx="8"/>
+  <text class="title" x="314" y="274">Passing curves P(x), KCO chain</text>
+  <text class="path" x="560" y="274">minephys.blasting</text>
+  <rect class="plot" x="360" y="300" width="410" height="220"/>
+  <line class="grid" x1="360" y1="410" x2="770" y2="410"/>
+  <line class="grid" x1="360" y1="300" x2="770" y2="300"/>
+  <line class="grid" x1="491.7" y1="300" x2="491.7" y2="520"/>
+  <line class="edge-accent dash" x1="736.8" y1="300" x2="736.8" y2="520"/>
+  <line class="axis" x1="360" y1="520" x2="770" y2="520"/>
+  <line class="axis" x1="360" y1="300" x2="360" y2="520"/>
+  <text class="item" x="352" y="524" text-anchor="end">0</text>
+  <text class="item" x="352" y="414" text-anchor="end">50</text>
+  <text class="item" x="352" y="304" text-anchor="end">100</text>
+  <text class="item" x="360" y="538" text-anchor="middle">0.01</text>
+  <text class="item" x="491.7" y="538" text-anchor="middle">0.05</text>
+  <text class="item" x="548.4" y="538" text-anchor="middle">0.1</text>
+  <text class="item" x="736.8" y="538" text-anchor="middle">1</text>
+  <text class="label" x="565" y="558" text-anchor="middle">fragment size x (m, log scale)</text>
+  <text class="label" x="0" y="0" transform="translate(326,410) rotate(-90)" text-anchor="middle">passing P (%)</text>
+  <polyline class="s3 dash" points="360.0,516.6 371.7,516.0 383.4,515.3 395.1,514.5 406.9,513.6 418.6,512.5 430.3,511.2 442.0,509.8 453.7,508.0 465.4,506.0 477.1,503.7 488.9,501.0 500.6,497.9 512.3,494.3 524.0,490.1 535.7,485.4 547.4,479.9 559.1,473.8 570.9,466.8 582.6,459.0 594.3,450.3 606.0,440.7 617.7,430.2 629.4,418.9 641.1,406.9 652.9,394.3 664.6,381.4 676.3,368.5 688.0,356.0 699.7,344.2 711.4,333.4 723.1,324.1 734.9,316.4 746.6,310.5 758.3,306.2 770.0,303.3"/>
+  <polyline class="s1" points="360.0,507.7 371.7,506.9 383.4,505.9 395.1,504.9 406.9,503.7 418.6,502.4 430.3,501.0 442.0,499.5 453.7,497.7 465.4,495.7 477.1,493.5 488.9,491.1 500.6,488.3 512.3,485.2 524.0,481.7 535.7,477.6 547.4,473.1 559.1,467.9 570.9,462.1 582.6,455.4 594.3,447.8 606.0,439.2 617.7,429.6 629.4,418.8 641.1,406.9 652.9,393.9 664.6,380.1 676.3,365.8 688.0,351.5 699.7,337.9 711.4,325.7 723.1,315.5 734.9,307.8 746.6,302.9 758.3,300.5 770.0,300.0"/>
+  <circle class="mark" cx="638.1" cy="410" r="5"/>
+  <text class="label" x="646" y="428">x50</text>
+  <line class="s1" x1="372" y1="320" x2="400" y2="320"/>
+  <text class="label" x="406" y="324">Swebrec (b ≈ 2.49)</text>
+  <line class="s3 dash" x1="372" y1="342" x2="400" y2="342"/>
+  <text class="label" x="406" y="346">Rosin–Rammler (n ≈ 1.12)</text>
+  <text class="item" x="730" y="490" text-anchor="end">1 m oversize limit</text>
+  <text class="item" x="498" y="378">5 cm fines</text>
+
+  <!-- Outputs -->
+  <rect class="box" x="830" y="250" width="240" height="320" rx="8"/>
+  <text class="title" x="844" y="274">Outputs (illustrative)</text>
+  <text class="path" x="844" y="294">minephys.blasting</text>
+  <text class="label" x="844" y="320">x80 ≈ 0.60 m (Swebrec)</text>
+  <text class="item" x="844" y="338">x80 ≈ 0.64 m (Rosin–Rammler)</text>
+  <text class="label" x="844" y="364">oversize &gt; 1 m: 3.1 %</text>
+  <text class="item" x="844" y="382">Rosin–Rammler: 7.0 %</text>
+  <text class="label" x="844" y="408">fines &lt; 5 cm: 13.4 %</text>
+  <text class="item" x="844" y="426">Rosin–Rammler: 9.0 %</text>
+  <text class="item" x="844" y="456">→ D2 mine-to-mill (F80, fines)</text>
+  <text class="item" x="844" y="474">→ M11 image PSD vs this curve</text>
+  <text class="caveat" x="844" y="506">regressions: A, b and n</text>
+  <text class="caveat" x="844" y="524">are site-specific</text>
+
+  <!-- PPV and flyrock -->
+  <rect class="box" x="70" y="340" width="190" height="100" rx="8"/>
+  <text class="title" x="84" y="364">Vibration (PPV)</text>
+  <text class="path" x="84" y="384">minephys.blasting</text>
+  <text class="label" x="84" y="406">PPV = K (D/√W)^−β</text>
+  <text class="item" x="84" y="426">K, β fitted per site</text>
+
+  <rect class="box" x="70" y="460" width="190" height="110" rx="8"/>
+  <text class="title" x="84" y="484">Flyrock range</text>
+  <text class="path" x="84" y="504">minephys.blasting</text>
+  <text class="item" x="84" y="524">ballistics with drag</text>
+  <text class="label" x="84" y="542">R_vac = v₀² sin 2θ₀ / g</text>
+  <text class="caveat" x="84" y="560">40 m/s, 45°: 163 m</text>
+
+  <!-- edges -->
+  <line class="edge-accent" x1="260" y1="120" x2="298" y2="120" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="279" y="112" text-anchor="middle">K, Q</text>
+  <line class="edge-accent" x1="600" y1="120" x2="638" y2="120" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="619" y="112" text-anchor="middle">x50</text>
+  <line class="edge-accent" x1="700" y1="200" x2="700" y2="248" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="708" y="230">x50, xmax, b</text>
+  <line class="edge" x1="790" y1="410" x2="828" y2="410" marker-end="url(#arrow)"/>
+  <text class="label" x="809" y="402" text-anchor="middle">P(x)</text>
+  <line class="edge" x1="165" y1="300" x2="165" y2="338" marker-end="url(#arrow)"/>
+  <text class="label" x="173" y="324">W per delay, D</text>
+  <path class="edge" d="M48,300 V508 H68" marker-end="url(#arrow)"/>
+  <text class="label" x="0" y="0" transform="translate(40,420) rotate(-90)" text-anchor="middle">launch v₀, θ₀</text>
+</svg>

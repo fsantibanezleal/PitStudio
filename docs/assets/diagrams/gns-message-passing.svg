@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 500" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">GNS granular surrogate</title>
+  <desc id="d">Particles become a radius graph outside the ONNX model, an encode-process-decode network predicts each particle's acceleration, and a semi-implicit Euler step advances the rollout in the browser.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .hdr{fill:var(--surface);stroke:var(--border-strong);stroke-width:1}
+    .empty{fill:none;stroke:var(--border);stroke-width:1;stroke-dasharray:4 4}
+    .lane-live{fill:var(--chart-2)}
+    .lane-pre{fill:var(--chart-4)}
+    .lane-local{fill:var(--warning)}
+    .learned{fill:var(--chart-5)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1180" height="500"/>
+  <text x="24" y="32" class="title">GNS surrogate — message passing on a particle graph</text>
+  <text x="24" y="52" class="path">pipeline/ s30_train → s60_export → web/ ORT-web</text>
+  <rect x="20" y="80" width="180" height="170" rx="6" class="box"/>
+  <text x="32" y="102" class="title">Particle state</text>
+  <text x="32" y="121" class="path">Zarr rollouts (M07)</text>
+  <text x="32" y="139" class="item">positions x_t</text>
+  <text x="32" y="157" class="item">last C velocities</text>
+  <text x="32" y="175" class="item">type, wall distance</text>
+  <rect x="240" y="80" width="190" height="170" rx="6" class="box"/>
+  <text x="252" y="102" class="title">Graph build</text>
+  <text x="252" y="121" class="path">cell list (TS/WASM)</text>
+  <text x="252" y="139" class="item">radius-r neighbours</text>
+  <text x="252" y="157" class="item">edge_index as input</text>
+  <text x="252" y="175" class="caveat">outside the ONNX graph</text>
+  <rect x="470" y="70" width="520" height="190" rx="8" class="band"/>
+  <text x="486" y="94" class="title">ONNX graph (opset 17–19)</text>
+  <text x="486" y="113" class="path">s60_export · IR version pinned</text>
+  <rect x="486" y="128" width="130" height="116" rx="6" class="box"/>
+  <text x="498" y="150" class="title">Encode</text>
+  <text x="498" y="168" class="item">MLP φv, φe</text>
+  <text x="498" y="186" class="item">latent width d</text>
+  <rect x="646" y="128" width="180" height="116" rx="6" class="box"/>
+  <text x="658" y="150" class="title">Process × M</text>
+  <text x="658" y="168" class="item">edges: φe(e, vi, vj)</text>
+  <text x="658" y="186" class="item">nodes: φv(v, Σ e′)</text>
+  <text x="658" y="204" class="item">+ residual</text>
+  <rect x="856" y="128" width="120" height="116" rx="6" class="box"/>
+  <text x="868" y="150" class="title">Decode</text>
+  <text x="868" y="168" class="item">MLP → âi</text>
+  <text x="868" y="186" class="item">per particle</text>
+  <path d="M616,186 H646" class="edge" marker-end="url(#arrow)"/>
+  <text x="631" y="179" class="label" text-anchor="middle">v, e</text>
+  <path d="M826,186 H856" class="edge" marker-end="url(#arrow)"/>
+  <text x="841" y="179" class="label" text-anchor="middle">v</text>
+  <rect x="1030" y="80" width="130" height="170" rx="6" class="box"/>
+  <text x="1042" y="102" class="title">Integrate</text>
+  <text x="1042" y="121" class="path">web/ worker</text>
+  <text x="1042" y="139" class="item">v += Δt · â</text>
+  <text x="1042" y="157" class="item">x += Δt · v</text>
+  <text x="1042" y="175" class="item">next state</text>
+  <path d="M200,165 H240" class="edge" marker-end="url(#arrow)"/>
+  <text x="220" y="158" class="label" text-anchor="middle">x, v</text>
+  <path d="M430,165 H470" class="edge" marker-end="url(#arrow)"/>
+  <text x="450" y="158" class="label" text-anchor="middle">graph</text>
+  <path d="M990,165 H1030" class="edge" marker-end="url(#arrow)"/>
+  <text x="1010" y="158" class="label" text-anchor="middle">â</text>
+  <path d="M1095,80 V62 H110 V80" class="edge-accent" marker-end="url(#arrow-accent)"/>
+  <text x="760" y="58" class="label" text-anchor="middle">next step (rollout loop)</text>
+  <rect x="20" y="320" width="420" height="150" rx="6" class="box"/>
+  <text x="32" y="342" class="title">Training</text>
+  <text x="32" y="361" class="path">pipeline/ s30_train (torch cu130)</text>
+  <text x="32" y="379" class="item">loss: MSE on normalised acceleration</text>
+  <text x="32" y="397" class="item">random-walk noise on input velocities</text>
+  <text x="32" y="415" class="item">data: Warp DEM / Newton MPM, 2-D</text>
+  <text x="32" y="433" class="caveat">budget 4–15 GPU-h (estimate)</text>
+  <rect x="470" y="320" width="330" height="150" rx="6" class="box-accent"/>
+  <text x="482" y="342" class="title">Acceptance (pre-registered)</text>
+  <text x="482" y="361" class="path">thresholds.yaml</text>
+  <text x="482" y="379" class="item">held-out geometries:</text>
+  <text x="482" y="397" class="item">repose ±1.5°, run-out ±5 %</text>
+  <text x="482" y="415" class="item">ONNX parity fp32 1e-3 / 1e-5</text>
+  <rect x="830" y="320" width="330" height="150" rx="6" class="box"/>
+  <text x="842" y="342" class="title">Live lane</text>
+  <text x="842" y="361" class="path">ORT-web WebGPU → WASM</text>
+  <text x="842" y="379" class="item">about 3 MB model</text>
+  <text x="842" y="397" class="item">≤ 50 ms per step target</text>
+  <text x="842" y="415" class="item">dense fallback ≤ 2k particles</text>
+  <text x="842" y="433" class="caveat">fallback: baked rollouts</text>
+  <rect x="832" y="322" width="5" height="146" class="lane-live"/>
+  <path d="M230,320 V290 H700 V260" class="edge" marker-end="url(#arrow)"/>
+  <text x="440" y="284" class="label" text-anchor="middle">weights → export</text>
+  <path d="M760,260 V320" class="edge" marker-end="url(#arrow)"/>
+  <text x="768" y="296" class="label">rollouts</text>
+  <path d="M1095,250 V320" class="edge" marker-end="url(#arrow)"/>
+  <text x="1103" y="296" class="label">model.onnx</text>
+</svg>

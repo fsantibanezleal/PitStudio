@@ -1,0 +1,251 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 890" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">PitStudio web routes and their lanes</title>
+  <desc id="d">The shell that wraps every page, the seven top-level routes reached from the header navigation, the planned deep routes under cases and studio, and the lane badges each route can show, with route modules that exist today drawn solid and planned ones dashed.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .planned{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5;stroke-dasharray:6 4}
+    .chip-live{fill:var(--chart-2)}
+    .chip-replay{fill:var(--chart-4)}
+    .chip-static{fill:var(--fg-muted)}
+    .chip-local{fill:var(--warning)}
+    .chiptext{font:600 13px Inter,system-ui,sans-serif;fill:var(--bg)}
+    .today{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .bandtitle{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="890"/>
+
+  <!-- ===== Shell band ===== -->
+  <rect class="band" x="20" y="20" width="1160" height="160" rx="8"/>
+  <text class="bandtitle" x="36" y="42">Shell — wraps every route (exists today)</text>
+
+  <rect class="box" x="36" y="54" width="255" height="114" rx="6"/>
+  <text class="title" x="50" y="76">Header + footer</text>
+  <text class="path" x="50" y="96">web/src/shell/Header.tsx</text>
+  <text class="item" x="50" y="116">nav · GitHub · ⓘ · EN/ES · theme</text>
+  <text class="item" x="50" y="136">footer: version · SHA · licences</text>
+  <text class="today" x="50" y="156">exists</text>
+
+  <rect class="box" x="303" y="54" width="255" height="114" rx="6"/>
+  <text class="title" x="317" y="76">AccessGate</text>
+  <text class="path" x="317" y="96">src/shell/AccessGate.tsx</text>
+  <text class="item" x="317" y="116">SHA-256 digest + sessionStorage</text>
+  <text class="caveat" x="317" y="136">demo gate — not security</text>
+  <text class="today" x="317" y="156">exists</text>
+
+  <rect class="box" x="570" y="54" width="330" height="114" rx="6"/>
+  <text class="title" x="584" y="76">ⓘ architecture modal</text>
+  <text class="path" x="584" y="96">web/src/app/architecture.tsx</text>
+  <text class="item" x="584" y="116">7 tabs: what · lanes · studio ·</text>
+  <text class="item" x="584" y="136">web flow · science · contracts · tools</text>
+  <text class="caveat" x="584" y="156">today: text only; diagrams planned</text>
+
+  <rect class="box" x="912" y="54" width="252" height="114" rx="6"/>
+  <text class="title" x="926" y="76">Router + prerender</text>
+  <text class="path" x="926" y="96">web/src/routes.ts</text>
+  <text class="item" x="926" y="116">basename = BASE_PATH</text>
+  <text class="item" x="926" y="136">static routes → HTML · 404.html</text>
+  <text class="today" x="926" y="156">exists</text>
+
+  <!-- ===== Routes band ===== -->
+  <rect class="band" x="20" y="195" width="1160" height="620" rx="8"/>
+  <text class="bandtitle" x="36" y="217">Routes — the header nav reaches 7 top-level routes; deep routes sit below them</text>
+
+  <!-- nav bus -->
+  <path class="edge" d="M28,240 L805,240"/>
+  <text class="label" x="640" y="234">header nav → route</text>
+  <!-- column A bus -->
+  <path class="edge" d="M28,240 L28,455"/>
+  <path class="edge" d="M28,320 L38,320" marker-end="url(#arrow)"/>
+  <path class="edge" d="M28,455 L38,455" marker-end="url(#arrow)"/>
+  <!-- column B drop -->
+  <path class="edge" d="M600,240 L600,253" marker-end="url(#arrow)"/>
+  <!-- column C bus -->
+  <path class="edge" d="M805,240 L805,734"/>
+  <path class="edge" d="M805,307 L818,307" marker-end="url(#arrow)"/>
+  <path class="edge" d="M805,427 L818,427" marker-end="url(#arrow)"/>
+  <path class="edge" d="M805,567 L818,567" marker-end="url(#arrow)"/>
+  <path class="edge" d="M805,734 L818,734" marker-end="url(#arrow)"/>
+
+  <!-- Column A: / -->
+  <rect class="box" x="40" y="255" width="340" height="130" rx="6"/>
+  <text class="title" x="56" y="277">/ · Explore</text>
+  <text class="path" x="56" y="297">src/routes/explore.tsx</text>
+  <text class="item" x="56" y="317">3D pit (Bingham LOD-0 ≤ 2 MB) + case rail</text>
+  <text class="item" x="56" y="337">shared timeline (paused) · KPIs · tier badge</text>
+  <rect class="chip-live" x="56" y="350" width="50" height="20" rx="4"/>
+  <text class="chiptext" x="64" y="365">LIVE</text>
+  <rect class="chip-replay" x="114" y="350" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="122" y="365">REPLAY</text>
+  <text class="today" x="200" y="365">today: stub page</text>
+
+  <!-- Column A: /cases -->
+  <rect class="box" x="40" y="405" width="340" height="100" rx="6"/>
+  <text class="title" x="56" y="427">/cases</text>
+  <text class="path" x="56" y="447">src/routes/cases.tsx</text>
+  <text class="item" x="56" y="467">catalogue · coverage + tool matrices</text>
+  <rect class="chip-static" x="56" y="476" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="64" y="491">STATIC</text>
+  <text class="today" x="140" y="491">today: stub page</text>
+
+  <path class="edge" d="M210,505 L210,533" marker-end="url(#arrow)"/>
+  <text class="label" x="220" y="524">pick a case</text>
+
+  <!-- Column A: /cases/:id -->
+  <rect class="planned" x="40" y="535" width="340" height="170" rx="6"/>
+  <text class="title" x="56" y="557">/cases/:id · 12 cases, A1–E2</text>
+  <text class="path" x="56" y="577">planned route module</text>
+  <text class="item" x="56" y="597">Scene · Simulate (live) · Studio replay</text>
+  <text class="item" x="56" y="617">Charts · Context</text>
+  <text class="item" x="56" y="637">+ “reproduce this” command</text>
+  <rect class="chip-live" x="56" y="648" width="50" height="20" rx="4"/>
+  <text class="chiptext" x="64" y="663">LIVE</text>
+  <rect class="chip-replay" x="114" y="648" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="122" y="663">REPLAY</text>
+  <rect class="chip-static" x="190" y="648" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="198" y="663">STATIC</text>
+  <text class="caveat" x="56" y="692">first slice: A1 + C1 on the open lane</text>
+
+  <!-- Column B: /studio -->
+  <rect class="box" x="430" y="255" width="340" height="130" rx="6"/>
+  <text class="title" x="446" y="277">/studio · tool map</text>
+  <text class="path" x="446" y="297">src/routes/studio.tsx</text>
+  <text class="item" x="446" y="317">React Flow map (lazy): nodes = tools</text>
+  <text class="item" x="446" y="337">edges = file handoffs · physical-AI loop</text>
+  <rect class="chip-static" x="446" y="350" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="454" y="365">STATIC</text>
+  <rect class="chip-replay" x="522" y="350" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="530" y="365">REPLAY</text>
+  <text class="today" x="606" y="365">today: stub page</text>
+
+  <!-- studio sub-bus -->
+  <path class="edge" d="M430,320 L415,320 L415,735"/>
+  <path class="edge" d="M415,475 L428,475" marker-end="url(#arrow)"/>
+  <path class="edge" d="M415,610 L428,610" marker-end="url(#arrow)"/>
+  <path class="edge" d="M415,735 L428,735" marker-end="url(#arrow)"/>
+  <text class="label" x="404" y="560" text-anchor="middle" transform="rotate(-90 404 560)">sub-routes of /studio</text>
+
+  <!-- Column B: tools -->
+  <rect class="planned" x="430" y="405" width="340" height="140" rx="6"/>
+  <text class="title" x="446" y="427">/studio/tools/:toolId · 17 pages</text>
+  <text class="path" x="446" y="447">fed by studio/tools.yaml</text>
+  <text class="item" x="446" y="467">identity · role · artefacts it produced</text>
+  <text class="item" x="446" y="487">provenance · limits · reproduce · rejected</text>
+  <rect class="chip-live" x="446" y="496" width="50" height="20" rx="4"/>
+  <text class="chiptext" x="454" y="511">LIVE</text>
+  <rect class="chip-replay" x="504" y="496" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="512" y="511">REPLAY</text>
+  <rect class="chip-static" x="580" y="496" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="588" y="511">STATIC</text>
+  <text class="caveat" x="446" y="536">none published → “not yet run”</text>
+
+  <!-- Column B: runs -->
+  <rect class="planned" x="430" y="565" width="340" height="90" rx="6"/>
+  <text class="title" x="446" y="587">/studio/runs + /:runId</text>
+  <rect class="chip-replay" x="690" y="573" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="698" y="588">REPLAY</text>
+  <text class="path" x="446" y="607">published run manifests</text>
+  <text class="item" x="446" y="627">manifest · telemetry · stage DAG · cache</text>
+  <text class="item" x="446" y="647">determinism re-run check</text>
+
+  <!-- Column B: gpu -->
+  <rect class="planned" x="430" y="675" width="340" height="125" rx="6"/>
+  <text class="title" x="446" y="697">/studio/gpu · GPU evidence</text>
+  <text class="path" x="446" y="717">NVML telemetry, open runtimes</text>
+  <text class="item" x="446" y="737">busy % · VRAM vs 16 GB · power · throttle</text>
+  <rect class="chip-replay" x="446" y="748" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="454" y="763">REPLAY</text>
+  <rect class="chip-local" x="522" y="748" width="104" height="20" rx="4"/>
+  <text class="chiptext" x="530" y="763">LOCAL-ONLY</text>
+  <text class="caveat" x="446" y="790">NVIDIA SLA tools: outputs, no perf. data</text>
+
+  <!-- Column C: /theory -->
+  <rect class="box" x="820" y="255" width="350" height="104" rx="6"/>
+  <text class="title" x="836" y="277">/theory</text>
+  <text class="path" x="836" y="297">src/routes/theory.tsx</text>
+  <text class="item" x="836" y="317">MDX + KaTeX · interactive figures</text>
+  <rect class="chip-live" x="836" y="328" width="50" height="20" rx="4"/>
+  <text class="chiptext" x="844" y="343">LIVE</text>
+  <rect class="chip-static" x="894" y="328" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="902" y="343">STATIC</text>
+  <text class="today" x="980" y="343">today: stub page</text>
+
+  <!-- Column C: /methods -->
+  <rect class="box" x="820" y="375" width="350" height="104" rx="6"/>
+  <text class="title" x="836" y="397">/methods</text>
+  <text class="path" x="836" y="417">src/routes/methods.tsx</text>
+  <text class="item" x="836" y="437">M1–M23: classical → SOTA → beyond</text>
+  <rect class="chip-static" x="836" y="448" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="844" y="463">STATIC</text>
+  <rect class="chip-live" x="912" y="448" width="50" height="20" rx="4"/>
+  <text class="chiptext" x="920" y="463">LIVE</text>
+  <text class="today" x="980" y="463">today: stub page</text>
+
+  <!-- Column C: /results -->
+  <rect class="box" x="820" y="495" width="350" height="155" rx="6"/>
+  <text class="title" x="836" y="517">/results</text>
+  <text class="path" x="836" y="537">src/routes/results.tsx</text>
+  <text class="item" x="836" y="557">learned vs classical (paired 95 % CI)</text>
+  <text class="item" x="836" y="577">sim-to-real · parity · DR ablation</text>
+  <text class="item" x="836" y="597">Acceleration: PyTorch · ORT · TensorRT</text>
+  <rect class="chip-replay" x="836" y="606" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="844" y="621">REPLAY</text>
+  <rect class="chip-local" x="912" y="606" width="104" height="20" rx="4"/>
+  <text class="chiptext" x="920" y="621">LOCAL-ONLY</text>
+  <text class="today" x="1030" y="621">today: stub</text>
+  <text class="caveat" x="836" y="644">TensorRT for RTX numbers stay internal</text>
+
+  <!-- Column C: /knowledge -->
+  <rect class="box" x="820" y="662" width="350" height="144" rx="6"/>
+  <text class="title" x="836" y="684">/knowledge</text>
+  <text class="path" x="836" y="704">src/routes/knowledge.tsx</text>
+  <text class="item" x="836" y="724">glossary EN/ES · equation explorer</text>
+  <text class="item" x="836" y="744">parameters · datasets · bibliography</text>
+  <rect class="chip-static" x="836" y="753" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="844" y="768">STATIC</text>
+  <rect class="chip-live" x="912" y="753" width="50" height="20" rx="4"/>
+  <text class="chiptext" x="920" y="768">LIVE</text>
+  <text class="today" x="980" y="768">today: stub page</text>
+  <text class="caveat" x="836" y="797">tables generated from minephys at build</text>
+
+  <!-- ===== Legend ===== -->
+  <rect class="chip-live" x="36" y="838" width="50" height="20" rx="4"/>
+  <text class="chiptext" x="44" y="853">LIVE</text>
+  <text class="item" x="94" y="853">computed in your browser</text>
+  <rect class="chip-replay" x="280" y="838" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="288" y="853">REPLAY</text>
+  <text class="item" x="356" y="853">precomputed in the studio</text>
+  <rect class="chip-static" x="545" y="838" width="68" height="20" rx="4"/>
+  <text class="chiptext" x="553" y="853">STATIC</text>
+  <text class="item" x="621" y="853">figure or table</text>
+  <rect class="chip-local" x="730" y="838" width="104" height="20" rx="4"/>
+  <text class="chiptext" x="738" y="853">LOCAL-ONLY</text>
+  <text class="item" x="842" y="853">perf. not published</text>
+  <rect class="box" x="975" y="840" width="24" height="16" rx="3"/>
+  <text class="item" x="1005" y="853">exists</text>
+  <rect class="planned" x="1062" y="840" width="24" height="16" rx="3"/>
+  <text class="item" x="1092" y="853">planned</text>
+</svg>

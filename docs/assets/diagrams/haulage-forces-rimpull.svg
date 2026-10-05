@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Forces on a haul truck on a grade and how to read a rimpull curve</title>
+  <desc id="d">Left: the forces on a loaded truck climbing a ramp (weight, grade and rolling resistance, rimpull). Right: an illustrative rimpull curve crossed by total-resistance lines; the crossing at 12 % total resistance gives a steady speed of about 13.8 km/h.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .s1{stroke:var(--chart-1);stroke-width:2;fill:none}
+    .s3{stroke:var(--chart-3);stroke-width:2.2;fill:none}
+    .s5{stroke:var(--chart-5);stroke-width:2.2;fill:none}
+    .dash{stroke-dasharray:6 4}
+    .ground{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .truck{fill:var(--surface);stroke:var(--border-strong);stroke-width:1.5}
+    .mark{fill:var(--fg-muted);stroke:var(--bg);stroke-width:2}
+    .mark-acc{fill:var(--accent);stroke:var(--bg);stroke-width:2}
+    .ah-acc{fill:var(--accent)}
+    .ah3{fill:var(--chart-3)}
+    .ah5{fill:var(--chart-5)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-acc"/>
+    </marker>
+    <marker id="arrow-c3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah3"/>
+    </marker>
+    <marker id="arrow-c5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah5"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1000" height="650"/>
+
+  <!-- Left band: free-body diagram -->
+  <rect class="band" x="20" y="20" width="475" height="515" rx="8"/>
+  <text class="title" x="36" y="46">Forces on a loaded truck climbing a ramp</text>
+  <text class="label" x="36" y="72">TR = RR + GR  (both in % of gross vehicle weight)</text>
+  <text class="label" x="36" y="92">F_res = m g · TR/100  (+ m_eff dv/dt + ½ ρ C_D A v²)</text>
+  <text class="item" x="36" y="112">Illustrative: GR 10 % + RR 2 % → TR 12 %, m = 400 t</text>
+
+  <polygon class="ground" points="40,474 480,386 480,520 40,520"/>
+  <line class="edge dash" x1="40" y1="474" x2="150" y2="474"/>
+  <path class="edge" d="M120,474 A80,80 0 0 0 118.4,458.3"/>
+  <text class="label" x="128" y="470">θ</text>
+  <text class="item" x="160" y="505">GR = 100 · tan θ (%)  (grade exaggerated)</text>
+
+  <g transform="translate(280,426) rotate(-11.31)">
+    <rect class="truck" x="-85" y="-40" width="170" height="18" rx="3"/>
+    <polygon class="truck" points="-85,-40 -85,-92 38,-92 55,-40"/>
+    <rect class="truck" x="55" y="-74" width="32" height="34" rx="3"/>
+    <circle class="box" cx="-55" cy="-16" r="16"/>
+    <circle class="box" cx="55" cy="-16" r="16"/>
+    <circle class="mark" cx="0" cy="-45" r="4"/>
+  </g>
+
+  <!-- rimpull along the slope (accent) -->
+  <line class="edge-accent" x1="271" y1="382" x2="388" y2="358.6" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="300" y="318">F_rim (rimpull)</text>
+  <!-- weight -->
+  <line class="edge" x1="271" y1="382" x2="271" y2="455" marker-end="url(#arrow)"/>
+  <text class="label" x="278" y="470">W = m g</text>
+  <!-- grade component -->
+  <line class="s3" x1="271" y1="382" x2="194" y2="397.4" marker-end="url(#arrow-c3)"/>
+  <text class="label" x="60" y="372">grade: m g sin θ</text>
+  <!-- rolling resistance at the rear contact -->
+  <line class="s5" x1="226" y1="436.8" x2="168" y2="448.4" marker-end="url(#arrow-c5)"/>
+  <text class="label" x="48" y="432">rolling: RR · m g cos θ</text>
+  <text class="item" x="36" y="160">Weight resolves into the grade component (down-slope)</text>
+  <text class="item" x="36" y="178">and the normal load that sets rolling resistance.</text>
+  <text class="item" x="36" y="196">Rimpull must balance both, plus inertia and drag.</text>
+  <text class="label" x="36" y="232">Energy per segment: E = ∫ F_res v dt / η</text>
+  <text class="item" x="36" y="252">Lifting 1 t through 100 m = 0.27 kWh at the wheels.</text>
+  <text class="item" x="36" y="272">Worked climb (3 km at TR 12 %): 392 kWh at the wheels.</text>
+
+  <!-- Right band: rimpull chart -->
+  <rect class="band" x="505" y="20" width="475" height="515" rx="8"/>
+  <text class="title" x="521" y="46">Rimpull curve reading (illustrative truck)</text>
+  <line class="s1" x1="525" y1="68" x2="555" y2="68"/>
+  <text class="label" x="561" y="72">rimpull F_rim(v) = min(μ_t W_drive, ηP/v)</text>
+  <line class="axis dash" x1="525" y1="88" x2="555" y2="88"/>
+  <text class="label" x="561" y="92">total resistance m g · TR/100 (one line per TR)</text>
+
+  <line class="grid" x1="560" y1="370" x2="950" y2="370"/>
+  <line class="grid" x1="560" y1="280" x2="950" y2="280"/>
+  <line class="grid" x1="560" y1="190" x2="950" y2="190"/>
+  <line class="grid" x1="560" y1="100" x2="950" y2="100"/>
+  <line class="axis" x1="560" y1="460" x2="950" y2="460"/>
+  <line class="axis" x1="560" y1="100" x2="560" y2="460"/>
+  <text class="item" x="552" y="464" text-anchor="end">0</text>
+  <text class="item" x="552" y="374" text-anchor="end">250</text>
+  <text class="item" x="552" y="284" text-anchor="end">500</text>
+  <text class="item" x="552" y="194" text-anchor="end">750</text>
+  <text class="item" x="552" y="104" text-anchor="end">1000</text>
+  <text class="item" x="560" y="478" text-anchor="middle">0</text>
+  <text class="item" x="625" y="478" text-anchor="middle">10</text>
+  <text class="item" x="690" y="478" text-anchor="middle">20</text>
+  <text class="item" x="755" y="478" text-anchor="middle">30</text>
+  <text class="item" x="820" y="478" text-anchor="middle">40</text>
+  <text class="item" x="885" y="478" text-anchor="middle">50</text>
+  <text class="item" x="950" y="478" text-anchor="middle">60</text>
+  <text class="label" x="755" y="500" text-anchor="middle">speed v (km/h)</text>
+  <text class="label" x="0" y="0" transform="translate(522,280) rotate(-90)" text-anchor="middle">force at the wheels (kN)</text>
+
+  <line class="axis dash" x1="560" y1="403.5" x2="950" y2="403.5"/>
+  <line class="axis dash" x1="560" y1="347" x2="950" y2="347"/>
+  <line class="edge-accent dash" x1="560" y1="290.5" x2="950" y2="290.5"/>
+  <line class="axis dash" x1="560" y1="234" x2="950" y2="234"/>
+  <text class="item" x="944" y="398" text-anchor="end">TR 4 %</text>
+  <text class="item" x="944" y="342" text-anchor="end">TR 8 %</text>
+  <text class="label" x="944" y="285" text-anchor="end">TR 12 % (worked example)</text>
+  <text class="item" x="944" y="229" text-anchor="end">TR 16 %</text>
+
+  <polyline class="s1" points="560,136 606.8,136 612,168.4 625,226.7 638,265.6 657.5,304.5 690,343.4 722.5,366.7 755,382.2 820,401.7 885,413.3 950,421.1"/>
+  <text class="item" x="566" y="128">traction limit (900 kN, illustrative)</text>
+  <text class="item" x="770" y="378">power limit ηP/v</text>
+
+  <circle class="mark" cx="828.5" cy="403.5" r="5"/>
+  <circle class="mark" cx="694.2" cy="347" r="5"/>
+  <circle class="mark" cx="627.1" cy="234" r="5"/>
+  <line class="edge-accent dash" x1="649.4" y1="290.5" x2="649.4" y2="460"/>
+  <circle class="mark-acc" cx="649.4" cy="290.5" r="6"/>
+  <text class="label" x="656" y="452">v ≈ 13.8 km/h</text>
+  <text class="item" x="521" y="525">Each crossing is the steady speed for that total resistance.</text>
+
+  <!-- Bottom band: where it lives -->
+  <rect class="box-accent" x="20" y="548" width="310" height="92" rx="8"/>
+  <text class="title" x="34" y="570">Haulage physics core</text>
+  <text class="path" x="34" y="590">minephys.haulage</text>
+  <text class="item" x="34" y="608">resistance · rimpull · retarder · CO₂</text>
+  <text class="caveat" x="34" y="627">generic truck parameters, no OEM chart</text>
+
+  <rect class="box" x="345" y="548" width="310" height="92" rx="8"/>
+  <text class="title" x="359" y="570">Steady speed on a ramp</text>
+  <text class="path" x="359" y="590">cases/a2-haul-road-electrification.md</text>
+  <text class="item" x="359" y="608">400 t, ηP 1.8 MW, TR 12 % → 3.82 m/s</text>
+  <text class="caveat" x="359" y="627">illustrative inputs, not a real truck</text>
+
+  <rect class="box" x="670" y="548" width="310" height="92" rx="8"/>
+  <text class="title" x="684" y="570">Downhill: retarder envelope</text>
+  <text class="path" x="684" y="590">minephys.haulage</text>
+  <text class="item" x="684" y="608">m g (GR − RR)/100 · v ≤ P_ret,max(v)</text>
+  <text class="caveat" x="684" y="627">400 t, 8 % net, 2.5 MW → ≤ 28.7 km/h</text>
+</svg>

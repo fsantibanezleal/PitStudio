@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Haulage discrete-event simulation loop</title>
+  <desc id="d">A future-event list drives each truck through its haul cycle, a dispatcher chooses the next shovel at the decision point, and the Python reference and TypeScript twin must produce identical event traces.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .hdr{fill:var(--surface);stroke:var(--border-strong);stroke-width:1}
+    .empty{fill:none;stroke:var(--border);stroke-width:1;stroke-dasharray:4 4}
+    .lane-live{fill:var(--chart-2)}
+    .lane-pre{fill:var(--chart-4)}
+    .lane-local{fill:var(--warning)}
+    .learned{fill:var(--chart-5)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1100" height="660"/>
+  <text x="24" y="32" class="title">Haulage DES — event loop and exact-trace parity</text>
+  <text x="24" y="52" class="path">minehaulsim 0.12.1 (Python reference) · web/ TS twin</text>
+  <rect x="20" y="76" width="230" height="124" rx="6" class="box"/>
+  <text x="32" y="98" class="title">Future-event list</text>
+  <text x="32" y="117" class="path">binary heap</text>
+  <text x="32" y="135" class="item">key = (t, priority, seq)</text>
+  <text x="32" y="153" class="item">pop min → advance clock</text>
+  <text x="32" y="171" class="item">ties broken by seq id</text>
+  <rect x="20" y="250" width="230" height="130" rx="6" class="box"/>
+  <text x="32" y="272" class="title">Travel-time sampler</text>
+  <text x="32" y="291" class="path">minephys.haulage</text>
+  <text x="32" y="309" class="item">speed on grade per segment</text>
+  <text x="32" y="327" class="item">rimpull / retarder limits</text>
+  <text x="32" y="345" class="item">+ counter-based PRNG noise</text>
+  <rect x="340" y="66" width="480" height="330" rx="8" class="band"/>
+  <text x="356" y="90" class="title">Truck cycle (one state machine per truck)</text>
+  <text x="356" y="109" class="path">minehaulsim · same logic in web/</text>
+  <rect x="354" y="124" width="124" height="60" rx="6" class="box"/>
+  <text x="364" y="146" class="title">Travel empty</text>
+  <text x="364" y="164" class="item">to shovel</text>
+  <rect x="520" y="124" width="124" height="60" rx="6" class="box"/>
+  <text x="530" y="146" class="title">Shovel queue</text>
+  <text x="530" y="164" class="item">FIFO</text>
+  <rect x="686" y="124" width="124" height="60" rx="6" class="box"/>
+  <text x="696" y="146" class="title">Spot + load</text>
+  <text x="696" y="164" class="item">n_p passes</text>
+  <rect x="686" y="222" width="124" height="60" rx="6" class="box"/>
+  <text x="696" y="244" class="title">Travel loaded</text>
+  <text x="696" y="262" class="item">rimpull speed</text>
+  <rect x="686" y="320" width="124" height="60" rx="6" class="box"/>
+  <text x="696" y="342" class="title">Dump queue</text>
+  <text x="696" y="360" class="item">crusher, dump</text>
+  <rect x="520" y="320" width="124" height="60" rx="6" class="box"/>
+  <text x="530" y="342" class="title">Dump</text>
+  <text x="530" y="360" class="item">record tonnes</text>
+  <rect x="354" y="320" width="124" height="60" rx="6" class="box-accent"/>
+  <text x="364" y="342" class="title">Dispatch</text>
+  <text x="364" y="360" class="item">decision</text>
+  <path d="M478,154 H520" class="edge" marker-end="url(#arrow)"/>
+  <text x="499" y="147" class="label" text-anchor="middle">arrive</text>
+  <path d="M644,154 H686" class="edge" marker-end="url(#arrow)"/>
+  <text x="665" y="147" class="label" text-anchor="middle">start</text>
+  <path d="M748,184 V222" class="edge" marker-end="url(#arrow)"/>
+  <text x="756" y="207" class="label">end load</text>
+  <path d="M748,282 V320" class="edge" marker-end="url(#arrow)"/>
+  <text x="756" y="305" class="label">arrive</text>
+  <path d="M686,350 H644" class="edge" marker-end="url(#arrow)"/>
+  <text x="665" y="343" class="label" text-anchor="middle">start</text>
+  <path d="M520,350 H478" class="edge" marker-end="url(#arrow)"/>
+  <text x="499" y="343" class="label" text-anchor="middle">free</text>
+  <path d="M416,320 V184" class="edge-accent" marker-end="url(#arrow-accent)"/>
+  <text x="424" y="256" class="label">assign target</text>
+  <path d="M250,120 H340" class="edge" marker-end="url(#arrow)"/>
+  <text x="295" y="113" class="label" text-anchor="middle">next event</text>
+  <path d="M340,170 H250" class="edge" marker-end="url(#arrow)"/>
+  <text x="295" y="163" class="label" text-anchor="middle">schedule</text>
+  <path d="M250,300 H340" class="edge" marker-end="url(#arrow)"/>
+  <text x="295" y="293" class="label" text-anchor="middle">segment time</text>
+  <rect x="846" y="76" width="230" height="150" rx="6" class="box"/>
+  <text x="858" y="98" class="title">Dispatcher</text>
+  <text x="858" y="117" class="path">minehaulsim policies</text>
+  <text x="858" y="135" class="item">SPTF · SQ · Nearest · Fixed</text>
+  <text x="858" y="153" class="item">M03 LP targets (HiGHS)</text>
+  <text x="858" y="171" class="item">M04 / M05 ONNX policy</text>
+  <text x="858" y="189" class="caveat">classical rule or learned</text>
+  <path d="M416,380 V422 H961 V226" class="edge-accent" marker-end="url(#arrow-accent)" marker-start="url(#arrow-accent)"/>
+  <text x="690" y="415" class="label" text-anchor="middle">state ⇄ target shovel</text>
+  <rect x="20" y="450" width="1056" height="190" rx="8" class="band"/>
+  <text x="36" y="474" class="title">Exact-trace parity (Python ↔ TypeScript)</text>
+  <text x="36" y="493" class="path">tests/ golden traces</text>
+  <rect x="36" y="510" width="300" height="116" rx="6" class="box"/>
+  <text x="48" y="532" class="title">Python reference</text>
+  <text x="48" y="551" class="path">pipeline/ · minehaulsim</text>
+  <text x="48" y="569" class="item">PCG/Philox counter PRNG</text>
+  <text x="48" y="587" class="item">golden trace + KPIs (JSON)</text>
+  <text x="48" y="605" class="item">SimPy oracle on small cases</text>
+  <rect x="400" y="510" width="296" height="116" rx="6" class="box-accent"/>
+  <text x="412" y="532" class="title">Trace comparator</text>
+  <text x="412" y="551" class="path">parity test</text>
+  <text x="412" y="569" class="item">event by event:</text>
+  <text x="412" y="587" class="item">(t, truck, event, node)</text>
+  <text x="412" y="605" class="item">KPIs within tolerance</text>
+  <rect x="760" y="510" width="300" height="116" rx="6" class="box"/>
+  <text x="772" y="532" class="title">TS twin (web worker)</text>
+  <text x="772" y="551" class="path">web/ DES engine</text>
+  <text x="772" y="569" class="item">same PRNG, integer variates</text>
+  <text x="772" y="587" class="item">no Math.* transcendentals</text>
+  <text x="772" y="605" class="item">≈10⁴ events per shift &lt; 1 s</text>
+  <path d="M336,568 H400" class="edge" marker-end="url(#arrow)"/>
+  <text x="368" y="561" class="label" text-anchor="middle">trace</text>
+  <path d="M760,568 H696" class="edge" marker-end="url(#arrow)"/>
+  <text x="728" y="561" class="label" text-anchor="middle">trace</text>
+</svg>

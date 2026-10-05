@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">How each synthetic data type is validated</title>
+  <desc id="d">Six synthetic data types pass a hygiene check first; types with real data of the same kind get a classifier two-sample test against a real-vs-real baseline, fragment images also get train-synthetic-test-real against train-real-test-real, the single real slope event is descriptive only, physics fields meet benchmarks, and types with no real reference carry the honesty label.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .ah-accent{fill:var(--accent)}
+    .ah-warn{fill:var(--warning)}
+    .edge-warn{stroke:var(--warning);stroke-width:1.8;fill:none;stroke-dasharray:6 4}
+    .head{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .box-ok{fill:var(--surface-2);stroke:var(--success);stroke-width:2}
+    .box-warn{fill:var(--surface-2);stroke:var(--warning);stroke-width:2}
+    .sub{fill:var(--bg);stroke:var(--accent);stroke-width:1.2}
+    .ok{font:600 15px Inter,system-ui,sans-serif;fill:var(--success)}
+    .warn{font:600 15px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .c1{fill:var(--chart-2)} .c2{fill:var(--chart-6)} .c3{fill:var(--chart-1)} .c4{fill:var(--chart-5)}
+    .c5{fill:var(--chart-3)} .c6{fill:var(--chart-4)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-accent"/>
+    </marker>
+    <marker id="arrowW" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-warn"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="760"/>
+  <text class="title" x="20" y="30">Validating synthetic data: claim only what a real reference supports</text>
+  <text class="head" x="20" y="58">SYNTHETIC DATA TYPE · REAL REFERENCE</text>
+  <text class="head" x="355" y="58">HYGIENE</text>
+  <text class="head" x="535" y="58">CHECK (s50_evaluate; benchmarks in tests)</text>
+  <text class="head" x="885" y="58">VERDICT SHOWN IN DOCS AND UI</text>
+
+  <!-- sources -->
+  <rect class="box" x="20" y="70" width="310" height="125" rx="6"/>
+  <rect class="c1" x="20" y="70" width="8" height="125" rx="2"/>
+  <text class="title" x="38" y="94">Fragment images</text>
+  <text class="path" x="38" y="114">synthetic muck piles, exact PSD</text>
+  <text class="item" x="38" y="136">real: Mendeley rock fragments,</text>
+  <text class="item" x="38" y="154">labelled, 240 originals</text>
+  <text class="caveat" x="38" y="180">the only real labelled training set</text>
+
+  <rect class="box" x="20" y="205" width="310" height="125" rx="6"/>
+  <rect class="c2" x="20" y="205" width="8" height="125" rx="2"/>
+  <text class="title" x="38" y="229">Terrain statistics</text>
+  <text class="path" x="38" y="249">st20_pit_design benches</text>
+  <text class="item" x="38" y="271">real: 3DEP Bingham and</text>
+  <text class="item" x="38" y="289">McKinley DEMs (unlabelled)</text>
+
+  <rect class="box" x="20" y="340" width="310" height="80" rx="6"/>
+  <rect class="c3" x="20" y="340" width="8" height="80" rx="2"/>
+  <text class="title" x="38" y="364">Slope displacement series</text>
+  <text class="path" x="38" y="384">Voight creep generator</text>
+  <text class="item" x="38" y="404">real: one de Wit event (n = 1)</text>
+
+  <rect class="box" x="20" y="430" width="310" height="80" rx="6"/>
+  <rect class="c4" x="20" y="430" width="8" height="80" rx="2"/>
+  <text class="title" x="38" y="454">Equipment and people images</text>
+  <text class="path" x="38" y="474">st55_sdg · st53_sensors</text>
+  <text class="item" x="38" y="494">real: only an optional probe</text>
+
+  <rect class="box" x="20" y="520" width="310" height="80" rx="6"/>
+  <rect class="c5" x="20" y="520" width="8" height="80" rx="2"/>
+  <text class="title" x="38" y="544">Dust fields · haul telemetry</text>
+  <text class="path" x="38" y="564">plume, particles · DES cycles</text>
+  <text class="item" x="38" y="584">real: none</text>
+
+  <rect class="box" x="20" y="610" width="310" height="80" rx="6"/>
+  <rect class="c6" x="20" y="610" width="8" height="80" rx="2"/>
+  <text class="title" x="38" y="634">Physics fields</text>
+  <text class="path" x="38" y="654">st50_physics (Warp, Newton)</text>
+  <text class="item" x="38" y="674">real: analytic and lab references</text>
+
+  <!-- hygiene -->
+  <rect class="box" x="355" y="70" width="150" height="620" rx="6"/>
+  <text class="title" x="367" y="94">All types</text>
+  <text class="path" x="367" y="114">hygiene</text>
+  <text class="item" x="367" y="136">exact SHA-256</text>
+  <text class="item" x="367" y="154">duplicates</text>
+  <text class="item" x="367" y="176">perceptual hash</text>
+  <text class="item" x="367" y="194">(images)</text>
+  <text class="item" x="367" y="216">DINOv2 nearest-</text>
+  <text class="item" x="367" y="234">neighbour scan</text>
+  <text class="item" x="367" y="256">group-disjoint</text>
+  <text class="item" x="367" y="274">splits (seed,</text>
+  <text class="item" x="367" y="292">layout, shift)</text>
+  <text class="item" x="367" y="314">0 cross-split</text>
+  <text class="item" x="367" y="332">duplicates</text>
+  <text class="caveat" x="367" y="364">runs before</text>
+  <text class="caveat" x="367" y="382">any C2ST:</text>
+  <text class="caveat" x="367" y="400">copying can</text>
+  <text class="caveat" x="367" y="418">look like</text>
+  <text class="caveat" x="367" y="436">fidelity</text>
+
+  <path class="edge" d="M330,132 H351" marker-end="url(#arrow)"/>
+  <path class="edge" d="M330,267 H351" marker-end="url(#arrow)"/>
+  <path class="edge" d="M330,380 H351" marker-end="url(#arrow)"/>
+  <path class="edge" d="M330,470 H351" marker-end="url(#arrow)"/>
+  <path class="edge" d="M330,560 H351" marker-end="url(#arrow)"/>
+  <path class="edge" d="M330,650 H351" marker-end="url(#arrow)"/>
+
+  <!-- checks -->
+  <rect class="box-accent" x="535" y="70" width="320" height="260" rx="6"/>
+  <text class="title" x="547" y="94">Classifier two-sample test</text>
+  <text class="path" x="547" y="114">C2ST · 2 classifier families</text>
+  <text class="item" x="547" y="134">real-vs-real baseline (≈ 0.5), bootstrap CI</text>
+  <text class="item" x="547" y="152">tabular / 1-D: AUC ≤ 0.60 (warn to 0.70)</text>
+  <text class="item" x="547" y="170">images: DINOv2-embedding AUC gap ≤ 0.10</text>
+  <text class="item" x="547" y="188">injected-shift detection: AUC ≥ 0.80</text>
+  <rect class="sub" x="547" y="204" width="296" height="114" rx="5"/>
+  <text class="title" x="559" y="226">Fragments only: TSTR vs TRTR</text>
+  <text class="path" x="559" y="246">U-Net · test on real originals</text>
+  <text class="item" x="559" y="266">train on synthetic vs on real</text>
+  <text class="item" x="559" y="284">TSTR ≥ 0.90 × TRTR (IoU)</text>
+  <text class="item" x="559" y="302">grouped k-fold, fold spread</text>
+
+  <rect class="box" x="535" y="340" width="320" height="80" rx="6"/>
+  <text class="title" x="547" y="364">Descriptive only</text>
+  <text class="path" x="547" y="384">TTF error at 50 % / 80 % cut-offs</text>
+  <text class="item" x="547" y="404">never C2ST, TSTR or a significance test</text>
+
+  <text class="caveat" x="547" y="486">no real reference of the same type:</text>
+  <text class="caveat" x="547" y="504">no two-sample test is possible</text>
+
+  <rect class="box" x="535" y="610" width="320" height="80" rx="6"/>
+  <text class="title" x="547" y="634">Physics benchmarks</text>
+  <text class="path" x="547" y="654">Beverloo · repose · dam break</text>
+  <text class="item" x="547" y="674">column collapse, Stokes, mass balance</text>
+
+  <path class="edge-accent" d="M505,132 H531" marker-end="url(#arrowA)"/>
+  <path class="edge-accent" d="M505,267 H531" marker-end="url(#arrowA)"/>
+  <path class="edge" d="M505,380 H531" marker-end="url(#arrow)"/>
+  <path class="edge-warn" d="M505,470 H881" marker-end="url(#arrowW)"/>
+  <path class="edge-warn" d="M505,560 H881" marker-end="url(#arrowW)"/>
+  <path class="edge" d="M505,650 H531" marker-end="url(#arrow)"/>
+
+  <!-- verdicts -->
+  <rect class="box-ok" x="885" y="70" width="295" height="260" rx="6"/>
+  <text class="ok" x="897" y="94">Validated against real data</text>
+  <text class="path" x="897" y="114">verdict in the data card</text>
+  <text class="item" x="897" y="136">fragment images: C2ST + TSTR</text>
+  <text class="item" x="897" y="154">terrain statistics: C2ST</text>
+  <text class="item" x="897" y="176">a failed check is reported,</text>
+  <text class="item" x="897" y="194">never hidden</text>
+  <text class="caveat" x="897" y="226">"better than" claims still need</text>
+  <text class="caveat" x="897" y="244">the paired 95 % CI rule</text>
+
+  <rect class="box" x="885" y="340" width="295" height="80" rx="6"/>
+  <text class="title" x="897" y="364">Single real event</text>
+  <text class="item" x="897" y="386">UI: "single real event —</text>
+  <text class="item" x="897" y="404">no significance test"</text>
+
+  <rect class="box-warn" x="885" y="430" width="295" height="170" rx="6"/>
+  <text class="warn" x="897" y="454">Honesty rule label</text>
+  <text class="label" x="897" y="476">"calibrated synthetic — not</text>
+  <text class="label" x="897" y="494">validated against real data"</text>
+  <text class="item" x="897" y="516">no C2ST or TSTR claim is made</text>
+  <text class="item" x="897" y="536">equipment and people images</text>
+  <text class="item" x="897" y="554">(unless the real probe is labelled)</text>
+  <text class="item" x="897" y="574">dust fields, haul telemetry</text>
+
+  <rect class="box" x="885" y="610" width="295" height="80" rx="6"/>
+  <text class="title" x="897" y="634">Benchmark verdict</text>
+  <text class="item" x="897" y="656">pass or fail per benchmark,</text>
+  <text class="item" x="897" y="674">tolerances in the specification</text>
+
+  <path class="edge-accent" d="M855,200 H881" marker-end="url(#arrowA)"/>
+  <path class="edge" d="M855,380 H881" marker-end="url(#arrow)"/>
+  <path class="edge" d="M855,650 H881" marker-end="url(#arrow)"/>
+  <text class="label" x="858" y="192">AUC</text>
+
+  <text class="caveat" x="20" y="722">Thresholds are proposed defaults in specs/000-foundation/thresholds.yaml, calibrated at specification. Nothing has been generated yet.</text>
+  <text class="label" x="20" y="744">C2ST: Lopez-Paz and Oquab (arXiv 1610.06545) · TSTR: Esteban et al. (arXiv 1706.02633) · DINOv2 features: Stein et al. (arXiv 2306.04675)</text>
+</svg>

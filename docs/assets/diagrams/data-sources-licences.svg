@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Data sources by licence class and what is committed</title>
+  <desc id="d">Every PitStudio data source grouped into six licence classes, fetched and checked by s00_download and the ingestion contract, then split into derived artefacts that are committed or published and material that is never committed.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .ah-accent{fill:var(--accent)}
+    .ah-warn{fill:var(--warning)}
+    .edge-warn{stroke:var(--warning);stroke-width:1.8;fill:none;stroke-dasharray:6 4}
+    .s1{fill:var(--chart-1)} .s2{fill:var(--chart-2)} .s3{fill:var(--chart-3)} .s5{fill:var(--chart-5)}
+    .s6{fill:var(--chart-6)} .sw{fill:var(--warning)}
+    .box-ok{fill:var(--surface-2);stroke:var(--success);stroke-width:2}
+    .box-bad{fill:var(--surface-2);stroke:var(--danger);stroke-width:2}
+    .band-warn{fill:var(--surface);stroke:var(--warning);stroke-width:1.5}
+    .ok{font:600 15px Inter,system-ui,sans-serif;fill:var(--success)}
+    .bad{font:600 15px Inter,system-ui,sans-serif;fill:var(--danger)}
+    .head{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-accent"/>
+    </marker>
+    <marker id="arrowW" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-warn"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="820"/>
+
+  <text class="title" x="20" y="30">Sources by licence class → fetch and check → committed vs never committed</text>
+  <text class="head" x="20" y="62">SOURCES · data/sources.yaml (SPDX traced to the publisher)</text>
+  <text class="head" x="520" y="62">FETCH AND CHECK</text>
+  <text class="head" x="800" y="62">OUTCOME</text>
+
+  <!-- band 1: public domain -->
+  <rect class="band" x="20" y="78" width="470" height="108" rx="6"/>
+  <rect class="s1" x="20" y="78" width="8" height="108" rx="2"/>
+  <text class="title" x="40" y="100">public-domain</text>
+  <text class="path" x="40" y="120">usgs-3dep-bingham · epa-ap42-13-2-2 · ghcnh</text>
+  <text class="item" x="40" y="140">USGS 3DEP Bingham: 1 m DEMs 2013/2018/2023 + 69 LAZ tiles</text>
+  <text class="item" x="40" y="158">EPA AP-42 §13.2.2 unpaved-road rows (US Government work)</text>
+  <text class="caveat" x="40" y="176">NOAA GHCNh fallback: terms verified at specification</text>
+
+  <!-- band 2: open, no attribution -->
+  <rect class="band" x="20" y="194" width="470" height="108" rx="6"/>
+  <rect class="s6" x="20" y="194" width="8" height="108" rx="2"/>
+  <text class="title" x="40" y="216">open-no-attribution</text>
+  <text class="path" x="40" y="236">DL-DE-ZERO-2.0 · CC0-1.0</text>
+  <text class="item" x="40" y="256">NRW Hambach DGM1 + LAZ (dl-de/zero-2.0)</text>
+  <text class="item" x="40" y="274">Poly Haven, ambientCG textures and HDRIs (CC0)</text>
+  <text class="item" x="40" y="292">MakeHuman exports (CC0 option, licence §C)</text>
+
+  <!-- band 3: attribution -->
+  <rect class="band" x="20" y="310" width="470" height="108" rx="6"/>
+  <rect class="s2" x="20" y="310" width="8" height="108" rx="2"/>
+  <text class="title" x="40" y="332">attribution</text>
+  <text class="path" x="40" y="352">CC-BY-4.0 · attribution text mandatory</text>
+  <text class="item" x="40" y="372">McKinley lidar · de Wit slope series · Mendeley fragments</text>
+  <text class="item" x="40" y="390">Tang &amp; Werner footprint · Xu v3 expansion · ERA5</text>
+  <text class="caveat" x="40" y="408">EGMS Hambach: licence-label conflict → derived-only</text>
+
+  <!-- band 4: share-alike -->
+  <rect class="band" x="20" y="426" width="470" height="108" rx="6"/>
+  <rect class="s5" x="20" y="426" width="8" height="108" rx="2"/>
+  <text class="title" x="40" y="448">share-alike (optional layers)</text>
+  <text class="path" x="40" y="468">CC-BY-SA-4.0 maus-v2 · CC-BY-SA-3.0 minelib</text>
+  <text class="item" x="40" y="488">Maus v2 mining polygons · MineLib marvin instance</text>
+  <text class="item" x="40" y="506">derivatives stay CC BY-SA</text>
+  <text class="caveat" x="40" y="524">always separate manifest entries, never merged</text>
+
+  <!-- band 5: own -->
+  <rect class="band" x="20" y="542" width="470" height="108" rx="6"/>
+  <rect class="s3" x="20" y="542" width="8" height="108" rx="2"/>
+  <text class="title" x="40" y="564">own (PitStudio outputs)</text>
+  <text class="path" x="40" y="584">Apache-2.0 code · CC-BY-4.0 docs, USD, data</text>
+  <text class="item" x="40" y="604">SDG images, sensor clouds, physics fields, DES, PSDs</text>
+  <text class="item" x="40" y="622">weights: Apache-2.0 + attribution if all inputs allow</text>
+  <text class="item" x="40" y="640">Cosmos answers: display-only, "Built on NVIDIA Cosmos"</text>
+
+  <!-- band 6: reference-only -->
+  <rect class="band-warn" x="20" y="658" width="470" height="108" rx="6"/>
+  <rect class="sw" x="20" y="658" width="8" height="108" rx="2"/>
+  <text class="title" x="40" y="680">reference-only (NVIDIA)</text>
+  <text class="path" x="40" y="700">NVIDIA SLA · TensorRT SLA · Open Model Lic.</text>
+  <text class="item" x="40" y="720">Isaac Sim, Kit, Replicator, ovrtx runtimes, assets, caches</text>
+  <text class="item" x="40" y="738">TensorRT engines (.plan) · Cosmos BF16 and GGUF weights</text>
+  <text class="caveat" x="40" y="756">used on the local machine only, never redistributed</text>
+
+  <!-- fetch connector from bands 1-4 -->
+  <path class="edge" d="M490,132 H504 M490,248 H504 M490,364 H504 M490,480 H504 M504,132 V480"/>
+  <path class="edge-accent" d="M504,225 H518" marker-end="url(#arrowA)"/>
+
+  <!-- middle column -->
+  <rect class="box-accent" x="520" y="150" width="240" height="150" rx="6"/>
+  <text class="title" x="532" y="174">Download</text>
+  <text class="path" x="532" y="194">s00_download (pooch)</text>
+  <text class="item" x="532" y="214">fetch each file by URL</text>
+  <text class="item" x="532" y="232">SHA-256 from sources.yaml</text>
+  <text class="item" x="532" y="250">raw → data/raw/ (ignored)</text>
+  <text class="caveat" x="532" y="272">hash mismatch → stop</text>
+  <text class="label" x="532" y="292">accounts only via env vars</text>
+
+  <rect class="box" x="520" y="340" width="240" height="140" rx="6"/>
+  <text class="title" x="532" y="364">Ingestion contract</text>
+  <text class="path" x="532" y="384">pandera schemas</text>
+  <text class="item" x="532" y="404">units + physical ranges</text>
+  <text class="item" x="532" y="422">reject, never coerce</text>
+  <text class="item" x="532" y="440">failure report, no repair</text>
+  <text class="caveat" x="532" y="466">no silent clipping or imputing</text>
+
+  <rect class="box" x="520" y="520" width="240" height="140" rx="6"/>
+  <text class="title" x="532" y="544">Derive and bake</text>
+  <text class="path" x="532" y="564">s10…s60 · st10…st56</text>
+  <text class="item" x="532" y="584">tiles, meshes, masks, curves</text>
+  <text class="item" x="532" y="602">metrics, rows, renders</text>
+  <text class="item" x="532" y="620">manifest per artefact:</text>
+  <text class="path" x="532" y="640">licence_class</text>
+
+  <path class="edge" d="M640,300 V336" marker-end="url(#arrow)"/>
+  <text class="label" x="648" y="324">raw files</text>
+  <path class="edge" d="M640,480 V516" marker-end="url(#arrow)"/>
+  <text class="label" x="648" y="504">validated tables</text>
+  <path class="edge" d="M490,596 H516" marker-end="url(#arrow)"/>
+  <text class="label" x="491" y="588">ours</text>
+
+  <!-- right column -->
+  <rect class="box-ok" x="800" y="78" width="380" height="372" rx="6"/>
+  <text class="ok" x="815" y="102">Committed or published</text>
+  <text class="path" x="815" y="124">git: each file &lt; 10 MB, ≤ 100 MB baked</text>
+  <text class="item" x="815" y="146">derived tiles, meshes, volumes (3DEP, McKinley)</text>
+  <text class="item" x="815" y="164">footprint masks, expansion curves</text>
+  <text class="item" x="815" y="182">wind statistics (ERA5 or GHCNh)</text>
+  <text class="item" x="815" y="200">fragment metrics only, no Mendeley image</text>
+  <text class="item" x="815" y="218">cited AP-42 rows · CC0 textures as WebP</text>
+  <text class="item" x="815" y="236">derived de Wit series, EGMS summaries</text>
+  <text class="path" x="815" y="266">release assets assets-vX.YY.ZZZ</text>
+  <text class="item" x="815" y="288">videos, splats, models &gt; 10 MB</text>
+  <text class="item" x="815" y="306">SHA-256 in the manifest, copied into Pages</text>
+  <text class="path" x="815" y="336">every entry carries</text>
+  <text class="item" x="815" y="358">licence_class, SPDX id, attribution text</text>
+  <text class="item" x="815" y="376">share-alike layers: own entries, CC BY-SA</text>
+  <text class="item" x="815" y="394">Cosmos text: display-only notice</text>
+  <text class="caveat" x="815" y="424">large files never go into git history</text>
+
+  <rect class="box-bad" x="800" y="480" width="380" height="286" rx="6"/>
+  <text class="bad" x="815" y="504">Never committed, never redistributed</text>
+  <text class="path" x="815" y="526">data/raw/ · runs/ · engines (ignored)</text>
+  <text class="item" x="815" y="548">raw third-party files of every class</text>
+  <text class="item" x="815" y="566">Mendeley images and masks</text>
+  <text class="item" x="815" y="584">raw MakeHuman exports (renders are ours)</text>
+  <text class="item" x="815" y="602">NVIDIA binaries, assets, shader caches</text>
+  <text class="item" x="815" y="620">TensorRT engines · Cosmos weights</text>
+  <text class="path" x="815" y="650">performance: local-only</text>
+  <text class="item" x="815" y="672">Isaac Sim, Kit, Replicator, ovrtx timings</text>
+  <text class="item" x="815" y="690">TensorRT for RTX timings</text>
+  <text class="caveat" x="815" y="716">licences: NVIDIA SLA §8.9,</text>
+  <text class="caveat" x="815" y="734">TensorRT for RTX SLA §2.13</text>
+
+  <!-- outcome arrows -->
+  <path class="edge-accent" d="M760,570 H790 V300 H798" marker-end="url(#arrowA)"/>
+  <text class="label" x="761" y="562">bake</text>
+  <path class="edge-warn" d="M760,620 H790 V640 H798" marker-end="url(#arrowW)"/>
+  <path class="edge-warn" d="M490,712 H790 V700 H798" marker-end="url(#arrowW)"/>
+  <text class="label" x="530" y="704">used locally; only our own outputs leave</text>
+  <text class="label" x="763" y="612">raw</text>
+
+  <text class="caveat" x="20" y="800">Accounts (OpenTopography, CDS, EGMS) are optional maintainer acts; each source has a no-account fallback.</text>
+</svg>

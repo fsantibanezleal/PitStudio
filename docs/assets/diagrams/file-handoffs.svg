@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">File handoffs between the Python 3.14 and 3.12 environments</title>
+  <desc id="d">The Python 3.14 environments on the left and the Python 3.12 environments and Kit on the right never import each other; they exchange the seven schema-validated file kinds in the middle through the studio store.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .band-label{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .h1{font:600 18px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .lane-live{fill:var(--surface-2);stroke:var(--chart-2);stroke-width:2}
+    .lane-replay{fill:var(--surface-2);stroke:var(--chart-4);stroke-width:2}
+    .lane-local{fill:var(--surface-2);stroke:var(--warning);stroke-width:2}
+    .ref-only{stroke-dasharray:6 4}
+    .hit{fill:var(--surface-2);stroke:var(--success);stroke-width:2;stroke-dasharray:6 4}
+    .tag-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .tag-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .tag-live{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-2)}
+    .tag-replay{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-4)}
+    .label-bg{fill:var(--bg);opacity:0.92}
+    .sw-live{fill:var(--chart-2)}
+    .sw-replay{fill:var(--chart-4)}
+    .sw-local{fill:var(--warning)}
+    .sw-ok{fill:var(--success)}
+
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="700"/>
+  <text x="30" y="32" class="h1">File-only handoff: 3.14 open lane ↔ 3.12 NVIDIA lane</text>
+  <text x="30" y="52" class="item">Each file is validated when it is written and again when it is read (JSON Schema 2020-12 → Pydantic).</text>
+  <rect class="band" x="20" y="66" width="300" height="600" rx="10"/>
+  <text x="32" y="86" class="band-label">Python 3.14</text>
+  <rect class="box" x="32" y="96" width="276" height="132" rx="8"/>
+  <text x="42" y="118" class="title">root · runner</text>
+  <text x="42" y="136" class="path">src/pitstudio/runner/</text>
+  <text x="42" y="154" class="item">writes one job spec per stage</text>
+  <text x="42" y="172" class="item">launches uv run --project … --frozen</text>
+  <text x="42" y="190" class="item">reads manifests and events</text>
+  <text x="42" y="208" class="caveat">planned (build phase)</text>
+  <rect class="box" x="32" y="244" width="276" height="132" rx="8"/>
+  <text x="42" y="266" class="title">studio/</text>
+  <text x="42" y="284" class="path">studio/src/pitstudio_studio/</text>
+  <text x="42" y="302" class="item">st10–st45: scene → root.usda</text>
+  <text x="42" y="320" class="item">st50: physics → Zarr / Parquet</text>
+  <text x="42" y="338" class="item">st56: encode ← PNG/EXR frames</text>
+  <rect class="box" x="32" y="392" width="276" height="150" rx="8"/>
+  <text x="42" y="414" class="title">pipeline/ · pipeline/accel/</text>
+  <text x="42" y="432" class="path">pipeline/</text>
+  <text x="42" y="450" class="item">s10–s50 ← images, labels, clouds</text>
+  <text x="42" y="468" class="item">s60_export → ONNX + parity</text>
+  <text x="42" y="486" class="item">LAZ via laspy · s62/s64 TensorRT</text>
+  <text x="42" y="504" class="caveat">engines never leave the machine</text>
+  <rect class="band" x="380" y="66" width="440" height="600" rx="10"/>
+  <text x="392" y="86" class="band-label">Files in PITSTUDIO_STORE · runs/&lt;run_id&gt;/</text>
+  <rect class="box" x="392" y="96" width="416" height="66" rx="8"/>
+  <text x="402" y="118" class="title">Job spec (JSON)</text>
+  <text x="402" y="136" class="path">contracts/recipe.schema.json</text>
+  <text x="402" y="154" class="item">stage, env, params, seed, input digests</text>
+  <path class="edge" d="M320,129 L390,129" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="333" y="109" width="44" height="19" rx="3"/>
+  <text x="355" y="123" class="label" text-anchor="middle">writes</text>
+  <path class="edge" d="M810,129 L878,129" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="825" y="109" width="38" height="19" rx="3"/>
+  <text x="844" y="123" class="label" text-anchor="middle">reads</text>
+  <rect class="box-accent" x="392" y="172" width="416" height="66" rx="8"/>
+  <text x="402" y="194" class="title">USD stage</text>
+  <text x="402" y="212" class="path">root.usda + layers (.usda/.usdc)</text>
+  <text x="402" y="230" class="item">scene.manifest.json: units, axis, sha256</text>
+  <path class="edge-accent" d="M320,205 L390,205" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="333" y="185" width="44" height="19" rx="3"/>
+  <text x="355" y="199" class="label" text-anchor="middle">writes</text>
+  <path class="edge-accent" d="M810,205 L878,205" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="825" y="185" width="38" height="19" rx="3"/>
+  <text x="844" y="199" class="label" text-anchor="middle">reads</text>
+  <rect class="box" x="392" y="248" width="416" height="66" rx="8"/>
+  <text x="402" y="270" class="title">Poses and fields</text>
+  <text x="402" y="288" class="path">Parquet · Zarr v3 · USD time samples</text>
+  <text x="402" y="306" class="item">DES traces, physics rollouts</text>
+  <path class="edge" d="M320,281 L390,281" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="333" y="261" width="44" height="19" rx="3"/>
+  <text x="355" y="275" class="label" text-anchor="middle">writes</text>
+  <path class="edge" d="M810,281 L878,281" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="825" y="261" width="38" height="19" rx="3"/>
+  <text x="844" y="275" class="label" text-anchor="middle">reads</text>
+  <rect class="box" x="392" y="324" width="416" height="66" rx="8"/>
+  <text x="402" y="346" class="title">Images and labels</text>
+  <text x="402" y="364" class="path">PNG / EXR · COCO JSON · masks</text>
+  <text x="402" y="382" class="item">Replicator and ovrtx camera outputs</text>
+  <path class="edge" d="M878,357 L810,357" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="822" y="337" width="44" height="19" rx="3"/>
+  <text x="844" y="351" class="label" text-anchor="middle">writes</text>
+  <path class="edge" d="M390,357 L320,357" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="336" y="337" width="38" height="19" rx="3"/>
+  <text x="355" y="351" class="label" text-anchor="middle">reads</text>
+  <rect class="box" x="392" y="400" width="416" height="66" rx="8"/>
+  <text x="402" y="422" class="title">Point clouds and radar</text>
+  <text x="402" y="440" class="path">NPZ (3.12) → LAZ (3.14)</text>
+  <text x="402" y="458" class="item">xyz, intensity, echo id, RCS, Doppler</text>
+  <path class="edge" d="M878,433 L810,433" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="822" y="413" width="44" height="19" rx="3"/>
+  <text x="844" y="427" class="label" text-anchor="middle">writes</text>
+  <path class="edge" d="M390,433 L320,433" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="336" y="413" width="38" height="19" rx="3"/>
+  <text x="355" y="427" class="label" text-anchor="middle">reads</text>
+  <rect class="box" x="392" y="476" width="416" height="66" rx="8"/>
+  <text x="402" y="498" class="title">Models and policies</text>
+  <text x="402" y="516" class="path">ONNX (IR + opset pinned)</text>
+  <text x="402" y="534" class="item">Isaac Lab policies → s60 parity</text>
+  <path class="edge" d="M878,509 L810,509" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="822" y="489" width="44" height="19" rx="3"/>
+  <text x="844" y="503" class="label" text-anchor="middle">writes</text>
+  <path class="edge" d="M390,509 L320,509" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="336" y="489" width="38" height="19" rx="3"/>
+  <text x="355" y="503" class="label" text-anchor="middle">reads</text>
+  <rect class="box" x="392" y="552" width="416" height="66" rx="8"/>
+  <text x="402" y="574" class="title">Run manifest</text>
+  <text x="402" y="592" class="path">contracts/manifest.schema.json</text>
+  <text x="402" y="610" class="item">versions, licence class, local-only flag</text>
+  <path class="edge" d="M320,585 L390,585" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="333" y="565" width="44" height="19" rx="3"/>
+  <text x="355" y="579" class="label" text-anchor="middle">writes</text>
+  <path class="edge" d="M878,585 L810,585" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="822" y="565" width="44" height="19" rx="3"/>
+  <text x="844" y="579" class="label" text-anchor="middle">writes</text>
+  <text x="600" y="648" class="caveat" text-anchor="middle">No shared venv, no cross-lane import: a file that fails its schema stops the stage.</text>
+  <rect class="band" x="880" y="66" width="300" height="600" rx="10"/>
+  <text x="892" y="86" class="band-label">Python 3.12 and Kit</text>
+  <rect class="box ref-only" x="892" y="96" width="276" height="132" rx="8"/>
+  <text x="902" y="118" class="title">studio/isaac/</text>
+  <text x="902" y="136" class="path">studio/isaac/</text>
+  <text x="902" y="154" class="item">st55_sdg · st52_rtx_render</text>
+  <text x="902" y="172" class="item">st54_vehicles · st57_rain_lidar</text>
+  <text x="902" y="190" class="item">← USD + poses; → images, clouds</text>
+  <rect class="box ref-only" x="892" y="244" width="276" height="112" rx="8"/>
+  <text x="902" y="266" class="title">studio/rtx/</text>
+  <text x="902" y="284" class="path">studio/rtx/</text>
+  <text x="902" y="302" class="item">st53_sensors (S1, S2, S3, S4a)</text>
+  <text x="902" y="320" class="item">← USD + poses + sensor recipe</text>
+  <text x="902" y="338" class="item">→ PNG/EXR, NPZ clouds, radar</text>
+  <rect class="box" x="892" y="372" width="276" height="112" rx="8"/>
+  <text x="902" y="394" class="title">studio/isaaclab/</text>
+  <text x="902" y="412" class="path">studio/isaaclab/</text>
+  <text x="902" y="430" class="item">st60_il_train · st61_il_mpm_eval</text>
+  <text x="902" y="448" class="item">← terrain USD + task recipe</text>
+  <text x="902" y="466" class="item">→ ONNX policies, rollouts</text>
+  <rect class="box ref-only" x="892" y="500" width="276" height="112" rx="8"/>
+  <text x="902" y="522" class="title">studio/kit/ (Kit 3.12)</text>
+  <text x="902" y="540" class="path">studio/kit/</text>
+  <text x="902" y="558" class="item">st58_kit_capture · st45b_kit_validate</text>
+  <text x="902" y="576" class="item">← root.usda + waypoints</text>
+  <text x="902" y="594" class="item">→ PNG/EXR frames, reports</text>
+</svg>

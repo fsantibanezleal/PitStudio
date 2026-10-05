@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">The physical-AI loop in PitStudio</title>
+  <desc id="d">A closed loop from a sensor-realistic OpenUSD pit scene to synthetic labels, to trained models, to validation with a stated sim-to-real gap whose report feeds back into the scene and its domain randomisation, with real reference data entering only at validation.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-hi{fill:var(--accent)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-hi"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1000" height="640"/>
+  <text class="title" x="40" y="44">The physical-AI loop: scene → labels → model → validation with a stated gap</text>
+
+  <!-- 1 scene -->
+  <rect class="box" x="40" y="70" width="380" height="160" rx="8"/>
+  <text class="title" x="56" y="96">1 · Sensor-realistic scene</text>
+  <text class="path" x="56" y="118">studio/ (usd-core 26.8)</text>
+  <text class="path" x="56" y="136">studio/isaac · studio/rtx</text>
+  <text class="item" x="56" y="160">OpenUSD pit from USGS 3DEP lidar,</text>
+  <text class="item" x="56" y="178">RTX camera, lidar and radar</text>
+  <text class="item" x="56" y="196">+ our own dust model</text>
+  <text class="caveat" x="56" y="220">renders show our scenes only</text>
+
+  <!-- 2 labels -->
+  <rect class="box" x="580" y="70" width="380" height="160" rx="8"/>
+  <text class="title" x="596" y="96">2 · Synthetic labels</text>
+  <text class="path" x="596" y="118">st55_sdg · st53_sensors</text>
+  <text class="item" x="596" y="142">COCO boxes, masks, depth;</text>
+  <text class="item" x="596" y="160">exact PSD of muck piles;</text>
+  <text class="item" x="596" y="178">hazard answers from USD prims;</text>
+  <text class="item" x="596" y="196">structured vs unstructured DR</text>
+  <text class="caveat" x="596" y="220">our outputs, licensed CC-BY</text>
+
+  <!-- 3 model -->
+  <rect class="box" x="580" y="370" width="380" height="200" rx="8"/>
+  <text class="title" x="596" y="396">3 · Trained model</text>
+  <text class="path" x="596" y="418">pipeline/ s30_train → s60_export</text>
+  <text class="item" x="596" y="442">D-FINE, RF-DETR-Seg, U-Net,</text>
+  <text class="item" x="596" y="460">GNS, FNO, dispatch and Isaac Lab</text>
+  <text class="item" x="596" y="478">policies; Cosmos Reason 2 is</text>
+  <text class="item" x="596" y="496">evaluated zero-shot, not trained</text>
+  <text class="caveat" x="596" y="530">ONNX + parity; engines stay local</text>
+
+  <!-- 4 validation -->
+  <rect class="box-accent" x="40" y="370" width="380" height="200" rx="8"/>
+  <text class="title" x="56" y="396">4 · Validation with a stated gap</text>
+  <text class="path" x="56" y="418">s50_evaluate</text>
+  <text class="item" x="56" y="442">held-out synthetic + real test</text>
+  <text class="item" x="56" y="460">splits; TSTR vs TRTR, C2ST,</text>
+  <text class="item" x="56" y="478">corruption curves, decision rule</text>
+  <text class="caveat" x="56" y="512">equipment/people sim-to-real:</text>
+  <text class="caveat" x="56" y="530">not measured unless the optional</text>
+  <text class="caveat" x="56" y="548">real probe is labelled</text>
+
+  <!-- real reference data -->
+  <rect class="box" x="300" y="250" width="400" height="80" rx="8"/>
+  <text class="title" x="316" y="274">Real reference data</text>
+  <text class="path" x="316" y="296">PITSTUDIO_DATA</text>
+  <text class="item" x="316" y="318">Mendeley rock fragments · de Wit slope series</text>
+
+  <!-- loop edges -->
+  <path class="edge-accent" d="M420,140 H576" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="500" y="130" text-anchor="middle">rendered frames</text>
+  <text class="label" x="500" y="158" text-anchor="middle">+ USD prim ids</text>
+
+  <path class="edge-accent" d="M770,230 V366" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="780" y="350">labelled datasets</text>
+
+  <path class="edge-accent" d="M580,470 H424" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="502" y="460" text-anchor="middle">ONNX models</text>
+  <text class="label" x="502" y="488" text-anchor="middle">+ parity record</text>
+
+  <path class="edge-accent" d="M230,370 V234" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="222" y="296" text-anchor="end">gap report →</text>
+  <text class="label" x="222" y="314" text-anchor="end">scene + DR fixes</text>
+
+  <path class="edge" d="M340,330 V366" marker-end="url(#arrow)"/>
+  <text class="label" x="350" y="354">real test splits</text>
+
+  <text class="caveat" x="40" y="612">Not yet run: nothing has been trained or rendered at the time of writing (2026-10-04).</text>
+</svg>
