@@ -30,6 +30,7 @@ jobs:
       - run: uv run python tools/trace.py --check
       - run: uv run python tools/check_tdd.py --replay
       - run: uv run python tools/check_repo.py
+      - run: uv run python tools/check_docs.py
       - name: Pipeline smoke (CPU, samples only)
         working-directory: pipeline
         run: uv sync --extra cpu --all-groups --locked && uv run pytest -m "not gpu and not slow"
