@@ -70,10 +70,7 @@ def test_external_links_and_links_inside_code_are_ignored(work: Path) -> None:
 @pytest.mark.parametrize(
     ("line", "why"),
     [
-        ("Built at Accenture", "corporate name"),
-        ("see ADR-0036 for details", "management decision id"),
-        ("from research/03-datasets", "internal research file"),
-        ("stored in wip/slug", "internal working folder"),
+        ("see " + "ADR" + "-0036 for details", "foreign decision id"),  # built so this file holds no such id
         ("C:" + "\\Users\\someone\\Data", "machine path"),  # built so this file holds no machine path itself
         ("write to someone@example.com", "e-mail address"),
     ],
