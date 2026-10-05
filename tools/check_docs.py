@@ -21,6 +21,7 @@ from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
 LINK = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+INLINE_CODE = re.compile(r"(`+)(?:(?!\1).)+\1")
 FENCE = re.compile(r"^(\s*)(```+|~~~+)\s*(.*)$")
 HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*#*\s*$")
 FORBIDDEN = [
@@ -93,7 +94,7 @@ def check_markdown(md: Path, cache: dict[Path, set[str]], runs: list[str]) -> li
                 errs.append(f"{rel}:{no}: {why}: {line.strip()[:120]}")
         if in_fence:
             continue
-        for target in LINK.findall(line):
+        for target in LINK.findall(INLINE_CODE.sub("", line)):
             if re.match(r"^[a-z][a-z0-9+.-]*:", target) or target == "#":
                 continue
             path_part, _, frag = target.partition("#")

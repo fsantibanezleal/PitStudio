@@ -62,7 +62,8 @@ def test_broken_link_and_missing_anchor_fail(work: Path) -> None:
 
 
 def test_external_links_and_links_inside_code_are_ignored(work: Path) -> None:
-    a = md(work, "a.md", "[w](https://example.org/x) [m](mailto:x)\n```bash\n[no](missing.md)\n```\n")
+    text = "[w](https://example.org/x) [m](mailto:x) `![e](missing.svg)`\n```bash\n[no](missing.md)\n```\n"
+    a = md(work, "a.md", text)
     assert errors(a) == []
 
 
@@ -73,7 +74,7 @@ def test_external_links_and_links_inside_code_are_ignored(work: Path) -> None:
         ("see ADR-0036 for details", "management decision id"),
         ("from research/03-datasets", "internal research file"),
         ("stored in wip/slug", "internal working folder"),
-        (r"C:\Users\someone\Data", "machine path"),
+        ("C:" + "\\Users\\someone\\Data", "machine path"),  # built so this file holds no machine path itself
         ("write to someone@example.com", "e-mail address"),
     ],
 )
