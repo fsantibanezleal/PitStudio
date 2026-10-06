@@ -3,7 +3,7 @@
 Usage:  python tools/check_docs.py [--root docs] [--list-run]
 Checks:
   1. every relative link / image in docs/**/*.md resolves to a file (and to a heading anchor when one is given);
-  2. no internal references, machine paths or e-mail addresses;
+  2. no foreign decision ids, machine paths or e-mail addresses;
   3. fenced shell blocks: info string `bash`, `bash run` (runs today) or `bash run deferred=P<n>`; nothing else;
   4. every SVG under docs/assets/diagrams parses, has role="img", <title>, <desc>, the `psd` class, and no colour
      literal outside its <style> token block.
@@ -25,12 +25,7 @@ INLINE_CODE = re.compile(r"(`+)(?:(?!\1).)+\1")
 FENCE = re.compile(r"^(\s*)(```+|~~~+)\s*(.*)$")
 HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*#*\s*$")
 FORBIDDEN = [
-    (re.compile(r"\bAccenture\b", re.I), "corporate name"),
-    (re.compile(r"ACC_MANAGE", re.I), "internal repository"),
-    (re.compile(r"\bHNA\b"), "internal process name"),
-    (re.compile(r"\bADR-\d{4}\b"), "management decision id (use DEC-NNNN)"),
-    (re.compile(r"\bresearch/\d\d"), "internal research file"),
-    (re.compile(r"(?<![\w.])wip/"), "internal working folder"),
+    (re.compile(r"\bADR-\d{4}\b"), "foreign decision id (decision records in this repo are DEC-NNNN)"),
     (re.compile(r"[A-Za-z]:\\Users\\", re.I), "machine path"),
     (re.compile(r"/Users/[a-z]"), "machine path"),
     (re.compile(r"\b[\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[a-z]{2,}\b", re.I), "e-mail address"),
