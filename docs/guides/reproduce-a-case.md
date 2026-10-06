@@ -11,7 +11,7 @@
 **Goal:** independent confirmation. Every artefact on the site names the tool, run and commit behind it, and every
 case page offers a "reproduce this" command. Re-running that command with the same code, lock files, parameters, seeds
 and inputs gives the same cache key, and for deterministic stages byte-identical outputs (foundation property
-P-000-01). For stages that are not bit-reproducible (MPM, RTX rendering, synthetic data, training) the check compares
+a correctness property of the foundation spec, written in the specification phase). For stages that are not bit-reproducible (MPM, RTX rendering, synthetic data, training) the check compares
 observables within the tolerances of `specs/000-foundation/thresholds.yaml`.
 
 **Status:** nothing has been published yet, so there is nothing to reproduce today; the commands are
@@ -62,8 +62,8 @@ observables within the tolerances of `specs/000-foundation/thresholds.yaml`.
 4. **Plan, then run the recipe** of the case with the recipe's master seed.
 
    ```bash run deferred=P6
-   uv run --extra runner studio plan recipes/a1-dispatch.yaml
-   uv run --extra runner studio run recipes/a1-dispatch.yaml
+   uv run --extra runner studio plan studio/recipes/cases/a1.yaml
+   uv run --extra runner studio run studio/recipes/cases/a1.yaml
    ```
 
 5. **Compare with the published manifest.** For `bitwise` stages, compare SHA-256 values; for `statistical` stages,
@@ -113,7 +113,7 @@ observables within the tolerances of `specs/000-foundation/thresholds.yaml`.
 
 ## In PitStudio
 
-- Foundation property P-000-01 and requirement FR-000-14 in `specs/000-foundation/spec.md`; specs `002-runner` and
+- The reproducibility property and the manifest requirement of the foundation spec (written in the specification phase); specs `002-runner` and
   `008-data-pipeline`.
 
 ## References

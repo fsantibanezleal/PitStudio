@@ -160,8 +160,8 @@ in the TensorRT probe ([Capabilities](../data-contract/capabilities.md)).
   the machine's GPU hold. Once the stages exist:
 
 ```bash run deferred=P6
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage s62_accel
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage s64_bench
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage s62_accel
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage s64_bench
 ```
 
 ## References

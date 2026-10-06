@@ -133,7 +133,7 @@ No, and it says so on screen. It keeps casual visitors on the landing view; ever
 
 ## In PitStudio
 
-- Foundation spec `specs/000-foundation/spec.md` holds the requirements behind these answers (FR-000-01 to FR-000-16).
+- Foundation spec `specs/000-foundation/spec.md` holds the requirements behind these answers; the full product-level set is written in the specification phase.
 
 ## References
 

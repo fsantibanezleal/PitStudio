@@ -16,7 +16,7 @@ tool page are filtered from the manifests by `producer.tool`.
 
 ## Recipes: `contracts/recipe.schema.json`
 
-Recipes are YAML files in `studio/recipes/` (one per case, plus benchmark suites in `studio/recipes/_bench/`),
+Recipes are YAML files in `studio/recipes/cases/` (one per case; benchmark suites in `studio/recipes/_bench/`),
 validated against `contracts/recipe.schema.json` (written in the specification phase). Configuration composition is
 done with explicit overlay files and the same JSON Schema / Pydantic machinery as the manifests.
 
@@ -63,7 +63,7 @@ leak.
 ### An illustrative recipe
 
 ```yaml
-# studio/recipes/<case>.yaml  (illustrative; real recipes are written in the build phase)
+# studio/recipes/cases/<case>.yaml  (illustrative; real recipes are written in the build phase)
 id: d1-blast-muck-pile
 case: D1
 seed: 20261004
@@ -178,14 +178,14 @@ each with its reason ([cuOpt](../frameworks/not-adopted-cuopt.md), [PhysicsNeMo]
 
 ## In PitStudio
 
-- **Files:** `contracts/recipe.schema.json`, `contracts/tools.schema.json`, `studio/recipes/` (folders `_bench/` and
-  `_profiles/` exist, empty), `studio/tools.yaml`.
+- **Files:** `contracts/recipe.schema.json`, `contracts/tools.schema.json`, `studio/recipes/cases/`, `studio/recipes/_bench/` and
+  `studio/recipes/_profiles/` (all created in the build phase), `studio/tools.yaml`.
 - **Consumers:** the runner (`src/pitstudio/runner/`), the console (`POST /jobs`), the web `/studio` routes, CI.
 - **Status:** schemas and registry are written in the specification and build phases. Commands, once the runner exists:
 
 ```bash run deferred=P6
-uv run --extra runner studio plan studio/recipes/<case>.yaml --profile linux-gpu
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage st50_physics
+uv run --extra runner studio plan studio/recipes/cases/<case>.yaml --profile linux-gpu
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage st50_physics
 ```
 
 ## References

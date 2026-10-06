@@ -25,15 +25,15 @@ a card that says why.
 | **REPLAY** | Precomputed by the named tool in the named run, replayed here |
 | **STATIC** | A figure or table |
 
-Provenance chips name the producing tool, the run id and the commit (FR-000-06). The lane is **measured, not
+Provenance chips name the producing tool, the run id and the commit. The lane is **measured, not
 declared**: an artefact is LIVE only if it is web-drivable, its asset is ≤ 25 MB, an interaction takes ≤ 16 ms or a
 run ≤ 1 s on T2, and its trace is ≤ 10 MB; otherwise it is precompute or replay. The measurement is stored in the
-manifest and CI fails when a label disagrees with it (FR-000-15). See [compute lanes](../pipelines/compute-lanes.md).
+manifest and CI fails when a label disagrees with it. See [compute lanes](../pipelines/compute-lanes.md).
 
 ### 2. A tool marked done has at least one artefact
 
 The tool registry `studio/tools.yaml` holds a status per tool. CI fails if an entry with `status: done` has no artefact
-in the web manifest whose `producer.tool` equals that tool's id (FR-000-07).
+in the web manifest whose `producer.tool` equals that tool's id.
 
 ### 3. Nothing published means "not yet run"
 
@@ -87,15 +87,15 @@ comparative benchmark".
 ### 8. "Better" only by the pre-registered decision rule
 
 A result is called better than another only if the paired 95 % confidence interval of the difference excludes 0;
-otherwise the UI says **"no significant difference"** (FR-000-05,
-[DEC-0016](../architecture/decisions/DEC-0016-pre-registered-decision-rule.md)). Single real events, such as the one
+otherwise the UI says **"no significant difference"**
+([DEC-0016](../architecture/decisions/DEC-0016-pre-registered-decision-rule.md)). Single real events, such as the one
 real slope-failure series, are reported descriptively with "single real event — no significance test".
 
 ### 9. Synthetic data is labelled as such
 
 A data type with no real reference (equipment and people images without the optional real probe, dust fields, haul
-telemetry) is labelled **"calibrated synthetic — not validated against real data"** and gets no C2ST or TSTR claim
-(FR-000-09). Equipment and people detection is reported with sim-to-real **"not measured"** unless the optional real
+telemetry) is labelled **"calibrated synthetic — not validated against real data"** and gets no C2ST or TSTR claim.
+Equipment and people detection is reported with sim-to-real **"not measured"** unless the optional real
 probe is labelled.
 
 ### 10. Cosmos outputs are display-only and attributed
@@ -106,7 +106,7 @@ Open Model License requires for Cosmos models [4]. They are never a headline KPI
 ### 11. Every external number has a source
 
 Every external number in the UI, the docs and the knowledge tables carries a DOI or URL, and every row not yet checked
-against its primary page is flagged **UNVERIFIED** (FR-000-10).
+against its primary page is flagged **UNVERIFIED**.
 
 ## Card anatomy
 
@@ -132,7 +132,7 @@ the local-only note instead of timing chips.
 
 | Rule | Check | Status |
 |---|---|---|
-| 1 lane badge, measured lane | manifest schema + lane-gate check against measurements (FR-000-15) | build phase |
+| 1 lane badge, measured lane | manifest schema + lane-gate check against measurements | build phase |
 | 2 done ⇒ artefact | registry vs manifest join (`producer.tool`) | build phase |
 | 3 "not yet run" | unit + e2e on tool pages with an empty registry | build phase |
 | 4 outputs only | file guards for engines, caches, NVIDIA headers, GGUF; `tools/check_repo.py` for secrets, machine paths and files > 10 MB | partly today (`check_repo.py`) |
@@ -150,7 +150,7 @@ the local-only note instead of timing chips.
 
 ## In PitStudio
 
-- Foundation requirements FR-000-05 to FR-000-10 and FR-000-15 in `specs/000-foundation/spec.md`; feature spec
+- The honesty and lane requirements of the foundation spec (written in the specification phase); feature spec
   `019-web-studio`.
 - Today: rule 6 runs in the capability bench and its contract test; every studio tool is "not yet run"; the GPU probes
   are written but not yet run on the reference machine.

@@ -148,7 +148,7 @@ specification.
 
 ```bash run deferred=P6
 uv run --extra runner studio bench <suite>
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage s30_train
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage s30_train
 ```
 
 ## References

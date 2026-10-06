@@ -73,7 +73,7 @@ flowchart LR
 | Videos use `preload="none"`; `MediaCapabilities` picks AV1 1080p or H.264 720p; a WebP poster shows first | Byte budget; codec support differs by browser [1][2] | media cards |
 | ORT-web, Pyodide and Rapier load only on a user action (opening a live tab or pressing "run in Python") | First view ≤ 2 MB; runtimes are up to ≈ 48.5 MB ([budgets](budgets.md)) | engine loaders |
 | The active tier is always visible; a failed tier falls back to the next and the badge changes | FR-000-02 | tier badge |
-| The site never contacts `localhost` on its own; a "connect to my local studio" button performs an opt-in probe, and declining changes nothing | Chrome Local Network Access prompts on any public-to-loopback request [3]; FR-000-11 | studio pages |
+| The site never contacts `localhost` on its own; a "connect to my local studio" button performs an opt-in probe, and declining changes nothing | Chrome Local Network Access prompts on any public-to-loopback request [3]; foundation spec (specification phase) | studio pages |
 | Language: `?lang=` beats the stored choice, which beats English; the browser language is never used | Deterministic, shareable links | shell (exists) |
 | Theme: system, light or dark, applied before first paint | No flash of the wrong theme | shell (exists) |
 
@@ -98,8 +98,8 @@ flowchart LR
 
 ## In PitStudio
 
-- Specs `018-web-cases`, `019-web-studio`, `020-web-knowledge`; foundation requirements FR-000-01 to FR-000-07 and
-  FR-000-11 in `specs/000-foundation/spec.md`.
+- Specs `018-web-cases`, `019-web-studio`, `020-web-knowledge`; foundation requirements FR-000-01 to FR-000-04 in
+  `specs/000-foundation/spec.md` (the rest of the product-level set is written in the specification phase).
 - Today: the gate, language and theme flows exist and are covered by `web/e2e/shell.spec.ts`; everything after the
   gate is a stub.
 

@@ -61,7 +61,7 @@ question types whose answers are computed from the USD stage:
 | 5 | Is a light vehicle in the truck's blind zone? | geometric zone |
 | 6 | Is the truck on a ramp steeper than 10 %? | road grade |
 
-Positives and negatives are balanced per type, about 6,500 queries in total. With about 1,000 queries per type, a
+Positives and negatives are balanced per type, about 6,500 queries in total. With about 1,080 queries per type (six types), a
 Wilson 95 % interval at an accuracy of 0.5 has a half-width of about ±3.1 points (arithmetic, [11]).
 
 **Arms:** Cosmos-Reason2-2B Q8_0 (reasoning on and off); BF16 on a subset; **Qwen3-VL-2B-Instruct** (the base model,

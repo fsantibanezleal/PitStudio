@@ -131,8 +131,8 @@ only the result tables are published, on the Acceleration tab. Total ≈ 4–7 G
 - **Status:** no stage has run. Stages, schemas and recipes are implemented in the build phase.
 
 ```bash run deferred=P6
-uv run --extra runner studio plan studio/recipes/<case>.yaml
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage s50_evaluate
+uv run --extra runner studio plan studio/recipes/cases/<case>.yaml
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage s50_evaluate
 ```
 
 ## References

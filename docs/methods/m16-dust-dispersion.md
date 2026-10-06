@@ -43,9 +43,8 @@ $$
 | $k$, $a$, $b$ | size-class constants | – |
 
 The constants for PM10 ($k = 1.5$, $a = 0.9$, $b = 0.45$) and PM30 ($k = 4.9$, $a = 0.7$, $b = 0.45$), and the stated
-applicability ranges (silt 1.8–25.2 %, $W$ 2–290 tons), were read only from search excerpts of the EPA text and are
-**UNVERIFIED — pinned at specification** [1]; the PM2.5 constant is UNVERIFIED (two values in circulation) and is left
-out until pinned. Large haul trucks can exceed the upper bound of $W$, an extrapolation that the C3 card states. The
+applicability ranges (silt 1.8–25.2 %, $W$ 2–290 tons), are verified on the primary PDF (AP-42 §13.2.2 (11/06), Table 13.2.2-2, p. 13.2.2-5; ranges
+Table 13.2.2-3, p. 13.2.2-5) [1]; the PM2.5 constant is $k = 0.15$ lb/VMT with the same $a$ and $b$ as PM10. Large haul trucks can exceed the upper bound of $W$, an extrapolation that the C3 card states. The
 watering control-efficiency curve is UNVERIFIED — pinned at specification. Conversion to SI:
 1 lb/VMT $= 0.453592/1.609344 = 0.2818$ kg/VKT.
 
@@ -149,7 +148,8 @@ use). Fallback: baked grids.
 
 ## References
 
-1. US EPA — AP-42 §13.2.2 Unpaved Roads (November 2006 version; equation and constants read from search excerpts).
+1. US EPA — AP-42 §13.2.2 Unpaved Roads (November 2006 version; equations 1a and 2, Tables 13.2.2-2 and 13.2.2-3,
+   p. 13.2.2-5, read from the PDF).
    https://www.epa.gov/sites/default/files/2020-10/documents/13.2.2_unpaved_roads.pdf
 2. *Atmospheric dispersion modeling* — Gaussian plume with reflections, Pasquill classes A–F, AERMOD.
    https://en.wikipedia.org/wiki/Atmospheric_dispersion_modeling

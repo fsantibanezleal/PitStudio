@@ -72,8 +72,8 @@ e_t = \frac{E}{3.6\times10^{6}\; m_{\text{payload}}} \quad \text{[kWh/t]}
 $$
 
 A physics floor anchors intuition: lifting 1 t through 100 m needs $1000 \times 9.81 \times 100$ J $= 0.273$ kWh at the
-wheels (arithmetic). Diesel CO₂ uses 10.21 kg CO₂ per US gallon, i.e. about 2.70 kg CO₂/L (UNVERIFIED — pinned at
-specification) [5]; grid electricity uses a configurable emission factor. Rolling-resistance values by surface
+wheels (arithmetic). Diesel CO₂ uses 10.21 kg CO₂ per US gallon, i.e. about 2.70 kg CO₂/L (verified on the primary
+PDF, Table 2, p. 2) [5]; grid electricity uses a configurable emission factor. Rolling-resistance values by surface
 condition from OEM guidance are UNVERIFIED — pinned at specification, so $RR$ is an input with a stated default, not a
 fact.
 
@@ -188,7 +188,8 @@ Fallback: baked route and energy grids. The `minephys` wheel in Pyodide gives a 
    electric roads. Energies 15(13) (CC BY). https://doi.org/10.3390/en15134871
 4. CIM Magazine — *All in on trolley assist* (830,000 L/yr diesel saved; 79 kg CO₂e per cycle).
    https://magazine.cim.org/en/net-zero-challenge/all-in-on-trolley-assist-en/
-5. US EPA — GHG Emission Factors Hub (2025), diesel 10.21 kg CO₂/gal (search excerpt; PDF unreadable).
+5. US EPA — GHG Emission Factors Hub (2025), Table 2 Mobile Combustion CO2 (p. 2): diesel fuel 10.21 kg CO₂/gal.
+   https://www.epa.gov/climateleadership/ghg-emission-factors-hub
    https://www.epa.gov/system/files/documents/2025-01/ghg-emission-factors-hub-2025.pdf
 6. Baek, J. & Choi, Y. (2017). Haul-road design by raster least-cost path with Douglas–Peucker simplification.
    Applied Sciences 7. https://doi.org/10.3390/app7070747

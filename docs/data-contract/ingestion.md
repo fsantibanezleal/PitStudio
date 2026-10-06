@@ -159,8 +159,8 @@ uv sync --project pipeline --extra cpu --all-groups --locked
 Once the build phase adds the runner and the stages, a single source is fetched through the runner:
 
 ```bash run deferred=P6
-uv run --extra runner studio plan studio/recipes/<case>.yaml
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage s00_download
+uv run --extra runner studio plan studio/recipes/cases/<case>.yaml
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage s00_download
 ```
 
 ## References

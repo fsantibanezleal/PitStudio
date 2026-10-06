@@ -146,8 +146,8 @@ Outputs are text, published display-only with "Built on NVIDIA Cosmos"; the weig
   probes run after the machine's GPU hold is lifted.
 
 ```bash run deferred=P6
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage st50_physics
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage st56_encode
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage st50_physics
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage st56_encode
 ```
 
 ## References

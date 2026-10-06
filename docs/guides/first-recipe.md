@@ -13,7 +13,7 @@ one case, a DAG of stages with their parameters and a master seed. The **runner*
 a time in their own environments, and writes a manifest for every run
 ([DEC-0002](../architecture/decisions/DEC-0002-in-repo-runner.md)). Nothing heavy runs outside it: the runner holds the
 machine-wide lock `gpu0.compute` (and `gpu0.nvenc` for encoding) and refuses to start while a `gpu0.hold` file exists
-(FR-000-13).
+(a product-level requirement of the foundation spec, written in the specification phase).
 
 **Status:** the runner, its CLI and the recipe schema are written in the build phase. Every command below is
 `deferred=P6`; the recipe is illustrative.
@@ -27,12 +27,12 @@ machine-wide lock `gpu0.compute` (and `gpu0.nvenc` for encoding) and refuses to 
 
 ## Steps
 
-1. **Write the recipe.** Recipes live in `recipes/` and are validated against `contracts/recipe.schema.json`; a recipe
+1. **Write the recipe.** Recipes live in `studio/recipes/cases/` and are validated against `contracts/recipe.schema.json`; a recipe
    that does not validate is refused before anything runs. The first recipes are the vertical slice: cases A1 and C1 on
    the open lane only.
 
    ```yaml
-   # recipes/c1-slope.yaml — illustrative; field names follow the runner design, the schema is fixed in the build phase
+   # studio/recipes/cases/c1.yaml — illustrative; field names follow the runner design, the schema is fixed in the build phase
    recipe: c1-slope
    case: C1
    seed: 1234                      # master seed; each stage gets hash(master, stage id, shard)
@@ -68,15 +68,15 @@ machine-wide lock `gpu0.compute` (and `gpu0.nvenc` for encoding) and refuses to 
    the active machine profile.
 
    ```bash run deferred=P6
-   uv run --extra runner studio plan recipes/c1-slope.yaml
+   uv run --extra runner studio plan studio/recipes/cases/c1.yaml
    ```
 
 3. **Run it.** Each stage runs as `uv run --project <env> --frozen …` inside a Windows job object (a process group on
    Linux), so a crash or a cancel takes the whole process tree down with it.
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/c1-slope.yaml
-   uv run --extra runner studio run recipes/c1-slope.yaml --stage s30_train
+   uv run --extra runner studio run studio/recipes/cases/c1.yaml
+   uv run --extra runner studio run studio/recipes/cases/c1.yaml --stage s30_train
    ```
 
 4. **Read the run.** Every run writes, under the store:
@@ -98,16 +98,16 @@ machine-wide lock `gpu0.compute` (and `gpu0.nvenc` for encoding) and refuses to 
    that stage and its descendants run.
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/c1-slope.yaml
-   uv run --extra runner studio run recipes/c1-slope.yaml --stage s30_train --force
+   uv run --extra runner studio run studio/recipes/cases/c1.yaml
+   uv run --extra runner studio run studio/recipes/cases/c1.yaml --stage s30_train --force
    ```
 
 6. **Plan on another machine profile.** Recipes never name machine paths; a profile supplies VRAM, power class, GPU
    count, store root, CPU slots and enabled environments. CI plans every recipe with the `linux-gpu` profile against a
-   fake GPU backend on every push, which is how "the same recipes run on a Linux GPU host" is tested now (FR-000-16).
+   fake GPU backend on every push, which is how "the same recipes run on a Linux GPU host" is tested now (foundation spec, specification phase).
 
    ```bash run deferred=P6
-   uv run --extra runner studio plan recipes/c1-slope.yaml --profile linux-gpu
+   uv run --extra runner studio plan studio/recipes/cases/c1.yaml --profile linux-gpu
    ```
 
 7. **Publish or clean up.** `studio publish` bakes a run into web artefacts plus a run card; `studio gc` removes store
@@ -158,7 +158,7 @@ machine-wide lock `gpu0.compute` (and `gpu0.nvenc` for encoding) and refuses to 
 ## In PitStudio
 
 - Spec `002-runner` (recipes, DAG, CAS cache, locks, hold, guards, telemetry, retries, resume, gc, profiles, fake GPU);
-  contract `DC-000-03` in `specs/000-foundation/spec.md`.
+  recipe contract of the foundation spec (`specs/000-foundation/spec.md`, written in the specification phase).
 - Pages: [runner](../studio/runner.md), [console](../studio/console.md), [manifest](../data-contract/manifest.md).
 
 ## References

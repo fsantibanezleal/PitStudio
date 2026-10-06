@@ -16,7 +16,7 @@ cuOpt, and models that do not fit in 16 GB. The design goal is that moving there
 
 ## Machine profiles
 
-A profile is a YAML file in `studio/recipes/_profiles/` read by the runner. Two exist from the start:
+A profile is a YAML file in `studio/recipes/_profiles/` read by the runner. Two are planned, written with the runner:
 
 | Field | `laptop-rtx5000ada` | `linux-gpu` |
 |---|---|---|
@@ -93,8 +93,8 @@ the project does not budget.
 
 ## In PitStudio
 
-- Status: **planned.** `studio/recipes/_profiles/` exists as an empty folder; the CI job and `Dockerfile.open` are built
-  with the runner in the build phase.
+- Status: **planned.** `studio/recipes/_profiles/`, the CI job and `Dockerfile.open` are created with the runner in the
+  build phase.
 
 ## References
 

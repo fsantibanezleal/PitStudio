@@ -47,7 +47,7 @@ Rejected alternatives:
 | Use | Case / method | Notes |
 |---|---|---|
 | Articulated shovel and loader cycle clips | A3 · M7 | Joint trajectories drive the bucket against MPM soil through Newton's coupling |
-| Batched truck rollouts on a ramp | A1, A2 · M4, M21 | Truck as about 7–10 bodies (chassis, wheels, steering), the class of task that fits thousands of envs on 16 GB [3] |
+| Batched truck rollouts on a ramp | A1, A2 · M4, M21 | Truck as about 7–10 bodies (chassis, wheels, steering). How many parallel envs fit in 16 GB has no published figure for this GPU (UNVERIFIED — estimate, measured by the capability probe before any long run) |
 | Isaac Lab IL-1 haul truck, IL-2 excavator | A2, A3 · M21 | Kit-less training on `newton_mjwarp` |
 
 Artefacts it will produce: articulated cycle clips (replayed through glTF animation), batched-rollout throughput in

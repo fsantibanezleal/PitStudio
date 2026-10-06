@@ -82,13 +82,13 @@ Recipes never name machine paths or hardware. A profile supplies them:
 
 Two profiles are planned: `laptop-rtx5000ada` (the reference machine) and `linux-gpu` (a future Linux GPU host). CI
 plans every recipe with `linux-gpu` against a fake GPU backend, so a profile switch is tested on every push
-(FR-000-16). Planned location: `recipes/_profiles/<name>.yaml`.
+(foundation spec, specification phase). Planned location: `studio/recipes/_profiles/<name>.yaml`.
 
 ## Recipes and `params.yaml` (planned)
 
 | File | Holds | Validated by | Part of the cache key? |
 |---|---|---|---|
-| `recipes/<case>.yaml` | one case's stage DAG: stage ids, environments, inputs, parameters, resources, determinism class, retry policy, master seed | `contracts/recipe.schema.json` | yes (parameters and seed) |
+| `studio/recipes/cases/<case>.yaml` | one case's stage DAG: stage ids, environments, inputs, parameters, resources, determinism class, retry policy, master seed | `contracts/recipe.schema.json` | yes (parameters and seed) |
 | `params.yaml` (pipeline) | pipeline stage parameters: splits, seeds, model hyperparameters, export opset and IR version | the pipeline's parameter schema | yes, per stage |
 | `studio/tools.yaml` | the studio tool registry: id, environment, licence class, ring, lane, status, what it produces | `contracts/tools.schema.json` | no (drives the web tool map) |
 | `data/sources.yaml` | every real data source: URL, SHA-256, SPDX licence traced to the publisher, attribution, redistribution class | `contracts/sources.schema.json` | yes, via input digests |

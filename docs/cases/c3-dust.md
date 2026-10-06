@@ -54,9 +54,9 @@ regulatory model [6]).
 | Receptor concentration | µg/m³ (hourly, and averaged over the wind record) | Plume (or particle) concentration at receptor points, weighted by the frequency of each wind and stability class |
 | Water use | m³ per shift | Watering passes from the schedule × road area watered × application depth (inputs) |
 
-The AP-42 constants for PM10 ($k$ = 1.5, $a$ = 0.9, $b$ = 0.45), the stated applicability range (silt 1.8–25.2 %,
-W 2–290 tons) and the watering control-efficiency curve were seen only in excerpts, not in a readable copy of the
-primary text: **UNVERIFIED — pinned at specification** [5]. Until pinned, the water-use KPI is computed but its
+The AP-42 constants for PM10 ($k$ = 1.5 lb/VMT, $a$ = 0.9, $b$ = 0.45; AP-42 §13.2.2 (11/06), Table 13.2.2-2, p. 13.2.2-5) and the stated applicability range
+(silt 1.8–25.2 %, W 2–290 tons; Table 13.2.2-3, p. 13.2.2-5) are verified on the primary PDF [5]. The watering control-efficiency
+curve is still **UNVERIFIED — pinned at specification**. Until pinned, the water-use KPI is computed but its
 control efficiency is not claimed.
 
 ## Studio tools and artefacts

@@ -62,7 +62,10 @@ at or below 80 °C; otherwise the probe is skipped with the reason.
 | `scripts/bootstrap.ps1` (PowerShell 7+) / `scripts/bootstrap.sh` | checks for `uv`, `node`, `pnpm`, `git` (never installs system software), runs `uv sync --all-groups`, creates the pipeline environment with the PyTorch build chosen from the driver (≥ 580 → `cu130`, ≥ 525 → `cu126`, else `cpu`), runs `verify_gpu.py`, installs the web dependencies | exists |
 | `scripts/verify_gpu.py --expect cpu\|cu126\|cu130` (inside `pipeline/`) | prints the torch version, CUDA build and availability; exits 1 if a CUDA build was expected but torch cannot use CUDA or the CUDA version differs | exists |
 
-```bash run
+It imports torch and calls `torch.cuda.is_available()`. On a CUDA build of torch that initialises the GPU driver, so
+it counts as GPU work and is checked when the GPU is available:
+
+```bash run deferred=P6
 cd pipeline && uv run python ../scripts/verify_gpu.py --expect cpu
 ```
 
@@ -114,10 +117,10 @@ Flags below follow the runner design; the exact syntax is fixed by spec `002-run
 
 ```bash run deferred=P6
 uv run --extra runner studio bench env
-uv run --extra runner studio plan recipes/a1-dispatch.yaml --profile linux-gpu
-uv run --extra runner studio run recipes/a1-dispatch.yaml --stage s30_train
+uv run --extra runner studio plan studio/recipes/cases/a1.yaml --profile linux-gpu
+uv run --extra runner studio run studio/recipes/cases/a1.yaml --stage s30_train
 uv run --extra runner studio publish <run_id>
-uv run --extra runner studio profile recipes/a3-loading.yaml --stage st50_physics
+uv run --extra runner studio profile studio/recipes/cases/a3.yaml --stage st50_physics
 uv run --extra runner studio gc --keep-pinned --keep-last 3
 ```
 

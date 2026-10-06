@@ -181,7 +181,7 @@ release page. GitHub limits release assets to under 2 GiB per file [10].
 ```json
 {
   "run_id": "2026xxxxTxxxxxxZ-d1-unet",
-  "recipe": "studio/recipes/<case>.yaml",
+  "recipe": "studio/recipes/cases/<case>.yaml",
   "cache_key": "<sha256>",
   "git_sha": "<40 hex>",
   "producer": { "tool": "pytorch", "stage": "s30_train", "env": "pipeline" },

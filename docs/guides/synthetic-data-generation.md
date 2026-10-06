@@ -51,13 +51,13 @@ trains on both and calls one "better" only by the pre-registered decision rule
    must match).
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/b2-perception.yaml --stage st45_validate
+   uv run --extra runner studio run studio/recipes/cases/b2.yaml --stage st45_validate
    ```
 
 2. **Plan the SDG stage** to see the shard count, disk estimate and VRAM estimate against the 16 GB card.
 
    ```bash run deferred=P6
-   uv run --extra runner studio plan recipes/b2-perception.yaml
+   uv run --extra runner studio plan studio/recipes/cases/b2.yaml
    ```
 
 3. **Run SDG.** The stage runs in `studio/isaac/` under `gpu0.compute`, sharded (each shard a cache entry, so an
@@ -65,8 +65,8 @@ trains on both and calls one "better" only by the pre-registered decision rule
    (`rep.set_global_seed`) for reproducibility [5].
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/b2-perception.yaml --stage st55_sdg
-   uv run --extra runner studio run recipes/d1-muck-pile.yaml --stage st55_sdg
+   uv run --extra runner studio run studio/recipes/cases/b2.yaml --stage st55_sdg
+   uv run --extra runner studio run studio/recipes/cases/d1.yaml --stage st55_sdg
    ```
 
 4. **Check the data before training.** `s50_evaluate` runs the data checks: duplicates, an injected-shift check, and for

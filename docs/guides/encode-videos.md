@@ -43,7 +43,7 @@ VMAF search is written in the build phase. No clip has been encoded for publicat
    the pair against 25 MB.
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/c2-tailings.yaml --stage st56_encode
+   uv run --extra runner studio run studio/recipes/cases/c2.yaml --stage st56_encode
    ```
 
    For orientation, a single NVENC AV1 encode with FFmpeg looks like this (illustrative; the stage chooses the

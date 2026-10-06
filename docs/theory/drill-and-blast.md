@@ -56,6 +56,19 @@ ratings, $A = 0.06\,(RMD + JF + RDI + HF)$ in Cunningham's adaptation of Lilly's
 $HF$ term are UNVERIFIED — pinned at specification, while a fetched open-access paper lists $A$ from $RMD$, $JF$ and
 $RDI$ [4].
 
+**Which version.** Two explosive-strength exponents circulate.
+
+| Version | Exponent of $115/RWS$ | Used here? |
+|---|---|---|
+| Kuznetsov (1973) [1], Cunningham (1983/1987) | 19/30 | **default** (this page's worked example) |
+| Cunningham (2005) "20 years on" [2] | 19/20 | option |
+
+- For $RWS = 100$ (ANFO), $(115/100)^{19/30} = 1.093$ while $(115/100)^{19/20} = 1.142$, so the two $x_{50}$ differ by
+  about 4.5 %. The gap grows as $RWS$ moves away from 115.
+- Reviews of the Kuz-Ram/KCO family discuss these revisions [6][11].
+- The `minephys` blasting module implements the 1983/1987 form by default and the 2005 exponent as a named option.
+- The choice and its source pages are pinned in the blasting specification.
+
 **Size distribution (Rosin–Rammler, Cunningham form).** Retained fraction $R(x)$ and passing fraction $P(x)$:
 
 $$
@@ -246,3 +259,5 @@ error excludes 0. See [Sim-to-real](sim-to-real.md).
    725–732. https://doi.org/10.17159/2411-9717/1873/2022
 10. Bajpayee, Lobb, Verakis (2004). *An analysis and prevention of flyrock accidents in surface
     blasting operations.* NIOSH. https://stacks.cdc.gov/view/cdc/220760
+11. Sanchidrián, Ouchterlony (2017). A distribution-free description of fragmentation by blasting based on
+    dimensional analysis. *Rock Mechanics and Rock Engineering* 50, 781–806. https://doi.org/10.1007/s00603-016-1131-9

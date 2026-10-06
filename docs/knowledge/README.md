@@ -76,9 +76,9 @@ The starting status of some values that the cases use, as the research left them
 | US surface-mining PPV limits 1.25 / 1.00 / 0.75 in/s by distance band (0–300 ft, 301–5,000 ft, beyond) | 30 CFR § 816.67 [1] | verified (regulatory text) |
 | Safe residential PPV of 0.5–2.0 in/s depending on frequency and construction (76 homes, 219 blasts) | USBM RI 8507 [2] | verified (report record) |
 | Trolley assist: +44 % uphill speed, −16 % cycle travel time, 85 % fuel saving per up–down cycle | Valenzuela Cruzat and Valenzuela 2018 [3] | verified (publisher abstract) |
-| AP-42 unpaved-road PM10 constants $k = 1.5$, $a = 0.9$, $b = 0.45$ | AP-42 §13.2.2 [4] | **UNVERIFIED — pinned at specification** (PDF not read) |
-| AP-42 PM2.5 constant $k$ (value withheld: two candidate values in excerpts) | AP-42 §13.2.2 [4] | **UNVERIFIED — pinned at specification** |
-| Diesel ≈ 2.70 kg CO₂/L (from 10.21 kg CO₂ per US gallon) | EPA GHG Emission Factors Hub 2025 [5] | **UNVERIFIED — pinned at specification** |
+| AP-42 unpaved-road PM10 constants $k = 1.5$ lb/VMT, $a = 0.9$, $b = 0.45$ (industrial roads) | AP-42 §13.2.2 (11/06), Table 13.2.2-2, p. 13.2.2-5 [4] | verified (primary PDF) |
+| AP-42 PM2.5 constant $k = 0.15$ lb/VMT ($a = 0.9$, $b = 0.45$; industrial roads); validity ranges in Table 13.2.2-3, p. 13.2.2-5 | AP-42 §13.2.2 (11/06), Table 13.2.2-2, p. 13.2.2-5 [4] | verified (primary PDF) |
+| Diesel ≈ 2.70 kg CO₂/L (from 10.21 kg CO₂ per US gallon) | EPA GHG Emission Factors Hub (2025), Table 2 Mobile Combustion CO2, p. 2 [5] | verified (primary PDF) |
 | Swebrec fits with $r^2 > 0.995$ over 2–3 orders of magnitude of size | Ouchterlony 2005 [6] | **UNVERIFIED — pinned at specification** (search excerpt) |
 | Hoek–Brown disturbance $D \approx 1.0$ for large production blasting | Hoek, Carranza-Torres and Corkum 2002 [7] | **UNVERIFIED — pinned at specification** |
 | Kuz-Ram rock-factor constant 0.06 and Cunningham uniformity-index form | Cunningham 2005 [8] | **UNVERIFIED — pinned at specification** |
@@ -102,7 +102,7 @@ conversions are tested.
 
 - The `minephys` repository holds the tables and models; PitStudio pins it in `uv.lock` (a git dependency until its
   first PyPI release).
-- Spec `020-web-knowledge` (theory, methods, results, knowledge routes) and foundation requirement FR-000-10 (sources
+- Spec `020-web-knowledge` (theory, methods, results, knowledge routes) and the sourcing requirement of the foundation spec (written in the specification phase) (sources
   and UNVERIFIED flags).
 - Status: no table or generated page exists yet; this page describes the format they will follow.
 

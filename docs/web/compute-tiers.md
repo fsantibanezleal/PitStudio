@@ -65,7 +65,7 @@ $$
 where $D$ is "web-drivable" (the engine exists in the browser), $S_{\text{asset}}$ the largest file the engine needs
 (MB), $t_{\text{interaction}}$ the time to respond to one input (ms), $t_{\text{run}}$ the time for one full run on the
 WASM tier (s) and $S_{\text{trace}}$ the size of the trace it must load (MB). The 16 ms bound is one frame at 60 Hz. The
-measured values are stored in the manifest; CI fails on a mislabel (FR-000-15). The tier never changes a lane: a LIVE
+measured values are stored in the manifest; CI fails on a mislabel. The tier never changes a lane: a LIVE
 engine that falls back to T0 shows its precomputed output with the REPLAY badge.
 
 ## The runtimes
@@ -163,7 +163,7 @@ without WebGPU, with replays where compute is missing.
 
 ## In PitStudio
 
-- Spec `018-web-cases` (engines, tiers, parity) and foundation property P-000-03.
+- Spec `018-web-cases` (engines, tiers, parity) and the browser-parity property of the foundation spec (written in the specification phase).
 - [DEC-0006 3D and simulation on static web](../architecture/decisions/DEC-0006-3d-and-simulation-on-static-web.md).
 - Status: no engine exists in `web/src/` yet; the tier badge, probe and engines land in the build phase, A1 (DES) and
   C1 (limit equilibrium, inverse velocity) first.

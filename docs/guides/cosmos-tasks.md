@@ -45,7 +45,7 @@ acceptance of the terms and a read token, the Cosmos tool page says "not run".
    only its own conversion and records the SHA-256 of every file [6]. The GGUF files are never published.
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/b1-traffic.yaml --stage st59_reason_bench
+   uv run --extra runner studio run studio/recipes/cases/b1.yaml --stage st59_reason_bench
    ```
 
 2. **Check Q8_0 against BF16.** On a fixed question subset, the quantised model must agree with the BF16 reference on
@@ -54,9 +54,9 @@ acceptance of the terms and a read token, the Cosmos tool page says "not run".
 3. **Run tasks A, B and C**, then the controls with the same prompts.
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/b1-traffic.yaml --stage st59a_vqa
-   uv run --extra runner studio run recipes/b1-traffic.yaml --stage st59b_plausibility
-   uv run --extra runner studio run recipes/b2-perception.yaml --stage st59c_captions
+   uv run --extra runner studio run studio/recipes/cases/b1.yaml --stage st59a_vqa
+   uv run --extra runner studio run studio/recipes/cases/b1.yaml --stage st59b_plausibility
+   uv run --extra runner studio run studio/recipes/cases/b2.yaml --stage st59c_captions
    ```
 
    Video input: the model card asks for 4 fps video [1]; whether llama.cpp feeds Qwen3-VL native video tokens is

@@ -63,7 +63,7 @@ heightmaps, and cameras are used only for small-N evaluation and videos.
    iterations.
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/a2-haul-road.yaml --stage st60_il_train
+   uv run --extra runner studio run studio/recipes/cases/a2.yaml --stage st60_il_train
    ```
 
 3. **Train IL-2** on FEE soil, then run the zero-shot MPM evaluation. Newton's MPM material parameters are not
@@ -71,8 +71,8 @@ heightmaps, and cameras are used only for small-N evaluation and videos.
    PitStudio's DEM calibration ([M9](../methods/m09-differentiable-dem-calibration.md)).
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/a3-loading.yaml --stage st60_il_train
-   uv run --extra runner studio run recipes/a3-loading.yaml --stage st61_il_mpm_eval
+   uv run --extra runner studio run studio/recipes/cases/a3.yaml --stage st60_il_train
+   uv run --extra runner studio run studio/recipes/cases/a3.yaml --stage st61_il_mpm_eval
    ```
 
 4. **Export and check parity.** Isaac Lab exports a policy with `export_policy_as_onnx(...)`; its opset is not

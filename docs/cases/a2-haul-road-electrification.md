@@ -58,7 +58,7 @@ a physics bound every energy result must respect.
 |---|---|---|
 | Fuel intensity | L/(t·km) | Diesel litres per cycle ÷ (payload t × loaded haul km), from engine energy ÷ (efficiency × diesel energy density) |
 | Energy intensity | kWh/t | $\int F_{\text{req}}\,v\,dt / \eta$ over the cycle, minus regenerated energy, ÷ payload |
-| Emissions | kg CO₂e/t | Diesel litres × 2.70 kg CO₂/L (from 10.21 kg CO₂ per US gallon [8]; UNVERIFIED — pinned at specification) + grid kWh × grid factor (user input) |
+| Emissions | kg CO₂e/t | Diesel litres × 2.70 kg CO₂/L (from 10.21 kg CO₂ per US gallon [8]; verified on the primary PDF: EPA GHG Emission Factors Hub (2025), Table 2 Mobile Combustion CO2, p. 2) + grid kWh × grid factor (user input) |
 | Cycle time | min | Segment times from the speed–grade balance plus DES queue and service times |
 | IL-1 route success | % of episodes | Episodes that finish the route without collision ÷ 100 seeded episodes |
 | IL-1 lateral error | m (RMS) | Distance from the reference path, sampled per control step |
@@ -91,8 +91,8 @@ are user inputs marked "UNVERIFIED — pinned at specification" until a primary 
 ## Assumptions and limits
 
 - **Generic truck.** The truck is a documented parameter set from academic models, not any manufacturer's machine.
-- **Emission factors.** The diesel factor is UNVERIFIED until pinned against the primary EPA table; the grid factor is
-  a user input with no default claim.
+- **Emission factors.** The diesel factor (10.21 kg CO₂/gal) is verified against the primary EPA table; it covers
+  combustion CO₂ only. The grid factor is a user input with no default claim.
 - **Sim-to-sim, not sim-to-real.** IL-1 reports a gap between Isaac Lab and the TS twin. No real truck is driven, and
   tyre fidelity at haul speeds is not validated.
 - Validity range: quasi-steady longitudinal dynamics per segment; no tyre wear, road roughness or weather effects.

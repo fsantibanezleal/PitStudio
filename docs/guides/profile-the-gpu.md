@@ -62,12 +62,12 @@ allocator counters.
 2. **Profile a stage** with the framework profilers.
 
    ```bash run deferred=P6
-   uv run --extra runner studio profile recipes/a3-loading.yaml --stage st50_physics
+   uv run --extra runner studio profile studio/recipes/cases/a3.yaml --stage st50_physics
    ```
 
 3. **Capture with Nsight Systems** (maintainer, elevated shell; illustrative form):
 
-   ```bash
+   ```bash run deferred=P6
    nsys profile --trace=cuda,nvtx --python-sampling=true -o st50_physics <command printed by studio profile>
    nsys export --type=parquetdir st50_physics.nsys-rep
    ```

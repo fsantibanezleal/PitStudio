@@ -131,12 +131,12 @@ about 1 GB through re-baked assets.
 |---|---|
 | Initial JS ≤ 200 KB gzip (`web/scripts/postbuild.mjs` sums the gzip size of the scripts the start page loads and exits 1 above the budget) | **today** |
 | Tracked files ≤ 10 MB (`tools/check_repo.py`) | **today** |
-| Per-class budgets and the 500 MB total (NFR-000-04) | build phase |
-| In-git total ≤ 100 MB and repository size (NFR-000-05) | build phase |
-| Each live model ≤ 25 MB (NFR-000-06), each video pair ≤ 25 MB (NFR-000-07) | build phase |
-| First view ≤ 2 MB (NFR-000-03), measured by Playwright | build phase |
-| Every served file's SHA-256 equals its manifest entry (P-000-02) | build phase |
-| Lane labels agree with the measured gate (FR-000-15) | build phase |
+| Per-class budgets and the 500 MB total | build phase |
+| In-git total ≤ 100 MB and repository size | build phase |
+| Each live model ≤ 25 MB, each video pair ≤ 25 MB | build phase |
+| First view ≤ 2 MB, measured by Playwright | build phase |
+| Every served file's SHA-256 equals its manifest entry | build phase |
+| Lane labels agree with the measured gate | build phase |
 
 The postbuild step prints one line per build, of the form
 `postbuild: Pages layout ready; start page loads <n> scripts, <x> KB gzip (budget 200.0 KB)`.
@@ -152,7 +152,8 @@ The postbuild step prints one line per build, of the form
 
 ## In PitStudio
 
-- Foundation NFR-000-01 to NFR-000-07 and P-000-02 in `specs/000-foundation/spec.md`; thresholds in
+- Foundation NFR-000-01 (initial JavaScript) in `specs/000-foundation/spec.md`; the other budget requirements are
+  added to it in the specification phase; thresholds in
   `specs/000-foundation/thresholds.yaml` (`web.*`).
 - Specs `016-export-acceleration` (export, budgets) and `018-web-cases`.
 - Status: initial-JS and file-size checks run today; nothing heavy is baked yet.

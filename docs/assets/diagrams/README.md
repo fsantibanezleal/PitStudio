@@ -25,6 +25,8 @@ in both themes.
     | live | `--chart-2` |
     | precompute / replay | `--chart-4` |
     | local-only | `--warning` |
+- **Contrast.** Text is ≥ 4.5:1 against every surface it sits on, in both themes. Code paths use `--code`
+  (6.8:1 light, 5.8:1 dark at worst); never fill small text with `--primary` (3.0:1 in dark mode).
 - **Accessible.** Each SVG has `role="img"`, a `<title>` and a `<desc>` that says in one sentence what the diagram
   shows.
 - **Verify in both themes.** Open the file in a browser with the OS in light mode and again in dark mode. Never use
@@ -40,11 +42,11 @@ in both themes.
   <desc id="d">One sentence on what the diagram shows.</desc>
   <style>
     .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
-      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
       --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
       --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
     @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
-      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
       --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
       --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
     .bg{fill:var(--bg)}
@@ -52,7 +54,7 @@ in both themes.
     .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
     .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
     .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
-    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
     .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
     .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
     .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}

@@ -3,11 +3,11 @@
   <desc id="d">The studio's isolated environments as boxes with their Python version and key locked packages, grouped into the Python 3.14 open lane, the Python 3.12 NVIDIA lane and external tools, with the files they exchange.</desc>
   <style>
     .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
-      --border-strong:#7d7589;--primary:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
       --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
       --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
     @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
-      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--accent:#be82ff;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
       --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
       --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
     .bg{fill:var(--bg)}
@@ -15,7 +15,7 @@
     .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
     .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
     .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
-    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--primary)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
     .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
     .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
     .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
@@ -32,7 +32,7 @@
     .hit{fill:var(--surface-2);stroke:var(--success);stroke-width:2;stroke-dasharray:6 4}
     .tag-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
     .tag-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
-    .tag-live{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-2)}
+    .tag-live{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg)}
     .tag-replay{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-4)}
     .label-bg{fill:var(--bg);opacity:0.92}
     .sw-live{fill:var(--chart-2)}

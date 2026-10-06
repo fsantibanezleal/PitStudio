@@ -118,9 +118,9 @@ The runner (`src/pitstudio/runner/`, root environment, extra `runner`) executes 
 jobs ([Runner](../studio/runner.md)).
 
 ```bash run deferred=P6
-uv run --extra runner studio plan studio/recipes/<case>.yaml        # dry run: DAG, cache hits, disk and VRAM estimates
-uv run --extra runner studio run studio/recipes/<case>.yaml         # run a recipe
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage s30_train --force
+uv run --extra runner studio plan studio/recipes/cases/<case>.yaml        # dry run: DAG, cache hits, disk and VRAM estimates
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml         # run a recipe
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage s30_train --force
 uv run --extra runner studio queue ls
 uv run --extra runner studio worker                                 # the single queue worker
 uv run --extra runner studio status
@@ -131,8 +131,8 @@ uv run --extra runner studio gc --keep-pinned --keep-last 3
 
 ```bash run deferred=P6
 uv run --extra runner studio bench env                              # capability probe
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage s62_accel
-uv run --extra runner studio run studio/recipes/<case>.yaml --stage s64_bench
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage s62_accel
+uv run --extra runner studio run studio/recipes/cases/<case>.yaml --stage s64_bench
 uv run --extra runner studio profile                                # torch.profiler / Warp timing; prints the Nsight command
 uv run --extra runner studio publish <run_id>                       # bake a run into web artefacts + a run card
 ```

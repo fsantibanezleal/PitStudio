@@ -130,7 +130,7 @@ uv run pytest tests/contract/test_capabilities_contract.py
 On a machine with an NVIDIA GPU and no hold file, the bench itself is run as below (shown, not executed here: the
 reference machine is under a GPU hold):
 
-```bash
+```bash run deferred=P6
 uv run --extra runner python studio/bench/run_bench.py
 uv run --extra runner python studio/bench/run_bench.py warp_newton nvenc --no-write
 ```

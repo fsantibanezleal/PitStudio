@@ -173,7 +173,7 @@ templated question types, each answer computed from the scene:
 | 5 | Is a light vehicle in the truck's blind zone? | geometric zone test on prim positions |
 | 6 | Is the truck on a ramp steeper than 10 %? | road grade under the truck |
 
-About 6,000 queries (≈ 1,000 per type). Arms: Cosmos Q8_0 with reasoning on and off; Cosmos BF16 on a 500-query
+About 6,500 queries (≈ 1,080 per type, six types). Arms: Cosmos Q8_0 with reasoning on and off; Cosmos BF16 on a 500-query
 subset; **Qwen3-VL-2B-Instruct** (Apache-2.0) [4] as the control; PitStudio's D-FINE detector plus a geometric rule;
 the majority class.
 

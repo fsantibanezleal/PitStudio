@@ -108,7 +108,7 @@ uv sync --project pipeline --extra cpu --locked
 The GPU and NVIDIA lanes follow the same pattern on the reference machine, after the maintainer's acts
 ([Maintainer acts and licences](owner-acts-and-licences.md)); `studio/isaac/` downloads tens of gigabytes:
 
-```bash
+```bash run deferred=P6
 uv python install 3.12
 uv sync --project studio --locked
 uv sync --project pipeline --extra cu130 --locked

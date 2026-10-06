@@ -58,7 +58,7 @@ says "not run".
    enabled with `--enable` [6].
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/e1-pit-shell.yaml --stage st45b_kit_validate
+   uv run --extra runner studio run studio/recipes/cases/e1.yaml --stage st45b_kit_validate
    ```
 
 4. **Review.** Variants (pushbacks, weather, time of day), layers and validation results are reviewed interactively in
@@ -69,7 +69,7 @@ says "not run".
    render preset (path trace), samples per pixel, frame range and output format [7].
 
    ```bash run deferred=P6
-   uv run --extra runner studio run recipes/e1-pit-shell.yaml --stage st58_kit_capture
+   uv run --extra runner studio run studio/recipes/cases/e1.yaml --stage st58_kit_capture
    ```
 
 6. **Encode and publish** the stills and any clip ([encode videos](encode-videos.md)), then `studio publish`.
