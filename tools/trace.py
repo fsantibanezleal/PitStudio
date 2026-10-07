@@ -3,8 +3,9 @@
 Usage:  python tools/trace.py            # regenerate the files
         python tools/trace.py --check    # CI: exit 1 on orphans or unknown/retired references
 IDs (never reused): US-NNN-x, FR-/NFR-/SC-/P-/DC-NNN-xx, tasks T-NNN-xxx. A requirement is DEFINED
-where it appears as the first cell of a table row in specs/**/spec.md; it is RETIRED when written
-~~ID~~ there. Tests reference IDs with @pytest.mark.req("ID") or a TS test title starting "ID · ".
+where it appears as the first cell of a table row in specs/**/spec.md (user stories may also be defined by a
+`### US-NNN-x …` heading, as in the spec template); it is RETIRED when written ~~ID~~ there.
+Tests reference IDs with @pytest.mark.req("ID") or a TS test title starting "ID · ".
 """
 
 from __future__ import annotations
@@ -19,6 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ID = r"(?:US-\d{3}-\d{1,2}|(?:FR|NFR|SC|P|DC)-\d{3}-\d{2})"
 DEF_ROW = re.compile(rf"^\|\s*(~~)?({ID})(~~)?\s*\|", re.M)
+DEF_HEADING = re.compile(r"^#{2,4}\s+(~~)?(US-\d{3}-\d{1,2})(~~)?\b", re.M)
 STATUS = re.compile(r"^Status:\s*([A-Za-z]+)", re.M)  # Draft/Clarified specs are not yet held to orphan checks
 TASK_LINE = re.compile(r"^\s*-\s*\[[ xX]\]\s*(T-\d{3}-\d{3})(.*)$", re.M)
 ANY_ID = re.compile(rf"\b{ID}\b")
@@ -29,6 +31,7 @@ TEST_DIRS = ["tests", "web/src", "web/tests", "web/e2e", "pipeline/tests"]
 
 def scan() -> dict:
     reqs: dict[str, dict] = {}
+    duplicates: list[str] = []
     for spec in sorted(ROOT.glob("specs/**/spec.md")):
         if "_templates" in spec.parts:
             continue
@@ -36,9 +39,20 @@ def scan() -> dict:
         text = spec.read_text(encoding="utf-8")
         sm = STATUS.search(text)
         draft = bool(sm and sm.group(1).lower() in {"draft", "clarified"})
+        seen_here: set[str] = set()
         for m in DEF_ROW.finditer(text):
             rid = m.group(2)
+            if rid in seen_here or (rid in reqs and reqs[rid]["spec"] != feature):
+                first = reqs.get(rid, {}).get("spec", feature)
+                duplicates.append(f"{rid} is defined more than once ({first}, {feature})")
+            seen_here.add(rid)
             reqs[rid] = {"spec": feature, "retired": bool(m.group(1)), "draft": draft, "tasks": [], "tests": []}
+        for m in DEF_HEADING.finditer(text):  # the spec template defines user stories as `### US-NNN-x (P1) title`
+            rid = m.group(2)
+            if rid not in reqs:
+                reqs[rid] = {"spec": feature, "retired": bool(m.group(1)), "draft": draft, "tasks": [], "tests": []}
+            elif reqs[rid]["spec"] != feature:
+                duplicates.append(f"{rid} is defined more than once ({reqs[rid]['spec']}, {feature})")
     tasks: dict[str, list[str]] = {}
     for tf in sorted(ROOT.glob("specs/**/tasks.md")):
         for m in TASK_LINE.finditer(tf.read_text(encoding="utf-8")):
@@ -65,7 +79,7 @@ def scan() -> dict:
                         reqs[rid]["tests"].append(r)
                 else:
                     unknown.append(f"test {r} references unknown {rid}")
-    return {"requirements": reqs, "tasks": tasks, "unknown": unknown}
+    return {"requirements": reqs, "tasks": tasks, "unknown": unknown + duplicates}
 
 
 def problems(data: dict) -> list[str]:
