@@ -1,6 +1,6 @@
 # DEC-0011: Video through NVENC with an FFmpeg 8.1 LGPL build
 
-> Every studio video is encoded on the GPU's NVENC engine by an external FFmpeg 8.1 LGPL build, as an AV1 1080p plus an
+> Every studio video is encoded on the GPU's NVENC engines by an external FFmpeg 8.1 LGPL build, as an AV1 1080p plus an
 > H.264 720p file whose bitrates are chosen by measured VMAF, so each pair fits 25 MB; FFmpeg 9.x is not used because its
 > NVENC headers need a newer driver. · Part of: [decisions](README.md) · Related: [NVENC and FFmpeg](../../frameworks/nvenc-ffmpeg.md) ·
 > [encode videos](../../guides/encode-videos.md) · [DEC-0006](DEC-0006-3d-and-simulation-on-static-web.md)
@@ -13,7 +13,7 @@ RTX renders, Kit captures, sensor replays and simulation clips reach visitors as
 150 MB of video in total, as six pairs of at most 25 MB ([budgets](../../web/budgets.md)), so quality per byte matters,
 and encoding is a recurring studio stage (`st56_encode`).
 
-- The RTX 5000 Ada laptop GPU has one NVENC engine with unrestricted concurrent sessions and encodes H.264, HEVC and AV1
+- The RTX 5000 Ada laptop GPU has two NVENC engines with unrestricted concurrent sessions and encodes H.264, HEVC and AV1
   [1].
 - FFmpeg reaches NVENC through the `nv-codec-headers`. The current headers (Video Codec SDK 13.1.15) require driver 610
   or newer [2]; the SDK 13.0 branch requires driver 570 or newer [3]. The reference machine runs driver 582.78, so an

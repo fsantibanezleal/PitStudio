@@ -12,7 +12,8 @@
 **Goal:** every video on the site is small enough for the budget, plays in every major browser, and carries a record
 of how it was made. AV1 gives the best quality per byte but its support depends on hardware in Safari (about 95 % global
 support) [1]; H.264 plays everywhere. PitStudio therefore ships each clip as a pair — AV1 at 1080p and H.264 at 720p —
-plus a WebP poster, and the browser's `MediaCapabilities` picks one. Encoding runs on the GPU's NVENC engine, which the
+plus a WebP poster, and the browser's `MediaCapabilities` picks one. Encoding runs on the GPU's NVENC engines (two on this GPU, per NVIDIA's support matrix cited in
+[DEC-0011](../architecture/decisions/DEC-0011-nvenc-ffmpeg-8-1.md)), which the
 RTX 5000 Ada Laptop GPU supports for H.264, HEVC and AV1 4:2:0 [2].
 
 **Status:** the NVENC capability probe exists (`studio/bench/probe_nvenc.py`); the encode stage `st56_encode` with its

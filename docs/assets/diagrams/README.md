@@ -26,7 +26,7 @@ in both themes.
     | precompute / replay | `--chart-4` |
     | local-only | `--warning` |
 - **Contrast.** Text is ≥ 4.5:1 against every surface it sits on, in both themes. Code paths use `--code`
-  (6.8:1 light, 5.8:1 dark at worst); never fill small text with `--primary` (3.0:1 in dark mode).
+  (as rendered, ≥ 6.3:1 light and ≥ 5.1:1 dark on every surface); never fill small text with `--primary` (3.0:1 in dark mode).
 - **Accessible.** Each SVG has `role="img"`, a `<title>` and a `<desc>` that says in one sentence what the diagram
   shows.
 - **Verify in both themes.** Open the file in a browser with the OS in light mode and again in dark mode. Never use
