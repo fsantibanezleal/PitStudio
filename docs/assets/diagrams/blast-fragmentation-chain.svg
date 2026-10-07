@@ -45,7 +45,7 @@
   <rect class="box" x="30" y="40" width="230" height="260" rx="8"/>
   <text class="title" x="44" y="64">Inputs</text>
   <text class="path" x="44" y="84">minephys.blasting</text>
-  <text class="item" x="44" y="106">rock factor A (RMD, JF, RDI, HF)*</text>
+  <text class="item" x="44" y="106">A = 0.06 (RMD + RDI + HF)*</text>
   <text class="item" x="44" y="124">explosive RWS (ANFO = 100), ρ_e</text>
   <text class="item" x="44" y="142">pattern B, S, H; hole d; L_c</text>
   <text class="item" x="44" y="160">drilling deviation W</text>
@@ -53,7 +53,7 @@
   <text class="item" x="44" y="208">illustrative: B 6, S 7, H 12 m,</text>
   <text class="item" x="44" y="226">d 250 mm, L_c 7.2 m,</text>
   <text class="item" x="44" y="244">ρ_e 850 kg/m³ → Q ≈ 300 kg</text>
-  <text class="caveat" x="44" y="284">*A constants UNVERIFIED</text>
+  <text class="caveat" x="44" y="284">*joint factor JF is in RMD</text>
 
   <!-- Kuz-Ram -->
   <rect class="box-accent" x="300" y="40" width="300" height="160" rx="8"/>

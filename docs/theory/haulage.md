@@ -148,8 +148,8 @@ with $SFC$ the specific fuel consumption (kg/kWh), $P$ the rated power (kW), $LF
 $\rho_{\text{fuel}}$ the fuel density (kg/L). A generic $SFC$ constant is UNVERIFIED — pinned at specification.
 
 **CO₂.** The US EPA emission factor for diesel fuel is **10.21 kg CO₂ per US gallon** [5], i.e.
-$10.21 / 3.785 = 2.70$ kg CO₂ per litre (arithmetic). This is combustion CO₂ only; CH₄ and N₂O are separate rows of
-the same table.
+$10.21 / 3.785 = 2.70$ kg CO₂ per litre (arithmetic). This is combustion CO₂ only (Table 2 of [5]); the CH₄ and N₂O factors
+of non-road vehicles are in a separate table, Table 5 of the same document (g per US gallon) [5].
 
 **Worked example 2** (worked example 1 continued; illustrative tank-to-wheel efficiency 0.35 and diesel energy
 36 MJ/L):
@@ -330,7 +330,8 @@ worked examples; the first numbers reported will be:
 4. Kecojevic, Komljenovic (2010). Haul truck fuel consumption and CO₂ emission under various engine load
    conditions. *Mining Engineering* 62(12), 44–48.
    https://www.researchgate.net/publication/261214668_Haul_truck_fuel_consumption_and_CO2_emission_under_various_engine_load_conditions
-5. US EPA (2025). GHG Emission Factors Hub, Table 2 (mobile combustion: diesel fuel 10.21 kg CO₂/gal).
+5. US EPA (2025). GHG Emission Factors Hub, Table 2 (mobile combustion: diesel fuel 10.21 kg CO₂/gal) and Table 5
+   (mobile combustion CH₄ and N₂O for non-road vehicles).
    https://www.epa.gov/system/files/documents/2025-01/ghg-emission-factors-hub-2025.pdf
 6. Valenzuela Cruzat, Valenzuela (2018). Modeling and evaluation of benefits of trolley assist system for
    mining trucks. *IEEE Trans. Ind. Appl.* 54(4), 3971–3981. https://doi.org/10.1109/TIA.2018.2823261

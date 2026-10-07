@@ -35,6 +35,7 @@
 | [DEC-0015](DEC-0015-people-assets-makehuman.md) | People in synthetic scenes come from MakeHuman CC0 exports | Accepted, 2026-10-04 |
 | [DEC-0016](DEC-0016-pre-registered-decision-rule.md) | "Better" only when the paired 95 % confidence interval excludes zero | Accepted, 2026-10-04 |
 | [DEC-0017](DEC-0017-companion-package-minephys.md) | Sourced models and parameter tables live in the companion package `minephys` | Accepted, 2026-10-04 |
+| [DEC-0018](DEC-0018-corrections-to-dec-0004-0006-0010.md) | Corrections to DEC-0004 (licence vs redistribution classes), DEC-0006 (ONNX opset 17–19) and DEC-0010 (PyTorch fp32 parity reference) | Accepted, 2026-10-07 |
 
 ## Decisions recorded elsewhere
 

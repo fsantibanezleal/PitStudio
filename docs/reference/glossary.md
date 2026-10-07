@@ -207,7 +207,7 @@ mining library.
 3. Carmichael, D. G. (1986), "Shovel–truck queues: a reconciliation of theory and practice". https://doi.org/10.1080/01446198600000013
 4. Kuznetsov, V. M. (1973), "The mean diameter of the fragments formed by blasting rock". https://doi.org/10.1007/BF02506177
 5. Mutinda, E. K. et al. (2021), "Prediction of rock fragmentation using the Kuznetsov–Cunningham–Ouchterlony model", JSAIMM. https://doi.org/10.17159/2411-9717/1401/2021
-6. Szendrei, T. and Tose, S. (2023), "Flyrock in surface mining — limitations of predictive models", JSAIMM. https://doi.org/10.17159/2411-9717/1873/2022
+6. Szendrei, T. and Tose, S. (2022), "Flyrock in surface mining — limitations of predictive models", JSAIMM. https://doi.org/10.17159/2411-9717/1873/2022
 7. Ouchterlony, F. (2005), "The Swebrec function: linking fragmentation by blasting and crushing". https://doi.org/10.1179/037178405X44539
 8. 30 CFR § 816.67, "Use of explosives: control of adverse effects". https://www.law.cornell.edu/cfr/text/30/816.67
 9. Bishop, A. W. (1955), "The use of the slip circle in the stability analysis of slopes". https://doi.org/10.1680/geot.1955.5.1.7

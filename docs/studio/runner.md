@@ -79,7 +79,7 @@ The **store** lives at `PITSTUDIO_STORE` (default `C:\ps` on Windows: short, to 
 ```text
 PITSTUDIO_STORE/
   cas/sha256/ab/…            immutable stage outputs, by content hash
-  runs/<run_id>/             manifest.json · events.jsonl · telemetry.parquet · logs/ · tmp/
+  runs/<run_id>/             manifest.json · events.jsonl · telemetry.jsonl · logs/ · tmp/
   views/<recipe>/<stage>/    human-readable views (hardlinks on NTFS)
   queue.db                   the job queue (SQLite, WAL)
 ```
@@ -130,7 +130,8 @@ specification's thresholds file.
 
 ## Telemetry, retries and resume
 
-- **Telemetry.** A background sampler reads NVML at 1–4 Hz, with NVTX ranges per stage, into `telemetry.parquet`. The
+- **Telemetry.** A background sampler reads NVML at 1–4 Hz, with NVTX ranges per stage, into `telemetry.jsonl`
+  (one sample per line, flushed per line, so a crash loses at most one sample and the console can stream it). The
   manifest gets peak device VRAM, mean and peak power, energy, and the fraction of time in each throttle state
   (`SwPowerCap`, `SwThermalSlowdown`, `HwThermalSlowdown`) [14] — without those fractions, stage timings on a
   power-limited laptop are not comparable ([Nsight / NVML](../frameworks/nsight-nvml.md)).

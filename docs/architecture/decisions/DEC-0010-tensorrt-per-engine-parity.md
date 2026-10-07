@@ -6,7 +6,7 @@
 > TensorRT versions. · Part of: [decisions](README.md) · Related: [TensorRT](../../frameworks/tensorrt.md) ·
 > [export, parity and acceleration](../../models/export-parity-acceleration.md) · [TensorRT bench](../../guides/tensorrt-bench.md)
 
-**Status:** Accepted, 2026-10-04
+**Status:** Accepted, 2026-10-04 · the parity reference amended by [DEC-0018](DEC-0018-corrections-to-dec-0004-0006-0010.md) (2026-10-07)
 
 ## Context
 

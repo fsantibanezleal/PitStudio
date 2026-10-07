@@ -6,7 +6,7 @@
 > Related: [lanes](../lanes.md) · [three.js, R3F and 3D Tiles](../../frameworks/threejs-r3f-3d-tiles.md) ·
 > [compute tiers](../../web/compute-tiers.md) · [budgets](../../web/budgets.md)
 
-**Status:** Accepted, 2026-10-04
+**Status:** Accepted, 2026-10-04 · decision 6 amended by [DEC-0018](DEC-0018-corrections-to-dec-0004-0006-0010.md) (2026-10-07)
 
 ## Context
 
