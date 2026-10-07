@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 690" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Open-pit anatomy and where each PitStudio case works</title>
+  <desc id="d">A schematic open-pit cross-section with benches, berms, the overall slope, the haul ramp, a shovel and a truck on the pit floor, the primary crusher, a waste dump, a slope radar and a survey drone, with callouts that name the minephys module or studio tool and the cases for benches, the loading face, the haul roads, the crusher and the tailings facility.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-hi{fill:var(--accent)}
+    .rock{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .dump{fill:var(--chart-6);fill-opacity:.18;stroke:var(--chart-6);stroke-width:1.5}
+    .equip{fill:var(--chart-3);stroke:var(--fg-muted);stroke-width:1}
+    .boom{stroke:var(--chart-3);stroke-width:4;fill:none}
+    .leader{stroke:var(--fg-muted);stroke-width:1;fill:none}
+    .edge-dash{stroke:var(--fg-muted);stroke-width:1.5;fill:none;stroke-dasharray:6 4}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-hi"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="690"/>
+  <text class="title" x="30" y="40">Open-pit anatomy: schematic cross-section (not to scale) and where each case works</text>
+  <text class="item" x="30" y="66">Pushbacks widen this profile over the life of the mine (E1); a drone survey measures what was dug (E2).</text>
+
+  <!-- rock mass with benches -->
+  <polygon class="rock" points="30,200 300,200 316,254 364,254 380,308 428,308 444,362 492,362 508,416 556,416 572,470 700,470 716,416 764,416 780,362 828,362 844,308 892,308 908,254 956,254 972,200 1170,200 1170,500 30,500"/>
+  <!-- haul ramp highlighted on the right wall -->
+  <path class="edge-accent" d="M700,470 L716,416 L764,416 L780,362 L828,362 L844,308 L892,308 L908,254 L956,254 L972,200"/>
+  <text class="label" x="858" y="352">haul ramp (A1 · A2 · B1)</text>
+  <!-- overall slope -->
+  <path class="edge-dash" d="M300,200 L572,470"/>
+
+  <!-- left-wall annotations -->
+  <text class="label" x="44" y="262">bench face</text>
+  <path class="leader" d="M124,258 L370,281"/>
+  <text class="label" x="44" y="312">berm (catch bench)</text>
+  <path class="leader" d="M172,308 L402,308"/>
+  <text class="label" x="44" y="372">overall slope, crest to toe</text>
+  <path class="leader" d="M214,368 L434,335"/>
+  <text class="label" x="44" y="430">pit wall: C1 slope stability</text>
+
+  <!-- crusher and conveyor -->
+  <rect class="equip" x="220" y="172" width="60" height="28" rx="3"/>
+  <text class="label" x="250" y="162" text-anchor="middle">primary crusher</text>
+  <path class="edge" d="M218,186 H42" marker-end="url(#arrow)"/>
+  <text class="label" x="44" y="178">crushed ore to the mill</text>
+
+  <!-- waste dump -->
+  <polygon class="dump" points="1010,200 1040,146 1130,146 1160,200"/>
+  <text class="label" x="1085" y="136" text-anchor="middle">waste dump</text>
+
+  <!-- slope radar -->
+  <rect class="equip" x="990" y="178" width="14" height="22" rx="2"/>
+  <path class="edge-dash" d="M997,182 L432,300"/>
+  <text class="label" x="930" y="172" text-anchor="end">slope radar (C1)</text>
+
+  <!-- survey drone -->
+  <rect class="equip" x="606" y="96" width="28" height="8" rx="2"/>
+  <path class="leader" d="M598,92 H614 M626,92 H642"/>
+  <path class="edge-dash" d="M620,106 L560,300 M620,106 L680,300"/>
+  <text class="label" x="650" y="102">survey drone (E2)</text>
+
+  <!-- dust note -->
+  <text class="label" x="700" y="150">haul-road and blast dust (C3)</text>
+
+  <!-- shovel and truck on the pit floor -->
+  <rect class="equip" x="580" y="448" width="26" height="20" rx="2"/>
+  <path class="boom" d="M606,452 L632,430"/>
+  <rect class="equip" x="628" y="422" width="12" height="10" rx="1"/>
+  <rect class="equip" x="650" y="450" width="40" height="14" rx="2"/>
+  <rect class="equip" x="690" y="452" width="10" height="12" rx="1"/>
+  <circle class="equip" cx="660" cy="466" r="5"/>
+  <circle class="equip" cx="684" cy="466" r="5"/>
+  <text class="label" x="676" y="440" text-anchor="middle">haul truck</text>
+  <text class="label" x="636" y="490" text-anchor="middle">pit floor: shovel at the loading face</text>
+
+  <!-- callouts -->
+  <rect class="box" x="30" y="530" width="216" height="130" rx="8"/>
+  <text class="title" x="44" y="556">Benches &amp; slopes</text>
+  <text class="path" x="44" y="578">minephys.geotech</text>
+  <text class="item" x="44" y="602">Bishop / Spencer FoS,</text>
+  <text class="item" x="44" y="620">Hoek–Brown, radar 1/v</text>
+  <text class="caveat" x="44" y="646">C1 · educational only</text>
+
+  <rect class="box" x="261" y="530" width="216" height="130" rx="8"/>
+  <text class="title" x="275" y="556">Loading face</text>
+  <text class="path" x="275" y="578">Warp DEM · Newton MPM</text>
+  <text class="item" x="275" y="602">bucket fill, muck pile,</text>
+  <text class="item" x="275" y="620">repose, payload CV</text>
+  <text class="caveat" x="275" y="646">A3 · D1</text>
+
+  <rect class="box" x="492" y="530" width="216" height="130" rx="8"/>
+  <text class="title" x="506" y="556">Ramps &amp; haul roads</text>
+  <text class="path" x="506" y="578">minephys.haulage</text>
+  <text class="item" x="506" y="602">rimpull vs grade + RR,</text>
+  <text class="item" x="506" y="620">queues, traffic, dust</text>
+  <text class="caveat" x="506" y="646">A1 · A2 · B1 · C3</text>
+
+  <rect class="box" x="723" y="530" width="216" height="130" rx="8"/>
+  <text class="title" x="737" y="556">Crusher &amp; dumps</text>
+  <text class="path" x="737" y="578">ovrtx S3 · Replicator</text>
+  <text class="item" x="737" y="602">oversize boulders,</text>
+  <text class="item" x="737" y="620">crusher feed → mill</text>
+  <text class="caveat" x="737" y="646">B2 · D2</text>
+
+  <rect class="box" x="954" y="530" width="216" height="130" rx="8"/>
+  <text class="title" x="968" y="556">Tailings facility</text>
+  <text class="path" x="968" y="578">Warp shallow water</text>
+  <text class="item" x="968" y="602">breach run-out:</text>
+  <text class="item" x="968" y="620">arrival time, depth</text>
+  <text class="caveat" x="968" y="646">C2 · illustrative only</text>
+</svg>

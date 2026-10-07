@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 610" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Dispatch policy training and evaluation</title>
+  <desc id="d">PPO and attention policies train in a GPU-vectorised haulage environment, export to ONNX for the browser, and are judged against SPTF and LP dispatch in an independent DES on paired seeds with a pre-registered rule.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .hdr{fill:var(--surface);stroke:var(--border-strong);stroke-width:1}
+    .empty{fill:none;stroke:var(--border);stroke-width:1;stroke-dasharray:4 4}
+    .lane-live{fill:var(--chart-2)}
+    .lane-pre{fill:var(--chart-4)}
+    .lane-local{fill:var(--warning)}
+    .learned{fill:var(--chart-5)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="610"/>
+  <text x="24" y="32" class="title">Dispatch policies — train vectorised, evaluate independently</text>
+  <text x="24" y="52" class="path">pipeline/ (torch cu130) · minehaulsim · web/</text>
+  <rect x="20" y="72" width="400" height="240" rx="8" class="band"/>
+  <text x="36" y="96" class="title">Vectorised env (GPU)</text>
+  <text x="36" y="115" class="path">pipeline/ · torch tensors</text>
+  <text x="36" y="133" class="item">B parallel mines × ≤ 40 trucks</text>
+  <text x="36" y="151" class="item">fixed Δt decision tick</text>
+  <text x="36" y="169" class="item">masked action: next shovel / dump</text>
+  <rect x="36" y="196" width="176" height="100" rx="6" class="box"/>
+  <text x="48" y="218" class="title">Observation</text>
+  <text x="48" y="236" class="item">[B, 40, F] tensor</text>
+  <text x="48" y="254" class="item">per-truck features</text>
+  <text x="48" y="272" class="item">+ target features</text>
+  <rect x="228" y="196" width="176" height="100" rx="6" class="box"/>
+  <text x="240" y="218" class="title">Reward</text>
+  <text x="240" y="236" class="item">tonnes delivered</text>
+  <text x="240" y="254" class="item">since last decision</text>
+  <rect x="490" y="72" width="310" height="240" rx="8" class="band"/>
+  <text x="506" y="96" class="title">Policy (PPO)</text>
+  <text x="506" y="115" class="path">pipeline/ s30_train</text>
+  <text x="506" y="133" class="item">clipped objective + GAE</text>
+  <text x="506" y="151" class="item">time-delta discount γ^Δt</text>
+  <rect x="506" y="166" width="278" height="60" rx="6" class="box"/>
+  <text x="518" y="188" class="title">M04 shared MLP</text>
+  <text x="518" y="206" class="item">score per (truck, target)</text>
+  <rect x="506" y="236" width="278" height="60" rx="6" class="box"/>
+  <text x="518" y="258" class="title">M05 attention</text>
+  <text x="518" y="276" class="item">size-invariant, dense MatMul</text>
+  <path d="M420,150 H490" class="edge" marker-end="url(#arrow)"/>
+  <text x="455" y="143" class="label" text-anchor="middle">obs, mask</text>
+  <path d="M490,262 H420" class="edge" marker-end="url(#arrow)"/>
+  <text x="455" y="255" class="label" text-anchor="middle">actions</text>
+  <rect x="850" y="72" width="330" height="110" rx="6" class="box"/>
+  <text x="862" y="94" class="title">Export</text>
+  <text x="862" y="113" class="path">s60_export</text>
+  <text x="862" y="131" class="item">ONNX opset 17–19, IR pinned</text>
+  <text x="862" y="149" class="item">&lt; 2 MB · parity vs PyTorch</text>
+  <rect x="850" y="212" width="330" height="100" rx="6" class="box"/>
+  <text x="862" y="234" class="title">Live in the browser</text>
+  <text x="862" y="253" class="path">web/ DES worker + ORT-web</text>
+  <text x="862" y="271" class="item">policy inside the TS DES</text>
+  <text x="862" y="289" class="item">mask + argmax in JavaScript</text>
+  <rect x="852" y="214" width="5" height="96" class="lane-live"/>
+  <path d="M800,127 H850" class="edge" marker-end="url(#arrow)"/>
+  <text x="825" y="120" class="label" text-anchor="middle">weights</text>
+  <path d="M1015,182 V212" class="edge" marker-end="url(#arrow)"/>
+  <text x="1023" y="201" class="label">policy.onnx</text>
+  <rect x="20" y="360" width="760" height="230" rx="8" class="band"/>
+  <text x="36" y="384" class="title">Independent evaluation</text>
+  <text x="36" y="403" class="path">minehaulsim DES (M02)</text>
+  <text x="36" y="421" class="item">≥ 30 paired seeds (common random numbers)</text>
+  <rect x="36" y="436" width="170" height="64" rx="6" class="box"/>
+  <text x="48" y="458" class="title">SPTF</text>
+  <text x="48" y="476" class="item">classical rule</text>
+  <rect x="222" y="436" width="170" height="64" rx="6" class="box"/>
+  <text x="234" y="458" class="title">Two-stage LP</text>
+  <text x="234" y="476" class="item">M03 · highspy</text>
+  <rect x="408" y="436" width="170" height="64" rx="6" class="box"/>
+  <text x="420" y="458" class="title">Nearest / Fixed</text>
+  <text x="420" y="476" class="item">context only</text>
+  <rect x="594" y="436" width="170" height="64" rx="6" class="box-accent"/>
+  <text x="606" y="458" class="title">Learned policy</text>
+  <text x="606" y="476" class="item">M04 / M05 ONNX</text>
+  <text x="36" y="530" class="item">KPI: t/h (also queue time, shovel idle, cost/t)</text>
+  <text x="36" y="552" class="caveat">evaluation engine ≠ training environment</text>
+  <path d="M645,312 V360" class="edge" marker-end="url(#arrow)"/>
+  <text x="653" y="340" class="label">trained policy</text>
+  <rect x="850" y="360" width="330" height="230" rx="6" class="box-accent"/>
+  <text x="862" y="382" class="title">Decision rule</text>
+  <text x="862" y="401" class="path">DEC-0016</text>
+  <text x="862" y="419" class="item">dᵢ = t/h(policy) − t/h(baseline)</text>
+  <text x="862" y="437" class="item">95 % CI of the mean of dᵢ</text>
+  <text x="862" y="455" class="item">excludes 0 → “better”</text>
+  <text x="862" y="473" class="item">else “no significant difference”</text>
+  <text x="862" y="491" class="caveat">pre-registered</text>
+  <path d="M780,475 H850" class="edge" marker-end="url(#arrow)"/>
+  <text x="815" y="468" class="label" text-anchor="middle">paired t/h</text>
+</svg>

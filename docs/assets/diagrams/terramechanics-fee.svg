@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Fundamental earthmoving equation: the soil wedge in front of a blade</title>
+  <desc id="d">A blade at rake angle alpha cuts soil to depth d; the soil wedge fails along a plane at angle beta and is held by its weight, the blade force P, the soil reaction R, cohesion, adhesion and surcharge; the panel lists the wedge factors and an illustrative worked example.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .dash{stroke-dasharray:6 4}
+    .soil{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1}
+    .wedge{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .blade{fill:var(--fg-muted);stroke:var(--fg);stroke-width:1}
+    .s3{stroke:var(--chart-3);stroke-width:2.2;fill:none}
+    .s5{stroke:var(--chart-5);stroke-width:2.2;fill:none}
+    .ah-acc{fill:var(--accent)}
+    .ah3{fill:var(--chart-3)}
+    .ah5{fill:var(--chart-5)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-acc"/>
+    </marker>
+    <marker id="arrow-c3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah3"/>
+    </marker>
+    <marker id="arrow-c5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah5"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1000" height="600"/>
+
+  <!-- Left band: the 2-D wedge -->
+  <rect class="band" x="20" y="20" width="540" height="430" rx="8"/>
+  <text class="title" x="36" y="46">2-D soil wedge in front of a cutting blade</text>
+  <line class="edge" x1="40" y1="84" x2="118" y2="84" marker-end="url(#arrow)"/>
+  <text class="label" x="124" y="88">tool travel</text>
+
+  <polygon class="soil" points="40,150 545,150 545,440 40,440"/>
+  <polygon class="wedge" points="143.4,150 512.1,150 230,300"/>
+  <polygon class="blade" points="230,300 115,100.8 104.6,106.8 219.6,306"/>
+
+  <line class="edge dash" x1="150" y1="300" x2="230" y2="300"/>
+  <path class="edge" d="M190,300 A40,40 0 0 1 210,265.4"/>
+  <text class="label" x="176" y="284">α</text>
+  <line class="edge dash" x1="230" y1="300" x2="530" y2="300"/>
+  <path class="edge" d="M300,300 A70,70 0 0 0 291.8,267.1"/>
+  <text class="label" x="306" y="292">β</text>
+  <line class="edge" x1="530" y1="150" x2="530" y2="300"/>
+  <line class="edge" x1="524" y1="150" x2="536" y2="150"/>
+  <line class="edge" x1="524" y1="300" x2="536" y2="300"/>
+  <text class="label" x="538" y="230">d</text>
+
+  <line class="edge" x1="260" y1="116" x2="260" y2="147" marker-end="url(#arrow)"/>
+  <line class="edge" x1="350" y1="116" x2="350" y2="147" marker-end="url(#arrow)"/>
+  <line class="edge" x1="440" y1="116" x2="440" y2="147" marker-end="url(#arrow)"/>
+  <text class="label" x="450" y="128">q (surcharge)</text>
+
+  <line class="edge" x1="330" y1="178" x2="330" y2="245" marker-end="url(#arrow)"/>
+  <text class="label" x="337" y="238">W</text>
+  <line class="edge-accent" x1="201.1" y1="250" x2="299.6" y2="232.6" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="268" y="222">P</text>
+  <line class="s3" x1="451.3" y1="265.9" x2="371" y2="225" marker-end="url(#arrow-c3)"/>
+  <text class="label" x="456" y="284">R</text>
+  <line class="s5" x1="476.4" y1="180.3" x2="432.2" y2="203.8" marker-end="url(#arrow-c5)"/>
+  <text class="label" x="452" y="226">c·d / sin β</text>
+  <line class="s5" x1="164.9" y1="171.4" x2="184.9" y2="206" marker-end="url(#arrow-c5)"/>
+  <text class="label" x="190" y="182">cₐ·d / sin α</text>
+
+  <text class="item" x="300" y="338">failure plane at β (chosen to minimise P)</text>
+  <text class="item" x="40" y="364">P acts at δ (soil–tool friction) to the blade normal;</text>
+  <text class="item" x="40" y="382">R acts at φ (soil friction) to the failure-plane normal.</text>
+  <text class="item" x="40" y="400">Cohesion c acts along the failure plane, adhesion cₐ</text>
+  <text class="item" x="40" y="418">along the blade, surcharge q on the wedge top.</text>
+
+  <!-- Right band: equations and worked example -->
+  <rect class="band" x="575" y="20" width="405" height="430" rx="8"/>
+  <text class="title" x="591" y="46">Fundamental earthmoving equation</text>
+  <text class="label" x="591" y="74">F = (ρ g d² N_γ + c d N_c + cₐ d N_a + q d N_q) · w</text>
+  <text class="item" x="591" y="94">Reece (1964); wedge factors after McKyes and Ali</text>
+  <text class="label" x="591" y="122">N_γ = (cot α + cot β) / (2 D)</text>
+  <text class="label" x="591" y="142">N_c = [1 + cot β · cot(β + φ)] / D</text>
+  <text class="label" x="591" y="162">N_a = [1 − cot α · cot(β + φ)] / D</text>
+  <text class="label" x="591" y="182">N_q = (cot α + cot β) / D</text>
+  <text class="label" x="591" y="202">D = cos(α + δ) + sin(α + δ) · cot(β + φ)</text>
+  <text class="item" x="591" y="226">β minimises F, valid while α + δ + β + φ &lt; 180°</text>
+  <text class="item" x="591" y="246">draft H = F sin(α + δ), vertical V = F cos(α + δ)</text>
+  <text class="title" x="591" y="280">Worked example (illustrative inputs)</text>
+  <text class="item" x="591" y="302">α 60°, δ 20°, φ 35°, d 0.5 m, w 1 m, ρ 1,800 kg/m³</text>
+  <text class="item" x="591" y="322">c = cₐ = q = 0 → β* ≈ 28.1°, N_γ ≈ 1.82</text>
+  <text class="label" x="591" y="342">F ≈ 8.0 kN, H ≈ 7.9 kN, V ≈ 1.4 kN</text>
+  <text class="item" x="591" y="362">add c 10 kPa, cₐ 5 kPa → F ≈ 25.1 kN</text>
+  <text class="caveat" x="591" y="394">2-D wedge only: the 3-D side-wedge terms</text>
+  <text class="caveat" x="591" y="412">of McKyes and Ali are pinned at specification.</text>
+  <text class="caveat" x="591" y="430">Continuum soil, not blasted rock (use DEM/MPM).</text>
+
+  <!-- Bottom band -->
+  <rect class="box-accent" x="20" y="470" width="300" height="110" rx="8"/>
+  <text class="title" x="34" y="494">IL-2 excavator dig task</text>
+  <text class="path" x="34" y="514">studio/isaaclab/</text>
+  <text class="item" x="34" y="534">FEE soil force on the bucket</text>
+  <text class="item" x="34" y="552">rsl_rl PPO policy → ONNX MLP</text>
+  <text class="caveat" x="34" y="570">Not yet run</text>
+
+  <rect class="box" x="360" y="470" width="280" height="110" rx="8"/>
+  <text class="title" x="374" y="494">Zero-shot check in MPM</text>
+  <text class="path" x="374" y="514">st61_il_mpm_eval</text>
+  <text class="item" x="374" y="534">same policy on Newton implicit MPM</text>
+  <text class="item" x="374" y="552">fill gap FEE → MPM with 95 % CI</text>
+  <text class="caveat" x="374" y="570">sim-to-sim gap, not sim-to-real</text>
+
+  <rect class="box" x="680" y="470" width="300" height="110" rx="8"/>
+  <text class="title" x="694" y="494">Bucket fill → payload</text>
+  <text class="path" x="694" y="514">minephys.haulage</text>
+  <text class="item" x="694" y="534">fill factor k_f → passes n_p</text>
+  <text class="item" x="694" y="552">payload mean and CV → cycle, fuel/t</text>
+  <text class="caveat" x="694" y="570">no open field data for fill factors</text>
+
+  <line class="edge" x1="320" y1="525" x2="358" y2="525" marker-end="url(#arrow)"/>
+  <text class="label" x="339" y="517" text-anchor="middle">policy</text>
+  <line class="edge" x1="640" y1="525" x2="678" y2="525" marker-end="url(#arrow)"/>
+  <text class="label" x="659" y="517" text-anchor="middle">k_f</text>
+</svg>

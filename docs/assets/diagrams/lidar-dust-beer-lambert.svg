@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 624" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Lidar in dust: Beer–Lambert extinction, returns kept, lost or replaced by dust returns</title>
+  <desc id="d">Beams from a truck lidar cross a dust cloud: a retroreflective vest is still ranged, a dark rock is lost because two-way transmittance drops the return below threshold, and backscatter adds an early dust return; a chart shows the maximum range falling with the extinction coefficient.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .edge-dash{stroke:var(--fg-muted);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+    .lane-live{fill:none;stroke:var(--chart-2);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-replay{fill:none;stroke:var(--chart-4);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-local{fill:none;stroke:var(--warning);stroke-width:1.8;stroke-dasharray:7 4}
+    .key-live{fill:var(--chart-2)}
+    .key-replay{fill:var(--chart-4)}
+    .key-local{fill:var(--warning)}
+    .ok{fill:var(--success)}
+    .bad{fill:var(--danger)}
+    .warn{fill:var(--warning)}
+    .ok-stroke{stroke:var(--success);stroke-width:2;fill:none}
+    .bad-stroke{stroke:var(--danger);stroke-width:2;fill:none}
+    .cut{stroke:var(--danger);stroke-width:2.4;stroke-dasharray:8 5;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.2;fill:none}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .series{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .series-2{stroke:var(--chart-2);stroke-width:2;stroke-dasharray:6 4;fill:none}
+    .dust{fill:var(--surface-2);stroke:var(--warning);stroke-width:1.5;stroke-dasharray:4 3}
+    .solid{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .ore{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .node{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .node-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .region{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 4}
+    .label-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .label-bad{font:600 13px Inter,system-ui,sans-serif;fill:var(--danger)}
+    .label-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label-accent{font:600 13px Inter,system-ui,sans-serif;fill:var(--code)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1100" height="624"/>
+  <rect class="band" x="16" y="44" width="690" height="380" rx="10"/>
+  <text class="label" x="30" y="36">Scene (S1 truck lidar, case B1)</text>
+  <rect class="band" x="726" y="44" width="358" height="380" rx="10"/>
+  <text class="label" x="740" y="36">Max range vs extinction (R₀ = 100 m, illustrative)</text>
+  <rect class="band" x="16" y="450" width="1068" height="160" rx="10"/>
+  <text class="label" x="30" y="442">Post-model and web</text>
+  <rect class="box" x="30" y="190" width="196" height="120" rx="8"/>
+  <text class="title" x="44" y="214">Truck lidar</text>
+  <text class="path" x="44" y="234">st53_sensors</text>
+  <text class="item" x="44" y="256">ovrtx RTX lidar</text>
+  <text class="item" x="44" y="276">multi-echo, range noise</text>
+  <ellipse class="dust" cx="350" cy="250" rx="110" ry="140"/>
+  <text class="label-warn" x="300" y="134">dust cloud</text>
+  <text class="item" x="296" y="154">β = k_ext C_m</text>
+  <rect class="ore" x="560" y="86" width="26" height="54" rx="4"/>
+  <text class="label" x="546" y="78">vest (retroreflective)</text>
+  <rect class="solid" x="600" y="226" width="50" height="40" rx="6"/>
+  <text class="label" x="588" y="218">dark rock</text>
+  <rect class="solid" x="560" y="330" width="96" height="56" rx="6"/>
+  <text class="label" x="560" y="404">light vehicle</text>
+  <path class="ok-stroke" d="M226,230 L560,114"/>
+  <circle class="ok" cx="560" cy="114" r="6"/>
+  <text class="label-ok" x="300" y="104">kept: ρ high, P_r T² ≥ P_min</text>
+  <path class="bad-stroke" d="M226,250 L600,246"/>
+  <path class="bad-stroke" d="M590,236 L610,256 M610,236 L590,256"/>
+  <text class="label-bad" x="470" y="280">lost: P_r T² &lt; P_min</text>
+  <path class="edge-dash" d="M226,270 L560,356"/>
+  <circle class="warn" cx="330" cy="301" r="6"/>
+  <text class="label-warn" x="214" y="336">early dust return</text>
+  <text class="item" x="214" y="356">(backscatter inside the cloud)</text>
+  <text class="label" x="30" y="360">T(R) = exp(−∫ β dr)</text>
+  <text class="label" x="30" y="380">return power × T² (two-way)</text>
+  <text class="label" x="30" y="400">R = W(β R₀) / β (Lambert W)</text>
+  <path class="grid" d="M790,380.0 L1060,380.0"/>
+  <text class="item" x="782" y="385" text-anchor="end">0</text>
+  <path class="grid" d="M790,240.0 L1060,240.0"/>
+  <text class="item" x="782" y="245" text-anchor="end">50</text>
+  <path class="grid" d="M790,100.0 L1060,100.0"/>
+  <text class="item" x="782" y="105" text-anchor="end">100</text>
+  <path class="axis" d="M790,380 L1060,380 M790,380 L790,90"/>
+  <text class="item" x="790" y="400" text-anchor="middle">0</text>
+  <text class="item" x="844" y="400" text-anchor="middle">0.01</text>
+  <text class="item" x="898" y="400" text-anchor="middle">0.02</text>
+  <text class="item" x="952" y="400" text-anchor="middle">0.03</text>
+  <text class="item" x="1006" y="400" text-anchor="middle">0.04</text>
+  <text class="item" x="1060" y="400" text-anchor="middle">0.05</text>
+  <text class="label" x="925" y="418" text-anchor="middle">β (1/m)</text>
+  <text class="label" x="744" y="80">max range R (m)</text>
+  <path class="series" d="M790.0,100.0 L795.4,124.4 L800.8,143.5 L806.2,159.0 L811.6,172.0 L817.0,183.0 L822.4,192.6 L827.8,201.0 L833.2,208.5 L838.6,215.2 L844.0,221.2 L849.4,226.7 L854.8,231.7 L860.2,236.3 L865.6,240.6 L871.0,244.5 L876.4,248.2 L881.8,251.6 L887.2,254.8 L892.6,257.8 L898.0,260.6 L903.4,263.3 L908.8,265.8 L914.2,268.2 L919.6,270.5 L925.0,272.6 L930.4,274.7 L935.8,276.6 L941.2,278.5 L946.6,280.3 L952.0,282.0 L957.4,283.6 L962.8,285.2 L968.2,286.7 L973.6,288.2 L979.0,289.6 L984.4,290.9 L989.8,292.2 L995.2,293.5 L1000.6,294.7 L1006.0,295.8 L1011.4,297.0 L1016.8,298.1 L1022.2,299.1 L1027.6,300.2 L1033.0,301.1 L1038.4,302.1 L1043.8,303.1 L1049.2,304.0 L1054.6,304.8 L1060.0,305.7"/>
+  <circle class="node-accent" cx="844.0" cy="221.2" r="4"/>
+  <text class="label-accent" x="852" y="213.2">57 m</text>
+  <circle class="node-accent" cx="898.0" cy="260.6" r="4"/>
+  <text class="label-accent" x="906" y="252.635">43 m</text>
+  <circle class="node-accent" cx="1060.0" cy="305.7" r="4"/>
+  <text class="label-accent" x="1054" y="295.703" text-anchor="end">27 m</text>
+  <rect class="box" x="30" y="462" width="520" height="138" rx="8"/>
+  <text class="title" x="44" y="486">Beer–Lambert post-model</text>
+  <text class="path" x="44" y="506">minephys.environment</text>
+  <text class="item" x="44" y="528">drop-out if P_r T² &lt; P_min; attenuation by T²; early dust returns</text>
+  <text class="item" x="44" y="548">anchors: effects at T &lt; 71–74 %; vests ranged at T ≈ 2 % (Phillips 2017)</text>
+  <text class="item" x="44" y="568">β = k_ext C_m from the C3 dust field (k_ext UNVERIFIED)</text>
+  <text class="caveat" x="44" y="588">post-model on clean RTX clouds; no multiple scattering</text>
+  <rect class="box" x="592" y="462" width="214" height="138" rx="8"/>
+  <text class="title" x="606" y="486">Web: dust slider</text>
+  <text class="path" x="606" y="506">live: TS + Python twin</text>
+  <text class="item" x="606" y="528">slider in transmittance T</text>
+  <text class="item" x="606" y="548">clean cloud replayed</text>
+  <rect class="lane-live" x="586" y="456" width="226" height="150" rx="12"/>
+  <rect class="box" x="852" y="462" width="220" height="138" rx="8"/>
+  <text class="title" x="866" y="486">RTX lidar output</text>
+  <text class="path" x="866" y="506">studio/rtx (local)</text>
+  <text class="item" x="866" y="528">clean cloud, NPZ → LAZ</text>
+  <text class="item" x="866" y="548">guard: points per frame &gt; 0</text>
+  <text class="caveat" x="866" y="588">performance data local-only</text>
+  <rect class="lane-replay" x="846" y="456" width="232" height="150" rx="12"/>
+  <path class="edge" d="M852,540 L814,540" marker-end="url(#arrow)"/>
+  <text class="label" x="812" y="530">cloud</text>
+  <path class="edge" d="M550,540 L584,540" marker-end="url(#arrow)"/>
+  <text class="label" x="552" y="530">T(β)</text>
+</svg>

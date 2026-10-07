@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 860" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">PitStudio studio environments</title>
+  <desc id="d">The studio's isolated environments as boxes with their Python version and key locked packages, grouped into the Python 3.14 open lane, the Python 3.12 NVIDIA lane and external tools, with the files they exchange.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .band-label{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .h1{font:600 18px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .lane-live{fill:var(--surface-2);stroke:var(--chart-2);stroke-width:2}
+    .lane-replay{fill:var(--surface-2);stroke:var(--chart-4);stroke-width:2}
+    .lane-local{fill:var(--surface-2);stroke:var(--warning);stroke-width:2}
+    .ref-only{stroke-dasharray:6 4}
+    .hit{fill:var(--surface-2);stroke:var(--success);stroke-width:2;stroke-dasharray:6 4}
+    .tag-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .tag-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .tag-live{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .tag-replay{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-4)}
+    .label-bg{fill:var(--bg);opacity:0.92}
+    .sw-live{fill:var(--chart-2)}
+    .sw-replay{fill:var(--chart-4)}
+    .sw-local{fill:var(--warning)}
+    .sw-ok{fill:var(--success)}
+
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="860"/>
+  <text x="30" y="32" class="h1">Studio environments: one uv project and one lock each</text>
+  <text x="30" y="52" class="item">Versions are read from the committed lock files; stages cross environments only through files.</text>
+  <rect class="box ref-only" x="842" y="22" width="34" height="16" rx="3"/>
+  <text x="884" y="35" class="item">dashed = proprietary runtime (reference-only)</text>
+  <rect class="band" x="20" y="66" width="1160" height="300" rx="10"/>
+  <text x="32" y="86" class="band-label">Python 3.14 — open lane (the CPU subset runs in CI)</text>
+  <rect class="box" x="36" y="94" width="262" height="222" rx="8"/>
+  <text x="46" y="116" class="title">root project</text>
+  <text x="46" y="134" class="path">pyproject.toml · uv.lock</text>
+  <text x="46" y="152" class="item">core, contracts, runner (planned)</text>
+  <text x="46" y="170" class="item">minephys (git 143e709)</text>
+  <text x="46" y="188" class="item">extra runner:</text>
+  <text x="46" y="206" class="item">  filelock 4.0.10 · psutil 7.2.2</text>
+  <text x="46" y="224" class="item">  nvidia-ml-py 13.615.71</text>
+  <text x="46" y="242" class="item">extra api: FastAPI 0.142.2,</text>
+  <text x="46" y="260" class="item">  uvicorn 0.54.0</text>
+  <text x="46" y="278" class="caveat">api/ console: placeholder today</text>
+  <rect class="box" x="324" y="94" width="262" height="222" rx="8"/>
+  <text x="334" y="116" class="title">studio/</text>
+  <text x="334" y="134" class="path">studio/uv.lock</text>
+  <text x="334" y="152" class="item">usd-core 26.8 · warp-lang 1.17.0</text>
+  <text x="334" y="170" class="item">newton 1.6.0 (mujoco-warp 3.12.0)</text>
+  <text x="334" y="188" class="item">usd-validation-nvidia 1.22.0</text>
+  <text x="334" y="206" class="item">simready-validate 2026.8.0</text>
+  <text x="334" y="224" class="item">pynvvideocodec 2.2.3 · nvtx 0.2.16</text>
+  <text x="334" y="242" class="item">laspy, rasterio, trimesh, ortools</text>
+  <text x="334" y="260" class="caveat">scene, physics, encode, telemetry</text>
+  <rect class="box" x="612" y="94" width="262" height="222" rx="8"/>
+  <text x="622" y="116" class="title">pipeline/</text>
+  <text x="622" y="134" class="path">pipeline/uv.lock</text>
+  <text x="622" y="152" class="item">torch 2.14.1 (cpu/cu126/cu130)</text>
+  <text x="622" y="170" class="item">onnxruntime(-gpu) 1.30.0</text>
+  <text x="622" y="188" class="item">onnx 1.23.1 · onnxslim 0.1.97</text>
+  <text x="622" y="206" class="item">minehaulsim 0.12.1, oreblocks 0.5.2</text>
+  <text x="622" y="224" class="item">polars, duckdb, zarr, pooch</text>
+  <text x="622" y="242" class="caveat">ORT TensorRT EP libs: planned</text>
+  <rect class="box" x="900" y="94" width="262" height="222" rx="8"/>
+  <text x="910" y="116" class="title">pipeline/accel/</text>
+  <text x="910" y="134" class="path">pipeline/accel/uv.lock</text>
+  <text x="910" y="152" class="item">tensorrt-cu13 11.3.0.99</text>
+  <text x="910" y="170" class="item">polygraphy 0.53.6</text>
+  <text x="910" y="188" class="item">nvidia-cuda-runtime 13.4.92</text>
+  <text x="910" y="206" class="item">onnxruntime-gpu 1.30.0 (CUDA EP)</text>
+  <text x="910" y="224" class="item">nvidia-ml-py 13.615.71</text>
+  <text x="910" y="242" class="caveat">engines local-only, never committed</text>
+  <path class="edge" d="M560,316 L560,334 L680,334 L680,316" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="511" y="340" width="217" height="19" rx="3"/>
+  <text x="620" y="354" class="label" text-anchor="middle">rollouts, fields (Zarr / Parquet)</text>
+  <path class="edge" d="M820,316 L820,334 L980,334 L980,316" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="846" y="340" width="108" height="19" rx="3"/>
+  <text x="900" y="354" class="label" text-anchor="middle">ONNX (IR pinned)</text>
+  <rect class="band" x="20" y="418" width="1160" height="196" rx="10"/>
+  <text x="1168" y="438" class="band-label" text-anchor="end">Python 3.12 — NVIDIA lane (uv-managed only; local-only, never in CI)</text>
+  <rect class="box ref-only" x="36" y="446" width="370" height="158" rx="8"/>
+  <text x="46" y="468" class="title">studio/isaac/</text>
+  <text x="46" y="486" class="path">studio/isaac/uv.lock</text>
+  <text x="46" y="504" class="item">isaacsim[all,extscache] 6.1.0.0</text>
+  <text x="46" y="522" class="item">isaacsim-replicator 6.1.0.0</text>
+  <text x="46" y="540" class="item">torch 2.11.0+cu130 (Isaac Sim pin)</text>
+  <text x="46" y="558" class="item">mujoco-usd-converter 0.5.0</text>
+  <text x="46" y="576" class="caveat">version chosen by the Compatibility Checker</text>
+  <rect class="box ref-only" x="416" y="446" width="370" height="158" rx="8"/>
+  <text x="426" y="468" class="title">studio/rtx/</text>
+  <text x="426" y="486" class="path">studio/rtx/uv.lock</text>
+  <text x="426" y="504" class="item">ovrtx 0.5.0.377615 · ovstage 0.2.0.377349</text>
+  <text x="426" y="522" class="item">ovphysx 0.6.3 · openexr 3.5.2</text>
+  <text x="426" y="540" class="item">wheels from the explicit pypi.nvidia.com index</text>
+  <text x="426" y="558" class="caveat">never in the same process as Kit / Isaac Sim</text>
+  <rect class="box" x="796" y="446" width="370" height="158" rx="8"/>
+  <text x="806" y="468" class="title">studio/isaaclab/</text>
+  <text x="806" y="486" class="path">studio/isaaclab/uv.lock</text>
+  <text x="806" y="504" class="item">Isaac Lab v3.0.0-EA (commit ae37b02)</text>
+  <text x="806" y="522" class="item">isaaclab 17.0.2 · isaaclab-newton 5.4.1</text>
+  <text x="806" y="540" class="item">isaaclab-rl 0.16.3 · isaaclab-assets 0.7.1</text>
+  <text x="806" y="558" class="item">torch 2.11.0+cu128 · Warp 1.16 · Newton 1.5.2</text>
+  <text x="806" y="576" class="caveat">optional lane; kit-less smoke pending</text>
+  <path class="edge-accent" d="M150,316 L150,446" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="155" y="370" width="198" height="36" rx="3"/>
+  <text x="158" y="384" class="label">runner: uv run --project &lt;env&gt;</text>
+  <text x="158" y="401" class="label">--frozen (job spec JSON)</text>
+  <path class="edge" d="M470,316 L470,446" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="475" y="378" width="115" height="19" rx="3"/>
+  <text x="478" y="392" class="label">USD stage + poses</text>
+  <path class="edge" d="M720,446 L720,316" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="725" y="370" width="198" height="36" rx="3"/>
+  <text x="728" y="384" class="label">images + labels, point clouds,</text>
+  <text x="728" y="401" class="label">Isaac Lab policies (ONNX)</text>
+  <rect class="band" x="20" y="664" width="1160" height="176" rx="10"/>
+  <text x="32" y="684" class="band-label">Kit and external tools (no Python project of ours)</text>
+  <rect class="box ref-only" x="36" y="692" width="370" height="136" rx="8"/>
+  <text x="46" y="714" class="title">studio/kit/</text>
+  <text x="46" y="732" class="path">studio/kit/ (planned)</text>
+  <text x="46" y="750" class="item">Kit 110.3 from kit-app-template 110.3.0,</text>
+  <text x="46" y="768" class="item">generated outside the repo</text>
+  <text x="46" y="786" class="item">in: root.usda + waypoints · out: frames</text>
+  <text x="46" y="804" class="caveat">only our extension + minimal .kit committed</text>
+  <rect class="box ref-only" x="416" y="692" width="370" height="136" rx="8"/>
+  <text x="426" y="714" class="title">studio/reason/</text>
+  <text x="426" y="732" class="path">studio/reason/ (planned)</text>
+  <text x="426" y="750" class="item">llama.cpp b11381 (portable CUDA build)</text>
+  <text x="426" y="768" class="item">Cosmos-Reason2-2B: own GGUF Q8_0</text>
+  <text x="426" y="786" class="item">in: frames + questions · out: answers JSON</text>
+  <text x="426" y="804" class="caveat">weights need the gated model terms</text>
+  <rect class="box" x="796" y="692" width="370" height="136" rx="8"/>
+  <text x="806" y="714" class="title">external tools</text>
+  <text x="806" y="732" class="path">per-user, SHA-256 pinned</text>
+  <text x="806" y="750" class="item">FFmpeg n8.1.3 LGPL (NVENC encode)</text>
+  <text x="806" y="768" class="item">COLMAP 4.2.1 · Brush v0.3.0</text>
+  <text x="806" y="786" class="item">Nsight Systems / Compute (redist zips)</text>
+  <text x="806" y="804" class="caveat">run as subprocesses, never vendored</text>
+</svg>

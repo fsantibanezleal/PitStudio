@@ -10,6 +10,7 @@
   --border: #ddd6e6;
   --border-strong: #7d7589;
   --primary: #7500c0;
+  --code: #7500c0; /* small code text: >= 4.5:1 on every surface */
   --primary-fg: #ffffff;
   --primary-hover: #460073;
   --accent: #a100ff;
@@ -39,6 +40,7 @@
   --border: #352c40;
   --border-strong: #8c829b;
   --primary: #a100ff;
+  --code: #be82ff;
   --primary-fg: #ffffff;
   --primary-hover: #aa22ff;
   --accent: #be82ff;

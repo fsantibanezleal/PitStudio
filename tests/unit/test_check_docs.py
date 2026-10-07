@@ -90,11 +90,45 @@ def test_shell_block_markers(work: Path) -> None:
     assert any("shell block info string" in e for e in errors(bad))
 
 
+def test_run_blocks_are_extracted_verbatim_and_deferred_ones_skipped(work: Path) -> None:
+    a = md(
+        work,
+        "a.md",
+        "1. Step\n\n   ```bash run\n   uv sync\n   uv run pytest\n   ```\n\n```bash run deferred=P6\nstudio run\n```\n"
+        "```powershell run\n$env:X = 1\n```\n```bash\nillustrative\n```\n",
+    )
+    blocks = check_docs.run_blocks(a)
+    assert [b["shell"] for b in blocks] == ["bash", "powershell"]
+    assert blocks[0]["body"] == "uv sync\nuv run pytest"
+    assert blocks[0]["line"] == 3
+
+
 def test_svg_rules(work: Path) -> None:
     assert check_docs.check_svg(svg(work, '<rect class="box" width="1" height="1"/>')) == []
     assert any("colour literal" in e for e in check_docs.check_svg(svg(work, '<rect fill="#ff0000"/>')))
     assert any("missing viewBox" in e for e in check_docs.check_svg(svg(work, "", 'role="img" class="psd"')))
     assert any("role" in e for e in check_docs.check_svg(svg(work, "", 'class="psd" viewBox="0 0 1 1"')))
+
+
+def test_svg_text_class_with_low_contrast_token_fails(work: Path) -> None:
+    p = work / "c.svg"
+    p.write_text(
+        '<svg xmlns="http://www.w3.org/2000/svg" role="img" class="psd" viewBox="0 0 1 1"><title>t</title>'
+        "<desc>d</desc><style>.psd{--fg:#000}.path{font:13px mono;fill:var(--primary)}.dot{fill:var(--primary)}"
+        "</style></svg>",
+        encoding="utf-8",
+    )
+    errs = check_docs.check_svg(p)
+    assert any(".path fills with --primary" in e for e in errs)
+    assert not any(".dot" in e for e in errs)  # shapes may use any token
+
+
+def test_requirement_ids_must_exist_in_the_index(work: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(check_docs, "KNOWN_IDS", {"FR-000-01"})
+    a = md(work, "a.md", "Covered by FR-000-01, but FR-000-99 and P-000-07 are not defined.\n")
+    errs = errors(a)
+    assert sum("requirement id" in e for e in errs) == 2
+    assert not any("FR-000-01 " in e for e in errs)
 
 
 def test_svg_style_hex_only_in_token_declarations(work: Path) -> None:

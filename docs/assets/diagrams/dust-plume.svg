@@ -1,0 +1,120 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Haul-road dust: AP-42 emission, Gaussian plume and receptor</title>
+  <desc id="d">Plan view of a haul-road segment emitting dust into a wind-driven plume that widens downwind and reaches a receptor; a side view shows the vertical spread and the ground-reflection image source; the bottom row shows the AP-42 emission factor, the Gaussian plume and the Lagrangian particle model.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .dash{stroke-dasharray:6 4}
+    .c-lo{fill:var(--chart-3);fill-opacity:0.12;stroke:var(--chart-3);stroke-width:1}
+    .c-mid{fill:var(--chart-3);fill-opacity:0.22;stroke:var(--chart-3);stroke-width:1}
+    .c-hi{fill:var(--chart-3);fill-opacity:0.40;stroke:var(--chart-3);stroke-width:1}
+    .road{stroke:var(--fg-muted);stroke-width:10;fill:none;stroke-linecap:round}
+    .truck{fill:var(--surface-2);stroke:var(--fg);stroke-width:1.5}
+    .ground{stroke:var(--border-strong);stroke-width:2;fill:none}
+    .rec{fill:var(--bg);stroke:var(--accent);stroke-width:2.5}
+    .ah-acc{fill:var(--accent)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-acc"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1000" height="640"/>
+
+  <!-- Plan view -->
+  <rect class="band" x="20" y="20" width="960" height="285" rx="8"/>
+  <text class="title" x="36" y="46">Plan view (x–y): road line source → plume → receptor</text>
+  <line class="edge-accent" x1="560" y1="40" x2="660" y2="40" marker-end="url(#arrow-acc)"/>
+  <text class="label" x="668" y="45">wind u (m/s), along x</text>
+
+  <polygon class="c-lo" points="140,90 520,72 930,180 520,288 140,270"/>
+  <polygon class="c-mid" points="140,105 500,100 800,180 500,260 140,255"/>
+  <polygon class="c-hi" points="140,130 420,140 600,178 420,215 140,230"/>
+  <line class="road" x1="140" y1="80" x2="140" y2="280"/>
+  <rect class="truck" x="128" y="118" width="24" height="16" rx="3"/>
+  <rect class="truck" x="128" y="206" width="24" height="16" rx="3"/>
+  <text class="label" x="36" y="100">haul road</text>
+  <text class="item" x="36" y="118">(line source)</text>
+  <text class="item" x="36" y="252">traffic from</text>
+  <text class="item" x="36" y="270">case A1 (VKT)</text>
+
+  <line class="edge" x1="640" y1="135" x2="640" y2="226"/>
+  <line class="edge" x1="632" y1="135" x2="648" y2="135"/>
+  <line class="edge" x1="632" y1="226" x2="648" y2="226"/>
+  <text class="label" x="652" y="185">≈ 2σ_y(x), widens</text>
+  <circle class="rec" cx="884" cy="182" r="7"/>
+  <line class="edge-accent" x1="880" y1="182" x2="888" y2="182"/>
+  <text class="label" x="866" y="226">receptor</text>
+  <text class="item" x="866" y="244">C(x, y, z)</text>
+
+  <rect class="c-hi" x="640" y="280" width="16" height="12"/>
+  <text class="item" x="662" y="291">high C</text>
+  <rect class="c-mid" x="720" y="280" width="16" height="12"/>
+  <text class="item" x="742" y="291">medium</text>
+  <rect class="c-lo" x="805" y="280" width="16" height="12"/>
+  <text class="item" x="827" y="291">low (schematic)</text>
+
+  <!-- Side view -->
+  <rect class="band" x="20" y="315" width="960" height="160" rx="8"/>
+  <text class="title" x="36" y="340">Side view (x–z): vertical spread and ground reflection</text>
+  <text class="label" x="36" y="362">C = Q / (2π u σ_y σ_z) · exp(−y²/2σ_y²) · [exp(−(z − H)²/2σ_z²) + exp(−(z + H)²/2σ_z²)]</text>
+  <text class="item" x="36" y="380">σ_y(x), σ_z(x): Pasquill–Gifford stability classes A–F (coefficients pinned at specification)</text>
+  <polygon class="c-mid" points="140,425 940,385 940,450 140,450"/>
+  <line class="ground" x1="40" y1="450" x2="960" y2="450"/>
+  <circle class="truck" cx="140" cy="440" r="5"/>
+  <circle class="truck dash" cx="140" cy="460" r="5"/>
+  <text class="item" x="152" y="466">image source at −H (reflection term)</text>
+  <line class="edge" x1="420" y1="450" x2="420" y2="411" marker-end="url(#arrow)"/>
+  <text class="label" x="428" y="428">σ_z(x₁)</text>
+  <line class="edge" x1="760" y1="450" x2="760" y2="395" marker-end="url(#arrow)"/>
+  <text class="label" x="768" y="420">σ_z(x₂) &gt; σ_z(x₁)</text>
+
+  <!-- Bottom band -->
+  <rect class="box-accent" x="20" y="490" width="300" height="140" rx="8"/>
+  <text class="title" x="34" y="514">Emission (AP-42 §13.2.2)</text>
+  <text class="path" x="34" y="534">minephys.environment</text>
+  <text class="label" x="34" y="556">E = k (s/12)^a (W/3)^b  lb/VMT</text>
+  <text class="item" x="34" y="576">Q = E · traffic · (1 − CE)</text>
+  <text class="caveat" x="34" y="600">valid: silt 1.8–25.2 %, W 2–290 t</text>
+  <text class="caveat" x="34" y="618">(short tons); haul trucks extrapolate</text>
+
+  <rect class="box" x="360" y="490" width="280" height="140" rx="8"/>
+  <text class="title" x="374" y="514">Gaussian plume (live)</text>
+  <text class="path" x="374" y="534">minephys.environment</text>
+  <text class="item" x="374" y="556">road = point kernel integrated</text>
+  <text class="item" x="374" y="576">along the segment</text>
+  <text class="caveat" x="374" y="600">steady, flat terrain, uniform wind</text>
+
+  <rect class="box" x="680" y="490" width="300" height="140" rx="8"/>
+  <text class="title" x="694" y="514">Lagrangian particles (M16)</text>
+  <text class="path" x="694" y="534">studio/src/pitstudio_studio/physics/</text>
+  <text class="item" x="694" y="556">advection + settling + random walk</text>
+  <text class="item" x="694" y="576">over the real pit terrain</text>
+  <text class="caveat" x="694" y="600">precompute lane; Not yet run</text>
+
+  <line class="edge" x1="320" y1="560" x2="358" y2="560" marker-end="url(#arrow)"/>
+  <text class="label" x="339" y="552" text-anchor="middle">Q</text>
+  <line class="edge" x1="640" y1="560" x2="678" y2="560" marker-end="url(#arrow)"/>
+  <text class="label" x="659" y="552" text-anchor="middle">check</text>
+</svg>

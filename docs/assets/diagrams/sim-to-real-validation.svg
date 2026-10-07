@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Sim-to-real validation: grouped real split, C2ST, TSTR against TRTR, corruption robustness and the decision rule</title>
+  <desc id="d">Synthetic muck-pile images and the Mendeley real set feed a grouped split by source group; a DINOv2 classifier two-sample test with a real-versus-real baseline, TSTR against TRTR and corruption curves produce numbers that the pre-registered decision rule and the honesty rule turn into claims.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .edge-dash{stroke:var(--fg-muted);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+    .lane-live{fill:none;stroke:var(--chart-2);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-replay{fill:none;stroke:var(--chart-4);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-local{fill:none;stroke:var(--warning);stroke-width:1.8;stroke-dasharray:7 4}
+    .key-live{fill:var(--chart-2)}
+    .key-replay{fill:var(--chart-4)}
+    .key-local{fill:var(--warning)}
+    .ok{fill:var(--success)}
+    .bad{fill:var(--danger)}
+    .warn{fill:var(--warning)}
+    .ok-stroke{stroke:var(--success);stroke-width:2;fill:none}
+    .bad-stroke{stroke:var(--danger);stroke-width:2;fill:none}
+    .cut{stroke:var(--danger);stroke-width:2.4;stroke-dasharray:8 5;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.2;fill:none}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .series{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .series-2{stroke:var(--chart-2);stroke-width:2;stroke-dasharray:6 4;fill:none}
+    .dust{fill:var(--surface-2);stroke:var(--warning);stroke-width:1.5;stroke-dasharray:4 3}
+    .solid{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .ore{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .node{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .node-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .region{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 4}
+    .label-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .label-bad{font:600 13px Inter,system-ui,sans-serif;fill:var(--danger)}
+    .label-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label-accent{font:600 13px Inter,system-ui,sans-serif;fill:var(--code)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1100" height="660"/>
+  <rect class="band" x="16" y="44" width="270" height="590" rx="10"/>
+  <text class="label" x="30" y="36">Data</text>
+  <rect class="band" x="306" y="44" width="250" height="590" rx="10"/>
+  <text class="label" x="320" y="36">Split (s10_preprocess)</text>
+  <rect class="band" x="576" y="44" width="270" height="590" rx="10"/>
+  <text class="label" x="590" y="36">Tests (s50_evaluate)</text>
+  <rect class="band" x="866" y="44" width="218" height="590" rx="10"/>
+  <text class="label" x="880" y="36">Claims</text>
+  <rect class="box" x="30" y="62" width="230" height="190" rx="8"/>
+  <text class="title" x="44" y="86">Synthetic</text>
+  <text class="path" x="44" y="106">s05_synthesize · st55_sdg</text>
+  <text class="item" x="44" y="128">muck piles with exact PSD</text>
+  <text class="item" x="44" y="148">structured + unstructured DR</text>
+  <text class="item" x="44" y="168">duplicate checks first:</text>
+  <text class="item" x="44" y="188">    SHA-256, pHash, DINOv2 NN</text>
+  <rect class="box-accent" x="30" y="276" width="230" height="214" rx="8"/>
+  <text class="title" x="44" y="300">Real (Mendeley)</text>
+  <text class="path" x="44" y="320">78ht3pjsr4, CC BY 4.0</text>
+  <text class="item" x="44" y="342">960 images, 512 × 512</text>
+  <text class="item" x="44" y="362">= 240 originals × 4 (flips,</text>
+  <text class="item" x="44" y="382">    180° rotation)</text>
+  <text class="item" x="44" y="402">9 similar pairs merged</text>
+  <text class="item" x="44" y="422">→ 231 source groups</text>
+  <text class="item" x="44" y="442">one class; no mm per px</text>
+  <rect class="box" x="30" y="514" width="230" height="106" rx="8"/>
+  <text class="title" x="44" y="538">No real reference</text>
+  <text class="path" x="44" y="558">people, dust, telemetry</text>
+  <text class="item" x="44" y="580">no C2ST / TSTR claim</text>
+  <text class="caveat" x="44" y="608">calibrated synthetic label</text>
+  <rect class="box-accent" x="320" y="62" width="222" height="270" rx="8"/>
+  <text class="title" x="334" y="86">Grouped k-fold</text>
+  <text class="path" x="334" y="106">group = (k−1) mod 240 + 1</text>
+  <text class="item" x="334" y="128">+ 9 similar-pair links</text>
+  <text class="item" x="334" y="148">e.g. 5 folds ≈ 46 groups</text>
+  <text class="item" x="334" y="168">test on originals only</text>
+  <text class="item" x="334" y="188">train may use flips</text>
+  <text class="item" x="334" y="208"></text>
+  <text class="item" x="334" y="228">per-file 80/20 split:</text>
+  <text class="item" x="334" y="248">    1 − 0.2³ = 99.2 % of test</text>
+  <text class="item" x="334" y="268">    tiles leak a twin</text>
+  <text class="caveat" x="334" y="320">never split by file</text>
+  <rect class="box" x="590" y="62" width="230" height="190" rx="8"/>
+  <text class="title" x="604" y="86">C2ST (two families)</text>
+  <text class="path" x="604" y="106">DINOv2 ViT-B/14 embeddings</text>
+  <text class="item" x="604" y="128">logistic + MLP classifiers</text>
+  <text class="item" x="604" y="148">real-vs-real baseline</text>
+  <text class="item" x="604" y="168">injected shift: AUC ≥ 0.80</text>
+  <text class="item" x="604" y="188">AUC − baseline ≤ 0.10</text>
+  <rect class="box-accent" x="590" y="270" width="230" height="170" rx="8"/>
+  <text class="title" x="604" y="294">TSTR vs TRTR</text>
+  <text class="path" x="604" y="314">U-Net, foreground IoU</text>
+  <text class="item" x="604" y="336">train synthetic vs train real</text>
+  <text class="item" x="604" y="356">test: real originals per fold</text>
+  <text class="item" x="604" y="376">ρ = TSTR / TRTR ≥ 0.90</text>
+  <text class="item" x="604" y="396">report ρ with fold spread</text>
+  <rect class="box" x="590" y="458" width="230" height="162" rx="8"/>
+  <text class="title" x="604" y="482">Corruption robustness</text>
+  <text class="path" x="604" y="502">5 severities + dust haze</text>
+  <text class="item" x="604" y="524">fog, rain, snow, brightness</text>
+  <text class="item" x="604" y="544">detector: drop ≤ 10 points</text>
+  <text class="item" x="604" y="564">    at severity ≤ 2</text>
+  <text class="item" x="604" y="584">DR ablation: structured vs not</text>
+  <rect class="box-accent" x="880" y="62" width="192" height="260" rx="8"/>
+  <text class="title" x="894" y="86">Decision rule</text>
+  <text class="path" x="894" y="106">DEC-0016</text>
+  <text class="item" x="894" y="128">paired 95 % CI of the</text>
+  <text class="item" x="894" y="148">  difference excludes 0</text>
+  <text class="item" x="894" y="168">  → 'better'</text>
+  <text class="item" x="894" y="188">otherwise:</text>
+  <text class="item" x="894" y="208">  'no significant</text>
+  <text class="item" x="894" y="228">  difference'</text>
+  <text class="item" x="894" y="248">pairs: seeds, folds,</text>
+  <text class="item" x="894" y="268">  events or images</text>
+  <rect class="box" x="880" y="344" width="192" height="276" rx="8"/>
+  <text class="title" x="894" y="368">Honesty rule</text>
+  <text class="path" x="894" y="388">no real reference</text>
+  <text class="item" x="894" y="410">→ 'calibrated synthetic —</text>
+  <text class="item" x="894" y="430">  not validated against</text>
+  <text class="item" x="894" y="450">  real data'</text>
+  <text class="item" x="894" y="470">de Wit slope series:</text>
+  <text class="item" x="894" y="490">  one event, descriptive</text>
+  <text class="item" x="894" y="510">  only</text>
+  <text class="item" x="894" y="530">people, equipment:</text>
+  <text class="item" x="894" y="550">  'not measured' unless</text>
+  <text class="item" x="894" y="570">  the probe is labelled</text>
+  <path class="edge" d="M260,170 L318,170" marker-end="url(#arrow)"/>
+  <text class="label" x="262" y="160">synthetic</text>
+  <path class="edge-accent" d="M260,383 L318,290" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="274" y="352">real</text>
+  <path class="edge" d="M542,170 L588,170" marker-end="url(#arrow)"/>
+  <text class="label" x="548" y="160">folds</text>
+  <path class="edge-accent" d="M542,290 L588,330" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="548" y="330">folds</text>
+  <path class="edge" d="M542,320 L588,520" marker-end="url(#arrow)"/>
+  <text class="label" x="548" y="470">test sets</text>
+  <path class="edge" d="M820,170 L878,170" marker-end="url(#arrow)"/>
+  <text class="label" x="822" y="160">AUC + CI</text>
+  <path class="edge-accent" d="M820,355 L878,250" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="834" y="318">ρ</text>
+  <path class="edge" d="M820,540 L878,290" marker-end="url(#arrow)"/>
+  <text class="label" x="834" y="480">drops</text>
+  <path class="edge-dash" d="M260,567 L296,567 L296,644 L976,644 L976,622" marker-end="url(#arrow)"/>
+  <text class="label" x="560" y="638">label only</text>
+</svg>

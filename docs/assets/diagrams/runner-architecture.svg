@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Runner architecture</title>
+  <desc id="d">Recipes are planned into a cached stage graph, queued, gated by GPU guards and machine-wide locks, executed in their own environments, stored content-addressed and recorded in manifests that feed the console and the web publication step.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .band-label{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .h1{font:600 18px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .lane-live{fill:var(--surface-2);stroke:var(--chart-2);stroke-width:2}
+    .lane-replay{fill:var(--surface-2);stroke:var(--chart-4);stroke-width:2}
+    .lane-local{fill:var(--surface-2);stroke:var(--warning);stroke-width:2}
+    .ref-only{stroke-dasharray:6 4}
+    .hit{fill:var(--surface-2);stroke:var(--success);stroke-width:2;stroke-dasharray:6 4}
+    .tag-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .tag-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .tag-live{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .tag-replay{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-4)}
+    .label-bg{fill:var(--bg);opacity:0.92}
+    .sw-live{fill:var(--chart-2)}
+    .sw-replay{fill:var(--chart-4)}
+    .sw-local{fill:var(--warning)}
+    .sw-ok{fill:var(--success)}
+
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="580"/>
+  <text x="30" y="30" class="h1">Runner: recipe → plan → queue → guards and locks → workers → store → manifests</text>
+  <rect class="band" x="18" y="52" width="1164" height="220" rx="10"/>
+  <text x="30" y="72" class="band-label">Plan and schedule — root project, Python 3.14, extra runner</text>
+  <rect class="band" x="18" y="300" width="1164" height="222" rx="10"/>
+  <text x="30" y="320" class="band-label">Execute, store and publish</text>
+  <rect class="box" x="30" y="84" width="240" height="170" rx="8"/>
+  <text x="40" y="106" class="title">Recipes</text>
+  <text x="40" y="124" class="path">studio/recipes/</text>
+  <text x="40" y="142" class="item">YAML: case × stage DAG</text>
+  <text x="40" y="160" class="item">validated by recipe.schema.json</text>
+  <text x="40" y="178" class="item">machine profiles in _profiles/</text>
+  <text x="40" y="196" class="item">laptop-rtx5000ada · linux-gpu</text>
+  <text x="40" y="214" class="item">one master seed per recipe</text>
+  <rect class="box" x="326" y="84" width="240" height="170" rx="8"/>
+  <text x="336" y="106" class="title">DAG planner</text>
+  <text x="336" y="124" class="path">studio plan &lt;recipe&gt;</text>
+  <text x="336" y="142" class="item">cache key per stage = SHA-256</text>
+  <text x="336" y="160" class="item">of code tree + uv.lock + params</text>
+  <text x="336" y="178" class="item">+ derived seed + input digests</text>
+  <text x="336" y="196" class="item">dry run: hits, misses, VRAM and</text>
+  <text x="336" y="214" class="item">disk estimates (fake GPU in CI)</text>
+  <rect class="box" x="622" y="84" width="240" height="170" rx="8"/>
+  <text x="632" y="106" class="title">Queue</text>
+  <text x="632" y="124" class="path">queue.db (SQLite, WAL)</text>
+  <text x="632" y="142" class="item">one worker per machine</text>
+  <text x="632" y="160" class="item">studio run · status · queue</text>
+  <text x="632" y="178" class="item">resume a run by its run_id</text>
+  <text x="632" y="196" class="item">finished shards = cache hits</text>
+  <rect class="box-accent" x="918" y="84" width="240" height="170" rx="8"/>
+  <text x="928" y="106" class="title">Guards and locks</text>
+  <text x="928" y="124" class="path">GPU_LOCK_DIR (machine-wide)</text>
+  <text x="928" y="142" class="item">gpu0.hold present → no GPU work</text>
+  <text x="928" y="160" class="item">gpu0.compute: one heavy job</text>
+  <text x="928" y="178" class="item">gpu0.nvenc: the encoder slot</text>
+  <text x="928" y="196" class="item">pre-flight: free VRAM, disk,</text>
+  <text x="928" y="214" class="item">temperature, capabilities</text>
+  <rect class="box" x="918" y="330" width="240" height="170" rx="8"/>
+  <text x="928" y="352" class="title">Workers</text>
+  <text x="928" y="370" class="path">uv run --project &lt;env&gt;</text>
+  <text x="928" y="388" class="item">--frozen: one locked env each</text>
+  <text x="928" y="406" class="item">job object: kill tree on close</text>
+  <text x="928" y="424" class="item">NVML 1–4 Hz + NVTX ranges</text>
+  <text x="928" y="442" class="item">retries: OOM → declared fallback</text>
+  <text x="928" y="460" class="item">checkpoints and resumable shards</text>
+  <rect class="box" x="622" y="330" width="240" height="170" rx="8"/>
+  <text x="632" y="352" class="title">Content-addressed store</text>
+  <text x="632" y="370" class="path">PITSTUDIO_STORE (C:\ps)</text>
+  <text x="632" y="388" class="item">cas/sha256/… immutable outputs</text>
+  <text x="632" y="406" class="item">views/: hardlinks per recipe</text>
+  <text x="632" y="424" class="item">write tmp → validate → rename</text>
+  <text x="632" y="442" class="item">studio gc from pinned manifests</text>
+  <text x="632" y="460" class="caveat">disk guard + per-class quotas</text>
+  <rect class="box" x="326" y="330" width="240" height="170" rx="8"/>
+  <text x="336" y="352" class="title">Manifests and events</text>
+  <text x="336" y="370" class="path">runs/&lt;run_id&gt;/</text>
+  <text x="336" y="388" class="item">manifest.json: versions (locks),</text>
+  <text x="336" y="406" class="item">cache keys, seeds, determinism,</text>
+  <text x="336" y="424" class="item">telemetry summary, licence class</text>
+  <text x="336" y="442" class="item">telemetry.parquet · events.jsonl</text>
+  <text x="336" y="460" class="item">every stage writes one manifest</text>
+  <rect class="box" x="30" y="330" width="240" height="170" rx="8"/>
+  <text x="40" y="352" class="title">Console and publish</text>
+  <text x="40" y="370" class="path">api/ · studio publish</text>
+  <text x="40" y="388" class="item">loopback FastAPI, port from env</text>
+  <text x="40" y="406" class="item">SSE: events + telemetry</text>
+  <text x="40" y="424" class="item">POST /jobs → schema check → 4xx</text>
+  <text x="40" y="442" class="item">publish: run → web artefacts</text>
+  <text x="40" y="460" class="caveat">never part of the Pages site</text>
+  <path class="edge" d="M270,169 L326,169" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="282" y="147" width="32" height="19" rx="3"/>
+  <text x="298" y="161" class="label" text-anchor="middle">YAML</text>
+  <path class="edge" d="M566,169 L622,169" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="578" y="147" width="32" height="19" rx="3"/>
+  <text x="594" y="161" class="label" text-anchor="middle">jobs</text>
+  <path class="edge" d="M862,169 L918,169" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="874" y="147" width="32" height="19" rx="3"/>
+  <text x="890" y="161" class="label" text-anchor="middle">next</text>
+  <path class="edge-accent" d="M1038,254 L1038,330" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="1043" y="266" width="83" height="36" rx="3"/>
+  <text x="1046" y="280" class="label">guards pass,</text>
+  <text x="1046" y="297" class="label">lock held</text>
+  <path class="edge" d="M918,415 L862,415" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="865" y="393" width="51" height="19" rx="3"/>
+  <text x="890" y="407" class="label" text-anchor="middle">outputs</text>
+  <path class="edge" d="M622,415 L566,415" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="569" y="393" width="51" height="19" rx="3"/>
+  <text x="594" y="407" class="label" text-anchor="middle">digests</text>
+  <path class="edge" d="M326,415 L270,415" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="276" y="393" width="44" height="19" rx="3"/>
+  <text x="298" y="407" class="label" text-anchor="middle">events</text>
+  <path class="edge" d="M500,254 L500,286 L700,286 L700,330" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+  <rect class="label-bg" x="520" y="266" width="160" height="19" rx="3"/>
+  <text x="600" y="280" class="label" text-anchor="middle">cache lookup: hit → skip</text>
+  <text x="600" y="556" class="caveat" text-anchor="middle">Planned for the build phase and built test-first against a fake GPU backend; size budget ≈ 1,500 lines excluding tests.</text>
+</svg>

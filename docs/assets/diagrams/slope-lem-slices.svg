@@ -1,0 +1,137 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 660" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Method of slices on a circular slip surface</title>
+  <desc id="d">A 20 m, 45 degree illustrative slope with its critical toe circle cut into ten slices; one slice is enlarged with its weight, base normal and shear forces and the interslice forces that Bishop, Janbu and Spencer treat differently; the bottom row shows the strength input, the factors of safety of the worked example and the Monte-Carlo probability of failure.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .dash{stroke-dasharray:6 4}
+    .ground{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .slice{stroke:var(--border-strong);stroke-width:1;fill:none}
+    .hl{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .mark{fill:var(--fg-muted);stroke:var(--bg);stroke-width:2}
+    .s3{stroke:var(--chart-3);stroke-width:2.2;fill:none}
+    .s4{stroke:var(--chart-4);stroke-width:2.2;fill:none}
+    .s5{stroke:var(--chart-5);stroke-width:2.2;fill:none}
+    .ah-acc{fill:var(--accent)}
+    .ah3{fill:var(--chart-3)}
+    .ah4{fill:var(--chart-4)}
+    .ah5{fill:var(--chart-5)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-acc"/>
+    </marker>
+    <marker id="arrow-c3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah3"/>
+    </marker>
+    <marker id="arrow-c4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah4"/>
+    </marker>
+    <marker id="arrow-c5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah5"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1000" height="660"/>
+
+  <!-- Left band: slope and slices -->
+  <rect class="band" x="20" y="20" width="540" height="520" rx="8"/>
+  <text class="title" x="36" y="46">Critical toe circle cut into 10 slices</text>
+  <text class="item" x="36" y="68">illustrative: H 20 m, 45° face, γ 20 kN/m³, dry</text>
+  <text class="item" x="36" y="86">c′ 20 kPa, φ′ 30°; circle found by grid search</text>
+
+  <polygon class="ground" points="40,230 166,230 406,470 540,470 540,520 40,520"/>
+  <polygon class="hl" points="209.2,273.2 237.3,301.3 237.3,394.8 209.2,369.2"/>
+  <line class="slice" x1="152.9" y1="230" x2="152.9" y2="294.4"/>
+  <line class="slice" x1="181" y1="245" x2="181" y2="336.9"/>
+  <line class="slice" x1="209.2" y1="273.2" x2="209.2" y2="369.2"/>
+  <line class="slice" x1="237.3" y1="301.3" x2="237.3" y2="394.8"/>
+  <line class="slice" x1="265.4" y1="329.4" x2="265.4" y2="415.5"/>
+  <line class="slice" x1="293.5" y1="357.5" x2="293.5" y2="432.3"/>
+  <line class="slice" x1="321.6" y1="385.6" x2="321.6" y2="445.8"/>
+  <line class="slice" x1="349.8" y1="413.8" x2="349.8" y2="456.5"/>
+  <line class="slice" x1="377.9" y1="441.9" x2="377.9" y2="464.5"/>
+  <path class="edge-accent" d="M124.8,230 A352.2,352.2 0 0 0 406,470"/>
+  <line class="edge dash" x1="460" y1="122" x2="406" y2="470"/>
+  <circle class="mark" cx="460" cy="122" r="5"/>
+  <text class="item" x="452" y="110" text-anchor="end">circle centre O</text>
+  <text class="label" x="446" y="300">R ≈ 29.3 m</text>
+  <text class="label" x="300" y="300">45° face</text>
+  <text class="item" x="60" y="420">sliding mass</text>
+  <text class="item" x="60" y="500">stable ground below the slip circle</text>
+  <path class="edge" d="M232,325 C290,170 480,150 588,215" marker-end="url(#arrow)"/>
+  <text class="label" x="350" y="190">slice i</text>
+
+  <!-- Right band: free-body diagram of a slice -->
+  <rect class="band" x="575" y="20" width="405" height="520" rx="8"/>
+  <text class="title" x="591" y="46">Forces on slice i</text>
+  <text class="label" x="591" y="70">S = [c′ l + (N − u l) tan φ′] / F</text>
+  <text class="item" x="591" y="90">l = b / cos α is the base length</text>
+
+  <polygon class="hl" points="690,140 790,240 790,450 690,360"/>
+  <line class="edge" x1="740" y1="250" x2="740" y2="330" marker-end="url(#arrow)"/>
+  <text class="label" x="747" y="318">W</text>
+  <line class="s4" x1="668.2" y1="434.5" x2="713" y2="384.7" marker-end="url(#arrow-c4)"/>
+  <text class="label" x="612" y="456">N′ (+ u l)</text>
+  <line class="s3" x1="774.6" y1="446.9" x2="741.2" y2="416.8" marker-end="url(#arrow-c3)"/>
+  <text class="label" x="790" y="476">S (mobilised)</text>
+  <line class="s5" x1="640" y1="250" x2="688" y2="250" marker-end="url(#arrow-c5)"/>
+  <text class="label" x="626" y="242">E_L</text>
+  <line class="s5" x1="676" y1="285" x2="676" y2="330" marker-end="url(#arrow-c5)"/>
+  <text class="label" x="630" y="316">X_L</text>
+  <line class="s5" x1="840" y1="330" x2="792" y2="330" marker-end="url(#arrow-c5)"/>
+  <text class="label" x="846" y="334">E_R</text>
+  <line class="s5" x1="804" y1="390" x2="804" y2="345" marker-end="url(#arrow-c5)"/>
+  <text class="label" x="812" y="378">X_R</text>
+  <line class="edge dash" x1="690" y1="360" x2="770" y2="360"/>
+  <path class="edge" d="M740,360 A50,50 0 0 1 727.2,393.5"/>
+  <text class="label" x="744" y="386">α</text>
+
+  <text class="item" x="591" y="498">Bishop: X = 0, moment equilibrium</text>
+  <text class="item" x="591" y="516">Janbu: X = 0, force equilibrium, × f₀</text>
+  <text class="label" x="591" y="534">Spencer: resultant of E, X at constant θ, both</text>
+
+  <!-- Bottom band -->
+  <rect class="box" x="20" y="555" width="300" height="95" rx="8"/>
+  <text class="title" x="34" y="578">Strength input</text>
+  <text class="path" x="34" y="598">minephys.geotech</text>
+  <text class="item" x="34" y="617">Hoek–Brown or Mohr–Coulomb c′, φ′</text>
+  <text class="caveat" x="34" y="636">per-slice conversion: specification</text>
+
+  <rect class="box-accent" x="360" y="555" width="280" height="95" rx="8"/>
+  <text class="title" x="374" y="578">Limit equilibrium</text>
+  <text class="path" x="374" y="598">minephys.geotech</text>
+  <text class="item" x="374" y="617">Bishop 1.202 · Spencer 1.195 (θ 34°)</text>
+  <text class="caveat" x="374" y="636">Fellenius 1.136; oracle: pySlope</text>
+
+  <rect class="box" x="680" y="555" width="300" height="95" rx="8"/>
+  <text class="title" x="694" y="578">Monte-Carlo PoF</text>
+  <text class="path" x="694" y="598">minephys.geotech</text>
+  <text class="item" x="694" y="617">c′ ~ N(20, 4) kPa, φ′ ~ N(30°, 3°)</text>
+  <text class="caveat" x="694" y="636">PoF 5.2 % ± 0.16 % on a fixed surface</text>
+
+  <line class="edge" x1="320" y1="600" x2="358" y2="600" marker-end="url(#arrow)"/>
+  <text class="label" x="339" y="592" text-anchor="middle">c′, φ′</text>
+  <line class="edge" x1="640" y1="600" x2="678" y2="600" marker-end="url(#arrow)"/>
+  <text class="label" x="659" y="592" text-anchor="middle">FoS</text>
+</svg>

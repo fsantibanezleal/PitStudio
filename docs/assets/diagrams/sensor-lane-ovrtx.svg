@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 790" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">RTX sensor lane with ovrtx and the own dust model</title>
+  <desc id="d">The USD stage, poses and a sensor recipe feed ovrtx camera, lidar and radar renders in the Python 3.12 studio/rtx environment; lidar clouds then pass through PitStudio's own Beer–Lambert dust model and a per-frame point-count guard before they are cut into web shards.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .band-label{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .h1{font:600 18px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .lane-live{fill:var(--surface-2);stroke:var(--chart-2);stroke-width:2}
+    .lane-replay{fill:var(--surface-2);stroke:var(--chart-4);stroke-width:2}
+    .lane-local{fill:var(--surface-2);stroke:var(--warning);stroke-width:2}
+    .ref-only{stroke-dasharray:6 4}
+    .hit{fill:var(--surface-2);stroke:var(--success);stroke-width:2;stroke-dasharray:6 4}
+    .tag-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .tag-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .tag-live{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .tag-replay{font:600 13px Inter,system-ui,sans-serif;fill:var(--chart-4)}
+    .label-bg{fill:var(--bg);opacity:0.92}
+    .sw-live{fill:var(--chart-2)}
+    .sw-replay{fill:var(--chart-4)}
+    .sw-local{fill:var(--warning)}
+    .sw-ok{fill:var(--success)}
+
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="790"/>
+  <text x="30" y="30" class="h1">Sensor lane: USD stage → ovrtx → own dust model → point-count guard → shards</text>
+  <rect class="box" x="30" y="56" width="360" height="100" rx="8"/>
+  <text x="40" y="78" class="title">USD stage</text>
+  <text x="40" y="96" class="path">st40_compose → root.usda</text>
+  <text x="40" y="114" class="item">non-visual materials: steel + paint,</text>
+  <text x="40" y="132" class="item">rubber, gravel, dirt, retroreflective</text>
+  <rect class="box" x="420" y="56" width="360" height="100" rx="8"/>
+  <text x="430" y="78" class="title">Poses</text>
+  <text x="430" y="96" class="path">Parquet · time-sampled USD</text>
+  <text x="430" y="114" class="item">DES traces (minehaulsim), Newton</text>
+  <text x="430" y="132" class="item">rigid bodies; kinematic in the scene</text>
+  <rect class="box" x="810" y="56" width="360" height="100" rx="8"/>
+  <text x="820" y="78" class="title">Sensor recipe</text>
+  <text x="820" y="96" class="path">recipe YAML (schema-validated)</text>
+  <text x="820" y="114" class="item">products, frames, seed per stage</text>
+  <text x="820" y="132" class="item">lidar elevation fan: tested range</text>
+  <path class="edge" d="M210,156 L210,210" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="215" y="174" width="115" height="19" rx="3"/>
+  <text x="218" y="188" class="label">stage (read-only)</text>
+  <path class="edge" d="M600,156 L600,210" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="605" y="174" width="102" height="19" rx="3"/>
+  <text x="608" y="188" class="label">poses per frame</text>
+  <path class="edge" d="M990,156 L990,210" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="995" y="174" width="140" height="19" rx="3"/>
+  <text x="998" y="188" class="label">render products, seed</text>
+  <rect class="box ref-only" x="30" y="210" width="1140" height="200" rx="10"/>
+  <text x="44" y="234" class="title">studio/rtx/ — ovrtx lane (Python 3.12)</text>
+  <text x="44" y="252" class="path">ovrtx 0.5.0.377615 · ovstage 0.2.0.377349 · Renderer → attach_ovstage → step()</text>
+  <text x="1156" y="234" class="caveat" text-anchor="end">performance local-only · never in Kit's process</text>
+  <rect class="lane-local" x="50" y="270" width="350" height="122" rx="8"/>
+  <text x="60" y="292" class="title">Camera (RTPT)</text>
+  <text x="60" y="310" class="path">LdrColor · HdrColor</text>
+  <text x="60" y="328" class="item">depth, normals, semantic ids</text>
+  <text x="60" y="346" class="item">S2 drone survey · S3 crusher camera</text>
+  <rect class="lane-local" x="425" y="270" width="350" height="122" rx="8"/>
+  <text x="435" y="292" class="title">Lidar (OmniLidar)</text>
+  <text x="435" y="310" class="path">PointCloud tensors</text>
+  <text x="435" y="328" class="item">xyz, intensity, echo id, valid flags</text>
+  <text x="435" y="346" class="item">S1 truck lidar, multi-echo</text>
+  <rect class="lane-local" x="800" y="270" width="350" height="122" rx="8"/>
+  <text x="810" y="292" class="title">Radar (77 GHz class)</text>
+  <text x="810" y="310" class="path">WPM DMAT model</text>
+  <text x="810" y="328" class="item">RCS (dBsm), radial velocity</text>
+  <text x="810" y="346" class="item">S4a proximity; needs Motion BVH</text>
+  <path class="edge" d="M225,392 L225,460" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="230" y="418" width="140" height="19" rx="3"/>
+  <text x="233" y="432" class="label">frames + ground truth</text>
+  <path class="edge-accent" d="M600,392 L600,460" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="605" y="418" width="115" height="19" rx="3"/>
+  <text x="608" y="432" class="label">clean point cloud</text>
+  <path class="edge" d="M975,392 L975,460" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="980" y="418" width="89" height="19" rx="3"/>
+  <text x="983" y="432" class="label">RCS + Doppler</text>
+  <rect class="box" x="30" y="460" width="360" height="132" rx="8"/>
+  <text x="40" y="482" class="title">Camera outputs</text>
+  <text x="40" y="500" class="path">PNG / EXR · semantic ids</text>
+  <text x="40" y="518" class="item">→ pipeline datasets (S3: boulders)</text>
+  <text x="40" y="536" class="item">→ st56_encode clips (AV1 + H.264)</text>
+  <text x="40" y="554" class="item">→ COLMAP / Brush survey (S2)</text>
+  <rect class="box-accent" x="420" y="460" width="360" height="132" rx="8"/>
+  <text x="430" y="482" class="title">Own dust model</text>
+  <text x="430" y="500" class="path">minephys.environment</text>
+  <text x="430" y="518" class="item">two-way Beer–Lambert: P ∝ ρ·T²/R²</text>
+  <text x="430" y="536" class="item">T = exp(−∫β ds); drop-outs and early</text>
+  <text x="430" y="554" class="item">dust returns; anchored to Phillips</text>
+  <text x="430" y="572" class="item">et al. 2017 field thresholds</text>
+  <rect class="box" x="810" y="460" width="360" height="132" rx="8"/>
+  <text x="820" y="482" class="title">Radar detections</text>
+  <text x="820" y="500" class="path">points with RCS and Doppler</text>
+  <text x="820" y="518" class="item">dust treated as negligible at</text>
+  <text x="820" y="536" class="item">millimetre wave: a stated assumption</text>
+  <text x="820" y="554" class="caveat">not sourced — flagged in the case</text>
+  <rect class="box ref-only" x="30" y="640" width="360" height="120" rx="8"/>
+  <text x="40" y="662" class="title">Rain arm</text>
+  <text x="40" y="680" class="path">studio/isaac/ · st57_rain_lidar</text>
+  <text x="40" y="698" class="item">Isaac Sim lidar rain (Mie model)</text>
+  <text x="40" y="716" class="item">same scene and lidar parameters</text>
+  <text x="40" y="734" class="caveat">rain in ovrtx: not documented</text>
+  <rect class="box" x="420" y="640" width="360" height="120" rx="8"/>
+  <text x="430" y="662" class="title">Point-count guard</text>
+  <text x="430" y="680" class="path">per frame, fail fast</text>
+  <text x="430" y="698" class="item">assert &gt; 0 points in every frame</text>
+  <text x="430" y="716" class="item">elevation fan limited to a tested range</text>
+  <text x="430" y="734" class="caveat">open ovrtx#3: wide fans → 0 points</text>
+  <rect class="box" x="810" y="640" width="360" height="120" rx="8"/>
+  <text x="820" y="662" class="title">Shards + web</text>
+  <text x="820" y="680" class="path">LAZ (3.14) → int16 / uint8 shards</text>
+  <text x="820" y="698" class="item">≤ 10 MB per shard + manifest</text>
+  <text x="820" y="716" class="item">REPLAY clouds · LIVE dust slider</text>
+  <text x="820" y="734" class="caveat">licence class own CC-BY</text>
+  <path class="edge-accent" d="M600,592 L600,640" marker-end="url(#arrow-accent)"/>
+  <rect class="label-bg" x="605" y="608" width="83" height="19" rx="3"/>
+  <text x="608" y="622" class="label">dusty clouds</text>
+  <path class="edge" d="M390,700 L420,700" marker-end="url(#arrow)"/>
+  <text x="405" y="632" class="label" text-anchor="middle">rain clouds</text>
+  <path class="edge-accent" d="M780,700 L810,700" marker-end="url(#arrow-accent)"/>
+  <text x="795" y="632" class="label" text-anchor="middle">accepted</text>
+  <path class="edge" d="M1100,592 L1100,640" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="1105" y="608" width="70" height="19" rx="3"/>
+  <text x="1108" y="622" class="label">detections</text>
+</svg>

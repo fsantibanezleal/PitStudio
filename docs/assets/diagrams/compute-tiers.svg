@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 880" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">PitStudio compute tiers in the browser</title>
+  <desc id="d">A capability probe picks tier T1 (WebGPU), T2 (WebAssembly) or T0 (baked), and each engine family shows what runs on each tier and what it falls back to, with live cells and replay cells marked by lane colour.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .cell-live{fill:var(--surface-2);stroke:var(--chart-2);stroke-width:2}
+    .cell-replay{fill:var(--surface-2);stroke:var(--chart-4);stroke-width:2}
+    .cell{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="880"/>
+
+  <!-- column bands -->
+  <rect class="band" x="462" y="180" width="226" height="600" rx="6"/>
+  <rect class="band" x="727" y="180" width="231" height="600" rx="6"/>
+  <rect class="band" x="997" y="180" width="191" height="600" rx="6"/>
+
+  <!-- probe -->
+  <rect class="box-accent" x="20" y="20" width="300" height="150" rx="6"/>
+  <text class="title" x="34" y="42">Capability probe (on load)</text>
+  <text class="path" x="34" y="62">navigator.gpu.requestAdapter()</text>
+  <text class="item" x="34" y="82">adapter + limits (128 MiB binding)</text>
+  <text class="item" x="34" y="102">WebAssembly available</text>
+  <text class="item" x="34" y="122">MediaCapabilities: AV1 · H.264</text>
+  <text class="item" x="34" y="142">prefers-reduced-motion</text>
+  <text class="caveat" x="34" y="162">result shown as the tier badge</text>
+
+  <!-- tier headers -->
+  <rect class="box-accent" x="470" y="20" width="210" height="150" rx="6"/>
+  <text class="title" x="484" y="42">T1 · WebGPU</text>
+  <text class="path" x="484" y="62">WGSL · ORT-web webgpu</text>
+  <text class="item" x="484" y="82">adapter granted</text>
+  <text class="item" x="484" y="102">three WebGPURenderer</text>
+  <text class="item" x="484" y="122">GPU compute shaders</text>
+
+  <rect class="box" x="735" y="20" width="215" height="150" rx="6"/>
+  <text class="title" x="749" y="42">T2 · WebAssembly</text>
+  <text class="path" x="749" y="62">ORT-web wasm · Rapier</text>
+  <text class="item" x="749" y="82">no adapter / device lost</text>
+  <text class="item" x="749" y="102">WebGL 2 rendering</text>
+  <text class="caveat" x="749" y="122">no compute shaders</text>
+
+  <rect class="box" x="1005" y="20" width="175" height="150" rx="6"/>
+  <text class="title" x="1019" y="42">T0 · baked</text>
+  <text class="path" x="1019" y="62">precomputed files</text>
+  <text class="item" x="1019" y="82">a runtime failed</text>
+  <text class="item" x="1019" y="102">replay + figures</text>
+  <text class="caveat" x="1019" y="122">nothing computed</text>
+
+  <path class="edge-accent" d="M320,95 L468,95" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="394" y="87" text-anchor="middle">adapter ok</text>
+  <path class="edge" d="M680,95 L733,95" marker-end="url(#arrow)"/>
+  <text class="label" x="707" y="87" text-anchor="middle">fallback</text>
+  <path class="edge" d="M950,95 L1003,95" marker-end="url(#arrow)"/>
+  <text class="label" x="977" y="87" text-anchor="middle">fallback</text>
+
+  <!-- row 0: analytical -->
+  <rect class="box" x="20" y="190" width="430" height="76" rx="6"/>
+  <text class="title" x="34" y="212">Analytical models</text>
+  <text class="path" x="34" y="232">M1 M6 M12 M13 M16 M17</text>
+  <text class="item" x="34" y="252">TS in a worker; minephys via Pyodide on click</text>
+  <rect class="cell-live" x="470" y="190" width="210" height="76" rx="6"/>
+  <text class="cell" x="482" y="222">TS worker, ≤ 50 ms/eval</text>
+  <text class="cell" x="482" y="242">Pyodide + minephys (click)</text>
+  <rect class="cell-live" x="735" y="190" width="215" height="76" rx="6"/>
+  <text class="cell" x="747" y="222">TS worker, ≤ 50 ms/eval</text>
+  <text class="cell" x="747" y="242">Pyodide + minephys (click)</text>
+  <rect class="cell-replay" x="1005" y="190" width="175" height="76" rx="6"/>
+  <text class="cell" x="1017" y="232">baked result grid</text>
+
+  <!-- row 1: DES + policies -->
+  <rect class="box" x="20" y="274" width="430" height="76" rx="6"/>
+  <text class="title" x="34" y="296">DES + dispatch policies</text>
+  <text class="path" x="34" y="316">M2 M4 M5 · M21 TS twins</text>
+  <text class="item" x="34" y="336">one shift ≈ 10⁴ events in &lt; 1 s</text>
+  <rect class="cell-live" x="470" y="274" width="210" height="76" rx="6"/>
+  <text class="cell" x="482" y="306">TS worker DES</text>
+  <text class="cell" x="482" y="326">policies: ORT-web WebGPU</text>
+  <rect class="cell-live" x="735" y="274" width="215" height="76" rx="6"/>
+  <text class="cell" x="747" y="306">TS worker DES</text>
+  <text class="cell" x="747" y="326">policies: ORT-web WASM</text>
+  <rect class="cell-replay" x="1005" y="274" width="175" height="76" rx="6"/>
+  <text class="cell" x="1017" y="316">baked event traces</text>
+
+  <!-- row 2: min-cut -->
+  <rect class="box" x="20" y="358" width="430" height="76" rx="6"/>
+  <text class="title" x="34" y="380">Min-cut ultimate pit</text>
+  <text class="path" x="34" y="400">M18</text>
+  <text class="item" x="34" y="420">live up to 10⁵ blocks in &lt; 1 s</text>
+  <rect class="cell-live" x="470" y="358" width="210" height="76" rx="6"/>
+  <text class="cell" x="482" y="390">TS worker min-cut</text>
+  <text class="cell" x="482" y="410">≤ 10⁵ blocks</text>
+  <rect class="cell-live" x="735" y="358" width="215" height="76" rx="6"/>
+  <text class="cell" x="747" y="390">TS worker min-cut</text>
+  <text class="cell" x="747" y="410">≤ 10⁵ blocks</text>
+  <rect class="cell-replay" x="1005" y="358" width="175" height="76" rx="6"/>
+  <text class="cell" x="1017" y="400">baked nested shells</text>
+
+  <!-- row 3: rigid bodies -->
+  <rect class="box" x="20" y="442" width="430" height="76" rx="6"/>
+  <text class="title" x="34" y="464">Rigid-body traffic</text>
+  <text class="path" x="34" y="484">M20 · Rapier 0.21 (WASM)</text>
+  <text class="item" x="34" y="504">60 Hz for ≤ 40 vehicles</text>
+  <rect class="cell-live" x="470" y="442" width="210" height="76" rx="6"/>
+  <text class="cell" x="482" y="474">Rapier WASM, 60 Hz</text>
+  <text class="cell" x="482" y="494">deterministic steps</text>
+  <rect class="cell-live" x="735" y="442" width="215" height="76" rx="6"/>
+  <text class="cell" x="747" y="474">Rapier WASM, 60 Hz</text>
+  <text class="cell" x="747" y="494">deterministic steps</text>
+  <rect class="cell-replay" x="1005" y="442" width="175" height="76" rx="6"/>
+  <text class="cell" x="1017" y="484">baked video</text>
+
+  <!-- row 4: granular / fields -->
+  <rect class="box" x="20" y="526" width="430" height="76" rx="6"/>
+  <text class="title" x="34" y="548">Granular, water and dust fields</text>
+  <text class="path" x="34" y="568">M7 DEM/MPM · shallow water · dust</text>
+  <text class="item" x="34" y="588">WGSL compute, ≤ 2×10⁴ particles</text>
+  <rect class="cell-live" x="470" y="526" width="210" height="76" rx="6"/>
+  <text class="cell" x="482" y="558">WGSL compute, ≥ 30 fps</text>
+  <text class="cell" x="482" y="578">≤ 2×10⁴ particles</text>
+  <rect class="cell-replay" x="735" y="526" width="215" height="76" rx="6"/>
+  <text class="cell" x="747" y="558">replay shards ≤ 10 MB</text>
+  <text class="cell" x="747" y="578">no WebGL compute assumed</text>
+  <rect class="cell-replay" x="1005" y="526" width="175" height="76" rx="6"/>
+  <text class="cell" x="1017" y="568">baked aggregates</text>
+
+  <!-- row 5: learned models -->
+  <rect class="box" x="20" y="610" width="430" height="76" rx="6"/>
+  <text class="title" x="34" y="632">Learned models (ONNX)</text>
+  <text class="path" x="34" y="652">GNS · FNO · forecasters · D-FINE · U-Net</text>
+  <text class="item" x="34" y="672">each ≤ 25 MB · ≤ 50 ms/step · ≤ 300 ms/image</text>
+  <rect class="cell-live" x="470" y="610" width="210" height="76" rx="6"/>
+  <text class="cell" x="482" y="642">ORT-web WebGPU EP</text>
+  <text class="cell" x="482" y="662">detector ≤ 300 ms/image</text>
+  <rect class="cell-live" x="735" y="610" width="215" height="76" rx="6"/>
+  <text class="cell" x="747" y="642">ORT-web WASM EP</text>
+  <text class="cell" x="747" y="662">parity within web.* tol.</text>
+  <rect class="cell-replay" x="1005" y="610" width="175" height="76" rx="6"/>
+  <text class="cell" x="1017" y="652">precomputed outputs</text>
+
+  <!-- row 6: media -->
+  <rect class="box" x="20" y="694" width="430" height="76" rx="6"/>
+  <text class="title" x="34" y="716">Studio media</text>
+  <text class="path" x="34" y="736">RTX renders · Kit captures · rollouts</text>
+  <text class="item" x="34" y="756">MediaCapabilities picks the codec</text>
+  <rect class="cell-replay" x="470" y="694" width="210" height="76" rx="6"/>
+  <text class="cell" x="482" y="726">AV1 1080p if decodable</text>
+  <text class="cell" x="482" y="746">else H.264 720p</text>
+  <rect class="cell-replay" x="735" y="694" width="215" height="76" rx="6"/>
+  <text class="cell" x="747" y="726">AV1 1080p if decodable</text>
+  <text class="cell" x="747" y="746">else H.264 720p</text>
+  <rect class="cell-replay" x="1005" y="694" width="175" height="76" rx="6"/>
+  <text class="cell" x="1017" y="736">WebP poster frames</text>
+
+  <!-- footer -->
+  <text class="caveat" x="20" y="806">Runtimes are self-hosted and load only on a user action: ORT-web 1.30 ≈ 26.8–28.3 MB · Pyodide load set ≈ 13.5 MB · Rapier 0.21 ≈ 3.4 MB.</text>
+  <text class="item" x="20" y="828">Every live engine has a fallback and the active tier is always shown. Pages sends no COOP/COEP headers, so no SharedArrayBuffer threads.</text>
+  <rect class="cell-live" x="20" y="846" width="28" height="18" rx="4"/>
+  <text class="item" x="56" y="860">live — computed in the browser on this tier</text>
+  <rect class="cell-replay" x="380" y="846" width="28" height="18" rx="4"/>
+  <text class="item" x="416" y="860">replay / baked — precomputed in the studio or pipeline</text>
+</svg>

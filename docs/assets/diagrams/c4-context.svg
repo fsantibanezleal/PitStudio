@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 660" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">C4 system context of PitStudio</title>
+  <desc id="d">PitStudio in the middle, used by visitors through the static site and by the maintainer through the local studio; it pushes to GitHub for CI, Pages and releases, downloads open data with pinned checksums, resolves locked packages and gated weights from package and model indexes, and drives locally installed NVIDIA runtimes as subprocesses.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-hi{fill:var(--accent)}
+    .person{fill:var(--surface);stroke:var(--chart-2);stroke-width:2}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-hi"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="660"/>
+  <text class="title" x="30" y="40">C4 level 1 · system context: who and what PitStudio talks to</text>
+
+  <!-- people -->
+  <rect class="person" x="30" y="70" width="300" height="140" rx="14"/>
+  <text class="title" x="46" y="96">Visitor (person)</text>
+  <text class="path" x="46" y="118">browser: WebGPU → WASM → baked</text>
+  <text class="item" x="46" y="142">mining engineers, students,</text>
+  <text class="item" x="46" y="160">data/AI practitioners, developers</text>
+  <text class="caveat" x="46" y="190">needs no account; demo gate only</text>
+
+  <rect class="person" x="30" y="450" width="300" height="150" rx="14"/>
+  <text class="title" x="46" y="476">Maintainer (person)</text>
+  <text class="path" x="46" y="498">studio CLI · 127.0.0.1 console</text>
+  <text class="item" x="46" y="522">runs recipes on an RTX workstation,</text>
+  <text class="item" x="46" y="540">accepts licences, cuts releases</text>
+  <text class="caveat" x="46" y="574">owner acts: EULA, gated terms, admin</text>
+
+  <!-- the system -->
+  <rect class="box-accent" x="420" y="250" width="300" height="170" rx="8"/>
+  <text class="title" x="436" y="276">PitStudio (this system)</text>
+  <text class="path" x="436" y="298">fsantibanezleal/PitStudio</text>
+  <text class="item" x="436" y="322">local studio · static web app ·</text>
+  <text class="item" x="436" y="340">knowledge base · scalable base</text>
+  <text class="item" x="436" y="364">one engine, one data contract,</text>
+  <text class="item" x="436" y="382">one manifest format</text>
+  <text class="path" x="436" y="406">companion: minephys</text>
+
+  <!-- external systems -->
+  <rect class="box" x="520" y="500" width="300" height="130" rx="8"/>
+  <text class="title" x="536" y="526">NVIDIA runtimes (local)</text>
+  <text class="path" x="536" y="548">studio/isaac · rtx · pipeline/accel</text>
+  <text class="item" x="536" y="572">Isaac Sim, Kit, ovrtx, TensorRT</text>
+  <text class="caveat" x="536" y="604">reference-only: never redistributed</text>
+
+  <rect class="box" x="870" y="70" width="300" height="140" rx="8"/>
+  <text class="title" x="886" y="96">GitHub</text>
+  <text class="path" x="886" y="118">Actions · Pages · Releases</text>
+  <text class="item" x="886" y="142">CI on ubuntu runners (CPU only),</text>
+  <text class="item" x="886" y="160">Pages hosting, release assets</text>
+  <text class="caveat" x="886" y="190">no secrets of the studio in CI</text>
+
+  <rect class="box" x="870" y="265" width="300" height="140" rx="8"/>
+  <text class="title" x="886" y="291">Open data providers</text>
+  <text class="path" x="886" y="313">data/sources.yaml</text>
+  <text class="item" x="886" y="337">USGS 3DEP, OpenTopography, NRW,</text>
+  <text class="item" x="886" y="355">Zenodo, Mendeley, Copernicus, EPA</text>
+  <text class="caveat" x="886" y="385">fetched, never redistributed</text>
+
+  <rect class="box" x="870" y="460" width="300" height="140" rx="8"/>
+  <text class="title" x="886" y="486">Package &amp; model indexes</text>
+  <text class="path" x="886" y="508">uv.lock · web/pnpm-lock.yaml</text>
+  <text class="item" x="886" y="532">PyPI, pypi.nvidia.com, PyTorch,</text>
+  <text class="item" x="886" y="550">npm, Hugging Face (gated terms)</text>
+  <text class="caveat" x="886" y="580">versions from the locks only</text>
+
+  <!-- relationships -->
+  <path class="edge-accent" d="M330,140 H470 V246" marker-end="url(#arrow-hi)"/>
+  <text class="label" x="340" y="130">browses cases, runs live engines (HTTPS)</text>
+
+  <path class="edge" d="M330,525 H470 V424" marker-end="url(#arrow)"/>
+  <text class="label" x="340" y="545">runs, reviews, releases</text>
+
+  <path class="edge" d="M640,420 V496" marker-end="url(#arrow)"/>
+  <text class="label" x="650" y="465">drives as subprocesses</text>
+
+  <path class="edge" d="M640,250 V140 H866" marker-end="url(#arrow)"/>
+  <text class="label" x="652" y="130">git push · CI · Pages artifact</text>
+
+  <path class="edge" d="M720,335 H866" marker-end="url(#arrow)"/>
+  <text class="label" x="795" y="325" text-anchor="middle">s00_download</text>
+  <text class="label" x="795" y="352" text-anchor="middle">SHA-256 pinned</text>
+
+  <path class="edge" d="M720,400 H845 V530 H866" marker-end="url(#arrow)"/>
+  <text class="label" x="838" y="430" text-anchor="end">locked deps</text>
+</svg>

@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">The manifest contract: producers, field groups and consumers</title>
+  <desc id="d">Four producers (runner, export stage, encode stage, publish command) write manifests valid against contracts/manifest.schema.json, whose eight field groups are read by the web app, the CI lane gate, the budget checks, the licence guard and the Pages build.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .ah-accent{fill:var(--accent)}
+    .head{font:600 13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .grp{fill:var(--bg);stroke:var(--border-strong);stroke-width:1}
+    .grp-warn{fill:var(--bg);stroke:var(--warning);stroke-width:1.5}
+    .grp-ok{fill:var(--bg);stroke:var(--success);stroke-width:1.5}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="760"/>
+
+  <text class="title" x="20" y="30">One manifest format for studio runs and web assets</text>
+  <text class="head" x="20" y="58">PRODUCERS</text>
+  <text class="head" x="300" y="58">CONTRACT (JSON Schema 2020-12 → generated Pydantic + TS types)</text>
+  <text class="head" x="900" y="58">CONSUMERS</text>
+
+  <!-- producers -->
+  <rect class="box" x="20" y="70" width="240" height="130" rx="6"/>
+  <text class="title" x="32" y="94">Runner</text>
+  <text class="path" x="32" y="114">src/pitstudio/runner/</text>
+  <text class="item" x="32" y="134">runs/&lt;run_id&gt;/manifest.json</text>
+  <text class="item" x="32" y="152">cache key, seeds, retries</text>
+  <text class="item" x="32" y="170">NVML sampler at 1–4 Hz</text>
+  <text class="caveat" x="32" y="190">no host, user or path fields</text>
+
+  <rect class="box" x="20" y="214" width="240" height="130" rx="6"/>
+  <text class="title" x="32" y="238">Pipeline export</text>
+  <text class="path" x="32" y="258">pipeline/ · s60_export</text>
+  <text class="item" x="32" y="278">ONNX + parity, tiles, shards</text>
+  <text class="item" x="32" y="296">budget report</text>
+  <text class="item" x="32" y="314">release-asset upload list</text>
+
+  <rect class="box" x="20" y="358" width="240" height="130" rx="6"/>
+  <text class="title" x="32" y="382">Encode</text>
+  <text class="path" x="32" y="402">studio/ · st56_encode</text>
+  <text class="item" x="32" y="422">AV1 1080p + H.264 720p pair</text>
+  <text class="item" x="32" y="440">VMAF-targeted bitrate</text>
+  <text class="item" x="32" y="458">pair ≤ 25 MB + WebP poster</text>
+
+  <rect class="box" x="20" y="502" width="240" height="130" rx="6"/>
+  <text class="title" x="32" y="526">Publish</text>
+  <text class="path" x="32" y="546">studio publish &lt;run&gt;</text>
+  <text class="item" x="32" y="566">bake a run into web artefacts</text>
+  <text class="item" x="32" y="584">plus a run card</text>
+  <text class="item" x="32" y="602">telemetry downsampled</text>
+
+  <path class="edge" d="M260,135 H280 M260,279 H280 M260,423 H280 M260,567 H280 M280,135 V567"/>
+  <path class="edge-accent" d="M280,360 H298" marker-end="url(#arrowA)"/>
+  <text class="label" transform="translate(276,556) rotate(-90)">write + validate</text>
+
+  <!-- contract -->
+  <rect class="box-accent" x="300" y="66" width="560" height="604" rx="8"/>
+  <text class="title" x="316" y="90">Manifest</text>
+  <text class="path" x="400" y="90">contracts/manifest.schema.json</text>
+  <text class="caveat" x="316" y="110">field names follow the plan; the normative schema is written at specification</text>
+
+  <rect class="grp" x="310" y="120" width="268" height="128" rx="5"/>
+  <text class="title" x="322" y="142">Identity</text>
+  <text class="path" x="322" y="162">run_id · recipe · cache_key</text>
+  <text class="item" x="322" y="182">git SHA, runner version, date</text>
+  <text class="item" x="322" y="200">producer.tool = tool registry id</text>
+  <text class="item" x="322" y="218">stage list with cache hits</text>
+
+  <rect class="grp" x="584" y="120" width="268" height="128" rx="5"/>
+  <text class="title" x="596" y="142">Inputs</text>
+  <text class="path" x="596" y="162">inputs[]: id + sha256</text>
+  <text class="item" x="596" y="182">source ids from data/sources.yaml</text>
+  <text class="item" x="596" y="200">upstream artefact digests</text>
+  <text class="item" x="596" y="218">params and the master seed</text>
+
+  <rect class="grp" x="310" y="256" width="268" height="128" rx="5"/>
+  <text class="title" x="322" y="278">Environment</text>
+  <text class="path" x="322" y="298">env · lock digest · versions</text>
+  <text class="item" x="322" y="318">tool versions read from the lock</text>
+  <text class="item" x="322" y="336">gpu: model, driver, power limit</text>
+  <text class="item" x="322" y="354">machine profile id</text>
+
+  <rect class="grp" x="584" y="256" width="268" height="128" rx="5"/>
+  <text class="title" x="596" y="278">Telemetry</text>
+  <text class="path" x="596" y="298">telemetry per stage</text>
+  <text class="item" x="596" y="318">busy %, peak VRAM, power vs limit</text>
+  <text class="item" x="596" y="336">energy, clocks-event fractions</text>
+  <text class="item" x="596" y="354">NVENC %, wall time, throughput</text>
+  <text class="caveat" x="596" y="374">busy % is time-busy, not occupancy</text>
+
+  <rect class="grp" x="310" y="392" width="268" height="128" rx="5"/>
+  <text class="title" x="322" y="414">Determinism</text>
+  <text class="path" x="322" y="434">determinism · seeds</text>
+  <text class="item" x="322" y="454">bitwise / statistical / none</text>
+  <text class="item" x="322" y="472">master seed → per-stage seeds</text>
+  <text class="item" x="322" y="490">re-run check result</text>
+
+  <rect class="grp" x="584" y="392" width="268" height="128" rx="5"/>
+  <text class="title" x="596" y="414">Encoder record</text>
+  <text class="path" x="596" y="434">video[] · encoder</text>
+  <text class="item" x="596" y="454">codec, size, fps, bytes, sha256</text>
+  <text class="item" x="596" y="472">VMAF mean and p5 vs source frames</text>
+  <text class="item" x="596" y="490">FFmpeg version, build SHA-256, args</text>
+
+  <rect class="grp-ok" x="310" y="528" width="268" height="128" rx="5"/>
+  <text class="title" x="322" y="550">Artefacts</text>
+  <text class="path" x="322" y="570">artefacts[]: path, sha256</text>
+  <text class="item" x="322" y="590">lane label, measured by the gate</text>
+  <text class="item" x="322" y="608">asset_host: git | release + tag</text>
+  <text class="item" x="322" y="626">bytes and budget class</text>
+
+  <rect class="grp-warn" x="584" y="528" width="268" height="128" rx="5"/>
+  <text class="title" x="596" y="550">Licence</text>
+  <text class="path" x="596" y="570">licence_class · SPDX</text>
+  <text class="item" x="596" y="590">attribution; share-alike apart</text>
+  <text class="path" x="596" y="610">performance: local-only</text>
+  <text class="caveat" x="596" y="630">licence-gated figures withheld</text>
+  <text class="caveat" x="596" y="648">(NVIDIA SLA §8.9, TRT-RTX §2.13)</text>
+
+  <!-- consumers -->
+  <path class="edge-accent" d="M860,360 H880"/>
+  <path class="edge" d="M880,121 V609 M880,121 H898 M880,243 H898 M880,365 H898 M880,487 H898 M880,609 H898"/>
+  <path class="edge" d="M880,121 H898" marker-end="url(#arrow)"/>
+  <path class="edge" d="M880,243 H898" marker-end="url(#arrow)"/>
+  <path class="edge" d="M880,365 H898" marker-end="url(#arrow)"/>
+  <path class="edge" d="M880,487 H898" marker-end="url(#arrow)"/>
+  <path class="edge" d="M880,609 H898" marker-end="url(#arrow)"/>
+  <text class="label" transform="translate(876,346) rotate(-90)">read by</text>
+
+  <rect class="box" x="900" y="66" width="280" height="110" rx="6"/>
+  <text class="title" x="912" y="90">Web app</text>
+  <text class="path" x="912" y="110">web/ · manifest.json</text>
+  <text class="item" x="912" y="130">LIVE / REPLAY / STATIC badges</text>
+  <text class="item" x="912" y="148">tool pages filter producer.tool</text>
+  <text class="item" x="912" y="166">runs ledger, GPU evidence</text>
+
+  <rect class="box" x="900" y="188" width="280" height="110" rx="6"/>
+  <text class="title" x="912" y="212">CI lane gate</text>
+  <text class="path" x="912" y="232">lane = measured lane</text>
+  <text class="item" x="912" y="252">asset ≤ 25 MB, trace ≤ 10 MB</text>
+  <text class="item" x="912" y="270">interaction ≤ 16 ms or run ≤ 1 s (T2)</text>
+  <text class="caveat" x="912" y="290">mislabel → CI fails</text>
+
+  <rect class="box" x="900" y="310" width="280" height="110" rx="6"/>
+  <text class="title" x="912" y="334">CI budgets and sizes</text>
+  <text class="path" x="912" y="354">budget classes</text>
+  <text class="item" x="912" y="374">site total = 500 MB, class caps</text>
+  <text class="item" x="912" y="392">git files &lt; 10 MB, ≤ 100 MB baked</text>
+  <text class="item" x="912" y="410">tool done ⇒ ≥ 1 artefact</text>
+
+  <rect class="box" x="900" y="432" width="280" height="110" rx="6"/>
+  <text class="title" x="912" y="456">Licence guard</text>
+  <text class="path" x="912" y="476">performance: local-only</text>
+  <text class="item" x="912" y="496">gated metrics never published</text>
+  <text class="item" x="912" y="514">no engines, GGUF, NVIDIA assets</text>
+  <text class="item" x="912" y="532">"Built on NVIDIA Cosmos" notice</text>
+
+  <rect class="box" x="900" y="554" width="280" height="110" rx="6"/>
+  <text class="title" x="912" y="578">Pages build</text>
+  <text class="path" x="912" y="598">.github/workflows/pages.yml</text>
+  <text class="item" x="912" y="618">fetch release assets by tag</text>
+  <text class="item" x="912" y="636">verify SHA-256, copy same-origin</text>
+  <text class="item" x="912" y="654">served SHA = manifest SHA</text>
+
+  <text class="caveat" x="20" y="716">Example: a Replicator SDG run publishes its images (licence_class own, CC-BY-4.0) and withholds its img/s (performance: local-only).</text>
+  <text class="label" x="20" y="740">Status: the schema is written in the specification phase; no run has produced a manifest yet.</text>
+</svg>

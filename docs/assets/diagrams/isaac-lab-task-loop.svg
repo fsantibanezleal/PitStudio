@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Isaac Lab task loop: vectorised environments, policy, physics, rewards, PPO, ONNX export and TypeScript twin</title>
+  <desc id="d">N environments step in lockstep on the GPU; observations go to the policy, actions to Newton physics, rewards and dones to a rollout buffer with GAE, PPO updates the policy, and the trained policy is exported to ONNX for a live TypeScript twin and a zero-shot MPM check.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .edge-dash{stroke:var(--fg-muted);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+    .lane-live{fill:none;stroke:var(--chart-2);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-replay{fill:none;stroke:var(--chart-4);stroke-width:1.8;stroke-dasharray:7 4}
+    .lane-local{fill:none;stroke:var(--warning);stroke-width:1.8;stroke-dasharray:7 4}
+    .key-live{fill:var(--chart-2)}
+    .key-replay{fill:var(--chart-4)}
+    .key-local{fill:var(--warning)}
+    .ok{fill:var(--success)}
+    .bad{fill:var(--danger)}
+    .warn{fill:var(--warning)}
+    .ok-stroke{stroke:var(--success);stroke-width:2;fill:none}
+    .bad-stroke{stroke:var(--danger);stroke-width:2;fill:none}
+    .cut{stroke:var(--danger);stroke-width:2.4;stroke-dasharray:8 5;fill:none}
+    .axis{stroke:var(--fg-muted);stroke-width:1.2;fill:none}
+    .grid{stroke:var(--border);stroke-width:1;fill:none}
+    .series{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .series-2{stroke:var(--chart-2);stroke-width:2;stroke-dasharray:6 4;fill:none}
+    .dust{fill:var(--surface-2);stroke:var(--warning);stroke-width:1.5;stroke-dasharray:4 3}
+    .solid{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .ore{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .node{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .node-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .region{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 4}
+    .label-ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .label-bad{font:600 13px Inter,system-ui,sans-serif;fill:var(--danger)}
+    .label-warn{font:600 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label-accent{font:600 13px Inter,system-ui,sans-serif;fill:var(--code)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1100" height="640"/>
+  <rect class="band" x="16" y="44" width="1068" height="400" rx="10"/>
+  <text class="label" x="30" y="36">Training loop (studio/isaaclab, Python 3.12, kit-less on Newton; stage st60_il_train)</text>
+  <rect class="band" x="16" y="470" width="1068" height="156" rx="10"/>
+  <text class="label" x="30" y="462">Export and evaluation</text>
+  <rect class="box" x="36" y="66" width="290" height="160" rx="8"/>
+  <text class="title" x="50" y="90">Vectorised envs</text>
+  <text class="path" x="50" y="110">Isaac Lab v3.0.0-EA</text>
+  <text class="item" x="50" y="132">N = 2,048 (IL-1); 2–4k (IL-2)</text>
+  <text class="item" x="50" y="152">procedural truck / excavator</text>
+  <text class="item" x="50" y="172">DR at reset: payload, μ, rolling res.</text>
+  <rect class="box-accent" x="406" y="66" width="290" height="160" rx="8"/>
+  <text class="title" x="420" y="90">Policy π_θ (MLP)</text>
+  <text class="path" x="420" y="110">rsl_rl PPO</text>
+  <text class="item" x="420" y="132">IL-1: 63-D obs → steer rate, throttle</text>
+  <text class="item" x="420" y="152">IL-2: joints, terrain profile →</text>
+  <text class="item" x="420" y="172">    4 joint velocities</text>
+  <rect class="box" x="776" y="66" width="290" height="160" rx="8"/>
+  <text class="title" x="790" y="90">Physics step</text>
+  <text class="path" x="790" y="110">Newton (MJWarp)</text>
+  <text class="item" x="790" y="132">actions → torques, wheel commands</text>
+  <text class="item" x="790" y="152">ray casts on the real ramp mesh</text>
+  <text class="item" x="790" y="172">IL-2 soil: FEE force on the bucket</text>
+  <rect class="box" x="776" y="268" width="290" height="160" rx="8"/>
+  <text class="title" x="790" y="292">Rewards and dones</text>
+  <text class="path" x="790" y="312">reward terms</text>
+  <text class="item" x="790" y="334">progress, tracking, fill gain</text>
+  <text class="item" x="790" y="354">penalties: collision, TTC &lt; 3 s,</text>
+  <text class="item" x="790" y="374">    stall, lift-off, action rate</text>
+  <rect class="box" x="406" y="268" width="290" height="160" rx="8"/>
+  <text class="title" x="420" y="292">Rollout buffer</text>
+  <text class="path" x="420" y="312">B = N × T transitions</text>
+  <text class="item" x="420" y="334">δ_t = r_t + γ V(o_t+1) − V(o_t)</text>
+  <text class="item" x="420" y="354">Â_t = δ_t + γλ Â_t+1 (GAE)</text>
+  <text class="item" x="420" y="374">T = 24, N = 2,048 → B = 49,152</text>
+  <rect class="box" x="36" y="268" width="290" height="160" rx="8"/>
+  <text class="title" x="50" y="292">PPO update</text>
+  <text class="path" x="50" y="312">clipped surrogate</text>
+  <text class="item" x="50" y="334">min(ρ_t Â_t, clip(ρ_t, 1 ± ε) Â_t)</text>
+  <text class="item" x="50" y="354">+ value loss, + entropy bonus</text>
+  <text class="item" x="50" y="374">mini-batches, a few epochs</text>
+  <path class="edge-accent" d="M326,146 L404,146" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="352" y="136">o_t</text>
+  <path class="edge-accent" d="M696,146 L774,146" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="702" y="136">a_t ∈ [−1, 1]</text>
+  <path class="edge" d="M921,226 L921,266" marker-end="url(#arrow)"/>
+  <text class="label" x="930" y="252">next state</text>
+  <path class="edge" d="M776,348 L698,348" marker-end="url(#arrow)"/>
+  <text class="label" x="712" y="338">r_t, d_t</text>
+  <path class="edge" d="M406,348 L328,348" marker-end="url(#arrow)"/>
+  <text class="label" x="334" y="338">Â_t, V_targ</text>
+  <path class="edge-accent" d="M250,268 L440,228" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="270" y="246">θ ← θ + ∇L</text>
+  <rect class="box" x="36" y="486" width="280" height="126" rx="8"/>
+  <text class="title" x="50" y="510">ONNX export</text>
+  <text class="path" x="50" y="530">s60_export</text>
+  <text class="item" x="50" y="552">policy + observation normaliser</text>
+  <text class="item" x="50" y="572">opset set by PitStudio; parity</text>
+  <text class="item" x="50" y="592">&lt; 1 MB per policy</text>
+  <rect class="box" x="400" y="486" width="320" height="126" rx="8"/>
+  <text class="title" x="414" y="510">TypeScript twin (live)</text>
+  <text class="path" x="414" y="530">web: TS worker + ORT-web</text>
+  <text class="item" x="414" y="552">IL-1 bicycle twin; IL-2 FEE twin</text>
+  <text class="item" x="414" y="572">sim-to-sim gap with 95 % CI</text>
+  <text class="item" x="414" y="592">labelled 'sim-to-sim'</text>
+  <rect class="lane-live" x="394" y="480" width="332" height="138" rx="12"/>
+  <rect class="box" x="806" y="486" width="264" height="126" rx="8"/>
+  <text class="title" x="820" y="510">MPM check (IL-2b)</text>
+  <text class="path" x="820" y="530">st61_il_mpm_eval</text>
+  <text class="item" x="820" y="552">zero-shot in Newton implicit MPM</text>
+  <text class="item" x="820" y="572">FEE → MPM fill gap, 95 % CI</text>
+  <text class="caveat" x="820" y="600">status: not yet run</text>
+  <rect class="lane-replay" x="800" y="480" width="276" height="138" rx="12"/>
+  <path class="edge" d="M180,428 L180,484" marker-end="url(#arrow)"/>
+  <text class="label" x="190" y="462">trained θ</text>
+  <path class="edge" d="M316,560 L392,560" marker-end="url(#arrow)"/>
+  <text class="label" x="334" y="550">ONNX</text>
+  <path class="edge" d="M726,560 L798,560" marker-end="url(#arrow)"/>
+  <text class="label" x="738" y="550">same θ</text>
+  <rect class="key-live" x="560" y="451" width="22" height="12" rx="2"/>
+  <text class="label" x="590" y="462">live lane</text>
+  <rect class="key-replay" x="700" y="451" width="22" height="12" rx="2"/>
+  <text class="label" x="730" y="462">precompute / replay lane</text>
+</svg>

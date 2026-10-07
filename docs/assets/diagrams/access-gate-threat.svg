@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 690" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Access gate: what it does and what it does not protect</title>
+  <desc id="d">The demo passphrase becomes a SHA-256 digest at build time, the browser compares the visitor's input against that public digest and remembers success in sessionStorage, and a threat note lists what this soft gate does and what it does not protect.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .arrowhead-accent{fill:var(--accent)}
+    .box-ok{fill:var(--surface-2);stroke:var(--success);stroke-width:2}
+    .box-bad{fill:var(--surface-2);stroke:var(--danger);stroke-width:2}
+    .ok-title{font:600 15px Inter,system-ui,sans-serif;fill:var(--success)}
+    .bad-title{font:600 15px Inter,system-ui,sans-serif;fill:var(--danger)}
+    .bandtitle{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="690"/>
+
+  <!-- ===== Build band ===== -->
+  <rect class="band" x="20" y="20" width="680" height="215" rx="8"/>
+  <text class="bandtitle" x="36" y="42">Build time — CI (.github/workflows/pages.yml)</text>
+
+  <rect class="box" x="36" y="60" width="180" height="160" rx="6"/>
+  <text class="title" x="50" y="82">Demo passphrase</text>
+  <text class="path" x="50" y="102">ACCESS_PASSPHRASE</text>
+  <text class="item" x="50" y="122">repository secret,</text>
+  <text class="item" x="50" y="142">set by the maintainer</text>
+  <text class="item" x="50" y="162">CI builds: ci-demo-gate</text>
+  <text class="caveat" x="50" y="200">never in the bundle</text>
+
+  <rect class="box" x="266" y="60" width="190" height="160" rx="6"/>
+  <text class="title" x="280" y="82">accessDigest()</text>
+  <text class="path" x="280" y="102">web/build-info.ts</text>
+  <text class="item" x="280" y="122">trim → SHA-256 → hex</text>
+  <text class="item" x="280" y="142">Node crypto, UTF-8</text>
+  <text class="item" x="280" y="162">unset → "" → gate off</text>
+
+  <rect class="box" x="506" y="60" width="180" height="160" rx="6"/>
+  <text class="title" x="520" y="82">Vite define</text>
+  <text class="path" x="520" y="102">web/vite.config.ts</text>
+  <text class="item" x="520" y="122">__ACCESS_DIGEST__</text>
+  <text class="item" x="520" y="142">inlined in the JS</text>
+  <text class="caveat" x="520" y="200">the digest is public</text>
+
+  <path class="edge" d="M216,140 L264,140" marker-end="url(#arrow)"/>
+  <text class="label" x="241" y="132" text-anchor="middle">env</text>
+  <path class="edge" d="M456,140 L504,140" marker-end="url(#arrow)"/>
+  <text class="label" x="481" y="132" text-anchor="middle">hex</text>
+
+  <!-- deploy edge -->
+  <path class="edge" d="M596,220 L596,248 L126,248 L126,286" marker-end="url(#arrow)"/>
+  <text class="label" x="360" y="242" text-anchor="middle">deploy: static files to GitHub Pages</text>
+
+  <!-- ===== Browser band ===== -->
+  <rect class="band" x="20" y="255" width="680" height="265" rx="8"/>
+  <text class="bandtitle" x="146" y="277">Run time — the visitor's browser</text>
+
+  <rect class="box" x="36" y="288" width="180" height="220" rx="6"/>
+  <text class="title" x="50" y="310">Static site</text>
+  <text class="path" x="50" y="330">Pages artifact</text>
+  <text class="item" x="50" y="350">HTML: shell +</text>
+  <text class="item" x="50" y="370">“Loading…” status</text>
+  <text class="item" x="50" y="390">JS chunks · assets</text>
+  <text class="item" x="50" y="410">(page text lives in JS)</text>
+  <text class="caveat" x="50" y="494">every file is public</text>
+
+  <rect class="box-accent" x="266" y="288" width="190" height="220" rx="6"/>
+  <text class="title" x="280" y="310">AccessGate</text>
+  <text class="path" x="280" y="330">shell/AccessGate.tsx</text>
+  <text class="item" x="280" y="350">1. stored value ==</text>
+  <text class="item" x="296" y="370">digest? → open</text>
+  <text class="item" x="280" y="390">2. else ask passphrase</text>
+  <text class="item" x="280" y="410">3. SHA-256(trim(input))</text>
+  <text class="item" x="296" y="430">via Web Crypto</text>
+  <text class="path" x="280" y="456">shell/digest.ts</text>
+  <text class="caveat" x="280" y="494">needs https or localhost</text>
+
+  <rect class="box" x="506" y="288" width="180" height="220" rx="6"/>
+  <text class="title" x="520" y="310">Workbench</text>
+  <text class="path" x="520" y="330">&lt;Outlet /&gt; routes</text>
+  <text class="item" x="520" y="350">sessionStorage key</text>
+  <text class="path" x="520" y="370">PitStudio:access</text>
+  <text class="item" x="520" y="390">= the digest</text>
+  <text class="item" x="520" y="410">open for this tab</text>
+  <text class="caveat" x="520" y="494">cleared on tab close</text>
+
+  <path class="edge" d="M216,398 L264,398" marker-end="url(#arrow)"/>
+  <text class="label" x="241" y="390" text-anchor="middle">JS</text>
+  <path class="edge-accent" d="M456,398 L504,398" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="481" y="390" text-anchor="middle">match</text>
+
+  <!-- ===== Tests ===== -->
+  <rect class="box" x="20" y="540" width="680" height="130" rx="6"/>
+  <text class="title" x="36" y="562">Tests that pin this behaviour</text>
+  <text class="path" x="36" y="582">web/src/shell/digest.test.ts · AccessGate.test.tsx · web/e2e/shell.spec.ts</text>
+  <text class="item" x="36" y="602">unit: FIPS 180-2 vectors · whitespace trimmed · digest case ignored · empty digest never matches</text>
+  <text class="item" x="36" y="622">component: locks, says it is not a security boundary, rejects a wrong phrase, opens on the right one</text>
+  <text class="item" x="36" y="642">e2e: unlocks for the session; hostile inputs (markup, SQL-like, 20,000 chars, control chars) stay locked</text>
+
+  <!-- ===== Threat note ===== -->
+  <rect class="box-ok" x="720" y="20" width="460" height="230" rx="6"/>
+  <text class="ok-title" x="736" y="44">What the gate does</text>
+  <text class="path" x="736" y="64">a UX convention, not a control</text>
+  <text class="item" x="736" y="90">• keeps casual visitors on the landing view</text>
+  <text class="item" x="736" y="112">• labels the site as a demo (gate text + footer note)</text>
+  <text class="item" x="736" y="134">• ships only the digest, never the passphrase</text>
+  <text class="item" x="736" y="156">• the phrase is compared in the browser, never sent</text>
+  <text class="item" x="736" y="178">• no cookies, no server call, no visitor data</text>
+  <text class="item" x="736" y="200">• turns off when ACCESS_PASSPHRASE is unset</text>
+  <text class="caveat" x="736" y="234">one gate for the whole site (root layout)</text>
+
+  <rect class="box-bad" x="720" y="270" width="460" height="400" rx="6"/>
+  <text class="bad-title" x="736" y="294">What it does NOT protect</text>
+  <text class="path" x="736" y="314">assume everything here is public</text>
+  <text class="item" x="736" y="340">• files: HTML, JS chunks, data and media are public URLs</text>
+  <text class="item" x="736" y="362">• bypass: copy the digest from the bundle into</text>
+  <text class="item" x="748" y="384">sessionStorage, or edit the JS in devtools</text>
+  <text class="item" x="736" y="406">• guessing: SHA-256 is fast and unsalted, so a short</text>
+  <text class="item" x="748" y="428">or common phrase falls to an offline dictionary</text>
+  <text class="item" x="736" y="450">• source: the repository and its docs are public</text>
+  <text class="item" x="736" y="472">• identity: no accounts, roles, revocation or audit</text>
+  <text class="item" x="736" y="494">• transport: nothing beyond the HTTPS that Pages serves</text>
+  <text class="item" x="736" y="516">• the phrase: anyone told it can share it freely</text>
+  <text class="caveat" x="736" y="560">Never publish anything that needs protection.</text>
+  <text class="caveat" x="736" y="582">Real access control needs a server or a</text>
+  <text class="caveat" x="736" y="604">private host; this site has neither.</text>
+</svg>

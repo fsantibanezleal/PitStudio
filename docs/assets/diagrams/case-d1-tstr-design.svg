@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 710" role="img" aria-labelledby="t d" class="psd">
+  <title id="t">Case D1 evaluation design: TSTR vs TRTR on real originals, with a watershed + Swebrec baseline</title>
+  <desc id="d">Synthetic muck piles with exact size distributions train one U-Net and real Mendeley tiles split by source group train another; both are scored by foreground IoU on the real originals of each test fold, the ratio must reach 0.90, and a classical watershed plus Swebrec baseline is compared with the U-Net on x50 error under the paired decision rule.</desc>
+  <style>
+    .psd{--bg:#ffffff;--surface:#f7f4fb;--surface-2:#eee8f5;--fg:#1b1523;--fg-muted:#5c5468;--border:#ddd6e6;
+      --border-strong:#7d7589;--primary:#7500c0;--code:#7500c0;--accent:#a100ff;--primary-soft:#f1e3ff;--danger:#b42318;
+      --success:#067647;--warning:#93370d;--info:#175cd3;--chart-1:#7500c0;--chart-2:#0e7c86;--chart-3:#c2410c;
+      --chart-4:#1d4ed8;--chart-5:#be185d;--chart-6:#4d7c0f}
+    @media (prefers-color-scheme: dark){.psd{--bg:#0f0b14;--surface:#1a1521;--surface-2:#251e2e;--fg:#f4f0f8;
+      --fg-muted:#b7aec3;--border:#352c40;--border-strong:#8c829b;--primary:#a100ff;--code:#be82ff;--accent:#be82ff;
+      --primary-soft:#2e1a47;--danger:#fda29b;--success:#75e0a7;--warning:#fec84b;--info:#84adff;--chart-1:#be82ff;
+      --chart-2:#2dd4bf;--chart-3:#fb923c;--chart-4:#60a5fa;--chart-5:#f472b6;--chart-6:#a3e635}}
+    .bg{fill:var(--bg)}
+    .band{fill:var(--surface);stroke:var(--border);stroke-width:1}
+    .box{fill:var(--surface-2);stroke:var(--border-strong);stroke-width:1.5}
+    .box-accent{fill:var(--primary-soft);stroke:var(--accent);stroke-width:2}
+    .title{font:600 15px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .path{font:13px "JetBrains Mono",ui-monospace,monospace;fill:var(--code)}
+    .item{font:13px Inter,system-ui,sans-serif;fill:var(--fg-muted)}
+    .caveat{font:italic 13px Inter,system-ui,sans-serif;fill:var(--warning)}
+    .label{font:13px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .edge{stroke:var(--fg-muted);stroke-width:1.5;fill:none}
+    .edge-accent{stroke:var(--accent);stroke-width:2.2;fill:none}
+    .arrowhead{fill:var(--fg-muted)}
+    .hdr{font:600 18px Inter,system-ui,sans-serif;fill:var(--fg)}
+    .arrowhead-accent{fill:var(--accent)}
+    .box-ok{fill:var(--surface-2);stroke:var(--success);stroke-width:2}
+    .ok{font:600 13px Inter,system-ui,sans-serif;fill:var(--success)}
+    .cat-syn{fill:var(--chart-3)}
+    .cat-real{fill:var(--chart-6)}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead-accent"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="710"/>
+
+  <text class="hdr" x="20" y="34">Case D1 — measured sim-to-real: TSTR vs TRTR on real originals</text>
+  <text class="item" x="20" y="56">Two U-Nets with the same architecture, one trained on synthetic exact-PSD piles, one on real grouped folds; both scored only on real originals</text>
+
+  <!-- column bands -->
+  <rect class="band" x="10" y="72" width="320" height="598" rx="6"/>
+  <text class="title" x="22" y="96">Data</text>
+  <rect class="band" x="400" y="72" width="250" height="598" rx="6"/>
+  <text class="title" x="412" y="96">Training and baseline</text>
+  <rect class="band" x="720" y="72" width="240" height="598" rx="6"/>
+  <text class="title" x="732" y="96">Evaluation (real only)</text>
+  <rect class="band" x="1000" y="72" width="190" height="598" rx="6"/>
+  <text class="title" x="1012" y="96">Pre-registered criteria</text>
+
+  <!-- data: synthetic -->
+  <rect class="box" x="20" y="110" width="300" height="150" rx="4"/>
+  <rect class="cat-syn" x="20" y="110" width="6" height="150"/>
+  <text class="title" x="34" y="134">Synthetic muck piles (exact PSD)</text>
+  <text class="path" x="34" y="154">st50_physics → st55_sdg</text>
+  <text class="item" x="34" y="176">Warp DEM piles, Kuz-Ram / Swebrec sizes</text>
+  <text class="item" x="34" y="196">Isaac Sim renders + instance masks</text>
+  <text class="item" x="34" y="216">every fragment size known</text>
+  <text class="item" x="34" y="236">CC-BY-4.0, our own scenes</text>
+
+  <!-- data: real -->
+  <rect class="box" x="20" y="290" width="300" height="210" rx="4"/>
+  <rect class="cat-real" x="20" y="290" width="6" height="210"/>
+  <text class="title" x="34" y="314">Mendeley rock fragments (real)</text>
+  <text class="path" x="34" y="334">s00_download · SHA-256 7f4336a4…</text>
+  <text class="item" x="34" y="356">CC BY 4.0 · 960 tiles, 512 × 512 px</text>
+  <text class="item" x="34" y="376">= 240 originals × 4 dihedral copies</text>
+  <text class="item" x="34" y="396">(identity, h-flip, v-flip, 180°)</text>
+  <text class="item" x="34" y="416">9 similar pairs merged → 231 groups</text>
+  <text class="item" x="34" y="436">15,786 unique rock instances</text>
+  <text class="item" x="34" y="456">grouped k-fold (e.g. 5 folds)</text>
+  <text class="caveat" x="34" y="482">no mm/px scale → PSD in pixels</text>
+
+  <!-- data: leakage guard -->
+  <rect class="box" x="20" y="520" width="300" height="135" rx="4"/>
+  <text class="title" x="34" y="544">Leakage guard</text>
+  <text class="path" x="34" y="564">group = ((k − 1) mod 240) + 1</text>
+  <text class="item" x="34" y="586">+ 9 similar pairs merged</text>
+  <text class="item" x="34" y="606">no copy of a test tile in training</text>
+  <text class="caveat" x="34" y="632">a per-file split would inflate TRTR</text>
+
+  <!-- training -->
+  <rect class="box-accent" x="410" y="110" width="230" height="120" rx="4"/>
+  <text class="title" x="422" y="134">U-Net TS</text>
+  <text class="path" x="422" y="154">pipeline/ s30_train</text>
+  <text class="item" x="422" y="176">trained on synthetic only</text>
+  <text class="item" x="422" y="196">smp U-Net (MIT)</text>
+  <text class="item" x="422" y="216">int8 export 5–15 MB</text>
+
+  <rect class="box" x="410" y="290" width="230" height="120" rx="4"/>
+  <text class="title" x="422" y="314">U-Net TR</text>
+  <text class="path" x="422" y="334">pipeline/ s30_train</text>
+  <text class="item" x="422" y="356">trained on real train folds</text>
+  <text class="item" x="422" y="376">flips allowed in training</text>
+  <text class="item" x="422" y="396">same architecture as TS</text>
+
+  <rect class="box" x="410" y="470" width="230" height="120" rx="4"/>
+  <text class="title" x="422" y="494">Watershed + Swebrec</text>
+  <text class="path" x="422" y="514">minephys.blasting</text>
+  <text class="item" x="422" y="536">classical segmentation</text>
+  <text class="item" x="422" y="556">Swebrec fit → x50 (px)</text>
+  <text class="item" x="422" y="576">needs no training data</text>
+
+  <!-- evaluation -->
+  <rect class="box-accent" x="730" y="110" width="220" height="220" rx="4"/>
+  <text class="title" x="742" y="134">Real test originals</text>
+  <text class="path" x="742" y="154">s50_evaluate</text>
+  <text class="item" x="742" y="176">test-group tiles in 001–240</text>
+  <text class="item" x="742" y="196">foreground IoU per fold:</text>
+  <text class="item" x="742" y="216">TSTR = IoU of U-Net TS</text>
+  <text class="item" x="742" y="236">TRTR = IoU of U-Net TR</text>
+  <text class="item" x="742" y="256">+ instance, boundary metrics</text>
+  <text class="item" x="742" y="276">mean and fold spread</text>
+  <text class="caveat" x="742" y="302">flipped copies never scored</text>
+
+  <rect class="box" x="730" y="470" width="220" height="120" rx="4"/>
+  <text class="title" x="742" y="494">x50 on real tiles</text>
+  <text class="path" x="742" y="514">s50_evaluate</text>
+  <text class="item" x="742" y="536">PSD from predicted masks</text>
+  <text class="item" x="742" y="556">vs PSD from labelled masks</text>
+  <text class="item" x="742" y="576">x50 error, relative (px)</text>
+
+  <!-- criteria -->
+  <rect class="box-ok" x="1008" y="110" width="176" height="150" rx="4"/>
+  <text class="title" x="1020" y="134">Criterion 1</text>
+  <text class="path" x="1020" y="154">thresholds.yaml</text>
+  <text class="ok" x="1020" y="178">TSTR ≥ 0.90 × TRTR</text>
+  <text class="item" x="1020" y="198">foreground IoU</text>
+  <text class="item" x="1020" y="218">mean + fold spread</text>
+  <text class="item" x="1020" y="242">measured sim-to-real</text>
+
+  <rect class="box-ok" x="1008" y="290" width="176" height="110" rx="4"/>
+  <text class="title" x="1020" y="314">Criterion 2</text>
+  <text class="path" x="1020" y="334">thresholds.yaml</text>
+  <text class="item" x="1020" y="356">synthetic held-out</text>
+  <text class="ok" x="1020" y="378">x50 rel. error ≤ 15 %</text>
+
+  <rect class="box-ok" x="1008" y="470" width="176" height="150" rx="4"/>
+  <text class="title" x="1020" y="494">Criterion 3</text>
+  <text class="path" x="1020" y="514">s50_evaluate</text>
+  <text class="item" x="1020" y="536">U-Net beats baseline</text>
+  <text class="item" x="1020" y="556">only if the paired</text>
+  <text class="item" x="1020" y="576">95 % CI of the x50</text>
+  <text class="ok" x="1020" y="598">error gap excludes 0</text>
+
+  <!-- edges -->
+  <line class="edge-accent" x1="320" y1="170" x2="408" y2="170" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="364" y="162" text-anchor="middle">renders</text>
+  <line class="edge" x1="320" y1="350" x2="408" y2="350" marker-end="url(#arrow)"/>
+  <text class="label" x="364" y="342" text-anchor="middle">train folds</text>
+  <polyline class="edge" points="300,290 300,270 728,270" marker-end="url(#arrow)"/>
+  <text class="label" x="520" y="262" text-anchor="middle">test-fold originals only</text>
+  <line class="edge" x1="320" y1="485" x2="408" y2="485" marker-end="url(#arrow)"/>
+  <text class="label" x="364" y="477" text-anchor="middle">test tiles</text>
+
+  <line class="edge-accent" x1="640" y1="170" x2="728" y2="170" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="684" y="162" text-anchor="middle">TSTR</text>
+  <line class="edge" x1="640" y1="315" x2="728" y2="315" marker-end="url(#arrow)"/>
+  <text class="label" x="684" y="307" text-anchor="middle">TRTR</text>
+  <line class="edge" x1="640" y1="530" x2="728" y2="530" marker-end="url(#arrow)"/>
+  <text class="label" x="684" y="522" text-anchor="middle">PSD</text>
+  <line class="edge" x1="840" y1="330" x2="840" y2="468" marker-end="url(#arrow)"/>
+  <text class="label" x="848" y="405">U-Net PSD</text>
+
+  <line class="edge-accent" x1="950" y1="200" x2="1006" y2="200" marker-end="url(#arrow-accent)"/>
+  <text class="label" x="978" y="192" text-anchor="middle">ratio</text>
+  <line class="edge" x1="950" y1="530" x2="1006" y2="530" marker-end="url(#arrow)"/>
+  <text class="label" x="978" y="522" text-anchor="middle">Δx50</text>
+
+  <text class="item" x="20" y="696">Highlighted: the measured sim-to-real path. Green: pre-registered pass conditions. Facts from the data check of the first milestone. Status: not yet run.</text>
+</svg>
