@@ -21,12 +21,16 @@ ROOT = Path(__file__).resolve().parents[1]
 ID = r"(?:US-\d{3}-\d{1,2}|(?:FR|NFR|SC|P|DC)-\d{3}-\d{2})"
 DEF_ROW = re.compile(rf"^\|\s*(~~)?({ID})(~~)?\s*\|", re.M)
 DEF_HEADING = re.compile(r"^#{2,4}\s+(~~)?(US-\d{3}-\d{1,2})(~~)?\b", re.M)
-STATUS = re.compile(r"^Status:\s*([A-Za-z]+)", re.M)  # Draft/Clarified specs are not yet held to orphan checks
+STATUS = re.compile(r"^Status:\s*([A-Za-z]+)", re.M)  # Draft/Clarified: no checks; Approved+: tasks; Converged: tests
 TASK_LINE = re.compile(r"^\s*-\s*\[[ xX]\]\s*(T-\d{3}-\d{3})(.*)$", re.M)
 ANY_ID = re.compile(rf"\b{ID}\b")
 PY_REQ = re.compile(rf"""\.mark\.req\(\s*["']({ID})["']""")
 TS_REQ = re.compile(rf"""\b(?:it|test)\s*\(\s*[`"']({ID})\s*·""")
 TEST_DIRS = ["tests", "web/src", "web/tests", "web/e2e", "pipeline/tests"]
+
+
+def entry(spec: str, retired: bool, draft: bool, phase: str) -> dict:
+    return {"spec": spec, "retired": retired, "draft": draft, "phase": phase, "tasks": [], "tests": []}
 
 
 def scan() -> dict:
@@ -38,7 +42,8 @@ def scan() -> dict:
         feature = spec.parent.name
         text = spec.read_text(encoding="utf-8")
         sm = STATUS.search(text)
-        draft = bool(sm and sm.group(1).lower() in {"draft", "clarified"})
+        phase = sm.group(1).lower() if sm else "draft"
+        draft = phase in {"draft", "clarified"}
         seen_here: set[str] = set()
         for m in DEF_ROW.finditer(text):
             rid = m.group(2)
@@ -46,11 +51,11 @@ def scan() -> dict:
                 first = reqs.get(rid, {}).get("spec", feature)
                 duplicates.append(f"{rid} is defined more than once ({first}, {feature})")
             seen_here.add(rid)
-            reqs[rid] = {"spec": feature, "retired": bool(m.group(1)), "draft": draft, "tasks": [], "tests": []}
+            reqs[rid] = entry(feature, bool(m.group(1)), draft, phase)
         for m in DEF_HEADING.finditer(text):  # the spec template defines user stories as `### US-NNN-x (P1) title`
             rid = m.group(2)
             if rid not in reqs:
-                reqs[rid] = {"spec": feature, "retired": bool(m.group(1)), "draft": draft, "tasks": [], "tests": []}
+                reqs[rid] = entry(feature, bool(m.group(1)), draft, phase)
             elif reqs[rid]["spec"] != feature:
                 duplicates.append(f"{rid} is defined more than once ({reqs[rid]['spec']}, {feature})")
     tasks: dict[str, list[str]] = {}
@@ -93,7 +98,8 @@ def problems(data: dict) -> list[str]:
             continue
         if not r["tasks"]:
             out.append(f"{rid} has no task")
-        if not r["tests"] and not rid.startswith("US-"):
+        # tests arrive task by task while a spec is Approved/Implementing; Converged means every one exists (G6)
+        if r.get("phase") == "converged" and not r["tests"] and not rid.startswith("US-"):
             out.append(f"{rid} has no test")
     return out
 
