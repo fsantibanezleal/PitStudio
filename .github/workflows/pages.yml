@@ -37,7 +37,7 @@ jobs:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}/
           ACCESS_PASSPHRASE: ${{ secrets.ACCESS_PASSPHRASE }}
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-      - name: Contract check, served digests included (FR-001-20): git-hosted files and the downloaded release assets
+      - name: Contract check with the served digests (FR-001-20), git-hosted files and downloaded release assets
         working-directory: ${{ github.workspace }}
         env:
           GH_TOKEN: ${{ github.token }}
