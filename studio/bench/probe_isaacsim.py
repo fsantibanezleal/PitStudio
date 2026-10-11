@@ -37,9 +37,8 @@ def _version(dist: str) -> str:
 
 
 def _build_stage() -> None:
-    from pxr import Gf, UsdGeom, UsdPhysics
-
     import isaacsim.core.experimental.utils.stage as stage_utils
+    from pxr import Gf, UsdGeom, UsdPhysics
 
     stage = stage_utils.create_new_stage()
     UsdGeom.SetStageUpAxis(stage, UsdGeom.Tokens.z)
@@ -71,11 +70,10 @@ def _build_stage() -> None:
 
 def _render_frame(app: Any, r: dict[str, Any]) -> None:
     """Optional RGB frame via Replicator; a failure is a note, not a probe failure."""
+    import isaacsim.core.experimental.utils.stage as stage_utils
     import numpy as np
     import omni.replicator.core as rep
     from pxr import Gf, UsdGeom
-
-    import isaacsim.core.experimental.utils.stage as stage_utils
 
     stage = stage_utils.get_current_stage()
     cam = UsdGeom.Camera.Define(stage, "/World/Cam")

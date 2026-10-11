@@ -92,11 +92,15 @@ def body(r: dict[str, Any]) -> None:
     if not torch.cuda.is_available():
         raise RuntimeError("torch sees no CUDA device")
     r["metrics"]["device"] = torch.cuda.get_device_name(0)
-    r["metrics"]["arch"] = "sm_%d%d" % torch.cuda.get_device_capability(0)
+    major, minor = torch.cuda.get_device_capability(0)
+    r["metrics"]["arch"] = f"sm_{major}{minor}"
     restricted = lock_restricted()
     r["metrics"]["restricted_packages_in_lock"] = restricted
-    r["notes"].append("publishable: the environment lock holds no isaacsim/omni/ov* package" if not restricted else
-                      "local-only: the environment lock holds licence-restricted packages")
+    r["notes"].append(
+        "publishable: the environment lock holds no isaacsim/omni/ov* package"
+        if not restricted
+        else "local-only: the environment lock holds licence-restricted packages"
+    )
 
     os.environ["ISAACSIM_ASSET_ROOT"] = str(local_asset_root())  # read when isaaclab.utils.assets is imported
     os.chdir(tmp_dir("isaaclab"))  # the trainer writes logs/ and checkpoints relative to the working directory

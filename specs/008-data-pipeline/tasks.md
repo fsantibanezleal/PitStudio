@@ -56,7 +56,7 @@ Rules:
 
 ## Phase 4 — US-008-3 (P1): leakage-free splits
 - [ ] T-008-030 [US-008-3] (FR-008-27, FR-008-28, P-008-06, P-008-08) Group keys and the split file; Mendeley union-find
-  over the 9 links (231 groups, the listed components); order invariances — test: tests/pipeline/test_t_008_030_mendeley_groups.py
+  over the 9 links mapped to scenes (72 groups, the listed components); order invariances — test: tests/pipeline/test_t_008_030_mendeley_groups.py
 - [ ] T-008-031 [US-008-3] (FR-008-29, SC-008-01) Augmentation-structure check (exact flips and rotation of the
   foreground; `cv2_mask` = `label.png`), `AugmentationStructureBroken`; the card's counts on the real archive (`slow`,
   local) and on generated fixtures (CI) — test: tests/pipeline/test_t_008_031_mendeley_integrity.py

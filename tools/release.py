@@ -57,8 +57,12 @@ def main(argv: list[str]) -> int:
     if not commits:
         print("nothing to release")
         return 1
-    gate = subprocess.run([sys.executable, str(ROOT / "tools" / "trace.py"), "--check", "--release"],
-                          capture_output=True, text=True, encoding="utf-8")
+    gate = subprocess.run(
+        [sys.executable, str(ROOT / "tools" / "trace.py"), "--check", "--release"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
     if gate.returncode != 0:  # G6: no release while a spec is below Converged or a requirement has no test
         print(gate.stdout[-4000:])
         print("release refused: tools/trace.py --check --release failed")
