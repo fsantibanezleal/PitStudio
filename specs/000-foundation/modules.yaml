@@ -25,6 +25,7 @@ modules:
   - il-task
   - machine-params
   - methods
+  - modules
   - people-asset-record
   - physics-scenario
   - profile
@@ -111,6 +112,17 @@ modules:
   inputs:
   - figures
   - knowledge-bundle
+  outputs: []
+- id: modules-check
+  spec: '000'
+  env: root
+  gpu: false
+  kind: tool
+  area: foundation
+  track: C
+  title: 'tools/check_modules.py: modules.yaml schema, acyclicity, edges naming existing modules and contracts, DC row coverage'
+  inputs:
+  - modules
   outputs: []
 - id: ci-lane-check
   spec: '001'
@@ -3253,6 +3265,40 @@ edges:
       behaviour: the contract-valid artefact is used as specified by DC-000-05; no label, no caveat
       covered_by:
       - DC-000-05
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
+- id: E-DC-000-06-01
+  from: actor-maintainer
+  to: modules-check
+  contract: modules
+  dc: DC-000-06
+  schema: specs/000-foundation/contracts/modules.schema.json
+  schema_state: draft
+  availability:
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-000-06; no label, no caveat
+      covered_by:
+      - DC-000-06
     stale:
       behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
         `input-stale`

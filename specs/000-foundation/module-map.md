@@ -16,17 +16,17 @@ Companion of [`modules.yaml`](modules.yaml) (the machine-readable source, DC-000
 
 | Item | Count |
 |---|---|
-| Modules (including 3 external actors) | 147 |
-| Edges | 392 |
+| Modules (including 3 external actors) | 148 |
+| Edges | 393 |
 | Contracts (names) | 134 |
 | Data-contract rows in the feature specs (active) | 113 (3 retired: DC-008-01, DC-013-06, DC-019-01) |
-| DC rows that appear as an edge | 112 of 113 |
-| Edges by schema state | promoted 8, draft 335, derived 13, none 36 |
+| DC rows that appear as an edge | 113 of 113 |
+| Edges by schema state | promoted 8, draft 336, derived 13, none 36 |
 | DC contract names by schema state | promoted 1, draft 115, derived 4 |
 | Modules that need the GPU | 28 |
-| Modules per environment | external 3, pipeline 47, pipeline/accel 2, root 21, studio 17, studio/isaac 4, studio/isaaclab 2, studio/rtx 3, web 48 |
-| Modules per kind | actor 3, api 2, docs 2, engine 25, eval 12, export 3, infer 4, ingestion 16, lib 7, probe 2, release 2, route 11, runner 5, sdg 2, solver 14, stage 16, tool 12, train 8, ui 1 |
-| Modules per build track | A 44, B 31, C 18, D 47, E 2, F 2, None 3 (None: the actors) |
+| Modules per environment | external 3, pipeline 47, pipeline/accel 2, root 22, studio 17, studio/isaac 4, studio/isaaclab 2, studio/rtx 3, web 48 |
+| Modules per kind | actor 3, api 2, docs 2, engine 25, eval 12, export 3, infer 4, ingestion 16, lib 7, probe 2, release 2, route 11, runner 5, sdg 2, solver 14, stage 16, tool 13, train 8, ui 1 |
+| Modules per build track | A 44, B 31, C 19, D 47, E 2, F 2, None 3 (None: the actors) |
 
 Track letters follow the parallel build tracks: A data and simulation, B models, C logic, APIs and connectors, D web, E docs, F release and deploy.
 
@@ -34,7 +34,7 @@ Track letters follow the parallel build tracks: A data and simulation, B models,
 
 ```mermaid
 flowchart LR
-  foundation["foundation<br/>8 modules"]
+  foundation["foundation<br/>9 modules"]
   runner["runner<br/>11 modules"]
   scene["scene<br/>6 modules"]
   physics["physics<br/>2 modules"]
@@ -160,6 +160,7 @@ flowchart LR
   contracts_gen_py["contracts-gen-py"]
   contracts_gen_ts["contracts-gen-ts"]
   contracts_validate["contracts-validate"]
+  modules_check["modules-check"]
   console_api(["console-api<br/>runner"])
   console_jobs(["console-jobs<br/>runner"])
   console_ui(["console-ui<br/>runner"])
@@ -213,6 +214,7 @@ flowchart LR
   actor_maintainer -->|"il-task, machine-params"| il_train
   actor_maintainer -->|"machine-params"| il_twin_runner
   actor_maintainer -->|"engine-io"| make_parity_fixtures
+  actor_maintainer -->|"modules"| modules_check
   actor_maintainer -->|"profile, recipe"| runner_core
   actor_maintainer -->|"sources"| s00_download
   actor_maintainer -->|"sensor-recipe"| s05_sensors
@@ -279,12 +281,13 @@ Rounded boxes are modules of other areas that produce or consume a contract of t
 
 | Module | Spec | Env | GPU | Kind | Inputs | Outputs |
 |---|---|---|---|---|---|---|
-| `actor-maintainer` | 000 | external | no | actor | - | `cases`, `data-card`, `engine-io`, `export-config`, `figures`, `il-task`, `machine-params`, `methods`, `people-asset-record`, `physics-scenario`, `profile`, `reason-pins`, `recipe`, `scene-spec`, `sdg-randomisation`, `sensor-recipe`, `sources`, `toolmap`, `tools` |
+| `actor-maintainer` | 000 | external | no | actor | - | `cases`, `data-card`, `engine-io`, `export-config`, `figures`, `il-task`, `machine-params`, `methods`, `modules`, `people-asset-record`, `physics-scenario`, `profile`, `reason-pins`, `recipe`, `scene-spec`, `sdg-randomisation`, `sensor-recipe`, `sources`, `toolmap`, `tools` |
 | `actor-tests` | 001 | external | no | actor | - | `conformance-corpus`, `profile` |
 | `contracts-validate` | 001 | root | no | tool | `cases`, `conformance-corpus`, `generated-types-py`, `manifest`, `methods`, `results`, `sources`, `studio-index`, `tools` | - |
 | `contracts-gen-py` | 001 | root | no | tool | `conformance-corpus` | `generated-types-py` |
 | `contracts-gen-ts` | 001 | web | no | tool | `conformance-corpus` | `generated-types-ts` |
 | `ci-guards` | 000 | root | no | tool | `figures`, `knowledge-bundle` | - |
+| `modules-check` | 000 | root | no | tool | `modules` | - |
 | `ci-lane-check` | 001 | root | no | tool | `lane-measurements` | - |
 | `ci-pages-deploy` | 001 | root | no | release | `manifest`, `release-assets` | - |
 
@@ -1522,7 +1525,7 @@ The checks below were run over `modules.yaml` when this map was written. They ar
 
 ### 5.1 Acyclicity
 
-Kahn's algorithm removes all 147 modules: **no cycle** (392 edges, 0 strongly connected components of more than one module).
+Kahn's algorithm removes all 148 modules: **no cycle** (393 edges, 0 strongly connected components of more than one module).
 
 ### 5.2 Data-contract rows
 
@@ -1530,7 +1533,7 @@ All 113 active DC rows of the feature specs appear as at least one edge. The thr
 
 ### 5.3 Edges whose contract has no schema at all
 
-36 of 392 edges. None of them is a DC row: they are boundaries that the specs cross without defining a contract. Each needs either a promoted schema (class `undefined`) or a recorded decision that the format and its validator are the contract (class `binary-format`).
+36 of 393 edges. None of them is a DC row: they are boundaries that the specs cross without defining a contract. Each needs either a promoted schema (class `undefined`) or a recorded decision that the format and its validator are the contract (class `binary-format`).
 
 | Edge | From | To | Contract | Class | What | Evidence |
 |---|---|---|---|---|---|---|
@@ -1573,7 +1576,7 @@ All 113 active DC rows of the feature specs appear as at least one edge. The thr
 
 ### 5.4 Schema state of the contracts that DC rows declare
 
-Of 120 contract names declared by DC rows, 1 is promoted to `contracts/` today (`capabilities`); 115 are drafts under `specs/NNN-*/contracts/` and 4 are derived. The harness requires every edge to have a promoted contract, fixtures and generated types before the spec phase closes; the promotion of every draft is task T-NNN-001 of each spec and is not done by this map.
+Of 120 contract names declared by DC rows, 1 is promoted to `contracts/` today (`capabilities`); 115 are drafts under `specs/NNN-*/contracts/` and 4 are derived. The harness requires every edge to have a promoted contract, fixtures and generated types before the spec phase closes; the promotion of every draft is task T-NNN-001 of each spec and is not done by this map. The one derived file that does not exist yet is `api/openapi.json` (DC-003-02): FastAPI generates it at build and spec 003 commits it, so the CI check requires the schema file to exist for every contract that is not `derived`.
 
 ### 5.5 Orphans
 
@@ -1615,12 +1618,13 @@ Of 120 contract names declared by DC rows, 1 is promoted to `contracts/` today (
 | `engine-comminution` | browser engine: input is the visitor's control values, validated by its own engine schema (engine-io-comminution) |
 | `engine-volume` | browser engine: input is the visitor's control values, validated by its own engine schema (engine-io-volume) |
 
-**Consumers with no output contract (23).** Each is a terminal consumer (a web route, a CI check, a release step) or a stage whose output boundary is a finding.
+**Consumers with no output contract (24).** Each is a terminal consumer (a web route, a CI check, a release step) or a stage whose output boundary is a finding.
 
 | Module | Why it has no output |
 |---|---|
 | `contracts-validate` | CI check: terminal consumer, fails the build and writes no artefact |
 | `ci-guards` | CI check: terminal consumer |
+| `modules-check` | CI check: terminal consumer |
 | `ci-lane-check` | CI check: terminal consumer |
 | `ci-pages-deploy` | deployment: terminal consumer (the deployed site) |
 | `console-ui` | UI: terminal consumer (renders to the operator) |
@@ -1687,17 +1691,17 @@ In `modules.yaml` each state of each edge is `{behaviour, covered_by, na?}`: `co
 
 ### 6.1 Coverage
 
-392 edges x 6 states = 2352 states declared. Each is specified by an existing requirement, by a requirement added with this map, or marked `na` with a reason:
+393 edges x 6 states = 2358 states declared. Each is specified by an existing requirement, by a requirement added with this map, or marked `na` with a reason:
 
 | State | Existing requirement | Added requirement | `na` |
 |---|---|---|---|
-| `absent` | 340 | 52 | 0 |
-| `fixture` | 65 | 327 | 0 |
-| `partial` | 160 | 131 | 101 |
-| `real` | 356 | 0 | 36 |
-| `stale` | 168 | 224 | 0 |
-| `invalid` | 392 | 0 | 0 |
-| all | 1481 | 734 | 137 |
+| `absent` | 340 | 53 | 0 |
+| `fixture` | 66 | 327 | 0 |
+| `partial` | 160 | 131 | 102 |
+| `real` | 357 | 0 | 36 |
+| `stale` | 168 | 225 | 0 |
+| `invalid` | 393 | 0 | 0 |
+| all | 1484 | 736 | 138 |
 
 `real` is specified by the DC row of the contract (an edge with no DC row, listed in section 5.3, is `na` for `real`).
 

@@ -19,7 +19,7 @@ Companion documents: [module map](module-map.md) (modules, contracts, edges), [m
 
 | Component | Environment | Python | Lock entries | Modules | Modules needing the GPU |
 |---|---|---|---|---|---|
-| `src/pitstudio/`, `tools/`, `api/` (core, contracts glue, runner, console, CI checks) | root | 3.14.* | 60 | 21 | 0 |
+| `src/pitstudio/`, `tools/`, `api/` (core, contracts glue, runner, console, CI checks) | root | 3.14.* | 60 | 22 | 0 |
 | `pipeline/` (download, synthesize, preprocess, train, infer, evaluate, export) | pipeline | 3.14.* | 113 | 47 | 7 |
 | `pipeline/accel/` (TensorRT 11 engines and bench; local only) | pipeline/accel | 3.14.* | 14 | 2 | 2 |
 | `studio/` (scene, physics, encode, bench) | studio | 3.14.* | 60 | 17 | 11 |
@@ -29,7 +29,7 @@ Companion documents: [module map](module-map.md) (modules, contracts, edges), [m
 | `web/` (React app, 25 browser engines, build scripts) | web | Node 24, pnpm 11 | 222 packages (`pnpm-lock.yaml`) | 48 | 0 |
 | external actors (maintainer, test authors, operator) | external | - | - | 3 | 0 |
 
-Total: 147 modules, 134 contracts, 392 edges, 28 modules that need the GPU.
+Total: 148 modules, 134 contracts, 393 edges, 28 modules that need the GPU.
 
 ### 1.3 Deployables
 
@@ -83,7 +83,7 @@ Counts of active requirements are from `specs/requirements.index.json`; tasks an
 
 | Spec | Modules | Components (plan) | US | FR | NFR | SC | P | DC | Tasks | With test | Without test | Test files planned |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 000-foundation | 2 | 0 | 6 | 24 | 8 | 4 | 3 | 6 | 34 | 31 | 3 | 31 |
+| 000-foundation | 3 | 0 | 6 | 24 | 8 | 4 | 3 | 6 | 34 | 31 | 3 | 31 |
 | 001-contracts | 5 | 13 | 5 | 53 | 5 | 1 | 8 | 8 | 27 | 26 | 1 | 26 |
 | 002-runner | 7 | 0 | 6 | 69 | 5 | 1 | 13 | 6 | 38 | 37 | 1 | 37 |
 | 003-console | 3 | 9 | 5 | 31 | 3 | 1 | 4 | 4 | 21 | 19 | 2 | 19 |
@@ -104,7 +104,7 @@ Counts of active requirements are from `specs/requirements.index.json`; tasks an
 | 018-web-cases | 29 | 20 | 7 | 69 | 6 | 2 | 54 | 6 | 57 | 56 | 1 | 56 |
 | 019-web-studio | 5 | 8 | 5 | 49 | 6 | 2 | 5 | 2 | 28 | 27 | 1 | 27 |
 | 020-web-knowledge | 6 | 12 | 6 | 54 | 9 | 3 | 32 | 4 | 35 | 34 | 1 | 34 |
-| **Total** | 144 | 244 | 111 | 997 | 110 | 77 | 335 | 113 | 772 | 665 | 107 | 665 |
+| **Total** | 145 | 244 | 111 | 997 | 110 | 77 | 335 | 113 | 772 | 665 | 107 | 665 |
 
 1743 active requirements and 42 retired ones (never reused); 772 tasks; the modules column counts code modules, not the 3 external actors.
 
@@ -131,6 +131,7 @@ Function-level counts of the library code (for example the individual solvers an
 | `contracts-gen-py` | 001 | root | no | 1 | 1 | - | - |
 | `contracts-gen-ts` | 001 | web | no | 1 | 1 | - | - |
 | `ci-guards` | 000 | root | no | 2 | 0 | - | - |
+| `modules-check` | 000 | root | no | 1 | 0 | - | - |
 | `ci-lane-check` | 001 | root | no | 1 | 0 | - | - |
 | `ci-pages-deploy` | 001 | root | no | 2 | 0 | - | - |
 | `runner-core` | 002 | root | no | 4 | 1 | - | - |
@@ -393,11 +394,11 @@ Track attribution is by the spec's main work: A data and simulation (004, 005, 0
 
 ### 6.1 Critical path
 
-The module map is a DAG of 147 modules whose longest chain has 20 modules. Weighting each module by its spec's agent-hours shared among the spec's modules, the heaviest chain is **139.1 agent-hours** long and runs through the specs 001 > 008 > 017 > 004 > 005 > 012 > 016 > 020 > 000:
+The module map is a DAG of 148 modules whose longest chain has 20 modules. Weighting each module by its spec's agent-hours shared among the spec's modules, the heaviest chain is **135.7 agent-hours** long and runs through the specs 001 > 008 > 017 > 004 > 005 > 012 > 016 > 002 > 003:
 
-`contracts-gen-py > s10_real_data > plan-mincut > st20_pit_design > st40_compose > st45_validate > st50_physics > frag-pile-generator > frag-dataset-builder > unet-train > unet-infer > frag-eval > s60_export > s62_accel > s64_bench > docs-knowledge-build > ci-guards`
+`contracts-gen-py > s10_real_data > plan-mincut > st20_pit_design > st40_compose > st45_validate > st50_physics > frag-pile-generator > frag-dataset-builder > unet-train > unet-infer > frag-eval > s60_export > s62_accel > s64_bench > runner-store > console-api > console-ui`
 
-With the build run as parallel tracks the elapsed effort is bounded below by this chain (139.1 agent-hours) and by the total divided by the agents running at once: with 4 agents 180 agent-hours each, with 8 agents 90. The chain is the solver-to-model path: scene stages, physics solvers and renders feed the model data, then training, evaluation, export and the web, which is why the solvers are the critical path and why every consumer is specified against a fixture (the availability states of the module map) rather than waiting for them.
+With the build run as parallel tracks the elapsed effort is bounded below by this chain (135.7 agent-hours) and by the total divided by the agents running at once: with 4 agents 180 agent-hours each, with 8 agents 90. The chain is the solver-to-model path: scene stages, physics solvers and renders feed the model data, then training, evaluation, export and the web, which is why the solvers are the critical path and why every consumer is specified against a fixture (the availability states of the module map) rather than waiting for them.
 
 GPU time on that chain: the physics solvers (1-2 scenarios per hour), GNS (<= 15 GPU-h) and the two FNOs (<= 4 GPU-h) are sequential on the one GPU; the detector and slope jobs queue behind them in the overnight slots.
 
