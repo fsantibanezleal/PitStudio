@@ -19,10 +19,13 @@ from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 
 from pitstudio.contracts.io import ContractError, pointer_of
+from pitstudio.contracts.jcs import canonicalize
 from pitstudio.contracts.privacy import scrub_paths
 
 CONTRACTS_DIR = Path(__file__).resolve().parents[3] / "contracts"
 MAX_MESSAGE = 300
+MAX_SHARDS = 10_000  # data-model 3.2
+MAX_PARAMS_BYTES = 65_536  # data-model 1.4
 WINDOWS_DEVICE_NAMES = frozenset(
     {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))}
 )
@@ -214,6 +217,37 @@ def _post_shards(document: Any) -> Iterator[ValidationError]:
             )
 
 
+def _post_recipe(document: Any) -> Iterator[ValidationError]:
+    """FR-001-23: at most 10,000 shards per stage and a canonical params size of at most 65,536 bytes."""
+    stages = document.get("stages") if isinstance(document, dict) else None
+    if not isinstance(stages, list):
+        return
+    for index, stage in enumerate(stages):
+        if not isinstance(stage, dict):
+            continue
+        shardable = stage.get("shardable")
+        if isinstance(shardable, dict):
+            size, total = shardable.get("shard_size"), shardable.get("total")
+            if all(isinstance(v, int) and not isinstance(v, bool) and v > 0 for v in (size, total)):
+                count = -(-total // size)
+                if count > MAX_SHARDS:
+                    yield ValidationError(
+                        f"/stages/{index}/shardable", "shard-count", f"{count} shards exceed the limit of {MAX_SHARDS}"
+                    )
+        params = stage.get("params")
+        if isinstance(params, dict):
+            try:
+                length = len(canonicalize(params))
+            except ValueError, RecursionError:
+                continue  # not canonicalisable: the schema reports the offending value
+            if length > MAX_PARAMS_BYTES:
+                yield ValidationError(
+                    f"/stages/{index}/params",
+                    "params-size",
+                    f"canonical params size {length} exceeds {MAX_PARAMS_BYTES} bytes",
+                )
+
+
 def validate(document: Any, schema_name: str) -> list[ValidationError]:
     """Every violation of ``document`` against ``schema_name``, sorted by pointer."""
     validator, stem = _validator(schema_name)
@@ -228,5 +262,7 @@ def validate(document: Any, schema_name: str) -> list[ValidationError]:
     errors.extend(_post_strings(stem, document, validator))
     errors.extend(_post_duplicates(stem, document))
     errors.extend(_post_shards(document))
+    if stem == "recipe" and schema_name == "recipe":
+        errors.extend(_post_recipe(document))
     errors.sort(key=lambda e: (e.pointer, e.keyword, e.message))
     return errors
