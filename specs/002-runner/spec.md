@@ -263,7 +263,7 @@ layout, profile, job spec, events, code roots).
   `telemetry.parquet`; the plan fixes no format. This spec uses `telemetry.jsonl`: append-only and flushed per sample,
   so a crash loses at most one sample (a Parquet file is unreadable until its footer is written at close), the console
   can stream it (spec 003), and the root runner extra needs no Arrow dependency. Published telemetry is JSON (FR-002-50).
-  The two docs pages need the rename (reported to the coordinator).
+  The docs pages that name the file use `telemetry.jsonl`.
 - Resolved — **store variable.** Docs use `PITSTUDIO_STORE`; an earlier design note used another name. Docs and plan
   win: `PITSTUDIO_STORE`.
 - Resolved — **command set.** Plan §9 lists `studio bench env`, `plan`, `run`, `publish`, `profile`, `gc`; docs DEC-0002
@@ -274,7 +274,7 @@ layout, profile, job spec, events, code roots).
 - Resolved — **exit codes.** Extended from the bench's 0–4 (docs `reference/cli.md`) with 5 (guard refused) and 6
   (cancelled or interrupted); `studio bench env` passes the bench's codes through.
 - Resolved — **thresholds.** Docs `studio/runner.md` says guard thresholds are fixed in the thresholds file, which the
-  coordinator owns; this spec states them (1.5 GiB, 20 GiB, 80 °C, 1–4 Hz, 5 s, 10 s, 0.05) and plan.md proposes the
+  maintainer owns; this spec states them (1.5 GiB, 20 GiB, 80 °C, 1–4 Hz, 5 s, 10 s, 0.05) and plan.md proposes the
   `runner:` keys.
 - Resolved — **plan and the GPU.** Docs say both "planning never touches the GPU" and "plan … against a fake GPU
   backend". FR-002-02: plan never uses the real NVML backend; device capacity comes from the profile's `gpus`, or from

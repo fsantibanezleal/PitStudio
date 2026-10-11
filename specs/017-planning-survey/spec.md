@@ -248,8 +248,7 @@ t/h × kWh/t = η P_mill.
 - Python min-cut ownership: the M18 page mentions an own Python min-cut in the studio stage and a small min-cut in
   `minephys.planning`, while spec 018's engine table names `minephys.planning` as the Python reference → resolved: one
   Python implementation, the `minephys.planning` min-cut, used by E1, `st20_pit_design` and the browser parity
-  fixtures (simplicity principle), with the E1 scale of NFR-017-03 and NFR-017-06. Reported to the coordinator so that
-  the `minephys` planning spec covers ≥ 10⁵ blocks and the minimal-closure output.
+  fixtures (simplicity principle), with the E1 scale of NFR-017-03 and NFR-017-06. The `minephys` planning spec covers ≥ 10⁵ blocks and the minimal-closure output.
 - Canonical pit (not fixed in the docs) → resolved: the minimal maximum closure (FR-017-14), unique and returned by
   networkx and OR-Tools source sides.
 - Precedence pattern (docs: "fixed in the spec") → resolved: level-cone generator with m levels, default 1:5

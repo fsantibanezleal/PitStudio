@@ -238,7 +238,7 @@ requirement that names "data-model §n" makes that section part of the requireme
   derived-only, share-alike, reference-only, no-redistribution" as licence classes, while
   `docs/data-contract/sources-and-licences.md` defines seven licence classes plus a separate three-value redistribution
   class. The plan names "licence classes" without enumerating them. This spec adopts the seven + three model of
-  sources-and-licences.md; the architecture overview line needs a docs correction (reported to the coordinator).
+  sources-and-licences.md; the architecture overview follows this model after DEC-0018.
 - Resolved — **field names.** The committed `data/sources.yaml` comment and `docs/data-contract/ingestion.md` use
   `license` / `license_url`, the tool registry page uses `licence`, and the manifest page uses `spdx`. The docs state
   that the schema "makes them normative" and "may refine them". All contracts use `spdx` (SPDX id or LicenseRef),

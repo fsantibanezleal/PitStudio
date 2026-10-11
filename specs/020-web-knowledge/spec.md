@@ -246,7 +246,7 @@ UNVERIFIED badge next to the control. Tests use hand-chosen inputs, so no oracle
 
 ## 8. Clarifications log
 - Resolved — *where the interactive-figure rules live.* The docs do not describe them yet; FR-020-07…16 state them once
-  for the whole site and specs 018 and 019 refer to them. The coordinator may add a docs page that cites this spec.
+  for the whole site and specs 018 and 019 refer to them. A docs page may cite this spec.
 - Resolved — *detail routes.* The plan lists `/theory` and `/methods`; the docs give one theory page per phenomenon and
   one method page per method, so both have an index plus prerendered detail pages (13 and 23).
 - Resolved — *one source for equations.* Theory MDX lives in `web/`; `docs/theory/` stays the source of the equations and

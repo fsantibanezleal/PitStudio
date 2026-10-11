@@ -247,8 +247,8 @@ with it.
   ⇒ error text); an observed edge carries its run and artefact evidence; the honesty report lists the six checks
   `done-needs-artefact`, `not-yet-run-has-artefact`, `outputs-only`, `our-scenes`, `local-only-scrub`, `file-guards`
   once each (`fail` ⇔ ≥ 1 violation naming a tool, artefact or file) plus the SC-019-01 definition-of-done block;
-  edge kinds use the manifest's artefact kinds, which do not contain FR-019-34's `label-set` and `metrics` (reported
-  to the coordinator).
+  edge kinds use the manifest's artefact kinds, which do not contain FR-019-34's `label-set` and `metrics` (resolved by
+  the integration entry below).
 - Integration 2026-10-07 (2): FR-019-34 and FR-019-35 now use only the artefact kinds of spec 001's closed `kind` enum (the
   minimal consistent option): `label-set` and `metrics` are not separate artefacts — label sets and metric tables
   publish as `table` — and `screenshot` cannot be declared at all (an unknown kind fails the manifest schema), so the

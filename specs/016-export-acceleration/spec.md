@@ -216,7 +216,7 @@ per-cell verdicts of FR-016-21 and FR-016-30, never assumed away.
   (FR-016-01, FR-016-02).
 - Layer-4 reference: the decision page says "the ONNX reference", the export page says "PyTorch fp32" → resolved: the
   stored PyTorch fp32 CPU golden outputs; ONNX Runtime CPU matches them by layer 1, so both readings agree
-  (FR-016-30); reported to the coordinator.
+  (FR-016-30, DEC-0018).
 - "At least 1,000 timed iterations or 30 s" → resolved: stop at whichever comes first, with a floor of 50 iterations
   (FR-016-26).
 - "Δ ≤ 1 pp" → resolved: absolute change in either direction, because the gate tests equivalence (FR-016-09,
@@ -257,7 +257,7 @@ per-cell verdicts of FR-016-21 and FR-016-30, never assumed away.
   enums; task metrics are in percent (`pct`); `live` implies `web`; the caption takes the date and a 7–40-hex commit;
   chosen bounds: latency ≤ 3.6 × 10⁶ ms, ≤ 2,000 release entries, ≤ 5,000 golden inputs, ≤ 512 table rows. Cross-spec
   note: FR-020-28 shows latency p50 and p95, while FR-016-26 reports p50, p90 and p99; the table carries p50, p90 and
-  p99; reported to the coordinator.
+  p99, as FR-016-26 does.
 - Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys. The git-hosting rule of FR-016-14 and NFR-016-05 now uses the single
   approved cap `contracts.git_file_bytes_max` (10,485,760 B, 10 MiB, as `tools/check_repo.py` and spec 001 FR-001-12),
   replacing 10 × 10⁶ bytes, so that export and publication (spec 002 FR-002-48) host the same files in git.

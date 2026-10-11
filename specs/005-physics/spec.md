@@ -297,7 +297,7 @@ The terrain grid comes from DC-004-03 and the road network from DC-004-06; run m
   (`specs/005-physics/contracts/`, valid and hostile examples indexed in `examples/index.json`). DC-005-04 has one
   schema with one owner: `specs/018-web-cases/contracts/replay-shard.schema.json` (DC-018-03), which also holds the
   replay manifest of FR-005-45 as a document kind. FR-005-45 says uint16 position codes while spec 018 and DEC-0006
-  say int16; the shard header declares its code type, and the contradiction is flagged to the coordinator (FR text
+  say int16; the shard header declares its code type, and DEC-0019 amends DEC-0006 accordingly (FR text
   unchanged). Resolved, choosing the stricter reading: (1) the scenario lives in a recipe stage's `params`, so its keys
   follow the parameter-key pattern, it nests at most 4 levels and carries no `$schema` key; each solver requires its
   own parameter block, Newton's MPM block lists every parameter explicitly (FR-005-16), and benchmark ids are a closed

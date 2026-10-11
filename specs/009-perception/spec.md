@@ -239,7 +239,7 @@ choices fixed before any result, not sourced norms.
   SC-009-03).
 - The ONNX Runtime framework page says "detection does NMS in a TypeScript worker", while the plan, M10 and the D-FINE
   card put the post-processor and top-K inside the graph (NMS-free) → resolved by the plan: no NMS for the live
-  detectors (FR-009-35); reported to the coordinator.
+  detectors (FR-009-35).
 - Reduced-precision Δ ≤ 1 pp → resolved as an absolute change in either direction (equivalence gate, spec 016).
 - Mask acceptance on the crusher family (no instance ids) → resolved: pit family only (FR-009-23).
 - Integration 2026-10-07: the frame-state contract is defined once, in spec 015-vlm (DC-015-01,

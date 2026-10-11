@@ -247,7 +247,7 @@ Every artefact is also described by its manifest entry (DC-000-01, `contracts/ma
 - Ownership → resolved: `minephys.geotech` owns the per-circle Bishop / Spencer / Hoek–Brown, Voight, inverse-velocity,
   Bayesian and line-of-sight numerics; this spec owns their C1 composition (search, candidate-set PoF, shared
   preprocessing, read-out, evaluation, radar series) and the Python goldens' content; browser parity of the `geotech`
-  and `forecasters` engines is FR-018-51, FR-018-52 and FR-018-57. Reported to the coordinator so that 013 does not
+  and `forecasters` engines is FR-018-51, FR-018-52 and FR-018-57. Spec 013 therefore does not
   re-specify the C1 radar series (superseded in part by the integration entry below: the S4b presentation is no
   longer deferred to spec 013).
 - TTF read-out (docs: "fixed in the spec") → resolved: every learned model forecasts the inverse-velocity path as
@@ -261,7 +261,7 @@ Every artefact is also described by its manifest entry (DC-000-01, `contracts/ma
 - Hoek–Brown to Mohr–Coulomb conversion (docs: "fixed at specification") → resolved: instantaneous parameters at the
   slice-base normal stress in Balmer's parametric form, iterated with F (FR-010-02).
 - Docs contradiction: the architecture page on lanes says ONNX models default to opset 20, while the plan fixes opset
-  17–19 → resolved by the plan: forecasters at opset 17 (FR-010-30). Reported to the coordinator.
+  17–19 → resolved by the plan: forecasters at opset 17 (FR-010-30); DEC-0018 records the opset range.
 - Docs give C1 times in hours on the case page and in days on the method page → resolved: hours at every interface.
 - User stories are written as headings, as in the template, and indexed in a table so that `tools/trace.py` registers
   their IDs (the same layout as spec 009).

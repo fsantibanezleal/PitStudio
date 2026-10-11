@@ -239,7 +239,7 @@ Identity, Cast. Anything else fails FR-011-36.
   rollouts make a per-run comparison noisy.
 - DEM calibration targets: the method page lists repose and discharge, the model card repose only, and the plan says
   "friction from repose" → resolved by the plan: the acceptance arm recovers μ_s from repose (FR-011-17); repose plus
-  discharge is an optional secondary arm with no success criterion (FR-011-27). Reported to the coordinator.
+  discharge is an optional secondary arm with no success criterion (FR-011-27).
 - Interval method (docs: "fixed in the surrogates spec") → resolved: the seed-ensemble delta interval of FR-011-22,
   identical for both arms; its honesty is tested on a fake simulator (P-011-09) before any GPU run.
 - Number of trials → resolved: 50 per arm, with the false-fail probabilities recorded in §7.
@@ -248,9 +248,9 @@ Identity, Cast. Anything else fails FR-011-36.
 - FNO bound "per terrain or mean" → resolved: mean over held-out scenarios, with the 90th percentile and per-terrain
   values reported (SC-011-03, FR-011-35).
 - The tailings theory page says the exported graph contains "MatMul/Einsum operators", the FNO card avoids Einsum →
-  resolved: MatMul only, Einsum excluded by the whitelist (FR-011-36). Reported to the coordinator.
+  resolved: MatMul only, Einsum excluded by the whitelist (FR-011-36).
 - The architecture page on lanes says ONNX models default to opset 20, the plan says 17–19 → resolved by the plan: GNS
-  opset 17, FNO opset 19. Reported to the coordinator.
+  opset 17, FNO opset 19 (DEC-0018 records the opset range).
 - Browser particle cap: spec 018's engine `gns` caps at 5,000 particles; the default scene and the gate measurement use
   2,000 (NFR-011-02).
 - User stories are headings as in the template and indexed in a table for `tools/trace.py`.
