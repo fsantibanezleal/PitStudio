@@ -52,3 +52,4 @@ c1849dff07c1838ab22aacbbc8aa9e28cf3c7af696048e09bba9abd51d70a4c2  web/src/engine
 bd95d56669412404611a52eaeefb6a8baf07743e662a94478d75b6d80402a36d  web/e2e/gpu/t_018_060_onnx_webgpu.spec.ts
 b6a4b2953b2cd4f48e14e59bd95232e8452d5ade1ebb73bd21a2986a39cfff80  web/e2e/gpu/t_018_059_granular.spec.ts
 3b87177c42c59714a4ef69f6edcbef3eab13b7bd9edb6809bb5d1bd1d2ce253e  web/e2e/support/gpu-kernels.ts
+c290b56b5a56475e967ad4f874b5ca2050fed62178efe0ac17c6c86fd112706b  web/e2e/gpu/t_018_065_shallow_water.spec.ts
