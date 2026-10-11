@@ -9,7 +9,6 @@ from __future__ import annotations
 import json
 import math
 import re
-from json.decoder import scanstring
 from pathlib import Path
 from typing import Any, ClassVar
 
@@ -20,6 +19,7 @@ DEFAULT_MAX_BYTES = 8_388_608  # the largest document cap of data-model 1.4 (the
 _BOMS = (b"\xef\xbb\xbf", b"\xff\xfe", b"\xfe\xff")
 _NUMBER = re.compile(r"-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][-+]?[0-9]+)?")
 _WS = " \t\n\r"
+_STRING_DECODER = json.JSONDecoder()
 
 
 class ContractError(ValueError):
@@ -149,7 +149,7 @@ class _Locate:
 
     def string(self) -> str:
         try:
-            value, end = scanstring(self.text, self.pos + 1, True)
+            value, end = _STRING_DECODER.raw_decode(self.text, self.pos)
         except json.JSONDecodeError as exc:
             self.fail(exc.msg, pos=exc.pos)
         self.pos = end
@@ -265,7 +265,7 @@ _STR_TAG = "tag:yaml.org,2002:str"
 class _StrictLoader(yaml.SafeLoader):
     """SafeLoader without anchors, aliases, tags, merge keys, implicit dates and YAML 1.1 booleans."""
 
-    yaml_implicit_resolvers: ClassVar[dict[str, list[Any]]] = {
+    yaml_implicit_resolvers: ClassVar[dict[str, list[Any]]] = {  # type: ignore[misc]
         first: [(tag, rx) for tag, rx in rules if tag not in ("tag:yaml.org,2002:bool", "tag:yaml.org,2002:timestamp")]
         for first, rules in yaml.SafeLoader.yaml_implicit_resolvers.items()
     }
@@ -315,8 +315,8 @@ class _StrictLoader(yaml.SafeLoader):
 _StrictLoader.add_implicit_resolver(
     "tag:yaml.org,2002:bool", re.compile(r"^(?:true|True|TRUE|false|False|FALSE)$"), list("tTfF")
 )
-_StrictLoader.add_constructor("tag:yaml.org,2002:float", _StrictLoader.construct_yaml_float)
-_StrictLoader.add_constructor("tag:yaml.org,2002:map", _StrictLoader.construct_yaml_map)
+_StrictLoader.add_constructor("tag:yaml.org,2002:float", _StrictLoader.construct_yaml_float)  # type: ignore[type-var]
+_StrictLoader.add_constructor("tag:yaml.org,2002:map", _StrictLoader.construct_yaml_map)  # type: ignore[type-var]
 
 
 def load_yaml(path: Path, *, max_bytes: int | None = None) -> Any:

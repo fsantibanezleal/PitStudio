@@ -13,7 +13,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from functools import cache, lru_cache
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeGuard
 
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
@@ -201,6 +201,10 @@ def _post_duplicates(stem: str, document: Any) -> Iterator[ValidationError]:
                 first[ident] = index
 
 
+def _is_int(value: Any) -> TypeGuard[int]:
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
 def _post_shards(document: Any) -> Iterator[ValidationError]:
     """FR-001-55: ``shards.done`` may not exceed ``shards.total``."""
     stages = document.get("stages") if isinstance(document, dict) else None
@@ -211,7 +215,7 @@ def _post_shards(document: Any) -> Iterator[ValidationError]:
         if not isinstance(shards, dict):
             continue
         done, total = shards.get("done"), shards.get("total")
-        if all(isinstance(v, int) and not isinstance(v, bool) for v in (done, total)) and done > total:
+        if _is_int(done) and _is_int(total) and done > total:
             yield ValidationError(
                 f"/stages/{index}/shards/done", "shards", f"shards.done ({done}) is greater than shards.total ({total})"
             )
@@ -228,7 +232,7 @@ def _post_recipe(document: Any) -> Iterator[ValidationError]:
         shardable = stage.get("shardable")
         if isinstance(shardable, dict):
             size, total = shardable.get("shard_size"), shardable.get("total")
-            if all(isinstance(v, int) and not isinstance(v, bool) and v > 0 for v in (size, total)):
+            if _is_int(size) and _is_int(total) and size > 0 and total > 0:
                 count = -(-total // size)
                 if count > MAX_SHARDS:
                     yield ValidationError(
