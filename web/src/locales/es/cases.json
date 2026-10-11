@@ -1,0 +1,116 @@
+{
+  "notYetRun": "Aún no ejecutado",
+  "rail": {
+    "title": "Casos",
+    "open": "Abrir la página del caso {{id}}",
+    "page": "Página"
+  },
+  "kpi": {
+    "name": "KPI",
+    "value": "Valor",
+    "provenance": "Procedencia",
+    "panelTitle": "KPI principales",
+    "openCase": "Abrir la página del caso"
+  },
+  "lane": {
+    "live": "LIVE",
+    "replay": "REPLAY",
+    "static": "STATIC"
+  },
+  "layers": {
+    "title": "Capas",
+    "terrain-2018": "Terreno 2018",
+    "terrain-2023": "Terreno 2023",
+    "roads": "Caminos",
+    "pit-shells": "Fases del pit",
+    "fleet": "Flota",
+    "fields": "Campos",
+    "sensors": "Sensores"
+  },
+  "explore": {
+    "pick": "Selecciona un caso en el panel para ver sus capas y KPI principales. Nada se reproduce hasta que lo inicies."
+  },
+  "scene": {
+    "title": "Escena",
+    "terrain": "Teselas del terreno de Bingham Canyon",
+    "noThreeD": "La vista 3D necesita WebGL 2 o WebGPU",
+    "summary": "Capas visibles: {{layers}}",
+    "noLayers": "ninguna"
+  },
+  "tier": {
+    "label": "Nivel de cómputo",
+    "detecting": "Detectando",
+    "t1": "T1 · WebGPU",
+    "t2": "T2 · WebAssembly",
+    "t0": "T0 · precalculado"
+  },
+  "catalogue": {
+    "title": "Catálogo de casos",
+    "case": "Caso",
+    "name": "Título",
+    "category": "Categoría",
+    "kpis": "KPI",
+    "real": "Datos reales",
+    "synthetic": "Datos sintéticos",
+    "none": "ninguno"
+  },
+  "coverage": {
+    "title": "Matriz de cobertura de métodos",
+    "legend": "● el caso ejercita el método. Cada método M1 a M23 aparece en al menos un caso.",
+    "method": "Método"
+  },
+  "tools": {
+    "title": "Matriz de herramientas del estudio",
+    "legend": "● la herramienta se nombra en el caso. ○ la herramienta cumple un rol de apoyo.",
+    "tool": "Herramienta"
+  },
+  "matrix": {
+    "named": "nombrada",
+    "supporting": "de apoyo"
+  },
+  "context": {
+    "question": "Pregunta",
+    "sources": "Fuentes de datos reales",
+    "noSources": "Este caso no usa fuentes de datos reales.",
+    "kind": { "real": "real", "synthetic": "sintética" },
+    "licence": "Licencia",
+    "unregistered": "Aún no está en el registro de fuentes de datos",
+    "card": "Ficha del conjunto de datos",
+    "landing": "Página del publicador",
+    "synthetic": "Datos sintéticos",
+    "unvalidated": "sintético calibrado — no validado con datos reales",
+    "validated": "validado con una referencia real",
+    "descriptive": "solo comparación descriptiva",
+    "validity": "Rango de validez",
+    "links": "Teoría y métodos",
+    "theory": "Teoría"
+  },
+  "card": {
+    "sources": "Fuentes de datos",
+    "precomputed": "Precalculado en {{gpu}} el {{date}}"
+  },
+  "reproduce": {
+    "title": "Reproducir esto",
+    "recipe": "Receta",
+    "needsGpu": "Esta receta necesita una GPU NVIDIA RTX.",
+    "needsNvenc": "Esta receta necesita una GPU NVIDIA con codificador de video por hardware.",
+    "noGpu": "Esta receta no necesita GPU.",
+    "copy": "Copiar los comandos",
+    "copied": "Copiado",
+    "planned": "Aún no ejecutado — receta planificada"
+  },
+  "case": {
+    "back": "Todos los casos",
+    "tabs": "Vistas del caso",
+    "tab": {
+      "scene": "Escena",
+      "simulate": "Simular (en vivo)",
+      "replay": "Repetición del estudio",
+      "charts": "Gráficos",
+      "context": "Contexto"
+    },
+    "simulatePending": "Los motores en el navegador de este caso ({{engines}}) aún no están publicados, así que aquí no se calcula nada.",
+    "replayPending": "Aún no se ha publicado ninguna ejecución precalculada de este caso.",
+    "chartsPending": "Aún no se ha publicado ningún resultado de este caso, así que no hay nada que graficar."
+  }
+}
