@@ -1,13 +1,35 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!**/build", "!**/.react-router", "!**/test-results", "!**/playwright-report"]
+    "includes": [
+      "**",
+      "!**/build",
+      "!**/.react-router",
+      "!**/test-results",
+      "!**/playwright-report",
+      "!**/src/contracts/generated"
+    ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 110 },
   "css": { "parser": { "cssModules": true } },
-  "linter": { "enabled": true, "rules": { "preset": "recommended" } },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "style": {
+        "noJsxLiterals": {
+          "level": "error",
+          "options": { "allowedStrings": ["·", ":", "(", ")", "[", "]", "●", "○", ",", "/", "-", "—"] }
+        }
+      }
+    }
+  },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "overrides": [
+    {
+      "includes": ["**/*.test.tsx", "**/*.spec.tsx", "src/test-support/**"],
+      "linter": { "rules": { "style": { "noJsxLiterals": "off" } } }
+    },
     {
       "includes": ["src/shell/tokens.css"],
       "linter": { "rules": { "complexity": { "noImportantStyles": "off" } } }

@@ -37,6 +37,7 @@ data/interim/
 data/processed/
 models/checkpoints/
 runs/
+!/web/public/assets/runs/
 mlflow.db
 *.ckpt
 *.pt

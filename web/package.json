@@ -14,7 +14,9 @@
     "lint": "biome ci .",
     "format": "biome check --write .",
     "test": "vitest run",
-    "check": "biome ci . && react-router typegen && tsc && vitest run",
+    "gen:types": "node scripts/gen-types.mjs",
+    "check:locales": "node ../tools/check_locales.mjs",
+    "check": "pnpm run check:locales && biome ci . && react-router typegen && tsc && vitest run",
     "test:e2e": "playwright test",
     "test:live": "playwright test -c playwright.live.config.ts"
   },
@@ -33,6 +35,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@babel/parser": "^8.0.7",
     "@biomejs/biome": "^2.5.15",
     "@playwright/test": "^1.63.0",
     "@react-router/dev": "^8.4.0",
@@ -43,6 +46,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "jsdom": "^30.1.1",
+    "json-schema-to-typescript": "^16.0.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.2",
     "vitest": "^5.0.3"

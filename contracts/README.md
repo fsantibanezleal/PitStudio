@@ -2,10 +2,14 @@
 
 JSON Schema 2020-12 for every artifact that crosses a boundary (studio → pipeline → web, runner ↔ console).
 
-| Schema | Status |
+| Schema | Documents |
 |---|---|
-| `capabilities.schema.json` | active — validated by `tests/contract/test_capabilities_contract.py` |
-| `manifest.schema.json`, `recipe.schema.json`, `tools.schema.json`, `sources.schema.json` | planned (specification phase, spec 001-contracts) |
+| `manifest.schema.json` | run manifests and the published web index (`kind: run` / `web-index`) |
+| `recipe.schema.json` | recipes and the console job request (`#/$defs/job_request`) |
+| `tools.schema.json` | the studio tool registry `studio/tools.yaml` |
+| `sources.schema.json` | the data registry `data/sources.yaml` |
+| `capabilities.schema.json` | the capability report `studio/capabilities.json` |
 
-Python (Pydantic) and TypeScript types will be **generated** from these files, never hand-written, and a CI job will
-regenerate them and fail on drift. That generation step arrives with spec 001-contracts in the build phase.
+Python (Pydantic) and TypeScript types are **generated** from these files (`tools/gen_types.py`,
+`pnpm gen:types`), never hand-written; CI regenerates them and fails on drift. `tools/check_contracts.py` runs the rules
+a schema cannot state. This folder holds only these schemas and this README.
