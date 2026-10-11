@@ -16,14 +16,17 @@ from gpu_guard import Guard, GuardStop  # noqa: E402
 class FakeGPU:
     """A clock and a temperature script: each read returns the next temperature; sleeping advances the clock."""
 
-    def __init__(self, temps: list[int], whea: list[int] | None = None) -> None:
+    def __init__(self, temps: list[int], whea: list[int | None] | None = None) -> None:
         self.temps, self.t, self.slept = list(temps), 0.0, 0.0
         self.whea_values = list(whea) if whea else [0]
+        self.since_args: list[str | None] = []
 
     def read(self) -> int:
         return self.temps.pop(0) if len(self.temps) > 1 else self.temps[0]
 
-    def whea(self) -> int:
+    def whea(self, since: str | None = None) -> int | None:
+        """Events created after `since` (the guard's start); None = the log query failed."""
+        self.since_args.append(since)
         return self.whea_values.pop(0) if len(self.whea_values) > 1 else self.whea_values[0]
 
     def clock(self) -> float:
@@ -35,8 +38,16 @@ class FakeGPU:
 
 
 def guard(g: FakeGPU, **kw) -> Guard:
-    return Guard(read_temp=g.read, whea=g.whea, clock=g.clock, sleep=g.sleep, log=lambda m: None,
-                 temp_every_s=0, whea_every_s=0, **kw)
+    return Guard(
+        read_temp=g.read,
+        whea=g.whea,
+        clock=g.clock,
+        sleep=g.sleep,
+        log=lambda m: None,
+        temp_every_s=0,
+        whea_every_s=0,
+        **kw,
+    )
 
 
 def test_cool_gpu_runs_without_pausing() -> None:
@@ -69,10 +80,30 @@ def test_reaching_stop_while_paused_raises_thermal() -> None:
 
 
 def test_new_whea_event_raises_hw_error() -> None:
-    gd = guard(FakeGPU([60], whea=[4, 5]))  # 4 at start, 5 at the first check
+    g = FakeGPU([60], whea=[1])  # one event created since the guard started
+    gd = guard(g)
     with pytest.raises(GuardStop) as e:
         gd.check()
     assert e.value.reason == "hw-error"
+    assert g.since_args  # the event log was queried
+    assert g.since_args[0] == gd.since  # counted by time from the guard's start, not by log size
+
+
+def test_no_new_whea_event_keeps_running() -> None:
+    gd = guard(FakeGPU([60], whea=[0]))
+    assert gd.check() == "ok"
+
+
+def test_failed_whea_query_is_not_read_as_zero_and_is_reported(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(gpu_guard.sys, "platform", "win32")
+    logs: list[str] = []
+    g = FakeGPU([60], whea=[None])
+    gd = Guard(
+        read_temp=g.read, whea=g.whea, clock=g.clock, sleep=g.sleep, log=logs.append, temp_every_s=0, whea_every_s=0
+    )
+    assert gd.check() == "ok"
+    assert gd.check() == "ok"
+    assert sum("hardware-error detection unavailable" in m for m in logs) == 1  # reported once, never silent
 
 
 def test_block_end_is_signalled_and_paused_time_does_not_count() -> None:

@@ -10,11 +10,11 @@ phase; today only `contracts/capabilities.schema.json` and its tests exist.
 from pitstudio.contracts import ContractError, load_yaml, validate
 
 try:
-    recipe = load_yaml("studio/recipes/cases/a1.yaml", kind="recipe")   # syntax + hostile classes (FR-001-06)
+    recipe = load_yaml("studio/recipes/cases/a1.yaml", kind="recipe")  # syntax + hostile classes (FR-001-06)
 except ContractError as e:
-    print(e)                     # file, line, rule — never a partial object
+    print(e)  # file, line, rule — never a partial object
 else:
-    errors = validate(recipe, "recipe")                                    # every violation, sorted (FR-001-08)
+    errors = validate(recipe, "recipe")  # every violation, sorted (FR-001-08)
     for err in errors:
         print(err.pointer, err.keyword, err.message)
 ```
@@ -63,5 +63,5 @@ index = load_json("web/public/assets/manifest.json", kind="manifest")
 assert not validate(index, "manifest")
 for a in index["artefacts"]:
     if "lane_measurements" in a:
-        assert a["lane"] == lane_of(a["lane_measurements"])   # the measured lane (FR-001-13)
+        assert a["lane"] == lane_of(a["lane_measurements"])  # the measured lane (FR-001-13)
 ```

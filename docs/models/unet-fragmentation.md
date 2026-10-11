@@ -73,14 +73,14 @@ instances so both methods report $x_{50}$ the same way.
 | Synthetic muck piles | Warp DEM piles rendered by Isaac Sim, exact per-fragment PSD and instance masks | held-out by pile seed | ours, CC-BY-4.0 |
 | Mendeley `78ht3pjsr4` (Si, Zhu, Di, Wang 2019) [7] | 960 RGB images, 512 × 512, one class (`rock-N`), indexed instance masks | **grouped** (below) | CC BY 4.0 |
 
-Bootstrap data check of the Mendeley archive (SHA-256 verified, 4,230,116,058 bytes): the 960 images are **240
-originals × 4** (horizontal flip, vertical flip, 180° rotation), verified exactly; no pixel-level overlap among the originals; 9 visually
-similar pairs merged conservatively leave **231 source groups**; 63,144 labelled instances (15,786 unique). Consequences fixed for evaluation:
+Bootstrap data check of the Mendeley archive (SHA-256 verified, 4,230,116,058 bytes): the 960 images are **80
+photographs × 3 crops × 4** (horizontal flip, vertical flip, 180° rotation), verified exactly for the flips and by a DINOv2 scan for the crops; 9 visually
+similar pairs merged conservatively leave **72 source groups**; 63,144 labelled instances (15,786 unique). Consequences fixed for evaluation:
 
 - **Split by source group, never by file.** A per-file split would put flipped copies of test tiles into training and
   inflate TRTR.
-- **Test on originals only.** With ~231 groups an 80/20 split leaves about 46 test tiles, so a **grouped k-fold** (e.g.
-  5 folds) is used and the ratio is reported with its fold spread.
+- **Test on originals only.** With 72 groups an 80/20 split leaves about 14–15 test groups, so a **grouped k-fold** (5 folds
+  of 48 originals, read from the split file written by `s10_preprocess`) is used and the ratio is reported with its fold spread.
 
 **SAM 2.1-tiny** (38.9 M parameters, Apache-2.0 + BSD-3) serves offline as a label assistant only; it is never the
 evaluated model and never produces the real test labels [8]. Card: [Mendeley rock fragments](../data-contract/dataset-cards/mendeley-rock-fragments.md).

@@ -147,7 +147,7 @@ not done**, so equipment and people sim-to-real is reported as **"not measured"*
   no test here can see.
 - **DES cycle-time bias.** Simulated truck cycle times "tend to underestimate short hauls while overestimating long
   hauls" [20]; with no real telemetry to correct it, this known bias is stated wherever DES cycle times are shown.
-- **One real image domain.** The fragment validation rests on one dataset of 240 effective tiles.
+- **One real image domain.** The fragment validation rests on one dataset of 80 effective scenes (240 crops, 72 groups).
 - **Planning numbers** (images per second, disk per image, scenarios per hour) are estimates until measured.
 
 ## In PitStudio

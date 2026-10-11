@@ -34,18 +34,31 @@ class GuardStop(RuntimeError):
         self.reason = reason
 
 
-def whea_count() -> int | None:
-    """Number of WHEA-Logger events in the Windows System log (PCIe/hardware errors); None off Windows."""
+def utc_now_iso() -> str:
+    return time.strftime("%Y-%m-%dT%H:%M:%S.000Z", time.gmtime())
+
+
+def whea_count(since: str | None = None) -> int | None:
+    """WHEA-Logger events (PCIe/hardware errors) in the Windows System log created after `since` (UTC ISO time; all
+    events when None). None off Windows or when the query fails, so a failed query is never read as "0 new errors"
+    and a wrapped log cannot hide a new event (the time filter does not depend on the log's size)."""
     if sys.platform != "win32":
         return None
-    q = "*[System[Provider[@Name='Microsoft-Windows-WHEA-Logger']]]"
-    out = subprocess.run(
-        ["wevtutil", "qe", "System", f"/q:{q}", "/f:text", "/c:100000"],
-        capture_output=True,
-        text=True,
-        errors="replace",
-    ).stdout
-    return out.count("Event[")
+    when = f" and TimeCreated[@SystemTime>='{since}']" if since else ""
+    q = f"*[System[Provider[@Name='Microsoft-Windows-WHEA-Logger']{when}]]"
+    try:
+        p = subprocess.run(
+            ["wevtutil", "qe", "System", f"/q:{q}", "/f:text", "/c:100000"],
+            capture_output=True,
+            text=True,
+            errors="replace",
+            timeout=30,
+        )
+    except OSError, subprocess.TimeoutExpired:
+        return None
+    if p.returncode != 0:
+        return None
+    return p.stdout.count("Event[")
 
 
 def gpu_temp_reader() -> Callable[[], int]:
@@ -75,7 +88,7 @@ class Guard:
     def __init__(
         self,
         read_temp: Callable[[], int] | None = None,
-        whea: Callable[[], int | None] = whea_count,
+        whea: Callable[[str | None], int | None] = whea_count,
         clock: Callable[[], float] = time.monotonic,
         sleep: Callable[[float], None] = time.sleep,
         log: Callable[[str], None] = lambda m: print(m, flush=True),
@@ -88,7 +101,8 @@ class Guard:
         self.whea, self.clock, self.sleep, self.log = whea, clock, sleep, log
         self.temp_every_s, self.whea_every_s = temp_every_s, whea_every_s
         self.block_s, self.cooldown_s = block_s, cooldown_s
-        self.whea0 = whea()
+        self.since = utc_now_iso()  # hardware errors are counted from the guard's start, by time, not by log size
+        self.whea_unavailable_logged = False
         now = clock()
         self._t_temp = self._t_whea = -1e18
         self._block_start = now
@@ -103,11 +117,14 @@ class Guard:
         return t
 
     def _check_whea(self) -> None:
-        if self.whea0 is None:
+        w = self.whea(self.since)
+        if w is None:
+            if sys.platform == "win32" and not self.whea_unavailable_logged:
+                self.log("[guard] WARNING: WHEA query failed; hardware-error detection unavailable (watch the log)")
+                self.whea_unavailable_logged = True
             return
-        w = self.whea()
-        if w is not None and w > self.whea0:
-            raise GuardStop("hw-error", f"{w - self.whea0} new WHEA hardware-error event(s)")
+        if w > 0:
+            raise GuardStop("hw-error", f"{w} new WHEA hardware-error event(s) since the job started")
 
     def check(self) -> str:
         now = self.clock()

@@ -4,9 +4,9 @@ Rule: every task with requirement IDs is a `[red]`/`[green]` commit pair; each t
 and are locked after `[red]` (`python tools/lock_tests.py specs/012-fragmentation/tests.lock <files>`).
 
 ## Phase 1 — Setup
-- [ ] T-012-000 resolve, lock and prove the new dependencies (`segmentation-models-pytorch` 0.5.0, `timm`, `scikit-image`, `scipy`, `ImageHash` 4.3.2, `py7zr`, DINOv2 ViT-B/14 weights by SHA-256, optional SAM 2.1-tiny) in `pipeline/` and `studio/` on Python 3.14; commit `data/splits/mendeley-78ht3pjsr4-links.yaml`; no feature code — test: none (setup evidence in the PR)
+- [ ] T-012-000 resolve, lock and prove the new dependencies (`segmentation-models-pytorch` 0.5.0, `timm`, `scikit-image`, `scipy`, `ImageHash` 4.3.2, `py7zr`, DINOv2 ViT-B/14 weights by SHA-256, optional SAM 2.1-tiny) in `pipeline/` and `studio/` on Python 3.14; no feature code — test: none (setup evidence in the PR)
 - [ ] T-012-001 (DC-012-01) fragment-table schema + generated types — test: tests/contract/test_t_012_001_fragment_table_schema.py
-- [ ] T-012-002 (DC-012-02) fragment-split schema (fold file and links) + generated types — test: tests/contract/test_t_012_002_fragment_split_schema.py
+- [ ] T-012-002 (DC-012-02) fragment-split schema (per-fold validation subsets on top of the spec 008 split file) + generated types — test: tests/contract/test_t_012_002_fragment_split_schema.py
 - [ ] T-012-003 (DC-012-03, DC-000-01) fragmentation evaluation report schema + generated types; lineage fields of the manifest — test: tests/contract/test_t_012_003_fragmentation_eval_schema.py
 - [ ] T-012-004 (DC-012-04) muck-pile render index schema + generated types — test: tests/contract/test_t_012_004_muck_pile_render_schema.py
 - [ ] T-012-005 (DC-012-05) D1 design-grid schema + generated types — test: tests/contract/test_t_012_005_d1_design_grid_schema.py
@@ -14,7 +14,7 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/012-fragmentatio
 ## Phase 2 — US-012-1 (P1) A measured synthetic-to-real ratio
 - [ ] T-012-010 [US-012-1] (FR-012-01, FR-012-02) archive reader: allowed members only; reject hostile archives — test: tests/unit/test_t_012_010_mendeley_reader.py
 - [ ] T-012-011 [US-012-1] (FR-012-03) masks, hashes and counts on the real archive — test: tests/pipeline/test_t_012_011_mendeley_counts.py
-- [ ] T-012-012 [US-012-1] (FR-012-04, FR-012-05, FR-012-06, FR-012-44, P-012-08, NFR-012-04) group keys, links, grouped 5-fold, leak checks, hostile links file, deterministic fold file — test: tests/unit/test_t_012_012_groups_folds.py, tests/property/test_t_012_012_folds_property.py
+- [ ] T-012-012 [US-012-1] (FR-012-04, FR-012-05, FR-012-06, FR-012-44, P-012-08, NFR-012-04) consume the spec 008 split file (72 groups, 5 folds of 48 originals), per-fold validation subset by whole groups, leak checks, split-changed check, deterministic fold file — test: tests/unit/test_t_012_012_groups_folds.py, tests/property/test_t_012_012_folds_property.py
 - [ ] T-012-013 [US-012-1] (FR-012-07, FR-012-08) label integrity and label-assistant lineage — test: tests/unit/test_t_012_013_label_integrity.py
 - [ ] T-012-014 [US-012-1] (FR-012-18, FR-012-19, P-012-07) three-class encoding and instance decoding — test: tests/unit/test_t_012_014_label_scheme.py
 - [ ] T-012-015 [US-012-1] (FR-012-20, FR-012-21, P-012-16) U-Net architecture, pinned encoder, weight map and loss — test: tests/unit/test_t_012_015_unet_loss.py
