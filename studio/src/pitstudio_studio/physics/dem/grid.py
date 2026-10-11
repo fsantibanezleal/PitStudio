@@ -48,6 +48,7 @@ def contact_kernel(
     roll_new: wp.array(dtype=wp.vec3),
     counts: wp.array(dtype=int),
     ctl: wp.array(dtype=int),
+    inside: wp.array(dtype=int),
     force: wp.array(dtype=wp.vec3),
     torque: wp.array(dtype=wp.vec3),
 ):
@@ -55,13 +56,22 @@ def contact_kernel(
     if ctl[0] != 0:
         return
     base = i * capacity
+    if inside[i] == 0:  # left through an outflow boundary: out of the dynamics, no contacts
+        for s in range(capacity):
+            nb_new[base + s] = -1
+            tang_new[base + s] = wp.vec3(0.0, 0.0, 0.0)
+            roll_new[base + s] = wp.vec3(0.0, 0.0, 0.0)
+        counts[i] = 0
+        force[i] = wp.vec3(0.0, 0.0, 0.0)
+        torque[i] = wp.vec3(0.0, 0.0, 0.0)
+        return
     f = wp.vec3(0.0, 0.0, 0.0)
     t = wp.vec3(0.0, 0.0, 0.0)
     count = int(0)  # noqa: UP018, RUF046
     q = wp.hash_grid_query(grid, local[i], radius[i] + r_max + pad)
     j = int(0)  # noqa: UP018, RUF046
     while wp.hash_grid_query_next(q, j):
-        if j == i:
+        if j == i or inside[j] == 0:
             continue
         dx = pos[j] - pos[i]
         dist = wp.length(dx)

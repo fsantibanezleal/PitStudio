@@ -35,6 +35,7 @@ from pitstudio_studio.physics.errors import PhysicsError
 wp.config.quiet = True
 
 MAX_CONTACT_CAPACITY = 64  # DC-005-01 dem block bound
+FACES = ("x-min", "x-max", "y-min", "y-max", "z-min", "z-max")  # DC-005-01 outflow face names
 MAX_GRID_CELLS = 128  # hash-grid size per axis at most; a hash table, not a domain limit
 
 
@@ -168,11 +169,12 @@ def _wall_forces(
     tang: wp.array(dtype=wp.vec3),
     roll: wp.array(dtype=wp.vec3),
     ctl: wp.array(dtype=int),
+    inside: wp.array(dtype=int),
     force: wp.array(dtype=wp.vec3),
     torque: wp.array(dtype=wp.vec3),
 ):
     i = wp.tid()
-    if ctl[0] != 0:
+    if ctl[0] != 0 or inside[i] == 0:
         return
     for w in range(n_walls):
         h = i * n_walls + w
@@ -208,14 +210,27 @@ def _integrate(
     gravity: wp.vec3,
     dt: float,
     ctl: wp.array(dtype=int),
+    inside: wp.array(dtype=int),
+    exit_face: wp.array(dtype=int),
+    dom_min: wp.vec3d,
+    dom_max: wp.vec3d,
+    outflow: wp.array(dtype=int),
 ):
     i = wp.tid()
-    if ctl[0] != 0:
+    if ctl[0] != 0 or inside[i] == 0:
         return
     v = vel[i] + (force[i] / mass[i] + gravity) * dt
     vel[i] = v
     ang[i] = ang[i] + torque[i] / inertia[i] * dt
-    pos[i] = pos[i] + wp.vec3d(wp.float64(v[0]), wp.float64(v[1]), wp.float64(v[2])) * wp.float64(dt)
+    p = pos[i] + wp.vec3d(wp.float64(v[0]), wp.float64(v[1]), wp.float64(v[2])) * wp.float64(dt)
+    pos[i] = p
+    # a particle whose centre crosses a declared outflow face leaves the dynamics and is recorded against it
+    for face in range(6):
+        if outflow[face] != 0 and inside[i] != 0:
+            axis = face // 2
+            if (face % 2 == 0 and p[axis] < dom_min[axis]) or (face % 2 == 1 and p[axis] > dom_max[axis]):
+                inside[i] = 0
+                exit_face[i] = face
 
 
 class DemSimulation:
@@ -258,6 +273,7 @@ class DemSimulation:
         self.rayleigh_dt = rayleigh_time_step(material, float(rad.min()))
         self._check_time_step(rayleigh_fraction)
         self._radius32 = rad.astype(np.float32)
+        flags, bounds = self._parse_outflow(domain, outflow)
         self._masses = (material.density * 4.0 / 3.0 * math.pi * rad**3).astype(np.float32).astype(np.float64)
         vel = np.zeros((self.n, 3)) if velocities is None else np.asarray(velocities, dtype=np.float64)
         self._gravity = wp.vec3(*[float(g) for g in gravity])
@@ -294,6 +310,12 @@ class DemSimulation:
             for _ in range(2)
         ]
         self._current = 0  # index of the list holding the latest contacts
+        self.outflow = tuple(outflow)
+        self._inside = wp.ones(self.n, dtype=int, device=device)
+        self._exit_face = wp.full(self.n, -1, dtype=int, device=device)
+        self._outflow_flags = mk(flags, int)
+        self._dom_min = wp.vec3d(*bounds[0])
+        self._dom_max = wp.vec3d(*bounds[1])
         self._counts = wp.zeros(self.n, dtype=int, device=device)
         self._ctl = wp.array([0, NO_PARTICLE] + [0] * (CTL_SIZE - 2), dtype=int, device=device)
         mat = material
@@ -319,6 +341,20 @@ class DemSimulation:
                 dt=self.dt,
                 dt_limit=limit,
             )
+
+    @staticmethod
+    def _parse_outflow(domain, outflow) -> tuple[np.ndarray, tuple]:
+        """Validate the declared outflow faces and the domain box; returns (face flags, (min, max))."""
+        unknown = [f for f in outflow if f not in FACES]
+        if unknown:
+            raise PhysicsError("physics-params-invalid", f"unknown outflow face(s) {unknown}; use {list(FACES)}")
+        if outflow and domain is None:
+            raise PhysicsError("physics-params-invalid", "an outflow boundary needs a declared domain box")
+        flags = np.array([int(f in outflow) for f in FACES], dtype=np.int32)
+        if domain is None:
+            return flags, ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0))
+        lo, hi = (tuple(float(c) for c in corner) for corner in domain)
+        return flags, (lo, hi)
 
     def observables_metadata(self) -> dict:
         """Observables-file metadata (DC-005-03); both moduli are recorded when the modulus is reduced (FR-005-09)."""
@@ -384,7 +420,7 @@ class DemSimulation:
                         self.hash_grid.id, self._pos, self._local, self._vel, self._ang, self._radius,
                         self._mass, self._inertia, self._r_max, self._pad, self._e_star, self._g_star,
                         self._beta, mat.friction_static, mat.friction_rolling, self.dt, self.contact_capacity,
-                        *old, *new, self._counts, self._ctl, self._force, self._torque,
+                        *old, *new, self._counts, self._ctl, self._inside, self._force, self._torque,
                     ],
                     device=dev,
                     record_cmd=True,
@@ -404,7 +440,7 @@ class DemSimulation:
                             self._pos, self._vel, self._ang, self._radius, self._mass, self._inertia,
                             self._wall_point, self._wall_normal, self._n_walls, self._e_star, self._g_star,
                             self._beta, mat.friction_static, mat.friction_rolling, self.dt,
-                            self._wall_tang, self._wall_roll, self._ctl, self._force, self._torque,
+                            self._wall_tang, self._wall_roll, self._ctl, self._inside, self._force, self._torque,
                         ],
                         device=dev,
                         record_cmd=True,
@@ -416,7 +452,8 @@ class DemSimulation:
                     dim=n,
                     inputs=[
                         self._pos, self._vel, self._ang, self._force, self._torque, self._mass, self._inertia,
-                        self._gravity, self.dt, self._ctl,
+                        self._gravity, self.dt, self._ctl, self._inside, self._exit_face,
+                        self._dom_min, self._dom_max, self._outflow_flags,
                     ],
                     device=dev,
                     record_cmd=True,
@@ -455,3 +492,26 @@ class DemSimulation:
                 step=step,
             )
             raise self._error
+
+    # ------------------------------------------------------------------ mass accounting (FR-005-15)
+    def inside_mask(self) -> np.ndarray:
+        """True while the particle is in the domain (it has not left through a declared outflow boundary)."""
+        return self._inside.numpy().astype(bool)
+
+    def count_inside(self) -> int:
+        return int(self._inside.numpy().sum())
+
+    def count_exited(self) -> int:
+        return self.n - self.count_inside()
+
+    def exited_by_boundary(self) -> dict[str, int]:
+        """Particles recorded against each declared outflow face (faces with none included)."""
+        faces = self._exit_face.numpy()
+        return {name: int((faces == FACES.index(name)).sum()) for name in self.outflow}
+
+    def mass_inside(self) -> float:
+        """float64 sum of the per-particle masses inside the domain (exact: `math.fsum`)."""
+        return math.fsum(self._masses[self.inside_mask()])
+
+    def mass_exited(self) -> float:
+        return math.fsum(self._masses[~self.inside_mask()])
