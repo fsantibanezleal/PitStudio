@@ -171,8 +171,11 @@ def run_one(name: str, tele: Telemetry, timeout_s: int) -> dict[str, Any]:
     since = utc_now_iso()
     cmd = ["uv", "run", "--locked", "--project", str(pdir), *extra, "python", str(BENCH / f"probe_{name}.py")]
     t0 = time.perf_counter()
-    with tele, tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as out, \
-            tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as err:
+    with (
+        tele,
+        tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as out,
+        tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as err,
+    ):
         p = subprocess.Popen(cmd, stdout=out, stderr=err, text=True, cwd=BENCH)
         stopped = ""
         while p.poll() is None:  # supervise: the guard and the timeout stop the whole process tree

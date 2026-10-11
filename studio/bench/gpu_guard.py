@@ -54,7 +54,7 @@ def whea_count(since: str | None = None) -> int | None:
             errors="replace",
             timeout=30,
         )
-    except (OSError, subprocess.TimeoutExpired):
+    except OSError, subprocess.TimeoutExpired:
         return None
     if p.returncode != 0:
         return None
