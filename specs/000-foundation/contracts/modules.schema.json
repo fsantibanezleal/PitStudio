@@ -1,0 +1,465 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fsantibanezleal/PitStudio/contracts/modules.schema.json",
+  "title": "PitStudio module map (modules.yaml)",
+  "description": "Modules, contracts and producer-to-consumer edges of the product. Checked in CI by tools/check_modules.py (schema, acyclicity, every edge names an existing module and contract, every data-contract row is an edge or an output).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated",
+    "modules",
+    "contracts",
+    "edges"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "generated": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "modules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/module"
+      }
+    },
+    "contracts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/contract"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/edge"
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{1,62}$"
+    },
+    "spec": {
+      "type": "string",
+      "pattern": "^[0-9]{3}$"
+    },
+    "module": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "spec",
+        "env",
+        "gpu",
+        "kind",
+        "area",
+        "title",
+        "inputs",
+        "outputs"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "spec": {
+          "$ref": "#/$defs/spec"
+        },
+        "env": {
+          "enum": [
+            "root",
+            "pipeline",
+            "studio",
+            "studio/isaac",
+            "studio/rtx",
+            "studio/isaaclab",
+            "pipeline/accel",
+            "web",
+            "external"
+          ]
+        },
+        "gpu": {
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "actor",
+            "tool",
+            "release",
+            "runner",
+            "lib",
+            "probe",
+            "api",
+            "ui",
+            "stage",
+            "solver",
+            "sdg",
+            "ingestion",
+            "train",
+            "infer",
+            "eval",
+            "export",
+            "route",
+            "engine",
+            "docs"
+          ]
+        },
+        "area": {
+          "enum": [
+            "foundation",
+            "runner",
+            "scene",
+            "physics",
+            "media",
+            "data",
+            "haulage",
+            "perception",
+            "slope",
+            "surrogates",
+            "fragmentation",
+            "sensors",
+            "robot-learning",
+            "vlm",
+            "export",
+            "planning",
+            "web",
+            "docs"
+          ]
+        },
+        "track": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ]
+        },
+        "stage": {
+          "type": "string",
+          "pattern": "^s[0-9]{2}[a-z]?_[a-z0-9_]+$|^st[0-9]{2}[a-z]?_[a-z0-9_]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 200
+        },
+        "inputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    },
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "dc",
+        "schema_state",
+        "schema",
+        "promoted_target",
+        "owner_spec"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/id"
+        },
+        "dc": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^DC-[0-9]{3}-[0-9]{2}$"
+          }
+        },
+        "schema_state": {
+          "enum": [
+            "promoted",
+            "draft",
+            "derived",
+            "none"
+          ]
+        },
+        "schema": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "promoted_target": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "owner_spec": {
+          "$ref": "#/$defs/spec"
+        },
+        "gap_class": {
+          "enum": [
+            "binary-format",
+            "undefined"
+          ]
+        },
+        "what": {
+          "type": "string"
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "from",
+        "to",
+        "contract",
+        "schema",
+        "schema_state"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^E-(DC-[0-9]{3}-[0-9]{2}|GAP)-[0-9]{2}$"
+        },
+        "from": {
+          "$ref": "#/$defs/id"
+        },
+        "to": {
+          "$ref": "#/$defs/id"
+        },
+        "contract": {
+          "$ref": "#/$defs/id"
+        },
+        "dc": {
+          "type": "string",
+          "pattern": "^DC-[0-9]{3}-[0-9]{2}$"
+        },
+        "schema": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "schema_state": {
+          "enum": [
+            "promoted",
+            "draft",
+            "derived",
+            "none"
+          ]
+        },
+        "what": {
+          "type": "string"
+        },
+        "gap_class": {
+          "enum": [
+            "binary-format",
+            "undefined"
+          ]
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "availability": {
+          "$ref": "#/$defs/availability"
+        }
+      }
+    },
+    "availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "absent",
+        "fixture",
+        "partial",
+        "real",
+        "stale",
+        "invalid"
+      ],
+      "properties": {
+        "absent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "behaviour",
+            "covered_by"
+          ],
+          "properties": {
+            "behaviour": {
+              "type": "string",
+              "minLength": 12,
+              "maxLength": 600
+            },
+            "covered_by": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
+              }
+            },
+            "na": {
+              "type": "string",
+              "maxLength": 300
+            }
+          }
+        },
+        "fixture": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "behaviour",
+            "covered_by"
+          ],
+          "properties": {
+            "behaviour": {
+              "type": "string",
+              "minLength": 12,
+              "maxLength": 600
+            },
+            "covered_by": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
+              }
+            },
+            "na": {
+              "type": "string",
+              "maxLength": 300
+            }
+          }
+        },
+        "partial": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "behaviour",
+            "covered_by"
+          ],
+          "properties": {
+            "behaviour": {
+              "type": "string",
+              "minLength": 12,
+              "maxLength": 600
+            },
+            "covered_by": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
+              }
+            },
+            "na": {
+              "type": "string",
+              "maxLength": 300
+            }
+          }
+        },
+        "real": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "behaviour",
+            "covered_by"
+          ],
+          "properties": {
+            "behaviour": {
+              "type": "string",
+              "minLength": 12,
+              "maxLength": 600
+            },
+            "covered_by": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
+              }
+            },
+            "na": {
+              "type": "string",
+              "maxLength": 300
+            }
+          }
+        },
+        "stale": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "behaviour",
+            "covered_by"
+          ],
+          "properties": {
+            "behaviour": {
+              "type": "string",
+              "minLength": 12,
+              "maxLength": 600
+            },
+            "covered_by": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
+              }
+            },
+            "na": {
+              "type": "string",
+              "maxLength": 300
+            }
+          }
+        },
+        "invalid": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "behaviour",
+            "covered_by"
+          ],
+          "properties": {
+            "behaviour": {
+              "type": "string",
+              "minLength": 12,
+              "maxLength": 600
+            },
+            "covered_by": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
+              }
+            },
+            "na": {
+              "type": "string",
+              "maxLength": 300
+            }
+          }
+        }
+      }
+    }
+  }
+}
