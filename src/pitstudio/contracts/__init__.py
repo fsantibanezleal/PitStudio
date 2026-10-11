@@ -6,6 +6,7 @@ Everything that crosses a boundary (recipes, manifests, registries, capability r
 
 from pitstudio.contracts.io import ContractError, dump_json, load_json, load_yaml
 from pitstudio.contracts.licence import licence_class_of
+from pitstudio.contracts.sources import load_sources
 from pitstudio.contracts.validate import ValidationError, validate
 
 __all__ = [
@@ -14,6 +15,7 @@ __all__ = [
     "dump_json",
     "licence_class_of",
     "load_json",
+    "load_sources",
     "load_yaml",
     "validate",
 ]
