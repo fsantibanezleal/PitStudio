@@ -67,5 +67,26 @@
   "matrix": {
     "named": "nombrada",
     "supporting": "de apoyo"
+  },
+  "context": {
+    "question": "Pregunta",
+    "sources": "Fuentes de datos reales",
+    "noSources": "Este caso no usa fuentes de datos reales.",
+    "kind": { "real": "real", "synthetic": "sintética" },
+    "licence": "Licencia",
+    "unregistered": "Aún no está en el registro de fuentes de datos",
+    "card": "Ficha del conjunto de datos",
+    "landing": "Página del publicador",
+    "synthetic": "Datos sintéticos",
+    "unvalidated": "sintético calibrado — no validado con datos reales",
+    "validated": "validado con una referencia real",
+    "descriptive": "solo comparación descriptiva",
+    "validity": "Rango de validez",
+    "links": "Teoría y métodos",
+    "theory": "Teoría"
+  },
+  "card": {
+    "sources": "Fuentes de datos",
+    "precomputed": "Precalculado en {{gpu}} el {{date}}"
   }
 }

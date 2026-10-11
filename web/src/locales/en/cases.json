@@ -67,5 +67,26 @@
   "matrix": {
     "named": "named",
     "supporting": "supporting"
+  },
+  "context": {
+    "question": "Question",
+    "sources": "Real data sources",
+    "noSources": "This case uses no real data source.",
+    "kind": { "real": "real", "synthetic": "synthetic" },
+    "licence": "Licence",
+    "unregistered": "Not yet in the data source registry",
+    "card": "Dataset card",
+    "landing": "Publisher page",
+    "synthetic": "Synthetic data",
+    "unvalidated": "calibrated synthetic — not validated against real data",
+    "validated": "validated against a real reference",
+    "descriptive": "descriptive comparison only",
+    "validity": "Validity range",
+    "links": "Theory and methods",
+    "theory": "Theory"
+  },
+  "card": {
+    "sources": "Data sources",
+    "precomputed": "Precomputed on {{gpu}} on {{date}}"
   }
 }
