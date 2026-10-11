@@ -110,7 +110,7 @@ contracts:
 | NFR-001-04 | CI | two generations byte-identical; the Windows CI job repeats the drift check | pytest |
 | NFR-001-05 | mutation | mutation score | mutmut (T-001-090) |
 | FR-001-58 | unit (hostile) | hand calculation: one fixture entry `public-domain` with one `share-alike` file override, then the same entry at `share-alike`, gives rejected, then accepted | pytest |
-| FR-001-59 | unit (hostile) | hand calculation: fixtures with a Windows drive path, a `/home/x/y` path and a clean note give rejected, rejected, accepted | pytest |
+| FR-001-59 | unit (hostile) | hand calculation: fixtures with a Windows drive-letter path, a POSIX home-directory path and a clean note give rejected, rejected, accepted | pytest |
 | SC-001-01 | CI history | reference implementation: the conclusion of every CI run on `main` after the build phase, read from the hosting API, all `success` | review at release |
 
 **Tolerances.** Every assertion here is exact. P-001-02 compares `x_ms ≤ 16` with `x_ms / 1000 ≤ 0.016` (and the
