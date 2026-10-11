@@ -63,8 +63,9 @@ PitStudio hardens the basic test in four ways:
   relative to it.
 - **An injected-shift check.** A deliberate, known perturbation of real data (for example haze on against haze off)
   must be detected; otherwise the test lacks power and its "pass" means nothing.
-- **Grouped cross-validation with bootstrap intervals.** Folds respect source groups (`StratifiedGroupKFold`,
-  scikit-learn 1.9.1 in `pipeline/uv.lock` [15]), and AUCs carry bootstrap confidence intervals.
+- **Grouped cross-validation with bootstrap intervals.** Folds respect source groups (the seeded greedy grouped
+  split that `s10_preprocess` writes once, spec 008), and AUCs carry bootstrap confidence intervals (scikit-learn 1.9.1 in
+  `pipeline/uv.lock` [15]).
 
 ### Thresholds
 
@@ -141,8 +142,8 @@ The rules that follow:
 1. **Group key** $g(k) = s(((k - 1) \bmod 240) + 1)$ with scene $s(k) = ((k - 1) \bmod 80) + 1$ for image $k$, merged with the 9 conservative similarity links mapped to scenes: 72 groups.
 2. **Evaluate on originals only** (images 1–240 that fall in the test groups). Training may use the shipped flips or
    its own augmentation; the effective independent real set is 80 scenes, not 960.
-3. **Grouped k-fold.** A single 80/20 split would leave about 14–15 test groups. The specification fixes a grouped
-   k-fold (for example 5 folds), and $\rho$ is reported with its fold spread.
+3. **Grouped k-fold.** A single 80/20 split would leave about 14–15 test groups. The specification fixes 5 grouped
+   folds of exactly 48 originals each, written once by `s10_preprocess` and only read by later stages, and $\rho$ is reported with its fold spread.
 4. **Pixels, not millimetres.** Without a physical scale, size comparisons (for example the median fragment size
    $x_{50}$ against the watershed + Swebrec baseline [19]) are made in pixels or as ratios ($x_{50}/x_{80}$, curve
    shape). Real-world sizes need a stated scale assumption in the D1 card.
@@ -265,7 +266,7 @@ Paired binary outcomes on the same queries (the vision-language comparison) use 
     CC BY 4.0. DOI: 10.17632/78ht3pjsr4.1
 14. Mendeley Data public API: file list with size and SHA-256. URL:
     https://data.mendeley.com/public-api/datasets/78ht3pjsr4/files?folder_id=root&version=1
-15. scikit-learn 1.9.1 on PyPI (BSD-3; `StratifiedGroupKFold`). URL: https://pypi.org/pypi/scikit-learn/1.9.1/json
+15. scikit-learn 1.9.1 on PyPI (BSD-3). URL: https://pypi.org/pypi/scikit-learn/1.9.1/json
 16. ImageHash on PyPI (BSD-2). URL: https://pypi.org/pypi/ImageHash/json
 17. Meta AI. DINOv3 repository (custom DINOv3 License, gated weights). URL: https://github.com/facebookresearch/dinov3
 18. Ronneberger, Fischer, Brox (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation (MICCAI 2015).

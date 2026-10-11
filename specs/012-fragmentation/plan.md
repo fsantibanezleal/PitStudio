@@ -2,8 +2,8 @@
 Spec: ./spec.md
 
 ## Summary
-1. **Real reference:** a hardened archive reader, group keys with the nine committed links, and a seeded grouped
-   5-fold builder that tests on originals only (FR-012-01 … FR-012-08).
+1. **Real reference:** a hardened archive reader, the Mendeley split consumed from the spec 008 split file (72 groups, 5
+   grouped folds of 48 originals, FR-008-27 … FR-008-30) with a per-fold validation subset, testing on originals only (FR-012-01 … FR-012-08).
 2. **Synthetic exact-PSD piles:** a pure-numpy generator with a provable PSD bound, volume-exact rock meshes, Warp DEM
    piles (spec 005) and Replicator renders with fragment-id instance masks (FR-012-09 … FR-012-17).
 3. **Learned and classical pipelines:** the three-class U-Net (pinned encoder, U-Net weight map) and the
@@ -42,7 +42,7 @@ Data flow: [D1 TSTR design with grouped folds](../../docs/assets/diagrams/case-d
 
 | Component (planned location) | Responsibility | Requirements |
 |---|---|---|
-| Archive reader and split builder (`pipeline/`, fragmentation module; links file in `data/splits/`) | safe extraction, masks, hashes, groups, folds, leak checks | FR-012-01 … FR-012-07, FR-012-44, P-012-08 |
+| Archive reader and split consumer (`pipeline/`, fragmentation module; reads `data/splits/<id>.json` written by `s10_preprocess`, spec 008) | safe extraction, masks, hashes, per-fold validation subsets, leak checks | FR-012-01 … FR-012-07, FR-012-44, P-012-08 |
 | Pile generator (`studio/src/pitstudio_studio/physics/`, pure numpy + `minephys`) | exact-PSD fragment tables, rock meshes | FR-012-09 … FR-012-12, P-012-09 … P-012-12 |
 | Pile and render stages (`st50_physics` spec 005; `studio/isaac/` `st55_sdg`) | settled piles, renders with fragment-id masks | FR-012-13, FR-012-39 |
 | Synthetic dataset builder (`pipeline/`) | splits by pile seed, truth, consistency guards | FR-012-14 … FR-012-17, P-012-17 |
@@ -60,8 +60,8 @@ comparisons differ only in the segmentation.
 | FR-012-01 | unit + pipeline | hand calculation: a small 7z fixture with expected members; the real archive's size and SHA-256 from the dataset card | pytest |
 | FR-012-02 | unit (hostile) | hand calculation: fixtures with `../x`, an absolute name, a drive letter, a missing member, a 511 px image, an RGB `label.png` | pytest |
 | FR-012-03 | pipeline | reference implementation: the bootstrap data-check counts (960 images, 63,144 non-empty instances) from an independent script, recorded in the dataset card | pytest (`slow`, needs local data) |
-| FR-012-04 | unit | hand calculation: the components of §7 and 72 groups | pytest |
-| FR-012-05 | unit + property | hand-checked invariants of the partition (P-012-08); fold sizes as returned by scikit-learn's `GroupKFold` (reference implementation used directly) | pytest + Hypothesis |
+| FR-012-04 | unit | oracle: the fragmentation stages read the groups of the spec 008 split file (the 72 groups and nine-link components of spec 008 §FR-008-28, hand-computed there) and recompute none; a monkeypatched group builder is never called | pytest |
+| FR-012-05 | unit + property | hand-checked invariants of the partition (P-012-08): test lists equal the split file's test lists (5 × 48 originals); the validation subset is a seeded 10 % of the training-pool groups rounded to the nearest whole group (hand-computed counts for the group sizes of FR-008-30), same seed gives the same subset | pytest + Hypothesis |
 | FR-012-06 | unit (hostile) | hand calculation: fold files with a shared group, a file 241 in a test list, a missing original | pytest |
 | FR-012-07 | unit (hostile) | hand calculation: one byte changed in a label → `label-modified` | pytest |
 | FR-012-08 | contract | hand calculation: lineage fixtures with and without a SAM output in a test label set | pytest + jsonschema |
@@ -100,7 +100,7 @@ comparisons differ only in the segmentation.
 | FR-012-41 | unit + reference | reference implementation: `minephys.blasting` called directly on the grid (exact float64 equality) | pytest |
 | FR-012-42 | contract | hand calculation: opset 17, `QuantizeLinear` / `DequantizeLinear` with per-channel `axis` on weights, calibration list disjoint from evaluation lists | pytest + onnx |
 | FR-012-43 | unit | hand calculation: Δ IoU 1.2 pp → rejected; mask IoU 0.985 → rejected | pytest |
-| FR-012-44 | unit (hostile) | hand calculation: a link 12–241, a link 5–5, a malformed file → `links-invalid` | pytest |
+| FR-012-44 | unit (hostile) | hand calculation: an absent split file, a split file whose membership SHA-256 differs from the recorded one → `split-changed`; link validation (a link 12–241, a link 5–5, a malformed links list → `links-invalid`) is tested once, in spec 008 (FR-008-28) | pytest |
 | FR-012-45 | unit (hostile) | hand calculation: 512² vs 511² masks, a uint8 foreground, x50 = 0 → `ValueError` | pytest |
 | FR-012-46 | unit (hostile) | hand calculation: burden NaN, spacing 0, an input `minephys.blasting` rejects → no grid | pytest |
 | P-012-01 … P-012-04, P-012-13, P-012-17 | metamorphic | invariants (dihedral symmetry, unit change, permutation, replication, pinhole scaling, quantile monotonicity) | Hypothesis |

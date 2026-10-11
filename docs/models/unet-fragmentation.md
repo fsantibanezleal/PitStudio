@@ -79,8 +79,8 @@ similar pairs merged conservatively leave **72 source groups**; 63,144 labelled 
 
 - **Split by source group, never by file.** A per-file split would put flipped copies of test tiles into training and
   inflate TRTR.
-- **Test on originals only.** With 72 groups an 80/20 split leaves about 14–15 test groups, so a **grouped k-fold** (e.g.
-  5 folds) is used and the ratio is reported with its fold spread.
+- **Test on originals only.** With 72 groups an 80/20 split leaves about 14–15 test groups, so a **grouped k-fold** (5 folds
+  of 48 originals, read from the split file written by `s10_preprocess`) is used and the ratio is reported with its fold spread.
 
 **SAM 2.1-tiny** (38.9 M parameters, Apache-2.0 + BSD-3) serves offline as a label assistant only; it is never the
 evaluated model and never produces the real test labels [8]. Card: [Mendeley rock fragments](../data-contract/dataset-cards/mendeley-rock-fragments.md).

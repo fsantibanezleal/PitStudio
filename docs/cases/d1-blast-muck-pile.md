@@ -50,7 +50,7 @@ distributions, rendered in Isaac Sim with instance masks, so every fragment's si
 
 - **Split by source group, never by file.** Group key = $s(((k-1) \bmod 240) + 1)$ with scene $s(k) = ((k-1) \bmod 80) + 1$, merged with the 9 conservative similarity links mapped to scenes. A
   per-file split would put flipped copies and other crops of test tiles into training and inflate TRTR.
-- **Grouped k-fold** (e.g. 5 folds over the 72 groups, 14–15 groups and 42–60 test originals per fold): a single 80/20 split would leave only about 14–15 test groups.
+- **Grouped k-fold** (5 folds over the 72 groups, exactly 48 test originals per fold, written once by `s10_preprocess` and read by every later stage; the validation subset of a fold is a seeded 10 % of its training-pool groups): a single 80/20 split would leave only about 14–15 test groups.
 - **Test on originals only** (tiles 001–240 that fall in the test groups). Training may use the shipped flips or its
   own augmentation; the effective independent real set is 80 scenes (240 crops), not 960.
 - Only metrics derived from these images are committed; no Mendeley image is redistributed by the web app.

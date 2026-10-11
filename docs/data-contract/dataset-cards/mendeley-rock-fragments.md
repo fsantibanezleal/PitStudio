@@ -149,8 +149,9 @@ local check, not a pipeline artefact.
 - **Evaluate on originals only:** test folds contain files 001–240 of the test groups. Training may use the shipped
   flips or its own augmentation. The **effective independent real set is 80 scenes, not 240 tiles and not 960**.
 - **Grouped k-fold, not a single split.** With 72 groups, one 80/20 split leaves only about 14–15 test groups. The
-  protocol uses a grouped k-fold (5 folds): a fold holds 14–15 groups, that is 42–60 test originals (three crops per
-  scene), and the TSTR / TRTR ratio is reported with its fold spread.
+  protocol uses 5 grouped folds of exactly 48 test originals each (three crops per scene), assigned by a seeded greedy
+  rule and committed once by `s10_preprocess` as the split file that every later stage reads; the validation subset of
+  a fold is a seeded 10 % of its training-pool groups. The TSTR / TRTR ratio is reported with its fold spread.
 - **x50 in pixels.** The x50-error comparison of the U-Net against watershed + Swebrec
   ([M11](../../methods/m11-fragmentation-segmentation.md)) is computed in pixels on real images.
 
@@ -180,7 +181,7 @@ local check, not a pipeline artefact.
 ## In PitStudio
 
 - **Source id:** `mendeley-78ht3pjsr4` in `data/sources.yaml`.
-- **Stages:** `s00_download` → `s10_preprocess` (read masks, attach group keys, build grouped folds, originals-only
+- **Stages:** `s00_download` → `s10_preprocess` (read masks, attach group keys, write the grouped split file once, originals-only
   test lists) → `s30_train` (TRTR arm) → `s50_evaluate` (TSTR / TRTR, embedding test, duplicate scan, x50 error) →
   `s60_export` (metrics only).
 - **Cases:** [D1](../../cases/d1-blast-muck-pile.md).

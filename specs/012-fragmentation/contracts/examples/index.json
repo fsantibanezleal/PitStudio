@@ -126,38 +126,51 @@
       "keyword": "minimum"
     },
     {
-      "file": "fragment-split.valid.json",
-      "schema": "fragment-split.schema.json",
-      "target": "#",
-      "valid": true,
-      "note": "the nine conservative links of the dataset card"
-    },
-    {
       "file": "fragment-split.valid-folds.json",
       "schema": "fragment-split.schema.json",
       "target": "#",
       "valid": true,
-      "note": "illustrative grouped partition (not the seeded GroupKFold output)"
+      "note": "illustrative per-fold validation subsets on top of a spec 008 split file (not the seeded draw)"
     },
     {
-      "file": "fragment-split.hostile-link-out-of-range.json",
+      "file": "fragment-split.hostile-validation-file-over-240.json",
       "schema": "fragment-split.schema.json",
       "target": "#",
       "valid": false,
-      "class": "link names a file outside 1-240",
-      "rule": "FR-012-44",
-      "pointer": "/links/0/1",
+      "class": "validation list containing a file k > 240",
+      "rule": "FR-012-06",
+      "pointer": "/folds/0/validation_originals/0",
       "keyword": "maximum"
     },
     {
-      "file": "fragment-split.hostile-link-wrong-shape.json",
+      "file": "fragment-split.hostile-empty-validation.json",
       "schema": "fragment-split.schema.json",
       "target": "#",
       "valid": false,
-      "class": "link that is not a pair",
-      "rule": "FR-012-44",
-      "pointer": "/links/0",
-      "keyword": "maxItems"
+      "class": "a fold with an empty validation subset",
+      "rule": "FR-012-05",
+      "pointer": "/folds/1/validation_originals",
+      "keyword": "minItems"
+    },
+    {
+      "file": "fragment-split.hostile-wrong-validation-fraction.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "validation fraction other than 0.1",
+      "rule": "FR-012-05",
+      "pointer": "/validation_fraction",
+      "keyword": "const"
+    },
+    {
+      "file": "fragment-split.hostile-four-folds.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 5 folds",
+      "rule": "FR-012-05",
+      "pointer": "/folds",
+      "keyword": "minItems"
     },
     {
       "file": "fragment-split.hostile-archive-mismatch.json",
@@ -174,8 +187,8 @@
       "schema": "fragment-split.schema.json",
       "target": "#",
       "valid": false,
-      "class": "unknown field (malformed links file)",
-      "rule": "FR-012-44",
+      "class": "unknown field",
+      "rule": "DC-012-02",
       "pointer": "",
       "keyword": "additionalProperties"
     },
@@ -184,49 +197,19 @@
       "schema": "fragment-split.schema.json",
       "target": "#",
       "valid": false,
-      "class": "unknown document kind",
+      "class": "document kind other than folds (the links file is no longer a 012 document)",
       "rule": "DC-012-02",
       "pointer": "/kind",
       "keyword": "const"
-    },
-    {
-      "file": "fragment-split.hostile-test-file-over-240.json",
-      "schema": "fragment-split.schema.json",
-      "target": "#",
-      "valid": false,
-      "class": "test list containing a file k > 240",
-      "rule": "FR-012-06",
-      "pointer": "/folds/0/test_originals/0",
-      "keyword": "maximum"
-    },
-    {
-      "file": "fragment-split.hostile-wrong-seed.json",
-      "schema": "fragment-split.schema.json",
-      "target": "#",
-      "valid": false,
-      "class": "fold seed other than 20261004",
-      "rule": "FR-012-05",
-      "pointer": "/seed",
-      "keyword": "const"
-    },
-    {
-      "file": "fragment-split.hostile-four-folds.json",
-      "schema": "fragment-split.schema.json",
-      "target": "#",
-      "valid": false,
-      "class": "fewer than 5 folds",
-      "rule": "FR-012-05",
-      "pointer": "/folds",
-      "keyword": "minItems"
     },
     {
       "file": "fragment-split.hostile-malformed-digest.json",
       "schema": "fragment-split.schema.json",
       "target": "#",
       "valid": false,
-      "class": "malformed links digest",
+      "class": "malformed split membership digest",
       "rule": "DC-012-02",
-      "pointer": "/links_sha256",
+      "pointer": "/split_membership_sha256",
       "keyword": "pattern"
     },
     {
@@ -595,41 +578,22 @@
     },
     {
       "schema": "fragment-split.schema.json",
-      "class": "malformed YAML, anchors, tags, multi-document, duplicate keys",
-      "by": "loader",
-      "rule": "FR-001-06",
-      "note": "the links file is YAML"
-    },
-    {
-      "schema": "fragment-split.schema.json",
-      "class": "link of a file to itself, or the same pair listed reversed",
+      "class": "split_id naming a split file that is absent, or split_membership_sha256 differing from the split file's membership_sha256",
       "by": "checker",
       "rule": "FR-012-44"
     },
     {
       "schema": "fragment-split.schema.json",
-      "class": "union-find over the links, mapped to scenes, not giving 72 groups",
-      "by": "checker",
-      "rule": "FR-012-04"
-    },
-    {
-      "schema": "fragment-split.schema.json",
-      "class": "a group in the test list and the training or validation list of a fold",
+      "class": "the validation subset of a fold overlapping its test list, or taking part of a group (a group in two roles of a fold)",
       "by": "checker",
       "rule": "FR-012-06"
     },
     {
       "schema": "fragment-split.schema.json",
-      "class": "test lists not partitioning 1..240; a fold's lists not partitioning 1..240",
+      "class": "a validation subset not a seeded 10 % of the fold's training-pool groups rounded to the nearest whole group",
       "by": "checker",
-      "rule": "FR-012-06",
+      "rule": "FR-012-05",
       "note": "also P-012-08"
-    },
-    {
-      "schema": "fragment-split.schema.json",
-      "class": "links_sha256 differing from the committed links file",
-      "by": "checker",
-      "rule": "FR-012-44"
     },
     {
       "schema": "fragment-split.schema.json",
