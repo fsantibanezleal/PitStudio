@@ -29,6 +29,7 @@ WINDOWS_DEVICE_NAMES = frozenset(
 _CONTROL = re.compile(r"[\x00-\x1f]")
 _INPUT_OUTPUT_REF = re.compile(r"/inputs/[0-9]+/output$")
 _PATH_PATTERNS = ("^data/cards/", "^docs/frameworks/")
+_DUPLICATE_LISTS = {"manifest": ("artefacts",), "tools": ("tools",), "sources": ("sources",)}
 
 
 @dataclass(frozen=True)
@@ -176,6 +177,43 @@ def _post_strings(stem: str, document: Any, validator: Draft202012Validator) -> 
             known[folded] = pointer
 
 
+def _post_duplicates(stem: str, document: Any) -> Iterator[ValidationError]:
+    """FR-001-54: an id used twice in one list is reported at the later entry and names the first."""
+    if not isinstance(document, dict):
+        return
+    for key in _DUPLICATE_LISTS.get(stem, ()):
+        entries = document.get(key)
+        if not isinstance(entries, list):
+            continue
+        first: dict[str, int] = {}
+        for index, entry in enumerate(entries):
+            ident = entry.get("id") if isinstance(entry, dict) else None
+            if not isinstance(ident, str):
+                continue
+            if ident in first:
+                yield ValidationError(
+                    f"/{key}/{index}", "duplicate-id", _bounded(f"id {ident!r} already used at /{key}/{first[ident]}")
+                )
+            else:
+                first[ident] = index
+
+
+def _post_shards(document: Any) -> Iterator[ValidationError]:
+    """FR-001-55: ``shards.done`` may not exceed ``shards.total``."""
+    stages = document.get("stages") if isinstance(document, dict) else None
+    if not isinstance(stages, list):
+        return
+    for index, stage in enumerate(stages):
+        shards = stage.get("shards") if isinstance(stage, dict) else None
+        if not isinstance(shards, dict):
+            continue
+        done, total = shards.get("done"), shards.get("total")
+        if all(isinstance(v, int) and not isinstance(v, bool) for v in (done, total)) and done > total:
+            yield ValidationError(
+                f"/stages/{index}/shards/done", "shards", f"shards.done ({done}) is greater than shards.total ({total})"
+            )
+
+
 def validate(document: Any, schema_name: str) -> list[ValidationError]:
     """Every violation of ``document`` against ``schema_name``, sorted by pointer."""
     validator, stem = _validator(schema_name)
@@ -188,5 +226,7 @@ def validate(document: Any, schema_name: str) -> list[ValidationError]:
         for error in validator.iter_errors(document)
     ]
     errors.extend(_post_strings(stem, document, validator))
+    errors.extend(_post_duplicates(stem, document))
+    errors.extend(_post_shards(document))
     errors.sort(key=lambda e: (e.pointer, e.keyword, e.message))
     return errors
