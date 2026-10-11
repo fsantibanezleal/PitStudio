@@ -317,6 +317,20 @@ slope-radar line-of-sight model, inverse velocity and the Bayesian time-to-failu
 engine-specific errors of specs 007, 013 and 014 (for example `InvalidScenario`, `UnsupportedFeature`) travel inside the
 host's typed error (FR-018-38) as its `detail.name`.
 
+The port function names of DC-018-02 map to these `minephys` reference functions. Every other port function keeps the
+name of its `minephys` reference, and the FR-018-51 parity fixtures call the reference named here.
+
+| Port function (TypeScript) | `minephys` reference function | Module |
+|---|---|---|
+| `bishop` | `bishop_simplified_fos` | `geotech` |
+| `spencer` | `spencer_fos` | `geotech` |
+| `pof_monte_carlo` | `monte_carlo_fos` | `geotech` |
+| `pof_from_samples` | `probability_of_failure` | `geotech` |
+| `inverse_velocity` | `inverse_velocity_ttf` | `geotech` |
+| `failure_band` | `bayesian_ttf` | `geotech` |
+| `ap42_emission_factor` | `ap42_unpaved_emission_factor` | `environment` |
+| `plume_grid` | `gaussian_plume` | `environment` |
+
 ### 7.2 Parity classes and tolerances
 - **Engines of specs 007, 013 and 014** (DES, policies, haulage, LP, routing, dust slider, robot twins) keep the
   classes and tolerances of those specs; this spec only records their verdicts (FR-018-48).

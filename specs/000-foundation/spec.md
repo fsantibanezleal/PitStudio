@@ -79,7 +79,7 @@ one engine, one data contract and one manifest format:
 | NFR-000-02 | Accessibility | axe 0 serious/critical; Lighthouse a11y ≥ 0.95 | Playwright + LHCI |
 | NFR-000-03 | First view (bytes transferred before interaction) | ≤ 2 MB | build report + Playwright |
 | NFR-000-04 | Site total and per-class budgets | total = 500 MB; class caps as in `thresholds.yaml` `budgets` | CI budget check |
-| NFR-000-05 | Files in git | each < 10 MB; baked assets in git ≤ 100 MB in total; larger files are release assets pinned by SHA-256 | CI size check |
+| NFR-000-05 | Files in git | each < 10,485,760 bytes (10 MiB, `contracts.git_file_bytes_max`); baked assets in git ≤ 100 MB in total; larger files are release assets pinned by SHA-256 | CI size check |
 | NFR-000-06 | Live model size | each ≤ 25 MB | CI budget check |
 | NFR-000-07 | Video pair (AV1 1080p + H.264 720p) | ≤ 25 MB per pair | CI budget check |
 | NFR-000-08 | Runner size | ≤ 1,500 lines of code (re-assess a framework beyond it) | CI line count |

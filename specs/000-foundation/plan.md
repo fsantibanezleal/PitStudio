@@ -66,7 +66,7 @@ dependency · target: CI on GitHub Actions (no GPU), the local workstation for G
 | NFR-000-02 | CI | reference implementation: axe-core and Lighthouse CI | Playwright + LHCI |
 | NFR-000-03 | CI | reference implementation: bytes transferred recorded by Playwright | Playwright |
 | NFR-000-04 | CI | hand calculation: summed file sizes of the build against `thresholds.yaml` `budgets` | pytest |
-| NFR-000-05 | CI | hand calculation: 10,485,759-byte and 10,485,760-byte fixtures around `contracts.git_file_bytes_max` | pytest |
+| NFR-000-05 | CI | hand calculation: 10,485,759-byte and 10,485,760-byte fixtures around `contracts.git_file_bytes_max` (10 MiB) | pytest |
 | NFR-000-06 | CI | hand calculation: a 25 MB fixture and a 25 MB + 1 byte fixture | pytest |
 | NFR-000-07 | CI | hand calculation: pairs of fixture sizes around 25 MB | pytest |
 | NFR-000-08 | CI | reference implementation: a line count over the runner package | pytest |
