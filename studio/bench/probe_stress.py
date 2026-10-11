@@ -89,16 +89,22 @@ def body(r: dict[str, Any]) -> None:
     r["metrics"]["pcie_copy_word_errors"] = copy_errors
     del d
 
-    # 3. Sustained compute for the requested minutes
+    # 3. Sustained compute for the requested minutes, under the same in-run guard as every real GPU job
+    from gpu_guard import Guard
+
+    guard = Guard()
     x = wp.array(np.ones(1 << 24, dtype=np.float32), device=dev)
     t0 = time.perf_counter()
     launches = 0
-    while time.perf_counter() - t0 < minutes * 60:
+    while time.perf_counter() - t0 - guard.paused_s < minutes * 60:  # paused time does not count as load
+        guard.check()  # pauses at PAUSE_C, raises GuardStop at STOP_C or on a new WHEA event
         wp.launch(burn, dim=x.shape[0], inputs=[x, 2000], device=dev)
         wp.synchronize_device(dev)
         launches += 1
-    r["metrics"]["compute_minutes"] = round((time.perf_counter() - t0) / 60, 2)
+    r["metrics"]["compute_minutes"] = round((time.perf_counter() - t0 - guard.paused_s) / 60, 2)
     r["metrics"]["compute_launches"] = launches
+    r["metrics"]["guard_paused_s"] = round(guard.paused_s, 1)
+    r["metrics"]["guard_max_temp_c"] = guard.max_temp
     if not np.all(np.isfinite(x.numpy())):
         raise AssertionError("non-finite values after the compute phase")
     if r["metrics"]["vram_pattern_errors"] or copy_errors:
