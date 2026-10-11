@@ -610,7 +610,9 @@
       "tasks": [
         "T-001-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_001_schemas.py"
+      ]
     },
     "FR-001-02": {
       "spec": "001-contracts",
@@ -620,7 +622,9 @@
       "tasks": [
         "T-001-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_001_schemas.py"
+      ]
     },
     "FR-001-03": {
       "spec": "001-contracts",
@@ -630,7 +634,9 @@
       "tasks": [
         "T-001-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_001_schemas.py"
+      ]
     },
     "FR-001-04": {
       "spec": "001-contracts",
@@ -640,7 +646,9 @@
       "tasks": [
         "T-001-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_001_schemas.py"
+      ]
     },
     "FR-001-05": {
       "spec": "001-contracts",
@@ -650,7 +658,9 @@
       "tasks": [
         "T-001-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_001_003_loaders.py"
+      ]
     },
     "FR-001-06": {
       "spec": "001-contracts",
@@ -660,7 +670,9 @@
       "tasks": [
         "T-001-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_001_003_loaders.py"
+      ]
     },
     "FR-001-07": {
       "spec": "001-contracts",
@@ -670,7 +682,10 @@
       "tasks": [
         "T-001-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_023_capabilities.py",
+        "tests/unit/test_t_001_003_loaders.py"
+      ]
     },
     "FR-001-08": {
       "spec": "001-contracts",
@@ -680,7 +695,9 @@
       "tasks": [
         "T-001-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_001_003_loaders.py"
+      ]
     },
     "FR-001-10": {
       "spec": "001-contracts",
@@ -690,7 +707,9 @@
       "tasks": [
         "T-001-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_010_manifest_schema.py"
+      ]
     },
     "FR-001-11": {
       "spec": "001-contracts",
@@ -700,7 +719,9 @@
       "tasks": [
         "T-001-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_010_manifest_schema.py"
+      ]
     },
     "FR-001-12": {
       "spec": "001-contracts",
@@ -710,7 +731,9 @@
       "tasks": [
         "T-001-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_010_manifest_schema.py"
+      ]
     },
     "FR-001-13": {
       "spec": "001-contracts",
@@ -720,7 +743,9 @@
       "tasks": [
         "T-001-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_011_lane_gate.py"
+      ]
     },
     "FR-001-14": {
       "spec": "001-contracts",
@@ -730,7 +755,9 @@
       "tasks": [
         "T-001-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_010_manifest_schema.py"
+      ]
     },
     "FR-001-15": {
       "spec": "001-contracts",
@@ -740,7 +767,9 @@
       "tasks": [
         "T-001-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_013_privacy.py"
+      ]
     },
     "FR-001-16": {
       "spec": "001-contracts",
@@ -750,7 +779,9 @@
       "tasks": [
         "T-001-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_010_manifest_schema.py"
+      ]
     },
     "FR-001-17": {
       "spec": "001-contracts",
@@ -760,7 +791,9 @@
       "tasks": [
         "T-001-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_010_manifest_schema.py"
+      ]
     },
     "FR-001-18": {
       "spec": "001-contracts",
@@ -770,7 +803,9 @@
       "tasks": [
         "T-001-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_012_licence_class.py"
+      ]
     },
     "FR-001-19": {
       "spec": "001-contracts",
@@ -780,7 +815,9 @@
       "tasks": [
         "T-001-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_012_licence_class.py"
+      ]
     },
     "FR-001-20": {
       "spec": "001-contracts",
@@ -790,7 +827,9 @@
       "tasks": [
         "T-001-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_014_served_sha.py"
+      ]
     },
     "FR-001-21": {
       "spec": "001-contracts",
@@ -800,7 +839,9 @@
       "tasks": [
         "T-001-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_020_recipe_schema.py"
+      ]
     },
     "FR-001-22": {
       "spec": "001-contracts",
@@ -810,7 +851,9 @@
       "tasks": [
         "T-001-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_020_recipe_schema.py"
+      ]
     },
     "FR-001-23": {
       "spec": "001-contracts",
@@ -820,7 +863,9 @@
       "tasks": [
         "T-001-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_020_recipe_schema.py"
+      ]
     },
     "FR-001-24": {
       "spec": "001-contracts",
@@ -830,7 +875,9 @@
       "tasks": [
         "T-001-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_020_recipe_schema.py"
+      ]
     },
     "FR-001-25": {
       "spec": "001-contracts",
@@ -840,7 +887,9 @@
       "tasks": [
         "T-001-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_021_tools_registry.py"
+      ]
     },
     "FR-001-26": {
       "spec": "001-contracts",
@@ -850,7 +899,9 @@
       "tasks": [
         "T-001-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_021_tools_registry.py"
+      ]
     },
     "FR-001-27": {
       "spec": "001-contracts",
@@ -868,7 +919,9 @@
       "tasks": [
         "T-001-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_031_cross_file.py"
+      ]
     },
     "FR-001-28": {
       "spec": "001-contracts",
@@ -878,7 +931,9 @@
       "tasks": [
         "T-001-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_021_tools_registry.py"
+      ]
     },
     "FR-001-29": {
       "spec": "001-contracts",
@@ -888,7 +943,9 @@
       "tasks": [
         "T-001-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_031_cross_file.py"
+      ]
     },
     "FR-001-31": {
       "spec": "001-contracts",
@@ -898,7 +955,9 @@
       "tasks": [
         "T-001-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_022_sources_registry.py"
+      ]
     },
     "FR-001-32": {
       "spec": "001-contracts",
@@ -908,7 +967,9 @@
       "tasks": [
         "T-001-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_022_sources_registry.py"
+      ]
     },
     "FR-001-33": {
       "spec": "001-contracts",
@@ -918,7 +979,9 @@
       "tasks": [
         "T-001-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_031_cross_file.py"
+      ]
     },
     "FR-001-52": {
       "spec": "001-contracts",
@@ -928,7 +991,9 @@
       "tasks": [
         "T-001-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_024_sources_download_fields.py"
+      ]
     },
     "FR-001-35": {
       "spec": "001-contracts",
@@ -938,7 +1003,9 @@
       "tasks": [
         "T-001-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_023_capabilities.py"
+      ]
     },
     "FR-001-36": {
       "spec": "001-contracts",
@@ -948,7 +1015,9 @@
       "tasks": [
         "T-001-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_023_capabilities.py"
+      ]
     },
     "FR-001-37": {
       "spec": "001-contracts",
@@ -958,7 +1027,9 @@
       "tasks": [
         "T-001-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_023_capabilities.py"
+      ]
     },
     "FR-001-40": {
       "spec": "001-contracts",
@@ -968,7 +1039,9 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_002_generated_types.py"
+      ]
     },
     "FR-001-41": {
       "spec": "001-contracts",
@@ -978,7 +1051,10 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_002_generated_types.py",
+        "web/src/contracts/generated.test.ts"
+      ]
     },
     "FR-001-42": {
       "spec": "001-contracts",
@@ -988,7 +1064,10 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_002_generated_types.py",
+        "web/src/contracts/generated.test.ts"
+      ]
     },
     "FR-001-43": {
       "spec": "001-contracts",
@@ -998,7 +1077,9 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_002_generated_types.py"
+      ]
     },
     "FR-001-44": {
       "spec": "001-contracts",
@@ -1008,7 +1089,9 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "web/src/contracts/generated.test.ts"
+      ]
     },
     "FR-001-45": {
       "spec": "001-contracts",
@@ -1018,7 +1101,9 @@
       "tasks": [
         "T-001-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_041_agreement.py"
+      ]
     },
     "FR-001-46": {
       "spec": "001-contracts",
@@ -1028,7 +1113,10 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_002_generated_types.py",
+        "web/src/contracts/generated.test.ts"
+      ]
     },
     "FR-001-50": {
       "spec": "001-contracts",
@@ -1038,7 +1126,9 @@
       "tasks": [
         "T-001-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_001_030_check_contracts.py"
+      ]
     },
     "FR-001-54": {
       "spec": "001-contracts",
@@ -1048,7 +1138,9 @@
       "tasks": [
         "T-001-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_032_duplicates_counts.py"
+      ]
     },
     "FR-001-55": {
       "spec": "001-contracts",
@@ -1058,7 +1150,9 @@
       "tasks": [
         "T-001-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_032_duplicates_counts.py"
+      ]
     },
     "FR-001-56": {
       "spec": "001-contracts",
@@ -1068,7 +1162,9 @@
       "tasks": [
         "T-001-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_025_paths_control_chars.py"
+      ]
     },
     "FR-001-57": {
       "spec": "001-contracts",
@@ -1078,7 +1174,9 @@
       "tasks": [
         "T-001-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_025_paths_control_chars.py"
+      ]
     },
     "FR-001-51": {
       "spec": "001-contracts",
@@ -1088,7 +1186,9 @@
       "tasks": [
         "T-001-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_001_030_check_contracts.py"
+      ]
     },
     "FR-001-58": {
       "spec": "001-contracts",
@@ -1098,7 +1198,9 @@
       "tasks": [
         "T-001-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_001_092_source_class_lattice.py"
+      ]
     },
     "FR-001-59": {
       "spec": "001-contracts",
@@ -1108,7 +1210,9 @@
       "tasks": [
         "T-001-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_001_093_capabilities_privacy.py"
+      ]
     },
     "FR-001-60": {
       "spec": "001-contracts",
@@ -1148,7 +1252,9 @@
       "tasks": [
         "T-001-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_011_lane_gate.py"
+      ]
     },
     "P-001-02": {
       "spec": "001-contracts",
@@ -1158,7 +1264,9 @@
       "tasks": [
         "T-001-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_011_lane_gate.py"
+      ]
     },
     "P-001-03": {
       "spec": "001-contracts",
@@ -1168,7 +1276,9 @@
       "tasks": [
         "T-001-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_011_lane_gate.py"
+      ]
     },
     "P-001-04": {
       "spec": "001-contracts",
@@ -1178,7 +1288,9 @@
       "tasks": [
         "T-001-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_012_licence_class.py"
+      ]
     },
     "P-001-05": {
       "spec": "001-contracts",
@@ -1188,7 +1300,9 @@
       "tasks": [
         "T-001-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_040_roundtrip.py"
+      ]
     },
     "P-001-06": {
       "spec": "001-contracts",
@@ -1198,7 +1312,9 @@
       "tasks": [
         "T-001-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_041_agreement.py"
+      ]
     },
     "P-001-07": {
       "spec": "001-contracts",
@@ -1208,7 +1324,9 @@
       "tasks": [
         "T-001-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_040_roundtrip.py"
+      ]
     },
     "P-001-08": {
       "spec": "001-contracts",
@@ -1218,7 +1336,9 @@
       "tasks": [
         "T-001-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_001_040_roundtrip.py"
+      ]
     },
     "NFR-001-01": {
       "spec": "001-contracts",
@@ -1228,7 +1348,9 @@
       "tasks": [
         "T-001-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_001_030_check_contracts.py"
+      ]
     },
     "NFR-001-02": {
       "spec": "001-contracts",
@@ -1238,7 +1360,9 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "web/src/contracts/generated.test.ts"
+      ]
     },
     "NFR-001-03": {
       "spec": "001-contracts",
@@ -1248,7 +1372,9 @@
       "tasks": [
         "T-001-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_004_corpus_coverage.py"
+      ]
     },
     "NFR-001-04": {
       "spec": "001-contracts",
@@ -1258,7 +1384,9 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_002_generated_types.py"
+      ]
     },
     "NFR-001-05": {
       "spec": "001-contracts",
@@ -1278,7 +1406,9 @@
       "tasks": [
         "T-001-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_001_030_check_contracts.py"
+      ]
     },
     "DC-001-01": {
       "spec": "001-contracts",
@@ -1288,7 +1418,9 @@
       "tasks": [
         "T-001-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_001_schemas.py"
+      ]
     },
     "DC-001-02": {
       "spec": "001-contracts",
@@ -1298,7 +1430,9 @@
       "tasks": [
         "T-001-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_001_schemas.py"
+      ]
     },
     "DC-001-03": {
       "spec": "001-contracts",
@@ -1308,7 +1442,9 @@
       "tasks": [
         "T-001-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_001_schemas.py"
+      ]
     },
     "DC-001-04": {
       "spec": "001-contracts",
@@ -1318,7 +1454,9 @@
       "tasks": [
         "T-001-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_001_schemas.py"
+      ]
     },
     "DC-001-05": {
       "spec": "001-contracts",
@@ -1328,7 +1466,9 @@
       "tasks": [
         "T-001-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_001_schemas.py"
+      ]
     },
     "DC-001-06": {
       "spec": "001-contracts",
@@ -1338,7 +1478,9 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_002_generated_types.py"
+      ]
     },
     "DC-001-07": {
       "spec": "001-contracts",
@@ -1348,7 +1490,9 @@
       "tasks": [
         "T-001-002"
       ],
-      "tests": []
+      "tests": [
+        "web/src/contracts/generated.test.ts"
+      ]
     },
     "DC-001-08": {
       "spec": "001-contracts",
@@ -1358,7 +1502,9 @@
       "tasks": [
         "T-001-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_001_004_corpus_coverage.py"
+      ]
     },
     "US-002-1": {
       "spec": "002-runner",
