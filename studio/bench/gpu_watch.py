@@ -46,6 +46,8 @@ def main(argv: list[str]) -> int:
             hot = True
         elif t < ALERT_C - 3:
             hot = False
+        if p > 2 * lim:  # NVML on this laptop sometimes reports a bogus ~594 W at idle; ignore impossible readings
+            p = float("nan")
         if p >= 0.95 * lim:
             at_limit_since = at_limit_since or time.monotonic()
             if time.monotonic() - at_limit_since > 60:

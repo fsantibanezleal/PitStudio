@@ -2,6 +2,7 @@
 
 Usage:  python tools/trace.py            # regenerate the files
         python tools/trace.py --check    # CI: exit 1 on orphans or unknown/retired references
+        python tools/trace.py --check --release   # G6 / release: also every spec Converged and every ID tested
 IDs (never reused): US-NNN-x, FR-/NFR-/SC-/P-/DC-NNN-xx, tasks T-NNN-xxx. A requirement is DEFINED
 where it appears as the first cell of a table row in specs/**/spec.md (user stories may also be defined by a
 `### US-NNN-x …` heading, as in the spec template); it is RETIRED when written ~~ID~~ there.
@@ -87,20 +88,25 @@ def scan() -> dict:
     return {"requirements": reqs, "tasks": tasks, "unknown": unknown + duplicates}
 
 
-def problems(data: dict) -> list[str]:
+def problems(data: dict, release: bool = False) -> list[str]:
+    """CI rules by spec status; `release=True` (G6 and tools/release.py) also demands Converged specs and every test."""
     out = list(data["unknown"])
+    not_converged: set[str] = set()
     for rid, r in data["requirements"].items():
         if r["retired"]:
             if r["tests"]:
                 out.append(f"retired {rid} is still referenced by tests {r['tests']}")
             continue
-        if r.get("draft"):
+        if release and r.get("phase") != "converged":
+            not_converged.add(f"{r['spec']} ({r.get('phase')})")
+        if r.get("draft") and not release:
             continue
         if not r["tasks"]:
             out.append(f"{rid} has no task")
         # tests arrive task by task while a spec is Approved/Implementing; Converged means every one exists (G6)
-        if r.get("phase") == "converged" and not r["tests"] and not rid.startswith("US-"):
+        if (release or r.get("phase") == "converged") and not r["tests"] and not rid.startswith("US-"):
             out.append(f"{rid} has no test")
+    out += [f"spec {s} is not Converged (release requires every spec Converged)" for s in sorted(not_converged)]
     return out
 
 
@@ -125,6 +131,7 @@ def render(data: dict) -> str:
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--release", action="store_true", help="release/G6 rules: every spec Converged, every ID tested")
     a = ap.parse_args(argv[1:])
     data = scan()
     (ROOT / "specs").mkdir(exist_ok=True)
@@ -132,7 +139,7 @@ def main(argv: list[str]) -> int:
     (ROOT / "specs" / "requirements.index.json").write_text(
         json.dumps(data, indent=2) + "\n", encoding="utf-8", newline="\n"
     )
-    probs = problems(data)
+    probs = problems(data, release=a.release)
     if a.check and probs:
         print(f"TRACE CHECK FAIL ({len(probs)}):")
         for p in probs:
