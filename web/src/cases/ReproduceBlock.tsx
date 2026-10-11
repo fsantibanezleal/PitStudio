@@ -11,9 +11,14 @@ export interface RecipeSummary {
 const RUN_ID = /^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$/;
 const PROFILE = "laptop-rtx5000ada";
 
+/** Repository path of a case recipe, with the id in lower case (FR-018-19). */
+export function recipePath(caseId: string): string {
+  return `studio/recipes/cases/${caseId.toLowerCase()}.yaml`;
+}
+
 /** The three commands of FR-018-19 for a case, with the real run id only when it is one. */
 export function reproduceCommands(caseId: string, runId: string | null): string[] {
-  const recipe = `studio/recipes/cases/${caseId.toLowerCase()}.yaml`;
+  const recipe = recipePath(caseId);
   const run = runId !== null && RUN_ID.test(runId) ? runId : "<run-id>";
   return [
     `uv run studio plan ${recipe} --profile ${PROFILE}`,
@@ -58,7 +63,7 @@ export function ReproduceBlock({
       {recipe && known ? (
         <>
           <p>
-            {t("reproduce.recipe")}: <code>{`studio/recipes/cases/${caseId.toLowerCase()}.yaml`}</code>
+            {t("reproduce.recipe")}: <code>{recipePath(caseId)}</code>
           </p>
           {reproduceCommands(caseId, runId).map((line) => (
             <code key={line} data-command className={styles.command}>
