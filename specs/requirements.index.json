@@ -2002,6 +2002,16 @@
       ],
       "tests": []
     },
+    "FR-002-66": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-094"
+      ],
+      "tests": []
+    },
     "P-002-01": {
       "spec": "002-runner",
       "retired": false,
@@ -2119,6 +2129,16 @@
       "phase": "clarified",
       "tasks": [
         "T-002-011"
+      ],
+      "tests": []
+    },
+    "P-002-13": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-095"
       ],
       "tests": []
     },
@@ -18249,6 +18269,12 @@
     ],
     "T-002-093": [
       "FR-002-65"
+    ],
+    "T-002-094": [
+      "FR-002-66"
+    ],
+    "T-002-095": [
+      "P-002-13"
     ],
     "T-002-090": [
       "NFR-002-05"

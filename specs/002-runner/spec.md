@@ -184,6 +184,7 @@ layout, profile, job spec, events, code roots).
 | FR-002-59 | Optional | Where an NVIDIA GPU, its driver and `nvidia-ml-py` are available and no hold exists, the NVML backend shall report the GPU name, driver version and total memory equal to `nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader,nounits`, temperature within ±3 °C and enforced power limit within ±1 W of the same query taken within 2 s; if any of them is unavailable, the test shall report "not run" with the reason. | integration (gpu) |
 | FR-002-64 | Unwanted | If a profile lists the same GPU index more than once, then the profile loader shall reject it with error class `profile-invalid` naming the repeated index. | unit (hostile) |
 | FR-002-65 | Unwanted | If a stage result lists two outputs with the same path, then the runner shall treat the stage as `invalid-result` naming the path, shall publish no output of that stage and shall not cache it. | unit (hostile) |
+| FR-002-66 | State | While a GPU stage runs, the runner shall sample the GPU temperature at `telemetry_hz`; at or above `runner.run_pause_temp_c` (83 °C) it shall pause the stage at its next step boundary until the temperature is at or below `runner.run_resume_temp_c` (75 °C); at or above `runner.run_stop_temp_c` (87 °C), or when a new WHEA/PCIe AER error event for the GPU appears during the stage, it shall save a checkpoint where the stage supports one and stop the stage with reason `thermal` or `hw-error` and exit code 5; continuous GPU time per block is capped by `runner.gpu_block_minutes` (45) followed by a cool-down of `runner.gpu_cooldown_minutes` (10). | unit (fake GPU, fake clock) |
 
 ## 4. Correctness properties
 
@@ -201,6 +202,7 @@ layout, profile, job spec, events, code roots).
 | P-002-10 | Guard monotonicity: more free VRAM or disk, or a lower temperature, never turns a pass into a refusal; a larger VRAM or disk estimate never turns a refusal into a pass. | Hypothesis guard inputs | exact |
 | P-002-11 | GC safety: after `studio gc`, every kept run's outputs materialise with their recorded SHA-256; a second `gc` frees 0 bytes. | Hypothesis store states (runs, pins, shared objects) | exact |
 | P-002-12 | Plan independence: the `--json` plan of one recipe and profile is byte-identical across working directories, store roots, host and user names and `sys.platform` values. | recipes × monkeypatched environments | exact |
+| P-002-13 | Thermal guard (FR-002-66): over any scripted temperature and error-event sequence, the guard never resumes a paused stage while the temperature is above `runner.run_resume_temp_c`, and never runs a step after a stop condition (temperature at or above `runner.run_stop_temp_c`, or a new hardware error event) has been sampled; a stage that stops saves its checkpoint first when it supports one. | Hypothesis: temperature sequences in [30, 100] °C at `telemetry_hz` ∈ [1, 4], with and without WHEA/PCIe AER events, fake GPU backend and fake clock | exact |
 
 ## 5. Non-functional requirements and success criteria
 

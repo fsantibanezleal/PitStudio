@@ -252,6 +252,7 @@
 | FR-002-63 | 002-runner | draft | T-002-048 | - |
 | FR-002-64 | 002-runner | draft | T-002-092 | - |
 | FR-002-65 | 002-runner | draft | T-002-093 | - |
+| FR-002-66 | 002-runner | draft | T-002-094 | - |
 | FR-003-01 | 003-console | draft | T-003-010 | - |
 | FR-003-02 | 003-console | draft | T-003-010 | - |
 | FR-003-03 | 003-console | draft | T-003-010 | - |
@@ -1213,6 +1214,7 @@
 | P-002-10 | 002-runner | draft | T-002-031 | - |
 | P-002-11 | 002-runner | draft | T-002-070 | - |
 | P-002-12 | 002-runner | draft | T-002-011 | - |
+| P-002-13 | 002-runner | draft | T-002-095 | - |
 | P-003-01 | 003-console | draft | T-003-020 | - |
 | P-003-02 | 003-console | draft | T-003-021 | - |
 | P-003-03 | 003-console | draft | T-003-015 | - |

@@ -60,6 +60,8 @@ against the fake GPU backend and fake stages unless it is marked `gpu`.
 ## Phase — Hostile-input classes without a requirement (G5 review)
 - [ ] T-002-092 (FR-002-64) profile with a repeated GPU index is rejected — test: tests/unit/test_t_002_092_profile_duplicate_gpu.py
 - [ ] T-002-093 (FR-002-65) stage result with two outputs on one path is `invalid-result` — test: tests/unit/test_t_002_093_result_duplicate_output_path.py
+- [ ] T-002-094 (FR-002-66) thermal guard: pause at `runner.run_pause_temp_c`, resume at `runner.run_resume_temp_c`, stop at `runner.run_stop_temp_c` or on a new WHEA/PCIe AER event with a checkpoint, exit code 5, and the GPU time block cap with cool-down — test: tests/unit/test_t_002_094_thermal_guard.py
+- [ ] T-002-095 (P-002-13) thermal guard property: never resumes above the resume temperature, never runs past a stop condition — test: tests/property/test_t_002_095_thermal_guard_property.py
 
 ## Phase 9 — Polish and hostile review
 
