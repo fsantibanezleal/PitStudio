@@ -1,0 +1,94 @@
+{
+  "model_id": "tcn-c1",
+  "engine": "forecasters",
+  "cases": [
+    "C1"
+  ],
+  "onnx": {
+    "path": "web/public/models/tcn-c1.onnx",
+    "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "bytes": 1800000
+  },
+  "opset": 17,
+  "ir_version": 10,
+  "precision": "fp32",
+  "delivery": "live",
+  "constants": {
+    "context_length": 128,
+    "block_mean_width": 4,
+    "horizon_steps": 64,
+    "max_blocks": 4
+  },
+  "inputs": [
+    {
+      "name": "context",
+      "dtype": "float32",
+      "shape": [
+        1,
+        2,
+        128
+      ],
+      "unit": "per-channel",
+      "channel_axis": 1,
+      "channels": [
+        {
+          "name": "inverse_velocity",
+          "unit": "h/mm",
+          "normalisation": {
+            "rule": "context-mean-abs",
+            "applied_in_graph": false
+          }
+        },
+        {
+          "name": "mask",
+          "unit": "1"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "quantiles",
+      "dtype": "float32",
+      "shape": [
+        1,
+        9,
+        64
+      ],
+      "unit": "h/mm",
+      "quantile_axis": 1,
+      "quantiles": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ],
+      "normalisation": {
+        "rule": "context-mean-abs",
+        "applied_in_graph": false
+      }
+    }
+  ],
+  "training_envelope": {
+    "voight_alpha": {
+      "min": 1.7,
+      "max": 2.3,
+      "unit": "1"
+    },
+    "terminal_duration": {
+      "min": 24,
+      "max": 720,
+      "unit": "h"
+    },
+    "onset_velocity": {
+      "min": 0.004167,
+      "max": 0.4167,
+      "unit": "mm/h"
+    }
+  }
+}

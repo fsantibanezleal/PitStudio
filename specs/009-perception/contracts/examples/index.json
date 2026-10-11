@@ -1,0 +1,1079 @@
+{
+  "spec": "009-perception",
+  "examples": [
+    {
+      "file": "perception-dataset.valid.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "structured pit-family test image with a frame state"
+    },
+    {
+      "file": "perception-dataset.valid-unstructured.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "unstructured-arm pit image (training split only)"
+    },
+    {
+      "file": "perception-dataset.valid-crusher.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "crusher-family frame from the S3 camera handoff (connected-component labels)"
+    },
+    {
+      "file": "perception-dataset.hostile-synthetic-false.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic flag not true",
+      "rule": "DC-009-01",
+      "pointer": "/synthetic",
+      "keyword": "const"
+    },
+    {
+      "file": "perception-dataset.hostile-unknown-enum.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (split)",
+      "rule": "FR-009-16",
+      "pointer": "/split",
+      "keyword": "enum"
+    },
+    {
+      "file": "perception-dataset.hostile-unknown-class.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (class outside the five)",
+      "rule": "FR-009-01",
+      "pointer": "/dr/placements/0/class",
+      "keyword": "enum"
+    },
+    {
+      "file": "perception-dataset.hostile-path-traversal.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-009-42",
+      "pointer": "/image/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "perception-dataset.hostile-absolute-path.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-009-42",
+      "pointer": "/depth/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "perception-dataset.hostile-drive-letter.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "drive-letter path",
+      "rule": "FR-009-42",
+      "pointer": "/semantic_mask/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "perception-dataset.hostile-malformed-digest.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (upper case)",
+      "rule": "FR-009-42",
+      "pointer": "/image/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "perception-dataset.hostile-unknown-field.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key (SDG throughput figure)",
+      "rule": "FR-009-41",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "perception-dataset.hostile-missing-required.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing frame state on a pit-family record",
+      "rule": "FR-009-44",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "perception-dataset.hostile-out-of-range.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "solar elevation below 5 degrees",
+      "rule": "FR-009-04",
+      "pointer": "/dr/sun_elevation_deg",
+      "keyword": "minimum"
+    },
+    {
+      "file": "perception-dataset.hostile-wrong-unit.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong depth unit",
+      "rule": "FR-009-02",
+      "pointer": "/depth/unit",
+      "keyword": "const"
+    },
+    {
+      "file": "perception-dataset.hostile-conditional-pit-resolution.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pit image not 1280 x 720",
+      "rule": "FR-009-02",
+      "pointer": "/image/width_px",
+      "keyword": "const"
+    },
+    {
+      "file": "perception-dataset.hostile-conditional-unstructured-split.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unstructured arm outside training",
+      "rule": "FR-009-16",
+      "pointer": "/split",
+      "keyword": "const"
+    },
+    {
+      "file": "perception-dataset.hostile-conditional-crusher-instance-source.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "crusher labels not from connected components",
+      "rule": "FR-009-13",
+      "pointer": "/instance_source",
+      "keyword": "const"
+    },
+    {
+      "file": "perception-dataset.hostile-conditional-crusher-instance-mask.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "instance mask on a crusher frame (no instance ids)",
+      "rule": "FR-009-13",
+      "pointer": "",
+      "keyword": "not"
+    },
+    {
+      "file": "perception-dataset.hostile-licence.json",
+      "schema": "perception-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "licence class not own",
+      "rule": "FR-009-19",
+      "pointer": "/licence/licence_class",
+      "keyword": "const"
+    },
+    {
+      "file": "coco-instances.valid.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "two images, three polygon annotations, the five categories"
+    },
+    {
+      "file": "coco-instances.hostile-iscrowd.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "iscrowd not 0",
+      "rule": "FR-009-15",
+      "pointer": "/annotations/0/iscrowd",
+      "keyword": "const"
+    },
+    {
+      "file": "coco-instances.hostile-unknown-category.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "category id outside 1-5",
+      "rule": "FR-009-15",
+      "pointer": "/annotations/1/category_id",
+      "keyword": "maximum"
+    },
+    {
+      "file": "coco-instances.hostile-category-out-of-range.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "category entry outside 1-5",
+      "rule": "FR-009-01",
+      "pointer": "/categories/4/id",
+      "keyword": "maximum"
+    },
+    {
+      "file": "coco-instances.hostile-category-name-mismatch.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "category id and name not paired",
+      "rule": "FR-009-01",
+      "pointer": "/categories/1",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "coco-instances.hostile-missing-category.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than five categories",
+      "rule": "FR-009-01",
+      "pointer": "/categories",
+      "keyword": "minItems"
+    },
+    {
+      "file": "coco-instances.hostile-path-traversal.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "file_name with ..",
+      "rule": "FR-009-15",
+      "pointer": "/images/0/file_name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "coco-instances.hostile-absolute-path.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute file_name",
+      "rule": "FR-009-15",
+      "pointer": "/images/0/file_name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "coco-instances.hostile-drive-letter.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "file_name with a drive letter",
+      "rule": "FR-009-15",
+      "pointer": "/images/1/file_name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "coco-instances.hostile-box-left-edge.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "box beyond the left image edge by more than 0.5 px",
+      "rule": "FR-009-15",
+      "pointer": "/annotations/0/bbox/0",
+      "keyword": "minimum"
+    },
+    {
+      "file": "coco-instances.hostile-wrong-shape.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "box with five values",
+      "rule": "FR-009-15",
+      "pointer": "/annotations/0/bbox",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "coco-instances.hostile-rle-segmentation.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "RLE segmentation with iscrowd 0",
+      "rule": "DC-009-02",
+      "pointer": "/annotations/0/segmentation",
+      "keyword": "type"
+    },
+    {
+      "file": "coco-instances.hostile-unknown-field.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "key outside the closed subset",
+      "rule": "DC-009-02",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "coco-instances.hostile-prediction-field.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "prediction score in a ground-truth annotation",
+      "rule": "DC-009-02",
+      "pointer": "/annotations/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "coco-instances.hostile-out-of-range.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "area not positive",
+      "rule": "DC-009-02",
+      "pointer": "/annotations/0/area",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "coco-instances.hostile-empty.json",
+      "schema": "coco-instances.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no images",
+      "rule": "DC-009-02",
+      "pointer": "/images",
+      "keyword": "minItems"
+    },
+    {
+      "file": "sdg-randomisation.valid.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "default three arms of 10,000 images with the FR-009-08 envelope"
+    },
+    {
+      "file": "sdg-randomisation.hostile-unknown-enum.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (family)",
+      "rule": "FR-009-09",
+      "pointer": "/arms/0/family",
+      "keyword": "enum"
+    },
+    {
+      "file": "sdg-randomisation.hostile-unknown-distribution.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (distribution)",
+      "rule": "FR-009-08",
+      "pointer": "/unstructured/light_intensity_factor/distribution",
+      "keyword": "const"
+    },
+    {
+      "file": "sdg-randomisation.hostile-zero-count.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "zero image count",
+      "rule": "FR-009-09",
+      "pointer": "/arms/0/image_count",
+      "keyword": "minimum"
+    },
+    {
+      "file": "sdg-randomisation.hostile-negative-count.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative image count",
+      "rule": "FR-009-09",
+      "pointer": "/arms/1/image_count",
+      "keyword": "minimum"
+    },
+    {
+      "file": "sdg-randomisation.hostile-wrong-type.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "count given as a string",
+      "rule": "FR-009-09",
+      "pointer": "/arms/0/image_count",
+      "keyword": "type"
+    },
+    {
+      "file": "sdg-randomisation.hostile-out-of-range.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "colour temperature above 12,000 K",
+      "rule": "FR-009-08",
+      "pointer": "/unstructured/colour_temperature_k/max",
+      "keyword": "maximum"
+    },
+    {
+      "file": "sdg-randomisation.hostile-out-of-range-light.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "light factor below 0.1",
+      "rule": "FR-009-08",
+      "pointer": "/unstructured/light_intensity_factor/min",
+      "keyword": "minimum"
+    },
+    {
+      "file": "sdg-randomisation.hostile-out-of-range-distractors.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 20 distractors",
+      "rule": "FR-009-08",
+      "pointer": "/unstructured/distractors/max",
+      "keyword": "maximum"
+    },
+    {
+      "file": "sdg-randomisation.hostile-out-of-range-oversize.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversize limit not positive",
+      "rule": "FR-009-01",
+      "pointer": "/x_os_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "sdg-randomisation.hostile-out-of-range-drying.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative drying time",
+      "rule": "FR-009-06",
+      "pointer": "/drying_time_min",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "sdg-randomisation.hostile-unknown-field.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key",
+      "rule": "FR-009-09",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "sdg-randomisation.hostile-wrong-unit.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "drying time in hours",
+      "rule": "FR-009-09",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "sdg-randomisation.hostile-conditional-unstructured-crusher.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unstructured arm on the crusher family",
+      "rule": "FR-009-03",
+      "pointer": "/arms/2/family",
+      "keyword": "const"
+    },
+    {
+      "file": "sdg-randomisation.hostile-conditional-seed-source.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unstructured arm with its own seeds",
+      "rule": "FR-009-03",
+      "pointer": "/arms/2/seed_source",
+      "keyword": "const"
+    },
+    {
+      "file": "sdg-randomisation.hostile-sun-threshold.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "solar-elevation floor changed",
+      "rule": "FR-009-04",
+      "pointer": "/structured/sun/min_elevation_deg",
+      "keyword": "const"
+    },
+    {
+      "file": "sdg-randomisation.hostile-non-cc0-texture.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "texture not CC0",
+      "rule": "FR-009-07",
+      "pointer": "/texture_pool/3/spdx",
+      "keyword": "const"
+    },
+    {
+      "file": "sdg-randomisation.hostile-bad-pattern.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "lithology key outside its pattern",
+      "rule": "FR-009-09",
+      "pointer": "/structured/rock_textures/lithologies",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sdg-randomisation.hostile-oversized.json",
+      "schema": "sdg-randomisation.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than three arms",
+      "rule": "FR-009-03",
+      "pointer": "/arms",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "people-asset-record.valid.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "MakeHuman 1.3.0 export with bundled system assets"
+    },
+    {
+      "file": "people-asset-record.valid-mannequin.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "procedural mannequin fallback"
+    },
+    {
+      "file": "people-asset-record.hostile-malformed-digest.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed zip digest",
+      "rule": "FR-009-12",
+      "pointer": "/zip_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "people-asset-record.hostile-community-asset.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "community asset",
+      "rule": "FR-009-12",
+      "pointer": "/assets/1/origin",
+      "keyword": "const"
+    },
+    {
+      "file": "people-asset-record.hostile-missing-required.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing export settings",
+      "rule": "FR-009-12",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "people-asset-record.hostile-wrong-version.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "application version not 1.3.0",
+      "rule": "FR-009-11",
+      "pointer": "/application_version",
+      "keyword": "const"
+    },
+    {
+      "file": "people-asset-record.hostile-modified-build.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "modified build",
+      "rule": "FR-009-11",
+      "pointer": "/build",
+      "keyword": "const"
+    },
+    {
+      "file": "people-asset-record.hostile-unknown-enum.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown people source",
+      "rule": "FR-009-11",
+      "pointer": "/source",
+      "keyword": "const"
+    },
+    {
+      "file": "people-asset-record.hostile-unknown-format.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown export format",
+      "rule": "FR-009-11",
+      "pointer": "/export_settings/format",
+      "keyword": "enum"
+    },
+    {
+      "file": "people-asset-record.hostile-path-traversal.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "DC-009-04",
+      "pointer": "/export_path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "people-asset-record.hostile-absolute-path.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "DC-009-04",
+      "pointer": "/export_path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "people-asset-record.hostile-unknown-field.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key",
+      "rule": "FR-009-12",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "people-asset-record.hostile-licence.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "export licence not CC0",
+      "rule": "FR-009-11",
+      "pointer": "/licence/spdx",
+      "keyword": "const"
+    },
+    {
+      "file": "people-asset-record.hostile-wrong-type.json",
+      "schema": "people-asset-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed given as a string",
+      "rule": "DC-009-04",
+      "pointer": "/seed",
+      "keyword": "type"
+    },
+    {
+      "file": "detection-eval.valid.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "report without a real probe (sim-to-real not measured)"
+    },
+    {
+      "file": "detection-eval.valid-probe.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "report with the labelled real probe and an insufficient-support verdict"
+    },
+    {
+      "file": "detection-eval.hostile-unknown-enum.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown precision",
+      "rule": "FR-009-30",
+      "pointer": "/per_class/0/precision",
+      "keyword": "enum"
+    },
+    {
+      "file": "detection-eval.hostile-out-of-range.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "AP above 1",
+      "rule": "FR-009-22",
+      "pointer": "/per_class/0/ap50",
+      "keyword": "maximum"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-probe-not-measured.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "real-probe metrics while sim-to-real is not measured",
+      "rule": "FR-009-32",
+      "pointer": "",
+      "keyword": "not"
+    },
+    {
+      "file": "detection-eval.hostile-real-domain-field.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "real-domain metric field",
+      "rule": "FR-009-32",
+      "pointer": "/per_class/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "detection-eval.hostile-honesty-label.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "honesty label altered",
+      "rule": "FR-009-32",
+      "pointer": "/honesty_label",
+      "keyword": "const"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-class-sim-to-real.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "class marked measured without a probe",
+      "rule": "FR-009-32",
+      "pointer": "/per_class/0/sim_to_real",
+      "keyword": "const"
+    },
+    {
+      "file": "detection-eval.hostile-ablation-resamples.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "DR ablation with B != 10,000",
+      "rule": "FR-009-31",
+      "pointer": "/dr_ablation/bootstrap/resamples",
+      "keyword": "const"
+    },
+    {
+      "file": "detection-eval.hostile-ablation-verdict.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "verdict outside the decision rule",
+      "rule": "FR-009-31",
+      "pointer": "/dr_ablation/verdict",
+      "keyword": "enum"
+    },
+    {
+      "file": "detection-eval.hostile-severity.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "severity outside 1-5",
+      "rule": "FR-009-30",
+      "pointer": "/corruption/0/severity",
+      "keyword": "maximum"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-mask-model.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "mask AP for a box-only detector",
+      "rule": "FR-009-23",
+      "pointer": "/per_class/2/model",
+      "keyword": "const"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-crusher-mask-descriptive.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "crusher mask metric inside the acceptance",
+      "rule": "FR-009-23",
+      "pointer": "/per_class/2/descriptive",
+      "keyword": "const"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-zero-support.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "AP reported for a class with no test instances",
+      "rule": "FR-009-22",
+      "pointer": "/per_class/3",
+      "keyword": "not"
+    },
+    {
+      "file": "detection-eval.hostile-threshold.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pre-registered threshold changed",
+      "rule": "SC-009-01",
+      "pointer": "/acceptance/0/threshold",
+      "keyword": "const"
+    },
+    {
+      "file": "detection-eval.hostile-family-not-run.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "family not run without a reason",
+      "rule": "FR-009-40",
+      "pointer": "/families/1",
+      "keyword": "required"
+    },
+    {
+      "file": "detection-eval.hostile-insufficient-support-missing.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-evaluable verdict without the class and count",
+      "rule": "FR-009-24",
+      "pointer": "/acceptance/0",
+      "keyword": "required"
+    },
+    {
+      "file": "detection-eval.hostile-insufficient-support-count.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "shortfall count of 100 or more",
+      "rule": "FR-009-24",
+      "pointer": "/acceptance/0/insufficient_support/0/count",
+      "keyword": "maximum"
+    },
+    {
+      "file": "detection-eval.hostile-probe-oversized.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "probe of more than 200 images",
+      "rule": "FR-009-34",
+      "pointer": "/real_probe/images",
+      "keyword": "maximum"
+    },
+    {
+      "file": "detection-eval.hostile-probe-missing.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "measured sim-to-real without probe metrics",
+      "rule": "FR-009-33",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "detection-eval.hostile-probe-per-image.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "probe results not aggregate-only",
+      "rule": "FR-009-33",
+      "pointer": "/real_probe/aggregate_only",
+      "keyword": "const"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "file SHA-256 differs from the file on disk",
+      "by": "checker",
+      "rule": "FR-009-42"
+    },
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "semantic or instance mask size differs from its RGB image (crusher family; the pit family is pinned to 1280 x 720)",
+      "by": "checker",
+      "rule": "FR-009-42"
+    },
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "semantic class value outside {0, 1, 2, 3, 4, 5} (pixel content)",
+      "by": "checker",
+      "rule": "FR-009-42"
+    },
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "scenario seed or layout id in two splits; perceptual-hash link at Hamming distance <= 4",
+      "by": "checker",
+      "rule": "FR-009-17"
+    },
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "unstructured-arm seeds and layouts not drawn from the structured pit training split",
+      "by": "checker",
+      "rule": "FR-009-03"
+    },
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "texture id absent from the config's texture pool",
+      "by": "checker",
+      "rule": "FR-009-09"
+    },
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "frame-state file invalid against DC-015-01 or its image SHA-256 not equal to the frame's",
+      "by": "checker",
+      "rule": "FR-009-44"
+    },
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "coco_image_id absent from the referenced COCO file",
+      "by": "checker",
+      "rule": "FR-009-15"
+    },
+    {
+      "schema": "perception-dataset.schema.json",
+      "class": "record_id repeated across records of one index",
+      "by": "checker",
+      "rule": "-",
+      "note": "no FR names duplicate index records; reported as a gap"
+    },
+    {
+      "schema": "coco-instances.schema.json",
+      "class": "non-finite coordinate",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "coco-instances.schema.json",
+      "class": "box width or height <= 0 (positional; no prefixItems)",
+      "by": "checker",
+      "rule": "FR-009-15"
+    },
+    {
+      "schema": "coco-instances.schema.json",
+      "class": "box beyond the right or bottom image edge by more than 0.5 px (needs the image size)",
+      "by": "checker",
+      "rule": "FR-009-15"
+    },
+    {
+      "schema": "coco-instances.schema.json",
+      "class": "duplicated annotation or image id",
+      "by": "checker",
+      "rule": "FR-009-15"
+    },
+    {
+      "schema": "coco-instances.schema.json",
+      "class": "annotation pointing to a missing image",
+      "by": "checker",
+      "rule": "FR-009-15"
+    },
+    {
+      "schema": "coco-instances.schema.json",
+      "class": "area not equal to the polygon area; polygon with an odd number of coordinates or vertices outside the image",
+      "by": "checker",
+      "rule": "-",
+      "note": "FR-009-15 does not list polygon consistency; reported as a gap"
+    },
+    {
+      "schema": "coco-instances.schema.json",
+      "class": "file_name segment equal to a Windows device name, or two file names equal after case folding",
+      "by": "checker",
+      "rule": "-",
+      "note": "data-model 001 section 1.3 relpath rule; no spec 009 FR names it; reported as a gap"
+    },
+    {
+      "schema": "sdg-randomisation.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "sdg-randomisation.schema.json",
+      "class": "lithology texture id absent from texture_pool (unknown texture id)",
+      "by": "checker",
+      "rule": "FR-009-09"
+    },
+    {
+      "schema": "sdg-randomisation.schema.json",
+      "class": "range with min > max",
+      "by": "checker",
+      "rule": "FR-009-09"
+    },
+    {
+      "schema": "sdg-randomisation.schema.json",
+      "class": "two arms with the same family and arm",
+      "by": "checker",
+      "rule": "FR-009-03"
+    },
+    {
+      "schema": "sdg-randomisation.schema.json",
+      "class": "texture licence record missing from the source registry",
+      "by": "checker",
+      "rule": "FR-009-10"
+    },
+    {
+      "schema": "people-asset-record.schema.json",
+      "class": "duplicate key or byte-order mark",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "people-asset-record.schema.json",
+      "class": "zip SHA-256 differs from the pinned value of the official 1.3.0 zip",
+      "by": "checker",
+      "rule": "FR-009-12"
+    },
+    {
+      "schema": "people-asset-record.schema.json",
+      "class": "asset name not in the bundled 1.3.0 system asset list",
+      "by": "checker",
+      "rule": "FR-009-12"
+    },
+    {
+      "schema": "people-asset-record.schema.json",
+      "class": "export SHA-256 differs from the exported file",
+      "by": "checker",
+      "rule": "-",
+      "note": "no FR names the export digest check; reported as a gap"
+    },
+    {
+      "schema": "detection-eval.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "detection-eval.schema.json",
+      "class": "interval with lower > upper or not containing its point estimate",
+      "by": "checker",
+      "rule": "FR-009-22"
+    },
+    {
+      "schema": "detection-eval.schema.json",
+      "class": "mAP50 not the unweighted mean over the classes with >= 100 test instances; classes_included inconsistent with per_class support",
+      "by": "checker",
+      "rule": "FR-009-22"
+    },
+    {
+      "schema": "detection-eval.schema.json",
+      "class": "verdict other than not evaluable when an affected class has < 100 test instances",
+      "by": "checker",
+      "rule": "FR-009-24"
+    },
+    {
+      "schema": "detection-eval.schema.json",
+      "class": "delta_rel_pct not equal to 100 (m_clean - m_corrupted) / m_clean",
+      "by": "checker",
+      "rule": "FR-009-30"
+    },
+    {
+      "schema": "detection-eval.schema.json",
+      "class": "DR verdict inconsistent with the interval bounds (FR-000-05 mapping)",
+      "by": "checker",
+      "rule": "FR-009-31"
+    },
+    {
+      "schema": "detection-eval.schema.json",
+      "class": "pass or fail inconsistent with value and threshold",
+      "by": "checker",
+      "rule": "SC-009-01"
+    },
+    {
+      "schema": "detection-eval.schema.json",
+      "class": "two rows for one (model, precision, arm, family, task, class)",
+      "by": "checker",
+      "rule": "-",
+      "note": "no FR names report-row uniqueness; reported as a gap"
+    }
+  ]
+}

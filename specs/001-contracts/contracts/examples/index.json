@@ -1,0 +1,1681 @@
+{
+  "spec": "001-contracts",
+  "examples": [
+    {
+      "file": "manifest.valid.json",
+      "schema": "manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "published run: public, local-only and not_run stages; video and table artefacts"
+    },
+    {
+      "file": "manifest.valid-unpublished.json",
+      "schema": "manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "test-launcher run, fake GPU, failed stage with OOM fallback and a null telemetry field"
+    },
+    {
+      "file": "manifest.valid-web-index.json",
+      "schema": "manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "web index with a release-hosted live ONNX artefact"
+    },
+    {
+      "file": "manifest.hostile-unknown-kind.json",
+      "schema": "manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (document kind)",
+      "rule": "FR-001-10",
+      "pointer": "",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "manifest.hostile-unknown-enum.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-001-11",
+      "pointer": "/artefacts/0/budget_class",
+      "keyword": "enum"
+    },
+    {
+      "file": "manifest.hostile-unknown-field.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "unknown field (host name)",
+      "rule": "FR-001-15",
+      "pointer": "/artefacts/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "manifest.hostile-path-traversal.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-001-04",
+      "pointer": "/artefacts/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "manifest.hostile-absolute-path.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-001-04",
+      "pointer": "/stages/0/outputs/0/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "manifest.hostile-malformed-digest.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "malformed digest (uppercase hex)",
+      "rule": "FR-001-04",
+      "pointer": "/recipe/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "manifest.hostile-bad-timestamp.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "malformed timestamp",
+      "rule": "FR-001-04",
+      "pointer": "/created",
+      "keyword": "pattern"
+    },
+    {
+      "file": "manifest.hostile-release-without-tag.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "release host without release tag",
+      "rule": "FR-001-12",
+      "pointer": "/artefacts/1",
+      "keyword": "required"
+    },
+    {
+      "file": "manifest.hostile-git-oversize.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "git-hosted file of 10 MiB",
+      "rule": "FR-001-12",
+      "pointer": "/artefacts/0/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "manifest.hostile-git-with-tag.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "git host with a release tag",
+      "rule": "FR-001-12",
+      "pointer": "/artefacts/0",
+      "keyword": "not"
+    },
+    {
+      "file": "manifest.hostile-local-only-telemetry.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "licence violation: local-only telemetry published",
+      "rule": "FR-001-14",
+      "pointer": "/stages/1/telemetry",
+      "keyword": "const"
+    },
+    {
+      "file": "manifest.hostile-local-only-wall-s.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "licence violation: local-only wall time published",
+      "rule": "FR-001-14",
+      "pointer": "/stages/1",
+      "keyword": "not"
+    },
+    {
+      "file": "manifest.hostile-local-only-duration.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "licence violation: local-only attempt duration published",
+      "rule": "FR-001-14",
+      "pointer": "/stages/1/attempts/0",
+      "keyword": "not"
+    },
+    {
+      "file": "manifest.hostile-published-dirty.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "published with uncommitted changes",
+      "rule": "FR-001-16",
+      "pointer": "/git_dirty",
+      "keyword": "const"
+    },
+    {
+      "file": "manifest.hostile-published-fake-gpu.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "published with the fake GPU backend",
+      "rule": "FR-001-16",
+      "pointer": "/gpu",
+      "keyword": "anyOf"
+    },
+    {
+      "file": "manifest.hostile-published-test-launcher.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "published by the test launcher",
+      "rule": "FR-001-16",
+      "pointer": "/launcher",
+      "keyword": "const"
+    },
+    {
+      "file": "manifest.hostile-video-without-encoder.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "video without encoder record",
+      "rule": "FR-001-17",
+      "pointer": "/artefacts/0",
+      "keyword": "required"
+    },
+    {
+      "file": "manifest.hostile-encoder-on-table.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "encoder record on a non-video artefact",
+      "rule": "FR-001-17",
+      "pointer": "/artefacts/1",
+      "keyword": "not"
+    },
+    {
+      "file": "manifest.hostile-replay-without-measurements.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "replay lane without measurements",
+      "rule": "FR-001-13",
+      "pointer": "/artefacts/0",
+      "keyword": "required"
+    },
+    {
+      "file": "manifest.hostile-static-video.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "static lane on a non-static kind",
+      "rule": "FR-001-13",
+      "pointer": "/artefacts/0/kind",
+      "keyword": "enum"
+    },
+    {
+      "file": "manifest.hostile-static-kind-replay.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "static kind on the replay lane",
+      "rule": "FR-001-13",
+      "pointer": "/artefacts/1/lane",
+      "keyword": "const"
+    },
+    {
+      "file": "manifest.hostile-missing-attribution.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/web_index",
+      "valid": false,
+      "class": "attribution missing for class attribution",
+      "rule": "FR-001-11",
+      "pointer": "/artefacts/0",
+      "keyword": "required"
+    },
+    {
+      "file": "manifest.hostile-not-run-without-reason.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "not_run without reason",
+      "rule": "FR-001-10",
+      "pointer": "/stages/2",
+      "keyword": "required"
+    },
+    {
+      "file": "manifest.hostile-not-run-with-outputs.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "not_run stage with outputs",
+      "rule": "FR-001-10",
+      "pointer": "/stages/2/outputs",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "manifest.hostile-error-class-on-success.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "error class on a succeeded stage",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/error_class",
+      "keyword": "type"
+    },
+    {
+      "file": "manifest.hostile-reason-on-success.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "reason on a succeeded stage",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "manifest.hostile-wrong-type.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "wrong type (string number)",
+      "rule": "FR-001-10",
+      "pointer": "/seed",
+      "keyword": "type"
+    },
+    {
+      "file": "manifest.hostile-out-of-range.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "out-of-range number",
+      "rule": "FR-001-10",
+      "pointer": "/gpu/index",
+      "keyword": "maximum"
+    },
+    {
+      "file": "manifest.hostile-seed-negative.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "out-of-range seed",
+      "rule": "FR-001-10",
+      "pointer": "/seed",
+      "keyword": "minimum"
+    },
+    {
+      "file": "manifest.hostile-telemetry-out-of-range.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "out-of-range telemetry",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/telemetry/gpu_busy_pct/mean",
+      "keyword": "maximum"
+    },
+    {
+      "file": "manifest.hostile-telemetry-null-unexplained.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "null telemetry field not named in unavailable",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/telemetry",
+      "keyword": "required"
+    },
+    {
+      "file": "manifest.hostile-oversized.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "oversized string",
+      "rule": "FR-001-10",
+      "pointer": "/notes/0",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "manifest.hostile-empty.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "empty required array",
+      "rule": "FR-001-10",
+      "pointer": "/stages",
+      "keyword": "minItems"
+    },
+    {
+      "file": "manifest.hostile-wrong-shape.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "wrong shape (array for object)",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/params",
+      "keyword": "type"
+    },
+    {
+      "file": "manifest.hostile-log-tail-on-success.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/run",
+      "valid": false,
+      "class": "log tail on a succeeded stage",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/status",
+      "keyword": "const"
+    },
+    {
+      "file": "manifest.hostile-web-runs-traversal.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/web_index",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-001-04",
+      "pointer": "/runs/0/manifest",
+      "keyword": "pattern"
+    },
+    {
+      "file": "manifest.hostile-web-generated-timestamp.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/web_index",
+      "valid": false,
+      "class": "wrong unit / shape (timestamp for date)",
+      "rule": "FR-001-10",
+      "pointer": "/generated",
+      "keyword": "pattern"
+    },
+    {
+      "file": "manifest.hostile-web-release-path.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/web_index",
+      "valid": false,
+      "class": "release asset given as a path",
+      "rule": "FR-001-12",
+      "pointer": "/artefacts/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.valid.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "case recipe: source input, statistical physics stage with OOM fallback, NVENC stage"
+    },
+    {
+      "file": "recipe.valid-bench.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "bench recipe; s64_bench on the accel environment"
+    },
+    {
+      "file": "recipe.valid-job-request.json",
+      "schema": "recipe.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": true,
+      "note": "console job request"
+    },
+    {
+      "file": "recipe.hostile-unknown-stage.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (stage id)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "recipe.hostile-unknown-env.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (environment)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/env",
+      "keyword": "enum"
+    },
+    {
+      "file": "recipe.hostile-wrong-binding.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong stage-environment binding",
+      "rule": "FR-001-22",
+      "pointer": "/stages/2/env",
+      "keyword": "const"
+    },
+    {
+      "file": "recipe.hostile-unknown-case.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (case)",
+      "rule": "FR-001-23",
+      "pointer": "/case",
+      "keyword": "anyOf"
+    },
+    {
+      "file": "recipe.hostile-unknown-determinism.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (determinism)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/determinism",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "recipe.hostile-unknown-gpu.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (resource kind)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/resources/gpu",
+      "keyword": "enum"
+    },
+    {
+      "file": "recipe.hostile-input-traversal.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal in an input id",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/inputs/0/id",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-output-absolute.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute output path (drive letter)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-output-root.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute output path",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-output-dotdot.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-output-backslash.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal (backslash)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-output-trailing-dot.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unsafe path (trailing dot)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-entry-injection.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "injection-like entry",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/entry",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-entry-flag.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "injection-like entry (argument)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/entry",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-entry-slash.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "entry that is a path",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/entry",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-digest-prefix.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (prefix)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/inputs/0/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-digest-63.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (63 hex)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/2/binaries/0/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-seed-2p63.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed out of range (2^63)",
+      "rule": "FR-001-23",
+      "pointer": "/seed",
+      "keyword": "maximum"
+    },
+    {
+      "file": "recipe.hostile-seed-float.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed of type float",
+      "rule": "FR-001-23",
+      "pointer": "/seed",
+      "keyword": "type"
+    },
+    {
+      "file": "recipe.hostile-seed-bool.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed of type bool",
+      "rule": "FR-001-23",
+      "pointer": "/seed",
+      "keyword": "type"
+    },
+    {
+      "file": "recipe.hostile-seed-string.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed as string",
+      "rule": "FR-001-23",
+      "pointer": "/seed",
+      "keyword": "type"
+    },
+    {
+      "file": "recipe.hostile-timeout-zero.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "timeout out of range (0)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/timeout_s",
+      "keyword": "minimum"
+    },
+    {
+      "file": "recipe.hostile-timeout-over.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "timeout out of range (604,801)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/timeout_s",
+      "keyword": "maximum"
+    },
+    {
+      "file": "recipe.hostile-vram-zero.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "VRAM estimate 0",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/resources/vram_gib_est",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "recipe.hostile-vram-300.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "VRAM estimate 300 GiB",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/resources/vram_gib_est",
+      "keyword": "maximum"
+    },
+    {
+      "file": "recipe.hostile-none-with-vram.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "inconsistent resources (gpu none + VRAM)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/resources",
+      "keyword": "not"
+    },
+    {
+      "file": "recipe.hostile-exclusive-without-vram.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "inconsistent resources (exclusive without VRAM)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/resources",
+      "keyword": "required"
+    },
+    {
+      "file": "recipe.hostile-statistical-no-observables.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "incomplete determinism (statistical)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/determinism",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "recipe.hostile-none-no-reason.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "incomplete determinism (none)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/2/determinism",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "recipe.hostile-too-many-stages.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized (65 stages)",
+      "rule": "FR-001-23",
+      "pointer": "/stages",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "recipe.hostile-params-depth.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized (params depth 5)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/params/deep/a/b/c",
+      "keyword": "type"
+    },
+    {
+      "file": "recipe.hostile-params-long-string.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized (1,025-character string)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/params/solver",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "recipe.hostile-params-long-array.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized (1,025-item array)",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/params/ladder",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "recipe.hostile-params-bad-key.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed parameter key",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/params",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-oom-fallback-5.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 4 OOM fallback steps",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/retry/oom_fallback",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "recipe.hostile-unknown-field-profile.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field (machine profile in a recipe)",
+      "rule": "FR-001-21",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "recipe.hostile-unknown-stage-field.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field (stage path)",
+      "rule": "FR-001-21",
+      "pointer": "/stages/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "recipe.hostile-empty.json",
+      "schema": "recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty required array",
+      "rule": "FR-001-23",
+      "pointer": "/stages",
+      "keyword": "minItems"
+    },
+    {
+      "file": "recipe.hostile-job-request-entry.json",
+      "schema": "recipe.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "inline recipe field in a job request",
+      "rule": "FR-001-24",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "recipe.hostile-job-request-stage-params.json",
+      "schema": "recipe.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "inline stage params in a job request",
+      "rule": "FR-001-24",
+      "pointer": "/stages/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "recipe.hostile-job-request-recipe-id.json",
+      "schema": "recipe.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "malformed recipe id",
+      "rule": "FR-001-24",
+      "pointer": "/recipe",
+      "keyword": "pattern"
+    },
+    {
+      "file": "recipe.hostile-job-request-duplicate-stage.json",
+      "schema": "recipe.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "duplicate stage",
+      "rule": "FR-001-24",
+      "pointer": "/stages",
+      "keyword": "uniqueItems"
+    },
+    {
+      "file": "recipe.hostile-job-request-65-stages.json",
+      "schema": "recipe.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "more than 64 stages",
+      "rule": "FR-001-24",
+      "pointer": "/stages",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "recipe.hostile-job-request-profile.json",
+      "schema": "recipe.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "malformed profile id",
+      "rule": "FR-001-24",
+      "pointer": "/profile",
+      "keyword": "pattern"
+    },
+    {
+      "file": "tools.valid.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "studio tools (lock, git-tag versions), a restricted local-only tool, an evaluated-not-adopted tool, components"
+    },
+    {
+      "file": "tools.hostile-literal-version.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "literal version string",
+      "rule": "FR-001-26",
+      "pointer": "/tools/0/version",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "tools.hostile-restricted-public.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "restricted licence declared public",
+      "rule": "FR-001-28",
+      "pointer": "/tools/1/performance",
+      "keyword": "const"
+    },
+    {
+      "file": "tools.hostile-not-adopted-no-reason.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "evaluated-not-adopted without reason",
+      "rule": "FR-001-53",
+      "pointer": "/tools/2",
+      "keyword": "required"
+    },
+    {
+      "file": "tools.hostile-short-reason.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "reason under 20 characters",
+      "rule": "FR-001-53",
+      "pointer": "/tools/2/reason",
+      "keyword": "minLength"
+    },
+    {
+      "file": "tools.hostile-reason-on-adopted.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "reason on a tool that is not evaluated-not-adopted",
+      "rule": "FR-001-53",
+      "pointer": "/tools/0",
+      "keyword": "not"
+    },
+    {
+      "file": "tools.hostile-not-adopted-docs-page.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "evaluated-not-adopted page without the not-adopted prefix",
+      "rule": "FR-001-53",
+      "pointer": "/tools/2/docs_page",
+      "keyword": "pattern"
+    },
+    {
+      "file": "tools.hostile-studio-tool-no-docs.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "studio tool without docs page",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0",
+      "keyword": "required"
+    },
+    {
+      "file": "tools.hostile-docs-traversal.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/docs_page",
+      "keyword": "pattern"
+    },
+    {
+      "file": "tools.hostile-unknown-env.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (environment)",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/envs/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "tools.hostile-unknown-ring.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (ring)",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/ring",
+      "keyword": "enum"
+    },
+    {
+      "file": "tools.hostile-unknown-spdx.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "SPDX id outside the allowlist",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/spdx/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "tools.hostile-unknown-field.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "tools.hostile-empty.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty required array",
+      "rule": "FR-001-25",
+      "pointer": "/tools",
+      "keyword": "minItems"
+    },
+    {
+      "file": "tools.hostile-wrong-type.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/osi",
+      "keyword": "type"
+    },
+    {
+      "file": "tools.hostile-oversized.json",
+      "schema": "tools.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized string",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/role",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "sources.valid.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "public-domain direct source with an archive, an API source, an account source with a fallback chain"
+    },
+    {
+      "file": "sources.valid-empty.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the committed empty registry"
+    },
+    {
+      "file": "sources.hostile-http-url.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "non-https URL",
+      "rule": "FR-001-32",
+      "pointer": "/sources/0/landing_url",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sources.hostile-userinfo-url.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "URL with user information",
+      "rule": "FR-001-32",
+      "pointer": "/sources/0/files/0/url",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sources.hostile-malformed-digest.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest",
+      "rule": "FR-001-32",
+      "pointer": "/sources/0/files/0/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sources.hostile-unknown-spdx.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "SPDX id outside the allowlist",
+      "rule": "FR-001-32",
+      "pointer": "/sources/1/spdx",
+      "keyword": "enum"
+    },
+    {
+      "file": "sources.hostile-class-not-allowed.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "licence class not allowed for (spdx, kind)",
+      "rule": "FR-001-32",
+      "pointer": "/sources/1",
+      "keyword": "anyOf"
+    },
+    {
+      "file": "sources.hostile-missing-attribution.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "attribution missing for class attribution",
+      "rule": "FR-001-32",
+      "pointer": "/sources/1",
+      "keyword": "required"
+    },
+    {
+      "file": "sources.hostile-account-without-fallback.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "account needed without fallback",
+      "rule": "FR-001-32",
+      "pointer": "/sources/2",
+      "keyword": "required"
+    },
+    {
+      "file": "sources.hostile-account-without-env-var.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "account needed without variable name",
+      "rule": "FR-001-32",
+      "pointer": "/sources/2/account",
+      "keyword": "required"
+    },
+    {
+      "file": "sources.hostile-env-var-value.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "credential value instead of a variable name",
+      "rule": "FR-001-32",
+      "pointer": "/sources/2/account/env_var",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sources.hostile-access-account-mismatch.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "access account without account.needed",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/account/needed",
+      "keyword": "const"
+    },
+    {
+      "file": "sources.hostile-unknown-access.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (access)",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/access",
+      "keyword": "enum"
+    },
+    {
+      "file": "sources.hostile-file-without-kind.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "file without kind",
+      "rule": "FR-001-52",
+      "pointer": "/sources/1/files/0",
+      "keyword": "required"
+    },
+    {
+      "file": "sources.hostile-unknown-file-kind.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (file kind)",
+      "rule": "FR-001-52",
+      "pointer": "/sources/1/files/0/kind",
+      "keyword": "enum"
+    },
+    {
+      "file": "sources.hostile-extract-non-archive.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extract on a non-archive file",
+      "rule": "FR-001-52",
+      "pointer": "/sources/1/files/0",
+      "keyword": "not"
+    },
+    {
+      "file": "sources.hostile-extract-traversal.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extract pattern that is not a relglob",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/files/1/extract/0",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sources.hostile-publisher-checksum.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed publisher checksum",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/files/0/publisher_checksum",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sources.hostile-bytes-over-64gib.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bytes over 64 GiB",
+      "rule": "FR-001-32",
+      "pointer": "/sources/0/files/0/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "sources.hostile-fallback-repeat.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "repeated fallback id",
+      "rule": "FR-001-52",
+      "pointer": "/sources/2/fallback/sources",
+      "keyword": "uniqueItems"
+    },
+    {
+      "file": "sources.hostile-card-traversal.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-001-31",
+      "pointer": "/sources/0/card",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sources.hostile-unknown-field.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field (retired name)",
+      "rule": "FR-001-31",
+      "pointer": "/sources/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "sources.hostile-oversized.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized string",
+      "rule": "FR-001-31",
+      "pointer": "/sources/0/title",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "sources.valid-spaced-member.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "archive members whose folder names contain spaces (as in the Mendeley archive)"
+    },
+    {
+      "file": "sources.hostile-extract-leading-space.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extract pattern segment with a leading space",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/files/1/extract/0",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sources.hostile-extract-trailing-space.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extract pattern segment with a trailing space",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/files/1/extract/0",
+      "keyword": "pattern"
+    },
+    {
+      "file": "capabilities.valid.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the run_bench.public_view shape of the existing contract-test samples"
+    },
+    {
+      "file": "capabilities.hostile-probe-name.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "probe name outside the pattern",
+      "rule": "FR-001-36",
+      "pointer": "/probes",
+      "keyword": "pattern"
+    },
+    {
+      "file": "capabilities.hostile-too-many-probes.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 64 probes",
+      "rule": "FR-001-36",
+      "pointer": "/probes",
+      "keyword": "maxProperties"
+    },
+    {
+      "file": "capabilities.hostile-unknown-status.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown status",
+      "rule": "FR-001-36",
+      "pointer": "/probes/warp_newton/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "capabilities.hostile-long-version.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "version string over 64 characters",
+      "rule": "FR-001-36",
+      "pointer": "/probes/warp_newton/versions/warp",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "capabilities.hostile-too-many-notes.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 20 notes",
+      "rule": "FR-001-36",
+      "pointer": "/probes/isaacsim/notes",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "capabilities.hostile-long-note.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "note over 300 characters",
+      "rule": "FR-001-36",
+      "pointer": "/probes/isaacsim/notes/0",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "capabilities.hostile-long-gpu.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "GPU name over 128 characters",
+      "rule": "FR-001-36",
+      "pointer": "/gpu",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "capabilities.hostile-bad-driver.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "driver not matching the pattern",
+      "rule": "FR-001-36",
+      "pointer": "/driver",
+      "keyword": "pattern"
+    },
+    {
+      "file": "capabilities.hostile-unknown-field.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-001-36",
+      "pointer": "/probes/warp_newton",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "capabilities.hostile-long-error.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "error over 300 characters",
+      "rule": "FR-001-35",
+      "pointer": "/probes/tensorrt/error",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "capabilities.hostile-metrics-wrong-constant.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "local-only marker other than the constant",
+      "rule": "FR-001-35",
+      "pointer": "/probes/ovrtx/metrics",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "capabilities.hostile-bad-generated.json",
+      "schema": "capabilities.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed date",
+      "rule": "FR-001-36",
+      "pointer": "/generated",
+      "keyword": "pattern"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "manifest.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "NaN / Infinity rejected by load_json before validation"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "malformed syntax, BOM, invalid UTF-8, duplicate key, depth > 32, bytes > cap",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "lane differs from the gate computed from the measurements",
+      "by": "checker",
+      "rule": "FR-001-13"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "licence class differs from the lattice over inputs; reference-only or mixed share-alike inputs",
+      "by": "checker",
+      "rule": "FR-001-18",
+      "note": "also FR-001-19"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "absolute path, host, user or home directory inside a free-text string",
+      "by": "checker",
+      "rule": "FR-001-15"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "published artefact produced by a stage that did not succeed",
+      "by": "checker",
+      "rule": "FR-001-16"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "encoder duration differs from frames / fps by more than 1 / fps",
+      "by": "checker",
+      "rule": "FR-001-17"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "served file digest or size differs from the index",
+      "by": "checker",
+      "rule": "FR-001-20"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "producer tool not in the registry, or stage environment not among its envs",
+      "by": "checker",
+      "rule": "FR-001-29"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "input id not a source, same-run artefact or knowledge row; unpinned source in a published run",
+      "by": "checker",
+      "rule": "FR-001-33"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "duplicate artefact id within a document",
+      "by": "validator",
+      "rule": "FR-001-54",
+      "note": "data-model §2.5 'unique within the document'; no FR names it"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "shards.done greater than shards.total",
+      "by": "validator",
+      "rule": "FR-001-55",
+      "note": "data-model §2.3; no FR names it"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "calendar-invalid timestamp or date (e.g. 2026-02-30)",
+      "by": "validator",
+      "rule": "FR-001-04",
+      "note": "data-model §1.3: calendar validity checked by validate"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "Windows device-name segment or case-folded duplicate path",
+      "by": "validator",
+      "rule": "FR-001-56",
+      "note": "data-model §1.3 relpath checker rules; no FR names them"
+    },
+    {
+      "schema": "manifest.schema.json",
+      "class": "trailing newline after an anchored id (Python re `$` matches before a final newline)",
+      "by": "validator",
+      "rule": "FR-001-57",
+      "note": "gap: jsonschema uses re.search; pydantic-core and ECMAScript reject it"
+    },
+    {
+      "schema": "recipe.schema.json",
+      "class": "non-finite number in params (.nan, .inf)",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "recipe.schema.json",
+      "class": "YAML alias, anchor, explicit tag, several documents, duplicate key, implicit boolean",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "recipe.schema.json",
+      "class": "file over 262,144 bytes (recipe) or 65,536 bytes (job request)",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "recipe.schema.json",
+      "class": "params canonical size over 65,536 bytes",
+      "by": "validator",
+      "rule": "FR-001-23",
+      "note": "data-model §1.4"
+    },
+    {
+      "schema": "recipe.schema.json",
+      "class": "more than 10,000 shards (ceil(total / shard_size))",
+      "by": "validator",
+      "rule": "FR-001-23",
+      "note": "data-model §3.2 validator rule"
+    },
+    {
+      "schema": "recipe.schema.json",
+      "class": "duplicate stage key (id, variant) in a recipe",
+      "by": "checker",
+      "rule": "-",
+      "note": "spec 002 planner; data-model §3.2"
+    },
+    {
+      "schema": "recipe.schema.json",
+      "class": "OOM fallback key absent from params",
+      "by": "checker",
+      "rule": "-",
+      "note": "spec 002 planner; data-model §3.2"
+    },
+    {
+      "schema": "recipe.schema.json",
+      "class": "tool id not in the registry",
+      "by": "checker",
+      "rule": "FR-001-50",
+      "note": "data-model §8.1"
+    },
+    {
+      "schema": "recipe.schema.json",
+      "class": "Windows device-name output path (con.txt)",
+      "by": "validator",
+      "rule": "FR-001-56",
+      "note": "data-model §1.3 relpath checker rules; no FR names them"
+    },
+    {
+      "schema": "tools.schema.json",
+      "class": "YAML alias, anchor, tag, several documents, duplicate key, implicit boolean",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "tools.schema.json",
+      "class": "file over 262,144 bytes",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "tools.schema.json",
+      "class": "lock reference whose lock file or package does not exist",
+      "by": "checker",
+      "rule": "FR-001-26"
+    },
+    {
+      "schema": "tools.schema.json",
+      "class": "pinned-binary version on a tool without the external environment",
+      "by": "checker",
+      "rule": "FR-001-26",
+      "note": "data-model §4.2"
+    },
+    {
+      "schema": "tools.schema.json",
+      "class": "docs page that does not exist, or does not equal docs/frameworks/<id>.md (not-adopted-<id>.md)",
+      "by": "checker",
+      "rule": "FR-001-53"
+    },
+    {
+      "schema": "tools.schema.json",
+      "class": "not exactly 20 studio-tool entries",
+      "by": "checker",
+      "rule": "FR-001-25"
+    },
+    {
+      "schema": "tools.schema.json",
+      "class": "duplicate tool id",
+      "by": "validator",
+      "rule": "FR-001-54",
+      "note": "data-model §4.1 'ids unique'; no FR names it"
+    },
+    {
+      "schema": "sources.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "sources.schema.json",
+      "class": "YAML alias, anchor, tag, several documents, duplicate key, implicit boolean",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "sources.schema.json",
+      "class": "file over 1,048,576 bytes",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "sources.schema.json",
+      "class": "query parameter named like a credential (key, token, apikey, api_key, access_token, signature)",
+      "by": "checker",
+      "rule": "FR-001-32",
+      "note": "data-model §1.3 https_url notes"
+    },
+    {
+      "schema": "sources.schema.json",
+      "class": "value matching the secret patterns of tools/check_repo.py",
+      "by": "checker",
+      "rule": "FR-001-32"
+    },
+    {
+      "schema": "sources.schema.json",
+      "class": "duplicate source id",
+      "by": "checker",
+      "rule": "FR-001-32"
+    },
+    {
+      "schema": "sources.schema.json",
+      "class": "fallback id that is not another registry id, or names the entry itself",
+      "by": "checker",
+      "rule": "FR-001-52"
+    },
+    {
+      "schema": "sources.schema.json",
+      "class": "files mixing a share-alike SPDX id with any other id",
+      "by": "checker",
+      "rule": "FR-001-52"
+    },
+    {
+      "schema": "sources.schema.json",
+      "class": "entry class lower than a per-file SPDX override's class",
+      "by": "checker",
+      "rule": "-",
+      "note": "data-model §5.1 'most restrictive over per-file overrides'; no FR names it"
+    },
+    {
+      "schema": "capabilities.schema.json",
+      "class": "non-finite metric or telemetry value",
+      "by": "loader",
+      "rule": "FR-001-36",
+      "note": "via load_json; the writer records the probe as fail (FR-001-37)"
+    },
+    {
+      "schema": "capabilities.schema.json",
+      "class": "malformed JSON, BOM, invalid UTF-8, duplicate key, file over 262,144 bytes",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "capabilities.schema.json",
+      "class": "absolute path inside notes or error",
+      "by": "writer",
+      "rule": "-",
+      "note": "run_bench.scrub; the privacy scan FR-001-15 covers manifests only"
+    }
+  ]
+}

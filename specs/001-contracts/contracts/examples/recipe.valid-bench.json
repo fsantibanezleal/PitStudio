@@ -1,0 +1,28 @@
+{
+  "id": "bench-warp",
+  "case": "bench",
+  "seed": 0,
+  "stages": [
+    {
+      "id": "s64_bench",
+      "env": "accel",
+      "tool": "tensorrt",
+      "entry": "pipeline.stages.s64_bench",
+      "inputs": [],
+      "resources": {
+        "gpu": "exclusive",
+        "vram_gib_est": 2.5
+      },
+      "determinism": {
+        "class": "bitwise"
+      },
+      "timeout_s": 600,
+      "outputs": [
+        {
+          "path": "bench/records.json",
+          "schema": "bench-record"
+        }
+      ]
+    }
+  ]
+}

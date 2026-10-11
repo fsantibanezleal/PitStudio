@@ -1,7 +1,7 @@
 # TensorRT bench
 
 > Build TensorRT engines (fp32 / fp16 / int8 / fp8) from PitStudio's exported ONNX models, gate every engine on parity
-> with the ONNX Runtime CPU reference, and benchmark latency, throughput and energy against PyTorch and ONNX Runtime —
+> with the stored PyTorch fp32 reference outputs, and benchmark latency, throughput and energy against PyTorch and ONNX Runtime —
 > with numbers that may be published. · Part of: [Guides](README.md) · Related: [TensorRT](../frameworks/tensorrt.md) ·
 > [export, parity and acceleration](../models/export-parity-acceleration.md) ·
 > [DEC-0010 TensorRT per-engine parity](../architecture/decisions/DEC-0010-tensorrt-per-engine-parity.md) ·
@@ -68,7 +68,7 @@ produced in the data-and-models phase.
 
 | Engine precision | Check against | Tolerance |
 |---|---|---|
-| fp32 | ONNX Runtime CPU fp32 on the same inputs | `rtol` = $10^{-3}$, `atol` = $10^{-5}$ (and `max_abs` ≤ $10^{-4}$, `thresholds.yaml`) |
+| fp32 | the stored PyTorch fp32 outputs of the golden set (which ONNX Runtime CPU matches by parity layer 1) | `rtol` = $10^{-3}$, `atol` = $10^{-5}$ (and `max_abs` ≤ $10^{-4}$, `thresholds.yaml`) |
 | fp16, int8, fp8 | the model's task metric at fp32 | Δ ≤ 1 percentage point; mask IoU ≥ 0.99 of fp32 for segmentation |
 
 An engine that fails is listed as **rejected** with the failing metric; it is never silently dropped and never

@@ -1,0 +1,762 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/haulage.schema.json",
+  "title": "Engine haulage: input and output messages",
+  "description": "Input and output messages of the browser engine `haulage` (cases A1, A2): fleet-sizing queues and route energy, a port of minephys.haulage (spec 007) (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `haulage`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "haulage",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "match_factor",
+            "mmc_queue",
+            "finite_source_queue",
+            "mean_value_analysis",
+            "route_energy"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "match_factor"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/match_factor_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "mmc_queue"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/mmc_queue_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "finite_source_queue"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/finite_source_queue_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "mean_value_analysis"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/mean_value_analysis_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "route_energy"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/route_energy_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `haulage`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "haulage",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "match_factor",
+            "mmc_queue",
+            "finite_source_queue",
+            "mean_value_analysis",
+            "route_energy"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "match_factor"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/match_factor_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "mmc_queue"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/mmc_queue_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "finite_source_queue"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/finite_source_queue_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "mean_value_analysis"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/mean_value_analysis_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "route_energy"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/route_energy_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "match_factor_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trucks",
+        "loaders",
+        "load_time_s",
+        "cycle_time_s"
+      ],
+      "properties": {
+        "trucks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 400,
+          "description": "Number of trucks N_T, at most 400 (FR-007-16)."
+        },
+        "loaders": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 400,
+          "description": "Number of loaders N_L."
+        },
+        "load_time_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 3600,
+          "description": "Mean loading time t_L."
+        },
+        "cycle_time_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 86400,
+          "description": "Free-flow truck cycle time without waiting; greater than load_time_s."
+        }
+      }
+    },
+    "match_factor_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "match_factor"
+      ],
+      "properties": {
+        "match_factor": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 400,
+          "description": "Match factor (dimensionless)."
+        }
+      }
+    },
+    "mmc_queue_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "arrival_rate_per_s",
+        "service_rate_per_s",
+        "servers"
+      ],
+      "properties": {
+        "arrival_rate_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10,
+          "description": "Rate in events per second."
+        },
+        "service_rate_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10,
+          "description": "Rate in events per second."
+        },
+        "servers": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 400,
+          "description": "Number of servers c."
+        }
+      }
+    },
+    "mmc_queue_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "utilisation",
+        "erlang_c",
+        "mean_wait_s",
+        "mean_queue_length",
+        "mean_time_in_system_s",
+        "mean_in_system"
+      ],
+      "properties": {
+        "utilisation": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "erlang_c": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "mean_wait_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "mean_queue_length": {
+          "type": "number",
+          "minimum": 0
+        },
+        "mean_time_in_system_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "mean_in_system": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "finite_source_queue_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trucks",
+        "travel_rate_per_s",
+        "service_rate_per_s"
+      ],
+      "properties": {
+        "trucks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 400,
+          "description": "Number of trucks N_T, at most 400 (FR-007-16)."
+        },
+        "travel_rate_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10,
+          "description": "Rate in events per second."
+        },
+        "service_rate_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10,
+          "description": "Rate in events per second."
+        }
+      }
+    },
+    "finite_source_queue_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "idle_probability",
+        "utilisation",
+        "throughput_per_s",
+        "mean_at_loader",
+        "mean_time_at_loader_s"
+      ],
+      "properties": {
+        "idle_probability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "utilisation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "throughput_per_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "mean_at_loader": {
+          "type": "number",
+          "minimum": 0
+        },
+        "mean_time_at_loader_s": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "mean_value_analysis_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "population",
+        "stations"
+      ],
+      "properties": {
+        "population": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 400,
+          "description": "Number of trucks N_T, at most 400 (FR-007-16)."
+        },
+        "stations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "service_time_s",
+              "visit_ratio",
+              "station_type"
+            ],
+            "properties": {
+              "service_time_s": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 86400,
+                "description": "Mean service time at the station."
+              },
+              "visit_ratio": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1000000.0,
+                "description": "Visit ratio of the station."
+              },
+              "station_type": {
+                "enum": [
+                  "queue",
+                  "delay"
+                ]
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "Stations k = 1..K (K <= 1000)."
+        }
+      }
+    },
+    "mean_value_analysis_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "throughput_per_s",
+        "stations"
+      ],
+      "properties": {
+        "throughput_per_s": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0
+          },
+          "minItems": 1,
+          "maxItems": 400,
+          "description": "Throughput X(n) for n = 1..N."
+        },
+        "stations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "residence_time_s",
+              "queue_length",
+              "utilisation"
+            ],
+            "properties": {
+              "residence_time_s": {
+                "type": "number",
+                "minimum": 0
+              },
+              "queue_length": {
+                "type": "number",
+                "minimum": 0
+              },
+              "utilisation": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "Per-station results at n = N."
+        }
+      }
+    },
+    "route_energy_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segments",
+        "empty_mass_kg",
+        "payload_kg",
+        "drivetrain",
+        "leg"
+      ],
+      "properties": {
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "length_m",
+              "grade",
+              "rolling_resistance",
+              "trolley"
+            ],
+            "properties": {
+              "length_m": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 100000.0,
+                "description": "Along-road length of the segment."
+              },
+              "grade": {
+                "type": "number",
+                "minimum": -0.3,
+                "maximum": 0.3,
+                "description": "Signed grade as a fraction (rise over run), within the minephys tripwire |grade| <= 0.30."
+              },
+              "rolling_resistance": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 0.2,
+                "description": "Rolling resistance as a fraction, within the minephys tripwire 0.20."
+              },
+              "trolley": {
+                "type": "boolean",
+                "description": "Trolley line on the segment."
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 10000,
+          "description": "Ordered route (at most 10^4 segments in the browser)."
+        },
+        "empty_mass_kg": {
+          "type": "number",
+          "minimum": 1000.0,
+          "maximum": 2000000.0,
+          "description": "Empty truck mass."
+        },
+        "payload_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2000000.0,
+          "description": "Payload mass (> 0: per-tonne results are undefined otherwise)."
+        },
+        "drivetrain": {
+          "enum": [
+            "diesel",
+            "trolley",
+            "bev"
+          ]
+        },
+        "leg": {
+          "enum": [
+            "loaded",
+            "empty"
+          ]
+        }
+      }
+    },
+    "route_energy_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "drivetrain",
+        "wheel_energy_j",
+        "source_energy_j",
+        "regenerated_energy_j",
+        "energy_j_per_payload_kg"
+      ],
+      "properties": {
+        "drivetrain": {
+          "enum": [
+            "diesel",
+            "trolley",
+            "bev"
+          ]
+        },
+        "wheel_energy_j": {
+          "type": "number",
+          "description": "Wheel energy of the leg (negative on net descents)."
+        },
+        "source_energy_j": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Energy drawn from the source."
+        },
+        "regenerated_energy_j": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Regenerated energy."
+        },
+        "energy_j_per_payload_kg": {
+          "type": "number",
+          "description": "Source energy per payload kilogram (kWh/t in the UI)."
+        },
+        "fuel_m3_per_payload_kg_per_road_m": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Diesel only: fuel volume per payload kilogram per along-road metre (L/(t km) in the UI)."
+        },
+        "co2e_kg_per_payload_kg": {
+          "type": "number",
+          "minimum": 0,
+          "description": "CO2e per payload kilogram (kg CO2e/t in the UI)."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "drivetrain": {
+                "const": "diesel"
+              }
+            },
+            "required": [
+              "drivetrain"
+            ]
+          },
+          "then": {
+            "required": [
+              "fuel_m3_per_payload_kg_per_road_m",
+              "co2e_kg_per_payload_kg"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "fuel_m3_per_payload_kg_per_road_m"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "unit_scales": {
+      "description": "Unit scale s_y of every numeric result field, per function, in the field's own unit; the parity tolerance is 1e-12 s_y + rtol |y| (FR-018-51).",
+      "const": {
+        "match_factor": {
+          "match_factor": 1
+        },
+        "mmc_queue": {
+          "utilisation": 1,
+          "erlang_c": 1,
+          "mean_wait_s": 1,
+          "mean_queue_length": 1,
+          "mean_time_in_system_s": 1,
+          "mean_in_system": 1
+        },
+        "finite_source_queue": {
+          "idle_probability": 1,
+          "utilisation": 1,
+          "throughput_per_s": 1e-06,
+          "mean_at_loader": 1,
+          "mean_time_at_loader_s": 1
+        },
+        "mean_value_analysis": {
+          "throughput_per_s": 1e-06,
+          "residence_time_s": 1,
+          "queue_length": 1,
+          "utilisation": 1
+        },
+        "route_energy": {
+          "wheel_energy_j": 1,
+          "source_energy_j": 1,
+          "regenerated_energy_j": 1,
+          "energy_j_per_payload_kg": 1,
+          "fuel_m3_per_payload_kg_per_road_m": 1e-15,
+          "co2e_kg_per_payload_kg": 1e-09
+        }
+      }
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}

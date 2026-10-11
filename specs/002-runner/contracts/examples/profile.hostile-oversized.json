@@ -1,0 +1,125 @@
+{
+  "id": "laptop-rtx5000ada",
+  "os": "windows",
+  "gpus": [
+    {
+      "index": 0,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 1,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 2,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 3,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 4,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 5,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 6,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 7,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 8,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 9,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 10,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 11,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 12,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 13,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 14,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 15,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    },
+    {
+      "index": 0,
+      "vram_bytes": 17179869184,
+      "power_class": "desktop"
+    }
+  ],
+  "store_default": "C:/ps",
+  "cpu_slots": 8,
+  "envs_enabled": [
+    "studio",
+    "isaac",
+    "rtx",
+    "isaaclab",
+    "kit",
+    "reason",
+    "pipeline",
+    "accel",
+    "external"
+  ],
+  "process_control": "job-object",
+  "guards": {
+    "vram_margin_gib": 1.5,
+    "disk_margin_gib": 20,
+    "max_start_temp_c": 80,
+    "cooldown_wait_s": 600,
+    "lock_wait_s": 3600
+  },
+  "telemetry_hz": 2,
+  "keep_awake": true,
+  "quotas": {
+    "st55_sdg": 80,
+    "st50_physics": 30
+  },
+  "binaries": {
+    "ffmpeg": "PITSTUDIO_FFMPEG",
+    "llama-cpp": "PITSTUDIO_LLAMA_CPP",
+    "colmap": "PITSTUDIO_COLMAP",
+    "brush": "PITSTUDIO_BRUSH",
+    "kit-app": "PITSTUDIO_KIT_APP"
+  }
+}

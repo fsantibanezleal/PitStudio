@@ -171,7 +171,7 @@ uv run studio publish <run-id>
     fragmentation*. JRMGE 11(5):1094–1109. DOI 10.1016/j.jrmge.2019.03.001
 11. Ouchterlony (2005). *The Swebrec function: linking fragmentation by blasting and crushing*. Mining Technology
     114(1):29–44. DOI 10.1179/037178405X44539
-12. Szendrei, Tose (2023). *Flyrock in surface mining — limitations of predictive models*. JSAIMM 122(12):725–732.
+12. Szendrei, Tose (2022). *Flyrock in surface mining — limitations of predictive models*. JSAIMM 122(12):725–732.
     DOI 10.17159/2411-9717/1873/2022
 13. Esteban, Hyland, Rätsch (2017). Real-valued (medical) time series generation with recurrent conditional GANs
     (TSTR / TRTS definition). https://arxiv.org/abs/1706.02633

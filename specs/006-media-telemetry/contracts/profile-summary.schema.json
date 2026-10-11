@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/profile-summary.schema.json",
+  "title": "Kernel timing table",
+  "description": "Top-20 kernel timing table and Chrome trace reference written by a profiled Warp-based studio stage (DC-006-03, spec 006-media-telemetry).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "schema_version",
+    "stage",
+    "method",
+    "label",
+    "device",
+    "trace",
+    "truncated",
+    "kernels_total",
+    "kernels"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "kind": {
+      "const": "profile-summary"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "stage": {
+      "$ref": "manifest.schema.json#/$defs/stage_key"
+    },
+    "method": {
+      "description": "Warp activity timing; never nsys or ncu (FR-006-20)",
+      "const": "warp-activity-timing"
+    },
+    "label": {
+      "const": "kernel timing, no admin rights"
+    },
+    "device": {
+      "enum": [
+        "cpu",
+        "cuda"
+      ]
+    },
+    "trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "format",
+        "bytes"
+      ],
+      "properties": {
+        "file": {
+          "description": "Chrome trace in the stage's output folder",
+          "$ref": "#/$defs/relpath"
+        },
+        "format": {
+          "const": "chrome-trace-json"
+        },
+        "bytes": {
+          "description": "tracing stops at 100,000,000 bytes (FR-006-21, NFR-006-03)",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        }
+      }
+    },
+    "truncated": {
+      "description": "true when tracing stopped at the size cap (FR-006-21)",
+      "type": "boolean"
+    },
+    "kernels_total": {
+      "description": "distinct kernels recorded",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000000
+    },
+    "kernels": {
+      "description": "the kernels with the largest total time, largest first",
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "$ref": "#/$defs/kernel"
+      }
+    }
+  },
+  "$defs": {
+    "kernel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "calls",
+        "total_ms",
+        "mean_ms"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 200,
+          "pattern": "^[A-Za-z_][A-Za-z0-9_.:-]{0,199}$"
+        },
+        "calls": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "total_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        "mean_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        }
+      }
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    }
+  }
+}

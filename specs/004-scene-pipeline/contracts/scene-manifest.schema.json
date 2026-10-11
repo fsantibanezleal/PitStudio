@@ -1,0 +1,828 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/scene-manifest.schema.json",
+  "title": "Scene manifest",
+  "description": "scene.manifest.json written by st40_compose and updated by st45_validate (DC-004-02, spec 004-scene-pipeline): layers, sources, inputs and their CRS, variants, site origin and validation status.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "manifest_id",
+    "case",
+    "params_sha256",
+    "seed",
+    "site",
+    "sources",
+    "inputs",
+    "terrain",
+    "design",
+    "layers",
+    "textures",
+    "people_route",
+    "variants",
+    "validation"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "kind": {
+      "const": "scene-manifest"
+    },
+    "manifest_id": {
+      "$ref": "#/$defs/slug"
+    },
+    "case": {
+      "$ref": "#/$defs/case_id"
+    },
+    "params_sha256": {
+      "$ref": "#/$defs/sha256",
+      "description": "sha256_of_params of the root layer's customLayerData"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "site": {
+      "$ref": "#/$defs/site"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      },
+      "minItems": 1,
+      "maxItems": 32
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/input"
+      },
+      "minItems": 1,
+      "maxItems": 256
+    },
+    "terrain": {
+      "$ref": "#/$defs/terrain"
+    },
+    "design": {
+      "$ref": "#/$defs/design"
+    },
+    "layers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/layer"
+      },
+      "minItems": 2,
+      "maxItems": 64
+    },
+    "textures": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/texture"
+      },
+      "maxItems": 64
+    },
+    "people_route": {
+      "enum": [
+        "makehuman",
+        "procedural-mannequin"
+      ],
+      "description": "FR-004-28"
+    },
+    "variants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pushback",
+        "scenario",
+        "time_of_day",
+        "weather",
+        "lod"
+      ],
+      "properties": {
+        "pushback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "names",
+            "default"
+          ],
+          "properties": {
+            "names": {
+              "type": "array",
+              "items": {
+                "$ref": "scene-spec.schema.json#/$defs/variant_name"
+              },
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true
+            },
+            "default": {
+              "$ref": "scene-spec.schema.json#/$defs/variant_name"
+            }
+          }
+        },
+        "scenario": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "names",
+            "default"
+          ],
+          "properties": {
+            "names": {
+              "type": "array",
+              "items": {
+                "$ref": "scene-spec.schema.json#/$defs/variant_name"
+              },
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true
+            },
+            "default": {
+              "$ref": "scene-spec.schema.json#/$defs/variant_name"
+            }
+          }
+        },
+        "time_of_day": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "names",
+            "default"
+          ],
+          "properties": {
+            "names": {
+              "type": "array",
+              "items": {
+                "$ref": "scene-spec.schema.json#/$defs/time_of_day"
+              },
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true
+            },
+            "default": {
+              "$ref": "scene-spec.schema.json#/$defs/time_of_day"
+            }
+          }
+        },
+        "weather": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "names",
+            "default"
+          ],
+          "properties": {
+            "names": {
+              "type": "array",
+              "items": {
+                "$ref": "scene-spec.schema.json#/$defs/weather"
+              },
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true
+            },
+            "default": {
+              "$ref": "scene-spec.schema.json#/$defs/weather"
+            }
+          }
+        },
+        "lod": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "names",
+            "default"
+          ],
+          "properties": {
+            "names": {
+              "type": "array",
+              "items": {
+                "$ref": "scene-spec.schema.json#/$defs/lod_name"
+              },
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true
+            },
+            "default": {
+              "$ref": "scene-spec.schema.json#/$defs/lod_name"
+            }
+          }
+        }
+      }
+    },
+    "validation": {
+      "$ref": "#/$defs/validation"
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "spdx_id": {
+      "enum": [
+        "LicenseRef-USGov-PD",
+        "CC0-1.0",
+        "DL-DE-ZERO-2.0",
+        "CC-BY-4.0",
+        "LicenseRef-Copernicus-CLMS",
+        "CC-BY-SA-3.0",
+        "CC-BY-SA-4.0",
+        "Apache-2.0",
+        "MIT",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "MPL-2.0",
+        "LGPL-2.1-or-later",
+        "LicenseRef-TOST-1.0",
+        "LicenseRef-NVIDIA-Open-Model",
+        "LicenseRef-NVIDIA-SLA",
+        "LicenseRef-NvidiaProprietary",
+        "LicenseRef-NVIDIA-Omniverse",
+        "LicenseRef-TensorRT-SLA",
+        "LicenseRef-TensorRT-RTX-SLA"
+      ]
+    },
+    "licence_class": {
+      "enum": [
+        "public-domain",
+        "open-no-attribution",
+        "own",
+        "attribution",
+        "share-alike",
+        "display-only",
+        "reference-only"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "layer_role": {
+      "enum": [
+        "root",
+        "anim",
+        "sensors",
+        "weather",
+        "lights",
+        "fleet",
+        "design",
+        "terrain",
+        "asset"
+      ]
+    },
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "provisional",
+        "confirmation",
+        "origin"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 ,.'()-]{0,159}$"
+        },
+        "provisional": {
+          "type": "boolean",
+          "description": "true until FR-004-15 confirms the AOI"
+        },
+        "confirmation": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source",
+                "overlap_frac"
+              ],
+              "properties": {
+                "source": {
+                  "$ref": "#/$defs/slug"
+                },
+                "overlap_frac": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              }
+            },
+            {
+              "const": null
+            }
+          ],
+          "description": "mine-polygon check: share of the polygon's area inside the AOI"
+        },
+        "origin": {
+          "$ref": "scene-spec.schema.json#/$defs/site_origin"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "provisional": {
+                "const": true
+              }
+            },
+            "required": [
+              "provisional"
+            ]
+          },
+          "then": {
+            "properties": {
+              "name": {
+                "pattern": "^.{1,145} [(]provisional[)]$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "confirmation": {
+                "not": {
+                  "const": null
+                },
+                "properties": {
+                  "overlap_frac": {
+                    "minimum": 0.9
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "spdx",
+        "licence_class",
+        "redistribution",
+        "attribution",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "role": {
+          "enum": [
+            "terrain",
+            "mine-polygon",
+            "texture",
+            "people"
+          ]
+        },
+        "spdx": {
+          "$ref": "#/$defs/spdx_id"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/licence_class"
+        },
+        "redistribution": {
+          "enum": [
+            "redistributable",
+            "derived-only",
+            "no-redistribution"
+          ]
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "project": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 1990,
+          "maximum": 2100
+        },
+        "status": {
+          "enum": [
+            "used",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "description": "why an enabled optional source did not run (FR-004-09)",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "file",
+        "kind",
+        "sha256",
+        "crs"
+      ],
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/slug"
+        },
+        "file": {
+          "$ref": "#/$defs/relpath"
+        },
+        "kind": {
+          "enum": [
+            "dem",
+            "laz"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "crs": {
+          "$ref": "terrain-grid.schema.json#/$defs/crs_record"
+        }
+      },
+      "description": "one DEM or LAZ file and the CRS read from it (FR-004-01)"
+    },
+    "file_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "terrain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "grid",
+        "tiles",
+        "cell_size_m",
+        "unfilled_holes",
+        "unfilled_cells",
+        "nodata_frac"
+      ],
+      "properties": {
+        "grid": {
+          "$ref": "#/$defs/file_ref"
+        },
+        "tiles": {
+          "$ref": "#/$defs/file_ref"
+        },
+        "cell_size_m": {
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 10
+        },
+        "unfilled_holes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        },
+        "unfilled_cells": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        },
+        "nodata_frac": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.05
+        }
+      },
+      "description": "terrain outputs and the holes left as nodata (FR-004-05, FR-004-12)"
+    },
+    "design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report",
+        "road_network",
+        "provenance"
+      ],
+      "properties": {
+        "report": {
+          "$ref": "#/$defs/file_ref"
+        },
+        "road_network": {
+          "$ref": "#/$defs/file_ref"
+        },
+        "provenance": {
+          "const": "design-code"
+        }
+      }
+    },
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "path",
+        "format",
+        "sha256",
+        "bytes",
+        "up_axis",
+        "meters_per_unit",
+        "kilograms_per_unit"
+      ],
+      "properties": {
+        "role": {
+          "$ref": "#/$defs/layer_role"
+        },
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "format": {
+          "enum": [
+            "usda",
+            "usdc"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "up_axis": {
+          "const": "Z"
+        },
+        "meters_per_unit": {
+          "const": 1.0
+        },
+        "kilograms_per_unit": {
+          "const": 1.0
+        },
+        "label": {
+          "const": "regenerated by design code, not observed"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "const": "design"
+              }
+            },
+            "required": [
+              "role"
+            ]
+          },
+          "then": {
+            "required": [
+              "label"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "label"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "enum": [
+                  "root",
+                  "anim",
+                  "sensors",
+                  "weather",
+                  "lights",
+                  "fleet",
+                  "design"
+                ]
+              }
+            },
+            "required": [
+              "role"
+            ]
+          },
+          "then": {
+            "properties": {
+              "format": {
+                "const": "usda"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "const": "terrain"
+              }
+            },
+            "required": [
+              "role"
+            ]
+          },
+          "then": {
+            "properties": {
+              "format": {
+                "const": "usdc"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "texture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source",
+        "spdx",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/slug"
+            },
+            {
+              "const": null
+            }
+          ],
+          "description": "null for our own textures"
+        },
+        "spdx": {
+          "$ref": "#/$defs/spdx_id",
+          "enum": [
+            "CC0-1.0",
+            "CC-BY-4.0"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "const": null
+              }
+            },
+            "required": [
+              "source"
+            ]
+          },
+          "then": {
+            "properties": {
+              "spdx": {
+                "const": "CC-BY-4.0"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "spdx": {
+                "const": "CC0-1.0"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "pending",
+            "complete",
+            "incomplete"
+          ]
+        },
+        "report": {
+          "$ref": "#/$defs/file_ref"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "pending"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "report"
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "report"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

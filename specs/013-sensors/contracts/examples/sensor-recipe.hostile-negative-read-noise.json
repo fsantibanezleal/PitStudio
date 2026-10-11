@@ -1,0 +1,43 @@
+{
+  "scenario": "S2",
+  "backend": "ovrtx",
+  "poses": "traces/e2-flight-plan.parquet",
+  "sensors": [
+    {
+      "kind": "camera",
+      "id": "survey-cam",
+      "width_px": 1920,
+      "height_px": 1080,
+      "focal_length_m": 0.0088,
+      "pixel_pitch_m": 4e-06,
+      "principal_point_px": [
+        960,
+        540
+      ],
+      "render_mode": "pathtracing",
+      "outputs": [
+        "HdrColor",
+        "DistanceToCameraSD"
+      ],
+      "mount_position_m": [
+        0,
+        0,
+        -0.2
+      ],
+      "mount_rotation_deg": [
+        0,
+        -90,
+        0
+      ]
+    }
+  ],
+  "exposure": {
+    "exposure_time_s": 0.002,
+    "f_number": 5.6,
+    "kappa_e_m2_sr_per_w_s": 2000000,
+    "gain_dn_per_e": 0.25,
+    "read_noise_e": -1,
+    "dn_max": 4095,
+    "vignetting": true
+  }
+}

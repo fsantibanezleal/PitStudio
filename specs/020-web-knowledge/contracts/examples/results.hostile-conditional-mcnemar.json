@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "kind": "comparison",
+  "id": "b2-cosmos-hazard-vqa",
+  "tab": "cosmos",
+  "title": {
+    "en": "Hazard VQA: Cosmos, Qwen and the detector",
+    "es": "VQA de peligros: Cosmos, Qwen y el detector"
+  },
+  "cases": [
+    "B1",
+    "B2"
+  ],
+  "run_ids": [
+    "20261006T120000Z-b2-vqa"
+  ],
+  "criteria": [
+    {
+      "requirement": "SC-015-01",
+      "status": "pass"
+    },
+    {
+      "requirement": "SC-015-03",
+      "status": "fail"
+    }
+  ],
+  "rows": [
+    {
+      "kind": "estimate",
+      "group": "person-in-zone",
+      "metric": {
+        "id": "balanced_accuracy",
+        "name": {
+          "en": "balanced accuracy",
+          "es": "exactitud balanceada"
+        },
+        "unit": "1",
+        "orientation": "higher-is-better"
+      },
+      "system": "Cosmos Reason 2",
+      "n": 400,
+      "value": 0.81,
+      "interval": {
+        "lo": 0.77,
+        "hi": 0.85,
+        "level": 0.95,
+        "method": "percentile-bootstrap"
+      }
+    },
+    {
+      "kind": "estimate",
+      "group": "person-in-zone",
+      "metric": {
+        "id": "balanced_accuracy",
+        "name": {
+          "en": "balanced accuracy",
+          "es": "exactitud balanceada"
+        },
+        "unit": "1",
+        "orientation": "higher-is-better"
+      },
+      "system": "Qwen3-VL-2B",
+      "n": 400,
+      "value": 0.78,
+      "interval": {
+        "lo": 0.74,
+        "hi": 0.82,
+        "level": 0.95,
+        "method": "percentile-bootstrap"
+      }
+    },
+    {
+      "kind": "mcnemar",
+      "group": "person-in-zone",
+      "metric": {
+        "id": "balanced_accuracy",
+        "name": {
+          "en": "balanced accuracy",
+          "es": "exactitud balanceada"
+        },
+        "unit": "1",
+        "orientation": "higher-is-better"
+      },
+      "challenger": "Cosmos Reason 2",
+      "baseline": "Qwen3-VL-2B",
+      "pairing_unit": {
+        "en": "query",
+        "es": "consulta"
+      },
+      "n": 400,
+      "b": 31,
+      "c": 22,
+      "p_value": 0.27,
+      "verdict": "challenger-better"
+    },
+    {
+      "kind": "estimate",
+      "metric": {
+        "id": "q8_bf16_agreement",
+        "name": {
+          "en": "Q8_0 versus BF16 agreement",
+          "es": "concordancia Q8_0 y BF16"
+        },
+        "unit": "1",
+        "orientation": "higher-is-better"
+      },
+      "system": "Cosmos Reason 2 Q8_0",
+      "n": 400,
+      "value": 0.97,
+      "threshold": {
+        "comparator": "ge",
+        "value": 0.95
+      }
+    }
+  ]
+}

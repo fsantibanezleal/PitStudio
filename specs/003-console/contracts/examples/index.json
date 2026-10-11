@@ -1,0 +1,583 @@
+{
+  "spec": "003-console",
+  "examples": [
+    {
+      "file": "console.valid.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": true,
+      "note": "GET /health"
+    },
+    {
+      "file": "console.valid-root-health.json",
+      "schema": "console.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the root accepts a health body"
+    },
+    {
+      "file": "console.valid-recipe-summary.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/recipe_summary",
+      "valid": true,
+      "note": "a valid recipe file"
+    },
+    {
+      "file": "console.valid-recipe-list.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/recipe_list",
+      "valid": true,
+      "note": "GET /recipes with one invalid file"
+    },
+    {
+      "file": "console.valid-job.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job",
+      "valid": true,
+      "note": "a running job with shard progress"
+    },
+    {
+      "file": "console.valid-job-list.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_list",
+      "valid": true,
+      "note": "GET /queue"
+    },
+    {
+      "file": "console.valid-job-created.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_created",
+      "valid": true,
+      "note": "202 body of POST /jobs"
+    },
+    {
+      "file": "console.valid-run-summary.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/run_summary",
+      "valid": true,
+      "note": "a run with a valid manifest"
+    },
+    {
+      "file": "console.valid-run-list.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/run_list",
+      "valid": true,
+      "note": "GET /runs with one invalid manifest"
+    },
+    {
+      "file": "console.valid-problem.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/problem",
+      "valid": true,
+      "note": "422 problem body"
+    },
+    {
+      "file": "console.valid-job-request.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": true,
+      "note": "POST /jobs body (spec 001 job request)"
+    },
+    {
+      "file": "console.hostile-health-unknown-field.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": false,
+      "class": "unknown field (host name)",
+      "rule": "FR-003-06",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "console.hostile-health-unknown-status.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": false,
+      "class": "unknown status",
+      "rule": "FR-003-06",
+      "pointer": "/status",
+      "keyword": "const"
+    },
+    {
+      "file": "console.hostile-health-markup-version.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": false,
+      "class": "injection-like version string",
+      "rule": "FR-003-06",
+      "pointer": "/console_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-health-path-traversal.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": false,
+      "class": "path traversal in a contract stem",
+      "rule": "FR-003-06",
+      "pointer": "/contracts",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-health-absolute-path.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": false,
+      "class": "absolute path as a contract version",
+      "rule": "FR-003-06",
+      "pointer": "/contracts/manifest",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "console.hostile-health-foreign-url.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": false,
+      "class": "contract $id on another host",
+      "rule": "FR-003-06",
+      "pointer": "/contracts/manifest",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "console.hostile-health-oversized.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": false,
+      "class": "oversized contracts map (17 entries)",
+      "rule": "FR-003-06",
+      "pointer": "/contracts",
+      "keyword": "maxProperties"
+    },
+    {
+      "file": "console.hostile-health-empty-contracts.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": false,
+      "class": "empty contracts map",
+      "rule": "FR-003-06",
+      "pointer": "/contracts",
+      "keyword": "minProperties"
+    },
+    {
+      "file": "console.hostile-health-wrong-shape.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/health",
+      "valid": false,
+      "class": "wrong shape (array instead of map)",
+      "rule": "FR-003-06",
+      "pointer": "/contracts",
+      "keyword": "type"
+    },
+    {
+      "file": "console.hostile-recipe-path-traversal.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/recipe_summary",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-003-07",
+      "pointer": "/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-recipe-malformed-digest.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/recipe_summary",
+      "valid": false,
+      "class": "malformed digest (prefixed)",
+      "rule": "FR-003-07",
+      "pointer": "/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-recipe-unknown-enum.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/recipe_summary",
+      "valid": false,
+      "class": "unknown case",
+      "rule": "FR-003-07",
+      "pointer": "/case",
+      "keyword": "anyOf"
+    },
+    {
+      "file": "console.hostile-conditional-valid-recipe-with-errors.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/recipe_summary",
+      "valid": false,
+      "class": "valid recipe listing errors",
+      "rule": "FR-003-07",
+      "pointer": "/errors",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "console.hostile-conditional-invalid-recipe-without-errors.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/recipe_summary",
+      "valid": false,
+      "class": "invalid recipe without errors",
+      "rule": "FR-003-07",
+      "pointer": "/errors",
+      "keyword": "minItems"
+    },
+    {
+      "file": "console.hostile-recipe-errors-oversized.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/recipe_summary",
+      "valid": false,
+      "class": "oversized error list (21)",
+      "rule": "FR-003-07",
+      "pointer": "/errors",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "console.hostile-recipe-list-wrong-shape.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/recipe_list",
+      "valid": false,
+      "class": "wrong shape (object instead of array)",
+      "rule": "FR-003-07",
+      "pointer": "/recipes",
+      "keyword": "type"
+    },
+    {
+      "file": "console.hostile-job-unknown-enum.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job",
+      "valid": false,
+      "class": "unknown job state",
+      "rule": "FR-003-08",
+      "pointer": "/state",
+      "keyword": "enum"
+    },
+    {
+      "file": "console.hostile-job-bad-pattern.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job",
+      "valid": false,
+      "class": "malformed job id",
+      "rule": "FR-003-08",
+      "pointer": "/job_id",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-conditional-running-with-exit-code.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job",
+      "valid": false,
+      "class": "running job with an exit code",
+      "rule": "FR-003-08",
+      "pointer": "/exit_code",
+      "keyword": "const"
+    },
+    {
+      "file": "console.hostile-conditional-held-without-reason.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job",
+      "valid": false,
+      "class": "held job without its reason",
+      "rule": "FR-002-17",
+      "pointer": "/reason",
+      "keyword": "not"
+    },
+    {
+      "file": "console.hostile-job-out-of-range.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job",
+      "valid": false,
+      "class": "exit code outside plan D2",
+      "rule": "FR-003-08",
+      "pointer": "/exit_code",
+      "keyword": "maximum"
+    },
+    {
+      "file": "console.hostile-job-list-oversized-field.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_list",
+      "valid": false,
+      "class": "oversized reason (301 characters)",
+      "rule": "FR-003-08",
+      "pointer": "/jobs/0/reason",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "console.hostile-job-created-path-traversal.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_created",
+      "valid": false,
+      "class": "path traversal in Location",
+      "rule": "FR-003-09",
+      "pointer": "/location",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-job-created-absolute-url.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_created",
+      "valid": false,
+      "class": "absolute URL in Location",
+      "rule": "FR-003-09",
+      "pointer": "/location",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-job-created-missing-required.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_created",
+      "valid": false,
+      "class": "missing location",
+      "rule": "FR-003-09",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "console.hostile-run-out-of-range.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/run_summary",
+      "valid": false,
+      "class": "out-of-range stage count",
+      "rule": "FR-003-12",
+      "pointer": "/stages",
+      "keyword": "maximum"
+    },
+    {
+      "file": "console.hostile-run-wrong-type.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/run_summary",
+      "valid": false,
+      "class": "wrong type (string boolean)",
+      "rule": "FR-003-12",
+      "pointer": "/published",
+      "keyword": "type"
+    },
+    {
+      "file": "console.hostile-conditional-valid-run-without-profile.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/run_summary",
+      "valid": false,
+      "class": "valid run without its profile",
+      "rule": "FR-003-12",
+      "pointer": "/profile",
+      "keyword": "not"
+    },
+    {
+      "file": "console.hostile-run-list-unknown-field.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/run_list",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-003-12",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "console.hostile-problem-out-of-range.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/problem",
+      "valid": false,
+      "class": "problem status below 400",
+      "rule": "FR-003-22",
+      "pointer": "/status",
+      "keyword": "minimum"
+    },
+    {
+      "file": "console.hostile-problem-oversized.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/problem",
+      "valid": false,
+      "class": "oversized detail (301 characters)",
+      "rule": "FR-003-22",
+      "pointer": "/detail",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "console.hostile-problem-stack-trace-field.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/problem",
+      "valid": false,
+      "class": "unknown field (stack trace)",
+      "rule": "FR-003-22",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "console.hostile-problem-multiline-detail.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/problem",
+      "valid": false,
+      "class": "multi-line detail (stack trace)",
+      "rule": "FR-003-22",
+      "pointer": "/detail",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-problem-injection-type.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/problem",
+      "valid": false,
+      "class": "injection-like problem type",
+      "rule": "FR-003-22",
+      "pointer": "/type",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-job-request-inline-recipe.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "inline recipe",
+      "rule": "FR-003-10",
+      "pointer": "/recipe",
+      "keyword": "type"
+    },
+    {
+      "file": "console.hostile-job-request-entry.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "unknown field (entry)",
+      "rule": "FR-003-10",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "console.hostile-job-request-env.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "unknown field (env)",
+      "rule": "FR-003-10",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "console.hostile-job-request-params.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "unknown field (params)",
+      "rule": "FR-003-10",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "console.hostile-job-request-oversized.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "more than 64 stages",
+      "rule": "FR-003-10",
+      "pointer": "/stages",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "console.hostile-job-request-path-traversal.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "path traversal in the profile id",
+      "rule": "FR-003-10",
+      "pointer": "/profile",
+      "keyword": "pattern"
+    },
+    {
+      "file": "console.hostile-job-request-unknown-enum.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "unknown stage id",
+      "rule": "FR-003-10",
+      "pointer": "/stages/0/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "console.hostile-job-request-wrong-type.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "wrong type (string boolean)",
+      "rule": "FR-003-10",
+      "pointer": "/force",
+      "keyword": "type"
+    },
+    {
+      "file": "console.hostile-job-request-empty-stages.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "empty stage list",
+      "rule": "FR-003-10",
+      "pointer": "/stages",
+      "keyword": "minItems"
+    },
+    {
+      "file": "console.hostile-job-request-missing-required.json",
+      "schema": "console.schema.json",
+      "target": "#/$defs/job_request",
+      "valid": false,
+      "class": "missing profile",
+      "rule": "FR-003-10",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "console.hostile-empty.json",
+      "schema": "console.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty document",
+      "rule": "DC-003-01",
+      "pointer": "",
+      "keyword": "oneOf"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "console.schema.json",
+      "class": "job request: malformed JSON, NaN, duplicate key, byte-order mark",
+      "by": "loader",
+      "rule": "FR-003-10"
+    },
+    {
+      "schema": "console.schema.json",
+      "class": "job request larger than 65,536 bytes (with or without Content-Length, chunked)",
+      "by": "loader",
+      "rule": "FR-003-10"
+    },
+    {
+      "schema": "console.schema.json",
+      "class": "job request naming an unknown recipe, stage key or profile",
+      "by": "checker",
+      "rule": "FR-003-10"
+    },
+    {
+      "schema": "console.schema.json",
+      "class": "job_created location different from /jobs/<job_id>",
+      "by": "checker",
+      "rule": "FR-003-09"
+    },
+    {
+      "schema": "console.schema.json",
+      "class": "problem status different from the HTTP status",
+      "by": "checker",
+      "rule": "FR-003-22"
+    },
+    {
+      "schema": "console.schema.json",
+      "class": "problem detail or message containing an absolute path",
+      "by": "checker",
+      "rule": "FR-003-22"
+    },
+    {
+      "schema": "console.schema.json",
+      "class": "recipe summary sha256 different from the file's digest",
+      "by": "checker",
+      "rule": "FR-003-07"
+    },
+    {
+      "schema": "console.schema.json",
+      "class": "job shards.done greater than shards.total",
+      "by": "checker",
+      "rule": "-",
+      "note": "no requirement states it; the runner's job record should never report it"
+    }
+  ]
+}

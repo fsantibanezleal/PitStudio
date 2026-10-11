@@ -1,0 +1,45 @@
+{
+  "kind": "groups",
+  "source_id": "mendeley-78ht3pjsr4",
+  "archive_sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+  "links": [
+    [
+      29,
+      39
+    ],
+    [
+      34,
+      41
+    ],
+    [
+      36,
+      37
+    ],
+    [
+      41,
+      49
+    ],
+    [
+      59,
+      60
+    ],
+    [
+      189,
+      199
+    ],
+    [
+      192,
+      196
+    ],
+    [
+      196,
+      198
+    ],
+    [
+      196,
+      201
+    ]
+  ],
+  "groups_expected": 231,
+  "note": "conservative links from the bootstrap overlap check of the dataset card"
+}

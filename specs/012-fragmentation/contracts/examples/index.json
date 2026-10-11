@@ -1,0 +1,768 @@
+{
+  "spec": "012-fragmentation",
+  "examples": [
+    {
+      "file": "fragment-table.valid.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "sidecar of one pile: target and realised PSD, Parquet table"
+    },
+    {
+      "file": "fragment-table.valid-row.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#/$defs/row",
+      "valid": true,
+      "note": "one Parquet row (size class from log-spaced classes on [0.1, 1.5] m)"
+    },
+    {
+      "file": "fragment-table.hostile-not-synthetic.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic flag false",
+      "rule": "DC-012-01",
+      "pointer": "/synthetic",
+      "keyword": "const"
+    },
+    {
+      "file": "fragment-table.hostile-xmin-zero.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "x_min <= 0",
+      "rule": "FR-012-11",
+      "pointer": "/generator/x_min_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "fragment-table.hostile-b-zero.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "b <= 0",
+      "rule": "FR-012-11",
+      "pointer": "/generator/b",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "fragment-table.hostile-oversized.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 1e6 fragments",
+      "rule": "FR-012-11",
+      "pointer": "/table/rows",
+      "keyword": "maximum"
+    },
+    {
+      "file": "fragment-table.hostile-path-traversal.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "DC-012-01",
+      "pointer": "/table/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "fragment-table.hostile-size-classes.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "size classes other than 20",
+      "rule": "FR-012-09",
+      "pointer": "/generator/size_classes",
+      "keyword": "const"
+    },
+    {
+      "file": "fragment-table.hostile-row-size-zero.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#/$defs/row",
+      "valid": false,
+      "class": "fragment size 0",
+      "rule": "FR-012-09",
+      "pointer": "/size_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "fragment-table.hostile-row-class-out-of-range.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#/$defs/row",
+      "valid": false,
+      "class": "class index outside 0..19",
+      "rule": "FR-012-09",
+      "pointer": "/class_index",
+      "keyword": "maximum"
+    },
+    {
+      "file": "fragment-table.hostile-row-background-id.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#/$defs/row",
+      "valid": false,
+      "class": "fragment id 0 (background)",
+      "rule": "FR-012-16",
+      "pointer": "/fragment_id",
+      "keyword": "minimum"
+    },
+    {
+      "file": "fragment-table.hostile-row-wrong-unit.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#/$defs/row",
+      "valid": false,
+      "class": "size in mm",
+      "rule": "FR-012-09",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "fragment-table.hostile-row-negative-pixels.json",
+      "schema": "fragment-table.schema.json",
+      "target": "#/$defs/row",
+      "valid": false,
+      "class": "negative visible pixel count",
+      "rule": "FR-012-15",
+      "pointer": "/visible_px/1",
+      "keyword": "minimum"
+    },
+    {
+      "file": "fragment-split.valid.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the nine conservative links of the dataset card"
+    },
+    {
+      "file": "fragment-split.valid-folds.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "illustrative grouped partition (not the seeded GroupKFold output)"
+    },
+    {
+      "file": "fragment-split.hostile-link-out-of-range.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "link names a file outside 1-240",
+      "rule": "FR-012-44",
+      "pointer": "/links/0/1",
+      "keyword": "maximum"
+    },
+    {
+      "file": "fragment-split.hostile-link-wrong-shape.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "link that is not a pair",
+      "rule": "FR-012-44",
+      "pointer": "/links/0",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "fragment-split.hostile-archive-mismatch.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "archive SHA-256 other than the verified one",
+      "rule": "FR-012-01",
+      "pointer": "/archive_sha256",
+      "keyword": "const"
+    },
+    {
+      "file": "fragment-split.hostile-unknown-field.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field (malformed links file)",
+      "rule": "FR-012-44",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "fragment-split.hostile-unknown-kind.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown document kind",
+      "rule": "DC-012-02",
+      "pointer": "/kind",
+      "keyword": "const"
+    },
+    {
+      "file": "fragment-split.hostile-test-file-over-240.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "test list containing a file k > 240",
+      "rule": "FR-012-06",
+      "pointer": "/folds/0/test_originals/0",
+      "keyword": "maximum"
+    },
+    {
+      "file": "fragment-split.hostile-wrong-seed.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fold seed other than 20261004",
+      "rule": "FR-012-05",
+      "pointer": "/seed",
+      "keyword": "const"
+    },
+    {
+      "file": "fragment-split.hostile-four-folds.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 5 folds",
+      "rule": "FR-012-05",
+      "pointer": "/folds",
+      "keyword": "minItems"
+    },
+    {
+      "file": "fragment-split.hostile-malformed-digest.json",
+      "schema": "fragment-split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed links digest",
+      "rule": "DC-012-02",
+      "pointer": "/links_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "fragmentation-eval.valid.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "every arm run; real comparison better, synthetic not significant"
+    },
+    {
+      "file": "fragmentation-eval.valid-trtr-only.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Isaac Sim not passing: synthetic arm not run, TRTR-only label"
+    },
+    {
+      "file": "fragmentation-eval.valid-archive-unavailable.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "archive unavailable: real arms not run, D1 statement"
+    },
+    {
+      "file": "fragmentation-eval.hostile-iou-out-of-range.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "IoU outside [0, 1]",
+      "rule": "FR-012-29",
+      "pointer": "/trtr/fold_iou/0",
+      "keyword": "maximum"
+    },
+    {
+      "file": "fragmentation-eval.hostile-unknown-verdict.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "verdict outside the decision rule's words",
+      "rule": "FR-012-32",
+      "pointer": "/real_comparison/verdict",
+      "keyword": "enum"
+    },
+    {
+      "file": "fragmentation-eval.hostile-wrong-attribution.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "attribution not verbatim",
+      "rule": "FR-012-38",
+      "pointer": "/attribution",
+      "keyword": "const"
+    },
+    {
+      "file": "fragmentation-eval.hostile-c2st-few-samples.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 100 samples in a class",
+      "rule": "FR-012-37",
+      "pointer": "/c2st/n_real",
+      "keyword": "minimum"
+    },
+    {
+      "file": "fragmentation-eval.hostile-conditional-no-power.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "C2ST verdict without power",
+      "rule": "FR-012-34",
+      "pointer": "/c2st/verdict",
+      "keyword": "const"
+    },
+    {
+      "file": "fragmentation-eval.hostile-bootstrap-b.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bootstrap resamples other than 10,000",
+      "rule": "FR-012-32",
+      "pointer": "/real_comparison/bootstrap_b",
+      "keyword": "const"
+    },
+    {
+      "file": "fragmentation-eval.hostile-unknown-field.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "image content in the report",
+      "rule": "FR-012-38",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "fragmentation-eval.hostile-conditional-not-run-reason.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not run without its reason",
+      "rule": "FR-012-39",
+      "pointer": "/tstr",
+      "keyword": "required"
+    },
+    {
+      "file": "fragmentation-eval.hostile-conditional-trtr-only-label.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic arm not run without the TRTR-only label",
+      "rule": "FR-012-39",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "fragmentation-eval.hostile-conditional-isaac-tstr.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "TSTR reported while Isaac Sim is not passing",
+      "rule": "FR-012-39",
+      "pointer": "/tstr/status",
+      "keyword": "const"
+    },
+    {
+      "file": "fragmentation-eval.hostile-conditional-d1-statement.json",
+      "schema": "fragmentation-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "archive unavailable without the synthetic-only statement",
+      "rule": "FR-012-40",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "muck-pile-render.valid.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one view with four tiles; instance map shortened to 12 visible fragments"
+    },
+    {
+      "file": "muck-pile-render.hostile-not-synthetic.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic flag false",
+      "rule": "DC-012-04",
+      "pointer": "/synthetic",
+      "keyword": "const"
+    },
+    {
+      "file": "muck-pile-render.hostile-three-tiles.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than four tiles",
+      "rule": "FR-012-13",
+      "pointer": "/tiles",
+      "keyword": "minItems"
+    },
+    {
+      "file": "muck-pile-render.hostile-path-traversal.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "DC-012-04",
+      "pointer": "/render/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "muck-pile-render.hostile-absolute-path.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "DC-012-04",
+      "pointer": "/depth/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "muck-pile-render.hostile-malformed-digest.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest",
+      "rule": "DC-012-04",
+      "pointer": "/instance_mask/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "muck-pile-render.hostile-wrong-shape.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "render not 1,024 px wide",
+      "rule": "FR-012-13",
+      "pointer": "/image/width_px",
+      "keyword": "const"
+    },
+    {
+      "file": "muck-pile-render.hostile-wrong-unit.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "depth not in m",
+      "rule": "FR-012-13",
+      "pointer": "/depth/unit",
+      "keyword": "const"
+    },
+    {
+      "file": "muck-pile-render.hostile-background-instance.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "background id 0 mapped to a fragment",
+      "rule": "FR-012-16",
+      "pointer": "/instance_to_fragment",
+      "keyword": "pattern"
+    },
+    {
+      "file": "muck-pile-render.hostile-unknown-spdx.json",
+      "schema": "muck-pile-render.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown licence id",
+      "rule": "DC-012-04",
+      "pointer": "/licence/spdx",
+      "keyword": "enum"
+    },
+    {
+      "file": "d1-design-grid.valid.json",
+      "schema": "d1-design-grid.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "minephys worked example 1 at burdens 6 m and 7 m; no-drag flyrock"
+    },
+    {
+      "file": "d1-design-grid.hostile-non-positive.json",
+      "schema": "d1-design-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "non-positive burden",
+      "rule": "FR-012-46",
+      "pointer": "/points/0/inputs/burden_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "d1-design-grid.hostile-unknown-input.json",
+      "schema": "d1-design-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown design input",
+      "rule": "FR-012-46",
+      "pointer": "/fixed_inputs",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "d1-design-grid.hostile-wrong-unit.json",
+      "schema": "d1-design-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "PPV unit other than m/s",
+      "rule": "FR-012-41",
+      "pointer": "/units/ppv",
+      "keyword": "const"
+    },
+    {
+      "file": "d1-design-grid.hostile-missing-version.json",
+      "schema": "d1-design-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "minephys version missing",
+      "rule": "FR-012-41",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "d1-design-grid.hostile-out-of-range.json",
+      "schema": "d1-design-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversize above 100 %",
+      "rule": "FR-012-41",
+      "pointer": "/points/0/oversize_pct",
+      "keyword": "maximum"
+    },
+    {
+      "file": "d1-design-grid.hostile-diameter-in-mm.json",
+      "schema": "d1-design-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "hole diameter passed in mm",
+      "rule": "FR-012-46",
+      "pointer": "/fixed_inputs/hole_diameter_m",
+      "keyword": "maximum"
+    },
+    {
+      "file": "d1-design-grid.hostile-unknown-axis.json",
+      "schema": "d1-design-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "axis over an unknown input",
+      "rule": "FR-012-46",
+      "pointer": "/axes/0/input",
+      "keyword": "enum"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "fragment-table.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "also FR-012-11 for generator parameters; Parquet rows are checked by the table reader"
+    },
+    {
+      "schema": "fragment-table.schema.json",
+      "class": "duplicated fragment id in the table",
+      "by": "checker",
+      "rule": "FR-012-16"
+    },
+    {
+      "schema": "fragment-table.schema.json",
+      "class": "x_min < x50 < x_max violated",
+      "by": "checker",
+      "rule": "FR-012-11"
+    },
+    {
+      "schema": "fragment-table.schema.json",
+      "class": "realised passing fraction at a class boundary not within v_max / V_real of F",
+      "by": "checker",
+      "rule": "FR-012-10",
+      "note": "computed from the rows"
+    },
+    {
+      "schema": "fragment-table.schema.json",
+      "class": "volume differs from pi x^3 / 6 or mass from density x volume",
+      "by": "checker",
+      "rule": "FR-012-12",
+      "note": "also P-012-10"
+    },
+    {
+      "schema": "fragment-table.schema.json",
+      "class": "class index inconsistent with the log-spaced class boundaries",
+      "by": "checker",
+      "rule": "FR-012-09"
+    },
+    {
+      "schema": "fragment-table.schema.json",
+      "class": "row count or digest differ from the Parquet file",
+      "by": "checker",
+      "rule": "FR-012-09"
+    },
+    {
+      "schema": "fragment-table.schema.json",
+      "class": "realised x50 / x80 differ from Q-1 over the rows",
+      "by": "checker",
+      "rule": "FR-012-15"
+    },
+    {
+      "schema": "fragment-table.schema.json",
+      "class": "visible_px length differs from view_count",
+      "by": "checker",
+      "rule": "FR-012-15"
+    },
+    {
+      "schema": "fragment-split.schema.json",
+      "class": "malformed YAML, anchors, tags, multi-document, duplicate keys",
+      "by": "loader",
+      "rule": "FR-001-06",
+      "note": "the links file is YAML"
+    },
+    {
+      "schema": "fragment-split.schema.json",
+      "class": "link of a file to itself, or the same pair listed reversed",
+      "by": "checker",
+      "rule": "FR-012-44"
+    },
+    {
+      "schema": "fragment-split.schema.json",
+      "class": "union-find over the links not giving 231 groups",
+      "by": "checker",
+      "rule": "FR-012-04"
+    },
+    {
+      "schema": "fragment-split.schema.json",
+      "class": "a group in the test list and the training or validation list of a fold",
+      "by": "checker",
+      "rule": "FR-012-06"
+    },
+    {
+      "schema": "fragment-split.schema.json",
+      "class": "test lists not partitioning 1..240; a fold's lists not partitioning 1..240",
+      "by": "checker",
+      "rule": "FR-012-06",
+      "note": "also P-012-08"
+    },
+    {
+      "schema": "fragment-split.schema.json",
+      "class": "links_sha256 differing from the committed links file",
+      "by": "checker",
+      "rule": "FR-012-44"
+    },
+    {
+      "schema": "fragment-split.schema.json",
+      "class": "fold file not byte-identical across two runs",
+      "by": "checker",
+      "rule": "NFR-012-04"
+    },
+    {
+      "schema": "fragmentation-eval.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "fragmentation-eval.schema.json",
+      "class": "rho differs from IoU_TSTR / IoU_TRTR, or mean / minimum / standard deviation from the five values",
+      "by": "checker",
+      "rule": "FR-012-30"
+    },
+    {
+      "schema": "fragmentation-eval.schema.json",
+      "class": "TSTR verdict inconsistent with rho_mean >= 0.90",
+      "by": "checker",
+      "rule": "-",
+      "note": "SC-012-02 acceptance test (T-012-018)"
+    },
+    {
+      "schema": "fragmentation-eval.schema.json",
+      "class": "synthetic x50 verdict inconsistent with MRE <= 0.15",
+      "by": "checker",
+      "rule": "-",
+      "note": "SC-012-01 acceptance test (T-012-033)"
+    },
+    {
+      "schema": "fragmentation-eval.schema.json",
+      "class": "comparison verdict inconsistent with its interval (FR-000-05); lower bound above upper bound",
+      "by": "checker",
+      "rule": "FR-012-32"
+    },
+    {
+      "schema": "fragmentation-eval.schema.json",
+      "class": "powered flag inconsistent with both shift AUCs >= 0.80",
+      "by": "checker",
+      "rule": "FR-012-34"
+    },
+    {
+      "schema": "fragmentation-eval.schema.json",
+      "class": "auc_minus_real_vs_real differs from the two AUCs; realism verdict inconsistent with SC-012-04",
+      "by": "checker",
+      "rule": "-",
+      "note": "SC-012-04 acceptance test (T-012-043)"
+    },
+    {
+      "schema": "fragmentation-eval.schema.json",
+      "class": "no-fit counts above the number of units",
+      "by": "checker",
+      "rule": "FR-012-25"
+    },
+    {
+      "schema": "muck-pile-render.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "muck-pile-render.schema.json",
+      "class": "instance id without a row in the fragment table; instance id differing from its fragment id",
+      "by": "checker",
+      "rule": "FR-012-16",
+      "note": "also FR-012-13"
+    },
+    {
+      "schema": "muck-pile-render.schema.json",
+      "class": "tiles overlapping or not covering the view (repeated x0, y0 or tile index)",
+      "by": "checker",
+      "rule": "FR-012-13"
+    },
+    {
+      "schema": "muck-pile-render.schema.json",
+      "class": "file digests differing from the files",
+      "by": "checker",
+      "rule": "FR-012-13"
+    },
+    {
+      "schema": "muck-pile-render.schema.json",
+      "class": "fragment id above 65,535 in a uint16 mask",
+      "by": "checker",
+      "rule": "FR-012-13"
+    },
+    {
+      "schema": "muck-pile-render.schema.json",
+      "class": "Windows device names or case-folded duplicate paths",
+      "by": "checker",
+      "rule": "FR-001-05",
+      "note": "data-model 001 section 1.3 relpath rules"
+    },
+    {
+      "schema": "d1-design-grid.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "also FR-012-46"
+    },
+    {
+      "schema": "d1-design-grid.schema.json",
+      "class": "outputs differ from direct minephys.blasting calls",
+      "by": "checker",
+      "rule": "FR-012-41",
+      "note": "reference test, exact float64"
+    },
+    {
+      "schema": "d1-design-grid.schema.json",
+      "class": "points not the product of the axes, or swept inputs not on the axis values",
+      "by": "checker",
+      "rule": "FR-012-41"
+    },
+    {
+      "schema": "d1-design-grid.schema.json",
+      "class": "fixed and swept inputs overlapping or not covering the model inputs",
+      "by": "checker",
+      "rule": "FR-012-46"
+    },
+    {
+      "schema": "d1-design-grid.schema.json",
+      "class": "x50 < x80 < x_max violated",
+      "by": "checker",
+      "rule": "FR-012-41"
+    },
+    {
+      "schema": "d1-design-grid.schema.json",
+      "class": "input rejected by minephys.blasting (domain rules)",
+      "by": "checker",
+      "rule": "FR-012-46"
+    }
+  ]
+}

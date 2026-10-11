@@ -1,0 +1,1882 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/physics-scenario.schema.json",
+  "title": "Physics scenario",
+  "description": "Physics scenario parameters that st50_physics reads from a recipe stage's params (DC-005-01, spec 005-physics).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario",
+    "kind",
+    "solver",
+    "device",
+    "seed",
+    "deterministic",
+    "geometry",
+    "counts",
+    "time_step",
+    "output",
+    "materials"
+  ],
+  "properties": {
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "scenario": {
+      "$ref": "#/$defs/slug"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 300
+    },
+    "kind": {
+      "description": "benchmark run, browser-twin parity golden, or production rollout (any scenario that is not a benchmark)",
+      "enum": [
+        "benchmark",
+        "parity-golden",
+        "production"
+      ]
+    },
+    "solver": {
+      "$ref": "#/$defs/solver"
+    },
+    "device": {
+      "description": "cpu hides CUDA from the process (FR-005-49)",
+      "enum": [
+        "cpu",
+        "cuda"
+      ]
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "deterministic": {
+      "description": "Warp deterministic execution mode for atomic operations (FR-005-48)",
+      "type": "boolean"
+    },
+    "benchmarks": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/benchmark_id"
+      }
+    },
+    "twin": {
+      "$ref": "#/$defs/twin"
+    },
+    "geometry": {
+      "$ref": "#/$defs/geometry"
+    },
+    "counts": {
+      "$ref": "#/$defs/counts"
+    },
+    "time_step": {
+      "$ref": "#/$defs/time_step"
+    },
+    "output": {
+      "$ref": "#/$defs/output"
+    },
+    "materials": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "$ref": "#/$defs/material_card"
+      }
+    },
+    "vehicle_cards": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "$ref": "#/$defs/vehicle_card"
+      }
+    },
+    "dem": {
+      "$ref": "#/$defs/dem_block"
+    },
+    "mpm_newton": {
+      "$ref": "#/$defs/mpm_newton_block"
+    },
+    "mlsmpm2d": {
+      "$ref": "#/$defs/mlsmpm2d_block"
+    },
+    "swe": {
+      "$ref": "#/$defs/swe_block"
+    },
+    "dust": {
+      "$ref": "#/$defs/dust_block"
+    },
+    "vehicles": {
+      "$ref": "#/$defs/vehicles_block"
+    },
+    "rigid_newton": {
+      "$ref": "#/$defs/rigid_newton_block"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "benchmark"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "benchmarks"
+        ],
+        "properties": {
+          "benchmarks": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "production"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "benchmarks": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "parity-golden"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "twin"
+        ],
+        "properties": {
+          "solver": {
+            "enum": [
+              "dem",
+              "mlsmpm2d",
+              "swe",
+              "dust"
+            ]
+          },
+          "counts": {
+            "properties": {
+              "particles": {
+                "maximum": 20000
+              },
+              "cells_x": {
+                "maximum": 256
+              },
+              "cells_y": {
+                "maximum": 256
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "benchmark",
+              "parity-golden"
+            ]
+          },
+          "solver": {
+            "enum": [
+              "dem",
+              "mlsmpm2d",
+              "swe",
+              "dust",
+              "vehicles"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "solver"
+        ]
+      },
+      "then": {
+        "properties": {
+          "deterministic": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "solver": {
+            "const": "dem"
+          }
+        },
+        "required": [
+          "solver"
+        ]
+      },
+      "then": {
+        "required": [
+          "dem"
+        ],
+        "properties": {
+          "benchmarks": {
+            "items": {
+              "pattern": "^dem-[a-z0-9-]+$"
+            }
+          },
+          "counts": {
+            "required": [
+              "particles"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "solver": {
+            "const": "mpm-newton"
+          }
+        },
+        "required": [
+          "solver"
+        ]
+      },
+      "then": {
+        "required": [
+          "mpm_newton"
+        ],
+        "properties": {
+          "benchmarks": {
+            "items": {
+              "pattern": "^mpm-newton-[a-z0-9-]+$"
+            }
+          },
+          "counts": {
+            "required": [
+              "particles"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "solver": {
+            "const": "mlsmpm2d"
+          }
+        },
+        "required": [
+          "solver"
+        ]
+      },
+      "then": {
+        "required": [
+          "mlsmpm2d"
+        ],
+        "properties": {
+          "benchmarks": {
+            "items": {
+              "pattern": "^mlsmpm2d-[a-z0-9-]+$"
+            }
+          },
+          "counts": {
+            "required": [
+              "particles"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "solver": {
+            "const": "swe"
+          }
+        },
+        "required": [
+          "solver"
+        ]
+      },
+      "then": {
+        "required": [
+          "swe"
+        ],
+        "properties": {
+          "benchmarks": {
+            "items": {
+              "pattern": "^swe-[a-z0-9-]+$"
+            }
+          },
+          "counts": {
+            "required": [
+              "cells_x",
+              "cells_y"
+            ]
+          },
+          "time_step": {
+            "required": [
+              "end_time_s"
+            ],
+            "not": {
+              "required": [
+                "dt_s"
+              ]
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "time_step": {
+            "required": [
+              "dt_s"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "solver": {
+            "const": "dust"
+          }
+        },
+        "required": [
+          "solver"
+        ]
+      },
+      "then": {
+        "required": [
+          "dust"
+        ],
+        "properties": {
+          "benchmarks": {
+            "items": {
+              "pattern": "^dust-[a-z0-9-]+$"
+            }
+          },
+          "counts": {
+            "required": [
+              "particles"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "solver": {
+            "const": "vehicles"
+          }
+        },
+        "required": [
+          "solver"
+        ]
+      },
+      "then": {
+        "required": [
+          "vehicles",
+          "vehicle_cards"
+        ],
+        "properties": {
+          "benchmarks": {
+            "items": {
+              "pattern": "^vehicles-[a-z0-9-]+$"
+            }
+          },
+          "counts": {
+            "required": [
+              "vehicles"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "solver": {
+            "const": "rigid-newton"
+          }
+        },
+        "required": [
+          "solver"
+        ]
+      },
+      "then": {
+        "required": [
+          "rigid_newton"
+        ],
+        "properties": {
+          "benchmarks": {
+            "items": {
+              "pattern": "^rigid-newton-[a-z0-9-]+$"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "solver": {
+      "description": "own Warp DEM, Newton implicit MPM, own explicit 2-D MLS-MPM twin, own shallow water, own Lagrangian dust, reduced-order vehicles, Newton rigid bodies",
+      "enum": [
+        "dem",
+        "mpm-newton",
+        "mlsmpm2d",
+        "swe",
+        "dust",
+        "vehicles",
+        "rigid-newton"
+      ]
+    },
+    "benchmark_id": {
+      "description": "physics benchmark ids; the prefix is the solver id",
+      "enum": [
+        "dem-contact-law",
+        "dem-impact",
+        "dem-restitution",
+        "dem-rolling",
+        "dem-slide-roll",
+        "dem-beverloo-silo",
+        "dem-beverloo-slot",
+        "dem-repose",
+        "dem-collapse-axi",
+        "dem-mass",
+        "mpm-newton-collapse-axi",
+        "mpm-newton-silo",
+        "mpm-newton-mass",
+        "mpm-newton-rerun",
+        "mlsmpm2d-p2g",
+        "mlsmpm2d-collapse-planar",
+        "mlsmpm2d-mass",
+        "swe-ritter",
+        "swe-stoker",
+        "swe-lake-at-rest",
+        "swe-volume",
+        "swe-bingham-sheet",
+        "swe-hydrograph",
+        "dust-stokes",
+        "dust-diffusion",
+        "dust-plume",
+        "dust-mass-budget",
+        "vehicles-steady-speed",
+        "vehicles-energy",
+        "rigid-newton-incline"
+      ]
+    },
+    "twin": {
+      "description": "browser-twin scenario of FR-005-22",
+      "enum": [
+        "dem-pile",
+        "mlsmpm2d-collapse",
+        "swe-dam-break",
+        "dust-release"
+      ]
+    },
+    "status": {
+      "description": "verification status of a value: verified (primary source read), unverified (secondary or unreadable source), calibrated (fitted), reduced (deliberately lowered Young's modulus, FR-005-09), assumed (modelling choice)",
+      "enum": [
+        "verified",
+        "unverified",
+        "calibrated",
+        "reduced",
+        "assumed"
+      ]
+    },
+    "quantity": {
+      "type": "object",
+      "description": "a material or vehicle value with its citation and verification status; the unit is the suffix of the field name",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "status"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "source": {
+          "description": "citation with table or page",
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 300
+        },
+        "url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 300
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "verified",
+                  "unverified",
+                  "calibrated"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "source"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "reduced",
+                  "assumed"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "note"
+            ]
+          }
+        }
+      ]
+    },
+    "vec3_m": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "number",
+        "minimum": -100000,
+        "maximum": 100000
+      }
+    },
+    "material_card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "model"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "model": {
+          "enum": [
+            "dem-sphere",
+            "mpm-granular",
+            "mpm-drucker-prager-2d",
+            "bingham-tailings",
+            "dust-particle",
+            "air"
+          ]
+        },
+        "density_kg_m3": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 25000
+            }
+          }
+        },
+        "youngs_modulus_pa": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 1000000000000.0
+            }
+          }
+        },
+        "youngs_modulus_real_pa": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 1000000000000.0
+            }
+          }
+        },
+        "poisson_ratio": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": -1,
+              "exclusiveMaximum": 0.5
+            }
+          }
+        },
+        "restitution": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "friction_static": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 10
+            }
+          }
+        },
+        "friction_rolling": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 10
+            }
+          }
+        },
+        "diameter_m": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 10
+            }
+          }
+        },
+        "diameter_min_m": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 10
+            }
+          }
+        },
+        "diameter_max_m": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 10
+            }
+          }
+        },
+        "repose_target_deg": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 90
+            }
+          }
+        },
+        "repose_method": {
+          "enum": [
+            "lifted-cylinder",
+            "poured-cone"
+          ]
+        },
+        "friction_coefficient": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 10
+            }
+          }
+        },
+        "yield_pressure_pa": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 1000000000000.0
+            }
+          }
+        },
+        "viscosity_pa_s": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 1000000000.0
+            }
+          }
+        },
+        "friction_angle_deg": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 90
+            }
+          }
+        },
+        "cohesion_pa": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 1000000000.0
+            }
+          }
+        },
+        "yield_stress_pa": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 1000000.0
+            }
+          }
+        },
+        "bingham_viscosity_pa_s": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 1000000.0
+            }
+          }
+        },
+        "particle_radius_m": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 0.001
+            }
+          }
+        },
+        "dynamic_viscosity_pa_s": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            }
+          }
+        }
+      },
+      "dependentRequired": {
+        "repose_target_deg": [
+          "repose_method"
+        ],
+        "youngs_modulus_real_pa": [
+          "youngs_modulus_pa"
+        ]
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "model": {
+                "const": "dem-sphere"
+              }
+            },
+            "required": [
+              "model"
+            ]
+          },
+          "then": {
+            "required": [
+              "density_kg_m3",
+              "youngs_modulus_pa",
+              "poisson_ratio",
+              "restitution",
+              "friction_static",
+              "friction_rolling",
+              "diameter_m"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "model": {
+                "const": "mpm-granular"
+              }
+            },
+            "required": [
+              "model"
+            ]
+          },
+          "then": {
+            "required": [
+              "density_kg_m3",
+              "youngs_modulus_pa",
+              "friction_coefficient",
+              "yield_pressure_pa",
+              "viscosity_pa_s"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "model": {
+                "const": "mpm-drucker-prager-2d"
+              }
+            },
+            "required": [
+              "model"
+            ]
+          },
+          "then": {
+            "required": [
+              "density_kg_m3",
+              "youngs_modulus_pa",
+              "poisson_ratio",
+              "friction_angle_deg",
+              "cohesion_pa"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "model": {
+                "const": "bingham-tailings"
+              }
+            },
+            "required": [
+              "model"
+            ]
+          },
+          "then": {
+            "required": [
+              "density_kg_m3",
+              "yield_stress_pa",
+              "bingham_viscosity_pa_s"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "model": {
+                "const": "dust-particle"
+              }
+            },
+            "required": [
+              "model"
+            ]
+          },
+          "then": {
+            "required": [
+              "density_kg_m3",
+              "particle_radius_m"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "model": {
+                "const": "air"
+              }
+            },
+            "required": [
+              "model"
+            ]
+          },
+          "then": {
+            "required": [
+              "density_kg_m3",
+              "dynamic_viscosity_pa_s"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "youngs_modulus_pa": {
+                "properties": {
+                  "status": {
+                    "const": "reduced"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            },
+            "required": [
+              "youngs_modulus_pa"
+            ]
+          },
+          "then": {
+            "required": [
+              "youngs_modulus_real_pa"
+            ]
+          }
+        }
+      ]
+    },
+    "vehicle_card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "mass_kg",
+        "power_w",
+        "efficiency",
+        "traction_coefficient",
+        "drive_weight_fraction",
+        "rolling_resistance_pct",
+        "retarder_power_w",
+        "retarder_efficiency",
+        "drag_coefficient",
+        "frontal_area_m2"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "mass_kg": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 2000000
+            }
+          }
+        },
+        "power_w": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 20000000
+            }
+          }
+        },
+        "efficiency": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "traction_coefficient": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 2
+            }
+          }
+        },
+        "drive_weight_fraction": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "rolling_resistance_pct": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 30
+            }
+          }
+        },
+        "retarder_power_w": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 20000000
+            }
+          }
+        },
+        "retarder_efficiency": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "drag_coefficient": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 5
+            }
+          }
+        },
+        "frontal_area_m2": {
+          "$ref": "#/$defs/quantity",
+          "properties": {
+            "value": {
+              "minimum": 0,
+              "maximum": 200
+            }
+          }
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shape",
+        "domain_min_m",
+        "domain_max_m"
+      ],
+      "properties": {
+        "shape": {
+          "enum": [
+            "two-body",
+            "plane",
+            "incline",
+            "silo-cylinder",
+            "slot-quasi2d",
+            "column-axisymmetric",
+            "column-planar",
+            "box",
+            "channel",
+            "benched-crop",
+            "terrain-crop",
+            "open-field",
+            "grade-segment",
+            "road-network"
+          ]
+        },
+        "domain_min_m": {
+          "$ref": "#/$defs/vec3_m"
+        },
+        "domain_max_m": {
+          "$ref": "#/$defs/vec3_m"
+        },
+        "diameter_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "height_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "width_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "thickness_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "length_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "orifice_m": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1000
+          }
+        },
+        "aspect_ratios": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 50
+          }
+        },
+        "incline_deg": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 90
+        },
+        "bed_slope": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "grade_pct": {
+          "type": "number",
+          "minimum": -30,
+          "maximum": 30
+        },
+        "periodic_axes": {
+          "type": "array",
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "x",
+              "y",
+              "z"
+            ]
+          }
+        },
+        "outflow": {
+          "type": "array",
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "x-min",
+              "x-max",
+              "y-min",
+              "y-max",
+              "z-min",
+              "z-max",
+              "orifice"
+            ]
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "particles": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000000
+        },
+        "cells_x": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16384
+        },
+        "cells_y": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16384
+        },
+        "cells_z": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "vehicles": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        }
+      }
+    },
+    "time_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dt_s": {
+          "description": "fixed step; the shallow-water solver uses the CFL step instead (FR-005-23)",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000
+        },
+        "end_time_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000000
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "steps"
+          ]
+        },
+        {
+          "required": [
+            "end_time_s"
+          ]
+        }
+      ]
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "every_steps",
+        "fields",
+        "replay"
+      ],
+      "properties": {
+        "every_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000
+        },
+        "fields": {
+          "type": "boolean"
+        },
+        "replay": {
+          "type": "boolean"
+        },
+        "replay_fps": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 240
+        },
+        "shard_bytes_max": {
+          "description": "replay shard cap (FR-005-45)",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "replay": {
+                "const": true
+              }
+            },
+            "required": [
+              "replay"
+            ]
+          },
+          "then": {
+            "required": [
+              "replay_fps",
+              "shard_bytes_max"
+            ]
+          }
+        }
+      ]
+    },
+    "dem_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "material",
+        "contact_capacity",
+        "rayleigh_fraction"
+      ],
+      "properties": {
+        "material": {
+          "$ref": "#/$defs/slug"
+        },
+        "contact_capacity": {
+          "description": "per-particle contact-list capacity (FR-005-06, default 12)",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "rayleigh_fraction": {
+          "description": "f_R of the time-step guard (FR-005-08, default 0.2)",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "mpm_newton_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "material",
+        "voxel_size_m",
+        "grid_type",
+        "max_iterations",
+        "tolerance"
+      ],
+      "properties": {
+        "material": {
+          "$ref": "#/$defs/slug"
+        },
+        "voxel_size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "grid_type": {
+          "enum": [
+            "sparse",
+            "fixed",
+            "dense"
+          ]
+        },
+        "max_iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "tolerance": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        }
+      }
+    },
+    "mlsmpm2d_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "material",
+        "grid_cells",
+        "particles_per_cell"
+      ],
+      "properties": {
+        "material": {
+          "$ref": "#/$defs/slug"
+        },
+        "grid_cells": {
+          "description": "cells per axis of the square grid",
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 4096
+        },
+        "particles_per_cell": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        }
+      }
+    },
+    "swe_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rheology",
+        "cfl",
+        "h_dry_m",
+        "h_thr_m",
+        "boundary",
+        "initial"
+      ],
+      "properties": {
+        "rheology": {
+          "enum": [
+            "frictionless",
+            "bingham"
+          ]
+        },
+        "material": {
+          "$ref": "#/$defs/slug"
+        },
+        "cfl": {
+          "description": "C_CFL in (0, 0.5] (FR-005-23, default 0.45)",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.5
+        },
+        "h_dry_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "h_thr_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "boundary": {
+          "enum": [
+            "closed",
+            "open"
+          ]
+        },
+        "initial": {
+          "enum": [
+            "dam-break",
+            "lake-at-rest",
+            "dry",
+            "sheet-flow"
+          ]
+        },
+        "dam_x_m": {
+          "type": "number",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "depth_left_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "depth_right_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "surface_z_m": {
+          "type": "number",
+          "minimum": -5000,
+          "maximum": 5000
+        },
+        "inflow_depth_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "hydrograph": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "volume_m3",
+            "peak_m3_s",
+            "peak_fraction"
+          ],
+          "properties": {
+            "volume_m3": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 10000000000.0
+            },
+            "peak_m3_s": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 10000000.0
+            },
+            "peak_fraction": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 1
+            }
+          }
+        },
+        "breach": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "x_m",
+            "y_m",
+            "width_m"
+          ],
+          "properties": {
+            "x_m": {
+              "type": "number",
+              "minimum": -100000,
+              "maximum": 100000
+            },
+            "y_m": {
+              "type": "number",
+              "minimum": -100000,
+              "maximum": 100000
+            },
+            "width_m": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 10000
+            }
+          }
+        }
+      },
+      "dependentRequired": {
+        "hydrograph": [
+          "breach"
+        ]
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "rheology": {
+                "const": "bingham"
+              }
+            },
+            "required": [
+              "rheology"
+            ]
+          },
+          "then": {
+            "required": [
+              "material"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "initial": {
+                "const": "dam-break"
+              }
+            },
+            "required": [
+              "initial"
+            ]
+          },
+          "then": {
+            "required": [
+              "dam_x_m",
+              "depth_left_m",
+              "depth_right_m"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "initial": {
+                "const": "lake-at-rest"
+              }
+            },
+            "required": [
+              "initial"
+            ]
+          },
+          "then": {
+            "required": [
+              "surface_z_m"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "initial": {
+                "const": "sheet-flow"
+              }
+            },
+            "required": [
+              "initial"
+            ]
+          },
+          "then": {
+            "required": [
+              "inflow_depth_m"
+            ]
+          }
+        }
+      ]
+    },
+    "dust_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "x_m",
+        "y_m",
+        "z_m",
+        "start_s"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "continuous",
+            "instantaneous"
+          ]
+        },
+        "x_m": {
+          "type": "number",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "y_m": {
+          "type": "number",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "z_m": {
+          "type": "number",
+          "minimum": -5000,
+          "maximum": 5000
+        },
+        "rate_kg_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "mass_kg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "start_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "end_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "continuous"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "rate_kg_s",
+              "end_s"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "instantaneous"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "mass_kg"
+            ]
+          }
+        }
+      ]
+    },
+    "dust_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "particle_material",
+        "air_material",
+        "diffusivity_m2_s",
+        "settling",
+        "ground",
+        "wind",
+        "sources"
+      ],
+      "properties": {
+        "particle_material": {
+          "$ref": "#/$defs/slug"
+        },
+        "air_material": {
+          "$ref": "#/$defs/slug"
+        },
+        "diffusivity_m2_s": {
+          "description": "K >= 0 (FR-005-39)",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "settling": {
+          "type": "boolean"
+        },
+        "ground": {
+          "enum": [
+            "terrain",
+            "reflecting",
+            "none"
+          ]
+        },
+        "wind": {
+          "enum": [
+            "uniform",
+            "gridded"
+          ]
+        },
+        "wind_m_s": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number",
+            "minimum": -100,
+            "maximum": 100
+          }
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/dust_source"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "wind": {
+                "const": "uniform"
+              }
+            },
+            "required": [
+              "wind"
+            ]
+          },
+          "then": {
+            "required": [
+              "wind_m_s"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "wind_m_s"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "vehicles_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "road",
+        "air_density_kg_m3",
+        "fleet"
+      ],
+      "properties": {
+        "road": {
+          "description": "a constant-grade segment (geometry.grade_pct) or the road network (DC-004-06)",
+          "enum": [
+            "grade-segment",
+            "network"
+          ]
+        },
+        "air_density_kg_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2
+        },
+        "fleet": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        }
+      }
+    },
+    "rigid_newton_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "friction_coefficient",
+        "mass_kg",
+        "size_m"
+      ],
+      "properties": {
+        "friction_coefficient": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "mass_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2000000
+        },
+        "size_m": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 100
+          }
+        }
+      }
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "https_url": {
+      "type": "string",
+      "maxLength": 2048,
+      "pattern": "^https://[A-Za-z0-9.-]+(:[0-9]{1,5})?(/[A-Za-z0-9._~%!$&'()*+,;=:@/-]*)?(\\?[A-Za-z0-9._~%!$&'()*+,;=:@/?-]*)?$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    }
+  }
+}

@@ -1,0 +1,872 @@
+{
+  "spec": "013-sensors",
+  "examples": [
+    {
+      "file": "sensor-recipe.valid.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S1 truck lidar block: rotary 64-channel and solid-state 120 x 30 deg, dust and metric settings"
+    },
+    {
+      "file": "sensor-recipe.valid-s2.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S2 drone survey camera with exposure settings"
+    },
+    {
+      "file": "sensor-recipe.valid-s3.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S3 crusher camera with haze settings"
+    },
+    {
+      "file": "sensor-recipe.valid-s4a.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S4a proximity radar block"
+    },
+    {
+      "file": "sensor-recipe.valid-rain.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "rain arm on the isaac backend"
+    },
+    {
+      "file": "sensor-recipe.hostile-unknown-enum.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown sensor kind",
+      "rule": "FR-013-04",
+      "pointer": "/sensors/0/kind",
+      "keyword": "const"
+    },
+    {
+      "file": "sensor-recipe.hostile-unknown-field.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key (vendor sensor profile)",
+      "rule": "FR-013-04",
+      "pointer": "/sensors/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "sensor-recipe.hostile-wrong-unit.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "length not in metres (mm value)",
+      "rule": "FR-013-04",
+      "pointer": "/sensors/0/wavelength_m",
+      "keyword": "maximum"
+    },
+    {
+      "file": "sensor-recipe.hostile-wrong-unit-angle.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "angle not in degrees",
+      "rule": "FR-013-04",
+      "pointer": "/sensors/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "sensor-recipe.hostile-out-of-range.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "S1 elevation beyond +/-45 deg",
+      "rule": "FR-013-04",
+      "pointer": "/sensors/0/elevation_fan_deg/1",
+      "keyword": "maximum"
+    },
+    {
+      "file": "sensor-recipe.hostile-path-traversal.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-013-04",
+      "pointer": "/poses",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sensor-recipe.hostile-url-scheme.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "asset reference with a URL scheme",
+      "rule": "FR-013-04",
+      "pointer": "/poses",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sensor-recipe.hostile-absolute-path.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-013-04",
+      "pointer": "/haze/extinction_field",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sensor-recipe.hostile-oversized.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "camera above 1920 x 1080 px",
+      "rule": "NFR-013-05",
+      "pointer": "/sensors/0/width_px",
+      "keyword": "maximum"
+    },
+    {
+      "file": "sensor-recipe.hostile-conditional-camera-count.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 2 cameras in one session",
+      "rule": "NFR-013-05",
+      "pointer": "/sensors",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "sensor-recipe.hostile-conditional-radar-with-camera.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "radar session holding a camera product",
+      "rule": "FR-013-21",
+      "pointer": "/sensors/1/kind",
+      "keyword": "const"
+    },
+    {
+      "file": "sensor-recipe.hostile-radar-band.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "radar wavelength outside 3.70-3.95 mm",
+      "rule": "FR-013-21",
+      "pointer": "/sensors/0/wavelength_m",
+      "keyword": "minimum"
+    },
+    {
+      "file": "sensor-recipe.hostile-motion-bvh-off.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "radar with Motion BVH disabled",
+      "rule": "FR-013-21",
+      "pointer": "/sensors/0/motion_bvh",
+      "keyword": "const"
+    },
+    {
+      "file": "sensor-recipe.hostile-conditional-rain-on-ovrtx.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "non-zero rain rate on the ovrtx backend",
+      "rule": "FR-013-30",
+      "pointer": "/rain_rates_mm_h/1",
+      "keyword": "const"
+    },
+    {
+      "file": "sensor-recipe.hostile-empty.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty transmittance grid",
+      "rule": "FR-013-42",
+      "pointer": "/dust/transmittance_grid",
+      "keyword": "minItems"
+    },
+    {
+      "file": "sensor-recipe.hostile-k-min-zero.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "k_min < 1",
+      "rule": "FR-013-42",
+      "pointer": "/metrics/k_min",
+      "keyword": "minimum"
+    },
+    {
+      "file": "sensor-recipe.hostile-zero-speed.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "speed <= 0",
+      "rule": "FR-013-42",
+      "pointer": "/metrics/speeds_km_h/0",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "sensor-recipe.hostile-beta-spacing.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "beta sample spacing > 0.5 m",
+      "rule": "FR-013-15",
+      "pointer": "/dust/beta_spacing_m",
+      "keyword": "maximum"
+    },
+    {
+      "file": "sensor-recipe.hostile-negative-read-noise.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "sigma_read < 0",
+      "rule": "FR-013-20",
+      "pointer": "/exposure/read_noise_e",
+      "keyword": "minimum"
+    },
+    {
+      "file": "sensor-recipe.hostile-airlight-out-of-range.json",
+      "schema": "sensor-recipe.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "airlight outside [0, 1e6]",
+      "rule": "FR-013-20",
+      "pointer": "/haze/airlight_rgb/0",
+      "keyword": "maximum"
+    },
+    {
+      "file": "lidar-envelope.valid.json",
+      "schema": "lidar-envelope.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "two passing configurations and one failing configuration"
+    },
+    {
+      "file": "lidar-envelope.hostile-performance-field.json",
+      "schema": "lidar-envelope.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "timing field (performance data)",
+      "rule": "FR-013-06",
+      "pointer": "/configurations/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "lidar-envelope.hostile-unknown-enum.json",
+      "schema": "lidar-envelope.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown status",
+      "rule": "FR-013-05",
+      "pointer": "/configurations/0/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "lidar-envelope.hostile-conditional-pass-zero-points.json",
+      "schema": "lidar-envelope.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pass with 0 valid points",
+      "rule": "FR-013-06",
+      "pointer": "/configurations/0/valid_points",
+      "keyword": "minimum"
+    },
+    {
+      "file": "lidar-envelope.hostile-malformed-version.json",
+      "schema": "lidar-envelope.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed version",
+      "rule": "FR-013-05",
+      "pointer": "/versions/ovrtx",
+      "keyword": "pattern"
+    },
+    {
+      "file": "lidar-envelope.hostile-missing-required.json",
+      "schema": "lidar-envelope.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing ovstage version",
+      "rule": "FR-013-05",
+      "pointer": "/versions",
+      "keyword": "required"
+    },
+    {
+      "file": "lidar-envelope.hostile-out-of-range.json",
+      "schema": "lidar-envelope.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "elevation beyond +/-45 deg",
+      "rule": "FR-013-05",
+      "pointer": "/configurations/0/elevation_fan_deg/1",
+      "keyword": "maximum"
+    },
+    {
+      "file": "lidar-envelope.hostile-empty.json",
+      "schema": "lidar-envelope.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no configuration",
+      "rule": "FR-013-05",
+      "pointer": "/configurations",
+      "keyword": "minItems"
+    },
+    {
+      "file": "sensor-shard.valid.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S1 index: three lidar frames in two Parquet shards"
+    },
+    {
+      "file": "sensor-shard.valid-s2.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S2 index: image index, Zarr v3 chunk and metadata, PNG"
+    },
+    {
+      "file": "sensor-shard.valid-lidar-return.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#/$defs/lidar_return",
+      "valid": true,
+      "note": "one lidar-returns row"
+    },
+    {
+      "file": "sensor-shard.valid-radar-detection.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#/$defs/radar_detection",
+      "valid": true,
+      "note": "one radar-detections row"
+    },
+    {
+      "file": "sensor-shard.valid-radar-detection-unlabelled.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#/$defs/radar_detection",
+      "valid": true,
+      "note": "radar row without object id"
+    },
+    {
+      "file": "sensor-shard.valid-image-record.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#/$defs/image_record",
+      "valid": true,
+      "note": "one image-index row (S2)"
+    },
+    {
+      "file": "sensor-shard.hostile-oversized.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "file over 10 MB",
+      "rule": "FR-013-31",
+      "pointer": "/files/0/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "sensor-shard.hostile-malformed-digest.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "uppercase digest",
+      "rule": "FR-013-31",
+      "pointer": "/files/0/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sensor-shard.hostile-path-traversal.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-013-31",
+      "pointer": "/files/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "sensor-shard.hostile-zero-point-frame.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "clean lidar frame with 0 valid points",
+      "rule": "FR-013-08",
+      "pointer": "/frames/0/valid_points",
+      "keyword": "minimum"
+    },
+    {
+      "file": "sensor-shard.hostile-unknown-enum.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown file format",
+      "rule": "FR-013-31",
+      "pointer": "/files/0/format",
+      "keyword": "enum"
+    },
+    {
+      "file": "sensor-shard.hostile-conditional-format-content.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "PNG file declared as lidar returns",
+      "rule": "FR-013-31",
+      "pointer": "/files/0/content",
+      "keyword": "const"
+    },
+    {
+      "file": "sensor-shard.hostile-conditional-stage-scenario.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "rain stage with a non-rain scenario",
+      "rule": "FR-013-29",
+      "pointer": "/scenario",
+      "keyword": "const"
+    },
+    {
+      "file": "sensor-shard.hostile-lidar-return-unknown-enum.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#/$defs/lidar_return",
+      "valid": false,
+      "class": "material class other than retro/diffuse",
+      "rule": "FR-013-15",
+      "pointer": "/material_class",
+      "keyword": "enum"
+    },
+    {
+      "file": "sensor-shard.hostile-lidar-return-wrong-type.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#/$defs/lidar_return",
+      "valid": false,
+      "class": "non-integer beam index",
+      "rule": "FR-013-09",
+      "pointer": "/beam",
+      "keyword": "type"
+    },
+    {
+      "file": "sensor-shard.hostile-radar-detection-wrong-unit.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#/$defs/radar_detection",
+      "valid": false,
+      "class": "radial velocity not in m/s",
+      "rule": "FR-013-22",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "sensor-shard.hostile-image-record-oversized.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#/$defs/image_record",
+      "valid": false,
+      "class": "image wider than 1920 px",
+      "rule": "FR-013-09",
+      "pointer": "/width_px",
+      "keyword": "maximum"
+    },
+    {
+      "file": "sensor-shard.hostile-image-record-wrong-shape.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#/$defs/image_record",
+      "valid": false,
+      "class": "pose not a 4 x 4 matrix",
+      "rule": "FR-013-19",
+      "pointer": "/world_from_camera",
+      "keyword": "minItems"
+    },
+    {
+      "file": "web-cloud-shard.valid.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S1 rotary frame, 98,012 points, 8 bytes per point"
+    },
+    {
+      "file": "web-cloud-shard.valid-s4a.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S4a detections with radial velocity in the intensity channel"
+    },
+    {
+      "file": "web-cloud-shard.hostile-oversized.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "shard over 10 MB declared size",
+      "rule": "FR-013-35",
+      "pointer": "/payload/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "web-cloud-shard.hostile-zero-scale.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "zero scale",
+      "rule": "FR-013-42",
+      "pointer": "/quantisation/scale_m/1",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "web-cloud-shard.hostile-negative-scale.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative scale",
+      "rule": "FR-013-42",
+      "pointer": "/quantisation/scale_m/0",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "web-cloud-shard.hostile-wrong-type.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "positions not uint16",
+      "rule": "FR-013-35",
+      "pointer": "/encoding/position",
+      "keyword": "const"
+    },
+    {
+      "file": "web-cloud-shard.hostile-malformed-digest.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "63-character digest",
+      "rule": "FR-013-39",
+      "pointer": "/payload/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "web-cloud-shard.hostile-path-traversal.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-013-39",
+      "pointer": "/payload/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "web-cloud-shard.hostile-wrong-shape.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "two-axis offset",
+      "rule": "FR-013-35",
+      "pointer": "/quantisation/offset_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "web-cloud-shard.hostile-out-of-range.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more points than fit in 10 MB",
+      "rule": "FR-013-35",
+      "pointer": "/points",
+      "keyword": "maximum"
+    },
+    {
+      "file": "web-cloud-shard.hostile-unknown-enum.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "camera scenario as a cloud",
+      "rule": "FR-013-35",
+      "pointer": "/source/scenario",
+      "keyword": "enum"
+    },
+    {
+      "file": "web-cloud-shard.hostile-bad-pattern.json",
+      "schema": "web-cloud-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "class code outside uint8",
+      "rule": "FR-013-35",
+      "pointer": "/classes",
+      "keyword": "pattern"
+    },
+    {
+      "file": "dust-slider.valid.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "41 levels from T1 = 1.0 to 0.02 on the reference target, 98,012 returns"
+    },
+    {
+      "file": "dust-slider.hostile-oversized.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 150,000 returns",
+      "rule": "FR-013-39",
+      "pointer": "/returns",
+      "keyword": "maximum"
+    },
+    {
+      "file": "dust-slider.hostile-zero-tau-ref.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "reference-target tau of 0",
+      "rule": "FR-013-39",
+      "pointer": "/tau_ref",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "dust-slider.hostile-wrong-shape.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "40 levels instead of 41",
+      "rule": "FR-013-38",
+      "pointer": "/k",
+      "keyword": "minItems"
+    },
+    {
+      "file": "dust-slider.hostile-negative-tau.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative dust-load multiplier",
+      "rule": "FR-013-39",
+      "pointer": "/k/3",
+      "keyword": "minimum"
+    },
+    {
+      "file": "dust-slider.hostile-wrong-threshold.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "onset threshold not the pinned 0.3216",
+      "rule": "FR-013-12",
+      "pointer": "/rule/tau_on",
+      "keyword": "const"
+    },
+    {
+      "file": "dust-slider.hostile-malformed-digest.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "prefixed digest",
+      "rule": "FR-013-39",
+      "pointer": "/payload/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "dust-slider.hostile-oversized-payload.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "asset over 10 MB",
+      "rule": "NFR-013-02",
+      "pointer": "/payload/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "dust-slider.hostile-wrong-type.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tau not float32",
+      "rule": "FR-013-38",
+      "pointer": "/encoding/tau_unit",
+      "keyword": "const"
+    },
+    {
+      "file": "dust-slider.hostile-wrong-label.json",
+      "schema": "dust-slider.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing own-model label",
+      "rule": "FR-013-38",
+      "pointer": "/label",
+      "keyword": "const"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "sensor-recipe.schema.json",
+      "class": "non-finite number (NaN, Infinity)",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "sensor-recipe.schema.json",
+      "class": "YAML alias, anchor, tag, duplicate key or second document",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "sensor-recipe.schema.json",
+      "class": "e_min < e_max, a_min < a_max and min_range_m < max_range_m",
+      "by": "checker",
+      "rule": "FR-013-04"
+    },
+    {
+      "schema": "sensor-recipe.schema.json",
+      "class": "poses or extinction-field path outside the stage's declared inputs; Windows device-name segment",
+      "by": "checker",
+      "rule": "FR-013-04"
+    },
+    {
+      "schema": "sensor-recipe.schema.json",
+      "class": "sensor ids unique within the block",
+      "by": "checker",
+      "rule": "FR-013-04"
+    },
+    {
+      "schema": "sensor-recipe.schema.json",
+      "class": "lidar configuration listed `pass` in studio/rtx/lidar-envelope.json for the locked ovrtx and ovstage versions",
+      "by": "checker",
+      "rule": "FR-013-05"
+    },
+    {
+      "schema": "sensor-recipe.schema.json",
+      "class": "principal point inside the image",
+      "by": "checker",
+      "rule": "FR-013-19"
+    },
+    {
+      "schema": "sensor-recipe.schema.json",
+      "class": "metric target ids present in the scene labels",
+      "by": "checker",
+      "rule": "FR-013-42"
+    },
+    {
+      "schema": "lidar-envelope.schema.json",
+      "class": "non-finite number, malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "lidar-envelope.schema.json",
+      "class": "versions equal to the ovrtx and ovstage pins of studio/rtx/uv.lock",
+      "by": "checker",
+      "rule": "FR-013-05"
+    },
+    {
+      "schema": "lidar-envelope.schema.json",
+      "class": "e_min < e_max and a_min < a_max",
+      "by": "checker",
+      "rule": "FR-013-05"
+    },
+    {
+      "schema": "lidar-envelope.schema.json",
+      "class": "every configuration of the committed recipes present, none duplicated",
+      "by": "checker",
+      "rule": "FR-013-06"
+    },
+    {
+      "schema": "sensor-shard.schema.json",
+      "class": "non-finite coordinate, intensity, RCS or radial velocity on a valid entry (Parquet rows; JSON is rejected by the loader)",
+      "by": "checker",
+      "rule": "FR-013-09"
+    },
+    {
+      "schema": "sensor-shard.schema.json",
+      "class": "file sha256 and bytes equal to the file on disk",
+      "by": "checker",
+      "rule": "FR-013-31"
+    },
+    {
+      "schema": "sensor-shard.schema.json",
+      "class": "valid_points equal to the count of valid flags (0x40) in the frame's rows",
+      "by": "checker",
+      "rule": "FR-013-09"
+    },
+    {
+      "schema": "sensor-shard.schema.json",
+      "class": "Parquet physical columns and dtypes equal the declared column set; rows equal the Parquet row count",
+      "by": "checker",
+      "rule": "FR-013-31"
+    },
+    {
+      "schema": "sensor-shard.schema.json",
+      "class": "every frame's file listed in files; paths unique after case folding; no Windows device name",
+      "by": "checker",
+      "rule": "FR-013-31"
+    },
+    {
+      "schema": "sensor-shard.schema.json",
+      "class": "image arrays of the configured resolution",
+      "by": "checker",
+      "rule": "FR-013-09"
+    },
+    {
+      "schema": "web-cloud-shard.schema.json",
+      "class": "payload bytes equal to 8 x points",
+      "by": "checker",
+      "rule": "FR-013-35"
+    },
+    {
+      "schema": "web-cloud-shard.schema.json",
+      "class": "payload SHA-256 equal to the served file",
+      "by": "checker",
+      "rule": "FR-013-39"
+    },
+    {
+      "schema": "web-cloud-shard.schema.json",
+      "class": "scale = extent / 65535 of the bounding box (1 for a zero extent)",
+      "by": "checker",
+      "rule": "FR-013-42"
+    },
+    {
+      "schema": "web-cloud-shard.schema.json",
+      "class": "class codes used in the payload are keys of classes; intensity_map low < high",
+      "by": "checker",
+      "rule": "FR-013-35"
+    },
+    {
+      "schema": "web-cloud-shard.schema.json",
+      "class": "non-finite number, malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "dust-slider.schema.json",
+      "class": "NaN, infinite or negative tau_unit or r_edge in the payload",
+      "by": "checker",
+      "rule": "FR-013-39"
+    },
+    {
+      "schema": "dust-slider.schema.json",
+      "class": "payload SHA-256 equal to the served file",
+      "by": "checker",
+      "rule": "FR-013-39"
+    },
+    {
+      "schema": "dust-slider.schema.json",
+      "class": "payload bytes equal to 20 x returns",
+      "by": "checker",
+      "rule": "FR-013-38"
+    },
+    {
+      "schema": "dust-slider.schema.json",
+      "class": "k_0 = 0, k strictly increasing and log-spaced in tau, k_40 * tau_ref = 3.912 (T1 = 0.02)",
+      "by": "checker",
+      "rule": "FR-013-38"
+    },
+    {
+      "schema": "dust-slider.schema.json",
+      "class": "material codes distinct",
+      "by": "checker",
+      "rule": "FR-013-38"
+    },
+    {
+      "schema": "dust-slider.schema.json",
+      "class": "slider level outside 0 ... 40 (a UI input, rejected by the dust worker)",
+      "by": "checker",
+      "rule": "FR-013-39"
+    },
+    {
+      "schema": "dust-slider.schema.json",
+      "class": "non-finite number, malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05"
+    }
+  ]
+}

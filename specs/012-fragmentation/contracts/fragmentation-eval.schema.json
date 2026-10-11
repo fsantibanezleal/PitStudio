@@ -1,0 +1,1460 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/fragmentation-eval.schema.json",
+  "title": "Fragmentation evaluation report",
+  "description": "Evaluation report of case D1 written by s50_evaluate: TSTR / TRTR per fold, x50 errors, paired comparisons, realism checks and statuses (DC-012-03, spec 012-fragmentation).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "archive_status",
+    "isaac_sim",
+    "trtr",
+    "tstr",
+    "watershed",
+    "synthetic_x50",
+    "real_comparison",
+    "synthetic_comparison",
+    "c2st",
+    "duplicates",
+    "attribution"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "archive_status": {
+      "enum": [
+        "verified",
+        "unavailable",
+        "sha256-mismatch"
+      ]
+    },
+    "isaac_sim": {
+      "description": "Isaac Sim status in the capability report",
+      "enum": [
+        "passing",
+        "not-passing"
+      ]
+    },
+    "trtr": {
+      "type": "object",
+      "description": "U-Net trained on real training lists, per fold",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "succeeded",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "fold_iou": {
+          "type": "array",
+          "description": "one value per fold, fold order",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minItems": 5,
+          "maxItems": 5
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "required": [
+                "fold_iou"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "fold_iou"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "tstr": {
+      "type": "object",
+      "description": "U-Net trained on synthetic tiles only, scored on the real test originals",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "succeeded",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "fold_iou": {
+          "type": "array",
+          "description": "one value per fold, fold order",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "rho": {
+          "type": "array",
+          "description": "IoU_TSTR / IoU_TRTR per fold",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "rho_mean": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "rho_min": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "rho_std": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "threshold": {
+          "const": 0.9
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "fold_iou"
+                  ]
+                },
+                {
+                  "required": [
+                    "rho"
+                  ]
+                },
+                {
+                  "required": [
+                    "rho_mean"
+                  ]
+                },
+                {
+                  "required": [
+                    "rho_min"
+                  ]
+                },
+                {
+                  "required": [
+                    "rho_std"
+                  ]
+                },
+                {
+                  "required": [
+                    "threshold"
+                  ]
+                },
+                {
+                  "required": [
+                    "verdict"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "fold_iou",
+              "rho",
+              "rho_mean",
+              "rho_min",
+              "rho_std",
+              "threshold",
+              "verdict"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "watershed": {
+      "type": "object",
+      "description": "classical watershed + Swebrec baseline on the real test originals",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "succeeded",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "fold_iou": {
+          "type": "array",
+          "description": "one value per fold, fold order",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "parameters": {
+          "type": "array",
+          "description": "parameters chosen per fold on its training originals",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sigma_g_px",
+              "min_distance_px",
+              "offset"
+            ],
+            "properties": {
+              "sigma_g_px": {
+                "enum": [
+                  0.5,
+                  1,
+                  2
+                ]
+              },
+              "min_distance_px": {
+                "enum": [
+                  3,
+                  5,
+                  7,
+                  9
+                ]
+              },
+              "offset": {
+                "enum": [
+                  -0.05,
+                  0,
+                  0.05
+                ]
+              }
+            }
+          },
+          "minItems": 5,
+          "maxItems": 5
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "fold_iou"
+                  ]
+                },
+                {
+                  "required": [
+                    "parameters"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "fold_iou",
+              "parameters"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "synthetic_x50": {
+      "type": "object",
+      "description": "x50 mean relative error of the TSTR U-Net on synthetic held-out views",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "succeeded",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "held_out_piles": {
+          "type": "integer",
+          "minimum": 50,
+          "maximum": 100000
+        },
+        "views": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "mre_unet": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "mre_unet_interval": {
+          "type": "array",
+          "description": "95 % pile-bootstrap interval",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "mre_watershed": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "occlusion_bias_mean": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1000
+        },
+        "threshold": {
+          "const": 0.15
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "held_out_piles"
+                  ]
+                },
+                {
+                  "required": [
+                    "views"
+                  ]
+                },
+                {
+                  "required": [
+                    "mre_unet"
+                  ]
+                },
+                {
+                  "required": [
+                    "mre_unet_interval"
+                  ]
+                },
+                {
+                  "required": [
+                    "mre_watershed"
+                  ]
+                },
+                {
+                  "required": [
+                    "occlusion_bias_mean"
+                  ]
+                },
+                {
+                  "required": [
+                    "threshold"
+                  ]
+                },
+                {
+                  "required": [
+                    "verdict"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "held_out_piles",
+              "views",
+              "mre_unet",
+              "mre_unet_interval",
+              "mre_watershed",
+              "occlusion_bias_mean",
+              "threshold",
+              "verdict"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "real_comparison": {
+      "type": "object",
+      "description": "paired cluster bootstrap on the 240 real test originals",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "succeeded",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "pairing_unit": {
+          "const": "original"
+        },
+        "units": {
+          "const": 240
+        },
+        "clusters": {
+          "const": 231
+        },
+        "bootstrap_b": {
+          "const": 10000
+        },
+        "mean_difference": {
+          "type": "number",
+          "description": "mean of e_watershed - e_unet",
+          "minimum": -1000,
+          "maximum": 1000
+        },
+        "interval": {
+          "$ref": "#/$defs/interval"
+        },
+        "verdict": {
+          "description": "U-Net against watershed + Swebrec",
+          "enum": [
+            "better",
+            "no significant difference",
+            "worse"
+          ]
+        },
+        "no_fit": {
+          "$ref": "#/$defs/no_fit"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "pairing_unit"
+                  ]
+                },
+                {
+                  "required": [
+                    "clusters"
+                  ]
+                },
+                {
+                  "required": [
+                    "units"
+                  ]
+                },
+                {
+                  "required": [
+                    "bootstrap_b"
+                  ]
+                },
+                {
+                  "required": [
+                    "mean_difference"
+                  ]
+                },
+                {
+                  "required": [
+                    "interval"
+                  ]
+                },
+                {
+                  "required": [
+                    "verdict"
+                  ]
+                },
+                {
+                  "required": [
+                    "no_fit"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "pairing_unit",
+              "clusters",
+              "units",
+              "bootstrap_b",
+              "mean_difference",
+              "interval",
+              "verdict",
+              "no_fit"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "synthetic_comparison": {
+      "type": "object",
+      "description": "paired bootstrap over synthetic held-out piles",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "succeeded",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "pairing_unit": {
+          "const": "pile"
+        },
+        "units": {
+          "type": "integer",
+          "minimum": 50,
+          "maximum": 100000
+        },
+        "bootstrap_b": {
+          "const": 10000
+        },
+        "mean_difference": {
+          "type": "number",
+          "description": "mean of e_watershed - e_unet",
+          "minimum": -1000,
+          "maximum": 1000
+        },
+        "interval": {
+          "$ref": "#/$defs/interval"
+        },
+        "verdict": {
+          "description": "U-Net against watershed + Swebrec",
+          "enum": [
+            "better",
+            "no significant difference",
+            "worse"
+          ]
+        },
+        "no_fit": {
+          "$ref": "#/$defs/no_fit"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "pairing_unit"
+                  ]
+                },
+                {
+                  "required": [
+                    "units"
+                  ]
+                },
+                {
+                  "required": [
+                    "bootstrap_b"
+                  ]
+                },
+                {
+                  "required": [
+                    "mean_difference"
+                  ]
+                },
+                {
+                  "required": [
+                    "interval"
+                  ]
+                },
+                {
+                  "required": [
+                    "verdict"
+                  ]
+                },
+                {
+                  "required": [
+                    "no_fit"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "pairing_unit",
+              "units",
+              "bootstrap_b",
+              "mean_difference",
+              "interval",
+              "verdict",
+              "no_fit"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "c2st": {
+      "type": "object",
+      "description": "classifier two-sample test, real-versus-real baseline, injected shift and train-versus-test",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "succeeded",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "embedding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "model",
+            "weights_sha256",
+            "input_px",
+            "token"
+          ],
+          "properties": {
+            "model": {
+              "const": "dinov2-vitb14"
+            },
+            "weights_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "input_px": {
+              "const": 224
+            },
+            "token": {
+              "const": "cls"
+            }
+          }
+        },
+        "n_synthetic": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 100000
+        },
+        "n_real": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 240
+        },
+        "bootstrap_b": {
+          "const": 1000
+        },
+        "shift": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "corruption",
+            "severity",
+            "depth_m"
+          ],
+          "properties": {
+            "corruption": {
+              "const": "dust"
+            },
+            "severity": {
+              "const": 3
+            },
+            "depth_m": {
+              "const": 100
+            }
+          }
+        },
+        "families": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/family"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "powered": {
+          "type": "boolean",
+          "description": "both injected-shift AUCs >= 0.80"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "inconclusive (no power)"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "embedding"
+                  ]
+                },
+                {
+                  "required": [
+                    "n_synthetic"
+                  ]
+                },
+                {
+                  "required": [
+                    "n_real"
+                  ]
+                },
+                {
+                  "required": [
+                    "bootstrap_b"
+                  ]
+                },
+                {
+                  "required": [
+                    "shift"
+                  ]
+                },
+                {
+                  "required": [
+                    "families"
+                  ]
+                },
+                {
+                  "required": [
+                    "powered"
+                  ]
+                },
+                {
+                  "required": [
+                    "verdict"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "embedding",
+              "n_synthetic",
+              "n_real",
+              "bootstrap_b",
+              "shift",
+              "families",
+              "powered",
+              "verdict"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "duplicates": {
+      "type": "object",
+      "description": "duplicate scan over all synthetic tiles and the 960 real files",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "succeeded",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "phash_hamming_max": {
+          "const": 4
+        },
+        "cosine_min": {
+          "const": 0.95
+        },
+        "synthetic_tiles": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "real_files": {
+          "const": 960
+        },
+        "synthetic_real_flags": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "train_test_flags": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "cross_group_leaks": {
+          "description": "a leak stops the run with split-leak",
+          "const": 0
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "phash_hamming_max"
+                  ]
+                },
+                {
+                  "required": [
+                    "cosine_min"
+                  ]
+                },
+                {
+                  "required": [
+                    "synthetic_tiles"
+                  ]
+                },
+                {
+                  "required": [
+                    "real_files"
+                  ]
+                },
+                {
+                  "required": [
+                    "synthetic_real_flags"
+                  ]
+                },
+                {
+                  "required": [
+                    "train_test_flags"
+                  ]
+                },
+                {
+                  "required": [
+                    "cross_group_leaks"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "phash_hamming_max",
+              "cosine_min",
+              "synthetic_tiles",
+              "real_files",
+              "synthetic_real_flags",
+              "train_test_flags",
+              "cross_group_leaks"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "attribution": {
+      "description": "dataset-card attribution, verbatim",
+      "const": "Si, Zhu, Di, Wang (2019). Rock fragment image segmentation combining CNN and watershed algorithm. Mendeley Data, V1. https://doi.org/10.17632/78ht3pjsr4.1. Licensed under CC BY 4.0."
+    },
+    "label": {
+      "const": "TRTR only — synthetic arm not run"
+    },
+    "d1_statement": {
+      "const": "synthetic-only U-Net claim; no measured sim-to-real"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "archive_status": {
+            "enum": [
+              "unavailable",
+              "sha256-mismatch"
+            ]
+          }
+        },
+        "required": [
+          "archive_status"
+        ]
+      },
+      "then": {
+        "required": [
+          "d1_statement"
+        ],
+        "properties": {
+          "trtr": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          },
+          "tstr": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          },
+          "real_comparison": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          },
+          "c2st": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "archive_status": {
+            "const": "verified"
+          }
+        },
+        "required": [
+          "archive_status"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "d1_statement"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "isaac_sim": {
+            "const": "not-passing"
+          }
+        },
+        "required": [
+          "isaac_sim"
+        ]
+      },
+      "then": {
+        "required": [
+          "label"
+        ],
+        "properties": {
+          "tstr": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          },
+          "synthetic_x50": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          },
+          "real_comparison": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          },
+          "synthetic_comparison": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          },
+          "c2st": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "isaac_sim": {
+            "const": "passing"
+          }
+        },
+        "required": [
+          "isaac_sim"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "label"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "c2st": {
+            "properties": {
+              "powered": {
+                "const": false
+              }
+            },
+            "required": [
+              "powered"
+            ]
+          }
+        },
+        "required": [
+          "c2st"
+        ]
+      },
+      "then": {
+        "properties": {
+          "c2st": {
+            "properties": {
+              "verdict": {
+                "const": "inconclusive (no power)"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "auc_interval": {
+      "type": "array",
+      "description": "95 % cluster-bootstrap interval",
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "family": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family",
+        "auc",
+        "auc_interval",
+        "real_vs_real_auc",
+        "real_vs_real_interval",
+        "auc_minus_real_vs_real",
+        "shift_auc",
+        "train_vs_test_auc"
+      ],
+      "properties": {
+        "family": {
+          "enum": [
+            "logistic",
+            "mlp"
+          ]
+        },
+        "auc": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "auc_interval": {
+          "$ref": "#/$defs/auc_interval"
+        },
+        "real_vs_real_auc": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "real_vs_real_interval": {
+          "$ref": "#/$defs/auc_interval"
+        },
+        "auc_minus_real_vs_real": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "shift_auc": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "train_vs_test_auc": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "interval": {
+      "type": "array",
+      "description": "95 % percentile interval: lower, upper",
+      "items": {
+        "type": "number",
+        "minimum": -1000,
+        "maximum": 1000
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "no_fit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unet",
+        "watershed"
+      ],
+      "properties": {
+        "unet": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "watershed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      }
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "output",
+  "engine": "plume",
+  "engine_version": "0.1.0",
+  "function": "plume_grid",
+  "result": {
+    "concentration_kg_per_m3": {
+      "dtype": "float64",
+      "shape": {
+        "rows": 64,
+        "cols": 64
+      },
+      "byte_length": 32768
+    },
+    "max_concentration_kg_per_m3": 2.1e-05,
+    "max_x_m": 50.0,
+    "max_y_m": 0.0
+  }
+}

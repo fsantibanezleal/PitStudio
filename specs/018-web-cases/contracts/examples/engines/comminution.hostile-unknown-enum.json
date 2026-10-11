@@ -1,0 +1,45 @@
+{
+  "kind": "input",
+  "engine": "comminution",
+  "engine_version": "0.1.0",
+  "function": "mine_to_mill_chain",
+  "args": {
+    "sizes_m": [
+      0.5,
+      0.05,
+      0.001
+    ],
+    "blast_passing": [
+      1.0,
+      0.55,
+      0.12
+    ],
+    "classification": [
+      1.0,
+      0.4,
+      0.0
+    ],
+    "breakage": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.7,
+        0.0,
+        0.0
+      ],
+      [
+        0.3,
+        1.0,
+        0.0
+      ]
+    ],
+    "target_p80_m": 0.00015,
+    "installed_power_w": 22000000.0,
+    "energy_model": "morrell",
+    "work_index_j_per_kg": 50400.0,
+    "fines_size_m": 0.001
+  }
+}

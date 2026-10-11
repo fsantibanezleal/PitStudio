@@ -1,0 +1,38 @@
+{
+  "kind": "profile-summary",
+  "schema_version": "1.0",
+  "run_id": "20261007T140000Z-bench-physics-dem",
+  "stage": {
+    "id": "st50_physics"
+  },
+  "method": "warp-activity-timing",
+  "label": "kernel timing, no admin rights",
+  "device": "cuda",
+  "trace": {
+    "file": "profile/trace.json",
+    "format": "chrome-trace-json",
+    "bytes": 48211000
+  },
+  "truncated": false,
+  "kernels_total": 3,
+  "kernels": [
+    {
+      "name": "dem_contact_forces",
+      "calls": 250000,
+      "total_ms": 41250.0,
+      "mean_ms": 0.165
+    },
+    {
+      "name": "dem_integrate",
+      "calls": 250000,
+      "total_ms": 9000.0,
+      "mean_ms": 0.036
+    },
+    {
+      "name": "hash_grid_build",
+      "calls": 250000,
+      "total_ms": 6250.0,
+      "mean_ms": 0.025
+    }
+  ]
+}

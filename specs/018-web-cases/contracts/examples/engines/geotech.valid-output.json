@@ -1,0 +1,10 @@
+{
+  "kind": "output",
+  "engine": "geotech",
+  "engine_version": "0.1.0",
+  "function": "bishop",
+  "result": {
+    "fos": 1.42,
+    "iterations": 7
+  }
+}

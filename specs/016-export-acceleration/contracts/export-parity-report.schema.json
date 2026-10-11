@@ -1,0 +1,713 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/export-parity-report.schema.json",
+  "title": "Export parity report",
+  "description": "Parity report of one model variant at layer 1, 2 or 4 against the PyTorch fp32 golden outputs, written by s60_export and s64_bench (DC-016-03, spec 016-export-acceleration).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "git_sha": {
+      "$ref": "#/$defs/git_sha"
+    },
+    "layer": {
+      "enum": [
+        1,
+        2,
+        4
+      ]
+    },
+    "model": {
+      "$ref": "#/$defs/slug"
+    },
+    "variant": {
+      "enum": [
+        "deployed",
+        "parity"
+      ]
+    },
+    "precision": {
+      "$ref": "bench-record.schema.json#/$defs/precision"
+    },
+    "backend": {
+      "enum": [
+        "ort-cpu",
+        "ort-cuda",
+        "ort-tensorrt",
+        "tensorrt"
+      ]
+    },
+    "tensorrt_version": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/version"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "onnx_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "engine_sha256": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "golden_set": {
+      "$ref": "#/$defs/golden_set"
+    },
+    "tolerances": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rtol": {
+          "$ref": "#/$defs/tolerance"
+        },
+        "atol": {
+          "$ref": "#/$defs/tolerance"
+        },
+        "max_abs": {
+          "$ref": "#/$defs/tolerance"
+        },
+        "metric_delta_pp_max": {
+          "$ref": "#/$defs/tolerance"
+        },
+        "mask_iou_min": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "rtol",
+        "atol",
+        "max_abs",
+        "metric_delta_pp_max",
+        "mask_iou_min"
+      ]
+    },
+    "max_abs_error": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "mismatch_fraction": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/fraction"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "argmax": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/argmax"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "metric": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/metric"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "mask_iou": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/fraction"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "pass",
+        "rejected"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "git_sha",
+    "layer",
+    "model",
+    "variant",
+    "precision",
+    "backend",
+    "tensorrt_version",
+    "onnx_sha256",
+    "engine_sha256",
+    "golden_set",
+    "tolerances",
+    "max_abs_error",
+    "mismatch_fraction",
+    "argmax",
+    "metric",
+    "mask_iou",
+    "verdict"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "layer": {
+            "const": 1
+          }
+        },
+        "required": [
+          "layer"
+        ]
+      },
+      "then": {
+        "properties": {
+          "precision": {
+            "const": "fp32"
+          },
+          "backend": {
+            "const": "ort-cpu"
+          },
+          "tolerances": {
+            "properties": {
+              "rtol": {
+                "const": 0.001
+              },
+              "atol": {
+                "const": 1e-05
+              },
+              "max_abs": {
+                "const": 0.0001
+              }
+            }
+          },
+          "max_abs_error": {
+            "not": {
+              "const": null
+            }
+          },
+          "mismatch_fraction": {
+            "not": {
+              "const": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "layer": {
+            "const": 1
+          },
+          "verdict": {
+            "const": "pass"
+          }
+        },
+        "required": [
+          "layer",
+          "verdict"
+        ]
+      },
+      "then": {
+        "properties": {
+          "max_abs_error": {
+            "maximum": 0.0001
+          },
+          "mismatch_fraction": {
+            "const": 0
+          },
+          "argmax": {
+            "properties": {
+              "agreement": {
+                "const": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "layer": {
+            "const": 2
+          }
+        },
+        "required": [
+          "layer"
+        ]
+      },
+      "then": {
+        "properties": {
+          "precision": {
+            "enum": [
+              "fp16",
+              "int8",
+              "fp8"
+            ]
+          },
+          "backend": {
+            "enum": [
+              "ort-cpu",
+              "ort-cuda"
+            ]
+          },
+          "tolerances": {
+            "properties": {
+              "metric_delta_pp_max": {
+                "const": 1
+              },
+              "mask_iou_min": {
+                "const": 0.99
+              }
+            }
+          },
+          "metric": {
+            "not": {
+              "const": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "layer": {
+            "enum": [
+              2,
+              4
+            ]
+          },
+          "precision": {
+            "not": {
+              "const": "fp32"
+            }
+          },
+          "verdict": {
+            "const": "pass"
+          }
+        },
+        "required": [
+          "layer",
+          "precision",
+          "verdict"
+        ]
+      },
+      "then": {
+        "properties": {
+          "metric": {
+            "properties": {
+              "delta_pp": {
+                "minimum": -1,
+                "maximum": 1
+              }
+            }
+          },
+          "mask_iou": {
+            "minimum": 0.99
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "layer": {
+            "const": 4
+          },
+          "precision": {
+            "const": "fp32"
+          }
+        },
+        "required": [
+          "layer",
+          "precision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tolerances": {
+            "properties": {
+              "rtol": {
+                "const": 0.001
+              },
+              "atol": {
+                "const": 1e-05
+              }
+            }
+          },
+          "max_abs_error": {
+            "not": {
+              "const": null
+            }
+          },
+          "mismatch_fraction": {
+            "not": {
+              "const": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "layer": {
+            "const": 4
+          },
+          "precision": {
+            "const": "fp32"
+          },
+          "verdict": {
+            "const": "pass"
+          }
+        },
+        "required": [
+          "layer",
+          "precision",
+          "verdict"
+        ]
+      },
+      "then": {
+        "properties": {
+          "mismatch_fraction": {
+            "const": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "layer": {
+            "const": 4
+          },
+          "precision": {
+            "not": {
+              "const": "fp32"
+            }
+          }
+        },
+        "required": [
+          "layer",
+          "precision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "metric": {
+            "not": {
+              "const": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "variant": {
+            "const": "parity"
+          }
+        },
+        "required": [
+          "variant"
+        ]
+      },
+      "then": {
+        "properties": {
+          "layer": {
+            "const": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "verdict": {
+            "const": "rejected"
+          }
+        },
+        "required": [
+          "verdict"
+        ]
+      },
+      "then": {
+        "required": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "const": "tensorrt"
+          }
+        },
+        "required": [
+          "backend"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tensorrt_version": {
+            "pattern": "^11\\.3(\\.[0-9]+){0,2}$",
+            "not": {
+              "const": null
+            }
+          },
+          "engine_sha256": {
+            "not": {
+              "const": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "const": "ort-tensorrt"
+          }
+        },
+        "required": [
+          "backend"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tensorrt_version": {
+            "pattern": "^10\\.14(\\.[0-9]+){0,2}$",
+            "not": {
+              "const": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "enum": [
+              "ort-cpu",
+              "ort-cuda"
+            ]
+          }
+        },
+        "required": [
+          "backend"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tensorrt_version": {
+            "const": null
+          },
+          "engine_sha256": {
+            "const": null
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "git_sha": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "fraction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "tolerance": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "golden_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "split": {
+          "enum": [
+            "validation",
+            "held-out"
+          ]
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 5000,
+          "minItems": 200,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "split",
+        "inputs"
+      ]
+    },
+    "argmax": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "output": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$"
+        },
+        "gap_threshold": {
+          "const": 0.0002
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "rows_small_gap": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "agreement": {
+          "$ref": "#/$defs/fraction"
+        }
+      },
+      "required": [
+        "output",
+        "gap_threshold",
+        "rows",
+        "rows_small_gap",
+        "agreement"
+      ]
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/param_key"
+        },
+        "unit": {
+          "const": "pct"
+        },
+        "fp32": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "variant": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "delta_pp": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "id",
+        "unit",
+        "fp32",
+        "variant",
+        "delta_pp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,1231 @@
+{
+  "spec": "018-web-cases",
+  "examples": [
+    {
+      "file": "cases.valid.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the 12 cases with the methods, tools and engines of docs/cases and spec 018 section 7.1"
+    },
+    {
+      "file": "cases.hostile-unknown-case-id.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown case id",
+      "rule": "FR-018-10",
+      "pointer": "/cases",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "cases.hostile-missing-case.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a case of the 12 missing",
+      "rule": "FR-018-02",
+      "pointer": "/cases",
+      "keyword": "required"
+    },
+    {
+      "file": "cases.hostile-missing-es-title.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing ES title",
+      "rule": "DC-018-01",
+      "pointer": "/cases/A1/title",
+      "keyword": "required"
+    },
+    {
+      "file": "cases.hostile-unknown-category.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "case outside categories A-E",
+      "rule": "FR-018-10",
+      "pointer": "/cases/B1/category",
+      "keyword": "enum"
+    },
+    {
+      "file": "cases.hostile-wrong-category.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "case filed under another category",
+      "rule": "FR-018-02",
+      "pointer": "/cases/B1/category",
+      "keyword": "const"
+    },
+    {
+      "file": "cases.hostile-unknown-method.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown method id",
+      "rule": "FR-018-10",
+      "pointer": "/cases/A1/methods/4",
+      "keyword": "pattern"
+    },
+    {
+      "file": "cases.hostile-duplicate-method.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "method repeated in a case",
+      "rule": "FR-018-10",
+      "pointer": "/cases/A1/methods",
+      "keyword": "uniqueItems"
+    },
+    {
+      "file": "cases.hostile-unknown-engine.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown engine id",
+      "rule": "FR-018-10",
+      "pointer": "/cases/C1/engines/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "cases.hostile-bad-tool-id.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed tool id",
+      "rule": "FR-018-10",
+      "pointer": "/cases/A1/tools",
+      "keyword": "pattern"
+    },
+    {
+      "file": "cases.hostile-unknown-tool-role.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown tool role",
+      "rule": "FR-018-09",
+      "pointer": "/cases/A1/tools/pytorch",
+      "keyword": "enum"
+    },
+    {
+      "file": "cases.hostile-path-traversal.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal in the recipe path",
+      "rule": "FR-018-19",
+      "pointer": "/cases/A1/recipe",
+      "keyword": "pattern"
+    },
+    {
+      "file": "cases.hostile-wrong-recipe.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "recipe path of another case",
+      "rule": "FR-018-19",
+      "pointer": "/cases/A1/recipe",
+      "keyword": "const"
+    },
+    {
+      "file": "cases.hostile-wrong-unit.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "KPI unit outside the unit list",
+      "rule": "DC-018-01",
+      "pointer": "/cases/A1/kpis/0/unit",
+      "keyword": "enum"
+    },
+    {
+      "file": "cases.hostile-unknown-orientation.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown KPI orientation",
+      "rule": "DC-018-01",
+      "pointer": "/cases/A1/kpis/1/orientation",
+      "keyword": "enum"
+    },
+    {
+      "file": "cases.hostile-conditional-target.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "target orientation without a target value",
+      "rule": "DC-018-01",
+      "pointer": "/cases/A1/kpis/2",
+      "keyword": "required"
+    },
+    {
+      "file": "cases.hostile-conditional-validated-reference.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic data claimed validated without its real reference",
+      "rule": "FR-018-17",
+      "pointer": "/cases/D1/synthetic_data/0",
+      "keyword": "required"
+    },
+    {
+      "file": "cases.hostile-unknown-validation.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown validation class",
+      "rule": "FR-018-17",
+      "pointer": "/cases/A1/synthetic_data/0/validation",
+      "keyword": "enum"
+    },
+    {
+      "file": "cases.hostile-out-of-range-fps.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "clock fps not positive",
+      "rule": "FR-018-22",
+      "pointer": "/cases/A1/clock_fps",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "cases.hostile-unknown-field.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "DC-018-01",
+      "pointer": "/cases/A1",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "cases.hostile-oversized.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "title over 120 characters",
+      "rule": "DC-018-01",
+      "pointer": "/cases/A1/title/en",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "cases.hostile-empty-kpis.json",
+      "schema": "cases.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "case without KPIs",
+      "rule": "DC-018-01",
+      "pointer": "/cases/A1/kpis",
+      "keyword": "minItems"
+    },
+    {
+      "file": "replay-shard.valid.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "particle shard header, int16 codes, 6,000,000-byte payload"
+    },
+    {
+      "file": "replay-shard.valid-pose.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "fleet pose shard header with uint16 codes (x, y, z in m, yaw in rad)"
+    },
+    {
+      "file": "replay-shard.valid-field-png16.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "16-bit PNG field tile header (uint16 codes)"
+    },
+    {
+      "file": "replay-shard.valid-field-float32.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Float32 field tile header (no codes)"
+    },
+    {
+      "file": "replay-shard.valid-manifest.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "particle replay manifest of FR-005-45, four shards, int16 codes"
+    },
+    {
+      "file": "replay-shard.valid-manifest-uint16.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "particle replay manifest with uint16 codes as FR-005-45 states"
+    },
+    {
+      "file": "replay-shard.hostile-code-range-outside-dtype.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "code range outside the declared code type (int16)",
+      "rule": "FR-018-45",
+      "pointer": "/code_range/max",
+      "keyword": "maximum"
+    },
+    {
+      "file": "replay-shard.hostile-code-range-negative-uint16.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative code for the uint16 code type",
+      "rule": "FR-018-45",
+      "pointer": "/code_range/min",
+      "keyword": "minimum"
+    },
+    {
+      "file": "replay-shard.hostile-oversized.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "shard over 10 MB declared",
+      "rule": "FR-005-45",
+      "pointer": "/payload/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "replay-shard.hostile-unknown-enum.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown shard kind",
+      "rule": "FR-018-45",
+      "pointer": "/kind",
+      "keyword": "enum"
+    },
+    {
+      "file": "replay-shard.hostile-unknown-code-type.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown code type",
+      "rule": "FR-018-45",
+      "pointer": "/code_type",
+      "keyword": "enum"
+    },
+    {
+      "file": "replay-shard.hostile-malformed-digest.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed payload digest",
+      "rule": "FR-018-45",
+      "pointer": "/payload/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "replay-shard.hostile-path-traversal.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal in the payload path",
+      "rule": "FR-018-43",
+      "pointer": "/payload/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "replay-shard.hostile-absolute-path.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute payload path",
+      "rule": "FR-018-43",
+      "pointer": "/payload/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "replay-shard.hostile-unknown-field.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-45",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "replay-shard.hostile-wrong-unit.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "position channel not in metres",
+      "rule": "FR-005-45",
+      "pointer": "/channels/0/unit",
+      "keyword": "enum"
+    },
+    {
+      "file": "replay-shard.hostile-wrong-unit-position.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "position channel with a velocity unit",
+      "rule": "FR-005-45",
+      "pointer": "/channels/2/unit",
+      "keyword": "const"
+    },
+    {
+      "file": "replay-shard.hostile-conditional-float32-codes.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Float32 tile declaring quantised codes",
+      "rule": "FR-018-45",
+      "pointer": "",
+      "keyword": "not"
+    },
+    {
+      "file": "replay-shard.hostile-conditional-png16-int16.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "16-bit PNG tile with signed codes",
+      "rule": "FR-018-45",
+      "pointer": "/code_type",
+      "keyword": "const"
+    },
+    {
+      "file": "replay-shard.hostile-conditional-missing-code-type.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "quantised shard without its code type",
+      "rule": "FR-018-45",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "replay-shard.hostile-conditional-field-grid.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "field tile without its grid",
+      "rule": "FR-018-45",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "replay-shard.hostile-conditional-particle-encoding.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "particle shard not 16-bit quantised",
+      "rule": "FR-018-45",
+      "pointer": "/encoding",
+      "keyword": "const"
+    },
+    {
+      "file": "replay-shard.hostile-out-of-range-fps.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fps not positive",
+      "rule": "FR-018-45",
+      "pointer": "/fps",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "replay-shard.hostile-wrong-shape-bbox.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bounding box corner with two coordinates",
+      "rule": "FR-018-45",
+      "pointer": "/bbox_m/min",
+      "keyword": "minItems"
+    },
+    {
+      "file": "replay-shard.hostile-missing-required.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "payload digest missing",
+      "rule": "FR-018-45",
+      "pointer": "/payload",
+      "keyword": "required"
+    },
+    {
+      "file": "replay-shard.hostile-empty-channels.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no channel",
+      "rule": "FR-018-45",
+      "pointer": "/channels",
+      "keyword": "minItems"
+    },
+    {
+      "file": "replay-shard.hostile-unknown-document.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown document type",
+      "rule": "FR-018-45",
+      "pointer": "/document",
+      "keyword": "const"
+    },
+    {
+      "file": "replay-shard.hostile-manifest-wrong-unit.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "replay manifest not in metres",
+      "rule": "FR-005-45",
+      "pointer": "/units",
+      "keyword": "const"
+    },
+    {
+      "file": "replay-shard.hostile-manifest-oversized-shard.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "shard over 10 MB listed",
+      "rule": "FR-005-45",
+      "pointer": "/shards/0/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "replay-shard.hostile-manifest-malformed-digest.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed shard digest",
+      "rule": "FR-005-45",
+      "pointer": "/shards/1/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "replay-shard.hostile-manifest-path-traversal.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal in a shard path",
+      "rule": "FR-005-45",
+      "pointer": "/shards/2/payload",
+      "keyword": "pattern"
+    },
+    {
+      "file": "replay-shard.hostile-manifest-missing-seed.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed missing",
+      "rule": "FR-005-45",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "replay-shard.hostile-manifest-unknown-code-type.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown code type in the manifest",
+      "rule": "FR-005-45",
+      "pointer": "/code_type",
+      "keyword": "enum"
+    },
+    {
+      "file": "replay-shard.hostile-manifest-empty-shards.json",
+      "schema": "replay-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "replay without shards",
+      "rule": "FR-005-45",
+      "pointer": "/shards",
+      "keyword": "minItems"
+    },
+    {
+      "file": "parity-fixture.valid.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "min-cut fixture with two golden instances"
+    },
+    {
+      "file": "parity-fixture.valid-analytical.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Kuz-Ram x50 closed-form fixture, 200 vectors incl. both ends of the ranges"
+    },
+    {
+      "file": "parity-fixture.valid-monte-carlo.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Monte-Carlo count fixture with its recorded PCG64 sample matrix"
+    },
+    {
+      "file": "parity-fixture.valid-hosted.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "fixture of an engine hosted from spec 007 (class fixed by FR-007-20)"
+    },
+    {
+      "file": "parity-fixture.hostile-empty.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty fixture set",
+      "rule": "FR-018-67",
+      "pointer": "/cases",
+      "keyword": "minItems"
+    },
+    {
+      "file": "parity-fixture.hostile-conditional-min-vectors.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "analytical fixture with fewer than 200 vectors",
+      "rule": "FR-018-51",
+      "pointer": "/cases",
+      "keyword": "minItems"
+    },
+    {
+      "file": "parity-fixture.hostile-conditional-function.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "analytical fixture without its function",
+      "rule": "FR-018-51",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "parity-fixture.hostile-unknown-engine.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown engine id",
+      "rule": "FR-018-67",
+      "pointer": "/engine",
+      "keyword": "enum"
+    },
+    {
+      "file": "parity-fixture.hostile-unknown-enum.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown tolerance class",
+      "rule": "FR-018-67",
+      "pointer": "/tolerance/class",
+      "keyword": "enum"
+    },
+    {
+      "file": "parity-fixture.hostile-out-of-range.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tolerance looser than the class allows",
+      "rule": "FR-018-53",
+      "pointer": "/tolerance/objective_rtol",
+      "keyword": "maximum"
+    },
+    {
+      "file": "parity-fixture.hostile-out-of-range-rtol.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "closed-form rtol looser than 1e-9",
+      "rule": "FR-018-51",
+      "pointer": "/tolerance/rtol",
+      "keyword": "maximum"
+    },
+    {
+      "file": "parity-fixture.hostile-conditional-tolerance-field.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tolerance field foreign to its class",
+      "rule": "FR-018-67",
+      "pointer": "/tolerance",
+      "keyword": "enum"
+    },
+    {
+      "file": "parity-fixture.hostile-conditional-tolerance-missing.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "class tolerance incomplete",
+      "rule": "FR-018-51",
+      "pointer": "/tolerance",
+      "keyword": "required"
+    },
+    {
+      "file": "parity-fixture.hostile-conditional-hosted.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "hosted class without its owning requirement",
+      "rule": "FR-018-48",
+      "pointer": "/tolerance",
+      "keyword": "required"
+    },
+    {
+      "file": "parity-fixture.hostile-conditional-variates.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Monte-Carlo count vector without its sample matrix",
+      "rule": "FR-018-52",
+      "pointer": "/cases/0",
+      "keyword": "required"
+    },
+    {
+      "file": "parity-fixture.hostile-missing-required.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "reference version missing",
+      "rule": "DC-018-04",
+      "pointer": "/reference",
+      "keyword": "required"
+    },
+    {
+      "file": "parity-fixture.hostile-unknown-field.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-67",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "parity-fixture.hostile-bad-pattern.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "input name outside the parameter pattern",
+      "rule": "FR-018-67",
+      "pointer": "/cases/0/input",
+      "keyword": "pattern"
+    },
+    {
+      "file": "parity-fixture.hostile-malformed-entropy.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed seed entropy",
+      "rule": "FR-018-52",
+      "pointer": "/cases/0/variates/entropy",
+      "keyword": "pattern"
+    },
+    {
+      "file": "parity-fixture.hostile-oversized.json",
+      "schema": "parity-fixture.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "vector name over 64 characters",
+      "rule": "DC-018-04",
+      "pointer": "/cases/0/name",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "parity-report.valid.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "report with passing, failing, not-run and hosted engines"
+    },
+    {
+      "file": "parity-report.hostile-unknown-enum.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown verdict",
+      "rule": "FR-018-63",
+      "pointer": "/engines/0/verdict",
+      "keyword": "enum"
+    },
+    {
+      "file": "parity-report.hostile-conditional-not-run-reason.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-run engine without a reason",
+      "rule": "FR-018-63",
+      "pointer": "/engines/3",
+      "keyword": "required"
+    },
+    {
+      "file": "parity-report.hostile-conditional-not-run-error.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-run engine with an observed error",
+      "rule": "SC-018-01",
+      "pointer": "/engines/3",
+      "keyword": "not"
+    },
+    {
+      "file": "parity-report.hostile-empty-fixture-set.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "engine passing on an empty fixture set",
+      "rule": "FR-018-67",
+      "pointer": "/engines/0/fixtures/files",
+      "keyword": "minimum"
+    },
+    {
+      "file": "parity-report.hostile-conditional-pass-browsers.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "engine passing in no browser",
+      "rule": "FR-018-48",
+      "pointer": "/engines/0/browsers",
+      "keyword": "minItems"
+    },
+    {
+      "file": "parity-report.hostile-conditional-pass-error.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pass without the maximum observed error",
+      "rule": "DC-018-05",
+      "pointer": "/engines/0",
+      "keyword": "required"
+    },
+    {
+      "file": "parity-report.hostile-unknown-engine.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown engine id",
+      "rule": "FR-018-63",
+      "pointer": "/engines/1/engine",
+      "keyword": "enum"
+    },
+    {
+      "file": "parity-report.hostile-out-of-range.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tolerance looser than the class allows",
+      "rule": "FR-018-51",
+      "pointer": "/engines/0/tolerance/rtol",
+      "keyword": "maximum"
+    },
+    {
+      "file": "parity-report.hostile-conditional-tolerance-field.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tolerance field foreign to its class",
+      "rule": "FR-018-57",
+      "pointer": "/engines/5/tolerance",
+      "keyword": "enum"
+    },
+    {
+      "file": "parity-report.hostile-unknown-field.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-67",
+      "pointer": "/engines/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "parity-report.hostile-malformed-digest.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed commit",
+      "rule": "FR-018-63",
+      "pointer": "/git_sha",
+      "keyword": "pattern"
+    },
+    {
+      "file": "parity-report.hostile-unknown-browser.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown browser",
+      "rule": "FR-018-48",
+      "pointer": "/engines/0/browsers/2",
+      "keyword": "enum"
+    },
+    {
+      "file": "parity-report.hostile-bad-timestamp.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed timestamp",
+      "rule": "DC-018-05",
+      "pointer": "/generated",
+      "keyword": "pattern"
+    },
+    {
+      "file": "parity-report.hostile-empty.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "report without engines",
+      "rule": "FR-018-67",
+      "pointer": "/engines",
+      "keyword": "minItems"
+    },
+    {
+      "file": "parity-report.hostile-wrong-type.json",
+      "schema": "parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "vector count as a string",
+      "rule": "DC-018-05",
+      "pointer": "/engines/0/fixtures/vectors",
+      "keyword": "type"
+    },
+    {
+      "file": "lane-measurements.valid.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "four engines and one artefact measured on forced T2"
+    },
+    {
+      "file": "lane-measurements.hostile-unknown-field.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-67",
+      "pointer": "/entries/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "lane-measurements.hostile-out-of-range.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative asset bytes",
+      "rule": "FR-018-65",
+      "pointer": "/entries/1/measurements/max_asset_bytes",
+      "keyword": "minimum"
+    },
+    {
+      "file": "lane-measurements.hostile-negative-time.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative interaction time",
+      "rule": "FR-018-65",
+      "pointer": "/entries/0/measurements/interaction_ms",
+      "keyword": "minimum"
+    },
+    {
+      "file": "lane-measurements.hostile-wrong-tier.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "measurement not on tier T2",
+      "rule": "FR-018-64",
+      "pointer": "/entries/0/measurements/measured/tier",
+      "keyword": "const"
+    },
+    {
+      "file": "lane-measurements.hostile-unknown-engine.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown engine id",
+      "rule": "FR-018-66",
+      "pointer": "/entries/0/engine",
+      "keyword": "enum"
+    },
+    {
+      "file": "lane-measurements.hostile-conditional-subject.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "entry naming both an engine and an artefact",
+      "rule": "FR-018-64",
+      "pointer": "/entries/0",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "lane-measurements.hostile-missing-subject.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "entry naming neither an engine nor an artefact",
+      "rule": "FR-018-64",
+      "pointer": "/entries/4",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "lane-measurements.hostile-malformed-digest.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed commit",
+      "rule": "DC-018-06",
+      "pointer": "/git_sha",
+      "keyword": "pattern"
+    },
+    {
+      "file": "lane-measurements.hostile-wrong-unit.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "run time in seconds instead of milliseconds",
+      "rule": "FR-018-64",
+      "pointer": "/entries/0/measurements",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "lane-measurements.hostile-wrong-protocol.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer interactions than the protocol",
+      "rule": "FR-018-64",
+      "pointer": "/runner/interactions",
+      "keyword": "const"
+    },
+    {
+      "file": "lane-measurements.hostile-wrong-browser.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "measurement outside headless Chromium",
+      "rule": "FR-018-64",
+      "pointer": "/runner/browser",
+      "keyword": "const"
+    },
+    {
+      "file": "lane-measurements.hostile-empty.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "file without entries",
+      "rule": "FR-018-67",
+      "pointer": "/entries",
+      "keyword": "minItems"
+    },
+    {
+      "file": "lane-measurements.hostile-wrong-type.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "web-drivable flag as a string",
+      "rule": "FR-018-65",
+      "pointer": "/entries/0/measurements/web_drivable",
+      "keyword": "type"
+    },
+    {
+      "file": "lane-measurements.hostile-missing-required.json",
+      "schema": "lane-measurements.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "runner configuration missing",
+      "rule": "FR-018-64",
+      "pointer": "",
+      "keyword": "required"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "cases.schema.json",
+      "class": "malformed YAML, duplicate keys (a repeated case id), anchors, tags, multi-document, BOM, non-finite numbers, byte cap",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "cases.schema.json",
+      "class": "a method M1-M23 used by no case",
+      "by": "checker",
+      "rule": "FR-018-10"
+    },
+    {
+      "schema": "cases.schema.json",
+      "class": "a studio tool of the tool registry used by no case",
+      "by": "checker",
+      "rule": "FR-018-10"
+    },
+    {
+      "schema": "cases.schema.json",
+      "class": "tool id not in studio/tools.yaml",
+      "by": "checker",
+      "rule": "FR-018-10"
+    },
+    {
+      "schema": "cases.schema.json",
+      "class": "data source id (sources, reference_source) not in data/sources.yaml",
+      "by": "checker",
+      "rule": "FR-018-10"
+    },
+    {
+      "schema": "cases.schema.json",
+      "class": "engine listed for a case that the engine table does not list for that engine",
+      "by": "checker",
+      "rule": "FR-018-47"
+    },
+    {
+      "schema": "cases.schema.json",
+      "class": "KPI id repeated within a case",
+      "by": "checker",
+      "rule": "-",
+      "note": "no requirement names it; tools/check_cases.py (T-018-001) should reject it with the FR-018-10 checks"
+    },
+    {
+      "schema": "replay-shard.schema.json",
+      "class": "non-finite number, malformed JSON, duplicate key, BOM",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "replay-shard.schema.json",
+      "class": "raw16 payload byte length differs from frames.count x items x channels x 2 (Float32 tiles: x 4) or from payload.bytes",
+      "by": "checker",
+      "rule": "FR-018-45"
+    },
+    {
+      "schema": "replay-shard.schema.json",
+      "class": "a code outside the declared code_range, or a PNG tile whose bit depth or size differs from 16-bit grid.width x grid.height",
+      "by": "checker",
+      "rule": "FR-018-45"
+    },
+    {
+      "schema": "replay-shard.schema.json",
+      "class": "payload bytes whose SHA-256 differs from the header or manifest digest",
+      "by": "checker",
+      "rule": "FR-018-43"
+    },
+    {
+      "schema": "replay-shard.schema.json",
+      "class": "code_range.min > code_range.max, channel min >= max, bbox min >= max, x/y/z channel range different from bbox_m, field items != width x height",
+      "by": "checker",
+      "rule": "FR-018-45"
+    },
+    {
+      "schema": "replay-shard.schema.json",
+      "class": "manifest shards not contiguous or not summing to frames, shard digest or size different from its header, header kind/fps/code_type different from the manifest",
+      "by": "checker",
+      "rule": "FR-005-45"
+    },
+    {
+      "schema": "parity-fixture.schema.json",
+      "class": "non-finite number, malformed JSON or gzip, duplicate key, BOM, byte and decompression caps",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "parity-fixture.schema.json",
+      "class": "fixture bytes differ from the pinned SHA-256",
+      "by": "checker",
+      "rule": "FR-018-67"
+    },
+    {
+      "schema": "parity-fixture.schema.json",
+      "class": "input or output not valid against the engine's DC-018-02 schema",
+      "by": "checker",
+      "rule": "FR-018-67"
+    },
+    {
+      "schema": "parity-fixture.schema.json",
+      "class": "fixture id different from the file stem, or engine different from its folder",
+      "by": "checker",
+      "rule": "FR-018-67"
+    },
+    {
+      "schema": "parity-fixture.schema.json",
+      "class": "both ends of each validity range not included in an analytical fixture",
+      "by": "checker",
+      "rule": "FR-018-51"
+    },
+    {
+      "schema": "parity-fixture.schema.json",
+      "class": "rtol different from max(1e-9, 10 x solver_tol) for iterative functions",
+      "by": "checker",
+      "rule": "FR-018-51"
+    },
+    {
+      "schema": "parity-fixture.schema.json",
+      "class": "64-bit generator words written as JSON numbers (lossy above 2^53)",
+      "by": "checker",
+      "rule": "P-018-04"
+    },
+    {
+      "schema": "parity-report.schema.json",
+      "class": "non-finite number, malformed JSON, duplicate key, BOM",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "parity-report.schema.json",
+      "class": "git_sha different from the deployed commit",
+      "by": "checker",
+      "rule": "FR-018-63"
+    },
+    {
+      "schema": "parity-report.schema.json",
+      "class": "an engine of the engine table missing from the report",
+      "by": "checker",
+      "rule": "SC-018-01"
+    },
+    {
+      "schema": "parity-report.schema.json",
+      "class": "verdict inconsistent with max_error and the tolerance of its class",
+      "by": "checker",
+      "rule": "SC-018-01"
+    },
+    {
+      "schema": "parity-report.schema.json",
+      "class": "class not allowed for the engine by its parity class in the engine table",
+      "by": "checker",
+      "rule": "FR-018-47"
+    },
+    {
+      "schema": "parity-report.schema.json",
+      "class": "hosted defined_by different from the owning requirement of the engine (e.g. des -> FR-007-10)",
+      "by": "checker",
+      "rule": "FR-018-48"
+    },
+    {
+      "schema": "parity-report.schema.json",
+      "class": "the same engine and class listed twice",
+      "by": "checker",
+      "rule": "FR-018-63"
+    },
+    {
+      "schema": "lane-measurements.schema.json",
+      "class": "non-finite number (NaN or Infinity; FR-018-65 treats it as failing), malformed JSON, duplicate key, BOM",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "lane-measurements.schema.json",
+      "class": "a web-manifest artefact or engine labelled live whose measurements give replay under deriveLane",
+      "by": "checker",
+      "rule": "FR-018-66"
+    },
+    {
+      "schema": "lane-measurements.schema.json",
+      "class": "a live engine without an entry",
+      "by": "checker",
+      "rule": "FR-018-66"
+    },
+    {
+      "schema": "lane-measurements.schema.json",
+      "class": "an engine or live model of the engine table not measured",
+      "by": "checker",
+      "rule": "FR-018-64"
+    },
+    {
+      "schema": "lane-measurements.schema.json",
+      "class": "the same engine or artefact listed twice, or an artefact id absent from the web manifest",
+      "by": "checker",
+      "rule": "FR-018-66"
+    }
+  ]
+}

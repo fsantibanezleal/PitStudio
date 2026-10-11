@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/road-network.schema.json",
+  "title": "Haul-road network",
+  "description": "Haul-road graph written by st20_pit_design as a closed GeoJSON FeatureCollection subset in the site frame (DC-004-06, spec 004-scene-pipeline).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "schema_version",
+    "frame",
+    "site_origin",
+    "provenance",
+    "exit_node",
+    "features"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "type": {
+      "const": "FeatureCollection"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "frame": {
+      "const": "site-enu",
+      "description": "coordinates are site-frame metres, not WGS 84 (foreign member)"
+    },
+    "site_origin": {
+      "$ref": "scene-spec.schema.json#/$defs/site_origin"
+    },
+    "provenance": {
+      "const": "design-code"
+    },
+    "exit_node": {
+      "$ref": "#/$defs/node_id"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/node"
+          },
+          {
+            "$ref": "#/$defs/edge"
+          }
+        ]
+      },
+      "minItems": 3,
+      "maxItems": 10000
+    }
+  },
+  "$defs": {
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "node_id": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^n[0-9]{1,6}$"
+    },
+    "edge_id": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^e[0-9]{1,6}$"
+    },
+    "position": {
+      "type": "array",
+      "description": "[x, y, z] in the site frame, m",
+      "items": {
+        "type": "number",
+        "minimum": -100000,
+        "maximum": 100000
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id",
+        "geometry",
+        "properties"
+      ],
+      "properties": {
+        "type": {
+          "const": "Feature"
+        },
+        "id": {
+          "$ref": "#/$defs/node_id"
+        },
+        "geometry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "properties": {
+            "type": {
+              "const": "Point"
+            },
+            "coordinates": {
+              "$ref": "#/$defs/position"
+            }
+          }
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "role"
+          ],
+          "properties": {
+            "kind": {
+              "const": "node"
+            },
+            "role": {
+              "enum": [
+                "exit",
+                "junction",
+                "end"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id",
+        "geometry",
+        "properties"
+      ],
+      "properties": {
+        "type": {
+          "const": "Feature"
+        },
+        "id": {
+          "$ref": "#/$defs/edge_id"
+        },
+        "geometry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "properties": {
+            "type": {
+              "const": "LineString"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/position"
+              },
+              "minItems": 2,
+              "maxItems": 20000
+            }
+          }
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "from",
+            "to",
+            "class",
+            "length_m",
+            "grade_mean_pct",
+            "grade_max_pct"
+          ],
+          "properties": {
+            "kind": {
+              "const": "edge"
+            },
+            "from": {
+              "$ref": "#/$defs/node_id"
+            },
+            "to": {
+              "$ref": "#/$defs/node_id"
+            },
+            "class": {
+              "enum": [
+                "ramp",
+                "bench-road"
+              ]
+            },
+            "length_m": {
+              "type": "number",
+              "description": "3-D length along the polyline",
+              "exclusiveMinimum": 0,
+              "maximum": 100000
+            },
+            "grade_mean_pct": {
+              "type": "number",
+              "description": "signed: rise from `from` to `to` over horizontal run x 100",
+              "minimum": -15.1,
+              "maximum": 15.1
+            },
+            "grade_max_pct": {
+              "type": "number",
+              "description": "largest absolute grade over <= 1 m samples",
+              "minimum": 0,
+              "maximum": 15.1
+            }
+          }
+        }
+      }
+    }
+  }
+}

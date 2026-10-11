@@ -1,0 +1,61 @@
+{
+  "run_id": "20261007T120000Z-d1-fragmentation",
+  "archive_status": "unavailable",
+  "isaac_sim": "passing",
+  "trtr": {
+    "status": "not_run",
+    "reason": "Mendeley archive unavailable or failing its SHA-256 check"
+  },
+  "tstr": {
+    "status": "not_run",
+    "reason": "Mendeley archive unavailable or failing its SHA-256 check"
+  },
+  "watershed": {
+    "status": "not_run",
+    "reason": "Mendeley archive unavailable or failing its SHA-256 check"
+  },
+  "synthetic_x50": {
+    "status": "succeeded",
+    "held_out_piles": 50,
+    "views": 200,
+    "mre_unet": 0.118,
+    "mre_unet_interval": [
+      0.101,
+      0.137
+    ],
+    "mre_watershed": 0.164,
+    "occlusion_bias_mean": 0.071,
+    "threshold": 0.15,
+    "verdict": "pass"
+  },
+  "real_comparison": {
+    "status": "not_run",
+    "reason": "Mendeley archive unavailable or failing its SHA-256 check"
+  },
+  "synthetic_comparison": {
+    "status": "succeeded",
+    "pairing_unit": "pile",
+    "units": 50,
+    "bootstrap_b": 10000,
+    "mean_difference": 0.046,
+    "interval": [
+      -0.004,
+      0.095
+    ],
+    "verdict": "no significant difference",
+    "no_fit": {
+      "unet": 0,
+      "watershed": 3
+    }
+  },
+  "c2st": {
+    "status": "not_run",
+    "reason": "Mendeley archive unavailable or failing its SHA-256 check"
+  },
+  "duplicates": {
+    "status": "not_run",
+    "reason": "Mendeley archive unavailable or failing its SHA-256 check"
+  },
+  "attribution": "Si, Zhu, Di, Wang (2019). Rock fragment image segmentation combining CNN and watershed algorithm. Mendeley Data, V1. https://doi.org/10.17632/78ht3pjsr4.1. Licensed under CC BY 4.0.",
+  "d1_statement": "synthetic-only U-Net claim; no measured sim-to-real"
+}

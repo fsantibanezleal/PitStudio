@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "kind": "comparison",
+  "id": "c1-dewit-real-event",
+  "tab": "sim-to-real",
+  "title": {
+    "en": "Real slope failure (one event)",
+    "es": "Falla real de talud (un evento)"
+  },
+  "cases": [
+    "C1"
+  ],
+  "run_ids": [
+    "20261006T080000Z-c1-ttf"
+  ],
+  "criteria": [
+    {
+      "requirement": "SC-010-03",
+      "status": "pass"
+    }
+  ],
+  "rows": [
+    {
+      "kind": "single-event",
+      "metric": {
+        "id": "ttf_error",
+        "name": {
+          "en": "TTF error at the 80 % cut-off",
+          "es": "error de TTF al 80 %"
+        },
+        "unit": "h",
+        "orientation": "lower-is-better"
+      },
+      "challenger": "TCN",
+      "baseline": "inverse velocity",
+      "n": 2,
+      "challenger_value": 7.5,
+      "baseline_value": 5.0,
+      "verdict": "single-real-event"
+    }
+  ]
+}

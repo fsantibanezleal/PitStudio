@@ -1,0 +1,1069 @@
+{
+  "spec": "015-vlm",
+  "examples": [
+    {
+      "file": "frame-state.valid.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "dust frame on a haul road, centimetre stage, truck, person and an off-screen light vehicle"
+    },
+    {
+      "file": "frame-state.valid-no-dust-field.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "day frame without a dust field, metre stage with Y up"
+    },
+    {
+      "file": "frame-state.hostile-missing-meters-per-unit.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing metersPerUnit",
+      "rule": "FR-015-23",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "frame-state.hostile-missing-up-axis.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing upAxis",
+      "rule": "FR-015-23",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "frame-state.hostile-unknown-class.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown class label",
+      "rule": "FR-015-23",
+      "pointer": "/objects/1/class",
+      "keyword": "enum"
+    },
+    {
+      "file": "frame-state.hostile-empty.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty object list",
+      "rule": "FR-015-23",
+      "pointer": "/objects",
+      "keyword": "minItems"
+    },
+    {
+      "file": "frame-state.hostile-malformed-digest.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed frame digest (upper case)",
+      "rule": "FR-015-23",
+      "pointer": "/image/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "frame-state.hostile-path-traversal.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "DC-015-01",
+      "pointer": "/depth/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "frame-state.hostile-absolute-path.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "DC-015-01",
+      "pointer": "/terrain/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "frame-state.hostile-wrong-unit.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit (transform in stage units, not metres)",
+      "rule": "FR-015-23",
+      "pointer": "/objects/0/pose",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "frame-state.hostile-out-of-range.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative visible-pixel count",
+      "rule": "DC-015-01",
+      "pointer": "/objects/0/visible_px",
+      "keyword": "minimum"
+    },
+    {
+      "file": "frame-state.hostile-unknown-up-axis.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown upAxis",
+      "rule": "FR-015-23",
+      "pointer": "/upAxis",
+      "keyword": "enum"
+    },
+    {
+      "file": "frame-state.hostile-not-synthetic.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "honesty flag not synthetic",
+      "rule": "DC-015-01",
+      "pointer": "/synthetic",
+      "keyword": "const"
+    },
+    {
+      "file": "frame-state.hostile-bad-pattern.json",
+      "schema": "frame-state.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "prim id not a USD prim path",
+      "rule": "FR-015-23",
+      "pointer": "/objects/0/prim_id",
+      "keyword": "pattern"
+    },
+    {
+      "file": "vlm-queries.valid.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "four queries of types 1-4 across conditions; one gate and one reasoning query"
+    },
+    {
+      "file": "vlm-queries.hostile-unknown-type.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown question type",
+      "rule": "FR-015-25",
+      "pointer": "/queries/0/type",
+      "keyword": "maximum"
+    },
+    {
+      "file": "vlm-queries.hostile-conditional-truth-for-type.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "answer label outside its type's classes",
+      "rule": "FR-015-26",
+      "pointer": "/queries/1/truth",
+      "keyword": "enum"
+    },
+    {
+      "file": "vlm-queries.hostile-conditional-gate-binary-only.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "count question in the binary agreement-gate subset",
+      "rule": "FR-015-14",
+      "pointer": "/queries/1/type",
+      "keyword": "not"
+    },
+    {
+      "file": "vlm-queries.hostile-malformed-digest.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed frame-state digest",
+      "rule": "FR-015-47",
+      "pointer": "/queries/0/frame_state_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "vlm-queries.hostile-path-traversal.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "frame reference with .. traversal",
+      "rule": "FR-015-25",
+      "pointer": "/queries/0/frame_id",
+      "keyword": "pattern"
+    },
+    {
+      "file": "vlm-queries.hostile-unknown-condition.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown condition",
+      "rule": "FR-015-16",
+      "pointer": "/queries/2/condition",
+      "keyword": "enum"
+    },
+    {
+      "file": "vlm-queries.hostile-unknown-field.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "DC-015-02",
+      "pointer": "/queries/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "vlm-queries.hostile-empty.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty query set",
+      "rule": "FR-015-47",
+      "pointer": "/queries",
+      "keyword": "minItems"
+    },
+    {
+      "file": "vlm-queries.hostile-missing-required.json",
+      "schema": "vlm-queries.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "query without ground truth",
+      "rule": "FR-015-47",
+      "pointer": "/queries/0",
+      "keyword": "required"
+    },
+    {
+      "file": "reason-pins.valid.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "b11381 Windows CUDA 13.4 archives (release digests), two executables, the converter, both model revisions with their weight files, ten prompts"
+    },
+    {
+      "file": "reason-pins.hostile-unpinned-revision.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unpinned revision (branch name)",
+      "rule": "FR-015-04",
+      "pointer": "/models/cosmos/revision",
+      "keyword": "pattern"
+    },
+    {
+      "file": "reason-pins.hostile-other-revision.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "revision other than the pinned one",
+      "rule": "FR-015-04",
+      "pointer": "/models/cosmos/revision",
+      "keyword": "pattern"
+    },
+    {
+      "file": "reason-pins.hostile-other-repository.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "third-party GGUF repository",
+      "rule": "FR-015-04",
+      "pointer": "/models/cosmos/repository",
+      "keyword": "const"
+    },
+    {
+      "file": "reason-pins.hostile-unpinned-qwen-revision.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "short (unpinned) control revision",
+      "rule": "FR-015-04",
+      "pointer": "/models/qwen/revision",
+      "keyword": "pattern"
+    },
+    {
+      "file": "reason-pins.hostile-malformed-digest.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed executable digest",
+      "rule": "FR-015-02",
+      "pointer": "/llamacpp/executables/llama-server.exe",
+      "keyword": "pattern"
+    },
+    {
+      "file": "reason-pins.hostile-missing-archive.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing cudart archive pin",
+      "rule": "FR-015-02",
+      "pointer": "/llamacpp/archives",
+      "keyword": "required"
+    },
+    {
+      "file": "reason-pins.hostile-missing-executable.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing executable pin",
+      "rule": "FR-015-02",
+      "pointer": "/llamacpp/executables",
+      "keyword": "required"
+    },
+    {
+      "file": "reason-pins.hostile-path-traversal.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "executable name with .. traversal",
+      "rule": "FR-015-02",
+      "pointer": "/llamacpp/executables",
+      "keyword": "pattern"
+    },
+    {
+      "file": "reason-pins.hostile-wrong-build.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "other llama.cpp build",
+      "rule": "FR-015-01",
+      "pointer": "/llamacpp/build",
+      "keyword": "const"
+    },
+    {
+      "file": "reason-pins.hostile-wrong-archive.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "archive of another CUDA build",
+      "rule": "FR-015-01",
+      "pointer": "/llamacpp/archives/binaries/name",
+      "keyword": "const"
+    },
+    {
+      "file": "reason-pins.hostile-credential-url.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "download URL with credentials on another host",
+      "rule": "FR-015-01",
+      "pointer": "/llamacpp/archives/binaries/url",
+      "keyword": "pattern"
+    },
+    {
+      "file": "reason-pins.hostile-prompt-outside-folder.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "prompt path outside studio/reason/prompts/",
+      "rule": "FR-015-44",
+      "pointer": "/prompts/system/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "reason-pins.hostile-unknown-field.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "token field in the pin file",
+      "rule": "FR-015-08",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "reason-pins.hostile-missing-prompt.json",
+      "schema": "reason-pins.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unpinned prompt",
+      "rule": "FR-015-44",
+      "pointer": "/prompts",
+      "keyword": "required"
+    },
+    {
+      "file": "vlm-record.valid.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "a wrong Cosmos answer (task A), a frame-list pair answer (task B) and a template caption (task C)"
+    },
+    {
+      "file": "vlm-record.valid-bf16-qwen.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "BF16 reasoning-on count answer and an unparseable Qwen answer"
+    },
+    {
+      "file": "vlm-record.hostile-conditional-cosmos-display-only.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Cosmos record not display-only",
+      "rule": "FR-015-40",
+      "pointer": "/records/0/licence_class",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-record.hostile-wrong-notice.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing Built on NVIDIA Cosmos notice",
+      "rule": "FR-015-41",
+      "pointer": "/notices/cosmos",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-record.hostile-nonzero-temperature.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "temperature other than 0 for a scored arm",
+      "rule": "FR-015-25",
+      "pointer": "/records/0/provenance/sampling/temperature",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-record.hostile-unpinned-revision.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unpinned model revision",
+      "rule": "FR-015-40",
+      "pointer": "/records/0/provenance/revision",
+      "keyword": "pattern"
+    },
+    {
+      "file": "vlm-record.hostile-malformed-digest.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed GGUF digest",
+      "rule": "FR-015-40",
+      "pointer": "/records/0/provenance/gguf_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "vlm-record.hostile-unknown-arm.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown arm",
+      "rule": "FR-015-25",
+      "pointer": "/records/2/arm",
+      "keyword": "enum"
+    },
+    {
+      "file": "vlm-record.hostile-oversized.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized model output",
+      "rule": "NFR-015-03",
+      "pointer": "/records/0/output",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "vlm-record.hostile-conditional-caption-correct.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "caption marked correct with a hallucinated class",
+      "rule": "FR-015-38",
+      "pointer": "/records/2/hallucinated_classes",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "vlm-record.hostile-selection-uses-correctness.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "published sample selected on correctness",
+      "rule": "FR-015-40",
+      "pointer": "/sample/selection_uses_correctness",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-record.hostile-conditional-frame-list-label.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Q8_0 frame list not labelled as an approximation",
+      "rule": "FR-015-36",
+      "pointer": "/records/1/input_mode",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-record.hostile-conditional-pair-truth.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "ground truth inconsistent with the presentation order",
+      "rule": "FR-015-36",
+      "pointer": "/records/1/truth",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-record.hostile-conditional-reasoning-off-tokens.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "reasoning-off answer above 64 new tokens",
+      "rule": "FR-015-24",
+      "pointer": "/records/0/provenance/sampling/max_new_tokens",
+      "keyword": "maximum"
+    },
+    {
+      "file": "vlm-record.hostile-non-positive-token-limit.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "non-positive token limit",
+      "rule": "FR-015-25",
+      "pointer": "/records/0/provenance/sampling/max_new_tokens",
+      "keyword": "minimum"
+    },
+    {
+      "file": "vlm-record.hostile-path-traversal.json",
+      "schema": "vlm-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "frame asset id with .. traversal",
+      "rule": "FR-015-25",
+      "pointer": "/records/2/frames/0",
+      "keyword": "pattern"
+    },
+    {
+      "file": "vlm-metrics.valid.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "bench, passing gate, task-A rows with a McNemar claim, task B against the physics check, task C against the template baseline, probe not measured"
+    },
+    {
+      "file": "vlm-metrics.valid-gate-rejected.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "failed agreement gate: the Q8_0 row is published only as rejected"
+    },
+    {
+      "file": "vlm-metrics.valid-gated-not-run.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "gated terms not accepted: every Cosmos arm and the bench not run"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-mcnemar-claim.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "'Cosmos beats Qwen base' with p >= 0.05",
+      "rule": "FR-015-31",
+      "pointer": "/task_a/mcnemar/0/p",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-gate-fail-accepted.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Q8_0 path accepted after a failed gate",
+      "rule": "FR-015-15",
+      "pointer": "/gate/q8_0_path",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-gate-pass-below.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "gate passed below agreement 0.95",
+      "rule": "FR-015-14",
+      "pointer": "/gate/agreement",
+      "keyword": "minimum"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-q8-metrics-after-fail.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Q8_0 task metrics published after a failed gate",
+      "rule": "FR-015-15",
+      "pointer": "/task_a/rows/0/status",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-detector-not-applicable.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "detector rule scored on a type without detector evidence",
+      "rule": "FR-015-28",
+      "pointer": "/task_a/rows/1/status",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-error-rate.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "measured row with more than 2 % errored queries",
+      "rule": "FR-015-12",
+      "pointer": "/task_a/rows/0/error_rate",
+      "keyword": "maximum"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-above-chance.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "'above chance' with a lower bound <= 0.5",
+      "rule": "FR-015-37",
+      "pointer": "/task_b/rows/1/accuracy/lo",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-template-baseline.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "template captions with CHAIR_i != 0",
+      "rule": "P-015-07",
+      "pointer": "/task_c/rows/0/chair_i",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-metrics.hostile-out-of-range.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "balanced accuracy above 1",
+      "rule": "FR-015-30",
+      "pointer": "/task_a/rows/0/balanced_accuracy/value",
+      "keyword": "maximum"
+    },
+    {
+      "file": "vlm-metrics.hostile-wrong-label.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bench without its label",
+      "rule": "FR-015-13",
+      "pointer": "/bench/label",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-metrics.hostile-local-only-bench.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bench marked local-only although publishable",
+      "rule": "NFR-015-01",
+      "pointer": "/bench/performance",
+      "keyword": "const"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-vram-q8.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Q8_0 above 6 GB at a 16,384-token context without a reduced context",
+      "rule": "NFR-015-01",
+      "pointer": "/bench/paths/0/vram_peak_bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "vlm-metrics.hostile-conditional-not-run-reason.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-run row without reason",
+      "rule": "FR-015-07",
+      "pointer": "/task_a/rows/0",
+      "keyword": "required"
+    },
+    {
+      "file": "vlm-metrics.hostile-unknown-arm.json",
+      "schema": "vlm-metrics.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown arm",
+      "rule": "FR-015-25",
+      "pointer": "/task_c/rows/1/arm",
+      "keyword": "enum"
+    },
+    {
+      "file": "plausibility-pairs.valid.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "two pairs: gravity x 0.3 and frozen particles, each confirmed by its detector"
+    },
+    {
+      "file": "plausibility-pairs.hostile-two-corruptions.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than one corruption declared",
+      "rule": "FR-015-35",
+      "pointer": "/pairs/0/corruptions",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "plausibility-pairs.hostile-no-corruption.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "zero corruptions declared",
+      "rule": "FR-015-35",
+      "pointer": "/pairs/0/corruptions",
+      "keyword": "minItems"
+    },
+    {
+      "file": "plausibility-pairs.hostile-unknown-corruption.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown corruption",
+      "rule": "FR-015-33",
+      "pointer": "/pairs/0/corruptions/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "plausibility-pairs.hostile-conditional-gravity-confirmation.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fitted acceleration outside +/- 5 % of 0.3 g",
+      "rule": "FR-015-34",
+      "pointer": "/pairs/0/confirmation/value",
+      "keyword": "maximum"
+    },
+    {
+      "file": "plausibility-pairs.hostile-conditional-frozen-duration.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "frozen particles for less than 1 s",
+      "rule": "FR-015-34",
+      "pointer": "/pairs/1/confirmation/sustained_s",
+      "keyword": "minimum"
+    },
+    {
+      "file": "plausibility-pairs.hostile-conditional-wrong-statistic.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "confirmation by another corruption's detector",
+      "rule": "FR-015-34",
+      "pointer": "/pairs/0/confirmation/statistic",
+      "keyword": "const"
+    },
+    {
+      "file": "plausibility-pairs.hostile-calibrated-triggered.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "calibrated clip triggering a detector",
+      "rule": "FR-015-34",
+      "pointer": "/pairs/1/confirmation/calibrated_detectors_clear",
+      "keyword": "const"
+    },
+    {
+      "file": "plausibility-pairs.hostile-out-of-range.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "clip longer than 8 s",
+      "rule": "FR-015-33",
+      "pointer": "/pairs/0/calibrated/duration_s",
+      "keyword": "maximum"
+    },
+    {
+      "file": "plausibility-pairs.hostile-path-traversal.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "DC-015-06",
+      "pointer": "/pairs/0/corrupted/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "plausibility-pairs.hostile-malformed-digest.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed clip digest",
+      "rule": "DC-015-06",
+      "pointer": "/pairs/0/calibrated/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "plausibility-pairs.hostile-empty.json",
+      "schema": "plausibility-pairs.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty pair index",
+      "rule": "FR-015-33",
+      "pointer": "/pairs",
+      "keyword": "minItems"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "frame-state.schema.json",
+      "class": "non-finite transform or number",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "NaN / Infinity rejected by load_json before validation; the builder then rejects the frame (FR-015-23)"
+    },
+    {
+      "schema": "frame-state.schema.json",
+      "class": "malformed JSON, BOM, invalid UTF-8, duplicate key, depth > 32",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json"
+    },
+    {
+      "schema": "frame-state.schema.json",
+      "class": "duplicated prim id",
+      "by": "checker",
+      "rule": "FR-015-23",
+      "note": "uniqueness of objects[].prim_id"
+    },
+    {
+      "schema": "frame-state.schema.json",
+      "class": "SHA-256 mismatch with its frame image",
+      "by": "checker",
+      "rule": "FR-015-23",
+      "note": "image.sha256 recomputed from the image bytes"
+    },
+    {
+      "schema": "frame-state.schema.json",
+      "class": "transforms not converted with metersPerUnit / upAxis",
+      "by": "checker",
+      "rule": "FR-009-44",
+      "note": "producer-side hand-calculated fixture (500 units at metersPerUnit 0.01 = 5 m)"
+    },
+    {
+      "schema": "frame-state.schema.json",
+      "class": "visible_px larger than width_px x height_px",
+      "by": "checker",
+      "rule": "-",
+      "note": "arithmetic across fields; no requirement names it (gap reported)"
+    },
+    {
+      "schema": "frame-state.schema.json",
+      "class": "rotation quaternion not of unit norm",
+      "by": "checker",
+      "rule": "-",
+      "note": "arithmetic across items; no requirement names it (gap reported)"
+    },
+    {
+      "schema": "frame-state.schema.json",
+      "class": "relpath segment equal to a Windows device name; case-fold duplicate paths",
+      "by": "checker",
+      "rule": "FR-001-15",
+      "note": "data-model 001 §1.3 checker rules"
+    },
+    {
+      "schema": "vlm-queries.schema.json",
+      "class": "non-finite number; malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json"
+    },
+    {
+      "schema": "vlm-queries.schema.json",
+      "class": "query set SHA-256 differs from its manifest record",
+      "by": "checker",
+      "rule": "FR-015-47",
+      "note": "digest of the file bytes"
+    },
+    {
+      "schema": "vlm-queries.schema.json",
+      "class": "query references a frame absent from the frame states, or a stale frame-state digest",
+      "by": "checker",
+      "rule": "FR-015-47",
+      "note": "ids and digests resolved against the frame-state files"
+    },
+    {
+      "schema": "vlm-queries.schema.json",
+      "class": "type balance (540 / 540; 270 per count class), >= 20 % per condition, 1,080 per type",
+      "by": "checker",
+      "rule": "FR-015-16",
+      "note": "counts across items"
+    },
+    {
+      "schema": "vlm-queries.schema.json",
+      "class": "more than one query per (frame, type); duplicate query ids",
+      "by": "checker",
+      "rule": "FR-015-16",
+      "note": "uniqueness across items"
+    },
+    {
+      "schema": "vlm-queries.schema.json",
+      "class": "gate subset composition (100 per binary type, 50 yes / 50 no) and the stratified 300-query reasoning subset",
+      "by": "checker",
+      "rule": "FR-015-14",
+      "note": "counts across items (FR-015-24 for the reasoning subset)"
+    },
+    {
+      "schema": "reason-pins.schema.json",
+      "class": "non-finite number; malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json"
+    },
+    {
+      "schema": "reason-pins.schema.json",
+      "class": "archive or executable on disk whose SHA-256 differs from its pin",
+      "by": "checker",
+      "rule": "FR-015-02",
+      "note": "digests of the unpacked files"
+    },
+    {
+      "schema": "reason-pins.schema.json",
+      "class": "downloaded model file whose SHA-256 differs from its pin",
+      "by": "checker",
+      "rule": "FR-015-04",
+      "note": "digests of the downloaded files (fake hub in CI)"
+    },
+    {
+      "schema": "reason-pins.schema.json",
+      "class": "committed prompt whose SHA-256 differs from its pin, or a bypass instruction in a prompt",
+      "by": "checker",
+      "rule": "FR-015-44",
+      "note": "hash check at stage start; phrase-list scan"
+    },
+    {
+      "schema": "vlm-record.schema.json",
+      "class": "non-finite number; malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json"
+    },
+    {
+      "schema": "vlm-record.schema.json",
+      "class": "baked record file whose SHA-256 differs from the manifest",
+      "by": "checker",
+      "rule": "FR-015-43",
+      "note": "web loader shows 'answers unavailable'"
+    },
+    {
+      "schema": "vlm-record.schema.json",
+      "class": "correct flag inconsistent with parsed == truth (tasks A, B)",
+      "by": "checker",
+      "rule": "FR-015-40",
+      "note": "comparison across fields"
+    },
+    {
+      "schema": "vlm-record.schema.json",
+      "class": "sample not stratified by type and condition, or not reproducible from its seed",
+      "by": "checker",
+      "rule": "FR-015-40",
+      "note": "re-drawing the sample from the full local set"
+    },
+    {
+      "schema": "vlm-record.schema.json",
+      "class": "GGUF or archive digest different from the pins",
+      "by": "checker",
+      "rule": "FR-015-40",
+      "note": "cross-file comparison with studio/reason/pins.json"
+    },
+    {
+      "schema": "vlm-record.schema.json",
+      "class": "Hugging Face token canary present in any text",
+      "by": "checker",
+      "rule": "FR-015-08",
+      "note": "canary search over every output file"
+    },
+    {
+      "schema": "vlm-record.schema.json",
+      "class": "baked text per case of 1 MB or more",
+      "by": "checker",
+      "rule": "NFR-015-03",
+      "note": "CI budget check (bytes)"
+    },
+    {
+      "schema": "vlm-metrics.schema.json",
+      "class": "non-finite number; malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json"
+    },
+    {
+      "schema": "vlm-metrics.schema.json",
+      "class": "interval not containing its estimate (lo <= value <= hi)",
+      "by": "checker",
+      "rule": "FR-015-30",
+      "note": "comparison across fields"
+    },
+    {
+      "schema": "vlm-metrics.schema.json",
+      "class": "agreement != agree / n; Wilson bounds inconsistent with (agree, n)",
+      "by": "checker",
+      "rule": "FR-015-14",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "vlm-metrics.schema.json",
+      "class": "'Cosmos beats Qwen base' with b <= c; p not the exact binomial value of (b, c); chi2_cc present iff b + c >= 25",
+      "by": "checker",
+      "rule": "FR-015-31",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "vlm-metrics.schema.json",
+      "class": "task-B interval not s-bar +/- t(0.975, 99) sd / sqrt(100)",
+      "by": "checker",
+      "rule": "FR-015-37",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "vlm-metrics.schema.json",
+      "class": "Cosmos metric in the headline KPI set",
+      "by": "checker",
+      "rule": "FR-015-42",
+      "note": "KPI registry and manifest scan in CI"
+    },
+    {
+      "schema": "plausibility-pairs.schema.json",
+      "class": "non-finite number; malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json"
+    },
+    {
+      "schema": "plausibility-pairs.schema.json",
+      "class": "clips of a pair differing in scene, camera, duration or frame count",
+      "by": "checker",
+      "rule": "FR-015-35",
+      "note": "comparison across the two clip records"
+    },
+    {
+      "schema": "plausibility-pairs.schema.json",
+      "class": "not exactly 100 pairs, or not 16-17 pairs per corruption; duplicate pair ids",
+      "by": "checker",
+      "rule": "FR-015-33",
+      "note": "counts across items"
+    },
+    {
+      "schema": "plausibility-pairs.schema.json",
+      "class": "detector statistics not reproduced from the simulation state; a calibrated clip that triggers a detector",
+      "by": "checker",
+      "rule": "FR-015-34",
+      "note": "detectors re-run on the stored trajectories"
+    },
+    {
+      "schema": "plausibility-pairs.schema.json",
+      "class": "clip file whose SHA-256 differs from its record",
+      "by": "checker",
+      "rule": "FR-015-35",
+      "note": "digest of the clip bytes"
+    }
+  ]
+}

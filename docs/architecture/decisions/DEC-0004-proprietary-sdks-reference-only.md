@@ -6,7 +6,7 @@
 > [owner acts and licences](../../studio/owner-acts-and-licences.md) · [sources and licences](../../data-contract/sources-and-licences.md) ·
 > [DEC-0005](DEC-0005-performance-data-licence-rule.md)
 
-**Status:** Accepted, 2026-10-04
+**Status:** Accepted, 2026-10-04 · decision 4 amended by [DEC-0018](DEC-0018-corrections-to-dec-0004-0006-0010.md) (2026-10-07)
 
 ## Context
 

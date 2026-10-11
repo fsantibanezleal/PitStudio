@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "console_version": "0.1.0",
+  "runner_version": "0.1.0",
+  "contracts": {
+    "manifest": "C:/x/manifest.schema.json",
+    "job": "1.0",
+    "events": "1.0"
+  }
+}

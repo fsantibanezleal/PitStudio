@@ -1,0 +1,500 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/gns.schema.json",
+  "title": "Engine gns: input and output messages",
+  "description": "Input and output messages of the browser engine `gns` (cases A3): one step of the graph network simulator surrogate run with ORT-web (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `gns`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "gns",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "step"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "step"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/step_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `gns`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "gns",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "step"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "step"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/step_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "step_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One GNS rollout step; the worker builds the neighbour graph (FR-011-02).",
+      "required": [
+        "model",
+        "precision",
+        "positions_m",
+        "velocity_history_m_per_s",
+        "particle_type",
+        "bounds_m",
+        "particle_diameter_m",
+        "step_s"
+      ],
+      "properties": {
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX model of at most 25,000,000 bytes (spec 018 section 7.1).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "precision": {
+          "enum": [
+            "fp32",
+            "fp16"
+          ],
+          "description": "Live graph precision (FR-011-08)."
+        },
+        "positions_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Positions [N, 2] (FR-011-01).",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "particles",
+                "components"
+              ],
+              "properties": {
+                "particles": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5000,
+                  "description": "Particles (at most 5,000, spec 018 section 7.1)."
+                },
+                "components": {
+                  "const": 2
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "velocity_history_m_per_s": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Last C = 5 velocities [N, 5, 2] (FR-011-01).",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "particles",
+                "history",
+                "components"
+              ],
+              "properties": {
+                "particles": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5000,
+                  "description": "Particles (at most 5,000, spec 018 section 7.1)."
+                },
+                "history": {
+                  "const": 5
+                },
+                "components": {
+                  "const": 2
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "particle_type": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Particle type per particle.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "uint8",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "particles"
+              ],
+              "properties": {
+                "particles": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5000,
+                  "description": "Particles (at most 5,000, spec 018 section 7.1)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "bounds_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -10000.0,
+            "maximum": 10000.0
+          },
+          "minItems": 4,
+          "maxItems": 4,
+          "description": "Domain bounds (x_min, y_min, x_max, y_max)."
+        },
+        "particle_diameter_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Particle diameter d; neighbours within 2.5 d (FR-011-02)."
+        },
+        "step_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Frame step dt_f of the semi-implicit Euler update."
+        }
+      }
+    },
+    "step_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "acceleration_m_per_s2",
+        "positions_m",
+        "velocities_m_per_s",
+        "particle_count",
+        "overflow_count",
+        "status",
+        "extrapolation"
+      ],
+      "properties": {
+        "acceleration_m_per_s2": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Predicted acceleration.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "particles",
+                "components"
+              ],
+              "properties": {
+                "particles": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5000,
+                  "description": "Particles (at most 5,000, spec 018 section 7.1)."
+                },
+                "components": {
+                  "const": 2
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "positions_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Positions after the step.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "particles",
+                "components"
+              ],
+              "properties": {
+                "particles": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5000,
+                  "description": "Particles (at most 5,000, spec 018 section 7.1)."
+                },
+                "components": {
+                  "const": 2
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "velocities_m_per_s": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Velocities after the step.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "particles",
+                "components"
+              ],
+              "properties": {
+                "particles": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5000,
+                  "description": "Particles (at most 5,000, spec 018 section 7.1)."
+                },
+                "components": {
+                  "const": 2
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "particle_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5000,
+          "description": "Particles (at most 5,000, spec 018 section 7.1)."
+        },
+        "overflow_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000,
+          "description": "Particles with more than 32 neighbours (FR-011-13)."
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "diverged"
+          ],
+          "description": "Diverged on a non-finite state or a particle beyond the bounds (FR-011-12)."
+        },
+        "extrapolation": {
+          "type": "boolean",
+          "description": "Outside the training envelope (FR-011-11)."
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

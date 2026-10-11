@@ -1,0 +1,16 @@
+{
+  "kind": "output",
+  "engine": "meta-model",
+  "engine_version": "0.1.0",
+  "function": "predict",
+  "result": {
+    "rows": [
+      {
+        "specific_energy_j_per_kg": 47500.0,
+        "throughput_kg_per_s": 416.8,
+        "cost_usd_per_kg": 0.0042,
+        "extrapolation": false
+      }
+    ]
+  }
+}

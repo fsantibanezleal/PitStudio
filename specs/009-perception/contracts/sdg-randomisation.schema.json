@@ -1,0 +1,381 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/sdg-randomisation.schema.json",
+  "title": "SDG randomisation config",
+  "description": "Domain-randomisation config of the perception SDG (arms, counts, structured parameter sources, unstructured ranges, texture pool, drying time, oversize limit) read by the DR sampler and st55_sdg (DC-009-03, spec 009-perception).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "seed",
+    "x_os_m",
+    "drying_time_min",
+    "arms",
+    "structured",
+    "unstructured",
+    "texture_pool"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "seed": {
+      "$ref": "#/$defs/seed"
+    },
+    "x_os_m": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 10
+    },
+    "drying_time_min": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1440
+    },
+    "arms": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/arm"
+      }
+    },
+    "structured": {
+      "$ref": "#/$defs/structured"
+    },
+    "unstructured": {
+      "$ref": "#/$defs/unstructured"
+    },
+    "texture_pool": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4096,
+      "items": {
+        "$ref": "#/$defs/texture"
+      }
+    }
+  },
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "arm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family",
+        "arm",
+        "image_count",
+        "seed_source"
+      ],
+      "properties": {
+        "family": {
+          "enum": [
+            "pit",
+            "crusher"
+          ]
+        },
+        "arm": {
+          "enum": [
+            "structured",
+            "unstructured"
+          ]
+        },
+        "image_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "seed_source": {
+          "enum": [
+            "own",
+            "structured-pit-train"
+          ]
+        }
+      },
+      "if": {
+        "properties": {
+          "arm": {
+            "const": "unstructured"
+          }
+        },
+        "required": [
+          "arm"
+        ]
+      },
+      "then": {
+        "properties": {
+          "family": {
+            "const": "pit"
+          },
+          "seed_source": {
+            "const": "structured-pit-train"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "seed_source": {
+            "const": "own"
+          }
+        }
+      }
+    },
+    "structured": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sun",
+        "dust",
+        "wet_roads",
+        "placement",
+        "rock_textures"
+      ],
+      "properties": {
+        "sun": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source",
+            "year",
+            "min_elevation_deg"
+          ],
+          "properties": {
+            "source": {
+              "const": "solar-position"
+            },
+            "year": {
+              "type": "integer",
+              "minimum": 1900,
+              "maximum": 2100
+            },
+            "min_elevation_deg": {
+              "const": 5
+            }
+          }
+        },
+        "dust": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source"
+          ],
+          "properties": {
+            "source": {
+              "const": "plume-field"
+            }
+          }
+        },
+        "wet_roads": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source"
+          ],
+          "properties": {
+            "source": {
+              "const": "watering-schedule"
+            }
+          }
+        },
+        "placement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source",
+            "max_base_offset_m"
+          ],
+          "properties": {
+            "source": {
+              "const": "pit-design"
+            },
+            "max_base_offset_m": {
+              "const": 0.05
+            }
+          }
+        },
+        "rock_textures": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source",
+            "lithologies"
+          ],
+          "properties": {
+            "source": {
+              "const": "lithology-cc0"
+            },
+            "lithologies": {
+              "type": "object",
+              "minProperties": 1,
+              "maxProperties": 32,
+              "propertyNames": {
+                "maxLength": 32,
+                "pattern": "^[a-z][a-z0-9_]{0,31}$"
+              },
+              "additionalProperties": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 256,
+                "items": {
+                  "$ref": "#/$defs/artefact_id"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "factor_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "distribution",
+        "min",
+        "max"
+      ],
+      "properties": {
+        "distribution": {
+          "const": "log-uniform"
+        },
+        "min": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 10
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 10
+        }
+      }
+    },
+    "kelvin_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "distribution",
+        "min",
+        "max"
+      ],
+      "properties": {
+        "distribution": {
+          "const": "uniform"
+        },
+        "min": {
+          "type": "number",
+          "minimum": 2000,
+          "maximum": 12000
+        },
+        "max": {
+          "type": "number",
+          "minimum": 2000,
+          "maximum": 12000
+        }
+      }
+    },
+    "count_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "distribution",
+        "min",
+        "max"
+      ],
+      "properties": {
+        "distribution": {
+          "const": "uniform-integer"
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20
+        }
+      }
+    },
+    "unstructured": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "textures",
+        "light_intensity_factor",
+        "colour_temperature_k",
+        "sun_direction",
+        "object_positions",
+        "distractors"
+      ],
+      "properties": {
+        "textures": {
+          "const": "whole-pool-uniform"
+        },
+        "light_intensity_factor": {
+          "$ref": "#/$defs/factor_range"
+        },
+        "colour_temperature_k": {
+          "$ref": "#/$defs/kelvin_range"
+        },
+        "sun_direction": {
+          "const": "upper-hemisphere-uniform"
+        },
+        "object_positions": {
+          "const": "visible-ground-uniform"
+        },
+        "distractors": {
+          "$ref": "#/$defs/count_range"
+        }
+      }
+    },
+    "texture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source_id",
+        "sha256",
+        "spdx"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "source_id": {
+          "$ref": "#/$defs/slug"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "spdx": {
+          "const": "CC0-1.0"
+        }
+      }
+    }
+  }
+}

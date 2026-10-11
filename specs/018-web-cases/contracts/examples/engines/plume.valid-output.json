@@ -1,0 +1,9 @@
+{
+  "kind": "output",
+  "engine": "plume",
+  "engine_version": "0.1.0",
+  "function": "ap42_emission_factor",
+  "result": {
+    "emission_factor_kg_per_m": 0.0021
+  }
+}

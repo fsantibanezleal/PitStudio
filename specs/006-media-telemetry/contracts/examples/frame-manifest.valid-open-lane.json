@@ -1,0 +1,27 @@
+{
+  "kind": "frame-manifest",
+  "schema_version": "1.0",
+  "clip": "dem-pile-replay",
+  "producer": {
+    "tool": "warp",
+    "stage": {
+      "id": "st50_physics"
+    }
+  },
+  "performance": "public",
+  "fps": 60,
+  "frames": 3,
+  "width": 2560,
+  "height": 1440,
+  "bit_depth": 16,
+  "colour_space": "bt709",
+  "format": "png",
+  "frame_pattern": "%04d.png",
+  "first_index": 1,
+  "source_frames_sha256": "69c89ba283933a70a2d8a0baf0e80758d772831063432aa4797cbf471d016dd5",
+  "frame_sha256": [
+    "3f524cdc07a11d7c6220bdb049fe8dd41b27483c96cc59b581e022d547290d69",
+    "e4ab4e3b1493d5a997b4e51cdefbaa10570ef3ea9432bd72e7b6a89654ceb7f6",
+    "625e0f649de27800fc3bcf4c118ef79f69dcb762c2e73fbb1cfce0e7a86f6b80"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "model": "d-fine-n",
+  "opset": 19,
+  "opset_reason": "GridSample keeps a WebGPU kernel at opsets 16-19; FP8 Q/DQ needs opset 19",
+  "ir_version": 11,
+  "outputs": [
+    {
+      "name": "labels",
+      "role": "labels"
+    },
+    {
+      "name": "boxes",
+      "role": "boxes"
+    },
+    {
+      "name": "scores",
+      "role": "scores"
+    }
+  ],
+  "post_processor_in_graph": true,
+  "gemm_heavy": true,
+  "web": true,
+  "live": true,
+  "domains": [
+    "ai.onnx"
+  ],
+  "precisions": [
+    "fp32",
+    "fp16",
+    "int8",
+    "fp8"
+  ],
+  "task_metric": {
+    "id": "map50",
+    "unit": "pct",
+    "orientation": "higher-is-better"
+  },
+  "golden_set_id": "b2-pit-golden-v1"
+}

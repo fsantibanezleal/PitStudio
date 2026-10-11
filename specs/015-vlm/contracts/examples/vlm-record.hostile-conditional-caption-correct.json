@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0",
+  "case": "B1",
+  "generated": "2026-10-15",
+  "git_sha": "01e2b86d09a37a1a3d9b5aaaedfc7028fd41e137",
+  "notices": {
+    "cosmos": "Built on NVIDIA Cosmos",
+    "honesty": "Zero-shot 2B VLM; not a safety system."
+  },
+  "sample": {
+    "method": "stratified-random",
+    "strata": [
+      "task",
+      "type",
+      "condition"
+    ],
+    "seed": 20261015,
+    "n_full": 6480,
+    "n_published": 3,
+    "selection_uses_correctness": false
+  },
+  "records": [
+    {
+      "task": "A",
+      "record_id": "rec-a-00001",
+      "query_id": "a-q00001",
+      "arm": "cosmos-q8_0",
+      "frames": [
+        "b2-pit-s0042-f0007"
+      ],
+      "question_type": 1,
+      "condition": "dust",
+      "question": "Is a person within 30 m of a haul truck?",
+      "output": "<answer>no</answer>",
+      "parsed": "no",
+      "truth": "yes",
+      "correct": false,
+      "licence_class": "display-only",
+      "provenance": {
+        "model": "nvidia/Cosmos-Reason2-2B",
+        "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+        "quantisation": "q8_0",
+        "gguf_sha256": "997b869a780a66b7062859f08549cef915962da3bc09ac469308f9c33aef7160",
+        "llamacpp_build": "b11381",
+        "llamacpp_archive_sha256": "8e3dca4fc1cdd11f3e3ebc770b159483bd8fd7dfeceff396fbb31997495d0b2e",
+        "transformers_version": null,
+        "sampling": {
+          "temperature": 0,
+          "top_k": 1,
+          "seed": 1234,
+          "max_new_tokens": 64,
+          "reasoning": false
+        },
+        "date": "2026-10-14",
+        "gpu": {
+          "name": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+          "driver": "581.42"
+        }
+      }
+    },
+    {
+      "task": "B",
+      "record_id": "rec-b-00017",
+      "pair_id": "pair-017",
+      "arm": "cosmos-q8_0",
+      "corruption": "time-reversal",
+      "presentation": "pair-corrupted-first",
+      "input_mode": "frame-list-approximation",
+      "frames": [
+        "clip-017-corrupted",
+        "clip-017-calibrated"
+      ],
+      "question": "Which clip is physically plausible? Answer first or second.",
+      "output": "<answer>second</answer>",
+      "parsed": "second",
+      "truth": "second",
+      "correct": true,
+      "licence_class": "display-only",
+      "provenance": {
+        "model": "nvidia/Cosmos-Reason2-2B",
+        "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+        "quantisation": "q8_0",
+        "gguf_sha256": "997b869a780a66b7062859f08549cef915962da3bc09ac469308f9c33aef7160",
+        "llamacpp_build": "b11381",
+        "llamacpp_archive_sha256": "8e3dca4fc1cdd11f3e3ebc770b159483bd8fd7dfeceff396fbb31997495d0b2e",
+        "transformers_version": null,
+        "sampling": {
+          "temperature": 0,
+          "top_k": 1,
+          "seed": 1234,
+          "max_new_tokens": 64,
+          "reasoning": false
+        },
+        "date": "2026-10-14",
+        "gpu": {
+          "name": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+          "driver": "581.42"
+        }
+      }
+    },
+    {
+      "task": "C",
+      "record_id": "rec-c-00412",
+      "arm": "template-caption",
+      "frames": [
+        "b2-pit-s0042-f0007"
+      ],
+      "condition": "dust",
+      "question": "Describe the scene in one sentence.",
+      "output": "A haul truck and a person on a dusty haul road.",
+      "mentioned_classes": [
+        "haul_truck",
+        "person"
+      ],
+      "visible_classes": [
+        "haul_truck",
+        "person"
+      ],
+      "hallucinated_classes": [
+        "boulder"
+      ],
+      "correct": true,
+      "licence_class": "own",
+      "provenance": null
+    }
+  ]
+}

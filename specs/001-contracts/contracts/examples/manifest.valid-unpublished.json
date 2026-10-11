@@ -1,0 +1,123 @@
+{
+  "$schema": "../manifest.schema.json",
+  "kind": "run",
+  "schema_version": "1.0",
+  "run_id": "20261007T130500Z-a3-granular",
+  "recipe": {
+    "id": "a3-granular",
+    "path": "cases/a3-granular.yaml",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "git_sha": "cccccccccccccccccccccccccccccccccccccccc",
+  "git_dirty": true,
+  "runner_version": "0.1.0",
+  "created": "2026-10-07T12:00:00Z",
+  "profile": "laptop-rtx5000ada",
+  "seed": 20261007,
+  "published": false,
+  "launcher": "test",
+  "gpu": {
+    "backend": "fake",
+    "index": 0,
+    "name": "fake-gpu-16g",
+    "driver": "999.99",
+    "vram_total_bytes": 17179869184,
+    "power_limit_enforced_w": null
+  },
+  "stages": [
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "dem"
+      },
+      "tool": "warp",
+      "env": {
+        "name": "studio",
+        "python": "3.14.4",
+        "lock_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "versions": {
+          "warp-lang": "1.17.0"
+        }
+      },
+      "cache_key": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "cache": "miss",
+      "status": "failed",
+      "exit_code": 1,
+      "error_class": "oom",
+      "attempts": [
+        {
+          "n": 1,
+          "error_class": "oom",
+          "duration_s": 30.1
+        },
+        {
+          "n": 2,
+          "error_class": "oom",
+          "fallback": {
+            "counts": {
+              "particles": 10000
+            }
+          },
+          "duration_s": 28.0
+        }
+      ],
+      "params": {
+        "solver": "dem",
+        "dt_s": 0.0001,
+        "counts": {
+          "particles": 20000
+        }
+      },
+      "seed": 77,
+      "shards": {
+        "total": 20,
+        "done": 3
+      },
+      "determinism": {
+        "class": "statistical",
+        "rerun_check": "pending"
+      },
+      "performance": "public",
+      "wall_s": 58.1,
+      "telemetry": {
+        "sample_hz": 2,
+        "n_samples": 85,
+        "gpu_busy_pct": {
+          "mean": 61.2,
+          "p50": 63.0,
+          "p95": 88.5
+        },
+        "mem_used_peak_bytes": 2147483648,
+        "power_w": {
+          "mean": 71.4,
+          "p95": 96.0,
+          "max": 103.2
+        },
+        "power_at_limit_frac": 0.0,
+        "energy_j": null,
+        "sm_clock_mhz": {
+          "mean": 1785.0,
+          "p5": 1410.0
+        },
+        "temp_c_max": 74.0,
+        "clocks_event_frac": {
+          "sw_power_cap": 0.0,
+          "sw_thermal": 0.0,
+          "hw_thermal": 0.0,
+          "hw_slowdown": 0.0,
+          "power_brake": 0.0,
+          "idle": 0.02
+        },
+        "pcie_replays_delta": 0,
+        "unavailable": {
+          "energy_j": "total-energy counter not supported by this GPU"
+        }
+      },
+      "thermal_flag": false,
+      "log_tail": "CUDA error: out of memory while allocating 6.0 GiB",
+      "inputs": [],
+      "outputs": []
+    }
+  ],
+  "artefacts": []
+}

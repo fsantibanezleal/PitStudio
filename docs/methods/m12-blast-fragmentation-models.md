@@ -52,8 +52,9 @@ x_{50} = A\,K^{-0.8}\,Q^{1/6}\left(\frac{115}{RWS}\right)^{19/30} \quad [\text{c
 $$
 
 with $A$ the rock factor (–), $K$ the powder factor (kg/m³), $Q$ the charge per hole (kg) and $RWS$ the weight
-strength relative to ANFO (= 100) [1][3]†. The rock factor is built from blastability-index terms (rock-mass
-description, joint factor, density influence) [3]; its scaling constant is UNVERIFIED — pinned at specification.
+strength relative to ANFO (= 100) [1][3]†. The rock factor is $A = 0.06\,(RMD + RDI + HF)$, from the rock-mass
+description $RMD$, the density influence $RDI$ and the hardness factor $HF$ [2] (eq. 4, p. 204) [3]; the joint factor
+$JF$ enters through $RMD$ for vertically jointed rock, not as a separate term [2].
 
 The Kuz-Ram size curve is Rosin–Rammler in Cunningham's form, with $\ln 2 = 0.693$ making $x_{50}$ the median†:
 
@@ -176,7 +177,8 @@ From the project's validation rules ([quality and validation](../architecture/qu
 1. Kuznetsov, V. M. (1973). The mean diameter of the fragments formed by blasting rock. Soviet Mining Science
    9:144–148. https://doi.org/10.1007/BF02506177
 2. Cunningham, C. V. B. (2005). The Kuz-Ram fragmentation model — 20 years on. EFEE, Brighton, 201–210.
-   https://www.scirp.org/reference/referencespapers?referenceid=4120306
+   https://www.scirp.org/reference/referencespapers?referenceid=4120306; full text:
+   https://www.smctesting.com/documents/mine-to-mill/The%20kuz%20ram%20fragmentation%20model%2020%20years%20on.pdf
 3. Mutinda et al. (2021). Prediction of rock fragmentation using the KCO model. JSAIMM 121(3).
    https://doi.org/10.17159/2411-9717/1401/2021
 4. Ouchterlony, F. & Sanchidrián, J. A. (2019). A review of development of better prediction equations for blast
@@ -188,7 +190,7 @@ From the project's validation rules ([quality and validation](../architecture/qu
 7. Siskind, D. E., Stagg, M. S., Kopp, J. W. & Dowding, C. H. (1980). USBM RI 8507.
    https://www.osti.gov/biblio/6777883
 8. 30 CFR § 816.67 — Use of explosives: control of adverse effects. https://www.law.cornell.edu/cfr/text/30/816.67
-9. Szendrei, T. & Tose, S. (2023). Flyrock in surface mining — limitations of predictive models. JSAIMM
+9. Szendrei, T. & Tose, S. (2022). Flyrock in surface mining — limitations of predictive models. JSAIMM
    122(12):725–732 (CC BY). https://doi.org/10.17159/2411-9717/1873/2022
 10. Bajpayee, T. S., Lobb, T. E. & Verakis, H. C. (2004). An analysis and prevention of flyrock accidents in surface
     blasting operations (NIOSH). https://stacks.cdc.gov/view/cdc/220760

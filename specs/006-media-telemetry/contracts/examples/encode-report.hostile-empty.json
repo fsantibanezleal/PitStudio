@@ -1,0 +1,17 @@
+{
+  "kind": "encode-report",
+  "schema_version": "1.0",
+  "run_id": "20261007T133000Z-c2-replay",
+  "stage": {
+    "id": "st56_encode"
+  },
+  "vmaf_model": "vmaf_v0.6.1",
+  "targets": {
+    "vmaf_mean_min": 93,
+    "vmaf_p5_min": 85,
+    "relaxed_vmaf_mean_floor": 80,
+    "pair_bytes_max": 25000000,
+    "poster_bytes_max": 150000
+  },
+  "clips": []
+}

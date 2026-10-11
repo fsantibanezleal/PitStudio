@@ -1,0 +1,925 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/physics-field.schema.json",
+  "title": "Physics field store metadata",
+  "description": "Root-group attributes of a Zarr v3 field store (grid, CRS record, time axis, variables with units) written by st50_physics or supplied as a wind field (DC-005-02, spec 005-physics).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "schema_version",
+    "field_set",
+    "grid",
+    "crs",
+    "time",
+    "variables"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "kind": {
+      "const": "physics-field"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "field_set": {
+      "description": "shallow-water state, C2 maps (FR-005-30), dust concentration or deposition, wind field (FR-005-33), particle state",
+      "enum": [
+        "swe-state",
+        "c2-maps",
+        "dust-concentration",
+        "dust-deposition",
+        "wind",
+        "particle-state"
+      ]
+    },
+    "scenario": {
+      "$ref": "#/$defs/slug"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "solver": {
+      "$ref": "physics-scenario.schema.json#/$defs/solver"
+    },
+    "solver_version": {
+      "$ref": "#/$defs/version"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "source": {
+      "description": "origin of a supplied wind field",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 300
+    },
+    "grid": {
+      "$ref": "#/$defs/grid"
+    },
+    "crs": {
+      "$ref": "#/$defs/crs"
+    },
+    "time": {
+      "$ref": "#/$defs/time_axis"
+    },
+    "variables": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "$ref": "#/$defs/variable"
+      }
+    },
+    "h_thr_m": {
+      "description": "depth threshold of the C2 maps (FR-005-30, default 0.05 m)",
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 100
+    },
+    "inundated_area_m2": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100000000000.0
+    },
+    "inputs": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/input"
+      }
+    },
+    "stamp": {
+      "$ref": "physics-benchmark-report.schema.json#/$defs/stamp"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "field_set": {
+            "const": "wind"
+          }
+        },
+        "required": [
+          "field_set"
+        ]
+      },
+      "then": {
+        "required": [
+          "source"
+        ],
+        "properties": {
+          "variables": {
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "wind_u"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "wind_v"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "scenario",
+          "solver",
+          "solver_version",
+          "seed",
+          "stamp"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "field_set": {
+            "const": "c2-maps"
+          }
+        },
+        "required": [
+          "field_set"
+        ]
+      },
+      "then": {
+        "required": [
+          "h_thr_m",
+          "inundated_area_m2"
+        ],
+        "properties": {
+          "solver": {
+            "const": "swe"
+          },
+          "grid": {
+            "properties": {
+              "kind": {
+                "const": "regular-2d"
+              }
+            }
+          },
+          "time": {
+            "properties": {
+              "mode": {
+                "const": "reduced"
+              }
+            }
+          },
+          "variables": {
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "arrival_time"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "max_depth"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "max_speed"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "field_set": {
+            "const": "particle-state"
+          }
+        },
+        "required": [
+          "field_set"
+        ]
+      },
+      "then": {
+        "properties": {
+          "grid": {
+            "properties": {
+              "kind": {
+                "const": "particles"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "grid": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "regular-2d",
+                  "regular-3d"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "grid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "shape"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "regular-2d",
+            "regular-3d",
+            "particles"
+          ]
+        },
+        "shape": {
+          "description": "spatial shape: (y, x), (z, y, x) or (particle)",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000000
+          }
+        },
+        "cell_size_m": {
+          "description": "horizontal cell size",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "cell_height_m": {
+          "description": "vertical cell size of a 3-D grid",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "origin_m": {
+          "description": "site-local (x, y) or (x, y, z) of the first cell centre",
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "items": {
+            "type": "number",
+            "minimum": -100000,
+            "maximum": 100000
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "regular-2d"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "cell_size_m",
+              "origin_m"
+            ],
+            "properties": {
+              "shape": {
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "maximum": 16384
+                }
+              },
+              "origin_m": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "regular-3d"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "cell_size_m",
+              "cell_height_m",
+              "origin_m"
+            ],
+            "properties": {
+              "shape": {
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                  "maximum": 16384
+                }
+              },
+              "origin_m": {
+                "minItems": 3,
+                "maxItems": 3
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "particles"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "shape": {
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "crs": {
+      "description": "site-local frame (x east, y north, z up, metres) relative to the site origin of the scene (DC-004-01, DC-004-03), or the local frame of a synthetic benchmark",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame"
+      ],
+      "properties": {
+        "frame": {
+          "enum": [
+            "site-enu",
+            "benchmark-local"
+          ]
+        },
+        "origin": {
+          "$ref": "scene-spec.schema.json#/$defs/site_origin"
+        },
+        "source": {
+          "description": "CRS record of the terrain inputs, copied from the terrain grid",
+          "$ref": "terrain-grid.schema.json#/$defs/crs_record"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "frame": {
+                "const": "site-enu"
+              }
+            },
+            "required": [
+              "frame"
+            ]
+          },
+          "then": {
+            "required": [
+              "origin"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "frame": {
+                "const": "benchmark-local"
+              }
+            },
+            "required": [
+              "frame"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "origin"
+                  ]
+                },
+                {
+                  "required": [
+                    "source"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "time_axis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "description": "series: a time dimension; reduced: maps over [start_s, end_s]; static: time-invariant",
+          "enum": [
+            "series",
+            "reduced",
+            "static"
+          ]
+        },
+        "start_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "end_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "step_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "series"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "start_s",
+              "step_s",
+              "count"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "reduced"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "start_s",
+              "end_s"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "step_s"
+                  ]
+                },
+                {
+                  "required": [
+                    "count"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "static"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "start_s"
+                  ]
+                },
+                {
+                  "required": [
+                    "end_s"
+                  ]
+                },
+                {
+                  "required": [
+                    "step_s"
+                  ]
+                },
+                {
+                  "required": [
+                    "count"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "variable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "unit",
+        "dtype",
+        "dims"
+      ],
+      "properties": {
+        "name": {
+          "enum": [
+            "depth",
+            "momentum_x",
+            "momentum_y",
+            "velocity_x",
+            "velocity_y",
+            "velocity_z",
+            "bed_elevation",
+            "arrival_time",
+            "max_depth",
+            "max_speed",
+            "concentration",
+            "deposition",
+            "wind_u",
+            "wind_v",
+            "wind_w",
+            "position_x",
+            "position_y",
+            "position_z",
+            "radius",
+            "mass",
+            "particle_id"
+          ]
+        },
+        "unit": {
+          "$ref": "physics-observables.schema.json#/$defs/unit"
+        },
+        "dtype": {
+          "enum": [
+            "float32",
+            "float64",
+            "int32",
+            "int64",
+            "uint32",
+            "uint8"
+          ]
+        },
+        "dims": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "time",
+              "z",
+              "y",
+              "x",
+              "particle"
+            ]
+          }
+        },
+        "fill_value": {
+          "description": "Zarr v3 JSON fill value; NaN marks never-reached cells of arrival_time",
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "enum": [
+                "NaN"
+              ]
+            }
+          ]
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 200
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "enum": [
+                  "depth",
+                  "bed_elevation",
+                  "max_depth",
+                  "position_x",
+                  "position_y",
+                  "position_z",
+                  "radius"
+                ]
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "m"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "enum": [
+                  "momentum_x",
+                  "momentum_y"
+                ]
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "m2/s"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "enum": [
+                  "velocity_x",
+                  "velocity_y",
+                  "velocity_z",
+                  "max_speed",
+                  "wind_u",
+                  "wind_v",
+                  "wind_w"
+                ]
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "m/s"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "arrival_time"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "s"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "concentration"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "kg/m3"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "deposition"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "kg/m2"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "mass"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "kg"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "particle_id"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "1"
+              },
+              "dtype": {
+                "enum": [
+                  "int32",
+                  "int64",
+                  "uint32"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "terrain-grid",
+            "wind-field",
+            "initial-state"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    }
+  }
+}

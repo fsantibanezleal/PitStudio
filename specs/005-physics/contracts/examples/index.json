@@ -1,0 +1,1045 @@
+{
+  "spec": "005-physics",
+  "examples": [
+    {
+      "file": "physics-scenario.valid.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "DEM repose benchmark on the GPU with a reduced Young's modulus"
+    },
+    {
+      "file": "physics-scenario.valid-swe.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Ritter dry-bed dam break on Warp CPU, CFL step"
+    },
+    {
+      "file": "physics-scenario.valid-dust.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "dust-release parity-golden scenario at the twin cap of 2 x 10^4 particles"
+    },
+    {
+      "file": "physics-scenario.valid-vehicles.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "steady-speed and energy benchmarks of the reduced-order truck model"
+    },
+    {
+      "file": "physics-scenario.valid-production.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "production Newton implicit MPM pile scenario with every solver parameter explicit"
+    },
+    {
+      "file": "physics-scenario.hostile-unknown-enum.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (solver)",
+      "rule": "FR-005-51",
+      "pointer": "/solver",
+      "keyword": "enum"
+    },
+    {
+      "file": "physics-scenario.hostile-unknown-benchmark.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (benchmark)",
+      "rule": "FR-005-51",
+      "pointer": "/benchmarks/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "physics-scenario.hostile-conditional-benchmark-solver.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "benchmark of another solver",
+      "rule": "FR-005-51",
+      "pointer": "/benchmarks/0",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-scenario.hostile-out-of-range.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "material value out of domain (nu not in (-1, 0.5))",
+      "rule": "FR-005-51",
+      "pointer": "/materials/0/poisson_ratio/value",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "physics-scenario.hostile-missing-status.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "material value without verification status",
+      "rule": "FR-005-12",
+      "pointer": "/materials/0/restitution",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-scenario.hostile-conditional-verified-source.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "verified value without citation",
+      "rule": "FR-005-12",
+      "pointer": "/materials/0/friction_static",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-scenario.hostile-conditional-reduced-modulus.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "reduced Young's modulus without the real value",
+      "rule": "FR-005-09",
+      "pointer": "/materials/0",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-scenario.hostile-wrong-unit.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit (MPa field name)",
+      "rule": "FR-005-51",
+      "pointer": "/materials/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "physics-scenario.hostile-out-of-range-time-step.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range time step (dt <= 0)",
+      "rule": "FR-005-08",
+      "pointer": "/time_step/dt_s",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "physics-scenario.hostile-oversized.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized particle count",
+      "rule": "FR-005-51",
+      "pointer": "/counts/particles",
+      "keyword": "maximum"
+    },
+    {
+      "file": "physics-scenario.hostile-empty.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty benchmark list of a benchmark scenario",
+      "rule": "FR-005-47",
+      "pointer": "/benchmarks",
+      "keyword": "minItems"
+    },
+    {
+      "file": "physics-scenario.hostile-path-traversal.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal in an id",
+      "rule": "FR-005-51",
+      "pointer": "/scenario",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-scenario.hostile-wrong-type.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (float seed)",
+      "rule": "FR-005-51",
+      "pointer": "/seed",
+      "keyword": "type"
+    },
+    {
+      "file": "physics-scenario.hostile-conditional-deterministic.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Warp benchmark outside deterministic mode",
+      "rule": "FR-005-48",
+      "pointer": "/deterministic",
+      "keyword": "const"
+    },
+    {
+      "file": "physics-scenario.hostile-out-of-range-cfl.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range time step (C_CFL > 0.5)",
+      "rule": "FR-005-32",
+      "pointer": "/swe/cfl",
+      "keyword": "maximum"
+    },
+    {
+      "file": "physics-scenario.hostile-negative-depth.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative initial depth",
+      "rule": "FR-005-32",
+      "pointer": "/swe/depth_right_m",
+      "keyword": "minimum"
+    },
+    {
+      "file": "physics-scenario.hostile-conditional-solver-block.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "solver without its parameter block",
+      "rule": "FR-005-51",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-scenario.hostile-conditional-twin-size.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "parity scenario above the browser-twin particle cap",
+      "rule": "FR-005-22",
+      "pointer": "/counts/particles",
+      "keyword": "maximum"
+    },
+    {
+      "file": "physics-scenario.hostile-out-of-range-diffusivity.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative diffusivity K",
+      "rule": "FR-005-39",
+      "pointer": "/dust/diffusivity_m2_s",
+      "keyword": "minimum"
+    },
+    {
+      "file": "physics-scenario.hostile-negative-emission.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative emission",
+      "rule": "FR-005-39",
+      "pointer": "/dust/sources/0/mass_kg",
+      "keyword": "minimum"
+    },
+    {
+      "file": "physics-scenario.hostile-out-of-range-efficiency.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "drivetrain efficiency outside (0, 1]",
+      "rule": "FR-005-44",
+      "pointer": "/vehicle_cards/0/efficiency/value",
+      "keyword": "maximum"
+    },
+    {
+      "file": "physics-scenario.hostile-out-of-range-grade.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "grade magnitude above 30 %",
+      "rule": "FR-005-44",
+      "pointer": "/geometry/grade_pct",
+      "keyword": "maximum"
+    },
+    {
+      "file": "physics-scenario.hostile-missing-required.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Newton MPM parameter left to the library default",
+      "rule": "FR-005-16",
+      "pointer": "/mpm_newton",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-scenario.hostile-conditional-production-benchmarks.json",
+      "schema": "physics-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "production scenario declaring benchmarks",
+      "rule": "FR-005-47",
+      "pointer": "/benchmarks",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "physics-benchmark-report.valid.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "GPU report with a hand-calculation row and an UNVERIFIED material-card target"
+    },
+    {
+      "file": "physics-benchmark-report.valid-cpu.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "CPU report: a passing CPU row and a GPU-only row marked not run (no GPU)"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-unknown-enum.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (verdict)",
+      "rule": "FR-005-47",
+      "pointer": "/rows/0/verdict",
+      "keyword": "enum"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-unknown-benchmark.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (benchmark)",
+      "rule": "FR-005-47",
+      "pointer": "/rows/0/benchmark",
+      "keyword": "enum"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-conditional-not-run-reason.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not run without a reason",
+      "rule": "FR-005-47",
+      "pointer": "/rows/1",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-conditional-gpu-only-on-cpu.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "GPU-only benchmark reported pass on a CPU run",
+      "rule": "FR-005-49",
+      "pointer": "/rows/1/verdict",
+      "keyword": "const"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-conditional-pass-without-checks.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "verdict without any measured check",
+      "rule": "FR-005-47",
+      "pointer": "/rows/0/checks",
+      "keyword": "minItems"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-missing-status.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oracle target without verification status",
+      "rule": "FR-005-12",
+      "pointer": "/rows/1/oracle",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-out-of-range.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative tolerance",
+      "rule": "FR-005-47",
+      "pointer": "/rows/1/checks/0/tolerance/value",
+      "keyword": "minimum"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-conditional-tolerance.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "interval tolerance without bounds",
+      "rule": "FR-005-47",
+      "pointer": "/rows/1/checks/0/tolerance",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-malformed-digest.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (63 hex characters)",
+      "rule": "FR-005-47",
+      "pointer": "/rows/1/material/card_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-wrong-unit.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown unit",
+      "rule": "FR-005-47",
+      "pointer": "/rows/1/checks/0/unit",
+      "keyword": "enum"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-oversized.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized string",
+      "rule": "DC-005-05",
+      "pointer": "/device/name",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-unknown-field.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "DC-005-05",
+      "pointer": "/rows/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "physics-benchmark-report.hostile-empty.json",
+      "schema": "physics-benchmark-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty report",
+      "rule": "FR-005-47",
+      "pointer": "/rows",
+      "keyword": "minItems"
+    },
+    {
+      "file": "physics-observables.valid.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "DEM repose run: Rayleigh step, reduced modulus, particle and mass budget"
+    },
+    {
+      "file": "physics-observables.valid-swe.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "shallow-water dam break: CFL step range and volume budget"
+    },
+    {
+      "file": "physics-observables.hostile-wrong-unit.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit of the time column",
+      "rule": "FR-005-46",
+      "pointer": "/columns/0/unit",
+      "keyword": "const"
+    },
+    {
+      "file": "physics-observables.hostile-unknown-unit.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown unit",
+      "rule": "FR-005-46",
+      "pointer": "/columns/6/unit",
+      "keyword": "enum"
+    },
+    {
+      "file": "physics-observables.hostile-missing-budget-column.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no mass budget series",
+      "rule": "FR-005-46",
+      "pointer": "/columns",
+      "keyword": "contains"
+    },
+    {
+      "file": "physics-observables.hostile-conditional-rayleigh.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "DEM run without its Rayleigh step",
+      "rule": "FR-005-46",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-observables.hostile-conditional-budget.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "shallow-water budget not a volume budget",
+      "rule": "FR-005-28",
+      "pointer": "/budget",
+      "keyword": "const"
+    },
+    {
+      "file": "physics-observables.hostile-unknown-field.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "DC-005-03",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "physics-observables.hostile-empty.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty column list",
+      "rule": "FR-005-46",
+      "pointer": "/columns",
+      "keyword": "minItems"
+    },
+    {
+      "file": "physics-observables.hostile-bad-pattern.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "column name outside the key pattern",
+      "rule": "FR-005-46",
+      "pointer": "/columns/6/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-observables.hostile-out-of-range.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range time step",
+      "rule": "FR-005-46",
+      "pointer": "/dt_s",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "physics-observables.hostile-unknown-enum.json",
+      "schema": "physics-observables.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (dtype)",
+      "rule": "FR-005-46",
+      "pointer": "/columns/5/dtype",
+      "keyword": "enum"
+    },
+    {
+      "file": "physics-field.valid.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "C2 maps over the real pit: arrival time, maximum depth and speed, inundated area"
+    },
+    {
+      "file": "physics-field.valid-wind.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "supplied static 3-D wind field for the dust model"
+    },
+    {
+      "file": "physics-field.valid-swe-state.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "shallow-water state series of a synthetic benchmark in its local frame"
+    },
+    {
+      "file": "physics-field.hostile-wrong-unit.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit (maximum depth in m/s)",
+      "rule": "FR-005-46",
+      "pointer": "/variables/1/unit",
+      "keyword": "const"
+    },
+    {
+      "file": "physics-field.hostile-wrong-shape.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong shape (3 axes on a 2-D grid)",
+      "rule": "FR-005-32",
+      "pointer": "/grid/shape",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "physics-field.hostile-unknown-enum.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (dtype)",
+      "rule": "FR-005-46",
+      "pointer": "/variables/0/dtype",
+      "keyword": "enum"
+    },
+    {
+      "file": "physics-field.hostile-conditional-c2-threshold.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "C2 maps without their depth threshold",
+      "rule": "FR-005-30",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-field.hostile-conditional-c2-variables.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "C2 maps without the maximum-speed map",
+      "rule": "FR-005-30",
+      "pointer": "/variables",
+      "keyword": "contains"
+    },
+    {
+      "file": "physics-field.hostile-conditional-wind-variables.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wind field without a horizontal component",
+      "rule": "FR-005-39",
+      "pointer": "/variables",
+      "keyword": "contains"
+    },
+    {
+      "file": "physics-field.hostile-out-of-range.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "zero cell size",
+      "rule": "FR-005-32",
+      "pointer": "/grid/cell_size_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "physics-field.hostile-out-of-range-origin.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "grid origin outside the site-local offset bound",
+      "rule": "FR-005-46",
+      "pointer": "/grid/origin_m/0",
+      "keyword": "minimum"
+    },
+    {
+      "file": "physics-field.hostile-path-traversal.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-005-46",
+      "pointer": "/inputs/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-field.hostile-absolute-path.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-005-46",
+      "pointer": "/inputs/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-field.hostile-empty.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no variables",
+      "rule": "FR-005-46",
+      "pointer": "/variables",
+      "keyword": "minItems"
+    },
+    {
+      "file": "physics-field.hostile-malformed-digest.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (uppercase)",
+      "rule": "FR-005-46",
+      "pointer": "/inputs/0/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-field.hostile-conditional-crs-origin.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "site-local frame without its origin",
+      "rule": "FR-005-46",
+      "pointer": "/crs",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-field.hostile-wrong-type.json",
+      "schema": "physics-field.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (fractional cell count)",
+      "rule": "FR-005-32",
+      "pointer": "/grid/shape/0",
+      "keyword": "type"
+    },
+    {
+      "file": "physics-parity-golden.valid.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "DEM pile golden for the granular twin"
+    },
+    {
+      "file": "physics-parity-golden.valid-swe.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "shallow-water dam-break golden with a discharge series"
+    },
+    {
+      "file": "physics-parity-golden.hostile-conditional-deterministic.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "golden produced outside Warp's deterministic mode",
+      "rule": "FR-005-22",
+      "pointer": "/scenario/deterministic",
+      "keyword": "const"
+    },
+    {
+      "file": "physics-parity-golden.hostile-out-of-range.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "golden mass drift above the solver's conservation bound",
+      "rule": "FR-005-22",
+      "pointer": "/observables/mass_drift_rel",
+      "keyword": "maximum"
+    },
+    {
+      "file": "physics-parity-golden.hostile-absolute-path.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-005-22",
+      "pointer": "/initial_state/file",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-parity-golden.hostile-path-traversal.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-005-22",
+      "pointer": "/initial_state/file",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-parity-golden.hostile-unknown-enum.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (engine)",
+      "rule": "FR-005-22",
+      "pointer": "/engine",
+      "keyword": "enum"
+    },
+    {
+      "file": "physics-parity-golden.hostile-conditional-twin-observable.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "DEM pile golden without its repose angle",
+      "rule": "FR-005-22",
+      "pointer": "/observables",
+      "keyword": "required"
+    },
+    {
+      "file": "physics-parity-golden.hostile-conditional-scenario-kind.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "golden from a non-parity scenario",
+      "rule": "FR-005-22",
+      "pointer": "/scenario/kind",
+      "keyword": "const"
+    },
+    {
+      "file": "physics-parity-golden.hostile-conditional-twin-mismatch.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "scenario twin not equal to the golden's twin",
+      "rule": "FR-005-22",
+      "pointer": "/scenario/twin",
+      "keyword": "const"
+    },
+    {
+      "file": "physics-parity-golden.hostile-malformed-digest.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (prefixed)",
+      "rule": "FR-005-22",
+      "pointer": "/outputs_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "physics-parity-golden.hostile-oversized.json",
+      "schema": "physics-parity-golden.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized initial state",
+      "rule": "FR-005-22",
+      "pointer": "/initial_state/bytes",
+      "keyword": "maximum"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "non-finite number (NaN, Infinity) in any parameter",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "YAML anchors, tags, several documents or duplicate keys in the recipe",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "recipe params larger than 65,536 canonical bytes",
+      "by": "loader",
+      "rule": "FR-001-23"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "solver block naming a material or vehicle card that is not in the scenario, or a card of the wrong model",
+      "by": "checker",
+      "rule": "FR-005-51"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "two material or vehicle cards with the same id",
+      "by": "checker",
+      "rule": "FR-005-51"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "particle or cell count above the profile's VRAM maximum",
+      "by": "checker",
+      "rule": "FR-005-51"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "time step above f_R x the Rayleigh step of the smallest particle",
+      "by": "checker",
+      "rule": "FR-005-08"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "dust particle outside the Stokes regime (Re >= 1)",
+      "by": "checker",
+      "rule": "FR-005-39"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "reduced Young's modulus not below the real value",
+      "by": "checker",
+      "rule": "FR-005-09"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "production scenario without a passing benchmark report of its solver version and card",
+      "by": "checker",
+      "rule": "FR-005-47"
+    },
+    {
+      "schema": "physics-scenario.schema.json",
+      "class": "domain_min_m not below domain_max_m on every axis; dust source end_s not after start_s",
+      "by": "checker",
+      "rule": "-",
+      "note": "no FR rejects an inverted box or time window; reported as a gap"
+    },
+    {
+      "schema": "physics-benchmark-report.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "physics-benchmark-report.schema.json",
+      "class": "verdict pass while a check fails, or fail while every check passes",
+      "by": "checker",
+      "rule": "FR-005-47"
+    },
+    {
+      "schema": "physics-benchmark-report.schema.json",
+      "class": "check pass flag not equal to the recomputed comparison of measured, oracle and tolerance",
+      "by": "checker",
+      "rule": "FR-005-47"
+    },
+    {
+      "schema": "physics-benchmark-report.schema.json",
+      "class": "benchmark id prefix not equal to the row's solver",
+      "by": "checker",
+      "rule": "FR-005-47"
+    },
+    {
+      "schema": "physics-benchmark-report.schema.json",
+      "class": "two rows for the same benchmark, solver version and material card",
+      "by": "checker",
+      "rule": "FR-005-47"
+    },
+    {
+      "schema": "physics-benchmark-report.schema.json",
+      "class": "card_sha256 not equal to the digest of the scenario's card; stamp report_sha256 not equal to the report file digest",
+      "by": "checker",
+      "rule": "FR-005-47"
+    },
+    {
+      "schema": "physics-benchmark-report.schema.json",
+      "class": "Warp solver with rows but no overhead factor",
+      "by": "checker",
+      "rule": "NFR-005-05"
+    },
+    {
+      "schema": "physics-benchmark-report.schema.json",
+      "class": "reduced Young's modulus used without both values on the row",
+      "by": "checker",
+      "rule": "FR-005-09"
+    },
+    {
+      "schema": "physics-observables.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "physics-observables.schema.json",
+      "class": "described columns, units and dtypes not equal to the Parquet schema and its column metadata, or rows not equal to the row count",
+      "by": "checker",
+      "rule": "FR-005-46"
+    },
+    {
+      "schema": "physics-observables.schema.json",
+      "class": "two columns with the same name",
+      "by": "checker",
+      "rule": "FR-005-46"
+    },
+    {
+      "schema": "physics-observables.schema.json",
+      "class": "budget series that does not close (counts, mass, volume, energy)",
+      "by": "checker",
+      "rule": "FR-005-15"
+    },
+    {
+      "schema": "physics-observables.schema.json",
+      "class": "reduced Young's modulus used by the scenario but youngs_modulus absent",
+      "by": "checker",
+      "rule": "FR-005-09"
+    },
+    {
+      "schema": "physics-observables.schema.json",
+      "class": "solver_version not equal to the version in studio/uv.lock",
+      "by": "checker",
+      "rule": "FR-005-46"
+    },
+    {
+      "schema": "physics-field.schema.json",
+      "class": "non-finite number in the metadata",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "physics-field.schema.json",
+      "class": "NaN or infinity in the depth, terrain or wind arrays",
+      "by": "checker",
+      "rule": "FR-005-32",
+      "note": "array data, checked before any kernel launch (wind: FR-005-39)"
+    },
+    {
+      "schema": "physics-field.schema.json",
+      "class": "array shapes and dims in the store not equal to grid.shape, the time axis and the declared dims, or depth and terrain grids differing in shape or cell size",
+      "by": "checker",
+      "rule": "FR-005-32"
+    },
+    {
+      "schema": "physics-field.schema.json",
+      "class": "wind grid not matching the declared grid shape",
+      "by": "checker",
+      "rule": "FR-005-39"
+    },
+    {
+      "schema": "physics-field.schema.json",
+      "class": "two variables with the same name",
+      "by": "checker",
+      "rule": "FR-005-46"
+    },
+    {
+      "schema": "physics-field.schema.json",
+      "class": "inundated_area_m2 not equal to the cell count with max_depth > h_thr_m times the cell area",
+      "by": "checker",
+      "rule": "FR-005-30"
+    },
+    {
+      "schema": "physics-field.schema.json",
+      "class": "input digests not equal to the input files; stamp of a production rollout not a passing report",
+      "by": "checker",
+      "rule": "FR-005-47"
+    },
+    {
+      "schema": "physics-parity-golden.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "physics-parity-golden.schema.json",
+      "class": "scenario_sha256 not equal to the RFC 8785 digest of scenario",
+      "by": "checker",
+      "rule": "FR-005-22"
+    },
+    {
+      "schema": "physics-parity-golden.schema.json",
+      "class": "initial-state sha256 or bytes not equal to the file, or bytes not equal to items x the layout stride",
+      "by": "checker",
+      "rule": "FR-005-22"
+    },
+    {
+      "schema": "physics-parity-golden.schema.json",
+      "class": "initial_state.items not equal to the scenario's particle or cell count",
+      "by": "checker",
+      "rule": "FR-005-22"
+    },
+    {
+      "schema": "physics-parity-golden.schema.json",
+      "class": "discharge t_s and values of different lengths, or t_s not increasing",
+      "by": "checker",
+      "rule": "FR-005-22"
+    },
+    {
+      "schema": "physics-parity-golden.schema.json",
+      "class": "outputs_sha256 not reproduced by a re-run on the same device",
+      "by": "checker",
+      "rule": "FR-005-48"
+    }
+  ]
+}

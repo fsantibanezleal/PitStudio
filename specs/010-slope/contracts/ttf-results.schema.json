@@ -1,0 +1,1064 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/ttf-results.schema.json",
+  "title": "C1 time-to-failure results",
+  "description": "Time-to-failure results of s50_evaluate for case C1 (per event, method and cut-off; summaries; SC-010-01 statements; paired comparisons with inverse velocity; the descriptive real-event block without intervals; the S4b block) (DC-010-03, spec 010-slope).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "snr_basis",
+    "t_alarm_h",
+    "horizon_cap_steps",
+    "events",
+    "alarms",
+    "summary",
+    "alarm_summary",
+    "acceptance",
+    "comparisons",
+    "multiplicity",
+    "real_event"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "snr_basis": {
+      "enum": [
+        "observed",
+        "nominal"
+      ]
+    },
+    "snr_obs": {
+      "$ref": "#/$defs/snr"
+    },
+    "t_alarm_h": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 8760
+    },
+    "horizon_cap_steps": {
+      "const": 1024
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": {
+        "$ref": "#/$defs/event_result"
+      }
+    },
+    "alarms": {
+      "type": "array",
+      "maxItems": 50000,
+      "items": {
+        "$ref": "#/$defs/alarm"
+      }
+    },
+    "summary": {
+      "type": "array",
+      "maxItems": 500,
+      "items": {
+        "$ref": "#/$defs/summary"
+      }
+    },
+    "alarm_summary": {
+      "type": "array",
+      "maxItems": 500,
+      "items": {
+        "$ref": "#/$defs/alarm_summary"
+      }
+    },
+    "acceptance": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/acceptance"
+      }
+    },
+    "comparisons": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/comparison"
+      }
+    },
+    "multiplicity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "comparisons",
+        "family_wise_claim"
+      ],
+      "properties": {
+        "comparisons": {
+          "const": 8
+        },
+        "family_wise_claim": {
+          "const": false
+        }
+      }
+    },
+    "real_event": {
+      "$ref": "#/$defs/real_event"
+    },
+    "s4b": {
+      "type": "array",
+      "maxItems": 500,
+      "items": {
+        "$ref": "#/$defs/s4b"
+      }
+    }
+  },
+  "if": {
+    "properties": {
+      "snr_basis": {
+        "const": "observed"
+      }
+    },
+    "required": [
+      "snr_basis"
+    ]
+  },
+  "then": {
+    "required": [
+      "snr_obs"
+    ]
+  },
+  "else": {
+    "not": {
+      "required": [
+        "snr_obs"
+      ]
+    },
+    "properties": {
+      "acceptance": {
+        "items": {
+          "properties": {
+            "verdict": {
+              "const": "not run"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "time_h": {
+      "type": "number",
+      "minimum": -10000000,
+      "maximum": 10000000
+    },
+    "duration_h": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10000000
+    },
+    "signed_h": {
+      "type": "number",
+      "minimum": -10000000,
+      "maximum": 10000000
+    },
+    "rel_error": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1000000
+    },
+    "snr": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1000000000
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "method": {
+      "enum": [
+        "inverse_velocity",
+        "bayesian_ttf",
+        "tcn",
+        "patchtst",
+        "chronos_bolt_zero_shot",
+        "chronos_bolt_fine_tuned"
+      ]
+    },
+    "learned_method": {
+      "enum": [
+        "tcn",
+        "patchtst",
+        "chronos_bolt_zero_shot",
+        "chronos_bolt_fine_tuned"
+      ]
+    },
+    "cutoff": {
+      "enum": [
+        0.5,
+        0.8
+      ]
+    },
+    "stratum": {
+      "enum": [
+        "snr_obs",
+        "half_snr_obs",
+        "double_snr_obs",
+        "snr_obs_atmospheric",
+        "nominal_10",
+        "nominal_30",
+        "nominal_100"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "better",
+        "worse",
+        "no significant difference"
+      ]
+    },
+    "time_interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lower_h",
+        "upper_h"
+      ],
+      "properties": {
+        "lower_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "upper_h": {
+          "$ref": "#/$defs/time_h"
+        }
+      }
+    },
+    "rel_interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "properties": {
+        "lower": {
+          "$ref": "#/$defs/rel_error"
+        },
+        "upper": {
+          "$ref": "#/$defs/rel_error"
+        }
+      }
+    },
+    "difference_interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "properties": {
+        "lower": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "upper": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        }
+      }
+    },
+    "event_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "stratum",
+        "method",
+        "cutoff",
+        "t_c_h",
+        "t_f_h",
+        "outcome"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "stratum": {
+          "$ref": "#/$defs/stratum"
+        },
+        "method": {
+          "$ref": "#/$defs/method"
+        },
+        "cutoff": {
+          "$ref": "#/$defs/cutoff"
+        },
+        "t_c_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "t_f_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "outcome": {
+          "enum": [
+            "predicted",
+            "no failure predicted",
+            "no forecast"
+          ]
+        },
+        "t_hat_f_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "interval_80_h": {
+          "$ref": "#/$defs/time_interval"
+        },
+        "rel_error": {
+          "$ref": "#/$defs/rel_error"
+        },
+        "error_h": {
+          "$ref": "#/$defs/signed_h"
+        },
+        "scored_at_cap": {
+          "type": "boolean"
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "no forecast"
+              }
+            },
+            "required": [
+              "outcome"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "t_hat_f_h"
+                  ]
+                },
+                {
+                  "required": [
+                    "interval_80_h"
+                  ]
+                },
+                {
+                  "required": [
+                    "rel_error"
+                  ]
+                },
+                {
+                  "required": [
+                    "error_h"
+                  ]
+                },
+                {
+                  "required": [
+                    "scored_at_cap"
+                  ]
+                }
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "t_hat_f_h",
+              "rel_error",
+              "error_h",
+              "scored_at_cap"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "no failure predicted"
+              }
+            },
+            "required": [
+              "outcome"
+            ]
+          },
+          "then": {
+            "properties": {
+              "scored_at_cap": {
+                "const": true
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "predicted"
+              }
+            },
+            "required": [
+              "outcome"
+            ]
+          },
+          "then": {
+            "properties": {
+              "scored_at_cap": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "method": {
+                "const": "inverse_velocity"
+              }
+            },
+            "required": [
+              "method"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "interval_80_h"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "alarm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "stratum",
+        "method",
+        "alarmed"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "stratum": {
+          "$ref": "#/$defs/stratum"
+        },
+        "method": {
+          "$ref": "#/$defs/method"
+        },
+        "alarmed": {
+          "type": "boolean"
+        },
+        "alarm_cutoff": {
+          "type": "number",
+          "minimum": 0.3,
+          "maximum": 0.99
+        },
+        "lead_time_h": {
+          "$ref": "#/$defs/duration_h"
+        }
+      },
+      "if": {
+        "properties": {
+          "alarmed": {
+            "const": true
+          }
+        },
+        "required": [
+          "alarmed"
+        ]
+      },
+      "then": {
+        "required": [
+          "alarm_cutoff",
+          "lead_time_h"
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "alarm_cutoff"
+              ]
+            },
+            {
+              "required": [
+                "lead_time_h"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "stratum",
+        "cutoff",
+        "n_events",
+        "median_rel_error",
+        "mean_rel_error",
+        "p90_rel_error",
+        "median_abs_error_h"
+      ],
+      "properties": {
+        "method": {
+          "$ref": "#/$defs/method"
+        },
+        "stratum": {
+          "$ref": "#/$defs/stratum"
+        },
+        "cutoff": {
+          "$ref": "#/$defs/cutoff"
+        },
+        "n_events": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "median_rel_error": {
+          "$ref": "#/$defs/rel_error"
+        },
+        "mean_rel_error": {
+          "$ref": "#/$defs/rel_error"
+        },
+        "p90_rel_error": {
+          "$ref": "#/$defs/rel_error"
+        },
+        "median_abs_error_h": {
+          "$ref": "#/$defs/duration_h"
+        }
+      }
+    },
+    "alarm_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "stratum",
+        "n_events",
+        "never_alarmed_fraction"
+      ],
+      "properties": {
+        "method": {
+          "$ref": "#/$defs/method"
+        },
+        "stratum": {
+          "$ref": "#/$defs/stratum"
+        },
+        "n_events": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "never_alarmed_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "median_lead_time_h": {
+          "$ref": "#/$defs/duration_h"
+        }
+      },
+      "if": {
+        "properties": {
+          "never_alarmed_fraction": {
+            "const": 1
+          }
+        },
+        "required": [
+          "never_alarmed_fraction"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "median_lead_time_h"
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "median_lead_time_h"
+        ]
+      }
+    },
+    "bootstrap_percentile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resamples",
+        "method",
+        "level",
+        "seed"
+      ],
+      "properties": {
+        "resamples": {
+          "const": 10000
+        },
+        "method": {
+          "const": "percentile"
+        },
+        "level": {
+          "const": 0.95
+        },
+        "seed": {
+          "$ref": "#/$defs/seed"
+        }
+      }
+    },
+    "bootstrap_paired": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resamples",
+        "method",
+        "resample_unit",
+        "level",
+        "seed"
+      ],
+      "properties": {
+        "resamples": {
+          "const": 10000
+        },
+        "method": {
+          "const": "paired-percentile"
+        },
+        "resample_unit": {
+          "const": "sorted-event-id"
+        },
+        "level": {
+          "const": 0.95
+        },
+        "seed": {
+          "$ref": "#/$defs/seed"
+        }
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criterion",
+        "method",
+        "cutoff",
+        "stratum",
+        "threshold",
+        "verdict"
+      ],
+      "properties": {
+        "criterion": {
+          "const": "SC-010-01"
+        },
+        "method": {
+          "$ref": "#/$defs/learned_method"
+        },
+        "cutoff": {
+          "$ref": "#/$defs/cutoff"
+        },
+        "stratum": {
+          "const": "snr_obs"
+        },
+        "n_events": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "median_rel_error": {
+          "$ref": "#/$defs/rel_error"
+        },
+        "interval": {
+          "$ref": "#/$defs/rel_interval"
+        },
+        "bootstrap": {
+          "$ref": "#/$defs/bootstrap_percentile"
+        },
+        "threshold": {
+          "const": 0.1
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "not run"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        }
+      },
+      "if": {
+        "properties": {
+          "verdict": {
+            "const": "not run"
+          }
+        },
+        "required": [
+          "verdict"
+        ]
+      },
+      "then": {
+        "required": [
+          "reason"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "median_rel_error"
+              ]
+            },
+            {
+              "required": [
+                "interval"
+              ]
+            }
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "n_events",
+          "median_rel_error",
+          "interval",
+          "bootstrap"
+        ],
+        "not": {
+          "required": [
+            "reason"
+          ]
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline",
+        "method",
+        "cutoff",
+        "stratum",
+        "n_pairs",
+        "mean_difference",
+        "interval",
+        "bootstrap",
+        "verdict"
+      ],
+      "properties": {
+        "baseline": {
+          "const": "inverse_velocity"
+        },
+        "method": {
+          "$ref": "#/$defs/learned_method"
+        },
+        "cutoff": {
+          "$ref": "#/$defs/cutoff"
+        },
+        "stratum": {
+          "const": "snr_obs"
+        },
+        "n_pairs": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 100000
+        },
+        "mean_difference": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "interval": {
+          "$ref": "#/$defs/difference_interval"
+        },
+        "bootstrap": {
+          "$ref": "#/$defs/bootstrap_paired"
+        },
+        "verdict": {
+          "$ref": "#/$defs/verdict"
+        }
+      }
+    },
+    "real_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cutoff",
+        "method",
+        "t_c_h",
+        "outcome"
+      ],
+      "properties": {
+        "cutoff": {
+          "$ref": "#/$defs/cutoff"
+        },
+        "method": {
+          "$ref": "#/$defs/method"
+        },
+        "t_c_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "outcome": {
+          "enum": [
+            "predicted",
+            "no failure predicted",
+            "no forecast",
+            "not run"
+          ]
+        },
+        "t_hat_f_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "signed_error_h": {
+          "$ref": "#/$defs/signed_h"
+        },
+        "error_ratio": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "scored_at_cap": {
+          "type": "boolean"
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        }
+      },
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "no forecast",
+              "not run"
+            ]
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "reason"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "t_hat_f_h"
+              ]
+            },
+            {
+              "required": [
+                "signed_error_h"
+              ]
+            },
+            {
+              "required": [
+                "error_ratio"
+              ]
+            },
+            {
+              "required": [
+                "scored_at_cap"
+              ]
+            }
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "t_hat_f_h",
+          "signed_error_h",
+          "error_ratio",
+          "scored_at_cap"
+        ],
+        "not": {
+          "required": [
+            "reason"
+          ]
+        }
+      }
+    },
+    "real_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "status",
+        "label"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "status": {
+          "enum": [
+            "run",
+            "not run"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "label": {
+          "const": "single real event — no significance test"
+        },
+        "snr_obs": {
+          "$ref": "#/$defs/snr"
+        },
+        "t_0_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "t_f_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 12,
+          "maxItems": 12,
+          "items": {
+            "$ref": "#/$defs/real_row"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "run"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "snr_obs",
+          "t_0_h",
+          "t_f_h",
+          "rows"
+        ],
+        "not": {
+          "required": [
+            "reason"
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "reason"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "rows"
+              ]
+            },
+            {
+              "required": [
+                "snr_obs"
+              ]
+            },
+            {
+              "required": [
+                "t_f_h"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "s4b": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "psi_deg",
+        "cutoff",
+        "method",
+        "series",
+        "n_events",
+        "median_rel_error",
+        "excluded_ambiguous_pixels"
+      ],
+      "properties": {
+        "psi_deg": {
+          "enum": [
+            0,
+            45,
+            70
+          ]
+        },
+        "cutoff": {
+          "$ref": "#/$defs/cutoff"
+        },
+        "method": {
+          "$ref": "#/$defs/method"
+        },
+        "series": {
+          "enum": [
+            "los",
+            "full-vector-noise-free"
+          ]
+        },
+        "n_events": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "median_rel_error": {
+          "$ref": "#/$defs/rel_error"
+        },
+        "excluded_ambiguous_pixels": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      }
+    }
+  }
+}

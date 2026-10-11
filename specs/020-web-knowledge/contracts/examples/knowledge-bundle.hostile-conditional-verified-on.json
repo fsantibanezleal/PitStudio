@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0",
+  "source": {
+    "minephys_version": "0.1.0",
+    "minephys_commit": "89abcdef0123456789abcdef0123456789abcdef",
+    "inputs": [
+      {
+        "path": "docs/reference/glossary.md",
+        "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      {
+        "path": "data/sources.yaml",
+        "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      {
+        "path": "studio/tools.yaml",
+        "sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "id": "diesel_co2_kg_per_us_gal",
+      "module": "haulage",
+      "quantity": "diesel fuel combustion CO2 emission factor",
+      "value": 10.21,
+      "units": "kg CO2 / US gal",
+      "si": {
+        "value": 2697.2,
+        "unit": "kg/m³"
+      },
+      "citation": "epa2025ghghub",
+      "page": "Table 2, p. 2",
+      "verification": "verified",
+      "symbols": [
+        "minephys.haulage.co2_from_diesel"
+      ],
+      "role": "model_constant",
+      "licence": "CC-BY-4.0"
+    },
+    {
+      "id": "kuzram_rock_factor_range",
+      "module": "blasting",
+      "range": {
+        "min": 0.8,
+        "max": 22.0
+      },
+      "units": "1",
+      "si": {
+        "range": {
+          "min": 0.8,
+          "max": 22.0
+        },
+        "unit": "1"
+      },
+      "citation": "cunningham2005",
+      "page": "eq. 4, p. 204",
+      "verification": "UNVERIFIED",
+      "symbols": [
+        "minephys.blasting.kuzram_x50"
+      ],
+      "role": "parameter",
+      "licence": "CC-BY-4.0"
+    },
+    {
+      "id": "beverloo_exponent",
+      "module": "bulk",
+      "value": "5/2",
+      "units": "1",
+      "si": {
+        "value": 2.5,
+        "unit": "1"
+      },
+      "citation": "beverloo1961",
+      "page": "eq. 1",
+      "verification": "UNVERIFIED",
+      "symbols": [
+        "minephys.bulk.beverloo_discharge"
+      ],
+      "role": "model_constant",
+      "licence": "CC-BY-4.0"
+    }
+  ],
+  "equations": [
+    {
+      "id": "bond_specific_energy",
+      "title": "Bond specific energy",
+      "module": "comminution",
+      "latex": "W = 10\\,W_i\\left(\\frac{1}{\\sqrt{P_{80}}} - \\frac{1}{\\sqrt{F_{80}}}\\right)",
+      "symbols": [
+        {
+          "symbol": "W",
+          "meaning": "specific energy",
+          "units": "kWh/t"
+        },
+        {
+          "symbol": "W_i",
+          "meaning": "Bond work index",
+          "units": "kWh/t"
+        },
+        {
+          "symbol": "P_{80}",
+          "meaning": "product 80 % passing size",
+          "units": "µm"
+        },
+        {
+          "symbol": "F_{80}",
+          "meaning": "feed 80 % passing size",
+          "units": "µm"
+        }
+      ],
+      "function": "minephys.comminution.bond_energy",
+      "citation": "bond1961",
+      "page": "eq. 3",
+      "verification": "UNVERIFIED",
+      "rows": [],
+      "theory": {
+        "topic": "comminution",
+        "anchor": "eq-bond"
+      },
+      "engine": {
+        "id": "comminution",
+        "spec": "018-web-cases"
+      }
+    }
+  ],
+  "glossary": [
+    {
+      "id": "match_factor",
+      "origin": "minephys",
+      "term_en": "Match factor",
+      "term_es": "Factor de acoplamiento",
+      "definition_en": "Ratio of truck arrival rate to shovel service rate.",
+      "definition_es": "Razón entre la tasa de llegada de camiones y la tasa de servicio de la pala.",
+      "citation": "burt2014"
+    },
+    {
+      "id": "ppv",
+      "origin": "docs",
+      "term_en": "Peak particle velocity (PPV)",
+      "term_es": "Velocidad peak de partícula (VPP)",
+      "definition_en": "Peak ground-vibration velocity from blasting.",
+      "definition_es": "Velocidad máxima de vibración del terreno producida por la tronadura."
+    }
+  ],
+  "datasets": [
+    {
+      "id": "usgs-3dep-bingham",
+      "title": "USGS 3DEP lidar DEMs, Bingham Canyon",
+      "kind": "real",
+      "spdx": "LicenseRef-USGov-PD",
+      "redistribution": "redistributable",
+      "landing_url": "https://www.usgs.gov/3d-elevation-program",
+      "card": "data/cards/usgs-3dep-bingham.md"
+    }
+  ],
+  "frameworks": [
+    {
+      "id": "warp",
+      "name": "NVIDIA Warp",
+      "category": "studio-tool",
+      "status": "not-yet-run",
+      "licence_class": "attribution"
+    },
+    {
+      "id": "cuopt",
+      "name": "NVIDIA cuOpt",
+      "category": "studio-tool",
+      "status": "evaluated-not-adopted",
+      "licence_class": "attribution"
+    }
+  ],
+  "bibliography": [
+    {
+      "key": "epa2025ghghub",
+      "entry_type": "techreport",
+      "authors": "US EPA",
+      "title": "GHG Emission Factors Hub",
+      "year": 2025,
+      "url": "https://www.epa.gov/system/files/documents/2025-01/ghg-emission-factors-hub-2025.pdf",
+      "access": "open",
+      "cited_by": {
+        "parameters": [
+          "diesel_co2_kg_per_us_gal"
+        ],
+        "equations": []
+      }
+    },
+    {
+      "key": "cunningham2005",
+      "entry_type": "inproceedings",
+      "authors": "Cunningham, C. V. B.",
+      "title": "The Kuz-Ram fragmentation model - 20 years on",
+      "year": 2005,
+      "url": "https://www.scirp.org/reference/referencespapers?referenceid=4120306",
+      "access": "bibliographic-only",
+      "cited_by": {
+        "parameters": [
+          "kuzram_rock_factor_range"
+        ],
+        "equations": []
+      }
+    },
+    {
+      "key": "ouchterlony2005",
+      "entry_type": "article",
+      "authors": "Ouchterlony, F.",
+      "title": "The Swebrec function: linking fragmentation by blasting and crushing",
+      "year": 2005,
+      "doi": "10.1179/037178405X44539",
+      "access": "paywalled",
+      "cited_by": {
+        "parameters": [],
+        "equations": []
+      }
+    }
+  ]
+}

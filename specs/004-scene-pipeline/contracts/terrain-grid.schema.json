@@ -1,0 +1,564 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/terrain-grid.schema.json",
+  "title": "Site-local terrain grid attributes",
+  "description": "Attributes of the root group of the site-local terrain grid Zarr store written by st10_terrain (DC-004-03, spec 004-scene-pipeline); the arrays are elevation (float32), valid_mask and fill_mask.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "frame",
+    "layout",
+    "up_axis",
+    "horizontal_unit",
+    "vertical_unit",
+    "cell_size_m",
+    "rows",
+    "cols",
+    "x_min_m",
+    "y_max_m",
+    "origin",
+    "crs",
+    "input_kind",
+    "method",
+    "source_ids",
+    "project",
+    "epoch",
+    "arrays",
+    "counts",
+    "nodata_frac",
+    "max_fill_cells",
+    "elevation_range_m",
+    "source_elevation_range_m"
+  ],
+  "properties": {
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "kind": {
+      "const": "terrain-grid"
+    },
+    "frame": {
+      "const": "site-enu",
+      "description": "X east, Y north, Z up, relative to the site origin"
+    },
+    "layout": {
+      "const": "north-up",
+      "description": "row 0 is the northern edge; columns run east"
+    },
+    "up_axis": {
+      "const": "Z"
+    },
+    "horizontal_unit": {
+      "const": "m"
+    },
+    "vertical_unit": {
+      "const": "m"
+    },
+    "cell_size_m": {
+      "type": "number",
+      "minimum": 0.25,
+      "maximum": 10
+    },
+    "rows": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 800000
+    },
+    "cols": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 800000
+    },
+    "x_min_m": {
+      "type": "number",
+      "description": "site-frame coordinate, m (FR-004-02: |offset| <= 1.0e5 m horizontally)",
+      "minimum": -100000,
+      "maximum": 100000
+    },
+    "y_max_m": {
+      "type": "number",
+      "description": "site-frame coordinate, m (FR-004-02: |offset| <= 1.0e5 m horizontally)",
+      "minimum": -100000,
+      "maximum": 100000
+    },
+    "origin": {
+      "$ref": "scene-spec.schema.json#/$defs/site_origin"
+    },
+    "crs": {
+      "$ref": "#/$defs/crs_record"
+    },
+    "input_kind": {
+      "enum": [
+        "dem",
+        "laz"
+      ]
+    },
+    "method": {
+      "enum": [
+        "dem-crop",
+        "laz-ground-mean"
+      ]
+    },
+    "ground_classes": {
+      "type": "array",
+      "description": "ASPRS classes kept (FR-004-04: class 2 only)",
+      "items": {
+        "const": 2
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "source_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/slug"
+      },
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1990,
+      "maximum": 2100
+    },
+    "arrays": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "elevation",
+        "valid_mask",
+        "fill_mask"
+      ],
+      "properties": {
+        "elevation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dtype",
+            "unit",
+            "shape",
+            "chunk_shape",
+            "sha256"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32"
+            },
+            "unit": {
+              "const": "m"
+            },
+            "shape": {
+              "type": "array",
+              "description": "[rows, cols]",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 800000
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "chunk_shape": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "of the uncompressed C-order little-endian array bytes"
+            }
+          }
+        },
+        "valid_mask": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dtype",
+            "shape",
+            "chunk_shape",
+            "sha256"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "bool"
+            },
+            "shape": {
+              "type": "array",
+              "description": "[rows, cols]",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 800000
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "chunk_shape": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "of the uncompressed C-order little-endian array bytes"
+            }
+          }
+        },
+        "fill_mask": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dtype",
+            "shape",
+            "chunk_shape",
+            "sha256"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "bool"
+            },
+            "shape": {
+              "type": "array",
+              "description": "[rows, cols]",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 800000
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "chunk_shape": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "of the uncompressed C-order little-endian array bytes"
+            }
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valid_cells",
+        "filled_cells",
+        "nodata_cells",
+        "unfilled_holes",
+        "rejected_non_finite",
+        "rejected_sentinel",
+        "rejected_out_of_range"
+      ],
+      "properties": {
+        "valid_cells": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        },
+        "filled_cells": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        },
+        "nodata_cells": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        },
+        "unfilled_holes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        },
+        "rejected_non_finite": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected_sentinel": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected_out_of_range": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "cell and sample counts (FR-004-05, FR-004-12)"
+    },
+    "nodata_frac": {
+      "type": "number",
+      "description": "nodata fraction inside the AOI after filling (FR-004-12)",
+      "minimum": 0,
+      "maximum": 0.05
+    },
+    "max_fill_cells": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 16
+    },
+    "elevation_range_m": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "number",
+          "description": "site-frame elevation, m (FR-004-02: |offset| <= 5.0e3 m vertically)",
+          "minimum": -5000,
+          "maximum": 5000
+        },
+        "max": {
+          "type": "number",
+          "description": "site-frame elevation, m (FR-004-02: |offset| <= 5.0e3 m vertically)",
+          "minimum": -5000,
+          "maximum": 5000
+        }
+      },
+      "description": "site-frame z of valid cells"
+    },
+    "source_elevation_range_m": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "number",
+          "minimum": -500,
+          "maximum": 9000
+        },
+        "max": {
+          "type": "number",
+          "minimum": -500,
+          "maximum": 9000
+        }
+      },
+      "description": "source elevations of valid samples after unit conversion (FR-004-12 hard range)"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "method": {
+            "const": "laz-ground-mean"
+          }
+        },
+        "required": [
+          "method"
+        ]
+      },
+      "then": {
+        "required": [
+          "ground_classes"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "ground_classes"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "crs_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "epsg"
+      ],
+      "properties": {
+        "epsg": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "EPSG code read from the file; null when none exists",
+          "minimum": 1024,
+          "maximum": 32767
+        },
+        "wkt": {
+          "type": "string",
+          "description": "WKT read from the file; required when no EPSG code exists",
+          "minLength": 1,
+          "maxLength": 8192
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "epsg": {
+                "const": null
+              }
+            },
+            "required": [
+              "epsg"
+            ]
+          },
+          "then": {
+            "required": [
+              "wkt"
+            ]
+          }
+        }
+      ]
+    },
+    "linear_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "factor_to_m"
+      ],
+      "properties": {
+        "name": {
+          "enum": [
+            "metre",
+            "us-survey-foot",
+            "international-foot"
+          ]
+        },
+        "factor_to_m": {
+          "type": "number",
+          "description": "factor applied to reach metres (FR-004-03)",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "metre"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "factor_to_m": {
+                "const": 1.0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "us-survey-foot"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "factor_to_m": {
+                "const": 0.3048006096012192
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "international-foot"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "factor_to_m": {
+                "const": 0.3048
+              }
+            }
+          }
+        }
+      ]
+    },
+    "crs_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "horizontal",
+        "vertical",
+        "horizontal_unit",
+        "vertical_unit"
+      ],
+      "properties": {
+        "horizontal": {
+          "$ref": "#/$defs/crs_ref"
+        },
+        "vertical": {
+          "$ref": "#/$defs/crs_ref"
+        },
+        "horizontal_unit": {
+          "$ref": "#/$defs/linear_unit"
+        },
+        "vertical_unit": {
+          "$ref": "#/$defs/linear_unit"
+        }
+      },
+      "description": "CRS and axis units read from the input's own metadata (FR-004-01, FR-004-03)"
+    }
+  }
+}

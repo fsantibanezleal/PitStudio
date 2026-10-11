@@ -1,0 +1,241 @@
+{
+  "schema_version": "1.0",
+  "id": "a1-mva-oracle-n4",
+  "description": "Exponential MVA oracle family, N_T = 4.",
+  "live": false,
+  "mode": "fast",
+  "horizon_s": 360000.0,
+  "kpi_window": {
+    "warmup_s": 7200.0
+  },
+  "network": {
+    "nodes": [
+      {
+        "id": 1,
+        "kind": "face",
+        "pos_m": [
+          0.0,
+          0.0,
+          1500.0
+        ]
+      },
+      {
+        "id": 2,
+        "kind": "dump",
+        "pos_m": [
+          1500.0,
+          0.0,
+          1560.0
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "id": 1,
+        "a": 1,
+        "b": 2,
+        "polyline_m": [
+          [
+            0.0,
+            0.0,
+            1500.0
+          ],
+          [
+            1500.0,
+            0.0,
+            1560.0
+          ]
+        ],
+        "length_m": 1501.2,
+        "grade_pct": 4.0,
+        "width_class": 2,
+        "one_way": false,
+        "speed_limit_kmh": 40.0,
+        "rolling_resistance_pct": 2.0,
+        "zone_id": null,
+        "single_lane_op": false
+      }
+    ],
+    "zones": [],
+    "junctions": []
+  },
+  "equipment": {
+    "truck_classes": [
+      {
+        "name": "CAT_793F",
+        "kind": "rigid",
+        "payload_mean_t": 227.0,
+        "payload_sd_t": 11.0,
+        "empty_t": 165.0,
+        "width_class": 2,
+        "power_kw": 1976.0,
+        "max_speed_kmh": 60.0,
+        "rimpull_kn": [
+          {
+            "speed_kmh": 2.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 3.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 4.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 6.0,
+            "force_kn": 1007.8
+          },
+          {
+            "speed_kmh": 8.0,
+            "force_kn": 755.8
+          },
+          {
+            "speed_kmh": 11.0,
+            "force_kn": 549.7
+          },
+          {
+            "speed_kmh": 15.0,
+            "force_kn": 403.1
+          },
+          {
+            "speed_kmh": 20.0,
+            "force_kn": 302.3
+          },
+          {
+            "speed_kmh": 27.0,
+            "force_kn": 223.9
+          },
+          {
+            "speed_kmh": 35.0,
+            "force_kn": 172.8
+          },
+          {
+            "speed_kmh": 45.0,
+            "force_kn": 134.4
+          },
+          {
+            "speed_kmh": 55.0,
+            "force_kn": 109.9
+          }
+        ],
+        "retarder_kn": [
+          {
+            "speed_kmh": 2.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 3.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 4.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 6.0,
+            "force_kn": 856.6
+          },
+          {
+            "speed_kmh": 8.0,
+            "force_kn": 642.4
+          },
+          {
+            "speed_kmh": 11.0,
+            "force_kn": 467.2
+          },
+          {
+            "speed_kmh": 15.0,
+            "force_kn": 342.6
+          },
+          {
+            "speed_kmh": 20.0,
+            "force_kn": 257.0
+          },
+          {
+            "speed_kmh": 27.0,
+            "force_kn": 190.4
+          },
+          {
+            "speed_kmh": 35.0,
+            "force_kn": 146.8
+          },
+          {
+            "speed_kmh": 45.0,
+            "force_kn": 114.2
+          },
+          {
+            "speed_kmh": 55.0,
+            "force_kn": 93.4
+          }
+        ]
+      }
+    ],
+    "loader_classes": [
+      {
+        "name": "SHOVEL_45",
+        "pass_t": 45.0,
+        "pass_time_s": 38.0,
+        "time_cv": 0.18,
+        "spot_time_s": 30.0
+      }
+    ]
+  },
+  "fleet": [
+    {
+      "id": 1,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    },
+    {
+      "id": 2,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    },
+    {
+      "id": 3,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    },
+    {
+      "id": 4,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    }
+  ],
+  "loaders": [
+    {
+      "node": 1,
+      "loader_class": "SHOVEL_45",
+      "n_spots": 1
+    }
+  ],
+  "dumps": [
+    2
+  ],
+  "dispatcher": {
+    "id": "fixed"
+  },
+  "variate_profile": "exponential",
+  "quantile_tables": [
+    {
+      "family": "exponential",
+      "bins": 4096,
+      "encoding": "float64-le-base64",
+      "knots_f64le_b64": "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",
+      "knots_sha256": "42e40c546ad667b74c06f9d7c3defccc0259e606270fe86a4e6b375e8194f607"
+    }
+  ],
+  "engine_constants": {
+    "stagger_window_s": 60.0,
+    "dump_mean_s": 55.0,
+    "dump_cv": 0.15,
+    "closure_retry_s": 300.0,
+    "headway_m": 80.0,
+    "headway_s": 8.0,
+    "payload_min_frac_of_mean": 0.5,
+    "payload_max_t": 400.0
+  },
+  "failures": null
+}

@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/fragment-table.schema.json",
+  "title": "Muck-pile fragment table",
+  "description": "JSON sidecar of the Parquet fragment table",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "synthetic",
+    "pile_seed",
+    "generator",
+    "realised",
+    "view_count",
+    "table"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "pile_seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "generator": {
+      "type": "object",
+      "description": "target parameters of the pile",
+      "additionalProperties": false,
+      "required": [
+        "passing_function",
+        "x50_m",
+        "x_max_m",
+        "x_min_m",
+        "b",
+        "target_volume_m3",
+        "size_classes",
+        "density_kg_per_m3",
+        "minephys_version"
+      ],
+      "properties": {
+        "passing_function": {
+          "description": "Swebrec of minephys.blasting, truncated to [x_min, x_max]",
+          "const": "swebrec-truncated"
+        },
+        "x50_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "x_max_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "x_min_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "b": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50
+        },
+        "target_volume_m3": {
+          "type": "number",
+          "description": "V",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0
+        },
+        "size_classes": {
+          "const": 20
+        },
+        "density_kg_per_m3": {
+          "type": "number",
+          "minimum": 500,
+          "maximum": 10000
+        },
+        "minephys_version": {
+          "$ref": "#/$defs/version"
+        }
+      }
+    },
+    "realised": {
+      "type": "object",
+      "description": "exact realised PSD summary (the truth of the pile)",
+      "additionalProperties": false,
+      "required": [
+        "fragment_count",
+        "total_volume_m3",
+        "max_fragment_volume_m3",
+        "x50_m",
+        "x80_m"
+      ],
+      "properties": {
+        "fragment_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "total_volume_m3": {
+          "type": "number",
+          "description": "V_real",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0
+        },
+        "max_fragment_volume_m3": {
+          "type": "number",
+          "description": "v_max",
+          "exclusiveMinimum": 0,
+          "maximum": 600
+        },
+        "x50_m": {
+          "type": "number",
+          "description": "volume-weighted quantile Q-1",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "x80_m": {
+          "type": "number",
+          "description": "volume-weighted quantile Q-1",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        }
+      }
+    },
+    "view_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 64
+    },
+    "table": {
+      "type": "object",
+      "description": "the Parquet table whose rows follow $defs/row",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "path",
+        "sha256",
+        "rows"
+      ],
+      "properties": {
+        "format": {
+          "const": "parquet"
+        },
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      }
+    }
+  },
+  "$defs": {
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "row": {
+      "type": "object",
+      "description": "one Parquet row of the fragment table",
+      "additionalProperties": false,
+      "required": [
+        "fragment_id",
+        "size_m",
+        "volume_m3",
+        "mass_kg",
+        "class_index",
+        "seed",
+        "visible_px"
+      ],
+      "properties": {
+        "fragment_id": {
+          "type": "integer",
+          "description": "equals the instance id in every render mask (0 = background)",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "size_m": {
+          "type": "number",
+          "description": "volume-equivalent sphere diameter x",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "volume_m3": {
+          "type": "number",
+          "description": "pi x^3 / 6",
+          "exclusiveMinimum": 0,
+          "maximum": 600
+        },
+        "mass_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 6000000.0
+        },
+        "class_index": {
+          "type": "integer",
+          "description": "size class j of K = 20 log-spaced classes",
+          "minimum": 0,
+          "maximum": 19
+        },
+        "seed": {
+          "type": "integer",
+          "description": "seed of the fragment's procedural rock mesh",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "visible_px": {
+          "type": "array",
+          "description": "visible pixels per view, in view order",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1048576
+          },
+          "maxItems": 64
+        }
+      }
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    }
+  }
+}

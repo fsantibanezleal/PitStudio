@@ -1,0 +1,1052 @@
+{
+  "spec": "002-runner",
+  "examples": [
+    {
+      "file": "profile.valid.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "laptop-rtx5000ada profile of plan.md D4"
+    },
+    {
+      "file": "profile.valid-linux-gpu.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "linux-gpu profile of plan.md D4 (no quotas)"
+    },
+    {
+      "file": "profile.valid-fake-device.json",
+      "schema": "profile.schema.json",
+      "target": "#/$defs/fake_device",
+      "valid": true,
+      "note": "fake device linux-1x48gib with constants and step series"
+    },
+    {
+      "file": "profile.hostile-vram-margin-below-floor.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range (guard below its floor)",
+      "rule": "FR-002-45",
+      "pointer": "/guards/vram_margin_gib",
+      "keyword": "minimum"
+    },
+    {
+      "file": "profile.hostile-disk-margin-below-floor.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range (guard below its floor)",
+      "rule": "FR-002-45",
+      "pointer": "/guards/disk_margin_gib",
+      "keyword": "minimum"
+    },
+    {
+      "file": "profile.hostile-start-temp-above-floor.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range (guard above its ceiling)",
+      "rule": "FR-002-45",
+      "pointer": "/guards/max_start_temp_c",
+      "keyword": "maximum"
+    },
+    {
+      "file": "profile.hostile-telemetry-hz-zero.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range telemetry rate",
+      "rule": "FR-002-45",
+      "pointer": "/telemetry_hz",
+      "keyword": "minimum"
+    },
+    {
+      "file": "profile.hostile-telemetry-hz-five.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range telemetry rate",
+      "rule": "FR-002-45",
+      "pointer": "/telemetry_hz",
+      "keyword": "maximum"
+    },
+    {
+      "file": "profile.hostile-conditional-process-control.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "process control not matching the OS",
+      "rule": "FR-002-45",
+      "pointer": "/process_control",
+      "keyword": "const"
+    },
+    {
+      "file": "profile.hostile-unknown-enum.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown environment",
+      "rule": "FR-002-45",
+      "pointer": "/envs_enabled/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "profile.hostile-user-specific-store-default.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "store default not a short machine-neutral absolute path",
+      "rule": "FR-002-45",
+      "pointer": "/store_default",
+      "keyword": "pattern"
+    },
+    {
+      "file": "profile.hostile-conditional-store-default-os.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "store default of the other OS",
+      "rule": "FR-002-45",
+      "pointer": "/store_default",
+      "keyword": "pattern"
+    },
+    {
+      "file": "profile.hostile-conditional-keep-awake-linux.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "keep-awake on Linux",
+      "rule": "FR-002-29",
+      "pointer": "/keep_awake",
+      "keyword": "const"
+    },
+    {
+      "file": "profile.hostile-unknown-field.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field (machine identity)",
+      "rule": "FR-002-44",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "profile.hostile-out-of-range.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range CPU slots",
+      "rule": "DC-002-01",
+      "pointer": "/cpu_slots",
+      "keyword": "minimum"
+    },
+    {
+      "file": "profile.hostile-unknown-power-class.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "DC-002-01",
+      "pointer": "/gpus/0/power_class",
+      "keyword": "enum"
+    },
+    {
+      "file": "profile.hostile-quota-unknown-stage.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown stage id as a quota key",
+      "rule": "DC-002-01",
+      "pointer": "/quotas",
+      "keyword": "enum"
+    },
+    {
+      "file": "profile.hostile-quota-out-of-range.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out-of-range quota",
+      "rule": "DC-002-01",
+      "pointer": "/quotas/st55_sdg",
+      "keyword": "maximum"
+    },
+    {
+      "file": "profile.hostile-absolute-path.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path instead of a variable name",
+      "rule": "DC-002-01",
+      "pointer": "/binaries/ffmpeg",
+      "keyword": "pattern"
+    },
+    {
+      "file": "profile.hostile-oversized.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized (17 GPUs)",
+      "rule": "DC-002-01",
+      "pointer": "/gpus",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "profile.hostile-wrong-type.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (string number)",
+      "rule": "FR-002-45",
+      "pointer": "/telemetry_hz",
+      "keyword": "type"
+    },
+    {
+      "file": "profile.hostile-empty.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty document",
+      "rule": "FR-002-44",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "profile.hostile-fake-unknown-field.json",
+      "schema": "profile.schema.json",
+      "target": "#/$defs/fake_device",
+      "valid": false,
+      "class": "unknown series field",
+      "rule": "FR-002-57",
+      "pointer": "/series",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "profile.hostile-fake-negative-value.json",
+      "schema": "profile.schema.json",
+      "target": "#/$defs/fake_device",
+      "valid": false,
+      "class": "out-of-range (negative constant)",
+      "rule": "FR-002-57",
+      "pointer": "/series/power_limit_w",
+      "keyword": "minimum"
+    },
+    {
+      "file": "profile.hostile-fake-out-of-range.json",
+      "schema": "profile.schema.json",
+      "target": "#/$defs/fake_device",
+      "valid": false,
+      "class": "out-of-range constant",
+      "rule": "FR-002-57",
+      "pointer": "/series/sm_clock_mhz",
+      "keyword": "maximum"
+    },
+    {
+      "file": "profile.hostile-fake-wrong-shape.json",
+      "schema": "profile.schema.json",
+      "target": "#/$defs/fake_device",
+      "valid": false,
+      "class": "wrong shape (a step of three numbers)",
+      "rule": "FR-002-57",
+      "pointer": "/series/temp_c/0",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "profile.hostile-fake-unknown-enum.json",
+      "schema": "profile.schema.json",
+      "target": "#/$defs/fake_device",
+      "valid": false,
+      "class": "unknown unsupported field name",
+      "rule": "FR-002-57",
+      "pointer": "/unsupported/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "profile.hostile-fake-missing-required.json",
+      "schema": "profile.schema.json",
+      "target": "#/$defs/fake_device",
+      "valid": false,
+      "class": "missing driver",
+      "rule": "FR-002-57",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "profile.hostile-fake-device-as-profile.json",
+      "schema": "profile.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a fake device file is not a profile",
+      "rule": "FR-002-44",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "job.valid.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": true,
+      "note": "unsharded GPU job spec (Linux store)"
+    },
+    {
+      "file": "job.valid-sharded.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": true,
+      "note": "shard 3 of a variant stage, Windows store, resumed"
+    },
+    {
+      "file": "job.valid-root.json",
+      "schema": "job.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the root accepts a job spec"
+    },
+    {
+      "file": "job.valid-result.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": true,
+      "note": "succeeded result with a video artefact and a stage-side validator"
+    },
+    {
+      "file": "job.valid-not-run.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": true,
+      "note": "not_run result with its reason (FR-002-60)"
+    },
+    {
+      "file": "job.valid-failed.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": true,
+      "note": "failed result with error class oom"
+    },
+    {
+      "file": "job.hostile-path-traversal.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-002-12",
+      "pointer": "/output_dir",
+      "keyword": "pattern"
+    },
+    {
+      "file": "job.hostile-relative-path.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "relative path where the job spec needs an absolute one",
+      "rule": "FR-002-24",
+      "pointer": "/inputs/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "job.hostile-input-name-traversal.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "path traversal in an input name",
+      "rule": "FR-002-08",
+      "pointer": "/inputs/0/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "job.hostile-vram-fraction-zero.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "out-of-range VRAM fraction",
+      "rule": "FR-002-24",
+      "pointer": "/vram_fraction",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "job.hostile-vram-fraction-above-one.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "out-of-range VRAM fraction",
+      "rule": "FR-002-24",
+      "pointer": "/vram_fraction",
+      "keyword": "maximum"
+    },
+    {
+      "file": "job.hostile-seed-out-of-range.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "out-of-range seed (2^63)",
+      "rule": "FR-002-09",
+      "pointer": "/seed",
+      "keyword": "maximum"
+    },
+    {
+      "file": "job.hostile-inline-recipe.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "unknown field (inline recipe)",
+      "rule": "FR-002-24",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "job.hostile-entry-injection.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "injection-like entry",
+      "rule": "FR-002-24",
+      "pointer": "/entry",
+      "keyword": "pattern"
+    },
+    {
+      "file": "job.hostile-malformed-digest.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "malformed digest (uppercase hex)",
+      "rule": "FR-002-08",
+      "pointer": "/inputs/0/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "job.hostile-shard-out-of-range.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "out-of-range shard index",
+      "rule": "FR-002-35",
+      "pointer": "/shard/index",
+      "keyword": "maximum"
+    },
+    {
+      "file": "job.hostile-unknown-enum.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/job_spec",
+      "valid": false,
+      "class": "unknown stage id",
+      "rule": "FR-002-24",
+      "pointer": "/stage/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "job.hostile-conditional-not-run-without-reason.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "not_run without reason",
+      "rule": "FR-002-61",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "job.hostile-conditional-not-run-empty-reason.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "not_run with an empty reason",
+      "rule": "FR-002-61",
+      "pointer": "/reason",
+      "keyword": "minLength"
+    },
+    {
+      "file": "job.hostile-conditional-not-run-blank-reason.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "not_run with a blank reason",
+      "rule": "FR-002-61",
+      "pointer": "/reason",
+      "keyword": "pattern"
+    },
+    {
+      "file": "job.hostile-oversized.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "oversized reason (301 characters)",
+      "rule": "FR-002-61",
+      "pointer": "/reason",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "job.hostile-conditional-not-run-with-output.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "not_run with an output",
+      "rule": "FR-002-61",
+      "pointer": "/outputs",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "job.hostile-conditional-not-run-with-error-class.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "not_run with an error class",
+      "rule": "FR-002-61",
+      "pointer": "/error_class",
+      "keyword": "const"
+    },
+    {
+      "file": "job.hostile-conditional-succeeded-with-error-class.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "succeeded with an error class",
+      "rule": "FR-002-25",
+      "pointer": "/error_class",
+      "keyword": "const"
+    },
+    {
+      "file": "job.hostile-conditional-failed-without-error-class.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "failed without an error class",
+      "rule": "FR-002-25",
+      "pointer": "/error_class",
+      "keyword": "not"
+    },
+    {
+      "file": "job.hostile-conditional-reason-on-succeeded.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "reason on a non-not_run result",
+      "rule": "FR-002-60",
+      "pointer": "",
+      "keyword": "not"
+    },
+    {
+      "file": "job.hostile-unknown-status.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "unknown status",
+      "rule": "FR-002-25",
+      "pointer": "/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "job.hostile-unknown-error-class.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "error class only the runner assigns",
+      "rule": "FR-002-25",
+      "pointer": "/error_class",
+      "keyword": "enum"
+    },
+    {
+      "file": "job.hostile-absolute-path.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "absolute output path",
+      "rule": "FR-002-13",
+      "pointer": "/outputs/1/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "job.hostile-output-path-traversal.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "path traversal in an output path",
+      "rule": "FR-002-13",
+      "pointer": "/outputs/1/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "job.hostile-conditional-video-without-encoder.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "video artefact without encoder record",
+      "rule": "FR-002-25",
+      "pointer": "/outputs/0/artefact",
+      "keyword": "required"
+    },
+    {
+      "file": "job.hostile-conditional-validated-runner-side.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "validated flag for a runner-side validator",
+      "rule": "FR-002-25",
+      "pointer": "/outputs/0/validator",
+      "keyword": "pattern"
+    },
+    {
+      "file": "job.hostile-wrong-unit.json",
+      "schema": "job.schema.json",
+      "target": "#/$defs/stage_result",
+      "valid": false,
+      "class": "wrong type (number with a unit string)",
+      "rule": "FR-002-38",
+      "pointer": "/observables/repose_deg",
+      "keyword": "type"
+    },
+    {
+      "file": "job.hostile-empty.json",
+      "schema": "job.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty document",
+      "rule": "DC-002-02",
+      "pointer": "",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "events.valid.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": true,
+      "note": "run-started event"
+    },
+    {
+      "file": "events.valid-guard-refused.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": true,
+      "note": "guard refusal with scalar data"
+    },
+    {
+      "file": "events.valid-stage-not-run.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": true,
+      "note": "stage-not-run event with its reason (FR-002-60)"
+    },
+    {
+      "file": "events.valid-shard-finished.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": true,
+      "note": "shard-finished event of a variant stage"
+    },
+    {
+      "file": "events.valid-telemetry-sample.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/telemetry_sample",
+      "valid": true,
+      "note": "telemetry sample; NVENC utilisation unavailable (null)"
+    },
+    {
+      "file": "events.valid-published-telemetry.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/published_telemetry",
+      "valid": true,
+      "note": "published telemetry of one public stage"
+    },
+    {
+      "file": "events.valid-stream-error.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/stream_error",
+      "valid": true,
+      "note": "SSE error payload"
+    },
+    {
+      "file": "events.valid-root.json",
+      "schema": "events.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the root accepts a telemetry sample"
+    },
+    {
+      "file": "events.hostile-unknown-enum.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "unknown event type",
+      "rule": "FR-002-46",
+      "pointer": "/type",
+      "keyword": "enum"
+    },
+    {
+      "file": "events.hostile-out-of-range.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "out-of-range seq",
+      "rule": "FR-002-46",
+      "pointer": "/seq",
+      "keyword": "minimum"
+    },
+    {
+      "file": "events.hostile-conditional-not-run-without-detail.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "stage-not-run event without its reason",
+      "rule": "FR-002-60",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "events.hostile-conditional-stage-event-without-stage.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "stage event without its stage",
+      "rule": "FR-002-46",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "events.hostile-conditional-run-event-with-shard.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "run event carrying a shard",
+      "rule": "FR-002-46",
+      "pointer": "",
+      "keyword": "not"
+    },
+    {
+      "file": "events.hostile-oversized.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "oversized detail (301 characters)",
+      "rule": "FR-002-46",
+      "pointer": "/detail",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "events.hostile-unknown-field.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "unknown field (machine identity)",
+      "rule": "FR-002-46",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "events.hostile-wrong-shape.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "non-scalar data value",
+      "rule": "FR-002-46",
+      "pointer": "/data/reason",
+      "keyword": "type"
+    },
+    {
+      "file": "events.hostile-data-oversized.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "oversized data map (17 entries)",
+      "rule": "FR-002-46",
+      "pointer": "/data",
+      "keyword": "maxProperties"
+    },
+    {
+      "file": "events.hostile-path-traversal.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "path traversal in run_id",
+      "rule": "FR-002-46",
+      "pointer": "/run_id",
+      "keyword": "pattern"
+    },
+    {
+      "file": "events.hostile-bad-pattern.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/event",
+      "valid": false,
+      "class": "malformed timestamp",
+      "rule": "FR-002-46",
+      "pointer": "/t",
+      "keyword": "pattern"
+    },
+    {
+      "file": "events.hostile-sample-negative-value.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/telemetry_sample",
+      "valid": false,
+      "class": "negative reading instead of null",
+      "rule": "FR-002-32",
+      "pointer": "/power_w",
+      "keyword": "minimum"
+    },
+    {
+      "file": "events.hostile-sample-out-of-range.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/telemetry_sample",
+      "valid": false,
+      "class": "out-of-range utilisation",
+      "rule": "FR-002-30",
+      "pointer": "/util_pct",
+      "keyword": "maximum"
+    },
+    {
+      "file": "events.hostile-sample-missing-required.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/telemetry_sample",
+      "valid": false,
+      "class": "omitted field instead of null",
+      "rule": "FR-002-32",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "events.hostile-sample-wrong-unit.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/telemetry_sample",
+      "valid": false,
+      "class": "wrong unit (milliwatts field)",
+      "rule": "FR-002-30",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "events.hostile-sample-wrong-type.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/telemetry_sample",
+      "valid": false,
+      "class": "fractional byte count",
+      "rule": "FR-002-30",
+      "pointer": "/mem_used_bytes",
+      "keyword": "type"
+    },
+    {
+      "file": "events.hostile-published-local-only-stage.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/published_telemetry",
+      "valid": false,
+      "class": "local-only stage in published telemetry",
+      "rule": "FR-002-48",
+      "pointer": "/stages/0/performance",
+      "keyword": "const"
+    },
+    {
+      "file": "events.hostile-published-unknown-field.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/published_telemetry",
+      "valid": false,
+      "class": "unknown field (wall time of a stage)",
+      "rule": "FR-002-48",
+      "pointer": "/stages/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "events.hostile-published-oversized.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/published_telemetry",
+      "valid": false,
+      "class": "oversized (65 stages)",
+      "rule": "FR-002-50",
+      "pointer": "/stages",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "events.hostile-published-negative-time.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/published_telemetry",
+      "valid": false,
+      "class": "out-of-range bucket time",
+      "rule": "FR-002-50",
+      "pointer": "/stages/0/points/0/t_s",
+      "keyword": "minimum"
+    },
+    {
+      "file": "events.hostile-published-bucket-zero.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/published_telemetry",
+      "valid": false,
+      "class": "zero bucket width",
+      "rule": "FR-002-50",
+      "pointer": "/stages/0/bucket_s",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "events.hostile-stream-error-line-zero.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/stream_error",
+      "valid": false,
+      "class": "out-of-range line number",
+      "rule": "FR-003-16",
+      "pointer": "/line",
+      "keyword": "minimum"
+    },
+    {
+      "file": "events.hostile-stream-error-unknown-field.json",
+      "schema": "events.schema.json",
+      "target": "#/$defs/stream_error",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-003-16",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "events.hostile-empty.json",
+      "schema": "events.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty document",
+      "rule": "DC-002-03",
+      "pointer": "",
+      "keyword": "oneOf"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "profile.schema.json",
+      "class": "non-finite number (.nan, .inf)",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "profile.schema.json",
+      "class": "YAML-specific (alias, anchor, tag, multi-document, duplicate key, implicit boolean)",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "profile.schema.json",
+      "class": "malformed YAML, BOM, invalid UTF-8",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "profile.schema.json",
+      "class": "missing fake device file",
+      "by": "loader",
+      "rule": "FR-002-57"
+    },
+    {
+      "schema": "profile.schema.json",
+      "class": "non-finite value scripted in a fake device file",
+      "by": "loader",
+      "rule": "FR-002-57"
+    },
+    {
+      "schema": "profile.schema.json",
+      "class": "fake device steps not in ascending t_s, or a step value outside its field's range",
+      "by": "checker",
+      "rule": "FR-002-57"
+    },
+    {
+      "schema": "profile.schema.json",
+      "class": "a fake series field also listed as unsupported",
+      "by": "checker",
+      "rule": "FR-002-57"
+    },
+    {
+      "schema": "profile.schema.json",
+      "class": "duplicate gpu index in a profile",
+      "by": "checker",
+      "rule": "-",
+      "note": "no requirement states it; the profile loader should reject repeated indices"
+    },
+    {
+      "schema": "job.schema.json",
+      "class": "stage result larger than 65,536 bytes",
+      "by": "loader",
+      "rule": "FR-002-25"
+    },
+    {
+      "schema": "job.schema.json",
+      "class": "malformed JSON, BOM, duplicate key or non-finite number in job.json or result.json",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "job.schema.json",
+      "class": "succeeded or failed result inconsistent with the process exit code",
+      "by": "checker",
+      "rule": "FR-002-25"
+    },
+    {
+      "schema": "job.schema.json",
+      "class": "not_run result with a non-zero exit code",
+      "by": "checker",
+      "rule": "FR-002-61"
+    },
+    {
+      "schema": "job.schema.json",
+      "class": "output not declared by the recipe, a symbolic link, or resolving outside the execution folder",
+      "by": "checker",
+      "rule": "FR-002-13"
+    },
+    {
+      "schema": "job.schema.json",
+      "class": "two outputs with the same path",
+      "by": "checker",
+      "rule": "-",
+      "note": "no requirement states it; the runner should treat it as invalid-result"
+    },
+    {
+      "schema": "job.schema.json",
+      "class": "shard index not below ceil(total / size)",
+      "by": "checker",
+      "rule": "FR-002-35"
+    },
+    {
+      "schema": "job.schema.json",
+      "class": "output_dir naming another run, stage key or shard than the job spec",
+      "by": "checker",
+      "rule": "FR-002-12"
+    },
+    {
+      "schema": "job.schema.json",
+      "class": "duplicate input names",
+      "by": "checker",
+      "rule": "FR-002-08"
+    },
+    {
+      "schema": "events.schema.json",
+      "class": "events.jsonl line longer than 16,384 bytes",
+      "by": "loader",
+      "rule": "FR-002-46"
+    },
+    {
+      "schema": "events.schema.json",
+      "class": "malformed JSON line or non-finite number",
+      "by": "loader",
+      "rule": "FR-002-46"
+    },
+    {
+      "schema": "events.schema.json",
+      "class": "seq not strictly increasing within a run",
+      "by": "checker",
+      "rule": "FR-002-46"
+    },
+    {
+      "schema": "events.schema.json",
+      "class": "detail not scrubbed (absolute path, host or user name)",
+      "by": "checker",
+      "rule": "FR-002-46"
+    },
+    {
+      "schema": "events.schema.json",
+      "class": "published telemetry larger than 200 KB",
+      "by": "loader",
+      "rule": "FR-002-50"
+    },
+    {
+      "schema": "events.schema.json",
+      "class": "published stage not performance: public in the run's published manifest",
+      "by": "checker",
+      "rule": "FR-001-14"
+    },
+    {
+      "schema": "events.schema.json",
+      "class": "published points not on equal-time buckets of bucket_s in ascending order",
+      "by": "checker",
+      "rule": "FR-002-50"
+    }
+  ]
+}

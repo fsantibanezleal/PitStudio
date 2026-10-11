@@ -1,0 +1,99 @@
+{
+  "scenario": "S1",
+  "backend": "ovrtx",
+  "poses": "traces/b1-haul-poses.parquet",
+  "sensors": [
+    {
+      "kind": "lidar",
+      "id": "rotary-64",
+      "scan_type": "rotary",
+      "channels": 64,
+      "elevation_fan_deg": [
+        -22.5,
+        60
+      ],
+      "azimuth_fan_deg": [
+        -180,
+        180
+      ],
+      "horizontal_resolution_deg": 0.2,
+      "min_range_m": 0.5,
+      "max_range_m": 200,
+      "range_accuracy_m": 0.02,
+      "max_returns": 2,
+      "frame_rate_hz": 10,
+      "mount_position_m": [
+        4.5,
+        0,
+        3.2
+      ],
+      "mount_rotation_deg": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "kind": "lidar",
+      "id": "solid-state-120",
+      "scan_type": "solid-state",
+      "channels": 128,
+      "elevation_fan_deg": [
+        -15,
+        15
+      ],
+      "azimuth_fan_deg": [
+        -60,
+        60
+      ],
+      "horizontal_resolution_deg": 0.25,
+      "min_range_m": 0.3,
+      "max_range_m": 150,
+      "range_accuracy_m": 0.03,
+      "max_returns": 1,
+      "frame_rate_hz": 10,
+      "mount_position_m": [
+        5.2,
+        0,
+        2.1
+      ],
+      "mount_rotation_deg": [
+        0,
+        5,
+        0
+      ]
+    }
+  ],
+  "dust": {
+    "transmittance_grid": [
+      1.0,
+      0.9,
+      0.74,
+      0.5,
+      0.3,
+      0.1,
+      0.06,
+      0.02
+    ],
+    "beta_spacing_m": 0.25,
+    "dust_return_intensity": 0.05,
+    "extinction_fields": [
+      "dust/c3-field-run-01.zarr"
+    ]
+  },
+  "metrics": {
+    "k_min": 3,
+    "range_bin_m": 5,
+    "speeds_km_h": [
+      30,
+      40,
+      50
+    ],
+    "targets": [
+      "light-vehicle",
+      "person-vest",
+      "boulder",
+      "oncoming-truck"
+    ]
+  }
+}

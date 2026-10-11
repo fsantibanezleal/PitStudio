@@ -1,0 +1,26 @@
+{
+  "id": "linux-gpu",
+  "os": "linux",
+  "gpus": [],
+  "store_default": "/srv/pitstudio",
+  "cpu_slots": 8,
+  "envs_enabled": [
+    "studio",
+    "pipeline",
+    "accel",
+    "external"
+  ],
+  "process_control": "process-group",
+  "guards": {
+    "vram_margin_gib": 1.5,
+    "disk_margin_gib": 20,
+    "max_start_temp_c": 80,
+    "cooldown_wait_s": 600,
+    "lock_wait_s": 3600
+  },
+  "telemetry_hz": 2,
+  "keep_awake": false,
+  "binaries": {
+    "ffmpeg": "PITSTUDIO_FFMPEG"
+  }
+}

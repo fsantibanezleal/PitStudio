@@ -1,0 +1,12 @@
+{
+  "$schema": "https://fsantibanezleal.github.io/PitStudio/contracts/scene-digest.schema.json",
+  "schema_version": "1.0",
+  "kind": "scene-digest",
+  "case": "A1",
+  "manifest_id": "a1-bingham-scene",
+  "params_sha256": "1a7ae2af63dafb1ceb4c9738fe1c948b396c4d1746cd571c9dea273c0333529c",
+  "up_axis": "Z",
+  "meters_per_unit": 1.0,
+  "kilograms_per_unit": 1.0,
+  "lods": []
+}

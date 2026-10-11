@@ -1,0 +1,296 @@
+{
+  "figures": [
+    {
+      "kind": "chart",
+      "id": "psd-kuzram-swebrec",
+      "topic": "drill-and-blast",
+      "title": {
+        "en": "Fragment size distribution",
+        "es": "Distribución granulométrica"
+      },
+      "engine": {
+        "kind": "engine",
+        "id": "blasting"
+      },
+      "plot": "xy",
+      "controls": [
+        {
+          "kind": "range",
+          "id": "powder_factor",
+          "label": {
+            "en": "powder factor",
+            "es": "factor de carga"
+          },
+          "unit": "kg/m³",
+          "min": 0.2,
+          "max": 2.0,
+          "step": 0.05,
+          "default": 0.6
+        },
+        {
+          "kind": "range",
+          "id": "burden",
+          "label": {
+            "en": "burden",
+            "es": "burden"
+          },
+          "unit": "m",
+          "min": 2.0,
+          "max": 10.0,
+          "step": 0.1,
+          "default": 4.5
+        },
+        {
+          "kind": "range",
+          "id": "rock_factor",
+          "label": {
+            "en": "rock factor",
+            "es": "factor de roca"
+          },
+          "unit": "–",
+          "min": 0.8,
+          "max": 22.0,
+          "step": 0.1,
+          "default": 8.0,
+          "default_row": "kuzram_rock_factor_range"
+        }
+      ],
+      "features": [
+        {
+          "id": "x50",
+          "label": {
+            "en": "x50",
+            "es": "x50"
+          },
+          "unit": "m"
+        },
+        {
+          "id": "x80",
+          "label": {
+            "en": "x80",
+            "es": "x80"
+          },
+          "unit": "m"
+        },
+        {
+          "id": "oversize_pct",
+          "label": {
+            "en": "oversize at the crusher gape",
+            "es": "sobretamaño en la boca"
+          },
+          "unit": "%"
+        }
+      ],
+      "colormap": null
+    },
+    {
+      "kind": "chart",
+      "id": "plume-ground-field",
+      "topic": "dust",
+      "title": {
+        "en": "Ground-level dust concentration",
+        "es": "Concentración de polvo a nivel del suelo"
+      },
+      "engine": {
+        "kind": "engine",
+        "id": "plume"
+      },
+      "plot": "field",
+      "controls": [
+        {
+          "kind": "range",
+          "id": "source_strength",
+          "label": {
+            "en": "source strength",
+            "es": "intensidad de la fuente"
+          },
+          "unit": "g/s",
+          "min": 0.1,
+          "max": 100.0,
+          "step": 0.1,
+          "default": 5.0
+        },
+        {
+          "kind": "range",
+          "id": "wind_speed",
+          "label": {
+            "en": "wind speed",
+            "es": "velocidad del viento"
+          },
+          "unit": "m/s",
+          "min": 0.5,
+          "max": 20.0,
+          "step": 0.1,
+          "default": 4.0
+        },
+        {
+          "kind": "choice",
+          "id": "stability_class",
+          "label": {
+            "en": "stability class",
+            "es": "clase de estabilidad"
+          },
+          "options": [
+            {
+              "id": "a",
+              "label": {
+                "en": "A",
+                "es": "A"
+              }
+            },
+            {
+              "id": "b",
+              "label": {
+                "en": "B",
+                "es": "B"
+              }
+            },
+            {
+              "id": "c",
+              "label": {
+                "en": "C",
+                "es": "C"
+              }
+            },
+            {
+              "id": "d",
+              "label": {
+                "en": "D",
+                "es": "D"
+              }
+            },
+            {
+              "id": "e",
+              "label": {
+                "en": "E",
+                "es": "E"
+              }
+            },
+            {
+              "id": "f",
+              "label": {
+                "en": "F",
+                "es": "F"
+              }
+            }
+          ],
+          "default": "d"
+        },
+        {
+          "kind": "range",
+          "id": "release_height",
+          "label": {
+            "en": "release height",
+            "es": "altura de emisión"
+          },
+          "unit": "m",
+          "min": 0.0,
+          "max": 50.0,
+          "step": 0.5,
+          "default": 2.0
+        }
+      ],
+      "features": [
+        {
+          "id": "max_glc",
+          "label": {
+            "en": "maximum ground-level concentration",
+            "es": "concentración máxima"
+          },
+          "unit": "µg/m³"
+        },
+        {
+          "id": "max_glc_distance",
+          "label": {
+            "en": "distance of the maximum",
+            "es": "distancia del máximo"
+          },
+          "unit": "m"
+        }
+      ],
+      "colormap": "viridis"
+    },
+    {
+      "kind": "chart",
+      "id": "ppo-clip",
+      "topic": "robot-learning",
+      "title": {
+        "en": "PPO clipped objective",
+        "es": "Objetivo recortado de PPO"
+      },
+      "engine": {
+        "kind": "teaching",
+        "id": "ppoClip"
+      },
+      "plot": "xy",
+      "controls": [
+        {
+          "kind": "range",
+          "id": "clip_epsilon",
+          "label": {
+            "en": "clip epsilon",
+            "es": "épsilon de recorte"
+          },
+          "unit": "–",
+          "min": 0.05,
+          "max": 0.5,
+          "step": 0.01,
+          "default": 0.2
+        },
+        {
+          "kind": "choice",
+          "id": "advantage_sign",
+          "label": {
+            "en": "advantage sign",
+            "es": "signo de la ventaja"
+          },
+          "options": [
+            {
+              "id": "positive",
+              "label": {
+                "en": "positive",
+                "es": "positiva"
+              }
+            },
+            {
+              "id": "negative",
+              "label": {
+                "en": "negative",
+                "es": "negativa"
+              }
+            }
+          ],
+          "default": "positive"
+        }
+      ],
+      "features": [
+        {
+          "id": "clip_low",
+          "label": {
+            "en": "1 - epsilon",
+            "es": "1 - épsilon"
+          }
+        },
+        {
+          "id": "clip_high",
+          "label": {
+            "en": "1 + epsilon",
+            "es": "1 + épsilon"
+          }
+        }
+      ],
+      "colormap": null
+    },
+    {
+      "kind": "photo",
+      "id": "bingham-aerial",
+      "file": "web/public/assets/photos/bingham_aerial.jpg",
+      "alt": {
+        "en": "Aerial view of the Bingham Canyon open pit",
+        "es": "Vista aérea del rajo Bingham Canyon"
+      },
+      "licence": "LicenseRef-USGov-PD",
+      "attribution": "U.S. Geological Survey (public domain)"
+    }
+  ]
+}

@@ -1,0 +1,646 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/pit-shells.schema.json",
+  "title": "E1 shells, pushbacks and schedule",
+  "description": "Nested pit shells, pushbacks, bench-phase units and the MILP schedule written by the planner (DC-017-03, spec 017-planning-survey).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "block_model",
+    "licence",
+    "block_set_encoding",
+    "config",
+    "shells",
+    "ultimate_pit",
+    "pushbacks",
+    "units",
+    "schedule"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "block_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sha256",
+        "n_blocks"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "n_blocks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      }
+    },
+    "licence": {
+      "$ref": "#/$defs/licence"
+    },
+    "block_set_encoding": {
+      "const": "bitset-lsb0-base64"
+    },
+    "config": {
+      "$ref": "#/$defs/config"
+    },
+    "shells": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/shell"
+      },
+      "minItems": 1,
+      "maxItems": 200
+    },
+    "ultimate_pit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shell",
+        "value_cents",
+        "strip_ratio"
+      ],
+      "properties": {
+        "shell": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 199
+        },
+        "value_cents": {
+          "$ref": "#/$defs/cents"
+        },
+        "strip_ratio": {
+          "$ref": "#/$defs/strip_ratio"
+        }
+      }
+    },
+    "pushbacks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/pushback"
+      },
+      "minItems": 1,
+      "maxItems": 200
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/unit"
+      },
+      "minItems": 0,
+      "maxItems": 200000
+    },
+    "schedule": {
+      "$ref": "#/$defs/schedule"
+    }
+  },
+  "$defs": {
+    "bitset": {
+      "type": "string",
+      "maxLength": 166668,
+      "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+      "description": "Block set: bit b of byte b // 8 (least significant bit first) is block index b in the block-model blocks order; standard base64 with padding."
+    },
+    "cents": {
+      "type": "integer",
+      "minimum": -4611686018427387904,
+      "maximum": 4611686018427387903
+    },
+    "config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lambdas",
+        "t_min_t",
+        "periods",
+        "mining_capacity_t",
+        "processing_capacity_t",
+        "discount_rate",
+        "time_limit_s",
+        "mip_rel_gap"
+      ],
+      "properties": {
+        "lambdas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/lambda"
+          },
+          "minItems": 1,
+          "maxItems": 200
+        },
+        "t_min_t": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000000000.0
+        },
+        "periods": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "mining_capacity_t": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1000000000000.0
+          },
+          "minItems": 1,
+          "maxItems": 50
+        },
+        "processing_capacity_t": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1000000000000.0
+          },
+          "minItems": 1,
+          "maxItems": 50
+        },
+        "discount_rate": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "time_limit_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 604800
+        },
+        "mip_rel_gap": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.0001
+        }
+      },
+      "description": "Shell and schedule configuration validated before solving (FR-017-28)."
+    },
+    "lambda": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 2
+    },
+    "licence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spdx",
+        "licence_class"
+      ],
+      "properties": {
+        "spdx": {
+          "$ref": "#/$defs/spdx_id"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/licence_class"
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "licence_class": {
+                "enum": [
+                  "attribution",
+                  "share-alike",
+                  "display-only",
+                  "reference-only"
+                ]
+              }
+            },
+            "required": [
+              "licence_class"
+            ]
+          },
+          "then": {
+            "required": [
+              "attribution"
+            ]
+          }
+        }
+      ]
+    },
+    "licence_class": {
+      "enum": [
+        "public-domain",
+        "open-no-attribution",
+        "own",
+        "attribution",
+        "share-alike",
+        "display-only",
+        "reference-only"
+      ]
+    },
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "t",
+        "units",
+        "mined_t",
+        "ore_t",
+        "cash_flow_usd",
+        "strip_ratio"
+      ],
+      "properties": {
+        "t": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 199999
+          },
+          "minItems": 0,
+          "maxItems": 200000,
+          "uniqueItems": true
+        },
+        "mined_t": {
+          "$ref": "#/$defs/tonnes"
+        },
+        "ore_t": {
+          "$ref": "#/$defs/tonnes"
+        },
+        "cash_flow_usd": {
+          "type": "number",
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "strip_ratio": {
+          "$ref": "#/$defs/strip_ratio"
+        }
+      }
+    },
+    "pushback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shell",
+        "blocks",
+        "ore_t",
+        "waste_t",
+        "strip_ratio_incremental",
+        "strip_ratio_cumulative"
+      ],
+      "properties": {
+        "shell": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 199
+        },
+        "blocks": {
+          "$ref": "#/$defs/bitset"
+        },
+        "ore_t": {
+          "$ref": "#/$defs/tonnes"
+        },
+        "waste_t": {
+          "$ref": "#/$defs/tonnes"
+        },
+        "strip_ratio_incremental": {
+          "$ref": "#/$defs/strip_ratio"
+        },
+        "strip_ratio_cumulative": {
+          "$ref": "#/$defs/strip_ratio"
+        }
+      },
+      "description": "Incremental block set closed at the cumulative shell `shell` (FR-017-17)."
+    },
+    "schedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "solver",
+        "status",
+        "binaries",
+        "gap",
+        "npv_usd",
+        "periods"
+      ],
+      "properties": {
+        "solver": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "version"
+          ],
+          "properties": {
+            "name": {
+              "enum": [
+                "highs",
+                "scipy-milp"
+              ]
+            },
+            "version": {
+              "$ref": "#/$defs/version"
+            }
+          }
+        },
+        "status": {
+          "enum": [
+            "optimal",
+            "time-limit",
+            "infeasible",
+            "unbounded",
+            "error"
+          ]
+        },
+        "binaries": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 200000
+        },
+        "gap": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "npv_usd": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "periods": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/period"
+          },
+          "minItems": 0,
+          "maxItems": 50
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "infeasible",
+                  "unbounded",
+                  "error"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "gap": {
+                "const": null
+              },
+              "npv_usd": {
+                "const": null
+              },
+              "periods": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "optimal"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "gap": {
+                "maximum": 0.0001
+              },
+              "npv_usd": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "time-limit"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "gap": {
+                "not": {
+                  "const": null
+                }
+              },
+              "npv_usd": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "shell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lambda",
+        "blocks",
+        "block_count",
+        "ore_t",
+        "waste_t",
+        "value_cents",
+        "strip_ratio"
+      ],
+      "properties": {
+        "lambda": {
+          "$ref": "#/$defs/lambda"
+        },
+        "blocks": {
+          "$ref": "#/$defs/bitset"
+        },
+        "block_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "ore_t": {
+          "$ref": "#/$defs/tonnes"
+        },
+        "waste_t": {
+          "$ref": "#/$defs/tonnes"
+        },
+        "value_cents": {
+          "$ref": "#/$defs/cents"
+        },
+        "strip_ratio": {
+          "$ref": "#/$defs/strip_ratio"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "ore_t": {
+                "const": 0
+              }
+            },
+            "required": [
+              "ore_t"
+            ]
+          },
+          "then": {
+            "properties": {
+              "strip_ratio": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "strip_ratio": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "spdx_id": {
+      "enum": [
+        "LicenseRef-USGov-PD",
+        "CC0-1.0",
+        "DL-DE-ZERO-2.0",
+        "CC-BY-4.0",
+        "LicenseRef-Copernicus-CLMS",
+        "CC-BY-SA-3.0",
+        "CC-BY-SA-4.0",
+        "Apache-2.0",
+        "MIT",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "MPL-2.0",
+        "LGPL-2.1-or-later",
+        "LicenseRef-TOST-1.0",
+        "LicenseRef-NVIDIA-Open-Model",
+        "LicenseRef-NVIDIA-SLA",
+        "LicenseRef-NvidiaProprietary",
+        "LicenseRef-NVIDIA-Omniverse",
+        "LicenseRef-TensorRT-SLA",
+        "LicenseRef-TensorRT-RTX-SLA"
+      ]
+    },
+    "strip_ratio": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1000000.0
+    },
+    "tonnes": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1000000000000.0
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "pushback",
+        "bench",
+        "ore_t",
+        "waste_t",
+        "value_cents"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 199999
+        },
+        "pushback": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 199
+        },
+        "bench": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9999
+        },
+        "ore_t": {
+          "$ref": "#/$defs/tonnes"
+        },
+        "waste_t": {
+          "$ref": "#/$defs/tonnes"
+        },
+        "value_cents": {
+          "$ref": "#/$defs/cents"
+        }
+      },
+      "description": "Bench-phase unit: the blocks of one pushback on one bench (FR-017-18)."
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    }
+  }
+}

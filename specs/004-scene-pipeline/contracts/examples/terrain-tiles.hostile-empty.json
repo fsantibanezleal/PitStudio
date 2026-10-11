@@ -1,0 +1,30 @@
+{
+  "$schema": "https://fsantibanezleal.github.io/PitStudio/contracts/terrain-tiles.schema.json",
+  "schema_version": "1.0",
+  "kind": "terrain-tiles",
+  "frame": "site-enu",
+  "tile_samples": 257,
+  "grid_elevation_sha256": "7b961cd56183d759c6597ecf1f2c989cdc97f8292d6f676a590bb138e4ca356a",
+  "layer_path": "layers/terrain.usdc",
+  "lods": [
+    {
+      "lod": 0,
+      "max_error_m": 0.25,
+      "skirt_depth_m": 0.5,
+      "tile_count": 4
+    },
+    {
+      "lod": 1,
+      "max_error_m": 1.0,
+      "skirt_depth_m": 2.0,
+      "tile_count": 4
+    },
+    {
+      "lod": 2,
+      "max_error_m": 4.0,
+      "skirt_depth_m": 8.0,
+      "tile_count": 4
+    }
+  ],
+  "tiles": []
+}

@@ -1,0 +1,32 @@
+{
+  "kind": "input",
+  "engine": "mincut",
+  "engine_version": "0.1.0",
+  "function": "nested_shells",
+  "args": {
+    "shape": {
+      "levels": 1,
+      "rows": 1,
+      "cols": 2
+    },
+    "block_count": 2,
+    "pattern": "1-9",
+    "tonnage_kg": [
+      10000000.0,
+      10000000.0
+    ],
+    "grade": [
+      0.006,
+      0.001
+    ],
+    "price_cents_per_kg": 900.0,
+    "selling_cost_cents_per_kg": 50.0,
+    "recovery": 0.88,
+    "processing_cost_cents_per_kg": 1.0,
+    "mining_cost_cents_per_kg": 0.2,
+    "revenue_factors": [
+      0.5,
+      2.5
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "policy": "IL-2",
+  "twin": "planar-arm",
+  "label": "sim-to-sim",
+  "disclaimer": "simulation only — compared with a classical controller on the same simulator; no field claim",
+  "observation_size": 46,
+  "action_size": 4,
+  "policy_asset": {
+    "id": "il2-excavator-policy",
+    "path": "models/onnx/il2-excavator.onnx",
+    "sha256": "0ceb3f1533dbe805d38497a443d7bb363b266614684428ecd158264a37d9757d",
+    "bytes": 398120
+  },
+  "replay": "il2-isaaclab-rollouts",
+  "parameters": {
+    "machine": "generic-excavator-30t",
+    "boom_pivot_m": [
+      0.2,
+      2.0
+    ],
+    "links": {
+      "boom": {
+        "length_m": 6.0
+      },
+      "stick": {
+        "length_m": 3.0
+      },
+      "bucket": {
+        "length_m": 1.5
+      }
+    },
+    "joints": {
+      "boom": {
+        "lower_deg": -40,
+        "upper_deg": 60,
+        "torque_max_n_m": 400000,
+        "velocity_max_deg_per_s": 30
+      },
+      "stick": {
+        "lower_deg": -150,
+        "upper_deg": -30,
+        "torque_max_n_m": 250000,
+        "velocity_max_deg_per_s": 40
+      },
+      "bucket": {
+        "lower_deg": -170,
+        "upper_deg": 40,
+        "torque_max_n_m": 120000,
+        "velocity_max_deg_per_s": 60
+      }
+    },
+    "bucket_width_m": 1.2,
+    "heaped_volume_m3": 1.5,
+    "fill_cap": 1.15,
+    "gravity_m_per_s2": 9.81,
+    "dt_s": 0.01
+  },
+  "input_ranges": {
+    "cohesion_kpa": [
+      0,
+      25
+    ],
+    "friction_angle_deg": [
+      25,
+      40
+    ]
+  },
+  "goldens": {
+    "path": "goldens/il2-twin-goldens.bin",
+    "sha256": "458425f5b633af6d51138d4ac8e1f7797e6f0aaf5ca5bc48b5a6b2535aa4ef36",
+    "bytes": 288000,
+    "sequences": 3,
+    "steps": 2000,
+    "policy_check_steps": 200
+  }
+}

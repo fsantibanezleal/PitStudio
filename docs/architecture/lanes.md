@@ -37,7 +37,9 @@ $$
 $$
 
 - $D$: the capability is web-drivable, i.e. it needs no GPU runtime, proprietary engine or server (boolean).
-- $S_\text{asset}$: the size of each file the browser must load for it (MB), such as an ONNX model or a WASM runtime.
+- $S_\text{asset}$: the size of the largest file of the capability's own (MB): its model, policy, shard, scene or
+  fixture. Shared runtimes (ORT-web's WASM build, Pyodide, Rapier) are not counted here; they have their own class
+  budget of ≤ 55 MB ([budgets](../web/budgets.md)).
 - $t_\text{int}$: the time of one interaction step (ms); 16 ms is one frame at 60 frames per second
   ($1000/60 = 16.7$ ms).
 - $t_\text{run}$: the time of a complete run (s), such as one simulated shift of a discrete-event model, measured on the
@@ -96,9 +98,10 @@ impossible for some systems, so parity is defined per class ([DEC-0006](decision
 | Chaotic and particle systems | DEM, MPM, shallow water in WGSL; Warp twins | **Per-kernel unit parity** plus **observables**: repose angle ±1.5°, run-out and discharge ±5 %, mass drift < 0.5 % (ratified in the specifications) |
 | Machine-learning models | ONNX in ORT-web | Numerical tolerances from `specs/000-foundation/thresholds.yaml`: WASM fp32 max abs error ≤ 1e-4, WebGPU fp32 ≤ 1e-3, fp16 ≤ 1e-2, top-1 agreement ≥ 0.995 |
 
-ONNX models default to opset 20; a model may be exported at opset 17–19 when a WebGPU kernel it needs is registered
-only for those versions (ORT-web registers `GridSample` only for opset 16–19) [5]. The reason is recorded in the
-manifest and parity is checked against the opset-20 export. The bootstrap probe also found that the `onnx` library
+ONNX models are exported at opset 17–19, chosen per model with the reason recorded in the manifest: PyTorch's default
+export opset is 20, but ORT-web registers WebGPU kernels such as `GridSample` only for opset 16–19 [5]. Parity is
+checked against PyTorch fp32 ([export, parity and acceleration](../models/export-parity-acceleration.md)). The
+bootstrap probe also found that the `onnx` library
 writes IR version 14 by default while ONNX Runtime 1.30 reads at most IR 13, so the export stage pins the IR version
 explicitly.
 

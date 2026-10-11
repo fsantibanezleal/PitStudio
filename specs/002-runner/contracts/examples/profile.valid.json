@@ -1,0 +1,45 @@
+{
+  "id": "laptop-rtx5000ada",
+  "os": "windows",
+  "gpus": [
+    {
+      "index": 0,
+      "vram_bytes": 17179869184,
+      "power_class": "laptop-power-limited"
+    }
+  ],
+  "store_default": "C:/ps",
+  "cpu_slots": 8,
+  "envs_enabled": [
+    "studio",
+    "isaac",
+    "rtx",
+    "isaaclab",
+    "kit",
+    "reason",
+    "pipeline",
+    "accel",
+    "external"
+  ],
+  "process_control": "job-object",
+  "guards": {
+    "vram_margin_gib": 1.5,
+    "disk_margin_gib": 20,
+    "max_start_temp_c": 80,
+    "cooldown_wait_s": 600,
+    "lock_wait_s": 3600
+  },
+  "telemetry_hz": 2,
+  "keep_awake": true,
+  "quotas": {
+    "st55_sdg": 80,
+    "st50_physics": 30
+  },
+  "binaries": {
+    "ffmpeg": "PITSTUDIO_FFMPEG",
+    "llama-cpp": "PITSTUDIO_LLAMA_CPP",
+    "colmap": "PITSTUDIO_COLMAP",
+    "brush": "PITSTUDIO_BRUSH",
+    "kit-app": "PITSTUDIO_KIT_APP"
+  }
+}

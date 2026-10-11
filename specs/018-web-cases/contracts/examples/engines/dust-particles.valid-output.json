@@ -1,0 +1,23 @@
+{
+  "kind": "output",
+  "engine": "dust-particles",
+  "engine_version": "0.1.0",
+  "function": "dust_run",
+  "result": {
+    "particle_count": 10000,
+    "airborne": 6200,
+    "deposited": 3500,
+    "exited": 300,
+    "centroid_m": [
+      2500.0,
+      200.0,
+      15.0
+    ],
+    "spread_m": [
+      80.0,
+      60.0,
+      12.0
+    ],
+    "elapsed_s": 600.0
+  }
+}

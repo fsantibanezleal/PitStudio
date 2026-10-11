@@ -1,0 +1,582 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/sensor-shard.schema.json",
+  "title": "PitStudio sensor shard index",
+  "description": "Shard index of st53_sensors and st57_rain_lidar, with the lidar-return, radar-detection and image-index column sets as $defs (DC-013-03, spec 013-sensors).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "stage",
+    "scenario",
+    "backend",
+    "frames",
+    "files"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "stage": {
+      "enum": [
+        "st53_sensors",
+        "st57_rain_lidar"
+      ]
+    },
+    "scenario": {
+      "enum": [
+        "S1",
+        "S2",
+        "S3",
+        "S4a",
+        "rain"
+      ]
+    },
+    "backend": {
+      "description": "fake: test backend only.",
+      "enum": [
+        "ovrtx",
+        "isaac",
+        "fake"
+      ]
+    },
+    "frames": {
+      "description": "Per-frame counts of every recorded lidar frame.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lidar_frame"
+      },
+      "minItems": 0,
+      "maxItems": 20000
+    },
+    "files": {
+      "description": "Every output file with its size and digest.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/file"
+      },
+      "minItems": 1,
+      "maxItems": 10000
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "stage": {
+            "const": "st57_rain_lidar"
+          }
+        },
+        "required": [
+          "stage"
+        ]
+      },
+      "then": {
+        "properties": {
+          "scenario": {
+            "const": "rain"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "stage": {
+            "const": "st53_sensors"
+          }
+        },
+        "required": [
+          "stage"
+        ]
+      },
+      "then": {
+        "properties": {
+          "scenario": {
+            "enum": [
+              "S1",
+              "S2",
+              "S3",
+              "S4a"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "enum": [
+              "S1",
+              "rain"
+            ]
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "properties": {
+          "frames": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "enum": [
+              "S2",
+              "S3",
+              "S4a"
+            ]
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "properties": {
+          "frames": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "schema_version": {
+      "description": "Contract version (major 1).",
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "lidar_frame": {
+      "description": "Per-frame counts of one lidar frame (outputs, not performance data).",
+      "type": "object",
+      "required": [
+        "sensor",
+        "frame",
+        "beams_emitted",
+        "valid_points",
+        "file"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "sensor": {
+          "$ref": "sensor-recipe.schema.json#/$defs/sensor_id"
+        },
+        "frame": {
+          "description": "Recorded frame index (warm-up frames excluded).",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "beams_emitted": {
+          "description": "Beams emitted in the frame.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000
+        },
+        "valid_points": {
+          "description": "Valid points (flag 0x40) of the clean frame; never 0 (point-count guard).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000
+        },
+        "file": {
+          "description": "Parquet shard holding the frame's returns.",
+          "$ref": "#/$defs/relpath"
+        },
+        "rain_rate_mm_h": {
+          "description": "Applied rain rate (rain arm only).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 200
+        }
+      }
+    },
+    "file": {
+      "description": "One output file.",
+      "type": "object",
+      "required": [
+        "path",
+        "bytes",
+        "sha256",
+        "format",
+        "content"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "bytes": {
+          "description": "File size (bytes), at most 10 MB.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "format": {
+          "description": "parquet: tables; zarr: Zarr v3 chunk or metadata file; png: LDR image.",
+          "enum": [
+            "parquet",
+            "zarr",
+            "png"
+          ]
+        },
+        "content": {
+          "description": "Column set or array held by the file.",
+          "enum": [
+            "lidar-returns",
+            "radar-detections",
+            "image-index",
+            "hdr-color",
+            "distance",
+            "semantic",
+            "ldr-color"
+          ]
+        },
+        "rows": {
+          "description": "Rows of a Parquet file.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "format": {
+                "const": "parquet"
+              }
+            },
+            "required": [
+              "format"
+            ]
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "enum": [
+                  "lidar-returns",
+                  "radar-detections",
+                  "image-index"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "format": {
+                "const": "zarr"
+              }
+            },
+            "required": [
+              "format"
+            ]
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "enum": [
+                  "hdr-color",
+                  "distance",
+                  "semantic"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "format": {
+                "const": "png"
+              }
+            },
+            "required": [
+              "format"
+            ]
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "const": "ldr-color"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "lidar_return": {
+      "description": "One row of the lidar-returns column set (Parquet).",
+      "type": "object",
+      "required": [
+        "frame",
+        "beam",
+        "echo",
+        "x_m",
+        "y_m",
+        "z_m",
+        "range_m",
+        "intensity",
+        "flags",
+        "material_class",
+        "object_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "frame": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "beam": {
+          "description": "Beam index within the frame (input of the beam hash).",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "echo": {
+          "description": "Return index within the beam.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "x_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000,
+          "description": "Sensor-frame x (m)."
+        },
+        "y_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000,
+          "description": "Sensor-frame y (m)."
+        },
+        "z_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000,
+          "description": "Sensor-frame z (m)."
+        },
+        "range_m": {
+          "description": "Range (m).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "intensity": {
+          "description": "Clean return intensity I0 (normalised 0-1).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "flags": {
+          "description": "Renderer flags; 0x40 = valid.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "material_class": {
+          "description": "retro if the non-visual material is retroreflective.",
+          "enum": [
+            "retro",
+            "diffuse"
+          ]
+        },
+        "object_id": {
+          "description": "Scene label of the hit object; 0 = unlabelled.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      }
+    },
+    "radar_detection": {
+      "description": "One row of the radar-detections column set (Parquet).",
+      "type": "object",
+      "required": [
+        "frame",
+        "x_m",
+        "y_m",
+        "z_m",
+        "rcs_dbsm",
+        "radial_velocity_m_per_s",
+        "object_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "frame": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "x_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000,
+          "description": "Sensor-frame x (m)."
+        },
+        "y_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000,
+          "description": "Sensor-frame y (m)."
+        },
+        "z_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000,
+          "description": "Sensor-frame z (m)."
+        },
+        "rcs_dbsm": {
+          "description": "Radar cross-section (dBsm).",
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "radial_velocity_m_per_s": {
+          "description": "Radial velocity (m/s), positive = range increasing.",
+          "type": "number",
+          "minimum": -150,
+          "maximum": 150
+        },
+        "object_id": {
+          "description": "Scene label of the object where available.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      }
+    },
+    "image_record": {
+      "description": "One row of the image-index column set (Parquet).",
+      "type": "object",
+      "required": [
+        "image",
+        "sensor",
+        "file",
+        "width_px",
+        "height_px",
+        "fx_px",
+        "fy_px",
+        "cx_px",
+        "cy_px",
+        "world_from_camera"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "description": "Image index.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "sensor": {
+          "$ref": "sensor-recipe.schema.json#/$defs/sensor_id"
+        },
+        "file": {
+          "description": "PNG file or Zarr array of the image.",
+          "$ref": "#/$defs/relpath"
+        },
+        "width_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1920
+        },
+        "height_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1080
+        },
+        "fx_px": {
+          "description": "K[0][0] (px).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000
+        },
+        "fy_px": {
+          "description": "K[1][1] (px).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000
+        },
+        "cx_px": {
+          "description": "K[0][2] (px).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1920
+        },
+        "cy_px": {
+          "description": "K[1][2] (px).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1920
+        },
+        "world_from_camera": {
+          "description": "World-from-camera pose, 4 x 4 row-major (translation in m).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -100000000,
+            "maximum": 100000000
+          },
+          "minItems": 16,
+          "maxItems": 16
+        },
+        "gsd_m": {
+          "description": "Ground-sampling distance p_x H_agl / f (m), S2 only.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "h_agl_m": {
+          "description": "Height above ground (m), S2 only.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        }
+      }
+    }
+  }
+}
