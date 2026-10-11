@@ -1,0 +1,796 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/surrogate-io.schema.json",
+  "title": "Surrogate ONNX input/output description",
+  "description": "Input/output description of an exported surrogate, forecaster or meta-model graph written by s60_export (DC-011-02, spec 011-surrogates; also DC-010-05 and the spec 017 meta-model).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "model_id",
+    "engine",
+    "onnx",
+    "opset",
+    "ir_version",
+    "precision",
+    "delivery",
+    "inputs",
+    "outputs",
+    "training_envelope"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "model_id": {
+      "$ref": "#/$defs/slug"
+    },
+    "engine": {
+      "description": "consuming web engine",
+      "enum": [
+        "gns",
+        "fno",
+        "forecasters",
+        "meta-model"
+      ]
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/case_id"
+      },
+      "minItems": 1,
+      "maxItems": 12,
+      "uniqueItems": true
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "onnx": {
+      "$ref": "#/$defs/onnx_file"
+    },
+    "opset": {
+      "type": "integer",
+      "enum": [
+        17,
+        18,
+        19
+      ],
+      "description": "default-domain opset"
+    },
+    "ir_version": {
+      "const": 10
+    },
+    "ml_opset": {
+      "type": "integer",
+      "description": "ai.onnx.ml opset (tree converters only)",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "precision": {
+      "description": "precision of the graph's arithmetic",
+      "enum": [
+        "fp32",
+        "fp16",
+        "int8",
+        "fp8"
+      ]
+    },
+    "delivery": {
+      "description": "live in the browser, precomputed outputs, or bench only",
+      "enum": [
+        "live",
+        "precompute",
+        "bench-only"
+      ]
+    },
+    "delivery_reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "aggregation": {
+      "description": "GNS message aggregation layout",
+      "enum": [
+        "padded-gather",
+        "scatter-add"
+      ]
+    },
+    "symbolic_dims": {
+      "type": "object",
+      "propertyNames": {
+        "maxLength": 32,
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,31}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/symbolic_dim"
+      },
+      "maxProperties": 8
+    },
+    "constants": {
+      "type": "object",
+      "description": "model constants (unit-suffixed keys)",
+      "propertyNames": {
+        "maxLength": 64,
+        "pattern": "^[a-z][a-z0-9_]{0,63}$"
+      },
+      "additionalProperties": {
+        "type": "number",
+        "minimum": -1000000000000.0,
+        "maximum": 1000000000000.0
+      },
+      "maxProperties": 32
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tensor"
+      },
+      "minItems": 1,
+      "maxItems": 16
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tensor"
+      },
+      "minItems": 1,
+      "maxItems": 16
+    },
+    "training_envelope": {
+      "type": "object",
+      "propertyNames": {
+        "maxLength": 64,
+        "pattern": "^[a-z][a-z0-9_]{0,63}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/envelope_range"
+      },
+      "minProperties": 1,
+      "maxProperties": 64
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "engine": {
+            "const": "gns"
+          }
+        },
+        "required": [
+          "engine"
+        ]
+      },
+      "then": {
+        "properties": {
+          "opset": {
+            "const": 17
+          }
+        },
+        "required": [
+          "aggregation"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "engine": {
+            "const": "fno"
+          }
+        },
+        "required": [
+          "engine"
+        ]
+      },
+      "then": {
+        "properties": {
+          "opset": {
+            "const": 19
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "engine": {
+            "const": "forecasters"
+          }
+        },
+        "required": [
+          "engine"
+        ]
+      },
+      "then": {
+        "properties": {
+          "opset": {
+            "const": 17
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "engine": {
+            "const": "meta-model"
+          }
+        },
+        "required": [
+          "engine"
+        ]
+      },
+      "then": {
+        "properties": {
+          "opset": {
+            "const": 17
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "engine": {
+            "enum": [
+              "fno",
+              "forecasters",
+              "meta-model"
+            ]
+          }
+        },
+        "required": [
+          "engine"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "aggregation"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregation": {
+            "const": "scatter-add"
+          }
+        },
+        "required": [
+          "aggregation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "delivery": {
+            "const": "bench-only"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "delivery": {
+            "enum": [
+              "precompute",
+              "bench-only"
+            ]
+          }
+        },
+        "required": [
+          "delivery"
+        ]
+      },
+      "then": {
+        "required": [
+          "delivery_reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "delivery": {
+            "const": "live"
+          }
+        },
+        "required": [
+          "delivery"
+        ]
+      },
+      "then": {
+        "properties": {
+          "onnx": {
+            "properties": {
+              "bytes": {
+                "maximum": 25000000
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "precision": {
+            "const": "fp8"
+          }
+        },
+        "required": [
+          "precision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "opset": {
+            "const": 19
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "channel": {
+      "type": "object",
+      "description": "one channel; the array order is the channel order",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "unit"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/param_key"
+        },
+        "unit": {
+          "$ref": "#/$defs/unit"
+        },
+        "normalisation": {
+          "$ref": "#/$defs/normalisation"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    },
+    "dim": {
+      "description": "a fixed dimension (integer) or a symbolic one declared in `symbolic_dims`",
+      "type": [
+        "integer",
+        "string"
+      ],
+      "minimum": 1,
+      "maximum": 1048576,
+      "maxLength": 32,
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,31}$"
+    },
+    "dtype": {
+      "description": "ONNX Runtime tensor element type",
+      "enum": [
+        "float32",
+        "float16",
+        "bfloat16",
+        "int64",
+        "int32",
+        "int8",
+        "uint8",
+        "bool"
+      ]
+    },
+    "envelope_range": {
+      "type": "object",
+      "description": "closed training range of one parameter; outside it a result is labelled extrapolation",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max",
+        "unit"
+      ],
+      "properties": {
+        "min": {
+          "type": "number",
+          "minimum": -1000000000000.0,
+          "maximum": 1000000000000.0
+        },
+        "max": {
+          "type": "number",
+          "minimum": -1000000000000.0,
+          "maximum": 1000000000000.0
+        },
+        "unit": {
+          "$ref": "#/$defs/unit"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    },
+    "normalisation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule",
+        "applied_in_graph"
+      ],
+      "properties": {
+        "rule": {
+          "description": "map from physical values to tensor values: standardise (x - mean) / std; log-standardise (ln x - mean) / std; patch-relief (x - patch mean) / patch relief; context-mean-abs x / mean |x| of the input context (outputs are scaled back by the same factor)",
+          "enum": [
+            "none",
+            "standardise",
+            "log-standardise",
+            "patch-relief",
+            "context-mean-abs"
+          ]
+        },
+        "applied_in_graph": {
+          "type": "boolean",
+          "description": "true: the graph applies the map itself and the tensor carries physical values"
+        },
+        "mean": {
+          "type": "array",
+          "description": "one value per channel, or one broadcast value",
+          "items": {
+            "type": "number",
+            "minimum": -1000000000000.0,
+            "maximum": 1000000000000.0
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "std": {
+          "type": "array",
+          "description": "one value per channel, or one broadcast value",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1000000000000.0
+          },
+          "minItems": 1,
+          "maxItems": 64
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "rule": {
+                "enum": [
+                  "standardise",
+                  "log-standardise"
+                ]
+              }
+            },
+            "required": [
+              "rule"
+            ]
+          },
+          "then": {
+            "required": [
+              "mean",
+              "std"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule": {
+                "enum": [
+                  "none",
+                  "patch-relief",
+                  "context-mean-abs"
+                ]
+              }
+            },
+            "required": [
+              "rule"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "mean"
+                  ]
+                },
+                {
+                  "required": [
+                    "std"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "onnx_file": {
+      "type": "object",
+      "description": "the exported ONNX file this description belongs to",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        }
+      }
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "symbolic_dim": {
+      "type": "object",
+      "description": "accepted range of a symbolic dimension",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        }
+      }
+    },
+    "tensor": {
+      "type": "object",
+      "description": "one graph input or output",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "dtype",
+        "shape",
+        "unit"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/tensor_name"
+        },
+        "dtype": {
+          "$ref": "#/$defs/dtype"
+        },
+        "shape": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dim"
+          },
+          "minItems": 1,
+          "maxItems": 8
+        },
+        "unit": {
+          "$ref": "#/$defs/tensor_unit"
+        },
+        "channel_axis": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/channel"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "normalisation": {
+          "$ref": "#/$defs/normalisation"
+        },
+        "categories": {
+          "type": "array",
+          "description": "allowed category names in index order (e.g. particle types)",
+          "items": {
+            "$ref": "#/$defs/slug"
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "quantile_axis": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "quantiles": {
+          "type": "array",
+          "description": "quantile levels in output order",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "exclusiveMaximum": 1
+          },
+          "minItems": 1,
+          "maxItems": 99,
+          "uniqueItems": true
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 200
+        }
+      },
+      "dependentRequired": {
+        "channels": [
+          "channel_axis"
+        ],
+        "channel_axis": [
+          "channels"
+        ],
+        "quantiles": [
+          "quantile_axis"
+        ],
+        "quantile_axis": [
+          "quantiles"
+        ]
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "unit": {
+                "const": "per-channel"
+              }
+            },
+            "required": [
+              "unit"
+            ]
+          },
+          "then": {
+            "required": [
+              "channels"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "channels"
+            ]
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "per-channel"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "tensor_name": {
+      "type": "string",
+      "description": "graph input or output name",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$"
+    },
+    "tensor_unit": {
+      "description": "physical unit (\"1\" = dimensionless, counts, indices and categories); \"per-channel\" when the channels carry their own units",
+      "enum": [
+        "1",
+        "m",
+        "mm",
+        "um",
+        "m^2",
+        "m^3",
+        "m^2/s",
+        "s",
+        "h",
+        "deg",
+        "rad",
+        "m/s",
+        "m/s^2",
+        "mm/h",
+        "h/mm",
+        "Pa",
+        "Pa.s",
+        "kg",
+        "kg/m^3",
+        "kg/m^2/s",
+        "ug/m^3",
+        "kW",
+        "kWh/t",
+        "t/h",
+        "USD/kg",
+        "USD/kWh",
+        "USD/t",
+        "per-channel"
+      ]
+    },
+    "unit": {
+      "description": "physical unit (\"1\" = dimensionless, counts, indices and categories)",
+      "enum": [
+        "1",
+        "m",
+        "mm",
+        "um",
+        "m^2",
+        "m^3",
+        "m^2/s",
+        "s",
+        "h",
+        "deg",
+        "rad",
+        "m/s",
+        "m/s^2",
+        "mm/h",
+        "h/mm",
+        "Pa",
+        "Pa.s",
+        "kg",
+        "kg/m^3",
+        "kg/m^2/s",
+        "ug/m^3",
+        "kW",
+        "kWh/t",
+        "t/h",
+        "USD/kg",
+        "USD/kWh",
+        "USD/t"
+      ]
+    }
+  }
+}

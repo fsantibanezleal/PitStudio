@@ -1,0 +1,452 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/field-dataset.schema.json",
+  "title": "FNO field dataset metadata",
+  "description": "Metadata of one Warp shallow-water or dust field run on a terrain patch written by st50_physics (DC-011-03, spec 011-surrogates).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "model",
+    "patch_id",
+    "scenario_id",
+    "source_dem",
+    "cell_size_m",
+    "grid",
+    "resolution_transfer",
+    "channels",
+    "scenario",
+    "t_end_s",
+    "solver",
+    "solver_version",
+    "store",
+    "label"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "model": {
+      "enum": [
+        "tailings",
+        "dust"
+      ]
+    },
+    "patch_id": {
+      "$ref": "#/$defs/slug"
+    },
+    "scenario_id": {
+      "$ref": "#/$defs/slug"
+    },
+    "source_dem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "sha256"
+      ],
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/slug"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "cell_size_m": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 100
+    },
+    "grid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nx",
+        "ny"
+      ],
+      "properties": {
+        "nx": {
+          "type": "integer",
+          "enum": [
+            64,
+            128
+          ]
+        },
+        "ny": {
+          "type": "integer",
+          "enum": [
+            64,
+            128
+          ]
+        }
+      }
+    },
+    "resolution_transfer": {
+      "type": "boolean",
+      "description": "true only for the 128 x 128 resolution-transfer runs (labelled not claimed)"
+    },
+    "channels": {
+      "type": "array",
+      "description": "payload channels in store order",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "role",
+          "unit"
+        ],
+        "properties": {
+          "name": {
+            "$ref": "#/$defs/param_key"
+          },
+          "role": {
+            "enum": [
+              "input",
+              "output"
+            ]
+          },
+          "unit": {
+            "$ref": "#/$defs/unit"
+          }
+        }
+      },
+      "minItems": 2,
+      "maxItems": 32
+    },
+    "scenario": {
+      "type": "object",
+      "description": "scenario parameters drawn from the recipe ranges",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "breach_row": {
+          "type": "integer",
+          "description": "grid cell index",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "breach_col": {
+          "type": "integer",
+          "description": "grid cell index",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "release_volume_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000000.0
+        },
+        "yield_stress_pa": {
+          "type": "number",
+          "description": "Bingham yield stress",
+          "exclusiveMinimum": 0,
+          "maximum": 10000.0
+        },
+        "plastic_viscosity_pa_s": {
+          "type": "number",
+          "description": "Bingham plastic viscosity",
+          "exclusiveMinimum": 0,
+          "maximum": 1000.0
+        },
+        "density_kg_per_m3": {
+          "type": "number",
+          "minimum": 1000,
+          "maximum": 3000
+        },
+        "source_row_start": {
+          "type": "integer",
+          "description": "grid cell index",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "source_col_start": {
+          "type": "integer",
+          "description": "grid cell index",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "source_row_end": {
+          "type": "integer",
+          "description": "grid cell index",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "source_col_end": {
+          "type": "integer",
+          "description": "grid cell index",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "source_strength_kg_per_m2_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "wind_speed_m_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50
+        },
+        "wind_direction_deg": {
+          "type": "number",
+          "description": "direction the wind blows from, clockwise from north",
+          "minimum": 0,
+          "exclusiveMaximum": 360
+        }
+      }
+    },
+    "t_end_s": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1000000.0
+    },
+    "output_times_s": {
+      "type": "array",
+      "description": "tailings: t_k = k T_end / 8, k = 1..8",
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 1000000.0
+      },
+      "minItems": 1,
+      "maxItems": 8
+    },
+    "averaging_window_s": {
+      "type": "array",
+      "description": "dust: start and end of the time average",
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1000000.0
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "solver": {
+      "enum": [
+        "warp-swe-bingham",
+        "warp-dust"
+      ]
+    },
+    "solver_version": {
+      "$ref": "#/$defs/version"
+    },
+    "store": {
+      "$ref": "#/$defs/store"
+    },
+    "label": {
+      "const": "calibrated synthetic — not validated against real data"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "model": {
+            "const": "tailings"
+          }
+        },
+        "required": [
+          "model"
+        ]
+      },
+      "then": {
+        "required": [
+          "output_times_s"
+        ],
+        "properties": {
+          "output_times_s": {
+            "minItems": 8
+          },
+          "solver": {
+            "const": "warp-swe-bingham"
+          },
+          "scenario": {
+            "required": [
+              "breach_row",
+              "breach_col",
+              "release_volume_m3",
+              "yield_stress_pa",
+              "plastic_viscosity_pa_s",
+              "density_kg_per_m3"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "model": {
+            "const": "dust"
+          }
+        },
+        "required": [
+          "model"
+        ]
+      },
+      "then": {
+        "required": [
+          "averaging_window_s"
+        ],
+        "properties": {
+          "solver": {
+            "const": "warp-dust"
+          },
+          "scenario": {
+            "required": [
+              "source_row_start",
+              "source_col_start",
+              "source_row_end",
+              "source_col_end",
+              "source_strength_kg_per_m2_s",
+              "wind_speed_m_per_s",
+              "wind_direction_deg"
+            ]
+          }
+        },
+        "not": {
+          "required": [
+            "output_times_s"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "resolution_transfer": {
+            "const": false
+          }
+        },
+        "required": [
+          "resolution_transfer"
+        ]
+      },
+      "then": {
+        "properties": {
+          "grid": {
+            "properties": {
+              "nx": {
+                "const": 64
+              },
+              "ny": {
+                "const": 64
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "resolution_transfer": {
+            "const": true
+          }
+        },
+        "required": [
+          "resolution_transfer"
+        ]
+      },
+      "then": {
+        "properties": {
+          "grid": {
+            "properties": {
+              "nx": {
+                "const": 128
+              },
+              "ny": {
+                "const": 128
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "store": {
+      "type": "object",
+      "description": "payload store; sha256 of the file (Parquet) or of the sorted chunk-digest listing (Zarr)",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "format": {
+          "const": "zarr"
+        },
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "unit": {
+      "description": "physical unit (\"1\" = dimensionless, counts, indices and categories)",
+      "enum": [
+        "1",
+        "m",
+        "mm",
+        "um",
+        "m^2",
+        "m^3",
+        "m^2/s",
+        "s",
+        "h",
+        "deg",
+        "rad",
+        "m/s",
+        "m/s^2",
+        "mm/h",
+        "h/mm",
+        "Pa",
+        "Pa.s",
+        "kg",
+        "kg/m^3",
+        "kg/m^2/s",
+        "ug/m^3",
+        "kW",
+        "kWh/t",
+        "t/h",
+        "USD/kg",
+        "USD/kWh",
+        "USD/t"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    }
+  }
+}

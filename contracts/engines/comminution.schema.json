@@ -1,0 +1,451 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/comminution.schema.json",
+  "title": "Engine comminution: input and output messages",
+  "description": "Input and output messages of the browser engine `comminution` (cases D2): the minephys.comminution port: Bond energy, passing size and the Bond mine-to-mill chain (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `comminution`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "comminution",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "bond_energy",
+            "passing_size",
+            "mine_to_mill_chain"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "bond_energy"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/bond_energy_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "passing_size"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/passing_size_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "mine_to_mill_chain"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/mine_to_mill_chain_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `comminution`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "comminution",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "bond_energy",
+            "passing_size",
+            "mine_to_mill_chain"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "bond_energy"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/bond_energy_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "passing_size"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/passing_size_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "mine_to_mill_chain"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/mine_to_mill_chain_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "bond_energy_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "work_index_j_per_kg",
+        "f80_m",
+        "p80_m"
+      ],
+      "properties": {
+        "work_index_j_per_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 360000,
+          "description": "Bond work index in J/kg (100 kWh/t = 360,000 J/kg)."
+        },
+        "f80_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Feed size F80."
+        },
+        "p80_m": {
+          "type": "number",
+          "minimum": 7e-05,
+          "maximum": 1,
+          "description": "Product size P80; at least 70 micrometres (minephys validity row bond_min_product_size)."
+        }
+      }
+    },
+    "bond_energy_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "specific_energy_j_per_kg"
+      ],
+      "properties": {
+        "specific_energy_j_per_kg": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Bond specific energy W (kWh/t in the UI)."
+        }
+      }
+    },
+    "passing_size_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sizes_m",
+        "passing",
+        "fraction"
+      ],
+      "properties": {
+        "sizes_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 10
+          },
+          "minItems": 2,
+          "maxItems": 10000,
+          "description": "Strictly monotone sizes."
+        },
+        "passing": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minItems": 2,
+          "maxItems": 10000,
+          "description": "Cumulative passing at each size."
+        },
+        "fraction": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1,
+          "description": "Passing fraction to invert (0.8 for P80)."
+        }
+      }
+    },
+    "passing_size_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "size_m"
+      ],
+      "properties": {
+        "size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "mine_to_mill_chain_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sizes_m",
+        "blast_passing",
+        "classification",
+        "breakage",
+        "target_p80_m",
+        "installed_power_w",
+        "energy_model",
+        "work_index_j_per_kg",
+        "fines_size_m"
+      ],
+      "properties": {
+        "sizes_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 10
+          },
+          "minItems": 2,
+          "maxItems": 200,
+          "description": "Size classes (at most 200)."
+        },
+        "blast_passing": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minItems": 2,
+          "maxItems": 200,
+          "description": "Cumulative passing of the blasted feed per class."
+        },
+        "classification": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minItems": 2,
+          "maxItems": 200,
+          "description": "Crusher classification per class."
+        },
+        "breakage": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "minItems": 2,
+            "maxItems": 200
+          },
+          "minItems": 2,
+          "maxItems": 200,
+          "description": "Crusher breakage matrix, strictly lower triangular."
+        },
+        "target_p80_m": {
+          "type": "number",
+          "minimum": 7e-05,
+          "maximum": 1,
+          "description": "Product size P80; at least 70 micrometres (minephys validity row bond_min_product_size)."
+        },
+        "installed_power_w": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000000.0,
+          "description": "Installed mill power."
+        },
+        "energy_model": {
+          "const": "bond",
+          "description": "Energy model of the port; the Morrell chain runs in Python only."
+        },
+        "work_index_j_per_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 360000,
+          "description": "Bond work index in J/kg (100 kWh/t = 360,000 J/kg)."
+        },
+        "fines_size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Fines cut size."
+        }
+      }
+    },
+    "mine_to_mill_chain_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "f80_m",
+        "fines_fraction",
+        "specific_energy_j_per_kg",
+        "crusher_feed_kg_per_s",
+        "mill_product_kg_per_s"
+      ],
+      "properties": {
+        "f80_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Mill feed F80."
+        },
+        "fines_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "specific_energy_j_per_kg": {
+          "type": "number",
+          "minimum": 0
+        },
+        "crusher_feed_kg_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Mass flow into the crusher."
+        },
+        "mill_product_kg_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Mass flow out of the mill (equals the crusher feed, P-018-45)."
+        }
+      }
+    },
+    "unit_scales": {
+      "description": "Unit scale s_y of every numeric result field, per function, in the field's own unit; the parity tolerance is 1e-12 s_y + rtol |y| (FR-018-51).",
+      "const": {
+        "bond_energy": {
+          "specific_energy_j_per_kg": 1
+        },
+        "passing_size": {
+          "size_m": 1e-06
+        },
+        "mine_to_mill_chain": {
+          "f80_m": 1e-06,
+          "fines_fraction": 1,
+          "specific_energy_j_per_kg": 1,
+          "crusher_feed_kg_per_s": 1,
+          "mill_product_kg_per_s": 1
+        }
+      }
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}
