@@ -38,7 +38,8 @@ PROBES: dict[str, tuple[str, list[str]]] = {
 }
 OPT_IN = {"stress"}  # long or disruptive: run only when named explicitly
 MIN_FREE_VRAM_MB = 4096  # refuse to start when another job is holding the GPU
-MAX_START_TEMP_C = 80
+MAX_START_TEMP_C = 88  # laptop GPUs idle near their 87 C throttle target under CPU load (shared cooling)
+COOLDOWN_WAIT_S = 600  # wait this long for the GPU to cool below MAX_START_TEMP_C before skipping a probe
 
 
 def local_dir() -> Path:
@@ -153,6 +154,10 @@ def run_one(name: str, tele: Telemetry, timeout_s: int) -> dict[str, Any]:
     free_mb = before["mem_total_mb"] - before["mem_used_mb"]
     if free_mb < MIN_FREE_VRAM_MB:
         return {"probe": name, "status": "skip", "notes": [f"only {free_mb:.0f} MB VRAM free; another job uses it"]}
+    deadline = time.monotonic() + COOLDOWN_WAIT_S  # a hot GPU (e.g. right after the previous probe) cools down first
+    while before["temp_c"] > MAX_START_TEMP_C and time.monotonic() < deadline:
+        time.sleep(5)
+        before = tele.snapshot()
     if before["temp_c"] > MAX_START_TEMP_C:
         return {"probe": name, "status": "skip", "notes": [f"GPU at {before['temp_c']} C before start"]}
     w0 = whea_count()
