@@ -51,6 +51,13 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/009-perception/t
 - [ ] T-009-071 [US-009-5] (FR-009-37, FR-009-38, NFR-009-01, NFR-009-02, NFR-009-06) live set, sizes, measured lanes, gallery budget — test: tests/contract/test_t_009_071_live_lane.py
 - [ ] T-009-072 [US-009-5] (FR-009-39) reject reduced-precision variants that fail Δ or robustness — test: tests/unit/test_t_009_072_variant_rejection.py
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-009-092 (FR-009-46) repeated record_id in a dataset index is rejected — test: tests/unit/test_t_009_092_index_duplicate_record.py
+- [ ] T-009-093 (FR-009-47) COCO polygon consistency checks — test: tests/unit/test_t_009_093_coco_polygon_consistency.py
+- [ ] T-009-094 (FR-009-48) COCO file_name device names and case-folded duplicates — test: tests/unit/test_t_009_094_coco_file_name_paths.py
+- [ ] T-009-095 (FR-009-49) people-asset export digest is verified — test: tests/unit/test_t_009_095_asset_export_digest.py
+- [ ] T-009-096 (FR-009-50) duplicate evaluation report rows are rejected — test: tests/unit/test_t_009_096_report_duplicate_row.py
+
 ## Phase 8 — Polish and hostile review
 - [ ] T-009-090 mutation run on the corruption, AP-wrapper and bootstrap modules; record the score (≥ 0.80 numerical core)
 - [ ] T-009-091 independent review of the diff against this spec; append tasks for gaps

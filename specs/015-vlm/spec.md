@@ -133,6 +133,8 @@ spec 009.
 | FR-015-43 | Unwanted | If a baked record file fails its SHA-256 or its schema, then the panel shall show "answers unavailable" and render none of its text. | web unit (hostile) |
 | FR-015-44 | Ubiquitous | The lane shall send only the committed system prompt and prompt templates (hashes checked at stage start), none of which asks the model to ignore or bypass its safety behaviour. | unit |
 | FR-015-45 | Optional | Where the optional real probe exists (≤ 200 licence-clean images, two labellers), the applicable task-A types shall be scored on it and reported in aggregate only, with Cohen's κ between the labellers; otherwise the real-image result shall read "not measured". | unit |
+| FR-015-48 | Unwanted | If a frame-state record has `visible_px` greater than `width_px` × `height_px` of its frame, then the frame-state loader shall reject it with error class `frame-state-invalid` naming the object. | unit (hostile) |
+| FR-015-49 | Unwanted | If a frame-state rotation quaternion has a norm differing from 1 by more than 10⁻⁶, or a non-finite component, then the frame-state loader shall reject it with error class `frame-state-invalid` naming the object. | unit (hostile) |
 
 ## 4. Correctness properties
 

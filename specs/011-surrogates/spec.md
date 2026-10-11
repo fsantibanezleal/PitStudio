@@ -127,6 +127,9 @@ Fixed parameters referred to as "§7" are in the tables of section 7.
 |---|---|---|---|
 | FR-011-44 | Optional | Where a CUDA GPU is available, GNS training, FNO training and every calibration shall run only through the runner under `gpu0.compute`, honour `gpu0.hold`, and on out-of-memory apply the declared fallback (GNS and FNO: batch halved, at most twice; calibration: particle count halved once and the trial flagged) recorded in the manifest; these behaviours shall be verified against the fake GPU backend. | unit (fake GPU) + gpu |
 | FR-011-45 | Ubiquitous | Every rollout, field and calibration dataset and every surrogate artefact shall carry a manifest (DC-000-01) naming the producing tool (Warp, Newton, PyTorch, ONNX Runtime), its measured lane and its inputs, and shall be labelled "calibrated synthetic — not validated against real data" (FR-000-09), the literature repose targets being the only real-world anchor. | contract |
+| FR-011-46 | Unwanted | If the quantile levels of a surrogate input or output are not strictly increasing inside (0, 1), then the surrogate I/O loader shall reject the document with error class `surrogate-io-invalid` naming the field. | unit (hostile) |
+| FR-011-47 | Unwanted | If the tensor names or the channel names of a surrogate I/O document are not unique, then the loader and the generated types shall reject it with error class `surrogate-io-invalid` naming the repeated name. | unit (hostile) |
+| FR-011-48 | Unwanted | If the bounds of a granular rollout have `x_min` not below `x_max` or `y_min` not below `y_max`, then the rollout loader shall reject it with error class `rollout-bounds-invalid` before any step is read. | unit (hostile) |
 
 ## 4. Correctness properties
 

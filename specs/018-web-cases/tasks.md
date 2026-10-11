@@ -71,6 +71,9 @@ start with the requirement ID followed by " · " (for example `it("FR-018-39 · 
 - [ ] T-018-081 [US-018-3] (FR-018-64, NFR-018-03) T2 measurement suite writing DC-018-06 — test: web/e2e/lane-gate/t_018_081_measure.spec.ts
 - [ ] T-018-082 [US-018-3] (FR-018-66, FR-000-15) CI mislabel check `web/scripts/check-lanes.mjs` — test: web/src/lane/t_018_082_check_lanes.test.ts
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-018-092 (FR-018-69) a repeated KPI id within a case fails the case check — test: tests/unit/test_t_018_092_case_duplicate_kpi.py
+
 ## Phase 9 — Gates, polish and independent review
 - [ ] T-018-088 [US-018-3] (SC-018-01, FR-018-67) parity-report completeness: every engine of §7.1 passes or is shown in T0; invalid report or measurement files fail the build — test: web/src/engines/t_018_088_parity_report.test.ts
 - [ ] T-018-089 [US-018-2] (SC-018-02) vertical slice A1 + C1 end to end on the preview build — test: web/e2e/t_018_089_vertical_slice.spec.ts

@@ -137,6 +137,9 @@ Fixed parameters referred to as "§7" are in the parameter table of section 7.
 | FR-010-38 | Optional | Where EGMS-derived summaries over Hambach are present, the C1 Scene tab shall show them labelled "derived-only (EGMS)" with their attribution; otherwise the layer shall show "Not run — EGMS access not set up", and no C1 KPI shall depend on it. | E2E |
 | FR-010-39 | Ubiquitous | The recipe `studio/recipes/cases/c1.yaml` shall run end to end on the open lane (no NVIDIA proprietary runtime), producing manifests (DC-000-01) for sections, FoS/PoF tables, event sets, forecasts, metrics and ONNX files, each naming its producer tool, measured lane, licence class and input SHA-256 digests. | pipeline + contract |
 | FR-010-40 | Unwanted | If the C1 recipe names an unknown method, model or stratum, a cut-off outside (0, 1), duplicate cut-offs, or a test seed range overlapping the training range, then `studio plan` shall reject it with a schema error before any stage runs. | unit (hostile) |
+| FR-010-43 | Unwanted | If a slope-section document has a crest or toe outside the ground x range, `rho_min` not below `rho_max`, repeated material ids, or a distribution naming an undefined material, then the section loader shall reject it with error class `section-invalid` naming the field. | unit (hostile) |
+| FR-010-44 | Unwanted | If a displacement series has arrays whose lengths differ from each other or from `n_samples`, or `t_0` not before `t_f`, then the series loader shall reject it with error class `series-inconsistent` naming the field. | unit (hostile) |
+| FR-010-45 | Unwanted | If the `section_sha256` of a slope-results document is not the SHA-256 of the RFC 8785 canonical JSON of the section it names, then the results loader shall reject it with error class `section-digest-mismatch`. | unit (hostile) |
 
 ## 4. Correctness properties
 

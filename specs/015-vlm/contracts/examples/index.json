@@ -852,15 +852,15 @@
       "schema": "frame-state.schema.json",
       "class": "visible_px larger than width_px x height_px",
       "by": "checker",
-      "rule": "-",
-      "note": "arithmetic across fields; no requirement names it (gap reported)"
+      "rule": "FR-015-48",
+      "note": "enforced by FR-015-48 (task T-015-092)"
     },
     {
       "schema": "frame-state.schema.json",
       "class": "rotation quaternion not of unit norm",
       "by": "checker",
-      "rule": "-",
-      "note": "arithmetic across items; no requirement names it (gap reported)"
+      "rule": "FR-015-49",
+      "note": "enforced by FR-015-49 (task T-015-093)"
     },
     {
       "schema": "frame-state.schema.json",

@@ -176,6 +176,9 @@ SNR_obs) → `s30_train` → `s40_infer` (all methods on identical windows) → 
 | SC-010-05 | pipeline (oracle env) | pySlope 1.4.0 `add_single_circular_plane` on the same circle, and `get_min_FOS` on planar cases (20 m, 45°, γ 20 kN/m³, c′ 20 kPa, φ′ 30°, dry, and 4 more) | pytest |
 | DC-010-01…DC-010-04 | contract | valid and invalid example documents per schema | pytest + jsonschema |
 | DC-010-05 | contract | the exported IO description validates against `surrogate-io.schema.json` | pytest + jsonschema |
+| FR-010-43 | unit (hostile) | hand calculation: one fixture per rule, each giving `section-invalid` with the field name | pytest |
+| FR-010-44 | unit (hostile) | hand calculation: arrays of length 3 and 4 with n_samples 3, and t_0 = t_f, give `series-inconsistent` | pytest |
+| FR-010-45 | unit (hostile) | reference implementation: `hashlib.sha256` of the canonical JSON of a fixture section; one value changed gives `section-digest-mismatch` | pytest |
 
 ### Threshold keys (`thresholds.yaml`, ratchet-only)
 `models.slope_ttf_rel_error_median_max: 0.10`, `models.slope_bootstrap_resamples: 10000`,

@@ -182,6 +182,8 @@ layout, profile, job spec, events, code roots).
 | FR-002-56 | Unwanted | If the fake backend is selected, then the runner may use the current interpreter as a test launcher instead of `uv run`, shall record `gpu.backend: fake` and `launcher: test`, and `studio publish` shall refuse the run (FR-002-49). | unit |
 | FR-002-57 | Unwanted | If the fake device file is missing, invalid, or scripts a non-finite value, then the command shall exit 2 naming the file and pointer. | unit (hostile) |
 | FR-002-59 | Optional | Where an NVIDIA GPU, its driver and `nvidia-ml-py` are available and no hold exists, the NVML backend shall report the GPU name, driver version and total memory equal to `nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader,nounits`, temperature within ±3 °C and enforced power limit within ±1 W of the same query taken within 2 s; if any of them is unavailable, the test shall report "not run" with the reason. | integration (gpu) |
+| FR-002-64 | Unwanted | If a profile lists the same GPU index more than once, then the profile loader shall reject it with error class `profile-invalid` naming the repeated index. | unit (hostile) |
+| FR-002-65 | Unwanted | If a stage result lists two outputs with the same path, then the runner shall treat the stage as `invalid-result` naming the path, shall publish no output of that stage and shall not cache it. | unit (hostile) |
 
 ## 4. Correctness properties
 

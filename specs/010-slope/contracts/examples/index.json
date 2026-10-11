@@ -1036,8 +1036,8 @@
       "schema": "slope-section.schema.json",
       "class": "crest or toe outside the ground x range; rho_min >= rho_max; material ids repeated or a distribution naming an undefined material",
       "by": "checker",
-      "rule": "-",
-      "note": "no FR names these cross-field rules; reported as a gap"
+      "rule": "FR-010-43",
+      "note": "enforced by FR-010-43 (task T-010-092)"
     },
     {
       "schema": "displacement-series.schema.json",
@@ -1087,8 +1087,8 @@
       "schema": "displacement-series.schema.json",
       "class": "array lengths differ from each other or from n_samples; t_0 not before t_f",
       "by": "checker",
-      "rule": "-",
-      "note": "no FR names series self-consistency; reported as a gap"
+      "rule": "FR-010-44",
+      "note": "enforced by FR-010-44 (task T-010-093)"
     },
     {
       "schema": "ttf-results.schema.json",
@@ -1178,8 +1178,8 @@
       "schema": "slope-results.schema.json",
       "class": "section_sha256 not the digest of the section document",
       "by": "checker",
-      "rule": "-",
-      "note": "no FR names this digest check; reported as a gap"
+      "rule": "FR-010-45",
+      "note": "enforced by FR-010-45 (task T-010-094)"
     }
   ]
 }

@@ -629,15 +629,15 @@
       "schema": "surrogate-io.schema.json",
       "class": "quantile levels not strictly increasing",
       "by": "checker",
-      "rule": "-",
-      "note": "quantile order of the spec 010 forecasters (FR-010-21); no FR of this spec checks it"
+      "rule": "FR-011-46",
+      "note": "enforced by FR-011-46 (task T-011-092)"
     },
     {
       "schema": "surrogate-io.schema.json",
       "class": "duplicate tensor or channel names",
       "by": "checker",
-      "rule": "-",
-      "note": "no FR names it; the generated types should reject it"
+      "rule": "FR-011-47",
+      "note": "enforced by FR-011-47 (task T-011-093)"
     },
     {
       "schema": "surrogate-io.schema.json",
@@ -689,8 +689,8 @@
       "schema": "granular-rollout.schema.json",
       "class": "bounds with x_min >= x_max or y_min >= y_max",
       "by": "checker",
-      "rule": "-",
-      "note": "no FR names it; FR-011-12 relies on valid bounds"
+      "rule": "FR-011-48",
+      "note": "enforced by FR-011-48 (task T-011-094)"
     },
     {
       "schema": "granular-rollout.schema.json",

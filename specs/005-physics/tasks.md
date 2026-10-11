@@ -61,6 +61,9 @@ test runs in the studio CPU job (T-004-002) on Warp's CPU device with CUDA hidde
 - [ ] T-005-066 [US-005-6] (NFR-005-01, NFR-005-02, NFR-005-04, NFR-005-05, SC-005-01, SC-005-02) acceptance on the published runs (data-and-models phase): memory, wall time, throughput, overhead record, benchmark gate, comparison wording — test: tests/pipeline/test_t_005_066_physics_acceptance.py
 - [ ] T-005-067 (NFR-005-03) CPU-variant test time budget in the studio CPU job — test: tests/pipeline/test_t_005_067_cpu_suite_time.py
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-005-092 (FR-005-55) inverted physics domain box and dust time window are rejected — test: tests/unit/test_t_005_092_physics_inverted_domain.py
+
 ## Phase 8 — Polish and review
 - [ ] T-005-090 mutation run on `pitstudio_studio.physics.dem.contact`, `.swe`, `.dust`, `.vehicles`, `.mlsmpm2d` and `.measure`; record the score against `mutation.numerical_core_min`
 - [ ] T-005-091 independent review of the diff against this spec; append tasks for gaps

@@ -148,6 +148,7 @@ with `error_class: unknown`, except `oom` and `lock-not-held`, which are the sta
 | FR-005-52 | Unwanted | If a non-finite value appears in any particle or cell state (checked at least every 1000 steps and at every output), then `st50_physics` shall abort with error class `nonfinite-state` naming the step and the first offending index, and no output of that run shall be promoted. | unit (hostile) |
 | ~~FR-005-53~~ | — | Retired: the stage's own zero-timeout probe of the lock file. | superseded by FR-002-62, FR-002-63 and FR-005-54 (integration 2026-10-07) |
 | FR-005-54 | Unwanted | If `st50_physics` is about to create a CUDA context on device N and the runner's held-lock list (`PITSTUDIO_HELD_LOCKS`, FR-002-62) does not contain `gpuN.compute` or is malformed, then it shall refuse through the stage helper's guard `require_lock("compute", N)` (FR-002-63) with `error_class: lock-not-held`, before importing Warp's CUDA runtime or creating any CUDA context. | unit (fake GPU backend) |
+| FR-005-55 | Unwanted | If a physics scenario has `domain_min_m` not below `domain_max_m` on any axis, or a dust source with `end_s` not after `start_s`, then `st50_physics` shall reject the scenario with error class `physics-params-invalid` naming the field. | unit (hostile) |
 
 ## 4. Correctness properties
 | ID | Property (for all …) | Input domain / generator | Tolerance |

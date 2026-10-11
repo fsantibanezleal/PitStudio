@@ -171,6 +171,7 @@ are defined in those specs and are not restated here.
 | FR-018-66 | Unwanted | If an artefact or engine labelled `live` in the web manifest has measurements for which `deriveLane` returns `replay`, or a live engine has no measurement in DC-018-06, then the web build shall fail and name it (FR-000-15). | contract (CI) |
 | FR-018-67 | Unwanted | If a parity fixture fails its schema or its pinned SHA-256, an engine's fixture set is empty, or the parity report or the lane-measurement file fails its schema, then the parity suite or the build shall fail and name the file, and no engine shall be recorded as passing on an empty or invalid fixture set. | contract (hostile) |
 | FR-018-68 | Unwanted | If the `SimClock` receives a non-finite or negative time or rate, then it shall ignore the call and keep its state; a seek beyond the duration D shall clamp to D. | unit (hostile) |
+| FR-018-69 | Unwanted | If a case in `cases.yaml` declares the same KPI id twice, then `tools/check_cases.py` shall fail with error class `case-duplicate-kpi` naming the case and the id. | unit (hostile) |
 
 ## 4. Correctness properties
 Property tests use fast-check with the `property_tests` counts of `thresholds.yaml` (200 in CI, 2,000 at release); "exact" means `===` on

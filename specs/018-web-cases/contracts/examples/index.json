@@ -1074,8 +1074,8 @@
       "schema": "cases.schema.json",
       "class": "KPI id repeated within a case",
       "by": "checker",
-      "rule": "-",
-      "note": "no requirement names it; tools/check_cases.py (T-018-001) should reject it with the FR-018-10 checks"
+      "rule": "FR-018-69",
+      "note": "enforced by FR-018-69 (task T-018-092)"
     },
     {
       "schema": "replay-shard.schema.json",

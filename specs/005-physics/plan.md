@@ -182,6 +182,7 @@ Key decisions:
 | NFR-005-05 | unit | presence check on the benchmark report | pytest |
 | SC-005-01, SC-005-02 | pipeline (data phase) | benchmark reports; FR-000-05 decision rule | pytest on published runs |
 | DC-005-01…06 | contract | JSON Schema 2020-12 meta-validation; valid and invalid examples; generated types round-trip | jsonschema |
+| FR-005-55 | unit (hostile) | hand calculation: a box with min = max on one axis and a source with end_s = start_s give `physics-params-invalid` | pytest |
 
 ### Tolerances and their justification
 | Quantity | Tolerance | Why |

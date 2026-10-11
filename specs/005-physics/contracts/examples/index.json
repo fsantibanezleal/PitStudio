@@ -875,8 +875,8 @@
       "schema": "physics-scenario.schema.json",
       "class": "domain_min_m not below domain_max_m on every axis; dust source end_s not after start_s",
       "by": "checker",
-      "rule": "-",
-      "note": "no FR rejects an inverted box or time window; reported as a gap"
+      "rule": "FR-005-55",
+      "note": "enforced by FR-005-55 (task T-005-092)"
     },
     {
       "schema": "physics-benchmark-report.schema.json",

@@ -182,6 +182,8 @@
 | FR-001-55 | 001-contracts | draft | T-001-032 | - |
 | FR-001-56 | 001-contracts | draft | T-001-025 | - |
 | FR-001-57 | 001-contracts | draft | T-001-025 | - |
+| FR-001-58 | 001-contracts | draft | T-001-092 | - |
+| FR-001-59 | 001-contracts | draft | T-001-093 | - |
 | FR-002-01 | 002-runner | draft | T-002-010 | - |
 | FR-002-02 | 002-runner | draft | T-002-010 | - |
 | FR-002-03 | 002-runner | draft | T-002-010 | - |
@@ -245,6 +247,8 @@
 | FR-002-61 | 002-runner | draft | T-002-047 | - |
 | FR-002-62 | 002-runner | draft | T-002-048 | - |
 | FR-002-63 | 002-runner | draft | T-002-048 | - |
+| FR-002-64 | 002-runner | draft | T-002-092 | - |
+| FR-002-65 | 002-runner | draft | T-002-093 | - |
 | FR-003-01 | 003-console | draft | T-003-010 | - |
 | FR-003-02 | 003-console | draft | T-003-010 | - |
 | FR-003-03 | 003-console | draft | T-003-010 | - |
@@ -275,6 +279,7 @@
 | FR-003-28 | 003-console | draft | T-003-040 | - |
 | FR-003-29 | 003-console | draft | T-003-040 | - |
 | FR-003-30 | 003-console | draft | T-003-041 | - |
+| FR-003-31 | 003-console | draft | T-003-092 | - |
 | FR-004-01 | 004-scene-pipeline | draft | T-004-010 | - |
 | FR-004-02 | 004-scene-pipeline | draft | T-004-011 | - |
 | FR-004-03 | 004-scene-pipeline | draft | T-004-010 | - |
@@ -316,6 +321,8 @@
 | FR-004-39 | 004-scene-pipeline | draft | T-004-052 | - |
 | FR-004-40 | 004-scene-pipeline | draft | T-004-001 | - |
 | FR-004-41 | 004-scene-pipeline | draft | T-004-043 | - |
+| FR-004-42 | 004-scene-pipeline | draft | T-004-092 | - |
+| FR-004-43 | 004-scene-pipeline | draft | T-004-093 | - |
 | FR-005-01 | 005-physics | draft | T-005-010 | - |
 | FR-005-02 | 005-physics | draft | T-005-011 | - |
 | FR-005-03 | 005-physics | draft | T-005-011 | - |
@@ -370,6 +377,7 @@
 | FR-005-52 | 005-physics | draft | T-005-065 | - |
 | FR-005-53 | 005-physics | retired | - | - |
 | FR-005-54 | 005-physics | draft | T-005-064 | - |
+| FR-005-55 | 005-physics | draft | T-005-092 | - |
 | FR-006-01 | 006-media-telemetry | draft | T-006-016 | - |
 | FR-006-02 | 006-media-telemetry | draft | T-006-010 | - |
 | FR-006-03 | 006-media-telemetry | draft | T-006-010 | - |
@@ -530,6 +538,11 @@
 | FR-009-43 | 009-perception | draft | T-009-033 | - |
 | FR-009-44 | 009-perception | draft | T-009-021 | - |
 | FR-009-45 | 009-perception | draft | T-009-021 | - |
+| FR-009-46 | 009-perception | draft | T-009-092 | - |
+| FR-009-47 | 009-perception | draft | T-009-093 | - |
+| FR-009-48 | 009-perception | draft | T-009-094 | - |
+| FR-009-49 | 009-perception | draft | T-009-095 | - |
+| FR-009-50 | 009-perception | draft | T-009-096 | - |
 | FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | - |
 | FR-010-02 | 010-slope | draft | T-010-011 | - |
 | FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | - |
@@ -572,6 +585,9 @@
 | FR-010-40 | 010-slope | draft | T-010-003 | - |
 | FR-010-41 | 010-slope | draft | T-010-054 | - |
 | FR-010-42 | 010-slope | draft | T-010-055 | - |
+| FR-010-43 | 010-slope | draft | T-010-092 | - |
+| FR-010-44 | 010-slope | draft | T-010-093 | - |
+| FR-010-45 | 010-slope | draft | T-010-094 | - |
 | FR-011-01 | 011-surrogates | draft | T-011-010 | - |
 | FR-011-02 | 011-surrogates | draft | T-011-011 | - |
 | FR-011-03 | 011-surrogates | draft | T-011-014 | - |
@@ -617,6 +633,9 @@
 | FR-011-43 | 011-surrogates | draft | T-011-057 | - |
 | FR-011-44 | 011-surrogates | draft | T-011-060 | - |
 | FR-011-45 | 011-surrogates | draft | T-011-061 | - |
+| FR-011-46 | 011-surrogates | draft | T-011-092 | - |
+| FR-011-47 | 011-surrogates | draft | T-011-093 | - |
+| FR-011-48 | 011-surrogates | draft | T-011-094 | - |
 | FR-012-01 | 012-fragmentation | draft | T-012-010 | - |
 | FR-012-02 | 012-fragmentation | draft | T-012-010 | - |
 | FR-012-03 | 012-fragmentation | draft | T-012-011 | - |
@@ -799,6 +818,8 @@
 | FR-015-45 | 015-vlm | draft | T-015-060 | - |
 | FR-015-46 | 015-vlm | draft | T-015-050 | - |
 | FR-015-47 | 015-vlm | draft | T-015-035 | - |
+| FR-015-48 | 015-vlm | draft | T-015-092 | - |
+| FR-015-49 | 015-vlm | draft | T-015-093 | - |
 | FR-016-01 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-02 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-03 | 016-export-acceleration | draft | T-016-011 | - |
@@ -957,6 +978,7 @@
 | FR-018-66 | 018-web-cases | draft | T-018-082 | - |
 | FR-018-67 | 018-web-cases | draft | T-018-005, T-018-088 | - |
 | FR-018-68 | 018-web-cases | draft | T-018-040 | - |
+| FR-018-69 | 018-web-cases | draft | T-018-092 | - |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | - |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | - |
 | FR-019-03 | 019-web-studio | draft | T-019-011 | - |
@@ -1002,6 +1024,8 @@
 | FR-019-43 | 019-web-studio | draft | T-019-004 | - |
 | FR-019-44 | 019-web-studio | draft | T-019-036 | - |
 | FR-019-45 | 019-web-studio | draft | T-019-036 | - |
+| FR-019-46 | 019-web-studio | draft | T-019-092 | - |
+| FR-019-47 | 019-web-studio | draft | T-019-093 | - |
 | FR-020-01 | 020-web-knowledge | draft | T-020-014 | - |
 | FR-020-02 | 020-web-knowledge | draft | T-020-014 | - |
 | FR-020-03 | 020-web-knowledge | draft | T-020-014 | - |

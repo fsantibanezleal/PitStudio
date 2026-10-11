@@ -262,6 +262,8 @@ runner:
 | NFR-002-02, NFR-002-03 | unit | `time.perf_counter` on the fixtures | pytest |
 | NFR-002-04 | unit | kill the holder process; acquire timing | pytest |
 | NFR-002-05 | mutation | mutation score | mutmut (T-002-090) |
+| FR-002-64 | unit (hostile) | hand calculation: a profile fixture with indices [0, 0] gives `profile-invalid`; [0, 1] is accepted | pytest |
+| FR-002-65 | unit (hostile) | hand calculation: a result fixture with two outputs `a.bin` gives `invalid-result` and no cache entry | pytest |
 
 **Tolerances (P-002-08).** Means are float64 sums: for n ≤ 10⁴ non-negative terms the relative error of a recursive sum
 is ≤ (n − 1)·u ≈ 1.1 × 10⁻¹² (u = 2⁻⁵³), and multiplying each term by c adds ≤ u per term, so reordering or scaling
