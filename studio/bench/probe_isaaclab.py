@@ -14,6 +14,7 @@ import os
 import re
 import sys
 import time
+import urllib.request
 from importlib import metadata
 from pathlib import Path
 from typing import Any
@@ -38,6 +39,11 @@ DISTS = (
     "mujoco-warp",
     "rsl-rl-lib",
 )
+CARTPOLE_ASSETS = (  # the files the stock Cartpole direct task loads (articulation, its meshes, ground plane)
+    "Isaac/IsaacLab/Robots/Classic/Cartpole/cartpole.usd",
+    "Isaac/IsaacLab/Robots/Classic/Cartpole/Props/instanceable_meshes.usd",
+    "Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda",
+)
 KIT_PREFIXES = ("isaacsim", "omni", "carb", "ovrtx", "ovstage", "ovphysx")
 
 
@@ -55,6 +61,29 @@ def lock_restricted() -> list[str]:
     return sorted(n for n in names if RESTRICTED.match(n.lower()))
 
 
+def local_asset_root() -> Path:
+    """Mirror the Cartpole USD files locally and return the asset root that serves them.
+
+    Isaac Lab's remote-asset check (`isaaclab.utils.assets._remote_fingerprint`) imports `omni.client`, a Kit module, so
+    a kit-less run must find its assets as local files: `check_file_path` returns before that import when the file
+    exists (`os.path.isfile`), and `ISAACSIM_ASSET_ROOT` is the documented way to move the asset root
+    (`_resolve_asset_root`). The remote root is the one the env's `apps/isaaclab.python.kit` configures.
+    """
+    kit = Path(sys.prefix) / "apps" / "isaaclab.python.kit"
+    m = re.search(r'persistent\.isaac\.asset_root\.default\s*=\s*"([^"]+)"', kit.read_text(encoding="utf-8"))
+    if not m:
+        raise RuntimeError("no persistent.isaac.asset_root.default in isaaclab.python.kit (run fetch_kit_app.py)")
+    remote = m.group(1).rstrip("/")
+    root = tmp_dir("isaaclab") / "assets"
+    for rel in CARTPOLE_ASSETS:
+        dest = root / rel
+        if not dest.is_file():
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            with urllib.request.urlopen(f"{remote}/{rel}", timeout=120) as resp:
+                dest.write_bytes(resp.read())
+    return root
+
+
 def body(r: dict[str, Any]) -> None:
     import torch
 
@@ -69,6 +98,7 @@ def body(r: dict[str, Any]) -> None:
     r["notes"].append("publishable: the environment lock holds no isaacsim/omni/ov* package" if not restricted else
                       "local-only: the environment lock holds licence-restricted packages")
 
+    os.environ["ISAACSIM_ASSET_ROOT"] = str(local_asset_root())  # read when isaaclab.utils.assets is imported
     os.chdir(tmp_dir("isaaclab"))  # the trainer writes logs/ and checkpoints relative to the working directory
     from rsl_rl.algorithms import PPO
 

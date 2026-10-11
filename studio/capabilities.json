@@ -142,7 +142,7 @@
       ]
     },
     "isaaclab": {
-      "status": "fail",
+      "status": "pass",
       "versions": {
         "python": "3.12.15",
         "isaaclab": "17.0.2",
@@ -160,10 +160,8 @@
       },
       "metrics": "measured locally, not published (licence)",
       "notes": [
-        "local-only: the environment lock holds licence-restricted packages",
-        "FileNotFoundError: [Errno 2] No such file or directory: '<repo>\\\\studio\\\\isaaclab\\\\.venv\\\\apps\\\\isaaclab.python.kit'"
-      ],
-      "error": "FileNotFoundError: [Errno 2] No such file or directory: '<repo>\\\\studio\\\\isaaclab\\\\.venv\\\\apps\\\\isaaclab.python.kit'"
+        "local-only: the environment lock holds licence-restricted packages"
+      ]
     }
   }
 }
