@@ -253,7 +253,7 @@ pinhole (P-013-14), web parity (P-013-15).
   forecasting; see the integration entry below, which superseded the first split). The S3
   instance-accurate boxes come from spec 009's Replicator arm; this spec supplies semantic-component boxes. The C3 β
   field comes from spec 005.
-- Resolved: the S4b sign convention is "positive = toward the radar" (the docs leave it to the specification); it is
+- Resolved: the S4b sign convention is "positive = away from the radar" (range increasing, the `minephys` convention) (the docs leave it to the specification); it is
   now stated by FR-010-41.
 - Resolved: the slider uses 41 discrete levels with baked k_j, so the browser never computes a logarithm on the
   decision path (exact parity class).

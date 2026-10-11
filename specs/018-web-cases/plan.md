@@ -136,6 +136,7 @@ served like Pages; contract = pytest under `tests/contract/`; gpu = Playwright p
 | NFR-018-06 | E2E | hand: 20 s warn, 60 s fail | Playwright |
 | SC-018-01 | gate | parity report of the release commit | DC-018-05 |
 | SC-018-02 | gate | E2E and parity tasks of A1 and C1 green on the preview | CI |
+| FR-018-69 | unit (hostile) | hand calculation: a case fixture with KPI `tph` twice gives a failure naming the case | pytest |
 
 ## Risks and complexity tracking
 | Deviation | Why needed | Simpler alternative rejected because |

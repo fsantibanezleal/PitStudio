@@ -948,8 +948,8 @@
       "schema": "profile.schema.json",
       "class": "duplicate gpu index in a profile",
       "by": "checker",
-      "rule": "-",
-      "note": "no requirement states it; the profile loader should reject repeated indices"
+      "rule": "FR-002-64",
+      "note": "enforced by FR-002-64 (task T-002-092)"
     },
     {
       "schema": "job.schema.json",
@@ -985,8 +985,8 @@
       "schema": "job.schema.json",
       "class": "two outputs with the same path",
       "by": "checker",
-      "rule": "-",
-      "note": "no requirement states it; the runner should treat it as invalid-result"
+      "rule": "FR-002-65",
+      "note": "enforced by FR-002-65 (task T-002-093)"
     },
     {
       "schema": "job.schema.json",

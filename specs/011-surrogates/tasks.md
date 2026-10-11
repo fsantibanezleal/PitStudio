@@ -51,6 +51,11 @@ the CPU; GPU work starts only after the GPU hold is lifted and through the runne
 - [ ] T-011-061 [US-011-4] (FR-011-45) manifests and "calibrated synthetic" labels — test: tests/contract/test_t_011_061_surrogate_manifests.py
 - [ ] T-011-062 [US-011-4] (NFR-011-04) GPU-hours recorded for every training and calibration stage — test: tests/unit/test_t_011_062_budget_record.py
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-011-092 (FR-011-46) quantile levels must increase strictly — test: tests/unit/test_t_011_092_surrogate_quantile_order.py
+- [ ] T-011-093 (FR-011-47) duplicate tensor and channel names — test: tests/unit/test_t_011_093_surrogate_unique_names.py
+- [ ] T-011-094 (FR-011-48) granular rollout bounds must be ordered — test: tests/unit/test_t_011_094_rollout_bounds.py
+
 ## Phase 6 — Polish and independent review
 - [ ] T-011-090 mutation run on `src/pitstudio/granular/`, `src/pitstudio/calibration/` and the spectral layer; record the scores
 - [ ] T-011-091 independent review of the diff against this spec; append tasks for gaps

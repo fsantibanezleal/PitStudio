@@ -129,6 +129,8 @@ with a fake hub, fake tools and a fake server.
 | NFR-015-01, NFR-015-02 | gpu (local) | NVML telemetry; projection arithmetic | pytest |
 | NFR-015-03, NFR-015-04 | CI / unit | byte sizes; error counts | budget check, pytest |
 | SC-015-01 to SC-015-06 | pipeline | tables produced on the real runs (data-and-models phase) by the code verified above | pytest (`tests/pipeline`) |
+| FR-015-48 | unit (hostile) | hand calculation: 640 × 480 = 307,200; visible_px 307,201 is rejected and 307,200 is accepted | pytest |
+| FR-015-49 | unit (hostile) | hand calculation: (0, 0, 0, 1) is accepted; (0, 0, 0, 2) and (NaN, 0, 0, 1) are rejected | pytest |
 
 ## Risks and complexity tracking
 

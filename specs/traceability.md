@@ -1,12 +1,12 @@
-# Traceability matrix — generated 2026-10-10 by tools/trace.py (do not edit)
+# Traceability matrix — generated 2026-10-11 by tools/trace.py (do not edit)
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
 | DC-000-01 | 000-foundation | draft | T-009-005, T-012-003, T-016-003 | - |
-| DC-000-02 | 000-foundation | draft | - | - |
-| DC-000-03 | 000-foundation | draft | - | - |
-| DC-000-04 | 000-foundation | draft | - | - |
-| DC-000-05 | 000-foundation | draft | - | - |
+| DC-000-02 | 000-foundation | draft | T-000-050 | - |
+| DC-000-03 | 000-foundation | draft | T-000-051 | - |
+| DC-000-04 | 000-foundation | draft | T-000-052 | - |
+| DC-000-05 | 000-foundation | draft | T-000-053 | - |
 | DC-001-01 | 001-contracts | draft | T-001-001 | - |
 | DC-001-02 | 001-contracts | draft | T-001-001 | - |
 | DC-001-03 | 001-contracts | draft | T-001-001 | - |
@@ -120,7 +120,7 @@
 | FR-000-01 | 000-foundation | draft | T-018-034 | - |
 | FR-000-02 | 000-foundation | draft | T-018-011 | - |
 | FR-000-03 | 000-foundation | draft | T-018-037, T-019-041, T-020-060 | web/src/shell/prefs.test.ts, web/e2e/shell.spec.ts |
-| FR-000-04 | 000-foundation | draft | - | web/src/shell/AccessGate.test.tsx, web/src/shell/digest.test.ts, web/e2e/shell.spec.ts |
+| FR-000-04 | 000-foundation | draft | T-000-020 | web/src/shell/AccessGate.test.tsx, web/src/shell/digest.test.ts, web/e2e/shell.spec.ts |
 | FR-000-05 | 000-foundation | draft | T-018-032, T-020-030 | - |
 | FR-000-06 | 000-foundation | draft | T-018-034, T-019-022 | - |
 | FR-000-07 | 000-foundation | draft | T-019-004 | - |
@@ -128,11 +128,14 @@
 | FR-000-09 | 000-foundation | draft | T-018-033, T-020-033 | - |
 | FR-000-10 | 000-foundation | draft | T-018-033, T-020-041 | - |
 | FR-000-11 | 000-foundation | draft | T-018-014, T-019-035 | - |
-| FR-000-12 | 000-foundation | draft | - | - |
-| FR-000-13 | 000-foundation | draft | - | - |
-| FR-000-14 | 000-foundation | draft | - | - |
+| FR-000-12 | 000-foundation | draft | T-000-021 | - |
+| FR-000-13 | 000-foundation | draft | T-000-022 | - |
+| FR-000-14 | 000-foundation | draft | T-000-023 | - |
 | FR-000-15 | 000-foundation | draft | T-018-082 | - |
-| FR-000-16 | 000-foundation | draft | - | - |
+| FR-000-16 | 000-foundation | draft | T-000-024 | - |
+| FR-000-17 | 000-foundation | draft | T-000-060 | - |
+| FR-000-18 | 000-foundation | draft | T-000-061 | - |
+| FR-000-19 | 000-foundation | draft | T-000-062 | - |
 | FR-001-01 | 001-contracts | draft | T-001-001 | - |
 | FR-001-02 | 001-contracts | draft | T-001-001 | - |
 | FR-001-03 | 001-contracts | draft | T-001-001 | - |
@@ -182,6 +185,8 @@
 | FR-001-55 | 001-contracts | draft | T-001-032 | - |
 | FR-001-56 | 001-contracts | draft | T-001-025 | - |
 | FR-001-57 | 001-contracts | draft | T-001-025 | - |
+| FR-001-58 | 001-contracts | draft | T-001-092 | - |
+| FR-001-59 | 001-contracts | draft | T-001-093 | - |
 | FR-002-01 | 002-runner | draft | T-002-010 | - |
 | FR-002-02 | 002-runner | draft | T-002-010 | - |
 | FR-002-03 | 002-runner | draft | T-002-010 | - |
@@ -245,6 +250,9 @@
 | FR-002-61 | 002-runner | draft | T-002-047 | - |
 | FR-002-62 | 002-runner | draft | T-002-048 | - |
 | FR-002-63 | 002-runner | draft | T-002-048 | - |
+| FR-002-64 | 002-runner | draft | T-002-092 | - |
+| FR-002-65 | 002-runner | draft | T-002-093 | - |
+| FR-002-66 | 002-runner | draft | T-002-094 | - |
 | FR-003-01 | 003-console | draft | T-003-010 | - |
 | FR-003-02 | 003-console | draft | T-003-010 | - |
 | FR-003-03 | 003-console | draft | T-003-010 | - |
@@ -275,6 +283,7 @@
 | FR-003-28 | 003-console | draft | T-003-040 | - |
 | FR-003-29 | 003-console | draft | T-003-040 | - |
 | FR-003-30 | 003-console | draft | T-003-041 | - |
+| FR-003-31 | 003-console | draft | T-003-092 | - |
 | FR-004-01 | 004-scene-pipeline | draft | T-004-010 | - |
 | FR-004-02 | 004-scene-pipeline | draft | T-004-011 | - |
 | FR-004-03 | 004-scene-pipeline | draft | T-004-010 | - |
@@ -316,6 +325,8 @@
 | FR-004-39 | 004-scene-pipeline | draft | T-004-052 | - |
 | FR-004-40 | 004-scene-pipeline | draft | T-004-001 | - |
 | FR-004-41 | 004-scene-pipeline | draft | T-004-043 | - |
+| FR-004-42 | 004-scene-pipeline | draft | T-004-092 | - |
+| FR-004-43 | 004-scene-pipeline | draft | T-004-093 | - |
 | FR-005-01 | 005-physics | draft | T-005-010 | - |
 | FR-005-02 | 005-physics | draft | T-005-011 | - |
 | FR-005-03 | 005-physics | draft | T-005-011 | - |
@@ -326,7 +337,7 @@
 | FR-005-08 | 005-physics | draft | T-005-014 | - |
 | FR-005-09 | 005-physics | draft | T-005-014 | - |
 | FR-005-10 | 005-physics | draft | T-005-019 | - |
-| FR-005-11 | 005-physics | draft | T-005-018 | - |
+| FR-005-11 | 005-physics | draft | T-005-018, T-005-025 | - |
 | FR-005-12 | 005-physics | draft | T-005-019 | - |
 | FR-005-13 | 005-physics | draft | T-005-016 | - |
 | FR-005-14 | 005-physics | draft | T-005-019, T-005-024 | - |
@@ -370,6 +381,7 @@
 | FR-005-52 | 005-physics | draft | T-005-065 | - |
 | FR-005-53 | 005-physics | retired | - | - |
 | FR-005-54 | 005-physics | draft | T-005-064 | - |
+| FR-005-55 | 005-physics | draft | T-005-092 | - |
 | FR-006-01 | 006-media-telemetry | draft | T-006-016 | - |
 | FR-006-02 | 006-media-telemetry | draft | T-006-010 | - |
 | FR-006-03 | 006-media-telemetry | draft | T-006-010 | - |
@@ -530,6 +542,11 @@
 | FR-009-43 | 009-perception | draft | T-009-033 | - |
 | FR-009-44 | 009-perception | draft | T-009-021 | - |
 | FR-009-45 | 009-perception | draft | T-009-021 | - |
+| FR-009-46 | 009-perception | draft | T-009-092 | - |
+| FR-009-47 | 009-perception | draft | T-009-093 | - |
+| FR-009-48 | 009-perception | draft | T-009-094 | - |
+| FR-009-49 | 009-perception | draft | T-009-095 | - |
+| FR-009-50 | 009-perception | draft | T-009-096 | - |
 | FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | - |
 | FR-010-02 | 010-slope | draft | T-010-011 | - |
 | FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | - |
@@ -572,6 +589,9 @@
 | FR-010-40 | 010-slope | draft | T-010-003 | - |
 | FR-010-41 | 010-slope | draft | T-010-054 | - |
 | FR-010-42 | 010-slope | draft | T-010-055 | - |
+| FR-010-43 | 010-slope | draft | T-010-092 | - |
+| FR-010-44 | 010-slope | draft | T-010-093 | - |
+| FR-010-45 | 010-slope | draft | T-010-094 | - |
 | FR-011-01 | 011-surrogates | draft | T-011-010 | - |
 | FR-011-02 | 011-surrogates | draft | T-011-011 | - |
 | FR-011-03 | 011-surrogates | draft | T-011-014 | - |
@@ -617,6 +637,9 @@
 | FR-011-43 | 011-surrogates | draft | T-011-057 | - |
 | FR-011-44 | 011-surrogates | draft | T-011-060 | - |
 | FR-011-45 | 011-surrogates | draft | T-011-061 | - |
+| FR-011-46 | 011-surrogates | draft | T-011-092 | - |
+| FR-011-47 | 011-surrogates | draft | T-011-093 | - |
+| FR-011-48 | 011-surrogates | draft | T-011-094 | - |
 | FR-012-01 | 012-fragmentation | draft | T-012-010 | - |
 | FR-012-02 | 012-fragmentation | draft | T-012-010 | - |
 | FR-012-03 | 012-fragmentation | draft | T-012-011 | - |
@@ -799,6 +822,8 @@
 | FR-015-45 | 015-vlm | draft | T-015-060 | - |
 | FR-015-46 | 015-vlm | draft | T-015-050 | - |
 | FR-015-47 | 015-vlm | draft | T-015-035 | - |
+| FR-015-48 | 015-vlm | draft | T-015-092 | - |
+| FR-015-49 | 015-vlm | draft | T-015-093 | - |
 | FR-016-01 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-02 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-03 | 016-export-acceleration | draft | T-016-011 | - |
@@ -944,7 +969,7 @@
 | FR-018-53 | 018-web-cases | draft | T-018-071 | - |
 | FR-018-54 | 018-web-cases | draft | T-018-061 | - |
 | FR-018-55 | 018-web-cases | draft | T-018-061 | - |
-| FR-018-56 | 018-web-cases | draft | T-018-059, T-018-065, T-018-067 | - |
+| FR-018-56 | 018-web-cases | draft | T-005-025, T-018-059, T-018-065, T-018-067 | - |
 | FR-018-57 | 018-web-cases | draft | T-018-060 | - |
 | FR-018-58 | 018-web-cases | draft | T-018-063 | - |
 | FR-018-59 | 018-web-cases | draft | T-018-069 | - |
@@ -957,6 +982,7 @@
 | FR-018-66 | 018-web-cases | draft | T-018-082 | - |
 | FR-018-67 | 018-web-cases | draft | T-018-005, T-018-088 | - |
 | FR-018-68 | 018-web-cases | draft | T-018-040 | - |
+| FR-018-69 | 018-web-cases | draft | T-018-092 | - |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | - |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | - |
 | FR-019-03 | 019-web-studio | draft | T-019-011 | - |
@@ -1002,6 +1028,8 @@
 | FR-019-43 | 019-web-studio | draft | T-019-004 | - |
 | FR-019-44 | 019-web-studio | draft | T-019-036 | - |
 | FR-019-45 | 019-web-studio | draft | T-019-036 | - |
+| FR-019-46 | 019-web-studio | draft | T-019-092 | - |
+| FR-019-47 | 019-web-studio | draft | T-019-093 | - |
 | FR-020-01 | 020-web-knowledge | draft | T-020-014 | - |
 | FR-020-02 | 020-web-knowledge | draft | T-020-014 | - |
 | FR-020-03 | 020-web-knowledge | draft | T-020-014 | - |
@@ -1057,10 +1085,10 @@
 | NFR-000-02 | 000-foundation | draft | T-018-037, T-019-041, T-020-064 | web/e2e/shell.spec.ts |
 | NFR-000-03 | 000-foundation | draft | T-020-063 | - |
 | NFR-000-04 | 000-foundation | draft | T-020-062 | - |
-| NFR-000-05 | 000-foundation | draft | - | - |
-| NFR-000-06 | 000-foundation | draft | - | - |
+| NFR-000-05 | 000-foundation | draft | T-000-040 | - |
+| NFR-000-06 | 000-foundation | draft | T-000-040 | - |
 | NFR-000-07 | 000-foundation | draft | T-020-062 | - |
-| NFR-000-08 | 000-foundation | draft | - | - |
+| NFR-000-08 | 000-foundation | draft | T-000-041 | - |
 | NFR-001-01 | 001-contracts | draft | T-001-030 | - |
 | NFR-001-02 | 001-contracts | draft | T-001-002 | - |
 | NFR-001-03 | 001-contracts | draft | T-001-004 | - |
@@ -1163,9 +1191,9 @@
 | NFR-020-07 | 020-web-knowledge | draft | T-020-063 | - |
 | NFR-020-08 | 020-web-knowledge | draft | T-020-042 | - |
 | NFR-020-09 | 020-web-knowledge | draft | T-020-090 | - |
-| P-000-01 | 000-foundation | draft | - | - |
-| P-000-02 | 000-foundation | draft | - | - |
-| P-000-03 | 000-foundation | draft | - | - |
+| P-000-01 | 000-foundation | draft | T-000-030 | - |
+| P-000-02 | 000-foundation | draft | T-000-031 | - |
+| P-000-03 | 000-foundation | draft | T-000-032 | - |
 | P-001-01 | 001-contracts | draft | T-001-011 | - |
 | P-001-02 | 001-contracts | draft | T-001-011 | - |
 | P-001-03 | 001-contracts | draft | T-001-011 | - |
@@ -1186,6 +1214,7 @@
 | P-002-10 | 002-runner | draft | T-002-031 | - |
 | P-002-11 | 002-runner | draft | T-002-070 | - |
 | P-002-12 | 002-runner | draft | T-002-011 | - |
+| P-002-13 | 002-runner | draft | T-002-095 | - |
 | P-003-01 | 003-console | draft | T-003-020 | - |
 | P-003-02 | 003-console | draft | T-003-021 | - |
 | P-003-03 | 003-console | draft | T-003-015 | - |
@@ -1522,10 +1551,10 @@
 | P-020-30 | 020-web-knowledge | draft | T-020-013 | - |
 | P-020-31 | 020-web-knowledge | draft | T-020-004 | - |
 | P-020-32 | 020-web-knowledge | draft | T-020-042 | - |
-| SC-000-01 | 000-foundation | draft | - | - |
-| SC-000-02 | 000-foundation | draft | - | - |
-| SC-000-03 | 000-foundation | draft | - | - |
-| SC-000-04 | 000-foundation | draft | - | - |
+| SC-000-01 | 000-foundation | draft | T-000-042 | - |
+| SC-000-02 | 000-foundation | draft | T-000-043 | - |
+| SC-000-03 | 000-foundation | draft | T-000-044 | - |
+| SC-000-04 | 000-foundation | draft | T-000-045 | - |
 | SC-001-01 | 001-contracts | draft | T-001-030 | - |
 | SC-002-01 | 002-runner | draft | T-002-012 | - |
 | SC-003-01 | 003-console | draft | T-003-024 | - |
@@ -1599,12 +1628,12 @@
 | SC-020-01 | 020-web-knowledge | draft | T-020-064 | - |
 | SC-020-02 | 020-web-knowledge | draft | T-020-088 | - |
 | SC-020-03 | 020-web-knowledge | draft | T-020-043 | - |
-| US-000-1 | 000-foundation | draft | - | - |
-| US-000-2 | 000-foundation | draft | - | - |
-| US-000-3 | 000-foundation | draft | - | - |
-| US-000-4 | 000-foundation | draft | - | - |
-| US-000-5 | 000-foundation | draft | - | - |
-| US-000-6 | 000-foundation | draft | - | - |
+| US-000-1 | 000-foundation | draft | T-000-010, T-000-010 | - |
+| US-000-2 | 000-foundation | draft | T-000-011, T-000-011 | - |
+| US-000-3 | 000-foundation | draft | T-000-012, T-000-012 | - |
+| US-000-4 | 000-foundation | draft | T-000-013, T-000-013 | - |
+| US-000-5 | 000-foundation | draft | T-000-014, T-000-014 | - |
+| US-000-6 | 000-foundation | draft | T-000-015, T-000-015 | - |
 | US-001-1 | 001-contracts | draft | T-001-001, T-001-010, T-001-011, T-001-012, T-001-013, T-001-014 | - |
 | US-001-2 | 001-contracts | draft | T-001-003, T-001-020, T-001-021, T-001-022, T-001-025, T-001-024 | - |
 | US-001-3 | 001-contracts | draft | T-001-002, T-001-040, T-001-041 | - |

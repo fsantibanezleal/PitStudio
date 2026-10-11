@@ -83,6 +83,8 @@ Data flow: [tool-map.svg](../../docs/assets/diagrams/tool-map.svg) and
 | NFR-019-04, NFR-019-05 | E2E | WCAG rules as encoded by axe-core; Lighthouse scores | Playwright + axe, LHCI |
 | NFR-019-06 | build | `thresholds.yaml` `coverage`, `mutation.other_min` | coverage, Stryker, mutmut |
 | SC-019-01, SC-019-02 | gate | honesty report of the release commit | CI |
+| FR-019-46 | unit (hostile) | hand calculation: a map fixture with edge (a, a) gives a failure naming `a` | pytest |
+| FR-019-47 | unit (hostile) | hand calculation: 1,000,000-byte and 1,000,001-byte fixtures are accepted and rejected | pytest |
 
 ## Risks and complexity tracking
 | Deviation | Why needed | Simpler alternative rejected because |

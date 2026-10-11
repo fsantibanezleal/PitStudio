@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import sys
 from importlib import metadata
 from pathlib import Path
 from typing import Any
@@ -57,7 +58,12 @@ def body(r: dict[str, Any]) -> None:
     use_cuda13_runtime_wheel()
     import numpy as np
     import onnxruntime as ort
-    import tensorrt as trt
+    try:
+        import tensorrt as trt
+    except ModuleNotFoundError:  # the standalone cu13 wheels ship the module as `tensorrt_bindings`
+        import tensorrt_bindings as trt
+
+        sys.modules["tensorrt"] = trt  # polygraphy imports `tensorrt`
     from polygraphy.backend.trt import CreateConfig, EngineFromNetwork, NetworkFromOnnxBytes, TrtRunner
 
     r["versions"].update(

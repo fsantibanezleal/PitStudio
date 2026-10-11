@@ -120,6 +120,7 @@ requirements that cite them.
 | FR-003-28 | Ubiquitous | The console UI shall be a separate web entry `web/console/`, built by `pnpm build:console` into `web/build/console/` with base `/ui/`, embedding the marker `pitstudio-console-build`, served by the console at `/ui/` with same-origin requests only, and reusing the shell's theme and i18n (English default, Spanish). | E2E (console) |
 | FR-003-29 | Event | When the maintainer opens the console UI, it shall show recipes, the queue, runs with their manifests, a live telemetry chart fed by the event stream, artefact previews from the artefact endpoint, a cancel action and a run form that posts a job request — each action being one API call. | E2E (console) |
 | FR-003-30 | Unwanted | If an API call fails (4xx, 5xx, network error, invalid body) or a manifest or recipe string contains markup (e.g. `<img src=x onerror=…>`), then the UI shall show an error message without crashing and render the string as text, executing no injected script. | E2E (console, hostile) |
+| FR-003-31 | Unwanted | If a job record has `shards.done` greater than `shards.total`, then the console API shall not serve it, shall answer 500 `job-record-invalid` naming the job id, and shall log the record's SHA-256. | unit (hostile) |
 
 ## 4. Correctness properties
 

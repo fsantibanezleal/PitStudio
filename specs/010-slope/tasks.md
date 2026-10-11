@@ -56,6 +56,11 @@ Order: C1 is part of the first vertical slice (with A1); phases 1–4 and 6 come
 - [ ] T-010-061 [US-010-5] (NFR-010-01, NFR-010-02) live LEM and PoF lane gates on forced T2 — test: web/e2e/c1-lane-gates.spec.ts
 - [ ] T-010-062 [US-010-5] (NFR-010-06) GPU-hours recorded for every training stage — test: tests/unit/test_t_010_062_budget_record.py
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-010-092 (FR-010-43) slope-section cross-field rules — test: tests/unit/test_t_010_092_section_cross_field.py
+- [ ] T-010-093 (FR-010-44) displacement-series self-consistency — test: tests/unit/test_t_010_093_series_self_consistency.py
+- [ ] T-010-094 (FR-010-45) slope-results section digest is verified — test: tests/unit/test_t_010_094_results_section_digest.py
+
 ## Phase 7 — Polish and independent review
 - [ ] T-010-090 mutation run on `src/pitstudio/slope/`; record the score (numerical-core threshold)
 - [ ] T-010-091 independent review of the diff against this spec; append tasks for gaps

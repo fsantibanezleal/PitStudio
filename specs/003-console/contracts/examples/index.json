@@ -576,8 +576,8 @@
       "schema": "console.schema.json",
       "class": "job shards.done greater than shards.total",
       "by": "checker",
-      "rule": "-",
-      "note": "no requirement states it; the runner's job record should never report it"
+      "rule": "FR-003-31",
+      "note": "enforced by FR-003-31 (task T-003-092)"
     }
   ]
 }

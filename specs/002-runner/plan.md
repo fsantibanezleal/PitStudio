@@ -262,6 +262,11 @@ runner:
 | NFR-002-02, NFR-002-03 | unit | `time.perf_counter` on the fixtures | pytest |
 | NFR-002-04 | unit | kill the holder process; acquire timing | pytest |
 | NFR-002-05 | mutation | mutation score | mutmut (T-002-090) |
+| FR-002-64 | unit (hostile) | hand calculation: a profile fixture with indices [0, 0] gives `profile-invalid`; [0, 1] is accepted | pytest |
+| FR-002-65 | unit (hostile) | hand calculation: a result fixture with two outputs `a.bin` gives `invalid-result` and no cache entry | pytest |
+| FR-002-66 | unit (fake GPU, fake clock) | hand calculation: a scripted sequence 70, 84, 80, 76, 74, 88 °C pauses at 84, stays paused at 80 and 76, resumes at 74 and stops at 88 with `thermal` and exit code 5; a scripted WHEA event stops with `hw-error`; a 45-minute block is followed by a 10-minute cool-down | pytest + fake GPU backend |
+| P-002-13 | property | invariant: a reference state machine over the same sequence (written from the requirement, not from the guard) agrees with the guard on every step | Hypothesis |
+| P-002-04 | property | reference implementation: the descendants of the changed stage computed with networkx on the generated DAG | Hypothesis |
 
 **Tolerances (P-002-08).** Means are float64 sums: for n ≤ 10⁴ non-negative terms the relative error of a recursive sum
 is ≤ (n − 1)·u ≈ 1.1 × 10⁻¹² (u = 2⁻⁵³), and multiplying each term by c adds ≤ u per term, so reordering or scaling

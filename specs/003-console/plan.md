@@ -161,6 +161,7 @@ console:
 | NFR-003-01 | unit | `time.perf_counter` p95 over 200 requests per endpoint | pytest |
 | NFR-003-02, SC-003-01 | contract | Schemathesis in-process over `api/openapi.json` with the listed checks | Schemathesis |
 | NFR-003-03 | E2E (console) | axe-core (reference implementation) | Playwright + `@axe-core/playwright` |
+| FR-003-31 | unit (hostile) | hand calculation: a job fixture done 5 / total 4 gives 500 `job-record-invalid`; done 4 / total 4 is served | pytest |
 
 ## Risks and complexity tracking
 

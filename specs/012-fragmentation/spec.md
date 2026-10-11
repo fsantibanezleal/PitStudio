@@ -221,7 +221,7 @@ F_j ≥ q. x50 uses q = 0.5, x80 q = 0.8.
 - Duplicate thresholds ("fixed at specification") → resolved: pHash Hamming ≤ 4, DINOv2 cosine ≥ 0.95 (FR-012-36).
 - Render stage of the muck piles: the M11 method page says `st52_rtx_render`, while the D1 case and the synthetic-data
   card say Isaac Sim muck renders with instance masks (`st55_sdg`) → resolved: `st55_sdg`, because Replicator's
-  writers produce the instance masks the exact truth needs (FR-012-13); reported to the coordinator.
+  writers produce the instance masks the exact truth needs (FR-012-13).
 - The classifier two-sample test for fragment images is specified here (FR-012-33 … FR-012-37); other data types may
   reuse the same module from their own specifications.
 - Integration 2026-10-07: draft schema written for DC-012-01 … DC-012-05 (`specs/012-fragmentation/contracts/`, valid

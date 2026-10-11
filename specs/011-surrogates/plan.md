@@ -156,6 +156,9 @@ Data flow: `st50_physics` (rollouts, fields, calibration runs; DC-011-01, DC-011
 | SC-011-03 | pipeline | report logic on fixture fields | pytest |
 | SC-011-04 | pipeline | as FR-011-08 and FR-011-37 | pytest |
 | DC-011-01…DC-011-04 | contract | valid and invalid example documents per schema | pytest + jsonschema |
+| FR-011-46 | unit (hostile) | hand calculation: [0.1, 0.5, 0.5], [0.5, 0.1] and [0, 0.5] are rejected; [0.1, 0.5, 0.9] is accepted | pytest |
+| FR-011-47 | unit (hostile) | hand calculation: two tensors named `u` are rejected; distinct names are accepted | pytest |
+| FR-011-48 | unit (hostile) | hand calculation: x_min = x_max gives `rollout-bounds-invalid`; ordered bounds are accepted | pytest |
 
 ### Threshold keys (`thresholds.yaml`, ratchet-only)
 `models.gns_repose_abs_deg_max: 1.5`, `models.gns_runout_rel_max: 0.05`, `models.fno_rel_l2_mean_max: 0.05`,
