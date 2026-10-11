@@ -8,8 +8,11 @@ Warp `HashGrid` built on float32 positions relative to a local origin.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 from dataclasses import dataclass
+from decimal import Decimal
 
 import numpy as np
 import warp as wp
@@ -51,6 +54,83 @@ class DemMaterial:
     friction_static: float
     friction_rolling: float
     youngs_modulus_real: float | None = None
+
+    @classmethod
+    def from_card(cls, card: dict) -> DemMaterial:
+        """Read a DC-005-01 material card (model "dem-sphere")."""
+        if card.get("model") != "dem-sphere":
+            raise PhysicsError("physics-params-invalid", f"material card {card.get('id')!r} is not a dem-sphere card")
+        value = lambda key: float(card[key]["value"])  # noqa: E731
+        real = card.get("youngs_modulus_real_pa")
+        return cls(
+            density=value("density_kg_m3"),
+            youngs_modulus=value("youngs_modulus_pa"),
+            poisson_ratio=value("poisson_ratio"),
+            restitution=value("restitution"),
+            friction_static=value("friction_static"),
+            friction_rolling=value("friction_rolling"),
+            youngs_modulus_real=None if real is None else float(real["value"]),
+        )
+
+
+def rayleigh_time_step(material: DemMaterial, r_min: float) -> float:
+    """Delta t_R = pi R_min sqrt(rho / G) / (0.1631 nu + 0.8766) for the modulus in use (FR-005-08)."""
+    shear = material.youngs_modulus / (2.0 * (1.0 + material.poisson_ratio))
+    return math.pi * r_min * math.sqrt(material.density / shear) / (0.1631 * material.poisson_ratio + 0.8766)
+
+
+def _es6_number(x: float) -> str:
+    """ECMAScript Number-to-string, as RFC 8785 requires (shortest round-trip digits)."""
+    if x == 0.0:
+        return "0"
+    sign = "-" if x < 0 else ""
+    t = Decimal(repr(abs(x))).as_tuple()
+    digits = "".join(map(str, t.digits))
+    n = len(digits) + int(t.exponent)  # position of the decimal point relative to the first digit
+    digits = digits.rstrip("0")
+    k = len(digits)
+    if k <= n <= 21:
+        return sign + digits + "0" * (n - k)
+    if 0 < n <= 21:
+        return sign + digits[:n] + "." + digits[n:]
+    if -6 < n <= 0:
+        return sign + "0." + "0" * (-n) + digits
+    exp = f"{'+' if n - 1 >= 0 else '-'}{abs(n - 1)}"
+    return f"{sign}{digits[0]}{'.' + digits[1:] if k > 1 else ''}e{exp}"
+
+
+def _canonical_json(value) -> str:
+    """RFC 8785 (JCS) canonical JSON of a card: sorted keys, no spaces, ES6 numbers."""
+    if isinstance(value, dict):
+        items = ",".join(f"{json.dumps(k, ensure_ascii=False)}:{_canonical_json(v)}" for k, v in sorted(value.items()))
+        return "{" + items + "}"
+    if isinstance(value, list | tuple):
+        return "[" + ",".join(_canonical_json(v) for v in value) + "]"
+    if isinstance(value, bool) or value is None or isinstance(value, str):
+        return json.dumps(value, ensure_ascii=False)
+    return _es6_number(float(value))
+
+
+def _is_reduced(card: dict) -> bool:
+    real = card.get("youngs_modulus_real_pa")
+    return real is not None and card["youngs_modulus_pa"]["value"] < real["value"]
+
+
+def material_ref(card: dict) -> dict:
+    """The benchmark report's material reference (DC-005-05 `material_ref`): both moduli when reduced (FR-005-09)."""
+    ref = {
+        "id": card["id"],
+        "card_sha256": hashlib.sha256(_canonical_json(card).encode("utf-8")).hexdigest(),
+        "youngs_modulus_pa": float(card["youngs_modulus_pa"]["value"]),
+    }
+    if _is_reduced(card):
+        ref["youngs_modulus_real_pa"] = float(card["youngs_modulus_real_pa"]["value"])
+    return ref
+
+
+def rebenchmark_required(card: dict) -> frozenset[str]:
+    """Benchmarks to run at the reduced modulus before the material's rollouts are used (FR-005-09)."""
+    return frozenset({"dem-beverloo-silo", "dem-repose"}) if _is_reduced(card) else frozenset()
 
 
 @dataclass(frozen=True)
@@ -173,6 +253,10 @@ class DemSimulation:
         pos = np.asarray(positions, dtype=np.float64).reshape(-1, 3)
         self.n = len(pos)
         rad = np.asarray(radii, dtype=np.float64)
+        if rad.shape != (self.n,) or not (np.isfinite(rad).all() and (rad > 0.0).all()):
+            raise PhysicsError("physics-params-invalid", "radii must be positive finite numbers, one per particle")
+        self.rayleigh_dt = rayleigh_time_step(material, float(rad.min()))
+        self._check_time_step(rayleigh_fraction)
         self._radius32 = rad.astype(np.float32)
         self._masses = (material.density * 4.0 / 3.0 * math.pi * rad**3).astype(np.float32).astype(np.float64)
         vel = np.zeros((self.n, 3)) if velocities is None else np.asarray(velocities, dtype=np.float64)
@@ -219,6 +303,30 @@ class DemSimulation:
         self.step_index = 0
         self._cmds: list[list] | None = None
         self._error: PhysicsError | None = None
+
+    def _check_time_step(self, fraction: float) -> None:
+        """FR-005-08: reject a step above f_R x Delta t_R (NaN, zero or negative steps and f_R outside (0, 1] too)."""
+        if not 0.0 < fraction <= 1.0:
+            raise PhysicsError("physics-params-invalid", f"rayleigh_fraction {fraction!r} is outside (0, 1]")
+        if not self.dt > 0.0:
+            raise PhysicsError("physics-params-invalid", f"time step {self.dt!r} s is not a positive number")
+        limit = fraction * self.rayleigh_dt
+        if self.dt > limit:
+            raise PhysicsError(
+                "dt-unstable",
+                f"time step {self.dt:.6g} s exceeds the limit {limit:.6g} s "
+                f"(f_R {fraction:.3g} x Rayleigh step {self.rayleigh_dt:.6g} s of the smallest particle)",
+                dt=self.dt,
+                dt_limit=limit,
+            )
+
+    def observables_metadata(self) -> dict:
+        """Observables-file metadata (DC-005-03); both moduli are recorded when the modulus is reduced (FR-005-09)."""
+        meta: dict = {}
+        mat = self.material
+        if mat.youngs_modulus_real is not None and mat.youngs_modulus < mat.youngs_modulus_real:
+            meta["youngs_modulus"] = {"used_pa": mat.youngs_modulus, "real_pa": mat.youngs_modulus_real}
+        return meta
 
     # ------------------------------------------------------------------ state
     @property
