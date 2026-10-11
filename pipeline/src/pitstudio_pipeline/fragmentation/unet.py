@@ -65,7 +65,9 @@ class _Decoder(nn.Module):
         chans = encoder_channels[1:][::-1]  # deepest first
         skips = [*chans[1:], 0]
         ins = [chans[0], *DECODER_CHANNELS[:-1]]
-        self.blocks = nn.ModuleList(_DecoderBlock(i, s, o) for i, s, o in zip(ins, skips, DECODER_CHANNELS, strict=True))
+        self.blocks = nn.ModuleList(
+            _DecoderBlock(i, s, o) for i, s, o in zip(ins, skips, DECODER_CHANNELS, strict=True)
+        )
 
     def forward(self, features: list[torch.Tensor]) -> torch.Tensor:
         feats = features[1:][::-1]

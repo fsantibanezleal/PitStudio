@@ -33,7 +33,9 @@ def foreground_iou(pred: np.ndarray, truth: np.ndarray) -> float:
 def fold_score(preds: Sequence[np.ndarray], truths: Sequence[np.ndarray]) -> float:
     """Mean foreground IoU over the test originals of one fold."""
     if len(preds) != len(truths) or len(preds) == 0:
-        raise ValueError(f"pred and truth must be non-empty sequences of equal length, got {len(preds)} and {len(truths)}")
+        raise ValueError(
+            f"pred and truth must be non-empty sequences of equal length, got {len(preds)} and {len(truths)}"
+        )
     return float(np.mean([foreground_iou(p, t) for p, t in zip(preds, truths, strict=True)]))
 
 

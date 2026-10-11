@@ -71,8 +71,8 @@ def lr_factor(step: int, steps: int, warmup: int = WARMUP_STEPS) -> float:
 
 
 def dihedral_batch(tensors: list[torch.Tensor], flips: torch.Tensor, ks: torch.Tensor) -> list[torch.Tensor]:
-    """Apply the dihedral map (horizontal flip if flips[i], then k = ks[i] quarter turns) to sample i of every [N, ..., H, W]
-    tensor. Samples sharing one (flip, k) are transformed in a single call."""
+    """Apply the dihedral map (horizontal flip if flips[i], then ks[i] quarter turns) to sample i of every
+    [N, ..., H, W] tensor. Samples sharing one (flip, k) are transformed in a single call."""
     outs = [t.clone() for t in tensors]
     for flip in (0, 1):
         for k in range(4):
@@ -89,7 +89,9 @@ def dihedral_batch(tensors: list[torch.Tensor], flips: torch.Tensor, ks: torch.T
     return outs
 
 
-def colour_jitter_batch(x: torch.Tensor, factors: torch.Tensor, jitter: Mapping[str, float] = COLOUR_JITTER) -> torch.Tensor:
+def colour_jitter_batch(
+    x: torch.Tensor, factors: torch.Tensor, jitter: Mapping[str, float] = COLOUR_JITTER
+) -> torch.Tensor:
     """Batched colour jitter on float RGB in [0, 1], x [N, 3, H, W], factors [N, 4] in [-1, 1].
 
     Brightness and contrast scale per sample, saturation blends with luma, hue rotates the YIQ chroma plane.
@@ -113,7 +115,7 @@ def colour_jitter_batch(x: torch.Tensor, factors: torch.Tensor, jitter: Mapping[
 def augment_batch(
     x: torch.Tensor, target: torch.Tensor, weight: torch.Tensor, generator: torch.Generator
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    """FR-012-22 augmentation: 8 dihedral maps (images, targets and weight maps together) and colour jitter (images only).
+    """FR-012-22 augmentation: 8 dihedral maps (images, targets, weights) and colour jitter (images only).
 
     x is float RGB in [0, 1], [N, 3, H, W]; every draw comes from `generator`, so a seeded run is reproducible.
     """
