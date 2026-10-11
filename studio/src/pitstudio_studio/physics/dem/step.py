@@ -14,11 +14,16 @@ from dataclasses import dataclass
 import numpy as np
 import warp as wp
 
-from pitstudio_studio.physics.dem.contact import damping_beta, hertz_normal
+from pitstudio_studio.physics.dem.contact import contact_response, damping_beta, hertz_normal
 
 wp.config.quiet = True
 
-GRID_CELLS = 128  # hash-grid size per axis; a hash table, not a domain limit
+MAX_GRID_CELLS = 128  # hash-grid size per axis at most; a hash table, not a domain limit
+
+
+def _grid_cells(n: int) -> int:
+    """Hash-table cells per axis: about 4 cells per particle (a clear of a large table dominates small runs)."""
+    return int(min(MAX_GRID_CELLS, max(4, 2 ** math.ceil(math.log2(max(4.0 * n, 1.0)) / 3.0))))
 
 
 @dataclass(frozen=True)
@@ -62,8 +67,10 @@ def _normal_forces(
     e_star: float,
     beta: float,
     force: wp.array(dtype=wp.vec3),
+    torque: wp.array(dtype=wp.vec3),
 ):
     i = wp.tid()
+    torque[i] = wp.vec3(0.0, 0.0, 0.0)
     f = wp.vec3(0.0, 0.0, 0.0)
     q = wp.hash_grid_query(grid, local[i], radius[i] + r_max + pad)
     j = int(0)  # noqa: UP018, RUF046  (Warp needs a typed variable for the iterator)
@@ -85,17 +92,66 @@ def _normal_forces(
 
 
 @wp.kernel
+def _wall_forces(
+    pos: wp.array(dtype=wp.vec3d),
+    vel: wp.array(dtype=wp.vec3),
+    ang: wp.array(dtype=wp.vec3),
+    radius: wp.array(dtype=float),
+    mass: wp.array(dtype=float),
+    inertia: wp.array(dtype=float),
+    wall_point: wp.array(dtype=wp.vec3d),
+    wall_normal: wp.array(dtype=wp.vec3),
+    n_walls: int,
+    e_star: float,
+    g_star: float,
+    beta: float,
+    mu_s: float,
+    mu_r: float,
+    dt: float,
+    tang: wp.array(dtype=wp.vec3),
+    roll: wp.array(dtype=wp.vec3),
+    force: wp.array(dtype=wp.vec3),
+    torque: wp.array(dtype=wp.vec3),
+):
+    i = wp.tid()
+    for w in range(n_walls):
+        h = i * n_walls + w
+        p = pos[i] - wall_point[w]
+        nw = wall_normal[w]
+        dist = wp.dot(p, wp.vec3d(wp.float64(nw[0]), wp.float64(nw[1]), wp.float64(nw[2])))
+        delta = float(wp.float64(radius[i]) - dist)
+        if delta <= 0.0:
+            tang[h] = wp.vec3(0.0, 0.0, 0.0)
+            roll[h] = wp.vec3(0.0, 0.0, 0.0)
+            continue
+        n = -nw  # from the sphere towards the wall
+        v_contact = vel[i] + wp.cross(ang[i] * radius[i], n)
+        f, t, tang_new, roll_new = contact_response(
+            e_star, g_star, radius[i], mass[i], inertia[i], beta, mu_s, mu_r, delta, n, v_contact, ang[i],
+            radius[i], tang[h], roll[h], dt,
+        )  # fmt: skip
+        tang[h] = tang_new
+        roll[h] = roll_new
+        force[i] += f
+        torque[i] += t
+
+
+@wp.kernel
 def _integrate(
     pos: wp.array(dtype=wp.vec3d),
     vel: wp.array(dtype=wp.vec3),
+    ang: wp.array(dtype=wp.vec3),
     force: wp.array(dtype=wp.vec3),
+    torque: wp.array(dtype=wp.vec3),
     mass: wp.array(dtype=float),
+    inertia: wp.array(dtype=float),
     gravity: wp.vec3,
     dt: float,
 ):
     i = wp.tid()
     v = vel[i] + (force[i] / mass[i] + gravity) * dt
     vel[i] = v
+    ang[i] = ang[i] + torque[i] / inertia[i] * dt
     pos[i] = pos[i] + wp.vec3d(wp.float64(v[0]), wp.float64(v[1]), wp.float64(v[2])) * wp.float64(dt)
 
 
@@ -138,13 +194,25 @@ class DemSimulation:
         self._local = wp.zeros(self.n, dtype=wp.vec3, device=device)
         self._vel = mk(vel.astype(np.float32), wp.vec3)
         self._force = wp.zeros(self.n, dtype=wp.vec3, device=device)
+        self._torque = wp.zeros(self.n, dtype=wp.vec3, device=device)
+        ang = np.zeros((self.n, 3)) if angular_velocities is None else np.asarray(angular_velocities, dtype=np.float64)
+        self._ang = mk(ang.astype(np.float32), wp.vec3)
+        self._inertia = mk((0.4 * self._masses * rad**2).astype(np.float32), float)
+        self._n_walls = len(walls)
+        wall_n = np.array([np.asarray(w.normal, float) / np.linalg.norm(w.normal) for w in walls]).reshape(-1, 3)
+        self._wall_point = mk(np.array([w.point for w in walls], dtype=np.float64).reshape(-1, 3), wp.vec3d)
+        self._wall_normal = mk(wall_n.astype(np.float32), wp.vec3)
+        self._wall_tang = wp.zeros(self.n * self._n_walls, dtype=wp.vec3, device=device)
+        self._wall_roll = wp.zeros(self.n * self._n_walls, dtype=wp.vec3, device=device)
         self._radius = mk(self._radius32, float)
         self._mass = mk(self._masses.astype(np.float32), float)
-        self.hash_grid = wp.HashGrid(GRID_CELLS, GRID_CELLS, GRID_CELLS, device=device)
+        self.hash_grid = wp.HashGrid(*(3 * [_grid_cells(self.n)]), device=device)
         mat = material
         self._e_star = mat.youngs_modulus / (2.0 * (1.0 - mat.poisson_ratio**2))
+        self._g_star = (mat.youngs_modulus / (2.0 * (1.0 + mat.poisson_ratio))) / (4.0 * (2.0 - mat.poisson_ratio))
         self._beta = damping_beta(mat.restitution)
         self.step_index = 0
+        self._cmds: list | None = None
 
     # ------------------------------------------------------------------ state
     @property
@@ -156,6 +224,10 @@ class DemSimulation:
         return self._vel.numpy().astype(np.float64)
 
     @property
+    def angular_velocities(self) -> np.ndarray:
+        return self._ang.numpy().astype(np.float64)
+
+    @property
     def masses(self) -> np.ndarray:
         return self._masses.copy()
 
@@ -164,25 +236,63 @@ class DemSimulation:
         return self.step_index * self.dt
 
     # ------------------------------------------------------------------ stepping
-    def step(self, n: int = 1) -> None:
-        """Advance `n` steps; the loop only launches kernels (no host work between steps)."""
+    def _record(self) -> list:
+        """Pre-pack the launches of one step (the arguments never change between steps)."""
         dev = self.device
-        for _ in range(n):
-            wp.launch(_make_local_positions, dim=self.n, inputs=[self._pos, self._origin, self._local], device=dev)
-            self.hash_grid.build(self._local, 2.0 * (self._r_max + self._pad))
+        mat = self.material
+        cmds = [
+            wp.launch(
+                _make_local_positions, dim=self.n, inputs=[self._pos, self._origin, self._local], device=dev,
+                record_cmd=True,
+            ),
             wp.launch(
                 _normal_forces,
                 dim=self.n,
                 inputs=[
                     self.hash_grid.id, self._pos, self._local, self._vel, self._radius, self._mass,
-                    self._r_max, self._pad, self._e_star, self._beta, self._force,
+                    self._r_max, self._pad, self._e_star, self._beta, self._force, self._torque,
                 ],
                 device=dev,
+                record_cmd=True,
+            ),
+        ]  # fmt: skip
+        if self._n_walls:
+            cmds.append(
+                wp.launch(
+                    _wall_forces,
+                    dim=self.n,
+                    inputs=[
+                        self._pos, self._vel, self._ang, self._radius, self._mass, self._inertia,
+                        self._wall_point, self._wall_normal, self._n_walls, self._e_star, self._g_star, self._beta,
+                        mat.friction_static, mat.friction_rolling, self.dt,
+                        self._wall_tang, self._wall_roll, self._force, self._torque,
+                    ],
+                    device=dev,
+                    record_cmd=True,
+                )
             )  # fmt: skip
+        cmds.append(
             wp.launch(
                 _integrate,
                 dim=self.n,
-                inputs=[self._pos, self._vel, self._force, self._mass, self._gravity, self.dt],
+                inputs=[
+                    self._pos, self._vel, self._ang, self._force, self._torque, self._mass, self._inertia,
+                    self._gravity, self.dt,
+                ],
                 device=dev,
+                record_cmd=True,
             )
+        )  # fmt: skip
+        return cmds
+
+    def step(self, n: int = 1) -> None:
+        """Advance `n` steps; the loop only launches pre-packed kernels (no host work between steps)."""
+        if self._cmds is None:
+            self._cmds = self._record()
+        cell = 2.0 * (self._r_max + self._pad)
+        for _ in range(n):
+            self._cmds[0].launch()
+            self.hash_grid.build(self._local, cell)
+            for cmd in self._cmds[1:]:
+                cmd.launch()
         self.step_index += n

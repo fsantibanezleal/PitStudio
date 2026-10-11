@@ -3,8 +3,10 @@
 Normal force F_n = (4/3) E* sqrt(R*) delta^(3/2) with the damping F_d = -2 sqrt(5/6) beta sqrt(S_n m*) v_n, the
 Mindlin tangential spring F_t = -S_t delta_t capped by the Coulomb limit mu_s F_n, and an elastic-plastic rolling
 torque capped at mu_r R* F_n. Sources: LAMMPS `pair_style granular` (Hertz force, Mindlin stiffness, effective moduli)
-and spec 005 FR-005-01 (damping form, caps). The rolling stiffness k_r = S_n R*^2 and the critical rolling damping are
-this implementation's choices (spec 005 section 7: the elastic-plastic rolling model is UNVERIFIED).
+and spec 005 FR-005-01 (damping form, caps). Choices of this implementation that the spec leaves open (spec 005
+section 7: the rolling model is UNVERIFIED): rolling stiffness k_r = S_n R*^2 with critical rolling damping, and a
+tangential damper with the normal law's coefficient inside `contact_response` (it damps the stick-slip oscillation of
+the Mindlin spring; `evaluate_contacts` is the spring-and-cap law of FR-005-01 alone).
 
 The kernels run in float32; positions stay float64 in the integrator (see `step`).
 """
@@ -86,6 +88,73 @@ def clamp_vector(v: wp.vec3, limit: float):
     if mag > limit:
         return v * (limit / mag)
     return v
+
+
+@wp.func
+def tangent_part(v: wp.vec3, n: wp.vec3):
+    """`v` without its component along the unit vector `n`."""
+    return v - n * wp.dot(v, n)
+
+
+@wp.func
+def keep_length_tangent(history: wp.vec3, n: wp.vec3):
+    """Rotate a stored history onto the tangent plane of the current normal, keeping its length."""
+    mag = wp.length(history)
+    t = tangent_part(history, n)
+    tmag = wp.length(t)
+    if tmag > 0.0:
+        return t * (mag / tmag)
+    return wp.vec3(0.0, 0.0, 0.0)
+
+
+@wp.func
+def contact_response(
+    e_star: float,
+    g_star: float,
+    r_star: float,
+    m_star: float,
+    i_eff: float,
+    beta: float,
+    mu_s: float,
+    mu_r: float,
+    delta: float,
+    n: wp.vec3,
+    v_contact: wp.vec3,
+    w_rel: wp.vec3,
+    arm: float,
+    tang_old: wp.vec3,
+    roll_old: wp.vec3,
+    dt: float,
+):
+    """One contact seen from particle i (n points from i to the other body, `delta` > 0).
+
+    `v_contact` is the relative velocity of the contact points, `w_rel` = omega_i - omega_j, `arm` the radius of i.
+    Returns (force on i, torque on i, new tangential history, new rolling history). The normal force is not clipped
+    at zero (FR-005-03); the friction caps use the clipped sum. Action-reaction holds because the other body, seen
+    from its side, sees n -> -n, v_contact -> -v_contact, w_rel -> -w_rel and the opposite histories.
+    """
+    v_n = wp.dot(v_contact, n)
+    f_el, f_d, s_n = hertz_normal(e_star, r_star, m_star, beta, delta, v_n)
+    fn = f_el + f_d
+    fn_c = wp.max(fn, 0.0)
+    # Mindlin tangential spring with accumulated history and the Coulomb cap
+    s_t = 8.0 * g_star * wp.sqrt(r_star * delta)
+    tang = keep_length_tangent(tang_old, n) + tangent_part(v_contact, n) * dt
+    tang = clamp_vector(s_t * tang, mu_s * fn_c) / s_t
+    # tangential damping with the normal law's coefficient (damps the stick-slip oscillation of the spring)
+    c_t = -2.0 * wp.sqrt(5.0 / 6.0) * beta * wp.sqrt(s_t * m_star)
+    ft = clamp_vector(-(s_t * tang) - c_t * tangent_part(v_contact, n), mu_s * fn_c)
+    # elastic-plastic rolling resistance (spring on the accumulated rotation, critical damping, plastic cap)
+    k_r = s_n * r_star * r_star
+    cap_r = mu_r * r_star * fn_c
+    w_t = tangent_part(w_rel, n)
+    roll = keep_length_tangent(roll_old, n) + w_t * dt
+    roll = clamp_vector(k_r * roll, cap_r) / k_r
+    c_r = 2.0 * wp.sqrt(k_r * i_eff)
+    torque_roll = clamp_vector(-(k_r * roll) - c_r * w_t, cap_r)
+    force = -fn * n + ft
+    torque = wp.cross(n * arm, ft) + torque_roll
+    return force, torque, tang, roll
 
 
 @wp.kernel
