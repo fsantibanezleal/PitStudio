@@ -1,8 +1,10 @@
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import appEn from "~/locales/en/app.json";
+import casesEn from "~/locales/en/cases.json";
 import shellEn from "~/locales/en/shell.json";
 import appEs from "~/locales/es/app.json";
+import casesEs from "~/locales/es/cases.json";
 import shellEs from "~/locales/es/shell.json";
 import { DEFAULT_LANGUAGE, LANGUAGES } from "./prefs";
 
@@ -14,11 +16,11 @@ void i18n.use(initReactI18next).init({
   lng: DEFAULT_LANGUAGE,
   fallbackLng: DEFAULT_LANGUAGE,
   supportedLngs: [...LANGUAGES],
-  ns: ["shell", "app"],
+  ns: ["shell", "app", "cases"],
   defaultNS: "app",
   resources: {
-    en: { shell: shellEn, app: appEn },
-    es: { shell: shellEs, app: appEs },
+    en: { shell: shellEn, app: appEn, cases: casesEn },
+    es: { shell: shellEs, app: appEs, cases: casesEs },
   },
   interpolation: { escapeValue: false },
   initAsync: false,

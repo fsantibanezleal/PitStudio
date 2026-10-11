@@ -1,0 +1,47 @@
+{
+  "notYetRun": "Not yet run",
+  "rail": {
+    "title": "Cases",
+    "open": "Open the page of case {{id}}",
+    "page": "Page"
+  },
+  "kpi": {
+    "name": "KPI",
+    "value": "Value",
+    "provenance": "Provenance",
+    "panelTitle": "Headline KPIs",
+    "openCase": "Open the case page"
+  },
+  "lane": {
+    "live": "LIVE",
+    "replay": "REPLAY",
+    "static": "STATIC"
+  },
+  "layers": {
+    "title": "Layers",
+    "terrain-2018": "Terrain 2018",
+    "terrain-2023": "Terrain 2023",
+    "roads": "Roads",
+    "pit-shells": "Pit shells",
+    "fleet": "Fleet",
+    "fields": "Fields",
+    "sensors": "Sensors"
+  },
+  "explore": {
+    "pick": "Select a case in the rail to see its layers and headline KPIs. Nothing plays until you start it."
+  },
+  "scene": {
+    "title": "Scene",
+    "terrain": "Bingham Canyon terrain tiles",
+    "noThreeD": "3D view needs WebGL 2 or WebGPU",
+    "summary": "Visible layers: {{layers}}",
+    "noLayers": "none"
+  },
+  "tier": {
+    "label": "Compute tier",
+    "detecting": "Detecting",
+    "t1": "T1 · WebGPU",
+    "t2": "T2 · WebAssembly",
+    "t0": "T0 · baked"
+  }
+}
