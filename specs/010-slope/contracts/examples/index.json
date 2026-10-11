@@ -558,7 +558,7 @@
       "schema": "displacement-series.schema.json",
       "target": "#",
       "valid": false,
-      "class": "sign convention other than toward the radar",
+      "class": "sign convention other than away from the radar",
       "rule": "FR-010-41",
       "pointer": "/sign_convention",
       "keyword": "const"

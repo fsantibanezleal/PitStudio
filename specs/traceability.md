@@ -326,7 +326,7 @@
 | FR-005-08 | 005-physics | draft | T-005-014 | - |
 | FR-005-09 | 005-physics | draft | T-005-014 | - |
 | FR-005-10 | 005-physics | draft | T-005-019 | - |
-| FR-005-11 | 005-physics | draft | T-005-018 | - |
+| FR-005-11 | 005-physics | draft | T-005-018, T-005-025 | - |
 | FR-005-12 | 005-physics | draft | T-005-019 | - |
 | FR-005-13 | 005-physics | draft | T-005-016 | - |
 | FR-005-14 | 005-physics | draft | T-005-019, T-005-024 | - |
@@ -944,7 +944,7 @@
 | FR-018-53 | 018-web-cases | draft | T-018-071 | - |
 | FR-018-54 | 018-web-cases | draft | T-018-061 | - |
 | FR-018-55 | 018-web-cases | draft | T-018-061 | - |
-| FR-018-56 | 018-web-cases | draft | T-018-059, T-018-065, T-018-067 | - |
+| FR-018-56 | 018-web-cases | draft | T-005-025, T-018-059, T-018-065, T-018-067 | - |
 | FR-018-57 | 018-web-cases | draft | T-018-060 | - |
 | FR-018-58 | 018-web-cases | draft | T-018-063 | - |
 | FR-018-59 | 018-web-cases | draft | T-018-069 | - |

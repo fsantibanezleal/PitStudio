@@ -157,7 +157,7 @@ SNR_obs) → `s30_train` → `s40_infer` (all methods on identical windows) → 
 | FR-010-34, FR-010-36 | unit | hand geometry: radar at (0, 0, 0), pixel at (100, 0, 0), motion (1, 0, 0) → \|d\| = 1; motion (0, 1, 0) → 0; increments of 0.24 λ and 0.26 λ; hand calculation of the Bingham 2013 worked example (50.8 mm/day at 240 scans/day → 0.21 mm/scan, no flag for λ = 17.43 mm; a daily revisit → 50.8 mm ≥ λ/4 = 4.36 mm, flagged) | pytest |
 | FR-010-35 | pipeline | contract of the S4b block; ψ = 0° reproduces the full-vector series when the noise is off | pytest |
 | FR-010-37 | unit (hostile) | invalid configurations written in the test | pytest |
-| FR-010-41 | unit | analytical phase of a linear motion (φ = 4π v t / λ before wrapping); motion toward the radar gives d > 0; reference implementation `numpy.unwrap` on the wrapped series; noise statistics (sample σ within the 99.9 % χ² interval) | pytest |
+| FR-010-41 | unit | analytical phase of a linear motion (φ = 4π v t / λ before wrapping); motion away from the radar gives d > 0 and motion toward it d < 0; reference implementation `numpy.unwrap` on the wrapped series; noise statistics (sample σ within the 99.9 % χ² interval) | pytest |
 | FR-010-42 | unit (hostile) | invalid displacement fields, scan times, λ, noise and ρ values written in the test | pytest + Hypothesis |
 | FR-010-38 | E2E | fixture with and without the EGMS layer | Playwright |
 | FR-010-39 | pipeline + contract | manifests validated against `contracts/manifest.schema.json`; CPU run on samples | pytest |
