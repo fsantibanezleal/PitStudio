@@ -92,7 +92,7 @@ def Scope "Render"
         }}
         def RenderVar "Depth"
         {{
-            uniform string sourceName = "DistanceToImagePlane"
+            uniform string sourceName = "DistanceToImagePlaneSD"
         }}
     }}
 }}
@@ -191,6 +191,7 @@ def body(r: dict[str, Any]) -> None:
             products = renderer.step({PRODUCT}, dt)
             frames = _grab(products, np)
         r["metrics"]["render_vars"] = sorted(frames)
+        r["metrics"]["render_var_shapes"] = {k: [list(v.shape), str(v.dtype)] for k, v in frames.items()}
 
         n = 20
         t0 = time.perf_counter()
@@ -219,6 +220,8 @@ def body(r: dict[str, Any]) -> None:
             r["notes"].append("no depth render variable returned")
         else:
             d = np.squeeze(depth).astype(np.float32)
+            if d.size == 0:  # an empty tensor: report what the renderer returned instead of dividing by its size
+                raise AssertionError(f"depth render variable is empty: shape {list(depth.shape)}, dtype {depth.dtype}")
             fin = d[np.isfinite(d)]
             r["metrics"]["depth_finite_fraction"] = round(float(fin.size / d.size), 4)
             if fin.size == 0:
@@ -232,6 +235,7 @@ def body(r: dict[str, Any]) -> None:
                 f.write(np.ascontiguousarray(color[..., :3]).tobytes())
             r["notes"].append("rendered frame written to the local scratch folder (probe_frame.ppm)")
     finally:
+        products = frames = None  # release the last step result before the renderer ("Leaking step result outputs")
         renderer.destroy()
 
     try:

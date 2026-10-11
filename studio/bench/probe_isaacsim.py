@@ -1,7 +1,9 @@
 """Probe (studio/isaac env): Isaac Sim 6 starts headless on the GPU, simulates rigid bodies in PhysX and renders.
 
 Starts SimulationApp headless, builds a ground plane and a few falling cubes with pxr, plays ~2 s of simulated time
-and reads the poses back, then (optionally) renders one RGB frame through Replicator. Closes the app cleanly.
+and reads the poses back, then (optionally) renders one RGB frame through Replicator. The result JSON is printed
+before the app is closed: SimulationApp.close() can hang in Kit teardown (a carb.tasking GIL deadlock, see the
+comments of SimulationApp.close), so it runs under a watchdog that ends the process after SHUTDOWN_WATCHDOG_S.
 Licence: NVIDIA SDK, so the metrics stay local-only.
 Note: the Compatibility Checker ships only as a windowed Kit app (isaacsim.exp.compatibility_check.kit), which a
 headless probe cannot drive; the probe records whether its extension is present instead of running it.
@@ -9,7 +11,9 @@ headless probe cannot drive; the probe records whether its extension is present 
 
 from __future__ import annotations
 
+import faulthandler
 import os
+import threading
 import time
 from importlib import metadata
 from typing import Any
@@ -21,6 +25,8 @@ os.environ.setdefault("OMNI_KIT_ACCEPT_EULA", "YES")
 DT = 1.0 / 60.0
 SIM_SECONDS = 2.0
 N_CUBES = 5
+SHUTDOWN_WATCHDOG_S = 60.0
+_APP: Any = None  # the SimulationApp, closed by shutdown() after the result is printed
 
 
 def _version(dist: str) -> str:
@@ -110,9 +116,10 @@ def body(r: dict[str, Any]) -> None:
 
     r["versions"].update(isaacsim=_version("isaacsim"), numpy=np.__version__)
     t0 = time.perf_counter()
+    global _APP
     from isaacsim import SimulationApp
 
-    app = SimulationApp({"headless": True})
+    app = _APP = SimulationApp({"headless": True})
     r["metrics"]["startup_s"] = round(time.perf_counter() - t0, 2)
     try:
         import isaacsim.core.experimental.utils.app as app_utils
@@ -159,10 +166,23 @@ def body(r: dict[str, Any]) -> None:
         except Exception as e:
             r["notes"].append(f"compatibility checker lookup failed: {type(e).__name__}")
     finally:
-        t0 = time.perf_counter()
-        app.close()
-        r["metrics"]["close_s"] = round(time.perf_counter() - t0, 2)
+        r["notes"].append("result printed before SimulationApp.close() (shutdown watchdog armed)")
+
+
+def shutdown() -> None:
+    """Close the app after the result is out, under watchdogs: Kit teardown may deadlock (SimulationApp.close)."""
+    if _APP is None:
+        return
+    # a Python timer for the normal case, faulthandler's C thread (needs no GIL) for a GIL-holding deadlock
+    timer = threading.Timer(SHUTDOWN_WATCHDOG_S, lambda: os._exit(0))
+    timer.daemon = True
+    timer.start()
+    faulthandler.dump_traceback_later(SHUTDOWN_WATCHDOG_S + 15, exit=True)
+    _APP.close()
+    timer.cancel()
+    faulthandler.cancel_dump_traceback_later()
 
 
 if __name__ == "__main__":
-    run_probe("isaacsim", "local-only", body)
+    run_probe("isaacsim", "local-only", body)  # prints the result JSON and flushes
+    shutdown()
