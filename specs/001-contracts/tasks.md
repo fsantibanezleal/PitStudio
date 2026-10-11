@@ -41,6 +41,10 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/001-contracts/te
 - [ ] T-001-040 [US-001-3] (P-001-05, P-001-07, P-001-08) serialisation round trip, YAML ↔ JSON syntax invariance with RFC 8785 canonical bytes (§3.2.4 example and Appendix B samples as fixed vectors), validation determinism across runs and key orders — test: tests/property/test_t_001_040_roundtrip.py
 - [ ] T-001-041 [US-001-3] (P-001-06, FR-001-45) generated-model agreement with the JSON Schema validator over the corpus; every trust boundary of data-model §7.3 calls `validate` (call spy) — test: tests/contract/test_t_001_041_agreement.py
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-001-092 (FR-001-58) sources entry class lower than a per-file override is rejected — test: tests/unit/test_t_001_092_source_class_lattice.py
+- [ ] T-001-093 (FR-001-59) capabilities privacy scan of `notes` and `error` — test: tests/unit/test_t_001_093_capabilities_privacy.py
+
 ## Phase 7 — Polish and hostile review
 
 - [ ] T-001-090 (NFR-001-05) mutation run on `src/pitstudio/contracts/` (lane gate, licence lattice, loaders, JCS); record the score and fail below 0.80 — test: tests/contract/test_t_001_090_mutation_score.py

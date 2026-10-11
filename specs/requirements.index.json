@@ -4,55 +4,73 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-010",
+        "T-000-010"
+      ],
       "tests": []
     },
     "US-000-2": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-011",
+        "T-000-011"
+      ],
       "tests": []
     },
     "US-000-3": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-012",
+        "T-000-012"
+      ],
       "tests": []
     },
     "US-000-4": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-013",
+        "T-000-013"
+      ],
       "tests": []
     },
     "US-000-5": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-014",
+        "T-000-014"
+      ],
       "tests": []
     },
     "US-000-6": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-015",
+        "T-000-015"
+      ],
       "tests": []
     },
     "FR-000-01": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-034"
       ],
@@ -62,7 +80,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-011"
       ],
@@ -72,7 +90,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-037",
         "T-019-041",
@@ -87,8 +105,10 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-020"
+      ],
       "tests": [
         "web/src/shell/AccessGate.test.tsx",
         "web/src/shell/digest.test.ts",
@@ -99,7 +119,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-032",
         "T-020-030"
@@ -110,7 +130,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-034",
         "T-019-022"
@@ -121,7 +141,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-019-004"
       ],
@@ -131,7 +151,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-019-004",
         "T-019-034",
@@ -143,7 +163,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-033",
         "T-020-033"
@@ -154,7 +174,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-033",
         "T-020-041"
@@ -165,7 +185,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-014",
         "T-019-035"
@@ -176,31 +196,37 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-021"
+      ],
       "tests": []
     },
     "FR-000-13": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-022"
+      ],
       "tests": []
     },
     "FR-000-14": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-023"
+      ],
       "tests": []
     },
     "FR-000-15": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-082"
       ],
@@ -210,39 +236,77 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-024"
+      ],
+      "tests": []
+    },
+    "FR-000-17": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-000-060"
+      ],
+      "tests": []
+    },
+    "FR-000-18": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-000-061"
+      ],
+      "tests": []
+    },
+    "FR-000-19": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-000-062"
+      ],
       "tests": []
     },
     "P-000-01": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-030"
+      ],
       "tests": []
     },
     "P-000-02": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-031"
+      ],
       "tests": []
     },
     "P-000-03": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-032"
+      ],
       "tests": []
     },
     "NFR-000-01": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-020-062"
       ],
@@ -252,7 +316,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-018-037",
         "T-019-041",
@@ -266,7 +330,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-020-063"
       ],
@@ -276,7 +340,7 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-020-062"
       ],
@@ -286,23 +350,27 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-040"
+      ],
       "tests": []
     },
     "NFR-000-06": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-040"
+      ],
       "tests": []
     },
     "NFR-000-07": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-020-062"
       ],
@@ -312,47 +380,57 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-041"
+      ],
       "tests": []
     },
     "SC-000-01": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-042"
+      ],
       "tests": []
     },
     "SC-000-02": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-043"
+      ],
       "tests": []
     },
     "SC-000-03": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-044"
+      ],
       "tests": []
     },
     "SC-000-04": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-045"
+      ],
       "tests": []
     },
     "DC-000-01": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
+      "phase": "clarified",
       "tasks": [
         "T-009-005",
         "T-012-003",
@@ -364,32 +442,40 @@
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-050"
+      ],
       "tests": []
     },
     "DC-000-03": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-051"
+      ],
       "tests": []
     },
     "DC-000-04": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-052"
+      ],
       "tests": []
     },
     "DC-000-05": {
       "spec": "000-foundation",
       "retired": false,
       "draft": true,
-      "phase": "draft",
-      "tasks": [],
+      "phase": "clarified",
+      "tasks": [
+        "T-000-053"
+      ],
       "tests": []
     },
     "US-001-1": {
@@ -941,6 +1027,26 @@
       "phase": "clarified",
       "tasks": [
         "T-001-030"
+      ],
+      "tests": []
+    },
+    "FR-001-58": {
+      "spec": "001-contracts",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-001-092"
+      ],
+      "tests": []
+    },
+    "FR-001-59": {
+      "spec": "001-contracts",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-001-093"
       ],
       "tests": []
     },
@@ -1876,6 +1982,36 @@
       ],
       "tests": []
     },
+    "FR-002-64": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-092"
+      ],
+      "tests": []
+    },
+    "FR-002-65": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-093"
+      ],
+      "tests": []
+    },
+    "FR-002-66": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-094"
+      ],
+      "tests": []
+    },
     "P-002-01": {
       "spec": "002-runner",
       "retired": false,
@@ -1993,6 +2129,16 @@
       "phase": "clarified",
       "tasks": [
         "T-002-011"
+      ],
+      "tests": []
+    },
+    "P-002-13": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-095"
       ],
       "tests": []
     },
@@ -2470,6 +2616,16 @@
       "phase": "clarified",
       "tasks": [
         "T-003-041"
+      ],
+      "tests": []
+    },
+    "FR-003-31": {
+      "spec": "003-console",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-003-092"
       ],
       "tests": []
     },
@@ -3080,6 +3236,26 @@
       ],
       "tests": []
     },
+    "FR-004-42": {
+      "spec": "004-scene-pipeline",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-004-092"
+      ],
+      "tests": []
+    },
+    "FR-004-43": {
+      "spec": "004-scene-pipeline",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-004-093"
+      ],
+      "tests": []
+    },
     "P-004-01": {
       "spec": "004-scene-pipeline",
       "retired": false,
@@ -3549,7 +3725,8 @@
       "draft": true,
       "phase": "clarified",
       "tasks": [
-        "T-005-018"
+        "T-005-018",
+        "T-005-025"
       ],
       "tests": []
     },
@@ -3981,6 +4158,16 @@
       "phase": "clarified",
       "tasks": [
         "T-005-064"
+      ],
+      "tests": []
+    },
+    "FR-005-55": {
+      "spec": "005-physics",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-005-092"
       ],
       "tests": []
     },
@@ -6988,6 +7175,56 @@
       ],
       "tests": []
     },
+    "FR-009-46": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-092"
+      ],
+      "tests": []
+    },
+    "FR-009-47": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-093"
+      ],
+      "tests": []
+    },
+    "FR-009-48": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-094"
+      ],
+      "tests": []
+    },
+    "FR-009-49": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-095"
+      ],
+      "tests": []
+    },
+    "FR-009-50": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-096"
+      ],
+      "tests": []
+    },
     "P-009-01": {
       "spec": "009-perception",
       "retired": false,
@@ -7811,6 +8048,36 @@
       "phase": "clarified",
       "tasks": [
         "T-010-003"
+      ],
+      "tests": []
+    },
+    "FR-010-43": {
+      "spec": "010-slope",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-010-092"
+      ],
+      "tests": []
+    },
+    "FR-010-44": {
+      "spec": "010-slope",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-010-093"
+      ],
+      "tests": []
+    },
+    "FR-010-45": {
+      "spec": "010-slope",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-010-094"
       ],
       "tests": []
     },
@@ -8661,6 +8928,36 @@
       "phase": "clarified",
       "tasks": [
         "T-011-061"
+      ],
+      "tests": []
+    },
+    "FR-011-46": {
+      "spec": "011-surrogates",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-011-092"
+      ],
+      "tests": []
+    },
+    "FR-011-47": {
+      "spec": "011-surrogates",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-011-093"
+      ],
+      "tests": []
+    },
+    "FR-011-48": {
+      "spec": "011-surrogates",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-011-094"
       ],
       "tests": []
     },
@@ -12132,6 +12429,26 @@
       ],
       "tests": []
     },
+    "FR-015-48": {
+      "spec": "015-vlm",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-015-092"
+      ],
+      "tests": []
+    },
+    "FR-015-49": {
+      "spec": "015-vlm",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-015-093"
+      ],
+      "tests": []
+    },
     "P-015-01": {
       "spec": "015-vlm",
       "retired": false,
@@ -14784,6 +15101,7 @@
       "draft": true,
       "phase": "clarified",
       "tasks": [
+        "T-005-025",
         "T-018-059",
         "T-018-065",
         "T-018-067"
@@ -14906,6 +15224,16 @@
       "phase": "clarified",
       "tasks": [
         "T-018-040"
+      ],
+      "tests": []
+    },
+    "FR-018-69": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-092"
       ],
       "tests": []
     },
@@ -16281,6 +16609,26 @@
       ],
       "tests": []
     },
+    "FR-019-46": {
+      "spec": "019-web-studio",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-019-092"
+      ],
+      "tests": []
+    },
+    "FR-019-47": {
+      "spec": "019-web-studio",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-019-093"
+      ],
+      "tests": []
+    },
     "P-019-01": {
       "spec": "019-web-studio",
       "retired": false,
@@ -17515,6 +17863,97 @@
     }
   },
   "tasks": {
+    "T-000-000": [],
+    "T-000-010": [
+      "US-000-1",
+      "US-000-1"
+    ],
+    "T-000-011": [
+      "US-000-2",
+      "US-000-2"
+    ],
+    "T-000-012": [
+      "US-000-3",
+      "US-000-3"
+    ],
+    "T-000-013": [
+      "US-000-4",
+      "US-000-4"
+    ],
+    "T-000-014": [
+      "US-000-5",
+      "US-000-5"
+    ],
+    "T-000-015": [
+      "US-000-6",
+      "US-000-6"
+    ],
+    "T-000-020": [
+      "FR-000-04"
+    ],
+    "T-000-021": [
+      "FR-000-12"
+    ],
+    "T-000-022": [
+      "FR-000-13"
+    ],
+    "T-000-023": [
+      "FR-000-14"
+    ],
+    "T-000-024": [
+      "FR-000-16"
+    ],
+    "T-000-030": [
+      "P-000-01"
+    ],
+    "T-000-031": [
+      "P-000-02"
+    ],
+    "T-000-032": [
+      "P-000-03"
+    ],
+    "T-000-040": [
+      "NFR-000-05",
+      "NFR-000-06"
+    ],
+    "T-000-041": [
+      "NFR-000-08"
+    ],
+    "T-000-042": [
+      "SC-000-01"
+    ],
+    "T-000-043": [
+      "SC-000-02"
+    ],
+    "T-000-044": [
+      "SC-000-03"
+    ],
+    "T-000-045": [
+      "SC-000-04"
+    ],
+    "T-000-050": [
+      "DC-000-02"
+    ],
+    "T-000-051": [
+      "DC-000-03"
+    ],
+    "T-000-052": [
+      "DC-000-04"
+    ],
+    "T-000-053": [
+      "DC-000-05"
+    ],
+    "T-000-060": [
+      "FR-000-17"
+    ],
+    "T-000-061": [
+      "FR-000-18"
+    ],
+    "T-000-062": [
+      "FR-000-19"
+    ],
+    "T-000-090": [],
+    "T-000-091": [],
     "T-001-001": [
       "US-001-1",
       "DC-001-01",
@@ -17642,6 +18081,12 @@
       "US-001-3",
       "P-001-06",
       "FR-001-45"
+    ],
+    "T-001-092": [
+      "FR-001-58"
+    ],
+    "T-001-093": [
+      "FR-001-59"
     ],
     "T-001-090": [
       "NFR-001-05"
@@ -17819,6 +18264,18 @@
       "US-002-2",
       "FR-002-59"
     ],
+    "T-002-092": [
+      "FR-002-64"
+    ],
+    "T-002-093": [
+      "FR-002-65"
+    ],
+    "T-002-094": [
+      "FR-002-66"
+    ],
+    "T-002-095": [
+      "P-002-13"
+    ],
     "T-002-090": [
       "NFR-002-05"
     ],
@@ -17911,6 +18368,9 @@
     "T-003-041": [
       "US-003-5",
       "FR-003-30"
+    ],
+    "T-003-092": [
+      "FR-003-31"
     ],
     "T-003-090": [],
     "T-003-091": [],
@@ -18079,6 +18539,12 @@
       "NFR-004-02",
       "SC-004-01"
     ],
+    "T-004-092": [
+      "FR-004-42"
+    ],
+    "T-004-093": [
+      "FR-004-43"
+    ],
     "T-004-090": [],
     "T-004-091": [],
     "T-005-001": [
@@ -18173,7 +18639,9 @@
     ],
     "T-005-025": [
       "US-005-2",
-      "FR-005-22"
+      "FR-005-22",
+      "FR-005-11",
+      "FR-018-56"
     ],
     "T-005-030": [
       "US-005-3",
@@ -18300,6 +18768,9 @@
     ],
     "T-005-067": [
       "NFR-005-03"
+    ],
+    "T-005-092": [
+      "FR-005-55"
     ],
     "T-005-090": [],
     "T-005-091": [],
@@ -18904,6 +19375,21 @@
       "US-009-5",
       "FR-009-39"
     ],
+    "T-009-092": [
+      "FR-009-46"
+    ],
+    "T-009-093": [
+      "FR-009-47"
+    ],
+    "T-009-094": [
+      "FR-009-48"
+    ],
+    "T-009-095": [
+      "FR-009-49"
+    ],
+    "T-009-096": [
+      "FR-009-50"
+    ],
     "T-009-090": [],
     "T-009-091": [],
     "T-010-001": [
@@ -19100,6 +19586,15 @@
       "US-010-5",
       "NFR-010-06"
     ],
+    "T-010-092": [
+      "FR-010-43"
+    ],
+    "T-010-093": [
+      "FR-010-44"
+    ],
+    "T-010-094": [
+      "FR-010-45"
+    ],
     "T-010-090": [],
     "T-010-091": [],
     "T-011-001": [
@@ -19282,6 +19777,15 @@
     "T-011-062": [
       "US-011-4",
       "NFR-011-04"
+    ],
+    "T-011-092": [
+      "FR-011-46"
+    ],
+    "T-011-093": [
+      "FR-011-47"
+    ],
+    "T-011-094": [
+      "FR-011-48"
     ],
     "T-011-090": [],
     "T-011-091": [],
@@ -20023,6 +20527,12 @@
       "US-015-2",
       "FR-015-14"
     ],
+    "T-015-092": [
+      "FR-015-48"
+    ],
+    "T-015-093": [
+      "FR-015-49"
+    ],
     "T-015-090": [],
     "T-015-091": [],
     "T-016-000": [],
@@ -20649,6 +21159,9 @@
       "FR-018-66",
       "FR-000-15"
     ],
+    "T-018-092": [
+      "FR-018-69"
+    ],
     "T-018-088": [
       "US-018-3",
       "SC-018-01",
@@ -20772,6 +21285,12 @@
       "US-019-1",
       "FR-019-44",
       "FR-019-45"
+    ],
+    "T-019-092": [
+      "FR-019-46"
+    ],
+    "T-019-093": [
+      "FR-019-47"
     ],
     "T-019-040": [
       "US-019-1",

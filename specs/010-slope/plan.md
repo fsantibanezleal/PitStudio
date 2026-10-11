@@ -157,7 +157,7 @@ SNR_obs) → `s30_train` → `s40_infer` (all methods on identical windows) → 
 | FR-010-34, FR-010-36 | unit | hand geometry: radar at (0, 0, 0), pixel at (100, 0, 0), motion (1, 0, 0) → \|d\| = 1; motion (0, 1, 0) → 0; increments of 0.24 λ and 0.26 λ; hand calculation of the Bingham 2013 worked example (50.8 mm/day at 240 scans/day → 0.21 mm/scan, no flag for λ = 17.43 mm; a daily revisit → 50.8 mm ≥ λ/4 = 4.36 mm, flagged) | pytest |
 | FR-010-35 | pipeline | contract of the S4b block; ψ = 0° reproduces the full-vector series when the noise is off | pytest |
 | FR-010-37 | unit (hostile) | invalid configurations written in the test | pytest |
-| FR-010-41 | unit | analytical phase of a linear motion (φ = 4π v t / λ before wrapping); motion toward the radar gives d > 0; reference implementation `numpy.unwrap` on the wrapped series; noise statistics (sample σ within the 99.9 % χ² interval) | pytest |
+| FR-010-41 | unit | analytical phase of a linear motion (φ = 4π v t / λ before wrapping); motion away from the radar gives d > 0 and motion toward it d < 0; reference implementation `numpy.unwrap` on the wrapped series; noise statistics (sample σ within the 99.9 % χ² interval) | pytest |
 | FR-010-42 | unit (hostile) | invalid displacement fields, scan times, λ, noise and ρ values written in the test | pytest + Hypothesis |
 | FR-010-38 | E2E | fixture with and without the EGMS layer | Playwright |
 | FR-010-39 | pipeline + contract | manifests validated against `contracts/manifest.schema.json`; CPU run on samples | pytest |
@@ -176,6 +176,9 @@ SNR_obs) → `s30_train` → `s40_infer` (all methods on identical windows) → 
 | SC-010-05 | pipeline (oracle env) | pySlope 1.4.0 `add_single_circular_plane` on the same circle, and `get_min_FOS` on planar cases (20 m, 45°, γ 20 kN/m³, c′ 20 kPa, φ′ 30°, dry, and 4 more) | pytest |
 | DC-010-01…DC-010-04 | contract | valid and invalid example documents per schema | pytest + jsonschema |
 | DC-010-05 | contract | the exported IO description validates against `surrogate-io.schema.json` | pytest + jsonschema |
+| FR-010-43 | unit (hostile) | hand calculation: one fixture per rule, each giving `section-invalid` with the field name | pytest |
+| FR-010-44 | unit (hostile) | hand calculation: arrays of length 3 and 4 with n_samples 3, and t_0 = t_f, give `series-inconsistent` | pytest |
+| FR-010-45 | unit (hostile) | reference implementation: `hashlib.sha256` of the canonical JSON of a fixture section; one value changed gives `section-digest-mismatch` | pytest |
 
 ### Threshold keys (`thresholds.yaml`, ratchet-only)
 `models.slope_ttf_rel_error_median_max: 0.10`, `models.slope_bootstrap_resamples: 10000`,

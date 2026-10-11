@@ -1533,15 +1533,15 @@
       "schema": "recipe.schema.json",
       "class": "duplicate stage key (id, variant) in a recipe",
       "by": "checker",
-      "rule": "-",
-      "note": "spec 002 planner; data-model §3.2"
+      "rule": "FR-002-03",
+      "note": "enforced by FR-002-03 (spec 002 planner)"
     },
     {
       "schema": "recipe.schema.json",
       "class": "OOM fallback key absent from params",
       "by": "checker",
-      "rule": "-",
-      "note": "spec 002 planner; data-model §3.2"
+      "rule": "FR-002-03",
+      "note": "enforced by FR-002-03 (spec 002 planner)"
     },
     {
       "schema": "recipe.schema.json",
@@ -1654,8 +1654,8 @@
       "schema": "sources.schema.json",
       "class": "entry class lower than a per-file SPDX override's class",
       "by": "checker",
-      "rule": "-",
-      "note": "data-model §5.1 'most restrictive over per-file overrides'; no FR names it"
+      "rule": "FR-001-58",
+      "note": "enforced by FR-001-58 (task T-001-092)"
     },
     {
       "schema": "capabilities.schema.json",
@@ -1674,8 +1674,8 @@
       "schema": "capabilities.schema.json",
       "class": "absolute path inside notes or error",
       "by": "writer",
-      "rule": "-",
-      "note": "run_bench.scrub; the privacy scan FR-001-15 covers manifests only"
+      "rule": "FR-001-59",
+      "note": "enforced by FR-001-59 (task T-001-093)"
     }
   ]
 }

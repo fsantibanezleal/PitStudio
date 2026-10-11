@@ -1484,8 +1484,8 @@
       "schema": "scene-spec.schema.json",
       "class": "two LAZ projects listed for one terrain grid",
       "by": "checker",
-      "rule": "-",
-      "note": "edge case in spec section 7 only; no FR enforces it"
+      "rule": "FR-004-42",
+      "note": "enforced by FR-004-42 (task T-004-092)"
     },
     {
       "schema": "scene-manifest.schema.json",
@@ -1533,8 +1533,8 @@
       "schema": "scene-manifest.schema.json",
       "class": "Windows device name as a path segment",
       "by": "checker",
-      "rule": "-",
-      "note": "spec 001 data-model 1.3 checker rule; no spec-004 FR names it"
+      "rule": "FR-004-43",
+      "note": "enforced by FR-004-43 (task T-004-093)"
     },
     {
       "schema": "scene-manifest.schema.json",

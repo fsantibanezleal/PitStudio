@@ -127,6 +127,9 @@ Fixed parameters referred to as "§7" are in the tables of section 7.
 |---|---|---|---|
 | FR-011-44 | Optional | Where a CUDA GPU is available, GNS training, FNO training and every calibration shall run only through the runner under `gpu0.compute`, honour `gpu0.hold`, and on out-of-memory apply the declared fallback (GNS and FNO: batch halved, at most twice; calibration: particle count halved once and the trial flagged) recorded in the manifest; these behaviours shall be verified against the fake GPU backend. | unit (fake GPU) + gpu |
 | FR-011-45 | Ubiquitous | Every rollout, field and calibration dataset and every surrogate artefact shall carry a manifest (DC-000-01) naming the producing tool (Warp, Newton, PyTorch, ONNX Runtime), its measured lane and its inputs, and shall be labelled "calibrated synthetic — not validated against real data" (FR-000-09), the literature repose targets being the only real-world anchor. | contract |
+| FR-011-46 | Unwanted | If the quantile levels of a surrogate input or output are not strictly increasing inside (0, 1), then the surrogate I/O loader shall reject the document with error class `surrogate-io-invalid` naming the field. | unit (hostile) |
+| FR-011-47 | Unwanted | If the tensor names or the channel names of a surrogate I/O document are not unique, then the loader and the generated types shall reject it with error class `surrogate-io-invalid` naming the repeated name. | unit (hostile) |
+| FR-011-48 | Unwanted | If the bounds of a granular rollout have `x_min` not below `x_max` or `y_min` not below `y_max`, then the rollout loader shall reject it with error class `rollout-bounds-invalid` before any step is read. | unit (hostile) |
 
 ## 4. Correctness properties
 
@@ -236,7 +239,7 @@ Identity, Cast. Anything else fails FR-011-36.
   rollouts make a per-run comparison noisy.
 - DEM calibration targets: the method page lists repose and discharge, the model card repose only, and the plan says
   "friction from repose" → resolved by the plan: the acceptance arm recovers μ_s from repose (FR-011-17); repose plus
-  discharge is an optional secondary arm with no success criterion (FR-011-27). Reported to the coordinator.
+  discharge is an optional secondary arm with no success criterion (FR-011-27).
 - Interval method (docs: "fixed in the surrogates spec") → resolved: the seed-ensemble delta interval of FR-011-22,
   identical for both arms; its honesty is tested on a fake simulator (P-011-09) before any GPU run.
 - Number of trials → resolved: 50 per arm, with the false-fail probabilities recorded in §7.
@@ -245,9 +248,9 @@ Identity, Cast. Anything else fails FR-011-36.
 - FNO bound "per terrain or mean" → resolved: mean over held-out scenarios, with the 90th percentile and per-terrain
   values reported (SC-011-03, FR-011-35).
 - The tailings theory page says the exported graph contains "MatMul/Einsum operators", the FNO card avoids Einsum →
-  resolved: MatMul only, Einsum excluded by the whitelist (FR-011-36). Reported to the coordinator.
+  resolved: MatMul only, Einsum excluded by the whitelist (FR-011-36).
 - The architecture page on lanes says ONNX models default to opset 20, the plan says 17–19 → resolved by the plan: GNS
-  opset 17, FNO opset 19. Reported to the coordinator.
+  opset 17, FNO opset 19 (DEC-0018 records the opset range).
 - Browser particle cap: spec 018's engine `gns` caps at 5,000 particles; the default scene and the gate measurement use
   2,000 (NFR-011-02).
 - User stories are headings as in the template and indexed in a table for `tools/trace.py`.

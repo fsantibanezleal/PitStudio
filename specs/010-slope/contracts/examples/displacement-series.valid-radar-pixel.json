@@ -19,7 +19,7 @@
     "scan_interval_min": 6
   },
   "psi_deg": 45.0,
-  "sign_convention": "positive = toward the radar",
+  "sign_convention": "positive = away from the radar",
   "run_seed": 777,
   "status": "ok",
   "t_h": [

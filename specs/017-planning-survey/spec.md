@@ -157,7 +157,7 @@ Fixed parameters referred to as "§7" are in the tables of section 7.
 | P-017-14 | Adding the same constant to both surfaces leaves V_cut and V_fill unchanged; scaling the difference field by k scales them by k. | c ∈ [−10³, 10³] m; k ∈ [0, 10] | \|ΔV\| ≤ 1e-15 (\|c\| + (k + 1) max\|z\|) N A_c (one rounding per cell and operation) |
 | P-017-15 | The divergence-theorem volume of a closed polyhedral mesh equals the closed form of a cube, a prism and a frustum mesh; it is unchanged by translation and scales as k³. | edge lengths in [0.1, 10³] m | rtol 1e-12 |
 | P-017-16 | The Umeyama alignment recovers a known similarity transform from noise-free correspondences, and is unchanged by permuting the correspondences together. | scale ∈ [0.1, 10], random rotations and shifts, ≥ 3 non-collinear points | rtol 1e-9 |
-| P-017-17 | Chain identities: t/h × kWh/t = η P_mill; kWh/t is non-increasing in the target P80 and non-decreasing in W_i; the Bond term is 0 when P80 = F80. | the §7 box | rtol 1e-12; exact (order) |
+| P-017-17 | Chain identities: t/h × kWh/t = η P_mill; kWh/t is non-increasing in the target P80 and non-decreasing in W_i; the Bond term tends to 0 as P80 approaches F80 from below (tested at P80 = F80·(1 − 10⁻⁹)). | the §7 box | rtol 1e-12; exact (order) |
 | P-017-18 | R² equals 1 for exact predictions, matches the hand calculation, and is unchanged when y and ŷ undergo the same affine map a y + b with a ≠ 0. | random vectors, n ∈ [2, 10⁴] | rtol 1e-12 |
 | P-017-19 | The sweep design is a deterministic function of its seed, and its training, validation and held-out configurations are disjoint. | seeds 0–999 | exact |
 
@@ -248,8 +248,7 @@ t/h × kWh/t = η P_mill.
 - Python min-cut ownership: the M18 page mentions an own Python min-cut in the studio stage and a small min-cut in
   `minephys.planning`, while spec 018's engine table names `minephys.planning` as the Python reference → resolved: one
   Python implementation, the `minephys.planning` min-cut, used by E1, `st20_pit_design` and the browser parity
-  fixtures (simplicity principle), with the E1 scale of NFR-017-03 and NFR-017-06. Reported to the coordinator so that
-  the `minephys` planning spec covers ≥ 10⁵ blocks and the minimal-closure output.
+  fixtures (simplicity principle), with the E1 scale of NFR-017-03 and NFR-017-06. The `minephys` planning spec covers ≥ 10⁵ blocks and the minimal-closure output.
 - Canonical pit (not fixed in the docs) → resolved: the minimal maximum closure (FR-017-14), unique and returned by
   networkx and OR-Tools source sides.
 - Precedence pattern (docs: "fixed in the spec") → resolved: level-cone generator with m levels, default 1:5

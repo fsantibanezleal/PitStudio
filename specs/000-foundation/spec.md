@@ -1,5 +1,5 @@
 # Spec 000 — Foundation: PitStudio
-Status: Draft · Tier: L · Approved: —
+Status: Clarified · Tier: L · Approved: —
 
 The product-level specification, written from the approved solution plan (rev 2.4). Every feature spec
 (`specs/NNN-*/`) is a child of this one and inherits its requirements, thresholds and honesty rules.
@@ -59,6 +59,9 @@ one engine, one data contract and one manifest format:
 | FR-000-14 | Ubiquitous | Every published artefact shall be described by a manifest valid against `contracts/manifest.schema.json`, naming its producer tool, lane (measured, not declared), licence class, inputs with SHA-256 and the run that produced it. | contract |
 | FR-000-15 | Unwanted | If a lane label in a manifest disagrees with the measured gate (asset ≤ 25 MB, interaction ≤ 16 ms or run ≤ 1 s on T2, trace ≤ 10 MB), then CI shall fail. | CI |
 | FR-000-16 | Optional | Where a Linux GPU host is used, the studio shall run the same recipes by switching the profile, with no recipe change. | CI (plan with fake GPU, `linux-gpu` profile) |
+| FR-000-17 | Event | When `tools/check_tdd.py --replay` replays a `[red]` commit, it shall run each test file the commit adds in the environment that owns the file, chosen by path: the root project (`tests/`), `pipeline/`, `studio/`, or `web/` (vitest for TypeScript files, pytest for Python files), and shall pass the environment it used to the report. | unit (fixture repositories) |
+| FR-000-18 | Unwanted | If a replayed red test ends in a collection error, an `ImportError` or `ModuleNotFoundError`, or reports no CUDA device (device count 0), then `tools/check_tdd.py` shall classify the outcome as `environment-error`, never as red, and shall fail the check naming the file and the missing piece; a test marked `gpu` is not replayed where no CUDA device exists and its red state is proved by the evidence record of FR-000-19. | unit (fixture repositories) |
+| FR-000-19 | Event | When a `[red]` or a `[green]` commit of a task whose tests are marked `gpu` is made, the commit shall add a local evidence record `specs/<feature>/evidence/<task>.<red\|green>.json` holding the command, the SHA of the commit's parent, the SHA-256 of each test file, the outcome (`fail` for red, `pass` for green) and a machine-neutral GPU name and driver version, and no path, user name or host name; `tools/check_tdd.py` shall fail when a record is missing, names a parent SHA or test hash that differs from the commit, holds the wrong outcome, or holds a path. | unit (fixture repositories) |
 
 ## 4. Correctness properties
 
@@ -76,7 +79,7 @@ one engine, one data contract and one manifest format:
 | NFR-000-02 | Accessibility | axe 0 serious/critical; Lighthouse a11y ≥ 0.95 | Playwright + LHCI |
 | NFR-000-03 | First view (bytes transferred before interaction) | ≤ 2 MB | build report + Playwright |
 | NFR-000-04 | Site total and per-class budgets | total = 500 MB; class caps as in `thresholds.yaml` `budgets` | CI budget check |
-| NFR-000-05 | Files in git | each < 10 MB; baked assets in git ≤ 100 MB in total; larger files are release assets pinned by SHA-256 | CI size check |
+| NFR-000-05 | Files in git | each < 10,485,760 bytes (10 MiB, `contracts.git_file_bytes_max`); baked assets in git ≤ 100 MB in total; larger files are release assets pinned by SHA-256 | CI size check |
 | NFR-000-06 | Live model size | each ≤ 25 MB | CI budget check |
 | NFR-000-07 | Video pair (AV1 1080p + H.264 720p) | ≤ 25 MB per pair | CI budget check |
 | NFR-000-08 | Runner size | ≤ 1,500 lines of code (re-assess a framework beyond it) | CI line count |

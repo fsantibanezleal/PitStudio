@@ -95,7 +95,7 @@
       ]
     },
     "sign_convention": {
-      "const": "positive = toward the radar"
+      "const": "positive = away from the radar"
     },
     "pixel_status": {
       "enum": [

@@ -924,8 +924,8 @@
       "schema": "perception-dataset.schema.json",
       "class": "record_id repeated across records of one index",
       "by": "checker",
-      "rule": "-",
-      "note": "no FR names duplicate index records; reported as a gap"
+      "rule": "FR-009-46",
+      "note": "enforced by FR-009-46 (task T-009-092)"
     },
     {
       "schema": "coco-instances.schema.json",
@@ -961,15 +961,15 @@
       "schema": "coco-instances.schema.json",
       "class": "area not equal to the polygon area; polygon with an odd number of coordinates or vertices outside the image",
       "by": "checker",
-      "rule": "-",
-      "note": "FR-009-15 does not list polygon consistency; reported as a gap"
+      "rule": "FR-009-47",
+      "note": "enforced by FR-009-47 (task T-009-093)"
     },
     {
       "schema": "coco-instances.schema.json",
       "class": "file_name segment equal to a Windows device name, or two file names equal after case folding",
       "by": "checker",
-      "rule": "-",
-      "note": "data-model 001 section 1.3 relpath rule; no spec 009 FR names it; reported as a gap"
+      "rule": "FR-009-48",
+      "note": "enforced by FR-009-48 (task T-009-094)"
     },
     {
       "schema": "sdg-randomisation.schema.json",
@@ -1023,8 +1023,8 @@
       "schema": "people-asset-record.schema.json",
       "class": "export SHA-256 differs from the exported file",
       "by": "checker",
-      "rule": "-",
-      "note": "no FR names the export digest check; reported as a gap"
+      "rule": "FR-009-49",
+      "note": "enforced by FR-009-49 (task T-009-095)"
     },
     {
       "schema": "detection-eval.schema.json",
@@ -1072,8 +1072,8 @@
       "schema": "detection-eval.schema.json",
       "class": "two rows for one (model, precision, arm, family, task, class)",
       "by": "checker",
-      "rule": "-",
-      "note": "no FR names report-row uniqueness; reported as a gap"
+      "rule": "FR-009-50",
+      "note": "enforced by FR-009-50 (task T-009-096)"
     }
   ]
 }

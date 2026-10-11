@@ -50,6 +50,10 @@ only on the reference machine under the GPU lock, never in CI; nothing in CI nee
 - [ ] T-015-070 [US-015-2] (FR-015-05, FR-015-09, FR-015-13, P-015-12) real conversion twice, BF16 load and the footprint bench — test: tests/gpu/test_t_015_070_reason_local.py
 - [ ] T-015-071 [US-015-2] (FR-015-14) agreement gate on the real 500-query subset — test: tests/gpu/test_t_015_071_agreement_real.py
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-015-092 (FR-015-48) visible_px must not exceed the frame area — test: tests/unit/test_t_015_092_frame_state_visible_px.py
+- [ ] T-015-093 (FR-015-49) frame-state quaternion must be of unit norm — test: tests/unit/test_t_015_093_frame_state_quaternion.py
+
 ## Phase 9 — Polish and review
 - [ ] T-015-090 mutation run on `src/pitstudio/reason/`; record the score (numerical core ≥ 0.80)
 - [ ] T-015-091 independent review of the diff against this spec; append tasks for gaps
