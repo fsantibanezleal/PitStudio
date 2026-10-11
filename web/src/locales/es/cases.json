@@ -88,5 +88,15 @@
   "card": {
     "sources": "Fuentes de datos",
     "precomputed": "Precalculado en {{gpu}} el {{date}}"
+  },
+  "reproduce": {
+    "title": "Reproducir esto",
+    "recipe": "Receta",
+    "needsGpu": "Esta receta necesita una GPU NVIDIA RTX.",
+    "needsNvenc": "Esta receta necesita una GPU NVIDIA con codificador de video por hardware.",
+    "noGpu": "Esta receta no necesita GPU.",
+    "copy": "Copiar los comandos",
+    "copied": "Copiado",
+    "planned": "Aún no ejecutado — receta planificada"
   }
 }

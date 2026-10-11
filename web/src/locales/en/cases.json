@@ -88,5 +88,15 @@
   "card": {
     "sources": "Data sources",
     "precomputed": "Precomputed on {{gpu}} on {{date}}"
+  },
+  "reproduce": {
+    "title": "Reproduce this",
+    "recipe": "Recipe",
+    "needsGpu": "This recipe needs an NVIDIA RTX GPU.",
+    "needsNvenc": "This recipe needs an NVIDIA GPU with a hardware video encoder.",
+    "noGpu": "This recipe needs no GPU.",
+    "copy": "Copy the commands",
+    "copied": "Copied",
+    "planned": "Not yet run — recipe planned"
   }
 }
