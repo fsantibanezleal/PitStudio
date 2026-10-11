@@ -11,6 +11,8 @@ spec builds the behaviour:
    manifests, lane gate, profiles. Built by specs 001, 002 and 003; verified with the fake GPU backend and the schemas.
 3. **Budgets** (NFR-000-01 … NFR-000-08): CI checks on the build report, file sizes and line counts.
 4. **Success criteria** (SC-000-01 … SC-000-04): acceptance tests on the evaluation reports of specs 007, 009, 011, 012.
+5. **Tooling** (FR-000-17 … FR-000-19): red-proof replay per environment, `environment-error` classification and GPU
+   evidence records, built in `tools/check_tdd.py`.
 
 ## Technical context
 Runtime: Python 3.14 (root, `pipeline/`, `studio/` uv projects) and Node (web, vitest, Playwright) · no new
@@ -77,6 +79,9 @@ dependency · target: CI on GitHub Actions (no GPU), the local workstation for G
 | DC-000-03 | contract | reference implementation: `jsonschema` on every recipe | pytest |
 | DC-000-04 | contract | reference implementation: `jsonschema` on `studio/tools.yaml` | pytest |
 | DC-000-05 | contract | reference implementation: `jsonschema` on `data/sources.yaml` | pytest |
+| FR-000-17 | unit (fixture repositories) | hand calculation: a fixture repository with one red test per environment; the report names the environment of each | pytest |
+| FR-000-18 | unit (fixture repositories) | hand calculation: fixtures with a syntax error at collection, an import of a missing module and a `gpu` test on a machine with device count 0 give `environment-error`; an assertion failure gives red | pytest |
+| FR-000-19 | unit (fixture repositories) | hand calculation: evidence records with a missing file, a wrong parent SHA, a changed test hash, the wrong outcome and a drive-letter path each fail; a correct record passes | pytest |
 
 ## Risks and complexity tracking
 | Deviation | Why needed | Simpler alternative rejected because |

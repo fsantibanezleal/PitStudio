@@ -42,6 +42,11 @@ The foundation requirements are refined by the feature specs. The tasks here own
 - [ ] T-000-052 (DC-000-04) `studio/tools.yaml` valid against `contracts/tools.schema.json` and every tool shown on the tool map — test: tests/contract/test_t_000_052_tools_contract.py
 - [ ] T-000-053 (DC-000-05) `data/sources.yaml` valid against `contracts/sources.schema.json` and consumed by `s00_download` and docs — test: tests/contract/test_t_000_053_sources_contract.py
 
+## Phase — Blind red-proof for GPU and pipeline tests (G5 review, M5)
+- [ ] T-000-060 (FR-000-17) `check_tdd.py --replay` runs each red test in the environment that owns it (root, `pipeline/`, `studio/`, `web/` with vitest) — test: tests/unit/test_t_000_060_replay_environments.py
+- [ ] T-000-061 (FR-000-18) collection errors, import errors and a missing CUDA device are `environment-error`, never red — test: tests/unit/test_t_000_061_replay_environment_error.py
+- [ ] T-000-062 (FR-000-19) local evidence record for `gpu` red and green commits, checked by `check_tdd.py` — test: tests/unit/test_t_000_062_gpu_evidence_record.py
+
 ## Phase 7 — Polish and hostile review
 - [ ] T-000-090 mutation run on the product-level gate scripts (`tools/`); record the score (≥ 0.60 other)
 - [ ] T-000-091 independent review of the diff against this spec; append tasks for gaps

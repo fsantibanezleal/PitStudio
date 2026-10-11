@@ -242,6 +242,36 @@
       ],
       "tests": []
     },
+    "FR-000-17": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-000-060"
+      ],
+      "tests": []
+    },
+    "FR-000-18": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-000-061"
+      ],
+      "tests": []
+    },
+    "FR-000-19": {
+      "spec": "000-foundation",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-000-062"
+      ],
+      "tests": []
+    },
     "P-000-01": {
       "spec": "000-foundation",
       "retired": false,
@@ -17892,6 +17922,15 @@
     ],
     "T-000-053": [
       "DC-000-05"
+    ],
+    "T-000-060": [
+      "FR-000-17"
+    ],
+    "T-000-061": [
+      "FR-000-18"
+    ],
+    "T-000-062": [
+      "FR-000-19"
     ],
     "T-000-090": [],
     "T-000-091": [],

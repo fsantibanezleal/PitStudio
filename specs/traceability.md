@@ -133,6 +133,9 @@
 | FR-000-14 | 000-foundation | draft | T-000-023 | - |
 | FR-000-15 | 000-foundation | draft | T-018-082 | - |
 | FR-000-16 | 000-foundation | draft | T-000-024 | - |
+| FR-000-17 | 000-foundation | draft | T-000-060 | - |
+| FR-000-18 | 000-foundation | draft | T-000-061 | - |
+| FR-000-19 | 000-foundation | draft | T-000-062 | - |
 | FR-001-01 | 001-contracts | draft | T-001-001 | - |
 | FR-001-02 | 001-contracts | draft | T-001-001 | - |
 | FR-001-03 | 001-contracts | draft | T-001-001 | - |
