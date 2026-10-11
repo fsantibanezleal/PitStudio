@@ -13,6 +13,8 @@ spec builds the behaviour:
 4. **Success criteria** (SC-000-01 … SC-000-04): acceptance tests on the evaluation reports of specs 007, 009, 011, 012.
 5. **Tooling** (FR-000-17 … FR-000-19): red-proof replay per environment, `environment-error` classification and GPU
    evidence records, built in `tools/check_tdd.py`.
+6. **Module map and dimensioning** (FR-000-20 … FR-000-24, DC-000-06): `modules.yaml` with its schema and CI check, the availability
+   states of every edge, the fixture rule, and `dimensioning.md`. Built by `tools/check_modules.py`; verified against the specs.
 
 ## Technical context
 Runtime: Python 3.14 (root, `pipeline/`, `studio/` uv projects) and Node (web, vitest, Playwright) · no new
@@ -82,6 +84,12 @@ dependency · target: CI on GitHub Actions (no GPU), the local workstation for G
 | FR-000-17 | unit (fixture repositories) | hand calculation: a fixture repository with one red test per environment; the report names the environment of each | pytest |
 | FR-000-18 | unit (fixture repositories) | hand calculation: fixtures with a syntax error at collection, an import of a missing module and a `gpu` test on a machine with device count 0 give `environment-error`; an assertion failure gives red | pytest |
 | FR-000-19 | unit (fixture repositories) | hand calculation: evidence records with a missing file, a wrong parent SHA, a changed test hash, the wrong outcome and a drive-letter path each fail; a correct record passes | pytest |
+| FR-000-20 | contract | reference implementation: `jsonschema` 2020-12 on `modules.yaml`; hand count of the modules per area from the area tables of `module-map.md` | pytest + jsonschema |
+| FR-000-21 | CI (hostile fixtures) | hand calculation: fixture files with a cycle, an unknown module, an unknown contract and a DC row with no edge each fail naming it; the committed file passes | pytest |
+| FR-000-22 | contract | hand calculation: a fixture edge missing a state, one citing an unknown requirement id and one with neither `covered_by` nor `na` each fail; the committed file passes | pytest + `specs/requirements.index.json` |
+| FR-000-23 | unit + CI | hand calculation: one fixture artefact is labelled in a development build and absent from a release build; a manifest without fixtures is unchanged | pytest |
+| FR-000-24 | contract | analytical: per-spec requirement and task counts recomputed from the index and the `tasks.md` files equal the table of `dimensioning.md` | pytest |
+| DC-000-06 | contract | reference implementation: `jsonschema` 2020-12 on `modules.yaml` and its hostile fixtures | pytest |
 
 ## Risks and complexity tracking
 | Deviation | Why needed | Simpler alternative rejected because |
