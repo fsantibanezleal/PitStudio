@@ -98,5 +98,19 @@
     "copy": "Copiar los comandos",
     "copied": "Copiado",
     "planned": "Aún no ejecutado — receta planificada"
+  },
+  "case": {
+    "back": "Todos los casos",
+    "tabs": "Vistas del caso",
+    "tab": {
+      "scene": "Escena",
+      "simulate": "Simular (en vivo)",
+      "replay": "Repetición del estudio",
+      "charts": "Gráficos",
+      "context": "Contexto"
+    },
+    "simulatePending": "Los motores en el navegador de este caso ({{engines}}) aún no están publicados, así que aquí no se calcula nada.",
+    "replayPending": "Aún no se ha publicado ninguna ejecución precalculada de este caso.",
+    "chartsPending": "Aún no se ha publicado ningún resultado de este caso, así que no hay nada que graficar."
   }
 }

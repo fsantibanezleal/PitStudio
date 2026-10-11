@@ -98,5 +98,19 @@
     "copy": "Copy the commands",
     "copied": "Copied",
     "planned": "Not yet run — recipe planned"
+  },
+  "case": {
+    "back": "All cases",
+    "tabs": "Case views",
+    "tab": {
+      "scene": "Scene",
+      "simulate": "Simulate (live)",
+      "replay": "Studio replay",
+      "charts": "Charts",
+      "context": "Context"
+    },
+    "simulatePending": "The in-browser engines of this case ({{engines}}) are not published yet, so nothing is computed here.",
+    "replayPending": "No precomputed run of this case has been published yet.",
+    "chartsPending": "No result of this case has been published yet, so there is nothing to chart."
   }
 }

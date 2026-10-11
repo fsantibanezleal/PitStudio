@@ -20,7 +20,8 @@ import {
   type LayerId,
 } from "./types";
 
-function Stage({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
+/** Layers, scene state and headline KPIs of one case; shared by the Explore route and the Scene tab. */
+export function Stage({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
   const { t } = useTranslation("cases");
   const manifest = useWebManifest();
   const threeD = useThreeD();
