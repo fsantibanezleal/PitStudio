@@ -53,6 +53,10 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/004-scene-pipeli
 - [ ] T-004-092 (FR-004-42) two LAZ projects for one terrain grid are rejected — test: tests/unit/test_t_004_092_terrain_two_laz.py
 - [ ] T-004-093 (FR-004-43) Windows device-name path segments are rejected by the scene loader — test: tests/unit/test_t_004_093_scene_device_name_path.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-004-094 (FR-004-44) fixture propagation through the scene stages — test: tests/unit/test_t_004_094_fixture_propagation.py
+
 ## Phase 7 — Polish and review
 - [ ] T-004-090 mutation run on `pitstudio_studio.scene.terrain.rtin`, `.grid`, `.frame` and `pitstudio_studio.scene.design`; record the score against `mutation.numerical_core_min`
 - [ ] T-004-091 independent review of the diff against this spec; append tasks for gaps

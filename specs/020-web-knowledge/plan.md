@@ -104,6 +104,9 @@ and generated docs pages → `/knowledge`, theory symbol tables, equation explor
 | NFR-020-05, NFR-020-06 | E2E | WCAG rules as encoded by axe-core; Lighthouse scores | Playwright + axe, LHCI |
 | NFR-020-09 | build | `thresholds.yaml` `coverage`, `mutation` | Vitest coverage, Stryker |
 | SC-020-01, SC-020-02, SC-020-03 | gate | CI reports of the release build | CI |
+| FR-020-52 | unit + E2E | hand calculation: a bundle with one fixture row shows the label and no verdict in the development build and "Not yet run" in the release build | Vitest + Playwright |
+| FR-020-53 | unit + E2E | hand calculation: 3 of 13 models published render "3 of 13", 10 "Not yet run" rows with criteria, and no pooled verdict | Vitest + Playwright |
+| FR-020-54 | unit + E2E | hand calculation: a row whose interval excludes 0 but stores `no significant difference` is shown `stale`, counted in no summary, and flagged by the CI verdict check | Vitest + Playwright |
 
 ## Risks and complexity tracking
 | Deviation | Why needed | Simpler alternative rejected because |

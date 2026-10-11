@@ -121,6 +121,8 @@ requirements that cite them.
 | FR-003-29 | Event | When the maintainer opens the console UI, it shall show recipes, the queue, runs with their manifests, a live telemetry chart fed by the event stream, artefact previews from the artefact endpoint, a cancel action and a run form that posts a job request — each action being one API call. | E2E (console) |
 | FR-003-30 | Unwanted | If an API call fails (4xx, 5xx, network error, invalid body) or a manifest or recipe string contains markup (e.g. `<img src=x onerror=…>`), then the UI shall show an error message without crashing and render the string as text, executing no injected script. | E2E (console, hostile) |
 | FR-003-31 | Unwanted | If a job record has `shards.done` greater than `shards.total`, then the console API shall not serve it, shall answer 500 `job-record-invalid` naming the job id, and shall log the record's SHA-256. | unit (hostile) |
+| FR-003-32 | State | While the store folder is marked as a fixture store (`fixture: true` in its index file), the console shall serve it normally, shall carry `fixture: true` in every `health`, `run_summary` and `run_list` body, and the console UI shall show the label "fixture" next to every run and artefact. | integration |
+| FR-003-33 | Event | When a run's manifest cache key differs from the key recomputed for the current recipe and lock, `GET /runs` and `GET /runs/{run_id}` shall report `stale: true` with the run's original `finished_at`, and the console UI shall show a "stale" badge and sort the run after the fresh runs of the same recipe. | integration |
 
 ## 4. Correctness properties
 
@@ -206,6 +208,8 @@ requirements that cite them.
   titles, details and error messages are single lines (no stack trace); the SSE `error` payload is
   `events.schema.json#/$defs/stream_error` (spec 002).
 - Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
+
+- Availability states (2026-10-11): FR-003-32, FR-003-33 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

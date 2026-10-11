@@ -148,6 +148,8 @@ marked as root-core (package `pitstudio`, root environment). TypeScript engines 
 | FR-007-39 | Ubiquitous | The TypeScript ports of the router and the route-energy engine shall equal the Python implementations on the golden vectors: the identical cell sequence, and costs and energies within rtol 1e-12. | parity |
 | FR-007-40 | Ubiquitous | Every physical constant and default used by M1, M6 and the KPI layer shall come from the `minephys` knowledge tables, never from a literal in PitStudio code. This covers g, the diesel CO₂ factor, efficiencies, rolling-resistance defaults and the g_max default. Every result shall list the ids of the UNVERIFIED rows it used. | unit + contract |
 | FR-007-41 | Ubiquitous | Every A1 and A2 artefact (trace, KPI table, evaluation table, energy table) shall carry the label "calibrated synthetic — not validated against real data" and the known DES cycle-time bias note, and shall make no C2ST or TSTR claim (FR-000-09). | contract |
+| FR-007-46 | State | While a scenario bundle, trace or policy that the dispatch stages read is a contract fixture, the twin, the KPI layer, `s30_train` and `s50_evaluate` shall run against it, shall write `fixture: true` on every trace, KPI table, checkpoint and report, and shall publish no dispatch comparison computed from it. | unit |
+| FR-007-47 | State | While fewer than 30 paired seeds exist for a dispatcher comparison, `s50_evaluate` shall write the comparison with status `partial`, the number of seeds present and the number missing, and shall report no interval verdict ("better than" or "no significant difference") for it (SC-000-02, FR-000-05). | unit |
 
 ## 4. Correctness properties
 
@@ -322,6 +324,8 @@ Every artefact above is also listed in a manifest valid against `contracts/manif
   (j) every trace, evaluation and energy table carries the honesty label and a fixed bias-note text;
   (k) bounds the spec leaves open: rolling resistance ≤ 30 %, speed limit ≤ 120 km/h, segment ≤ 100 km, ≤ 10⁴ nodes and segments, ≤ 64 loaders, ≤ 32 dumps, ≤ 32 tables, ≤ 20,000 evaluation rows, ≤ 1,000 test seeds;
   (l) open gap: no DC row covers the KPI table of FR-007-08 (including `not-computed (rates not supplied)`), although FR-007-41 names it an A1 artefact.
+
+- Availability states (2026-10-11): FR-007-46, FR-007-47 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 Not applicable: a new feature. It refines SC-000-02 without modifying it.

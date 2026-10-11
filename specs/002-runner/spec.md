@@ -185,6 +185,9 @@ layout, profile, job spec, events, code roots).
 | FR-002-64 | Unwanted | If a profile lists the same GPU index more than once, then the profile loader shall reject it with error class `profile-invalid` naming the repeated index. | unit (hostile) |
 | FR-002-65 | Unwanted | If a stage result lists two outputs with the same path, then the runner shall treat the stage as `invalid-result` naming the path, shall publish no output of that stage and shall not cache it. | unit (hostile) |
 | FR-002-66 | State | While a GPU stage runs, the runner shall sample the GPU temperature at `telemetry_hz`; at or above `runner.run_pause_temp_c` (83 °C) it shall pause the stage at its next step boundary until the temperature is at or below `runner.run_resume_temp_c` (75 °C); at or above `runner.run_stop_temp_c` (87 °C), or when a new WHEA/PCIe AER error event for the GPU appears during the stage, it shall save a checkpoint where the stage supports one and stop the stage with reason `thermal` or `hw-error` and exit code 5; continuous GPU time per block is capped by `runner.gpu_block_minutes` (45) followed by a cool-down of `runner.gpu_cooldown_minutes` (10). | unit (fake GPU, fake clock) |
+| FR-002-67 | State | While `studio/capabilities.json` is a contract fixture (its header carries `fixture: true`), the runner shall plan and run stages against the fake GPU backend only, shall refuse a stage that needs a real GPU with reason `capability-fixture` (exit 5), and shall never record a fixture probe as a measured probe in a run manifest. | unit (fake GPU) |
+| FR-002-68 | Event | When `studio status` or `studio publish` finds that the cache key recomputed from the current code, lock, parameters, seed and input digests of a finished run differs from the key in its manifest, the runner shall report the run as `stale` with its original date; `studio publish` shall write `stale: true` on that run's artefacts (FR-001-60) and shall publish it only with `--allow-stale`. | unit |
+| FR-002-69 | Unwanted | If an input digest recorded in a stage's job spec differs from the SHA-256 of the artefact now present, then the stage helper shall end the stage with error class `input-stale` naming the input, the expected and the actual digest, the runner shall promote nothing and mark downstream stages `skipped`, and the error classes of DC-002-02 shall include `input-stale`. | unit (hostile) |
 
 ## 4. Correctness properties
 
@@ -320,6 +323,8 @@ layout, profile, job spec, events, code roots).
   schema; the `job` and `events` roots are a `oneOf` of their documents, told apart by closed records with disjoint
   required fields.
 - Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
+
+- Availability states (2026-10-11): FR-002-67, FR-002-68, FR-002-69 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

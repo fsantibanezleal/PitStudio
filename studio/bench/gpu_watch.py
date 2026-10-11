@@ -11,7 +11,7 @@ import argparse
 import sys
 import time
 
-from gpu_guard import whea_count
+from gpu_guard import utc_now_iso, whea_count
 
 ALERT_C = 85
 
@@ -25,7 +25,8 @@ def main(argv: list[str]) -> int:
 
     pynvml.nvmlInit()
     h = pynvml.nvmlDeviceGetHandleByIndex(0)
-    w0 = whea_count()
+    since = utc_now_iso()
+    w_seen, whea_down = 0, False
     try:
         r0 = pynvml.nvmlDeviceGetPcieReplayCounter(h)
     except pynvml.NVMLError:
@@ -60,12 +61,15 @@ def main(argv: list[str]) -> int:
             if r > r0:
                 print(f"[watch {stamp}] ALERT PCIe replay counter +{r - r0} (now {r})", flush=True)
                 r0 = r
-        if w0 is not None and time.monotonic() - t_whea >= 30:
+        if time.monotonic() - t_whea >= 30:
             t_whea = time.monotonic()
-            w = whea_count()
-            if w is not None and w > w0:
-                print(f"[watch {stamp}] ALERT {w - w0} new WHEA hardware-error event(s)", flush=True)
-                w0 = w
+            w = whea_count(since)
+            if w is None and sys.platform == "win32" and not whea_down:
+                print(f"[watch {stamp}] ALERT WHEA query failed: hardware-error detection unavailable", flush=True)
+                whea_down = True
+            elif w is not None and w > w_seen:
+                print(f"[watch {stamp}] ALERT {w - w_seen} new WHEA hardware-error event(s)", flush=True)
+                w_seen = w
         if time.monotonic() - last_beat >= a.heartbeat_min * 60:
             last_beat = time.monotonic()
             print(f"[watch {stamp}] ok: now {t} C, max {tmax} C, util {u} %, {p:.0f} W", flush=True)

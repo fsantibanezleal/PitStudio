@@ -142,6 +142,7 @@ Rain: `st57_rain_lidar` → the same contracts.
 | NFR-013-05 | unit | schema limits | pytest |
 | SC-013-01 to SC-013-03 | aggregate | the properties and contracts above, on the published artefacts | pytest + Vitest |
 | SC-013-04 | review | hand calculation: a checklist of the listed result rows (P_d against range × transmittance, points on target, false dust returns, TTC margins, lidar-vs-radar ranges, rain comparison) counted on the results page, and a scan that no rendering-throughput figure is published | results page review + pytest |
+| FR-013-43 | unit (fake backend) | hand calculation: a fixture envelope on the real backend exits 2; on the fake backend the shards carry `fixture: true` and none is promoted to a published manifest | pytest + fake backend |
 
 ## Risks and complexity tracking
 

@@ -135,6 +135,7 @@ spec 009.
 | FR-015-45 | Optional | Where the optional real probe exists (≤ 200 licence-clean images, two labellers), the applicable task-A types shall be scored on it and reported in aggregate only, with Cohen's κ between the labellers; otherwise the real-image result shall read "not measured". | unit |
 | FR-015-48 | Unwanted | If a frame-state record has `visible_px` greater than `width_px` × `height_px` of its frame, then the frame-state loader shall reject it with error class `frame-state-invalid` naming the object. | unit (hostile) |
 | FR-015-49 | Unwanted | If a frame-state rotation quaternion has a norm differing from 1 by more than 10⁻⁶, or a non-finite component, then the frame-state loader shall reject it with error class `frame-state-invalid` naming the object. | unit (hostile) |
+| FR-015-50 | State | While a frame-state set or query set (DC-015-01, DC-015-02) is a contract fixture, the `st59_*` stages and the scorer shall run against it, shall write `fixture: true` on every record and metric, and shall compute and publish no accuracy claim from it. | unit (fake hub) |
 
 ## 4. Correctness properties
 
@@ -261,6 +262,8 @@ binomial tails). Rational quantities (BA from counts, agreement, s̄) are compar
   are not clipped to [0, 1]; a pair declares exactly one corruption with the FR-015-34 statistic of that
   corruption; counts, balance, uniqueness, digests of files and arithmetic across fields are checker rules (listed
   in the index); no requirement checks visible pixels ≤ image area or the quaternion norm (gap reported).
+
+- Availability states (2026-10-11): FR-015-50 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 
