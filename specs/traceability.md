@@ -7,6 +7,7 @@
 | DC-000-03 | 000-foundation | draft | T-000-051 | - |
 | DC-000-04 | 000-foundation | draft | T-000-052 | - |
 | DC-000-05 | 000-foundation | draft | T-000-053 | - |
+| DC-000-06 | 000-foundation | draft | T-000-092 | - |
 | DC-001-01 | 001-contracts | draft | T-001-001 | tests/contract/test_t_001_001_schemas.py |
 | DC-001-02 | 001-contracts | draft | T-001-001 | tests/contract/test_t_001_001_schemas.py |
 | DC-001-03 | 001-contracts | draft | T-001-001 | tests/contract/test_t_001_001_schemas.py |
@@ -117,16 +118,16 @@
 | DC-020-02 | 020-web-knowledge | draft | T-020-002 | - |
 | DC-020-03 | 020-web-knowledge | draft | T-020-004 | - |
 | DC-020-04 | 020-web-knowledge | draft | T-020-003 | - |
-| FR-000-01 | 000-foundation | draft | T-018-034 | - |
+| FR-000-01 | 000-foundation | draft | T-018-034 | web/src/cards/t_018_034_artefact_card.test.tsx |
 | FR-000-02 | 000-foundation | draft | T-018-011 | - |
 | FR-000-03 | 000-foundation | draft | T-018-037, T-019-041, T-020-060 | web/src/shell/prefs.test.ts, web/e2e/shell.spec.ts |
 | FR-000-04 | 000-foundation | draft | T-000-020 | web/src/shell/AccessGate.test.tsx, web/src/shell/digest.test.ts, web/e2e/shell.spec.ts |
 | FR-000-05 | 000-foundation | draft | T-018-032, T-020-030 | - |
-| FR-000-06 | 000-foundation | draft | T-018-034, T-019-022 | - |
+| FR-000-06 | 000-foundation | draft | T-018-034, T-019-022 | web/src/cards/t_018_034_artefact_card.test.tsx |
 | FR-000-07 | 000-foundation | draft | T-019-004 | - |
 | FR-000-08 | 000-foundation | draft | T-019-004, T-019-034, T-020-035 | - |
-| FR-000-09 | 000-foundation | draft | T-018-033, T-020-033 | - |
-| FR-000-10 | 000-foundation | draft | T-018-033, T-020-041 | - |
+| FR-000-09 | 000-foundation | draft | T-018-033, T-020-033 | web/src/routes/t_018_033_context_tab.test.tsx |
+| FR-000-10 | 000-foundation | draft | T-018-033, T-020-041 | web/src/routes/t_018_033_context_tab.test.tsx |
 | FR-000-11 | 000-foundation | draft | T-018-014, T-019-035 | - |
 | FR-000-12 | 000-foundation | draft | T-000-021 | - |
 | FR-000-13 | 000-foundation | draft | T-000-022 | - |
@@ -136,6 +137,11 @@
 | FR-000-17 | 000-foundation | draft | T-000-060 | - |
 | FR-000-18 | 000-foundation | draft | T-000-061 | - |
 | FR-000-19 | 000-foundation | draft | T-000-062 | - |
+| FR-000-20 | 000-foundation | draft | T-000-092 | - |
+| FR-000-21 | 000-foundation | draft | T-000-092 | - |
+| FR-000-22 | 000-foundation | draft | T-000-093 | - |
+| FR-000-23 | 000-foundation | draft | T-000-094 | - |
+| FR-000-24 | 000-foundation | draft | T-000-095 | - |
 | FR-001-01 | 001-contracts | draft | T-001-001 | tests/contract/test_t_001_001_schemas.py |
 | FR-001-02 | 001-contracts | draft | T-001-001 | tests/contract/test_t_001_001_schemas.py |
 | FR-001-03 | 001-contracts | draft | T-001-001 | tests/contract/test_t_001_001_schemas.py |
@@ -187,6 +193,9 @@
 | FR-001-57 | 001-contracts | draft | T-001-025 | tests/contract/test_t_001_025_paths_control_chars.py |
 | FR-001-58 | 001-contracts | draft | T-001-092 | tests/unit/test_t_001_092_source_class_lattice.py |
 | FR-001-59 | 001-contracts | draft | T-001-093 | tests/unit/test_t_001_093_capabilities_privacy.py |
+| FR-001-60 | 001-contracts | draft | T-001-094 | - |
+| FR-001-61 | 001-contracts | draft | T-001-095 | - |
+| FR-001-62 | 001-contracts | draft | T-001-096 | - |
 | FR-002-01 | 002-runner | draft | T-002-010 | - |
 | FR-002-02 | 002-runner | draft | T-002-010 | - |
 | FR-002-03 | 002-runner | draft | T-002-010 | - |
@@ -253,6 +262,9 @@
 | FR-002-64 | 002-runner | draft | T-002-092 | - |
 | FR-002-65 | 002-runner | draft | T-002-093 | - |
 | FR-002-66 | 002-runner | draft | T-002-094 | - |
+| FR-002-67 | 002-runner | draft | T-002-096 | - |
+| FR-002-68 | 002-runner | draft | T-002-097 | - |
+| FR-002-69 | 002-runner | draft | T-002-098 | - |
 | FR-003-01 | 003-console | draft | T-003-010 | - |
 | FR-003-02 | 003-console | draft | T-003-010 | - |
 | FR-003-03 | 003-console | draft | T-003-010 | - |
@@ -284,6 +296,8 @@
 | FR-003-29 | 003-console | draft | T-003-040 | - |
 | FR-003-30 | 003-console | draft | T-003-041 | - |
 | FR-003-31 | 003-console | draft | T-003-092 | - |
+| FR-003-32 | 003-console | draft | T-003-093 | - |
+| FR-003-33 | 003-console | draft | T-003-094 | - |
 | FR-004-01 | 004-scene-pipeline | draft | T-004-010 | - |
 | FR-004-02 | 004-scene-pipeline | draft | T-004-011 | - |
 | FR-004-03 | 004-scene-pipeline | draft | T-004-010 | - |
@@ -327,21 +341,22 @@
 | FR-004-41 | 004-scene-pipeline | draft | T-004-043 | - |
 | FR-004-42 | 004-scene-pipeline | draft | T-004-092 | - |
 | FR-004-43 | 004-scene-pipeline | draft | T-004-093 | - |
-| FR-005-01 | 005-physics | draft | T-005-010 | - |
-| FR-005-02 | 005-physics | draft | T-005-011 | - |
-| FR-005-03 | 005-physics | draft | T-005-011 | - |
-| FR-005-04 | 005-physics | draft | T-005-012 | - |
-| FR-005-05 | 005-physics | draft | T-005-012 | - |
-| FR-005-06 | 005-physics | draft | T-005-013 | - |
-| FR-005-07 | 005-physics | draft | T-005-013 | - |
-| FR-005-08 | 005-physics | draft | T-005-014 | - |
-| FR-005-09 | 005-physics | draft | T-005-014 | - |
+| FR-004-44 | 004-scene-pipeline | draft | T-004-094 | - |
+| FR-005-01 | 005-physics | draft | T-005-010 | tests/unit/test_t_005_010_dem_contact_law.py |
+| FR-005-02 | 005-physics | draft | T-005-011 | tests/unit/test_t_005_011_dem_impact.py |
+| FR-005-03 | 005-physics | draft | T-005-011 | tests/unit/test_t_005_011_dem_impact.py |
+| FR-005-04 | 005-physics | draft | T-005-012 | tests/unit/test_t_005_012_dem_rolling.py |
+| FR-005-05 | 005-physics | draft | T-005-012 | tests/unit/test_t_005_012_dem_rolling.py |
+| FR-005-06 | 005-physics | draft | T-005-013 | tests/unit/test_t_005_013_dem_contacts.py |
+| FR-005-07 | 005-physics | draft | T-005-013 | tests/unit/test_t_005_013_dem_contacts.py |
+| FR-005-08 | 005-physics | draft | T-005-014 | tests/unit/test_t_005_014_dem_timestep.py |
+| FR-005-09 | 005-physics | draft | T-005-014 | tests/unit/test_t_005_014_dem_timestep.py |
 | FR-005-10 | 005-physics | draft | T-005-019 | - |
 | FR-005-11 | 005-physics | draft | T-005-018, T-005-025 | - |
 | FR-005-12 | 005-physics | draft | T-005-019 | - |
-| FR-005-13 | 005-physics | draft | T-005-016 | - |
+| FR-005-13 | 005-physics | draft | T-005-016 | tests/unit/test_t_005_016_repose_measure.py |
 | FR-005-14 | 005-physics | draft | T-005-019, T-005-024 | - |
-| FR-005-15 | 005-physics | draft | T-005-015 | - |
+| FR-005-15 | 005-physics | draft | T-005-015 | tests/unit/test_t_005_015_dem_mass.py |
 | FR-005-16 | 005-physics | draft | T-005-020 | - |
 | FR-005-17 | 005-physics | draft | T-005-021 | - |
 | FR-005-18 | 005-physics | draft | T-005-023 | - |
@@ -382,6 +397,8 @@
 | FR-005-53 | 005-physics | retired | - | - |
 | FR-005-54 | 005-physics | draft | T-005-064 | - |
 | FR-005-55 | 005-physics | draft | T-005-092 | - |
+| FR-005-56 | 005-physics | draft | T-005-093 | - |
+| FR-005-57 | 005-physics | draft | T-005-094 | - |
 | FR-006-01 | 006-media-telemetry | draft | T-006-016 | - |
 | FR-006-02 | 006-media-telemetry | draft | T-006-010 | - |
 | FR-006-03 | 006-media-telemetry | draft | T-006-010 | - |
@@ -404,6 +421,7 @@
 | FR-006-20 | 006-media-telemetry | draft | T-006-032 | - |
 | FR-006-21 | 006-media-telemetry | draft | T-006-032 | - |
 | FR-006-22 | 006-media-telemetry | draft | T-006-014 | - |
+| FR-006-23 | 006-media-telemetry | draft | T-006-092 | - |
 | FR-007-01 | 007-haulage-dispatch | draft | T-007-013 | - |
 | FR-007-02 | 007-haulage-dispatch | draft | T-007-003 | - |
 | FR-007-03 | 007-haulage-dispatch | draft | T-007-014 | - |
@@ -449,6 +467,8 @@
 | FR-007-43 | 007-haulage-dispatch | draft | T-007-050 | - |
 | FR-007-44 | 007-haulage-dispatch | draft | T-007-056 | - |
 | FR-007-45 | 007-haulage-dispatch | draft | T-007-062, T-007-063 | - |
+| FR-007-46 | 007-haulage-dispatch | draft | T-007-092 | - |
+| FR-007-47 | 007-haulage-dispatch | draft | T-007-093 | - |
 | FR-008-01 | 008-data-pipeline | draft | T-008-010 | - |
 | FR-008-02 | 008-data-pipeline | draft | T-008-010 | - |
 | FR-008-03 | 008-data-pipeline | retired | - | - |
@@ -497,6 +517,8 @@
 | FR-008-46 | 008-data-pipeline | draft | T-008-023 | - |
 | FR-008-47 | 008-data-pipeline | draft | T-008-032 | - |
 | FR-008-48 | 008-data-pipeline | draft | T-008-050 | - |
+| FR-008-49 | 008-data-pipeline | draft | T-008-092 | - |
+| FR-008-50 | 008-data-pipeline | draft | T-008-093 | - |
 | FR-009-01 | 009-perception | draft | T-009-010 | - |
 | FR-009-02 | 009-perception | draft | T-009-016 | - |
 | FR-009-03 | 009-perception | draft | T-009-010 | - |
@@ -547,6 +569,9 @@
 | FR-009-48 | 009-perception | draft | T-009-094 | - |
 | FR-009-49 | 009-perception | draft | T-009-095 | - |
 | FR-009-50 | 009-perception | draft | T-009-096 | - |
+| FR-009-51 | 009-perception | draft | T-009-097 | - |
+| FR-009-52 | 009-perception | draft | T-009-098 | - |
+| FR-009-53 | 009-perception | draft | T-009-099 | - |
 | FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | - |
 | FR-010-02 | 010-slope | draft | T-010-011 | - |
 | FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | - |
@@ -592,6 +617,9 @@
 | FR-010-43 | 010-slope | draft | T-010-092 | - |
 | FR-010-44 | 010-slope | draft | T-010-093 | - |
 | FR-010-45 | 010-slope | draft | T-010-094 | - |
+| FR-010-46 | 010-slope | draft | T-010-095 | - |
+| FR-010-47 | 010-slope | draft | T-010-096 | - |
+| FR-010-48 | 010-slope | draft | T-010-097 | - |
 | FR-011-01 | 011-surrogates | draft | T-011-010 | - |
 | FR-011-02 | 011-surrogates | draft | T-011-011 | - |
 | FR-011-03 | 011-surrogates | draft | T-011-014 | - |
@@ -640,12 +668,15 @@
 | FR-011-46 | 011-surrogates | draft | T-011-092 | - |
 | FR-011-47 | 011-surrogates | draft | T-011-093 | - |
 | FR-011-48 | 011-surrogates | draft | T-011-094 | - |
+| FR-011-49 | 011-surrogates | draft | T-011-095 | - |
+| FR-011-50 | 011-surrogates | draft | T-011-096 | - |
+| FR-011-51 | 011-surrogates | draft | T-011-097 | - |
 | FR-012-01 | 012-fragmentation | draft | T-012-010 | - |
 | FR-012-02 | 012-fragmentation | draft | T-012-010 | - |
 | FR-012-03 | 012-fragmentation | draft | T-012-011 | - |
-| FR-012-04 | 012-fragmentation | draft | T-012-012 | - |
-| FR-012-05 | 012-fragmentation | draft | T-012-012 | - |
-| FR-012-06 | 012-fragmentation | draft | T-012-012 | - |
+| FR-012-04 | 012-fragmentation | draft | T-012-012 | tests/property/test_t_012_012_folds_property.py, tests/unit/test_t_012_012_groups_folds.py |
+| FR-012-05 | 012-fragmentation | draft | T-012-012 | tests/property/test_t_012_012_folds_property.py, tests/unit/test_t_012_012_groups_folds.py |
+| FR-012-06 | 012-fragmentation | draft | T-012-012 | tests/unit/test_t_012_012_groups_folds.py |
 | FR-012-07 | 012-fragmentation | draft | T-012-013 | - |
 | FR-012-08 | 012-fragmentation | draft | T-012-013 | - |
 | FR-012-09 | 012-fragmentation | draft | T-012-020 | - |
@@ -657,19 +688,19 @@
 | FR-012-15 | 012-fragmentation | draft | T-012-023 | - |
 | FR-012-16 | 012-fragmentation | draft | T-012-023 | - |
 | FR-012-17 | 012-fragmentation | draft | T-012-023 | - |
-| FR-012-18 | 012-fragmentation | draft | T-012-014 | - |
-| FR-012-19 | 012-fragmentation | draft | T-012-014 | - |
-| FR-012-20 | 012-fragmentation | draft | T-012-015 | - |
-| FR-012-21 | 012-fragmentation | draft | T-012-015 | - |
-| FR-012-22 | 012-fragmentation | draft | T-012-016 | - |
-| FR-012-23 | 012-fragmentation | draft | T-012-016, T-012-031 | - |
+| FR-012-18 | 012-fragmentation | draft | T-012-014 | tests/unit/test_t_012_014_label_scheme.py |
+| FR-012-19 | 012-fragmentation | draft | T-012-014 | tests/unit/test_t_012_014_label_scheme.py |
+| FR-012-20 | 012-fragmentation | draft | T-012-015 | tests/unit/test_t_012_015_unet_loss.py |
+| FR-012-21 | 012-fragmentation | draft | T-012-015 | tests/unit/test_t_012_015_unet_loss.py |
+| FR-012-22 | 012-fragmentation | draft | T-012-016 | tests/unit/test_t_012_016_training_arms.py |
+| FR-012-23 | 012-fragmentation | draft | T-012-016, T-012-031 | tests/unit/test_t_012_016_training_arms.py |
 | FR-012-24 | 012-fragmentation | draft | T-012-030 | - |
 | FR-012-25 | 012-fragmentation | draft | T-012-030 | - |
 | FR-012-26 | 012-fragmentation | draft | T-012-030 | - |
 | FR-012-27 | 012-fragmentation | draft | T-012-030 | - |
 | FR-012-28 | 012-fragmentation | draft | T-012-031 | - |
-| FR-012-29 | 012-fragmentation | draft | T-012-017 | - |
-| FR-012-30 | 012-fragmentation | draft | T-012-017 | - |
+| FR-012-29 | 012-fragmentation | draft | T-012-017 | tests/unit/test_t_012_017_iou_ratio.py |
+| FR-012-30 | 012-fragmentation | draft | T-012-017 | tests/unit/test_t_012_017_iou_ratio.py |
 | FR-012-31 | 012-fragmentation | draft | T-012-032 | - |
 | FR-012-32 | 012-fragmentation | draft | T-012-032 | - |
 | FR-012-33 | 012-fragmentation | draft | T-012-040 | - |
@@ -683,9 +714,11 @@
 | FR-012-41 | 012-fragmentation | draft | T-012-060 | - |
 | FR-012-42 | 012-fragmentation | draft | T-012-050 | - |
 | FR-012-43 | 012-fragmentation | draft | T-012-050 | - |
-| FR-012-44 | 012-fragmentation | draft | T-012-012 | - |
-| FR-012-45 | 012-fragmentation | draft | T-012-017 | - |
+| FR-012-44 | 012-fragmentation | draft | T-012-012 | tests/unit/test_t_012_012_groups_folds.py |
+| FR-012-45 | 012-fragmentation | draft | T-012-017 | tests/unit/test_t_012_017_iou_ratio.py |
 | FR-012-46 | 012-fragmentation | draft | T-012-060 | - |
+| FR-012-47 | 012-fragmentation | draft | T-012-092 | - |
+| FR-012-48 | 012-fragmentation | draft | T-012-093 | - |
 | FR-013-01 | 013-sensors | draft | T-013-010 | - |
 | FR-013-02 | 013-sensors | draft | T-013-010 | - |
 | FR-013-03 | 013-sensors | draft | T-013-011 | - |
@@ -728,6 +761,7 @@
 | FR-013-40 | 013-sensors | draft | T-013-034 | - |
 | FR-013-41 | 013-sensors | draft | T-013-034 | - |
 | FR-013-42 | 013-sensors | draft | T-013-025, T-013-026 | - |
+| FR-013-43 | 013-sensors | draft | T-013-092 | - |
 | FR-014-01 | 014-robot-learning | draft | T-014-002 | - |
 | FR-014-02 | 014-robot-learning | draft | T-014-010, T-014-060 | - |
 | FR-014-03 | 014-robot-learning | draft | T-014-011, T-014-054 | - |
@@ -775,6 +809,8 @@
 | FR-014-45 | 014-robot-learning | draft | T-014-054 | - |
 | FR-014-46 | 014-robot-learning | draft | T-014-049 | - |
 | FR-014-47 | 014-robot-learning | draft | T-014-038 | - |
+| FR-014-48 | 014-robot-learning | draft | T-014-092 | - |
+| FR-014-49 | 014-robot-learning | draft | T-014-093 | - |
 | FR-015-01 | 015-vlm | draft | T-015-010 | - |
 | FR-015-02 | 015-vlm | draft | T-015-010 | - |
 | FR-015-03 | 015-vlm | draft | T-015-011 | - |
@@ -824,6 +860,7 @@
 | FR-015-47 | 015-vlm | draft | T-015-035 | - |
 | FR-015-48 | 015-vlm | draft | T-015-092 | - |
 | FR-015-49 | 015-vlm | draft | T-015-093 | - |
+| FR-015-50 | 015-vlm | draft | T-015-094 | - |
 | FR-016-01 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-02 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-03 | 016-export-acceleration | draft | T-016-011 | - |
@@ -863,6 +900,7 @@
 | FR-016-37 | 016-export-acceleration | draft | T-016-033 | - |
 | FR-016-38 | 016-export-acceleration | draft | T-016-060 | - |
 | FR-016-39 | 016-export-acceleration | draft | T-016-012 | - |
+| FR-016-40 | 016-export-acceleration | draft | T-016-092 | - |
 | FR-017-01 | 017-planning-survey | draft | T-017-010 | - |
 | FR-017-02 | 017-planning-survey | draft | T-017-011 | - |
 | FR-017-03 | 017-planning-survey | draft | T-017-012 | - |
@@ -914,26 +952,28 @@
 | FR-017-49 | 017-planning-survey | draft | T-017-049 | - |
 | FR-017-50 | 017-planning-survey | draft | T-017-050 | - |
 | FR-017-51 | 017-planning-survey | draft | T-017-070 | - |
+| FR-017-52 | 017-planning-survey | draft | T-017-092 | - |
+| FR-017-53 | 017-planning-survey | draft | T-017-093 | - |
 | FR-018-01 | 018-web-cases | draft | T-018-020 | - |
-| FR-018-02 | 018-web-cases | draft | T-018-021 | - |
-| FR-018-03 | 018-web-cases | draft | T-018-021 | - |
-| FR-018-04 | 018-web-cases | draft | T-018-022 | - |
-| FR-018-05 | 018-web-cases | draft | T-018-022 | - |
+| FR-018-02 | 018-web-cases | draft | T-018-021 | web/src/routes/t_018_021_case_rail.test.tsx, web/e2e/t_018_021_case_rail.spec.ts |
+| FR-018-03 | 018-web-cases | draft | T-018-021 | web/e2e/t_018_021_case_rail.spec.ts |
+| FR-018-04 | 018-web-cases | draft | T-018-022 | web/e2e/t_018_022_layers_kpis.spec.ts |
+| FR-018-05 | 018-web-cases | draft | T-018-022 | web/src/routes/t_018_022_kpis.test.tsx, web/e2e/t_018_022_layers_kpis.spec.ts |
 | FR-018-06 | 018-web-cases | draft | T-018-011 | - |
 | FR-018-07 | 018-web-cases | draft | T-018-020 | - |
 | FR-018-08 | 018-web-cases | draft | T-018-023 | - |
-| FR-018-09 | 018-web-cases | draft | T-018-025 | - |
+| FR-018-09 | 018-web-cases | draft | T-018-025 | web/src/routes/t_018_025_catalogue.test.tsx, web/e2e/t_018_025_catalogue.spec.ts |
 | FR-018-10 | 018-web-cases | draft | T-018-001 | - |
-| FR-018-11 | 018-web-cases | draft | T-018-030 | - |
-| FR-018-12 | 018-web-cases | draft | T-018-030 | - |
-| FR-018-13 | 018-web-cases | draft | T-018-030 | - |
+| FR-018-11 | 018-web-cases | draft | T-018-030 | web/e2e/t_018_030_case_pages.spec.ts |
+| FR-018-12 | 018-web-cases | draft | T-018-030 | web/e2e/t_018_030_case_pages.spec.ts |
+| FR-018-13 | 018-web-cases | draft | T-018-030 | web/e2e/t_018_030_case_pages.spec.ts |
 | FR-018-14 | 018-web-cases | draft | T-018-031 | - |
 | FR-018-15 | 018-web-cases | draft | T-018-031 | - |
 | FR-018-16 | 018-web-cases | draft | T-018-032 | - |
-| FR-018-17 | 018-web-cases | draft | T-018-033 | - |
-| FR-018-18 | 018-web-cases | draft | T-018-034 | - |
-| FR-018-19 | 018-web-cases | draft | T-018-035 | - |
-| FR-018-20 | 018-web-cases | draft | T-018-035 | - |
+| FR-018-17 | 018-web-cases | draft | T-018-033 | web/src/routes/t_018_033_context_tab.test.tsx |
+| FR-018-18 | 018-web-cases | draft | T-018-034 | web/src/cards/t_018_034_artefact_card.test.tsx |
+| FR-018-19 | 018-web-cases | draft | T-018-035 | web/src/routes/t_018_035_reproduce.test.tsx, web/e2e/t_018_035_reproduce.spec.ts |
+| FR-018-20 | 018-web-cases | draft | T-018-035 | web/src/routes/t_018_035_reproduce.test.tsx |
 | FR-018-21 | 018-web-cases | draft | T-018-040 | - |
 | FR-018-22 | 018-web-cases | draft | T-018-040 | - |
 | FR-018-23 | 018-web-cases | draft | T-018-041 | - |
@@ -983,6 +1023,8 @@
 | FR-018-67 | 018-web-cases | draft | T-018-005, T-018-088 | - |
 | FR-018-68 | 018-web-cases | draft | T-018-040 | - |
 | FR-018-69 | 018-web-cases | draft | T-018-092 | - |
+| FR-018-70 | 018-web-cases | draft | T-018-093 | - |
+| FR-018-71 | 018-web-cases | draft | T-018-094 | - |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | - |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | - |
 | FR-019-03 | 019-web-studio | draft | T-019-011 | - |
@@ -1030,6 +1072,8 @@
 | FR-019-45 | 019-web-studio | draft | T-019-036 | - |
 | FR-019-46 | 019-web-studio | draft | T-019-092 | - |
 | FR-019-47 | 019-web-studio | draft | T-019-093 | - |
+| FR-019-48 | 019-web-studio | draft | T-019-094 | - |
+| FR-019-49 | 019-web-studio | draft | T-019-095 | - |
 | FR-020-01 | 020-web-knowledge | draft | T-020-014 | - |
 | FR-020-02 | 020-web-knowledge | draft | T-020-014 | - |
 | FR-020-03 | 020-web-knowledge | draft | T-020-014 | - |
@@ -1049,8 +1093,8 @@
 | FR-020-17 | 020-web-knowledge | draft | T-020-020 | - |
 | FR-020-18 | 020-web-knowledge | draft | T-020-020 | - |
 | FR-020-19 | 020-web-knowledge | draft | T-020-001 | - |
-| FR-020-20 | 020-web-knowledge | draft | T-020-031 | - |
-| FR-020-21 | 020-web-knowledge | draft | T-020-031 | - |
+| FR-020-20 | 020-web-knowledge | draft | T-020-031 | web/src/results/t_020_031_rows.test.tsx, web/e2e/t_020_031_results.spec.ts |
+| FR-020-21 | 020-web-knowledge | draft | T-020-031 | web/src/results/t_020_031_rows.test.tsx |
 | FR-020-22 | 020-web-knowledge | draft | T-020-030 | - |
 | FR-020-23 | 020-web-knowledge | draft | T-020-002 | - |
 | FR-020-24 | 020-web-knowledge | draft | T-020-032 | - |
@@ -1060,7 +1104,7 @@
 | FR-020-28 | 020-web-knowledge | draft | T-020-035 | - |
 | FR-020-29 | 020-web-knowledge | draft | T-020-002 | - |
 | FR-020-30 | 020-web-knowledge | draft | T-020-035 | - |
-| FR-020-31 | 020-web-knowledge | draft | T-020-031 | - |
+| FR-020-31 | 020-web-knowledge | draft | T-020-031 | web/src/results/t_020_031_rows.test.tsx, web/e2e/t_020_031_results.spec.ts |
 | FR-020-32 | 020-web-knowledge | draft | T-020-040 | - |
 | FR-020-33 | 020-web-knowledge | draft | T-020-041 | - |
 | FR-020-34 | 020-web-knowledge | draft | T-020-041 | - |
@@ -1074,13 +1118,16 @@
 | FR-020-42 | 020-web-knowledge | draft | T-020-043 | - |
 | FR-020-43 | 020-web-knowledge | draft | T-020-050 | - |
 | FR-020-44 | 020-web-knowledge | draft | T-020-050 | - |
-| FR-020-45 | 020-web-knowledge | draft | T-020-060 | - |
+| FR-020-45 | 020-web-knowledge | draft | T-020-060 | web/src/locales/t_020_060_locales.test.ts |
 | FR-020-46 | 020-web-knowledge | draft | T-020-061 | - |
 | FR-020-47 | 020-web-knowledge | draft | T-020-014 | - |
 | FR-020-48 | 020-web-knowledge | draft | T-020-016 | - |
 | FR-020-49 | 020-web-knowledge | draft | T-020-011, T-020-012, T-020-013 | - |
 | FR-020-50 | 020-web-knowledge | draft | T-020-011, T-020-012, T-020-013 | - |
 | FR-020-51 | 020-web-knowledge | draft | T-020-051 | - |
+| FR-020-52 | 020-web-knowledge | draft | T-020-092 | - |
+| FR-020-53 | 020-web-knowledge | draft | T-020-093 | - |
+| FR-020-54 | 020-web-knowledge | draft | T-020-094 | - |
 | NFR-000-01 | 000-foundation | draft | T-020-062 | - |
 | NFR-000-02 | 000-foundation | draft | T-018-037, T-019-041, T-020-064 | web/e2e/shell.spec.ts |
 | NFR-000-03 | 000-foundation | draft | T-020-063 | - |
@@ -1141,8 +1188,8 @@
 | NFR-011-04 | 011-surrogates | draft | T-011-062 | - |
 | NFR-012-01 | 012-fragmentation | draft | T-012-050 | - |
 | NFR-012-02 | 012-fragmentation | draft | T-012-050 | - |
-| NFR-012-03 | 012-fragmentation | draft | T-012-016 | - |
-| NFR-012-04 | 012-fragmentation | draft | T-012-012 | - |
+| NFR-012-03 | 012-fragmentation | draft | T-012-016 | tests/unit/test_t_012_016_training_arms.py |
+| NFR-012-04 | 012-fragmentation | draft | T-012-012 | tests/unit/test_t_012_012_groups_folds.py |
 | NFR-013-01 | 013-sensors | draft | T-013-033 | - |
 | NFR-013-02 | 013-sensors | draft | T-013-033 | - |
 | NFR-013-03 | 013-sensors | draft | T-013-034 | - |
@@ -1231,12 +1278,12 @@
 | P-004-10 | 004-scene-pipeline | draft | T-004-021 | - |
 | P-004-11 | 004-scene-pipeline | draft | T-004-052 | - |
 | P-004-12 | 004-scene-pipeline | draft | T-004-031 | - |
-| P-005-01 | 005-physics | draft | T-005-017 | - |
-| P-005-02 | 005-physics | draft | T-005-017 | - |
-| P-005-03 | 005-physics | draft | T-005-017 | - |
-| P-005-04 | 005-physics | draft | T-005-017 | - |
-| P-005-05 | 005-physics | draft | T-005-017 | - |
-| P-005-06 | 005-physics | draft | T-005-017 | - |
+| P-005-01 | 005-physics | draft | T-005-017 | tests/metamorphic/test_t_005_017_dem_relations.py |
+| P-005-02 | 005-physics | draft | T-005-017 | tests/metamorphic/test_t_005_017_dem_relations.py |
+| P-005-03 | 005-physics | draft | T-005-017 | tests/metamorphic/test_t_005_017_dem_relations.py |
+| P-005-04 | 005-physics | draft | T-005-017 | tests/metamorphic/test_t_005_017_dem_relations.py |
+| P-005-05 | 005-physics | draft | T-005-017 | tests/metamorphic/test_t_005_017_dem_relations.py |
+| P-005-06 | 005-physics | draft | T-005-017 | tests/metamorphic/test_t_005_017_dem_relations.py |
 | P-005-07 | 005-physics | draft | T-005-021 | - |
 | P-005-08 | 005-physics | draft | T-005-022 | - |
 | P-005-09 | 005-physics | draft | T-005-022 | - |
@@ -1352,9 +1399,9 @@
 | P-012-03 | 012-fragmentation | draft | T-012-030 | - |
 | P-012-04 | 012-fragmentation | draft | T-012-030 | - |
 | P-012-05 | 012-fragmentation | draft | T-012-030 | - |
-| P-012-06 | 012-fragmentation | draft | T-012-017 | - |
-| P-012-07 | 012-fragmentation | draft | T-012-014 | - |
-| P-012-08 | 012-fragmentation | draft | T-012-012 | - |
+| P-012-06 | 012-fragmentation | draft | T-012-017 | tests/unit/test_t_012_017_iou_ratio.py |
+| P-012-07 | 012-fragmentation | draft | T-012-014 | tests/unit/test_t_012_014_label_scheme.py |
+| P-012-08 | 012-fragmentation | draft | T-012-012 | tests/property/test_t_012_012_folds_property.py |
 | P-012-09 | 012-fragmentation | draft | T-012-020 | - |
 | P-012-10 | 012-fragmentation | draft | T-012-020 | - |
 | P-012-11 | 012-fragmentation | draft | T-012-020 | - |
@@ -1362,7 +1409,7 @@
 | P-012-13 | 012-fragmentation | draft | T-012-030 | - |
 | P-012-14 | 012-fragmentation | draft | T-012-040 | - |
 | P-012-15 | 012-fragmentation | draft | T-012-040 | - |
-| P-012-16 | 012-fragmentation | draft | T-012-015 | - |
+| P-012-16 | 012-fragmentation | draft | T-012-015 | tests/unit/test_t_012_015_unet_loss.py |
 | P-012-17 | 012-fragmentation | draft | T-012-023 | - |
 | P-012-18 | 012-fragmentation | draft | T-012-032 | - |
 | P-013-01 | 013-sensors | draft | T-013-020 | - |
