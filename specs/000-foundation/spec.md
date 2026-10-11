@@ -1,5 +1,5 @@
 # Spec 000 — Foundation: PitStudio
-Status: Draft · Tier: L · Approved: —
+Status: Clarified · Tier: L · Approved: —
 
 The product-level specification, written from the approved solution plan (rev 2.4). Every feature spec
 (`specs/NNN-*/`) is a child of this one and inherits its requirements, thresholds and honesty rules.

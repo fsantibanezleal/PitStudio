@@ -1,12 +1,12 @@
-# Traceability matrix — generated 2026-10-10 by tools/trace.py (do not edit)
+# Traceability matrix — generated 2026-10-11 by tools/trace.py (do not edit)
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
 | DC-000-01 | 000-foundation | draft | T-009-005, T-012-003, T-016-003 | - |
-| DC-000-02 | 000-foundation | draft | - | - |
-| DC-000-03 | 000-foundation | draft | - | - |
-| DC-000-04 | 000-foundation | draft | - | - |
-| DC-000-05 | 000-foundation | draft | - | - |
+| DC-000-02 | 000-foundation | draft | T-000-050 | - |
+| DC-000-03 | 000-foundation | draft | T-000-051 | - |
+| DC-000-04 | 000-foundation | draft | T-000-052 | - |
+| DC-000-05 | 000-foundation | draft | T-000-053 | - |
 | DC-001-01 | 001-contracts | draft | T-001-001 | - |
 | DC-001-02 | 001-contracts | draft | T-001-001 | - |
 | DC-001-03 | 001-contracts | draft | T-001-001 | - |
@@ -120,7 +120,7 @@
 | FR-000-01 | 000-foundation | draft | T-018-034 | - |
 | FR-000-02 | 000-foundation | draft | T-018-011 | - |
 | FR-000-03 | 000-foundation | draft | T-018-037, T-019-041, T-020-060 | web/src/shell/prefs.test.ts, web/e2e/shell.spec.ts |
-| FR-000-04 | 000-foundation | draft | - | web/src/shell/AccessGate.test.tsx, web/src/shell/digest.test.ts, web/e2e/shell.spec.ts |
+| FR-000-04 | 000-foundation | draft | T-000-020 | web/src/shell/AccessGate.test.tsx, web/src/shell/digest.test.ts, web/e2e/shell.spec.ts |
 | FR-000-05 | 000-foundation | draft | T-018-032, T-020-030 | - |
 | FR-000-06 | 000-foundation | draft | T-018-034, T-019-022 | - |
 | FR-000-07 | 000-foundation | draft | T-019-004 | - |
@@ -128,11 +128,11 @@
 | FR-000-09 | 000-foundation | draft | T-018-033, T-020-033 | - |
 | FR-000-10 | 000-foundation | draft | T-018-033, T-020-041 | - |
 | FR-000-11 | 000-foundation | draft | T-018-014, T-019-035 | - |
-| FR-000-12 | 000-foundation | draft | - | - |
-| FR-000-13 | 000-foundation | draft | - | - |
-| FR-000-14 | 000-foundation | draft | - | - |
+| FR-000-12 | 000-foundation | draft | T-000-021 | - |
+| FR-000-13 | 000-foundation | draft | T-000-022 | - |
+| FR-000-14 | 000-foundation | draft | T-000-023 | - |
 | FR-000-15 | 000-foundation | draft | T-018-082 | - |
-| FR-000-16 | 000-foundation | draft | - | - |
+| FR-000-16 | 000-foundation | draft | T-000-024 | - |
 | FR-001-01 | 001-contracts | draft | T-001-001 | - |
 | FR-001-02 | 001-contracts | draft | T-001-001 | - |
 | FR-001-03 | 001-contracts | draft | T-001-001 | - |
@@ -1057,10 +1057,10 @@
 | NFR-000-02 | 000-foundation | draft | T-018-037, T-019-041, T-020-064 | web/e2e/shell.spec.ts |
 | NFR-000-03 | 000-foundation | draft | T-020-063 | - |
 | NFR-000-04 | 000-foundation | draft | T-020-062 | - |
-| NFR-000-05 | 000-foundation | draft | - | - |
-| NFR-000-06 | 000-foundation | draft | - | - |
+| NFR-000-05 | 000-foundation | draft | T-000-040 | - |
+| NFR-000-06 | 000-foundation | draft | T-000-040 | - |
 | NFR-000-07 | 000-foundation | draft | T-020-062 | - |
-| NFR-000-08 | 000-foundation | draft | - | - |
+| NFR-000-08 | 000-foundation | draft | T-000-041 | - |
 | NFR-001-01 | 001-contracts | draft | T-001-030 | - |
 | NFR-001-02 | 001-contracts | draft | T-001-002 | - |
 | NFR-001-03 | 001-contracts | draft | T-001-004 | - |
@@ -1163,9 +1163,9 @@
 | NFR-020-07 | 020-web-knowledge | draft | T-020-063 | - |
 | NFR-020-08 | 020-web-knowledge | draft | T-020-042 | - |
 | NFR-020-09 | 020-web-knowledge | draft | T-020-090 | - |
-| P-000-01 | 000-foundation | draft | - | - |
-| P-000-02 | 000-foundation | draft | - | - |
-| P-000-03 | 000-foundation | draft | - | - |
+| P-000-01 | 000-foundation | draft | T-000-030 | - |
+| P-000-02 | 000-foundation | draft | T-000-031 | - |
+| P-000-03 | 000-foundation | draft | T-000-032 | - |
 | P-001-01 | 001-contracts | draft | T-001-011 | - |
 | P-001-02 | 001-contracts | draft | T-001-011 | - |
 | P-001-03 | 001-contracts | draft | T-001-011 | - |
@@ -1522,10 +1522,10 @@
 | P-020-30 | 020-web-knowledge | draft | T-020-013 | - |
 | P-020-31 | 020-web-knowledge | draft | T-020-004 | - |
 | P-020-32 | 020-web-knowledge | draft | T-020-042 | - |
-| SC-000-01 | 000-foundation | draft | - | - |
-| SC-000-02 | 000-foundation | draft | - | - |
-| SC-000-03 | 000-foundation | draft | - | - |
-| SC-000-04 | 000-foundation | draft | - | - |
+| SC-000-01 | 000-foundation | draft | T-000-042 | - |
+| SC-000-02 | 000-foundation | draft | T-000-043 | - |
+| SC-000-03 | 000-foundation | draft | T-000-044 | - |
+| SC-000-04 | 000-foundation | draft | T-000-045 | - |
 | SC-001-01 | 001-contracts | draft | T-001-030 | - |
 | SC-002-01 | 002-runner | draft | T-002-012 | - |
 | SC-003-01 | 003-console | draft | T-003-024 | - |
@@ -1599,12 +1599,12 @@
 | SC-020-01 | 020-web-knowledge | draft | T-020-064 | - |
 | SC-020-02 | 020-web-knowledge | draft | T-020-088 | - |
 | SC-020-03 | 020-web-knowledge | draft | T-020-043 | - |
-| US-000-1 | 000-foundation | draft | - | - |
-| US-000-2 | 000-foundation | draft | - | - |
-| US-000-3 | 000-foundation | draft | - | - |
-| US-000-4 | 000-foundation | draft | - | - |
-| US-000-5 | 000-foundation | draft | - | - |
-| US-000-6 | 000-foundation | draft | - | - |
+| US-000-1 | 000-foundation | draft | T-000-010, T-000-010 | - |
+| US-000-2 | 000-foundation | draft | T-000-011, T-000-011 | - |
+| US-000-3 | 000-foundation | draft | T-000-012, T-000-012 | - |
+| US-000-4 | 000-foundation | draft | T-000-013, T-000-013 | - |
+| US-000-5 | 000-foundation | draft | T-000-014, T-000-014 | - |
+| US-000-6 | 000-foundation | draft | T-000-015, T-000-015 | - |
 | US-001-1 | 001-contracts | draft | T-001-001, T-001-010, T-001-011, T-001-012, T-001-013, T-001-014 | - |
 | US-001-2 | 001-contracts | draft | T-001-003, T-001-020, T-001-021, T-001-022, T-001-025, T-001-024 | - |
 | US-001-3 | 001-contracts | draft | T-001-002, T-001-040, T-001-041 | - |
