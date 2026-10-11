@@ -1,0 +1,1634 @@
+{
+  "$schema": "../recipe.schema.json",
+  "id": "a2-haulage",
+  "case": "A2",
+  "seed": 20261007,
+  "description": "A2 haulage replay: network, granular spill and the encoded clip.",
+  "stages": [
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "bitwise",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    }
+  ]
+}

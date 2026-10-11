@@ -1,0 +1,580 @@
+# tool registry of the clean fixture repository
+tools:
+- id: openusd
+  name: OpenUSD
+  category: studio-tool
+  envs:
+  - studio
+  version:
+    from_lock: studio/uv.lock
+    package: usd-core
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: attribution
+  ring: Adopt
+  lane: replay
+  performance: public
+  role: Scene description for the composed pit.
+  cases:
+  - A1
+  - B1
+  produces:
+  - usd
+  status: not-yet-run
+  docs_page: docs/frameworks/openusd.md
+- id: warp
+  name: NVIDIA Warp
+  category: studio-tool
+  envs:
+  - studio
+  version:
+    from_lock: studio/uv.lock
+    package: warp-lang
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: attribution
+  ring: Adopt
+  lane: replay
+  performance: public
+  role: GPU kernels for granular flow and physics benchmarks.
+  cases:
+  - A3
+  - C3
+  produces:
+  - field
+  - shard
+  status: not-yet-run
+  docs_page: docs/frameworks/warp.md
+- id: newton
+  name: Newton
+  category: studio-tool
+  envs:
+  - studio
+  version:
+    from_lock: studio/uv.lock
+    package: newton
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: attribution
+  ring: Trial
+  lane: replay
+  performance: public
+  role: Rigid-body physics for haul trucks.
+  cases:
+  - B2
+  produces:
+  - trace
+  status: not-yet-run
+  docs_page: docs/frameworks/newton.md
+- id: mujoco-warp
+  name: MuJoCo Warp
+  category: studio-tool
+  envs:
+  - studio
+  version:
+    from_lock: studio/uv.lock
+    package: mujoco-warp
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: attribution
+  ring: Trial
+  lane: replay
+  performance: public
+  role: Batched contact dynamics.
+  cases:
+  - D1
+  produces:
+  - trace
+  status: not-yet-run
+  docs_page: docs/frameworks/mujoco-warp.md
+- id: physx-ovphysx
+  name: PhysX / ovphysx
+  category: studio-tool
+  envs:
+  - isaac
+  version:
+    from_lock: studio/isaac/uv.lock
+    package: ovphysx
+  spdx:
+  - LicenseRef-NVIDIA-Omniverse
+  osi: false
+  licence_class: reference-only
+  ring: Assess
+  lane: local-only
+  performance: local-only
+  role: Vehicle and rigid-body simulation inside Isaac Sim.
+  cases:
+  - D2
+  produces:
+  - trace
+  status: not-yet-run
+  docs_page: docs/frameworks/physx-ovphysx.md
+  notice: 'Proprietary runtime: performance figures are not published.'
+- id: ovrtx
+  name: ovrtx
+  category: studio-tool
+  envs:
+  - rtx
+  version:
+    from_lock: studio/rtx/uv.lock
+    package: ovrtx
+  spdx:
+  - LicenseRef-NvidiaProprietary
+  osi: false
+  licence_class: reference-only
+  ring: Trial
+  lane: local-only
+  performance: local-only
+  role: RTX sensor rendering for lidar, camera and radar returns.
+  cases:
+  - C3
+  produces:
+  - point-cloud
+  status: not-yet-run
+  docs_page: docs/frameworks/ovrtx.md
+  notice: 'Proprietary runtime: performance figures are not published.'
+- id: isaac-sim-replicator
+  name: Isaac Sim and Replicator
+  category: studio-tool
+  envs:
+  - isaac
+  version:
+    from_lock: studio/isaac/uv.lock
+    package: isaacsim
+  spdx:
+  - LicenseRef-NVIDIA-SLA
+  osi: false
+  licence_class: reference-only
+  ring: Trial
+  lane: local-only
+  performance: local-only
+  role: Synthetic data generation for perception.
+  cases:
+  - C1
+  produces:
+  - image
+  status: not-yet-run
+  docs_page: docs/frameworks/isaac-sim-replicator.md
+  notice: 'Proprietary runtime: performance figures are not published.'
+- id: isaac-lab
+  name: Isaac Lab
+  category: studio-tool
+  envs:
+  - isaaclab
+  version:
+    from_lock: studio/isaaclab/uv.lock
+    package: isaaclab
+  spdx:
+  - BSD-3-Clause
+  osi: true
+  licence_class: attribution
+  ring: Assess
+  lane: replay
+  performance: public
+  role: Imitation-learning environments.
+  cases:
+  - E1
+  produces:
+  - onnx
+  status: not-yet-run
+  docs_page: docs/frameworks/isaac-lab.md
+- id: kit-usd-composer-explorer
+  name: Kit, USD Composer and Explorer
+  category: studio-tool
+  envs:
+  - kit
+  - external
+  version:
+    from_binary: kit-kernel
+    release: 109.0.1
+    sha256: '5555555555555555555555555555555555555555555555555555555555555555'
+  spdx:
+  - LicenseRef-NVIDIA-SLA
+  osi: false
+  licence_class: reference-only
+  ring: Assess
+  lane: local-only
+  performance: local-only
+  role: Interactive USD scene capture.
+  cases:
+  - E2
+  produces:
+  - video
+  status: not-yet-run
+  docs_page: docs/frameworks/kit-usd-composer-explorer.md
+  notice: 'Proprietary runtime: performance figures are not published.'
+- id: cosmos-reason-2
+  name: Cosmos Reason 2
+  category: studio-tool
+  envs:
+  - reason
+  - pipeline
+  version:
+    from_lock: pipeline/uv.lock
+    package: transformers
+  spdx:
+  - LicenseRef-NVIDIA-Open-Model
+  osi: false
+  licence_class: reference-only
+  ring: Assess
+  lane: local-only
+  performance: public
+  role: Visual question answering over rendered frames.
+  cases:
+  - E1
+  produces:
+  - text
+  status: not-yet-run
+  docs_page: docs/frameworks/cosmos-reason-2.md
+- id: pytorch
+  name: PyTorch
+  category: studio-tool
+  envs:
+  - pipeline
+  version:
+    from_lock: pipeline/uv.lock
+    package: torch
+  spdx:
+  - BSD-3-Clause
+  osi: true
+  licence_class: attribution
+  ring: Adopt
+  lane: replay
+  performance: public
+  role: Training of the surrogate and perception models.
+  cases:
+  - A1
+  - B1
+  - C1
+  produces:
+  - onnx
+  status: not-yet-run
+  docs_page: docs/frameworks/pytorch.md
+- id: onnx-runtime
+  name: ONNX Runtime
+  category: studio-tool
+  envs:
+  - pipeline
+  version:
+    from_lock: pipeline/uv.lock
+    package: onnxruntime-gpu
+  spdx:
+  - MIT
+  osi: true
+  licence_class: attribution
+  ring: Adopt
+  lane: live
+  performance: public
+  role: Inference of the exported models.
+  cases:
+  - A1
+  - B1
+  produces:
+  - onnx
+  status: not-yet-run
+  docs_page: docs/frameworks/onnx-runtime.md
+- id: tensorrt
+  name: TensorRT
+  category: studio-tool
+  envs:
+  - accel
+  version:
+    from_lock: pipeline/accel/uv.lock
+    package: tensorrt
+  spdx:
+  - LicenseRef-TensorRT-SLA
+  osi: false
+  licence_class: reference-only
+  ring: Trial
+  lane: replay
+  performance: public
+  role: Engine build and latency benchmarks.
+  cases:
+  - A1
+  produces:
+  - table
+  status: not-yet-run
+  docs_page: docs/frameworks/tensorrt.md
+- id: nvenc-ffmpeg
+  name: NVENC and FFmpeg
+  category: studio-tool
+  envs:
+  - studio
+  version:
+    from_lock: studio/uv.lock
+    package: av
+  spdx:
+  - LGPL-2.1-or-later
+  osi: true
+  licence_class: attribution
+  ring: Adopt
+  lane: replay
+  performance: public
+  role: Hardware video encoding with VMAF gating.
+  cases:
+  - A2
+  produces:
+  - video
+  status: not-yet-run
+  docs_page: docs/frameworks/nvenc-ffmpeg.md
+- id: nsight-nvml
+  name: Nsight and NVML
+  category: studio-tool
+  envs:
+  - runner
+  version:
+    from_lock: uv.lock
+    package: nvidia-ml-py
+  spdx:
+  - BSD-3-Clause
+  osi: true
+  licence_class: attribution
+  ring: Adopt
+  lane: replay
+  performance: public
+  role: GPU telemetry sampling.
+  cases: []
+  produces:
+  - telemetry
+  status: not-yet-run
+  docs_page: docs/frameworks/nsight-nvml.md
+- id: threejs-r3f-3d-tiles
+  name: three.js, React Three Fiber and 3D Tiles
+  category: studio-tool
+  envs:
+  - web
+  version:
+    from_lock: web/pnpm-lock.yaml
+    package: three
+  spdx:
+  - MIT
+  osi: true
+  licence_class: attribution
+  ring: Adopt
+  lane: live
+  performance: public
+  role: Browser 3D viewers.
+  cases:
+  - A1
+  produces:
+  - tiles
+  status: not-yet-run
+  docs_page: docs/frameworks/threejs-r3f-3d-tiles.md
+- id: rapier-webgpu-pyodide
+  name: Rapier, WebGPU and Pyodide
+  category: studio-tool
+  envs:
+  - web
+  version:
+    from_lock: web/pnpm-lock.yaml
+    package: pyodide
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: attribution
+  ring: Trial
+  lane: live
+  performance: public
+  role: In-browser physics and compute.
+  cases:
+  - A3
+  produces:
+  - trace
+  status: not-yet-run
+  docs_page: docs/frameworks/rapier-webgpu-pyodide.md
+- id: cuopt
+  name: cuOpt
+  category: studio-tool
+  envs:
+  - pipeline
+  version:
+    from_git_tag: v25.08.00
+    repository: https://github.com/example-org/cuopt
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: attribution
+  ring: Hold
+  lane: local-only
+  performance: public
+  role: cuOpt evaluated for the studio.
+  cases: []
+  produces: []
+  status: evaluated-not-adopted
+  reason: Dispatch decisions are per-truck and event-driven; a batch routing solver adds no value.
+  docs_page: docs/frameworks/not-adopted-cuopt.md
+- id: physicsnemo
+  name: PhysicsNeMo
+  category: studio-tool
+  envs:
+  - pipeline
+  version:
+    from_git_tag: v25.08.00
+    repository: https://github.com/example-org/physicsnemo
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: attribution
+  ring: Hold
+  lane: local-only
+  performance: public
+  role: PhysicsNeMo evaluated for the studio.
+  cases: []
+  produces: []
+  status: evaluated-not-adopted
+  reason: The surrogate models need no framework beyond PyTorch; adopting it adds a dependency with no gain.
+  docs_page: docs/frameworks/not-adopted-physicsnemo.md
+- id: cosmos-predict-transfer
+  name: Cosmos Predict and Transfer
+  category: studio-tool
+  envs:
+  - pipeline
+  version:
+    from_git_tag: v25.08.00
+    repository: https://github.com/example-org/cosmos-predict-transfer
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: attribution
+  ring: Hold
+  lane: local-only
+  performance: public
+  role: Cosmos Predict and Transfer evaluated for the studio.
+  cases: []
+  produces: []
+  status: evaluated-not-adopted
+  reason: The video world models need datacentre GPUs and their outputs cannot be validated here.
+  docs_page: docs/frameworks/not-adopted-cosmos-predict-transfer.md
+- id: pitstudio
+  name: PitStudio
+  category: component
+  envs:
+  - root
+  - runner
+  - pipeline
+  - web
+  version:
+    own: true
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: own
+  ring: Adopt
+  lane: live
+  performance: public
+  role: 'Own code: runner, pipeline stages, contracts and the web app.'
+  cases: []
+  produces:
+  - table
+  - figure
+  status: done
+- id: minephys
+  name: minephys
+  category: component
+  envs:
+  - root
+  - pipeline
+  version:
+    from_lock: uv.lock
+    package: minephys
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: own
+  ring: Adopt
+  lane: live
+  performance: public
+  role: Mining physics library.
+  cases: []
+  produces:
+  - table
+  status: done
+- id: minehaulsim
+  name: minehaulsim
+  category: component
+  envs:
+  - pipeline
+  version:
+    from_lock: uv.lock
+    package: minehaulsim
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: own
+  ring: Adopt
+  lane: live
+  performance: public
+  role: Haul simulation library.
+  cases:
+  - A2
+  produces:
+  - trace
+  status: done
+- id: oreblocks
+  name: oreblocks
+  category: component
+  envs:
+  - pipeline
+  version:
+    from_lock: uv.lock
+    package: oreblocks
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: own
+  ring: Adopt
+  lane: replay
+  performance: public
+  role: Block model library.
+  cases: []
+  produces:
+  - table
+  status: done
+- id: colmap
+  name: COLMAP
+  category: component
+  envs:
+  - external
+  version:
+    from_binary: colmap
+    release: 3.12.0
+    sha256: '4444444444444444444444444444444444444444444444444444444444444444'
+  spdx:
+  - BSD-3-Clause
+  osi: true
+  licence_class: attribution
+  ring: Trial
+  lane: local-only
+  performance: public
+  role: Structure-from-motion poses for the splat capture.
+  cases:
+  - E2
+  produces:
+  - splat
+  status: not-yet-run
+- id: brush
+  name: Brush
+  category: component
+  envs:
+  - external
+  version:
+    from_binary: brush
+    release: 0.3.0
+    sha256: '6666666666666666666666666666666666666666666666666666666666666666'
+  spdx:
+  - Apache-2.0
+  osi: true
+  licence_class: attribution
+  ring: Trial
+  lane: local-only
+  performance: public
+  role: Gaussian splat training.
+  cases:
+  - E2
+  produces:
+  - splat
+  status: not-yet-run
