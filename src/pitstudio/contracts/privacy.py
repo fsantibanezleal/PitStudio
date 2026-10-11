@@ -15,8 +15,8 @@ from pathlib import Path
 from typing import Any
 
 ABSOLUTE_PATH_RULES = (
-    re.compile(r"[A-Za-z]:[\/]"),
-    re.compile(r"\\[A-Za-z0-9._$-]+\\"),
+    re.compile(r"[A-Za-z]:[\\/]"),
+    re.compile(r"\\\\[A-Za-z0-9._$-]+\\"),
     re.compile(r"""(^|[\s"'=(,:])/(home|Users|root|tmp|var|mnt|media|opt|srv|private|run)/"""),
     re.compile(r"file:/"),
 )
