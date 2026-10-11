@@ -14,10 +14,24 @@ from dataclasses import dataclass
 import numpy as np
 import warp as wp
 
-from pitstudio_studio.physics.dem.contact import contact_response, damping_beta, hertz_normal
+from pitstudio_studio.physics.dem.contact import contact_response, damping_beta
+from pitstudio_studio.physics.dem.grid import (
+    CTL_COUNT,
+    CTL_FAIL_STEP,
+    CTL_HALT,
+    CTL_PARTICLE,
+    CTL_SIZE,
+    CTL_STEP,
+    NO_PARTICLE,
+    check_overflow_kernel,
+    commit_step_kernel,
+    contact_kernel,
+)
+from pitstudio_studio.physics.errors import PhysicsError
 
 wp.config.quiet = True
 
+MAX_CONTACT_CAPACITY = 64  # DC-005-01 dem block bound
 MAX_GRID_CELLS = 128  # hash-grid size per axis at most; a hash table, not a domain limit
 
 
@@ -55,43 +69,6 @@ def _make_local_positions(pos: wp.array(dtype=wp.vec3d), origin: wp.vec3d, out: 
 
 
 @wp.kernel
-def _normal_forces(
-    grid: wp.uint64,
-    pos: wp.array(dtype=wp.vec3d),
-    local: wp.array(dtype=wp.vec3),
-    vel: wp.array(dtype=wp.vec3),
-    radius: wp.array(dtype=float),
-    mass: wp.array(dtype=float),
-    r_max: float,
-    pad: float,
-    e_star: float,
-    beta: float,
-    force: wp.array(dtype=wp.vec3),
-    torque: wp.array(dtype=wp.vec3),
-):
-    i = wp.tid()
-    torque[i] = wp.vec3(0.0, 0.0, 0.0)
-    f = wp.vec3(0.0, 0.0, 0.0)
-    q = wp.hash_grid_query(grid, local[i], radius[i] + r_max + pad)
-    j = int(0)  # noqa: UP018, RUF046  (Warp needs a typed variable for the iterator)
-    while wp.hash_grid_query_next(q, j):
-        if j == i:
-            continue
-        dx = pos[j] - pos[i]
-        dist = wp.length(dx)
-        delta = float(wp.float64(radius[i]) + wp.float64(radius[j]) - dist)
-        if delta <= 0.0:
-            continue
-        n = wp.vec3(float(dx[0]), float(dx[1]), float(dx[2])) / float(dist)
-        r_star = radius[i] * radius[j] / (radius[i] + radius[j])
-        m_star = mass[i] * mass[j] / (mass[i] + mass[j])
-        v_n = wp.dot(vel[i] - vel[j], n)
-        f_el, f_d, _ = hertz_normal(e_star, r_star, m_star, beta, delta, v_n)
-        f -= (f_el + f_d) * n
-    force[i] = f
-
-
-@wp.kernel
 def _wall_forces(
     pos: wp.array(dtype=wp.vec3d),
     vel: wp.array(dtype=wp.vec3),
@@ -110,10 +87,13 @@ def _wall_forces(
     dt: float,
     tang: wp.array(dtype=wp.vec3),
     roll: wp.array(dtype=wp.vec3),
+    ctl: wp.array(dtype=int),
     force: wp.array(dtype=wp.vec3),
     torque: wp.array(dtype=wp.vec3),
 ):
     i = wp.tid()
+    if ctl[0] != 0:
+        return
     for w in range(n_walls):
         h = i * n_walls + w
         p = pos[i] - wall_point[w]
@@ -147,8 +127,11 @@ def _integrate(
     inertia: wp.array(dtype=float),
     gravity: wp.vec3,
     dt: float,
+    ctl: wp.array(dtype=int),
 ):
     i = wp.tid()
+    if ctl[0] != 0:
+        return
     v = vel[i] + (force[i] / mass[i] + gravity) * dt
     vel[i] = v
     ang[i] = ang[i] + torque[i] / inertia[i] * dt
@@ -175,9 +158,18 @@ class DemSimulation:
         outflow=(),
         device: str = "cpu",
     ) -> None:
+        if isinstance(contact_capacity, bool) or not isinstance(contact_capacity, int | np.integer):
+            raise PhysicsError(
+                "physics-params-invalid", f"contact_capacity must be an integer, got {contact_capacity!r}"
+            )
+        if not 1 <= contact_capacity <= MAX_CONTACT_CAPACITY:
+            raise PhysicsError(
+                "physics-params-invalid", f"contact_capacity {contact_capacity} is outside 1..{MAX_CONTACT_CAPACITY}"
+            )
         self.device = device
         self.material = material
         self.dt = float(dt)
+        self.contact_capacity = int(contact_capacity)
         pos = np.asarray(positions, dtype=np.float64).reshape(-1, 3)
         self.n = len(pos)
         rad = np.asarray(radii, dtype=np.float64)
@@ -207,12 +199,26 @@ class DemSimulation:
         self._radius = mk(self._radius32, float)
         self._mass = mk(self._masses.astype(np.float32), float)
         self.hash_grid = wp.HashGrid(*(3 * [_grid_cells(self.n)]), device=device)
+        # contact lists: two buffers, read the previous step's, write this step's
+        slots = self.n * self.contact_capacity
+        self._lists = [
+            (
+                wp.full(slots, -1, dtype=int, device=device),
+                wp.zeros(slots, dtype=wp.vec3, device=device),
+                wp.zeros(slots, dtype=wp.vec3, device=device),
+            )
+            for _ in range(2)
+        ]
+        self._current = 0  # index of the list holding the latest contacts
+        self._counts = wp.zeros(self.n, dtype=int, device=device)
+        self._ctl = wp.array([0, NO_PARTICLE] + [0] * (CTL_SIZE - 2), dtype=int, device=device)
         mat = material
         self._e_star = mat.youngs_modulus / (2.0 * (1.0 - mat.poisson_ratio**2))
         self._g_star = (mat.youngs_modulus / (2.0 * (1.0 + mat.poisson_ratio))) / (4.0 * (2.0 - mat.poisson_ratio))
         self._beta = damping_beta(mat.restitution)
         self.step_index = 0
-        self._cmds: list | None = None
+        self._cmds: list[list] | None = None
+        self._error: PhysicsError | None = None
 
     # ------------------------------------------------------------------ state
     @property
@@ -235,64 +241,109 @@ class DemSimulation:
     def time(self) -> float:
         return self.step_index * self.dt
 
+    def contact_counts(self) -> np.ndarray:
+        """Sphere-sphere contacts per particle at the latest step (the true count, also beyond the capacity)."""
+        return self._counts.numpy().copy()
+
+    def contact_list(self) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """(neighbours (N, C), tangential history (N, C, 3), rolling history (N, C, 3)); -1 marks an empty slot."""
+        nb, tang, roll = self._lists[self._current]
+        c = self.contact_capacity
+        return (
+            nb.numpy().reshape(self.n, c).copy(),
+            tang.numpy().astype(np.float64).reshape(self.n, c, 3),
+            roll.numpy().astype(np.float64).reshape(self.n, c, 3),
+        )
+
     # ------------------------------------------------------------------ stepping
-    def _record(self) -> list:
-        """Pre-pack the launches of one step (the arguments never change between steps)."""
+    def _record(self) -> list[list]:
+        """Pre-pack the launches of one step, once per list parity (the arguments never change between steps)."""
         dev = self.device
         mat = self.material
-        cmds = [
-            wp.launch(
-                _make_local_positions, dim=self.n, inputs=[self._pos, self._origin, self._local], device=dev,
-                record_cmd=True,
-            ),
-            wp.launch(
-                _normal_forces,
-                dim=self.n,
-                inputs=[
-                    self.hash_grid.id, self._pos, self._local, self._vel, self._radius, self._mass,
-                    self._r_max, self._pad, self._e_star, self._beta, self._force, self._torque,
-                ],
-                device=dev,
-                record_cmd=True,
-            ),
-        ]  # fmt: skip
-        if self._n_walls:
+        n = self.n
+        sets = []
+        for parity in range(2):
+            old, new = self._lists[parity], self._lists[1 - parity]
+            cmds = [
+                wp.launch(
+                    _make_local_positions, dim=n, inputs=[self._pos, self._origin, self._local], device=dev,
+                    record_cmd=True,
+                ),
+                wp.launch(
+                    contact_kernel,
+                    dim=n,
+                    inputs=[
+                        self.hash_grid.id, self._pos, self._local, self._vel, self._ang, self._radius,
+                        self._mass, self._inertia, self._r_max, self._pad, self._e_star, self._g_star,
+                        self._beta, mat.friction_static, mat.friction_rolling, self.dt, self.contact_capacity,
+                        *old, *new, self._counts, self._ctl, self._force, self._torque,
+                    ],
+                    device=dev,
+                    record_cmd=True,
+                ),
+                wp.launch(
+                    check_overflow_kernel, dim=n, inputs=[self._counts, self.contact_capacity, self._ctl],
+                    device=dev, record_cmd=True,
+                ),
+                wp.launch(commit_step_kernel, dim=1, inputs=[self._counts, n, self._ctl], device=dev, record_cmd=True),
+            ]  # fmt: skip
+            if self._n_walls:
+                cmds.append(
+                    wp.launch(
+                        _wall_forces,
+                        dim=n,
+                        inputs=[
+                            self._pos, self._vel, self._ang, self._radius, self._mass, self._inertia,
+                            self._wall_point, self._wall_normal, self._n_walls, self._e_star, self._g_star,
+                            self._beta, mat.friction_static, mat.friction_rolling, self.dt,
+                            self._wall_tang, self._wall_roll, self._ctl, self._force, self._torque,
+                        ],
+                        device=dev,
+                        record_cmd=True,
+                    )
+                )  # fmt: skip
             cmds.append(
                 wp.launch(
-                    _wall_forces,
-                    dim=self.n,
+                    _integrate,
+                    dim=n,
                     inputs=[
-                        self._pos, self._vel, self._ang, self._radius, self._mass, self._inertia,
-                        self._wall_point, self._wall_normal, self._n_walls, self._e_star, self._g_star, self._beta,
-                        mat.friction_static, mat.friction_rolling, self.dt,
-                        self._wall_tang, self._wall_roll, self._force, self._torque,
+                        self._pos, self._vel, self._ang, self._force, self._torque, self._mass, self._inertia,
+                        self._gravity, self.dt, self._ctl,
                     ],
                     device=dev,
                     record_cmd=True,
                 )
             )  # fmt: skip
-        cmds.append(
-            wp.launch(
-                _integrate,
-                dim=self.n,
-                inputs=[
-                    self._pos, self._vel, self._ang, self._force, self._torque, self._mass, self._inertia,
-                    self._gravity, self.dt,
-                ],
-                device=dev,
-                record_cmd=True,
-            )
-        )  # fmt: skip
-        return cmds
+            sets.append(cmds)
+        return sets
 
     def step(self, n: int = 1) -> None:
-        """Advance `n` steps; the loop only launches pre-packed kernels (no host work between steps)."""
+        """Advance `n` steps; the loop only launches pre-packed kernels (no host work between steps).
+
+        A contact-list overflow halts the device-side run at the failing step; the error is raised here, after the
+        launches, with `step_index` equal to the number of steps completed before the failing step.
+        """
+        if self._error is not None:
+            raise self._error
         if self._cmds is None:
             self._cmds = self._record()
         cell = 2.0 * (self._r_max + self._pad)
         for _ in range(n):
-            self._cmds[0].launch()
+            cmds = self._cmds[self._current]
+            cmds[0].launch()
             self.hash_grid.build(self._local, cell)
-            for cmd in self._cmds[1:]:
+            for cmd in cmds[1:]:
                 cmd.launch()
-        self.step_index += n
+            self._current = 1 - self._current
+        ctl = self._ctl.numpy()
+        self.step_index = int(ctl[CTL_STEP])
+        if ctl[CTL_HALT]:
+            particle, count, step = int(ctl[CTL_PARTICLE]), int(ctl[CTL_COUNT]), int(ctl[CTL_FAIL_STEP])
+            self._error = PhysicsError(
+                "contact-overflow",
+                f"particle {particle} has {count} contacts, above the capacity {self.contact_capacity}, at step {step}",
+                particle=particle,
+                contacts=count,
+                step=step,
+            )
+            raise self._error
