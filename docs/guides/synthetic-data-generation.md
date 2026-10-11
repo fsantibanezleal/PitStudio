@@ -97,7 +97,7 @@ trains on both and calls one "better" only by the pre-registered decision rule
 | Equipment / people sim-to-real | only with the optional real probe (≤ 200 licence-clean images, two labellers) | "not measured" unless labelled |
 | Fragmentation sim-to-real (D1) | U-Net trained on synthetic vs on real, both tested on the real held-out originals (TSTR/TRTR [9]): TSTR ≥ 0.90 × TRTR on IoU, grouped k-fold | **Not yet run** |
 
-The real fragmentation set has 960 labelled 512 × 512 images, which are 240 originals × 4 flips/rotations, and 231
+The real fragmentation set has 960 labelled 512 × 512 images, which are 80 photographs × 3 crops × 4 flips/rotations, and 72
 source groups after conservatively merging 9 visually similar originals; splits are by source group and evaluation uses originals only
 ([Mendeley card](../data-contract/dataset-cards/mendeley-rock-fragments.md)).
 

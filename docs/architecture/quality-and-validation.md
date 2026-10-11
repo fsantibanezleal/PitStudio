@@ -126,8 +126,9 @@ calibrated in `thresholds.yaml` during specification.
 - **Embedding C2ST** on DINOv2 features for fragment images; duplicate scans; an injected-shift check that must be
   detected (AUC ≥ 0.80).
 - **TSTR ≥ 0.90 × TRTR only where a real labelled training set exists:** fragmentation. The real fragment set is split by
-  source group (240 originals; 231 groups after conservatively merging 9 visually similar pairs), never by file, because its 960 images
-  include three flipped or rotated copies of each original.
+  source group (80 photographs × 3 crops × 4 dihedral copies; 72 groups after conservatively merging 9 visually similar pairs),
+  never by file, because its 960 images include three other crops of each photograph and three flipped or rotated
+  copies of each crop.
 - **Honesty rule:** a data type with no real reference is labelled "calibrated synthetic — not validated against real
   data" and receives no C2ST or TSTR claim.
 

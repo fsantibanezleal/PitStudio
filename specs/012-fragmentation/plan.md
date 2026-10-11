@@ -60,7 +60,7 @@ comparisons differ only in the segmentation.
 | FR-012-01 | unit + pipeline | hand calculation: a small 7z fixture with expected members; the real archive's size and SHA-256 from the dataset card | pytest |
 | FR-012-02 | unit (hostile) | hand calculation: fixtures with `../x`, an absolute name, a drive letter, a missing member, a 511 px image, an RGB `label.png` | pytest |
 | FR-012-03 | pipeline | reference implementation: the bootstrap data-check counts (960 images, 63,144 non-empty instances) from an independent script, recorded in the dataset card | pytest (`slow`, needs local data) |
-| FR-012-04 | unit | hand calculation: the components of §7 and 231 groups | pytest |
+| FR-012-04 | unit | hand calculation: the components of §7 and 72 groups | pytest |
 | FR-012-05 | unit + property | hand-checked invariants of the partition (P-012-08); fold sizes as returned by scikit-learn's `GroupKFold` (reference implementation used directly) | pytest + Hypothesis |
 | FR-012-06 | unit (hostile) | hand calculation: fold files with a shared group, a file 241 in a test list, a missing original | pytest |
 | FR-012-07 | unit (hostile) | hand calculation: one byte changed in a label → `label-modified` | pytest |
@@ -130,7 +130,7 @@ comparisons differ only in the segmentation.
 ## Risks and complexity tracking
 | Deviation | Why needed | Simpler alternative rejected because |
 |---|---|---|
-| Cluster bootstrap over source groups for the real comparison | the nine merged pairs and the shared TSTR model make tiles not independent | a per-tile paired t-interval would be too narrow |
+| Cluster bootstrap over source groups for the real comparison | the three crops of each photograph, the nine merged pairs and the shared TSTR model make tiles not independent | a per-tile paired t-interval would be too narrow |
 | Penalty error 1.0 for `no-fit` images | a method must not gain by failing on hard images | dropping failed images would bias the comparison towards the method that fails more |
 | Cumulative stratified fill instead of i.i.d. sampling | gives a provable PSD bound with a few thousand fragments | i.i.d. sampling by volume leaves the coarse tail noisy because few large fragments carry most of the volume |
 | `smp` may be replaced by a vendored U-Net | `smp` has had no release for about 17 months and may fail on Python 3.14 / torch 2.14 | dropping the U-Net would remove the measured sim-to-real result |

@@ -7,7 +7,7 @@ Supersedes/Modifies: (none)
 
 Methods M11 and M12 and case D1 ask whether a segmenter trained **only** on synthetic muck piles, whose fragment size
 distribution (PSD) is known exactly, measures real fragmentation. This spec fixes the real reference (the Mendeley
-rock-fragment set: 960 images = 240 originals × 4 dihedral copies, 231 source groups, no physical scale), the grouped
+rock-fragment set: 960 images = 80 photographs × 3 crops × 4 dihedral copies, 72 source groups, no physical scale), the grouped
 5-fold protocol, the synthetic exact-PSD pile generator and renders, the U-Net and its label scheme, the classical
 watershed + Swebrec baseline, the PSD and x50 definitions, the TSTR / TRTR criterion, the paired comparison with the
 decision rule FR-000-05, the image-realism checks (classifier two-sample test on DINOv2 embeddings, duplicates,
@@ -74,8 +74,8 @@ Story index (for traceability):
 | FR-012-01 | Ubiquitous | The D1 reader in `s10_preprocess` shall read only an archive that `s00_download` (spec 008) verified as 4,230,116,058 bytes with SHA-256 `7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d`, and shall extract only `Annotated data/pic/NNN.jpg` and `Annotated data/labelme_json/NNN_json/label.png` for NNN = 001–960 into the git-ignored data folder (`PITSTUDIO_DATA`). | unit + pipeline |
 | FR-012-02 | Unwanted | If an archive member name is absolute, contains `..` or a drive letter, or resolves outside the extraction folder, or an image is not 512 × 512 RGB, or a `label.png` is not a 512 × 512 palette (indexed) image, or any of the 1,920 expected members is missing, then the reader shall stop with the member name and reason and leave no partial dataset. | unit (hostile) |
 | FR-012-03 | Ubiquitous | The reader shall produce, for every file k = 1–960, the RGB image, the instance mask (uint16, 0 = background, value j = instance j), the foreground mask (label > 0) and the SHA-256 of the image and label bytes as stored in the archive; over all files it shall count 960 images and 63,144 non-empty instances. | pipeline |
-| FR-012-04 | Ubiquitous | The split builder shall assign each file k the group key g(k) = ((k − 1) mod 240) + 1 and merge groups by union–find over the nine links committed in `data/splits/mendeley-78ht3pjsr4-links.yaml` (§7), giving exactly 231 source groups. | unit |
-| FR-012-05 | Ubiquitous | The split builder shall partition the 231 groups into 5 folds with scikit-learn `GroupKFold(n_splits=5, shuffle=True, random_state=20261004)` over the 240 originals; for fold f the test list shall be the originals (k ≤ 240) of the fold's groups, the validation list the files (1–960) of a seeded 10 % of the remaining groups, and the training list the files (1–960) of all other groups. | unit + property |
+| FR-012-04 | Ubiquitous | The split builder shall assign each file k the group key g(k) = s(((k − 1) mod 240) + 1), where the scene s(k) = ((k − 1) mod 80) + 1 (files k, k + 80 and k + 160 are three crops of one photograph, §7), and merge groups by union–find over the nine links committed in `data/splits/mendeley-78ht3pjsr4-links.yaml` (§7) mapped to scenes, s(a)–s(b), giving exactly 72 source groups. | unit |
+| FR-012-05 | Ubiquitous | The split builder shall partition the 72 groups into 5 folds with scikit-learn `GroupKFold(n_splits=5, shuffle=True, random_state=20261004)` over the 240 originals; for fold f the test list shall be the originals (k ≤ 240) of the fold's groups, the validation list the files (1–960) of a seeded 10 % of the remaining groups, and the training list the files (1–960) of all other groups. | unit + property |
 | FR-012-06 | Unwanted | If a group occurs in the test list and in the training or validation list of the same fold, a test list contains a file k > 240, or the union of the five test lists differs from {1, …, 240}, then the split builder shall stop with `split-leak` and list the offending files. | unit (hostile) |
 | FR-012-07 | Unwanted | If the SHA-256 of a label used for scoring differs from the value recorded at extraction, then `s50_evaluate` shall refuse to score with `label-modified` and name the file. | unit (hostile) |
 | FR-012-08 | Ubiquitous | The label-assistant step (SAM 2.1-tiny) shall mark its outputs `role: label-assistant` for use in quality-control reports only, and the lineage recorded in the manifests shall show no SAM output in any test label set, any TRTR training label set or any metric. | contract |
@@ -102,7 +102,7 @@ Story index (for traceability):
 | FR-012-29 | Ubiquitous | The foreground IoU of a tile shall be \|P ∩ G\| / \|P ∪ G\| over foreground pixels, equal to 1.0 when both sets are empty, and the fold score shall be the mean over the fold's test originals. | unit |
 | FR-012-30 | Ubiquitous | The stage `s50_evaluate` shall report, for each fold f, ρ_f = IoU_TSTR,f / IoU_TRTR,f, and over the five folds the mean ρ̄, the minimum and the standard deviation. | unit |
 | FR-012-31 | Ubiquitous | The relative x50 error of an image shall be \|x̂50 − x50\| / x50, against the exact pile x50 (m) on synthetic held-out views and against the FR-012-24/26 x50 of the ground-truth instances (px) on real test originals; on a synthetic view both methods shall run on its four tiles, stitched into the 1,024 × 1,024 view before decoding; the synthetic score shall be the mean relative error over held-out views (MRE). | unit |
-| FR-012-32 | Ubiquitous | The comparison "U-Net beats watershed + Swebrec" shall be computed twice, as separate claims: on the 240 real test originals (TSTR U-Net, pairing unit = original, 95 % percentile interval of a paired cluster bootstrap over the 231 source groups, B = 10,000) and on the synthetic held-out piles (pairing unit = pile, mean over its views, paired bootstrap over piles, B = 10,000), each with d = e_watershed − e_U-Net and the verdict of FR-000-05. | unit |
+| FR-012-32 | Ubiquitous | The comparison "U-Net beats watershed + Swebrec" shall be computed twice, as separate claims: on the 240 real test originals (TSTR U-Net, pairing unit = original, 95 % percentile interval of a paired cluster bootstrap over the 72 source groups, B = 10,000) and on the synthetic held-out piles (pairing unit = pile, mean over its views, paired bootstrap over piles, B = 10,000), each with d = e_watershed − e_U-Net and the verdict of FR-000-05. | unit |
 | FR-012-33 | Ubiquitous | The classifier two-sample test shall embed tiles with frozen DINOv2 ViT-B/14 (final-layer class token, 224 × 224 bicubic input, ImageNet normalisation, weights pinned by SHA-256), classify synthetic (240 seeded tiles, ≤ 2 per pile) against real (the 240 originals) with two families — L2 logistic regression on standardised features and a one-hidden-layer MLP (256 ReLU units) — with out-of-fold scores from `StratifiedGroupKFold(5)` (groups = source group or pile seed), and report each AUC with a 95 % cluster-bootstrap interval (B = 1,000); the real-versus-real baseline shall use the same procedure on two seeded group-disjoint halves of the originals. | unit + pipeline |
 | FR-012-34 | Event | When a C2ST verdict is computed, the evaluation shall first apply the dust corruption of spec 009 (severity 3, constant depth 100 m) to a seeded group-disjoint half of the real originals, classify shifted against unshifted originals with both families, and report every C2ST verdict as "inconclusive (no power)" unless both AUCs are ≥ 0.80. | unit + pipeline |
 | FR-012-35 | Ubiquitous | The train-versus-test check shall run the FR-012-33 procedure between synthetic training tiles and synthetic held-out tiles (≥ 240 each, groups = pile seed). | pipeline |
@@ -139,7 +139,7 @@ Story index (for traceability):
 | P-012-15 | For classes N(0, I) and N(μ, I) in 16 dimensions, the out-of-fold logistic AUC is within 0.03 of the analytical Φ(‖μ‖/√2); for two samples of one distribution, its 95 % interval contains 0.5 in ≥ 45 of 50 seeded repeats. | logistic family; n = 4,000 per class; ‖μ‖ in [0.25, 2] | ±0.03; ≥ 45/50 |
 | P-012-16 | The weight map is equivariant under the dihedral maps, invariant under instance relabelling, and satisfies w(x) ≥ w_c(x) everywhere, with equality where fewer than two instances exist (metamorphic). | random label images up to 256 × 256 | atol 1e-12 |
 | P-012-17 | Adding a fragment smaller than every other fragment never increases the volume-weighted x50 (Q-1), and Q-1 is invariant to the order of the fragment table (metamorphic). | random fragment tables of 3–10⁵ rows | exact |
-| P-012-18 | For the paired cluster bootstrap of FR-012-32, swapping the two methods negates both interval bounds and swaps "better" and "worse"; relisting the clusters in any order leaves the interval unchanged; identical errors give [0, 0] and "no significant difference" (antisymmetry, order invariance, identity; metamorphic). | Hypothesis: 20–240 units in 10–231 clusters | atol 1e-12 |
+| P-012-18 | For the paired cluster bootstrap of FR-012-32, swapping the two methods negates both interval bounds and swaps "better" and "worse"; relisting the clusters in any order leaves the interval unchanged; identical errors give [0, 0] and "no significant difference" (antisymmetry, order invariance, identity; metamorphic). | Hypothesis: 20–240 units in 10–72 clusters | atol 1e-12 |
 
 ## 5. Non-functional requirements and success criteria
 
@@ -160,7 +160,7 @@ Story index (for traceability):
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
 | DC-012-01 | Fragment table per pile (fragment id, size m, volume m³, mass kg, class index, seed, visible px per view) as Parquet rows | `specs/012-fragmentation/contracts/fragment-table.schema.json` (draft; promoted to `contracts/fragment-table.schema.json` by T-012-001) | pile generator, `st55_sdg` → dataset builder, `s50_evaluate` |
-| DC-012-02 | Real fold file and group links (archive SHA-256, links, 231 groups, per-fold test / validation / training lists, seed) | `specs/012-fragmentation/contracts/fragment-split.schema.json` (draft; promoted to `contracts/fragment-split.schema.json` by T-012-002) | split builder; `data/splits/mendeley-78ht3pjsr4-links.yaml` → `s30_train`, `s50_evaluate` |
+| DC-012-02 | Real fold file and group links (archive SHA-256, links, 72 groups, per-fold test / validation / training lists, seed) | `specs/012-fragmentation/contracts/fragment-split.schema.json` (draft; promoted to `contracts/fragment-split.schema.json` by T-012-002) | split builder; `data/splits/mendeley-78ht3pjsr4-links.yaml` → `s30_train`, `s50_evaluate` |
 | DC-012-03 | Fragmentation evaluation report (per-fold IoU and ρ_f, ρ̄, x50 errors, intervals, verdicts, `no-fit` counts, C2ST and duplicate results, statuses, attribution text) | `specs/012-fragmentation/contracts/fragmentation-eval.schema.json` (draft; promoted to `contracts/fragmentation-eval.schema.json` by T-012-003) | `s50_evaluate` → `s60_export`, D1 baked data, model card |
 | DC-012-04 | Muck-pile render index (pile seed, view, tile, relative paths, SHA-256, intrinsics, depth path, instance-to-fragment map, `synthetic: true`, licence) | `specs/012-fragmentation/contracts/muck-pile-render.schema.json` (draft; promoted to `contracts/muck-pile-render.schema.json` by T-012-004) | `st55_sdg` → dataset builder |
 | DC-012-05 | D1 design grid (design inputs, x50, x80, % oversize, PPV, flyrock radius, units, `minephys` version) | `specs/012-fragmentation/contracts/d1-design-grid.schema.json` (draft; promoted to `contracts/d1-design-grid.schema.json` by T-012-005) | D1 recipe → web D1 fallback, docs |
@@ -172,13 +172,22 @@ Run and asset manifests (lineage, lane, licence class) follow the foundation con
 
 **Real reference facts** (bootstrap data check of the archive, independent of the code under test; dataset card
 `docs/data-contract/dataset-cards/mendeley-rock-fragments.md`): 960 RGB images of 512 × 512 px; files 241–480,
-481–720 and 721–960 are the horizontal flip, vertical flip and 180° rotation of files 1–240; one class; indexed
+481–720 and 721–960 are the horizontal flip, vertical flip and 180° rotation of files 1–240; files k, k + 80 and
+k + 160 (k = 1…80) are three crops of one photograph (wide letterboxed, square, narrow pillarboxed), so the set is
+80 photographs × 3 crops × 4 dihedral copies = 960 files and the effective independent real set is 80 scenes (a
+DINOv2 ViT-B/14 scan of files 1–240 and a visual check: for 170 of the 240 originals the nearest neighbour is at
+offset ±80; the median cosine is 0.920 at offset 80 and 0.889 at offset 160, against 0.703 over all pairs, p99 0.919;
+the bootstrap pixel-level, same-scale high-pass check cannot see rescaled crops; the only pHash ≤ 4 pair is 109–119,
+scene 29–39, already one of the nine links); the scene of file k is s(k) = ((k − 1) mod 80) + 1, and dihedral copies
+keep k mod 240; one class; indexed
 instance masks from labelme's dataset export (no polygon files); 63,144 non-empty instances (15,786 unique); 48 named
 instances with no pixels; equivalent diameter p10 / p50 / p90 = 11 / 32 / 82 px; no physical scale.
 
-**The nine conservative links** (original file numbers, from the bootstrap overlap check): 29–39, 34–41, 36–37,
-41–49, 59–60, 189–199, 192–196, 196–198, 196–201. Union–find gives the components {29, 39}, {34, 41, 49}, {36, 37},
-{59, 60}, {189, 199}, {192, 196, 198, 201}: 240 − 9 = 231 groups (no link closes a cycle).
+**The nine conservative links** (original file numbers, kept as the record of the bootstrap overlap check): 29–39,
+34–41, 36–37, 41–49, 59–60, 189–199, 192–196, 196–198, 196–201. Mapped to scenes, s(a)–s(b): 29–39, 34–41, 36–37,
+41–49, 59–60, 29–39 (189 → 29, 199 → 39: a duplicate of the first), 32–36, 36–38, 36–41. Union–find over the 80 scenes
+gives the components {29, 39}, {32, 34, 36, 37, 38, 41, 49} and {59, 60}; the other 69 scenes are singletons. The
+merges are 1 + 6 + 1 = 8, so 80 − 8 = **72 source groups**.
 
 **Q-1 — weighted quantile.** Merge equal sizes, sort the distinct sizes ascending x_1 < … < x_n with summed weights
 w_i (volume on the fragment table; area on images) and cumulative fractions F_j = Σ_{i≤j} w_i / Σ w. The q-quantile is
@@ -210,6 +219,10 @@ F_j ≥ q. x50 uses q = 0.5, x80 q = 0.8.
 
 ## 8. Clarifications log
 
+- Source unit of the real set (the earlier reading took each of the 240 originals as its own source) → resolved 2026-10-11: the
+  Mendeley originals are 80 photographs × 3 crops (scene s(k) = ((k − 1) mod 80) + 1), so there are 72 source groups
+  (FR-012-04), on the DINOv2 duplicate scan of §7 (170 of 240 nearest neighbours at offset ±80; median cosine 0.920 at
+  offset 80 and 0.889 at offset 160 against 0.703 over all pairs); a fold holds 14–15 groups and 42–60 test originals.
 - Number of folds ("for example 5") → resolved: 5, seeded `GroupKFold` (FR-012-05).
 - Aggregate of the TSTR / TRTR criterion ("per grouped fold", "with fold spread") → resolved: mean of per-fold ratios
   ρ̄ ≥ 0.90, with every ρ_f, the minimum and the spread reported (SC-012-02).
@@ -228,7 +241,7 @@ F_j ≥ q. x50 uses q = 0.5, x80 q = 0.8.
   and hostile examples indexed in `examples/index.json`); stricter readings chosen: the fragment table's JSON sidecar
   (target parameters, realised V_real, v_max, x50, x80, Parquet path, digest and row count ≤ 10⁶) is the schema root
   and the Parquet row is `$defs/row`, its `seed` being the rock-mesh seed of FR-012-12; `fragment-split` validates both
-  the links file and the fold file, discriminated by `kind`, with the archive SHA-256, seed 20261004, 5 folds and 231
+  the links file and the fold file, discriminated by `kind`, with the archive SHA-256, seed 20261004, 5 folds and 72
   groups as constants, and stores every fold list as original numbers (1–240) under the constant expansion
   `dihedral-4` (files k + 240 m, m = 0…3), so the 960-file validation and training lists are derived and a test list
   can never hold k > 240; every evaluation section has status `succeeded` or `not_run` with a reason, Isaac Sim not

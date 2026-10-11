@@ -18,7 +18,7 @@ covers the first four stages of the frozen pipeline lane (`pipeline/`, Python 3.
 The spec also fixes:
 - the honesty rule for synthetic data (FR-000-09);
 - the data cards;
-- the Mendeley fragment split: 240 originals; 9 conservative similarity links giving 231 groups; grouped 5-fold; test
+- the Mendeley fragment split: 80 photographs × 3 crops (240 originals); 9 conservative similarity links, mapped to scenes, giving 72 groups; grouped 5-fold; test
   folds on originals only.
 
 That split feeds SC-000-01.
@@ -57,7 +57,7 @@ naming that cell, and a valid frame comes back unchanged.
 ### US-008-3 (P1) Leakage-free splits fixed at ingestion
 As a practitioner, I want the Mendeley fragment images split by source group into 5 folds of exactly 48 originals,
 with tests on originals only and no flipped copy of a test tile in training, so that TSTR and TRTR are honest.
-Independent test: the split file reproduces the hand-calculated 231 groups and 5 × 48 originals.
+Independent test: the split file reproduces the hand-calculated 72 groups and 5 × 48 originals.
 
 ### US-008-4 (P1) Honest synthetic data
 As a reviewer, I want every synthetic set flagged, in the real format, loaded by the real loader, and carrying either
@@ -127,7 +127,7 @@ All modules live in the `pipeline/` environment (package `pitstudio_pipeline`): 
 | ID | Pattern | Requirement | Verification |
 |---|---|---|---|
 | FR-008-27 | Ubiquitous | `s10_preprocess` shall assign every record of every dataset to exactly one group through the dataset's declared group key, and shall make every split at group level. It shall commit the split in a file valid against `contracts/split.schema.json` (DC-008-04) under `data/splits/<id>.json`, with the SHA-256 of its membership lists. Later stages shall read splits only from that file. | contract + unit |
-| FR-008-28 | Ubiquitous | For `mendeley-78ht3pjsr4`, the group of file *k* (1 … 960) shall be the connected component of g(k) = ((k − 1) mod 240) + 1 under the 9 conservative links (29, 39), (34, 41), (36, 37), (41, 49), (59, 60), (189, 199), (192, 196), (196, 198), (196, 201). The group id is the smallest original in the component. This gives 231 groups. | unit |
+| FR-008-28 | Ubiquitous | For `mendeley-78ht3pjsr4`, the group of file *k* (1 … 960) shall be the connected component of g(k) = s(((k − 1) mod 240) + 1), with the scene s(k) = ((k − 1) mod 80) + 1, under the 9 conservative links, mapped to scenes s(a)–s(b), (29, 39), (34, 41), (36, 37), (41, 49), (59, 60), (189, 199), (192, 196), (196, 198), (196, 201). The group id is the smallest original in the component. This gives 72 groups. | unit |
 | FR-008-29 | Event | When `s10_preprocess` ingests the Mendeley set, it shall check, for every k in 1 … 240, that the foreground masks (label > 0) of files k + 240, k + 480 and k + 720 equal the horizontal flip, the vertical flip and the 180° rotation of file k's foreground mask, exactly. It shall also check that the `cv2_mask` and `label.png` foregrounds are equal for all 960 files. If any check fails, it shall reject the dataset with `AugmentationStructureBroken`, because the group key depends on it. | integration |
 | FR-008-30 | Ubiquitous | The Mendeley split shall have 5 grouped folds of exactly 48 originals each. Assignment: order the groups by a seeded permutation (seed recorded in the split file), sort them stably by size (descending), then give each group to the fold with the fewest originals so far (lowest fold index on ties). For each fold, the test list shall hold only the originals (001–240) of its groups. The training pool shall hold all four versions of the originals of the other folds' groups. Any validation subset carved from a training pool shall also be by group. | unit |
 | FR-008-47 | Unwanted | If a split file fails its schema, its membership SHA-256 differs from its lists, a record appears in two test lists, or a group appears in both the test list and the training pool of one fold, then every consumer of the split (`s20`, `s30`, `s50`) shall refuse to start with `SplitIntegrityError`, naming the first offending record. | unit (hostile) |
@@ -172,8 +172,8 @@ All modules live in the `pipeline/` environment (package `pitstudio_pipeline`): 
 | P-008-03 | Reject, never coerce: for any valid frame, validation returns a frame equal to its input (values, dtypes, column order, row order). For any frame with one injected violation, validation raises, and the report contains that (row, column, rule). No validation ever returns a modified frame. | generated frames for every tabular schema (Hypothesis) | exact |
 | P-008-04 | Outlier preservation: rows whose values lie inside the bounds, including exactly at a bound, are never removed (rows out = rows in). | edge-of-bound generators | exact |
 | P-008-05 | Archive safety: for generated archives mixing safe and hostile member names (absolute, `..`, drive letters, symlinks, oversize), every write stays under the extraction root and covers only allowed members. Any hostile member leads to nothing written. | zip, tar and 7z archives (Hypothesis) | exact |
-| P-008-06 | Mendeley groups (hand calculation): 231 groups. The multi-member groups are {29, 39}, {34, 41, 49}, {36, 37}, {59, 60}, {189, 199} and {192, 196, 198, 201}, and the other 225 originals are singletons. group(k) = group(k + 240·j) for j = 1, 2, 3. | k = 1 … 960 | exact |
-| P-008-07 | Mendeley folds: they are pairwise disjoint; the union of the test lists is the 240 originals, each exactly once; every fold has 48 test originals; the group counts of folds 0 … 4 are 45, 46, 46, 47 and 47 (hand calculation: 48 − the originals in the fold's multi-member groups + the number of those groups, for any seed); no group (in any of its four versions) is in both the training pool and the test list of the same fold; the same seed reproduces the split file byte for byte. | seeds 0 … 2³² − 1 (Hypothesis) | exact |
+| P-008-06 | Mendeley groups (hand calculation): 72 groups, over the 80 scenes s(k) = ((k − 1) mod 80) + 1. The multi-member groups are the scene sets {29, 39}, {32, 34, 36, 37, 38, 41, 49} and {59, 60}, of 6, 21 and 6 originals, and the other 69 scenes are singletons of 3 originals each. group(k) = group(k + 80·i) for i = 1 … 11 (k + 240·j for the dihedral copies, k + 80 and k + 160 for the other crops). | k = 1 … 960 | exact |
+| P-008-07 | Mendeley folds: they are pairwise disjoint; the union of the test lists is the 240 originals, each exactly once; every fold has 48 test originals; the group counts of folds 0 … 4 are 10, 15, 15, 16 and 16 (hand calculation: the greedy rule gives the 21-original group to fold 0, which then takes 9 of the 3-original groups, the two 6-original groups to folds 1 and 2, which take 14 of them each, and folds 3 and 4 take 16, for any seed); no group (in any of its twelve versions) is in both the training pool and the test list of the same fold; the same seed reproduces the split file byte for byte. | seeds 0 … 2³² − 1 (Hypothesis) | exact |
 | P-008-08 | Metamorphic, splits: (i) permuting the input file order leaves groups and folds unchanged; (ii) permuting the order of the links leaves the groups unchanged; (iii) adding a link between two files already in one group leaves the groups unchanged. | random permutations | exact |
 | P-008-09 | Generator determinism: the same seed and configuration give equal SHA-256. For stochastic generators, a different seed gives a different SHA-256. | each CPU generator × 5 seeds | exact |
 | P-008-10 | Metamorphic, window features: (i) changing samples after time t leaves every feature stamped ≤ t unchanged (causality); (ii) on uniform sampling, shifting the series by m samples shifts the features by m (translation equivariance); (iii) multiplying the displacement by c > 0 multiplies the linear features (displacement, velocity) by c and leaves the ratio features unchanged. | synthetic series, length 10 … 10⁴ | (i), (ii) exact; (iii) rtol 1e-12 |
@@ -187,7 +187,7 @@ All modules live in the `pipeline/` environment (package `pitstudio_pipeline`): 
 | NFR-008-01 | Peak memory of `s00_download` while hashing and extracting the 4,230,116,058-byte Mendeley archive | ≤ 1 GB resident | psutil sampling during the integration run on the reference machine |
 | NFR-008-02 | Idempotent re-run: with every file cached and verified, a second `s00_download` run | opens no network connection and changes no file (SHA-256 of `PITSTUDIO_DATA/raw/` unchanged) | integration test with a transport that fails on any request |
 | NFR-008-03 | Third-party raw data in git | zero tracked files under `data/raw/`, `data/external/`, `data/interim/`, `data/processed/` or `data/synthetic/`; every sample file < 1 MB (NFR-000-05 caps any file at 10 MB) | CI check on `git ls-files` |
-| SC-008-01 | The Mendeley set is usable as intended, before any TSTR/TRTR claim (feeds SC-000-01) | 960 images; 960 masks; 240 originals verified by FR-008-29; 63,144 instances with pixels (mean 65.8 per image); 231 groups; 5 folds × 48 originals | `s10_preprocess` report against the dataset card's counts |
+| SC-008-01 | The Mendeley set is usable as intended, before any TSTR/TRTR claim (feeds SC-000-01) | 960 images; 960 masks; 240 originals verified by FR-008-29; 63,144 instances with pixels (mean 65.8 per image); 72 groups; 5 folds × 48 originals | `s10_preprocess` report against the dataset card's counts |
 
 ## 6. Data contracts
 
@@ -256,12 +256,14 @@ inputs by SHA-256 and the licence class computed by spec 001 (FR-001-18).
 
 ## 8. Clarifications log
 
-1. **Mendeley link identities (resolved).** The card states 9 pairs and 231 groups, but not which pairs. They are
-   pinned from the bootstrap check (FR-008-28) and verified by hand calculation (P-008-06): 240 − 15 + 6 = 231.
+1. **Mendeley link identities (resolved).** The card states 9 pairs, but not which pairs. They are
+   pinned from the bootstrap check (FR-008-28); the 2026-10-11 DINOv2 scan showed that files k, k + 80 and k + 160 are
+   three crops of one photograph (dataset card), so the pairs are mapped to the 80 scenes and verified by hand
+   calculation (P-008-06): 80 − 8 = 72 groups (the card's earlier 231 counted the 240 originals as independent).
 2. **Fold design (resolved).** The card says "for example 5 folds". This spec fixes 5 grouped folds of exactly 48
-   originals. This is achievable because 225 singleton groups can fill any imbalance, and 240 / 5 = 48 (FR-008-30).
-   With the greedy rule, the multi-member groups of sizes 4, 3, 2, 2, 2, 2 always go to folds 0, 1, 2, 3, 4, 2, which
-   gives the group counts 45, 46, 46, 47 and 47 (P-008-07).
+   originals. This is achievable because every group has a multiple of 3 originals, 69 singleton scenes of 3 can fill any
+   imbalance, and 240 / 5 = 48 (FR-008-30). With the greedy rule, the multi-member groups of sizes 21, 6, 6 always go
+   to folds 0, 1, 2, which gives the group counts 10, 15, 15, 16 and 16 (P-008-07).
 3. **Registry fields (resolved, with coordination; superseded by item 10).** `s00_download` needs fields the ingestion page's table does not
    list: optional, access, account variable, fallback, publisher checksum, uncompressed size, extract patterns and file
    kind. They are added to `contracts/sources.schema.json` additively, coordinated with spec 001 (DC-008-01,

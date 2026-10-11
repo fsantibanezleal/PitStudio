@@ -12,7 +12,7 @@ Spec: ./spec.md
    - validates with pandera (Polars) and file-level validators, rejecting and never coercing, and writes one report
      (FR-008-20 … FR-008-24);
    - converts units explicitly after validation (FR-008-25) and checks the site name (FR-008-26);
-   - fixes splits at ingestion: the Mendeley 231 groups and 5 × 48 grouped folds (FR-008-27 … FR-008-31).
+   - fixes splits at ingestion: the Mendeley 72 groups and 5 × 48 grouped folds (FR-008-27 … FR-008-31).
 4. **`s05_synthesize`** runs the CPU generators and collects studio outputs by digest. Every set is labelled and goes
    through the real-data validators. Each set gets one validation class, and the honesty rule is enforced at the
    data-card writer (FR-008-32 … FR-008-38).
@@ -104,7 +104,7 @@ redirects, oversize bodies and failures.
 | FR-008-47 | pipeline | split files with one tampering each (digest, duplicate test record, train/test overlap, schema) | pytest |
 | FR-008-48 | pipeline | hand-built hostile series (unordered, NaN, too short) and images (undecodable, 1 or 4 channels, 8 px side) | pytest |
 | FR-008-26 | pipeline | hand-drawn polygons inside and outside the box | pytest |
-| FR-008-27, FR-008-28, P-008-06, P-008-08 | pipeline | hand calculation (231 groups, the listed components) | pytest, Hypothesis |
+| FR-008-27, FR-008-28, P-008-06, P-008-08 | pipeline | hand calculation (72 groups, the listed components) | pytest, Hypothesis |
 | FR-008-29, SC-008-01 | pipeline | exact flip/rotation identities on generated masks (CI); the card's counts on the real archive (local) | pytest |
 | FR-008-30, P-008-07 | pipeline | hand calculation (48 per fold; group counts 45, 46, 46, 47, 47) | pytest, Hypothesis |
 | FR-008-31 | pipeline | the group-key table of FR-008-31 | pytest |

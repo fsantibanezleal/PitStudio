@@ -608,7 +608,7 @@
     },
     {
       "schema": "fragment-split.schema.json",
-      "class": "union-find over the links not giving 231 groups",
+      "class": "union-find over the links, mapped to scenes, not giving 72 groups",
       "by": "checker",
       "rule": "FR-012-04"
     },
