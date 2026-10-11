@@ -44,7 +44,7 @@ The foundation requirements are refined by the feature specs. The tasks here own
 
 ## Phase — Blind red-proof for GPU and pipeline tests (G5 review, M5)
 - [ ] T-000-060 (FR-000-17) `check_tdd.py --replay` runs each red test in the environment that owns it (root, `pipeline/`, `studio/`, `web/` with vitest) — test: tests/unit/test_t_000_060_replay_environments.py
-- [ ] T-000-061 (FR-000-18) collection errors, import errors and a missing CUDA device are `environment-error`, never red — test: tests/unit/test_t_000_061_replay_environment_error.py
+- [ ] T-000-061 (FR-000-18) a collection error, an import error naming a third-party or standard-library module, or a missing CUDA device is `environment-error`, never red; a missing first-party module that the task creates is red; one fixture repository for each — test: tests/unit/test_t_000_061_replay_environment_error.py
 - [ ] T-000-062 (FR-000-19) local evidence record for `gpu` red and green commits, checked by `check_tdd.py` — test: tests/unit/test_t_000_062_gpu_evidence_record.py
 
 ## Phase — module map and dimensioning (G5)

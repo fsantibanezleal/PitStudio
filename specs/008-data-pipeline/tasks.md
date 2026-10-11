@@ -61,7 +61,7 @@ Rules:
   foreground; `cv2_mask` = `label.png`), `AugmentationStructureBroken`; the card's counts on the real archive (`slow`,
   local) and on generated fixtures (CI) — test: tests/pipeline/test_t_008_031_mendeley_integrity.py
 - [ ] T-008-032 [US-008-3] (FR-008-30, FR-008-47, P-008-07) Seeded greedy grouped 5-fold: 48 originals per fold,
-  group counts 45, 46, 46, 47, 47, originals-only tests, four-version training pools, byte-identical reproduction;
+  group counts 10, 15, 15, 16, 16, originals-only tests, four-version training pools, byte-identical reproduction;
   tampered split files refused by consumers — test: tests/pipeline/test_t_008_032_mendeley_folds.py
 - [ ] T-008-033 [US-008-3] (FR-008-31) Group keys of the synthetic types, terrain spatial blocks, de Wit as a single
   unsplit group — test: tests/pipeline/test_t_008_033_group_keys.py

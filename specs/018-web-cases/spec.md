@@ -97,7 +97,7 @@ are defined in those specs and are not restated here.
 | FR-018-12 | Event | When the visitor selects a sub-tab, the page shall show it and set the query parameter `tab=<scene\|simulate\|replay\|charts\|context>` (keeping the other parameters) without a navigation, so that loading that URL opens the same sub-tab. | E2E |
 | FR-018-13 | Unwanted | If the case id is not one of the 12 canonical upper-case ids, then the site shall answer HTTP 404 with the app's not-found page and shall request no case asset. | E2E (hostile) |
 | FR-018-14 | Ubiquitous | The Simulate (live) tab shall run each engine listed for the case in the registry on the active tier and update the case KPIs from the engine output after every accepted input change; an output computed in this browser shall carry the LIVE badge and an output taken from the T0 fallback shall carry the REPLAY badge. | E2E |
-| FR-018-15 | Ubiquitous | The Studio replay tab shall list every web-manifest artefact whose `case` equals the page's id and whose lane is `replay`, as artefact cards (FR-018-18), and shall show "Not yet run" when there is none. | unit + E2E |
+| FR-018-15 | Ubiquitous | The Studio replay tab shall list every web-manifest artefact whose `cases` array (the canonical field of the web manifest) contains the page's id and whose lane is `replay`, as artefact cards (FR-018-18), and shall show "Not yet run" when there is none. | unit + E2E |
 | FR-018-16 | Ubiquitous | The Charts tab shall show each KPI with its unit, its baseline, the paired 95 % confidence interval of the difference and the verdict produced by the decision-rule display (FR-020-22), shall show "single real event — no significance test" for the C1 real series, and every chart shall follow the interactive-chart rules FR-020-07 to FR-020-16. | unit + E2E |
 | FR-018-17 | Ubiquitous | The Context tab shall show the case question, every data source with its registry id, SPDX licence and real or synthetic label, the validity range, and links to its theory, method and dataset-card pages, and shall label every data type without a real reference "calibrated synthetic — not validated against real data" (FR-000-09). | unit + E2E |
 | FR-018-18 | Ubiquitous | Every artefact card on `/` and `/cases/:id` shall show the badge LIVE, REPLAY or STATIC, a producer chip linking to `/studio/tools/<producer.tool>/`, a run chip linking to `/studio/runs/<run_id>/`, the 7-hex commit, the licence class and, for REPLAY cards, "Precomputed on <GPU name> on <date>" (FR-000-06). | unit + E2E |
@@ -223,7 +223,7 @@ binary64 or on integers. Tolerances are justified in §7.2.
 | P-018-40 | Kuz-Ram x50 is non-increasing in powder factor at fixed rock and explosive inputs. | validity range | exact (order) |
 | P-018-41 | Swebrec passing: P(x50) = 0.5, P(x_max) = 1, and P is non-decreasing in x. | valid (x50, x_max, b) | atol 1e-12 |
 | P-018-42 | PPV square-root scaling: PPV(kR, k²W) = PPV(R, W). | k ∈ [0.1, 10] | rtol 1e-12 |
-| P-018-43 | Bond specific energy tends to 0 as P80 approaches F80 from below, tested at P80 = F80·(1 − 10⁻⁹). | valid F80 | atol 1e-8 kWh/t |
+| P-018-43 | Bond specific energy tends to 0 as P80 approaches F80 from below. Tested at P80 = F80·(1 − ε) with ε = 10⁻⁹ against its first-order value E₁ = 5 W_i ε / √F80 (in the unit of the Bond formula E = 10 W_i (1/√P80 − 1/√F80); from (1 − ε)^(−1/2) = 1 + ε/2 + O(ε²), the truncation error is 3ε/4 ≈ 7.5×10⁻¹⁰ relative). The bound is relative, not absolute: E₁ grows with W_i and with 1/√F80, so any fixed atol fails some valid input. | valid F80 and W_i over the engine domain | \|E − E₁\| ≤ 1e-6 · E₁ |
 | P-018-44 | Bond specific energy is non-increasing in P80 at fixed F80 and linear in the work index. | validity range | rtol 1e-12 (linearity); exact (order) |
 | P-018-45 | Mine-to-mill chain mass balance: t/h leaving the mill equals t/h entering the crusher. | random designs | rtol 1e-12 |
 | P-018-46 | Watershed invariance: a strictly increasing transform of the elevation image leaves the label map unchanged. | 64 × 64 to 512 × 512 images | exact |
@@ -380,6 +380,19 @@ name of its `minephys` reference, and the FR-018-51 parity fixtures call the ref
   requests (shards are separate files ≤ 10 MB); a WebGPU kernel for ScatterElements in ORT-web (the GNS uses its
   dense-adjacency export); the live detectors need no NonMaxSuppression kernel because their post-processor is in the
   graph (spec 009).
+- Clarification 2026-10-11 (tool matrix): the 17 tool ids of FR-018-10 are the studio-tool entries that at least one case
+  lists in the case registry; a tool no case lists is not a column of the matrix and not a coverage failure of its own.
+- Clarification 2026-10-11 (layers): a layer toggle (FR-018-04) is enabled when the web manifest has at least one artefact
+  whose id starts with `layer-<layer id>` and whose `cases` array contains the selected case; otherwise it is disabled
+  with "Not yet run".
+- Clarification 2026-10-11 (manifest field): `cases` (an array of case ids) is the canonical field of a web-manifest
+  artefact; every text that says `case` (FR-018-15) means "`cases` contains".
+- Clarification 2026-10-11 (artefact card): the GPU name and the date of "Precomputed on <GPU name> on <date>"
+  (FR-018-18) come from the artefact's run record (`runs/<run_id>`), not from the manifest entry.
+- Clarification 2026-10-11 (dataset cards): the dataset card of a data source is served at
+  `/knowledge/datasets/<source-id>/`, and the Context tab (FR-018-17) links there.
+- Clarification 2026-10-11 (KPI values): a KPI value comes from a published result artefact (the results bundle of
+  DC-020-02); until one exists the KPI shows "Not yet run" (FR-018-05, FR-018-71).
 - Thresholds used here, as `thresholds.yaml` keys:
   `web.analytical_fp64_rtol: 1.0e-9`, `web.analytical_fp64_atol_scale: 1.0e-12`, `web.mc_pof_sigma: 3`,
   `web.detector_box_px_max: {wasm: 0.5, webgpu: 1.0}`, `web.granular_repose_deg: 1.5`, `web.granular_runout_rel: 0.05`, `web.granular_discharge_rel: 0.05`,
@@ -424,8 +437,9 @@ name of its `minephys` reference, and the FR-018-51 parity fixtures call the ref
   matrix); KPI units are a closed ASCII enum and orientation is `higher-is-better`, `lower-is-better`, `target`
   (with `target_value`) or `neutral`; synthetic data carry the spec 008 validation class. (2) `replay-shard.schema.json`
   is owned here and holds two documents, `$defs/shard_header` (this DC) and `$defs/replay_manifest` (FR-005-45,
-  DC-005-04), chosen by `document`. Contradiction kept open, not fixed in FR text: this spec and DEC-0006 say int16
-  codes, FR-005-45 says uint16; both headers and manifests declare `code_type` (`int16` or `uint16`) and the code range
+  DC-005-04), chosen by `document`. Resolved by DEC-0019: replays use 16-bit integer
+  codes; both headers and manifests declare `code_type` (`int16` or `uint16`), readers take the type from the header and
+  reject any other, and the code range
   is bound to it. Every payload, field tiles included, is ≤ 10,000,000 bytes; the FR-018-45 length rule (× 2) applies
   to raw 16-bit payloads, Float32 tiles use × 4 and PNG tiles are checked by decoded size. (3) Parity classes are 15
   classes drawn from §7.2 plus `hosted` (engines of specs 007, 013, 014, with the owning requirement); each tolerance
