@@ -36,6 +36,21 @@ jobs:
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}/
           ACCESS_PASSPHRASE: ${{ secrets.ACCESS_PASSPHRASE }}
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - name: Contract check, served digests included (FR-001-20): git-hosted files and the downloaded release assets
+        working-directory: ${{ github.workspace }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          index=web/public/assets/manifest.json
+          if [ -f "$index" ]; then
+            for tag in $(grep -o '"release_tag": *"[^"]*"' "$index" | cut -d'"' -f4 | sort -u); do
+              gh release download "$tag" --repo "$GITHUB_REPOSITORY" --dir "$RUNNER_TEMP/release-assets" --clobber
+            done
+          fi
+          uv sync --locked
+          uv run python tools/check_contracts.py --release-assets "$RUNNER_TEMP/release-assets"
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with: { path: web/build/client }
 
