@@ -154,6 +154,8 @@ Key decisions:
 | NFR-004-05 | unit | byte count from the validation report | pytest |
 | SC-004-01, SC-004-02 | pipeline (data phase) | the invariant list of FR-004-35; the confirmation rule of FR-004-15 | pytest on the published run |
 | DC-004-01…08 | contract | JSON Schema 2020-12 meta-validation; valid and invalid examples per schema; generated types round-trip | jsonschema, datamodel-code-generator |
+| FR-004-42 | unit (hostile) | hand calculation: a scene fixture with two projects for grid `g1` gives `terrain-source-ambiguous` | pytest |
+| FR-004-43 | unit (hostile) | hand calculation: `con.txt`, `dir/NUL` and `Com3.png` give `path-forbidden`; `console.txt` is accepted | pytest |
 
 ### Tolerances and their justification
 | Quantity | Tolerance | Why |

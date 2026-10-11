@@ -126,6 +126,8 @@ Lengths are metres, angles degrees, grades percent (rise over run × 100).
 |---|---|---|---|
 | FR-004-40 | Unwanted | If a stage's parameters do not validate against the scene specification (DC-004-01) — missing or extra field, wrong type, unknown enumeration value (label, part, variant, source id, LOD), NaN or ±inf in any number, a string longer than 256 characters — then the stage shall fail with error class `params-invalid` listing every violation (JSON pointer and reason) before any file is opened. | contract (hostile) |
 | FR-004-41 | Ubiquitous | Every scene stage shall be declared with determinism class `bitwise` and `resources.gpu: none` in its recipe stage, list each output with its SHA-256 in its stage result, and write no host name, user name or absolute path in any output, report or stage-result message. | unit |
+| FR-004-42 | Unwanted | If a scene specification lists two LAZ projects for one terrain grid, then the terrain stage shall reject it with error class `terrain-source-ambiguous` naming the grid id and both project ids, before any point is read. | unit (hostile) |
+| FR-004-43 | Unwanted | If a path in a scene specification has a segment equal to a Windows device name (`con`, `prn`, `aux`, `nul`, `com1` to `com9`, `lpt1` to `lpt9`, with or without an extension, case-insensitive), then the scene loader shall reject it with error class `path-forbidden` naming the path. | unit (hostile) |
 
 ## 4. Correctness properties
 | ID | Property (for all …) | Input domain / generator | Tolerance |

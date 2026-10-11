@@ -262,15 +262,15 @@
       "schema": "toolmap.schema.json",
       "class": "edge from a tool to itself",
       "by": "checker",
-      "rule": "-",
-      "note": "no requirement covers self-edges; proposed as part of the FR-019-38 build check"
+      "rule": "FR-019-46",
+      "note": "enforced by FR-019-46 (task T-019-092)"
     },
     {
       "schema": "studio-index.schema.json",
       "class": "file larger than 1,000,000 bytes",
       "by": "loader",
-      "rule": "-",
-      "note": "NFR-019-03 sets the cap; FR-001-05's cap table does not list this file yet"
+      "rule": "FR-019-47",
+      "note": "enforced by FR-019-47 (task T-019-093)"
     },
     {
       "schema": "studio-index.schema.json",

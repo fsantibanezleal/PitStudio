@@ -49,6 +49,10 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/004-scene-pipeli
 - [ ] T-004-053 [US-004-5] (NFR-004-03, NFR-004-04, NFR-004-05) CPU-only resources, fixture build time, layer sizes — test: tests/pipeline/test_t_004_053_scene_nfr.py
 - [ ] T-004-054 [US-004-5] (NFR-004-01, NFR-004-02, SC-004-01) Bingham scene acceptance on the published run (data-and-models phase; marked `slow`) — test: tests/pipeline/test_t_004_054_bingham_scene.py
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-004-092 (FR-004-42) two LAZ projects for one terrain grid are rejected — test: tests/unit/test_t_004_092_terrain_two_laz.py
+- [ ] T-004-093 (FR-004-43) Windows device-name path segments are rejected by the scene loader — test: tests/unit/test_t_004_093_scene_device_name_path.py
+
 ## Phase 7 — Polish and review
 - [ ] T-004-090 mutation run on `pitstudio_studio.scene.terrain.rtin`, `.grid`, `.frame` and `pitstudio_studio.scene.design`; record the score against `mutation.numerical_core_min`
 - [ ] T-004-091 independent review of the diff against this spec; append tasks for gaps

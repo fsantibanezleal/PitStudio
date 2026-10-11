@@ -36,6 +36,9 @@ in-process ASGI client and a fixture store written by spec 002's fake runs; no G
 - [ ] T-003-040 [US-003-5] (FR-003-28, FR-003-29, NFR-003-03) `web/console/` entry built by `pnpm build:console` with base `/ui/` and the build marker, served by the console; recipes, queue, runs, manifest viewer, live telemetry chart, artefact preview, cancel and run form; both themes and languages; axe 0 serious or critical — test: web/e2e/console/console-ui.spec.ts
 - [ ] T-003-041 [US-003-5] (FR-003-30) UI under failing API calls and injected markup in recipe and manifest strings: messages, no crash, no script execution — test: web/e2e/console/console-hostile.spec.ts
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-003-092 (FR-003-31) job record with done > total is refused by the API — test: tests/unit/test_t_003_092_job_record_shards.py
+
 ## Phase 6 — Polish and hostile review
 
 - [ ] T-003-090 mutation run on `api/pitstudio_api/` middleware (host, origin, body limit, CORS); record the score (target ≥ `mutation.other_min` 0.60)

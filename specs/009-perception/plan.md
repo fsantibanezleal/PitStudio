@@ -113,6 +113,11 @@ sampling logic is tested on CPU without Isaac Sim, and the GPU stage is a thin c
 | NFR-009-04 | pipeline | metamorphic: two runs, byte-identical reports | pytest |
 | NFR-009-05 | unit | hand calculation: 9,499 valid of 10,000 → arm fails | pytest |
 | SC-009-01 … SC-009-07 | pipeline (acceptance) | pre-registered thresholds read from the evaluation report (DC-009-05) | pytest |
+| FR-009-46 | unit (hostile) | hand calculation: an index fixture with `r1` twice gives `index-duplicate-record` | pytest |
+| FR-009-47 | unit (hostile) | hand calculation: a unit-square polygon with area 1 is accepted; area 2, five coordinates and a vertex at x = -1 are rejected | pytest |
+| FR-009-48 | unit (hostile) | hand calculation: `nul.png`, and `A.png` with `a.png`, give `coco-path-invalid` | pytest |
+| FR-009-49 | unit (hostile) | reference implementation: `hashlib.sha256` of a fixture file; one byte changed gives `asset-digest-mismatch` | pytest |
+| FR-009-50 | unit (hostile) | hand calculation: a report fixture with one key twice gives `report-duplicate-row` | pytest |
 
 ### Tolerances and their justification
 - float64 closed forms (haze, exposure, sRGB, vector conversion): atol / rtol 1e-12 — fewer than 20 operations on

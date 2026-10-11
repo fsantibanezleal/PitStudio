@@ -27,7 +27,7 @@ test runs in the studio CPU job (T-004-002) on Warp's CPU device with CUDA hidde
 - [ ] T-005-022 [US-005-2] (P-005-08, P-005-09, P-005-10) MLS-MPM twin metamorphic relations: mirror symmetry, time step, friction — test: tests/metamorphic/test_t_005_022_mlsmpm_relations.py
 - [ ] T-005-023 [US-005-2] (FR-005-18) planar column-collapse benchmark on the twin (CPU `slow`) — test: tests/pipeline/test_t_005_023_mlsmpm_collapse.py
 - [ ] T-005-024 [US-005-2] (FR-005-14, FR-005-19, FR-005-20, FR-005-21, P-005-11, P-005-12, P-005-13) Newton MPM benchmarks and relations: axisymmetric collapse, silo, mass, statistical re-run, resolution, symmetry, friction — test: tests/gpu/test_t_005_024_newton_mpm.py
-- [ ] T-005-025 [US-005-2] (FR-005-22) parity goldens for the browser twins in deterministic mode — test: tests/pipeline/test_t_005_025_parity_goldens.py
+- [ ] T-005-025 [US-005-2] (FR-005-22) parity goldens for the browser twins in deterministic mode, including the granular-discharge twin scenario (the quasi-2-D slot of FR-005-11 at W/d = 6) that gives FR-018-56 its discharge golden — test: tests/pipeline/test_t_005_025_parity_goldens.py
 
 ## Phase 4 — US-005-3 (P1) A tailings solver verified on dam breaks and Bingham flow
 - [ ] T-005-030 [US-005-3] (FR-005-23, FR-005-27) Rusanov flux, hydrostatic reconstruction, CFL step, positivity and dry threshold — test: tests/unit/test_t_005_030_swe_scheme.py
@@ -60,6 +60,9 @@ test runs in the studio CPU job (T-004-002) on Warp's CPU device with CUDA hidde
 - [ ] T-005-065 [US-005-6] (FR-005-51, FR-005-52) hostile scenarios and non-finite state abort — test: tests/contract/test_t_005_065_physics_hostile.py
 - [ ] T-005-066 [US-005-6] (NFR-005-01, NFR-005-02, NFR-005-04, NFR-005-05, SC-005-01, SC-005-02) acceptance on the published runs (data-and-models phase): memory, wall time, throughput, overhead record, benchmark gate, comparison wording — test: tests/pipeline/test_t_005_066_physics_acceptance.py
 - [ ] T-005-067 (NFR-005-03) CPU-variant test time budget in the studio CPU job — test: tests/pipeline/test_t_005_067_cpu_suite_time.py
+
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-005-092 (FR-005-55) inverted physics domain box and dust time window are rejected — test: tests/unit/test_t_005_092_physics_inverted_domain.py
 
 ## Phase 8 — Polish and review
 - [ ] T-005-090 mutation run on `pitstudio_studio.physics.dem.contact`, `.swe`, `.dust`, `.vehicles`, `.mlsmpm2d` and `.measure`; record the score against `mutation.numerical_core_min`

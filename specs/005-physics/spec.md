@@ -99,7 +99,7 @@ with `error_class: unknown`, except `oom` and `lock-not-held`, which are the sta
 | FR-005-19 | Event | When the 3-D silo benchmark runs on Newton's implicit MPM (orifice diameters of 4, 6, 8, 10 and 12 voxels), it shall give flow rates each within ± 5 % of the fit Q = C ρ_b √g D^{5/2} (k = 0, a local rheology) and a free-exponent fit of 2.5 ± 0.15. | integration (gpu) |
 | FR-005-20 | Ubiquitous | Both MPM solvers shall conserve particle mass exactly (constant particle count and per-particle mass, float64 total), and every particle leaving the domain shall be counted against a declared outflow boundary. | unit (Warp CPU; gpu for Newton) |
 | FR-005-21 | State | While a scenario runs Newton's implicit MPM, `st50_physics` shall declare determinism class `statistical`, and a re-run of one shard shall reproduce run-out within ± 2 %, repose angle within ± 0.5° and discharge within ± 2 %. | integration (gpu) |
-| FR-005-22 | Event | When the `parity-goldens` scenario set runs, `st50_physics` shall write, for each browser-twin scenario (DEM pile, 2-D MLS-MPM collapse, shallow-water dam break, dust release), the initial state, seed, parameters and golden observables (repose angle, run-out, Q(t), total-mass drift) in Warp's deterministic mode, pinned by SHA-256 (DC-005-06). | integration (Warp CPU and gpu) |
+| FR-005-22 | Event | When the `parity-goldens` scenario set runs, `st50_physics` shall write, for each browser-twin scenario (DEM pile, granular discharge, 2-D MLS-MPM collapse, shallow-water dam break, dust release; the discharge scenario is the quasi-2-D slot of FR-005-11 at one slot width, W/d = 6), the initial state, seed, parameters and golden observables (repose angle, run-out, Q(t), the discharge rate for the slot scenario, total-mass drift) in Warp's deterministic mode, pinned by SHA-256 (DC-005-06). | integration (Warp CPU and gpu) |
 
 ### 3.3 Shallow water with Bingham bed stress (Warp)
 | ID | Pattern | Requirement | Verification |
@@ -148,6 +148,7 @@ with `error_class: unknown`, except `oom` and `lock-not-held`, which are the sta
 | FR-005-52 | Unwanted | If a non-finite value appears in any particle or cell state (checked at least every 1000 steps and at every output), then `st50_physics` shall abort with error class `nonfinite-state` naming the step and the first offending index, and no output of that run shall be promoted. | unit (hostile) |
 | ~~FR-005-53~~ | — | Retired: the stage's own zero-timeout probe of the lock file. | superseded by FR-002-62, FR-002-63 and FR-005-54 (integration 2026-10-07) |
 | FR-005-54 | Unwanted | If `st50_physics` is about to create a CUDA context on device N and the runner's held-lock list (`PITSTUDIO_HELD_LOCKS`, FR-002-62) does not contain `gpuN.compute` or is malformed, then it shall refuse through the stage helper's guard `require_lock("compute", N)` (FR-002-63) with `error_class: lock-not-held`, before importing Warp's CUDA runtime or creating any CUDA context. | unit (fake GPU backend) |
+| FR-005-55 | Unwanted | If a physics scenario has `domain_min_m` not below `domain_max_m` on any axis, or a dust source with `end_s` not after `start_s`, then `st50_physics` shall reject the scenario with error class `physics-params-invalid` naming the field. | unit (hostile) |
 
 ## 4. Correctness properties
 | ID | Property (for all …) | Input domain / generator | Tolerance |
@@ -296,7 +297,7 @@ The terrain grid comes from DC-004-03 and the road network from DC-004-06; run m
   (`specs/005-physics/contracts/`, valid and hostile examples indexed in `examples/index.json`). DC-005-04 has one
   schema with one owner: `specs/018-web-cases/contracts/replay-shard.schema.json` (DC-018-03), which also holds the
   replay manifest of FR-005-45 as a document kind. FR-005-45 says uint16 position codes while spec 018 and DEC-0006
-  say int16; the shard header declares its code type, and the contradiction is flagged to the coordinator (FR text
+  say int16; the shard header declares its code type, and DEC-0019 amends DEC-0006 accordingly (FR text
   unchanged). Resolved, choosing the stricter reading: (1) the scenario lives in a recipe stage's `params`, so its keys
   follow the parameter-key pattern, it nests at most 4 levels and carries no `$schema` key; each solver requires its
   own parameter block, Newton's MPM block lists every parameter explicitly (FR-005-16), and benchmark ids are a closed

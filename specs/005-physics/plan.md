@@ -117,7 +117,7 @@ Key decisions:
 | FR-005-19 | integration (gpu) | published law: exponent 5/2 with k = 0 for a local continuum (Dunatunga & Kamrin, p. 13) | pytest, SciPy |
 | FR-005-20 | unit | exact accounting (float64 sums of constant per-particle masses) | pytest |
 | FR-005-21 | integration (gpu) | the first run's observables, compared within the stated statistical tolerance | pytest |
-| FR-005-22 | integration | schema DC-005-06 and SHA-256 equality on a re-run (hashlib) | pytest, jsonschema |
+| FR-005-22 | integration | schema DC-005-06 and SHA-256 equality on a re-run (hashlib); the discharge golden is checked against the Beverloo-type fit of FR-005-11 (hand calculation) | pytest, jsonschema |
 | FR-005-23 | unit | hand calculation of one Rusanov flux and one hydrostatic-reconstruction face (2-cell example) | pytest |
 | FR-005-24 | integration (CPU) | analytical Ritter solution (SWASHES §4.1.2): x_A = 3.6712 m, x_B = 7.6577 m, 10⁻³ h_l point at 7.5316 m | pytest |
 | FR-005-25 | integration (CPU) | analytical Stoker solution (SWASHES §4.1.1): c_m = 0.157832 m/s, h_m = 2.5394 × 10⁻³ m, x_C = 6.2598 m (c_m by `scipy.optimize.brentq`) | pytest, SciPy |
@@ -182,6 +182,7 @@ Key decisions:
 | NFR-005-05 | unit | presence check on the benchmark report | pytest |
 | SC-005-01, SC-005-02 | pipeline (data phase) | benchmark reports; FR-000-05 decision rule | pytest on published runs |
 | DC-005-01…06 | contract | JSON Schema 2020-12 meta-validation; valid and invalid examples; generated types round-trip | jsonschema |
+| FR-005-55 | unit (hostile) | hand calculation: a box with min = max on one axis and a source with end_s = start_s give `physics-params-invalid` | pytest |
 
 ### Tolerances and their justification
 | Quantity | Tolerance | Why |

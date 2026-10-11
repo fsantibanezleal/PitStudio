@@ -149,7 +149,7 @@ are defined in those specs and are not restated here.
 | FR-018-48 | Ubiquitous | The engines specified by spec 007 (`des`, `policies`, `haulage`, `lp`, `routing`), spec 013 (`dust-lidar`) and spec 014 (`il1-twin`, `il2-twin`) shall run only through this spec's engine host and tiers (FR-018-29…46), and the parity verdicts of their own suites (FR-007-10, FR-007-15, FR-007-20, FR-007-32, FR-007-39, P-013-15, FR-014-42) shall be written into the parity report (DC-018-05) so that FR-018-63 applies to them, in Chromium, Firefox and WebKit. | unit + parity (report) |
 | FR-018-49 | Ubiquitous | The PCG64 and SeedSequence port (`web/src/engines/random/pcg64.ts`, `seedSequence.ts`) used by the Monte-Carlo engines of this spec shall use only integer operations (BigInt or 32-bit limbs with `Math.imul`) and the exact conversion (word >> 11) × 2⁻⁵³, and a lint rule shall fail the build on any other `Math.*` call in those files. | lint + unit |
 | ~~FR-018-50~~ | — | Withdrawn before approval: DES native-mode parity is unnecessary because spec 007 shares one counter-based variate source between Python and TypeScript (FR-007-05, FR-007-06). | — |
-| FR-018-51 | Ubiquitous | Every analytical TypeScript engine of this spec (the `minephys` ports geotech, blasting, environment (AP-42 and Gaussian plume) and comminution, the slope-radar line of sight, and the survey volume engine) shall equal its reference of §7.1 on the parity fixture (≥ 200 input vectors per function, both ends of each validity range included) within $\lvert y_{ts} - y_{py}\rvert \le 10^{-12} s_y + \text{rtol}\,\lvert y_{py}\rvert$, with rtol = 10⁻⁹ for closed forms and rtol = max(10⁻⁹, 10 × the reference solver tolerance) for iterative functions, $s_y$ being the output's unit scale in DC-018-02. | parity |
+| FR-018-51 | Ubiquitous | Every analytical TypeScript engine of this spec (the `minephys` ports geotech, blasting, environment (AP-42 and Gaussian plume) and comminution, the slope-radar line of sight, and the survey volume engine) shall equal its reference of §7.1 on the parity fixture (≥ 200 input vectors per function, both ends of each validity range included) within $\lvert y_{ts} - y_{py}\rvert \le 10^{-12} s_y + \text{rtol}\,\lvert y_{py}\rvert$, with rtol = 10⁻⁹ for closed forms and rtol = max(10⁻⁹, 10 × the reference solver tolerance) for iterative functions, $s_y$ being the output's unit scale in DC-018-02; the TS `bond_energy` shall reject P80 ≥ F80 with the same error class as the `minephys` reference (`InputError`, FR-005-04 of `minephys`; `E_RANGE` in the FR-018-38 typed error). | parity |
 | FR-018-52 | Ubiquitous | The Monte-Carlo probability of failure shall return exactly the reference's failing-sample count when fed the fixture's sample matrix, and with its own generator and N samples shall satisfy $\lvert p_{ts} - p_{py}\rvert \le 3\sqrt{p_{py}(1-p_{py})/N} + 1/N$. | parity |
 | FR-018-53 | Ubiquitous | On every golden instance, the min-cut engine shall return the same pit block set as the reference (the source side of the minimal minimum cut) with objective within rtol 10⁻¹⁰. | parity |
 | FR-018-54 | Ubiquitous | For every traffic golden (≤ 40 vehicles, ≥ 600 steps at 60 Hz), the browser Rapier run shall produce a SHA-256 snapshot hash after the last step equal to the golden produced in Node with the same Rapier version and initial state. | parity |
@@ -171,6 +171,7 @@ are defined in those specs and are not restated here.
 | FR-018-66 | Unwanted | If an artefact or engine labelled `live` in the web manifest has measurements for which `deriveLane` returns `replay`, or a live engine has no measurement in DC-018-06, then the web build shall fail and name it (FR-000-15). | contract (CI) |
 | FR-018-67 | Unwanted | If a parity fixture fails its schema or its pinned SHA-256, an engine's fixture set is empty, or the parity report or the lane-measurement file fails its schema, then the parity suite or the build shall fail and name the file, and no engine shall be recorded as passing on an empty or invalid fixture set. | contract (hostile) |
 | FR-018-68 | Unwanted | If the `SimClock` receives a non-finite or negative time or rate, then it shall ignore the call and keep its state; a seek beyond the duration D shall clamp to D. | unit (hostile) |
+| FR-018-69 | Unwanted | If a case in `cases.yaml` declares the same KPI id twice, then `tools/check_cases.py` shall fail with error class `case-duplicate-kpi` naming the case and the id. | unit (hostile) |
 
 ## 4. Correctness properties
 Property tests use fast-check with the `property_tests` counts of `thresholds.yaml` (200 in CI, 2,000 at release); "exact" means `===` on
@@ -220,7 +221,7 @@ binary64 or on integers. Tolerances are justified in §7.2.
 | P-018-40 | Kuz-Ram x50 is non-increasing in powder factor at fixed rock and explosive inputs. | validity range | exact (order) |
 | P-018-41 | Swebrec passing: P(x50) = 0.5, P(x_max) = 1, and P is non-decreasing in x. | valid (x50, x_max, b) | atol 1e-12 |
 | P-018-42 | PPV square-root scaling: PPV(kR, k²W) = PPV(R, W). | k ∈ [0.1, 10] | rtol 1e-12 |
-| P-018-43 | Bond specific energy is 0 when P80 = F80. | valid F80 | atol 1e-12 kWh/t |
+| P-018-43 | Bond specific energy tends to 0 as P80 approaches F80 from below, tested at P80 = F80·(1 − 10⁻⁹). | valid F80 | atol 1e-8 kWh/t |
 | P-018-44 | Bond specific energy is non-increasing in P80 at fixed F80 and linear in the work index. | validity range | rtol 1e-12 (linearity); exact (order) |
 | P-018-45 | Mine-to-mill chain mass balance: t/h leaving the mill equals t/h entering the crusher. | random designs | rtol 1e-12 |
 | P-018-46 | Watershed invariance: a strictly increasing transform of the elevation image leaves the label map unchanged. | 64 × 64 to 512 × 512 images | exact |
@@ -242,7 +243,7 @@ binary64 or on integers. Tolerances are justified in §7.2.
 | P-018-62 | Shallow-water lake at rest: a flat free surface with zero velocity over any bed stays at rest. | 1,000 steps, random beds | ‖u‖ ≤ 1e-6 m/s; ‖Δη‖ ≤ 1e-5 m |
 | P-018-63 | Shallow-water mirror symmetry: mirroring the initial state and the bed about x mirrors the solution. | 256 × 256 grids | non-dim max abs 1e-3 |
 | P-018-64 | Shallow-water conservation and dam break: mass drift < 0.5 % in a closed domain, and the dry-bed front position is within ±5 % of the Ritter value 2√(g h₀) t. | h₀ ∈ [0.5, 20] m | 0.5 %; ± 5 % |
-| P-018-65 | Dust particles in still air reach the Stokes terminal velocity (ρ_p − ρ_a) g d² / (18 μ) for particle Reynolds numbers < 0.1. | d ∈ [1, 30] µm | ± 1 % |
+| P-018-65 | Dust particles in still air reach the Stokes terminal velocity (ρ_p − ρ_a) g d² / (18 μ) for particle Reynolds numbers < 0.1, which holds over the whole domain (§7.3). | d ∈ [1, 25] µm; ρ_p ∈ [2,000, 3,000] kg/m³; ρ_a = 1.2 kg/m³; μ = 1.81×10⁻⁵ Pa·s | ± 1 % |
 | P-018-66 | A uniform wind U shifts the particle-cloud centroid by U t and leaves its spread unchanged. | U ∈ [0, 20] m/s | rtol 1e-3 |
 | P-018-67 | Dust particle count is conserved exactly in a closed box. | full runs | exact |
 | P-018-68 | Shard round trip: decoding the 16-bit code (of the code type the header declares) of any value inside the header range returns it within half a quantum, (max − min) / 65,535 / 2. | random positions in bbox | ≤ half quantum |
@@ -316,6 +317,20 @@ slope-radar line-of-sight model, inverse velocity and the Bayesian time-to-failu
 engine-specific errors of specs 007, 013 and 014 (for example `InvalidScenario`, `UnsupportedFeature`) travel inside the
 host's typed error (FR-018-38) as its `detail.name`.
 
+The port function names of DC-018-02 map to these `minephys` reference functions. Every other port function keeps the
+name of its `minephys` reference, and the FR-018-51 parity fixtures call the reference named here.
+
+| Port function (TypeScript) | `minephys` reference function | Module |
+|---|---|---|
+| `bishop` | `bishop_simplified_fos` | `geotech` |
+| `spencer` | `spencer_fos` | `geotech` |
+| `pof_monte_carlo` | `monte_carlo_fos` | `geotech` |
+| `pof_from_samples` | `probability_of_failure` | `geotech` |
+| `inverse_velocity` | `inverse_velocity_ttf` | `geotech` |
+| `failure_band` | `bayesian_ttf` | `geotech` |
+| `ap42_emission_factor` | `ap42_unpaved_emission_factor` | `environment` |
+| `plume_grid` | `gaussian_plume` | `environment` |
+
 ### 7.2 Parity classes and tolerances
 - **Engines of specs 007, 013 and 014** (DES, policies, haulage, LP, routing, dust slider, robot twins) keep the
   classes and tolerances of those specs; this spec only records their verdicts (FR-018-48).
@@ -348,6 +363,12 @@ host's typed error (FR-018-38) as its `detail.name`.
   (`web/src/engines/tier/fake-gpu.ts`, scripted adapters: none, null adapter, `requestDevice` rejection, device lost
   after N ms, buffer allocation failure); WGSL and WebGPU parity tests are tagged `@gpu`, run in the Playwright project
   `webgpu` on a machine with a WebGPU adapter, and are reported "not run" (never "passed") elsewhere.
+- Stokes domain of P-018-65. With v_s = (ρ_p − ρ_a) g d² / (18 μ) and Re = ρ_a v_s d / μ, at the largest diameter d = 25 µm
+  and the largest density ρ_p = 3,000 kg/m³ (g = 9.81 m/s², ρ_a = 1.2 kg/m³, μ = 1.81×10⁻⁵ Pa·s): v_s = 2,998.8 × 9.81 ×
+  (25×10⁻⁶)² / (18 × 1.81×10⁻⁵) = 0.0564 m/s and Re = 1.2 × 0.0564 × 25×10⁻⁶ / 1.81×10⁻⁵ = 0.094 < 0.1. Re grows with
+  ρ_p and with d³, so every point of the domain is below 0.094. (At d = 30 µm and ρ_p = 2,650 kg/m³ Re is 0.14, which is
+  why the domain stops at 25 µm.) FR-005-39 rejects at Re ≥ 1 with the radius as parameter; the schema bounds the radius
+  to 0.5–15 µm (d ≤ 30 µm) and the engine checks the bound; P-018-65 is tested on the narrower domain above.
 - Lane timings are measured on the CI runner configuration recorded in DC-018-06; a slower visitor device can still feel
   slow, which the tier badge and T0 cover.
 - Visitors upload no files: detectors, watershed and U-Net run on the shipped sample frames; the B2 corruption slider
@@ -439,10 +460,9 @@ host's typed error (FR-018-38) as its `detail.name`.
   (DC-007-01), the dust-slider frame (DC-013-05) and the twin bundle (DC-014-05) as assets that the owning engine
   validates, the DES returns its trace (DC-007-02) as a UTF-8 JSON buffer, and the learned dispatcher ids are `ppo`
   and `attention`. (7) Meta-model inputs outside the sweep box are flagged `extrapolation` (FR-017-09), not rejected;
-  only the physical domain gives `E_RANGE`. Kept open, not fixed in FR text: P-018-43 (W = 0 at P80 = F80) against the
-  `minephys` rejection of P80 ≥ F80; the line-of-sight sign of FR-010-41 against `minephys`; the dust Reynolds bound
-  (P-018-65 < 0.1 with diameters, FR-005-39 < 1 with the radius as parameter; the schema bounds the radius to
-  0.5–15 µm and the engine checks the bound); the granular discharge observable has no twin scenario in FR-005-22.
+  only the physical domain gives `E_RANGE`. Cross-spec contradictions found by the G5 review are fixed in the FR text: P80 = F80 (P-018-43, FR-018-51),
+  the line-of-sight sign (FR-010-41, one product-wide convention), the granular discharge golden (FR-005-22) and the
+  Stokes domain (P-018-65, §7.3).
 - Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
 - Integration 2026-10-07 (2): shard code type resolved. This spec owns the replay-shard schema (DC-018-03); its header and the
   replay manifest declare `code_type` (`int16` or `uint16`), the reader takes the code type from the header, and

@@ -132,11 +132,14 @@ Fixed parameters referred to as "§7" are in the parameter table of section 7.
 | FR-010-35 | Ubiquitous | `s50_evaluate` shall report the S4b result: for radar positions with ψ = 0°, 45° and 70° at the peak pixel, the median relative TTF error of every method on the LOS series of the 500 SNR_obs test events at c ∈ {0.5, 0.8}, next to the same methods on the noise-free full-vector series; no threshold applies. | pipeline |
 | FR-010-36 | Unwanted | If a pixel's LOS increment between consecutive scans reaches λ/4, then the builder shall mark that pixel's series "ambiguous (phase wrapping)" from that scan on, exclude it from TTF evaluation and count it in the manifest. | unit |
 | FR-010-37 | Unwanted | If the radar position is within 1e-6 m of a pixel, λ or Δt_scan is ≤ 0 or non-finite, the pixel set is empty or larger than 10⁶, or a facet normal has zero length, then the builder shall raise `InvalidRadarConfigError` before projecting. | unit (hostile) |
-| FR-010-41 | Ubiquitous | The radar-series builder shall report line-of-sight displacement with the sign "positive = toward the radar" (d = −u · ê, with ê the unit vector from the radar position to the pixel), compute the wrapped phase φ(t) = wrap₍₋π,π₎[(4π/λ) · (d(t) − d(t₀) + n(t))], where n is the noise of FR-010-34 (white at SNR_obs, plus the AR(1) term in the atmospheric stratum) drawn from a counter-based generator keyed by (run seed, pixel id, scan index), and the measured series d̂(t) = (λ/4π) · unwrap(φ)(t) with `numpy.unwrap` semantics along time, and shall keep d(t), d̂(t) and the wrap flags of FR-010-36 in each pixel's series record. | unit (analytical + reference implementation) |
+| FR-010-41 | Ubiquitous | The radar-series builder shall report line-of-sight displacement with the product-wide sign "positive = away from the radar" (range increasing; d = u · ê, with ê the unit vector from the radar position to the pixel, as `minephys.geotech` FR-003-18 and FR-013-22; a view that shows motion toward the radar shows −d and says so), compute the wrapped phase φ(t) = wrap₍₋π,π₎[(4π/λ) · (d(t) − d(t₀) + n(t))], where n is the noise of FR-010-34 (white at SNR_obs, plus the AR(1) term in the atmospheric stratum) drawn from a counter-based generator keyed by (run seed, pixel id, scan index), and the measured series d̂(t) = (λ/4π) · unwrap(φ)(t) with `numpy.unwrap` semantics along time, and shall keep d(t), d̂(t) and the wrap flags of FR-010-36 in each pixel's series record. | unit (analytical + reference implementation) |
 | FR-010-42 | Unwanted | If the displacement field passed to the radar-series builder contains a NaN or infinite value, the scan times are not strictly increasing, λ is outside (1 mm, 1 m), a noise standard deviation is negative or non-finite, or the AR(1) coefficient has \|ρ\| ≥ 1, then the builder shall raise `InvalidRadarConfigError` naming the input and write no series. | unit (hostile) |
 | FR-010-38 | Optional | Where EGMS-derived summaries over Hambach are present, the C1 Scene tab shall show them labelled "derived-only (EGMS)" with their attribution; otherwise the layer shall show "Not run — EGMS access not set up", and no C1 KPI shall depend on it. | E2E |
 | FR-010-39 | Ubiquitous | The recipe `studio/recipes/cases/c1.yaml` shall run end to end on the open lane (no NVIDIA proprietary runtime), producing manifests (DC-000-01) for sections, FoS/PoF tables, event sets, forecasts, metrics and ONNX files, each naming its producer tool, measured lane, licence class and input SHA-256 digests. | pipeline + contract |
 | FR-010-40 | Unwanted | If the C1 recipe names an unknown method, model or stratum, a cut-off outside (0, 1), duplicate cut-offs, or a test seed range overlapping the training range, then `studio plan` shall reject it with a schema error before any stage runs. | unit (hostile) |
+| FR-010-43 | Unwanted | If a slope-section document has a crest or toe outside the ground x range, `rho_min` not below `rho_max`, repeated material ids, or a distribution naming an undefined material, then the section loader shall reject it with error class `section-invalid` naming the field. | unit (hostile) |
+| FR-010-44 | Unwanted | If a displacement series has arrays whose lengths differ from each other or from `n_samples`, or `t_0` not before `t_f`, then the series loader shall reject it with error class `series-inconsistent` naming the field. | unit (hostile) |
+| FR-010-45 | Unwanted | If the `section_sha256` of a slope-results document is not the SHA-256 of the RFC 8785 canonical JSON of the section it names, then the results loader shall reject it with error class `section-digest-mismatch`. | unit (hostile) |
 
 ## 4. Correctness properties
 
@@ -160,7 +163,7 @@ their own properties in spec 018. Examples per property test: `property_tests.ci
 | P-010-13 | Read-out: for a median path exactly linear, y = a − b s with a, b > 0, the read-out returns s = a/b whether the root lies inside the forecast or is extrapolated; raising the median path by any c > 0 never lowers t̂_f. | a, b log-uniform in [10⁻³, 10³] | rtol 1e-12; exact (order) |
 | P-010-14 | Decision interval: swapping the two methods negates the interval; adding κ to every model error shifts it by −κ; permuting the event order leaves it unchanged. | 2–2,000 pairs, fixed bootstrap seed | exact |
 | P-010-15 | LOS builder: \|d_LOS\| ≤ \|u\| for every pixel; motion along the LOS is fully seen and motion perpendicular to it gives 0; unwrapping the wrapped phase returns d_LOS when every scan increment is below λ/4. | random walls, radar positions, λ ∈ [1, 100] mm | rtol 1e-12; atol 1e-12 \|u\|; unwrap atol 1e-9 λ |
-| P-010-16 | LOS projection: d is linear in u (d(a u₁ + b u₂) = a d(u₁) + b d(u₂)); a common rigid motion (rotation and translation) of radar and wall leaves d unchanged; a pixel moving straight toward the radar by s gives d = +s (sign convention of FR-010-41). | ‖u‖ ≤ 10 m; radar 50–5,000 m from the pixels; a, b ∈ [−10, 10] | atol 1e-12 m |
+| P-010-16 | LOS projection: d is linear in u (d(a u₁ + b u₂) = a d(u₁) + b d(u₂)); a common rigid motion (rotation and translation) of radar and wall leaves d unchanged; a pixel moving straight away from the radar by s gives d = +s and one moving toward it by s gives d = −s (sign convention of FR-010-41). | ‖u‖ ≤ 10 m; radar 50–5,000 m from the pixels; a, b ∈ [−10, 10] | atol 1e-12 m |
 | P-010-17 | Phase: adding λ/2 to d(t) − d(t₀) at every scan leaves φ unchanged; scaling λ and the displacement field by the same k > 0 (SNR fixed, so the noise scales with it) leaves φ unchanged; a pixel's noise and phase series are unchanged when other pixels are added, removed or reordered. | λ ∈ [5, 50] mm; series of 2–10⁴ scans; k ∈ [0.1, 10]; pixel sets of 1–10³ | circular difference ≤ 1e-9 rad; exact (pixel-set invariance) |
 
 ## 5. Non-functional requirements and success criteria
@@ -231,7 +234,7 @@ Every artefact is also described by its manifest entry (DC-000-01, `contracts/ma
 - UNVERIFIED, with oracles that do not depend on them: the Read & Stacey FoS / PoF acceptance values (inputs only);
   the open-pit guidance values of D (inputs only); the slope-specific citation of the Bayesian TTF construction
   (oracle: the closed-form conjugate update); the de Wit inner file formats, sampling and failure time (read at
-  ingestion); the native sign convention of GB-InSAR instruments (the product fixes "positive = toward the radar",
+  ingestion); the native sign convention of GB-InSAR instruments (the product fixes "positive = away from the radar", the `minephys` convention,
   FR-010-41; tests use that definition, magnitudes and the λ/4 rule); the citation of the two-way phase relation
   4π/λ (the GB-InSAR review by Monserrat, Crosetto & Luzi 2014, DOI 10.1016/j.isprsjprs.2014.04.001, was found but its
   text was not readable; the oracle is analytical); the atmospheric-noise amplitude
@@ -244,7 +247,7 @@ Every artefact is also described by its manifest entry (DC-000-01, `contracts/ma
 - Ownership → resolved: `minephys.geotech` owns the per-circle Bishop / Spencer / Hoek–Brown, Voight, inverse-velocity,
   Bayesian and line-of-sight numerics; this spec owns their C1 composition (search, candidate-set PoF, shared
   preprocessing, read-out, evaluation, radar series) and the Python goldens' content; browser parity of the `geotech`
-  and `forecasters` engines is FR-018-51, FR-018-52 and FR-018-57. Reported to the coordinator so that 013 does not
+  and `forecasters` engines is FR-018-51, FR-018-52 and FR-018-57. Spec 013 therefore does not
   re-specify the C1 radar series (superseded in part by the integration entry below: the S4b presentation is no
   longer deferred to spec 013).
 - TTF read-out (docs: "fixed in the spec") → resolved: every learned model forecasts the inverse-velocity path as
@@ -258,7 +261,7 @@ Every artefact is also described by its manifest entry (DC-000-01, `contracts/ma
 - Hoek–Brown to Mohr–Coulomb conversion (docs: "fixed at specification") → resolved: instantaneous parameters at the
   slice-base normal stress in Balmer's parametric form, iterated with F (FR-010-02).
 - Docs contradiction: the architecture page on lanes says ONNX models default to opset 20, while the plan fixes opset
-  17–19 → resolved by the plan: forecasters at opset 17 (FR-010-30). Reported to the coordinator.
+  17–19 → resolved by the plan: forecasters at opset 17 (FR-010-30); DEC-0018 records the opset range.
 - Docs give C1 times in hours on the case page and in days on the method page → resolved: hours at every interface.
 - User stories are written as headings, as in the template, and indexed in a table so that `tools/trace.py` registers
   their IDs (the same layout as spec 009).

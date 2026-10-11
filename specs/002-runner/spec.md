@@ -182,6 +182,9 @@ layout, profile, job spec, events, code roots).
 | FR-002-56 | Unwanted | If the fake backend is selected, then the runner may use the current interpreter as a test launcher instead of `uv run`, shall record `gpu.backend: fake` and `launcher: test`, and `studio publish` shall refuse the run (FR-002-49). | unit |
 | FR-002-57 | Unwanted | If the fake device file is missing, invalid, or scripts a non-finite value, then the command shall exit 2 naming the file and pointer. | unit (hostile) |
 | FR-002-59 | Optional | Where an NVIDIA GPU, its driver and `nvidia-ml-py` are available and no hold exists, the NVML backend shall report the GPU name, driver version and total memory equal to `nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader,nounits`, temperature within ±3 °C and enforced power limit within ±1 W of the same query taken within 2 s; if any of them is unavailable, the test shall report "not run" with the reason. | integration (gpu) |
+| FR-002-64 | Unwanted | If a profile lists the same GPU index more than once, then the profile loader shall reject it with error class `profile-invalid` naming the repeated index. | unit (hostile) |
+| FR-002-65 | Unwanted | If a stage result lists two outputs with the same path, then the runner shall treat the stage as `invalid-result` naming the path, shall publish no output of that stage and shall not cache it. | unit (hostile) |
+| FR-002-66 | State | While a GPU stage runs, the runner shall sample the GPU temperature at `telemetry_hz`; at or above `runner.run_pause_temp_c` (83 °C) it shall pause the stage at its next step boundary until the temperature is at or below `runner.run_resume_temp_c` (75 °C); at or above `runner.run_stop_temp_c` (87 °C), or when a new WHEA/PCIe AER error event for the GPU appears during the stage, it shall save a checkpoint where the stage supports one and stop the stage with reason `thermal` or `hw-error` and exit code 5; continuous GPU time per block is capped by `runner.gpu_block_minutes` (45) followed by a cool-down of `runner.gpu_cooldown_minutes` (10). | unit (fake GPU, fake clock) |
 
 ## 4. Correctness properties
 
@@ -199,6 +202,7 @@ layout, profile, job spec, events, code roots).
 | P-002-10 | Guard monotonicity: more free VRAM or disk, or a lower temperature, never turns a pass into a refusal; a larger VRAM or disk estimate never turns a refusal into a pass. | Hypothesis guard inputs | exact |
 | P-002-11 | GC safety: after `studio gc`, every kept run's outputs materialise with their recorded SHA-256; a second `gc` frees 0 bytes. | Hypothesis store states (runs, pins, shared objects) | exact |
 | P-002-12 | Plan independence: the `--json` plan of one recipe and profile is byte-identical across working directories, store roots, host and user names and `sys.platform` values. | recipes × monkeypatched environments | exact |
+| P-002-13 | Thermal guard (FR-002-66): over any scripted temperature and error-event sequence, the guard never resumes a paused stage while the temperature is above `runner.run_resume_temp_c`, and never runs a step after a stop condition (temperature at or above `runner.run_stop_temp_c`, or a new hardware error event) has been sampled; a stage that stops saves its checkpoint first when it supports one. | Hypothesis: temperature sequences in [30, 100] °C at `telemetry_hz` ∈ [1, 4], with and without WHEA/PCIe AER events, fake GPU backend and fake clock | exact |
 
 ## 5. Non-functional requirements and success criteria
 
@@ -259,7 +263,7 @@ layout, profile, job spec, events, code roots).
   `telemetry.parquet`; the plan fixes no format. This spec uses `telemetry.jsonl`: append-only and flushed per sample,
   so a crash loses at most one sample (a Parquet file is unreadable until its footer is written at close), the console
   can stream it (spec 003), and the root runner extra needs no Arrow dependency. Published telemetry is JSON (FR-002-50).
-  The two docs pages need the rename (reported to the coordinator).
+  The docs pages that name the file use `telemetry.jsonl`.
 - Resolved — **store variable.** Docs use `PITSTUDIO_STORE`; an earlier design note used another name. Docs and plan
   win: `PITSTUDIO_STORE`.
 - Resolved — **command set.** Plan §9 lists `studio bench env`, `plan`, `run`, `publish`, `profile`, `gc`; docs DEC-0002
@@ -270,7 +274,7 @@ layout, profile, job spec, events, code roots).
 - Resolved — **exit codes.** Extended from the bench's 0–4 (docs `reference/cli.md`) with 5 (guard refused) and 6
   (cancelled or interrupted); `studio bench env` passes the bench's codes through.
 - Resolved — **thresholds.** Docs `studio/runner.md` says guard thresholds are fixed in the thresholds file, which the
-  coordinator owns; this spec states them (1.5 GiB, 20 GiB, 80 °C, 1–4 Hz, 5 s, 10 s, 0.05) and plan.md proposes the
+  maintainer owns; this spec states them (1.5 GiB, 20 GiB, 80 °C, 1–4 Hz, 5 s, 10 s, 0.05) and plan.md proposes the
   `runner:` keys.
 - Resolved — **plan and the GPU.** Docs say both "planning never touches the GPU" and "plan … against a fake GPU
   backend". FR-002-02: plan never uses the real NVML backend; device capacity comes from the profile's `gpus`, or from

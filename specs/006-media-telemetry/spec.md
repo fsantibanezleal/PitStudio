@@ -140,7 +140,7 @@ build is in the tool registry (DC-000-04); recipes (DC-000-03) declare `resource
   sampler, the telemetry summary computation, the web downsample, `studio profile` and `studio publish` (whose
   published run manifest is the run card), and spec 001 the telemetry-summary and encoder-record schemas. To avoid two
   sets of requirements for one behaviour, this spec keeps only what those do not cover: the encode stage, the
-  stage-side NVTX step ranges, throughput reporting and profile outputs. The coordinator is told.
+  stage-side NVTX step ranges, throughput reporting and profile outputs.
 - Resolved: the publication rules of the plan for videos (pinned encoder, VMAF met, pair ≤ 25 MB) are enforced at the
   producer: `st56_encode` promotes no output that fails them (FR-006-04, FR-006-05, FR-006-15), because recipe outputs
   declare `publish` statically and publication (spec 002) does not inspect encodes.

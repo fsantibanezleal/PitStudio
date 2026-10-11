@@ -57,6 +57,12 @@ against the fake GPU backend and fake stages unless it is marked `gpu`.
 - [ ] T-002-072 [US-002-6] (FR-002-54) `studio profile`: one uncached, unpublishable execution under locks and guards with `PITSTUDIO_PROFILE=1`, printed `nsys` command, `nsys` never spawned — test: tests/unit/test_t_002_072_profile_cmd.py
 - [ ] T-002-075 [US-002-2] (FR-002-59) NVML backend smoke against `nvidia-smi` on the reference machine (marked `gpu`; reports "not run" when the GPU, driver or binding is unavailable; run only after the GPU hold is lifted) — test: tests/gpu/test_t_002_075_nvml_smoke.py
 
+## Phase — Hostile-input classes without a requirement (G5 review)
+- [ ] T-002-092 (FR-002-64) profile with a repeated GPU index is rejected — test: tests/unit/test_t_002_092_profile_duplicate_gpu.py
+- [ ] T-002-093 (FR-002-65) stage result with two outputs on one path is `invalid-result` — test: tests/unit/test_t_002_093_result_duplicate_output_path.py
+- [ ] T-002-094 (FR-002-66) thermal guard: pause at `runner.run_pause_temp_c`, resume at `runner.run_resume_temp_c`, stop at `runner.run_stop_temp_c` or on a new WHEA/PCIe AER event with a checkpoint, exit code 5, and the GPU time block cap with cool-down — test: tests/unit/test_t_002_094_thermal_guard.py
+- [ ] T-002-095 (P-002-13) thermal guard property: never resumes above the resume temperature, never runs past a stop condition — test: tests/property/test_t_002_095_thermal_guard_property.py
+
 ## Phase 9 — Polish and hostile review
 
 - [ ] T-002-090 (NFR-002-05) mutation run on the cache-key, seed, guard and telemetry-summary modules; record the score and fail below 0.80 — test: tests/unit/test_t_002_090_mutation_score.py
