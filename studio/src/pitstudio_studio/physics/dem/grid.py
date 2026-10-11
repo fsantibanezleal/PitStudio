@@ -40,6 +40,7 @@ def contact_kernel(
     mu_r: float,
     dt: float,
     capacity: int,
+    period: float,
     nb_old: wp.array(dtype=int),
     tang_old: wp.array(dtype=wp.vec3),
     roll_old: wp.array(dtype=wp.vec3),
@@ -68,41 +69,51 @@ def contact_kernel(
     f = wp.vec3(0.0, 0.0, 0.0)
     t = wp.vec3(0.0, 0.0, 0.0)
     count = int(0)  # noqa: UP018, RUF046
-    q = wp.hash_grid_query(grid, local[i], radius[i] + r_max + pad)
-    j = int(0)  # noqa: UP018, RUF046
-    while wp.hash_grid_query_next(q, j):
-        if j == i or inside[j] == 0:
-            continue
-        dx = pos[j] - pos[i]
-        dist = wp.length(dx)
-        delta = float(wp.float64(radius[i]) + wp.float64(radius[j]) - dist)
-        if delta <= 0.0:
-            continue
-        slot = count
-        count += 1
-        if slot >= capacity:
-            continue  # counted, not stored: the overflow check stops the run
-        n = wp.vec3(float(dx[0]), float(dx[1]), float(dx[2])) / float(dist)
-        h_tang = wp.vec3(0.0, 0.0, 0.0)
-        h_roll = wp.vec3(0.0, 0.0, 0.0)
-        for m in range(capacity):
-            if nb_old[base + m] == j:
-                h_tang = tang_old[base + m]
-                h_roll = roll_old[base + m]
-                break
-        r_star = radius[i] * radius[j] / (radius[i] + radius[j])
-        m_star = mass[i] * mass[j] / (mass[i] + mass[j])
-        i_eff = inertia[i] * inertia[j] / (inertia[i] + inertia[j])
-        v_contact = vel[i] - vel[j] + wp.cross(ang[i] * radius[i] + ang[j] * radius[j], n)
-        fi, ti, tang, roll = contact_response(
-            e_star, g_star, r_star, m_star, i_eff, beta, mu_s, mu_r, delta, n, v_contact, ang[i] - ang[j],
-            radius[i], h_tang, h_roll, dt,
-        )  # fmt: skip
-        nb_new[base + slot] = j
-        tang_new[base + slot] = tang
-        roll_new[base + slot] = roll
-        f += fi
-        t += ti
+    n_shifts = 1
+    if period > 0.0:
+        n_shifts = 3  # the particle and its images one period either side along y
+    for sh in range(n_shifts):
+        shift = 0.0
+        if period > 0.0:
+            shift = (float(sh) - 1.0) * period
+        q = wp.hash_grid_query(grid, local[i] + wp.vec3(0.0, shift, 0.0), radius[i] + r_max + pad)
+        j = int(0)  # noqa: UP018, RUF046
+        while wp.hash_grid_query_next(q, j):
+            if j == i or inside[j] == 0:
+                continue
+            dx = pos[j] - pos[i]
+            if period > 0.0:
+                p64 = wp.float64(period)
+                dx = wp.vec3d(dx[0], dx[1] - p64 * wp.round(dx[1] / p64), dx[2])
+            dist = wp.length(dx)
+            delta = float(wp.float64(radius[i]) + wp.float64(radius[j]) - dist)
+            if delta <= 0.0:
+                continue
+            slot = count
+            count += 1
+            if slot >= capacity:
+                continue  # counted, not stored: the overflow check stops the run
+            n = wp.vec3(float(dx[0]), float(dx[1]), float(dx[2])) / float(dist)
+            h_tang = wp.vec3(0.0, 0.0, 0.0)
+            h_roll = wp.vec3(0.0, 0.0, 0.0)
+            for m in range(capacity):
+                if nb_old[base + m] == j:
+                    h_tang = tang_old[base + m]
+                    h_roll = roll_old[base + m]
+                    break
+            r_star = radius[i] * radius[j] / (radius[i] + radius[j])
+            m_star = mass[i] * mass[j] / (mass[i] + mass[j])
+            i_eff = inertia[i] * inertia[j] / (inertia[i] + inertia[j])
+            v_contact = vel[i] - vel[j] + wp.cross(ang[i] * radius[i] + ang[j] * radius[j], n)
+            fi, ti, tang, roll = contact_response(
+                e_star, g_star, r_star, m_star, i_eff, beta, mu_s, mu_r, delta, n, v_contact, ang[i] - ang[j],
+                radius[i], h_tang, h_roll, dt,
+            )  # fmt: skip
+            nb_new[base + slot] = j
+            tang_new[base + slot] = tang
+            roll_new[base + slot] = roll
+            f += fi
+            t += ti
     for s in range(wp.min(count, capacity), capacity):
         nb_new[base + s] = -1
         tang_new[base + s] = wp.vec3(0.0, 0.0, 0.0)

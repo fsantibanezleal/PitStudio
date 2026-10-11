@@ -136,10 +136,14 @@ def rebenchmark_required(card: dict) -> frozenset[str]:
 
 @dataclass(frozen=True)
 class Plane:
-    """Rigid infinite wall (R -> inf, m -> inf) of the particle material; `normal` points into the domain."""
+    """Rigid wall (R -> inf, m -> inf) of the particle material; `normal` points into the domain.
+
+    Infinite unless `tangent_range` limits it to the sphere centres whose coordinate on that axis lies in [lo, hi]
+    (a floor with a slot is two such planes)."""
 
     point: tuple[float, float, float]
     normal: tuple[float, float, float]
+    tangent_range: tuple[int, float, float] | None = None  # (axis, lo, hi): acts only where lo <= centre[axis] <= hi
 
 
 @wp.kernel
@@ -159,6 +163,9 @@ def _wall_forces(
     inertia: wp.array(dtype=float),
     wall_point: wp.array(dtype=wp.vec3d),
     wall_normal: wp.array(dtype=wp.vec3),
+    wall_axis: wp.array(dtype=int),
+    wall_lo: wp.array(dtype=wp.float64),
+    wall_hi: wp.array(dtype=wp.float64),
     n_walls: int,
     e_star: float,
     g_star: float,
@@ -178,6 +185,12 @@ def _wall_forces(
         return
     for w in range(n_walls):
         h = i * n_walls + w
+        if wall_axis[w] >= 0:
+            c = pos[i][wall_axis[w]]
+            if c < wall_lo[w] or c > wall_hi[w]:
+                tang[h] = wp.vec3(0.0, 0.0, 0.0)
+                roll[h] = wp.vec3(0.0, 0.0, 0.0)
+                continue
         p = pos[i] - wall_point[w]
         nw = wall_normal[w]
         dist = wp.dot(p, wp.vec3d(wp.float64(nw[0]), wp.float64(nw[1]), wp.float64(nw[2])))
@@ -215,6 +228,8 @@ def _integrate(
     dom_min: wp.vec3d,
     dom_max: wp.vec3d,
     outflow: wp.array(dtype=int),
+    period: float,
+    period_lo: wp.float64,
 ):
     i = wp.tid()
     if ctl[0] != 0 or inside[i] == 0:
@@ -223,6 +238,9 @@ def _integrate(
     vel[i] = v
     ang[i] = ang[i] + torque[i] / inertia[i] * dt
     p = pos[i] + wp.vec3d(wp.float64(v[0]), wp.float64(v[1]), wp.float64(v[2])) * wp.float64(dt)
+    if period > 0.0:  # periodic along y: wrap the centre back into [lo, lo + period)
+        p64 = wp.float64(period)
+        p = wp.vec3d(p[0], p[1] - p64 * wp.floor((p[1] - period_lo) / p64), p[2])
     pos[i] = p
     # a particle whose centre crosses a declared outflow face leaves the dynamics and is recorded against it
     for face in range(6):
@@ -251,6 +269,7 @@ class DemSimulation:
         rayleigh_fraction: float = 0.2,
         domain=None,
         outflow=(),
+        periodic_y: tuple[float, float] | None = None,
         device: str = "cpu",
     ) -> None:
         if isinstance(contact_capacity, bool) or not isinstance(contact_capacity, int | np.integer):
@@ -294,10 +313,20 @@ class DemSimulation:
         wall_n = np.array([np.asarray(w.normal, float) / np.linalg.norm(w.normal) for w in walls]).reshape(-1, 3)
         self._wall_point = mk(np.array([w.point for w in walls], dtype=np.float64).reshape(-1, 3), wp.vec3d)
         self._wall_normal = mk(wall_n.astype(np.float32), wp.vec3)
+        ranges = [w.tangent_range if w.tangent_range is not None else (-1, 0.0, 0.0) for w in walls]
+        self._wall_axis = mk(np.array([r[0] for r in ranges], dtype=np.int32), int)
+        self._wall_lo = mk(np.array([r[1] for r in ranges], dtype=np.float64), wp.float64)
+        self._wall_hi = mk(np.array([r[2] for r in ranges], dtype=np.float64), wp.float64)
         self._wall_tang = wp.zeros(self.n * self._n_walls, dtype=wp.vec3, device=device)
         self._wall_roll = wp.zeros(self.n * self._n_walls, dtype=wp.vec3, device=device)
         self._radius = mk(self._radius32, float)
         self._mass = mk(self._masses.astype(np.float32), float)
+        self._period = 0.0 if periodic_y is None else float(periodic_y[1] - periodic_y[0])
+        self._period_lo = wp.float64(0.0 if periodic_y is None else float(periodic_y[0]))
+        if periodic_y is not None and not self._period > 4.0 * self._r_max:
+            raise PhysicsError(
+                "physics-params-invalid", "the periodic length must exceed four times the largest radius"
+            )
         self.hash_grid = wp.HashGrid(*(3 * [_grid_cells(self.n)]), device=device)
         # contact lists: two buffers, read the previous step's, write this step's
         slots = self.n * self.contact_capacity
@@ -420,6 +449,7 @@ class DemSimulation:
                         self.hash_grid.id, self._pos, self._local, self._vel, self._ang, self._radius,
                         self._mass, self._inertia, self._r_max, self._pad, self._e_star, self._g_star,
                         self._beta, mat.friction_static, mat.friction_rolling, self.dt, self.contact_capacity,
+                        self._period,
                         *old, *new, self._counts, self._ctl, self._inside, self._force, self._torque,
                     ],
                     device=dev,
@@ -438,7 +468,8 @@ class DemSimulation:
                         dim=n,
                         inputs=[
                             self._pos, self._vel, self._ang, self._radius, self._mass, self._inertia,
-                            self._wall_point, self._wall_normal, self._n_walls, self._e_star, self._g_star,
+                            self._wall_point, self._wall_normal, self._wall_axis, self._wall_lo,
+                            self._wall_hi, self._n_walls, self._e_star, self._g_star,
                             self._beta, mat.friction_static, mat.friction_rolling, self.dt,
                             self._wall_tang, self._wall_roll, self._ctl, self._inside, self._force, self._torque,
                         ],
@@ -453,7 +484,7 @@ class DemSimulation:
                     inputs=[
                         self._pos, self._vel, self._ang, self._force, self._torque, self._mass, self._inertia,
                         self._gravity, self.dt, self._ctl, self._inside, self._exit_face,
-                        self._dom_min, self._dom_max, self._outflow_flags,
+                        self._dom_min, self._dom_max, self._outflow_flags, self._period, self._period_lo,
                     ],
                     device=dev,
                     record_cmd=True,
