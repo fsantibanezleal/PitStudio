@@ -58,3 +58,4 @@ fe7e961d5acdae38158089877563f291d6d0529e89b71bdf1137f88330808f87  web/e2e/gpu/t_
 c6d98de6b5260b09bf7bb26453be396a2dd452d87dd7309a2181d542f9e3f829  web/e2e/lane-gate/t_018_081_measure.spec.ts
 90b842b4c3d723c8f8eab3046cad3bad7a01197b7cba7fcd70555901d1277e7e  web/src/lane/t_018_082_check_lanes.test.ts
 d8679f2263c8a46d0e22ef4c1b72a4fb254d453e33b5aef4446e1f8c7fbe37e4  web/e2e/t_018_073_pyodide.spec.ts
+c1acf16e18c1c30ffe5b35fc9647250f0b8746eeb735a4e02f840b13c219dff8  web/src/lane/t_018_080_derive_lane.test.ts
