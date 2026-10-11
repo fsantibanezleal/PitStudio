@@ -1,0 +1,55 @@
+import type { Text2 } from "~/cases/types";
+import type { ComparisonRow } from "./ComparisonRows";
+import { RESULTS_TAB_IDS, type ResultsTabId } from "./tabs";
+
+// The results bundles committed under `web/public/results/<comparison-id>.json` (DC-020-02), read at build time.
+// With none committed, every comparison is "Not yet run". A file that is not a well-formed bundle is ignored.
+const files = import.meta.glob("../../public/results/*.json", { eager: true, import: "default" }) as Record<
+  string,
+  unknown
+>;
+
+export interface AccelRow {
+  model: string;
+  backend: string;
+  precision: string;
+  status: string;
+  reason?: string;
+  parity: string;
+}
+
+export interface PublishedBundle {
+  id: string;
+  tab: ResultsTabId;
+  title: Text2;
+  comparison: ComparisonRow[];
+  acceleration: AccelRow[];
+}
+
+const COMPARISON_KINDS = new Set(["paired", "mcnemar", "single-event", "estimate"]);
+
+export function readBundle(raw: unknown): PublishedBundle | null {
+  if (typeof raw !== "object" || raw === null) return null;
+  const b = raw as Record<string, unknown>;
+  const tab = b.tab;
+  if (
+    typeof b.id !== "string" ||
+    typeof tab !== "string" ||
+    !(RESULTS_TAB_IDS as readonly string[]).includes(tab)
+  )
+    return null;
+  if (!Array.isArray(b.rows)) return null;
+  const title = (b.title ?? { en: b.id, es: b.id }) as Text2;
+  if (b.kind === "acceleration" && tab === "acceleration") {
+    return { id: b.id, tab, title, comparison: [], acceleration: b.rows as AccelRow[] };
+  }
+  if (b.kind !== "comparison" || tab === "acceleration" || tab === "parity") return null;
+  const rows = (b.rows as ComparisonRow[]).filter(
+    (row) => typeof row === "object" && row !== null && COMPARISON_KINDS.has(row.kind),
+  );
+  return { id: b.id, tab: tab as ResultsTabId, title, comparison: rows, acceleration: [] };
+}
+
+export const publishedBundles: PublishedBundle[] = Object.values(files)
+  .map(readBundle)
+  .filter((b): b is PublishedBundle => b !== null);

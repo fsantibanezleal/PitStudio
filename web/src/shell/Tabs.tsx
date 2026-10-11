@@ -17,12 +17,6 @@ export interface TabsProps {
   children: ReactNode;
 }
 
-/** The first `tab` parameter of a query string when it is exactly one of `ids`; otherwise the first id. */
-export function parseTabParam(search: string, ids: readonly string[]): string {
-  const value = new URLSearchParams(search).get("tab");
-  return value !== null && ids.includes(value) ? value : (ids[0] as string);
-}
-
 /**
  * WAI-ARIA tabs with manual activation: roving tabindex, arrow keys move focus (wrapping), Home and End jump to the
  * ends, Enter or Space select the focused tab. Every tab names its panel; only the selected panel is exposed.
