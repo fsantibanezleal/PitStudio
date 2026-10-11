@@ -117,6 +117,8 @@ Story index (for traceability):
 | FR-012-44 | Unwanted | If the split file of FR-008-27 is absent, does not validate against DC-008-04, or its membership SHA-256 differs from the `split_membership_sha256` recorded in the fold file (DC-012-02), then the fragmentation stages shall stop with `split-changed` and write no fold file. The links themselves (file outside 1–240, link of a file to itself, malformed links) are validated once, by their producer, `s10_preprocess` (FR-008-28, `links-invalid`); the fragmentation stages do not re-validate them. | unit (hostile) |
 | FR-012-45 | Unwanted | If the IoU or x50-error functions receive masks of different shapes, a foreground that is not boolean, or a reference x50 that is non-finite or ≤ 0, then they shall raise `ValueError` naming the argument. | unit (hostile) |
 | FR-012-46 | Unwanted | If a D1 design-grid input is non-finite, non-positive where a positive quantity is required, or rejected by `minephys.blasting`, then the grid builder shall stop with the input name and write no grid. | unit (hostile) |
+| FR-012-47 | State | While the muck-pile render index, a fragment table or the fold file is a contract fixture, the dataset builder, `s30_train`, `s40_infer` and `s50_evaluate` shall run against it, shall write `fixture: true` on every tile set, checkpoint and report, and the D1 baked data shall state "fixture, no measured result". | unit |
+| FR-012-48 | Unwanted | If the SHA-256 of a render in the muck-pile render index (DC-012-04) or of a fragment table (DC-012-01) differs from the digest recorded, then the dataset builder and `s50_evaluate` shall fail with error class `input-stale` (FR-002-69) naming the record, and no tile shall be built from it. | unit (hostile) |
 
 ## 4. Correctness properties
 
@@ -254,6 +256,8 @@ F_j ≥ q. x50 uses q = 0.5, x80 q = 0.8.
   Cunningham's 0.8–22 and the hole diameter to ≤ 1 m (stricter than the library's warnings), and holds ≤ 4,096 points
   over ≤ 4 axes.
 - (no open items)
+
+- Availability states (2026-10-11): FR-012-47, FR-012-48 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

@@ -47,6 +47,16 @@ The foundation requirements are refined by the feature specs. The tasks here own
 - [ ] T-000-061 (FR-000-18) collection errors, import errors and a missing CUDA device are `environment-error`, never red — test: tests/unit/test_t_000_061_replay_environment_error.py
 - [ ] T-000-062 (FR-000-19) local evidence record for `gpu` red and green commits, checked by `check_tdd.py` — test: tests/unit/test_t_000_062_gpu_evidence_record.py
 
+## Phase — module map and dimensioning (G5)
+
+- [ ] T-000-092 (DC-000-06, FR-000-20, FR-000-21) `contracts/modules.schema.json` promoted from the draft and `tools/check_modules.py` in CI: `modules.yaml` valid against the schema, acyclic, every edge names an existing module and an existing contract (a schema file that exists), every data-contract row of every feature spec is an edge or a module output, and every edge without a schema is listed — test: tests/contract/test_t_000_092_modules_yaml.py
+- [ ] T-000-095 (FR-000-24) `dimensioning.md` per-spec counts equal the requirement index and the `tasks.md` files, and the GPU and agent-hour tables sum as stated — test: tests/contract/test_t_000_095_dimensioning_counts.py
+
+## Phase — availability states (ADR-0040)
+
+- [ ] T-000-093 (FR-000-22) availability coverage: every edge declares the six states, each with `covered_by` ids that exist in `specs/requirements.index.json` or an `na` reason — test: tests/contract/test_t_000_093_availability_coverage.py
+- [ ] T-000-094 (FR-000-23) a fixture artefact is labelled in development builds and excluded from release builds of the manifest, the web build, the results bundle and the model cards — test: tests/contract/test_t_000_094_fixture_not_a_result.py
+
 ## Phase 7 — Polish and hostile review
 - [ ] T-000-090 mutation run on the product-level gate scripts (`tools/`); record the score (≥ 0.60 other)
 - [ ] T-000-091 independent review of the diff against this spec; append tasks for gaps

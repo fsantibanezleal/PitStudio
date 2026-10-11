@@ -45,6 +45,12 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/001-contracts/te
 - [ ] T-001-092 (FR-001-58) sources entry class lower than a per-file override is rejected — test: tests/unit/test_t_001_092_source_class_lattice.py
 - [ ] T-001-093 (FR-001-59) capabilities privacy scan of `notes` and `error` — test: tests/unit/test_t_001_093_capabilities_privacy.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-001-094 (FR-001-60) manifest `fixture` and `stale` fields (additive contract change under the versioning protocol: bump `$id`, update examples and fixtures, regenerate types, re-run consumers' contract tests) — test: tests/contract/test_t_001_094_manifest_fixture_stale_fields.py
+- [ ] T-001-095 (FR-001-61) release gate: a `fixture: true` artefact fails release builds and is labelled in development builds — test: tests/unit/test_t_001_095_release_fixture_gate.py
+- [ ] T-001-096 (FR-001-62) loaders: an absent, directory or empty input raises `ContractError` of class `absent` — test: tests/unit/test_t_001_096_loader_absent.py
+
 ## Phase 7 — Polish and hostile review
 
 - [ ] T-001-090 (NFR-001-05) mutation run on `src/pitstudio/contracts/` (lane gate, licence lattice, loaders, JCS); record the score and fail below 0.80 — test: tests/contract/test_t_001_090_mutation_score.py

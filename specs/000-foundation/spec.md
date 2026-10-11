@@ -62,6 +62,11 @@ one engine, one data contract and one manifest format:
 | FR-000-17 | Event | When `tools/check_tdd.py --replay` replays a `[red]` commit, it shall run each test file the commit adds in the environment that owns the code under test: the project that contains the first-party package the file imports (`pitstudio_pipeline` → `pipeline/`, `pitstudio_studio` → `studio/`, any other first-party package → the root project), and, for a file that imports no first-party package, the environment of its path (root `tests/`, `pipeline/`, `studio/`, or `web/`; vitest for TypeScript files, pytest for Python files); it shall pass the environment it used to the report. | unit (fixture repositories) |
 | FR-000-18 | Unwanted | If a replayed red test ends in a collection error, an `ImportError` or `ModuleNotFoundError` that names a module outside the product's own first-party packages (a third-party or standard-library module), or reports no CUDA device (device count 0), then `tools/check_tdd.py` shall classify the outcome as `environment-error`, never as red, and shall fail the check naming the file and the missing piece; a `ModuleNotFoundError` for a first-party module the task is to create is red (missing behaviour); a test marked `gpu` is not replayed where no CUDA device exists and its red state is proved by the evidence record of FR-000-19. | unit (fixture repositories) |
 | FR-000-19 | Event | When a `[red]` or a `[green]` commit of a task whose tests are marked `gpu` is made, the commit shall add a local evidence record `specs/<feature>/evidence/<task>.<red\|green>.json` holding the command, the SHA of the commit's parent, the SHA-256 of each test file, the outcome (`fail` for red, `pass` for green) and a machine-neutral GPU name and driver version, and no path, user name or host name; `tools/check_tdd.py` shall fail when a record is missing, names a parent SHA or test hash that differs from the commit, holds the wrong outcome, or holds a path. | unit (fixture repositories) |
+| FR-000-20 | Ubiquitous | The product shall have a module map, `specs/000-foundation/modules.yaml` (DC-000-06), listing every module with its owning spec, environment, GPU use and input and output contracts, and every producer-to-consumer edge of its data contracts with the contract name and schema path, and `specs/000-foundation/module-map.md` shall show the same graph as a Mermaid diagram per area and for the whole system. | contract |
+| FR-000-21 | Unwanted | If `modules.yaml` fails its schema, contains a cycle, has an edge that names an unknown module or a contract absent from its contract list, or leaves a data-contract row of a feature spec as neither an edge nor a module output, then CI shall fail naming the module, the edge or the row. | CI (hostile fixtures) |
+| FR-000-22 | Ubiquitous | Every edge of `modules.yaml` shall declare its availability states (`absent`, `fixture`, `partial`, `real`, `stale`, `invalid`); for each state it shall name the consumer behaviour and the requirement that specifies it, or `na` with the reason, and no consumer shall assume the state `real`. | contract |
+| FR-000-23 | Unwanted | If an artefact is a contract fixture (`fixture: true`), then the product shall not present it as a result: a development build shall label it "fixture", and a release build (published manifest, web build, results bundle, model card) shall exclude it (FR-000-07, FR-000-09). | unit + CI |
+| FR-000-24 | Ubiquitous | `specs/000-foundation/dimensioning.md` shall record the repositories, components, deployables and pinned stack versions, the requirement, task and test counts per spec and module, the data volumes, the GPU-hours per model family and data job, and the agent-hours per track with the critical path; its per-spec counts shall equal those of `specs/requirements.index.json` and the `tasks.md` files, and it shall be re-measured at each gate. | contract |
 
 ## 4. Correctness properties
 
@@ -100,6 +105,7 @@ live in their feature specs. They are copied from the plan's §7 and calibrated 
 | DC-000-03 | runner recipes `recipes/*.yaml` | `contracts/recipe.schema.json` | maintainer → runner |
 | DC-000-04 | studio tool registry `studio/tools.yaml` | `contracts/tools.schema.json` | maintainer → web tool map |
 | DC-000-05 | data registry `data/sources.yaml` | `contracts/sources.schema.json` | maintainer → `s00_download`, docs |
+| DC-000-06 | module map `specs/000-foundation/modules.yaml`: modules, contracts and producer-to-consumer edges with availability states | `specs/000-foundation/contracts/modules.schema.json` (draft; promoted to `contracts/modules.schema.json` by T-000-092) | maintainer, `tools/check_modules.py` to CI module check, G5 gate, `dimensioning.md` check, docs |
 
 ## 7. Data sources (summary — full registry in `data/sources.yaml`)
 
@@ -156,5 +162,7 @@ live in their feature specs. They are copied from the plan's §7 and calibrated 
 
 The `minephys` models are specified in the `minephys` repository's own `specs/`.
 
+The modules of all these specs, the contracts between them and the states each contract edge can be in are in the module map ([modules.yaml](modules.yaml), [module-map.md](module-map.md), FR-000-20 to FR-000-23); the size of the solution, the stack, the data, the GPU-hours and the agent-hours per track are in [dimensioning.md](dimensioning.md) (FR-000-24).
+
 ## 10. Clarifications log
-- (none)
+- 2026-10-11: FR-000-20 to FR-000-24 and DC-000-06 added for the module map, the availability states of every edge, the fixture honesty rule and the dimensioning; no earlier requirement is modified.

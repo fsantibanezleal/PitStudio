@@ -156,6 +156,7 @@ Key decisions:
 | DC-004-01…08 | contract | JSON Schema 2020-12 meta-validation; valid and invalid examples per schema; generated types round-trip | jsonschema, datamodel-code-generator |
 | FR-004-42 | unit (hostile) | hand calculation: a scene fixture with two projects for grid `g1` gives `terrain-source-ambiguous` | pytest |
 | FR-004-43 | unit (hostile) | hand calculation: `con.txt`, `dir/NUL` and `Com3.png` give `path-forbidden`; `console.txt` is accepted | pytest |
+| FR-004-44 | unit | hand calculation: a fixture terrain grid yields a scene manifest, design report and tiles all `fixture: true`; a real input yields `false` | pytest |
 
 ### Tolerances and their justification
 | Quantity | Tolerance | Why |

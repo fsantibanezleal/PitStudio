@@ -39,6 +39,11 @@ in-process ASGI client and a fixture store written by spec 002's fake runs; no G
 ## Phase — Hostile-input classes without a requirement (G5 review)
 - [ ] T-003-092 (FR-003-31) job record with done > total is refused by the API — test: tests/unit/test_t_003_092_job_record_shards.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-003-093 (FR-003-32) fixture store: `fixture: true` in `health`, `run_summary` and `run_list`, label in the console UI — test: tests/contract/test_t_003_093_fixture_store.py
+- [ ] T-003-094 (FR-003-33) stale runs: `stale: true`, original date and badge in the console — test: tests/contract/test_t_003_094_stale_runs.py
+
 ## Phase 6 — Polish and hostile review
 
 - [ ] T-003-090 mutation run on `api/pitstudio_api/` middleware (host, origin, body limit, CORS); record the score (target ≥ `mutation.other_min` 0.60)

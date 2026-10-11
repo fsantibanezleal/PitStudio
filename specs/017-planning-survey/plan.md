@@ -162,6 +162,8 @@ pushbacks → schedule → DC-017-03 → `st20_pit_design`, routing (spec 007), 
 | SC-017-03…05 | pipeline / unit | as FR-017-15, FR-017-19, FR-017-23 | pytest |
 | SC-017-06 | pipeline | the report has one row per design and seed and no pass field | pytest |
 | DC-017-01…05 | contract | valid and invalid example documents per schema | pytest + jsonschema |
+| FR-017-52 | pipeline (hostile) | hand calculation: a fixture block model gives shells and a schedule `fixture: true` and the publish step drops them | pytest |
+| FR-017-53 | pipeline | hand calculation: 2 of 3 methods present for a design give `partial`, the third listed, and no summary for that design | pytest |
 
 ### Threshold keys (`thresholds.yaml`, ratchet-only)
 `models.meta_model_r2_min: 0.95`, `models.meta_model_onnx_bytes_max: 1000000`,

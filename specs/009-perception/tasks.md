@@ -58,6 +58,12 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/009-perception/t
 - [ ] T-009-095 (FR-009-49) people-asset export digest is verified — test: tests/unit/test_t_009_095_asset_export_digest.py
 - [ ] T-009-096 (FR-009-50) duplicate evaluation report rows are rejected — test: tests/unit/test_t_009_096_report_duplicate_row.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-009-097 (FR-009-51) fixture propagation through the detector stages — test: tests/unit/test_t_009_097_fixture_propagation.py
+- [ ] T-009-098 (FR-009-52) partial evaluations: models listed, no pooled claim over incomplete sets — test: tests/unit/test_t_009_098_partial_models.py
+- [ ] T-009-099 (FR-009-53) stale SDG images fail `input-stale` before training — test: tests/unit/test_t_009_099_input_stale.py
+
 ## Phase 8 — Polish and hostile review
 - [ ] T-009-090 mutation run on the corruption, AP-wrapper and bootstrap modules; record the score (≥ 0.80 numerical core)
 - [ ] T-009-091 independent review of the diff against this spec; append tasks for gaps

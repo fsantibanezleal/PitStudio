@@ -106,6 +106,7 @@ Key decisions:
 | NFR-006-03 | unit | byte counts of the written files | pytest |
 | SC-006-01, SC-006-02 | pipeline (data phase) | the targets of FR-006-02/03; the fields of FR-006-06/18 in the published run manifests | pytest on published runs |
 | DC-006-01…03 | contract | JSON Schema 2020-12 meta-validation; valid and invalid examples; generated types round-trip | jsonschema |
+| FR-006-23 | unit (fake FFmpeg) | hand calculation: a fixture frame manifest gives a clip pair and an encode report `fixture: true` under the run folder and nothing under the published asset folder | pytest + fake FFmpeg |
 
 ### Tolerances and their justification
 | Quantity | Tolerance | Why |

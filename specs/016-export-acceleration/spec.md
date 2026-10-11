@@ -118,6 +118,7 @@ Story index (for traceability):
 | FR-016-37 | Unwanted | If a scene mesh given to the web bake has a non-finite vertex coordinate or an out-of-range index, a texture without a licence record, or a validator reports any error, then `s60_export` shall fail the bake of that asset with the validator message and publish nothing for it. | unit (hostile) + integration |
 | FR-016-38 | Unwanted | If the stream calculation receives a non-positive frame size, a tile size ≤ the overlap, a non-positive frame rate, or a non-finite or negative throughput, then it shall raise `ValueError` naming the argument. | unit (hostile) |
 | FR-016-39 | Unwanted | If the reference and candidate outputs differ in number, shape or dtype class, or the candidate holds a non-finite value where the reference is finite, then the comparator shall return `fail` with that reason, never `pass`. | unit (hostile) |
+| FR-016-40 | State | While an exported model, a golden set or a bench record is a contract fixture, `s60_export`, `s62_accel` and `s64_bench` shall write `fixture: true` on every parity report, bench record and table row, and the publication filter shall drop them from the Acceleration table. | unit (fake GPU) |
 
 ## 4. Correctness properties
 
@@ -265,6 +266,8 @@ per-cell verdicts of FR-016-21 and FR-016-30, never assumed away.
   `$defs/latency_entry`, also carried by the acceleration table), so that the Acceleration tab (spec 020, FR-020-28)
   shows p50 and p95 from this report; the cross-spec note of the first pass is resolved.
 - (no open items)
+
+- Availability states (2026-10-11): FR-016-40 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

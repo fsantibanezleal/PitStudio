@@ -162,6 +162,9 @@ requirement that names "data-model §n" makes that section part of the requireme
 | FR-001-51 | Unwanted | If a contract file is unreadable or malformed, is a symbolic link resolving outside the repository, or is an unknown file in a contract folder, then `tools/check_contracts.py` shall report it as a finding (file, rule id, message ≤ 300 characters), continue with the other files, and exit 1 without a Python traceback. | unit (hostile) |
 | FR-001-58 | Unwanted | If a sources entry declares a licence class or a redistribution class less restrictive than the most restrictive class among its per-file SPDX overrides, then `pitstudio.contracts` shall reject the sources file with error class `source-class-too-permissive` naming the entry id and the file, and shall return no partial registry. | unit (hostile) |
 | FR-001-59 | Unwanted | If the `notes` or `error` text of a `capabilities.json` document holds an absolute path, a host name, a user name or a home-directory prefix, then the contract checker shall reject the document with error class `privacy-leak` naming the JSON pointer. | unit (hostile) |
+| FR-001-60 | Ubiquitous | Every artefact entry of a run manifest and of an asset manifest (DC-001-01) shall carry `fixture` (boolean, default `false`) and `stale` (boolean, default `false`); a producer shall set `fixture: true` on every artefact it derives, directly or through other artefacts, from a contract fixture, and the generated Pydantic and TypeScript types shall expose both fields. | contract |
+| FR-001-61 | Unwanted | If a manifest given to a release build (`tools/release.py`, or `pages.yml` on `main`) lists an artefact with `fixture: true`, then the build shall fail naming the artefact; a development build shall accept it and show it with the label "fixture" (FR-000-23). | CI (fixture manifests) |
+| FR-001-62 | Unwanted | If a contract document, registry, recipe or schema that a loader of `pitstudio.contracts` is asked to read does not exist, is a directory or is empty, then the loader shall raise `ContractError` of class `absent` naming the path, shall return no default object, and its caller shall end the stage `not_run` (FR-002-60) or fail the build. | unit (hostile) |
 
 ## 4. Correctness properties
 
@@ -310,6 +313,8 @@ requirement that names "data-model §n" makes that section part of the requireme
   relative path (FR-001-56), and control characters U+0000–U+001F in patterned strings (FR-001-57, the Python `$`
   trailing-newline gap). They are post-schema rules of `validate`, run by the checker (FR-001-50); hostile classes in
   data-model §8.2; tasks T-001-025 and T-001-032.
+
+- Availability states (2026-10-11): FR-001-60, FR-001-61, FR-001-62 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 
