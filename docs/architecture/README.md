@@ -217,7 +217,7 @@ Details, thresholds and the quality gates are on [quality and validation](qualit
 | 17 | MakeHuman CC0 conditions do not fit the use | Licence conditions re-read at bootstrap; fallback procedural mannequins, stated in the B2 card |
 | 18 | Brush (last release more than 12 months ago) fails on this GPU | Bootstrap smoke; fallback gsplat with a maintainer-installed CUDA toolkit, or E2 with DEM differencing only |
 | 19 | A 3.12 environment picks up the Microsoft Store Python shim | uv-managed interpreters only (`python-preference = "only-managed"`); the bootstrap probe asserts the interpreter |
-| 20 | The real fragment labels are unusable | Checked at bootstrap: usable (960 labelled images = 240 originals × 4 augmentations, split by source group); fallback would be a synthetic-only claim |
+| 20 | The real fragment labels are unusable | Checked at bootstrap: usable (960 labelled images = 80 photographs × 3 crops × 4 augmentations, split by source group (72 groups)); fallback would be a synthetic-only claim |
 
 **Current debt.** The capability probes are written but have not run on the reference machine, so every studio
 capability is unconfirmed on it. The NOTICE file does not yet carry the trademark statement that

@@ -23,7 +23,7 @@ import time
 from pathlib import Path
 from typing import Any
 
-from gpu_guard import START_MAX_C, STOP_C, whea_count
+from gpu_guard import START_MAX_C, STOP_C, utc_now_iso, whea_count
 
 ROOT = Path(__file__).resolve().parents[2]
 BENCH = Path(__file__).resolve().parent
@@ -101,17 +101,17 @@ class Telemetry:
         return s
 
     def _loop(self) -> None:
-        w0, t_whea = whea_count(), time.monotonic()
+        since, t_whea = utc_now_iso(), time.monotonic()
         while not self._stop.is_set():
             s = self.snapshot()
             self.samples.append(s)
             if s["temp_c"] >= STOP_C and not self.tripped:
                 self.tripped = f"thermal: GPU at {s['temp_c']} C (stop at {STOP_C} C)"
-            if w0 is not None and time.monotonic() - t_whea >= 30:
+            if time.monotonic() - t_whea >= 30:
                 t_whea = time.monotonic()
-                w = whea_count()
-                if w is not None and w > w0 and not self.tripped:
-                    self.tripped = f"hw-error: {w - w0} new WHEA hardware-error event(s)"
+                w = whea_count(since)  # by time, so a wrapped log cannot hide one; None = query failed
+                if w is not None and w > 0 and not self.tripped:
+                    self.tripped = f"hw-error: {w} new WHEA hardware-error event(s)"
             self._stop.wait(0.5)
 
     def __enter__(self) -> Telemetry:
@@ -168,7 +168,7 @@ def run_one(name: str, tele: Telemetry, timeout_s: int) -> dict[str, Any]:
         before = tele.snapshot()
     if before["temp_c"] > MAX_START_TEMP_C:
         return {"probe": name, "status": "skip", "notes": [f"GPU at {before['temp_c']} C before start"]}
-    w0 = whea_count()
+    since = utc_now_iso()
     cmd = ["uv", "run", "--locked", "--project", str(pdir), *extra, "python", str(BENCH / f"probe_{name}.py")]
     t0 = time.perf_counter()
     with tele, tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as out, \
@@ -196,9 +196,8 @@ def run_one(name: str, tele: Telemetry, timeout_s: int) -> dict[str, Any]:
             res = {"probe": name, "status": "fail", "error": (stderr or stdout)[-800:]}
     res["wall_s"] = round(time.perf_counter() - t0, 1)
     res["telemetry"] = tele.summary()
-    w1 = whea_count()
-    if w0 is not None and w1 is not None:
-        res["telemetry"]["whea_events_delta"] = w1 - w0
+    w = whea_count(since)  # events created during the probe; None (query failed) is recorded as unavailable
+    res["telemetry"]["whea_events_delta"] = w if w is not None else "unavailable"
     return res
 
 

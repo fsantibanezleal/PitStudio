@@ -127,9 +127,9 @@ Unit conversions (feet to metres, mm to m) happen in explicit, tested code after
 ## Splits are fixed at ingestion
 
 Leakage is a data problem, so split groups are defined when the data enters, not when a model is trained. The
-Mendeley set is the clearest case: its 960 images are 240 originals plus 3 flips or rotations of each, and 9 visually
-similar pairs of originals are merged conservatively (there is no pixel-level overlap), which leaves 231 source
-groups. Splitting by file would put flipped copies of test tiles into
+Mendeley set is the clearest case: its 960 images are 80 photographs, each in 3 crops and 4 flips or rotations, and 9 visually
+similar pairs of originals are merged conservatively, which leaves 72 source
+groups. Splitting by file would put flipped copies and other crops of test tiles into
 training; PitStudio splits by source group and evaluates on originals only
 ([dataset card](dataset-cards/mendeley-rock-fragments.md)). Synthetic data uses the scenario seed, pit layout or shift
 as its group key ([synthetic data](dataset-cards/synthetic-data.md)).

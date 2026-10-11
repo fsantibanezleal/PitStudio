@@ -114,8 +114,8 @@ natively on Windows; its fit and its agreement with the BF16 reference are measu
 
 - **Measured sim-to-real only where real labels exist.** The fragmentation U-Net is trained on synthetic muck piles and
   on real labelled rock-fragment images (Mendeley Data, CC BY 4.0) and tested on the same real split. The real set is
-  960 images that are 240 originals × 4 augmentations, so it is split by source group (231 groups after conservatively
-  merging 9 visually similar originals) and evaluated on the originals only; see the
+  960 images that are 80 photographs × 3 crops × 4 augmentations, so it is split by source group (72 groups after
+  conservatively merging 9 visually similar originals) and evaluated on the originals only; see the
   [dataset card](../data-contract/dataset-cards/mendeley-rock-fragments.md).
 - **"Not measured" where no real labels exist.** Equipment and people detection is trained on synthetic data only. Its
   real-domain gap is reported as **not measured** unless the optional real probe (at most 200 licence-clean images,

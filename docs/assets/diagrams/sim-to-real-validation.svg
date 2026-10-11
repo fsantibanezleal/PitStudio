@@ -79,10 +79,10 @@
   <text class="title" x="44" y="300">Real (Mendeley)</text>
   <text class="path" x="44" y="320">78ht3pjsr4, CC BY 4.0</text>
   <text class="item" x="44" y="342">960 images, 512 × 512</text>
-  <text class="item" x="44" y="362">= 240 originals × 4 (flips,</text>
+  <text class="item" x="44" y="362">= 80 scenes × 3 × 4 (flips,</text>
   <text class="item" x="44" y="382">    180° rotation)</text>
   <text class="item" x="44" y="402">9 similar pairs merged</text>
-  <text class="item" x="44" y="422">→ 231 source groups</text>
+  <text class="item" x="44" y="422">→ 72 source groups</text>
   <text class="item" x="44" y="442">one class; no mm per px</text>
   <rect class="box" x="30" y="514" width="230" height="106" rx="8"/>
   <text class="title" x="44" y="538">No real reference</text>
@@ -91,7 +91,7 @@
   <text class="caveat" x="44" y="608">calibrated synthetic label</text>
   <rect class="box-accent" x="320" y="62" width="222" height="270" rx="8"/>
   <text class="title" x="334" y="86">Grouped k-fold</text>
-  <text class="path" x="334" y="106">group = (k−1) mod 240 + 1</text>
+  <text class="path" x="334" y="106">group = ((k−1) mod 80) + 1</text>
   <text class="item" x="334" y="128">+ 9 similar-pair links</text>
   <text class="item" x="334" y="148">e.g. 5 folds ≈ 46 groups</text>
   <text class="item" x="334" y="168">test on originals only</text>

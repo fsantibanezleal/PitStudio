@@ -66,7 +66,7 @@ All synthetic data is labelled synthetic and validated as described in the
 ### `s10_preprocess`
 
 Applies the ingestion schemas (pandera, "reject, never coerce"), crops to areas of interest, builds grids and tiles,
-and fixes the split groups (for example the 231 source groups of the Mendeley fragment images). Terrain meshes and USD
+and fixes the split groups (for example the 72 source groups of the Mendeley fragment images). Terrain meshes and USD
 are built by the studio stage `st10_terrain`, not here.
 
 ### `s20_feature_extraction`

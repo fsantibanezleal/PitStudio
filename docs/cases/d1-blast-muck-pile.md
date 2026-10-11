@@ -35,8 +35,8 @@ verified on download. Facts from the data check of the first milestone:
 | Fact | Value |
 |---|---|
 | Images | 960 RGB tiles, all 512 × 512 px |
-| Structure | **240 originals × 4 dihedral augmentations**: 001–240 originals; 241–480 horizontal flips; 481–720 vertical flips; 721–960 180° rotations (verified: normalised correlation 1.000 and label IoU 1.000 for all 240 × 3 pairs) |
-| Near-duplicates | No pixel-level overlap among the 240 originals (high-pass correlation test); 9 visually similar pairs are merged conservatively → **231 source groups** (240 without the merge) |
+| Structure | **80 photographs × 3 crops × 4 dihedral augmentations**: 001–240 originals (files *k*, *k* + 80 and *k* + 160 are three crops of one photograph: wide letterboxed, square, narrow pillarboxed); 241–480 horizontal flips; 481–720 vertical flips; 721–960 180° rotations (verified: normalised correlation 1.000 and label IoU 1.000 for all 240 × 3 pairs) |
+| Near-duplicates | No pixel-level overlap among the 240 originals (high-pass correlation test, which cannot see rescaled crops); a DINOv2 scan shows the three crops of each photograph (nearest neighbour at offset ±80 for 170 of 240 originals); 9 visually similar pairs are merged conservatively → **72 source groups** (80 scenes without the merge) |
 | Labels | one class (rock); indexed instance masks (0 = background, *k* = instance *k*) from labelme's dataset export; the original polygon files are not included |
 | Instances | 63,144 in the 960 masks (mean 65.8, median 58 per image) → **15,786 unique** |
 | Instance size | area p10 / p50 / p90 = 102 / 807 / 5,298 px; equivalent diameter p10 / p50 / p90 = 11 / 32 / 82 px |
@@ -48,11 +48,11 @@ distributions, rendered in Isaac Sim with instance masks, so every fragment's si
 
 **Split protocol (fixed before any training).**
 
-- **Split by source group, never by file.** Group key = $((k-1) \bmod 240) + 1$, merged with the 9 conservative similarity links. A
-  per-file split would put flipped copies of test tiles into training and inflate TRTR.
-- **Grouped k-fold** (e.g. 5 folds over the ~231 groups): a single 80/20 split would leave only about 46 test tiles.
+- **Split by source group, never by file.** Group key = $s(((k-1) \bmod 240) + 1)$ with scene $s(k) = ((k-1) \bmod 80) + 1$, merged with the 9 conservative similarity links mapped to scenes. A
+  per-file split would put flipped copies and other crops of test tiles into training and inflate TRTR.
+- **Grouped k-fold** (5 folds over the 72 groups, exactly 48 test originals per fold, written once by `s10_preprocess` and read by every later stage; the validation subset of a fold is a seeded 10 % of its training-pool groups): a single 80/20 split would leave only about 14–15 test groups.
 - **Test on originals only** (tiles 001–240 that fall in the test groups). Training may use the shipped flips or its
-  own augmentation; the effective real set is 240 tiles, not 960.
+  own augmentation; the effective independent real set is 80 scenes (240 crops), not 960.
 - Only metrics derived from these images are committed; no Mendeley image is redistributed by the web app.
 
 ## Methods and baseline
@@ -123,7 +123,7 @@ originals only; the watershed + Swebrec baseline is compared on x50.*
   curve shape). Any real-world size needs a stated scale assumption.
 - **Surface view only.** Images see the pile surface; occluded fines are invisible to both methods.
 - **Design models are site-calibrated regressions.** Rock factor, uniformity and PPV constants vary by site.
-- **Small real set.** 240 effective tiles in ~231 groups; the TSTR/TRTR ratio is reported with its fold spread.
+- **Small real set.** 80 effective scenes (240 crops) in 72 groups; the TSTR/TRTR ratio is reported with its fold spread.
 - Educational, not blast-design software; no regulatory PPV or flyrock clearance is implied.
 
 ## Reproduce this
