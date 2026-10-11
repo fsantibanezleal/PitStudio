@@ -1,0 +1,185 @@
+{
+  "run_id": "20261007T120000Z-d1-fragmentation",
+  "archive_status": "verified",
+  "isaac_sim": "passing",
+  "trtr": {
+    "status": "succeeded",
+    "fold_iou": [
+      0.861,
+      0.874,
+      0.853,
+      0.869,
+      0.858
+    ]
+  },
+  "tstr": {
+    "status": "succeeded",
+    "fold_iou": [
+      0.792,
+      0.801,
+      0.779,
+      0.808,
+      0.784
+    ],
+    "rho": [
+      0.919861,
+      0.916476,
+      0.913247,
+      0.929804,
+      0.913753
+    ],
+    "rho_mean": 0.918628,
+    "rho_min": 0.913247,
+    "rho_std": 0.006778,
+    "threshold": 0.9,
+    "verdict": "pass"
+  },
+  "watershed": {
+    "status": "succeeded",
+    "fold_iou": [
+      0.781,
+      0.795,
+      0.77,
+      0.788,
+      0.776
+    ],
+    "parameters": [
+      {
+        "sigma_g_px": 1,
+        "min_distance_px": 5,
+        "offset": 0
+      },
+      {
+        "sigma_g_px": 1,
+        "min_distance_px": 5,
+        "offset": 0.05
+      },
+      {
+        "sigma_g_px": 2,
+        "min_distance_px": 7,
+        "offset": 0
+      },
+      {
+        "sigma_g_px": 1,
+        "min_distance_px": 5,
+        "offset": 0
+      },
+      {
+        "sigma_g_px": 1,
+        "min_distance_px": 7,
+        "offset": -0.05
+      }
+    ]
+  },
+  "synthetic_x50": {
+    "status": "succeeded",
+    "held_out_piles": 50,
+    "views": 200,
+    "mre_unet": 0.118,
+    "mre_unet_interval": [
+      0.101,
+      0.137
+    ],
+    "mre_watershed": 0.164,
+    "occlusion_bias_mean": 0.071,
+    "threshold": 0.15,
+    "verdict": "pass"
+  },
+  "real_comparison": {
+    "status": "succeeded",
+    "pairing_unit": "original",
+    "units": 240,
+    "clusters": 231,
+    "bootstrap_b": 10000,
+    "mean_difference": 0.034,
+    "interval": [
+      0.012,
+      0.057
+    ],
+    "verdict": "better",
+    "no_fit": {
+      "unet": 2,
+      "watershed": 5
+    }
+  },
+  "synthetic_comparison": {
+    "status": "succeeded",
+    "pairing_unit": "pile",
+    "units": 50,
+    "bootstrap_b": 10000,
+    "mean_difference": 0.046,
+    "interval": [
+      -0.004,
+      0.095
+    ],
+    "verdict": "no significant difference",
+    "no_fit": {
+      "unet": 0,
+      "watershed": 3
+    }
+  },
+  "c2st": {
+    "status": "succeeded",
+    "embedding": {
+      "model": "dinov2-vitb14",
+      "weights_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+      "input_px": 224,
+      "token": "cls"
+    },
+    "n_synthetic": 240,
+    "n_real": 240,
+    "bootstrap_b": 1000,
+    "shift": {
+      "corruption": "dust",
+      "severity": 3,
+      "depth_m": 100
+    },
+    "families": [
+      {
+        "family": "logistic",
+        "auc": 0.62,
+        "auc_interval": [
+          0.58,
+          0.66
+        ],
+        "real_vs_real_auc": 0.55,
+        "real_vs_real_interval": [
+          0.5,
+          0.6
+        ],
+        "auc_minus_real_vs_real": 0.07,
+        "shift_auc": 0.91,
+        "train_vs_test_auc": 0.53
+      },
+      {
+        "family": "mlp",
+        "auc": 0.64,
+        "auc_interval": [
+          0.6,
+          0.68
+        ],
+        "real_vs_real_auc": 0.56,
+        "real_vs_real_interval": [
+          0.51,
+          0.61
+        ],
+        "auc_minus_real_vs_real": 0.08,
+        "shift_auc": 0.93,
+        "train_vs_test_auc": 0.54
+      }
+    ],
+    "powered": false,
+    "verdict": "pass"
+  },
+  "duplicates": {
+    "status": "succeeded",
+    "phash_hamming_max": 4,
+    "cosine_min": 0.95,
+    "synthetic_tiles": 24000,
+    "real_files": 960,
+    "synthetic_real_flags": 0,
+    "train_test_flags": 0,
+    "cross_group_leaks": 0
+  },
+  "attribution": "Si, Zhu, Di, Wang (2019). Rock fragment image segmentation combining CNN and watershed algorithm. Mendeley Data, V1. https://doi.org/10.17632/78ht3pjsr4.1. Licensed under CC BY 4.0."
+}

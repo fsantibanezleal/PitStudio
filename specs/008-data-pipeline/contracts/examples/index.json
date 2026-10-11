@@ -1,0 +1,647 @@
+{
+  "spec": "008-data-pipeline",
+  "examples": [
+    {
+      "file": "fetch-record.valid.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "verified Mendeley archive (4,230,116,058 bytes, publisher SHA-256 matched)"
+    },
+    {
+      "file": "fetch-record.valid-fallback.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "account variable unset: ERA5 skipped, GHCNh fallback recorded"
+    },
+    {
+      "file": "fetch-record.valid-pin-proposed.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "first download of an unpinned file: Zenodo MD5 matched, pin proposed"
+    },
+    {
+      "file": "fetch-record.hostile-unknown-enum.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (status)",
+      "rule": "FR-008-17",
+      "pointer": "/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "fetch-record.hostile-malformed-digest.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (63 hex)",
+      "rule": "FR-008-17",
+      "pointer": "/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "fetch-record.hostile-insecure-redirect.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "redirect to a non-HTTPS URL",
+      "rule": "FR-008-11",
+      "pointer": "/final_url",
+      "keyword": "pattern"
+    },
+    {
+      "file": "fetch-record.hostile-credential-url.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "credential in URL",
+      "rule": "FR-008-13",
+      "pointer": "/url",
+      "keyword": "pattern"
+    },
+    {
+      "file": "fetch-record.hostile-absolute-path.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-008-15",
+      "pointer": "/stored_as",
+      "keyword": "pattern"
+    },
+    {
+      "file": "fetch-record.hostile-drive-letter.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "drive-letter path",
+      "rule": "FR-008-15",
+      "pointer": "/stored_as",
+      "keyword": "pattern"
+    },
+    {
+      "file": "fetch-record.hostile-path-traversal.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal (local name)",
+      "rule": "FR-008-11",
+      "pointer": "/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "fetch-record.hostile-conditional-fallback.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fallback-used without fallback ids",
+      "rule": "FR-008-13",
+      "pointer": "/fallback_sources",
+      "keyword": "minItems"
+    },
+    {
+      "file": "fetch-record.hostile-conditional-verified.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "verified without a digest",
+      "rule": "FR-008-05",
+      "pointer": "/sha256",
+      "keyword": "type"
+    },
+    {
+      "file": "fetch-record.hostile-conditional-pin-proposed.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pin proposed after a publisher checksum mismatch",
+      "rule": "FR-008-07",
+      "pointer": "/publisher_checksum_status",
+      "keyword": "enum"
+    },
+    {
+      "file": "fetch-record.hostile-unknown-spdx.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "SPDX id outside the allowlist",
+      "rule": "FR-008-02",
+      "pointer": "/spdx",
+      "keyword": "enum"
+    },
+    {
+      "file": "fetch-record.hostile-out-of-range.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more attempts than 1 + 5 retries",
+      "rule": "FR-008-12",
+      "pointer": "/attempts",
+      "keyword": "maximum"
+    },
+    {
+      "file": "fetch-record.hostile-oversized.json",
+      "schema": "fetch-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "size above the 64 GiB bound",
+      "rule": "FR-008-10",
+      "pointer": "/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "ingestion-report.valid.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "rejected GHCNh station year: two cells outside their physical bounds"
+    },
+    {
+      "file": "ingestion-report.valid-accepted.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "accepted DEM tile with its cropped output"
+    },
+    {
+      "file": "ingestion-report.hostile-conditional-rejected-empty.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "rejected without violations",
+      "rule": "FR-008-21",
+      "pointer": "/violations",
+      "keyword": "minItems"
+    },
+    {
+      "file": "ingestion-report.hostile-conditional-rejected-outputs.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "output written for a rejected source",
+      "rule": "FR-008-21",
+      "pointer": "/outputs",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "ingestion-report.hostile-conditional-accepted-violations.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "accepted with violations",
+      "rule": "FR-008-21",
+      "pointer": "/violations",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "ingestion-report.hostile-unknown-enum.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (status)",
+      "rule": "FR-008-21",
+      "pointer": "/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "ingestion-report.hostile-absolute-path.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-008-21",
+      "pointer": "/violations/0/file",
+      "keyword": "pattern"
+    },
+    {
+      "file": "ingestion-report.hostile-missing-required.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "violation without its rule",
+      "rule": "FR-008-21",
+      "pointer": "/violations/0",
+      "keyword": "required"
+    },
+    {
+      "file": "ingestion-report.hostile-wrong-type.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (row as text)",
+      "rule": "FR-008-21",
+      "pointer": "/violations/0/row",
+      "keyword": "type"
+    },
+    {
+      "file": "ingestion-report.hostile-oversized.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized string",
+      "rule": "DC-008-03",
+      "pointer": "/violations/0/expected",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "ingestion-report.hostile-out-of-range.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative row index",
+      "rule": "FR-008-21",
+      "pointer": "/violations/0/row",
+      "keyword": "minimum"
+    },
+    {
+      "file": "split.valid.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "DES cycles grouped by scenario seed: 10 groups in 5 folds"
+    },
+    {
+      "file": "split.valid-single-group.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the single real slope-failure series: one group, never split"
+    },
+    {
+      "file": "split.hostile-conditional-mendeley-folds.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Mendeley split with 4 folds instead of 5",
+      "rule": "FR-008-30",
+      "pointer": "/folds",
+      "keyword": "minItems"
+    },
+    {
+      "file": "split.hostile-conditional-single-group.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "the single real series split into a fold",
+      "rule": "FR-008-31",
+      "pointer": "/folds",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "split.hostile-conditional-seed.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "grouped k-fold without its seed",
+      "rule": "FR-008-30",
+      "pointer": "/seed",
+      "keyword": "not"
+    },
+    {
+      "file": "split.hostile-conditional-block-size.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "spatial blocks without a block size",
+      "rule": "FR-008-31",
+      "pointer": "/group_key",
+      "keyword": "required"
+    },
+    {
+      "file": "split.hostile-malformed-digest.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed membership digest",
+      "rule": "FR-008-47",
+      "pointer": "/membership_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "split.hostile-path-traversal.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal in a record id",
+      "rule": "FR-008-47",
+      "pointer": "/groups/0/members/0",
+      "keyword": "pattern"
+    },
+    {
+      "file": "split.hostile-unknown-enum.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown group-key rule",
+      "rule": "FR-008-27",
+      "pointer": "/group_key/rule",
+      "keyword": "enum"
+    },
+    {
+      "file": "split.hostile-duplicate-record.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "record twice in one test list",
+      "rule": "FR-008-47",
+      "pointer": "/folds/0/test",
+      "keyword": "uniqueItems"
+    },
+    {
+      "file": "split.hostile-empty.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no groups",
+      "rule": "FR-008-27",
+      "pointer": "/groups",
+      "keyword": "minItems"
+    },
+    {
+      "file": "data-card.valid.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "real card: Mendeley fragments (CC BY 4.0, attribution, derived-only)"
+    },
+    {
+      "file": "data-card.valid-unvalidated.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "synthetic DES cycles: unvalidated, exact honesty label"
+    },
+    {
+      "file": "data-card.valid-validated.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "synthetic fragment images: validated against real data, verdicts pending"
+    },
+    {
+      "file": "data-card.valid-descriptive.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "synthetic Voight series: descriptive only (single real event)"
+    },
+    {
+      "file": "data-card.hostile-conditional-honesty-c2st.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "C2ST verdict attached to an unvalidated set",
+      "rule": "FR-008-37",
+      "pointer": "/validation",
+      "keyword": "not"
+    },
+    {
+      "file": "data-card.hostile-conditional-descriptive-tstr.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "TSTR attached to a descriptive-only set",
+      "rule": "FR-008-37",
+      "pointer": "/validation",
+      "keyword": "not"
+    },
+    {
+      "file": "data-card.hostile-conditional-label.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unvalidated set without the label",
+      "rule": "FR-008-36",
+      "pointer": "/validation",
+      "keyword": "required"
+    },
+    {
+      "file": "data-card.hostile-wrong-label.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "honesty label altered",
+      "rule": "FR-008-36",
+      "pointer": "/validation/label",
+      "keyword": "const"
+    },
+    {
+      "file": "data-card.hostile-unknown-enum.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown validation class",
+      "rule": "FR-008-36",
+      "pointer": "/validation/class",
+      "keyword": "enum"
+    },
+    {
+      "file": "data-card.hostile-synthetic-false.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic set not flagged",
+      "rule": "FR-008-33",
+      "pointer": "/synthetic",
+      "keyword": "const"
+    },
+    {
+      "file": "data-card.hostile-malformed-digest.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed configuration digest",
+      "rule": "FR-008-33",
+      "pointer": "/config_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "data-card.hostile-missing-required.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic card without its generator",
+      "rule": "FR-008-33",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "data-card.hostile-wrong-type.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (seed as text)",
+      "rule": "FR-008-33",
+      "pointer": "/seeds/0",
+      "keyword": "type"
+    },
+    {
+      "file": "data-card.hostile-conditional-attribution.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "attribution class without the text",
+      "rule": "FR-008-43",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "data-card.hostile-unknown-field.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-008-43",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "data-card.hostile-unknown-redistribution.json",
+      "schema": "data-card.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown redistribution class",
+      "rule": "FR-008-43",
+      "pointer": "/redistribution",
+      "keyword": "enum"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "fetch-record.schema.json",
+      "class": "non-finite number, malformed JSON, BOM, duplicate key, byte cap",
+      "by": "loader",
+      "rule": "FR-008-17",
+      "note": "loader: pitstudio.contracts.load_json / load_yaml (FR-001-05, FR-001-06)"
+    },
+    {
+      "schema": "fetch-record.schema.json",
+      "class": "credential-named query key or the account key value in any field",
+      "by": "checker",
+      "rule": "FR-008-13",
+      "note": "the https_url pattern admits query strings; the key value is a sentinel search"
+    },
+    {
+      "schema": "fetch-record.schema.json",
+      "class": "sha256 or bytes of a verified record differ from expected_sha256 / expected_bytes",
+      "by": "checker",
+      "rule": "FR-008-06",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "fetch-record.schema.json",
+      "class": "source, url, spdx, licence class or redistribution differ from data/sources.yaml; fallback ids absent from the registry",
+      "by": "checker",
+      "rule": "FR-008-17",
+      "note": "another file"
+    },
+    {
+      "schema": "fetch-record.schema.json",
+      "class": "local name with a Windows device name, control character or more than 200 characters",
+      "by": "checker",
+      "rule": "FR-008-11",
+      "note": "data-model 001 section 1.3 checker rules"
+    },
+    {
+      "schema": "ingestion-report.schema.json",
+      "class": "non-finite number, malformed JSON, BOM, duplicate key, byte cap",
+      "by": "loader",
+      "rule": "FR-008-21",
+      "note": "loader: pitstudio.contracts.load_json / load_yaml (FR-001-05, FR-001-06)"
+    },
+    {
+      "schema": "ingestion-report.schema.json",
+      "class": "violation file absent from files; report status not rejected while a file is rejected",
+      "by": "checker",
+      "rule": "FR-008-21",
+      "note": "ids that must exist elsewhere in the document"
+    },
+    {
+      "schema": "ingestion-report.schema.json",
+      "class": "violations not every failing cell of the frame (lazy validation incomplete)",
+      "by": "checker",
+      "rule": "FR-008-21",
+      "note": "needs the input file"
+    },
+    {
+      "schema": "split.schema.json",
+      "class": "non-finite number, malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-008-47",
+      "note": "loader: pitstudio.contracts.load_json / load_yaml (FR-001-05, FR-001-06)"
+    },
+    {
+      "schema": "split.schema.json",
+      "class": "membership_sha256 differs from the lists",
+      "by": "checker",
+      "rule": "FR-008-47",
+      "note": "payload digest"
+    },
+    {
+      "schema": "split.schema.json",
+      "class": "record in two test lists; group in both the test list and the training pool of one fold",
+      "by": "checker",
+      "rule": "FR-008-47",
+      "note": ""
+    },
+    {
+      "schema": "split.schema.json",
+      "class": "record in no group or in two groups; group id not its smallest original",
+      "by": "checker",
+      "rule": "FR-008-27",
+      "note": "uniqueness across array items"
+    },
+    {
+      "schema": "split.schema.json",
+      "class": "Mendeley groups not the 231 components of the 9 links; tests not originals only; training pool not all four versions",
+      "by": "checker",
+      "rule": "FR-008-28",
+      "note": "FR-008-30 for the fold rules"
+    },
+    {
+      "schema": "split.schema.json",
+      "class": "fold indices not 0 .. n-1 in order; folds not reproducible from the seed",
+      "by": "checker",
+      "rule": "FR-008-30",
+      "note": ""
+    },
+    {
+      "schema": "data-card.schema.json",
+      "class": "YAML alias, anchor, tag, multi-document, implicit boolean, duplicate key",
+      "by": "loader",
+      "rule": "FR-008-43",
+      "note": "loader: pitstudio.contracts.load_json / load_yaml (FR-001-05, FR-001-06)"
+    },
+    {
+      "schema": "data-card.schema.json",
+      "class": "id, SPDX id, licence class, redistribution or SHA-256 list differ from the registry entry",
+      "by": "checker",
+      "rule": "FR-008-44",
+      "note": "another file"
+    },
+    {
+      "schema": "data-card.schema.json",
+      "class": "required body sections missing",
+      "by": "checker",
+      "rule": "FR-008-44",
+      "note": "Markdown body, not front matter"
+    },
+    {
+      "schema": "data-card.schema.json",
+      "class": "validation class not the one FR-008-36 assigns to the data type",
+      "by": "checker",
+      "rule": "FR-008-36",
+      "note": "needs the type table"
+    },
+    {
+      "schema": "data-card.schema.json",
+      "class": "licence class not allowed for (spdx, kind) by spec 001 data-model section 5.2",
+      "by": "checker",
+      "rule": "FR-008-43",
+      "note": ""
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "output",
+  "engine": "unet",
+  "engine_version": "0.1.0",
+  "function": "segment",
+  "result": {
+    "scores": {
+      "dtype": "float32",
+      "shape": {
+        "classes": 3,
+        "rows": 512,
+        "cols": 512
+      },
+      "byte_length": 3145728
+    },
+    "class_map": {
+      "dtype": "uint8",
+      "shape": {
+        "rows": 512,
+        "cols": 512
+      },
+      "byte_length": 262144
+    },
+    "instance_count": 418
+  }
+}

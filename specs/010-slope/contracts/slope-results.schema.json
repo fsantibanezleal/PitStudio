@@ -1,0 +1,345 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/slope-results.schema.json",
+  "title": "C1 FoS and PoF tables",
+  "description": "Factor-of-safety and probability-of-failure tables of the C1 analysis per section and method (F, critical circle, rejected circles, k, N, K, PoF and its Wilson interval), baked for the web and the docs (DC-010-04, spec 010-slope).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "mode",
+    "sections"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "mode": {
+      "enum": [
+        "live",
+        "baked"
+      ]
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000,
+      "items": {
+        "$ref": "#/$defs/section_result"
+      }
+    }
+  },
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pof_seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18446744073709551615
+    },
+    "coordinate_m": {
+      "type": "number",
+      "minimum": -1000000,
+      "maximum": 1000000
+    },
+    "probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "method": {
+      "enum": [
+        "bishop",
+        "spencer"
+      ]
+    },
+    "circle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "centre_x_m",
+        "centre_z_m",
+        "radius_m",
+        "entry_x_m",
+        "exit_x_m"
+      ],
+      "properties": {
+        "centre_x_m": {
+          "$ref": "#/$defs/coordinate_m"
+        },
+        "centre_z_m": {
+          "$ref": "#/$defs/coordinate_m"
+        },
+        "radius_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000
+        },
+        "entry_x_m": {
+          "$ref": "#/$defs/coordinate_m"
+        },
+        "exit_x_m": {
+          "$ref": "#/$defs/coordinate_m"
+        }
+      }
+    },
+    "fos_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "status",
+        "slices",
+        "circles_evaluated",
+        "rejected_circles"
+      ],
+      "properties": {
+        "method": {
+          "$ref": "#/$defs/method"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "no valid slip surface"
+          ]
+        },
+        "fos": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "critical_circle": {
+          "$ref": "#/$defs/circle"
+        },
+        "iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "theta_deg": {
+          "type": "number",
+          "exclusiveMinimum": -90,
+          "exclusiveMaximum": 90
+        },
+        "slices": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 500
+        },
+        "circles_evaluated": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "rejected_circles": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "ok"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "fos",
+              "critical_circle",
+              "iterations"
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "fos"
+                  ]
+                },
+                {
+                  "required": [
+                    "critical_circle"
+                  ]
+                },
+                {
+                  "required": [
+                    "iterations"
+                  ]
+                },
+                {
+                  "required": [
+                    "theta_deg"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "method": {
+                "const": "spencer"
+              },
+              "status": {
+                "const": "ok"
+              }
+            },
+            "required": [
+              "method",
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "theta_deg"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "method": {
+                "const": "bishop"
+              }
+            },
+            "required": [
+              "method"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "theta_deg"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "wilson_interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lower",
+        "upper",
+        "z"
+      ],
+      "properties": {
+        "lower": {
+          "$ref": "#/$defs/probability"
+        },
+        "upper": {
+          "$ref": "#/$defs/probability"
+        },
+        "z": {
+          "const": 1.96
+        }
+      }
+    },
+    "pof_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "candidate_set",
+        "samples",
+        "candidates",
+        "failures",
+        "pof",
+        "wilson_95",
+        "seed"
+      ],
+      "properties": {
+        "method": {
+          "$ref": "#/$defs/method"
+        },
+        "candidate_set": {
+          "const": "lowest-F circles of the mean-parameter Bishop search"
+        },
+        "samples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "candidates": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "failures": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "pof": {
+          "$ref": "#/$defs/probability"
+        },
+        "wilson_95": {
+          "$ref": "#/$defs/wilson_interval"
+        },
+        "seed": {
+          "$ref": "#/$defs/pof_seed"
+        }
+      }
+    },
+    "section_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "section_sha256",
+        "fos"
+      ],
+      "properties": {
+        "section_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "section_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fos": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/fos_result"
+          }
+        },
+        "pof": {
+          "$ref": "#/$defs/pof_result"
+        }
+      }
+    }
+  }
+}

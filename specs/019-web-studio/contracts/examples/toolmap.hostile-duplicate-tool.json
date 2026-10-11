@@ -1,0 +1,122 @@
+{
+  "bands": [
+    {
+      "id": "scene",
+      "tools": [
+        "openusd",
+        "kit-usd-composer-explorer"
+      ]
+    },
+    {
+      "id": "physics",
+      "tools": [
+        "warp",
+        "newton",
+        "mujoco-warp",
+        "physx-ovphysx",
+        "physicsnemo",
+        "warp"
+      ]
+    },
+    {
+      "id": "sensors-synthetic-data",
+      "tools": [
+        "ovrtx",
+        "isaac-sim-replicator",
+        "cosmos-predict-transfer"
+      ]
+    },
+    {
+      "id": "training",
+      "tools": [
+        "pytorch",
+        "isaac-lab",
+        "cosmos-reason-2"
+      ]
+    },
+    {
+      "id": "acceleration",
+      "tools": [
+        "onnx-runtime",
+        "tensorrt",
+        "nsight-nvml",
+        "cuopt"
+      ]
+    },
+    {
+      "id": "encoding",
+      "tools": [
+        "nvenc-ffmpeg"
+      ]
+    },
+    {
+      "id": "web",
+      "tools": [
+        "threejs-r3f-3d-tiles",
+        "rapier-webgpu-pyodide"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "openusd",
+      "to": "warp",
+      "kind": "usd"
+    },
+    {
+      "from": "openusd",
+      "to": "newton",
+      "kind": "usd"
+    },
+    {
+      "from": "openusd",
+      "to": "ovrtx",
+      "kind": "usd"
+    },
+    {
+      "from": "openusd",
+      "to": "isaac-sim-replicator",
+      "kind": "usd"
+    },
+    {
+      "from": "isaac-sim-replicator",
+      "to": "pytorch",
+      "kind": "shard"
+    },
+    {
+      "from": "ovrtx",
+      "to": "nvenc-ffmpeg",
+      "kind": "image"
+    },
+    {
+      "from": "warp",
+      "to": "pytorch",
+      "kind": "trace"
+    },
+    {
+      "from": "pytorch",
+      "to": "onnx-runtime",
+      "kind": "onnx"
+    },
+    {
+      "from": "onnx-runtime",
+      "to": "tensorrt",
+      "kind": "onnx"
+    },
+    {
+      "from": "onnx-runtime",
+      "to": "threejs-r3f-3d-tiles",
+      "kind": "onnx"
+    },
+    {
+      "from": "nvenc-ffmpeg",
+      "to": "threejs-r3f-3d-tiles",
+      "kind": "video"
+    },
+    {
+      "from": "isaac-lab",
+      "to": "rapier-webgpu-pyodide",
+      "kind": "onnx"
+    }
+  ]
+}

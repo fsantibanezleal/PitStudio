@@ -109,9 +109,9 @@ the tool shows "not yet run" because it published nothing (FR-000-07).
 ## 6. Data contracts
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-006-01 | Frame manifest (producer tool and stage, performance class, fps, frame count, width, height, bit depth, colour space, frame-name pattern, SHA-256 of the ordered list of per-frame SHA-256) | `contracts/frame-manifest.schema.json` (to be written: T-006-001) | render and replay stages → `st56_encode` |
-| DC-006-02 | Encode report (per clip: search trace per variant, chosen settings, pair total, poster bytes, relaxation) | `contracts/encode-report.schema.json` (T-006-001) | `st56_encode` → run outputs, reviewers |
-| DC-006-03 | Kernel timing table (method, label, top kernels with calls, total and mean time, truncated flag, trace file name) | `contracts/profile-summary.schema.json` (T-006-001) | profiled studio stages → local run folder |
+| DC-006-01 | Frame manifest (producer tool and stage, performance class, fps, frame count, width, height, bit depth, colour space, frame-name pattern, SHA-256 of the ordered list of per-frame SHA-256) | `specs/006-media-telemetry/contracts/frame-manifest.schema.json` (draft; promoted to `contracts/frame-manifest.schema.json` by T-006-001) | render and replay stages → `st56_encode` |
+| DC-006-02 | Encode report (per clip: search trace per variant, chosen settings, pair total, poster bytes, relaxation) | `specs/006-media-telemetry/contracts/encode-report.schema.json` (draft; promoted to `contracts/encode-report.schema.json` by T-006-001) | `st56_encode` → run outputs, reviewers |
+| DC-006-03 | Kernel timing table (method, label, top kernels with calls, total and mean time, truncated flag, trace file name) | `specs/006-media-telemetry/contracts/profile-summary.schema.json` (draft; promoted to `contracts/profile-summary.schema.json` by T-006-001) | profiled studio stages → local run folder |
 
 The encoder record and the telemetry summary are parts of the manifest contract (DC-000-01, spec 001); the pinned FFmpeg
 build is in the tool registry (DC-000-04); recipes (DC-000-03) declare `resources.gpu: nvenc` and the `ffmpeg` binary.
@@ -122,8 +122,8 @@ build is in the tool registry (DC-000-04); recipes (DC-000-03) declare `resource
   (`50-ffnvcodec.sh`); FFmpeg refuses to encode when the build's NVENC API is newer than the driver's, with no fallback
   (`libavcodec/nvenc.c`). The record's `nvenc_api` comes from the pinned build entry (13.0 for BtbN n8.1), not from a
   probe.
-- **VMAF targets** mean ≥ 93 and 5th percentile ≥ 85 are the docs' proposal, fixed here; `thresholds.yaml` keys (proposed
-  keys, pending maintainer approval): `media.vmaf_mean_min: 93`, `media.vmaf_p5_min: 85`, `media.vmaf_relaxed_mean_min: 80`,
+- **VMAF targets** mean ≥ 93 and 5th percentile ≥ 85 are the docs' proposal, fixed here; `thresholds.yaml` keys:
+  `media.vmaf_mean_min: 93`, `media.vmaf_p5_min: 85`, `media.vmaf_relaxed_mean_min: 80`,
   `media.poster_bytes_max: 150000`. VMAF is a consistent target for synthetic renders, not a guarantee of fidelity.
 - Measuring each variant at its own resolution (source scaled with Lanczos) is a design choice; measuring the 720p file
   upscaled to 1080p would rate it lower for the same bits.
@@ -163,6 +163,22 @@ build is in the tool registry (DC-000-04); recipes (DC-000-03) declare `resource
 - Integration 2026-10-07: every `thresholds.yaml` key this spec proposes is marked "proposed key, pending maintainer
   approval" and compiled with the other specs' proposals for the maintainer; lane-gate keys are consolidated as
   `lane_gate.*` and budget keys as `budgets.*`.
+- Integration 2026-10-07: draft schemas written for DC-006-01, DC-006-02 and DC-006-03
+  (`specs/006-media-telemetry/contracts/`, valid and hostile examples indexed in `examples/index.json`). The encode
+  report reuses spec 001's encoder record (`manifest.schema.json#/$defs/encoder`) as each variant's chosen,
+  re-measured setting instead of copying its fields, and the producer and report stages use
+  `manifest.schema.json#/$defs/stage_key`. Resolved, choosing the stricter reading: (1) a clip name is a slug that
+  starts with a letter or digit (FR-006-13 alone would allow a leading hyphen, which reads as an FFmpeg option);
+  (2) frames are named by a printf pattern (`frame_%05d.png`, never a path) inside an optional relative folder; the
+  colour space is `srgb` or `bt709`; a sequence has 2–36,000 frames (≤ 10 min at 60 fps); (3) the ≤ 8 encodes of
+  FR-006-02 are the bisection trials, and the re-measure is the variant's encoder record; constant-quality values are
+  integers 1–63 (0, the automatic value, is excluded) and ≤ 51 for H.264; (4) without a relaxation both records meet
+  mean VMAF 93 and p5 85; a `lower-target` relaxation states its own targets (mean ≥ 80, p5 ≤ 85) and every relaxation
+  a reason of ≥ 10 characters; `shorter-duration` and `crop` relaxations keep 93/85; the targets and budgets are
+  recorded as constants; a report covers ≤ 32 clips; (5) the kernel timing table has method `warp-activity-timing`,
+  the fixed label, ≤ 20 kernels named by `^[A-Za-z_][A-Za-z0-9_.:-]{0,199}$`, and a trace ≤ 100,000,000 bytes; kernel
+  order, means and the 100,000-byte table cap are checker and loader rules.
+- Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/frame-manifest.schema.json",
+  "title": "Frame manifest",
+  "description": "Lossless PNG frame sequence handed by a render or replay stage to st56_encode (DC-006-01, spec 006-media-telemetry).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "schema_version",
+    "clip",
+    "producer",
+    "performance",
+    "fps",
+    "frames",
+    "width",
+    "height",
+    "bit_depth",
+    "colour_space",
+    "format",
+    "frame_pattern",
+    "first_index",
+    "source_frames_sha256"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "kind": {
+      "const": "frame-manifest"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "clip": {
+      "description": "clip name; outputs are <clip>.av1.mp4, <clip>.h264.mp4 and <clip>.webp (FR-006-13)",
+      "$ref": "#/$defs/slug"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tool",
+        "stage"
+      ],
+      "properties": {
+        "tool": {
+          "$ref": "#/$defs/tool_id"
+        },
+        "stage": {
+          "$ref": "manifest.schema.json#/$defs/stage_key"
+        }
+      }
+    },
+    "performance": {
+      "description": "performance class of the producer tool; local-only producers' timings never appear downstream (FR-006-14)",
+      "enum": [
+        "public",
+        "local-only"
+      ]
+    },
+    "fps": {
+      "description": "source frame rate (FR-006-12)",
+      "enum": [
+        24,
+        25,
+        30,
+        50,
+        60
+      ]
+    },
+    "frames": {
+      "description": "frame count; at least 2 (FR-006-12); at most 10 minutes at 60 fps",
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 36000
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1920,
+      "maximum": 8192
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1080,
+      "maximum": 8192
+    },
+    "bit_depth": {
+      "enum": [
+        8,
+        16
+      ]
+    },
+    "colour_space": {
+      "description": "transfer and primaries of the RGB frames",
+      "enum": [
+        "srgb",
+        "bt709"
+      ]
+    },
+    "format": {
+      "const": "png"
+    },
+    "directory": {
+      "description": "folder of the frames inside the stage's input folder",
+      "$ref": "#/$defs/relpath"
+    },
+    "frame_pattern": {
+      "description": "printf-style frame file name, e.g. frame_%05d.png; never a path",
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^([a-z0-9][a-z0-9_-]{0,47})?%0[3-9]d[.]png$"
+    },
+    "first_index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 99999999
+    },
+    "source_frames_sha256": {
+      "description": "SHA-256 of the ordered list of per-frame SHA-256 digests (P-006-06)",
+      "$ref": "#/$defs/sha256"
+    },
+    "frame_sha256": {
+      "description": "per-frame digests in frame order",
+      "type": "array",
+      "maxItems": 36000,
+      "items": {
+        "$ref": "#/$defs/sha256"
+      }
+    }
+  },
+  "$defs": {
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "tool_id": {
+      "type": "string",
+      "maxLength": 48,
+      "pattern": "^[a-z][a-z0-9-]{1,47}$"
+    }
+  }
+}

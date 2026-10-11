@@ -177,7 +177,7 @@ SNR_obs) → `s30_train` → `s40_infer` (all methods on identical windows) → 
 | DC-010-01…DC-010-04 | contract | valid and invalid example documents per schema | pytest + jsonschema |
 | DC-010-05 | contract | the exported IO description validates against `surrogate-io.schema.json` | pytest + jsonschema |
 
-### Threshold keys requested (`thresholds.yaml`, ratchet-only; proposed keys, pending maintainer approval)
+### Threshold keys (`thresholds.yaml`, ratchet-only)
 `models.slope_ttf_rel_error_median_max: 0.10`, `models.slope_bootstrap_resamples: 10000`,
 `models.slope_pyslope_fixed_circle_rtol: 0.01`, `models.slope_pyslope_search_rtol: 0.02`.
 

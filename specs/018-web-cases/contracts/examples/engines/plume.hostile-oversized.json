@@ -1,0 +1,20 @@
+{
+  "kind": "input",
+  "engine": "plume",
+  "engine_version": "0.1.0",
+  "function": "plume_grid",
+  "args": {
+    "source_strength_kg_per_s": 0.05,
+    "wind_speed_m_per_s": 4.0,
+    "stability_class": "D",
+    "terrain": "rural",
+    "release_height_m": 2.0,
+    "x_start_m": 50.0,
+    "x_step_m": 50.0,
+    "nx": 257,
+    "y_start_m": -800.0,
+    "y_step_m": 25.0,
+    "ny": 64,
+    "receptor_height_m": 1.5
+  }
+}

@@ -1,0 +1,688 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/slope-section.schema.json",
+  "title": "C1 slope section",
+  "description": "Two-dimensional C1 slope section (ground polyline, Mohr-Coulomb or Hoek-Brown materials, pore-pressure ratio, input distributions, search, slice and PoF settings, methods, source DEM digest) written by s10_preprocess and the web section editor (DC-010-01, spec 010-slope).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "section_id",
+    "source",
+    "ground",
+    "crest_x_m",
+    "toe_x_m",
+    "materials",
+    "pore_pressure_ratio",
+    "analysis"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "section_id": {
+      "$ref": "#/$defs/artefact_id"
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "ground": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 10000,
+      "items": {
+        "$ref": "#/$defs/point_xz_m"
+      }
+    },
+    "crest_x_m": {
+      "$ref": "#/$defs/coordinate_m"
+    },
+    "toe_x_m": {
+      "$ref": "#/$defs/coordinate_m"
+    },
+    "materials": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/material"
+      }
+    },
+    "pore_pressure_ratio": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMaximum": 1
+    },
+    "analysis": {
+      "$ref": "#/$defs/analysis"
+    }
+  },
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "pof_seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18446744073709551615
+    },
+    "coordinate_m": {
+      "type": "number",
+      "minimum": -1000000,
+      "maximum": 1000000
+    },
+    "point_xz_m": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/coordinate_m"
+      }
+    },
+    "map_point_m": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "number",
+        "minimum": -100000000,
+        "maximum": 100000000
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "dem",
+            "editor",
+            "fixture"
+          ]
+        },
+        "source_id": {
+          "$ref": "#/$defs/slug"
+        },
+        "dem_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "crs": {
+          "type": "string",
+          "maxLength": 10,
+          "pattern": "^EPSG:[0-9]{4,5}$"
+        },
+        "profile_start_m": {
+          "$ref": "#/$defs/map_point_m"
+        },
+        "profile_end_m": {
+          "$ref": "#/$defs/map_point_m"
+        },
+        "sample_spacing_m": {
+          "const": 1
+        },
+        "simplify_tolerance_m": {
+          "const": 0.25
+        },
+        "site_label": {
+          "type": "string",
+          "maxLength": 120,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 ,.()'-]{0,119}$"
+        }
+      },
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "dem"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "source_id",
+          "dem_sha256",
+          "crs",
+          "profile_start_m",
+          "profile_end_m",
+          "sample_spacing_m",
+          "simplify_tolerance_m",
+          "site_label"
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "dem_sha256"
+              ]
+            },
+            {
+              "required": [
+                "profile_start_m"
+              ]
+            },
+            {
+              "required": [
+                "profile_end_m"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "model",
+        "unit_weight_kn_per_m3"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/param_key"
+        },
+        "model": {
+          "enum": [
+            "mohr-coulomb",
+            "hoek-brown"
+          ]
+        },
+        "unit_weight_kn_per_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 40
+        },
+        "cohesion_kpa": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "friction_angle_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60
+        },
+        "gsi": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "m_i": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "sigma_ci_mpa": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "disturbance_d": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "bottom_z_m": {
+          "$ref": "#/$defs/coordinate_m"
+        }
+      },
+      "if": {
+        "properties": {
+          "model": {
+            "const": "mohr-coulomb"
+          }
+        },
+        "required": [
+          "model"
+        ]
+      },
+      "then": {
+        "required": [
+          "cohesion_kpa",
+          "friction_angle_deg"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "gsi"
+              ]
+            },
+            {
+              "required": [
+                "m_i"
+              ]
+            },
+            {
+              "required": [
+                "sigma_ci_mpa"
+              ]
+            },
+            {
+              "required": [
+                "disturbance_d"
+              ]
+            }
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "gsi",
+          "m_i",
+          "sigma_ci_mpa",
+          "disturbance_d"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "cohesion_kpa"
+              ]
+            },
+            {
+              "required": [
+                "friction_angle_deg"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "distribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameter",
+        "distribution"
+      ],
+      "properties": {
+        "material_id": {
+          "$ref": "#/$defs/param_key"
+        },
+        "parameter": {
+          "enum": [
+            "cohesion_kpa",
+            "friction_angle_deg",
+            "gsi",
+            "sigma_ci_mpa",
+            "m_i",
+            "disturbance_d",
+            "unit_weight_kn_per_m3",
+            "pore_pressure_ratio"
+          ]
+        },
+        "distribution": {
+          "enum": [
+            "normal",
+            "lognormal",
+            "uniform"
+          ]
+        },
+        "mean": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "sd": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000
+        },
+        "cv": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "truncate_lower": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "truncate_upper": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "lower": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "upper": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "parameter": {
+                "const": "pore_pressure_ratio"
+              }
+            },
+            "required": [
+              "parameter"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "material_id"
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "material_id"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "distribution": {
+                "const": "normal"
+              }
+            },
+            "required": [
+              "distribution"
+            ]
+          },
+          "then": {
+            "required": [
+              "mean",
+              "sd"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "cv"
+                  ]
+                },
+                {
+                  "required": [
+                    "lower"
+                  ]
+                },
+                {
+                  "required": [
+                    "upper"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "distribution": {
+                "const": "lognormal"
+              }
+            },
+            "required": [
+              "distribution"
+            ]
+          },
+          "then": {
+            "required": [
+              "mean",
+              "cv"
+            ],
+            "properties": {
+              "mean": {
+                "exclusiveMinimum": 0
+              }
+            },
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "sd"
+                  ]
+                },
+                {
+                  "required": [
+                    "lower"
+                  ]
+                },
+                {
+                  "required": [
+                    "upper"
+                  ]
+                },
+                {
+                  "required": [
+                    "truncate_lower"
+                  ]
+                },
+                {
+                  "required": [
+                    "truncate_upper"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "distribution": {
+                "const": "uniform"
+              }
+            },
+            "required": [
+              "distribution"
+            ]
+          },
+          "then": {
+            "required": [
+              "lower",
+              "upper"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "mean"
+                  ]
+                },
+                {
+                  "required": [
+                    "sd"
+                  ]
+                },
+                {
+                  "required": [
+                    "cv"
+                  ]
+                },
+                {
+                  "required": [
+                    "truncate_lower"
+                  ]
+                },
+                {
+                  "required": [
+                    "truncate_upper"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_points",
+        "exit_points",
+        "radius_ratios",
+        "rho_min",
+        "rho_max"
+      ],
+      "properties": {
+        "entry_points": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 1000
+        },
+        "exit_points": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 1000
+        },
+        "radius_ratios": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "rho_min": {
+          "type": "number",
+          "exclusiveMinimum": 1,
+          "maximum": 100
+        },
+        "rho_max": {
+          "type": "number",
+          "exclusiveMinimum": 1,
+          "maximum": 100
+        }
+      }
+    },
+    "pof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "samples",
+        "candidates",
+        "seed",
+        "distributions"
+      ],
+      "properties": {
+        "samples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "candidates": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "seed": {
+          "$ref": "#/$defs/pof_seed"
+        },
+        "distributions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/distribution"
+          }
+        }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "methods",
+        "slices",
+        "search"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "live",
+            "baked"
+          ]
+        },
+        "methods": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "bishop",
+              "spencer"
+            ]
+          }
+        },
+        "slices": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 500
+        },
+        "search": {
+          "$ref": "#/$defs/search"
+        },
+        "pof": {
+          "$ref": "#/$defs/pof"
+        }
+      },
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "live"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "slices": {
+            "maximum": 200
+          },
+          "pof": {
+            "properties": {
+              "samples": {
+                "maximum": 100000
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

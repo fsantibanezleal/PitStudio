@@ -159,11 +159,11 @@ Story index (for traceability):
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-009-01 | Perception dataset index (one record per image: id, family, arm, split, scenario seed, layout id, relative paths, SHA-256, size, intrinsics, depth path, DR parameters, `synthetic: true`, licence) | `contracts/perception-dataset.schema.json` (new, T-009-001) | `st55_sdg`, crusher handoff → `s10_preprocess`, `s30_train`, `s50_evaluate` |
-| DC-009-02 | COCO instances subset (images, annotations with bbox / segmentation / area / iscrowd = 0, categories 1–5) | `contracts/coco-instances.schema.json` (new, T-009-002) | `st55_sdg`, dataset builder → loader |
-| DC-009-03 | Randomisation config (arm, counts, structured parameter sources, unstructured ranges, texture pool, drying time, `x_os`) | `contracts/sdg-randomisation.schema.json` (new, T-009-003) | recipe → DR sampler, `st55_sdg` |
-| DC-009-04 | People asset record (source, application version, zip SHA-256, assets used, export settings, seed, export SHA-256) | `contracts/people-asset-record.schema.json` (new, T-009-004) | maintainer export → `st30_assets` handoff, dataset card |
-| DC-009-05 | Detection evaluation report (per model × precision × family × class: AP50, AP50:95, intervals, support; corruption curves; DR ablation; `sim_to_real`; honesty label; verdicts) | `contracts/detection-eval.schema.json` (new, T-009-005) | `s50_evaluate` → `s60_export`, B2 baked data, model cards |
+| DC-009-01 | Perception dataset index (one record per image: id, family, arm, split, scenario seed, layout id, relative paths, SHA-256, size, intrinsics, depth path, DR parameters, `synthetic: true`, licence) | `specs/009-perception/contracts/perception-dataset.schema.json` (draft; promoted to `contracts/perception-dataset.schema.json` by T-009-001) | `st55_sdg`, crusher handoff → `s10_preprocess`, `s30_train`, `s50_evaluate` |
+| DC-009-02 | COCO instances subset (images, annotations with bbox / segmentation / area / iscrowd = 0, categories 1–5) | `specs/009-perception/contracts/coco-instances.schema.json` (draft; promoted to `contracts/coco-instances.schema.json` by T-009-002) | `st55_sdg`, dataset builder → loader |
+| DC-009-03 | Randomisation config (arm, counts, structured parameter sources, unstructured ranges, texture pool, drying time, `x_os`) | `specs/009-perception/contracts/sdg-randomisation.schema.json` (draft; promoted to `contracts/sdg-randomisation.schema.json` by T-009-003) | recipe → DR sampler, `st55_sdg` |
+| DC-009-04 | People asset record (source, application version, zip SHA-256, assets used, export settings, seed, export SHA-256) | `specs/009-perception/contracts/people-asset-record.schema.json` (draft; promoted to `contracts/people-asset-record.schema.json` by T-009-004) | maintainer export → `st30_assets` handoff, dataset card |
+| DC-009-05 | Detection evaluation report (per model × precision × family × class: AP50, AP50:95, intervals, support; corruption curves; DR ablation; `sim_to_real`; honesty label; verdicts) | `specs/009-perception/contracts/detection-eval.schema.json` (draft; promoted to `contracts/detection-eval.schema.json` by T-009-005) | `s50_evaluate` → `s60_export`, B2 baked data, model cards |
 
 Run and asset manifests (performance marker, lane, licence class) follow the foundation contract DC-000-01
 (`contracts/manifest.schema.json`).
@@ -241,6 +241,24 @@ choices fixed before any result, not sourced norms.
   `contracts/frame-state.schema.json`), and consumed there by the task-A builder and the task-C scorer. This spec adds
   its producer side: `st55_sdg` emits one valid frame state per frame (FR-009-44) and refuses frames whose stage data
   cannot give one (FR-009-45); task T-009-021.
+- Integration 2026-10-07: draft schema written for DC-009-01 … DC-009-05 (`specs/009-perception/contracts/`, valid and
+  hostile examples indexed in `examples/index.json`); the stricter reading was chosen each time: the dataset index is
+  JSON Lines, one record per image validated by the root schema; the unstructured arm is pit family and training split
+  only (record) and reuses the structured pit training seeds (`seed_source`, config); pit records are pinned to
+  1280 × 720 px, Replicator instances, a frame state and depth to the image plane, crusher records carry
+  connected-component labels, no instance mask and depth to the camera (images ≤ 1920 × 1080 px, NFR-013-05); depth is
+  float32 `.npy` in metres; the COCO subset holds only `images`, `annotations` and `categories` (`info` and `licenses`
+  are stripped), polygon segmentation only (the COCO form for iscrowd = 0), exactly the five id–name pairs, box
+  coordinates ≥ −0.5 px and images ≤ 8,192 px a side; the unstructured ranges are bounded by the FR-009-08 envelope
+  (defaults equal it), the structured sources, the 5° solar floor and the 0.05 m base offset are constants, and pool
+  textures are CC0 only; the people record rejects community assets in the schema (`origin: system`), its export
+  settings are format (fbx, dae, obj), scale unit and skeleton plus optional pose and flags, and mannequins are own
+  data (CC-BY-4.0); the report carries `sim_to_real` per class, forced to "not measured" and with no probe block until
+  the probe is labelled, probe classes are the four equipment and people classes, AP fields are absent at zero support,
+  each SC row's model, precision, statistic and threshold are pinned, and an insufficient-support count is ≤ 99; seeds
+  are 0 … 2⁶³ − 1 (recipe seed range, spec 001), and the array caps not stated here (≤ 50,000 images and ≤ 10⁶
+  annotations per COCO file, ≤ 512 placements per image, image count 1 … 100,000 per arm, drying time (0, 1,440] min,
+  `x_os` (0, 10] m) are design bounds.
 - (no open items)
 
 ## 9. Changes (only for features that modify earlier behaviour)

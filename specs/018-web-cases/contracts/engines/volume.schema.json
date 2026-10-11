@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/volume.schema.json",
+  "title": "Engine volume: input and output messages",
+  "description": "Input and output messages of the browser engine `volume` (cases E2): survey cut and fill volume by DEM differencing over a polygon (spec 017) (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `volume`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "volume",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "cut_fill"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "cut_fill"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/cut_fill_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `volume`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "volume",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "cut_fill"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "cut_fill"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/cut_fill_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "cut_fill_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "before",
+        "after",
+        "rows",
+        "cols",
+        "cell_size_m",
+        "origin_m",
+        "polygon_m",
+        "rmse_before_m",
+        "rmse_after_m"
+      ],
+      "properties": {
+        "before": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Earlier DEM: float32, rows x cols, row-major, nodata cells NaN inside the asset.",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16777216,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "after": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Later DEM on the same grid.",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16777216,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2048,
+          "description": "Grid rows (at most 2,048)."
+        },
+        "cols": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2048,
+          "description": "Grid columns (at most 2,048)."
+        },
+        "cell_size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "description": "Cell size (> 0)."
+        },
+        "origin_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -10000000.0,
+            "maximum": 10000000.0
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "(x, y) of the upper-left grid corner in the grid's projected CRS."
+        },
+        "polygon_m": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -10000000.0,
+              "maximum": 10000000.0
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 3,
+          "maxItems": 10000,
+          "description": "Area-of-interest vertices (3 to 10^4, FR-017-47)."
+        },
+        "rmse_before_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Vertical RMSE of the earlier DEM."
+        },
+        "rmse_after_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Vertical RMSE of the later DEM."
+        }
+      }
+    },
+    "cut_fill_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fill_m3",
+        "cut_m3",
+        "net_m3",
+        "valid_cells",
+        "nodata_cells",
+        "nodata_fraction",
+        "bound_uncorrelated_m3",
+        "bound_correlated_m3"
+      ],
+      "properties": {
+        "fill_m3": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cut_m3": {
+          "type": "number",
+          "minimum": 0
+        },
+        "net_m3": {
+          "type": "number"
+        },
+        "valid_cells": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "nodata_cells": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "nodata_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "bound_uncorrelated_m3": {
+          "type": "number",
+          "minimum": 0
+        },
+        "bound_correlated_m3": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "unit_scales": {
+      "description": "Unit scale s_y of every numeric result field, per function, in the field's own unit; the parity tolerance is 1e-12 s_y + rtol |y| (FR-018-51).",
+      "const": {
+        "cut_fill": {
+          "fill_m3": 1,
+          "cut_m3": 1,
+          "net_m3": 1,
+          "nodata_fraction": 1,
+          "bound_uncorrelated_m3": 1,
+          "bound_correlated_m3": 1
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

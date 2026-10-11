@@ -1,0 +1,29 @@
+{
+  "kind": "input",
+  "engine": "swe",
+  "engine_version": "0.1.0",
+  "function": "evaluate_all",
+  "args": {
+    "bed": {
+      "artefact": "c2-terrain-patch-64",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 16384
+    },
+    "rows": 64,
+    "cols": 64,
+    "cell_size_m": 8.0,
+    "breach_cell": {
+      "row": 10,
+      "col": 32
+    },
+    "release_volume_m3": 250000.0,
+    "peak_discharge_m3_per_s": 900.0,
+    "threshold_depth_m": 0.05,
+    "duration_s": 3600.0,
+    "cfl": 0.45,
+    "yield_stress_pa": 50.0,
+    "viscosity_pa_s": 0.5,
+    "density_kg_per_m3": 1600.0,
+    "boundary": "open"
+  }
+}

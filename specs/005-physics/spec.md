@@ -138,7 +138,7 @@ with `error_class: unknown`, except `oom` and `lock-not-held`, which are the sta
 ### 3.6 Outputs, determinism and GPU discipline (all solvers)
 | ID | Pattern | Requirement | Verification |
 |---|---|---|---|
-| FR-005-45 | Ubiquitous | `st50_physics` shall write particle replays as shards of at most 1.0 × 10⁷ bytes, positions quantised to uint16 per axis inside the scene bounding box, each shard listed in a replay manifest (units m, bounding box, fps, frame and particle counts, solver and version, seed, SHA-256 per shard) valid against DC-005-04. | unit |
+| FR-005-45 | Ubiquitous | `st50_physics` shall write particle replays as shards of at most 1.0 × 10⁷ bytes, positions quantised to 16-bit codes per axis inside the scene bounding box — the code type (`int16` or `uint16`) declared in the shard header and the replay manifest of DC-018-03 and read from there by every consumer — each shard listed in a replay manifest (units m, bounding box, fps, frame and particle counts, solver and version, seed, SHA-256 per shard) valid against DC-005-04. | unit |
 | FR-005-46 | Ubiquitous | `st50_physics` shall write fields as Zarr (DC-005-02) and observables as Parquet (DC-005-03) with units in the column metadata, including for every run the time step, Δt_R where it applies, the mass or volume budget series and the solver version read from `studio/uv.lock`. | unit + contract |
 | FR-005-47 | Ubiquitous | `st50_physics` shall write one benchmark-report row per benchmark (id, solver, version, material card, parameters, measured value, oracle value and source, tolerance, verdict `pass`, `fail` or `not run`, reason) valid against DC-005-05, and shall stamp every rollout output with the report id and the verdict of its solver version; a production scenario (any scenario that is not itself a benchmark) shall take the benchmark report of its solver version and material card as an input, and if that report is absent or any applicable benchmark in it is not `pass`, `st50_physics` shall refuse the scenario with error class `unbenchmarked-solver` before any kernel launch. | unit + contract |
 | FR-005-48 | Ubiquitous | Warp reference runs (benchmarks and parity goldens) shall use Warp's deterministic execution mode for atomic operations, declare determinism class `bitwise`, reproduce the SHA-256 of their outputs on a re-run on the same device, and record the run-time overhead factor of the deterministic mode once per Warp solver. | integration (Warp CPU and gpu) |
@@ -195,12 +195,12 @@ with `error_class: unknown`, except `oom` and `lock-not-held`, which are the sta
 ## 6. Data contracts
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-005-01 | Physics scenario parameters (solver, device, benchmark ids, geometry, counts, time step, seed, material cards with values, citations and verification status) | `contracts/physics-scenario.schema.json` (to be written: T-005-001) | recipe `params` → `st50_physics` |
-| DC-005-02 | Physics fields (Zarr: grid, CRS record, units, time axis, variables) incl. C2 maps and wind fields | `contracts/physics-field.schema.json` (T-005-001) | `st50_physics` → pipeline (FNO training), export stage |
-| DC-005-03 | Physics observables (Parquet columns with units) | `contracts/physics-observables.schema.json` (T-005-001) | `st50_physics` → pipeline (GNS training, evaluation), publication |
-| DC-005-04 | Replay manifest and shards | `contracts/replay-shard.schema.json` (T-005-001) | `st50_physics` → publication, web replays |
-| DC-005-05 | Physics benchmark report | `contracts/physics-benchmark-report.schema.json` (T-005-001) | `st50_physics` → consumers' gate, web results page |
-| DC-005-06 | Parity goldens for the browser twins | `contracts/physics-parity-golden.schema.json` (T-005-001) | `st50_physics` → web twin parity tests |
+| DC-005-01 | Physics scenario parameters (solver, device, benchmark ids, geometry, counts, time step, seed, material cards with values, citations and verification status) | `specs/005-physics/contracts/physics-scenario.schema.json` (draft; promoted to `contracts/physics-scenario.schema.json` by T-005-001) | recipe `params` → `st50_physics` |
+| DC-005-02 | Physics fields (Zarr: grid, CRS record, units, time axis, variables) incl. C2 maps and wind fields | `specs/005-physics/contracts/physics-field.schema.json` (draft; promoted to `contracts/physics-field.schema.json` by T-005-001) | `st50_physics` → pipeline (FNO training), export stage |
+| DC-005-03 | Physics observables (Parquet columns with units) | `specs/005-physics/contracts/physics-observables.schema.json` (draft; promoted to `contracts/physics-observables.schema.json` by T-005-001) | `st50_physics` → pipeline (GNS training, evaluation), publication |
+| DC-005-04 | Replay manifest and shards | `specs/018-web-cases/contracts/replay-shard.schema.json` (draft owned by spec 018, DC-018-03; one schema, one owner — it includes the replay manifest of FR-005-45) | `st50_physics` → publication, web replays |
+| DC-005-05 | Physics benchmark report | `specs/005-physics/contracts/physics-benchmark-report.schema.json` (draft; promoted to `contracts/physics-benchmark-report.schema.json` by T-005-001) | `st50_physics` → consumers' gate, web results page |
+| DC-005-06 | Parity goldens for the browser twins | `specs/005-physics/contracts/physics-parity-golden.schema.json` (draft; promoted to `contracts/physics-parity-golden.schema.json` by T-005-001) | `st50_physics` → web twin parity tests |
 
 The terrain grid comes from DC-004-03 and the road network from DC-004-06; run manifests follow DC-000-01.
 
@@ -292,6 +292,40 @@ The terrain grid comes from DC-004-03 and the road network from DC-004-06; run m
 - Integration 2026-10-07: every `thresholds.yaml` key this spec proposes is marked "proposed key, pending maintainer
   approval" and compiled with the other specs' proposals for the maintainer; lane-gate keys are consolidated as
   `lane_gate.*` and budget keys as `budgets.*`.
+- Integration 2026-10-07: draft schemas written for DC-005-01, DC-005-02, DC-005-03, DC-005-05 and DC-005-06
+  (`specs/005-physics/contracts/`, valid and hostile examples indexed in `examples/index.json`). DC-005-04 has one
+  schema with one owner: `specs/018-web-cases/contracts/replay-shard.schema.json` (DC-018-03), which also holds the
+  replay manifest of FR-005-45 as a document kind. FR-005-45 says uint16 position codes while spec 018 and DEC-0006
+  say int16; the shard header declares its code type, and the contradiction is flagged to the coordinator (FR text
+  unchanged). Resolved, choosing the stricter reading: (1) the scenario lives in a recipe stage's `params`, so its keys
+  follow the parameter-key pattern, it nests at most 4 levels and carries no `$schema` key; each solver requires its
+  own parameter block, Newton's MPM block lists every parameter explicitly (FR-005-16), and benchmark ids are a closed
+  enum `<solver>-<name>` (30 ids) whose prefix must match the solver; (2) every material and vehicle value is a record
+  (value, status, source, url, note) with status `verified`, `unverified`, `calibrated`, `reduced` or `assumed`; the
+  first three need a citation, the last two a note; a `reduced` Young's modulus needs the real value (FR-005-09) and a
+  repose target its method (FR-005-12); (3) benchmark and parity-golden scenarios of Warp solvers declare
+  `deterministic: true` (FR-005-48); production scenarios list no benchmarks, because their benchmark report arrives as
+  a stage input and its absence stays the `unbenchmarked-solver` refusal of FR-005-47; parity-golden scenarios stay
+  inside the twin caps of spec 018 (2 × 10⁴ particles, 256 × 256 cells); (4) bounds the spec leaves open: ≤ 1 × 10⁸
+  particles, ≤ 16,384 cells per axis, ≤ 4,096 vehicles, dt ≤ 10 s, contact capacity ≤ 64, site-local coordinates
+  within ± 1 × 10⁵ m (FR-004-02); Newton's `grid_type` values (`sparse`, `fixed`, `dense`) are UNVERIFIED until the
+  fake-solver test of FR-005-16; (5) field metadata are the Zarr root-group attributes; the CRS record reuses spec
+  004's site origin and terrain CRS record (frame `site-enu`), or `benchmark-local` without an origin for synthetic
+  benchmarks; variables are a closed set with fixed units; C2 maps require h_thr, the inundated area and all three
+  maps; wind fields need u, v and a source; (6) the observables description is the Parquet file's key-value metadata,
+  with UCUM unit codes, a time column and a budget series always present, Δt_R and f_R for the DEM, and the CFL step
+  range with a volume budget for shallow water; (7) benchmark rows hold checks (measured, oracle, tolerance `abs`,
+  `rel`, `interval` or `factor`, pass); verdicts are literally `pass`, `fail` and `not run`; `not run` needs a reason
+  and no checks; on a CPU report every GPU-only row is `not run` with reason `no GPU` (FR-005-49); the rollout stamp
+  (report id, report SHA-256, verdict) is `$defs/stamp` of the report schema, carried by fields and observables; (8) a
+  parity golden embeds its scenario (DC-005-01) with its RFC 8785 digest, and its own mass drift is ≤ 1 × 10⁻⁵, the
+  loosest conservation requirement of the twin solvers (FR-005-28). Gap: no requirement rejects an inverted domain box
+  or dust release window (listed as checker classes without a rule).
+- Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys. The twin mass-drift rule is `web.mass_drift_rel_max` (spec 018) only; no
+  `physics.mass_drift_twin_max` key exists.
+- Integration 2026-10-07 (2): shard code type. The replay-shard schema has one owner, spec 018 (DC-018-03), whose header and
+  replay manifest declare `code_type` (`int16` or `uint16`); FR-005-45 no longer fixes uint16, and consumers read the
+  code type from the header. P-005-27's bound (extent / 131,070) holds for both code types (65,535 steps).
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

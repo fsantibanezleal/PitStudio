@@ -23,6 +23,7 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/001-contracts/te
 - [ ] T-001-020 [US-001-2] (FR-001-21, FR-001-22, FR-001-23, FR-001-24) recipe document, stage-to-environment binding, the hostile values of data-model §3.4 and the job request of §3.5 (inline recipes rejected) — test: tests/contract/test_t_001_020_recipe_schema.py
 - [ ] T-001-021 [US-001-2] (FR-001-25, FR-001-26, FR-001-28) tool-registry schema and the committed `studio/tools.yaml` (20 studio tools of data-model §4.3 plus components), literal versions rejected, lock references resolved against lock fixtures, performance-restricted licences forced to `local-only` — test: tests/contract/test_t_001_021_tools_registry.py
 - [ ] T-001-022 [US-001-2] (FR-001-31, FR-001-32) source-registry schema, the committed `data/sources.yaml` (empty list and the updated example comment with `spdx` / `licence_url` / `licence_class`), the (SPDX, kind) → class table, credential-like values and URLs rejected — test: tests/contract/test_t_001_022_sources_registry.py
+- [ ] T-001-025 [US-001-2] (FR-001-56, FR-001-57) post-schema path and string rules of `validate`: Windows device-name segments in every relative path, case-folded duplicate paths, control characters (trailing newline included) in patterned strings; one hostile fixture per class — test: tests/contract/test_t_001_025_paths_control_chars.py
 - [ ] T-001-024 [US-001-2] (FR-001-52) source-registry fields read by `s00_download` (spec 008): access modes, ordered fallback sources, file kinds, publisher checksums, archive `extract` patterns (`relglob`) and caps, mixed share-alike files; one hostile fixture per class — test: tests/contract/test_t_001_024_sources_download_fields.py
 
 ## Phase 4 — US-001-5 (P2) The capability report stays honest
@@ -32,6 +33,7 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/001-contracts/te
 ## Phase 5 — US-001-4 (P1) Honesty rules across files
 
 - [ ] T-001-030 [US-001-4] (FR-001-50, FR-001-51, NFR-001-01, SC-001-01) `tools/check_contracts.py`: document discovery (data-model §8.1), exit codes 0/1/2, findings without tracebacks for unreadable, malformed, out-of-repo symlinked and unknown files, the scale fixture timed ≤ 30 s, CI step in the python job — test: tests/unit/test_t_001_030_check_contracts.py
+- [ ] T-001-032 [US-001-4] (FR-001-54, FR-001-55) duplicate artefact ids in a manifest, duplicate tool ids in the registry, `shards.done` above `shards.total` — test: tests/contract/test_t_001_032_duplicates_counts.py
 - [ ] T-001-031 [US-001-4] (FR-001-53, FR-001-29, FR-001-33) cross-file rules: evaluated-not-adopted reason and docs page, producer tool and environment vs registry, manifest inputs vs sources and same-run artefacts, unpinned sources in published runs — test: tests/contract/test_t_001_031_cross_file.py
 
 ## Phase 6 — US-001-3 (P1) Types that cannot drift: properties

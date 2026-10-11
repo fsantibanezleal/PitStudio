@@ -174,12 +174,12 @@ Numerical cores and their metamorphic relations (MR): scoring statistics (P-015-
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-015-01 | per-frame scene state (transforms in metres, classes, footprints, visible pixels, depth and dust-field references, conditions) | `contracts/frame-state.schema.json` (new, T-015-001) | SDG stage `st55_sdg` (spec 009) → task-A builder, task-C scorer |
-| DC-015-02 | task-A query set | `contracts/vlm-queries.schema.json` (new, T-015-001) | query builder → `st59a_vqa`, scoring |
-| DC-015-03 | pins (llama.cpp archives and executables, model repositories, revisions, file SHA-256, prompt hashes) | `contracts/reason-pins.schema.json` (new, T-015-001) | maintainer → every `st59_*` stage |
-| DC-015-04 | published answer records | `contracts/vlm-record.schema.json` (new, T-015-001) | `studio publish` → web panels |
-| DC-015-05 | metrics tables (tasks A–C, gate, bench) | `contracts/vlm-metrics.schema.json` (new, T-015-001) | scoring → web results, model card |
-| DC-015-06 | plausibility pair index | `contracts/plausibility-pairs.schema.json` (new, T-015-001) | pair builder → `st59b_plausibility` |
+| DC-015-01 | per-frame scene state (transforms in metres, classes, footprints, visible pixels, depth and dust-field references, conditions) | `specs/015-vlm/contracts/frame-state.schema.json` (draft; promoted to `contracts/frame-state.schema.json` by T-015-001) | SDG stage `st55_sdg` (spec 009) → task-A builder, task-C scorer |
+| DC-015-02 | task-A query set | `specs/015-vlm/contracts/vlm-queries.schema.json` (draft; promoted to `contracts/vlm-queries.schema.json` by T-015-001) | query builder → `st59a_vqa`, scoring |
+| DC-015-03 | pins (llama.cpp archives and executables, model repositories, revisions, file SHA-256, prompt hashes) | `specs/015-vlm/contracts/reason-pins.schema.json` (draft; promoted to `contracts/reason-pins.schema.json` by T-015-001) | maintainer → every `st59_*` stage |
+| DC-015-04 | published answer records | `specs/015-vlm/contracts/vlm-record.schema.json` (draft; promoted to `contracts/vlm-record.schema.json` by T-015-001) | `studio publish` → web panels |
+| DC-015-05 | metrics tables (tasks A–C, gate, bench) | `specs/015-vlm/contracts/vlm-metrics.schema.json` (draft; promoted to `contracts/vlm-metrics.schema.json` by T-015-001) | scoring → web results, model card |
+| DC-015-06 | plausibility pair index | `specs/015-vlm/contracts/plausibility-pairs.schema.json` (draft; promoted to `contracts/plausibility-pairs.schema.json` by T-015-001) | pair builder → `st59b_plausibility` |
 | DC-015-07 | run and asset manifests | `contracts/manifest.schema.json` (spec 001) | `st59_*` stages → web, CI |
 | DC-015-08 | probe `llamacpp` in `studio/capabilities.json` | `contracts/capabilities.schema.json` (DC-000-02) | `studio/bench/run_bench.py` → planner |
 
@@ -239,6 +239,26 @@ binomial tails). Rational quantities (BA from counts, agreement, s̄) are compar
   independent.
 - Resolved: published records are a stratified random sample; the full answer set stays local (text budget, < 1 MB
   per case).
+- Integration 2026-10-07: draft schema written for DC-015-01 … DC-015-06 (`specs/015-vlm/contracts/`, valid and
+  hostile examples indexed in `examples/index.json`); stricter readings chosen: the class "≥ 3" is the label `3+` in
+  every contract; a frame state has one `condition` (day, night, dust or rain) and one `location`, the five classes
+  of FR-009-01, bench edges with their berm flag as a separate list, transforms already in metres (`metersPerUnit`
+  and `upAxis` kept and required), a pose as `translation_m` plus a unit quaternion, prim ids as USD prim paths, and
+  the camera intrinsics and pose and the terrain reference that FR-015-20, FR-015-22 and FR-015-29 need (≤ 1,024
+  objects, coordinates within ±100 km: chosen bounds); the pins fix the two repositories, the revision prefix
+  `9ce19a1`, the two archive names of the b11381 release (`llama-b11381-bin-win-cuda-13.4-x64.zip`,
+  `cudart-llama-bin-win-cuda-13.4-x64.zip`, release download URLs only), `.exe` executables with `llama-server` and
+  `llama-quantize` required, the `convert_hf_to_gguf.py` script by SHA-256 and ten prompts under
+  `studio/reason/prompts/`; records carry both notices, `selection_uses_correctness: false`, display-only for Cosmos
+  arms and `own` otherwise, temperature 0 and top-k 1, ≤ 64 new tokens with reasoning off, a task-B truth fixed by
+  the presentation order, a task-C `correct` meaning no hallucinated class, and outputs ≤ 32,768 characters (chosen
+  bound); in the metrics "GB" is 10⁹ bytes, "Cosmos beats Qwen base" needs p < 0.05, "above chance" needs a lower
+  bound > 0.5 (and "not above chance" ≤ 0.5), a failed gate makes every Q8_0 row `rejected` with the FR-015-15
+  text and a gate not run makes them `not_run`, the detector rule is `not_applicable` on types 2, 4 and 6, measured
+  rows keep the error rate ≤ 0.02, template captions have CHAIR_i = 0 and recall = 1, and task-B interval bounds
+  are not clipped to [0, 1]; a pair declares exactly one corruption with the FR-015-34 statistic of that
+  corruption; counts, balance, uniqueness, digests of files and arithmetic across fields are checker rules (listed
+  in the index); no requirement checks visible pixels ≤ image area or the quaternion norm (gap reported).
 
 ## 9. Changes (only for features that modify earlier behaviour)
 

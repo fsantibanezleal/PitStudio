@@ -163,7 +163,7 @@ pushbacks → schedule → DC-017-03 → `st20_pit_design`, routing (spec 007), 
 | SC-017-06 | pipeline | the report has one row per design and seed and no pass field | pytest |
 | DC-017-01…05 | contract | valid and invalid example documents per schema | pytest + jsonschema |
 
-### Threshold keys requested (`thresholds.yaml`, ratchet-only; proposed keys, pending maintainer approval)
+### Threshold keys (`thresholds.yaml`, ratchet-only)
 `models.meta_model_r2_min: 0.95`, `models.meta_model_onnx_bytes_max: 1000000`,
 `web.mincut_blocks_live_max: 100000`, `survey.splat_bytes_max: 25000000`.
 

@@ -1,0 +1,138 @@
+{
+  "$schema": "https://fsantibanezleal.github.io/PitStudio/contracts/scene-manifest.schema.json",
+  "schema_version": "1.0",
+  "kind": "scene-manifest",
+  "manifest_id": "a1-bingham-scene",
+  "case": "A1",
+  "params_sha256": "1a7ae2af63dafb1ceb4c9738fe1c948b396c4d1746cd571c9dea273c0333529c",
+  "seed": 20261007,
+  "site": {
+    "name": "Bingham Canyon (provisional)",
+    "provisional": true,
+    "confirmation": null,
+    "origin": {
+      "epsg": 26912,
+      "easting_m": 406500.0,
+      "northing_m": 4484500.0,
+      "z0_m": 1800.0
+    }
+  },
+  "sources": [
+    {
+      "id": "usgs-3dep-bingham",
+      "role": "terrain",
+      "spdx": "LicenseRef-USGov-PD",
+      "licence_class": "public-domain",
+      "redistribution": "redistributable",
+      "attribution": "Elevation data: U.S. Geological Survey, 3D Elevation Program (3DEP), project UT Central QL2 2018, accessed 2026-10-02.",
+      "project": "UT Central QL2 2018",
+      "epoch": 2018,
+      "status": "used"
+    },
+    {
+      "id": "polyhaven",
+      "role": "texture",
+      "spdx": "CC0-1.0",
+      "licence_class": "open-no-attribution",
+      "redistribution": "redistributable",
+      "attribution": "Textures: Poly Haven (CC0).",
+      "status": "used"
+    }
+  ],
+  "inputs": [
+    {
+      "source": "usgs-3dep-bingham",
+      "file": "usgs-3dep-bingham/ut-central-ql2-2018-dem.tif",
+      "kind": "dem",
+      "sha256": "af114dc5b3eac50dc17c7ab0e8040c60f762f281c328656ecf20e36f77412fd7",
+      "crs": {
+        "horizontal": {
+          "epsg": 26912
+        },
+        "vertical": {
+          "epsg": 5703
+        },
+        "horizontal_unit": {
+          "name": "metre",
+          "factor_to_m": 1.0
+        },
+        "vertical_unit": {
+          "name": "metre",
+          "factor_to_m": 1.0
+        }
+      }
+    }
+  ],
+  "terrain": {
+    "grid": {
+      "path": "terrain/grid.zarr/zarr.json",
+      "sha256": "0f2a693e93e2ed7008feb5b7714bbab236e3907e64188199e3be1ae367f49c40"
+    },
+    "tiles": {
+      "path": "terrain/tiles.json",
+      "sha256": "ad9243fa6fb22714f45277ba907cb9383a18674fbcdb7b4b05a86929b2d853cd"
+    },
+    "cell_size_m": 1.0,
+    "unfilled_holes": 3,
+    "unfilled_cells": 212,
+    "nodata_frac": 0.000625
+  },
+  "design": {
+    "report": {
+      "path": "design/pit-design-report.json",
+      "sha256": "845e91831319e89c4d656bdb80c278ac09a7230d61e5dfd2e1b1fbb436ac8917"
+    },
+    "road_network": {
+      "path": "design/road-network.geojson",
+      "sha256": "846bb37c041492f4748c75cf4f86033ea1f009e2c939c794be7d93c072391ce6"
+    },
+    "provenance": "design-code"
+  },
+  "layers": [],
+  "textures": [
+    {
+      "id": "gravel-road",
+      "source": "polyhaven",
+      "spdx": "CC0-1.0",
+      "sha256": "1a0608caa001dc6eab8f106c7bc9bade47b8db6675ea1e23a17a813af8db6d73"
+    }
+  ],
+  "people_route": "procedural-mannequin",
+  "variants": {
+    "pushback": {
+      "names": [
+        "pb0"
+      ],
+      "default": "pb0"
+    },
+    "scenario": {
+      "names": [
+        "baseline"
+      ],
+      "default": "baseline"
+    },
+    "time_of_day": {
+      "names": [
+        "noon"
+      ],
+      "default": "noon"
+    },
+    "weather": {
+      "names": [
+        "clear"
+      ],
+      "default": "clear"
+    },
+    "lod": {
+      "names": [
+        "lod0",
+        "lod1",
+        "lod2"
+      ],
+      "default": "lod0"
+    }
+  },
+  "validation": {
+    "status": "pending"
+  }
+}

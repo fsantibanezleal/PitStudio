@@ -194,10 +194,10 @@ All modules live in the `pipeline/` environment (package `pitstudio_pipeline`): 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
 | ~~DC-008-01~~ | Retired: the registry fields read by `s00_download`. | superseded by DC-001-04 (`contracts/sources.schema.json`, spec 001 data-model §5; integration 2026-10-07) | — |
-| DC-008-02 | Fetch record per file | `contracts/fetch-record.schema.json` (new) | `s00_download` → manifest, `s10_preprocess` |
-| DC-008-03 | Ingestion report (accepted or rejected; every violation as file, row or pixel, column or property, value, rule, unit) | `contracts/ingestion-report.schema.json` (new) | `s10_preprocess` → maintainer, manifest |
-| DC-008-04 | Split file (dataset id and version, group-key rule, links, groups, folds with test and train-pool lists, seed, method, membership SHA-256) | `contracts/split.schema.json` (new) | `s10_preprocess` → `s20`, `s30`, `s50` (specs 010, 012) |
-| DC-008-05 | Data-card front matter for real and synthetic sets (identity, licence, digests, synthetic fields, validation class and verdict or label) | `contracts/data-card.schema.json` (new) | `s00` / `s05` / maintainer → CI card check, web knowledge pages |
+| DC-008-02 | Fetch record per file | `specs/008-data-pipeline/contracts/fetch-record.schema.json` (draft; promoted to `contracts/fetch-record.schema.json` by T-008-001) | `s00_download` → manifest, `s10_preprocess` |
+| DC-008-03 | Ingestion report (accepted or rejected; every violation as file, row or pixel, column or property, value, rule, unit) | `specs/008-data-pipeline/contracts/ingestion-report.schema.json` (draft; promoted to `contracts/ingestion-report.schema.json` by T-008-001) | `s10_preprocess` → maintainer, manifest |
+| DC-008-04 | Split file (dataset id and version, group-key rule, links, groups, folds with test and train-pool lists, seed, method, membership SHA-256) | `specs/008-data-pipeline/contracts/split.schema.json` (draft; promoted to `contracts/split.schema.json` by T-008-001) | `s10_preprocess` → `s20`, `s30`, `s50` (specs 010, 012) |
+| DC-008-05 | Data-card front matter for real and synthetic sets (identity, licence, digests, synthetic fields, validation class and verdict or label) | `specs/008-data-pipeline/contracts/data-card.schema.json` (draft; promoted to `contracts/data-card.schema.json` by T-008-001) | `s00` / `s05` / maintainer → CI card check, web knowledge pages |
 
 Every stage output is also listed in a manifest valid against `contracts/manifest.schema.json` (DC-000-01), with
 inputs by SHA-256 and the licence class computed by spec 001 (FR-001-18).
@@ -288,6 +288,13 @@ inputs by SHA-256 and the licence class computed by spec 001 (FR-001-18).
     rejected by the schema). FR-008-02 is now the consumer-side rule (reject the whole registry on any spec 001
     violation); FR-008-07, -10, -13, -14 and -18 use spec 001's field names. Item 3 is superseded. T-008-001 no
     longer writes `sources.schema.json`. FR-008-14 uses spec 002's stage status `not_run` (FR-002-60).
+- Integration 2026-10-07: draft schema written for DC-008-02 … DC-008-05 (`specs/008-data-pipeline/contracts/`, valid and hostile examples indexed in `examples/index.json`); ambiguities resolved, stricter reading chosen:
+  (a) the fetch record also holds the expected digest and size (FR-008-06 reports both), the local name and the stored path relative to the data root, the declared publisher checksum and its status (`match`, `mismatch`, `not-declared`, `not-checked`), and attempts 0–6 (one try plus five retries); `redistribution` and `publisher_checksum` are referenced from spec 001's `sources.schema.json`;
+  (b) `verified` ⇒ final URL, stored path, sizes, digests and retrieval time present and no checksum mismatch; `pin-proposed` ⇒ no registry pin, a computed digest and no checksum mismatch; `fallback-used` ⇒ at least one fallback id;
+  (c) one ingestion-report violation is (file, row or series index, or pixel; field with kind `column` or `property`; found value, with non-finite values as text; expected value; rule; unit); `rejected` ⇒ at least one violation and no output; `accepted` ⇒ no violation; up to 10⁶ violations, never truncated;
+  (d) split record ids match `^[A-Za-z0-9_][A-Za-z0-9._-]{0,127}$`; the membership SHA-256 is taken over the RFC 8785 canonical JSON of `{groups, folds}`; the group-key rules are the FR-008-31 types; `single-group` ⇒ method `none` and no folds; for `mendeley-78ht3pjsr4` the schema fixes its group-key rule, the seeded grouped k-fold, 9 links, 5 folds and 48 test records per fold;
+  (e) the data card is one of two closed kinds (real, synthetic); `descriptive-only (single real event)` is class `descriptive-only` with basis `single real event`; `validated-against-real` ⇒ a real reference and tests (verdict `pending` allowed); `unvalidated` ⇒ the exact label and `c2st_tstr: not-applicable` and no tests; neither `unvalidated` nor `descriptive-only` may carry a C2ST or TSTR test (FR-008-37);
+  (f) cross-spec note: `relpath` forbids spaces, so Mendeley archive members (`Annotated data/…`) need a declared local name when FR-008-18 extracts them.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 Not applicable: a new feature. The registry fields this spec reads are defined by spec 001 (DC-001-04).

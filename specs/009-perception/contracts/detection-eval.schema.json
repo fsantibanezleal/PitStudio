@@ -1,0 +1,1337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/detection-eval.schema.json",
+  "title": "Detection evaluation report",
+  "description": "Perception evaluation report of s50_evaluate (per model, precision, family and class AP with intervals and support; corruption curves; DR ablation; sim-to-real status, honesty label and verdicts) (DC-009-05, spec 009-perception).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "test_data",
+    "honesty_label",
+    "sim_to_real",
+    "protocol",
+    "bootstrap",
+    "families",
+    "per_class",
+    "summary",
+    "corruption",
+    "dr_ablation",
+    "acceptance"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "test_data": {
+      "const": "synthetic held-out"
+    },
+    "honesty_label": {
+      "$ref": "#/$defs/honesty_label"
+    },
+    "sim_to_real": {
+      "enum": [
+        "not measured",
+        "measured"
+      ]
+    },
+    "protocol": {
+      "$ref": "#/$defs/protocol"
+    },
+    "bootstrap": {
+      "$ref": "#/$defs/cluster_bootstrap"
+    },
+    "families": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/family_status"
+      }
+    },
+    "per_class": {
+      "type": "array",
+      "maxItems": 1000,
+      "items": {
+        "$ref": "#/$defs/class_result"
+      }
+    },
+    "summary": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "$ref": "#/$defs/summary_result"
+      }
+    },
+    "corruption": {
+      "type": "array",
+      "maxItems": 2000,
+      "items": {
+        "$ref": "#/$defs/corruption_point"
+      }
+    },
+    "dr_ablation": {
+      "$ref": "#/$defs/dr_ablation"
+    },
+    "acceptance": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "$ref": "#/$defs/acceptance"
+      }
+    },
+    "real_probe": {
+      "$ref": "#/$defs/real_probe"
+    },
+    "rejected_inputs": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "#/$defs/rejected_input"
+      }
+    }
+  },
+  "if": {
+    "properties": {
+      "sim_to_real": {
+        "const": "not measured"
+      }
+    },
+    "required": [
+      "sim_to_real"
+    ]
+  },
+  "then": {
+    "not": {
+      "required": [
+        "real_probe"
+      ]
+    },
+    "properties": {
+      "per_class": {
+        "items": {
+          "properties": {
+            "sim_to_real": {
+              "const": "not measured"
+            }
+          }
+        }
+      }
+    }
+  },
+  "else": {
+    "required": [
+      "real_probe"
+    ]
+  },
+  "$defs": {
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "honesty_label": {
+      "const": "calibrated synthetic — not validated against real data"
+    },
+    "model": {
+      "enum": [
+        "d-fine-n",
+        "d-fine-s",
+        "rf-detr-seg-n"
+      ]
+    },
+    "precision": {
+      "enum": [
+        "fp32",
+        "fp16",
+        "int8"
+      ]
+    },
+    "training_arm": {
+      "enum": [
+        "S",
+        "U"
+      ]
+    },
+    "class_name": {
+      "enum": [
+        "haul_truck",
+        "shovel",
+        "light_vehicle",
+        "person",
+        "boulder"
+      ]
+    },
+    "probe_class": {
+      "enum": [
+        "haul_truck",
+        "shovel",
+        "light_vehicle",
+        "person"
+      ]
+    },
+    "unit": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "properties": {
+        "lower": {
+          "$ref": "#/$defs/unit"
+        },
+        "upper": {
+          "$ref": "#/$defs/unit"
+        }
+      }
+    },
+    "difference_interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "properties": {
+        "lower": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "upper": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implementation",
+        "implementation_version",
+        "iou_thresholds",
+        "recall_points",
+        "max_dets",
+        "area",
+        "min_support"
+      ],
+      "properties": {
+        "implementation": {
+          "const": "pycocotools"
+        },
+        "implementation_version": {
+          "$ref": "#/$defs/version"
+        },
+        "iou_thresholds": {
+          "const": "0.50:0.05:0.95"
+        },
+        "recall_points": {
+          "const": 101
+        },
+        "max_dets": {
+          "const": 100
+        },
+        "area": {
+          "const": "all"
+        },
+        "min_support": {
+          "const": 100
+        }
+      }
+    },
+    "cluster_bootstrap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resamples",
+        "method",
+        "cluster",
+        "level",
+        "seed"
+      ],
+      "properties": {
+        "resamples": {
+          "const": 2000
+        },
+        "method": {
+          "const": "cluster-percentile"
+        },
+        "cluster": {
+          "const": "test-scenario-seed"
+        },
+        "level": {
+          "const": 0.95
+        },
+        "seed": {
+          "$ref": "#/$defs/seed"
+        }
+      }
+    },
+    "family_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family",
+        "status"
+      ],
+      "properties": {
+        "family": {
+          "enum": [
+            "pit",
+            "crusher"
+          ]
+        },
+        "status": {
+          "enum": [
+            "run",
+            "not run"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "not run"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "reason"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "reason"
+          ]
+        }
+      }
+    },
+    "class_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "precision",
+        "training_arm",
+        "family",
+        "task",
+        "class",
+        "support",
+        "descriptive",
+        "honesty_label",
+        "sim_to_real"
+      ],
+      "properties": {
+        "model": {
+          "$ref": "#/$defs/model"
+        },
+        "precision": {
+          "$ref": "#/$defs/precision"
+        },
+        "training_arm": {
+          "$ref": "#/$defs/training_arm"
+        },
+        "family": {
+          "enum": [
+            "pit",
+            "crusher",
+            "pooled"
+          ]
+        },
+        "task": {
+          "enum": [
+            "box",
+            "mask"
+          ]
+        },
+        "class": {
+          "$ref": "#/$defs/class_name"
+        },
+        "support": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "ap50": {
+          "$ref": "#/$defs/unit"
+        },
+        "ap50_95": {
+          "$ref": "#/$defs/unit"
+        },
+        "ap50_interval": {
+          "$ref": "#/$defs/interval"
+        },
+        "ap50_95_interval": {
+          "$ref": "#/$defs/interval"
+        },
+        "descriptive": {
+          "type": "boolean"
+        },
+        "honesty_label": {
+          "$ref": "#/$defs/honesty_label"
+        },
+        "sim_to_real": {
+          "enum": [
+            "not measured",
+            "measured"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "support": {
+                "const": 0
+              }
+            },
+            "required": [
+              "support"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "ap50"
+                  ]
+                },
+                {
+                  "required": [
+                    "ap50_95"
+                  ]
+                },
+                {
+                  "required": [
+                    "ap50_interval"
+                  ]
+                },
+                {
+                  "required": [
+                    "ap50_95_interval"
+                  ]
+                }
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "ap50",
+              "ap50_95",
+              "ap50_interval",
+              "ap50_95_interval"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "task": {
+                "const": "mask"
+              }
+            },
+            "required": [
+              "task"
+            ]
+          },
+          "then": {
+            "properties": {
+              "model": {
+                "const": "rf-detr-seg-n"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "task": {
+                "const": "mask"
+              },
+              "family": {
+                "const": "crusher"
+              }
+            },
+            "required": [
+              "task",
+              "family"
+            ]
+          },
+          "then": {
+            "properties": {
+              "descriptive": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    "summary_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "precision",
+        "training_arm",
+        "family",
+        "task",
+        "metric",
+        "classes_included",
+        "descriptive"
+      ],
+      "properties": {
+        "model": {
+          "$ref": "#/$defs/model"
+        },
+        "precision": {
+          "$ref": "#/$defs/precision"
+        },
+        "training_arm": {
+          "$ref": "#/$defs/training_arm"
+        },
+        "family": {
+          "enum": [
+            "pit",
+            "crusher",
+            "pooled"
+          ]
+        },
+        "task": {
+          "enum": [
+            "box",
+            "mask"
+          ]
+        },
+        "metric": {
+          "enum": [
+            "map50",
+            "mask_ap50"
+          ]
+        },
+        "value": {
+          "$ref": "#/$defs/unit"
+        },
+        "interval": {
+          "$ref": "#/$defs/interval"
+        },
+        "classes_included": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/class_name"
+          }
+        },
+        "descriptive": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "classes_included": {
+                "maxItems": 0
+              }
+            },
+            "required": [
+              "classes_included"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "value"
+                  ]
+                },
+                {
+                  "required": [
+                    "interval"
+                  ]
+                }
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "value",
+              "interval"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "task": {
+                "const": "mask"
+              }
+            },
+            "required": [
+              "task"
+            ]
+          },
+          "then": {
+            "properties": {
+              "model": {
+                "const": "rf-detr-seg-n"
+              },
+              "metric": {
+                "const": "mask_ap50"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "metric": {
+                "const": "map50"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "corruption_point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "precision",
+        "training_arm",
+        "metric",
+        "corruption",
+        "severity",
+        "m_clean",
+        "m_corrupted",
+        "delta_rel_pct",
+        "descriptive"
+      ],
+      "properties": {
+        "model": {
+          "$ref": "#/$defs/model"
+        },
+        "precision": {
+          "$ref": "#/$defs/precision"
+        },
+        "training_arm": {
+          "$ref": "#/$defs/training_arm"
+        },
+        "metric": {
+          "enum": [
+            "map50",
+            "mask_ap50"
+          ]
+        },
+        "corruption": {
+          "enum": [
+            "dust",
+            "night",
+            "rain"
+          ]
+        },
+        "severity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "m_clean": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "m_corrupted": {
+          "$ref": "#/$defs/unit"
+        },
+        "delta_rel_pct": {
+          "type": "number",
+          "minimum": -100000,
+          "maximum": 100
+        },
+        "descriptive": {
+          "type": "boolean"
+        }
+      },
+      "if": {
+        "properties": {
+          "metric": {
+            "const": "mask_ap50"
+          }
+        },
+        "required": [
+          "metric"
+        ]
+      },
+      "then": {
+        "properties": {
+          "model": {
+            "const": "rf-detr-seg-n"
+          },
+          "descriptive": {
+            "const": true
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "model": {
+            "enum": [
+              "d-fine-n",
+              "d-fine-s"
+            ]
+          }
+        }
+      }
+    },
+    "dr_ablation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "precision",
+        "metric",
+        "family",
+        "arm_a",
+        "arm_b",
+        "difference",
+        "interval",
+        "bootstrap",
+        "verdict",
+        "training_runs_per_arm",
+        "test_seeds",
+        "test_images"
+      ],
+      "properties": {
+        "model": {
+          "const": "d-fine-s"
+        },
+        "precision": {
+          "const": "fp32"
+        },
+        "metric": {
+          "const": "map50"
+        },
+        "family": {
+          "const": "pit"
+        },
+        "arm_a": {
+          "const": "S"
+        },
+        "arm_b": {
+          "const": "U"
+        },
+        "difference": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "interval": {
+          "$ref": "#/$defs/difference_interval"
+        },
+        "bootstrap": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "resamples",
+            "method",
+            "cluster",
+            "level",
+            "identical_resample_indices",
+            "seed"
+          ],
+          "properties": {
+            "resamples": {
+              "const": 10000
+            },
+            "method": {
+              "const": "paired-cluster-percentile"
+            },
+            "cluster": {
+              "const": "test-scenario-seed"
+            },
+            "level": {
+              "const": 0.95
+            },
+            "identical_resample_indices": {
+              "const": true
+            },
+            "seed": {
+              "$ref": "#/$defs/seed"
+            }
+          }
+        },
+        "verdict": {
+          "enum": [
+            "better",
+            "worse",
+            "no significant difference"
+          ]
+        },
+        "training_runs_per_arm": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "test_seeds": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 100000
+        },
+        "test_images": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      }
+    },
+    "support_shortfall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family",
+        "class",
+        "count"
+      ],
+      "properties": {
+        "family": {
+          "enum": [
+            "pit",
+            "crusher",
+            "pooled"
+          ]
+        },
+        "class": {
+          "$ref": "#/$defs/class_name"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 99
+        }
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criterion",
+        "model",
+        "precision",
+        "statistic",
+        "threshold",
+        "verdict"
+      ],
+      "properties": {
+        "criterion": {
+          "enum": [
+            "SC-009-01",
+            "SC-009-02",
+            "SC-009-03",
+            "SC-009-05",
+            "SC-009-06"
+          ]
+        },
+        "model": {
+          "$ref": "#/$defs/model"
+        },
+        "precision": {
+          "$ref": "#/$defs/precision"
+        },
+        "corruption": {
+          "enum": [
+            "dust",
+            "night",
+            "rain"
+          ]
+        },
+        "severity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2
+        },
+        "statistic": {
+          "enum": [
+            "map50",
+            "mask_ap50",
+            "delta_rel_pct",
+            "abs_delta_mask_ap50_pp"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "minimum": -100000,
+          "maximum": 100
+        },
+        "threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "not evaluable (insufficient support)",
+            "not run"
+          ]
+        },
+        "insufficient_support": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 15,
+          "items": {
+            "$ref": "#/$defs/support_shortfall"
+          }
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "verdict": {
+                "enum": [
+                  "pass",
+                  "fail"
+                ]
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          },
+          "then": {
+            "required": [
+              "value"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "insufficient_support"
+                  ]
+                },
+                {
+                  "required": [
+                    "reason"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verdict": {
+                "const": "not evaluable (insufficient support)"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          },
+          "then": {
+            "required": [
+              "insufficient_support"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verdict": {
+                "const": "not run"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "criterion": {
+                "const": "SC-009-01"
+              }
+            },
+            "required": [
+              "criterion"
+            ]
+          },
+          "then": {
+            "properties": {
+              "model": {
+                "const": "d-fine-s"
+              },
+              "precision": {
+                "const": "fp32"
+              },
+              "statistic": {
+                "const": "map50"
+              },
+              "threshold": {
+                "const": 0.8
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "criterion": {
+                "const": "SC-009-02"
+              }
+            },
+            "required": [
+              "criterion"
+            ]
+          },
+          "then": {
+            "properties": {
+              "model": {
+                "const": "d-fine-n"
+              },
+              "precision": {
+                "const": "fp32"
+              },
+              "statistic": {
+                "const": "map50"
+              },
+              "threshold": {
+                "const": 0.7
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "criterion": {
+                "const": "SC-009-03"
+              }
+            },
+            "required": [
+              "criterion"
+            ]
+          },
+          "then": {
+            "required": [
+              "corruption",
+              "severity"
+            ],
+            "properties": {
+              "model": {
+                "enum": [
+                  "d-fine-n",
+                  "d-fine-s"
+                ]
+              },
+              "statistic": {
+                "const": "delta_rel_pct"
+              },
+              "threshold": {
+                "const": 10
+              }
+            }
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "corruption"
+                  ]
+                },
+                {
+                  "required": [
+                    "severity"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "criterion": {
+                "const": "SC-009-05"
+              }
+            },
+            "required": [
+              "criterion"
+            ]
+          },
+          "then": {
+            "properties": {
+              "model": {
+                "const": "rf-detr-seg-n"
+              },
+              "precision": {
+                "const": "fp32"
+              },
+              "statistic": {
+                "const": "mask_ap50"
+              },
+              "threshold": {
+                "const": 0.7
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "criterion": {
+                "const": "SC-009-06"
+              }
+            },
+            "required": [
+              "criterion"
+            ]
+          },
+          "then": {
+            "properties": {
+              "model": {
+                "const": "rf-detr-seg-n"
+              },
+              "precision": {
+                "const": "fp16"
+              },
+              "statistic": {
+                "const": "abs_delta_mask_ap50_pp"
+              },
+              "threshold": {
+                "const": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "probe_class_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "class",
+        "support",
+        "ap50",
+        "ap50_interval"
+      ],
+      "properties": {
+        "model": {
+          "enum": [
+            "d-fine-n",
+            "d-fine-s"
+          ]
+        },
+        "class": {
+          "$ref": "#/$defs/probe_class"
+        },
+        "support": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "ap50": {
+          "$ref": "#/$defs/unit"
+        },
+        "ap50_interval": {
+          "$ref": "#/$defs/interval"
+        }
+      }
+    },
+    "real_probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "images",
+        "excluded_images",
+        "ground_truth",
+        "per_class",
+        "labeller_b_map50",
+        "agreement",
+        "bootstrap",
+        "aggregate_only"
+      ],
+      "properties": {
+        "images": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "excluded_images": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "ground_truth": {
+          "const": "labeller-a"
+        },
+        "per_class": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/probe_class_result"
+          }
+        },
+        "labeller_b_map50": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "model",
+              "map50"
+            ],
+            "properties": {
+              "model": {
+                "enum": [
+                  "d-fine-n",
+                  "d-fine-s"
+                ]
+              },
+              "map50": {
+                "$ref": "#/$defs/unit"
+              }
+            }
+          }
+        },
+        "agreement": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "class",
+              "box_f1",
+              "iou_threshold"
+            ],
+            "properties": {
+              "class": {
+                "$ref": "#/$defs/probe_class"
+              },
+              "box_f1": {
+                "$ref": "#/$defs/unit"
+              },
+              "iou_threshold": {
+                "const": 0.5
+              }
+            }
+          }
+        },
+        "bootstrap": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "resamples",
+            "method",
+            "level",
+            "seed"
+          ],
+          "properties": {
+            "resamples": {
+              "const": 2000
+            },
+            "method": {
+              "const": "image-percentile"
+            },
+            "level": {
+              "const": 0.95
+            },
+            "seed": {
+              "$ref": "#/$defs/seed"
+            }
+          }
+        },
+        "aggregate_only": {
+          "const": true
+        }
+      }
+    },
+    "rejected_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input",
+        "reason"
+      ],
+      "properties": {
+        "input": {
+          "$ref": "#/$defs/relpath"
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        }
+      }
+    }
+  }
+}

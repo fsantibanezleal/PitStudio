@@ -1,0 +1,19 @@
+{
+  "kind": "radar-map",
+  "synthetic": true,
+  "event_id": "voight-test-snr-obs-000123",
+  "radar": {
+    "position_m": [
+      0.0,
+      -1500.0,
+      2050.0
+    ],
+    "wavelength_mm": 17.4,
+    "scan_interval_min": 6
+  },
+  "sign_convention": "positive = toward the radar",
+  "scan_index": 7,
+  "t_h": 0.7,
+  "ambiguous_pixels": 1,
+  "pixels": []
+}

@@ -1,0 +1,870 @@
+{
+  "spec": "014-robot-learning",
+  "examples": [
+    {
+      "file": "il-task.valid.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-1 haul-truck training parameters (63-element observation)"
+    },
+    {
+      "file": "il-task.valid-il2.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-2 excavator training parameters (46-element observation)"
+    },
+    {
+      "file": "il-task.valid-mpm.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-2b MPM evaluation parameters"
+    },
+    {
+      "file": "il-task.hostile-unknown-field.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key",
+      "rule": "FR-014-46",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "il-task.hostile-out-of-range.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "randomisation range outside the FR-014-13 limits",
+      "rule": "FR-014-46",
+      "pointer": "/randomisation/rolling_resistance_pct/1",
+      "keyword": "maximum"
+    },
+    {
+      "file": "il-task.hostile-soil-out-of-range.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "randomisation range outside the FR-014-19 limits",
+      "rule": "FR-014-46",
+      "pointer": "/randomisation/friction_angle_deg/0",
+      "keyword": "minimum"
+    },
+    {
+      "file": "il-task.hostile-wrong-observation-size.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "observation size other than 63 (IL-1)",
+      "rule": "FR-014-46",
+      "pointer": "/observation_size",
+      "keyword": "const"
+    },
+    {
+      "file": "il-task.hostile-unknown-enum.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "observation segment of another task",
+      "rule": "FR-014-46",
+      "pointer": "/observation_layout/7/segment",
+      "keyword": "enum"
+    },
+    {
+      "file": "il-task.hostile-unknown-policy.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown policy id",
+      "rule": "FR-014-46",
+      "pointer": "/policy",
+      "keyword": "const"
+    },
+    {
+      "file": "il-task.hostile-wrong-ppo-constant.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "PPO discount other than 0.99",
+      "rule": "FR-014-25",
+      "pointer": "/training/gamma",
+      "keyword": "const"
+    },
+    {
+      "file": "il-task.hostile-over-budget.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "IL-1 VRAM budget above 5 GB",
+      "rule": "NFR-014-01",
+      "pointer": "/budget/vram_gb",
+      "keyword": "maximum"
+    },
+    {
+      "file": "il-task.hostile-too-few-episodes.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "evaluation with fewer than 100 episodes",
+      "rule": "FR-014-32",
+      "pointer": "/evaluation/episodes",
+      "keyword": "const"
+    },
+    {
+      "file": "il-task.hostile-wrong-unit.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "cohesion not in kPa",
+      "rule": "FR-014-46",
+      "pointer": "/randomisation",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "il-task.hostile-conditional-stage.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "MPM tier requested for IL-1",
+      "rule": "FR-014-22",
+      "pointer": "/stage",
+      "keyword": "const"
+    },
+    {
+      "file": "il-task.hostile-negative-weight.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative reward weight",
+      "rule": "FR-014-46",
+      "pointer": "/reward_weights/jerk",
+      "keyword": "minimum"
+    },
+    {
+      "file": "il-task.hostile-bad-pattern.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "reward term of another task",
+      "rule": "FR-014-46",
+      "pointer": "/reward_weights",
+      "keyword": "pattern"
+    },
+    {
+      "file": "il-task.hostile-missing-required.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing seeds",
+      "rule": "FR-014-46",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "il-task.hostile-conditional-mpm-block.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "MPM stage without its mpm block",
+      "rule": "FR-014-46",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "il-task.hostile-wrong-type.json",
+      "schema": "il-task.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fractional actuator delay",
+      "rule": "FR-014-46",
+      "pointer": "/randomisation/actuator_delay_steps/1",
+      "keyword": "type"
+    },
+    {
+      "file": "machine-params.valid.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "generic haul truck with meshes and cited dimensions"
+    },
+    {
+      "file": "machine-params.valid-excavator.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "generic excavator with four revolute joints"
+    },
+    {
+      "file": "machine-params.valid-loader.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "generic wheel loader (IL-3)"
+    },
+    {
+      "file": "machine-params.hostile-non-positive-mass.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "non-positive mass",
+      "rule": "FR-014-07",
+      "pointer": "/empty_mass_kg",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "machine-params.hostile-non-positive-torque.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "torque limit <= 0",
+      "rule": "FR-014-07",
+      "pointer": "/joints/boom/torque_max_n_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "machine-params.hostile-unknown-field.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key",
+      "rule": "FR-014-07",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "machine-params.hostile-url-scheme.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "mesh reference with a URL",
+      "rule": "FR-014-07",
+      "pointer": "/meshes/chassis",
+      "keyword": "pattern"
+    },
+    {
+      "file": "machine-params.hostile-absolute-path.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "mesh reference with an absolute path",
+      "rule": "FR-014-07",
+      "pointer": "/meshes/chassis",
+      "keyword": "pattern"
+    },
+    {
+      "file": "machine-params.hostile-path-traversal.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "mesh reference outside the asset folder",
+      "rule": "FR-014-07",
+      "pointer": "/meshes/wheel",
+      "keyword": "pattern"
+    },
+    {
+      "file": "machine-params.hostile-empty.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no published source",
+      "rule": "DC-014-02",
+      "pointer": "/sources",
+      "keyword": "minItems"
+    },
+    {
+      "file": "machine-params.hostile-malformed-doi.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed DOI",
+      "rule": "DC-014-02",
+      "pointer": "/sources/0/doi",
+      "keyword": "pattern"
+    },
+    {
+      "file": "machine-params.hostile-unknown-enum.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown machine kind",
+      "rule": "FR-014-07",
+      "pointer": "/kind",
+      "keyword": "const"
+    },
+    {
+      "file": "machine-params.hostile-wrong-unit.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "dimension not in metres",
+      "rule": "FR-014-07",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "machine-params.hostile-missing-required.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "uncited dimension",
+      "rule": "DC-014-02",
+      "pointer": "/provenance/wheelbase_m",
+      "keyword": "required"
+    },
+    {
+      "file": "machine-params.hostile-wrong-shape.json",
+      "schema": "machine-params.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pivot with one coordinate",
+      "rule": "FR-014-07",
+      "pointer": "/boom_pivot_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "il-policy-handoff.valid.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-1 handoff with a 63-element normaliser"
+    },
+    {
+      "file": "il-policy-handoff.valid-il2.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-2 handoff with a 46-element normaliser"
+    },
+    {
+      "file": "il-policy-handoff.hostile-wrong-observation-size.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "observation size other than 63 (IL-1)",
+      "rule": "FR-014-28",
+      "pointer": "/observation_size",
+      "keyword": "const"
+    },
+    {
+      "file": "il-policy-handoff.hostile-zero-variance.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "normaliser variance <= 0",
+      "rule": "FR-014-28",
+      "pointer": "/normaliser/var/5",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "il-policy-handoff.hostile-malformed-digest.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "63-character digest",
+      "rule": "FR-014-28",
+      "pointer": "/checkpoint/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "il-policy-handoff.hostile-wrong-shape.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "normaliser shorter than the observation",
+      "rule": "FR-014-28",
+      "pointer": "/normaliser/mean",
+      "keyword": "minItems"
+    },
+    {
+      "file": "il-policy-handoff.hostile-unknown-enum.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown policy",
+      "rule": "FR-014-28",
+      "pointer": "/policy",
+      "keyword": "enum"
+    },
+    {
+      "file": "il-policy-handoff.hostile-too-few-goldens.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 200 golden observations",
+      "rule": "FR-014-27",
+      "pointer": "/goldens/count",
+      "keyword": "minimum"
+    },
+    {
+      "file": "il-policy-handoff.hostile-unknown-field.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key",
+      "rule": "FR-014-28",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "il-policy-handoff.hostile-path-traversal.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-014-28",
+      "pointer": "/checkpoint/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "il-policy-handoff.hostile-conditional-task.json",
+      "schema": "il-policy-handoff.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "task of another policy",
+      "rule": "FR-014-28",
+      "pointer": "/task",
+      "keyword": "const"
+    },
+    {
+      "file": "il-episodes.valid.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-1 policy arm, 100 paired episodes"
+    },
+    {
+      "file": "il-episodes.valid-mpm.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-2b MPM arm, 32 paired episodes"
+    },
+    {
+      "file": "il-episodes.valid-baseline.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-1 pure pursuit + PID baseline arm"
+    },
+    {
+      "file": "il-episodes.valid-il1-row.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#/$defs/il1_episode",
+      "valid": true,
+      "note": "one IL-1 episode row"
+    },
+    {
+      "file": "il-episodes.valid-dig-row.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#/$defs/dig_episode",
+      "valid": true,
+      "note": "one IL-2 episode row"
+    },
+    {
+      "file": "il-episodes.hostile-conditional-arm.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "arm not defined for the policy",
+      "rule": "FR-014-39",
+      "pointer": "/arm",
+      "keyword": "enum"
+    },
+    {
+      "file": "il-episodes.hostile-conditional-controller.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "IL-1 table from the dig baseline",
+      "rule": "FR-014-39",
+      "pointer": "/controller/kind",
+      "keyword": "enum"
+    },
+    {
+      "file": "il-episodes.hostile-stochastic-actions.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "evaluation with sampled actions",
+      "rule": "FR-014-32",
+      "pointer": "/deterministic_actions",
+      "keyword": "const"
+    },
+    {
+      "file": "il-episodes.hostile-malformed-digest.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "uppercase digest",
+      "rule": "FR-014-39",
+      "pointer": "/table/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "il-episodes.hostile-path-traversal.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-014-39",
+      "pointer": "/table/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "il-episodes.hostile-conditional-mpm-rows.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 16 MPM episodes",
+      "rule": "FR-014-23",
+      "pointer": "/table/rows",
+      "keyword": "minimum"
+    },
+    {
+      "file": "il-episodes.hostile-il1-row-out-of-range.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#/$defs/il1_episode",
+      "valid": false,
+      "class": "negative RMS lateral error",
+      "rule": "FR-014-39",
+      "pointer": "/rms_lateral_error_m",
+      "keyword": "minimum"
+    },
+    {
+      "file": "il-episodes.hostile-il1-row-unknown-enum.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#/$defs/il1_episode",
+      "valid": false,
+      "class": "unknown termination",
+      "rule": "FR-014-12",
+      "pointer": "/termination",
+      "keyword": "enum"
+    },
+    {
+      "file": "il-episodes.hostile-il1-row-wrong-type.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#/$defs/il1_episode",
+      "valid": false,
+      "class": "success not a boolean",
+      "rule": "FR-014-39",
+      "pointer": "/success",
+      "keyword": "type"
+    },
+    {
+      "file": "il-episodes.hostile-il1-row-unknown-field.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#/$defs/il1_episode",
+      "valid": false,
+      "class": "unknown column",
+      "rule": "FR-014-39",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "il-episodes.hostile-dig-row-out-of-range.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#/$defs/dig_episode",
+      "valid": false,
+      "class": "fill factor above 3",
+      "rule": "FR-014-39",
+      "pointer": "/fill_factor",
+      "keyword": "maximum"
+    },
+    {
+      "file": "il-episodes.hostile-dig-row-zero-cycle.json",
+      "schema": "il-episodes.schema.json",
+      "target": "#/$defs/dig_episode",
+      "valid": false,
+      "class": "cycle time <= 0",
+      "rule": "FR-014-35",
+      "pointer": "/cycle_time_s",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "il-twin.valid.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-1 dynamic-bicycle twin bundle"
+    },
+    {
+      "file": "il-twin.valid-il2.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "IL-2 planar-arm twin bundle"
+    },
+    {
+      "file": "il-twin.hostile-oversized.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "ONNX policy of 1 MB or more",
+      "rule": "NFR-014-03",
+      "pointer": "/policy_asset/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "il-twin.hostile-malformed-digest.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "63-character digest",
+      "rule": "FR-014-44",
+      "pointer": "/policy_asset/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "il-twin.hostile-wrong-label.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing sim-to-sim label",
+      "rule": "FR-014-43",
+      "pointer": "/label",
+      "keyword": "const"
+    },
+    {
+      "file": "il-twin.hostile-wrong-disclaimer.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing simulation-only statement",
+      "rule": "FR-014-45",
+      "pointer": "/disclaimer",
+      "keyword": "const"
+    },
+    {
+      "file": "il-twin.hostile-golden-steps.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "golden sequences shorter than 2,000 steps",
+      "rule": "FR-014-42",
+      "pointer": "/goldens/steps",
+      "keyword": "const"
+    },
+    {
+      "file": "il-twin.hostile-range-outside-limits.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "clamp range outside the training range",
+      "rule": "FR-014-44",
+      "pointer": "/input_ranges/cohesion_kpa/1",
+      "keyword": "maximum"
+    },
+    {
+      "file": "il-twin.hostile-conditional-twin.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "twin model of another policy",
+      "rule": "FR-014-40",
+      "pointer": "/twin",
+      "keyword": "const"
+    },
+    {
+      "file": "il-twin.hostile-wrong-step.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bicycle step other than 0.01 s",
+      "rule": "FR-014-40",
+      "pointer": "/parameters/dt_s",
+      "keyword": "const"
+    },
+    {
+      "file": "il-twin.hostile-unknown-field.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key",
+      "rule": "FR-014-44",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "il-twin.hostile-path-traversal.json",
+      "schema": "il-twin.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-014-44",
+      "pointer": "/policy_asset/path",
+      "keyword": "pattern"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "il-task.schema.json",
+      "class": "non-finite reward weight or parameter",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "il-task.schema.json",
+      "class": "randomisation range with low > high",
+      "by": "checker",
+      "rule": "FR-014-46"
+    },
+    {
+      "schema": "il-task.schema.json",
+      "class": "observation layout sizes summing to observation_size, each segment once",
+      "by": "checker",
+      "rule": "FR-014-46"
+    },
+    {
+      "schema": "il-task.schema.json",
+      "class": "evaluation seeds overlapping training or tuning seeds",
+      "by": "checker",
+      "rule": "FR-014-46"
+    },
+    {
+      "schema": "il-task.schema.json",
+      "class": "soil-tool friction upper bound above the friction-angle lower bound",
+      "by": "checker",
+      "rule": "FR-014-19"
+    },
+    {
+      "schema": "il-task.schema.json",
+      "class": "--resume checkpoint whose task-configuration hash differs",
+      "by": "checker",
+      "rule": "FR-014-46"
+    },
+    {
+      "schema": "il-task.schema.json",
+      "class": "stage equal to the recipe stage id; MPM material artefact present",
+      "by": "checker",
+      "rule": "FR-014-46"
+    },
+    {
+      "schema": "machine-params.schema.json",
+      "class": "non-finite mass or dimension",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "machine-params.schema.json",
+      "class": "joint lower limit >= upper limit",
+      "by": "checker",
+      "rule": "FR-014-07"
+    },
+    {
+      "schema": "machine-params.schema.json",
+      "class": "every numeric field has a provenance entry whose source id exists in sources",
+      "by": "checker",
+      "rule": "DC-014-02"
+    },
+    {
+      "schema": "machine-params.schema.json",
+      "class": "mesh path a Windows device name or a case-folded duplicate",
+      "by": "checker",
+      "rule": "FR-014-07"
+    },
+    {
+      "schema": "il-policy-handoff.schema.json",
+      "class": "non-finite normaliser value",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "il-policy-handoff.schema.json",
+      "class": "checkpoint SHA-256 equal to the checkpoint file",
+      "by": "checker",
+      "rule": "FR-014-28"
+    },
+    {
+      "schema": "il-policy-handoff.schema.json",
+      "class": "observation_layout_sha256 equal to the digest of the task's layout",
+      "by": "checker",
+      "rule": "FR-014-27"
+    },
+    {
+      "schema": "il-policy-handoff.schema.json",
+      "class": "goldens SHA-256 equal to the golden file and count equal to its rows",
+      "by": "checker",
+      "rule": "FR-014-27"
+    },
+    {
+      "schema": "il-episodes.schema.json",
+      "class": "NaN metric (Parquet rows; JSON is rejected by the loader)",
+      "by": "checker",
+      "rule": "FR-014-39"
+    },
+    {
+      "schema": "il-episodes.schema.json",
+      "class": "duplicated seed within an arm",
+      "by": "checker",
+      "rule": "FR-014-39"
+    },
+    {
+      "schema": "il-episodes.schema.json",
+      "class": "seed sets that differ between paired arms",
+      "by": "checker",
+      "rule": "FR-014-39"
+    },
+    {
+      "schema": "il-episodes.schema.json",
+      "class": "fewer than 100 episodes for an acceptance verdict",
+      "by": "checker",
+      "rule": "FR-014-39"
+    },
+    {
+      "schema": "il-episodes.schema.json",
+      "class": "row count equal to table.rows; table SHA-256 and bytes equal to the file",
+      "by": "checker",
+      "rule": "FR-014-39"
+    },
+    {
+      "schema": "il-episodes.schema.json",
+      "class": "termination consistent with success and collision",
+      "by": "checker",
+      "rule": "FR-014-12"
+    },
+    {
+      "schema": "il-episodes.schema.json",
+      "class": "rms_lateral_error_m^2 x steps = sum_sq_lateral_error_m2; productivity = fill_factor / cycle_time_s",
+      "by": "checker",
+      "rule": "FR-014-33"
+    },
+    {
+      "schema": "il-twin.schema.json",
+      "class": "ONNX SHA-256 equal to the served file",
+      "by": "checker",
+      "rule": "FR-014-44"
+    },
+    {
+      "schema": "il-twin.schema.json",
+      "class": "clamp range low <= high",
+      "by": "checker",
+      "rule": "FR-014-44"
+    },
+    {
+      "schema": "il-twin.schema.json",
+      "class": "twin parameters equal to the mapped machine parameter file; envelope speeds increasing",
+      "by": "checker",
+      "rule": "FR-014-40"
+    },
+    {
+      "schema": "il-twin.schema.json",
+      "class": "golden file SHA-256 and sequence length",
+      "by": "checker",
+      "rule": "FR-014-42"
+    },
+    {
+      "schema": "il-twin.schema.json",
+      "class": "ONNX input and output sizes equal observation_size and action_size",
+      "by": "checker",
+      "rule": "FR-014-27"
+    },
+    {
+      "schema": "il-twin.schema.json",
+      "class": "non-finite number, malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05"
+    }
+  ]
+}

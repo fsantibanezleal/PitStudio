@@ -1,0 +1,814 @@
+{
+  "spec": "011-surrogates",
+  "examples": [
+    {
+      "file": "surrogate-io.valid.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "GNS step (A3), fp16 live graph, padded layout"
+    },
+    {
+      "file": "surrogate-io.valid-fno.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "FNO tailings model (C2), opset 19, channel order and units"
+    },
+    {
+      "file": "surrogate-io.valid-forecaster.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "spec 010 forecaster (DC-010-05): quantile order, context-mean scaling rule"
+    },
+    {
+      "file": "surrogate-io.valid-meta-model.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "spec 017 meta-model: input row order and units, sweep box"
+    },
+    {
+      "file": "surrogate-io.hostile-opset-out-of-range.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "opset outside {17, 18, 19}",
+      "rule": "FR-011-07",
+      "pointer": "/opset",
+      "keyword": "enum"
+    },
+    {
+      "file": "surrogate-io.hostile-ir-version.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "IR version other than 10",
+      "rule": "FR-011-07",
+      "pointer": "/ir_version",
+      "keyword": "const"
+    },
+    {
+      "file": "surrogate-io.hostile-unknown-dtype.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown dtype",
+      "rule": "FR-011-15",
+      "pointer": "/inputs/0/dtype",
+      "keyword": "enum"
+    },
+    {
+      "file": "surrogate-io.hostile-wrong-shape.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "zero dimension in a shape",
+      "rule": "FR-011-15",
+      "pointer": "/inputs/4/shape/1",
+      "keyword": "minimum"
+    },
+    {
+      "file": "surrogate-io.hostile-wrong-unit.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit",
+      "rule": "FR-011-01",
+      "pointer": "/outputs/0/unit",
+      "keyword": "enum"
+    },
+    {
+      "file": "surrogate-io.hostile-unknown-precision.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown precision",
+      "rule": "FR-011-07",
+      "pointer": "/precision",
+      "keyword": "enum"
+    },
+    {
+      "file": "surrogate-io.hostile-empty-dim.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "N = 0 accepted by the description",
+      "rule": "FR-011-15",
+      "pointer": "/symbolic_dims/N/min",
+      "keyword": "minimum"
+    },
+    {
+      "file": "surrogate-io.hostile-path-traversal.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "DC-011-02",
+      "pointer": "/onnx/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "surrogate-io.hostile-absolute-path.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "DC-011-02",
+      "pointer": "/onnx/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "surrogate-io.hostile-malformed-digest.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest",
+      "rule": "DC-011-02",
+      "pointer": "/onnx/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "surrogate-io.hostile-conditional-live-size.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "live graph above 25e6 bytes",
+      "rule": "NFR-011-01",
+      "pointer": "/onnx/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "surrogate-io.hostile-conditional-scatter-live.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "ScatterElements variant marked live",
+      "rule": "FR-011-07",
+      "pointer": "/delivery",
+      "keyword": "const"
+    },
+    {
+      "file": "surrogate-io.hostile-unknown-field.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "DC-011-02",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "surrogate-io.hostile-zero-std.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "normalisation std of 0",
+      "rule": "DC-011-02",
+      "pointer": "/inputs/1/normalisation/std/0",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "surrogate-io.hostile-conditional-fno-opset.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "FNO graph not at opset 19",
+      "rule": "FR-011-36",
+      "pointer": "/opset",
+      "keyword": "const"
+    },
+    {
+      "file": "surrogate-io.hostile-channels-without-axis.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "channel order without its axis",
+      "rule": "FR-011-40",
+      "pointer": "/inputs/0",
+      "keyword": "dependentRequired"
+    },
+    {
+      "file": "surrogate-io.hostile-conditional-precompute-reason.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "precompute without its reason",
+      "rule": "DC-011-02",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "surrogate-io.hostile-quantile-out-of-range.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "quantile level outside (0, 1)",
+      "rule": "DC-011-02",
+      "pointer": "/outputs/0/quantiles/8",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "surrogate-io.hostile-meta-wrong-unit.json",
+      "schema": "surrogate-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong channel unit (meta-model input row)",
+      "rule": "DC-011-02",
+      "pointer": "/inputs/0/channels/3/unit",
+      "keyword": "enum"
+    },
+    {
+      "file": "granular-rollout.valid.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "column collapse, Warp DEM, Zarr payload"
+    },
+    {
+      "file": "granular-rollout.valid-pile.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "pile formation, Parquet payload"
+    },
+    {
+      "file": "granular-rollout.hostile-missing-required.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing frame interval",
+      "rule": "FR-011-14",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "granular-rollout.hostile-unknown-enum.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown geometry family",
+      "rule": "FR-011-14",
+      "pointer": "/family",
+      "keyword": "enum"
+    },
+    {
+      "file": "granular-rollout.hostile-absolute-path.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute store path",
+      "rule": "FR-011-14",
+      "pointer": "/store/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "granular-rollout.hostile-path-traversal.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "store path containing ..",
+      "rule": "FR-011-14",
+      "pointer": "/store/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "granular-rollout.hostile-malformed-digest.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest",
+      "rule": "DC-011-01",
+      "pointer": "/store/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "granular-rollout.hostile-wrong-shape.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bounds not of length 4",
+      "rule": "FR-011-01",
+      "pointer": "/bounds_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "granular-rollout.hostile-out-of-range.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "particle diameter 0",
+      "rule": "FR-011-14",
+      "pointer": "/particle_diameter_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "granular-rollout.hostile-conditional-family-geometry.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "geometry parameters of another family",
+      "rule": "FR-011-03",
+      "pointer": "/geometry",
+      "keyword": "required"
+    },
+    {
+      "file": "granular-rollout.hostile-missing-provenance.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "material parameter without provenance",
+      "rule": "DC-011-01",
+      "pointer": "/material/sliding_friction",
+      "keyword": "required"
+    },
+    {
+      "file": "granular-rollout.hostile-wrong-label.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic label text changed",
+      "rule": "FR-011-45",
+      "pointer": "/label",
+      "keyword": "const"
+    },
+    {
+      "file": "field-dataset.valid.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "tailings run, 64 x 64, eight output times"
+    },
+    {
+      "file": "field-dataset.valid-dust.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "dust run, time-averaged concentration"
+    },
+    {
+      "file": "field-dataset.valid-transfer.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "128 x 128 resolution-transfer run (FR-011-42)"
+    },
+    {
+      "file": "field-dataset.hostile-wrong-shape.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "grid other than 64 x 64",
+      "rule": "FR-011-41",
+      "pointer": "/grid/nx",
+      "keyword": "enum"
+    },
+    {
+      "file": "field-dataset.hostile-missing-unit.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "channel without units",
+      "rule": "FR-011-41",
+      "pointer": "/channels/0",
+      "keyword": "required"
+    },
+    {
+      "file": "field-dataset.hostile-missing-cell-size.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing cell size",
+      "rule": "FR-011-41",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "field-dataset.hostile-absolute-path.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute store path",
+      "rule": "FR-011-41",
+      "pointer": "/store/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "field-dataset.hostile-path-traversal.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "store path containing ..",
+      "rule": "FR-011-41",
+      "pointer": "/store/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "field-dataset.hostile-malformed-digest.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed DEM digest",
+      "rule": "DC-011-03",
+      "pointer": "/source_dem/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "field-dataset.hostile-conditional-grid-128.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "128-cell grid outside a resolution-transfer run",
+      "rule": "FR-011-41",
+      "pointer": "/grid/nx",
+      "keyword": "const"
+    },
+    {
+      "file": "field-dataset.hostile-wrong-unit.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit",
+      "rule": "FR-011-41",
+      "pointer": "/channels/0/unit",
+      "keyword": "enum"
+    },
+    {
+      "file": "field-dataset.hostile-conditional-output-times.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tailings run without eight output times",
+      "rule": "FR-011-33",
+      "pointer": "/output_times_s",
+      "keyword": "minItems"
+    },
+    {
+      "file": "calibration-result.valid.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "synthetic-truth trial, gradient arm, both gradient checks trusted"
+    },
+    {
+      "file": "calibration-result.valid-cmaes.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the same trial, CMA-ES arm"
+    },
+    {
+      "file": "calibration-result.valid-literature.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "full-scale literature target, no coverage claim"
+    },
+    {
+      "file": "calibration-result.hostile-theta-out-of-range.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "target repose outside [5, 60] deg",
+      "rule": "FR-011-30",
+      "pointer": "/target/theta_deg",
+      "keyword": "maximum"
+    },
+    {
+      "file": "calibration-result.hostile-window-out-of-range.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "W outside [100, 5000]",
+      "rule": "FR-011-30",
+      "pointer": "/window_steps",
+      "keyword": "minimum"
+    },
+    {
+      "file": "calibration-result.hostile-seeds-below-two.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "S < 2",
+      "rule": "FR-011-30",
+      "pointer": "/packing_seeds",
+      "keyword": "minimum"
+    },
+    {
+      "file": "calibration-result.hostile-bounds-out-of-range.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bound outside [0.05, 2]",
+      "rule": "FR-011-30",
+      "pointer": "/parameters/0/bounds/1",
+      "keyword": "maximum"
+    },
+    {
+      "file": "calibration-result.hostile-unknown-enum.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown arm",
+      "rule": "FR-011-26",
+      "pointer": "/arm",
+      "keyword": "enum"
+    },
+    {
+      "file": "calibration-result.hostile-conditional-not-differentiable.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "gradient arm on a non-differentiable solver",
+      "rule": "FR-011-29",
+      "pointer": "/arm",
+      "keyword": "const"
+    },
+    {
+      "file": "calibration-result.hostile-conditional-not-identified.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-identified trial counted as covering",
+      "rule": "FR-011-22",
+      "pointer": "/parameters/0/covers_truth",
+      "keyword": "const"
+    },
+    {
+      "file": "calibration-result.hostile-conditional-unreliable.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unreliable gradient counted as covering",
+      "rule": "FR-011-23",
+      "pointer": "/parameters/0/covers_truth",
+      "keyword": "const"
+    },
+    {
+      "file": "calibration-result.hostile-conditional-gradient-check-missing.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "gradient arm without its gradient-check log",
+      "rule": "FR-011-26",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "calibration-result.hostile-conditional-nondeterministic.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tape without deterministic accumulation",
+      "rule": "FR-011-19",
+      "pointer": "/deterministic_accumulation",
+      "keyword": "const"
+    },
+    {
+      "file": "calibration-result.hostile-conditional-trial-scale.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic trial above 5,000 particles",
+      "rule": "FR-011-17",
+      "pointer": "/particle_count",
+      "keyword": "maximum"
+    },
+    {
+      "file": "calibration-result.hostile-conditional-literature-truth.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "coverage fields on a literature target",
+      "rule": "FR-011-28",
+      "pointer": "/parameters/0",
+      "keyword": "not"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "names, shapes and dtypes differ from the exported ONNX graph",
+      "by": "checker",
+      "rule": "FR-011-07",
+      "note": "also FR-011-36; against the ONNX file"
+    },
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "channel count differs from shape[channel_axis]; quantile count differs from shape[quantile_axis]",
+      "by": "checker",
+      "rule": "FR-011-40"
+    },
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "normalisation mean/std length neither 1 nor the channel count",
+      "by": "checker",
+      "rule": "FR-011-40"
+    },
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "symbolic dimension used in a shape but not declared, or min > max",
+      "by": "checker",
+      "rule": "FR-011-15"
+    },
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "envelope range with min > max",
+      "by": "checker",
+      "rule": "FR-011-11",
+      "note": "also FR-011-39"
+    },
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "quantile levels not strictly increasing",
+      "by": "checker",
+      "rule": "-",
+      "note": "quantile order of the spec 010 forecasters (FR-010-21); no FR of this spec checks it"
+    },
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "duplicate tensor or channel names",
+      "by": "checker",
+      "rule": "-",
+      "note": "no FR names it; the generated types should reject it"
+    },
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "onnx.sha256 or onnx.bytes differ from the file",
+      "by": "checker",
+      "rule": "FR-011-45",
+      "note": "through the manifest entry of the ONNX artefact"
+    },
+    {
+      "schema": "surrogate-io.schema.json",
+      "class": "fp16 graph marked live without passing the fp16 rollout rule",
+      "by": "checker",
+      "rule": "FR-011-08",
+      "note": "also FR-011-37 for the FNO"
+    },
+    {
+      "schema": "granular-rollout.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "also FR-011-14"
+    },
+    {
+      "schema": "granular-rollout.schema.json",
+      "class": "frame times not strictly increasing",
+      "by": "checker",
+      "rule": "FR-011-14"
+    },
+    {
+      "schema": "granular-rollout.schema.json",
+      "class": "particle count changing between frames; payload shapes differ from particle_count x frames",
+      "by": "checker",
+      "rule": "FR-011-14",
+      "note": "read from the payload"
+    },
+    {
+      "schema": "granular-rollout.schema.json",
+      "class": "store digest differs from the payload",
+      "by": "checker",
+      "rule": "FR-011-14"
+    },
+    {
+      "schema": "granular-rollout.schema.json",
+      "class": "connectivity radius differs from 2.5 d",
+      "by": "checker",
+      "rule": "FR-011-02"
+    },
+    {
+      "schema": "granular-rollout.schema.json",
+      "class": "bounds with x_min >= x_max or y_min >= y_max",
+      "by": "checker",
+      "rule": "-",
+      "note": "no FR names it; FR-011-12 relies on valid bounds"
+    },
+    {
+      "schema": "granular-rollout.schema.json",
+      "class": "rest time outside the frame times",
+      "by": "checker",
+      "rule": "FR-011-10"
+    },
+    {
+      "schema": "granular-rollout.schema.json",
+      "class": "reference pile at rest lower than 30 d",
+      "by": "checker",
+      "rule": "FR-011-03",
+      "note": "computed from the payload"
+    },
+    {
+      "schema": "field-dataset.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "also FR-011-41 for payload values"
+    },
+    {
+      "schema": "field-dataset.schema.json",
+      "class": "depth below -1e-9 m in the payload",
+      "by": "checker",
+      "rule": "FR-011-41",
+      "note": "read from the payload"
+    },
+    {
+      "schema": "field-dataset.schema.json",
+      "class": "payload shape differs from grid x channels",
+      "by": "checker",
+      "rule": "FR-011-41"
+    },
+    {
+      "schema": "field-dataset.schema.json",
+      "class": "output times not k T_end / 8",
+      "by": "checker",
+      "rule": "FR-011-33"
+    },
+    {
+      "schema": "field-dataset.schema.json",
+      "class": "breach or source cell outside the grid",
+      "by": "checker",
+      "rule": "FR-011-41"
+    },
+    {
+      "schema": "field-dataset.schema.json",
+      "class": "channel order differs from the model's IO description",
+      "by": "checker",
+      "rule": "FR-011-40"
+    },
+    {
+      "schema": "field-dataset.schema.json",
+      "class": "store digest differs from the payload",
+      "by": "checker",
+      "rule": "FR-011-45"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "seed sets overlap",
+      "by": "checker",
+      "rule": "FR-011-30"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "bounds inverted, or start or estimate outside the bounds",
+      "by": "checker",
+      "rule": "FR-011-30"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "simulations above the budget; stop reason inconsistent with loss and budget",
+      "by": "checker",
+      "rule": "FR-011-21"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "interval bounds differ from estimate +/- t sigma sqrt(1 + 1/S) / |slope|, h differs from 0.05 x estimate, or identification differs from the slope interval",
+      "by": "checker",
+      "rule": "FR-011-22"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "trusted flag differs from the 2.447 / 3.707 SE_FD rule",
+      "by": "checker",
+      "rule": "FR-011-23"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "gradient status differs from the gradient-check entries",
+      "by": "checker",
+      "rule": "FR-011-23"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "synthetic truth outside [0.3, 0.8]",
+      "by": "checker",
+      "rule": "FR-011-24",
+      "note": "the truths are drawn by the seeded generator"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "weakly-identified label inconsistent with the interval width",
+      "by": "checker",
+      "rule": "FR-011-27"
+    },
+    {
+      "schema": "calibration-result.schema.json",
+      "class": "loss total differs from the weighted terms",
+      "by": "checker",
+      "rule": "FR-011-26"
+    }
+  ]
+}

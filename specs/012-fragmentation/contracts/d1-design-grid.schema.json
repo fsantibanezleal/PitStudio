@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/d1-design-grid.schema.json",
+  "title": "D1 blast design grid",
+  "description": "Design grid of case D1 (x50, x80, oversize, PPV, flyrock radius) computed by minephys.blasting in the D1 recipe (DC-012-05, spec 012-fragmentation).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "minephys_version",
+    "kuzram_variant",
+    "distribution",
+    "units",
+    "fixed_inputs",
+    "axes",
+    "points"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "case_id": {
+      "const": "D1"
+    },
+    "minephys_version": {
+      "$ref": "#/$defs/version"
+    },
+    "kuzram_variant": {
+      "enum": [
+        "cunningham1983",
+        "cunningham2005"
+      ]
+    },
+    "distribution": {
+      "enum": [
+        "kco-swebrec",
+        "rosin-rammler"
+      ]
+    },
+    "units": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x50",
+        "x80",
+        "oversize",
+        "ppv",
+        "flyrock_radius"
+      ],
+      "properties": {
+        "x50": {
+          "const": "m"
+        },
+        "x80": {
+          "const": "m"
+        },
+        "oversize": {
+          "const": "%"
+        },
+        "ppv": {
+          "const": "m/s"
+        },
+        "flyrock_radius": {
+          "const": "m"
+        }
+      }
+    },
+    "fixed_inputs": {
+      "$ref": "#/$defs/design_inputs"
+    },
+    "axes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "input",
+          "values"
+        ],
+        "properties": {
+          "input": {
+            "enum": [
+              "air_density_kg_per_m3",
+              "bench_height_m",
+              "beta",
+              "burden_m",
+              "charge_length_m",
+              "charge_per_delay_kg",
+              "distance_m",
+              "drag_coefficient",
+              "drilling_deviation_m",
+              "explosive_density_kg_per_m3",
+              "fragment_diameter_m",
+              "hole_diameter_m",
+              "k_site_m_per_s",
+              "launch_speed_m_per_s",
+              "oversize_limit_m",
+              "rock_density_kg_per_m3",
+              "rock_factor",
+              "rws",
+              "spacing_m",
+              "x_max_m"
+            ]
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 4
+    },
+    "points": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/point"
+      },
+      "minItems": 1,
+      "maxItems": 4096
+    }
+  },
+  "$defs": {
+    "design_inputs": {
+      "type": "object",
+      "description": "design inputs in SI units, as minephys.blasting takes them",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "burden_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 20
+        },
+        "spacing_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 30
+        },
+        "bench_height_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50
+        },
+        "hole_diameter_m": {
+          "type": "number",
+          "description": "m, not mm",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "charge_length_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50
+        },
+        "drilling_deviation_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "explosive_density_kg_per_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2000
+        },
+        "rws": {
+          "type": "number",
+          "description": "relative weight strength, ANFO = 100",
+          "exclusiveMinimum": 0,
+          "maximum": 300
+        },
+        "rock_factor": {
+          "type": "number",
+          "description": "Cunningham's range",
+          "minimum": 0.8,
+          "maximum": 22
+        },
+        "x_max_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "oversize_limit_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "distance_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "charge_per_delay_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "k_site_m_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "beta": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "launch_speed_m_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 500
+        },
+        "fragment_diameter_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "rock_density_kg_per_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000
+        },
+        "drag_coefficient": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "air_density_kg_per_m3": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        }
+      },
+      "minProperties": 1
+    },
+    "point": {
+      "type": "object",
+      "description": "one grid point: the swept inputs and the model outputs",
+      "additionalProperties": false,
+      "required": [
+        "inputs",
+        "x50_m",
+        "x80_m",
+        "oversize_pct",
+        "ppv_m_per_s",
+        "flyrock_radius_m"
+      ],
+      "properties": {
+        "inputs": {
+          "$ref": "#/$defs/design_inputs"
+        },
+        "x50_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "x80_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "oversize_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "ppv_m_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "flyrock_radius_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    }
+  }
+}

@@ -183,10 +183,10 @@ their own properties in spec 018. Examples per property test: `property_tests.ci
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-010-01 | C1 slope section: ground polyline, materials (Mohr–Coulomb or Hoek–Brown), pore-pressure ratio, input distributions, search and slice settings, method enum, source DEM digest | `contracts/slope-section.schema.json` (new, T-010-001) | `s10_preprocess`, web section editor → C1 analysis, web engine `geotech` |
-| DC-010-02 | Displacement series: event id, real / synthetic, stratum, seed, parameters, t (h), LOS displacement (mm), t_0, t_f and its source, SNR, sampling, attribution, pixel id and wrap flags for radar series | `contracts/displacement-series.schema.json` (new, T-010-001) | `s05_synthesize`, `s10_preprocess` (de Wit), radar-series builder → `s30_train`, `s40_infer`, `s50_evaluate`, web |
-| DC-010-03 | TTF results: per event × method × cut-off: t̂_f, 80 % interval, e, error (h), lead time; per comparison: interval, method, B, seed, verdict; the real-event block with no interval field | `contracts/ttf-results.schema.json` (new, T-010-001) | `s50_evaluate` → `s60_export`, C1 Charts, model card |
-| DC-010-04 | FoS / PoF tables: section id, method, F, critical circle, rejected circles, k, N, K, PoF, Wilson interval | `contracts/slope-results.schema.json` (new, T-010-001) | C1 analysis (baked) → web, docs results |
+| DC-010-01 | C1 slope section: ground polyline, materials (Mohr–Coulomb or Hoek–Brown), pore-pressure ratio, input distributions, search and slice settings, method enum, source DEM digest | `specs/010-slope/contracts/slope-section.schema.json` (draft; promoted to `contracts/slope-section.schema.json` by T-010-001) | `s10_preprocess`, web section editor → C1 analysis, web engine `geotech` |
+| DC-010-02 | Displacement series: event id, real / synthetic, stratum, seed, parameters, t (h), LOS displacement (mm), t_0, t_f and its source, SNR, sampling, attribution, pixel id and wrap flags for radar series | `specs/010-slope/contracts/displacement-series.schema.json` (draft; promoted to `contracts/displacement-series.schema.json` by T-010-001) | `s05_synthesize`, `s10_preprocess` (de Wit), radar-series builder → `s30_train`, `s40_infer`, `s50_evaluate`, web |
+| DC-010-03 | TTF results: per event × method × cut-off: t̂_f, 80 % interval, e, error (h), lead time; per comparison: interval, method, B, seed, verdict; the real-event block with no interval field | `specs/010-slope/contracts/ttf-results.schema.json` (draft; promoted to `contracts/ttf-results.schema.json` by T-010-001) | `s50_evaluate` → `s60_export`, C1 Charts, model card |
+| DC-010-04 | FoS / PoF tables: section id, method, F, critical circle, rejected circles, k, N, K, PoF, Wilson interval | `specs/010-slope/contracts/slope-results.schema.json` (draft; promoted to `contracts/slope-results.schema.json` by T-010-001) | C1 analysis (baked) → web, docs results |
 | DC-010-05 | Forecaster ONNX input/output description (names, shapes, dtypes, quantile order, scaling rule, opset) | `contracts/surrogate-io.schema.json` (new, defined in spec 011, DC-011-02) | `s60_export` → web engine `forecasters` |
 
 Every artefact is also described by its manifest entry (DC-000-01, `contracts/manifest.schema.json`).
@@ -273,6 +273,25 @@ Every artefact is also described by its manifest entry (DC-000-01, `contracts/ma
 - Integration 2026-10-07: every `thresholds.yaml` key this spec proposes is marked "proposed key, pending maintainer
   approval" and compiled with the other specs' proposals for the maintainer; lane-gate keys are consolidated as
   `lane_gate.*` and budget keys as `budgets.*`.
+- Integration 2026-10-07: draft schema written for DC-010-01 … DC-010-04 (`specs/010-slope/contracts/`, valid and
+  hostile examples indexed in `examples/index.json`; DC-010-05 stays with spec 011); the stricter reading was chosen
+  each time: a section lists 1–8 materials (horizontal layers, top to bottom, `bottom_z_m` on all but the lowest),
+  each Mohr–Coulomb or Hoek–Brown and never mixed, its input distributions sit in `analysis.pof`, and it has no
+  correlation field (FR-010-03 samples independent inputs; the §7 "unless the section states a correlation" is not
+  supported in this contract version); the upper bounds FR-010-07 leaves open are c′ ≤ 10⁵ kPa, m_i ≤ 100 and
+  σci ≤ 1,000 MPa; live mode applies the web caps n_s ≤ 200 and N ≤ 10⁵ (FR-010-10); the PoF seed is 0 … 2⁶⁴ − 1
+  (FR-010-08) and every other seed 0 … 2⁶³ − 1 (recipe seed range, spec 001); a displacement series is one of four
+  kinds (synthetic event, real event, radar pixel, radar map) with inline arrays of ≤ 10⁶ samples, synthetic
+  parameters bounded by the FR-010-16 envelope rather than the narrower §7 priors, the nominal strata carrying the
+  FR-010-17 label and the atmospheric stratum its AR(1) term; the real event has no seed or split field, is marked
+  `use: descriptive-evaluation-only`, pins the archive size and MD5 and records its source units and the documentary
+  source of t_f; a radar pixel keeps d, d̂ and per-scan wrap flags with the first ambiguous scan; in the TTF results a
+  "no forecast" row has a reason and no TTF, inverse velocity has no 80 % interval, "no failure predicted" is scored
+  at the cap, comparisons cover the learned arms on the SNR_obs stratum only, a nominal SNR basis forces SC-010-01 to
+  "not run", lead-time statistics are per method and stratum, and the real-event block has exactly 12 rows (2 cut-offs
+  × 6 methods; a missing arm is a "not run" row) with no interval, rank or verdict field; FoS rows carry θ for Spencer
+  only and no F when no slip surface is valid, and the PoF reports the candidate set and z = 1.96.
+- Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
 - (no open items)
 
 ## 9. Changes (only for features that modify earlier behaviour)

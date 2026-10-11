@@ -245,7 +245,7 @@ binary64 or on integers. Tolerances are justified in §7.2.
 | P-018-65 | Dust particles in still air reach the Stokes terminal velocity (ρ_p − ρ_a) g d² / (18 μ) for particle Reynolds numbers < 0.1. | d ∈ [1, 30] µm | ± 1 % |
 | P-018-66 | A uniform wind U shifts the particle-cloud centroid by U t and leaves its spread unchanged. | U ∈ [0, 20] m/s | rtol 1e-3 |
 | P-018-67 | Dust particle count is conserved exactly in a closed box. | full runs | exact |
-| P-018-68 | Shard round trip: decoding the int16 encoding of any value inside the header range returns it within half a quantum, (max − min) / 65,535 / 2. | random positions in bbox | ≤ half quantum |
+| P-018-68 | Shard round trip: decoding the 16-bit code (of the code type the header declares) of any value inside the header range returns it within half a quantum, (max − min) / 65,535 / 2. | random positions in bbox | ≤ half quantum |
 | P-018-69 | Shard decoding preserves the order of quantised values. | all 65,536 codes | exact |
 | P-018-70 | Shifting the header minimum by Δ shifts every decoded value by Δ. | dyadic Δ | exact |
 | P-018-71 | `deriveLane` monotonicity: decreasing any size or time never turns `live` into `replay`. | random measurements incl. NaN | exact |
@@ -270,12 +270,12 @@ binary64 or on integers. Tolerances are justified in §7.2.
 ## 6. Data contracts
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-018-01 | Case registry `studio/cases.yaml`: per case id, category, titles EN/ES, question, KPIs (name, unit, orientation), data source ids, synthetic data, methods, tools, engines, layers, clock fps, recipe path, validity range | `contracts/cases.schema.json` (new) | maintainer → web build (`/`, `/cases`, `/cases/:id`), docs matrices, CI checks, spec 019 tool pages |
-| DC-018-02 | Engine input and output schemas, one per engine id, with units, validity ranges, size caps and unit scales | `contracts/engines/<engine-id>.schema.json` (new) | maintainer → web engine host validators (generated), parity-fixture generator |
-| DC-018-03 | Replay shard header (JSON) for int16-quantised pose, particle and point shards ≤ 10 MB and for 16-bit PNG / Float32 field tiles: schema version, kind, units, fps, frame range, item count, channels, bbox min/max, SHA-256 of the payload | `contracts/replay-shard.schema.json` (new) | `s60_export`, `studio publish` → web shard reader |
-| DC-018-04 | Parity fixtures `web/tests/fixtures/parity/<engine-id>/<fixture>.json[.gz]`: inputs, reference outputs, recorded variate streams, reference name and version, tolerance class | `contracts/parity-fixture.schema.json` (new) | `tools/make_parity_fixtures.py` (pipeline environment, references) → Vitest and Playwright parity tests |
-| DC-018-05 | Parity report `assets/parity-report.json` in the built Pages artifact, for the built commit: per engine id, version, class, tolerance, maximum observed error, browsers, verdict | `contracts/parity-report.schema.json` (new) | parity suite in CI → web app (FR-018-63), `/results` parity tab (020) |
-| DC-018-06 | Lane measurements `assets/lane-measurements.json` in the built Pages artifact: per engine or artefact id, web-drivable flag, asset bytes, p95 interaction ms, T2 run s, trace bytes, runner configuration, commit | `contracts/lane-measurements.schema.json` (new) | lane-gate suite in CI → CI lane check (FR-018-66), export stage |
+| DC-018-01 | Case registry `studio/cases.yaml`: per case id, category, titles EN/ES, question, KPIs (name, unit, orientation), data source ids, synthetic data, methods, tools, engines, layers, clock fps, recipe path, validity range | `specs/018-web-cases/contracts/cases.schema.json` (draft; promoted to `contracts/cases.schema.json` by T-018-001) | maintainer → web build (`/`, `/cases`, `/cases/:id`), docs matrices, CI checks, spec 019 tool pages |
+| DC-018-02 | Engine input and output schemas, one per engine id, with units, validity ranges, size caps and unit scales | `specs/018-web-cases/contracts/engines/<engine-id>.schema.json` (draft, one per engine id; promoted to `contracts/engines/<engine-id>.schema.json` by T-018-002) | maintainer → web engine host validators (generated), parity-fixture generator |
+| DC-018-03 | Replay shard header (JSON) for 16-bit-quantised pose, particle and point shards ≤ 10 MB (code type `int16` or `uint16` declared in the header) and for 16-bit PNG / Float32 field tiles: schema version, kind, units, fps, frame range, item count, channels, bbox min/max, SHA-256 of the payload | `specs/018-web-cases/contracts/replay-shard.schema.json` (draft; `$defs/shard_header` and `$defs/replay_manifest`, the latter also DC-005-04; promoted to `contracts/replay-shard.schema.json` by T-018-003) | `s60_export`, `studio publish` → web shard reader |
+| DC-018-04 | Parity fixtures `web/tests/fixtures/parity/<engine-id>/<fixture>.json[.gz]`: inputs, reference outputs, recorded variate streams, reference name and version, tolerance class | `specs/018-web-cases/contracts/parity-fixture.schema.json` (draft; promoted to `contracts/parity-fixture.schema.json` by T-018-004) | `tools/make_parity_fixtures.py` (pipeline environment, references) → Vitest and Playwright parity tests |
+| DC-018-05 | Parity report `assets/parity-report.json` in the built Pages artifact, for the built commit: per engine id, version, class, tolerance, maximum observed error, browsers, verdict | `specs/018-web-cases/contracts/parity-report.schema.json` (draft; promoted to `contracts/parity-report.schema.json` by T-018-004) | parity suite in CI → web app (FR-018-63), `/results` parity tab (020) |
+| DC-018-06 | Lane measurements `assets/lane-measurements.json` in the built Pages artifact: per engine or artefact id, web-drivable flag, asset bytes, p95 interaction ms, T2 run s, trace bytes, runner configuration, commit | `specs/018-web-cases/contracts/lane-measurements.schema.json` (draft; promoted to `contracts/lane-measurements.schema.json` by T-018-004) | lane-gate suite in CI → CI lane check (FR-018-66), export stage |
 
 Consumed, defined elsewhere: the web manifest (DC-000-01, schema by spec 001), the tool registry (DC-000-04) and the
 data registry (DC-000-05).
@@ -357,7 +357,7 @@ host's typed error (FR-018-38) as its `detail.name`.
   requests (shards are separate files ≤ 10 MB); a WebGPU kernel for ScatterElements in ORT-web (the GNS uses its
   dense-adjacency export); the live detectors need no NonMaxSuppression kernel because their post-processor is in the
   graph (spec 009).
-- Thresholds used here that `thresholds.yaml` does not hold yet (proposed keys, pending maintainer approval):
+- Thresholds used here, as `thresholds.yaml` keys:
   `web.analytical_fp64_rtol: 1.0e-9`, `web.analytical_fp64_atol_scale: 1.0e-12`, `web.mc_pof_sigma: 3`,
   `web.detector_box_px_max: {wasm: 0.5, webgpu: 1.0}`, `web.granular_repose_deg: 1.5`, `web.granular_runout_rel: 0.05`, `web.granular_discharge_rel: 0.05`,
   `web.mass_drift_rel_max: 0.005`, `lane_gate.live_asset_mb_max: 25`, `lane_gate.interaction_ms_max: 16`,
@@ -393,6 +393,60 @@ host's typed error (FR-018-38) as its `detail.name`.
 - Integration 2026-10-07: the threshold keys this spec proposes are marked "proposed keys, pending maintainer
   approval"; its `lane.*` and `web.first_view_mb_max` names are replaced by the consolidated `lane_gate.*` and
   `budgets.first_view_mb_max`.
+- Integration 2026-10-07: draft schemas written for DC-018-01, DC-018-03, DC-018-04, DC-018-05 and DC-018-06
+  (`specs/018-web-cases/contracts/`, valid and hostile examples indexed in `examples/index.json`). Resolved, stricter
+  reading each time: (1) the case registry keys `categories` by letter and `cases` by the 12 canonical ids, so a
+  missing, unknown or repeated id (a duplicate key, rejected by the loader) fails, and each case's `category` and
+  `recipe` are fixed to its id; tools are a map tool id → `named` / `supporting` (the ● and ○ marks of the tool
+  matrix); KPI units are a closed ASCII enum and orientation is `higher-is-better`, `lower-is-better`, `target`
+  (with `target_value`) or `neutral`; synthetic data carry the spec 008 validation class. (2) `replay-shard.schema.json`
+  is owned here and holds two documents, `$defs/shard_header` (this DC) and `$defs/replay_manifest` (FR-005-45,
+  DC-005-04), chosen by `document`. Contradiction kept open, not fixed in FR text: this spec and DEC-0006 say int16
+  codes, FR-005-45 says uint16; both headers and manifests declare `code_type` (`int16` or `uint16`) and the code range
+  is bound to it. Every payload, field tiles included, is ≤ 10,000,000 bytes; the FR-018-45 length rule (× 2) applies
+  to raw 16-bit payloads, Float32 tiles use × 4 and PNG tiles are checked by decoded size. (3) Parity classes are 15
+  classes drawn from §7.2 plus `hosted` (engines of specs 007, 013, 014, with the owning requirement); each tolerance
+  value is capped at the spec value, so a looser tolerance fails; analytical and ML fixtures need ≥ 200 vectors and a
+  passing report entry needs ≥ 1 fixture file. Spec 016's export parity report is a different artefact, renamed
+  `export-parity-report.schema.json` to avoid the name clash. (4) Lane measurements reuse the manifest's
+  `lane_measurements` record, so the DC's "T2 run s" is stored as `run_ms_t2` in milliseconds; the runner record fixes
+  headless Chromium, forced T2, 50 interactions and 5 runs.
+- Integration 2026-10-07: draft engine schemas written for DC-018-02 (`specs/018-web-cases/contracts/engines/`, one per
+  engine id: `des`, `policies`, `haulage`, `lp`, `routing`, `il1-twin`, `il2-twin`, `granular`, `gns`, `traffic`,
+  `dust-lidar`, `detector`, `geotech`, `forecasters`, `swe`, `fno`, `plume`, `dust-particles`, `blasting`, `watershed`,
+  `unet`, `comminution`, `meta-model`, `mincut`, `volume`; valid and hostile examples indexed in
+  `examples/index-engines.json`). Resolved, stricter reading each time: (1) each file holds `$defs/input` (request) and
+  `$defs/output` (result), discriminated by `kind`; both carry `engine` (const), `engine_version` (semver) and
+  `function`, which selects the closed `args` or `result` record; inputs and outputs are SI with unit-suffixed names and
+  the UI converts to display units; the FR-018-38 typed error has no DC row and is not part of these files. (2) Shipped
+  files (scenario and twin bundles, frames, DEMs, models, policies) are referenced by web-manifest artefact id, SHA-256
+  and byte size, never by path, and their caps are schema maxima (models 25 MB; dispatch policies < 2 MB as NFR-007-03
+  states; IL policies < 1 MB; meta-model < 10⁶ bytes); per-pixel, per-cell and per-particle arrays travel as transferred
+  typed-array buffers described by dtype, named dimensions and byte length. (3) The function list of each analytical
+  port is fixed here: `geotech` `bishop`, `spencer`, `pof_monte_carlo`, `pof_from_samples`, `inverse_velocity`,
+  `failure_band`, `slope_radar_los` (Mohr–Coulomb slices; line of sight positive away from the radar as in
+  `minephys`); `blasting` `charge_per_hole`, `powder_factor`, `kuznetsov_x50`, `uniformity_index`, `swebrec_passing`,
+  `kco_undulation`, `ppv_scaled_distance`, `flyrock_range_no_drag`; `plume` `ap42_emission_factor`, `pasquill_sigmas`,
+  `plume_grid` (receptors in the plume frame, x downwind); `comminution` `bond_energy`, `passing_size`,
+  `mine_to_mill_chain` (Bond only; the Morrell chain stays in Python); `volume` `cut_fill`. The unit scales $s_y$ are
+  `$defs/unit_scales`: 1 in the field's SI unit, except emission factor 10⁻⁶ kg/m, concentration 10⁻⁹ kg/m³, PPV
+  10⁻³ m/s and comminution sizes 10⁻⁶ m. (4) Validity ranges follow the `minephys` validity rows where they exist
+  (AP-42 silt 1.8–25.2 % and weight 2–290 short tons, rock factor 0.8–22, powder factor ≤ 5 kg/m³, P80 ≥ 70 µm,
+  route-energy |grade| ≤ 0.30 and rolling resistance ≤ 0.20), so a value `minephys` only warns about returns
+  `E_RANGE`; where no spec gives a bound a physical one is chosen (for example inverse-velocity records ≤ 10⁵ points
+  with v ≤ 10⁻² m/s, traffic runs ≤ 36,000 steps, LP ≤ 16 loaders and dumps). (5) Seeds are integers in
+  [0, 2⁵³ − 1], exact in JavaScript and inside [0, 2⁶³) and [0, 2⁶⁴). (6) The hosted engines take the DES bundle
+  (DC-007-01), the dust-slider frame (DC-013-05) and the twin bundle (DC-014-05) as assets that the owning engine
+  validates, the DES returns its trace (DC-007-02) as a UTF-8 JSON buffer, and the learned dispatcher ids are `ppo`
+  and `attention`. (7) Meta-model inputs outside the sweep box are flagged `extrapolation` (FR-017-09), not rejected;
+  only the physical domain gives `E_RANGE`. Kept open, not fixed in FR text: P-018-43 (W = 0 at P80 = F80) against the
+  `minephys` rejection of P80 ≥ F80; the line-of-sight sign of FR-010-41 against `minephys`; the dust Reynolds bound
+  (P-018-65 < 0.1 with diameters, FR-005-39 < 1 with the radius as parameter; the schema bounds the radius to
+  0.5–15 µm and the engine checks the bound); the granular discharge observable has no twin scenario in FR-005-22.
+- Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
+- Integration 2026-10-07 (2): shard code type resolved. This spec owns the replay-shard schema (DC-018-03); its header and the
+  replay manifest declare `code_type` (`int16` or `uint16`), the reader takes the code type from the header, and
+  DC-018-03, P-018-68 and FR-005-45 no longer fix one type (the open contradiction of the first pass is closed).
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

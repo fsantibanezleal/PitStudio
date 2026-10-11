@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "source": {
+    "run_id": "20261007T120000Z-b1-sensors",
+    "scenario": "S1",
+    "sensor": "rotary-64",
+    "frame": 0
+  },
+  "points": 98012,
+  "quantisation": {
+    "offset_m": [
+      -120.0,
+      -120.0,
+      -8.0
+    ],
+    "scale_m": [
+      0.003662,
+      0.003662,
+      0.000488
+    ]
+  },
+  "encoding": {
+    "position": "uint16",
+    "intensity": "uint8",
+    "class": "uint8",
+    "byte_order": "little",
+    "layout": "planar"
+  },
+  "intensity_map": {
+    "quantity": "lidar-intensity",
+    "low": 0,
+    "high": 1
+  },
+  "classes": {
+    "0": "unlabelled",
+    "1": "light-vehicle",
+    "2": "person-vest",
+    "3": "boulder",
+    "4": "oncoming-truck",
+    "255": "dust"
+  },
+  "payload": {
+    "path": "assets/sensors/b1/s1-rotary-64-f00000.bin",
+    "bytes": 784096,
+    "sha256": "4b5e57f6eb2f42b9039b3d1e13929295f231749c510cbe341cd68036d9af97e"
+  }
+}

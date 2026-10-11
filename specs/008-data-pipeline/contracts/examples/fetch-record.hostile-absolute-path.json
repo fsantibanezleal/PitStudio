@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "source": "mendeley-78ht3pjsr4",
+  "name": "research-data.7z",
+  "url": "https://data.mendeley.com/public-files/datasets/78ht3pjsr4/files/research-data/file_downloaded",
+  "final_url": "https://data.mendeley.com/public-files/datasets/78ht3pjsr4/files/research-data/file_downloaded",
+  "stored_as": "/abs/x",
+  "bytes": 4230116058,
+  "expected_bytes": 4230116058,
+  "sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+  "expected_sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+  "publisher_checksum": "sha256:7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+  "publisher_checksum_status": "match",
+  "spdx": "CC-BY-4.0",
+  "licence_class": "attribution",
+  "redistribution": "derived-only",
+  "retrieved": "2026-10-04T14:12:09Z",
+  "status": "verified",
+  "fallback_sources": [],
+  "attempts": 1
+}

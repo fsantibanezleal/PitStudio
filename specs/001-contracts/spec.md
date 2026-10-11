@@ -128,7 +128,7 @@ requirement that names "data-model §n" makes that section part of the requireme
 | FR-001-31 | Ubiquitous | The source registry schema shall define the entry fields of data-model §5 (identity, access mode, files with digests, file kind, publisher checksum, uncompressed size and extract patterns, SPDX id, licence class, redistribution class, attribution, account with the name of its environment variable, fallback sources, card) — the single definition of every registry field that `s00_download` (spec 008) reads — and the committed `data/sources.yaml` shall validate, including the empty list. | contract |
 | FR-001-32 | Unwanted | If a source entry has a non-`https` URL, a URL with user information or with a query parameter named like a credential (`key`, `token`, `apikey`, `api_key`, `access_token`, `signature`), a malformed digest, an SPDX id outside the allowlist, a licence class not allowed for its SPDX id and kind (data-model §5.2), a missing attribution for class `attribution` or `share-alike`, `account.needed: true` without `fallback`, a value matching the secret patterns of `tools/check_repo.py`, a duplicate id, or `bytes` or `uncompressed_bytes` outside 1…68,719,476,736 (64 GiB), then validation or `tools/check_contracts.py` shall fail naming the entry. | contract (hostile) |
 | FR-001-33 | Unwanted | If a manifest input id is neither a source id, nor the id of an artefact of the same run, nor (for `kind: knowledge`) a row id of the `minephys` knowledge tables pinned by the lock, or a run manifest with `published: true` uses a source whose file entry has no pinned `sha256`, then `tools/check_contracts.py` shall fail naming the manifest and pointer. | contract (hostile) |
-| FR-001-52 | Unwanted | If a source entry has an unknown `access` value, `access: account` without `account.needed: true` (or the reverse), a fallback source id that is not another registry id, names the entry itself or repeats, a file without `kind` or with an unknown kind, a malformed `publisher_checksum`, `extract` or `uncompressed_bytes` on a file whose kind is not `archive`, an `extract` pattern that is not a `relglob` (absolute, drive letter, backslash, `.` or `..` segment), or files whose SPDX ids mix a share-alike id with any other id, then validation or `tools/check_contracts.py` shall fail naming the entry and the JSON pointer. | contract (hostile) |
+| FR-001-52 | Unwanted | If a source entry has an unknown `access` value, `access: account` without `account.needed: true` (or the reverse), a fallback source id that is not another registry id, names the entry itself or repeats, a file without `kind` or with an unknown kind, a malformed `publisher_checksum`, `extract` or `uncompressed_bytes` on a file whose kind is not `archive`, an `extract` pattern that is not a `relglob` (absolute, drive letter, backslash, `.` or `..` segment, a segment with a leading or trailing space), or files whose SPDX ids mix a share-alike id with any other id, then validation or `tools/check_contracts.py` shall fail naming the entry and the JSON pointer. | contract (hostile) |
 
 ### 3.6 Capability report (`contracts/capabilities.schema.json`)
 
@@ -154,7 +154,11 @@ requirement that names "data-model §n" makes that section part of the requireme
 
 | ID | Pattern | Requirement | Verification |
 |---|---|---|---|
-| FR-001-50 | Ubiquitous | `tools/check_contracts.py` shall validate every committed contract document of data-model §8.1 against its schema, run the cross-file rules FR-001-13, -15 to -20, -26, -29, -33 and -53, and exit 0 when clean, 1 on findings and 2 on a usage error; CI shall run it in the Python job. | unit + CI |
+| FR-001-50 | Ubiquitous | `tools/check_contracts.py` shall validate every committed contract document of data-model §8.1 against its schema, run the post-schema rules of `validate` (FR-001-54 to -57) and the cross-file rules FR-001-13, -15 to -20, -26, -29, -33 and -53, and exit 0 when clean, 1 on findings and 2 on a usage error; CI shall run it in the Python job. | unit + CI |
+| FR-001-54 | Unwanted | If a manifest (`run` or `web-index`) lists two artefacts with the same `id`, or the tool registry lists two entries with the same `id`, then `pitstudio.contracts.validate` (and so `tools/check_contracts.py`, FR-001-50) shall fail naming both JSON pointers. | contract (hostile) |
+| FR-001-55 | Unwanted | If a stage record of a run manifest has `shards.done` greater than `shards.total`, then `validate` shall fail naming the pointer. | contract (hostile) |
+| FR-001-56 | Unwanted | If any relative path of a contract document — a `relpath` or `relglob` value (stage output paths, artefact paths, file names, `extract` patterns), the `card` and `docs_page` paths — has a segment equal to a Windows reserved device name (`CON`, `PRN`, `AUX`, `NUL`, `COM1`–`COM9`, `LPT1`–`LPT9`, any case, with or without an extension, e.g. `con.txt`, `Lpt1.log`), or two paths of one document are equal after case folding, then `validate` shall fail naming the pointer. | contract (hostile) |
+| FR-001-57 | Unwanted | If a string whose schema carries a `pattern` contains a control character U+0000–U+001F — including a trailing newline, which Python `re`'s `$` accepts before a final `\n` while the ECMAScript and Rust engines reject it — then `validate` shall fail naming the pointer, so that Python, pydantic-core and TypeScript accept the same strings. | contract (hostile) |
 | FR-001-51 | Unwanted | If a contract file is unreadable or malformed, is a symbolic link resolving outside the repository, or is an unknown file in a contract folder, then `tools/check_contracts.py` shall report it as a finding (file, rule id, message ≤ 300 characters), continue with the other files, and exit 1 without a Python traceback. | unit (hostile) |
 
 ## 4. Correctness properties
@@ -185,11 +189,11 @@ requirement that names "data-model §n" makes that section part of the requireme
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-001-01 | run manifests `runs/<run_id>/manifest.json`, published run manifests, `web/public/assets/manifest.json` (refines DC-000-01) | `contracts/manifest.schema.json` | runner, `s60_export`, `st56_encode`, `studio publish` → web app, CI, `pages.yml` |
-| DC-001-02 | recipes `studio/recipes/cases/*.yaml`, `studio/recipes/_bench/*.yaml`; console job requests (refines DC-000-03) | `contracts/recipe.schema.json` (`$defs/job_request`) | maintainer, console → runner |
-| DC-001-03 | studio tool registry `studio/tools.yaml` (refines DC-000-04) | `contracts/tools.schema.json` | maintainer → web tool map, contract check |
-| DC-001-04 | data registry `data/sources.yaml` (refines DC-000-05) | `contracts/sources.schema.json` | maintainer → `s00_download`, docs, contract check |
-| DC-001-05 | capability report `studio/capabilities.json` (refines DC-000-02) | `contracts/capabilities.schema.json` | `studio/bench/run_bench.py` → runner guards, web `/studio` |
+| DC-001-01 | run manifests `runs/<run_id>/manifest.json`, published run manifests, `web/public/assets/manifest.json` (refines DC-000-01) | `specs/001-contracts/contracts/manifest.schema.json` (draft; promoted to `contracts/manifest.schema.json` by T-001-001) | runner, `s60_export`, `st56_encode`, `studio publish` → web app, CI, `pages.yml` |
+| DC-001-02 | recipes `studio/recipes/cases/*.yaml`, `studio/recipes/_bench/*.yaml`; console job requests (refines DC-000-03) | `specs/001-contracts/contracts/recipe.schema.json` (`$defs/job_request`; draft, promoted to `contracts/recipe.schema.json` by T-001-001) | maintainer, console → runner |
+| DC-001-03 | studio tool registry `studio/tools.yaml` (refines DC-000-04) | `specs/001-contracts/contracts/tools.schema.json` (draft; promoted to `contracts/tools.schema.json` by T-001-001) | maintainer → web tool map, contract check |
+| DC-001-04 | data registry `data/sources.yaml` (refines DC-000-05) | `specs/001-contracts/contracts/sources.schema.json` (draft; promoted to `contracts/sources.schema.json` by T-001-001) | maintainer → `s00_download`, docs, contract check |
+| DC-001-05 | capability report `studio/capabilities.json` (refines DC-000-02) | `specs/001-contracts/contracts/capabilities.schema.json` (draft of the tightened schema; replaces `contracts/capabilities.schema.json` in T-001-001) | `studio/bench/run_bench.py` → runner guards, web `/studio` |
 | DC-001-06 | generated Pydantic models `src/pitstudio/contracts/_generated/*.py` | every `contracts/*.schema.json` | `tools/gen_types.py` → runner, console, pipeline, checks |
 | DC-001-07 | generated TypeScript types `web/src/contracts/generated/*.ts` | every `contracts/*.schema.json` | `web/scripts/gen-types.mjs` → web app, console UI |
 | DC-001-08 | conformance corpus `tests/contract/fixtures/<schema>/{valid,invalid}/` with `index.json` | the schema it exercises | test authors → contract, property and web type tests |
@@ -276,11 +280,39 @@ requirement that names "data-model §n" makes that section part of the requireme
 - Integration 2026-10-07: every `thresholds.yaml` key this spec proposes is marked "proposed key, pending maintainer
   approval" and compiled with the other specs' proposals for the maintainer; lane-gate keys are consolidated as
   `lane_gate.*` and budget keys as `budgets.*`.
+- Integration 2026-10-07: draft schemas written for DC-001-01 … DC-001-05 (`specs/001-contracts/contracts/`:
+  manifest, recipe with `$defs/job_request`, tools, sources and the tightened capabilities schema; valid and hostile
+  examples indexed in `examples/index.json`, which also lists the classes only the loader, validator or checker can
+  catch). Where the data model left a reading open, the stricter one is encoded: `recipe.path` and web-index
+  `runs[].manifest` are relative to the folder named (`cases/` or `_bench/` `*.yaml`; `<run_id>/manifest.json`); a
+  release-hosted artefact `path` is one segment (the asset file name); fields of the §2.4, §2.6 and §2.7 tables are all
+  required (except `nvenc_util_pct` and `unavailable`), and a null telemetry field must be named in `unavailable`; a
+  static kind always has lane `static`; `log_tail` requires status `failed` and `reason` status `not_run` or
+  `skipped`; input ids of kind `source` or `knowledge` are slugs; the §5.2 (SPDX, kind) → class table applies to the
+  entry's own `spdx` (per-file overrides stay a checker rule); an evaluated-not-adopted tool's `docs_page` must use
+  the `not-adopted-` prefix and other tools must not; params keys use `param_key` at every depth, counting the params
+  object as depth 1. The capability schema's record `$defs/probe` is renamed `probe_result` (the shared `probe`
+  name is the probe-name pattern) and `generated` uses the `date` pattern (FR-001-04); every existing
+  `run_bench.public_view` sample stays valid. Gaps reported: duplicate artefact and tool ids, `shards.done` ≤
+  `shards.total`, the `relpath` device-name and case-fold rules and the per-file licence maximum have no FR; and
+  Python `re` lets `$` match before a final newline, so `jsonschema` accepts `"id\n"` where pydantic-core rejects it
+  (a P-001-06 agreement risk).
+- Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
+- Integration 2026-10-07 (2): archive members may contain spaces (the Mendeley archive's `Research Data/Annotated
+  data/…`), so `relglob` (data-model §1.3; the `extract` patterns of §5.1.1) allows spaces inside a segment, never at
+  its start or end; `relpath` (repository-relative paths) stays space-free. The draft `sources.schema.json` and its
+  examples follow (one valid spaced member, two hostile leading/trailing-space patterns; FR-001-52).
+- Integration 2026-10-07 (2): four checks the data model stated (or the schema drafts listed as "not schema-checkable" without a
+  rule) got requirements: duplicate artefact ids in a manifest and duplicate tool ids in the registry (FR-001-54),
+  `shards.done ≤ shards.total` (FR-001-55), Windows reserved device names and case-folded duplicates in every
+  relative path (FR-001-56), and control characters U+0000–U+001F in patterned strings (FR-001-57, the Python `$`
+  trailing-newline gap). They are post-schema rules of `validate`, run by the checker (FR-001-50); hostile classes in
+  data-model §8.2; tasks T-001-025 and T-001-032.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 
 ### ADDED Requirements
-- FR-001-01 … FR-001-53 (as listed in §3; FR-001-27 retired), P-001-01 … P-001-08, NFR-001-01 … NFR-001-05, SC-001-01,
+- FR-001-01 … FR-001-57 (as listed in §3; FR-001-27 retired), P-001-01 … P-001-08, NFR-001-01 … NFR-001-05, SC-001-01,
   DC-001-01 … DC-001-08.
 
 ### MODIFIED Requirements

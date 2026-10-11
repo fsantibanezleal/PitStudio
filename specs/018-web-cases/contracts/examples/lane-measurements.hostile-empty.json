@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "git_sha": "3f2a9c1d4e5b6a7980c1d2e3f4a5b6c7d8e9f012",
+  "generated": "2026-10-07T12:30:00Z",
+  "runner": {
+    "os_image": "ubuntu-24.04",
+    "cpu_model": "AMD EPYC 7763 64-Core Processor",
+    "logical_cpus": 4,
+    "memory_bytes": 16772599808,
+    "browser": "chromium",
+    "browser_version": "141.0.7390.37",
+    "headless": true,
+    "playwright_version": "1.63.0",
+    "node_version": "24.9.0",
+    "forced_tier": "T2",
+    "interactions": 50,
+    "runs": 5
+  },
+  "entries": []
+}

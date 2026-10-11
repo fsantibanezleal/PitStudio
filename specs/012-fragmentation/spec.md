@@ -159,11 +159,11 @@ Story index (for traceability):
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-012-01 | Fragment table per pile (fragment id, size m, volume m³, mass kg, class index, seed, visible px per view) as Parquet rows | `contracts/fragment-table.schema.json` (new, T-012-001) | pile generator, `st55_sdg` → dataset builder, `s50_evaluate` |
-| DC-012-02 | Real fold file and group links (archive SHA-256, links, 231 groups, per-fold test / validation / training lists, seed) | `contracts/fragment-split.schema.json` (new, T-012-002) | split builder; `data/splits/mendeley-78ht3pjsr4-links.yaml` → `s30_train`, `s50_evaluate` |
-| DC-012-03 | Fragmentation evaluation report (per-fold IoU and ρ_f, ρ̄, x50 errors, intervals, verdicts, `no-fit` counts, C2ST and duplicate results, statuses, attribution text) | `contracts/fragmentation-eval.schema.json` (new, T-012-003) | `s50_evaluate` → `s60_export`, D1 baked data, model card |
-| DC-012-04 | Muck-pile render index (pile seed, view, tile, relative paths, SHA-256, intrinsics, depth path, instance-to-fragment map, `synthetic: true`, licence) | `contracts/muck-pile-render.schema.json` (new, T-012-004) | `st55_sdg` → dataset builder |
-| DC-012-05 | D1 design grid (design inputs, x50, x80, % oversize, PPV, flyrock radius, units, `minephys` version) | `contracts/d1-design-grid.schema.json` (new, T-012-005) | D1 recipe → web D1 fallback, docs |
+| DC-012-01 | Fragment table per pile (fragment id, size m, volume m³, mass kg, class index, seed, visible px per view) as Parquet rows | `specs/012-fragmentation/contracts/fragment-table.schema.json` (draft; promoted to `contracts/fragment-table.schema.json` by T-012-001) | pile generator, `st55_sdg` → dataset builder, `s50_evaluate` |
+| DC-012-02 | Real fold file and group links (archive SHA-256, links, 231 groups, per-fold test / validation / training lists, seed) | `specs/012-fragmentation/contracts/fragment-split.schema.json` (draft; promoted to `contracts/fragment-split.schema.json` by T-012-002) | split builder; `data/splits/mendeley-78ht3pjsr4-links.yaml` → `s30_train`, `s50_evaluate` |
+| DC-012-03 | Fragmentation evaluation report (per-fold IoU and ρ_f, ρ̄, x50 errors, intervals, verdicts, `no-fit` counts, C2ST and duplicate results, statuses, attribution text) | `specs/012-fragmentation/contracts/fragmentation-eval.schema.json` (draft; promoted to `contracts/fragmentation-eval.schema.json` by T-012-003) | `s50_evaluate` → `s60_export`, D1 baked data, model card |
+| DC-012-04 | Muck-pile render index (pile seed, view, tile, relative paths, SHA-256, intrinsics, depth path, instance-to-fragment map, `synthetic: true`, licence) | `specs/012-fragmentation/contracts/muck-pile-render.schema.json` (draft; promoted to `contracts/muck-pile-render.schema.json` by T-012-004) | `st55_sdg` → dataset builder |
+| DC-012-05 | D1 design grid (design inputs, x50, x80, % oversize, PPV, flyrock radius, units, `minephys` version) | `specs/012-fragmentation/contracts/d1-design-grid.schema.json` (draft; promoted to `contracts/d1-design-grid.schema.json` by T-012-005) | D1 recipe → web D1 fallback, docs |
 
 Run and asset manifests (lineage, lane, licence class) follow the foundation contract DC-000-01
 (`contracts/manifest.schema.json`).
@@ -224,6 +224,22 @@ F_j ≥ q. x50 uses q = 0.5, x80 q = 0.8.
   writers produce the instance masks the exact truth needs (FR-012-13); reported to the coordinator.
 - The classifier two-sample test for fragment images is specified here (FR-012-33 … FR-012-37); other data types may
   reuse the same module from their own specifications.
+- Integration 2026-10-07: draft schema written for DC-012-01 … DC-012-05 (`specs/012-fragmentation/contracts/`, valid
+  and hostile examples indexed in `examples/index.json`); stricter readings chosen: the fragment table's JSON sidecar
+  (target parameters, realised V_real, v_max, x50, x80, Parquet path, digest and row count ≤ 10⁶) is the schema root
+  and the Parquet row is `$defs/row`, its `seed` being the rock-mesh seed of FR-012-12; `fragment-split` validates both
+  the links file and the fold file, discriminated by `kind`, with the archive SHA-256, seed 20261004, 5 folds and 231
+  groups as constants, and stores every fold list as original numbers (1–240) under the constant expansion
+  `dihedral-4` (files k + 240 m, m = 0…3), so the 960-file validation and training lists are derived and a test list
+  can never hold k > 240; every evaluation section has status `succeeded` or `not_run` with a reason, Isaac Sim not
+  passing forces TSTR, the synthetic x50, both comparisons and the C2ST to `not_run` with the TRTR-only label, an
+  unavailable or mismatching archive forces TRTR, TSTR, the real comparison and the C2ST to `not_run` with the D1
+  statement, an unpowered C2ST can only read "inconclusive (no power)", the attribution is the card's text as a
+  constant and cross-group leaks are the constant 0 (a leak stops the run); the render index is one record per view
+  with the instance map keyed by ids ≥ 1 (≤ 262,144 entries, one instance per 4 px); the D1 grid stores SI values as
+  `minephys.blasting` returns them (x50 in m, PPV in m/s) with a constant `units` record, bounds the rock factor to
+  Cunningham's 0.8–22 and the hole diameter to ≤ 1 m (stricter than the library's warnings), and holds ≤ 4,096 points
+  over ≤ 4 axes.
 - (no open items)
 
 ## 9. Changes (only for features that modify earlier behaviour)

@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/reason-pins.schema.json",
+  "title": "Reason-lane pins",
+  "description": "Pins of the reason lane in studio/reason/pins.json: llama.cpp archives and executables, model repositories, revisions, file SHA-256 and prompt hashes (DC-015-03, spec 015-vlm).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "llamacpp": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "const": "b11381"
+        },
+        "archives": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "binaries": {
+              "$ref": "#/$defs/binaries_archive"
+            },
+            "cudart": {
+              "$ref": "#/$defs/cudart_archive"
+            }
+          },
+          "required": [
+            "binaries",
+            "cudart"
+          ]
+        },
+        "executables": {
+          "type": "object",
+          "propertyNames": {
+            "maxLength": 64,
+            "pattern": "^[a-z][a-z0-9-]{0,58}\\.exe$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/sha256"
+          },
+          "required": [
+            "llama-server.exe",
+            "llama-quantize.exe"
+          ],
+          "minProperties": 2,
+          "maxProperties": 32
+        },
+        "converter": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "source_tag": {
+              "const": "b11381"
+            },
+            "path": {
+              "const": "convert_hf_to_gguf.py"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "source_tag",
+            "path",
+            "sha256"
+          ]
+        }
+      },
+      "required": [
+        "build",
+        "archives",
+        "executables",
+        "converter"
+      ]
+    },
+    "models": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cosmos": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "repository": {
+              "const": "nvidia/Cosmos-Reason2-2B"
+            },
+            "revision": {
+              "$ref": "#/$defs/cosmos_revision"
+            },
+            "files": {
+              "$ref": "#/$defs/model_files"
+            }
+          },
+          "required": [
+            "repository",
+            "revision",
+            "files"
+          ]
+        },
+        "qwen": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "repository": {
+              "const": "Qwen/Qwen3-VL-2B-Instruct"
+            },
+            "revision": {
+              "$ref": "#/$defs/git_sha"
+            },
+            "files": {
+              "$ref": "#/$defs/model_files"
+            }
+          },
+          "required": [
+            "repository",
+            "revision",
+            "files"
+          ]
+        }
+      },
+      "required": [
+        "cosmos",
+        "qwen"
+      ]
+    },
+    "prompts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "system": {
+          "$ref": "#/$defs/prompt_pin"
+        },
+        "task_a_type_1": {
+          "$ref": "#/$defs/prompt_pin"
+        },
+        "task_a_type_2": {
+          "$ref": "#/$defs/prompt_pin"
+        },
+        "task_a_type_3": {
+          "$ref": "#/$defs/prompt_pin"
+        },
+        "task_a_type_4": {
+          "$ref": "#/$defs/prompt_pin"
+        },
+        "task_a_type_5": {
+          "$ref": "#/$defs/prompt_pin"
+        },
+        "task_a_type_6": {
+          "$ref": "#/$defs/prompt_pin"
+        },
+        "task_b_pair": {
+          "$ref": "#/$defs/prompt_pin"
+        },
+        "task_b_single": {
+          "$ref": "#/$defs/prompt_pin"
+        },
+        "task_c_caption": {
+          "$ref": "#/$defs/prompt_pin"
+        }
+      },
+      "required": [
+        "system",
+        "task_a_type_1",
+        "task_a_type_2",
+        "task_a_type_3",
+        "task_a_type_4",
+        "task_a_type_5",
+        "task_a_type_6",
+        "task_b_pair",
+        "task_b_single",
+        "task_c_caption"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "llamacpp",
+    "models",
+    "prompts"
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "git_sha": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "release_url": {
+      "type": "string",
+      "maxLength": 200,
+      "pattern": "^https://github\\.com/ggml-org/llama\\.cpp/releases/download/b11381/[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "archive_bytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "binaries_archive": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "const": "llama-b11381-bin-win-cuda-13.4-x64.zip"
+        },
+        "url": {
+          "$ref": "#/$defs/release_url"
+        },
+        "bytes": {
+          "$ref": "#/$defs/archive_bytes"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "name",
+        "url",
+        "bytes",
+        "sha256"
+      ]
+    },
+    "cudart_archive": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "const": "cudart-llama-bin-win-cuda-13.4-x64.zip"
+        },
+        "url": {
+          "$ref": "#/$defs/release_url"
+        },
+        "bytes": {
+          "$ref": "#/$defs/archive_bytes"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "name",
+        "url",
+        "bytes",
+        "sha256"
+      ]
+    },
+    "file_pin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "sha256",
+        "bytes"
+      ]
+    },
+    "model_files": {
+      "type": "object",
+      "propertyNames": {
+        "maxLength": 255,
+        "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/file_pin"
+      },
+      "minProperties": 1,
+      "maxProperties": 64
+    },
+    "cosmos_revision": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^9ce19a1[0-9a-f]{33}$"
+    },
+    "prompt_pin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "maxLength": 100,
+          "pattern": "^studio/reason/prompts/[a-z0-9][a-z0-9_-]{0,62}\\.txt$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ]
+    }
+  }
+}

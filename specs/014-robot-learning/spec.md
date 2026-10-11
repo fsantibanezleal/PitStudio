@@ -189,11 +189,11 @@ fill model (P-014-13).
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-014-01 | IL task parameters (recipe `params` of `st60_il_train`, `st61_il_mpm_eval`): observation layout, reward weights, randomisation ranges, seeds, budgets | `contracts/il-task.schema.json` (new, T-014-001) | maintainer → IL stages |
-| DC-014-02 | machine parameter files (truck, excavator, loader) | `contracts/machine-params.schema.json` (new, T-014-001) | maintainer (published academic dimensions) → generators, twins |
-| DC-014-03 | policy handoff | `contracts/il-policy-handoff.schema.json` (new, T-014-001) | `st60_il_train` → `s60_export` |
-| DC-014-04 | episode tables (Parquet columns + JSON sidecar) | `contracts/il-episodes.schema.json` (new, T-014-001) | `st60_il_train` (evaluation mode), `st61_il_mpm_eval`, twin runner → `s50_evaluate` |
-| DC-014-05 | web twin bundle (twin parameters, policy asset id and SHA-256, golden sequences) | `contracts/il-twin.schema.json` (new, T-014-001) | `s60_export` → web |
+| DC-014-01 | IL task parameters (recipe `params` of `st60_il_train`, `st61_il_mpm_eval`): observation layout, reward weights, randomisation ranges, seeds, budgets | `specs/014-robot-learning/contracts/il-task.schema.json` (draft; promoted to `contracts/il-task.schema.json` by T-014-001) | maintainer → IL stages |
+| DC-014-02 | machine parameter files (truck, excavator, loader) | `specs/014-robot-learning/contracts/machine-params.schema.json` (draft; promoted to `contracts/machine-params.schema.json` by T-014-001) | maintainer (published academic dimensions) → generators, twins |
+| DC-014-03 | policy handoff | `specs/014-robot-learning/contracts/il-policy-handoff.schema.json` (draft; promoted to `contracts/il-policy-handoff.schema.json` by T-014-001) | `st60_il_train` → `s60_export` |
+| DC-014-04 | episode tables (Parquet columns + JSON sidecar) | `specs/014-robot-learning/contracts/il-episodes.schema.json` (draft, row column sets in `$defs/il1_episode`, `$defs/dig_episode`; promoted to `contracts/il-episodes.schema.json` by T-014-001) | `st60_il_train` (evaluation mode), `st61_il_mpm_eval`, twin runner → `s50_evaluate` |
+| DC-014-05 | web twin bundle (twin parameters, policy asset id and SHA-256, golden sequences) | `specs/014-robot-learning/contracts/il-twin.schema.json` (draft; promoted to `contracts/il-twin.schema.json` by T-014-001) | `s60_export` → web |
 | DC-014-06 | run and asset manifests | `contracts/manifest.schema.json` (spec 001) | IL stages → web, CI |
 | DC-014-07 | probe `isaaclab` in `studio/capabilities.json` | `contracts/capabilities.schema.json` (DC-000-02) | `studio/bench/run_bench.py` → planner |
 
@@ -263,6 +263,24 @@ fill model (P-014-13).
   (FR-014-42), so the gap stands for the TS twin while running in the 3.14 pipeline.
 - Resolved: ONNX export of the policies uses opset 17 and IR 10 (model card; within plan §4's opset 17–19 range).
 - Resolved: the energy metric is per gross tonne-kilometre, because payload is randomised down to 0.
+- Integration 2026-10-07: draft schema written for DC-014-01 … DC-014-05 (`specs/014-robot-learning/contracts/`, valid
+  and hostile examples indexed in `examples/index.json`). Resolved, stricter reading chosen: the IL task parameters are
+  one closed record per task family (IL-1 haul truck; IL-2 / IL-3 dig) carrying a `stage` field (IL-1 and IL-3 train
+  only; the MPM stage needs its `mpm` block); the spec's fixed values are constants (PPO settings of FR-014-25,
+  observation sizes 63 / 46, action sizes 2 / 4, IL-1 at 20 Hz, 100 evaluation episodes with deterministic actions, 20
+  tuning seeds, the 25/25/25/25 light-vehicle mix, the 30 s dig limit, surcharge 0, wet probability 0.5); randomisation
+  ranges may narrow but never exceed the FR-014-13 / FR-014-19 limits and the noise sigmas stay at or below their
+  stated values; reward weights are ≥ 0 because every term is already signed; budgets are capped at the NFR-014-01 VRAM
+  limits and at 2 × the upper GPU-hour estimate (IL-1 8 h, IL-2 16 h, IL-3 6 h); the IL-3 task id is
+  `Pit-Loader-Dig-FEE` with 46 observations and 4 actions, and IL-3 has no MPM tier or twin; every numeric field of a
+  machine parameter file names its source (`published` or `derived`), each source has a DOI or an https URL, joint
+  limits are in degrees and meshes are relative paths inside the generated asset folder; the handoff's layout and
+  task-configuration hashes are SHA-256 of RFC 8785 canonical JSON and it lists ≥ 200 golden observations; episode
+  tables are Parquet with a JSON sidecar, minimum TTC is stored as +∞ when never closing (no upper bound), the fill
+  factor is bounded by 3 (MPM may exceed the FEE cap of 1.15), each IL-1 row keeps its step count and sum of squared
+  lateral errors for the pooled RMS, and an MPM table holds 16–64 rows; "< 1 MB" for the ONNX policy is ≤ 999,999
+  bytes, and the twin bundle pins the "sim-to-sim" label, the FR-014-45 statement, the 2,000-step goldens and the IL-1
+  twin step of 0.01 s (the IL-2 arm step, unspecified, is ≤ 0.05 s).
 
 ## 9. Changes (only for features that modify earlier behaviour)
 

@@ -1,0 +1,29 @@
+{
+  "seq": 4,
+  "t": "2026-10-07T21:00:03.250Z",
+  "run_id": "20261007T210000Z-c2-slope",
+  "type": "guard-refused",
+  "stage": {
+    "id": "st52_rtx_render"
+  },
+  "detail": "free VRAM below the estimate plus margin",
+  "data": {
+    "k00": 0,
+    "k01": 1,
+    "k02": 2,
+    "k03": 3,
+    "k04": 4,
+    "k05": 5,
+    "k06": 6,
+    "k07": 7,
+    "k08": 8,
+    "k09": 9,
+    "k10": 10,
+    "k11": 11,
+    "k12": 12,
+    "k13": 13,
+    "k14": 14,
+    "k15": 15,
+    "k16": 16
+  }
+}

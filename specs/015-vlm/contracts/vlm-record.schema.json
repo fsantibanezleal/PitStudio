@@ -1,0 +1,1286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/vlm-record.schema.json",
+  "title": "Published answer records",
+  "description": "Published, display-only answer records of the reason lane (stratified sample), written by studio publish (DC-015-04, spec 015-vlm).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "case": {
+      "$ref": "#/$defs/case_id"
+    },
+    "generated": {
+      "$ref": "#/$defs/date"
+    },
+    "git_sha": {
+      "$ref": "#/$defs/git_sha"
+    },
+    "notices": {
+      "$ref": "#/$defs/notices"
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "const": "stratified-random"
+        },
+        "strata": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "task",
+              "type",
+              "condition",
+              "corruption"
+            ]
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "n_full": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "n_published": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "selection_uses_correctness": {
+          "const": false
+        }
+      },
+      "required": [
+        "method",
+        "strata",
+        "seed",
+        "n_full",
+        "n_published",
+        "selection_uses_correctness"
+      ]
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/record_a"
+          },
+          {
+            "$ref": "#/$defs/record_b"
+          },
+          {
+            "$ref": "#/$defs/record_c"
+          }
+        ]
+      },
+      "maxItems": 2000,
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "case",
+    "generated",
+    "git_sha",
+    "notices",
+    "sample",
+    "records"
+  ],
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "git_sha": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "date": {
+      "type": "string",
+      "maxLength": 10,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
+    },
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "driver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+(\\.[0-9]+)+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "notices": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cosmos": {
+          "const": "Built on NVIDIA Cosmos"
+        },
+        "honesty": {
+          "const": "Zero-shot 2B VLM; not a safety system."
+        }
+      },
+      "required": [
+        "cosmos",
+        "honesty"
+      ]
+    },
+    "record_licence_class": {
+      "enum": [
+        "display-only",
+        "own"
+      ]
+    },
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "temperature": {
+          "const": 0
+        },
+        "top_k": {
+          "const": 1
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "max_new_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "reasoning": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "temperature",
+        "top_k",
+        "seed",
+        "max_new_tokens",
+        "reasoning"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "reasoning": {
+                "const": false
+              }
+            },
+            "required": [
+              "reasoning"
+            ]
+          },
+          "then": {
+            "properties": {
+              "max_new_tokens": {
+                "maximum": 64
+              }
+            }
+          }
+        }
+      ]
+    },
+    "gpu": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "driver": {
+          "$ref": "#/$defs/driver"
+        }
+      },
+      "required": [
+        "name",
+        "driver"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "enum": [
+            "nvidia/Cosmos-Reason2-2B",
+            "Qwen/Qwen3-VL-2B-Instruct"
+          ]
+        },
+        "revision": {
+          "$ref": "#/$defs/git_sha"
+        },
+        "quantisation": {
+          "enum": [
+            "q8_0",
+            "bf16"
+          ]
+        },
+        "gguf_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "llamacpp_build": {
+          "anyOf": [
+            {
+              "const": "b11381"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "llamacpp_archive_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "transformers_version": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/version"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sampling": {
+          "$ref": "#/$defs/sampling"
+        },
+        "date": {
+          "$ref": "#/$defs/date"
+        },
+        "gpu": {
+          "$ref": "#/$defs/gpu"
+        }
+      },
+      "required": [
+        "model",
+        "revision",
+        "quantisation",
+        "gguf_sha256",
+        "llamacpp_build",
+        "llamacpp_archive_sha256",
+        "transformers_version",
+        "sampling",
+        "date",
+        "gpu"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "quantisation": {
+                "const": "q8_0"
+              }
+            },
+            "required": [
+              "quantisation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "gguf_sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "llamacpp_build": {
+                "const": "b11381"
+              },
+              "llamacpp_archive_sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "transformers_version": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "gguf_sha256": {
+                "const": null
+              },
+              "llamacpp_build": {
+                "const": null
+              },
+              "llamacpp_archive_sha256": {
+                "const": null
+              },
+              "transformers_version": {
+                "$ref": "#/$defs/version"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "record_a": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task": {
+          "const": "A"
+        },
+        "record_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "query_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "arm": {
+          "enum": [
+            "cosmos-q8_0",
+            "cosmos-bf16",
+            "qwen-base",
+            "detector-rule",
+            "constant"
+          ]
+        },
+        "frames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artefact_id"
+          },
+          "maxItems": 1,
+          "minItems": 1
+        },
+        "question_type": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "condition": {
+          "$ref": "frame-state.schema.json#/$defs/condition"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "output": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 32768
+        },
+        "parsed": {
+          "enum": [
+            "yes",
+            "no",
+            "0",
+            "1",
+            "2",
+            "3+",
+            "unparseable"
+          ]
+        },
+        "truth": {
+          "$ref": "vlm-queries.schema.json#/$defs/answer_label"
+        },
+        "correct": {
+          "type": "boolean"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/record_licence_class"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/provenance"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "task",
+        "record_id",
+        "query_id",
+        "arm",
+        "frames",
+        "question_type",
+        "condition",
+        "question",
+        "output",
+        "parsed",
+        "truth",
+        "correct",
+        "licence_class",
+        "provenance"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "enum": [
+                  "cosmos-q8_0",
+                  "cosmos-bf16",
+                  "qwen-base"
+                ]
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "provenance": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "enum": [
+                  "cosmos-q8_0",
+                  "cosmos-bf16"
+                ]
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "licence_class": {
+                "const": "display-only"
+              },
+              "provenance": {
+                "properties": {
+                  "model": {
+                    "const": "nvidia/Cosmos-Reason2-2B"
+                  },
+                  "revision": {
+                    "pattern": "^9ce19a1[0-9a-f]{33}$"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "licence_class": {
+                "const": "own"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "qwen-base"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "model": {
+                    "const": "Qwen/Qwen3-VL-2B-Instruct"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-q8_0"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "quantisation": {
+                    "const": "q8_0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-bf16"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "quantisation": {
+                    "const": "bf16"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "question_type": {
+                "const": 3
+              }
+            },
+            "required": [
+              "question_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "truth": {
+                "enum": [
+                  "0",
+                  "1",
+                  "2",
+                  "3+"
+                ]
+              },
+              "parsed": {
+                "enum": [
+                  "0",
+                  "1",
+                  "2",
+                  "3+",
+                  "unparseable"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "truth": {
+                "enum": [
+                  "yes",
+                  "no"
+                ]
+              },
+              "parsed": {
+                "enum": [
+                  "yes",
+                  "no",
+                  "unparseable"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "record_b": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task": {
+          "const": "B"
+        },
+        "record_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "pair_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "arm": {
+          "enum": [
+            "cosmos-q8_0",
+            "cosmos-bf16",
+            "qwen-base"
+          ]
+        },
+        "corruption": {
+          "$ref": "plausibility-pairs.schema.json#/$defs/corruption"
+        },
+        "presentation": {
+          "enum": [
+            "pair-calibrated-first",
+            "pair-corrupted-first",
+            "single-calibrated",
+            "single-corrupted"
+          ]
+        },
+        "input_mode": {
+          "enum": [
+            "native-video",
+            "frame-list-approximation"
+          ]
+        },
+        "frames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artefact_id"
+          },
+          "maxItems": 2,
+          "minItems": 1
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "output": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 32768
+        },
+        "parsed": {
+          "enum": [
+            "first",
+            "second",
+            "yes",
+            "no",
+            "unparseable"
+          ]
+        },
+        "truth": {
+          "enum": [
+            "first",
+            "second",
+            "yes",
+            "no"
+          ]
+        },
+        "correct": {
+          "type": "boolean"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/record_licence_class"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      },
+      "required": [
+        "task",
+        "record_id",
+        "pair_id",
+        "arm",
+        "corruption",
+        "presentation",
+        "input_mode",
+        "frames",
+        "question",
+        "output",
+        "parsed",
+        "truth",
+        "correct",
+        "licence_class",
+        "provenance"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "enum": [
+                  "cosmos-q8_0",
+                  "cosmos-bf16"
+                ]
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "licence_class": {
+                "const": "display-only"
+              },
+              "provenance": {
+                "properties": {
+                  "model": {
+                    "const": "nvidia/Cosmos-Reason2-2B"
+                  },
+                  "revision": {
+                    "pattern": "^9ce19a1[0-9a-f]{33}$"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "licence_class": {
+                "const": "own"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "qwen-base"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "model": {
+                    "const": "Qwen/Qwen3-VL-2B-Instruct"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-q8_0"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "quantisation": {
+                    "const": "q8_0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-bf16"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "quantisation": {
+                    "const": "bf16"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "presentation": {
+                "const": "pair-calibrated-first"
+              }
+            },
+            "required": [
+              "presentation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "truth": {
+                "const": "first"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "presentation": {
+                "const": "pair-corrupted-first"
+              }
+            },
+            "required": [
+              "presentation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "truth": {
+                "const": "second"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "presentation": {
+                "const": "single-calibrated"
+              }
+            },
+            "required": [
+              "presentation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "truth": {
+                "const": "yes"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "presentation": {
+                "const": "single-corrupted"
+              }
+            },
+            "required": [
+              "presentation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "truth": {
+                "const": "no"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "presentation": {
+                "enum": [
+                  "pair-calibrated-first",
+                  "pair-corrupted-first"
+                ]
+              }
+            },
+            "required": [
+              "presentation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "frames": {
+                "minItems": 2
+              },
+              "parsed": {
+                "enum": [
+                  "first",
+                  "second",
+                  "unparseable"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "frames": {
+                "maxItems": 1
+              },
+              "parsed": {
+                "enum": [
+                  "yes",
+                  "no",
+                  "unparseable"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "quantisation": {
+                    "const": "q8_0"
+                  }
+                },
+                "required": [
+                  "quantisation"
+                ]
+              }
+            },
+            "required": [
+              "provenance"
+            ]
+          },
+          "then": {
+            "properties": {
+              "input_mode": {
+                "const": "frame-list-approximation"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "input_mode": {
+                "const": "native-video"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "class_set": {
+      "type": "array",
+      "items": {
+        "$ref": "frame-state.schema.json#/$defs/object_class"
+      },
+      "maxItems": 5,
+      "uniqueItems": true
+    },
+    "record_c": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task": {
+          "const": "C"
+        },
+        "record_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "arm": {
+          "enum": [
+            "cosmos-q8_0",
+            "cosmos-bf16",
+            "qwen-base",
+            "template-caption"
+          ]
+        },
+        "frames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artefact_id"
+          },
+          "maxItems": 1,
+          "minItems": 1
+        },
+        "condition": {
+          "$ref": "frame-state.schema.json#/$defs/condition"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "output": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 4000
+        },
+        "mentioned_classes": {
+          "$ref": "#/$defs/class_set"
+        },
+        "visible_classes": {
+          "$ref": "#/$defs/class_set"
+        },
+        "hallucinated_classes": {
+          "$ref": "#/$defs/class_set"
+        },
+        "correct": {
+          "type": "boolean"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/record_licence_class"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/provenance"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "task",
+        "record_id",
+        "arm",
+        "frames",
+        "condition",
+        "question",
+        "output",
+        "mentioned_classes",
+        "visible_classes",
+        "hallucinated_classes",
+        "correct",
+        "licence_class",
+        "provenance"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "enum": [
+                  "cosmos-q8_0",
+                  "cosmos-bf16",
+                  "qwen-base"
+                ]
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "provenance": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "enum": [
+                  "cosmos-q8_0",
+                  "cosmos-bf16"
+                ]
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "licence_class": {
+                "const": "display-only"
+              },
+              "provenance": {
+                "properties": {
+                  "model": {
+                    "const": "nvidia/Cosmos-Reason2-2B"
+                  },
+                  "revision": {
+                    "pattern": "^9ce19a1[0-9a-f]{33}$"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "licence_class": {
+                "const": "own"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "qwen-base"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "model": {
+                    "const": "Qwen/Qwen3-VL-2B-Instruct"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-q8_0"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "quantisation": {
+                    "const": "q8_0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-bf16"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "quantisation": {
+                    "const": "bf16"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "correct": {
+                "const": true
+              }
+            },
+            "required": [
+              "correct"
+            ]
+          },
+          "then": {
+            "properties": {
+              "hallucinated_classes": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "hallucinated_classes": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

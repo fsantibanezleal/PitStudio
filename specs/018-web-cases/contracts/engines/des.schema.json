@@ -1,0 +1,453 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/des.schema.json",
+  "title": "Engine des: input and output messages",
+  "description": "Input and output messages of the browser engine `des` (cases A1): one shift of the discrete-event haulage twin hosted from spec 007 (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `des`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "des",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "run_shift"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "run_shift"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/run_shift_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `des`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "des",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "run_shift"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "run_shift"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/run_shift_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "run_shift_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One shift of the TypeScript DES twin of spec 007.",
+      "required": [
+        "bundle",
+        "seed",
+        "dispatcher",
+        "profile"
+      ],
+      "properties": {
+        "bundle": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Scenario bundle of the case, a document valid against haul-scenario.schema.json (DC-007-01); the twin validates it before simulating (FR-007-03).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Seed of the counter-based variate source (FR-007-01, FR-007-13), within 0 to 2^53 - 1."
+        },
+        "dispatcher": {
+          "enum": [
+            "fixed",
+            "nearest",
+            "sptf",
+            "sq",
+            "random",
+            "min-idle",
+            "lp",
+            "ppo",
+            "attention"
+          ],
+          "description": "Dispatcher id: the classical set of FR-007-14, the LP dispatcher and the two learned policies."
+        },
+        "profile": {
+          "enum": [
+            "engine",
+            "exponential",
+            "deterministic"
+          ],
+          "description": "Variate profile (FR-007-07)."
+        },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX dispatch policy, smaller than 2 MB (NFR-007-03); required for the learned dispatchers.",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1999999,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "dispatcher": {
+                "enum": [
+                  "ppo",
+                  "attention"
+                ]
+              }
+            },
+            "required": [
+              "dispatcher"
+            ]
+          },
+          "then": {
+            "required": [
+              "policy"
+            ]
+          }
+        }
+      ]
+    },
+    "run_shift_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "executed_events",
+        "kpis",
+        "loaders",
+        "trace"
+      ],
+      "properties": {
+        "executed_events": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000000,
+          "description": "Executed events (cap 2 x 10^6, FR-007-13)."
+        },
+        "kpis": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Fleet KPIs of FR-007-08 over the bundle's KPI window, in SI units.",
+          "required": [
+            "production_kg_per_s",
+            "cycles_per_s",
+            "loader_queue_mean_s",
+            "loader_queue_p90_s",
+            "dump_queue_mean_s",
+            "dump_queue_p90_s",
+            "loader_utilisation",
+            "match_factor",
+            "truck_time_s_per_kg",
+            "loader_time_s_per_kg",
+            "cost_status"
+          ],
+          "properties": {
+            "production_kg_per_s": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Production over the KPI window (t/h in the UI)."
+            },
+            "cycles_per_s": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Completed cycles per second."
+            },
+            "loader_queue_mean_s": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Mean queue time at loaders per cycle."
+            },
+            "loader_queue_p90_s": {
+              "type": "number",
+              "minimum": 0,
+              "description": "90th-percentile queue time at loaders per cycle."
+            },
+            "dump_queue_mean_s": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Mean queue time at dumps per cycle."
+            },
+            "dump_queue_p90_s": {
+              "type": "number",
+              "minimum": 0,
+              "description": "90th-percentile queue time at dumps per cycle."
+            },
+            "loader_utilisation": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Busy fraction of the loaders."
+            },
+            "match_factor": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 400,
+              "description": "Match factor from minephys.haulage (heterogeneous form for mixed fleets)."
+            },
+            "truck_time_s_per_kg": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Truck time per kilogram moved (truck-hours per kilotonne in the UI)."
+            },
+            "loader_time_s_per_kg": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Loader time per kilogram moved."
+            },
+            "cost_status": {
+              "enum": [
+                "computed",
+                "not-computed (rates not supplied)"
+              ],
+              "description": "FR-007-08 cost rule."
+            },
+            "cost_usd_per_kg": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Cost per kilogram; present only when hourly rates were supplied."
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "cost_status": {
+                    "const": "computed"
+                  }
+                },
+                "required": [
+                  "cost_status"
+                ]
+              },
+              "then": {
+                "required": [
+                  "cost_usd_per_kg"
+                ]
+              },
+              "else": {
+                "not": {
+                  "required": [
+                    "cost_usd_per_kg"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "loaders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "KPIs of one loader, in the loader order of the bundle.",
+            "required": [
+              "production_kg_per_s",
+              "queue_mean_s",
+              "queue_p90_s",
+              "utilisation"
+            ],
+            "properties": {
+              "production_kg_per_s": {
+                "type": "number",
+                "minimum": 0
+              },
+              "queue_mean_s": {
+                "type": "number",
+                "minimum": 0
+              },
+              "queue_p90_s": {
+                "type": "number",
+                "minimum": 0
+              },
+              "utilisation": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "description": "Per-loader KPIs (at most 16 targets, FR-007-43)."
+        },
+        "trace": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "UTF-8 JSON text of the event trace, valid against des-trace.schema.json (DC-007-02); at most 10 MB (lane gate).",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "uint8",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "bytes"
+              ],
+              "properties": {
+                "bytes": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10000000
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -47,7 +47,7 @@ validate a file in place.
 | `https_url` | `^https://[A-Za-z0-9.-]+(:[0-9]{1,5})?(/[A-Za-z0-9._~%!$&'()*+,;=:@/-]*)?(\?[A-Za-z0-9._~%!$&'()*+,;=:@/?-]*)?$` | 2048 | excludes user information; credential-named query keys checked by the checker |
 | `release_tag` | `^assets-v[0-9]+\.[0-9]{2}\.[0-9]{3}$` | 32 | |
 | `relpath` | `^SEG(/SEG){0,15}$` with `SEG` = `[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?` | 255 | no `.`/`..` segment, no leading `/`, no drive colon, no backslash, no space, no trailing dot |
-| `relglob` | `^GSEG(/GSEG){0,15}$` with `GSEG` = `[A-Za-z0-9_*?]([A-Za-z0-9._*?-]{0,98}[A-Za-z0-9_*?])?` | 255 | archive member pattern of a source file (§5.1.1): `relpath` plus the wildcards `*` and `?`; the same exclusions |
+| `relglob` | `^GSEG(/GSEG){0,15}$` with `GSEG` = `[A-Za-z0-9_*?]([A-Za-z0-9._*? -]{0,98}[A-Za-z0-9_*?])?` | 255 | archive member pattern of a source file (§5.1.1): `relpath` plus the wildcards `*` and `?` and spaces inside a segment (never at its start or end), because archive members carry them (e.g. `Research Data/Annotated data/…`); otherwise the same exclusions. Repository-relative paths (`relpath`) stay space-free |
 | `module_path` | `^[a-z_][a-z0-9_]{0,63}(\.[a-z_][a-z0-9_]{0,63}){0,7}$` | 200 | `entry` of a stage |
 | `semver` | `^[0-9]+\.[0-9]+\.[0-9]+$` | 32 | runner and console versions |
 | `env_var` | `^[A-Z][A-Z0-9_]{2,63}$` | 64 | a variable *name*, never a value |
@@ -60,9 +60,12 @@ validate a file in place.
 | `binary_id` | `^[a-z][a-z0-9-]{1,31}$` | 32 | pinned external executable |
 | `validator_id` | `^[a-z][a-z0-9-]{1,47}$` | 48 | output validator (spec 002) |
 
-Rules the checker adds to `relpath` values (no regex can state them portably): a segment equal to a Windows device
-name (`CON`, `PRN`, `AUX`, `NUL`, `COM1`–`COM9`, `LPT1`–`LPT9`, any case, with or without an extension) is rejected,
-and two paths of one document that are equal after case folding are rejected.
+Rules `validate` adds after the schema (no portable regex can state them): a segment of a `relpath` or `relglob`
+value (and of the `card` and `docs_page` paths) equal to a Windows device name (`CON`, `PRN`, `AUX`, `NUL`,
+`COM1`–`COM9`, `LPT1`–`LPT9`, any case, with or without an extension) is rejected, and two paths of one document that
+are equal after case folding are rejected (FR-001-56); every string whose schema has a `pattern` is rejected if it
+contains a control character U+0000–U+001F, because Python `re`'s `$` matches before a final newline while the
+ECMAScript and Rust engines do not (FR-001-57).
 
 ### 1.4 Size caps (bytes, checked by `load_json` / `load_yaml` before parsing)
 
@@ -160,7 +163,7 @@ samples (e.g. `0x4340000000000000` → `9007199254740992`, `0x44b52d02c7e14af6` 
 | `attempts` | array 1–5 of `{n: 1–5, error_class (as above), fallback?: object of param overrides, duration_s?: number ≥ 0}` | yes | |
 | `params` | object (effective parameters, §3.2 limits) | yes | |
 | `seed` | integer 0 … 2⁶³−1 | yes | derived stage seed |
-| `shards` | `{total: 1–10,000, done: 0–total}` | no | shardable stages |
+| `shards` | `{total: 1–10,000, done: 0–total}` | no | shardable stages; `done ≤ total` is a `validate` rule (FR-001-55) |
 | `determinism` | `{class: bitwise\|statistical\|none, rerun_check: pending\|pass\|fail\|not-applicable, max_deviation?: number ≥ 0}` | yes | |
 | `performance` | enum `public`, `local-only` | yes | copied from the tool registry |
 | `wall_s` | number ≥ 0 | no | forbidden when published and local-only |
@@ -195,7 +198,7 @@ All numbers finite; any field may be `null`, and then `unavailable` names it wit
 
 | Field | Type / constraint | Req. | Meaning |
 |---|---|---|---|
-| `id` | `artefact_id` | yes | unique within the document |
+| `id` | `artefact_id` | yes | unique within the document (FR-001-54) |
 | `run_id`, `git_sha` | `run_id`; `git_sha` | yes | provenance |
 | `path` | `relpath` | yes | git host: path under `web/public/`; release host: the asset file name |
 | `bytes`, `sha256` | integer 0 … 2⁵³−1; `sha256` | yes | of the served file |
@@ -225,7 +228,7 @@ All numbers finite; any field may be `null`, and then `unavailable` names it wit
 | `trace_bytes` | integer ≥ 0 or `null` | largest streamed trace or shard (`null` = none) |
 | `measured` | `{tier: const T2, date: date, browser: string 1–64}` | conditions |
 
-Gate (thresholds: the `lane_gate.*` keys of `thresholds.yaml` — proposed keys, pending maintainer approval; see plan.md):
+Gate (thresholds: the `lane_gate.*` keys of `thresholds.yaml`; see plan.md):
 
 ```
 live  ⇔  web_drivable
@@ -372,7 +375,7 @@ No other field is allowed: a job request can never carry an inline recipe, an `e
 
 ### 4.1 Document and entry
 
-Document: `{ "$schema"?: string, "tools": array 1–64 of entries }`, ids unique.
+Document: `{ "$schema"?: string, "tools": array 1–64 of entries }`, ids unique (FR-001-54).
 
 | Field | Type / constraint | Req. | Meaning |
 |---|---|---|---|
@@ -592,6 +595,9 @@ a finding (FR-001-51).
 | injection-like string (shell metacharacters in `entry`, credential in URL) | — | — | ✓ | ✓ | — | ✓ | — |
 | duplicate key / duplicate id | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | out-of-range number | ✓ | ✓ | ✓ | — | — | ✓ | — |
+| inconsistent counts (`shards.done` > `shards.total`, FR-001-55) | ✓ | — | — | — | — | — | — |
+| Windows device-name segment or case-folded duplicate path (FR-001-56) | ✓ | ✓ | ✓ | — | ✓ | ✓ | — |
+| control character in a patterned string, trailing newline included (FR-001-57) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | YAML-specific (alias, tag, multi-document, implicit boolean) | — | — | ✓ | — | ✓ | ✓ | — |
 | licence or honesty violation (local-only metric, wrong class, evaluated-not-adopted without reason) | ✓ | ✓ | — | — | ✓ | ✓ | ✓ |
 

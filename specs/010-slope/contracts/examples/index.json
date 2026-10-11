@@ -1,0 +1,1185 @@
+{
+  "spec": "010-slope",
+  "examples": [
+    {
+      "file": "slope-section.valid.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "planar 20 m, 45 degree Mohr-Coulomb fixture section, live settings"
+    },
+    {
+      "file": "slope-section.valid-hoek-brown.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "DEM-cut Hoek-Brown section, baked settings, largest PoF seed"
+    },
+    {
+      "file": "slope-section.hostile-unit-weight-zero.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unit weight <= 0",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0/unit_weight_kn_per_m3",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "slope-section.hostile-wrong-unit.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unit weight in kg/m3 (> 40 kN/m3)",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0/unit_weight_kn_per_m3",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-section.hostile-wrong-unit-name.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "cohesion in psf",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "slope-section.hostile-negative-cohesion.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "c' < 0",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0/cohesion_kpa",
+      "keyword": "minimum"
+    },
+    {
+      "file": "slope-section.hostile-friction-out-of-range.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "phi' outside [0, 60] degrees",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0/friction_angle_deg",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-section.hostile-pore-pressure-ratio.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "r_u outside [0, 1)",
+      "rule": "FR-010-07",
+      "pointer": "/pore_pressure_ratio",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "slope-section.hostile-gsi-out-of-range.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "GSI outside [0, 100]",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0/gsi",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-section.hostile-mi-zero.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "m_i <= 0",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0/m_i",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "slope-section.hostile-sigma-ci-negative.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "sigma_ci <= 0",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0/sigma_ci_mpa",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "slope-section.hostile-disturbance-out-of-range.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "D outside [0, 1]",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0/disturbance_d",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-section.hostile-unknown-method.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown method enum",
+      "rule": "FR-010-07",
+      "pointer": "/analysis/methods/1",
+      "keyword": "enum"
+    },
+    {
+      "file": "slope-section.hostile-unknown-material-model.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown material-model enum",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0/model",
+      "keyword": "enum"
+    },
+    {
+      "file": "slope-section.hostile-mixed-material.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Mohr-Coulomb material with Hoek-Brown inputs",
+      "rule": "FR-010-07",
+      "pointer": "/materials/0",
+      "keyword": "not"
+    },
+    {
+      "file": "slope-section.hostile-slices-too-few.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "n_s < 10",
+      "rule": "FR-010-07",
+      "pointer": "/analysis/slices",
+      "keyword": "minimum"
+    },
+    {
+      "file": "slope-section.hostile-slices-too-many.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "n_s > 500",
+      "rule": "FR-010-07",
+      "pointer": "/analysis/slices",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-section.hostile-conditional-live-slices.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "live n_s above the web cap of 200",
+      "rule": "FR-010-10",
+      "pointer": "/analysis/slices",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-section.hostile-conditional-live-samples.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "live N above the web cap of 10^5",
+      "rule": "FR-010-10",
+      "pointer": "/analysis/pof/samples",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-section.hostile-empty.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 2 ground vertices",
+      "rule": "FR-010-07",
+      "pointer": "/ground",
+      "keyword": "minItems"
+    },
+    {
+      "file": "slope-section.hostile-wrong-shape.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "ground vertex with three coordinates",
+      "rule": "FR-010-07",
+      "pointer": "/ground/1",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "slope-section.hostile-scale-zero.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "scale parameter <= 0",
+      "rule": "FR-010-08",
+      "pointer": "/analysis/pof/distributions/0/sd",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "slope-section.hostile-unknown-distribution.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown distribution",
+      "rule": "FR-010-08",
+      "pointer": "/analysis/pof/distributions/0/distribution",
+      "keyword": "enum"
+    },
+    {
+      "file": "slope-section.hostile-conditional-lognormal-sd.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "lognormal given an sd",
+      "rule": "FR-010-08",
+      "pointer": "/analysis/pof/distributions/1",
+      "keyword": "not"
+    },
+    {
+      "file": "slope-section.hostile-samples-zero.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "N <= 0",
+      "rule": "FR-010-08",
+      "pointer": "/analysis/pof/samples",
+      "keyword": "minimum"
+    },
+    {
+      "file": "slope-section.hostile-samples-too-many.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "N > 10^6",
+      "rule": "FR-010-08",
+      "pointer": "/analysis/pof/samples",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-section.hostile-candidates-zero.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "K < 1",
+      "rule": "FR-010-08",
+      "pointer": "/analysis/pof/candidates",
+      "keyword": "minimum"
+    },
+    {
+      "file": "slope-section.hostile-seed-out-of-range.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed >= 2^64",
+      "rule": "FR-010-08",
+      "pointer": "/analysis/pof/seed",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-section.hostile-seed-not-integer.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed not an integer",
+      "rule": "FR-010-08",
+      "pointer": "/analysis/pof/seed",
+      "keyword": "type"
+    },
+    {
+      "file": "slope-section.hostile-malformed-digest.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed DEM digest",
+      "rule": "FR-010-06",
+      "pointer": "/source/dem_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "slope-section.hostile-unknown-field.json",
+      "schema": "slope-section.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key (correlations are not supported)",
+      "rule": "FR-010-03",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "displacement-series.valid.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "seeded alpha = 2 Voight test event at the observed SNR (64 samples)"
+    },
+    {
+      "file": "displacement-series.valid-real.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the real de Wit event (illustrative values), descriptive use only"
+    },
+    {
+      "file": "displacement-series.valid-radar-pixel.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S4b line-of-sight series of one pixel (8 scans)"
+    },
+    {
+      "file": "displacement-series.valid-radar-map.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "S4b line-of-sight map at one scan (3 pixels)"
+    },
+    {
+      "file": "displacement-series.hostile-unknown-enum.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown series kind",
+      "rule": "DC-010-02",
+      "pointer": "",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "displacement-series.hostile-unknown-stratum.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown stratum",
+      "rule": "FR-010-40",
+      "pointer": "/stratum",
+      "keyword": "enum"
+    },
+    {
+      "file": "displacement-series.hostile-alpha-out-of-range.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "alpha <= 1",
+      "rule": "FR-010-16",
+      "pointer": "/parameters/alpha",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "displacement-series.hostile-psi-out-of-range.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "psi outside [0, 89] degrees",
+      "rule": "FR-010-16",
+      "pointer": "/parameters/psi_deg",
+      "keyword": "maximum"
+    },
+    {
+      "file": "displacement-series.hostile-snr-zero.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "SNR_target <= 0",
+      "rule": "FR-010-16",
+      "pointer": "/parameters/snr_target",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "displacement-series.hostile-terminal-duration-zero.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "terminal duration <= 0",
+      "rule": "FR-010-16",
+      "pointer": "/parameters/terminal_duration_h",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "displacement-series.hostile-too-few-samples.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 64 samples",
+      "rule": "FR-010-16",
+      "pointer": "/t_h",
+      "keyword": "minItems"
+    },
+    {
+      "file": "displacement-series.hostile-wrong-unit.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "time axis in days",
+      "rule": "FR-010-11",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "displacement-series.hostile-conditional-nominal-note.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "nominal stratum without its label",
+      "rule": "FR-010-17",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "displacement-series.hostile-conditional-atmospheric-ar1.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "atmospheric stratum without its AR(1) term",
+      "rule": "FR-010-11",
+      "pointer": "/parameters",
+      "keyword": "required"
+    },
+    {
+      "file": "displacement-series.hostile-conditional-regressive.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "regressive episode without its parameters",
+      "rule": "FR-010-11",
+      "pointer": "/parameters",
+      "keyword": "required"
+    },
+    {
+      "file": "displacement-series.hostile-ar1-unit-root.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "AR(1) coefficient with |rho| >= 1",
+      "rule": "FR-010-42",
+      "pointer": "/parameters/ar1/rho",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "displacement-series.hostile-real-in-training.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "real series given a training split",
+      "rule": "FR-010-15",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "displacement-series.hostile-real-not-synthetic.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "real series flagged synthetic",
+      "rule": "DC-010-02",
+      "pointer": "/synthetic",
+      "keyword": "const"
+    },
+    {
+      "file": "displacement-series.hostile-real-missing-unit.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no displacement unit",
+      "rule": "FR-010-14",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "displacement-series.hostile-real-missing-failure-time.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no failure time",
+      "rule": "FR-010-14",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "displacement-series.hostile-real-checksum.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "archive MD5 not the published value",
+      "rule": "FR-010-13",
+      "pointer": "/archive_md5",
+      "keyword": "const"
+    },
+    {
+      "file": "displacement-series.hostile-malformed-digest.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed archive digest",
+      "rule": "FR-010-13",
+      "pointer": "/archive_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "displacement-series.hostile-path-traversal.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "archive entry with ..",
+      "rule": "FR-010-14",
+      "pointer": "/archive_member",
+      "keyword": "pattern"
+    },
+    {
+      "file": "displacement-series.hostile-absolute-path.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "archive entry with a drive letter",
+      "rule": "FR-010-14",
+      "pointer": "/archive_member",
+      "keyword": "pattern"
+    },
+    {
+      "file": "displacement-series.hostile-wavelength-out-of-range.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "lambda outside (1 mm, 1 m)",
+      "rule": "FR-010-42",
+      "pointer": "/radar/wavelength_mm",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "displacement-series.hostile-scan-interval-zero.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "scan interval <= 0",
+      "rule": "FR-010-37",
+      "pointer": "/radar/scan_interval_min",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "displacement-series.hostile-sign-convention.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "sign convention other than toward the radar",
+      "rule": "FR-010-41",
+      "pointer": "/sign_convention",
+      "keyword": "const"
+    },
+    {
+      "file": "displacement-series.hostile-conditional-ambiguous.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "ambiguous pixel without its first ambiguous scan",
+      "rule": "FR-010-36",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "displacement-series.hostile-empty.json",
+      "schema": "displacement-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty pixel set",
+      "rule": "FR-010-37",
+      "pointer": "/pixels",
+      "keyword": "minItems"
+    },
+    {
+      "file": "ttf-results.valid.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "results at the observed SNR with the descriptive real-event block"
+    },
+    {
+      "file": "ttf-results.valid-nominal.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "observed SNR unavailable: nominal strata, SC-010-01 not run, real event not run"
+    },
+    {
+      "file": "ttf-results.hostile-real-event-interval.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "interval on the real event",
+      "rule": "FR-010-26",
+      "pointer": "/real_event/rows/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "ttf-results.hostile-real-event-rank.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "ranking on the real event",
+      "rule": "FR-010-26",
+      "pointer": "/real_event/rows/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "ttf-results.hostile-real-event-verdict.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "verdict on the real event",
+      "rule": "FR-010-28",
+      "pointer": "/real_event",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "ttf-results.hostile-real-event-label.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "real-event label altered",
+      "rule": "FR-010-27",
+      "pointer": "/real_event/label",
+      "keyword": "const"
+    },
+    {
+      "file": "ttf-results.hostile-real-event-missing-row.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "real-event table missing a method row",
+      "rule": "FR-010-26",
+      "pointer": "/real_event/rows",
+      "keyword": "minItems"
+    },
+    {
+      "file": "ttf-results.hostile-single-pair.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "interval for fewer than 2 paired units",
+      "rule": "FR-010-28",
+      "pointer": "/comparisons/0/n_pairs",
+      "keyword": "minimum"
+    },
+    {
+      "file": "ttf-results.hostile-comparison-resamples.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "paired bootstrap with B != 10,000",
+      "rule": "FR-010-25",
+      "pointer": "/comparisons/0/bootstrap/resamples",
+      "keyword": "const"
+    },
+    {
+      "file": "ttf-results.hostile-comparison-stratum.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "comparison outside the SNR_obs stratum",
+      "rule": "FR-010-25",
+      "pointer": "/comparisons/0/stratum",
+      "keyword": "const"
+    },
+    {
+      "file": "ttf-results.hostile-comparison-baseline-method.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "comparison of a non-learned method",
+      "rule": "FR-010-25",
+      "pointer": "/comparisons/0/method",
+      "keyword": "enum"
+    },
+    {
+      "file": "ttf-results.hostile-comparison-verdict.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "verdict outside the decision rule",
+      "rule": "FR-010-25",
+      "pointer": "/comparisons/0/verdict",
+      "keyword": "enum"
+    },
+    {
+      "file": "ttf-results.hostile-multiplicity.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "comparison count not 8",
+      "rule": "FR-010-25",
+      "pointer": "/multiplicity/comparisons",
+      "keyword": "const"
+    },
+    {
+      "file": "ttf-results.hostile-family-wise-claim.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "family-wise claim made",
+      "rule": "FR-010-25",
+      "pointer": "/multiplicity/family_wise_claim",
+      "keyword": "const"
+    },
+    {
+      "file": "ttf-results.hostile-unknown-cutoff.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "cut-off outside {0.5, 0.8}",
+      "rule": "FR-010-40",
+      "pointer": "/events/0/cutoff",
+      "keyword": "enum"
+    },
+    {
+      "file": "ttf-results.hostile-unknown-method.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown method",
+      "rule": "FR-010-40",
+      "pointer": "/events/0/method",
+      "keyword": "enum"
+    },
+    {
+      "file": "ttf-results.hostile-conditional-iv-interval.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "inverse velocity with an 80 % interval",
+      "rule": "FR-010-19",
+      "pointer": "/events/0",
+      "keyword": "not"
+    },
+    {
+      "file": "ttf-results.hostile-out-of-range.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative relative error",
+      "rule": "FR-010-23",
+      "pointer": "/events/0/rel_error",
+      "keyword": "minimum"
+    },
+    {
+      "file": "ttf-results.hostile-conditional-cap-scoring.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no failure predicted but not scored at the cap",
+      "rule": "FR-010-22",
+      "pointer": "/events/2/scored_at_cap",
+      "keyword": "const"
+    },
+    {
+      "file": "ttf-results.hostile-conditional-no-forecast-ttf.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "TTF on a no-forecast window",
+      "rule": "FR-010-29",
+      "pointer": "/events/3",
+      "keyword": "not"
+    },
+    {
+      "file": "ttf-results.hostile-threshold.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pre-registered threshold changed",
+      "rule": "SC-010-01",
+      "pointer": "/acceptance/0/threshold",
+      "keyword": "const"
+    },
+    {
+      "file": "ttf-results.hostile-conditional-nominal-pass.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "SC-010-01 stated with no observed SNR",
+      "rule": "FR-010-17",
+      "pointer": "/acceptance/0/verdict",
+      "keyword": "const"
+    },
+    {
+      "file": "ttf-results.hostile-s4b-psi.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "radar angle outside {0, 45, 70}",
+      "rule": "FR-010-35",
+      "pointer": "/s4b/0/psi_deg",
+      "keyword": "enum"
+    },
+    {
+      "file": "ttf-results.hostile-s4b-threshold.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "threshold on the S4b result",
+      "rule": "FR-010-35",
+      "pointer": "/s4b/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "slope-results.valid.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "baked Bishop and Spencer FoS with a K = 1,024 PoF, and a section with no valid slip surface"
+    },
+    {
+      "file": "slope-results.hostile-pof-out-of-range.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "PoF above 1",
+      "rule": "FR-010-03",
+      "pointer": "/sections/0/pof/pof",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-results.hostile-wilson-out-of-range.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Wilson bound below 0",
+      "rule": "FR-010-03",
+      "pointer": "/sections/0/pof/wilson_95/lower",
+      "keyword": "minimum"
+    },
+    {
+      "file": "slope-results.hostile-wilson-z.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Wilson interval with z != 1.96",
+      "rule": "FR-010-03",
+      "pointer": "/sections/0/pof/wilson_95/z",
+      "keyword": "const"
+    },
+    {
+      "file": "slope-results.hostile-samples-zero.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "N <= 0",
+      "rule": "FR-010-08",
+      "pointer": "/sections/0/pof/samples",
+      "keyword": "minimum"
+    },
+    {
+      "file": "slope-results.hostile-samples-too-many.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "N > 10^6",
+      "rule": "FR-010-08",
+      "pointer": "/sections/0/pof/samples",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-results.hostile-candidates-zero.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "K < 1",
+      "rule": "FR-010-08",
+      "pointer": "/sections/0/pof/candidates",
+      "keyword": "minimum"
+    },
+    {
+      "file": "slope-results.hostile-seed-out-of-range.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed >= 2^64",
+      "rule": "FR-010-08",
+      "pointer": "/sections/0/pof/seed",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-results.hostile-negative-failures.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative failure count",
+      "rule": "FR-010-03",
+      "pointer": "/sections/0/pof/failures",
+      "keyword": "minimum"
+    },
+    {
+      "file": "slope-results.hostile-unknown-method.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown method",
+      "rule": "FR-010-07",
+      "pointer": "/sections/0/fos/0/method",
+      "keyword": "enum"
+    },
+    {
+      "file": "slope-results.hostile-conditional-no-surface-fos.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "FoS reported with no valid slip surface",
+      "rule": "FR-010-09",
+      "pointer": "/sections/1/fos/0",
+      "keyword": "not"
+    },
+    {
+      "file": "slope-results.hostile-conditional-spencer-theta.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Spencer result without theta",
+      "rule": "FR-010-01",
+      "pointer": "/sections/0/fos/1",
+      "keyword": "required"
+    },
+    {
+      "file": "slope-results.hostile-conditional-bishop-theta.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Bishop result with theta",
+      "rule": "FR-010-01",
+      "pointer": "/sections/0/fos/0",
+      "keyword": "not"
+    },
+    {
+      "file": "slope-results.hostile-theta-out-of-range.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "theta outside (-90, 90) degrees",
+      "rule": "FR-010-09",
+      "pointer": "/sections/0/fos/1/theta_deg",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "slope-results.hostile-iterations-out-of-range.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 100 iterations",
+      "rule": "FR-010-02",
+      "pointer": "/sections/0/fos/0/iterations",
+      "keyword": "maximum"
+    },
+    {
+      "file": "slope-results.hostile-fos-zero.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "FoS not positive",
+      "rule": "DC-010-04",
+      "pointer": "/sections/0/fos/0/fos",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "slope-results.hostile-malformed-digest.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed section digest",
+      "rule": "DC-010-04",
+      "pointer": "/sections/0/section_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "slope-results.hostile-unknown-field.json",
+      "schema": "slope-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown key",
+      "rule": "FR-010-03",
+      "pointer": "/sections/0/pof",
+      "keyword": "additionalProperties"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "slope-section.schema.json",
+      "class": "non-finite coordinate or parameter",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "slope-section.schema.json",
+      "class": "non-increasing ground x",
+      "by": "checker",
+      "rule": "FR-010-07"
+    },
+    {
+      "schema": "slope-section.schema.json",
+      "class": "slope height <= 0 (crest elevation not above the toe)",
+      "by": "checker",
+      "rule": "FR-010-07"
+    },
+    {
+      "schema": "slope-section.schema.json",
+      "class": "more than 10^5 trial circles (entry x exit x radius ratios)",
+      "by": "checker",
+      "rule": "FR-010-07"
+    },
+    {
+      "schema": "slope-section.schema.json",
+      "class": "empty truncation interval or uniform lower >= upper",
+      "by": "checker",
+      "rule": "FR-010-08"
+    },
+    {
+      "schema": "slope-section.schema.json",
+      "class": "K larger than the number of valid circles",
+      "by": "checker",
+      "rule": "FR-010-08"
+    },
+    {
+      "schema": "slope-section.schema.json",
+      "class": "crest or toe outside the ground x range; rho_min >= rho_max; material ids repeated or a distribution naming an undefined material",
+      "by": "checker",
+      "rule": "-",
+      "note": "no FR names these cross-field rules; reported as a gap"
+    },
+    {
+      "schema": "displacement-series.schema.json",
+      "class": "non-finite displacement, time or radar input",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "FR-010-42 for the radar-series builder"
+    },
+    {
+      "schema": "displacement-series.schema.json",
+      "class": "non-monotonic or duplicate timestamps; scan times not strictly increasing",
+      "by": "checker",
+      "rule": "FR-010-14",
+      "note": "FR-010-42 for radar scans"
+    },
+    {
+      "schema": "displacement-series.schema.json",
+      "class": "archive SHA-256 differs from the digest pinned at first download",
+      "by": "checker",
+      "rule": "FR-010-13"
+    },
+    {
+      "schema": "displacement-series.schema.json",
+      "class": "wrap flags inconsistent with the lambda/4 increment rule or with ambiguous_from_scan",
+      "by": "checker",
+      "rule": "FR-010-36"
+    },
+    {
+      "schema": "displacement-series.schema.json",
+      "class": "radar position within 1e-6 m of a pixel",
+      "by": "checker",
+      "rule": "FR-010-37"
+    },
+    {
+      "schema": "displacement-series.schema.json",
+      "class": "de Wit digest listed among the inputs of a training, selection, C2ST or TSTR manifest",
+      "by": "checker",
+      "rule": "FR-010-15"
+    },
+    {
+      "schema": "displacement-series.schema.json",
+      "class": "overlapping train, validation and test seeds",
+      "by": "checker",
+      "rule": "FR-010-16"
+    },
+    {
+      "schema": "displacement-series.schema.json",
+      "class": "array lengths differ from each other or from n_samples; t_0 not before t_f",
+      "by": "checker",
+      "rule": "-",
+      "note": "no FR names series self-consistency; reported as a gap"
+    },
+    {
+      "schema": "ttf-results.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "ttf-results.schema.json",
+      "class": "relative error not equal to |t_hat_f - t_f| / (t_f - t_c), or t_c not t_0 + c (t_f - t_0)",
+      "by": "checker",
+      "rule": "FR-010-23"
+    },
+    {
+      "schema": "ttf-results.schema.json",
+      "class": "interval with lower > upper or not containing its estimate",
+      "by": "checker",
+      "rule": "FR-010-24"
+    },
+    {
+      "schema": "ttf-results.schema.json",
+      "class": "verdict inconsistent with the interval bounds (FR-000-05 mapping)",
+      "by": "checker",
+      "rule": "FR-010-25"
+    },
+    {
+      "schema": "ttf-results.schema.json",
+      "class": "paired methods over different event ids",
+      "by": "checker",
+      "rule": "FR-010-28"
+    },
+    {
+      "schema": "ttf-results.schema.json",
+      "class": "real-event rows out of the fixed method order, or a (cut-off, method) row repeated",
+      "by": "checker",
+      "rule": "FR-010-26"
+    },
+    {
+      "schema": "ttf-results.schema.json",
+      "class": "pass or fail inconsistent with the median and the 0.10 threshold",
+      "by": "checker",
+      "rule": "SC-010-01"
+    },
+    {
+      "schema": "ttf-results.schema.json",
+      "class": "summaries inconsistent with the per-event rows",
+      "by": "checker",
+      "rule": "FR-010-23"
+    },
+    {
+      "schema": "slope-results.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "slope-results.schema.json",
+      "class": "failures > samples or PoF not equal to failures / samples",
+      "by": "checker",
+      "rule": "FR-010-03"
+    },
+    {
+      "schema": "slope-results.schema.json",
+      "class": "Wilson bounds not the z = 1.96 Wilson interval of (failures, samples)",
+      "by": "checker",
+      "rule": "FR-010-03"
+    },
+    {
+      "schema": "slope-results.schema.json",
+      "class": "K larger than the number of valid circles",
+      "by": "checker",
+      "rule": "FR-010-08"
+    },
+    {
+      "schema": "slope-results.schema.json",
+      "class": "rejected circles > circles evaluated; all circles rejected but status ok",
+      "by": "checker",
+      "rule": "FR-010-09"
+    },
+    {
+      "schema": "slope-results.schema.json",
+      "class": "critical circle with exit x <= entry x",
+      "by": "checker",
+      "rule": "FR-010-01"
+    },
+    {
+      "schema": "slope-results.schema.json",
+      "class": "section_sha256 not the digest of the section document",
+      "by": "checker",
+      "rule": "-",
+      "note": "no FR names this digest check; reported as a gap"
+    }
+  ]
+}

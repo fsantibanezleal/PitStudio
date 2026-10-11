@@ -58,11 +58,10 @@ Data flow: maintainer YAML and producer JSON → `load_*` (syntax and hostile cl
 rules) → typed access through the generated models where convenient → `check_contracts.py` (cross-file rules) in CI and
 `pages.yml`.
 
-### Proposed `thresholds.yaml` additions (proposed keys, pending maintainer approval)
+### `thresholds.yaml` keys used by this spec
 
-The lane gate of FR-001-13 reads the consolidated `lane_gate` keys (`live_asset_mb_max: 25`, `interaction_ms_max: 16`,
-`run_s_max: 1`, `trace_mb_max: 10`; MB = 10⁶ B, so bytes and milliseconds convert exactly); the earlier
-`contracts.lane_*` names are withdrawn in their favour.
+The lane gate of FR-001-13 reads the `lane_gate` keys (`live_asset_mb_max: 25`, `interaction_ms_max: 16`,
+`run_s_max: 1`, `trace_mb_max: 10`; MB = 10⁶ B, so bytes and milliseconds convert exactly).
 
 ```yaml
 contracts:
@@ -96,6 +95,8 @@ contracts:
 | FR-001-41, FR-001-44 | unit (web) | `tsc` (reference compiler) on `web/src/contracts/generated.test.ts` with `@ts-expect-error` lines; Vitest asserts the generated text has no runtime statement | Vitest + tsc |
 | FR-001-43 | contract | `uv run --python 3.12 --with pydantic==<locked> python -c "import …"` subprocess; `mypy src` | pytest |
 | FR-001-45 | contract | the boundary list of data-model §7.3 inspected by test: each boundary function calls `validate` (call spy) | pytest |
+| FR-001-54, FR-001-55 | contract (hostile) | hand-built manifests with two artefacts sharing an id, a registry with a repeated tool id, a stage with `shards.done` = total + 1 (and = total, accepted) | pytest |
+| FR-001-56, FR-001-57 | contract (hostile) | hand-built documents with `con.txt`, `aux`, `Lpt1.log`, `COM9.json` segments (and `console.txt`, `com10`, accepted), two paths equal after `casefold()`; ids and paths ending in `\n`, holding `\t` or U+0000 — the same strings checked with Python `re`, pydantic-core and a Node `RegExp` as reference engines | pytest |
 | FR-001-50, FR-001-51 | unit (hostile) | fixture repository trees under `tests/contract/fixtures/repo/{clean,broken-*}` with the expected findings list | pytest |
 | P-001-01…03 | property + metamorphic | invariant (monotonicity, unit change, boundary) of the analytical gate | Hypothesis |
 | P-001-04 | property + metamorphic | lattice laws over the rank table | Hypothesis |

@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/unet.schema.json",
+  "title": "Engine unet: input and output messages",
+  "description": "Input and output messages of the browser engine `unet` (cases D1): U-Net fragment segmentation on shipped sample tiles with ORT-web (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `unet`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "unet",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "segment"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "segment"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/segment_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `unet`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "unet",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "segment"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "segment"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/segment_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "segment_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "U-Net fragment segmentation of one shipped tile.",
+      "required": [
+        "model",
+        "tile",
+        "min_area_px"
+      ],
+      "properties": {
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX model of at most 25,000,000 bytes (spec 018 section 7.1).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "tile": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Shipped RGB tile, 512 x 512 (FR-012-20).",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "uint8",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols",
+                "channels"
+              ],
+              "properties": {
+                "rows": {
+                  "const": 512
+                },
+                "cols": {
+                  "const": 512
+                },
+                "channels": {
+                  "const": 3
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 786432,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "min_area_px": {
+          "const": 4,
+          "description": "Minimum instance area of the decoder (FR-012-19)."
+        }
+      }
+    },
+    "segment_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scores",
+        "class_map",
+        "instance_count"
+      ],
+      "properties": {
+        "scores": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Per-class scores: background, interior, boundary.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "classes",
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "classes": {
+                  "const": 3
+                },
+                "rows": {
+                  "const": 512
+                },
+                "cols": {
+                  "const": 512
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3145728,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "class_map": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Arg-max class per pixel: 0 background, 1 interior, 2 boundary.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "uint8",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "const": 512
+                },
+                "cols": {
+                  "const": 512
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "instance_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 262144,
+          "description": "Decoded fragment instances (FR-012-19)."
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

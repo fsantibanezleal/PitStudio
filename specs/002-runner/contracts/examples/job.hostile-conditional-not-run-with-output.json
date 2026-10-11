@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "status": "not_run",
+  "error_class": null,
+  "reason": "pinned FFmpeg with av1_nvenc not found (PITSTUDIO_FFMPEG is unset)",
+  "outputs": [
+    {
+      "path": "media/clip.mp4",
+      "validator": "file"
+    }
+  ],
+  "checkpoint": false
+}

@@ -1,0 +1,65 @@
+{
+  "kind": "radar-pixel",
+  "synthetic": true,
+  "event_id": "voight-test-snr-obs-000123",
+  "stratum": "snr_obs",
+  "pixel_id": 4087,
+  "pixel_position_m": [
+    120.0,
+    35.0,
+    2180.0
+  ],
+  "radar": {
+    "position_m": [
+      0.0,
+      -1500.0,
+      2050.0
+    ],
+    "wavelength_mm": 17.4,
+    "scan_interval_min": 0
+  },
+  "psi_deg": 45.0,
+  "sign_convention": "positive = toward the radar",
+  "run_seed": 777,
+  "status": "ok",
+  "t_h": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7
+  ],
+  "los_displacement_mm": [
+    0.0,
+    0.21,
+    0.43,
+    0.66,
+    0.9,
+    1.15,
+    1.41,
+    1.68
+  ],
+  "measured_los_displacement_mm": [
+    0.0,
+    0.24,
+    0.4,
+    0.69,
+    0.88,
+    1.18,
+    1.39,
+    1.71
+  ],
+  "wrap_flags": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ]
+}

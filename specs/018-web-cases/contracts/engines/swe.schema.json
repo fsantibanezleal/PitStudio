@@ -1,0 +1,873 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/swe.schema.json",
+  "title": "Engine swe: input and output messages",
+  "description": "Input and output messages of the browser engine `swe` (cases C2): WGSL shallow-water kernels for the tailings breach (T1 only) (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `swe`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "swe",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "swe_step",
+            "breach_run"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "swe_step"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/swe_step_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "breach_run"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/breach_run_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `swe`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "swe",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "swe_step",
+            "breach_run"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "swe_step"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/swe_step_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "breach_run"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/breach_run_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "swe_step_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One shallow-water step on a fixed configuration (per-kernel parity, FR-018-56).",
+      "required": [
+        "depth_m",
+        "discharge_x_m2_per_s",
+        "discharge_y_m2_per_s",
+        "bed_m",
+        "cell_size_m",
+        "cfl",
+        "dry_depth_m",
+        "yield_stress_pa",
+        "viscosity_pa_s",
+        "density_kg_per_m3",
+        "boundary"
+      ],
+      "properties": {
+        "depth_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Water depth h (>= 0).",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "discharge_x_m2_per_s": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Unit discharge hu.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "discharge_y_m2_per_s": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Unit discharge hv.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "bed_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Bed elevation z_b.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "cell_size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "cfl": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.5,
+          "description": "Courant number C_CFL in (0, 0.5] (FR-005-23)."
+        },
+        "dry_depth_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Dry threshold h_dry (default 1e-4 m, FR-005-27)."
+        },
+        "yield_stress_pa": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 500,
+          "description": "Bingham yield stress tau_y (tested range 0 to 500 Pa, P-005-17)."
+        },
+        "viscosity_pa_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Bingham viscosity mu_B (>= 0)."
+        },
+        "density_kg_per_m3": {
+          "type": "number",
+          "minimum": 1000,
+          "maximum": 2500,
+          "description": "Mixture density rho (> 0)."
+        },
+        "boundary": {
+          "enum": [
+            "reflective",
+            "open"
+          ],
+          "description": "Domain boundary (FR-005-24, FR-005-28)."
+        }
+      }
+    },
+    "swe_step_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "depth_m",
+        "discharge_x_m2_per_s",
+        "discharge_y_m2_per_s",
+        "step_s"
+      ],
+      "properties": {
+        "depth_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Depth after one step.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "discharge_x_m2_per_s": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "hu after one step.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "discharge_y_m2_per_s": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "hv after one step.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "step_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Time step taken."
+        }
+      }
+    },
+    "breach_run_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Tailings breach run with a triangular hydrograph (FR-005-29 to FR-005-31).",
+      "required": [
+        "bed",
+        "rows",
+        "cols",
+        "cell_size_m",
+        "breach_cell",
+        "release_volume_m3",
+        "peak_discharge_m3_per_s",
+        "threshold_depth_m",
+        "duration_s",
+        "cfl",
+        "yield_stress_pa",
+        "viscosity_pa_s",
+        "density_kg_per_m3",
+        "boundary"
+      ],
+      "properties": {
+        "bed": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Terrain patch: float32 bed elevation, rows x cols, row-major.",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 256,
+          "description": "Grid rows (at most 256)."
+        },
+        "cols": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 256,
+          "description": "Grid columns (at most 256)."
+        },
+        "cell_size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "breach_cell": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "row",
+            "col"
+          ],
+          "properties": {
+            "row": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "col": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "release_volume_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000000.0,
+          "description": "Hydrograph volume V (> 0, FR-005-31)."
+        },
+        "peak_discharge_m3_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0,
+          "description": "Peak discharge Q_p (> 0, FR-005-31)."
+        },
+        "threshold_depth_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10,
+          "description": "Inundation threshold h_thr (default 0.05 m, FR-005-30)."
+        },
+        "duration_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 86400
+        },
+        "cfl": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.5,
+          "description": "Courant number C_CFL in (0, 0.5] (FR-005-23)."
+        },
+        "yield_stress_pa": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 500,
+          "description": "Bingham yield stress tau_y (tested range 0 to 500 Pa, P-005-17)."
+        },
+        "viscosity_pa_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Bingham viscosity mu_B (>= 0)."
+        },
+        "density_kg_per_m3": {
+          "type": "number",
+          "minimum": 1000,
+          "maximum": 2500,
+          "description": "Mixture density rho (> 0)."
+        },
+        "boundary": {
+          "enum": [
+            "reflective",
+            "open"
+          ],
+          "description": "Domain boundary (FR-005-24, FR-005-28)."
+        }
+      }
+    },
+    "breach_run_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "arrival_time_s",
+        "max_depth_m",
+        "max_speed_m_per_s",
+        "inundated_area_m2",
+        "volume_drift_fraction",
+        "steps"
+      ],
+      "properties": {
+        "arrival_time_s": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "First time with h > h_thr; -1 where never reached.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "max_depth_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Maximum depth h_max.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "max_speed_m_per_s": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Maximum speed v_max.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid rows (at most 256)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 2,
+                  "maximum": 256,
+                  "description": "Grid columns (at most 256)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 262144,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "inundated_area_m2": {
+          "type": "number",
+          "minimum": 0
+        },
+        "volume_drift_fraction": {
+          "type": "number",
+          "minimum": 0
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000000
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

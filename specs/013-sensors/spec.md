@@ -115,7 +115,7 @@ The S4b slope-radar series is specified in spec 010-slope (§3.4, FR-010-34…37
 | FR-013-32 | Ubiquitous | Every manifest of `st53_sensors` and `st57_rain_lidar` shall carry `performance: local-only`, the outputs' licence class `own` (CC-BY-4.0) and the runtime's class `reference-only`, and every committed or published copy shall contain no wall time, throughput, frame time, memory or telemetry value for these stages (each replaced by "measured locally, not published (licence)"). | contract (manifest guard) |
 | FR-013-33 | Ubiquitous | Every source file under `studio/rtx/` and the sensor backend of `studio/isaac/` shall carry an `SPDX-License-Identifier: Apache-2.0` header and shall contain none of the NVIDIA sample-code notices ("This software contains source code provided by NVIDIA Corporation", "NVIDIA CORPORATION & AFFILIATES. All rights reserved", `LicenseRef-NvidiaProprietary` in a source header); no recipe or scene of this lane shall reference an NVIDIA sensor or scene asset. | unit (repository scan) |
 | FR-013-34 | Event | When the determinism re-run check re-renders one shard, the lane shall compare it with the original and record `determinism.class = statistical` and `rerun_check = pass` only if every frame's valid point count differs by ≤ 1 %, the symmetric mean Chamfer distance of each cloud is ≤ 3 × `rangeAccuracyM`, and every LDR image has PSNR ≥ 40 dB against its original; otherwise it records `fail` with the failing measure. | unit (fake) + gpu (local) |
-| FR-013-35 | Ubiquitous | `s60_export` shall convert S1, S4a and rain clouds into web shards of `contracts/web-cloud-shard.schema.json`, each ≤ 10 MB: positions as uint16 per axis over the shard's bounding box (offset and scale per axis in the header), intensity as uint8, class as uint8, and the SHA-256 of every shard in the asset manifest. | unit |
+| FR-013-35 | Ubiquitous | `s60_export` shall convert S1, S4a and rain clouds into web shards of `contracts/web-cloud-shard.schema.json`, each ≤ 10 MB: positions as 16-bit codes per axis over the shard's bounding box (offset and scale per axis and the code type `uint16` declared in the header field `encoding.position`, which the viewer reads, as for the replay shards of DC-018-03), intensity as uint8, class as uint8, and the SHA-256 of every shard in the asset manifest. | unit |
 
 ### 3.8 S1 metrics
 
@@ -176,11 +176,11 @@ pinhole (P-013-14), web parity (P-013-15).
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-013-01 | sensor recipe block (S1, S2, S3, S4a, rain) | `contracts/sensor-recipe.schema.json` (new, T-013-001) | maintainer → `st53_sensors`, `st57_rain_lidar`, `s05_synthesize` |
-| DC-013-02 | `studio/rtx/lidar-envelope.json` | `contracts/lidar-envelope.schema.json` (new, T-013-001) | `ovrtx` probe → `st53_sensors` guard |
-| DC-013-03 | shard index + Parquet column sets (lidar returns, radar detections, image index) | `contracts/sensor-shard.schema.json` (new, T-013-001) | `st53_sensors`, `st57_rain_lidar` → `s05_synthesize`, `s50_evaluate`, `s60_export` |
-| DC-013-04 | web point-cloud shard header | `contracts/web-cloud-shard.schema.json` (new, T-013-001) | `s60_export` → web replay viewer |
-| DC-013-05 | baked dust-slider frame | `contracts/dust-slider.schema.json` (new, T-013-001) | `s60_export` → web dust worker |
+| DC-013-01 | sensor recipe block (S1, S2, S3, S4a, rain) | `specs/013-sensors/contracts/sensor-recipe.schema.json` (draft; promoted to `contracts/sensor-recipe.schema.json` by T-013-001) | maintainer → `st53_sensors`, `st57_rain_lidar`, `s05_synthesize` |
+| DC-013-02 | `studio/rtx/lidar-envelope.json` | `specs/013-sensors/contracts/lidar-envelope.schema.json` (draft; promoted to `contracts/lidar-envelope.schema.json` by T-013-001) | `ovrtx` probe → `st53_sensors` guard |
+| DC-013-03 | shard index + Parquet column sets (lidar returns, radar detections, image index) | `specs/013-sensors/contracts/sensor-shard.schema.json` (draft, column sets in `$defs/lidar_return`, `$defs/radar_detection`, `$defs/image_record`; promoted to `contracts/sensor-shard.schema.json` by T-013-001) | `st53_sensors`, `st57_rain_lidar` → `s05_synthesize`, `s50_evaluate`, `s60_export` |
+| DC-013-04 | web point-cloud shard header | `specs/013-sensors/contracts/web-cloud-shard.schema.json` (draft; promoted to `contracts/web-cloud-shard.schema.json` by T-013-001) | `s60_export` → web replay viewer |
+| DC-013-05 | baked dust-slider frame | `specs/013-sensors/contracts/dust-slider.schema.json` (draft; promoted to `contracts/dust-slider.schema.json` by T-013-001) | `s60_export` → web dust worker |
 | ~~DC-013-06~~ | Retired: S4b line-of-sight series. | superseded by DC-010-02 (`contracts/displacement-series.schema.json`; integration 2026-10-07) | — |
 | DC-013-07 | run and asset manifests | `contracts/manifest.schema.json` (spec 001) | lane stages → web, CI licence guard |
 | DC-013-08 | `studio/capabilities.json` probes `ovrtx`, `isaacsim` | `contracts/capabilities.schema.json` (DC-000-02) | `studio/bench/run_bench.py` → stage planner |
@@ -235,7 +235,7 @@ pinhole (P-013-14), web parity (P-013-15).
   σ√2; the mean absolute difference is ≈ 1.13 σ, so 3 σ leaves margin. ±1 % on counts and PSNR ≥ 40 dB match the
   documented use of tolerance, not bit-exactness, for RTX outputs. Their `thresholds.yaml` keys are
   `sensors.rerun_point_count_rel_max: 0.01`, `sensors.rerun_chamfer_over_range_accuracy_max: 3` and
-  `sensors.rerun_psnr_db_min: 40` (proposed keys, pending maintainer approval).
+  `sensors.rerun_psnr_db_min: 40`.
 
 ## 8. Clarifications log
 
@@ -269,6 +269,25 @@ pinhole (P-013-14), web parity (P-013-15).
   point clouds ≤ 60 MB" class (plan §11); the earlier proposal of a 20 MB sensor allocation is withdrawn.
 - Integration 2026-10-07: the re-run tolerances of FR-013-34 get proposed `thresholds.yaml` keys (`sensors.rerun_*`,
   pending maintainer approval), stated in §7.
+- Integration 2026-10-07: draft schema written for DC-013-01 … DC-013-05 (`specs/013-sensors/contracts/`, valid and
+  hostile examples indexed in `examples/index.json`). Resolved, stricter reading chosen: a sensor recipe block is the
+  `params` of one `st53_sensors` or `st57_rain_lidar` stage and one renderer session, so `scenario` fixes the sensor
+  kind and the backend, the radar-without-camera rule (FR-013-21) and the ≤ 2 cameras rule (NFR-013-05) hold per
+  block, and a non-zero rain rate is valid only with `backend: isaac`; native renderer names become parameter keys
+  (`rangeAccuracyM` → `range_accuracy_m`, `maxReturns` → `max_returns`, `velResMps` → `velocity_resolution_m_per_s`),
+  every length is in metres (radar wavelength, focal length, pixel pitch included) and every angle in degrees; return
+  intensities and `dust_return_intensity` are normalised to 0–1; "≤ 10 MB" is 10,000,000 bytes for every shard and
+  payload; the lidar envelope keeps the ±45° limit and its `pass`/`fail` follows the valid-point count; every indexed
+  clean lidar frame has ≥ 1 valid point (FR-013-08); web cloud shards and slider frames are a JSON header plus a
+  planar little-endian binary payload (8 bytes per point, at most 1,250,000 points; 20 bytes per slider return) whose
+  size and SHA-256 sit in the header, and per-return τ checks (NaN, negative) stay with the dust worker (FR-013-39);
+  the slider header pins τ_on, both τ_floor values, the 41 levels and the "own Beer–Lambert dust model" label; a web
+  shard carries an `intensity_map`, so an S4a shard can hold radial velocity in its uint8 channel for the Doppler view
+  (FR-013-40); bounds the spec leaves open: ≤ 8 sensors per block, ≤ 512 channels, ≤ 4 returns, ranges ≤ 500 m, rain
+  ≤ 200 mm/h, t_e ≤ 1 s, N in 1–32.
+- Integration 2026-10-07 (2): FR-013-35 states that the position code type is declared in the shard header and read from it,
+  the rule of the replay-shard schema DC-018-03 (spec 018). The sensor web shard keeps its own header (DC-013-04)
+  because it also carries 8-bit intensity and class channels, which DC-018-03's raw16 layout does not.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 

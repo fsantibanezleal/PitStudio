@@ -1,0 +1,14 @@
+{
+  "source": "mannequin",
+  "character_id": "mannequin-012",
+  "generator": "procedural-mannequin",
+  "generator_version": "0.1.0",
+  "git_sha": "0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c",
+  "seed": "12",
+  "export_path": "people/mannequins/mannequin-012.usd",
+  "export_sha256": "a0b1c2d3e4f506170f1e2d3c4b5a69781a2b3c4d5e6f7081a0b1c2d3e4f50617",
+  "licence": {
+    "spdx": "CC-BY-4.0",
+    "licence_class": "own"
+  }
+}

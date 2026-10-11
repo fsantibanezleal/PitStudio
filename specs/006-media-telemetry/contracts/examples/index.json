@@ -1,0 +1,552 @@
+{
+  "spec": "006-media-telemetry",
+  "examples": [
+    {
+      "file": "frame-manifest.valid.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "RTX render of a local-only producer: 10 s at 30 fps, 8-bit sRGB"
+    },
+    {
+      "file": "frame-manifest.valid-open-lane.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "open-lane replay frames, 16-bit, with the per-frame digests"
+    },
+    {
+      "file": "frame-manifest.hostile-unknown-enum.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "frame rate not in 24, 25, 30, 50, 60",
+      "rule": "FR-006-12",
+      "pointer": "/fps",
+      "keyword": "enum"
+    },
+    {
+      "file": "frame-manifest.hostile-out-of-range.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "resolution below 1920 x 1080",
+      "rule": "FR-006-12",
+      "pointer": "/width",
+      "keyword": "minimum"
+    },
+    {
+      "file": "frame-manifest.hostile-too-few-frames.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 2 frames",
+      "rule": "FR-006-12",
+      "pointer": "/frames",
+      "keyword": "minimum"
+    },
+    {
+      "file": "frame-manifest.hostile-wrong-bit-depth.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bit depth other than 8 or 16",
+      "rule": "FR-006-12",
+      "pointer": "/bit_depth",
+      "keyword": "enum"
+    },
+    {
+      "file": "frame-manifest.hostile-malformed-digest.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (63 hex characters)",
+      "rule": "FR-006-12",
+      "pointer": "/source_frames_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "frame-manifest.hostile-path-traversal.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "frame path escaping the input folder",
+      "rule": "FR-006-13",
+      "pointer": "/frame_pattern",
+      "keyword": "pattern"
+    },
+    {
+      "file": "frame-manifest.hostile-absolute-path.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute frame folder",
+      "rule": "FR-006-13",
+      "pointer": "/directory",
+      "keyword": "pattern"
+    },
+    {
+      "file": "frame-manifest.hostile-bad-pattern.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "clip name outside [a-z0-9-]",
+      "rule": "FR-006-13",
+      "pointer": "/clip",
+      "keyword": "pattern"
+    },
+    {
+      "file": "frame-manifest.hostile-oversized.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "clip name longer than 64 characters",
+      "rule": "FR-006-13",
+      "pointer": "/clip",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "frame-manifest.hostile-unknown-field.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "producer timing in the manifest",
+      "rule": "FR-006-14",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "frame-manifest.hostile-wrong-type.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (string count)",
+      "rule": "FR-006-12",
+      "pointer": "/frames",
+      "keyword": "type"
+    },
+    {
+      "file": "frame-manifest.hostile-unknown-stage.json",
+      "schema": "frame-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown stage id",
+      "rule": "DC-006-01",
+      "pointer": "/producer/stage/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "encode-report.valid.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one clip pair meeting VMAF mean 93 / p5 85 inside 25 MB, no relaxation"
+    },
+    {
+      "file": "encode-report.valid-relaxed.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "a clip with a recorded lower-target relaxation (mean >= 80)"
+    },
+    {
+      "file": "encode-report.hostile-over-budget.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pair above 25,000,000 bytes",
+      "rule": "FR-006-03",
+      "pointer": "/clips/0/pair_bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "encode-report.hostile-oversized-poster.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "poster above 150,000 bytes",
+      "rule": "FR-006-03",
+      "pointer": "/clips/0/poster/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "encode-report.hostile-conditional-vmaf-target.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "VMAF target missed without a relaxation",
+      "rule": "FR-006-04",
+      "pointer": "/clips/0/variants/av1/record/vmaf/mean",
+      "keyword": "minimum"
+    },
+    {
+      "file": "encode-report.hostile-relaxation-floor.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "relaxed target below mean VMAF 80",
+      "rule": "FR-006-04",
+      "pointer": "/clips/0/relaxation/vmaf_mean_min",
+      "keyword": "minimum"
+    },
+    {
+      "file": "encode-report.hostile-conditional-relaxation-reason.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "relaxation without a written reason",
+      "rule": "FR-006-04",
+      "pointer": "/clips/0/relaxation",
+      "keyword": "required"
+    },
+    {
+      "file": "encode-report.hostile-unknown-enum.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (relaxation kind)",
+      "rule": "FR-006-04",
+      "pointer": "/clips/0/relaxation/kind",
+      "keyword": "enum"
+    },
+    {
+      "file": "encode-report.hostile-oversized-trials.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 8 search encodes",
+      "rule": "FR-006-02",
+      "pointer": "/clips/0/variants/av1/trials",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "encode-report.hostile-path-traversal.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "clip name with a path",
+      "rule": "FR-006-13",
+      "pointer": "/clips/0/clip",
+      "keyword": "pattern"
+    },
+    {
+      "file": "encode-report.hostile-absolute-path.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute output path",
+      "rule": "FR-006-06",
+      "pointer": "/clips/0/variants/h264/file",
+      "keyword": "pattern"
+    },
+    {
+      "file": "encode-report.hostile-out-of-range.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "VMAF outside 0-100",
+      "rule": "FR-006-06",
+      "pointer": "/clips/0/variants/av1/trials/0/vmaf_mean",
+      "keyword": "maximum"
+    },
+    {
+      "file": "encode-report.hostile-wrong-resolution.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "H.264 variant not 1280 x 720",
+      "rule": "FR-006-01",
+      "pointer": "/clips/0/variants/h264/record/width",
+      "keyword": "const"
+    },
+    {
+      "file": "encode-report.hostile-out-of-range-cq.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "H.264 constant-quality value above 51",
+      "rule": "FR-006-02",
+      "pointer": "/clips/0/variants/h264/chosen_cq",
+      "keyword": "maximum"
+    },
+    {
+      "file": "encode-report.hostile-unknown-field.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "producer render timing in the report",
+      "rule": "FR-006-14",
+      "pointer": "/clips/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "encode-report.hostile-conditional-stage.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "report of another stage",
+      "rule": "DC-006-02",
+      "pointer": "/stage/id",
+      "keyword": "const"
+    },
+    {
+      "file": "encode-report.hostile-empty.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no clips",
+      "rule": "DC-006-02",
+      "pointer": "/clips",
+      "keyword": "minItems"
+    },
+    {
+      "file": "profile-summary.valid.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "three kernels of a profiled DEM run"
+    },
+    {
+      "file": "profile-summary.valid-truncated.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "trace stopped at the 100,000,000-byte cap"
+    },
+    {
+      "file": "profile-summary.hostile-wrong-label.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing kernel-timing label",
+      "rule": "FR-006-20",
+      "pointer": "/label",
+      "keyword": "const"
+    },
+    {
+      "file": "profile-summary.hostile-unknown-method.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Nsight named as the method",
+      "rule": "FR-006-20",
+      "pointer": "/method",
+      "keyword": "const"
+    },
+    {
+      "file": "profile-summary.hostile-oversized.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 20 kernels",
+      "rule": "FR-006-20",
+      "pointer": "/kernels",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "profile-summary.hostile-oversized-trace.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "trace above 100,000,000 bytes",
+      "rule": "FR-006-21",
+      "pointer": "/trace/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "profile-summary.hostile-path-traversal.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "trace path escaping the output folder",
+      "rule": "FR-006-20",
+      "pointer": "/trace/file",
+      "keyword": "pattern"
+    },
+    {
+      "file": "profile-summary.hostile-out-of-range.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative time",
+      "rule": "FR-006-20",
+      "pointer": "/kernels/1/total_ms",
+      "keyword": "minimum"
+    },
+    {
+      "file": "profile-summary.hostile-zero-calls.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "kernel with no calls",
+      "rule": "FR-006-20",
+      "pointer": "/kernels/2/calls",
+      "keyword": "minimum"
+    },
+    {
+      "file": "profile-summary.hostile-bad-pattern.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "kernel name outside the name pattern",
+      "rule": "FR-006-20",
+      "pointer": "/kernels/0/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "profile-summary.hostile-unknown-field.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-006-20",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "profile-summary.hostile-wrong-type.json",
+      "schema": "profile-summary.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (truncated flag)",
+      "rule": "FR-006-21",
+      "pointer": "/truncated",
+      "keyword": "type"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "frame-manifest.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "frame-manifest.schema.json",
+      "class": "frame_sha256 length not equal to frames, or source_frames_sha256 not the digest of the ordered per-frame digests",
+      "by": "checker",
+      "rule": "FR-006-12"
+    },
+    {
+      "schema": "frame-manifest.schema.json",
+      "class": "frame file missing, truncated or undecodable, or differing from the declared size or bit depth",
+      "by": "checker",
+      "rule": "FR-006-12"
+    },
+    {
+      "schema": "frame-manifest.schema.json",
+      "class": "frame path resolving outside the input folder through a link",
+      "by": "checker",
+      "rule": "FR-006-13"
+    },
+    {
+      "schema": "frame-manifest.schema.json",
+      "class": "Windows device name as a directory segment",
+      "by": "checker",
+      "rule": "FR-006-13"
+    },
+    {
+      "schema": "frame-manifest.schema.json",
+      "class": "performance class not equal to the producer tool's registry entry",
+      "by": "checker",
+      "rule": "FR-006-14"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "pair_bytes not equal to the sum of the two variants' bytes",
+      "by": "checker",
+      "rule": "FR-006-03"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "chosen_cq not among the trials or outside cq_range, or cq_range min above max",
+      "by": "checker",
+      "rule": "FR-006-02"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "chosen_cq not the largest tried value meeting both targets",
+      "by": "checker",
+      "rule": "FR-006-02"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "re-measured VMAF below a lower-target relaxation",
+      "by": "checker",
+      "rule": "FR-006-04"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "variant or poster bytes and sha256 not equal to the files",
+      "by": "checker",
+      "rule": "FR-006-05"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "record frames, fps or source_frames_sha256 not equal to the clip and its frame manifest",
+      "by": "checker",
+      "rule": "FR-006-05"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "record duration_s further than one frame period from frames / fps",
+      "by": "checker",
+      "rule": "FR-001-17"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "absolute paths in the recorded encoder arguments",
+      "by": "checker",
+      "rule": "FR-006-06",
+      "note": "privacy scan of FR-001-15"
+    },
+    {
+      "schema": "encode-report.schema.json",
+      "class": "two clips with the same name",
+      "by": "checker",
+      "rule": "FR-006-13"
+    },
+    {
+      "schema": "profile-summary.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "profile-summary.schema.json",
+      "class": "kernel table file above 100,000 bytes",
+      "by": "loader",
+      "rule": "NFR-006-03"
+    },
+    {
+      "schema": "profile-summary.schema.json",
+      "class": "kernels not sorted by total_ms (largest first) or not the top min(20, kernels_total)",
+      "by": "checker",
+      "rule": "FR-006-20"
+    },
+    {
+      "schema": "profile-summary.schema.json",
+      "class": "mean_ms not equal to total_ms / calls",
+      "by": "checker",
+      "rule": "FR-006-20"
+    },
+    {
+      "schema": "profile-summary.schema.json",
+      "class": "two kernels with the same name",
+      "by": "checker",
+      "rule": "FR-006-20"
+    },
+    {
+      "schema": "profile-summary.schema.json",
+      "class": "trace bytes not equal to the file size, or truncated false while the trace reached the cap",
+      "by": "checker",
+      "rule": "FR-006-21"
+    }
+  ]
+}

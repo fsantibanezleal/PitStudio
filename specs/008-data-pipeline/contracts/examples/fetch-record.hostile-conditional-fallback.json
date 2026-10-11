@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "source": "era5",
+  "name": "era5-wind-bingham.nc",
+  "url": "https://cds.climate.copernicus.eu/api/retrieve/v1/processes/reanalysis-era5-single-levels",
+  "final_url": null,
+  "stored_as": null,
+  "bytes": null,
+  "expected_bytes": null,
+  "sha256": null,
+  "expected_sha256": null,
+  "publisher_checksum": null,
+  "publisher_checksum_status": "not-checked",
+  "spdx": "CC-BY-4.0",
+  "licence_class": "attribution",
+  "redistribution": "derived-only",
+  "retrieved": null,
+  "status": "fallback-used",
+  "fallback_sources": [],
+  "attempts": 0
+}

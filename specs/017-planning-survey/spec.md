@@ -183,11 +183,11 @@ Fixed parameters referred to as "§7" are in the tables of section 7.
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-017-01 | Comminution sweeps: configuration id, split, inputs with units, outputs (kWh/t, t/h, cost/t), knowledge-table row ids and verification status per bound, seed | `contracts/comminution-sweep.schema.json` (new, T-017-001) | `s05_synthesize` → `s30_train`, `s50_evaluate`, D2 replay |
-| DC-017-02 | Block model: block id, grid indices, centre, tonnage, grade, destination values or BEV components, precedence arcs, source (`oreblocks` seed, MineLib instance, own grid), licence | `contracts/block-model.schema.json` (new, T-017-001) | `s05_synthesize` (`oreblocks`), `s10_preprocess` (MineLib) → min-cut, shells, scheduler, web `mincut` |
-| DC-017-03 | Shells, pushbacks and schedules: λ grid, per-shell block sets (bit-packed) and tonnages, pushbacks, bench-phase units, schedule, NPV, gap, solver status, strip ratios | `contracts/pit-shells.schema.json` (new, T-017-001) | planner → `st20_pit_design` (spec 004), routing (spec 007), web E1 |
-| DC-017-04 | Survey volumes: method (DEM differencing, photogrammetric, splat), surfaces' digests, grid, polygon, V_cut, V_fill, V_net, no-data fraction, uncertainty bounds, flight and seed, error metrics | `contracts/survey-volume.schema.json` (new, T-017-001) | `s50_evaluate` → web E2, docs results |
-| DC-017-05 | Survey flight record: flight id, design (GSD, overlap, sun), seed, image index with SHA-256, intrinsics, poses, depth paths, exact scene volumes | `contracts/survey-flight.schema.json` (new, T-017-001) | `st53_sensors` S2 (spec 013) → `st58b_capture_splat`, `s50_evaluate` |
+| DC-017-01 | Comminution sweeps: configuration id, split, inputs with units, outputs (kWh/t, t/h, cost/t), knowledge-table row ids and verification status per bound, seed | `specs/017-planning-survey/contracts/comminution-sweep.schema.json` (draft; promoted to `contracts/comminution-sweep.schema.json` by T-017-001) | `s05_synthesize` → `s30_train`, `s50_evaluate`, D2 replay |
+| DC-017-02 | Block model: block id, grid indices, centre, tonnage, grade, destination values or BEV components, precedence arcs, source (`oreblocks` seed, MineLib instance, own grid), licence | `specs/017-planning-survey/contracts/block-model.schema.json` (draft; promoted to `contracts/block-model.schema.json` by T-017-001) | `s05_synthesize` (`oreblocks`), `s10_preprocess` (MineLib) → min-cut, shells, scheduler, web `mincut` |
+| DC-017-03 | Shells, pushbacks and schedules: λ grid, per-shell block sets (bit-packed) and tonnages, pushbacks, bench-phase units, schedule, NPV, gap, solver status, strip ratios | `specs/017-planning-survey/contracts/pit-shells.schema.json` (draft; promoted to `contracts/pit-shells.schema.json` by T-017-001) | planner → `st20_pit_design` (spec 004), routing (spec 007), web E1 |
+| DC-017-04 | Survey volumes: method (DEM differencing, photogrammetric, splat), surfaces' digests, grid, polygon, V_cut, V_fill, V_net, no-data fraction, uncertainty bounds, flight and seed, error metrics | `specs/017-planning-survey/contracts/survey-volume.schema.json` (draft; promoted to `contracts/survey-volume.schema.json` by T-017-001) | `s50_evaluate` → web E2, docs results |
+| DC-017-05 | Survey flight record: flight id, design (GSD, overlap, sun), seed, image index with SHA-256, intrinsics, poses, depth paths, exact scene volumes | `specs/017-planning-survey/contracts/survey-flight.schema.json` (draft; promoted to `contracts/survey-flight.schema.json` by T-017-001) | `st53_sensors` S2 (spec 013) → `st58b_capture_splat`, `s50_evaluate` |
 
 The meta-model input/output description uses `contracts/surrogate-io.schema.json` (DC-011-02). Every artefact is
 also described by its manifest entry (DC-000-01).
@@ -270,6 +270,24 @@ t/h × kWh/t = η P_mill.
   approval" and compiled with the other specs' proposals for the maintainer; lane-gate keys are consolidated as
   `lane_gate.*` and budget keys as `budgets.*`.
 - (no open items)
+- Integration 2026-10-07: draft schema written for DC-017-01 … DC-017-05 (`specs/017-planning-survey/contracts/`,
+  valid and hostile examples indexed in `examples/index.json`); resolved, stricter reading chosen: one sweep document
+  holds the design (box, counts, split sizes, seed) and every configuration with flat point records; inputs carry
+  unit-suffixed names, "crushing and grinding consumables" is one input (`consumables_usd_per_t`), each bound cites
+  one knowledge row with its status, and each input has a physical cap chosen here (e.g. burden ≤ 20 m, P80
+  ≤ 10,000 µm, P_mill ≤ 100,000 kW, η ∈ (0, 1]); grade is a mass fraction, destinations are `mill`, `waste`,
+  `leach`, `stockpile`, precedence is a per-block predecessor list (≤ 256) with `own` or `generated` origin, k
+  increases upward, a block model holds ≤ 10⁶ blocks, and a MineLib-derived model must be CC BY-SA 3.0 with its
+  attribution; a bit-packed shell set is standard base64 (with padding) of a bitset over the block-model order,
+  least significant bit first (`block_set_encoding: bitset-lsb0-base64`); solver status is one of `optimal`,
+  `time-limit`, `infeasible`, `unbounded`, `error` (infeasible ⇒ null NPV and gap and no periods; optimal ⇒ gap
+  ≤ 1e-4), and the schedule records its binary count (≤ 2 × 10⁵); a survey volume has status `ok`, `not_run` or
+  `failed` (the last two need a reason and carry no volume), a real volume is DEM differencing with "measurement, not
+  validation", its attribution and per-surface project, CRS, datum and RMSEz, and error metrics carry no pass
+  field; a flight record covers one flight × noise seed, `overlap_pct` is both the forward and the side overlap (3 ×
+  2 × 2 = 12 flights), poses are camera-to-world (x right, y down, z forward) with unit quaternions, and depth maps
+  are planar z in metres.
+- Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

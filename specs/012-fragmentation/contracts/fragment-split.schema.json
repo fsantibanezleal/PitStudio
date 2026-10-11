@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/fragment-split.schema.json",
+  "title": "Mendeley group links and grouped folds",
+  "description": "Group links file and grouped 5-fold file of the real fragment set, discriminated by kind (DC-012-02, spec 012-fragmentation).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/links"
+    },
+    {
+      "$ref": "#/$defs/folds"
+    }
+  ],
+  "$defs": {
+    "fold": {
+      "type": "object",
+      "description": "one fold; validation and training files are k + 240 m (m = 0..3) of the listed originals",
+      "additionalProperties": false,
+      "required": [
+        "fold",
+        "test_originals",
+        "validation_originals",
+        "training_originals"
+      ],
+      "properties": {
+        "fold": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "test_originals": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "description": "original file number",
+            "minimum": 1,
+            "maximum": 240
+          },
+          "minItems": 1,
+          "maxItems": 240,
+          "uniqueItems": true
+        },
+        "validation_originals": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "description": "original file number",
+            "minimum": 1,
+            "maximum": 240
+          },
+          "minItems": 1,
+          "maxItems": 240,
+          "uniqueItems": true
+        },
+        "training_originals": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "description": "original file number",
+            "minimum": 1,
+            "maximum": 240
+          },
+          "minItems": 1,
+          "maxItems": 240,
+          "uniqueItems": true
+        }
+      }
+    },
+    "folds": {
+      "type": "object",
+      "description": "the real fold file written by the split builder",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "source_id",
+        "archive_sha256",
+        "links_sha256",
+        "splitter",
+        "shuffle",
+        "seed",
+        "n_folds",
+        "group_count",
+        "validation_fraction",
+        "validation_seed",
+        "expansion",
+        "sklearn_version",
+        "folds"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "editor hint; ignored by consumers"
+        },
+        "source_id": {
+          "const": "mendeley-78ht3pjsr4"
+        },
+        "archive_sha256": {
+          "const": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d"
+        },
+        "kind": {
+          "const": "folds"
+        },
+        "links_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "splitter": {
+          "const": "GroupKFold"
+        },
+        "shuffle": {
+          "const": true
+        },
+        "seed": {
+          "const": 20261004
+        },
+        "n_folds": {
+          "const": 5
+        },
+        "group_count": {
+          "const": 231
+        },
+        "validation_fraction": {
+          "const": 0.1
+        },
+        "validation_seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "expansion": {
+          "description": "files of an original k: k, k + 240, k + 480, k + 720",
+          "const": "dihedral-4"
+        },
+        "sklearn_version": {
+          "$ref": "#/$defs/version"
+        },
+        "folds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fold"
+          },
+          "minItems": 5,
+          "maxItems": 5
+        }
+      }
+    },
+    "links": {
+      "type": "object",
+      "description": "the committed links file data/splits/mendeley-78ht3pjsr4-links.yaml",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "source_id",
+        "archive_sha256",
+        "links",
+        "groups_expected"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "editor hint; ignored by consumers"
+        },
+        "source_id": {
+          "const": "mendeley-78ht3pjsr4"
+        },
+        "archive_sha256": {
+          "const": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d"
+        },
+        "kind": {
+          "const": "links"
+        },
+        "links": {
+          "type": "array",
+          "description": "conservative similarity links between originals",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "description": "original file number",
+              "minimum": 1,
+              "maximum": 240
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "groups_expected": {
+          "const": 231
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 500
+        }
+      }
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    }
+  }
+}

@@ -128,7 +128,7 @@ served like Pages; contract = pytest under `tests/contract/`; gpu = Playwright p
 | P-018-59, P-018-60, P-018-61 | metamorphic (gpu) | analytical (Newton's third law, translation invariance, conservation) | Playwright `webgpu` |
 | P-018-62, P-018-63, P-018-64 | metamorphic (gpu) | analytical: lake at rest, mirror symmetry, Ritter (1892) dry-bed front speed 2√(g h₀) | Playwright `webgpu` |
 | P-018-65, P-018-66, P-018-67 | metamorphic (gpu) | analytical: Stokes terminal velocity; Galilean shift; conservation | Playwright `webgpu` |
-| P-018-68, P-018-69, P-018-70 | property | analytical (affine int16 quantisation) | Vitest + fast-check |
+| P-018-68, P-018-69, P-018-70 | property | analytical (affine 16-bit quantisation, `int16` or `uint16` as the header declares) | Vitest + fast-check |
 | NFR-018-01, NFR-018-02 | E2E / build | hand: byte sums against 2,000,000 B and 200,000 B gzip | Playwright, postbuild |
 | NFR-018-03 | E2E (CI) + gpu | hand: gate targets from plan §10 | lane-gate suite |
 | NFR-018-04 | E2E | WCAG rules as encoded by axe-core; Lighthouse accessibility score | Playwright + axe, LHCI |

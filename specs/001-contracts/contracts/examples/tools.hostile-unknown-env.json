@@ -1,0 +1,158 @@
+{
+  "$schema": "../tools.schema.json",
+  "tools": [
+    {
+      "id": "warp",
+      "name": "NVIDIA Warp",
+      "category": "studio-tool",
+      "envs": [
+        "docker"
+      ],
+      "version": {
+        "from_lock": "studio/uv.lock",
+        "package": "warp-lang"
+      },
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "osi": true,
+      "licence_class": "attribution",
+      "ring": "Adopt",
+      "lane": "replay",
+      "performance": "public",
+      "role": "GPU kernels for granular flow, haul-road dust and the physics benchmarks.",
+      "cases": [
+        "A3",
+        "C3"
+      ],
+      "produces": [
+        "field",
+        "shard"
+      ],
+      "status": "not-yet-run",
+      "docs_page": "docs/frameworks/warp.md"
+    },
+    {
+      "id": "ovrtx",
+      "name": "ovrtx",
+      "category": "studio-tool",
+      "envs": [
+        "rtx"
+      ],
+      "version": {
+        "from_lock": "studio/rtx/uv.lock",
+        "package": "ovrtx"
+      },
+      "spdx": [
+        "LicenseRef-NvidiaProprietary"
+      ],
+      "osi": false,
+      "licence_class": "reference-only",
+      "ring": "Trial",
+      "lane": "local-only",
+      "performance": "local-only",
+      "role": "RTX sensor rendering for lidar, camera and radar returns over the composed pit.",
+      "cases": [
+        "C3"
+      ],
+      "produces": [
+        "point-cloud"
+      ],
+      "status": "not-yet-run",
+      "docs_page": "docs/frameworks/ovrtx.md",
+      "notice": "Proprietary runtime: measured locally, performance figures are not published."
+    },
+    {
+      "id": "cuopt",
+      "name": "cuOpt",
+      "category": "studio-tool",
+      "envs": [
+        "pipeline"
+      ],
+      "version": {
+        "from_git_tag": "v25.08.00",
+        "repository": "https://github.com/NVIDIA/cuopt"
+      },
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "osi": true,
+      "licence_class": "attribution",
+      "ring": "Hold",
+      "lane": "local-only",
+      "performance": "public",
+      "role": "GPU vehicle-routing solver evaluated for haul dispatch.",
+      "cases": [
+        "A2"
+      ],
+      "produces": [],
+      "status": "evaluated-not-adopted",
+      "reason": "Dispatch decisions are per-truck and event-driven; a batch routing solver adds no value.",
+      "docs_page": "docs/frameworks/not-adopted-cuopt.md",
+      "alternatives_rejected": [
+        {
+          "name": "OR-Tools routing",
+          "reason": "same batch formulation"
+        }
+      ]
+    },
+    {
+      "id": "pitstudio",
+      "name": "PitStudio",
+      "category": "component",
+      "envs": [
+        "root",
+        "runner",
+        "pipeline",
+        "web"
+      ],
+      "version": {
+        "own": true
+      },
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "osi": true,
+      "licence_class": "own",
+      "ring": "Adopt",
+      "lane": "live",
+      "performance": "public",
+      "role": "Own code: runner, pipeline stages, contracts and the web app.",
+      "cases": [],
+      "produces": [
+        "table",
+        "figure"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "colmap",
+      "name": "COLMAP",
+      "category": "component",
+      "envs": [
+        "external"
+      ],
+      "version": {
+        "from_binary": "colmap",
+        "release": "3.12.0",
+        "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+      },
+      "spdx": [
+        "BSD-3-Clause"
+      ],
+      "osi": true,
+      "licence_class": "attribution",
+      "ring": "Trial",
+      "lane": "local-only",
+      "performance": "public",
+      "role": "Structure-from-motion poses for the survey splat capture.",
+      "cases": [
+        "E2"
+      ],
+      "produces": [
+        "splat"
+      ],
+      "status": "not-yet-run"
+    }
+  ]
+}

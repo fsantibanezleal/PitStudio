@@ -72,7 +72,7 @@ Data flow: [tool-map.svg](../../docs/assets/diagrams/tool-map.svg) and
 | FR-019-43 | contract | hand: a `not-yet-run` tool with and without an artefact naming it | pytest |
 | FR-019-44 | E2E | the real console (fixture store) and a stub server that answers HTML, an oversized body, a wrong `status`, or never answers; expected label and request count | Playwright |
 | FR-019-45 | unit (web, hostile) | table of hostile port strings → `validatePort` rejects, `fetch` spy never called | Vitest (`web/src/studio/connect.test.ts`) |
-| FR-019-34, FR-019-35 | contract | hand: planted `*.engine`, `*.plan`, `*.gguf`, cache folder, header marker, `omniverse://` URL; a render without an `st40_compose` input; a `screenshot` kind | pytest |
+| FR-019-34, FR-019-35 | contract | hand: planted `*.engine`, `*.plan`, `*.gguf`, cache folder, header marker, `omniverse://` URL; a render without an `st40_compose` input; a reference-only artefact of kind `mesh` (outside the allowed kinds) | pytest |
 | FR-019-37 | unit + E2E | hand: a Cosmos artefact card | Vitest, Playwright |
 | FR-019-38 | contract (hostile) | hand: one malformed file per failure class | pytest |
 | FR-019-39, FR-019-41 | E2E (hostile) | hand: aborted React Flow chunk; filters `?case=zz`, `?tool=<script>`, 20,000 characters | Playwright |

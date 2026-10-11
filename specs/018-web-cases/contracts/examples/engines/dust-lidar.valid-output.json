@@ -1,0 +1,33 @@
+{
+  "kind": "output",
+  "engine": "dust-lidar",
+  "engine_version": "0.1.0",
+  "function": "apply_level",
+  "result": {
+    "level": 12,
+    "kept_returns": 112000,
+    "dust_returns": 6500,
+    "positions_m": {
+      "dtype": "float32",
+      "shape": {
+        "points": 118500,
+        "components": 3
+      },
+      "byte_length": 1422000
+    },
+    "intensity": {
+      "dtype": "uint8",
+      "shape": {
+        "points": 118500
+      },
+      "byte_length": 118500
+    },
+    "return_class": {
+      "dtype": "uint8",
+      "shape": {
+        "points": 118500
+      },
+      "byte_length": 118500
+    }
+  }
+}

@@ -1,0 +1,887 @@
+{
+  "spec": "007-haulage-dispatch",
+  "examples": [
+    {
+      "file": "haul-scenario.valid.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "minimal live bundle: deterministic profile, fast mode, sptf, no tables"
+    },
+    {
+      "file": "haul-scenario.valid-exponential.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "MVA oracle family member with one unit-exponential quantile table"
+    },
+    {
+      "file": "haul-scenario.valid-traffic-lp.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "traffic mode, LP blend floor, direction zone, failures, user rates"
+    },
+    {
+      "file": "haul-scenario.hostile-unknown-field.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-007-03",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "haul-scenario.hostile-unknown-dispatcher.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (dispatcher)",
+      "rule": "FR-007-03",
+      "pointer": "/dispatcher/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "haul-scenario.hostile-unknown-profile.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (variate profile)",
+      "rule": "FR-007-03",
+      "pointer": "/variate_profile",
+      "keyword": "enum"
+    },
+    {
+      "file": "haul-scenario.hostile-unknown-truck-class.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (truck class)",
+      "rule": "FR-007-03",
+      "pointer": "/fleet/0/truck_class",
+      "keyword": "enum"
+    },
+    {
+      "file": "haul-scenario.hostile-unknown-loader-class.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (loader class)",
+      "rule": "FR-007-03",
+      "pointer": "/loaders/0/loader_class",
+      "keyword": "enum"
+    },
+    {
+      "file": "haul-scenario.hostile-empty-fleet.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty (count <= 0 trucks)",
+      "rule": "FR-007-03",
+      "pointer": "/fleet",
+      "keyword": "minItems"
+    },
+    {
+      "file": "haul-scenario.hostile-out-of-range-spots.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (loader spots 0)",
+      "rule": "FR-007-03",
+      "pointer": "/loaders/0/n_spots",
+      "keyword": "minimum"
+    },
+    {
+      "file": "haul-scenario.hostile-out-of-range-length.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (segment length <= 0 m)",
+      "rule": "FR-007-03",
+      "pointer": "/network/segments/0/length_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "haul-scenario.hostile-out-of-range-grade.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (|grade| >= 100 %)",
+      "rule": "FR-007-03",
+      "pointer": "/network/segments/0/grade_pct",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "haul-scenario.hostile-out-of-range-rolling-resistance.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (rolling resistance < 0 %)",
+      "rule": "FR-007-03",
+      "pointer": "/network/segments/0/rolling_resistance_pct",
+      "keyword": "minimum"
+    },
+    {
+      "file": "haul-scenario.hostile-out-of-range-speed-limit.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (speed limit <= 0 km/h)",
+      "rule": "FR-007-03",
+      "pointer": "/network/segments/0/speed_limit_kmh",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "haul-scenario.hostile-conditional-live-fleet.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized live fleet (41 trucks)",
+      "rule": "FR-007-03",
+      "pointer": "/fleet",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "haul-scenario.hostile-out-of-range-horizon.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (horizon > 7 days)",
+      "rule": "FR-007-13",
+      "pointer": "/horizon_s",
+      "keyword": "maximum"
+    },
+    {
+      "file": "haul-scenario.hostile-wrong-type.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (string count)",
+      "rule": "FR-007-03",
+      "pointer": "/loaders/0/n_spots",
+      "keyword": "type"
+    },
+    {
+      "file": "haul-scenario.hostile-wrong-unit.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit (length in km)",
+      "rule": "FR-007-03",
+      "pointer": "/network/segments/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "haul-scenario.hostile-duplicate-dump.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "duplicate id (dump)",
+      "rule": "FR-007-03",
+      "pointer": "/dumps",
+      "keyword": "uniqueItems"
+    },
+    {
+      "file": "haul-scenario.hostile-conditional-policy.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "learned dispatcher without a pinned policy",
+      "rule": "FR-007-44",
+      "pointer": "/dispatcher",
+      "keyword": "required"
+    },
+    {
+      "file": "haul-scenario.hostile-wrong-shape-table.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong shape (quantile table with too few knots)",
+      "rule": "FR-007-06",
+      "pointer": "/quantile_tables/0/knots_f64le_b64",
+      "keyword": "minLength"
+    },
+    {
+      "file": "haul-scenario.hostile-oversized.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized string (id)",
+      "rule": "DC-007-01",
+      "pointer": "/id",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "des-trace.valid.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "complete trace of the 15-minute smoke bundle (two trucks, deterministic profile)"
+    },
+    {
+      "file": "des-trace.valid-lp-fallback.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "LP dispatcher whose LP was infeasible: sptf fallback in the header"
+    },
+    {
+      "file": "des-trace.hostile-unknown-enum.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (event kind)",
+      "rule": "FR-007-09",
+      "pointer": "/events/0/kind",
+      "keyword": "enum"
+    },
+    {
+      "file": "des-trace.hostile-missing-required.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing header field",
+      "rule": "FR-007-42",
+      "pointer": "/header",
+      "keyword": "required"
+    },
+    {
+      "file": "des-trace.hostile-malformed-digest.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (uppercase hex)",
+      "rule": "FR-007-42",
+      "pointer": "/header/bundle_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "des-trace.hostile-out-of-range-seed.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (seed = 2^63)",
+      "rule": "FR-007-13",
+      "pointer": "/header/seed",
+      "keyword": "maximum"
+    },
+    {
+      "file": "des-trace.hostile-out-of-range-time.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (negative time)",
+      "rule": "FR-007-42",
+      "pointer": "/events/0/t_s",
+      "keyword": "minimum"
+    },
+    {
+      "file": "des-trace.hostile-wrong-type.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (fractional seq)",
+      "rule": "FR-007-42",
+      "pointer": "/events/0/seq",
+      "keyword": "type"
+    },
+    {
+      "file": "des-trace.hostile-unknown-field.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field (priority)",
+      "rule": "FR-007-09",
+      "pointer": "/events/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "des-trace.hostile-unknown-enum-cyclelog.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (cyclelog event)",
+      "rule": "FR-007-09",
+      "pointer": "/cyclelog/0/event",
+      "keyword": "enum"
+    },
+    {
+      "file": "des-trace.hostile-conditional-lp-fallback.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "LP not optimal without the sptf fallback",
+      "rule": "FR-007-21",
+      "pointer": "/header/lp/fallback",
+      "keyword": "const"
+    },
+    {
+      "file": "des-trace.hostile-conditional-lp-header.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "LP dispatcher without LP status",
+      "rule": "FR-007-21",
+      "pointer": "/header",
+      "keyword": "required"
+    },
+    {
+      "file": "des-trace.hostile-honesty-label.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "honesty label altered",
+      "rule": "FR-007-41",
+      "pointer": "/header/honesty/label",
+      "keyword": "const"
+    },
+    {
+      "file": "des-trace.hostile-out-of-range-events.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (event budget exceeded)",
+      "rule": "FR-007-13",
+      "pointer": "/results/events_executed",
+      "keyword": "maximum"
+    },
+    {
+      "file": "dispatch-eval.valid.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "PPO vs SPTF on 30 paired seeds: the spec section 7 worked example (mean 45 t/h)"
+    },
+    {
+      "file": "dispatch-eval.hostile-conditional-insufficient-evidence.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 30 pairs with a decided verdict",
+      "rule": "FR-007-30",
+      "pointer": "/comparisons/0/verdict",
+      "keyword": "const"
+    },
+    {
+      "file": "dispatch-eval.hostile-conditional-verdict-ci.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "'better' while the CI contains 0",
+      "rule": "FR-000-05",
+      "pointer": "/comparisons/0/ci95/low_t_per_h",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "dispatch-eval.hostile-conditional-reason.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "insufficient evidence without a reason",
+      "rule": "FR-007-30",
+      "pointer": "/comparisons/0",
+      "keyword": "required"
+    },
+    {
+      "file": "dispatch-eval.hostile-unknown-enum.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (dispatcher)",
+      "rule": "FR-007-29",
+      "pointer": "/rows/0/dispatcher",
+      "keyword": "enum"
+    },
+    {
+      "file": "dispatch-eval.hostile-out-of-range.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "out of range (utilisation > 1)",
+      "rule": "FR-007-29",
+      "pointer": "/rows/0/loader_utilisation_frac",
+      "keyword": "maximum"
+    },
+    {
+      "file": "dispatch-eval.hostile-duplicate-seed.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "duplicate test seed",
+      "rule": "FR-007-28",
+      "pointer": "/test_seeds",
+      "keyword": "uniqueItems"
+    },
+    {
+      "file": "dispatch-eval.hostile-wrong-unit.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit (queue time in s)",
+      "rule": "FR-007-29",
+      "pointer": "/rows/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "dispatch-eval.hostile-wrong-mode.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "evaluation outside traffic mode",
+      "rule": "FR-007-29",
+      "pointer": "/mode",
+      "keyword": "const"
+    },
+    {
+      "file": "dispatch-eval.hostile-empty.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty rows",
+      "rule": "FR-007-29",
+      "pointer": "/rows",
+      "keyword": "minItems"
+    },
+    {
+      "file": "dispatch-policy-io.valid.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "layout v1 of the PPO (shared MLP) policy"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-wrong-shape.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong shape (32 truck slots)",
+      "rule": "FR-007-44",
+      "pointer": "/inputs/truck_features/shape",
+      "keyword": "const"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-wrong-dtype.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong dtype",
+      "rule": "FR-007-44",
+      "pointer": "/inputs/truck_features/dtype",
+      "keyword": "const"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-unknown-layout-version.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown layout version",
+      "rule": "FR-007-44",
+      "pointer": "/layout_version",
+      "keyword": "const"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-oversized.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized ONNX (>= 2 MB)",
+      "rule": "NFR-007-03",
+      "pointer": "/policy/onnx/bytes",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-malformed-digest.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (prefix)",
+      "rule": "FR-007-44",
+      "pointer": "/policy/onnx/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-path-traversal.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "DC-007-04",
+      "pointer": "/policy/onnx/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-feature-order.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "feature order changed",
+      "rule": "FR-007-31",
+      "pointer": "/inputs/truck_features/features",
+      "keyword": "const"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-tie-rule.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown tie rule",
+      "rule": "FR-007-31",
+      "pointer": "/decision/tie_rule",
+      "keyword": "const"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-conditional-architecture.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "attention policy declared with the MLP architecture",
+      "rule": "FR-007-31",
+      "pointer": "/policy/architecture",
+      "keyword": "const"
+    },
+    {
+      "file": "haul-energy.valid.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "M6 worked example ramp (2 km, 10 %, RR 3 %, 400 t gross) by drivetrain; efficiencies and factors illustrative"
+    },
+    {
+      "file": "haul-energy.hostile-unknown-enum.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown drivetrain",
+      "rule": "FR-007-45",
+      "pointer": "/rows/0/drivetrain",
+      "keyword": "enum"
+    },
+    {
+      "file": "haul-energy.hostile-out-of-range-payload.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "payload <= 0 t",
+      "rule": "FR-007-45",
+      "pointer": "/rows/0/payload_t",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "haul-energy.hostile-out-of-range-length.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "segment length <= 0 m",
+      "rule": "FR-007-45",
+      "pointer": "/routes/0/segments/0/length_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "haul-energy.hostile-conditional-bev-fuel.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fuel reported for a battery-electric truck",
+      "rule": "FR-007-34",
+      "pointer": "/rows/2/fuel_l_per_t_km",
+      "keyword": "const"
+    },
+    {
+      "file": "haul-energy.hostile-conditional-diesel-regen.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "regenerated energy reported for a diesel truck",
+      "rule": "FR-007-34",
+      "pointer": "/rows/0/regenerated_kwh",
+      "keyword": "maximum"
+    },
+    {
+      "file": "haul-energy.hostile-malformed-row-id.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed knowledge row id",
+      "rule": "FR-007-40",
+      "pointer": "/rows/2/unverified_rows/0",
+      "keyword": "pattern"
+    },
+    {
+      "file": "haul-energy.hostile-wrong-unit.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit (MJ/t)",
+      "rule": "FR-007-34",
+      "pointer": "/rows/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "haul-energy.hostile-wrong-basis.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "per-tonne basis other than payload tonnes",
+      "rule": "FR-007-34",
+      "pointer": "/rows/0/basis/per_tonne",
+      "keyword": "const"
+    },
+    {
+      "file": "haul-energy.hostile-missing-honesty.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "honesty label missing",
+      "rule": "FR-007-41",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "haul-energy.hostile-out-of-range-grade-limit.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "g_max > 1",
+      "rule": "FR-007-36",
+      "pointer": "/routes/0/grade_limit_frac",
+      "keyword": "maximum"
+    },
+    {
+      "file": "haul-energy.hostile-out-of-range-tolerance.json",
+      "schema": "haul-energy.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "Douglas-Peucker tolerance <= 0",
+      "rule": "FR-007-45",
+      "pointer": "/routes/0/dp_tolerance_m",
+      "keyword": "exclusiveMinimum"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "non-finite number (NaN/Infinity)",
+      "by": "loader",
+      "rule": "FR-007-03",
+      "note": "loader: pitstudio.contracts.load_json (FR-001-05)"
+    },
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "malformed JSON, BOM, invalid UTF-8, duplicate key, nesting depth, byte cap",
+      "by": "loader",
+      "rule": "FR-007-03",
+      "note": "loader: pitstudio.contracts.load_json (FR-001-05)"
+    },
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "duplicate node, segment, zone or truck id (uniqueness of a field inside array items)",
+      "by": "checker",
+      "rule": "FR-007-03",
+      "note": ""
+    },
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "id that must exist elsewhere in the bundle (segment ends, loaders, dumps, start loader, destination, zone and closure segment ids, junction nodes, blend-floor loaders, classes used by the fleet and the loaders present in equipment)",
+      "by": "checker",
+      "rule": "FR-007-03",
+      "note": ""
+    },
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "disconnected network for a truck class (loader <-> dump unreachable)",
+      "by": "checker",
+      "rule": "FR-007-04",
+      "note": ""
+    },
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "warm-up >= horizon",
+      "by": "checker",
+      "rule": "FR-007-42",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "requested (family, parameter) with no quantile table",
+      "by": "checker",
+      "rule": "FR-007-03",
+      "note": "spec section 7, quantile tables"
+    },
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "quantile knots: decoded digest, 4097 finite non-decreasing values",
+      "by": "checker",
+      "rule": "FR-007-06",
+      "note": "payload digest"
+    },
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "equipment classes or engine constants differ from the engine pin file",
+      "by": "checker",
+      "rule": "FR-007-02",
+      "note": "another file"
+    },
+    {
+      "schema": "haul-scenario.schema.json",
+      "class": "feature outside the twin's set (reference_only block)",
+      "by": "checker",
+      "rule": "FR-007-12",
+      "note": "a valid bundle the twin refuses with UnsupportedFeature"
+    },
+    {
+      "schema": "des-trace.schema.json",
+      "class": "non-finite time or payload",
+      "by": "loader",
+      "rule": "FR-007-42",
+      "note": "loader: pitstudio.contracts.load_json (FR-001-05)"
+    },
+    {
+      "schema": "des-trace.schema.json",
+      "class": "malformed JSON, BOM, invalid UTF-8, duplicate key, nesting depth, byte cap",
+      "by": "loader",
+      "rule": "FR-007-42",
+      "note": "loader: pitstudio.contracts.load_json (FR-001-05)"
+    },
+    {
+      "schema": "des-trace.schema.json",
+      "class": "events not strictly ordered by (t, seq); seq not increasing",
+      "by": "checker",
+      "rule": "FR-007-42",
+      "note": "sort order"
+    },
+    {
+      "schema": "des-trace.schema.json",
+      "class": "cyclelog not stably sorted by (t, truck)",
+      "by": "checker",
+      "rule": "FR-007-09",
+      "note": "sort order"
+    },
+    {
+      "schema": "des-trace.schema.json",
+      "class": "events_executed differs from the number of events",
+      "by": "checker",
+      "rule": "FR-007-09",
+      "note": "totals"
+    },
+    {
+      "schema": "des-trace.schema.json",
+      "class": "warm-up >= horizon",
+      "by": "checker",
+      "rule": "FR-007-42",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "des-trace.schema.json",
+      "class": "bundle_sha256 differs from the bundle; header differs from the bundle's declarations",
+      "by": "checker",
+      "rule": "FR-007-01",
+      "note": "another file"
+    },
+    {
+      "schema": "des-trace.schema.json",
+      "class": "tonnes, cycles or waits differ from the cyclelog",
+      "by": "checker",
+      "rule": "FR-007-10",
+      "note": "totals"
+    },
+    {
+      "schema": "dispatch-eval.schema.json",
+      "class": "non-finite difference or KPI",
+      "by": "loader",
+      "rule": "FR-007-30",
+      "note": "loader: pitstudio.contracts.load_json (FR-001-05); the verdict rule itself maps a non-finite difference to insufficient-evidence"
+    },
+    {
+      "schema": "dispatch-eval.schema.json",
+      "class": "the two arms' seed sets differ; rows missing for a (seed, dispatcher, fleet size)",
+      "by": "checker",
+      "rule": "FR-007-30",
+      "note": ""
+    },
+    {
+      "schema": "dispatch-eval.schema.json",
+      "class": "test seeds not derived by the pre-registered rule, or found in a training/validation set",
+      "by": "checker",
+      "rule": "FR-007-28",
+      "note": "another file"
+    },
+    {
+      "schema": "dispatch-eval.schema.json",
+      "class": "n_pairs, mean, sd, t quantile or CI not reproducible from the per-seed rows",
+      "by": "checker",
+      "rule": "FR-007-29",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "dispatch-policy-io.schema.json",
+      "class": "ONNX file SHA-256 differs from the layout or the manifest",
+      "by": "checker",
+      "rule": "FR-007-44",
+      "note": "payload digest"
+    },
+    {
+      "schema": "dispatch-policy-io.schema.json",
+      "class": "runtime tensors with another shape, dtype or a non-finite feature",
+      "by": "checker",
+      "rule": "FR-007-44",
+      "note": "runtime check of the policy dispatcher, not of this file"
+    },
+    {
+      "schema": "dispatch-policy-io.schema.json",
+      "class": "ONNX graph inputs/outputs differ from the declared layout",
+      "by": "checker",
+      "rule": "FR-007-31",
+      "note": "another file"
+    },
+    {
+      "schema": "dispatch-policy-io.schema.json",
+      "class": "malformed JSON, BOM, invalid UTF-8, duplicate key",
+      "by": "loader",
+      "rule": "FR-007-44",
+      "note": "loader: pitstudio.contracts.load_json (FR-001-05)"
+    },
+    {
+      "schema": "haul-energy.schema.json",
+      "class": "non-finite length, grade, mass or energy",
+      "by": "loader",
+      "rule": "FR-007-45",
+      "note": "loader: pitstudio.contracts.load_json (FR-001-05)"
+    },
+    {
+      "schema": "haul-energy.schema.json",
+      "class": "row route id absent from routes; duplicate (route, drivetrain, leg, payload) rows",
+      "by": "checker",
+      "rule": "FR-007-34",
+      "note": "ids that must exist elsewhere; uniqueness inside array items"
+    },
+    {
+      "schema": "haul-energy.schema.json",
+      "class": "route length differs from the sum of its segment lengths",
+      "by": "checker",
+      "rule": "FR-007-34",
+      "note": "totals"
+    },
+    {
+      "schema": "haul-energy.schema.json",
+      "class": "unverified_rows not a subset of knowledge_rows, or ids absent from the knowledge tables",
+      "by": "checker",
+      "rule": "FR-007-40",
+      "note": "another file"
+    },
+    {
+      "schema": "haul-energy.schema.json",
+      "class": "segment |grade| above the route's grade limit",
+      "by": "checker",
+      "rule": "FR-007-38",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "haul-energy.schema.json",
+      "class": "duplicate or out-of-grid declared cell (network-builder input)",
+      "by": "checker",
+      "rule": "FR-007-45",
+      "note": "not carried in this table"
+    }
+  ]
+}

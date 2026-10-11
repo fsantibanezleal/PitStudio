@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "id": "four-block-example",
+  "synthetic": true,
+  "source": {
+    "kind": "own-grid"
+  },
+  "licence": {
+    "spdx": "CC-BY-4.0",
+    "licence_class": "own"
+  },
+  "grid": {
+    "origin_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "block_size_m": [
+      10.0,
+      10.0,
+      10.0
+    ],
+    "shape": [
+      3,
+      1,
+      2
+    ]
+  },
+  "precedence": {
+    "source": "own"
+  },
+  "value_form": "destination-values",
+  "blocks": [
+    {
+      "id": 0,
+      "ijk": [
+        1,
+        0,
+        0
+      ],
+      "centre_m": [
+        15.0,
+        5.0,
+        5.0
+      ],
+      "tonnage_t": 1000.0,
+      "values_usd": {
+        "mill": 5.0,
+        "waste": -1.0,
+        "smelter": 3.0
+      },
+      "prec": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 1,
+      "ijk": [
+        0,
+        0,
+        1
+      ],
+      "centre_m": [
+        5.0,
+        5.0,
+        15.0
+      ],
+      "tonnage_t": 1000.0,
+      "values_usd": {
+        "mill": -2.0,
+        "waste": -1.0
+      }
+    },
+    {
+      "id": 2,
+      "ijk": [
+        1,
+        0,
+        1
+      ],
+      "centre_m": [
+        15.0,
+        5.0,
+        15.0
+      ],
+      "tonnage_t": 1000.0,
+      "values_usd": {
+        "mill": -2.0,
+        "waste": -1.0
+      }
+    },
+    {
+      "id": 3,
+      "ijk": [
+        2,
+        0,
+        1
+      ],
+      "centre_m": [
+        25.0,
+        5.0,
+        15.0
+      ],
+      "tonnage_t": 1000.0,
+      "values_usd": {
+        "mill": -2.0,
+        "waste": -1.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "kind": "output",
+  "engine": "volume",
+  "engine_version": "0.1.0",
+  "function": "cut_fill",
+  "result": {
+    "fill_m3": 1250000.0,
+    "cut_m3": 8900000.0,
+    "net_m3": -7650000.0,
+    "valid_cells": 249000,
+    "nodata_cells": 1000,
+    "nodata_fraction": 0.004,
+    "bound_uncorrelated_m3": 1400.0,
+    "bound_correlated_m3": 720000.0
+  }
+}

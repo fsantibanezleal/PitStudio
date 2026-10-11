@@ -1,0 +1,1100 @@
+{
+  "schema_version": "1.0",
+  "categories": {
+    "A": {
+      "title": {
+        "en": "Haulage and energy",
+        "es": "Acarreo y energía"
+      }
+    },
+    "B": {
+      "title": {
+        "en": "Safety and autonomy",
+        "es": "Seguridad y autonomía"
+      }
+    },
+    "C": {
+      "title": {
+        "en": "Geotech and environment",
+        "es": "Geotecnia y medio ambiente"
+      }
+    },
+    "D": {
+      "title": {
+        "en": "Drill-blast-to-mill",
+        "es": "De la perforación y tronadura a la planta"
+      }
+    },
+    "E": {
+      "title": {
+        "en": "Planning and survey",
+        "es": "Planificación y topografía"
+      }
+    }
+  },
+  "cases": {
+    "A1": {
+      "category": "A",
+      "title": {
+        "en": "Truck-shovel cycle, dispatch and fleet sizing",
+        "es": "Ciclo camión-pala, despacho y dimensionamiento de flota"
+      },
+      "question": {
+        "en": "How many trucks and which dispatch rule give the most tonnes per hour at the lowest cost per tonne?",
+        "es": "¿Cuántos camiones y qué regla de despacho entregan más toneladas por hora al menor costo por tonelada?"
+      },
+      "kpis": [
+        {
+          "id": "throughput",
+          "name": {
+            "en": "Throughput",
+            "es": "Rendimiento"
+          },
+          "unit": "tph",
+          "orientation": "higher-is-better",
+          "headline": true
+        },
+        {
+          "id": "queue_time",
+          "name": {
+            "en": "Queue time",
+            "es": "Tiempo en cola"
+          },
+          "unit": "min",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "match_factor",
+          "name": {
+            "en": "Match factor",
+            "es": "Factor de acoplamiento"
+          },
+          "unit": "1",
+          "orientation": "target",
+          "headline": false,
+          "target_value": 1.0
+        },
+        {
+          "id": "cost_per_tonne",
+          "name": {
+            "en": "Cost per tonne",
+            "es": "Costo por tonelada"
+          },
+          "unit": "USD/t",
+          "orientation": "lower-is-better",
+          "headline": true
+        }
+      ],
+      "sources": [
+        "usgs-3dep-bingham"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "Calibrated DES cycles",
+            "es": "Ciclos DES calibrados"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5"
+      ],
+      "tools": {
+        "pytorch": "named",
+        "tensorrt": "named",
+        "onnx-runtime": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting",
+        "minehaulsim": "supporting",
+        "minephys": "supporting"
+      },
+      "engines": [
+        "des",
+        "policies",
+        "haulage",
+        "lp"
+      ],
+      "layers": [
+        "terrain-2023",
+        "roads",
+        "fleet"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/a1.yaml",
+      "validity": {
+        "en": "Fleets of up to 40 trucks on the Bingham road network; calibrated synthetic cycle times.",
+        "es": "Flotas de hasta 40 camiones en la red de caminos de Bingham; tiempos de ciclo sintéticos calibrados."
+      }
+    },
+    "A2": {
+      "category": "A",
+      "title": {
+        "en": "Haul-road physics and electrification",
+        "es": "Física de caminos de acarreo y electrificación"
+      },
+      "question": {
+        "en": "How much fuel, energy and CO2e per tonne does each haul profile cost, and what does electrification save?",
+        "es": "¿Cuánto combustible, energía y CO2e por tonelada cuesta cada perfil de acarreo y cuánto ahorra la electrificación?"
+      },
+      "kpis": [
+        {
+          "id": "fuel_per_tkm",
+          "name": {
+            "en": "Fuel per tonne-kilometre",
+            "es": "Combustible por tonelada-kilómetro"
+          },
+          "unit": "L/(t.km)",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "energy_per_tonne",
+          "name": {
+            "en": "Energy per tonne",
+            "es": "Energía por tonelada"
+          },
+          "unit": "kWh/t",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "co2e_per_tonne",
+          "name": {
+            "en": "CO2e per tonne",
+            "es": "CO2e por tonelada"
+          },
+          "unit": "kg/t",
+          "orientation": "lower-is-better",
+          "headline": true
+        }
+      ],
+      "sources": [
+        "usgs-3dep-bingham"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "Isaac Lab haul-truck rollouts",
+            "es": "Episodios de camión de acarreo en Isaac Lab"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M2",
+        "M6",
+        "M21"
+      ],
+      "tools": {
+        "newton": "named",
+        "isaac-lab": "named",
+        "pytorch": "supporting",
+        "onnx-runtime": "supporting",
+        "nvenc-ffmpeg": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting",
+        "minehaulsim": "supporting",
+        "minephys": "supporting"
+      },
+      "engines": [
+        "haulage",
+        "routing",
+        "il1-twin"
+      ],
+      "layers": [
+        "terrain-2023",
+        "roads",
+        "fleet"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/a2.yaml",
+      "validity": {
+        "en": "Grades up to 15 % with a generic haul truck from academic sources.",
+        "es": "Pendientes de hasta 15 % con un camión genérico de fuentes académicas."
+      }
+    },
+    "A3": {
+      "category": "A",
+      "title": {
+        "en": "Loading and payload variance",
+        "es": "Carguío y variabilidad de la carga útil"
+      },
+      "question": {
+        "en": "How do bucket fill and pass count drive payload variance and fuel per tonne?",
+        "es": "¿Cómo determinan el llenado del balde y el número de pasadas la variabilidad de la carga útil y el combustible por tonelada?"
+      },
+      "kpis": [
+        {
+          "id": "payload_cv",
+          "name": {
+            "en": "Payload coefficient of variation",
+            "es": "Coeficiente de variación de la carga útil"
+          },
+          "unit": "%",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "passes_per_truck",
+          "name": {
+            "en": "Passes per truck",
+            "es": "Pasadas por camión"
+          },
+          "unit": "passes/truck",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "fuel_per_tonne",
+          "name": {
+            "en": "Fuel per tonne",
+            "es": "Combustible por tonelada"
+          },
+          "unit": "L/t",
+          "orientation": "lower-is-better",
+          "headline": false
+        }
+      ],
+      "sources": [],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "GPU DEM and MPM rollouts",
+            "es": "Simulaciones DEM y MPM en GPU"
+          },
+          "validation": "unvalidated"
+        },
+        {
+          "label": {
+            "en": "Isaac Lab dig episodes",
+            "es": "Episodios de excavación en Isaac Lab"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M7",
+        "M8",
+        "M9",
+        "M21"
+      ],
+      "tools": {
+        "warp": "named",
+        "newton": "named",
+        "mujoco-warp": "named",
+        "isaac-lab": "named",
+        "pytorch": "supporting",
+        "onnx-runtime": "supporting",
+        "nvenc-ffmpeg": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting",
+        "minephys": "supporting"
+      },
+      "engines": [
+        "il2-twin",
+        "granular",
+        "gns"
+      ],
+      "layers": [
+        "terrain-2023",
+        "fleet",
+        "fields"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/a3.yaml",
+      "validity": {
+        "en": "Granular piles of up to 2x10^4 particles live; literature repose angles as targets.",
+        "es": "Pilas granulares de hasta 2x10^4 partículas en vivo; ángulos de reposo de la literatura como referencia."
+      }
+    },
+    "B1": {
+      "category": "B",
+      "title": {
+        "en": "Autonomous-manned traffic and proximity",
+        "es": "Tráfico autónomo-tripulado y proximidad"
+      },
+      "question": {
+        "en": "How close do autonomous and manned vehicles come to each other, and how often?",
+        "es": "¿Cuán cerca y con qué frecuencia se aproximan los vehículos autónomos y tripulados?"
+      },
+      "kpis": [
+        {
+          "id": "min_ttc",
+          "name": {
+            "en": "Minimum time to collision",
+            "es": "Tiempo mínimo a la colisión"
+          },
+          "unit": "s",
+          "orientation": "higher-is-better",
+          "headline": true
+        },
+        {
+          "id": "near_misses",
+          "name": {
+            "en": "Near-misses per 1,000 h",
+            "es": "Cuasi-accidentes por 1.000 h"
+          },
+          "unit": "1/(1000 h)",
+          "orientation": "lower-is-better",
+          "headline": true
+        }
+      ],
+      "sources": [
+        "usgs-3dep-bingham"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "Agent traffic and RTX lidar and radar",
+            "es": "Tráfico de agentes y lidar y radar RTX"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M2",
+        "M20",
+        "M22",
+        "M23"
+      ],
+      "tools": {
+        "ovrtx": "named",
+        "isaac-sim-replicator": "named",
+        "cosmos-reason-2": "named",
+        "openusd": "supporting",
+        "physx-ovphysx": "supporting",
+        "nvenc-ffmpeg": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting",
+        "minehaulsim": "supporting",
+        "minephys": "supporting"
+      },
+      "engines": [
+        "traffic",
+        "dust-lidar"
+      ],
+      "layers": [
+        "terrain-2023",
+        "roads",
+        "fleet",
+        "sensors"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/b1.yaml",
+      "validity": {
+        "en": "Up to 40 vehicles on the Bingham road geometry; near-miss threshold 3 s.",
+        "es": "Hasta 40 vehículos en la geometría de caminos de Bingham; umbral de cuasi-accidente de 3 s."
+      }
+    },
+    "B2": {
+      "category": "B",
+      "title": {
+        "en": "Synthetic-data perception and crusher oversize",
+        "es": "Percepción con datos sintéticos y sobretamaño en el chancador"
+      },
+      "question": {
+        "en": "Can a detector trained only on synthetic images find people, equipment and oversize rocks?",
+        "es": "¿Puede un detector entrenado solo con imágenes sintéticas encontrar personas, equipos y rocas sobredimensionadas?"
+      },
+      "kpis": [
+        {
+          "id": "map50_synthetic",
+          "name": {
+            "en": "Synthetic held-out mAP50",
+            "es": "mAP50 sintético reservado"
+          },
+          "unit": "1",
+          "orientation": "higher-is-better",
+          "headline": true
+        },
+        {
+          "id": "dr_ablation",
+          "name": {
+            "en": "Domain randomisation ablation",
+            "es": "Ablación de aleatorización de dominio"
+          },
+          "unit": "pp",
+          "orientation": "higher-is-better",
+          "headline": false
+        },
+        {
+          "id": "corruption_drop",
+          "name": {
+            "en": "Corruption drop",
+            "es": "Caída por corrupción"
+          },
+          "unit": "pp",
+          "orientation": "lower-is-better",
+          "headline": true
+        }
+      ],
+      "sources": [
+        "makehuman-exports"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "Replicator and ovrtx images",
+            "es": "Imágenes de Replicator y ovrtx"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M10",
+        "M22",
+        "M23"
+      ],
+      "tools": {
+        "ovrtx": "named",
+        "isaac-sim-replicator": "named",
+        "cosmos-reason-2": "named",
+        "tensorrt": "named",
+        "openusd": "supporting",
+        "pytorch": "supporting",
+        "onnx-runtime": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting"
+      },
+      "engines": [
+        "detector"
+      ],
+      "layers": [
+        "terrain-2023",
+        "sensors"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/b2.yaml",
+      "validity": {
+        "en": "Synthetic held-out images only; real performance is not measured unless the optional real probe is labelled.",
+        "es": "Solo imágenes sintéticas reservadas; el desempeño real no se mide salvo que se etiquete la prueba real opcional."
+      }
+    },
+    "C1": {
+      "category": "C",
+      "title": {
+        "en": "Slope monitoring to time of failure",
+        "es": "Monitoreo de taludes y tiempo de falla"
+      },
+      "question": {
+        "en": "When will a creeping slope fail, and how much warning does each method give?",
+        "es": "¿Cuándo fallará un talud en fluencia y cuánta anticipación entrega cada método?"
+      },
+      "kpis": [
+        {
+          "id": "fos",
+          "name": {
+            "en": "Factor of safety",
+            "es": "Factor de seguridad"
+          },
+          "unit": "1",
+          "orientation": "higher-is-better",
+          "headline": true
+        },
+        {
+          "id": "pof",
+          "name": {
+            "en": "Probability of failure",
+            "es": "Probabilidad de falla"
+          },
+          "unit": "%",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "forecast_error",
+          "name": {
+            "en": "Forecast error",
+            "es": "Error de pronóstico"
+          },
+          "unit": "h",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "lead_time",
+          "name": {
+            "en": "Lead time",
+            "es": "Anticipación"
+          },
+          "unit": "h",
+          "orientation": "higher-is-better",
+          "headline": false
+        }
+      ],
+      "sources": [
+        "dewit-slope-failure",
+        "egms-hambach"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "Voight creep series",
+            "es": "Series de fluencia de Voight"
+          },
+          "validation": "descriptive-only",
+          "reference_source": "dewit-slope-failure"
+        }
+      ],
+      "methods": [
+        "M13",
+        "M14",
+        "M23"
+      ],
+      "tools": {
+        "pytorch": "named",
+        "onnx-runtime": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting",
+        "minephys": "supporting"
+      },
+      "engines": [
+        "geotech",
+        "forecasters"
+      ],
+      "layers": [
+        "terrain-2023",
+        "sensors"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/c1.yaml",
+      "validity": {
+        "en": "Educational slope analysis, not design software; one real failure series, descriptive only.",
+        "es": "Análisis educativo de taludes, no es software de diseño; una sola serie real de falla, solo descriptiva."
+      }
+    },
+    "C2": {
+      "category": "C",
+      "title": {
+        "en": "Tailings breach run-out and pit flooding",
+        "es": "Alcance de una rotura de relaves e inundación del rajo"
+      },
+      "question": {
+        "en": "If a tailings dam breaches, when does the flow arrive, how deep is it and what area floods?",
+        "es": "Si se rompe un tranque de relaves, ¿cuándo llega el flujo, qué profundidad alcanza y qué área se inunda?"
+      },
+      "kpis": [
+        {
+          "id": "arrival_time",
+          "name": {
+            "en": "Arrival time",
+            "es": "Tiempo de llegada"
+          },
+          "unit": "min",
+          "orientation": "higher-is-better",
+          "headline": true
+        },
+        {
+          "id": "max_depth",
+          "name": {
+            "en": "Maximum depth",
+            "es": "Profundidad máxima"
+          },
+          "unit": "m",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "inundated_area",
+          "name": {
+            "en": "Inundated area",
+            "es": "Área inundada"
+          },
+          "unit": "km2",
+          "orientation": "lower-is-better",
+          "headline": true
+        }
+      ],
+      "sources": [
+        "usgs-3dep-bingham"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "GPU shallow-water runs",
+            "es": "Simulaciones de aguas someras en GPU"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M15"
+      ],
+      "tools": {
+        "warp": "named",
+        "kit-usd-composer-explorer": "named",
+        "openusd": "supporting",
+        "pytorch": "supporting",
+        "onnx-runtime": "supporting",
+        "nvenc-ffmpeg": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting"
+      },
+      "engines": [
+        "swe",
+        "fno"
+      ],
+      "layers": [
+        "terrain-2023",
+        "fields"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/c2.yaml",
+      "validity": {
+        "en": "Depth-averaged Bingham flow on up to 256 x 256 cells live; educational, not regulatory.",
+        "es": "Flujo de Bingham promediado en profundidad sobre hasta 256 x 256 celdas en vivo; educativo, no regulatorio."
+      }
+    },
+    "C3": {
+      "category": "C",
+      "title": {
+        "en": "Haul-road and blast dust, water trucks",
+        "es": "Polvo de caminos y tronaduras, camiones aljibe"
+      },
+      "question": {
+        "en": "How much PM10 do haul roads and blasts emit, what reaches the receptors, and how much water does suppression need?",
+        "es": "¿Cuánto PM10 emiten los caminos y las tronaduras, cuánto llega a los receptores y cuánta agua requiere la supresión?"
+      },
+      "kpis": [
+        {
+          "id": "pm10_per_vkt",
+          "name": {
+            "en": "PM10 emission factor",
+            "es": "Factor de emisión de PM10"
+          },
+          "unit": "kg/VKT",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "receptor_concentration",
+          "name": {
+            "en": "Receptor concentration",
+            "es": "Concentración en el receptor"
+          },
+          "unit": "ug/m3",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "water_use",
+          "name": {
+            "en": "Water use",
+            "es": "Consumo de agua"
+          },
+          "unit": "m3/shift",
+          "orientation": "lower-is-better",
+          "headline": false
+        }
+      ],
+      "sources": [
+        "era5",
+        "ghcnh"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "Plume and particle fields",
+            "es": "Campos de pluma y de partículas"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M2",
+        "M16"
+      ],
+      "tools": {
+        "warp": "named",
+        "ovrtx": "named",
+        "openusd": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting",
+        "minehaulsim": "supporting",
+        "minephys": "supporting"
+      },
+      "engines": [
+        "dust-lidar",
+        "plume",
+        "dust-particles"
+      ],
+      "layers": [
+        "terrain-2023",
+        "roads",
+        "fleet",
+        "fields"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/c3.yaml",
+      "validity": {
+        "en": "AP-42 unpaved-road factors inside their validity range; Gaussian plume over flat terrain.",
+        "es": "Factores AP-42 de caminos no pavimentados dentro de su rango de validez; pluma gaussiana sobre terreno plano."
+      }
+    },
+    "D1": {
+      "category": "D",
+      "title": {
+        "en": "Blast design and muck pile",
+        "es": "Diseño de tronadura y pila de material"
+      },
+      "question": {
+        "en": "Which blast design gives the target fragmentation with safe vibration and flyrock?",
+        "es": "¿Qué diseño de tronadura entrega la fragmentación objetivo con vibraciones y proyecciones seguras?"
+      },
+      "kpis": [
+        {
+          "id": "p80",
+          "name": {
+            "en": "P80",
+            "es": "P80"
+          },
+          "unit": "mm",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "oversize",
+          "name": {
+            "en": "Oversize",
+            "es": "Sobretamaño"
+          },
+          "unit": "%",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "ppv",
+          "name": {
+            "en": "Peak particle velocity",
+            "es": "Velocidad peak de partícula"
+          },
+          "unit": "mm/s",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "flyrock_radius",
+          "name": {
+            "en": "Flyrock radius",
+            "es": "Radio de proyección"
+          },
+          "unit": "m",
+          "orientation": "lower-is-better",
+          "headline": false
+        },
+        {
+          "id": "tstr_trtr_iou",
+          "name": {
+            "en": "TSTR/TRTR IoU ratio",
+            "es": "Razón de IoU TSTR/TRTR"
+          },
+          "unit": "1",
+          "orientation": "higher-is-better",
+          "headline": false
+        }
+      ],
+      "sources": [
+        "mendeley-78ht3pjsr4"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "Exact-PSD muck piles",
+            "es": "Pilas de material con granulometría exacta"
+          },
+          "validation": "validated-against-real",
+          "reference_source": "mendeley-78ht3pjsr4"
+        }
+      ],
+      "methods": [
+        "M7",
+        "M11",
+        "M12"
+      ],
+      "tools": {
+        "warp": "named",
+        "isaac-sim-replicator": "named",
+        "tensorrt": "named",
+        "openusd": "supporting",
+        "pytorch": "supporting",
+        "onnx-runtime": "supporting",
+        "nvenc-ffmpeg": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting",
+        "minephys": "supporting"
+      },
+      "engines": [
+        "blasting",
+        "watershed",
+        "unet"
+      ],
+      "layers": [
+        "terrain-2023",
+        "fields"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/d1.yaml",
+      "validity": {
+        "en": "Kuz-Ram and KCO inside published rock and explosive ranges; sim-to-real measured on labelled fragment images.",
+        "es": "Kuz-Ram y KCO dentro de los rangos publicados de roca y explosivo; brecha sim-real medida en imágenes etiquetadas de fragmentos."
+      }
+    },
+    "D2": {
+      "category": "D",
+      "title": {
+        "en": "Mine-to-mill throughput and kWh/t",
+        "es": "Rendimiento mina-planta y kWh/t"
+      },
+      "question": {
+        "en": "How does blast fragmentation change mill throughput, energy and cost per tonne?",
+        "es": "¿Cómo cambia la fragmentación de la tronadura el rendimiento, la energía y el costo por tonelada de la planta?"
+      },
+      "kpis": [
+        {
+          "id": "mill_throughput",
+          "name": {
+            "en": "Mill throughput",
+            "es": "Rendimiento de la planta"
+          },
+          "unit": "t/h",
+          "orientation": "higher-is-better",
+          "headline": true
+        },
+        {
+          "id": "specific_energy",
+          "name": {
+            "en": "Specific energy",
+            "es": "Energía específica"
+          },
+          "unit": "kWh/t",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "cost_per_tonne",
+          "name": {
+            "en": "Cost per tonne",
+            "es": "Costo por tonelada"
+          },
+          "unit": "USD/t",
+          "orientation": "lower-is-better",
+          "headline": true
+        }
+      ],
+      "sources": [],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "minephys comminution sweeps",
+            "es": "Barridos de conminución de minephys"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M12",
+        "M17"
+      ],
+      "tools": {
+        "pytorch": "named",
+        "onnx-runtime": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting",
+        "minephys": "supporting"
+      },
+      "engines": [
+        "comminution",
+        "meta-model"
+      ],
+      "layers": [
+        "terrain-2023"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/d2.yaml",
+      "validity": {
+        "en": "Bond and Morrell circuit with cited parameters; synthetic sweeps only.",
+        "es": "Circuito Bond y Morrell con parámetros citados; solo barridos sintéticos."
+      }
+    },
+    "E1": {
+      "category": "E",
+      "title": {
+        "en": "Pit shell and pushbacks to life-of-mine haul distance",
+        "es": "Envolvente del rajo y fases hasta la distancia de acarreo de la vida de la mina"
+      },
+      "question": {
+        "en": "Which ultimate pit and pushback sequence give the highest NPV, and what haul distance and lift do they imply?",
+        "es": "¿Qué rajo final y secuencia de fases dan el mayor VAN, y qué distancia de acarreo y elevación implican?"
+      },
+      "kpis": [
+        {
+          "id": "npv",
+          "name": {
+            "en": "Net present value",
+            "es": "Valor actual neto"
+          },
+          "unit": "USD",
+          "orientation": "higher-is-better",
+          "headline": true
+        },
+        {
+          "id": "strip_ratio",
+          "name": {
+            "en": "Strip ratio",
+            "es": "Razón estéril-mineral"
+          },
+          "unit": "1",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "haul_distance",
+          "name": {
+            "en": "Haul distance per period",
+            "es": "Distancia de acarreo por período"
+          },
+          "unit": "km",
+          "orientation": "lower-is-better",
+          "headline": false
+        },
+        {
+          "id": "lift",
+          "name": {
+            "en": "Lift per period",
+            "es": "Elevación por período"
+          },
+          "unit": "m",
+          "orientation": "lower-is-better",
+          "headline": false
+        }
+      ],
+      "sources": [
+        "minelib-marvin"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "oreblocks deposits",
+            "es": "Yacimientos de oreblocks"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M6",
+        "M18"
+      ],
+      "tools": {
+        "kit-usd-composer-explorer": "named",
+        "openusd": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting",
+        "rapier-webgpu-pyodide": "supporting",
+        "oreblocks": "supporting",
+        "minephys": "supporting"
+      },
+      "engines": [
+        "routing",
+        "mincut"
+      ],
+      "layers": [
+        "terrain-2023",
+        "roads",
+        "pit-shells"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/e1.yaml",
+      "validity": {
+        "en": "Block models of up to 10^5 blocks live; synthetic deposits with stamped exact optima.",
+        "es": "Modelos de bloques de hasta 10^5 bloques en vivo; yacimientos sintéticos con óptimos exactos conocidos."
+      }
+    },
+    "E2": {
+      "category": "E",
+      "title": {
+        "en": "Survey to volumetric reconciliation",
+        "es": "Topografía y conciliación volumétrica"
+      },
+      "question": {
+        "en": "How accurately can a drone survey measure the volume excavated between two epochs?",
+        "es": "¿Con qué exactitud puede un levantamiento con dron medir el volumen excavado entre dos épocas?"
+      },
+      "kpis": [
+        {
+          "id": "volume_error",
+          "name": {
+            "en": "Volume error",
+            "es": "Error de volumen"
+          },
+          "unit": "%",
+          "orientation": "lower-is-better",
+          "headline": true
+        },
+        {
+          "id": "excavated_volume",
+          "name": {
+            "en": "Real excavated volume",
+            "es": "Volumen real excavado"
+          },
+          "unit": "m3",
+          "orientation": "neutral",
+          "headline": true
+        }
+      ],
+      "sources": [
+        "usgs-3dep-bingham"
+      ],
+      "synthetic_data": [
+        {
+          "label": {
+            "en": "RTX drone flight over a known-volume scene",
+            "es": "Vuelo de dron RTX sobre una escena de volumen conocido"
+          },
+          "validation": "unvalidated"
+        }
+      ],
+      "methods": [
+        "M19",
+        "M23"
+      ],
+      "tools": {
+        "ovrtx": "named",
+        "colmap": "named",
+        "brush": "named",
+        "openusd": "supporting",
+        "nvenc-ffmpeg": "supporting",
+        "nsight-nvml": "supporting",
+        "threejs-r3f-3d-tiles": "supporting"
+      },
+      "engines": [
+        "volume"
+      ],
+      "layers": [
+        "terrain-2018",
+        "terrain-2023",
+        "sensors"
+      ],
+      "clock_fps": 10,
+      "recipe": "studio/recipes/cases/e2.yaml",
+      "validity": {
+        "en": "Bingham 1 m DEMs of 2018 and 2023; a drone scene with a known volume.",
+        "es": "DEM de 1 m de Bingham de 2018 y 2023; una escena de dron con volumen conocido."
+      }
+    }
+  }
+}

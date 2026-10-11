@@ -1,0 +1,17 @@
+{
+  "kind": "input",
+  "engine": "traffic",
+  "engine_version": "0.1.0",
+  "function": "ttc",
+  "args": {
+    "relative_position_m": [
+      100.0,
+      0.0
+    ],
+    "relative_velocity_m_per_s": [
+      -15.0,
+      0.0
+    ],
+    "radius_m": 4.0
+  }
+}

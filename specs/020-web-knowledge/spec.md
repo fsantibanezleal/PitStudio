@@ -197,10 +197,10 @@ fast-check with 200 examples per property in CI and 2,000 at release (`property_
 ## 6. Data contracts
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-020-01 | Method registry `studio/methods.yaml`: id M1–M23, names EN/ES, tiers, implementation, SPDX licence, lane, learned flag, cases, baseline, metric with unit and orientation, pairing unit, n, pre-registered acceptance criterion (copied from the owning model spec), docs page | `contracts/methods.schema.json` (new) | maintainer → `/methods`, `/results`, CI cross-checks |
-| DC-020-02 | Results bundle `web/public/results/<comparison-id>.json`: case, challenger, baseline, metric, unit, orientation, pairing unit, n, interval lo/hi and method, p-value for McNemar, stored verdict, criterion status, run ids; for acceleration rows the backend, precision, timings, energy, parity and conditions | `contracts/results.schema.json` (new) | `s50_evaluate`, `s64_bench` (spec 016), Cosmos evaluation (spec 015), via `studio publish` → `/results`, case Charts tabs (018), CI verdict check |
-| DC-020-03 | Knowledge bundle `web/public/knowledge/bundle.json` and generated `docs/knowledge/*.md` | `contracts/knowledge-bundle.schema.json` (new) | `tools/build_knowledge.py` (root environment, pinned `minephys`) → `/knowledge`, theory symbol tables, equation explorer, CI drift check |
-| DC-020-04 | Figure registry `web/src/theory/figures.yaml`: figure id, topic, engine, controls with ranges and units, marked features, colour map, `justification3d` | `contracts/figures.schema.json` (new) | maintainer → figure components, CI rubric checks (FR-020-09, FR-020-10, FR-020-16) |
+| DC-020-01 | Method registry `studio/methods.yaml`: id M1–M23, names EN/ES, tiers, implementation, SPDX licence, lane, learned flag, cases, baseline, metric with unit and orientation, pairing unit, n, pre-registered acceptance criterion (copied from the owning model spec), docs page | `specs/020-web-knowledge/contracts/methods.schema.json` (draft; promoted to `contracts/methods.schema.json` by T-020-001) | maintainer → `/methods`, `/results`, CI cross-checks |
+| DC-020-02 | Results bundle `web/public/results/<comparison-id>.json`: case, challenger, baseline, metric, unit, orientation, pairing unit, n, interval lo/hi and method, p-value for McNemar, stored verdict, criterion status, run ids; for acceleration rows the backend, precision, timings, energy, parity and conditions | `specs/020-web-knowledge/contracts/results.schema.json` (draft; promoted to `contracts/results.schema.json` by T-020-002) | `s50_evaluate`, `s64_bench` (spec 016), Cosmos evaluation (spec 015), via `studio publish` → `/results`, case Charts tabs (018), CI verdict check |
+| DC-020-03 | Knowledge bundle `web/public/knowledge/bundle.json` and generated `docs/knowledge/*.md` | `specs/020-web-knowledge/contracts/knowledge-bundle.schema.json` (draft; promoted to `contracts/knowledge-bundle.schema.json` by T-020-004) | `tools/build_knowledge.py` (root environment, pinned `minephys`) → `/knowledge`, theory symbol tables, equation explorer, CI drift check |
+| DC-020-04 | Figure registry `web/src/theory/figures.yaml`: figure id, topic, engine, controls with ranges and units, marked features, colour map, `justification3d` | `specs/020-web-knowledge/contracts/figures.schema.json` (draft; promoted to `contracts/figures.schema.json` by T-020-003) | maintainer → figure components, CI rubric checks (FR-020-09, FR-020-10, FR-020-16) |
 
 Consumed, defined elsewhere: the case registry (DC-018-01), the parity report (DC-018-05), the lane measurements
 (DC-018-06), the web manifest (DC-000-01), the tool registry (DC-000-04) and the data registry (DC-000-05).
@@ -236,8 +236,9 @@ UNVERIFIED badge next to the control. Tests use hand-chosen inputs, so no oracle
   is exempt and listed in DC-020-04.
 - Budgets use the class ids of spec 001's manifest field `budget_class` and the caps of spec 016 (Table B: `videos` 150,
   `tiles-glb` 95, `shards-clouds` 60, `splats` 25, `onnx` 80, `runtimes` 55, `own-code` 10, `studio-showcase` 25;
-  total 500 MB), which equal `docs/web/budgets.md`. `thresholds.yaml` has no `budgets` section yet although NFR-000-04
-  refers to it; its `budgets.*` keys and `budgets.first_view_mb_max: 2` are proposed keys, pending maintainer approval. Spec 016 checks the budgets at export
+  total 500 MB), which equal `docs/web/budgets.md`; the caps are the `budgets.*` keys of `thresholds.yaml` (first view
+  `budgets.first_view_mb_max`), and the initial-JS and site-total caps stay `web.initial_js_gzip_kb_max` and
+  `web.site_total_mb_max`. Spec 016 checks the budgets at export
   (FR-016-17); NFR-020-03 checks the built Pages artifact, the last point before deploy.
 - The pre-registered acceptance criteria are owned as SC rows by the model specs (007, 009, 010, 011, 012, 014, 015,
   016); this spec displays them from DC-020-01 and never redefines them.
@@ -265,6 +266,26 @@ UNVERIFIED badge next to the control. Tests use hand-chosen inputs, so no oracle
 - Integration 2026-10-07: budget-class ids follow spec 001's manifest field `budget_class` (`tiles-glb`,
   `shards-clouds`, `own-code`, `studio-showcase`); the `budgets.*` threshold keys this spec relies on are proposed keys,
   pending maintainer approval (the first-view key is proposed as `budgets.first_view_mb_max`, not `web.first_view_mb_max`).
+- Integration 2026-10-07: draft schema written for DC-020-01 … DC-020-04 (`specs/020-web-knowledge/contracts/`,
+  valid and hostile examples indexed in `examples/index.json`); resolved, stricter reading chosen: method ids are
+  `M1`…`M23` (docs pages keep `m01`…`m23`), exactly 23 entries; every visitor-facing registry text is an EN/ES pair;
+  `tiers` (1–3 of `classical`, `sota`, `beyond-sota`, `frontier`), `lanes` (1–3 of `live`, `precompute`, `replay`,
+  since the ladder lists combined lanes) and `spdx` (1–4 ids, since implementations mix licences) are arrays; a
+  learned method requires its comparison design and its criterion with the owning SC id and spec; a results file is
+  `kind: comparison` or `kind: acceleration`; an interval is of challenger − baseline in the metric's unit at level
+  0.95, and the schema checks the stored verdict against the oriented interval (touching 0 ⇒ "no significant
+  difference"), McNemar p ≥ 0.05 ⇒ no difference, a bootstrap interval records its resamples, and n = 1 rows are
+  `single-event`; single-system values (per-type accuracy, sim-to-real ratios, Q8_0 agreement) are `estimate` rows
+  with an optional threshold; acceleration backends are `pytorch`, `ort-cpu`, `ort-cuda`, `ort-tensorrt`, `tensorrt`
+  (no TensorRT for RTX), latency is p50 and p95 as FR-020-28 states, a TensorRT row needs the licence SHA-256, and a
+  non-accepted cell needs its reason; the knowledge bundle keeps https URLs only, gives every row its SI value,
+  requires `verified_on` exactly for verified rows and a DOI or URL per bibliography entry, with caps of 10⁴
+  parameters, 2,000 equations and 5,000 glossary and bibliography entries; a figure's `plot` is `xy`, `field`,
+  `section` or `3d` (3d ⇔ `justification3d`; a field needs a colour map) and registered photographs are entries of
+  `kind: photo` with EN/ES alt text.
+- Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys. Initial JS and site total use the existing `web.*` keys (one key per
+  rule).
+- Integration 2026-10-07 (2): spec 016 now reports latency p95 (FR-016-26), the source of the p95 that FR-020-28 shows.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

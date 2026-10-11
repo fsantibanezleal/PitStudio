@@ -1,0 +1,3627 @@
+{
+  "spec": "018-web-cases",
+  "examples": [
+    {
+      "file": "engines/des.valid.json",
+      "schema": "engines/des.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one shift with the sptf dispatcher"
+    },
+    {
+      "file": "engines/des.valid-ppo.json",
+      "schema": "engines/des.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "learned dispatcher with its policy asset"
+    },
+    {
+      "file": "engines/des.valid-output.json",
+      "schema": "engines/des.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "shift KPIs and trace buffer"
+    },
+    {
+      "file": "engines/des.hostile-out-of-range.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-007-13",
+      "pointer": "/args/seed",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/des.hostile-unknown-enum.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-007-03",
+      "pointer": "/args/dispatcher",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/des.hostile-conditional-policy.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "conditional rule: learned dispatcher without policy",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/des.hostile-oversized.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized policy",
+      "rule": "FR-018-40",
+      "pointer": "/args/policy/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/des.hostile-malformed-digest.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "malformed digest",
+      "rule": "FR-018-43",
+      "pointer": "/args/bundle/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/des.hostile-output-out-of-range.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "DC-018-02",
+      "pointer": "/result/kpis/loader_utilisation",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/des.hostile-output-conditional-cost.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "conditional rule: computed cost without value",
+      "rule": "FR-007-08",
+      "pointer": "/result/kpis",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/des.hostile-unknown-field.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/des.hostile-unknown-function.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/des.hostile-malformed-version.json",
+      "schema": "engines/des.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/policies.valid.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one decision with 6 trucks and 2 loaders"
+    },
+    {
+      "file": "engines/policies.valid-output.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "logits and the chosen target"
+    },
+    {
+      "file": "engines/policies.hostile-wrong-shape.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-007-44",
+      "pointer": "/args/truck_features",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/policies.hostile-wrong-type.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong dtype",
+      "rule": "FR-007-44",
+      "pointer": "/args/truck_mask/0",
+      "keyword": "type"
+    },
+    {
+      "file": "engines/policies.hostile-oversized.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized model",
+      "rule": "FR-018-40",
+      "pointer": "/args/model/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/policies.hostile-output-out-of-range.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-007-31",
+      "pointer": "/result/target",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/policies.hostile-output-conditional-target.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "conditional rule: dispatched without target",
+      "rule": "FR-007-31",
+      "pointer": "/result",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/policies.hostile-unknown-field.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/policies.hostile-unknown-function.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/policies.hostile-malformed-version.json",
+      "schema": "engines/policies.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/haulage.valid.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "match factor of 12 trucks on 2 loaders"
+    },
+    {
+      "file": "engines/haulage.valid-output.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "match factor result"
+    },
+    {
+      "file": "engines/haulage.valid-route-energy.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "loaded diesel leg on two segments"
+    },
+    {
+      "file": "engines/haulage.valid-output-route-energy.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "diesel route energy result"
+    },
+    {
+      "file": "engines/haulage.valid-mmc.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "open M/M/c queue"
+    },
+    {
+      "file": "engines/haulage.hostile-oversized.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized fleet",
+      "rule": "FR-007-16",
+      "pointer": "/args/trucks",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/haulage.hostile-out-of-range.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-007-16",
+      "pointer": "/args/load_time_s",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "engines/haulage.hostile-wrong-type.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong dtype",
+      "rule": "FR-007-16",
+      "pointer": "/args/loaders",
+      "keyword": "type"
+    },
+    {
+      "file": "engines/haulage.hostile-wrong-unit.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (percent in a fraction field)",
+      "rule": "FR-007-45",
+      "pointer": "/args/segments/0/grade",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/haulage.hostile-unknown-enum.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-007-45",
+      "pointer": "/args/drivetrain",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/haulage.hostile-empty.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-018-39",
+      "pointer": "/args/segments",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/haulage.hostile-output-conditional-fuel.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "conditional rule: diesel without fuel",
+      "rule": "FR-007-34",
+      "pointer": "/result",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/haulage.hostile-unknown-field.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/haulage.hostile-unknown-function.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/haulage.hostile-malformed-version.json",
+      "schema": "engines/haulage.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/lp.valid.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "two paths, two loaders, one dump"
+    },
+    {
+      "file": "engines/lp.valid-output.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "optimal solution"
+    },
+    {
+      "file": "engines/lp.hostile-oversized.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/paths",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "engines/lp.hostile-out-of-range.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-007-21",
+      "pointer": "/args/paths/0/round_trip_s",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "engines/lp.hostile-negative-capacity.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-007-21",
+      "pointer": "/args/loader_capacity_per_s/1",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/lp.hostile-empty.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-007-21",
+      "pointer": "/args/paths",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/lp.hostile-output-conditional-optimal.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "conditional rule: optimal without flows",
+      "rule": "FR-007-19",
+      "pointer": "/result",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/lp.hostile-unknown-field.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/lp.hostile-unknown-function.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/lp.hostile-malformed-version.json",
+      "schema": "engines/lp.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/routing.valid.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "route on a 512 x 512 tile"
+    },
+    {
+      "file": "engines/routing.valid-output.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "route result"
+    },
+    {
+      "file": "engines/routing.hostile-oversized.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized grid",
+      "rule": "FR-007-36",
+      "pointer": "/args/rows",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/routing.hostile-out-of-range.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-007-36",
+      "pointer": "/args/grade_max",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/routing.hostile-wrong-unit.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (percent in a fraction field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/rolling_resistance",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/routing.hostile-wrong-shape.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-007-36",
+      "pointer": "/args/start",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/routing.hostile-output-conditional-route.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "conditional rule: route without cells",
+      "rule": "FR-007-35",
+      "pointer": "/result",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/routing.hostile-unknown-field.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/routing.hostile-unknown-function.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/routing.hostile-malformed-version.json",
+      "schema": "engines/routing.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/dust-lidar.valid.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "level 12 on a 120,000-return frame"
+    },
+    {
+      "file": "engines/dust-lidar.valid-output.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "filtered frame"
+    },
+    {
+      "file": "engines/dust-lidar.hostile-out-of-range.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-013-39",
+      "pointer": "/args/level",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/dust-lidar.hostile-oversized.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized frame",
+      "rule": "FR-013-39",
+      "pointer": "/args/returns",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/dust-lidar.hostile-oversized-asset.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized asset",
+      "rule": "FR-018-40",
+      "pointer": "/args/frame/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/dust-lidar.hostile-output-wrong-shape.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-018-39",
+      "pointer": "/result/positions_m/shape/components",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/dust-lidar.hostile-output-wrong-dtype.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "wrong dtype",
+      "rule": "FR-018-39",
+      "pointer": "/result/intensity/dtype",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/dust-lidar.hostile-unknown-field.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/dust-lidar.hostile-unknown-function.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/dust-lidar.hostile-malformed-version.json",
+      "schema": "engines/dust-lidar.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/il1-twin.valid.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "600-step rollout"
+    },
+    {
+      "file": "engines/il1-twin.valid-output.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "rollout result"
+    },
+    {
+      "file": "engines/il1-twin.hostile-out-of-range.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-014-44",
+      "pointer": "/args/payload_fraction",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/il1-twin.hostile-wrong-unit.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (km/h in a m/s field)",
+      "rule": "FR-014-44",
+      "pointer": "/args/light_vehicle_speed_m_per_s",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/il1-twin.hostile-oversized.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized rollout",
+      "rule": "FR-018-40",
+      "pointer": "/args/steps",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/il1-twin.hostile-oversized-policy.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized model",
+      "rule": "FR-018-40",
+      "pointer": "/args/policy/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/il1-twin.hostile-output-wrong-shape.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-014-42",
+      "pointer": "/result/states/shape/variables",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/il1-twin.hostile-unknown-field.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/il1-twin.hostile-unknown-function.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/il1-twin.hostile-malformed-version.json",
+      "schema": "engines/il1-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/il2-twin.valid.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "600-step dig"
+    },
+    {
+      "file": "engines/il2-twin.valid-output.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "dig result"
+    },
+    {
+      "file": "engines/il2-twin.hostile-out-of-range.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-014-44",
+      "pointer": "/args/cohesion_pa",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/il2-twin.hostile-wrong-unit.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (degrees in a radian field)",
+      "rule": "FR-014-44",
+      "pointer": "/args/friction_angle_rad",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/il2-twin.hostile-oversized.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized rollout",
+      "rule": "FR-018-40",
+      "pointer": "/args/steps",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/il2-twin.hostile-output-out-of-range.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-014-18",
+      "pointer": "/result/metrics/fill_factor",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/il2-twin.hostile-output-wrong-shape.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-014-42",
+      "pointer": "/result/actions/shape/components",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/il2-twin.hostile-unknown-field.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/il2-twin.hostile-unknown-function.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/il2-twin.hostile-malformed-version.json",
+      "schema": "engines/il2-twin.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/traffic.valid.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "truck and light vehicle 100 m apart (docs M20)"
+    },
+    {
+      "file": "engines/traffic.valid-output.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "simulation result"
+    },
+    {
+      "file": "engines/traffic.valid-ttc.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "TTC worked example of docs M20"
+    },
+    {
+      "file": "engines/traffic.valid-output-ttc.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "TTC = 6.4 s"
+    },
+    {
+      "file": "engines/traffic.hostile-oversized.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/vehicles",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "engines/traffic.hostile-unknown-enum.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/vehicles/0/vehicle_class",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/traffic.hostile-wrong-unit.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (km/h in a m/s field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/vehicles/0/speed_m_per_s",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/traffic.hostile-wrong-shape.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-018-39",
+      "pointer": "/args/vehicles/0/position_m",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "engines/traffic.hostile-wrong-step.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-54",
+      "pointer": "/args/step_s",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/traffic.hostile-output-conditional-ttc.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "conditional rule: closing without TTC",
+      "rule": "FR-018-55",
+      "pointer": "/result",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/traffic.hostile-unknown-field.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/traffic.hostile-unknown-function.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/traffic.hostile-malformed-version.json",
+      "schema": "engines/traffic.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/granular.valid.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "poured-cone pile of 2 x 10^4 particles"
+    },
+    {
+      "file": "engines/granular.valid-output.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "pile observables"
+    },
+    {
+      "file": "engines/granular.valid-dem-step.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one kernel step"
+    },
+    {
+      "file": "engines/granular.valid-output-dem-step.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "kernel outputs"
+    },
+    {
+      "file": "engines/granular.valid-mpm.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "column collapse"
+    },
+    {
+      "file": "engines/granular.hostile-oversized.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/particle_count",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/granular.hostile-out-of-range.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-005-51",
+      "pointer": "/args/poisson_ratio",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "engines/granular.hostile-unknown-enum.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-005-12",
+      "pointer": "/args/method",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/granular.hostile-wrong-unit.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (degrees in a radian field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/friction_angle_rad",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/granular.hostile-wrong-shape.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-018-39",
+      "pointer": "/args/positions_m/shape/components",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/granular.hostile-output-out-of-range.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-56",
+      "pointer": "/result/mass_drift_fraction",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/granular.hostile-unknown-field.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/granular.hostile-unknown-function.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/granular.hostile-malformed-version.json",
+      "schema": "engines/granular.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/swe.valid.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "breach on a 64 x 64 patch"
+    },
+    {
+      "file": "engines/swe.valid-output.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "inundation maps"
+    },
+    {
+      "file": "engines/swe.valid-step.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one kernel step"
+    },
+    {
+      "file": "engines/swe.hostile-oversized.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized grid",
+      "rule": "FR-018-40",
+      "pointer": "/args/rows",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/swe.hostile-out-of-range.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-005-32",
+      "pointer": "/args/cfl",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/swe.hostile-negative-stress.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-005-32",
+      "pointer": "/args/yield_stress_pa",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/swe.hostile-unknown-enum.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/boundary",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/swe.hostile-wrong-shape.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong dtype",
+      "rule": "FR-005-32",
+      "pointer": "/args/depth_m/dtype",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/swe.hostile-output-out-of-range.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-005-30",
+      "pointer": "/result/inundated_area_m2",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/swe.hostile-unknown-field.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/swe.hostile-unknown-function.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/swe.hostile-malformed-version.json",
+      "schema": "engines/swe.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/dust-particles.valid.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "10,000 particles for 10 min"
+    },
+    {
+      "file": "engines/dust-particles.valid-output.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "particle budget"
+    },
+    {
+      "file": "engines/dust-particles.hostile-oversized.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/particle_count",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/dust-particles.hostile-wrong-unit.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (micrometres in a metre field)",
+      "rule": "FR-005-39",
+      "pointer": "/args/radius_m",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/dust-particles.hostile-out-of-range.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-005-39",
+      "pointer": "/args/diffusivity_m2_per_s",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/dust-particles.hostile-unknown-enum.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/ground",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/dust-particles.hostile-wrong-shape.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-005-39",
+      "pointer": "/args/wind_m_per_s",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/dust-particles.hostile-output-out-of-range.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "P-018-67",
+      "pointer": "/result/airborne",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/dust-particles.hostile-unknown-field.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/dust-particles.hostile-unknown-function.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/dust-particles.hostile-malformed-version.json",
+      "schema": "engines/dust-particles.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/gns.valid.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "2,000-particle step"
+    },
+    {
+      "file": "engines/gns.valid-output.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "step result"
+    },
+    {
+      "file": "engines/gns.hostile-oversized.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/positions_m/shape/particles",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/gns.hostile-wrong-shape.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-011-15",
+      "pointer": "/args/velocity_history_m_per_s/shape/history",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/gns.hostile-unknown-enum.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/precision",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/gns.hostile-oversized-model.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized model",
+      "rule": "FR-018-40",
+      "pointer": "/args/model/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/gns.hostile-empty-bounds.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-011-15",
+      "pointer": "/args/bounds_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/gns.hostile-output-out-of-range.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-011-13",
+      "pointer": "/result/overflow_count",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/gns.hostile-unknown-field.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/gns.hostile-unknown-function.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/gns.hostile-malformed-version.json",
+      "schema": "engines/gns.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/fno.valid.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "tailings what-if"
+    },
+    {
+      "file": "engines/fno.valid-output.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "depth fields"
+    },
+    {
+      "file": "engines/fno.valid-dust.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "dust what-if"
+    },
+    {
+      "file": "engines/fno.hostile-out-of-range.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-39",
+      "pointer": "/args/breach_cell/row",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/fno.hostile-out-of-range-stress.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-39",
+      "pointer": "/args/yield_stress_pa",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/fno.hostile-wrong-unit.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (degrees in a radian field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/wind_direction_rad",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/fno.hostile-unknown-enum.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/precision",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/fno.hostile-oversized-model.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized model",
+      "rule": "FR-018-40",
+      "pointer": "/args/model/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/fno.hostile-output-wrong-shape.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-011-40",
+      "pointer": "/result/depth_m/shape/frames",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/fno.hostile-unknown-field.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/fno.hostile-unknown-function.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/fno.hostile-malformed-version.json",
+      "schema": "engines/fno.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/detector.valid.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one 640 x 640 frame"
+    },
+    {
+      "file": "engines/detector.valid-output.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "two detections shown"
+    },
+    {
+      "file": "engines/detector.hostile-wrong-shape.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-018-58",
+      "pointer": "/args/frame/shape/rows",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/detector.hostile-out-of-range.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "P-018-27",
+      "pointer": "/args/score_threshold",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/detector.hostile-unknown-enum.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-009-37",
+      "pointer": "/args/variant",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/detector.hostile-oversized.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized model",
+      "rule": "FR-018-40",
+      "pointer": "/args/model/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/detector.hostile-output-unknown-enum.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-009-01",
+      "pointer": "/result/detections/0/label",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/detector.hostile-output-out-of-range.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-58",
+      "pointer": "/result/detections/1/box_xyxy_px/2",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/detector.hostile-unknown-field.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/detector.hostile-unknown-function.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/detector.hostile-malformed-version.json",
+      "schema": "engines/detector.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/unet.valid.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one 512 x 512 tile"
+    },
+    {
+      "file": "engines/unet.valid-output.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "class map and instances"
+    },
+    {
+      "file": "engines/unet.hostile-wrong-shape.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-012-23",
+      "pointer": "/args/tile/shape/channels",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/unet.hostile-oversized.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/tile/shape/rows",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/unet.hostile-oversized-model.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized model",
+      "rule": "FR-018-40",
+      "pointer": "/args/model/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/unet.hostile-missing-required.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "missing required",
+      "rule": "FR-012-23",
+      "pointer": "/args",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/unet.hostile-output-wrong-dtype.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "wrong dtype",
+      "rule": "FR-018-39",
+      "pointer": "/result/class_map/dtype",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/unet.hostile-unknown-field.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/unet.hostile-unknown-function.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/unet.hostile-malformed-version.json",
+      "schema": "engines/unet.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/forecasters.valid.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "TCN on a 128-value context"
+    },
+    {
+      "file": "engines/forecasters.valid-output.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "quantile paths and read-out"
+    },
+    {
+      "file": "engines/forecasters.hostile-wrong-shape.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-010-29",
+      "pointer": "/args/context_s_per_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/forecasters.hostile-unknown-enum.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/architecture",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/forecasters.hostile-conditional-mask.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "conditional rule: TCN without mask",
+      "rule": "FR-010-21",
+      "pointer": "/args",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/forecasters.hostile-oversized.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized model (TCN < 4 MB)",
+      "rule": "NFR-010-04",
+      "pointer": "/args/model/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/forecasters.hostile-out-of-range.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-010-29",
+      "pointer": "/args/context_s_per_m/0",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/forecasters.hostile-output-conditional-time.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "conditional rule: failure predicted without time",
+      "rule": "FR-010-22",
+      "pointer": "/result",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/forecasters.hostile-unknown-field.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/forecasters.hostile-unknown-function.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/forecasters.hostile-malformed-version.json",
+      "schema": "engines/forecasters.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/meta-model.valid.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one design row"
+    },
+    {
+      "file": "engines/meta-model.valid-output.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one answer"
+    },
+    {
+      "file": "engines/meta-model.hostile-oversized.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized model",
+      "rule": "FR-018-40",
+      "pointer": "/args/model/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/meta-model.hostile-empty.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-017-11",
+      "pointer": "/args/rows",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/meta-model.hostile-out-of-range.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-39",
+      "pointer": "/args/rows/0/rock_factor",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/meta-model.hostile-wrong-unit.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (millimetres in a metre field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/rows/0/hole_diameter_m",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/meta-model.hostile-wrong-shape.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape (row width)",
+      "rule": "FR-017-11",
+      "pointer": "/args/rows/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/meta-model.hostile-output-out-of-range.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "DC-018-02",
+      "pointer": "/result/rows/0/specific_energy_j_per_kg",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/meta-model.hostile-unknown-field.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/meta-model.hostile-unknown-function.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/meta-model.hostile-malformed-version.json",
+      "schema": "engines/meta-model.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/geotech.valid.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Bishop on a 3-slice surface"
+    },
+    {
+      "file": "engines/geotech.valid-output.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Bishop result"
+    },
+    {
+      "file": "engines/geotech.valid-pof.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "PoF over one critical surface with truncated normals"
+    },
+    {
+      "file": "engines/geotech.valid-output-pof.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "PoF result"
+    },
+    {
+      "file": "engines/geotech.valid-inverse-velocity.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "3-point accelerating record"
+    },
+    {
+      "file": "engines/geotech.valid-output-inverse-velocity.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "inverse-velocity fit"
+    },
+    {
+      "file": "engines/geotech.valid-los.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "line of sight on 4,096 pixels"
+    },
+    {
+      "file": "engines/geotech.hostile-oversized.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/slices",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "engines/geotech.hostile-out-of-range.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-39",
+      "pointer": "/args/slices/1/base_angle_rad",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "engines/geotech.hostile-wrong-unit.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (degrees in a radian field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/friction_angle_rad",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/geotech.hostile-empty.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-018-39",
+      "pointer": "/args/slices",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/geotech.hostile-oversized-samples.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/n_samples",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/geotech.hostile-unknown-enum.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-010-08",
+      "pointer": "/args/cohesion_pa/distribution",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/geotech.hostile-conditional-distribution.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "conditional rule: normal without sd",
+      "rule": "FR-010-08",
+      "pointer": "/args/cohesion_pa",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/geotech.hostile-wrong-shape.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-018-39",
+      "pointer": "/args/radar_position_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/geotech.hostile-output-out-of-range.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "DC-018-02",
+      "pointer": "/result/pof",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/geotech.hostile-output-conditional-time.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "conditional rule: accelerating without failure time",
+      "rule": "FR-018-51",
+      "pointer": "/result",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/geotech.hostile-unknown-field.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/geotech.hostile-unknown-function.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/geotech.hostile-malformed-version.json",
+      "schema": "engines/geotech.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/plume.valid.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "PM10 factor, 8.3 % silt, 200 t"
+    },
+    {
+      "file": "engines/plume.valid-output.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "emission factor"
+    },
+    {
+      "file": "engines/plume.valid-grid.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "64 x 64 receptor grid"
+    },
+    {
+      "file": "engines/plume.valid-output-grid.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "grid result"
+    },
+    {
+      "file": "engines/plume.hostile-out-of-range.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-39",
+      "pointer": "/args/silt_fraction",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/plume.hostile-wrong-unit.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (percent in a fraction field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/silt_fraction",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/plume.hostile-wrong-unit-weight.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (short tons in a kilogram field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/mean_weight_kg",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/plume.hostile-unknown-enum.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/stability_class",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/plume.hostile-oversized.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized grid",
+      "rule": "FR-018-40",
+      "pointer": "/args/nx",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/plume.hostile-output-out-of-range.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "DC-018-02",
+      "pointer": "/result/emission_factor_kg_per_m",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/plume.hostile-unknown-field.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/plume.hostile-unknown-function.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/plume.hostile-malformed-version.json",
+      "schema": "engines/plume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/blasting.valid.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Kuz-Ram x50"
+    },
+    {
+      "file": "engines/blasting.valid-output.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "x50 result"
+    },
+    {
+      "file": "engines/blasting.valid-uniformity.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "uniformity index, single column charge"
+    },
+    {
+      "file": "engines/blasting.valid-swebrec.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Swebrec passing at three sizes"
+    },
+    {
+      "file": "engines/blasting.valid-output-swebrec.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "passing fractions"
+    },
+    {
+      "file": "engines/blasting.hostile-out-of-range.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-39",
+      "pointer": "/args/rock_factor",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/blasting.hostile-unknown-enum.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/variant",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/blasting.hostile-wrong-unit.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (millimetres in a metre field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/hole_diameter_m",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/blasting.hostile-conditional-charges.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "conditional rule: bottom charge without column charge",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "dependentRequired"
+    },
+    {
+      "file": "engines/blasting.hostile-oversized.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/sizes_m",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "engines/blasting.hostile-empty.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-018-39",
+      "pointer": "/args/sizes_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/blasting.hostile-output-out-of-range.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "DC-018-02",
+      "pointer": "/result/passing/2",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/blasting.hostile-unknown-field.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/blasting.hostile-unknown-function.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/blasting.hostile-malformed-version.json",
+      "schema": "engines/blasting.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/watershed.valid.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "512 x 512 fixture images"
+    },
+    {
+      "file": "engines/watershed.valid-output.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "label map and sizes"
+    },
+    {
+      "file": "engines/watershed.hostile-oversized.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized image",
+      "rule": "FR-018-40",
+      "pointer": "/args/elevation/shape/rows",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/watershed.hostile-wrong-dtype.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong dtype",
+      "rule": "FR-018-39",
+      "pointer": "/args/markers/dtype",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/watershed.hostile-unknown-enum.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/connectivity",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/watershed.hostile-wrong-unit.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (millimetres in a metre field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/pixel_size_m",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/watershed.hostile-output-conditional-fit.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "conditional rule: fit without x80",
+      "rule": "FR-018-59",
+      "pointer": "/result",
+      "keyword": "required"
+    },
+    {
+      "file": "engines/watershed.hostile-unknown-field.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/watershed.hostile-unknown-function.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/watershed.hostile-malformed-version.json",
+      "schema": "engines/watershed.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/comminution.valid.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Bond energy, F80 12 mm to P80 150 micrometres"
+    },
+    {
+      "file": "engines/comminution.valid-output.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "energy"
+    },
+    {
+      "file": "engines/comminution.valid-chain.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "three-class Bond chain"
+    },
+    {
+      "file": "engines/comminution.valid-output-chain.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "chain result"
+    },
+    {
+      "file": "engines/comminution.hostile-wrong-unit.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (micrometres in a metre field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/p80_m",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/comminution.hostile-out-of-range.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-018-39",
+      "pointer": "/args/f80_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "engines/comminution.hostile-below-validity.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range (below 70 micrometres)",
+      "rule": "FR-018-39",
+      "pointer": "/args/p80_m",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/comminution.hostile-unknown-enum.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/energy_model",
+      "keyword": "const"
+    },
+    {
+      "file": "engines/comminution.hostile-oversized.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/sizes_m",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "engines/comminution.hostile-output-out-of-range.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "DC-018-02",
+      "pointer": "/result/fines_fraction",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/comminution.hostile-unknown-field.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/comminution.hostile-unknown-function.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/comminution.hostile-malformed-version.json",
+      "schema": "engines/comminution.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/mincut.valid.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "six-block two-level grid"
+    },
+    {
+      "file": "engines/mincut.valid-output.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "pit of four blocks"
+    },
+    {
+      "file": "engines/mincut.valid-shells.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "two revenue factors"
+    },
+    {
+      "file": "engines/mincut.hostile-oversized.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-018-40",
+      "pointer": "/args/block_count",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/mincut.hostile-unknown-enum.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/args/pattern",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/mincut.hostile-wrong-type.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong dtype (non-integer cents)",
+      "rule": "FR-017-27",
+      "pointer": "/args/values_cents/4",
+      "keyword": "type"
+    },
+    {
+      "file": "engines/mincut.hostile-empty.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-018-39",
+      "pointer": "/args/values_cents",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/mincut.hostile-out-of-range.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-017-28",
+      "pointer": "/args/revenue_factors/1",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/mincut.hostile-output-out-of-range.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "DC-018-02",
+      "pointer": "/result/blocks/0",
+      "keyword": "minimum"
+    },
+    {
+      "file": "engines/mincut.hostile-unknown-field.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/mincut.hostile-unknown-function.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/mincut.hostile-malformed-version.json",
+      "schema": "engines/mincut.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "engines/volume.valid.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "two 4 m epochs and a square polygon"
+    },
+    {
+      "file": "engines/volume.valid-output.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "cut and fill"
+    },
+    {
+      "file": "engines/volume.hostile-oversized.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "oversized grid",
+      "rule": "FR-018-40",
+      "pointer": "/args/rows",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/volume.hostile-empty.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "empty polygon",
+      "rule": "FR-017-47",
+      "pointer": "/args/polygon_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "engines/volume.hostile-wrong-shape.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong shape",
+      "rule": "FR-018-39",
+      "pointer": "/args/polygon_m/0",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "engines/volume.hostile-out-of-range.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "out of range",
+      "rule": "FR-017-48",
+      "pointer": "/args/cell_size_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "engines/volume.hostile-wrong-unit.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "wrong unit (centimetres in a metre field)",
+      "rule": "FR-018-39",
+      "pointer": "/args/rmse_before_m",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/volume.hostile-output-out-of-range.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#/$defs/output",
+      "valid": false,
+      "class": "out of range",
+      "rule": "DC-018-02",
+      "pointer": "/result/nodata_fraction",
+      "keyword": "maximum"
+    },
+    {
+      "file": "engines/volume.hostile-unknown-field.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-018-39",
+      "pointer": "/args",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "engines/volume.hostile-unknown-function.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "unknown enum",
+      "rule": "FR-018-39",
+      "pointer": "/function",
+      "keyword": "enum"
+    },
+    {
+      "file": "engines/volume.hostile-malformed-version.json",
+      "schema": "engines/volume.schema.json",
+      "target": "#/$defs/input",
+      "valid": false,
+      "class": "bad pattern",
+      "rule": "FR-018-38",
+      "pointer": "/engine_version",
+      "keyword": "pattern"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "engines/des.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/des.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/des.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/des.schema.json",
+      "class": "bundle document violates haul-scenario.schema.json or the FR-007-03 bundle rules",
+      "by": "checker",
+      "rule": "FR-007-03",
+      "note": "the twin validates the loaded bundle and returns InvalidScenario as detail.name"
+    },
+    {
+      "schema": "engines/des.schema.json",
+      "class": "trace byte_length differs from the transferred buffer",
+      "by": "checker",
+      "rule": "FR-018-39"
+    },
+    {
+      "schema": "engines/des.schema.json",
+      "class": "artefact bytes differ from the manifest SHA-256",
+      "by": "checker",
+      "rule": "FR-018-43"
+    },
+    {
+      "schema": "engines/policies.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/policies.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/policies.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/policies.schema.json",
+      "class": "model file bytes differ from the manifest SHA-256 (PolicyPinMismatch)",
+      "by": "checker",
+      "rule": "FR-007-44"
+    },
+    {
+      "schema": "engines/policies.schema.json",
+      "class": "layout_version differs from the version of DC-007-04 (InvalidPolicyInput)",
+      "by": "checker",
+      "rule": "FR-007-44"
+    },
+    {
+      "schema": "engines/haulage.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/haulage.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/haulage.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/haulage.schema.json",
+      "class": "load_time_s not smaller than cycle_time_s",
+      "by": "checker",
+      "rule": "FR-007-16",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/haulage.schema.json",
+      "class": "open M/M/c with utilisation >= 1 (Unstable)",
+      "by": "checker",
+      "rule": "FR-007-16",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "engines/haulage.schema.json",
+      "class": "empty_mass_kg + payload_kg above 2 x 10^6 kg",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "minephys mass tripwire"
+    },
+    {
+      "schema": "engines/lp.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/lp.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/lp.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/lp.schema.json",
+      "class": "path loader or dump index outside the capacity arrays",
+      "by": "checker",
+      "rule": "FR-007-21",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/lp.schema.json",
+      "class": "blend floor coefficient count differs from the path count",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/routing.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/routing.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/routing.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/routing.schema.json",
+      "class": "start or goal outside rows x cols or on a nodata cell",
+      "by": "checker",
+      "rule": "FR-007-36",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/routing.schema.json",
+      "class": "DEM asset with a NaN or infinite cell outside the nodata mask",
+      "by": "checker",
+      "rule": "FR-007-36"
+    },
+    {
+      "schema": "engines/routing.schema.json",
+      "class": "DEM asset bytes differ from rows x cols x 4",
+      "by": "checker",
+      "rule": "FR-018-39"
+    },
+    {
+      "schema": "engines/dust-lidar.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/dust-lidar.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/dust-lidar.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/dust-lidar.schema.json",
+      "class": "baked frame fails dust-slider.schema.json, has a NaN, infinite or negative tau, or a reference tau of 0",
+      "by": "checker",
+      "rule": "FR-013-39",
+      "note": "the worker validates the loaded asset"
+    },
+    {
+      "schema": "engines/dust-lidar.schema.json",
+      "class": "kept_returns + dust_returns differs from the buffer point count",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "engines/il1-twin.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/il1-twin.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/il1-twin.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/il1-twin.schema.json",
+      "class": "policy bytes differ from the manifest SHA-256",
+      "by": "checker",
+      "rule": "FR-014-44"
+    },
+    {
+      "schema": "engines/il2-twin.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/il2-twin.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/il2-twin.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/il2-twin.schema.json",
+      "class": "policy bytes differ from the manifest SHA-256",
+      "by": "checker",
+      "rule": "FR-014-44"
+    },
+    {
+      "schema": "engines/traffic.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/traffic.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/traffic.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/traffic.schema.json",
+      "class": "encounter vehicle index outside the vehicle list",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/granular.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/granular.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/granular.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/granular.schema.json",
+      "class": "time step above the Rayleigh bound f_R x dt_R of FR-005-08",
+      "by": "checker",
+      "rule": "FR-005-08",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "engines/granular.schema.json",
+      "class": "buffer byte_length differs from the product of its dimensions times the element size",
+      "by": "checker",
+      "rule": "FR-018-39"
+    },
+    {
+      "schema": "engines/granular.schema.json",
+      "class": "non-finite or out-of-range element inside a transferred buffer",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host scans buffers"
+    },
+    {
+      "schema": "engines/swe.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/swe.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/swe.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/swe.schema.json",
+      "class": "depth, discharge and bed buffers of different shapes",
+      "by": "checker",
+      "rule": "FR-005-32",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/swe.schema.json",
+      "class": "breach cell outside rows x cols",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/swe.schema.json",
+      "class": "negative depth or non-finite element inside a transferred buffer",
+      "by": "checker",
+      "rule": "FR-005-32",
+      "note": "the host scans buffers"
+    },
+    {
+      "schema": "engines/dust-particles.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/dust-particles.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/dust-particles.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/dust-particles.schema.json",
+      "class": "particle Reynolds number at or above 0.1 (P-018-65; FR-005-39 rejects >= 1)",
+      "by": "checker",
+      "rule": "FR-005-39",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "engines/dust-particles.schema.json",
+      "class": "airborne + deposited + exited differs from particle_count",
+      "by": "checker",
+      "rule": "P-018-67",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "engines/gns.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/gns.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/gns.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/gns.schema.json",
+      "class": "particle counts of the three input buffers differ",
+      "by": "checker",
+      "rule": "FR-011-15",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/gns.schema.json",
+      "class": "unknown particle type inside the type buffer",
+      "by": "checker",
+      "rule": "FR-011-15",
+      "note": "the host scans buffers"
+    },
+    {
+      "schema": "engines/gns.schema.json",
+      "class": "model bytes differ from the manifest SHA-256",
+      "by": "checker",
+      "rule": "FR-018-43"
+    },
+    {
+      "schema": "engines/fno.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/fno.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/fno.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/fno.schema.json",
+      "class": "patch or model bytes differ from the manifest SHA-256",
+      "by": "checker",
+      "rule": "FR-018-43"
+    },
+    {
+      "schema": "engines/detector.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/detector.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/detector.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/detector.schema.json",
+      "class": "graph label outside the five classes of FR-009-01",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host scans buffers"
+    },
+    {
+      "schema": "engines/unet.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/unet.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/unet.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/unet.schema.json",
+      "class": "model bytes differ from the manifest SHA-256",
+      "by": "checker",
+      "rule": "FR-018-43"
+    },
+    {
+      "schema": "engines/forecasters.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/forecasters.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/forecasters.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/forecasters.schema.json",
+      "class": "quantile paths of unequal length",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-item rule"
+    },
+    {
+      "schema": "engines/meta-model.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/meta-model.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/meta-model.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/meta-model.schema.json",
+      "class": "output row count differs from the input row count",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/geotech.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/geotech.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/geotech.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/geotech.schema.json",
+      "class": "record times not strictly increasing",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "order rule across items"
+    },
+    {
+      "schema": "engines/geotech.schema.json",
+      "class": "sum of W sin(alpha) <= 0, or m_alpha <= 0 on a slice (ConvergenceError)",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "engines/geotech.schema.json",
+      "class": "uniform lower >= upper, or normal truncation interval empty",
+      "by": "checker",
+      "rule": "FR-010-08",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/geotech.schema.json",
+      "class": "prior covariance not symmetric positive definite",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "engines/geotech.schema.json",
+      "class": "radar within 1e-6 m of a target, or targets and displacements of different pixel counts",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/plume.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/plume.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/plume.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/blasting.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/blasting.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/blasting.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/blasting.schema.json",
+      "class": "x50_m not smaller than xmax_m",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/blasting.schema.json",
+      "class": "14 B / d >= 2.2, W >= B, or bottom + column charge > charge length",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "engines/watershed.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/watershed.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/watershed.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/watershed.schema.json",
+      "class": "elevation, markers and mask of different shapes",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/comminution.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/comminution.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/comminution.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/comminution.schema.json",
+      "class": "p80_m not smaller than f80_m (minephys InputError)",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-field rule"
+    },
+    {
+      "schema": "engines/comminution.schema.json",
+      "class": "chain arrays of different lengths, sizes not strictly monotone, breakage columns not summing to 1",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "cross-item rule"
+    },
+    {
+      "schema": "engines/mincut.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/mincut.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/mincut.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/mincut.schema.json",
+      "class": "block_count differs from levels x rows x cols, or array lengths differ from block_count",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "engines/mincut.schema.json",
+      "class": "sum of |values_cents| at or above 2^53",
+      "by": "checker",
+      "rule": "FR-017-27",
+      "note": "arithmetic across items"
+    },
+    {
+      "schema": "engines/mincut.schema.json",
+      "class": "revenue factors not increasing; price not above selling cost",
+      "by": "checker",
+      "rule": "FR-017-28",
+      "note": "order rule"
+    },
+    {
+      "schema": "engines/mincut.schema.json",
+      "class": "pit block indices not ascending or repeated",
+      "by": "checker",
+      "rule": "FR-018-53",
+      "note": "order rule"
+    },
+    {
+      "schema": "engines/volume.schema.json",
+      "class": "non-finite number (NaN, +Infinity, -Infinity) in any numeric field",
+      "by": "loader",
+      "rule": "FR-018-39",
+      "note": "the host protocol guard returns E_NONFINITE before schema validation; structured clone can carry NaN"
+    },
+    {
+      "schema": "engines/volume.schema.json",
+      "class": "engine_version other than the loaded engine version",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host compares the request's engine_version with the loaded engine and returns E_SCHEMA"
+    },
+    {
+      "schema": "engines/volume.schema.json",
+      "class": "unknown engine id in the request envelope",
+      "by": "checker",
+      "rule": "FR-018-39",
+      "note": "the host resolves the engine before choosing a schema and returns E_UNKNOWN_ENGINE"
+    },
+    {
+      "schema": "engines/volume.schema.json",
+      "class": "self-intersecting polygon or polygon entirely outside the grid",
+      "by": "checker",
+      "rule": "FR-017-47",
+      "note": "geometry rule"
+    },
+    {
+      "schema": "engines/volume.schema.json",
+      "class": "DEM asset bytes differ from rows x cols x 4, or the two DEMs differ in grid",
+      "by": "checker",
+      "rule": "FR-017-48"
+    }
+  ]
+}

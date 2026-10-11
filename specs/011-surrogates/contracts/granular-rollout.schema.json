@@ -1,0 +1,461 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/granular-rollout.schema.json",
+  "title": "Granular rollout metadata",
+  "description": "Metadata of one 2-D granular rollout payload (Zarr or Parquet) written by st50_physics (DC-011-01, spec 011-surrogates).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "family",
+    "geometry_id",
+    "geometry",
+    "packing_seed",
+    "solver",
+    "solver_version",
+    "dimensions",
+    "particle_diameter_m",
+    "connectivity_radius_m",
+    "frame_interval_s",
+    "bounds_m",
+    "frame_times_s",
+    "particle_count",
+    "particle_types",
+    "material",
+    "rest_time_s",
+    "store",
+    "label"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "family": {
+      "enum": [
+        "column-collapse",
+        "pile-formation",
+        "dump-over-crest"
+      ]
+    },
+    "geometry_id": {
+      "$ref": "#/$defs/slug"
+    },
+    "geometry": {
+      "type": "object",
+      "description": "recorded geometry parameters of the family (spec §7)",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "aspect_ratio": {
+          "type": "number",
+          "description": "column collapse: H0 / L0",
+          "minimum": 0.5,
+          "maximum": 4
+        },
+        "column_width_m": {
+          "type": "number",
+          "description": "column collapse: L0",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "pour_point_x_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000
+        },
+        "pour_height_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "pour_rate_m2_per_s": {
+          "type": "number",
+          "description": "2-D area rate",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "crest_x_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000
+        },
+        "crest_height_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "dump_rate_m2_per_s": {
+          "type": "number",
+          "description": "2-D area rate",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        }
+      }
+    },
+    "packing_seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "solver": {
+      "enum": [
+        "warp-dem",
+        "newton-mpm"
+      ]
+    },
+    "solver_version": {
+      "$ref": "#/$defs/version"
+    },
+    "dimensions": {
+      "const": 2
+    },
+    "particle_diameter_m": {
+      "type": "number",
+      "description": "d",
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
+    "connectivity_radius_m": {
+      "type": "number",
+      "description": "R = 2.5 d",
+      "exclusiveMinimum": 0,
+      "maximum": 10
+    },
+    "frame_interval_s": {
+      "type": "number",
+      "description": "dataset frame interval",
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
+    "bounds_m": {
+      "type": "array",
+      "description": "x_min, y_min, x_max, y_max",
+      "items": {
+        "type": "number",
+        "minimum": -1000,
+        "maximum": 1000
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "frame_times_s": {
+      "type": "array",
+      "description": "strictly increasing",
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 3600
+      },
+      "minItems": 2,
+      "maxItems": 20000
+    },
+    "particle_count": {
+      "type": "integer",
+      "description": "constant over every frame",
+      "minimum": 1,
+      "maximum": 1000000
+    },
+    "particle_types": {
+      "type": "array",
+      "description": "type names in type-index order",
+      "items": {
+        "$ref": "#/$defs/slug"
+      },
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "density_kg_per_m3",
+        "sliding_friction"
+      ],
+      "properties": {
+        "density_kg_per_m3": {
+          "$ref": "#/$defs/material_value",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 500,
+              "maximum": 20000
+            }
+          }
+        },
+        "sliding_friction": {
+          "$ref": "#/$defs/material_value",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 0.05,
+              "maximum": 2
+            }
+          }
+        },
+        "rolling_friction": {
+          "$ref": "#/$defs/material_value",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "restitution": {
+          "$ref": "#/$defs/material_value",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "youngs_modulus_pa": {
+          "$ref": "#/$defs/material_value",
+          "properties": {
+            "value": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1000000000000.0
+            }
+          }
+        },
+        "poisson_ratio": {
+          "$ref": "#/$defs/material_value",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.5
+            }
+          }
+        },
+        "friction_angle_deg": {
+          "$ref": "#/$defs/material_value",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 90
+            }
+          }
+        },
+        "cohesion_pa": {
+          "$ref": "#/$defs/material_value",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000.0
+            }
+          }
+        }
+      }
+    },
+    "rest_time_s": {
+      "type": "number",
+      "description": "T_end of the reference rollout",
+      "exclusiveMinimum": 0,
+      "maximum": 3600
+    },
+    "store": {
+      "$ref": "#/$defs/store"
+    },
+    "label": {
+      "const": "calibrated synthetic — not validated against real data"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "column-collapse"
+          }
+        },
+        "required": [
+          "family"
+        ]
+      },
+      "then": {
+        "properties": {
+          "geometry": {
+            "required": [
+              "aspect_ratio",
+              "column_width_m"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "pile-formation"
+          }
+        },
+        "required": [
+          "family"
+        ]
+      },
+      "then": {
+        "properties": {
+          "geometry": {
+            "required": [
+              "pour_point_x_m",
+              "pour_height_m",
+              "pour_rate_m2_per_s"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "dump-over-crest"
+          }
+        },
+        "required": [
+          "family"
+        ]
+      },
+      "then": {
+        "properties": {
+          "geometry": {
+            "required": [
+              "crest_x_m",
+              "crest_height_m",
+              "dump_rate_m2_per_s"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "material_value": {
+      "type": "object",
+      "description": "one material parameter with its provenance",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "source"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "source": {
+          "enum": [
+            "knowledge-table",
+            "calibration",
+            "recipe"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "description": "knowledge-table row id or calibration trial id",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "verification": {
+          "enum": [
+            "verified",
+            "UNVERIFIED"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "enum": [
+                  "knowledge-table",
+                  "calibration"
+                ]
+              }
+            },
+            "required": [
+              "source"
+            ]
+          },
+          "then": {
+            "required": [
+              "ref"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "const": "knowledge-table"
+              }
+            },
+            "required": [
+              "source"
+            ]
+          },
+          "then": {
+            "required": [
+              "verification"
+            ]
+          }
+        }
+      ]
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "store": {
+      "type": "object",
+      "description": "payload store; sha256 of the file (Parquet) or of the sorted chunk-digest listing (Zarr)",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "format": {
+          "enum": [
+            "zarr",
+            "parquet"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    }
+  }
+}

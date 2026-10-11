@@ -1,0 +1,14 @@
+{
+  "kind": "output",
+  "engine": "geotech",
+  "engine_version": "0.1.0",
+  "function": "inverse_velocity",
+  "result": {
+    "accelerating": true,
+    "failure_time_s": 259200.0,
+    "slope_per_m": -2.89,
+    "intercept_s_per_m": 950000.0,
+    "r_squared": 0.96,
+    "n_used": 3
+  }
+}

@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/il-policy-handoff.schema.json",
+  "title": "PitStudio IL policy handoff",
+  "description": "Policy handoff written by st60_il_train and read by s60_export (DC-014-03, spec 014-robot-learning).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "policy",
+    "task",
+    "run_id",
+    "checkpoint",
+    "observation_size",
+    "action_size",
+    "observation_layout_sha256",
+    "task_config_sha256",
+    "normaliser",
+    "actor",
+    "goldens"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "policy": {
+      "$ref": "il-task.schema.json#/$defs/policy_id"
+    },
+    "task": {
+      "$ref": "il-task.schema.json#/$defs/task_id"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "checkpoint": {
+      "description": "Trained checkpoint.",
+      "type": "object",
+      "required": [
+        "id",
+        "path",
+        "sha256",
+        "iteration"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "iteration": {
+          "description": "PPO iteration of the checkpoint.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        }
+      }
+    },
+    "observation_size": {
+      "description": "63 (IL-1) or 46 (IL-2, IL-3).",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 63
+    },
+    "action_size": {
+      "description": "2 (IL-1) or 4 (IL-2, IL-3).",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "observation_layout_sha256": {
+      "description": "SHA-256 of the RFC 8785 canonical JSON of the observation layout.",
+      "$ref": "#/$defs/sha256"
+    },
+    "task_config_sha256": {
+      "description": "SHA-256 of the RFC 8785 canonical JSON of the task parameters.",
+      "$ref": "#/$defs/sha256"
+    },
+    "normaliser": {
+      "description": "Empirical observation normaliser, exported inside the ONNX graph.",
+      "type": "object",
+      "required": [
+        "mean",
+        "var"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mean": {
+          "description": "Observation mean.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000000,
+            "maximum": 1000000000
+          },
+          "minItems": 46,
+          "maxItems": 63
+        },
+        "var": {
+          "description": "Observation variance, > 0.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1000000000000000000
+          },
+          "minItems": 46,
+          "maxItems": 63
+        }
+      }
+    },
+    "actor": {
+      "description": "Actor MLP.",
+      "type": "object",
+      "required": [
+        "hidden_units",
+        "activation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "hidden_units": {
+          "const": [
+            256,
+            256
+          ]
+        },
+        "activation": {
+          "enum": [
+            "elu",
+            "relu",
+            "tanh"
+          ]
+        }
+      }
+    },
+    "goldens": {
+      "description": "Golden observations drawn from the evaluation rollouts (export parity).",
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "count"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "count": {
+          "description": "Golden observations, >= 200.",
+          "type": "integer",
+          "minimum": 200,
+          "maximum": 100000
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "policy": {
+            "const": "IL-1"
+          }
+        },
+        "required": [
+          "policy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "task": {
+            "const": "Pit-HaulTruck-Ramp"
+          },
+          "observation_size": {
+            "const": 63
+          },
+          "action_size": {
+            "const": 2
+          },
+          "normaliser": {
+            "properties": {
+              "mean": {
+                "minItems": 63,
+                "maxItems": 63
+              },
+              "var": {
+                "minItems": 63,
+                "maxItems": 63
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "policy": {
+            "const": "IL-2"
+          }
+        },
+        "required": [
+          "policy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "task": {
+            "const": "Pit-Excavator-Dig-FEE"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "policy": {
+            "const": "IL-3"
+          }
+        },
+        "required": [
+          "policy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "task": {
+            "const": "Pit-Loader-Dig-FEE"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "policy": {
+            "enum": [
+              "IL-2",
+              "IL-3"
+            ]
+          }
+        },
+        "required": [
+          "policy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "observation_size": {
+            "const": 46
+          },
+          "action_size": {
+            "const": 4
+          },
+          "normaliser": {
+            "properties": {
+              "mean": {
+                "minItems": 46,
+                "maxItems": 46
+              },
+              "var": {
+                "minItems": 46,
+                "maxItems": 46
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "schema_version": {
+      "description": "Contract version (major 1).",
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    }
+  }
+}

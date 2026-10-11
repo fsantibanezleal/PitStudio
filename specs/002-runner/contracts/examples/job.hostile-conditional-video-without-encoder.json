@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "status": "succeeded",
+  "error_class": null,
+  "outputs": [
+    {
+      "path": "media/pit-flyover.mp4",
+      "validator": "file",
+      "artefact": {
+        "kind": "video",
+        "media_type": "video/mp4",
+        "budget_class": "videos",
+        "cases": [
+          "C2"
+        ],
+        "lane_measurements": {
+          "web_drivable": true,
+          "max_asset_bytes": 5242880,
+          "interaction_ms": null,
+          "run_ms_t2": null,
+          "trace_bytes": null,
+          "measured": {
+            "tier": "T2",
+            "date": "2026-10-07",
+            "browser": "Chromium 141"
+          }
+        }
+      }
+    },
+    {
+      "path": "physics/observables.json",
+      "validator": "stage-observables",
+      "validated": true
+    }
+  ],
+  "observables": {
+    "repose_deg": 34.2
+  },
+  "throughput": {
+    "value": 240.0,
+    "unit": "frames/s"
+  },
+  "checkpoint": false
+}

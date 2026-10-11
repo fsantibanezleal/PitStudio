@@ -1,0 +1,22 @@
+{
+  "kind": "input",
+  "engine": "geotech",
+  "engine_version": "0.1.0",
+  "function": "inverse_velocity",
+  "args": {
+    "record": [
+      {
+        "t_s": 0.0,
+        "velocity_m_per_s": 1e-06
+      },
+      {
+        "t_s": 86400.0,
+        "velocity_m_per_s": 2e-06
+      },
+      {
+        "t_s": 172800.0,
+        "velocity_m_per_s": 4e-06
+      }
+    ]
+  }
+}

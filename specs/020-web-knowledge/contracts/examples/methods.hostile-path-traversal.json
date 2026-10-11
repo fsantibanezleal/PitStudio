@@ -1,0 +1,851 @@
+{
+  "methods": [
+    {
+      "id": "M1",
+      "name": {
+        "en": "Match factor and finite-source queue",
+        "es": "Factor de acoplamiento y cola de fuente finita"
+      },
+      "tiers": [
+        "classical"
+      ],
+      "implementation": "minephys.haulage + TypeScript port",
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "live"
+      ],
+      "learned": false,
+      "cases": [
+        "A1"
+      ],
+      "docs_page": "docs/methods/../../etc/passwd"
+    },
+    {
+      "id": "M2",
+      "name": {
+        "en": "Haulage DES with classical dispatchers",
+        "es": "Simulación de eventos discretos del transporte"
+      },
+      "tiers": [
+        "classical"
+      ],
+      "implementation": "minehaulsim + TypeScript twin",
+      "spdx": [
+        "Apache-2.0",
+        "MIT"
+      ],
+      "lanes": [
+        "live",
+        "precompute"
+      ],
+      "learned": false,
+      "cases": [
+        "A1",
+        "A2",
+        "B1",
+        "C3"
+      ],
+      "docs_page": "docs/methods/m02-haulage-des.md"
+    },
+    {
+      "id": "M3",
+      "name": {
+        "en": "Two-stage LP dispatch",
+        "es": "Despacho por programación lineal en dos etapas"
+      },
+      "tiers": [
+        "classical",
+        "sota"
+      ],
+      "implementation": "pipeline LP with HiGHS",
+      "spdx": [
+        "Apache-2.0",
+        "MIT"
+      ],
+      "lanes": [
+        "live",
+        "precompute"
+      ],
+      "learned": false,
+      "cases": [
+        "A1"
+      ],
+      "docs_page": "docs/methods/m03-lp-dispatch.md"
+    },
+    {
+      "id": "M4",
+      "name": {
+        "en": "PPO dispatch",
+        "es": "Despacho con PPO"
+      },
+      "tiers": [
+        "sota"
+      ],
+      "implementation": "PyTorch PPO in a vectorised environment, ONNX in the browser",
+      "spdx": [
+        "Apache-2.0",
+        "BSD-3-Clause"
+      ],
+      "lanes": [
+        "precompute",
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "A1"
+      ],
+      "docs_page": "docs/methods/m04-ppo-dispatch.md",
+      "comparison": {
+        "baseline": {
+          "en": "SPTF and two-stage LP",
+          "es": "SPTF y LP en dos etapas"
+        },
+        "metric": {
+          "name": {
+            "en": "throughput",
+            "es": "rendimiento"
+          },
+          "unit": "t/h",
+          "orientation": "higher-is-better"
+        },
+        "pairing_unit": {
+          "en": "seed",
+          "es": "semilla"
+        },
+        "n": 30
+      },
+      "criterion": {
+        "text": {
+          "en": "beats SPTF or LP only if the paired 95 % CI of the t/h difference excludes 0 (>= 30 paired seeds)",
+          "es": "supera a SPTF o LP solo si el IC pareado de 95 % de la diferencia de t/h excluye 0 (>= 30 semillas)"
+        },
+        "requirement": "SC-007-01",
+        "spec": "007-haulage-dispatch"
+      }
+    },
+    {
+      "id": "M5",
+      "name": {
+        "en": "Attention fleet policy",
+        "es": "Política de flota con atención"
+      },
+      "tiers": [
+        "beyond-sota"
+      ],
+      "implementation": "PyTorch attention policy, ONNX",
+      "spdx": [
+        "Apache-2.0",
+        "BSD-3-Clause"
+      ],
+      "lanes": [
+        "precompute",
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "A1"
+      ],
+      "docs_page": "docs/methods/m05-attention-fleet-policy.md",
+      "comparison": {
+        "baseline": {
+          "en": "SPTF, LP and M4",
+          "es": "SPTF, LP y M4"
+        },
+        "metric": {
+          "name": {
+            "en": "throughput",
+            "es": "rendimiento"
+          },
+          "unit": "t/h",
+          "orientation": "higher-is-better"
+        },
+        "pairing_unit": {
+          "en": "seed",
+          "es": "semilla"
+        },
+        "n": 30
+      },
+      "criterion": {
+        "text": {
+          "en": "same decision rule against SPTF, LP and M4 (>= 30 paired seeds)",
+          "es": "misma regla de decisión contra SPTF, LP y M4 (>= 30 semillas pareadas)"
+        },
+        "requirement": "SC-007-02",
+        "spec": "007-haulage-dispatch"
+      }
+    },
+    {
+      "id": "M6",
+      "name": {
+        "en": "Haul-road energy and grade-constrained routing",
+        "es": "Energía de caminos y ruteo con pendiente"
+      },
+      "tiers": [
+        "classical"
+      ],
+      "implementation": "minephys.haulage",
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "live"
+      ],
+      "learned": false,
+      "cases": [
+        "A2",
+        "E1"
+      ],
+      "docs_page": "docs/methods/m06-haul-road-energy-routing.md"
+    },
+    {
+      "id": "M7",
+      "name": {
+        "en": "GPU granular physics",
+        "es": "Física granular en GPU"
+      },
+      "tiers": [
+        "sota"
+      ],
+      "implementation": "Warp DEM and Newton MPM, WGSL twin",
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "replay",
+        "live"
+      ],
+      "learned": false,
+      "cases": [
+        "A3",
+        "D1"
+      ],
+      "docs_page": "docs/methods/m07-gpu-granular-physics.md"
+    },
+    {
+      "id": "M8",
+      "name": {
+        "en": "GNS granular surrogate",
+        "es": "Sustituto granular GNS"
+      },
+      "tiers": [
+        "beyond-sota"
+      ],
+      "implementation": "PyTorch GNS, ONNX in the browser",
+      "spdx": [
+        "Apache-2.0",
+        "BSD-3-Clause"
+      ],
+      "lanes": [
+        "precompute",
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "A3"
+      ],
+      "docs_page": "docs/methods/m08-gns-surrogate.md",
+      "comparison": {
+        "baseline": {
+          "en": "GPU solver (M7)",
+          "es": "solver GPU (M7)"
+        },
+        "metric": {
+          "name": {
+            "en": "repose-angle error",
+            "es": "error de ángulo de reposo"
+          },
+          "unit": "°",
+          "orientation": "lower-is-better"
+        },
+        "pairing_unit": {
+          "en": "geometry",
+          "es": "geometría"
+        },
+        "n": 20
+      },
+      "criterion": {
+        "text": {
+          "en": "repose within 1.5 degrees and run-out within 5 % on held-out geometries",
+          "es": "reposo dentro de 1,5 grados y alcance dentro de 5 % en geometrías reservadas"
+        },
+        "requirement": "SC-011-01",
+        "spec": "011-surrogates"
+      }
+    },
+    {
+      "id": "M9",
+      "name": {
+        "en": "Differentiable DEM calibration",
+        "es": "Calibración DEM diferenciable"
+      },
+      "tiers": [
+        "beyond-sota"
+      ],
+      "implementation": "Warp tape gradients versus CMA-ES",
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "precompute"
+      ],
+      "learned": false,
+      "cases": [
+        "A3"
+      ],
+      "docs_page": "docs/methods/m09-differentiable-dem-calibration.md"
+    },
+    {
+      "id": "M10",
+      "name": {
+        "en": "Synthetic-data detector",
+        "es": "Detector entrenado con datos sintéticos"
+      },
+      "tiers": [
+        "sota"
+      ],
+      "implementation": "D-FINE on Replicator data, ONNX Runtime Web",
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "precompute",
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "B2"
+      ],
+      "docs_page": "docs/methods/m10-synthetic-data-detector.md",
+      "comparison": {
+        "baseline": {
+          "en": "unstructured-DR arm",
+          "es": "brazo con DR no estructurada"
+        },
+        "metric": {
+          "name": {
+            "en": "mAP50",
+            "es": "mAP50"
+          },
+          "unit": "1",
+          "orientation": "higher-is-better"
+        },
+        "pairing_unit": {
+          "en": "test image",
+          "es": "imagen de prueba"
+        },
+        "n": 1000
+      },
+      "criterion": {
+        "text": {
+          "en": "D-FINE-S mAP50 >= 0.80 on the pooled synthetic held-out test set",
+          "es": "mAP50 de D-FINE-S >= 0,80 en el conjunto sintético reservado"
+        },
+        "requirement": "SC-009-01",
+        "spec": "009-perception"
+      }
+    },
+    {
+      "id": "M11",
+      "name": {
+        "en": "Fragmentation segmentation",
+        "es": "Segmentación de fragmentación"
+      },
+      "tiers": [
+        "classical",
+        "beyond-sota"
+      ],
+      "implementation": "watershed + Swebrec versus U-Net",
+      "spdx": [
+        "Apache-2.0",
+        "BSD-3-Clause"
+      ],
+      "lanes": [
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "D1"
+      ],
+      "docs_page": "docs/methods/m11-fragmentation-segmentation.md",
+      "comparison": {
+        "baseline": {
+          "en": "watershed + Swebrec",
+          "es": "watershed + Swebrec"
+        },
+        "metric": {
+          "name": {
+            "en": "x50 relative error",
+            "es": "error relativo de x50"
+          },
+          "unit": "1",
+          "orientation": "lower-is-better"
+        },
+        "pairing_unit": {
+          "en": "test image",
+          "es": "imagen de prueba"
+        },
+        "n": 48
+      },
+      "criterion": {
+        "text": {
+          "en": "MRE of x50 <= 0.15 against the exact pile PSD",
+          "es": "MRE de x50 <= 0,15 contra la granulometría exacta"
+        },
+        "requirement": "SC-012-01",
+        "spec": "012-fragmentation"
+      }
+    },
+    {
+      "id": "M12",
+      "name": {
+        "en": "Blast fragmentation models",
+        "es": "Modelos de fragmentación por tronadura"
+      },
+      "tiers": [
+        "classical"
+      ],
+      "implementation": "minephys.blasting",
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "live"
+      ],
+      "learned": false,
+      "cases": [
+        "D1",
+        "D2"
+      ],
+      "docs_page": "docs/methods/m12-blast-fragmentation-models.md"
+    },
+    {
+      "id": "M13",
+      "name": {
+        "en": "Slope stability LEM",
+        "es": "Estabilidad de taludes por equilibrio límite"
+      },
+      "tiers": [
+        "classical"
+      ],
+      "implementation": "minephys.geotech",
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "live"
+      ],
+      "learned": false,
+      "cases": [
+        "C1"
+      ],
+      "docs_page": "docs/methods/m13-slope-stability-lem.md"
+    },
+    {
+      "id": "M14",
+      "name": {
+        "en": "Slope forecasting",
+        "es": "Pronóstico de falla de taludes"
+      },
+      "tiers": [
+        "classical",
+        "sota"
+      ],
+      "implementation": "inverse velocity, Bayesian TTF, TCN, PatchTST",
+      "spdx": [
+        "Apache-2.0",
+        "BSD-3-Clause"
+      ],
+      "lanes": [
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "C1"
+      ],
+      "docs_page": "docs/methods/m14-slope-forecasting.md",
+      "comparison": {
+        "baseline": {
+          "en": "inverse velocity and Bayesian TTF",
+          "es": "velocidad inversa y TTF bayesiano"
+        },
+        "metric": {
+          "name": {
+            "en": "TTF error",
+            "es": "error de TTF"
+          },
+          "unit": "h",
+          "orientation": "lower-is-better"
+        },
+        "pairing_unit": {
+          "en": "seeded synthetic event",
+          "es": "evento sintético con semilla"
+        },
+        "n": 500
+      },
+      "criterion": {
+        "text": {
+          "en": "median TTF error <= 10 % of lead time over 500 test events",
+          "es": "error mediano de TTF <= 10 % del tiempo de anticipación en 500 eventos"
+        },
+        "requirement": "SC-010-01",
+        "spec": "010-slope"
+      }
+    },
+    {
+      "id": "M15",
+      "name": {
+        "en": "Shallow-water solver and FNO surrogate",
+        "es": "Aguas someras en GPU y sustituto FNO"
+      },
+      "tiers": [
+        "sota"
+      ],
+      "implementation": "Warp solver, FNO",
+      "spdx": [
+        "Apache-2.0",
+        "BSD-3-Clause"
+      ],
+      "lanes": [
+        "precompute",
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "C2"
+      ],
+      "docs_page": "docs/methods/m15-shallow-water-fno.md",
+      "comparison": {
+        "baseline": {
+          "en": "Warp solver",
+          "es": "solver Warp"
+        },
+        "metric": {
+          "name": {
+            "en": "relative L2 error",
+            "es": "error L2 relativo"
+          },
+          "unit": "1",
+          "orientation": "lower-is-better"
+        },
+        "pairing_unit": {
+          "en": "terrain",
+          "es": "terreno"
+        },
+        "n": 20
+      },
+      "criterion": {
+        "text": {
+          "en": "relative L2 <= 5 % on held-out terrains",
+          "es": "L2 relativo <= 5 % en terrenos reservados"
+        },
+        "requirement": "SC-011-03",
+        "spec": "011-surrogates"
+      }
+    },
+    {
+      "id": "M16",
+      "name": {
+        "en": "Dust dispersion",
+        "es": "Dispersión de polvo"
+      },
+      "tiers": [
+        "classical",
+        "sota"
+      ],
+      "implementation": "minephys.environment",
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "live",
+        "precompute"
+      ],
+      "learned": false,
+      "cases": [
+        "C3"
+      ],
+      "docs_page": "docs/methods/m16-dust-dispersion.md"
+    },
+    {
+      "id": "M17",
+      "name": {
+        "en": "Comminution and mine-to-mill meta-model",
+        "es": "Conminución y metamodelo mina-planta"
+      },
+      "tiers": [
+        "classical"
+      ],
+      "implementation": "minephys.comminution chain, GBM or MLP meta-model",
+      "spdx": [
+        "Apache-2.0",
+        "BSD-3-Clause"
+      ],
+      "lanes": [
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "D2"
+      ],
+      "docs_page": "docs/methods/m17-comminution-mine-to-mill.md",
+      "comparison": {
+        "baseline": {
+          "en": "analytical chain",
+          "es": "cadena analítica"
+        },
+        "metric": {
+          "name": {
+            "en": "R²",
+            "es": "R²"
+          },
+          "unit": "1",
+          "orientation": "higher-is-better"
+        },
+        "pairing_unit": {
+          "en": "sweep point",
+          "es": "punto de barrido"
+        },
+        "n": 2560
+      },
+      "criterion": {
+        "text": {
+          "en": "R² >= 0.95 against the chain on held-out sweeps, for kWh/t and t/h",
+          "es": "R² >= 0,95 contra la cadena en barridos reservados, para kWh/t y t/h"
+        },
+        "requirement": "SC-017-01",
+        "spec": "017-planning-survey"
+      }
+    },
+    {
+      "id": "M18",
+      "name": {
+        "en": "Ultimate pit and MILP scheduling",
+        "es": "Pit final y programación MILP"
+      },
+      "tiers": [
+        "classical",
+        "sota"
+      ],
+      "implementation": "minephys.planning min-cut, HiGHS",
+      "spdx": [
+        "Apache-2.0",
+        "MIT"
+      ],
+      "lanes": [
+        "live",
+        "precompute"
+      ],
+      "learned": false,
+      "cases": [
+        "E1"
+      ],
+      "docs_page": "docs/methods/m18-pit-optimisation-scheduling.md"
+    },
+    {
+      "id": "M19",
+      "name": {
+        "en": "Gaussian-splat survey",
+        "es": "Levantamiento con splats gaussianos"
+      },
+      "tiers": [
+        "sota"
+      ],
+      "implementation": "COLMAP, Brush, DEM differencing",
+      "spdx": [
+        "BSD-3-Clause",
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "precompute",
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "E2"
+      ],
+      "docs_page": "docs/methods/m19-gaussian-splat-survey.md",
+      "comparison": {
+        "baseline": {
+          "en": "DEM differencing and exact volume",
+          "es": "diferencia de DEM y volumen exacto"
+        },
+        "metric": {
+          "name": {
+            "en": "volume error",
+            "es": "error de volumen"
+          },
+          "unit": "%",
+          "orientation": "lower-is-better"
+        },
+        "pairing_unit": {
+          "en": "flight",
+          "es": "vuelo"
+        },
+        "n": 36
+      },
+      "criterion": {
+        "text": {
+          "en": "volume error reported for every design and seed, no pass threshold",
+          "es": "error de volumen informado por diseño y semilla, sin umbral de aprobación"
+        },
+        "requirement": "SC-017-06",
+        "spec": "017-planning-survey"
+      }
+    },
+    {
+      "id": "M20",
+      "name": {
+        "en": "Traffic and time to collision",
+        "es": "Tráfico y tiempo a colisión"
+      },
+      "tiers": [
+        "classical",
+        "sota"
+      ],
+      "implementation": "agent-based traffic, Rapier",
+      "spdx": [
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "live",
+        "replay"
+      ],
+      "learned": false,
+      "cases": [
+        "B1"
+      ],
+      "docs_page": "docs/methods/m20-traffic-ttc.md"
+    },
+    {
+      "id": "M21",
+      "name": {
+        "en": "Isaac Lab policies",
+        "es": "Políticas de Isaac Lab"
+      },
+      "tiers": [
+        "sota",
+        "beyond-sota"
+      ],
+      "implementation": "Isaac Lab PPO, TypeScript twins",
+      "spdx": [
+        "BSD-3-Clause",
+        "Apache-2.0"
+      ],
+      "lanes": [
+        "precompute",
+        "live"
+      ],
+      "learned": true,
+      "cases": [
+        "A2",
+        "A3"
+      ],
+      "docs_page": "docs/methods/m21-isaac-lab-policies.md",
+      "comparison": {
+        "baseline": {
+          "en": "pure pursuit + PID",
+          "es": "pure pursuit + PID"
+        },
+        "metric": {
+          "name": {
+            "en": "route success",
+            "es": "éxito de ruta"
+          },
+          "unit": "1",
+          "orientation": "higher-is-better"
+        },
+        "pairing_unit": {
+          "en": "seeded episode",
+          "es": "episodio con semilla"
+        },
+        "n": 100
+      },
+      "criterion": {
+        "text": {
+          "en": ">= 95 % route success without collision over 100 seeded episodes",
+          "es": ">= 95 % de éxito de ruta sin colisión en 100 episodios"
+        },
+        "requirement": "SC-014-01",
+        "spec": "014-robot-learning"
+      }
+    },
+    {
+      "id": "M22",
+      "name": {
+        "en": "Cosmos Reason 2 tasks",
+        "es": "Tareas con Cosmos Reason 2"
+      },
+      "tiers": [
+        "frontier"
+      ],
+      "implementation": "Cosmos Reason 2 through llama.cpp",
+      "spdx": [
+        "LicenseRef-NVIDIA-Open-Model"
+      ],
+      "lanes": [
+        "precompute"
+      ],
+      "learned": true,
+      "cases": [
+        "B1",
+        "B2"
+      ],
+      "docs_page": "docs/methods/m22-cosmos-vlm-tasks.md",
+      "comparison": {
+        "baseline": {
+          "en": "Qwen3-VL-2B base",
+          "es": "Qwen3-VL-2B base"
+        },
+        "metric": {
+          "name": {
+            "en": "balanced accuracy",
+            "es": "exactitud balanceada"
+          },
+          "unit": "1",
+          "orientation": "higher-is-better"
+        },
+        "pairing_unit": {
+          "en": "query",
+          "es": "consulta"
+        },
+        "n": 500
+      },
+      "criterion": {
+        "text": {
+          "en": "Cosmos beats the Qwen base model only if McNemar p < 0.05",
+          "es": "Cosmos supera al modelo base Qwen solo si McNemar p < 0,05"
+        },
+        "requirement": "SC-015-03",
+        "spec": "015-vlm"
+      }
+    },
+    {
+      "id": "M23",
+      "name": {
+        "en": "RTX sensor simulation",
+        "es": "Simulación de sensores RTX"
+      },
+      "tiers": [
+        "sota"
+      ],
+      "implementation": "ovrtx sensors",
+      "spdx": [
+        "LicenseRef-NvidiaProprietary"
+      ],
+      "lanes": [
+        "precompute",
+        "live"
+      ],
+      "learned": false,
+      "cases": [
+        "B1",
+        "B2",
+        "C1",
+        "E2"
+      ],
+      "docs_page": "docs/methods/m23-rtx-sensor-simulation.md"
+    }
+  ]
+}

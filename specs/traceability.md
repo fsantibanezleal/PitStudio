@@ -1,4 +1,4 @@
-# Traceability matrix — generated 2026-10-07 by tools/trace.py (do not edit)
+# Traceability matrix — generated 2026-10-10 by tools/trace.py (do not edit)
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
@@ -178,6 +178,10 @@
 | FR-001-51 | 001-contracts | draft | T-001-030 | - |
 | FR-001-52 | 001-contracts | draft | T-001-024 | - |
 | FR-001-53 | 001-contracts | draft | T-001-031 | - |
+| FR-001-54 | 001-contracts | draft | T-001-032 | - |
+| FR-001-55 | 001-contracts | draft | T-001-032 | - |
+| FR-001-56 | 001-contracts | draft | T-001-025 | - |
+| FR-001-57 | 001-contracts | draft | T-001-025 | - |
 | FR-002-01 | 002-runner | draft | T-002-010 | - |
 | FR-002-02 | 002-runner | draft | T-002-010 | - |
 | FR-002-03 | 002-runner | draft | T-002-010 | - |
@@ -1602,9 +1606,9 @@
 | US-000-5 | 000-foundation | draft | - | - |
 | US-000-6 | 000-foundation | draft | - | - |
 | US-001-1 | 001-contracts | draft | T-001-001, T-001-010, T-001-011, T-001-012, T-001-013, T-001-014 | - |
-| US-001-2 | 001-contracts | draft | T-001-003, T-001-020, T-001-021, T-001-022, T-001-024 | - |
+| US-001-2 | 001-contracts | draft | T-001-003, T-001-020, T-001-021, T-001-022, T-001-025, T-001-024 | - |
 | US-001-3 | 001-contracts | draft | T-001-002, T-001-040, T-001-041 | - |
-| US-001-4 | 001-contracts | draft | T-001-030, T-001-031 | - |
+| US-001-4 | 001-contracts | draft | T-001-030, T-001-032, T-001-031 | - |
 | US-001-5 | 001-contracts | draft | T-001-023 | - |
 | US-002-1 | 002-runner | draft | T-002-001, T-002-010, T-002-011, T-002-012 | - |
 | US-002-2 | 002-runner | draft | T-002-030, T-002-031, T-002-032, T-002-048, T-002-075 | - |

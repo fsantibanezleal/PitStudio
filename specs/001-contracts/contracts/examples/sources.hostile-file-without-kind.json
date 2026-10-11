@@ -1,0 +1,93 @@
+{
+  "$schema": "../sources.schema.json",
+  "sources": [
+    {
+      "id": "example-lidar-tiles",
+      "kind": "real",
+      "title": "Example public-domain lidar tiles of an open-pit mine",
+      "landing_url": "https://example.org/data/lidar-tiles",
+      "access": "direct",
+      "files": [
+        {
+          "url": "https://example.org/data/lidar-tiles/tile-001.laz",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 734003200,
+          "kind": "point-cloud",
+          "publisher_checksum": "md5:0123456789abcdef0123456789abcdef"
+        },
+        {
+          "url": "https://example.org/data/lidar-tiles/archive.zip",
+          "sha256": null,
+          "bytes": null,
+          "name": "lidar-tiles.zip",
+          "kind": "archive",
+          "uncompressed_bytes": 2147483648,
+          "extract": [
+            "tiles/*.laz",
+            "metadata/tile-??.xml"
+          ]
+        }
+      ],
+      "spdx": "LicenseRef-USGov-PD",
+      "licence_url": "https://example.org/data/lidar-tiles/licence",
+      "licence_class": "public-domain",
+      "redistribution": "redistributable",
+      "citation": "Example agency (2024). Lidar tiles. https://example.org/data/lidar-tiles",
+      "card": "data/cards/example-lidar-tiles.md",
+      "account": {
+        "needed": false
+      }
+    },
+    {
+      "id": "example-station-hourly",
+      "kind": "real",
+      "title": "Example hourly station records",
+      "landing_url": "https://example.org/data/stations",
+      "access": "api",
+      "files": [
+        {
+          "url": "https://example.org/api/stations?id=123&format=csv",
+          "sha256": null,
+          "bytes": null
+        }
+      ],
+      "spdx": "CC-BY-4.0",
+      "licence_url": "https://example.org/data/stations/licence",
+      "licence_class": "attribution",
+      "redistribution": "redistributable",
+      "attribution": "Station data: Example Weather Service, CC BY 4.0.",
+      "citation": "Example Weather Service (2025). Hourly station records.",
+      "card": "data/cards/example-station-hourly.md",
+      "account": {
+        "needed": false
+      }
+    },
+    {
+      "id": "example-reanalysis",
+      "kind": "real",
+      "title": "Example hourly reanalysis on single levels",
+      "landing_url": "https://example.org/data/reanalysis",
+      "access": "account",
+      "files": [],
+      "spdx": "CC-BY-4.0",
+      "licence_url": "https://example.org/data/reanalysis/licence",
+      "licence_class": "attribution",
+      "redistribution": "derived-only",
+      "attribution": "Contains modified example reanalysis information (2026).",
+      "citation": "Example Centre (2023). Hourly reanalysis on single levels.",
+      "card": "data/cards/example-reanalysis.md",
+      "account": {
+        "needed": true,
+        "env_var": "EXAMPLE_REANALYSIS_KEY",
+        "note": "free account; key read from the environment"
+      },
+      "fallback": {
+        "sources": [
+          "example-station-hourly"
+        ],
+        "text": "hourly station records replace the reanalysis"
+      },
+      "optional": true
+    }
+  ]
+}

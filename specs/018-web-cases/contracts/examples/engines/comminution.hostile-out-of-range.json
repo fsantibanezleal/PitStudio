@@ -1,0 +1,11 @@
+{
+  "kind": "input",
+  "engine": "comminution",
+  "engine_version": "0.1.0",
+  "function": "bond_energy",
+  "args": {
+    "work_index_j_per_kg": 50400.0,
+    "f80_m": 0.0,
+    "p80_m": 0.00015
+  }
+}

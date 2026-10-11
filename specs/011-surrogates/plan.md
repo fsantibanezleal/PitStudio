@@ -157,7 +157,7 @@ Data flow: `st50_physics` (rollouts, fields, calibration runs; DC-011-01, DC-011
 | SC-011-04 | pipeline | as FR-011-08 and FR-011-37 | pytest |
 | DC-011-01…DC-011-04 | contract | valid and invalid example documents per schema | pytest + jsonschema |
 
-### Threshold keys requested (`thresholds.yaml`, ratchet-only; proposed keys, pending maintainer approval)
+### Threshold keys (`thresholds.yaml`, ratchet-only)
 `models.gns_repose_abs_deg_max: 1.5`, `models.gns_runout_rel_max: 0.05`, `models.fno_rel_l2_mean_max: 0.05`,
 `models.dem_calibration_coverage_min: 0.90`, `models.dem_calibration_trials: 50`,
 `models.surrogate_fp16_rollout_delta: { repose_deg: 0.5, runout_rel: 0.01 }`.

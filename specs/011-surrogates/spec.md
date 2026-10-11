@@ -168,10 +168,10 @@ Fixed parameters referred to as "§7" are in the tables of section 7.
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-011-01 | Granular rollout metadata (Zarr or Parquet payload): family, geometry id and parameters, packing seed, solver and version, d, R, Δt_f, bounds, frame times, particle count, material parameters with provenance, rest time | `contracts/granular-rollout.schema.json` (new, T-011-001) | `st50_physics` (spec 005) → `s10_preprocess`, `s30_train`, `s50_evaluate` |
-| DC-011-02 | Surrogate input/output description: model id, opset, IR version, input and output names, shapes, dtypes, channel order and units, normalisation statistics, training envelope (parameter ranges), precision, live / precompute | `contracts/surrogate-io.schema.json` (new, T-011-001; also used by specs 010 and 017) | `s60_export` → web engines `gns`, `fno`, `forecasters`, `meta-model` |
-| DC-011-03 | Field dataset metadata: patch id, source DEM digest, cell size, grid, channels with units, scenario parameters, T_end, output times | `contracts/field-dataset.schema.json` (new, T-011-001) | `st50_physics` → `s10_preprocess`, `s30_train` |
-| DC-011-04 | Calibration result: arm, trial id, μ†, θ*, μ̂, interval, identification flag, gradient-check log, loss terms and weights, W, settling steps, S, R, h, seeds, simulations, wall time, deterministic-accumulation flag | `contracts/calibration-result.schema.json` (new, T-011-001) | calibration driver (`st50_physics`) → `s50_evaluate`, web A3, specs 005 and 014 |
+| DC-011-01 | Granular rollout metadata (Zarr or Parquet payload): family, geometry id and parameters, packing seed, solver and version, d, R, Δt_f, bounds, frame times, particle count, material parameters with provenance, rest time | `specs/011-surrogates/contracts/granular-rollout.schema.json` (draft; promoted to `contracts/granular-rollout.schema.json` by T-011-001) | `st50_physics` (spec 005) → `s10_preprocess`, `s30_train`, `s50_evaluate` |
+| DC-011-02 | Surrogate input/output description: model id, opset, IR version, input and output names, shapes, dtypes, channel order and units, normalisation statistics, training envelope (parameter ranges), precision, live / precompute | `specs/011-surrogates/contracts/surrogate-io.schema.json` (draft; promoted to `contracts/surrogate-io.schema.json` by T-011-001; also used by specs 010 and 017) | `s60_export` → web engines `gns`, `fno`, `forecasters`, `meta-model` |
+| DC-011-03 | Field dataset metadata: patch id, source DEM digest, cell size, grid, channels with units, scenario parameters, T_end, output times | `specs/011-surrogates/contracts/field-dataset.schema.json` (draft; promoted to `contracts/field-dataset.schema.json` by T-011-001) | `st50_physics` → `s10_preprocess`, `s30_train` |
+| DC-011-04 | Calibration result: arm, trial id, μ†, θ*, μ̂, interval, identification flag, gradient-check log, loss terms and weights, W, settling steps, S, R, h, seeds, simulations, wall time, deterministic-accumulation flag | `specs/011-surrogates/contracts/calibration-result.schema.json` (draft; promoted to `contracts/calibration-result.schema.json` by T-011-001) | calibration driver (`st50_physics`) → `s50_evaluate`, web A3, specs 005 and 014 |
 
 Every artefact is also described by its manifest entry (DC-000-01).
 
@@ -254,6 +254,21 @@ Identity, Cast. Anything else fails FR-011-36.
 - Integration 2026-10-07: every `thresholds.yaml` key this spec proposes is marked "proposed key, pending maintainer
   approval" and compiled with the other specs' proposals for the maintainer; lane-gate keys are consolidated as
   `lane_gate.*` and budget keys as `budgets.*`.
+- Integration 2026-10-07: draft schema written for DC-011-01 … DC-011-04 (`specs/011-surrogates/contracts/`, valid and
+  hostile examples indexed in `examples/index.json`); stricter readings chosen: `surrogate-io` serves the engines
+  `gns`, `fno`, `forecasters` and `meta-model` (specs 010 and 017) with opset in {17, 18, 19} pinned per engine (GNS,
+  forecasters and meta-model 17, FNO 19), IR version 10, precision fp32 / fp16 / int8 / fp8 (fp8 only at opset 19);
+  "live / precompute" is the field `delivery` (`live`, `precompute`, `bench-only` for the ScatterElements variant),
+  distinct from the measured manifest lane, with a reason required off live and ≤ 25 × 10⁶ bytes when live; `unit` is
+  the physical unit and `normalisation` maps it to the tensor values (`applied_in_graph`), the forecaster scaling rule
+  being `context-mean-abs` and the quantile order the `quantiles` list; symbolic dimensions declare min ≥ 1 (N = 0 is
+  refused); a Zarr payload digest is the SHA-256 of its sorted chunk-digest listing; every material parameter carries
+  its provenance (source, row or trial id, verification status); field grids are 64 × 64, 128 × 128 only with
+  `resolution_transfer: true` (FR-011-42); calibration results are per parameter, a "not identified" or "gradient
+  unreliable" trial can only be non-covering, literature targets carry no truth or coverage field, Newton MPM admits
+  the CMA-ES arm only and synthetic trials ≤ 5,000 particles; caps the spec leaves open are chosen in the schemas
+  (≤ 10⁶ particles, ≤ 20,000 frames, seeds 0 … 2³² − 1).
+- Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
 - (no open items)
 
 ## 9. Changes (only for features that modify earlier behaviour)

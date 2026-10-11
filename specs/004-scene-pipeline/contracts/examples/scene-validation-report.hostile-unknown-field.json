@@ -1,0 +1,191 @@
+{
+  "$schema": "https://fsantibanezleal.github.io/PitStudio/contracts/scene-validation-report.schema.json",
+  "schema_version": "1.0",
+  "kind": "scene-validation-report",
+  "case": "A1",
+  "manifest_id": "a1-bingham-scene",
+  "params_sha256": "1a7ae2af63dafb1ceb4c9738fe1c948b396c4d1746cd571c9dea273c0333529c",
+  "status": "complete",
+  "passed": true,
+  "validators": [
+    {
+      "id": "usd-validation-nvidia",
+      "version": "1.22.0",
+      "status": "ran",
+      "results": [
+        {
+          "rule": "usd:metadata:documentation",
+          "severity": "warning",
+          "prim": "/World/Design",
+          "message": "prim has no documentation string",
+          "waived": false
+        }
+      ]
+    },
+    {
+      "id": "simready-validate",
+      "version": "2026.8.0",
+      "status": "ran",
+      "results": []
+    }
+  ],
+  "selections": [
+    {
+      "pushback": "pb0",
+      "scenario": "baseline",
+      "time_of_day": "noon",
+      "weather": "clear",
+      "lod": "lod0"
+    },
+    {
+      "pushback": "pb0",
+      "scenario": "baseline",
+      "time_of_day": "noon",
+      "weather": "clear",
+      "lod": "lod1"
+    },
+    {
+      "pushback": "pb0",
+      "scenario": "baseline",
+      "time_of_day": "noon",
+      "weather": "clear",
+      "lod": "lod2"
+    }
+  ],
+  "invariants": {
+    "layer_units_axis": {
+      "measured": 0,
+      "unit": "count",
+      "limit": 0,
+      "comparison": "le",
+      "passed": true
+    },
+    "class_label_coverage": {
+      "measured": 1.0,
+      "unit": "fraction",
+      "limit": 1.0,
+      "comparison": "ge",
+      "passed": true
+    },
+    "time_sampled_labels": {
+      "measured": 0,
+      "unit": "count",
+      "limit": 0,
+      "comparison": "le",
+      "passed": true
+    },
+    "articulation_roots": {
+      "measured": 0,
+      "unit": "count",
+      "limit": 0,
+      "comparison": "le",
+      "passed": true
+    },
+    "cyclic_joint_graphs": {
+      "measured": 0,
+      "unit": "count",
+      "limit": 0,
+      "comparison": "le",
+      "passed": true
+    },
+    "non_positive_masses": {
+      "measured": 0,
+      "unit": "count",
+      "limit": 0,
+      "comparison": "le",
+      "passed": true
+    },
+    "bench_height_deviation": {
+      "measured": 0.2,
+      "unit": "m",
+      "limit": 0.5,
+      "comparison": "le",
+      "passed": true
+    },
+    "face_angle_deviation": {
+      "measured": 0.4,
+      "unit": "deg",
+      "limit": 1.0,
+      "comparison": "le",
+      "passed": true
+    },
+    "ramp_grade_max": {
+      "measured": 8.06,
+      "unit": "pct",
+      "limit": 8.1,
+      "comparison": "le",
+      "passed": true
+    },
+    "windrow_margin": {
+      "measured": 0.9,
+      "unit": "m",
+      "limit": 0,
+      "comparison": "ge",
+      "passed": true
+    },
+    "terrain_range_excess": {
+      "measured": 0.0,
+      "unit": "m",
+      "limit": 0,
+      "comparison": "le",
+      "passed": true
+    },
+    "cut_fill_identity_residual": {
+      "measured": 2.3e-16,
+      "unit": "rel",
+      "limit": 1e-12,
+      "comparison": "le",
+      "passed": true
+    },
+    "forbidden_paths": {
+      "measured": 0,
+      "unit": "count",
+      "limit": 0,
+      "comparison": "le",
+      "passed": true
+    },
+    "layer_size_max": {
+      "measured": 2360000,
+      "unit": "bytes",
+      "limit": 10000000,
+      "comparison": "le",
+      "passed": true
+    }
+  },
+  "waivers": [],
+  "determinism": {
+    "class": "bitwise",
+    "layers": [
+      {
+        "role": "root",
+        "path": "root.usda",
+        "format": "usda",
+        "method": "bytes",
+        "first_sha256": "17ea8818acaab7e269e17113255645b83cd18853744ae95eea24bbf8fe91c7e6",
+        "second_sha256": "17ea8818acaab7e269e17113255645b83cd18853744ae95eea24bbf8fe91c7e6",
+        "equal": true
+      },
+      {
+        "role": "design",
+        "path": "layers/design.usda",
+        "format": "usda",
+        "method": "bytes",
+        "first_sha256": "205d56316ba3fa96d43ca6cb18696d030fa883b1f5eec755b3a724bce6c62685",
+        "second_sha256": "205d56316ba3fa96d43ca6cb18696d030fa883b1f5eec755b3a724bce6c62685",
+        "equal": true
+      },
+      {
+        "role": "terrain",
+        "path": "layers/terrain.usdc",
+        "format": "usdc",
+        "method": "flattened-text",
+        "first_sha256": "6b9a176b8a3e3a1add74eea2a1cfc7f5c237641ede6d7591c253385c840a6cb8",
+        "second_sha256": "6b9a176b8a3e3a1add74eea2a1cfc7f5c237641ede6d7591c253385c840a6cb8",
+        "equal": true
+      }
+    ],
+    "identical": true,
+    "stage_hash": "da2511ed23bf97f073517d8c24d3e633e1e64a19494260d48480b0c3585932c2"
+  },
+  "hostname": "build-box"
+}

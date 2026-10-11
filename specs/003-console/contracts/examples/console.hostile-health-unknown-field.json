@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "console_version": "0.1.0",
+  "runner_version": "0.1.0",
+  "contracts": {
+    "manifest": "1.0",
+    "job": "1.0",
+    "events": "1.0"
+  },
+  "host": "studio-box"
+}

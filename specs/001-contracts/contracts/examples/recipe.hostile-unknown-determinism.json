@@ -1,0 +1,134 @@
+{
+  "$schema": "../recipe.schema.json",
+  "id": "a2-haulage",
+  "case": "A2",
+  "seed": 20261007,
+  "description": "A2 haulage replay: network, granular spill and the encoded clip.",
+  "stages": [
+    {
+      "id": "s00_download",
+      "env": "pipeline",
+      "tool": "pitstudio",
+      "entry": "pipeline.stages.s00_download",
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "resources": {
+        "gpu": "none",
+        "disk_gib_est": 1.0,
+        "cpu": 2
+      },
+      "determinism": "exact",
+      "timeout_s": 3600,
+      "outputs": [
+        {
+          "path": "raw/network.geojson",
+          "schema": "geojson-file"
+        }
+      ]
+    },
+    {
+      "id": "st50_physics",
+      "variant": "dem",
+      "env": "studio",
+      "tool": "warp",
+      "entry": "pitstudio.stages.st50_physics",
+      "inputs": [
+        {
+          "stage": "s00_download",
+          "output": "raw/network.geojson"
+        }
+      ],
+      "params": {
+        "solver": "dem",
+        "dt_s": 0.0001,
+        "counts": {
+          "particles": 20000
+        },
+        "materials": [
+          {
+            "name": "ore",
+            "density_kg_m3": 2650,
+            "friction": {
+              "static": 0.6
+            }
+          }
+        ]
+      },
+      "resources": {
+        "gpu": "exclusive",
+        "vram_gib_est": 6.0,
+        "disk_gib_est": 4.0
+      },
+      "requires": [
+        "warp_newton"
+      ],
+      "determinism": {
+        "class": "statistical",
+        "observables": {
+          "repose_deg": {
+            "rtol": 0.02,
+            "atol": 0.5
+          }
+        }
+      },
+      "retry": {
+        "oom_fallback": [
+          {
+            "counts": {
+              "particles": 10000
+            }
+          }
+        ]
+      },
+      "timeout_s": 7200,
+      "outputs": [
+        {
+          "path": "physics/observables.parquet",
+          "schema": "physics-observables",
+          "publish": false
+        }
+      ],
+      "shardable": {
+        "shard_size": 1000,
+        "total": 20000
+      }
+    },
+    {
+      "id": "st56_encode",
+      "env": "studio",
+      "tool": "nvenc-ffmpeg",
+      "entry": "pitstudio.stages.st56_encode",
+      "inputs": [
+        {
+          "stage": "st50_physics",
+          "variant": "dem"
+        }
+      ],
+      "resources": {
+        "gpu": "nvenc"
+      },
+      "binaries": [
+        {
+          "id": "ffmpeg",
+          "sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+        }
+      ],
+      "determinism": {
+        "class": "none",
+        "reason": "hardware encoder output varies with the driver"
+      },
+      "timeout_s": 1800,
+      "outputs": [
+        {
+          "path": "media/a2-haul.mp4",
+          "schema": "video-file",
+          "publish": true
+        }
+      ]
+    }
+  ]
+}

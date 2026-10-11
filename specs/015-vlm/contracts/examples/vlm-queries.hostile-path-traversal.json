@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "seed": 20261007,
+  "source_run_id": "20261012T013000Z-b2",
+  "queries": [
+    {
+      "query_id": "a-q00001",
+      "frame_id": "../frames/b2-f0007",
+      "frame_state_sha256": "a2089c8dbe120691b229b76c2ab7dfdfdfaa0cbb1ae473ec238e05e1280057e9",
+      "type": 1,
+      "condition": "dust",
+      "location": "haul_road",
+      "truth": "yes",
+      "gate_subset": true,
+      "reasoning_subset": false
+    },
+    {
+      "query_id": "a-q00002",
+      "frame_id": "b2-pit-s0042-f0007",
+      "frame_state_sha256": "a2089c8dbe120691b229b76c2ab7dfdfdfaa0cbb1ae473ec238e05e1280057e9",
+      "type": 3,
+      "condition": "dust",
+      "location": "haul_road",
+      "truth": "1",
+      "gate_subset": false,
+      "reasoning_subset": false
+    },
+    {
+      "query_id": "a-q00003",
+      "frame_id": "b2-pit-s0011-f0002",
+      "frame_state_sha256": "d23ea8fe9290b3c46fc74ea0c11061530f777cfb5b09938b55086506bb02ac49",
+      "type": 4,
+      "condition": "night",
+      "location": "bench",
+      "truth": "no",
+      "gate_subset": false,
+      "reasoning_subset": true
+    },
+    {
+      "query_id": "a-q00004",
+      "frame_id": "b2-pit-s0019-f0005",
+      "frame_state_sha256": "6435b20028221a0399e04d66bd754a7e2c3534afc39e8700b470ad54b7286969",
+      "type": 2,
+      "condition": "rain",
+      "location": "bench",
+      "truth": "yes",
+      "gate_subset": false,
+      "reasoning_subset": false
+    }
+  ]
+}

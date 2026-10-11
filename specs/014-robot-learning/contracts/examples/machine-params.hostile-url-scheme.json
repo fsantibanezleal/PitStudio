@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "kind": "haul-truck",
+  "id": "generic-haul-truck-220t",
+  "name": "Generic 220 t haul truck",
+  "empty_mass_kg": 160000,
+  "rated_payload_kg": 220000,
+  "wheel_mass_kg": 4000,
+  "wheelbase_m": 5.3,
+  "track_width_m": 5.0,
+  "wheel_radius_m": 1.7,
+  "wheel_width_m": 1.1,
+  "chassis_length_m": 12.0,
+  "chassis_width_m": 7.5,
+  "chassis_height_m": 6.0,
+  "cg_to_front_axle_m": 2.6,
+  "cg_height_m": 2.4,
+  "yaw_inertia_kg_m2": 1800000,
+  "cornering_stiffness_front_n_per_rad": 900000,
+  "cornering_stiffness_rear_n_per_rad": 1800000,
+  "max_steer_deg": 38,
+  "max_steer_rate_deg_per_s": 20,
+  "max_rimpull_n": 900000,
+  "max_retarder_n": 1100000,
+  "meshes": {
+    "chassis": "https://example.org/x.obj",
+    "wheel": "meshes/haul-truck-wheel.obj"
+  },
+  "sources": [
+    {
+      "id": "example-source",
+      "citation": "Illustrative source for this example file; a committed file cites the published reference",
+      "url": "https://example.org/generic-machine-dimensions",
+      "locator": "Table 1"
+    }
+  ],
+  "provenance": {
+    "empty_mass_kg": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "rated_payload_kg": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "wheel_mass_kg": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "wheelbase_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "track_width_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "wheel_radius_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "wheel_width_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "chassis_length_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "chassis_width_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "chassis_height_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "cg_to_front_axle_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "cg_height_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "yaw_inertia_kg_m2": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "cornering_stiffness_front_n_per_rad": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "cornering_stiffness_rear_n_per_rad": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "max_steer_deg": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "max_steer_rate_deg_per_s": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "max_rimpull_n": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "max_retarder_n": {
+      "source": "example-source",
+      "class": "published"
+    }
+  }
+}

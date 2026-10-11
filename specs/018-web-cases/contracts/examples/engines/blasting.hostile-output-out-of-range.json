@@ -1,0 +1,13 @@
+{
+  "kind": "output",
+  "engine": "blasting",
+  "engine_version": "0.1.0",
+  "function": "swebrec_passing",
+  "result": {
+    "passing": [
+      0.21,
+      0.5,
+      1.2
+    ]
+  }
+}

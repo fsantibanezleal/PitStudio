@@ -1,0 +1,662 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/comminution-sweep.schema.json",
+  "title": "D2 comminution sweeps",
+  "description": "Seeded Sobol sweeps of the mine-to-mill chain written by s05_synthesize (DC-017-01, spec 017-planning-survey).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "synthetic",
+    "label",
+    "design",
+    "unverified_rows",
+    "configurations"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "label": {
+      "const": "calibrated synthetic — not validated against real data"
+    },
+    "design": {
+      "$ref": "#/$defs/design"
+    },
+    "unverified_rows": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/knowledge_row_id"
+      },
+      "minItems": 0,
+      "maxItems": 64,
+      "uniqueItems": true
+    },
+    "configurations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/configuration"
+      },
+      "minItems": 10,
+      "maxItems": 10000
+    }
+  },
+  "$defs": {
+    "bound": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max",
+        "row",
+        "verification"
+      ],
+      "properties": {
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "row": {
+          "$ref": "#/$defs/knowledge_row_id"
+        },
+        "verification": {
+          "enum": [
+            "verified",
+            "UNVERIFIED"
+          ]
+        }
+      },
+      "description": "Bound pair of one input: both limits from the cited knowledge-table row, with its verification status."
+    },
+    "box": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "burden_m",
+        "spacing_ratio",
+        "powder_factor_kg_per_m3",
+        "hole_diameter_mm",
+        "bench_height_m",
+        "rock_factor",
+        "crusher_css_mm",
+        "target_p80_um",
+        "mill_power_kw",
+        "efficiency",
+        "energy_cap_kwh_per_t",
+        "explosive_cost_usd_per_kg",
+        "energy_cost_usd_per_kwh",
+        "consumables_usd_per_t"
+      ],
+      "properties": {
+        "burden_m": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_burden_m"
+            },
+            "max": {
+              "$ref": "#/$defs/x_burden_m"
+            }
+          }
+        },
+        "spacing_ratio": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_spacing_ratio"
+            },
+            "max": {
+              "$ref": "#/$defs/x_spacing_ratio"
+            }
+          }
+        },
+        "powder_factor_kg_per_m3": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_powder_factor_kg_per_m3"
+            },
+            "max": {
+              "$ref": "#/$defs/x_powder_factor_kg_per_m3"
+            }
+          }
+        },
+        "hole_diameter_mm": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_hole_diameter_mm"
+            },
+            "max": {
+              "$ref": "#/$defs/x_hole_diameter_mm"
+            }
+          }
+        },
+        "bench_height_m": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_bench_height_m"
+            },
+            "max": {
+              "$ref": "#/$defs/x_bench_height_m"
+            }
+          }
+        },
+        "rock_factor": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_rock_factor"
+            },
+            "max": {
+              "$ref": "#/$defs/x_rock_factor"
+            }
+          }
+        },
+        "bond_work_index_kwh_per_t": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_bond_work_index_kwh_per_t"
+            },
+            "max": {
+              "$ref": "#/$defs/x_bond_work_index_kwh_per_t"
+            }
+          }
+        },
+        "morrell_index_kwh_per_t": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_morrell_index_kwh_per_t"
+            },
+            "max": {
+              "$ref": "#/$defs/x_morrell_index_kwh_per_t"
+            }
+          }
+        },
+        "crusher_css_mm": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_crusher_css_mm"
+            },
+            "max": {
+              "$ref": "#/$defs/x_crusher_css_mm"
+            }
+          }
+        },
+        "target_p80_um": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_target_p80_um"
+            },
+            "max": {
+              "$ref": "#/$defs/x_target_p80_um"
+            }
+          }
+        },
+        "mill_power_kw": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_mill_power_kw"
+            },
+            "max": {
+              "$ref": "#/$defs/x_mill_power_kw"
+            }
+          }
+        },
+        "efficiency": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_efficiency"
+            },
+            "max": {
+              "$ref": "#/$defs/x_efficiency"
+            }
+          }
+        },
+        "energy_cap_kwh_per_t": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_energy_cap_kwh_per_t"
+            },
+            "max": {
+              "$ref": "#/$defs/x_energy_cap_kwh_per_t"
+            }
+          }
+        },
+        "explosive_cost_usd_per_kg": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_explosive_cost_usd_per_kg"
+            },
+            "max": {
+              "$ref": "#/$defs/x_explosive_cost_usd_per_kg"
+            }
+          }
+        },
+        "energy_cost_usd_per_kwh": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_energy_cost_usd_per_kwh"
+            },
+            "max": {
+              "$ref": "#/$defs/x_energy_cost_usd_per_kwh"
+            }
+          }
+        },
+        "consumables_usd_per_t": {
+          "$ref": "#/$defs/bound",
+          "properties": {
+            "min": {
+              "$ref": "#/$defs/x_consumables_usd_per_t"
+            },
+            "max": {
+              "$ref": "#/$defs/x_consumables_usd_per_t"
+            }
+          }
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "bond_work_index_kwh_per_t"
+          ]
+        },
+        {
+          "required": [
+            "morrell_index_kwh_per_t"
+          ]
+        }
+      ],
+      "description": "Sampling box: one bound pair per input of the D2 input vector (unit-suffixed names)."
+    },
+    "config_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hole_diameter_mm",
+        "bench_height_m",
+        "rock_factor",
+        "crusher_css_mm",
+        "target_p80_um",
+        "mill_power_kw",
+        "efficiency",
+        "energy_cap_kwh_per_t",
+        "explosive_cost_usd_per_kg",
+        "energy_cost_usd_per_kwh",
+        "consumables_usd_per_t"
+      ],
+      "properties": {
+        "hole_diameter_mm": {
+          "$ref": "#/$defs/x_hole_diameter_mm"
+        },
+        "bench_height_m": {
+          "$ref": "#/$defs/x_bench_height_m"
+        },
+        "rock_factor": {
+          "$ref": "#/$defs/x_rock_factor"
+        },
+        "bond_work_index_kwh_per_t": {
+          "$ref": "#/$defs/x_bond_work_index_kwh_per_t"
+        },
+        "morrell_index_kwh_per_t": {
+          "$ref": "#/$defs/x_morrell_index_kwh_per_t"
+        },
+        "crusher_css_mm": {
+          "$ref": "#/$defs/x_crusher_css_mm"
+        },
+        "target_p80_um": {
+          "$ref": "#/$defs/x_target_p80_um"
+        },
+        "mill_power_kw": {
+          "$ref": "#/$defs/x_mill_power_kw"
+        },
+        "efficiency": {
+          "$ref": "#/$defs/x_efficiency"
+        },
+        "energy_cap_kwh_per_t": {
+          "$ref": "#/$defs/x_energy_cap_kwh_per_t"
+        },
+        "explosive_cost_usd_per_kg": {
+          "$ref": "#/$defs/x_explosive_cost_usd_per_kg"
+        },
+        "energy_cost_usd_per_kwh": {
+          "$ref": "#/$defs/x_energy_cost_usd_per_kwh"
+        },
+        "consumables_usd_per_t": {
+          "$ref": "#/$defs/x_consumables_usd_per_t"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "bond_work_index_kwh_per_t"
+          ]
+        },
+        {
+          "required": [
+            "morrell_index_kwh_per_t"
+          ]
+        }
+      ],
+      "description": "Inputs fixed per ore x circuit configuration."
+    },
+    "configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "split",
+        "seed",
+        "inputs",
+        "points"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "split": {
+          "enum": [
+            "train",
+            "validation",
+            "held-out"
+          ]
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "inputs": {
+          "$ref": "#/$defs/config_inputs"
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          },
+          "minItems": 8,
+          "maxItems": 4096
+        }
+      }
+    },
+    "design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "seed",
+        "energy_model",
+        "n_configurations",
+        "points_per_configuration",
+        "split",
+        "box"
+      ],
+      "properties": {
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "energy_model": {
+          "enum": [
+            "bond",
+            "morrell"
+          ]
+        },
+        "n_configurations": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 10000
+        },
+        "points_per_configuration": {
+          "type": "integer",
+          "minimum": 8,
+          "maximum": 4096
+        },
+        "split": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "train",
+            "validation",
+            "held_out"
+          ],
+          "properties": {
+            "train": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            },
+            "validation": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            },
+            "held_out": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          }
+        },
+        "box": {
+          "$ref": "#/$defs/box"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "energy_model": {
+                "const": "bond"
+              }
+            },
+            "required": [
+              "energy_model"
+            ]
+          },
+          "then": {
+            "properties": {
+              "box": {
+                "required": [
+                  "bond_work_index_kwh_per_t"
+                ],
+                "not": {
+                  "required": [
+                    "morrell_index_kwh_per_t"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "energy_model": {
+                "const": "morrell"
+              }
+            },
+            "required": [
+              "energy_model"
+            ]
+          },
+          "then": {
+            "properties": {
+              "box": {
+                "required": [
+                  "morrell_index_kwh_per_t"
+                ],
+                "not": {
+                  "required": [
+                    "bond_work_index_kwh_per_t"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "The sweep configuration that s05_synthesize validates before evaluating the chain (FR-017-10)."
+    },
+    "knowledge_row_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z][a-z0-9_]{0,95}$"
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "burden_m",
+        "spacing_ratio",
+        "powder_factor_kg_per_m3",
+        "specific_energy_kwh_per_t",
+        "throughput_t_per_h",
+        "cost_usd_per_t"
+      ],
+      "properties": {
+        "burden_m": {
+          "$ref": "#/$defs/x_burden_m"
+        },
+        "spacing_ratio": {
+          "$ref": "#/$defs/x_spacing_ratio"
+        },
+        "powder_factor_kg_per_m3": {
+          "$ref": "#/$defs/x_powder_factor_kg_per_m3"
+        },
+        "specific_energy_kwh_per_t": {
+          "$ref": "#/$defs/x_specific_energy_kwh_per_t"
+        },
+        "throughput_t_per_h": {
+          "$ref": "#/$defs/x_throughput_t_per_h"
+        },
+        "cost_usd_per_t": {
+          "$ref": "#/$defs/x_cost_usd_per_t"
+        }
+      },
+      "description": "One blast design of a configuration and the chain outputs at it."
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "x_bench_height_m": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 30
+    },
+    "x_bond_work_index_kwh_per_t": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 50
+    },
+    "x_burden_m": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 20
+    },
+    "x_consumables_usd_per_t": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "x_cost_usd_per_t": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "x_crusher_css_mm": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 500
+    },
+    "x_efficiency": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
+    "x_energy_cap_kwh_per_t": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 100
+    },
+    "x_energy_cost_usd_per_kwh": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "x_explosive_cost_usd_per_kg": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "x_hole_diameter_mm": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 500
+    },
+    "x_mill_power_kw": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 100000
+    },
+    "x_morrell_index_kwh_per_t": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 50
+    },
+    "x_powder_factor_kg_per_m3": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 5
+    },
+    "x_rock_factor": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 25
+    },
+    "x_spacing_ratio": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 4
+    },
+    "x_specific_energy_kwh_per_t": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1000
+    },
+    "x_target_p80_um": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 10000
+    },
+    "x_throughput_t_per_h": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1000000
+    }
+  }
+}

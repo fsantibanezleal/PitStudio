@@ -179,7 +179,7 @@ marked as root-core (package `pitstudio`, root environment). TypeScript engines 
 
 | ID | Statement | Threshold | Measured by |
 |---|---|---|---|
-| NFR-007-01 | One 8 h shift (≈ 10⁴ events, ≤ 40 trucks) in the TypeScript twin on tier T2 (WASM) | ≤ 1 s (`lane_gate.run_s_max`, proposed key, pending maintainer approval); otherwise the lane is precompute (FR-000-15) | Playwright timing on the reference machine, recorded in the manifest |
+| NFR-007-01 | One 8 h shift (≈ 10⁴ events, ≤ 40 trucks) in the TypeScript twin on tier T2 (WASM) | ≤ 1 s (`lane_gate.run_s_max`); otherwise the lane is precompute (FR-000-15) | Playwright timing on the reference machine, recorded in the manifest |
 | NFR-007-02 | Size of the TypeScript analytical ports (M1, M6 energy, A\*, LP); loading of all haulage engines | ≤ 50 KB gzip together; all engines lazy-loaded, none in the initial JS (NFR-000-01) | build report |
 | NFR-007-03 | Each exported dispatch policy (ONNX) | < 2 MB (live lane) | CI budget check |
 | NFR-007-04 | A\* on a 512 × 512 grid and the A1 LP (≤ 64 paths) on T2 | A\* ≤ 1 s; LP ≤ 50 ms | Vitest benchmark on the reference machine |
@@ -193,11 +193,11 @@ marked as root-core (package `pitstudio`, root environment). TypeScript engines 
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-007-01 | Scenario bundle (network, equipment classes, fleet, loaders, dumps, destinations, dispatcher, variate profile, quantile tables, engine constants, KPI window, live flag) | `contracts/haul-scenario.schema.json` (new, T-007-001) | network builder / `s05_synthesize` → adapter, TypeScript twin, vectorised environment |
-| DC-007-02 | Event trace + cyclelog + scalar results (with header: bundle SHA-256, seed, dispatcher, profile, engine version) | `contracts/des-trace.schema.json` (new) | adapter → goldens, KPI layer, web replay |
-| DC-007-03 | Paired dispatch evaluation table | `contracts/dispatch-eval.schema.json` (new) | `s50_evaluate` → web Charts, docs, run manifest |
-| DC-007-04 | Policy input/output layout (feature order, units, normalisation, masks, tie rule) | `contracts/dispatch-policy-io.schema.json` (new) | `s60_export` → TypeScript twin, ONNX Runtime Web |
-| DC-007-05 | Route-energy table (per drivetrain and route: kWh/t, L/(t·km), kg CO₂e/t, regenerated kWh, basis, UNVERIFIED row ids) | `contracts/haul-energy.schema.json` (new) | route-energy engine → A2 Charts, E1 |
+| DC-007-01 | Scenario bundle (network, equipment classes, fleet, loaders, dumps, destinations, dispatcher, variate profile, quantile tables, engine constants, KPI window, live flag) | `specs/007-haulage-dispatch/contracts/haul-scenario.schema.json` (draft; promoted to `contracts/haul-scenario.schema.json` by T-007-001) | network builder / `s05_synthesize` → adapter, TypeScript twin, vectorised environment |
+| DC-007-02 | Event trace + cyclelog + scalar results (with header: bundle SHA-256, seed, dispatcher, profile, engine version) | `specs/007-haulage-dispatch/contracts/des-trace.schema.json` (draft; promoted to `contracts/des-trace.schema.json` by T-007-001) | adapter → goldens, KPI layer, web replay |
+| DC-007-03 | Paired dispatch evaluation table | `specs/007-haulage-dispatch/contracts/dispatch-eval.schema.json` (draft; promoted to `contracts/dispatch-eval.schema.json` by T-007-001) | `s50_evaluate` → web Charts, docs, run manifest |
+| DC-007-04 | Policy input/output layout (feature order, units, normalisation, masks, tie rule) | `specs/007-haulage-dispatch/contracts/dispatch-policy-io.schema.json` (draft; promoted to `contracts/dispatch-policy-io.schema.json` by T-007-001) | `s60_export` → TypeScript twin, ONNX Runtime Web |
+| DC-007-05 | Route-energy table (per drivetrain and route: kWh/t, L/(t·km), kg CO₂e/t, regenerated kWh, basis, UNVERIFIED row ids) | `specs/007-haulage-dispatch/contracts/haul-energy.schema.json` (draft; promoted to `contracts/haul-energy.schema.json` by T-007-001) | route-energy engine → A2 Charts, E1 |
 
 Every artefact above is also listed in a manifest valid against `contracts/manifest.schema.json` (DC-000-01).
 
@@ -307,6 +307,21 @@ Every artefact above is also listed in a manifest valid against `contracts/manif
     (GiB, not `vram_gb_est`) and expresses the 5 GPU-hour budget through `timeout_s`, because the recipe contract has no
     `gpu_h_est` field.
 14. Integration 2026-10-07: `lane_gate.run_s_max` (NFR-007-01) is marked "proposed key, pending maintainer approval".
+15. Integration 2026-10-07 (2): the maintainer approved the key; NFR-007-01 cites `lane_gate.run_s_max` as a plain key.
+15. Integration 2026-10-07 (2): the maintainer approved the key; NFR-007-01 cites `lane_gate.run_s_max` as a plain key.
+- Integration 2026-10-07: draft schema written for DC-007-01 … DC-007-05 (`specs/007-haulage-dispatch/contracts/`, valid and hostile examples indexed in `examples/index.json`); ambiguities resolved, stricter reading chosen:
+  (a) the bundle declares the dispatcher (with its LP blend floors or pinned policy) and the variate profile of the run; the trace header repeats the values that ran, and adapter arguments that differ are rejected;
+  (b) truck and loader classes are the pinned engine catalog names (enum); the parameters the bundle carries for the twin must equal the engine pin (FR-007-02);
+  (c) quantile tables are carried inline per (family, σ) in standard form (uniform(0, 1), normal(0, 1), exponential(1), unit-mean lognormal(σ)) as 4,097 float64 knots, little-endian, base64, with the SHA-256 of the decoded bytes;
+  (d) the engine constants (stagger window, nominal dump time and CV, closure retry, headway in m and s, payload floor and cap) are required bundle fields, never defaults;
+  (e) the horizon range (0, 604,800] s is in the schema, and a violation at `horizon_s` is reported as `InvalidHorizon` (FR-007-13);
+  (f) the trace defines the canonical event-kind vocabulary (16 kinds, including the reference-only underground kinds); times are seconds (`t_s`), so the hour form of P-007-20(i) is an in-memory KPI-layer input; `truck` and `node` are null for events without them;
+  (g) dispatcher ids are `fixed`, `nearest`, `sptf`, `sq`, `random`, `min-idle`, `lp`, `ppo`, `attention`; the evaluation table admits only FR-007-29's seven; verdicts are `learned-better`, `baseline-better`, `no-significant-difference`, `insufficient-evidence`, with n < 30 ⇒ `insufficient-evidence` (and a reason) and the CI sign of each decided verdict encoded; there is no free-text verdict field;
+  (h) the policy layout is pinned by constants (layout version 1; masks `bool`; logits float32 [1, 16]; ONNX < 2,000,000 bytes, opset 17–19, IR 10);
+  (i) energy rows report source energy per payload tonne, wheel energy as positive tractive work, fuel for diesel and trolley (null for battery-electric), zero regeneration for diesel, and both the knowledge-row ids used and the UNVERIFIED subset;
+  (j) every trace, evaluation and energy table carries the honesty label and a fixed bias-note text;
+  (k) bounds the spec leaves open: rolling resistance ≤ 30 %, speed limit ≤ 120 km/h, segment ≤ 100 km, ≤ 10⁴ nodes and segments, ≤ 64 loaders, ≤ 32 dumps, ≤ 32 tables, ≤ 20,000 evaluation rows, ≤ 1,000 test seeds;
+  (l) open gap: no DC row covers the KPI table of FR-007-08 (including `not-computed (rates not supplied)`), although FR-007-41 names it an A1 artefact.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 Not applicable: a new feature. It refines SC-000-02 without modifying it.

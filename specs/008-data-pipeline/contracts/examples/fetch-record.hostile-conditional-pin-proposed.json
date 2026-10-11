@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "source": "dewit-slope-failure",
+  "name": "displacement.csv",
+  "url": "https://zenodo.org/records/1234567/files/displacement.csv",
+  "final_url": "https://zenodo.org/records/1234567/files/displacement.csv",
+  "stored_as": "raw/dewit-slope-failure/displacement.csv",
+  "bytes": 8912345,
+  "expected_bytes": null,
+  "sha256": "b1bd65639f3efcf07a2f9b87ee787d9a83325644b809cee90712692f84aedc73",
+  "expected_sha256": null,
+  "publisher_checksum": "md5:87caba77ecf19ca9299c8b01fe6f96a7",
+  "publisher_checksum_status": "mismatch",
+  "spdx": "CC-BY-4.0",
+  "licence_class": "attribution",
+  "redistribution": "redistributable",
+  "retrieved": "2026-10-06T09:30:00Z",
+  "status": "pin-proposed",
+  "fallback_sources": [],
+  "attempts": 1
+}

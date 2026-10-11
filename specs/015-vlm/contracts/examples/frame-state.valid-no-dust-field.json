@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "frame_id": "b2-pit-s0042-f0007",
+  "run_id": "20261012T013000Z-b2",
+  "synthetic": true,
+  "case": "B2",
+  "location": "haul_road",
+  "condition": "day",
+  "metersPerUnit": 1.0,
+  "upAxis": "Y",
+  "image": {
+    "path": "data/sdg/b2/pit/s0042/rgb_0007.png",
+    "sha256": "b5d40d3567824bc6f42093da125fbd6bccf340b174292635c4ea161448356225",
+    "width_px": 1280,
+    "height_px": 720
+  },
+  "depth": {
+    "path": "data/sdg/b2/pit/s0042/depth_0007.npy",
+    "sha256": "47d77383e0410f37ac96256b16f6862b94814b4a645fd8b675fde3451111e20d"
+  },
+  "dust_field": null,
+  "terrain": {
+    "path": "data/scenes/b2/pit/terrain.tif",
+    "sha256": "55820e2977c56352b9da59454c7f894e2858b390f48821e37b19ddb5c2b1b8f6"
+  },
+  "camera": {
+    "intrinsics": {
+      "fx_px": 1108.5,
+      "fy_px": 1108.5,
+      "cx_px": 640.0,
+      "cy_px": 360.0
+    },
+    "pose": {
+      "translation_m": [
+        60.0,
+        10.0,
+        812.5
+      ],
+      "rotation_xyzw": [
+        0.5,
+        -0.5,
+        -0.5,
+        0.5
+      ]
+    }
+  },
+  "objects": [
+    {
+      "prim_id": "/World/Vehicles/HaulTruck_01",
+      "class": "haul_truck",
+      "asset_id": "haul-truck-240t",
+      "pose": {
+        "translation_m": [
+          120.0,
+          45.0,
+          806.2
+        ],
+        "rotation_xyzw": [
+          0.0,
+          0.0,
+          0.3826834,
+          0.9238795
+        ]
+      },
+      "footprint": {
+        "centre_m": [
+          120.0,
+          45.0
+        ],
+        "half_extents_m": [
+          7.5,
+          4.6
+        ],
+        "heading_deg": 45.0
+      },
+      "visible_px": 18432,
+      "in_frustum": true
+    },
+    {
+      "prim_id": "/World/People/Person_03",
+      "class": "person",
+      "asset_id": "person-hi-vis-03",
+      "pose": {
+        "translation_m": [
+          101.0,
+          30.5,
+          806.0
+        ],
+        "rotation_xyzw": [
+          0.0,
+          0.0,
+          0.3826834,
+          0.9238795
+        ]
+      },
+      "footprint": {
+        "centre_m": [
+          101.0,
+          30.5
+        ],
+        "half_extents_m": [
+          0.3,
+          0.3
+        ],
+        "heading_deg": -90.0
+      },
+      "visible_px": 640,
+      "in_frustum": true
+    },
+    {
+      "prim_id": "/World/Vehicles/LightVehicle_02",
+      "class": "light_vehicle",
+      "asset_id": "light-vehicle-ute",
+      "pose": {
+        "translation_m": [
+          160.0,
+          80.0,
+          806.4
+        ],
+        "rotation_xyzw": [
+          0.0,
+          0.0,
+          0.3826834,
+          0.9238795
+        ]
+      },
+      "footprint": {
+        "centre_m": [
+          160.0,
+          80.0
+        ],
+        "half_extents_m": [
+          2.6,
+          1.0
+        ],
+        "heading_deg": 135.0
+      },
+      "visible_px": 0,
+      "in_frustum": false
+    }
+  ],
+  "bench_edges": []
+}

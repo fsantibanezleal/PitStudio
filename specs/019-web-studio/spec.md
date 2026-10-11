@@ -111,8 +111,8 @@ published telemetry (DC-002-03, ≤ 200 KB per run, FR-002-50); this spec reads 
 |---|---|---|---|
 | FR-019-33 | Unwanted | If a registry entry has `status: done` and no web-manifest artefact names it as `producer.tool`, then CI shall fail naming the tool (FR-000-07). | contract |
 | FR-019-43 | Unwanted | If a registry entry has `status: not-yet-run` while ≥ 1 web-manifest artefact names it as `producer.tool`, then CI shall fail naming the tool and the artefact (the registry must not under-report a tool that ran). | contract |
-| FR-019-34 | Unwanted | If an artefact produced by a `reference-only` tool has a kind outside {image, video, point-cloud, label-set, table, metrics, text}, or the Pages artifact or the git tree contains a TensorRT engine (`*.engine`, `*.plan`, `*.trt`), a GGUF file, a CUDA, shader or extension cache, a file carrying the NVIDIA proprietary-licence header, or an `omniverse://` URL, then CI shall fail naming the file. | contract |
-| FR-019-35 | Unwanted | If an image or video artefact produced by a `reference-only` tool lists no input artefact produced by PitStudio's scene-composition stage (`st40_compose`, licence class `own`), or has the kind `screenshot`, then CI shall fail naming the artefact. | contract |
+| FR-019-34 | Unwanted | If an artefact produced by a `reference-only` tool has a kind outside {image, video, point-cloud, table, text} (artefact kinds of spec 001; label sets and metrics publish as `table`), or the Pages artifact or the git tree contains a TensorRT engine (`*.engine`, `*.plan`, `*.trt`), a GGUF file, a CUDA, shader or extension cache, a file carrying the NVIDIA proprietary-licence header, or an `omniverse://` URL, then CI shall fail naming the file. | contract |
+| FR-019-35 | Unwanted | If an image or video artefact produced by a `reference-only` tool lists no input artefact produced by PitStudio's scene-composition stage (`st40_compose`, licence class `own`), then CI shall fail naming the artefact. | contract |
 | FR-019-36 | Unwanted | If a published run card or any committed file contains a numeric metric or telemetry value of a stage marked `performance: local-only`, then CI shall fail naming the file and field (FR-000-08). | contract |
 | FR-019-37 | Ubiquitous | Every artefact produced by `cosmos-reason-2` shall show "Built on NVIDIA Cosmos" and the label "display-only". | unit + E2E |
 
@@ -128,7 +128,7 @@ published telemetry (DC-002-03, ≤ 200 KB per run, FR-002-50); this spec reads 
 ### 3.7 Opt-in connection to a local studio
 | ID | Pattern | Requirement | Verification |
 |---|---|---|---|
-| FR-019-44 | Event | When the visitor presses the "connect to my local studio" control on the `/studio` pages (a port field and a button) with a valid port, the page shall make exactly one `GET http://127.0.0.1:<port>/health` (the endpoint and CORS rules of spec 003: FR-003-06, FR-003-20) with `credentials: "omit"` and a 3 s timeout, show "connected — console <version>" only if the response is JSON whose `status` is `ok` and whose `console_version` matches `^[0-9]+\.[0-9]+\.[0-9]+$`, and otherwise (refusal, timeout, declined permission, invalid body) show "not connected", changing nothing else and making no further request until the next press. | E2E |
+| FR-019-44 | Event | When the visitor presses the "connect to my local studio" control on the `/studio` pages (a port field and a button) with a valid port, the page shall make exactly one `GET http://127.0.0.1:<port>/health` (the endpoint and CORS rules of spec 003: FR-003-06, FR-003-20) with `credentials: "omit"` and a 3 s timeout (`console.optin_timeout_s`), show "connected — console <version>" only if the response is JSON whose `status` is `ok` and whose `console_version` matches `^[0-9]+\.[0-9]+\.[0-9]+$`, and otherwise (refusal, timeout, declined permission, invalid body) show "not connected", changing nothing else and making no further request until the next press. | E2E |
 | FR-019-45 | Unwanted | If the port field of the "connect to my local studio" control holds anything other than a decimal integer in 1024–65535 (e.g. `abc`, `80`, `65536`, `8765/x`, `8765@host`, ` 8765`), then the control shall make no request and show an inline validation message. | unit (web, hostile) |
 
 ## 4. Correctness properties
@@ -156,8 +156,8 @@ published telemetry (DC-002-03, ≤ 200 KB per run, FR-002-50); this spec reads 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
 | ~~DC-019-01~~ | Withdrawn before approval: the run card is the published run manifest of spec 002 (FR-002-48, DC-001-01) with its published telemetry (DC-002-03). | — | — |
-| DC-019-02 | Tool map source `studio/toolmap.yaml`: bands in order, tool order within each band, handoff edges (from tool, to tool, artefact kind) | `contracts/toolmap.schema.json` (new) | maintainer → build-time layout, `/studio` |
-| DC-019-03 | Studio index `web/public/studio/index.json`, generated at build: per tool the resolved version and release date, probe status, layout position, artefact ids, observed edges, and the honesty-check report | `contracts/studio-index.schema.json` (new) | `web/scripts/build-studio-index.mjs` → `/studio` routes, CI |
+| DC-019-02 | Tool map source `studio/toolmap.yaml`: bands in order, tool order within each band, handoff edges (from tool, to tool, artefact kind) | `specs/019-web-studio/contracts/toolmap.schema.json` (draft; promoted to `contracts/toolmap.schema.json` by T-019-001) | maintainer → build-time layout, `/studio` |
+| DC-019-03 | Studio index `web/public/studio/index.json`, generated at build: per tool the resolved version and release date, probe status, layout position, artefact ids, observed edges, and the honesty-check report | `specs/019-web-studio/contracts/studio-index.schema.json` (draft; promoted to `contracts/studio-index.schema.json` by T-019-001) | `web/scripts/build-studio-index.mjs` → `/studio` routes, CI |
 
 Consumed, defined elsewhere: the web manifest and the published run manifests (DC-000-01, DC-001-01),
 `studio/capabilities.json` (DC-000-02), the tool registry `studio/tools.yaml` (DC-000-04), the case registry
@@ -234,6 +234,23 @@ with it.
   FR-019-43. The opt-in "connect to my local studio" control's UI moved here from spec 003 (FR-019-44, FR-019-45,
   formerly FR-003-26 and FR-003-27; task T-019-036); spec 003 keeps the endpoint, CORS and loopback rules. The 3 s
   timeout is the proposed key `console.optin_timeout_s` (pending maintainer approval).
+- Integration 2026-10-07: draft schema written for DC-019-02 … DC-019-03 (`specs/019-web-studio/contracts/`, valid
+  and hostile examples indexed in `examples/index.json`); resolved, stricter reading chosen: the band ids are `scene`,
+  `physics`, `sensors-synthetic-data`, `training`, `acceleration`, `encoding`, `web`, each exactly once (a duplicate
+  band fails the schema; the band order and "every studio tool in exactly one band" are build checks), ≤ 32 tools
+  per band and ≤ 128 unique edges (bounds chosen here); the evaluated-not-adopted group is derived from the registry
+  status, not listed in the tool map; the studio index carries no generation date (the git SHA instead) and integer
+  pixel positions 0–20,000 so that identical inputs give identical bytes; `release_date` is null when the lock or
+  record holds none; probe status adds `not-probed` and requires probe name, date, GPU and driver otherwise (`fail`
+  ⇒ error text); an observed edge carries its run and artefact evidence; the honesty report lists the six checks
+  `done-needs-artefact`, `not-yet-run-has-artefact`, `outputs-only`, `our-scenes`, `local-only-scrub`, `file-guards`
+  once each (`fail` ⇔ ≥ 1 violation naming a tool, artefact or file) plus the SC-019-01 definition-of-done block;
+  edge kinds use the manifest's artefact kinds, which do not contain FR-019-34's `label-set` and `metrics` (reported
+  to the coordinator).
+- Integration 2026-10-07 (2): FR-019-34 and FR-019-35 now use only the artefact kinds of spec 001's closed `kind` enum (the
+  minimal consistent option): `label-set` and `metrics` are not separate artefacts — label sets and metric tables
+  publish as `table` — and `screenshot` cannot be declared at all (an unknown kind fails the manifest schema), so the
+  screenshot clause is dropped and the scene-lineage rule of FR-019-35 carries the intent. No kind is added to spec 001.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

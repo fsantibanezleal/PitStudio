@@ -1,0 +1,1773 @@
+{
+  "spec": "004-scene-pipeline",
+  "examples": [
+    {
+      "file": "scene-spec.valid.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "fixture-like circular pit on the Bingham terrain, one haul truck model, one CC0 material"
+    },
+    {
+      "file": "scene-spec.valid-upstream-shell.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "upstream-shell outline, optional McKinley source, prismatic joint, own texture, waiver"
+    },
+    {
+      "file": "scene-spec.hostile-missing-required.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing field",
+      "rule": "FR-004-40",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-spec.hostile-unknown-field.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extra field",
+      "rule": "FR-004-40",
+      "pointer": "/terrain",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "scene-spec.hostile-wrong-type.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-004-40",
+      "pointer": "/seed",
+      "keyword": "type"
+    },
+    {
+      "file": "scene-spec.hostile-out-of-range-seed.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "seed outside 0...2^63-1",
+      "rule": "DC-004-01",
+      "pointer": "/seed",
+      "keyword": "maximum"
+    },
+    {
+      "file": "scene-spec.hostile-unknown-enum-label.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (label)",
+      "rule": "FR-004-40",
+      "pointer": "/labels/classes/8",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-spec.hostile-unknown-enum-part.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (part)",
+      "rule": "FR-004-40",
+      "pointer": "/parts/1/part",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-spec.hostile-unknown-enum-variant.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (variant)",
+      "rule": "FR-004-40",
+      "pointer": "/variants/weather/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-spec.hostile-unknown-enum-source.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (source id)",
+      "rule": "FR-004-40",
+      "pointer": "/terrain/sources/0/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-spec.hostile-unknown-enum-lod.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (LOD)",
+      "rule": "FR-004-40",
+      "pointer": "/terrain/lods/2/lod",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-spec.hostile-oversized.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "string longer than 256 characters",
+      "rule": "FR-004-40",
+      "pointer": "/design/bench_height_m/citation",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "scene-spec.hostile-out-of-range-bench-height.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "design parameter outside the hard domain",
+      "rule": "FR-004-22",
+      "pointer": "/design/bench_height_m/value",
+      "keyword": "minimum"
+    },
+    {
+      "file": "scene-spec.hostile-out-of-range-ramp-grade.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "design-code range outside the hard domain",
+      "rule": "FR-004-22",
+      "pointer": "/design/ramp_grade_pct/code_max",
+      "keyword": "maximum"
+    },
+    {
+      "file": "scene-spec.hostile-out-of-range-windrow.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "windrow height not positive",
+      "rule": "FR-004-22",
+      "pointer": "/design/windrow_height_m/value",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "scene-spec.hostile-wrong-unit.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "face angle given in radians",
+      "rule": "FR-004-22",
+      "pointer": "/design/face_angle_deg/value",
+      "keyword": "minimum"
+    },
+    {
+      "file": "scene-spec.hostile-conditional-rim.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "rim-contour outline without rim elevation",
+      "rule": "FR-004-16",
+      "pointer": "/design",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-spec.hostile-non-positive-mass.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "non-positive mass",
+      "rule": "FR-004-27",
+      "pointer": "/assets/0/mass_kg",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "scene-spec.hostile-asset-label.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "asset class label outside the machine vocabulary",
+      "rule": "FR-004-27",
+      "pointer": "/assets/0/class_label",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-spec.hostile-conditional-mid-axle.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "haul unit without mid-axle height",
+      "rule": "FR-004-18",
+      "pointer": "/assets/0",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-spec.hostile-conditional-joint-limits.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "revolute joint without limits",
+      "rule": "FR-004-24",
+      "pointer": "/parts/1",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-spec.hostile-conditional-root-joint.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "articulation root with a joint",
+      "rule": "FR-004-27",
+      "pointer": "/parts/0",
+      "keyword": "not"
+    },
+    {
+      "file": "scene-spec.hostile-texture-licence.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "texture licence not CC0-1.0 or our own",
+      "rule": "FR-004-27",
+      "pointer": "/materials/0/spdx",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-spec.hostile-conditional-texture-source.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "source texture not CC0",
+      "rule": "FR-004-26",
+      "pointer": "/materials/0/spdx",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-spec.hostile-empty.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty AOI",
+      "rule": "FR-004-13",
+      "pointer": "/terrain/aoi_xy_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "scene-spec.hostile-aoi-two-vertices.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "AOI with fewer than 3 vertices",
+      "rule": "FR-004-13",
+      "pointer": "/terrain/aoi_xy_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "scene-spec.hostile-wrong-shape.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "AOI vertex with 3 coordinates",
+      "rule": "FR-004-40",
+      "pointer": "/terrain/aoi_xy_m/0",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "scene-spec.hostile-oversized-cells.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "grid cell cap above 1.0e8",
+      "rule": "FR-004-13",
+      "pointer": "/terrain/max_cells",
+      "keyword": "maximum"
+    },
+    {
+      "file": "scene-spec.hostile-out-of-range-fill.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "hole-fill cap above 16 cells",
+      "rule": "FR-004-05",
+      "pointer": "/terrain/max_fill_cells",
+      "keyword": "maximum"
+    },
+    {
+      "file": "scene-spec.hostile-path-traversal.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal in an id",
+      "rule": "FR-004-40",
+      "pointer": "/assets/0/id",
+      "keyword": "pattern"
+    },
+    {
+      "file": "scene-spec.hostile-bad-epsg.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "site origin not a UTM zone",
+      "rule": "FR-004-02",
+      "pointer": "/site/origin/epsg",
+      "keyword": "anyOf"
+    },
+    {
+      "file": "scene-manifest.valid.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "provisional site, validation pending"
+    },
+    {
+      "file": "scene-manifest.valid-validated.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "confirmed site, optional source not run, WKT vertical CRS, validation complete"
+    },
+    {
+      "file": "scene-manifest.hostile-path-traversal.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-004-33",
+      "pointer": "/layers/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "scene-manifest.hostile-absolute-path.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-004-41",
+      "pointer": "/inputs/0/file",
+      "keyword": "pattern"
+    },
+    {
+      "file": "scene-manifest.hostile-absolute-posix-path.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-004-41",
+      "pointer": "/terrain/grid/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "scene-manifest.hostile-malformed-digest.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (uppercase)",
+      "rule": "FR-004-30",
+      "pointer": "/layers/1/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "scene-manifest.hostile-wrong-unit.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "layer in centimetres",
+      "rule": "FR-004-32",
+      "pointer": "/layers/0/meters_per_unit",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-manifest.hostile-wrong-axis.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "layer with Y up",
+      "rule": "FR-004-32",
+      "pointer": "/layers/7/up_axis",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-manifest.hostile-unknown-enum.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (layer role)",
+      "rule": "FR-004-30",
+      "pointer": "/layers/2/role",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-manifest.hostile-unknown-enum-variant.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (variant)",
+      "rule": "FR-004-32",
+      "pointer": "/variants/weather/names/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-manifest.hostile-conditional-provisional.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unconfirmed site named without the provisional suffix",
+      "rule": "FR-004-15",
+      "pointer": "/site/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "scene-manifest.hostile-conditional-design-label.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "design layer without the design-code label",
+      "rule": "FR-004-20",
+      "pointer": "/layers/6",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-manifest.hostile-conditional-format.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "small generated layer not written as usda",
+      "rule": "FR-004-30",
+      "pointer": "/layers/6/format",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-manifest.hostile-conditional-foot-factor.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "US survey foot with the international factor",
+      "rule": "FR-004-03",
+      "pointer": "/inputs/0/crs/horizontal_unit/factor_to_m",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-manifest.hostile-conditional-crs-wkt.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "CRS without EPSG code and without WKT",
+      "rule": "FR-004-01",
+      "pointer": "/inputs/0/crs/vertical",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-manifest.hostile-conditional-texture-licence.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "source texture not CC0",
+      "rule": "FR-004-26",
+      "pointer": "/textures/0/spdx",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-manifest.hostile-conditional-validation-report.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "validated status without a report",
+      "rule": "FR-004-38",
+      "pointer": "/validation",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-manifest.hostile-oversized.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized string",
+      "rule": "FR-004-30",
+      "pointer": "/sources/0/attribution",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "scene-manifest.hostile-unknown-field.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extra field",
+      "rule": "FR-004-41",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "scene-manifest.hostile-missing-required.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing field",
+      "rule": "FR-004-30",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-manifest.hostile-empty.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty layer list",
+      "rule": "FR-004-30",
+      "pointer": "/layers",
+      "keyword": "minItems"
+    },
+    {
+      "file": "scene-manifest.hostile-out-of-range.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "nodata fraction above the cap",
+      "rule": "FR-004-12",
+      "pointer": "/terrain/nodata_frac",
+      "keyword": "maximum"
+    },
+    {
+      "file": "scene-manifest.hostile-conditional-confirmation.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "site confirmed with < 90 % polygon overlap",
+      "rule": "FR-004-15",
+      "pointer": "/site/confirmation/overlap_frac",
+      "keyword": "minimum"
+    },
+    {
+      "file": "scene-manifest.hostile-conditional-not-run-reason.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "optional source not run without a reason",
+      "rule": "FR-004-09",
+      "pointer": "/sources/1",
+      "keyword": "required"
+    },
+    {
+      "file": "terrain-grid.valid.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "1 m DEM grid of a 4 x 4 km AOI"
+    },
+    {
+      "file": "terrain-grid.valid-laz.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "LAZ ground-point grid from inputs in US survey feet"
+    },
+    {
+      "file": "terrain-grid.hostile-wrong-unit.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "vertical unit not metres",
+      "rule": "FR-004-02",
+      "pointer": "/vertical_unit",
+      "keyword": "const"
+    },
+    {
+      "file": "terrain-grid.hostile-wrong-type.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "elevation not float32",
+      "rule": "DC-004-03",
+      "pointer": "/arrays/elevation/dtype",
+      "keyword": "const"
+    },
+    {
+      "file": "terrain-grid.hostile-wrong-shape.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "array shape not 2-D",
+      "rule": "DC-004-03",
+      "pointer": "/arrays/elevation/shape",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "terrain-grid.hostile-out-of-range.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "nodata fraction above max_nodata_frac",
+      "rule": "FR-004-12",
+      "pointer": "/nodata_frac",
+      "keyword": "maximum"
+    },
+    {
+      "file": "terrain-grid.hostile-out-of-range-offset.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "vertical offset above 5.0e3 m",
+      "rule": "FR-004-02",
+      "pointer": "/elevation_range_m/max",
+      "keyword": "maximum"
+    },
+    {
+      "file": "terrain-grid.hostile-sentinel-elevation.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "nodata sentinel taken as a height",
+      "rule": "FR-004-12",
+      "pointer": "/source_elevation_range_m/min",
+      "keyword": "minimum"
+    },
+    {
+      "file": "terrain-grid.hostile-malformed-digest.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (prefix)",
+      "rule": "DC-004-03",
+      "pointer": "/arrays/fill_mask/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "terrain-grid.hostile-empty.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no source id",
+      "rule": "DC-004-03",
+      "pointer": "/source_ids",
+      "keyword": "minItems"
+    },
+    {
+      "file": "terrain-grid.hostile-conditional-foot-factor.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "foot input recorded without its factor",
+      "rule": "FR-004-03",
+      "pointer": "/crs/vertical_unit/factor_to_m",
+      "keyword": "const"
+    },
+    {
+      "file": "terrain-grid.hostile-unknown-enum.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (gridding method)",
+      "rule": "FR-004-04",
+      "pointer": "/method",
+      "keyword": "enum"
+    },
+    {
+      "file": "terrain-grid.hostile-conditional-ground-class.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "ground classes on a DEM grid",
+      "rule": "FR-004-04",
+      "pointer": "",
+      "keyword": "not"
+    },
+    {
+      "file": "terrain-grid.hostile-out-of-range-fill.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "hole-fill cap above 16 cells",
+      "rule": "FR-004-05",
+      "pointer": "/max_fill_cells",
+      "keyword": "maximum"
+    },
+    {
+      "file": "terrain-grid.hostile-missing-required.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing CRS record",
+      "rule": "FR-004-01",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "terrain-grid.hostile-unknown-field.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extra field",
+      "rule": "FR-004-41",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "terrain-grid.hostile-conditional-ground-missing.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "LAZ grid without the ground class",
+      "rule": "FR-004-04",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "terrain-tiles.valid.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "513 x 513 fixture grid: 2 x 2 tiles per LOD"
+    },
+    {
+      "file": "terrain-tiles.hostile-unknown-enum.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (LOD)",
+      "rule": "FR-004-06",
+      "pointer": "/tiles/0/lod",
+      "keyword": "enum"
+    },
+    {
+      "file": "terrain-tiles.hostile-oversized.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more vertices than a 257 x 257 tile can hold",
+      "rule": "FR-004-07",
+      "pointer": "/tiles/0/vertices",
+      "keyword": "maximum"
+    },
+    {
+      "file": "terrain-tiles.hostile-wrong-type.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "non-integer triangle count",
+      "rule": "FR-004-07",
+      "pointer": "/tiles/1/triangles",
+      "keyword": "type"
+    },
+    {
+      "file": "terrain-tiles.hostile-malformed-digest.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (63 hex)",
+      "rule": "FR-004-07",
+      "pointer": "/tiles/2/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "terrain-tiles.hostile-bad-pattern.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed tile id",
+      "rule": "FR-004-07",
+      "pointer": "/tiles/0/id",
+      "keyword": "pattern"
+    },
+    {
+      "file": "terrain-tiles.hostile-wrong-shape.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tile size other than 257 samples",
+      "rule": "FR-004-07",
+      "pointer": "/tile_samples",
+      "keyword": "const"
+    },
+    {
+      "file": "terrain-tiles.hostile-out-of-range-skirt.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "skirt depth not positive",
+      "rule": "FR-004-07",
+      "pointer": "/lods/0/skirt_depth_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "terrain-tiles.hostile-out-of-range-error.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "max_error below 0.05 m",
+      "rule": "FR-004-06",
+      "pointer": "/lods/1/max_error_m",
+      "keyword": "minimum"
+    },
+    {
+      "file": "terrain-tiles.hostile-empty.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty tile list",
+      "rule": "FR-004-07",
+      "pointer": "/tiles",
+      "keyword": "minItems"
+    },
+    {
+      "file": "terrain-tiles.hostile-path-traversal.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal",
+      "rule": "FR-004-33",
+      "pointer": "/layer_path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "terrain-tiles.hostile-bad-prim-path.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "relative prim path",
+      "rule": "FR-004-07",
+      "pointer": "/tiles/3/prim",
+      "keyword": "pattern"
+    },
+    {
+      "file": "terrain-tiles.hostile-unknown-field.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extra field",
+      "rule": "FR-004-26",
+      "pointer": "/tiles/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "pit-design-report.valid.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "three-bench circular pit, rim radius 500 m"
+    },
+    {
+      "file": "pit-design-report.hostile-out-of-range.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "ramp grade above 15 %",
+      "rule": "FR-004-22",
+      "pointer": "/parameters/ramp_grade_pct",
+      "keyword": "maximum"
+    },
+    {
+      "file": "pit-design-report.hostile-wrong-unit.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "face angle in radians",
+      "rule": "FR-004-22",
+      "pointer": "/parameters/face_angle_deg",
+      "keyword": "minimum"
+    },
+    {
+      "file": "pit-design-report.hostile-out-of-range-windrow.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "windrow height not positive",
+      "rule": "FR-004-22",
+      "pointer": "/windrows/height_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "pit-design-report.hostile-unknown-enum.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (outline source)",
+      "rule": "FR-004-16",
+      "pointer": "/outline/source",
+      "keyword": "enum"
+    },
+    {
+      "file": "pit-design-report.hostile-conditional-shell-digest.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "upstream shell without its digest",
+      "rule": "FR-004-16",
+      "pointer": "/outline",
+      "keyword": "required"
+    },
+    {
+      "file": "pit-design-report.hostile-provenance-label.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing design-code label",
+      "rule": "FR-004-20",
+      "pointer": "/label",
+      "keyword": "const"
+    },
+    {
+      "file": "pit-design-report.hostile-missing-required.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing volumes",
+      "rule": "FR-004-19",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "pit-design-report.hostile-negative-volume.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative cut volume",
+      "rule": "FR-004-19",
+      "pointer": "/volumes/cut_m3",
+      "keyword": "minimum"
+    },
+    {
+      "file": "pit-design-report.hostile-empty.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no bench",
+      "rule": "FR-004-19",
+      "pointer": "/benches",
+      "keyword": "minItems"
+    },
+    {
+      "file": "pit-design-report.hostile-disconnected-ramp.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "ramp centreline not connected",
+      "rule": "FR-004-17",
+      "pointer": "/ramp/connected",
+      "keyword": "const"
+    },
+    {
+      "file": "pit-design-report.hostile-outline-vertices.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "outline with fewer than 3 vertices",
+      "rule": "FR-004-23",
+      "pointer": "/outline/vertices",
+      "keyword": "minimum"
+    },
+    {
+      "file": "pit-design-report.hostile-malformed-digest.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (65 hex)",
+      "rule": "FR-004-19",
+      "pointer": "/terrain_grid_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "pit-design-report.hostile-unknown-field.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extra field",
+      "rule": "FR-004-19",
+      "pointer": "/benches/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "road-network.valid.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "two ramp edges and one bench road from the pit exit"
+    },
+    {
+      "file": "road-network.hostile-unknown-enum.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown GeoJSON geometry type",
+      "rule": "FR-004-21",
+      "pointer": "/features/4/geometry/type",
+      "keyword": "const"
+    },
+    {
+      "file": "road-network.hostile-wrong-shape.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "2-D position",
+      "rule": "FR-004-21",
+      "pointer": "/features/4/geometry/coordinates/0",
+      "keyword": "minItems"
+    },
+    {
+      "file": "road-network.hostile-single-position.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "LineString with one position",
+      "rule": "FR-004-21",
+      "pointer": "/features/6/geometry/coordinates",
+      "keyword": "minItems"
+    },
+    {
+      "file": "road-network.hostile-out-of-range.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "edge grade above 15.1 %",
+      "rule": "FR-004-17",
+      "pointer": "/features/5/properties/grade_max_pct",
+      "keyword": "maximum"
+    },
+    {
+      "file": "road-network.hostile-missing-required.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "edge without length",
+      "rule": "FR-004-21",
+      "pointer": "/features/4/properties",
+      "keyword": "required"
+    },
+    {
+      "file": "road-network.hostile-wrong-unit.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "coordinates not in the site frame",
+      "rule": "FR-004-21",
+      "pointer": "/frame",
+      "keyword": "const"
+    },
+    {
+      "file": "road-network.hostile-empty.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty network",
+      "rule": "FR-004-21",
+      "pointer": "/features",
+      "keyword": "minItems"
+    },
+    {
+      "file": "road-network.hostile-unknown-field.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extra field",
+      "rule": "FR-004-21",
+      "pointer": "/features/4/properties",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "road-network.hostile-path-traversal.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed node reference",
+      "rule": "FR-004-21",
+      "pointer": "/features/4/properties/from",
+      "keyword": "pattern"
+    },
+    {
+      "file": "road-network.hostile-not-feature-collection.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not a FeatureCollection",
+      "rule": "FR-004-21",
+      "pointer": "/type",
+      "keyword": "const"
+    },
+    {
+      "file": "road-network.hostile-out-of-range-coordinate.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "coordinate outside the site frame bound",
+      "rule": "FR-004-02",
+      "pointer": "/features/0/geometry/coordinates/0",
+      "keyword": "maximum"
+    },
+    {
+      "file": "scene-validation-report.valid.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "complete validation, both validators ran, all invariants pass, two identical builds"
+    },
+    {
+      "file": "scene-validation-report.valid-incomplete.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "simready-validate could not be imported: incomplete and failed"
+    },
+    {
+      "file": "scene-validation-report.hostile-unknown-enum.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (severity)",
+      "rule": "FR-004-34",
+      "pointer": "/validators/0/results/0/severity",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-validation-report.hostile-unknown-validator.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (validator)",
+      "rule": "FR-004-34",
+      "pointer": "/validators/0/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-validation-report.hostile-malformed-digest.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (prefix)",
+      "rule": "FR-004-36",
+      "pointer": "/determinism/stage_hash",
+      "keyword": "pattern"
+    },
+    {
+      "file": "scene-validation-report.hostile-conditional-invariant.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "invariant marked passed outside its limit",
+      "rule": "FR-004-35",
+      "pointer": "/invariants/bench_height_deviation/measured",
+      "keyword": "maximum"
+    },
+    {
+      "file": "scene-validation-report.hostile-wrong-unit.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "invariant in the wrong unit",
+      "rule": "FR-004-35",
+      "pointer": "/invariants/bench_height_deviation/unit",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-validation-report.hostile-missing-required.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "missing invariant",
+      "rule": "FR-004-35",
+      "pointer": "/invariants",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-validation-report.hostile-conditional-first-difference.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "differing layer without its first differing line",
+      "rule": "FR-004-39",
+      "pointer": "/determinism/layers/0",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-validation-report.hostile-conditional-nondeterministic.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "nondeterministic build reported as passed",
+      "rule": "FR-004-39",
+      "pointer": "/passed",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-validation-report.hostile-conditional-usdc-method.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "usdc layer hashed by its bytes",
+      "rule": "FR-004-36",
+      "pointer": "/determinism/layers/2/method",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-validation-report.hostile-wrong-class.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "determinism class other than bitwise",
+      "rule": "FR-004-36",
+      "pointer": "/determinism/class",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-validation-report.hostile-oversized.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized message",
+      "rule": "FR-004-34",
+      "pointer": "/validators/0/results/0/message",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "scene-validation-report.hostile-absolute-path.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute file path as prim path",
+      "rule": "FR-004-41",
+      "pointer": "/validators/0/results/0/prim",
+      "keyword": "anyOf"
+    },
+    {
+      "file": "scene-validation-report.hostile-short-waiver-reason.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "waiver without a written reason",
+      "rule": "FR-004-37",
+      "pointer": "/waivers/0/reason",
+      "keyword": "minLength"
+    },
+    {
+      "file": "scene-validation-report.hostile-empty.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no variant selection validated",
+      "rule": "FR-004-34",
+      "pointer": "/selections",
+      "keyword": "minItems"
+    },
+    {
+      "file": "scene-validation-report.hostile-unknown-field.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extra field",
+      "rule": "FR-004-41",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "scene-validation-report.hostile-conditional-incomplete.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "validator not run but status complete",
+      "rule": "FR-004-38",
+      "pointer": "/status",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-validation-report.hostile-conditional-passed.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "incomplete validation reported as passed",
+      "rule": "FR-004-38",
+      "pointer": "/passed",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-validation-report.hostile-conditional-not-run-reason.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "validator not run without a reason",
+      "rule": "FR-004-38",
+      "pointer": "/validators/1",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-digest.valid.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "three prims per lod variant"
+    },
+    {
+      "file": "scene-digest.hostile-unknown-enum.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (class label)",
+      "rule": "FR-004-25",
+      "pointer": "/lods/0/prims/1/class",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-digest.hostile-unknown-enum-part.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (part label)",
+      "rule": "FR-004-25",
+      "pointer": "/lods/0/prims/1/part",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-digest.hostile-unknown-enum-lod.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (lod variant)",
+      "rule": "FR-004-31",
+      "pointer": "/lods/2/lod",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-digest.hostile-wrong-shape.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "transform not 4 x 4",
+      "rule": "FR-004-31",
+      "pointer": "/lods/0/prims/0/transform",
+      "keyword": "minItems"
+    },
+    {
+      "file": "scene-digest.hostile-wrong-type.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "non-integer vertex count",
+      "rule": "FR-004-31",
+      "pointer": "/lods/0/prims/0/vertices",
+      "keyword": "type"
+    },
+    {
+      "file": "scene-digest.hostile-path-traversal.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path traversal in a prim path",
+      "rule": "FR-004-31",
+      "pointer": "/lods/0/prims/2/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "scene-digest.hostile-missing-required.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "geometry prim without a class label",
+      "rule": "FR-004-31",
+      "pointer": "/lods/0/prims/0",
+      "keyword": "required"
+    },
+    {
+      "file": "scene-digest.hostile-out-of-range.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "face count 0",
+      "rule": "FR-004-31",
+      "pointer": "/lods/1/prims/0/faces",
+      "keyword": "minimum"
+    },
+    {
+      "file": "scene-digest.hostile-wrong-unit.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "stage in centimetres",
+      "rule": "FR-004-29",
+      "pointer": "/meters_per_unit",
+      "keyword": "const"
+    },
+    {
+      "file": "scene-digest.hostile-out-of-range-transform.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "translation outside the site frame bound",
+      "rule": "FR-004-02",
+      "pointer": "/lods/0/prims/1/transform/12",
+      "keyword": "maximum"
+    },
+    {
+      "file": "scene-digest.hostile-empty.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no lod variant",
+      "rule": "FR-004-31",
+      "pointer": "/lods",
+      "keyword": "minItems"
+    },
+    {
+      "file": "scene-digest.hostile-unknown-field.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "extra field (second label list)",
+      "rule": "FR-004-31",
+      "pointer": "/lods/0/prims/0",
+      "keyword": "additionalProperties"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "non-finite number (.nan, .inf)",
+      "by": "loader",
+      "rule": "FR-001-06",
+      "note": "recipe YAML; FR-004-40 lists NaN and +/-inf"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "YAML anchor, alias, tag, duplicate key or second document",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "params depth > 4, more than 64 keys or canonical size > 65,536 bytes",
+      "by": "loader",
+      "rule": "FR-001-23"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "value outside the declared design-code range [code_min, code_max]",
+      "by": "checker",
+      "rule": "FR-004-22"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "code_min > code_max, floor not below the rim, bench polygon collapsing before the floor",
+      "by": "checker",
+      "rule": "FR-004-22"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "AOI self-intersecting, zero area, outside every input, or more than max_cells cells",
+      "by": "checker",
+      "rule": "FR-004-13"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "asset, part, parent or fleet id that does not exist, or a duplicate id",
+      "by": "checker",
+      "rule": "FR-004-27"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "joint graph with a cycle or more than one root per asset",
+      "by": "checker",
+      "rule": "FR-004-27"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "joint lower limit not below the upper limit",
+      "by": "checker",
+      "rule": "FR-004-27"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "asset or part label not in the declared labels vocabulary",
+      "by": "checker",
+      "rule": "FR-004-25"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "windrow height below the largest declared mid-axle height",
+      "by": "checker",
+      "rule": "FR-004-18"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "lod variant names not matching the declared terrain LODs",
+      "by": "checker",
+      "rule": "FR-004-08"
+    },
+    {
+      "schema": "scene-spec.schema.json",
+      "class": "two LAZ projects listed for one terrain grid",
+      "by": "checker",
+      "rule": "-",
+      "note": "edge case in spec section 7 only; no FR enforces it"
+    },
+    {
+      "schema": "scene-manifest.schema.json",
+      "class": "non-finite number, duplicate key, BOM, invalid UTF-8, nesting > 32",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "scene-manifest.schema.json",
+      "class": "layer sha256 or bytes different from the file or the upstream stage's record",
+      "by": "checker",
+      "rule": "FR-004-32"
+    },
+    {
+      "schema": "scene-manifest.schema.json",
+      "class": "sublayer order and one layer per small role",
+      "by": "checker",
+      "rule": "FR-004-29"
+    },
+    {
+      "schema": "scene-manifest.schema.json",
+      "class": "variant default not among its names, or names not in the scene specification",
+      "by": "checker",
+      "rule": "FR-004-32"
+    },
+    {
+      "schema": "scene-manifest.schema.json",
+      "class": "path extension not matching the layer format; duplicate paths after case folding",
+      "by": "checker",
+      "rule": "FR-004-30"
+    },
+    {
+      "schema": "scene-manifest.schema.json",
+      "class": "source spdx and licence_class not allowed together (licence lattice)",
+      "by": "checker",
+      "rule": "FR-001-18"
+    },
+    {
+      "schema": "scene-manifest.schema.json",
+      "class": "source or texture id not in data/sources.yaml",
+      "by": "checker",
+      "rule": "FR-004-26"
+    },
+    {
+      "schema": "scene-manifest.schema.json",
+      "class": "Windows device name as a path segment",
+      "by": "checker",
+      "rule": "-",
+      "note": "spec 001 data-model 1.3 checker rule; no spec-004 FR names it"
+    },
+    {
+      "schema": "scene-manifest.schema.json",
+      "class": "host name, user name or home directory in any string",
+      "by": "checker",
+      "rule": "FR-004-41"
+    },
+    {
+      "schema": "terrain-grid.schema.json",
+      "class": "non-finite number, duplicate key, BOM, invalid UTF-8",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "terrain-grid.schema.json",
+      "class": "NaN, +/-inf or a sentinel inside the elevation array, or valid_mask disagreeing with it",
+      "by": "checker",
+      "rule": "FR-004-12"
+    },
+    {
+      "schema": "terrain-grid.schema.json",
+      "class": "mask shapes different from the elevation shape or from [rows, cols]",
+      "by": "checker",
+      "rule": "FR-004-05"
+    },
+    {
+      "schema": "terrain-grid.schema.json",
+      "class": "valid_cells + nodata_cells != rows x cols, nodata_frac != nodata_cells / AOI cells",
+      "by": "checker",
+      "rule": "FR-004-12"
+    },
+    {
+      "schema": "terrain-grid.schema.json",
+      "class": "rows x cols > max_cells",
+      "by": "checker",
+      "rule": "FR-004-13"
+    },
+    {
+      "schema": "terrain-grid.schema.json",
+      "class": "array sha256 different from the stored bytes",
+      "by": "checker",
+      "rule": "FR-004-41"
+    },
+    {
+      "schema": "terrain-grid.schema.json",
+      "class": "range min > max",
+      "by": "checker",
+      "rule": "DC-004-03"
+    },
+    {
+      "schema": "terrain-tiles.schema.json",
+      "class": "non-finite number, duplicate key, BOM, invalid UTF-8",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "terrain-tiles.schema.json",
+      "class": "shared-edge vertices of adjacent tiles not identical",
+      "by": "checker",
+      "rule": "FR-004-07",
+      "note": "property P-004-02 on the meshes"
+    },
+    {
+      "schema": "terrain-tiles.schema.json",
+      "class": "mesh further than max_error from a valid grid sample",
+      "by": "checker",
+      "rule": "FR-004-06",
+      "note": "property P-004-01 on the meshes"
+    },
+    {
+      "schema": "terrain-tiles.schema.json",
+      "class": "tile id not equal to <lod>-<level>-<x>-<y>; duplicate ids; tile max_error != its LOD's",
+      "by": "checker",
+      "rule": "FR-004-07"
+    },
+    {
+      "schema": "terrain-tiles.schema.json",
+      "class": "tile_count != number of tiles of that LOD; bbox min > max",
+      "by": "checker",
+      "rule": "FR-004-07"
+    },
+    {
+      "schema": "terrain-tiles.schema.json",
+      "class": "tile sha256 different from the mesh buffers",
+      "by": "checker",
+      "rule": "FR-004-07"
+    },
+    {
+      "schema": "pit-design-report.schema.json",
+      "class": "non-finite number, duplicate key, BOM, invalid UTF-8",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "pit-design-report.schema.json",
+      "class": "identity residual above rtol 1e-12; V_cut - V_fill != carved_sum",
+      "by": "checker",
+      "rule": "FR-004-35",
+      "note": "P-004-07"
+    },
+    {
+      "schema": "pit-design-report.schema.json",
+      "class": "bench height outside H +/- 0.5 m or face angle outside alpha +/- 1 degree",
+      "by": "checker",
+      "rule": "FR-004-35"
+    },
+    {
+      "schema": "pit-design-report.schema.json",
+      "class": "ramp max grade above g + 0.1 % or min width below W",
+      "by": "checker",
+      "rule": "FR-004-17"
+    },
+    {
+      "schema": "pit-design-report.schema.json",
+      "class": "windrow height below the mid-axle height",
+      "by": "checker",
+      "rule": "FR-004-18"
+    },
+    {
+      "schema": "pit-design-report.schema.json",
+      "class": "bench indices not 0..n-1 in order; toe != crest - measured height",
+      "by": "checker",
+      "rule": "FR-004-19"
+    },
+    {
+      "schema": "pit-design-report.schema.json",
+      "class": "outline area below (2W)^2",
+      "by": "checker",
+      "rule": "FR-004-23"
+    },
+    {
+      "schema": "road-network.schema.json",
+      "class": "non-finite number, duplicate key, BOM, invalid UTF-8",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "road-network.schema.json",
+      "class": "node not connected to the exit node; exit_node not a node with role exit",
+      "by": "checker",
+      "rule": "FR-004-21"
+    },
+    {
+      "schema": "road-network.schema.json",
+      "class": "edge from/to not an existing node, or LineString ends not at the node points; duplicate ids",
+      "by": "checker",
+      "rule": "FR-004-21"
+    },
+    {
+      "schema": "road-network.schema.json",
+      "class": "length or grades different from those recomputed from the coordinates",
+      "by": "checker",
+      "rule": "FR-004-21"
+    },
+    {
+      "schema": "road-network.schema.json",
+      "class": "z coordinate outside +/- 5.0e3 m (positions share one item bound)",
+      "by": "checker",
+      "rule": "FR-004-02"
+    },
+    {
+      "schema": "scene-validation-report.schema.json",
+      "class": "non-finite number, duplicate key, BOM, invalid UTF-8",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "scene-validation-report.schema.json",
+      "class": "passed true with an unwaived error result or a failed invariant",
+      "by": "checker",
+      "rule": "FR-004-34"
+    },
+    {
+      "schema": "scene-validation-report.schema.json",
+      "class": "ramp_grade_max limit != g + 0.1 % or passed inconsistent with it",
+      "by": "checker",
+      "rule": "FR-004-35"
+    },
+    {
+      "schema": "scene-validation-report.schema.json",
+      "class": "waiver of a units, up-axis, label or asset-path rule; waived result without a waiver",
+      "by": "checker",
+      "rule": "FR-004-37"
+    },
+    {
+      "schema": "scene-validation-report.schema.json",
+      "class": "stage_hash != SHA-256 of the sorted (role, sha256) list; equal != (first_sha256 == second_sha256)",
+      "by": "checker",
+      "rule": "FR-004-36"
+    },
+    {
+      "schema": "scene-validation-report.schema.json",
+      "class": "selections not the manifest's variant selections; validator versions not from studio/uv.lock; duplicate validator ids",
+      "by": "checker",
+      "rule": "FR-004-34"
+    },
+    {
+      "schema": "scene-validation-report.schema.json",
+      "class": "host name, user name or absolute path inside a message",
+      "by": "checker",
+      "rule": "FR-004-41"
+    },
+    {
+      "schema": "scene-digest.schema.json",
+      "class": "non-finite number, duplicate key, BOM, invalid UTF-8",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "scene-digest.schema.json",
+      "class": "prims not sorted by path; duplicate paths",
+      "by": "checker",
+      "rule": "FR-004-31"
+    },
+    {
+      "schema": "scene-digest.schema.json",
+      "class": "transform not affine (column 4 != [0, 0, 0, 1])",
+      "by": "checker",
+      "rule": "FR-004-31"
+    },
+    {
+      "schema": "scene-digest.schema.json",
+      "class": "lod entries not one per lod variant of the scene manifest; a geometry prim missing",
+      "by": "checker",
+      "rule": "FR-004-31",
+      "note": "P-004-12"
+    },
+    {
+      "schema": "scene-digest.schema.json",
+      "class": "counts and transforms different from the baked glTF",
+      "by": "checker",
+      "rule": "FR-004-31",
+      "note": "parity test of the export stage"
+    }
+  ]
+}

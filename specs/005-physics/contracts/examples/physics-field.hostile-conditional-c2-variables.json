@@ -1,0 +1,88 @@
+{
+  "kind": "physics-field",
+  "schema_version": "1.0",
+  "field_set": "c2-maps",
+  "scenario": "c2-breach-bingham",
+  "run_id": "20261007T120000Z-c2-breach",
+  "solver": "swe",
+  "solver_version": "1.17.0",
+  "seed": 11,
+  "grid": {
+    "kind": "regular-2d",
+    "shape": [
+      512,
+      512
+    ],
+    "cell_size_m": 2.0,
+    "origin_m": [
+      -511.0,
+      -511.0
+    ]
+  },
+  "crs": {
+    "frame": "site-enu",
+    "origin": {
+      "epsg": 32612,
+      "easting_m": 404000.0,
+      "northing_m": 4488000.0,
+      "z0_m": 1600.0
+    },
+    "source": {
+      "horizontal": {
+        "epsg": 6341
+      },
+      "vertical": {
+        "epsg": 5703
+      },
+      "horizontal_unit": {
+        "name": "metre",
+        "factor_to_m": 1.0
+      },
+      "vertical_unit": {
+        "name": "metre",
+        "factor_to_m": 1.0
+      }
+    }
+  },
+  "time": {
+    "mode": "reduced",
+    "start_s": 0.0,
+    "end_s": 3600.0
+  },
+  "variables": [
+    {
+      "name": "arrival_time",
+      "unit": "s",
+      "dtype": "float32",
+      "dims": [
+        "y",
+        "x"
+      ],
+      "fill_value": "NaN"
+    },
+    {
+      "name": "max_depth",
+      "unit": "m",
+      "dtype": "float32",
+      "dims": [
+        "y",
+        "x"
+      ],
+      "fill_value": 0
+    }
+  ],
+  "h_thr_m": 0.05,
+  "inundated_area_m2": 182400.0,
+  "inputs": [
+    {
+      "role": "terrain-grid",
+      "path": "terrain/grid.zarr",
+      "sha256": "e2a3ae342e4fb5783f63ee64a8cf5b73b36f25d7167d2ba438f5a2b684db9db0"
+    }
+  ],
+  "stamp": {
+    "report_id": "bench-swe-warp-1-17-0",
+    "report_sha256": "9494e39bcdc57d8e6eb695452f2a1299e20952ddccd71f86b68f5e743ec10e38",
+    "verdict": "pass"
+  }
+}

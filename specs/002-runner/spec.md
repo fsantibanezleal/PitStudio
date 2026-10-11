@@ -215,9 +215,9 @@ layout, profile, job spec, events, code roots).
 
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-002-01 | machine profiles `studio/recipes/_profiles/*.yaml`; fake device files | `contracts/profile.schema.json` (`$defs/fake_device`) | maintainer, tests → runner |
-| DC-002-02 | job spec `runs/<run_id>/tmp/<stage>/<shard>/job.json`; stage result `result.json` (status `succeeded`, `failed` or `not_run` with its reason) | `contracts/job.schema.json` (`$defs/job_spec`, `$defs/stage_result`) | runner → stage environment → runner |
-| DC-002-03 | `runs/<run_id>/events.jsonl`, `runs/<run_id>/telemetry.jsonl`; published `web/public/assets/runs/<run_id>/telemetry.json` | `contracts/events.schema.json` (`$defs/event`, `$defs/telemetry_sample`, `$defs/published_telemetry`) | runner → console (spec 003), `studio publish` → web `/studio/runs`, `/studio/gpu` |
+| DC-002-01 | machine profiles `studio/recipes/_profiles/*.yaml`; fake device files | `specs/002-runner/contracts/profile.schema.json` (`$defs/fake_device`) (draft; promoted to `contracts/profile.schema.json` by T-002-001) | maintainer, tests → runner |
+| DC-002-02 | job spec `runs/<run_id>/tmp/<stage>/<shard>/job.json`; stage result `result.json` (status `succeeded`, `failed` or `not_run` with its reason) | `specs/002-runner/contracts/job.schema.json` (`$defs/job_spec`, `$defs/stage_result`) (draft; promoted to `contracts/job.schema.json` by T-002-001) | runner → stage environment → runner |
+| DC-002-03 | `runs/<run_id>/events.jsonl`, `runs/<run_id>/telemetry.jsonl`; published `web/public/assets/runs/<run_id>/telemetry.json` | `specs/002-runner/contracts/events.schema.json` (`$defs/event`, `$defs/telemetry_sample`, `$defs/published_telemetry`, `$defs/stream_error`) (draft; promoted to `contracts/events.schema.json` by T-002-001) | runner → console (spec 003), `studio publish` → web `/studio/runs`, `/studio/gpu` |
 | DC-002-04 | run manifests and published run manifests | `contracts/manifest.schema.json` (spec 001, DC-001-01) | runner → web app, CI |
 | DC-002-05 | recipes and job requests | `contracts/recipe.schema.json` (spec 001, DC-001-02) | maintainer, console → runner |
 | DC-002-06 | capability report read by the guards | `contracts/capabilities.schema.json` (spec 001, DC-001-05) | `run_bench.py` → runner |
@@ -247,8 +247,8 @@ layout, profile, job spec, events, code roots).
 - **Cache of upstream outputs.** A stage's key depends on its inputs' output digests, so a stage downstream of a miss is
   `pending` in the plan; a no-op upstream change that reproduces bit-identical outputs keeps downstream hits.
 - **No UNVERIFIED constants.** Guard margins and the thermal-flag fraction are design values from the studio design
-  (docs `studio/runner.md`, `data-contract/manifest.md`), not external measurements; they are proposed for
-  `thresholds.yaml` (plan.md).
+  (docs `studio/runner.md`, `data-contract/manifest.md`), not external measurements; they are the `runner.*`
+  keys of `thresholds.yaml` (plan.md).
 
 ## 8. Clarifications log
 
@@ -292,6 +292,30 @@ layout, profile, job spec, events, code roots).
 - Integration 2026-10-07: every `thresholds.yaml` key this spec proposes is marked "proposed key, pending maintainer
   approval" and compiled with the other specs' proposals for the maintainer; lane-gate keys are consolidated as
   `lane_gate.*` and budget keys as `budgets.*`.
+- Integration 2026-10-07: draft schemas written for DC-002-01 … DC-002-03 (`specs/002-runner/contracts/`, valid and
+  hostile examples indexed in `examples/index.json`); stricter readings chosen: the profile root is the profile itself
+  (the checker validates `_profiles/*.yaml` at the root), so a fake device file never passes as a profile; `quotas` and
+  `binaries` are the only optional profile fields, `store_default` and `keep_awake: false` are bound to `os` like
+  `process_control`, waits are integer seconds, margins are capped (VRAM ≤ 256 GiB, disk ≤ 10,000 GiB) and the start
+  temperature is 0–80 °C; fake-device values are finite and ≥ 0 with per-field caps on constants (temperature
+  ≤ 200 °C, power ≤ 10 kW, SM clock ≤ 20,000 MHz, masks and replay counters ≤ 2³²−1), while step value ranges,
+  ascending `t_s` and a field both scripted and `unsupported` are fake-loader rules (FR-002-57), so FR-002-32's
+  negative and non-finite readings come from an in-memory fake; telemetry samples use the same caps, and a reading
+  outside them is stored `null` like a negative one (FR-002-32); the job spec is the one contract with absolute paths
+  (plan.md D5: local only) — forward-slash form, no `.`/`..` segment, ≤ 1,024 characters, `output_dir` ending in
+  `runs/<run_id>/tmp/<stage key>/<shard>` — with `shard.size` = items per shard and `shard.total` = items (the
+  recipe's `shardable`), input names a source id or `<stage key>/<output path>`, and every D5 field required; the stage
+  result requires `schema_version`, `status`, `error_class`, `outputs` and `checkpoint`, allows `reason` only (and
+  always) with `not_run`, as one non-blank line, sets `error_class` null for `succeeded`/`not_run` and non-null for
+  `failed` (spec 001 data-model §2.9 rule 7), allows `validated` only with a `stage-…` validator, and applies the
+  manifest's video ⇔ encoder and lane-measurement rules to a reported `artefact`; stage-level events require `stage`,
+  `shard-finished` requires `shard`, `stage-not-run` requires `detail` (the reason) and run events carry neither;
+  samples carry every field (null when unavailable, shard 0 when unsharded) and published points keep `t_s` and
+  `bucket_s` non-null; no field set equals the manifest telemetry summary, so none references it; `events.schema.json`
+  adds `$defs/stream_error` (`{line, message}`, the console's SSE `error` payload) so every DC-003-04 payload has a
+  schema; the `job` and `events` roots are a `oneOf` of their documents, told apart by closed records with disjoint
+  required fields.
+- Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

@@ -1,0 +1,36 @@
+{
+  "kind": "physics-field",
+  "schema_version": "1.0",
+  "field_set": "swe-state",
+  "scenario": "bench-swe-ritter-400",
+  "solver": "swe",
+  "solver_version": "1.17.0",
+  "seed": 0,
+  "grid": {
+    "kind": "regular-2d",
+    "shape": [
+      4,
+      400
+    ],
+    "cell_size_m": 0.025,
+    "origin_m": [
+      0.0125,
+      0.0125
+    ]
+  },
+  "crs": {
+    "frame": "benchmark-local"
+  },
+  "time": {
+    "mode": "series",
+    "start_s": 0.0,
+    "step_s": 0.5,
+    "count": 13
+  },
+  "variables": [],
+  "stamp": {
+    "report_id": "bench-swe-warp-1-17-0",
+    "report_sha256": "9494e39bcdc57d8e6eb695452f2a1299e20952ddccd71f86b68f5e743ec10e38",
+    "verdict": "pass"
+  }
+}

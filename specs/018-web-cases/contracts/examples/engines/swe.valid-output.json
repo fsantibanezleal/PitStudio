@@ -1,0 +1,35 @@
+{
+  "kind": "output",
+  "engine": "swe",
+  "engine_version": "0.1.0",
+  "function": "breach_run",
+  "result": {
+    "arrival_time_s": {
+      "dtype": "float32",
+      "shape": {
+        "rows": 64,
+        "cols": 64
+      },
+      "byte_length": 16384
+    },
+    "max_depth_m": {
+      "dtype": "float32",
+      "shape": {
+        "rows": 64,
+        "cols": 64
+      },
+      "byte_length": 16384
+    },
+    "max_speed_m_per_s": {
+      "dtype": "float32",
+      "shape": {
+        "rows": 64,
+        "cols": 64
+      },
+      "byte_length": 16384
+    },
+    "inundated_area_m2": 152000.0,
+    "volume_drift_fraction": 4e-06,
+    "steps": 9200
+  }
+}

@@ -196,7 +196,7 @@ the code roots and under `src/pitstudio/runner/stagekit/`, sorted by path, exclu
 `.pytest_cache/`, `*.egg-info/`, `node_modules/` and `*.pyc`. `.gitattributes` (`* text=auto eol=lf`) makes the bytes
 equal on Windows and Linux checkouts.
 
-### Proposed `thresholds.yaml` additions (proposed keys, pending maintainer approval)
+### `thresholds.yaml` keys used by this spec
 
 ```yaml
 runner:

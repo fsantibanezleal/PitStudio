@@ -1,0 +1,392 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/il1-twin.schema.json",
+  "title": "Engine il1-twin: input and output messages",
+  "description": "Input and output messages of the browser engine `il1-twin` (cases A2): the IL-1 truck path-tracking twin hosted from spec 014 (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `il1-twin`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "il1-twin",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "rollout"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "rollout"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/rollout_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `il1-twin`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "il1-twin",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "rollout"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "rollout"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/rollout_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "rollout_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Planar truck twin of spec 014 driven by the IL-1 policy.",
+      "required": [
+        "bundle",
+        "policy",
+        "payload_fraction",
+        "light_vehicle_speed_m_per_s",
+        "light_vehicles",
+        "steps",
+        "seed"
+      ],
+      "properties": {
+        "bundle": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Web twin bundle valid against il-twin.schema.json (DC-014-05).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX policy smaller than 1 MB (NFR-014-03).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 999999,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "payload_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Payload as a fraction of rated payload (training range, FR-014-13, FR-014-44)."
+        },
+        "light_vehicle_speed_m_per_s": {
+          "type": "number",
+          "minimum": 5.555555555555555,
+          "maximum": 11.11111111111111,
+          "description": "Light-vehicle speed, 20 to 40 km/h (FR-014-14, FR-014-44)."
+        },
+        "light_vehicles": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Number of light vehicles (FR-014-14)."
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2000,
+          "description": "Policy steps to roll out (at most 2,000, spec 018 section 7.1)."
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Seed of the twin's noise terms."
+        }
+      }
+    },
+    "rollout_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "steps",
+        "termination",
+        "states",
+        "actions",
+        "metrics"
+      ],
+      "properties": {
+        "steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000,
+          "description": "Steps executed."
+        },
+        "termination": {
+          "enum": [
+            "success",
+            "collision",
+            "lateral-limit",
+            "time-limit",
+            "invalid_value",
+            "step-limit"
+          ],
+          "description": "Why the rollout ended."
+        },
+        "states": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Twin state per step, initial state first.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float64",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "steps",
+                "variables"
+              ],
+              "properties": {
+                "steps": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2001
+                },
+                "variables": {
+                  "const": 7
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 112056,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "actions": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Policy action per step.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "steps",
+                "components"
+              ],
+              "properties": {
+                "steps": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2000
+                },
+                "components": {
+                  "const": 2
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Episode metrics of FR-014-33.",
+          "required": [
+            "success",
+            "collision",
+            "rms_lateral_error_m",
+            "max_lateral_error_m",
+            "within_speed_limit_fraction",
+            "energy_j_per_kg_m"
+          ],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "collision": {
+              "type": "boolean"
+            },
+            "rms_lateral_error_m": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max_lateral_error_m": {
+              "type": "number",
+              "minimum": 0
+            },
+            "min_ttc_s": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 30,
+              "description": "Minimum time to collision, clipped at 30 s; absent when never closing (FR-014-33)."
+            },
+            "within_speed_limit_fraction": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "energy_j_per_kg_m": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Energy per payload kilogram per metre (kWh/(t km) in the UI)."
+            }
+          }
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

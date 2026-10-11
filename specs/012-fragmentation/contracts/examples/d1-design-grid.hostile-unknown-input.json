@@ -1,0 +1,66 @@
+{
+  "case_id": "D1",
+  "minephys_version": "0.3.0",
+  "kuzram_variant": "cunningham1983",
+  "distribution": "kco-swebrec",
+  "units": {
+    "x50": "m",
+    "x80": "m",
+    "oversize": "%",
+    "ppv": "m/s",
+    "flyrock_radius": "m"
+  },
+  "fixed_inputs": {
+    "spacing_m": 7,
+    "bench_height_m": 12,
+    "hole_diameter_m": 0.25,
+    "charge_length_m": 7.2,
+    "drilling_deviation_m": 0.3,
+    "explosive_density_kg_per_m3": 850,
+    "rws": 100,
+    "rock_factor": 7,
+    "x_max_m": 1.5,
+    "oversize_limit_m": 1.0,
+    "distance_m": 300,
+    "charge_per_delay_kg": 150,
+    "k_site_m_per_s": 1.0,
+    "beta": 1.6,
+    "launch_speed_m_per_s": 40,
+    "fragment_diameter_m": 0.1,
+    "rock_density_kg_per_m3": 2650,
+    "drag_coefficient": 0,
+    "air_density_kg_per_m3": 1.2,
+    "burden_ft": 20
+  },
+  "axes": [
+    {
+      "input": "burden_m",
+      "values": [
+        6,
+        7
+      ]
+    }
+  ],
+  "points": [
+    {
+      "inputs": {
+        "burden_m": 6
+      },
+      "x50_m": 0.2994063,
+      "x80_m": 0.59521759,
+      "oversize_pct": 3.1027,
+      "ppv_m_per_s": 0.00599072,
+      "flyrock_radius_m": 163.15459
+    },
+    {
+      "inputs": {
+        "burden_m": 7
+      },
+      "x50_m": 0.33870247,
+      "x80_m": 0.68498252,
+      "oversize_pct": 5.6695,
+      "ppv_m_per_s": 0.00599072,
+      "flyrock_radius_m": 163.15459
+    }
+  ]
+}

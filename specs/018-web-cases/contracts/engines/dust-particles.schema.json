@@ -1,0 +1,543 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/dust-particles.schema.json",
+  "title": "Engine dust-particles: input and output messages",
+  "description": "Input and output messages of the browser engine `dust-particles` (cases C3): WGSL dust-particle kernels with Stokes settling and wind (T1 only) (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `dust-particles`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "dust-particles",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "dust_step",
+            "dust_run"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "dust_step"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/dust_step_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "dust_run"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/dust_run_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `dust-particles`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "dust-particles",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "dust_step",
+            "dust_run"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "dust_step"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/dust_step_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "dust_run"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/dust_run_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "dust_step_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One advection-settling-diffusion step (per-kernel parity, FR-018-56).",
+      "required": [
+        "positions_m",
+        "radius_m",
+        "particle_density_kg_per_m3",
+        "air_density_kg_per_m3",
+        "air_viscosity_pa_s",
+        "diffusivity_m2_per_s",
+        "wind_m_per_s",
+        "step_s",
+        "seed",
+        "step_index"
+      ],
+      "properties": {
+        "positions_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Particle positions.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "particles",
+                "components"
+              ],
+              "properties": {
+                "particles": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20000,
+                  "description": "Particles (at most 2 x 10^4)."
+                },
+                "components": {
+                  "const": 3
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 240000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "radius_m": {
+          "type": "number",
+          "minimum": 5e-07,
+          "maximum": 1.5e-05,
+          "description": "Particle radius; diameters 1 to 30 micrometres (P-018-65)."
+        },
+        "particle_density_kg_per_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000
+        },
+        "air_density_kg_per_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2
+        },
+        "air_viscosity_pa_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.001,
+          "description": "Dynamic viscosity mu (> 0, FR-005-39)."
+        },
+        "diffusivity_m2_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Turbulent diffusivity K (>= 0, FR-005-39)."
+        },
+        "wind_m_per_s": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -50,
+            "maximum": 50
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "Uniform wind vector U."
+        },
+        "step_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Seed of the engine's generator; an integer exactly representable in a JavaScript number."
+        },
+        "step_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000,
+          "description": "Counter of the variate source."
+        }
+      }
+    },
+    "dust_step_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "positions_m",
+        "deposited"
+      ],
+      "properties": {
+        "positions_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Positions after one step.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "particles",
+                "components"
+              ],
+              "properties": {
+                "particles": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20000,
+                  "description": "Particles (at most 2 x 10^4)."
+                },
+                "components": {
+                  "const": 3
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 240000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "deposited": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20000
+        }
+      }
+    },
+    "dust_run_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Particle-twin run over the terrain.",
+      "required": [
+        "scene",
+        "particle_count",
+        "radius_m",
+        "particle_density_kg_per_m3",
+        "air_density_kg_per_m3",
+        "air_viscosity_pa_s",
+        "diffusivity_m2_per_s",
+        "wind_m_per_s",
+        "source_position_m",
+        "ground",
+        "boundary",
+        "duration_s",
+        "step_s",
+        "seed"
+      ],
+      "properties": {
+        "scene": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Terrain patch of the particle twin.",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "particle_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20000,
+          "description": "Particles (at most 2 x 10^4)."
+        },
+        "radius_m": {
+          "type": "number",
+          "minimum": 5e-07,
+          "maximum": 1.5e-05,
+          "description": "Particle radius; diameters 1 to 30 micrometres (P-018-65)."
+        },
+        "particle_density_kg_per_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000
+        },
+        "air_density_kg_per_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2
+        },
+        "air_viscosity_pa_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.001,
+          "description": "Dynamic viscosity mu (> 0, FR-005-39)."
+        },
+        "diffusivity_m2_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Turbulent diffusivity K (>= 0, FR-005-39)."
+        },
+        "wind_m_per_s": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -50,
+            "maximum": 50
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "Uniform wind vector U."
+        },
+        "source_position_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -100000.0,
+            "maximum": 100000.0
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "Release point."
+        },
+        "ground": {
+          "enum": [
+            "deposit",
+            "reflect"
+          ],
+          "description": "Ground behaviour (FR-005-38)."
+        },
+        "boundary": {
+          "enum": [
+            "open",
+            "closed-box"
+          ],
+          "description": "Domain boundary; closed-box conserves the count (P-018-67)."
+        },
+        "duration_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 3600
+        },
+        "step_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Seed of the engine's generator; an integer exactly representable in a JavaScript number."
+        }
+      }
+    },
+    "dust_run_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "particle_count",
+        "airborne",
+        "deposited",
+        "exited",
+        "centroid_m",
+        "spread_m",
+        "elapsed_s"
+      ],
+      "properties": {
+        "particle_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20000,
+          "description": "Particles (at most 2 x 10^4)."
+        },
+        "airborne": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "deposited": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "exited": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "centroid_m": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "spread_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "elapsed_s": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

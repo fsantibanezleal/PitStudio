@@ -208,9 +208,9 @@ Key decisions:
 | Similarity and symmetry (P-005-01…03, P-005-14…16) | rtol 1 × 10⁻⁴ / atol as stated | the transformed runs differ only by float32 rounding of scaled or permuted values; observables of many-body (chaotic) runs are compared, not trajectories |
 | Newton MPM re-run (FR-005-21) | run-out ± 2 %, repose ± 0.5°, Q ± 2 % | half of the benchmark tolerances, so that a re-run cannot flip a verdict unnoticed |
 
-Proposed `thresholds.yaml` keys (proposed keys, pending maintainer approval; values above): `physics.beverloo_point_rtol: 0.05`,
+`thresholds.yaml` keys (values above): `physics.beverloo_point_rtol: 0.05`,
 `physics.beverloo_exponent_atol: 0.15`, `physics.repose_atol_deg: 1.5`, `physics.collapse_exponent_atol: [0.15, 0.12]`,
-`physics.swe_l1_max: 0.05`, `physics.swe_volume_drift_max: 1.0e-5`, `physics.mass_drift_twin_max: 0.005`.
+`physics.swe_l1_max: 0.05`, `physics.swe_volume_drift_max: 1.0e-5`, and the twin mass-drift rule `web.mass_drift_rel_max: 0.005` (owned by spec 018, which enforces it).
 
 ## Risks and complexity tracking
 | Deviation | Why needed | Simpler alternative rejected because |

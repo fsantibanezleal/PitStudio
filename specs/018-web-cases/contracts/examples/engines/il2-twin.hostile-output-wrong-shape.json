@@ -1,0 +1,33 @@
+{
+  "kind": "output",
+  "engine": "il2-twin",
+  "engine_version": "0.1.0",
+  "function": "rollout",
+  "result": {
+    "steps": 600,
+    "termination": "dig-complete",
+    "states": {
+      "dtype": "float64",
+      "shape": {
+        "steps": 601,
+        "variables": 9
+      },
+      "byte_length": 43272
+    },
+    "actions": {
+      "dtype": "float32",
+      "shape": {
+        "steps": 600,
+        "components": 3
+      },
+      "byte_length": 9600
+    },
+    "metrics": {
+      "fill_factor": 0.92,
+      "cycle_time_s": 14.5,
+      "productivity_per_s": 0.06344827586206897,
+      "stall": false,
+      "lift_off": true
+    }
+  }
+}

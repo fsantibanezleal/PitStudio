@@ -1,0 +1,248 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261120T031500Z-b2",
+  "test_data": "synthetic held-out",
+  "honesty_label": "calibrated synthetic — not validated against real data",
+  "sim_to_real": "not measured",
+  "protocol": {
+    "implementation": "pycocotools",
+    "implementation_version": "2.0.10",
+    "iou_thresholds": "0.50:0.05:0.95",
+    "recall_points": 101,
+    "max_dets": 100,
+    "area": "all",
+    "min_support": 100
+  },
+  "bootstrap": {
+    "resamples": 2000,
+    "method": "cluster-percentile",
+    "cluster": "test-scenario-seed",
+    "level": 0.95,
+    "seed": 90210
+  },
+  "families": [
+    {
+      "family": "pit",
+      "status": "run"
+    },
+    {
+      "family": "crusher",
+      "status": "run"
+    }
+  ],
+  "per_class": [
+    {
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "training_arm": "S",
+      "family": "pooled",
+      "task": "box",
+      "class": "haul_truck",
+      "support": 2412,
+      "ap50": 0.91,
+      "ap50_95": 0.68,
+      "ap50_interval": {
+        "lower": 0.89,
+        "upper": 0.93
+      },
+      "ap50_95_interval": {
+        "lower": 0.66,
+        "upper": 0.7
+      },
+      "descriptive": false,
+      "honesty_label": "calibrated synthetic — not validated against real data",
+      "sim_to_real": "not measured"
+    },
+    {
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "training_arm": "S",
+      "family": "pooled",
+      "task": "box",
+      "class": "person",
+      "support": 318,
+      "ap50": 0.81,
+      "ap50_95": 0.52,
+      "ap50_interval": {
+        "lower": 0.77,
+        "upper": 0.85
+      },
+      "ap50_95_interval": {
+        "lower": 0.48,
+        "upper": 0.56
+      },
+      "descriptive": false,
+      "honesty_label": "calibrated synthetic — not validated against real data",
+      "sim_to_real": "not measured"
+    },
+    {
+      "model": "rf-detr-seg-n",
+      "precision": "fp32",
+      "training_arm": "S",
+      "family": "crusher",
+      "task": "mask",
+      "class": "boulder",
+      "support": 1530,
+      "ap50": 0.74,
+      "ap50_95": 0.49,
+      "ap50_interval": {
+        "lower": 0.71,
+        "upper": 0.77
+      },
+      "ap50_95_interval": {
+        "lower": 0.46,
+        "upper": 0.52
+      },
+      "descriptive": true,
+      "honesty_label": "calibrated synthetic — not validated against real data",
+      "sim_to_real": "not measured"
+    },
+    {
+      "model": "d-fine-n",
+      "precision": "fp32",
+      "training_arm": "S",
+      "family": "crusher",
+      "task": "box",
+      "class": "shovel",
+      "support": 0,
+      "descriptive": false,
+      "honesty_label": "calibrated synthetic — not validated against real data",
+      "sim_to_real": "not measured"
+    }
+  ],
+  "summary": [
+    {
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "training_arm": "S",
+      "family": "pooled",
+      "task": "box",
+      "metric": "map50",
+      "value": 0.86,
+      "interval": {
+        "lower": 0.84,
+        "upper": 0.88
+      },
+      "classes_included": [
+        "haul_truck",
+        "shovel",
+        "light_vehicle",
+        "person",
+        "boulder"
+      ],
+      "descriptive": false
+    },
+    {
+      "model": "rf-detr-seg-n",
+      "precision": "fp32",
+      "training_arm": "S",
+      "family": "pit",
+      "task": "mask",
+      "metric": "mask_ap50",
+      "value": 0.76,
+      "interval": {
+        "lower": 0.73,
+        "upper": 0.79
+      },
+      "classes_included": [
+        "haul_truck",
+        "shovel",
+        "light_vehicle",
+        "person",
+        "boulder"
+      ],
+      "descriptive": false
+    }
+  ],
+  "corruption": [
+    {
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "training_arm": "S",
+      "metric": "map50",
+      "corruption": "dust",
+      "severity": 6,
+      "m_clean": 0.8,
+      "m_corrupted": 0.75,
+      "delta_rel_pct": 6.25,
+      "descriptive": false
+    },
+    {
+      "model": "rf-detr-seg-n",
+      "precision": "fp16",
+      "training_arm": "S",
+      "metric": "mask_ap50",
+      "corruption": "rain",
+      "severity": 3,
+      "m_clean": 0.76,
+      "m_corrupted": 0.646,
+      "delta_rel_pct": 15.0,
+      "descriptive": true
+    }
+  ],
+  "dr_ablation": {
+    "model": "d-fine-s",
+    "precision": "fp32",
+    "metric": "map50",
+    "family": "pit",
+    "arm_a": "S",
+    "arm_b": "U",
+    "difference": 0.031,
+    "interval": {
+      "lower": 0.012,
+      "upper": 0.049
+    },
+    "bootstrap": {
+      "resamples": 10000,
+      "method": "paired-cluster-percentile",
+      "cluster": "test-scenario-seed",
+      "level": 0.95,
+      "identical_resample_indices": true,
+      "seed": 90211
+    },
+    "verdict": "better",
+    "training_runs_per_arm": 1,
+    "test_seeds": 100,
+    "test_images": 1000
+  },
+  "acceptance": [
+    {
+      "criterion": "SC-009-01",
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "statistic": "map50",
+      "value": 0.86,
+      "threshold": 0.8,
+      "verdict": "pass"
+    },
+    {
+      "criterion": "SC-009-03",
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "corruption": "dust",
+      "severity": 1,
+      "statistic": "delta_rel_pct",
+      "value": 6.25,
+      "threshold": 10,
+      "verdict": "pass"
+    },
+    {
+      "criterion": "SC-009-05",
+      "model": "rf-detr-seg-n",
+      "precision": "fp32",
+      "statistic": "mask_ap50",
+      "value": 0.76,
+      "threshold": 0.7,
+      "verdict": "pass"
+    },
+    {
+      "criterion": "SC-009-06",
+      "model": "rf-detr-seg-n",
+      "precision": "fp16",
+      "statistic": "abs_delta_mask_ap50_pp",
+      "threshold": 1,
+      "verdict": "not run",
+      "reason": "fp16 export of RF-DETR-Seg-N not run"
+    }
+  ]
+}

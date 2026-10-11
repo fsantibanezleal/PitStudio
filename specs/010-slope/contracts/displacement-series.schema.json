@@ -1,0 +1,800 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/displacement-series.schema.json",
+  "title": "Displacement series",
+  "description": "Slope displacement series of one seeded synthetic Voight event, the real de Wit event, one S4b radar pixel or one S4b line-of-sight map, written by s05_synthesize, s10_preprocess and the radar-series builder (DC-010-02, spec 010-slope).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/synthetic_event"
+    },
+    {
+      "$ref": "#/$defs/real_event"
+    },
+    {
+      "$ref": "#/$defs/radar_pixel"
+    },
+    {
+      "$ref": "#/$defs/radar_map"
+    }
+  ],
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?Z$"
+    },
+    "https_url": {
+      "type": "string",
+      "maxLength": 2048,
+      "pattern": "^https://[A-Za-z0-9.-]+(:[0-9]{1,5})?(/[A-Za-z0-9._~%!$&'()*+,;=:@/-]*)?(\\?[A-Za-z0-9._~%!$&'()*+,;=:@/?-]*)?$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "time_h": {
+      "type": "number",
+      "minimum": -10000000,
+      "maximum": 10000000
+    },
+    "displacement_mm": {
+      "type": "number",
+      "minimum": -10000000,
+      "maximum": 10000000
+    },
+    "snr": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1000000000
+    },
+    "pixel_id": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999999
+    },
+    "point_m": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "number",
+        "minimum": -10000000,
+        "maximum": 10000000
+      }
+    },
+    "stratum": {
+      "enum": [
+        "snr_obs",
+        "half_snr_obs",
+        "double_snr_obs",
+        "snr_obs_atmospheric",
+        "nominal_10",
+        "nominal_30",
+        "nominal_100"
+      ]
+    },
+    "sign_convention": {
+      "const": "positive = toward the radar"
+    },
+    "pixel_status": {
+      "enum": [
+        "ok",
+        "ambiguous (phase wrapping)"
+      ]
+    },
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "n_samples",
+        "interval_h",
+        "regular"
+      ],
+      "properties": {
+        "n_samples": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 1000000
+        },
+        "interval_h": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000
+        },
+        "regular": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ar1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rho",
+        "marginal_sd_mm"
+      ],
+      "properties": {
+        "rho": {
+          "type": "number",
+          "exclusiveMinimum": -1,
+          "exclusiveMaximum": 1
+        },
+        "marginal_sd_mm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      }
+    },
+    "voight_parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alpha",
+        "a_coefficient",
+        "terminal_duration_h",
+        "onset_velocity_mm_per_day",
+        "steady_phase_fraction",
+        "regressive",
+        "psi_deg",
+        "snr_target",
+        "sigma_d_mm"
+      ],
+      "properties": {
+        "alpha": {
+          "type": "number",
+          "exclusiveMinimum": 1,
+          "maximum": 10
+        },
+        "a_coefficient": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000000
+        },
+        "terminal_duration_h": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "onset_velocity_mm_per_day": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000
+        },
+        "steady_phase_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "regressive": {
+          "type": "boolean"
+        },
+        "regressive_velocity_reduction": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "regressive_duration_fraction": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "psi_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 89
+        },
+        "snr_target": {
+          "$ref": "#/$defs/snr"
+        },
+        "sigma_d_mm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "ar1": {
+          "$ref": "#/$defs/ar1"
+        }
+      },
+      "if": {
+        "properties": {
+          "regressive": {
+            "const": true
+          }
+        },
+        "required": [
+          "regressive"
+        ]
+      },
+      "then": {
+        "required": [
+          "regressive_velocity_reduction",
+          "regressive_duration_fraction"
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "regressive_velocity_reduction"
+              ]
+            },
+            {
+              "required": [
+                "regressive_duration_fraction"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "radar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "position_m",
+        "wavelength_mm",
+        "scan_interval_min"
+      ],
+      "properties": {
+        "position_m": {
+          "$ref": "#/$defs/point_m"
+        },
+        "wavelength_mm": {
+          "type": "number",
+          "exclusiveMinimum": 1,
+          "exclusiveMaximum": 1000
+        },
+        "scan_interval_min": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10080
+        }
+      }
+    },
+    "synthetic_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "synthetic",
+        "event_id",
+        "seed",
+        "split",
+        "stratum",
+        "parameters",
+        "t_0_h",
+        "t_f_h",
+        "t_f_source",
+        "realised_snr",
+        "sampling",
+        "t_h",
+        "los_displacement_mm"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "kind": {
+          "const": "synthetic-event"
+        },
+        "synthetic": {
+          "const": true
+        },
+        "event_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "seed": {
+          "$ref": "#/$defs/seed"
+        },
+        "split": {
+          "enum": [
+            "train",
+            "validation",
+            "test"
+          ]
+        },
+        "stratum": {
+          "$ref": "#/$defs/stratum"
+        },
+        "snr_note": {
+          "const": "observed SNR not available — nominal SNR"
+        },
+        "parameters": {
+          "$ref": "#/$defs/voight_parameters"
+        },
+        "t_0_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "t_f_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "t_f_source": {
+          "const": "synthetic (exact)"
+        },
+        "realised_snr": {
+          "$ref": "#/$defs/snr"
+        },
+        "sampling": {
+          "$ref": "#/$defs/sampling"
+        },
+        "attribution": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "t_h": {
+          "type": "array",
+          "minItems": 64,
+          "maxItems": 1000000,
+          "items": {
+            "$ref": "#/$defs/time_h"
+          }
+        },
+        "los_displacement_mm": {
+          "type": "array",
+          "minItems": 64,
+          "maxItems": 1000000,
+          "items": {
+            "$ref": "#/$defs/displacement_mm"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stratum": {
+                "enum": [
+                  "nominal_10",
+                  "nominal_30",
+                  "nominal_100"
+                ]
+              }
+            },
+            "required": [
+              "stratum"
+            ]
+          },
+          "then": {
+            "required": [
+              "snr_note"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "snr_note"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stratum": {
+                "const": "snr_obs_atmospheric"
+              }
+            },
+            "required": [
+              "stratum"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameters": {
+                "required": [
+                  "ar1"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "parameters": {
+                "not": {
+                  "required": [
+                    "ar1"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "t_f_document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "citation"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "dataset-description",
+            "dataset-file",
+            "publication"
+          ]
+        },
+        "citation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "url": {
+          "$ref": "#/$defs/https_url"
+        }
+      }
+    },
+    "real_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "synthetic",
+        "event_id",
+        "source_id",
+        "archive_bytes",
+        "archive_md5",
+        "archive_sha256",
+        "archive_member",
+        "extraction",
+        "source_units",
+        "t_0_h",
+        "t_f_h",
+        "t_f_source",
+        "snr_obs",
+        "sampling",
+        "attribution",
+        "licence",
+        "use",
+        "t_h",
+        "los_displacement_mm"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "kind": {
+          "const": "real-event"
+        },
+        "synthetic": {
+          "const": false
+        },
+        "event_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "source_id": {
+          "$ref": "#/$defs/slug"
+        },
+        "archive_bytes": {
+          "const": 8943265
+        },
+        "archive_md5": {
+          "const": "3adeb6c853d2e87249b7d3549a2a00ca"
+        },
+        "archive_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "archive_member": {
+          "$ref": "#/$defs/relpath"
+        },
+        "extraction": {
+          "enum": [
+            "series-as-delivered",
+            "map-median-top-5pct"
+          ]
+        },
+        "source_units": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "displacement",
+            "time"
+          ],
+          "properties": {
+            "displacement": {
+              "enum": [
+                "mm",
+                "cm",
+                "m"
+              ]
+            },
+            "time": {
+              "enum": [
+                "s",
+                "min",
+                "h",
+                "d"
+              ]
+            }
+          }
+        },
+        "t_ref_utc": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "t_0_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "t_f_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "t_f_source": {
+          "$ref": "#/$defs/t_f_document"
+        },
+        "snr_obs": {
+          "$ref": "#/$defs/snr"
+        },
+        "sampling": {
+          "$ref": "#/$defs/sampling"
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "licence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "spdx",
+            "licence_class"
+          ],
+          "properties": {
+            "spdx": {
+              "const": "CC-BY-4.0"
+            },
+            "licence_class": {
+              "const": "attribution"
+            }
+          }
+        },
+        "use": {
+          "const": "descriptive-evaluation-only"
+        },
+        "t_h": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 1000000,
+          "items": {
+            "$ref": "#/$defs/time_h"
+          }
+        },
+        "los_displacement_mm": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 1000000,
+          "items": {
+            "$ref": "#/$defs/displacement_mm"
+          }
+        }
+      }
+    },
+    "radar_pixel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "synthetic",
+        "event_id",
+        "pixel_id",
+        "pixel_position_m",
+        "radar",
+        "psi_deg",
+        "sign_convention",
+        "run_seed",
+        "status",
+        "t_h",
+        "los_displacement_mm",
+        "measured_los_displacement_mm",
+        "wrap_flags"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "kind": {
+          "const": "radar-pixel"
+        },
+        "synthetic": {
+          "const": true
+        },
+        "event_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "stratum": {
+          "$ref": "#/$defs/stratum"
+        },
+        "pixel_id": {
+          "$ref": "#/$defs/pixel_id"
+        },
+        "pixel_position_m": {
+          "$ref": "#/$defs/point_m"
+        },
+        "radar": {
+          "$ref": "#/$defs/radar"
+        },
+        "psi_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 180
+        },
+        "sign_convention": {
+          "$ref": "#/$defs/sign_convention"
+        },
+        "run_seed": {
+          "$ref": "#/$defs/seed"
+        },
+        "status": {
+          "$ref": "#/$defs/pixel_status"
+        },
+        "ambiguous_from_scan": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999999
+        },
+        "t_h": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 1000000,
+          "items": {
+            "$ref": "#/$defs/time_h"
+          }
+        },
+        "los_displacement_mm": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 1000000,
+          "items": {
+            "$ref": "#/$defs/displacement_mm"
+          }
+        },
+        "measured_los_displacement_mm": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 1000000,
+          "items": {
+            "$ref": "#/$defs/displacement_mm"
+          }
+        },
+        "wrap_flags": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 1000000,
+          "items": {
+            "type": "boolean"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ambiguous (phase wrapping)"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "ambiguous_from_scan"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "ambiguous_from_scan"
+          ]
+        }
+      }
+    },
+    "map_pixel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pixel_id",
+        "position_m",
+        "los_displacement_mm",
+        "status"
+      ],
+      "properties": {
+        "pixel_id": {
+          "$ref": "#/$defs/pixel_id"
+        },
+        "position_m": {
+          "$ref": "#/$defs/point_m"
+        },
+        "los_displacement_mm": {
+          "$ref": "#/$defs/displacement_mm"
+        },
+        "status": {
+          "$ref": "#/$defs/pixel_status"
+        }
+      }
+    },
+    "radar_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "synthetic",
+        "event_id",
+        "radar",
+        "sign_convention",
+        "scan_index",
+        "t_h",
+        "ambiguous_pixels",
+        "pixels"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "kind": {
+          "const": "radar-map"
+        },
+        "synthetic": {
+          "const": true
+        },
+        "event_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "radar": {
+          "$ref": "#/$defs/radar"
+        },
+        "sign_convention": {
+          "$ref": "#/$defs/sign_convention"
+        },
+        "scan_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999999
+        },
+        "t_h": {
+          "$ref": "#/$defs/time_h"
+        },
+        "ambiguous_pixels": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "pixels": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "items": {
+            "$ref": "#/$defs/map_pixel"
+          }
+        }
+      }
+    }
+  }
+}

@@ -125,7 +125,7 @@ reduced to the latest sample per wall-clock second; FastAPI's keep-alive ping at
 Allowlist: `PITSTUDIO_CONSOLE_ALLOW_ORIGINS`, comma-separated exact origins; default `https://fsantibanezleal.github.io`;
 matching is exact string equality (so `https://fsantibanezleal.github.io.example.com` never matches).
 
-### Proposed `thresholds.yaml` additions (proposed keys, pending maintainer approval)
+### `thresholds.yaml` keys used by this spec
 
 ```yaml
 console:

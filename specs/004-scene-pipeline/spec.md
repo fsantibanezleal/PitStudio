@@ -157,14 +157,14 @@ Lengths are metres, angles degrees, grades percent (rise over run × 100).
 ## 6. Data contracts
 | ID | Artifact | Schema | Producer → Consumer |
 |---|---|---|---|
-| DC-004-01 | Scene specification `SceneSpec` (site origin, AOI, sources, design parameters with citations, design-code ranges, fleet and asset specs, label and part vocabularies, variant names, seed) | `contracts/scene-spec.schema.json` (to be written: T-004-001) | recipe `params` → `st10`–`st45`, export stage |
-| DC-004-02 | `scene.manifest.json` | `contracts/scene-manifest.schema.json` (T-004-001) | `st40_compose`, `st45_validate` → physics, sensors, synthetic data, export, publication |
-| DC-004-03 | Site-local terrain grid (Zarr: elevation float32, valid and fill masks, attributes cell size, origin, CRS record, units, source ids) | `contracts/terrain-grid.schema.json` (T-004-001) | `st10_terrain` → `st20`, `st50_physics`, pipeline (E2 differencing) |
-| DC-004-04 | Terrain tile index | `contracts/terrain-tiles.schema.json` (T-004-001) | `st10_terrain` → `st40_compose`, export stage |
-| DC-004-05 | Design report (per-bench table, volumes, identity residual, provenance label) | `contracts/pit-design-report.schema.json` (T-004-001) | `st20_pit_design` → `st45_validate`, web case pages |
-| DC-004-06 | Haul-road network (GeoJSON) | `contracts/road-network.schema.json` (T-004-001) | `st20_pit_design` → haulage (M2, M6), vehicles (`st50_physics`) |
-| DC-004-07 | Validation report | `contracts/scene-validation-report.schema.json` (T-004-001) | `st45_validate` → publication, web run pages |
-| DC-004-08 | `scene.digest.json` | `contracts/scene-digest.schema.json` (T-004-001) | `st40_compose` → export stage (glTF parity) |
+| DC-004-01 | Scene specification `SceneSpec` (site origin, AOI, sources, design parameters with citations, design-code ranges, fleet and asset specs, label and part vocabularies, variant names, seed) | `specs/004-scene-pipeline/contracts/scene-spec.schema.json` (draft; promoted to `contracts/scene-spec.schema.json` by T-004-001) | recipe `params` → `st10`–`st45`, export stage |
+| DC-004-02 | `scene.manifest.json` | `specs/004-scene-pipeline/contracts/scene-manifest.schema.json` (draft; promoted to `contracts/scene-manifest.schema.json` by T-004-001) | `st40_compose`, `st45_validate` → physics, sensors, synthetic data, export, publication |
+| DC-004-03 | Site-local terrain grid (Zarr: elevation float32, valid and fill masks, attributes cell size, origin, CRS record, units, source ids) | `specs/004-scene-pipeline/contracts/terrain-grid.schema.json` (draft; promoted to `contracts/terrain-grid.schema.json` by T-004-001) | `st10_terrain` → `st20`, `st50_physics`, pipeline (E2 differencing) |
+| DC-004-04 | Terrain tile index | `specs/004-scene-pipeline/contracts/terrain-tiles.schema.json` (draft; promoted to `contracts/terrain-tiles.schema.json` by T-004-001) | `st10_terrain` → `st40_compose`, export stage |
+| DC-004-05 | Design report (per-bench table, volumes, identity residual, provenance label) | `specs/004-scene-pipeline/contracts/pit-design-report.schema.json` (draft; promoted to `contracts/pit-design-report.schema.json` by T-004-001) | `st20_pit_design` → `st45_validate`, web case pages |
+| DC-004-06 | Haul-road network (GeoJSON) | `specs/004-scene-pipeline/contracts/road-network.schema.json` (draft; promoted to `contracts/road-network.schema.json` by T-004-001) | `st20_pit_design` → haulage (M2, M6), vehicles (`st50_physics`) |
+| DC-004-07 | Validation report | `specs/004-scene-pipeline/contracts/scene-validation-report.schema.json` (draft; promoted to `contracts/scene-validation-report.schema.json` by T-004-001) | `st45_validate` → publication, web run pages |
+| DC-004-08 | `scene.digest.json` | `specs/004-scene-pipeline/contracts/scene-digest.schema.json` (draft; promoted to `contracts/scene-digest.schema.json` by T-004-001) | `st40_compose` → export stage (glTF parity) |
 
 The run manifest of every stage follows DC-000-01; stage parameters enter the recipe (DC-000-03); every input is a
 `data/sources.yaml` id (DC-000-05).
@@ -213,6 +213,21 @@ The run manifest of every stage follows DC-000-01; stage parameters enter the re
   because publication belongs to spec 002 and generated USD is never published; downstream stages then do not run.
 - Resolved: the docs name weather once as a layer (studio stages) and once as a variant set (OpenUSD page); both are
   kept: a `weather` sublayer holds the weather prims and a `weather` variant set selects the condition.
+- Integration 2026-10-07: draft schema written for DC-004-01 … DC-004-08 (`specs/004-scene-pipeline/contracts/`, valid
+  and hostile examples indexed in `examples/index.json`); DC-004-01 is a recipe `params` object (keys `param_key`,
+  depth ≤ 4, no `$schema`, strings ≤ 256); closed vocabularies chosen: 15 class labels (`terrain`, `bench`, `berm`,
+  `ramp`, `windrow`, `haul_road`, the seven machine classes, `person`, `boulder` as in spec 009), 18 part labels, the
+  eight registry ids a scene uses, `time_of_day` and `weather` names, LOD 0–2 (`lod0`–`lod2`); pushback and scenario
+  names are free identifiers; the defaults `max_fill_cells` 16, `max_nodata_frac` 0.05 and `max_cells` 1.0 × 10⁸ are
+  also caps (stricter reading); a design parameter is {value, design-code min/max, citation, verification}; wheeled
+  machines must declare a mid-axle height; bounds where the spec gives none: cell size 0.25–10 m, UTM-zone EPSG codes,
+  dimensions ≤ 50 m, masses ≤ 2 × 10⁶ kg, ≤ 64 instances per model and ≤ 64 people, tiles ≤ 67,077 vertices and
+  ≤ 133,120 triangles (257² samples plus skirts), 10 MB = 10,000,000 bytes; measured values in the design and validation
+  reports are bounded only by physical validity (the tolerances stay FR-004-35's checks); the manifest's validation
+  status is `pending` until `st45_validate` runs; the road network keeps site-frame coordinates (foreign member
+  `frame`), its length is the 3-D polyline length, `grade_mean_pct` is signed and `grade_max_pct` absolute; tile digests
+  cover the mesh buffers held in `terrain.usdc`; validator severities are normalised to `error`, `warning`, `info`; the
+  "one LAZ project per terrain grid" rule has no FR yet.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

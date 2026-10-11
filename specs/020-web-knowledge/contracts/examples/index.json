@@ -1,0 +1,692 @@
+{
+  "spec": "020-web-knowledge",
+  "examples": [
+    {
+      "file": "methods.valid.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the 23 methods of the ladder; 11 learned methods with comparison design and criterion"
+    },
+    {
+      "file": "methods.hostile-unknown-enum-id.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown method id",
+      "rule": "FR-020-19",
+      "pointer": "/methods/22/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "methods.hostile-missing-es-name.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "method without its Spanish name",
+      "rule": "DC-020-01",
+      "pointer": "/methods/0/name",
+      "keyword": "required"
+    },
+    {
+      "file": "methods.hostile-unknown-enum-tier.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tier outside its enum",
+      "rule": "FR-020-19",
+      "pointer": "/methods/0/tiers/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "methods.hostile-unknown-enum-lane.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "lane outside its enum",
+      "rule": "FR-020-19",
+      "pointer": "/methods/0/lanes/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "methods.hostile-unknown-enum-licence.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "licence outside the SPDX allowlist",
+      "rule": "FR-020-19",
+      "pointer": "/methods/0/spdx/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "methods.hostile-conditional-learned-criterion.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "learned method without an acceptance criterion",
+      "rule": "FR-020-19",
+      "pointer": "/methods/3",
+      "keyword": "required"
+    },
+    {
+      "file": "methods.hostile-unknown-enum-case.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown case",
+      "rule": "DC-020-01",
+      "pointer": "/methods/0/cases/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "methods.hostile-missing-method.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "registry lacking one of M1-M23",
+      "rule": "FR-020-19",
+      "pointer": "/methods",
+      "keyword": "minItems"
+    },
+    {
+      "file": "methods.hostile-missing-orientation.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "metric without orientation",
+      "rule": "FR-020-18",
+      "pointer": "/methods/3/comparison/metric",
+      "keyword": "required"
+    },
+    {
+      "file": "methods.hostile-path-traversal.json",
+      "schema": "methods.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "docs page path with ..",
+      "rule": "DC-020-01",
+      "pointer": "/methods/0/docs_page",
+      "keyword": "pattern"
+    },
+    {
+      "file": "results.valid.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "learned vs classical: three paired rows, one per verdict, t and bootstrap intervals"
+    },
+    {
+      "file": "results.valid-cosmos.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Cosmos tab: estimates with intervals, a McNemar row and a thresholded agreement"
+    },
+    {
+      "file": "results.valid-single-event.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one real event (n = 1) reported descriptively"
+    },
+    {
+      "file": "results.valid-acceleration.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "Acceleration tab: accepted and rejected cells with conditions and the licence digest"
+    },
+    {
+      "file": "results.hostile-conditional-verdict.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "stored verdict differs from the interval",
+      "rule": "FR-020-23",
+      "pointer": "/rows/0/verdict",
+      "keyword": "const"
+    },
+    {
+      "file": "results.hostile-conditional-verdict-touching-zero.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "interval touching 0 read as a difference",
+      "rule": "FR-020-22",
+      "pointer": "/rows/2/verdict",
+      "keyword": "const"
+    },
+    {
+      "file": "results.hostile-out-of-range-n.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "n < 2 for a paired claim",
+      "rule": "FR-020-23",
+      "pointer": "/rows/0/n",
+      "keyword": "minimum"
+    },
+    {
+      "file": "results.hostile-missing-orientation.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "metric without orientation",
+      "rule": "FR-020-23",
+      "pointer": "/rows/0/metric",
+      "keyword": "required"
+    },
+    {
+      "file": "results.hostile-conditional-mcnemar.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "McNemar p >= 0.05 read as a difference",
+      "rule": "FR-020-22",
+      "pointer": "/rows/2/verdict",
+      "keyword": "const"
+    },
+    {
+      "file": "results.hostile-out-of-range-p.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "p-value above 1",
+      "rule": "FR-020-23",
+      "pointer": "/rows/2/p_value",
+      "keyword": "maximum"
+    },
+    {
+      "file": "results.hostile-unknown-enum-backend.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "performance row of TensorRT for RTX",
+      "rule": "FR-020-29",
+      "pointer": "/rows/0/backend",
+      "keyword": "enum"
+    },
+    {
+      "file": "results.hostile-conditional-licence-digest.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "TensorRT row without the licence SHA-256",
+      "rule": "FR-020-30",
+      "pointer": "/rows/1",
+      "keyword": "required"
+    },
+    {
+      "file": "results.hostile-malformed-digest.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "uppercase digest",
+      "rule": "FR-020-30",
+      "pointer": "/rows/2/tensorrt_licence_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "results.hostile-conditional-rejected-reason.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "rejected cell without its reason",
+      "rule": "FR-020-28",
+      "pointer": "/rows/2",
+      "keyword": "required"
+    },
+    {
+      "file": "results.hostile-unknown-enum-case.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown case",
+      "rule": "DC-020-02",
+      "pointer": "/cases/0",
+      "keyword": "enum"
+    },
+    {
+      "file": "results.hostile-wrong-unit-level.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "interval level other than 95 %",
+      "rule": "FR-020-21",
+      "pointer": "/rows/0/interval/level",
+      "keyword": "const"
+    },
+    {
+      "file": "results.hostile-conditional-bootstrap.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bootstrap interval without B",
+      "rule": "FR-020-21",
+      "pointer": "/rows/1/interval",
+      "keyword": "required"
+    },
+    {
+      "file": "results.hostile-unknown-enum-tab.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown tab",
+      "rule": "FR-020-20",
+      "pointer": "/tab",
+      "keyword": "enum"
+    },
+    {
+      "file": "results.hostile-unknown-field.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "composite score",
+      "rule": "FR-020-21",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "results.hostile-conditional-single-event.json",
+      "schema": "results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "single-event row with n other than 1",
+      "rule": "FR-020-22",
+      "pointer": "/rows/0/n",
+      "keyword": "const"
+    },
+    {
+      "file": "knowledge-bundle.valid.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "three parameter rows (verified, UNVERIFIED range, exact rational), one equation, glossary, datasets, frameworks, bibliography"
+    },
+    {
+      "file": "knowledge-bundle.hostile-missing-citation.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "knowledge row without citation",
+      "rule": "FR-020-39",
+      "pointer": "/parameters/0",
+      "keyword": "required"
+    },
+    {
+      "file": "knowledge-bundle.hostile-missing-units.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "knowledge row without units",
+      "rule": "FR-020-39",
+      "pointer": "/parameters/1",
+      "keyword": "required"
+    },
+    {
+      "file": "knowledge-bundle.hostile-missing-page.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "knowledge row without page",
+      "rule": "FR-020-39",
+      "pointer": "/parameters/2",
+      "keyword": "required"
+    },
+    {
+      "file": "knowledge-bundle.hostile-missing-verification.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "equation without verification status",
+      "rule": "FR-020-39",
+      "pointer": "/equations/0",
+      "keyword": "required"
+    },
+    {
+      "file": "knowledge-bundle.hostile-unknown-enum-verification.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "verification value other than verified or UNVERIFIED",
+      "rule": "FR-020-39",
+      "pointer": "/parameters/1/verification",
+      "keyword": "enum"
+    },
+    {
+      "file": "knowledge-bundle.hostile-missing-es-term.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "glossary entry without ES text",
+      "rule": "FR-020-39",
+      "pointer": "/glossary/0",
+      "keyword": "required"
+    },
+    {
+      "file": "knowledge-bundle.hostile-conditional-doi-or-url.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bibliography entry with neither DOI nor URL",
+      "rule": "FR-020-39",
+      "pointer": "/bibliography/2",
+      "keyword": "anyOf"
+    },
+    {
+      "file": "knowledge-bundle.hostile-conditional-verified-on.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "verified row without its date",
+      "rule": "FR-020-33",
+      "pointer": "/parameters/0",
+      "keyword": "required"
+    },
+    {
+      "file": "knowledge-bundle.hostile-bad-pattern-citation.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed citation key",
+      "rule": "FR-020-39",
+      "pointer": "/parameters/2/citation",
+      "keyword": "pattern"
+    },
+    {
+      "file": "knowledge-bundle.hostile-malformed-digest.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "short minephys commit",
+      "rule": "FR-020-32",
+      "pointer": "/source/minephys_commit",
+      "keyword": "pattern"
+    },
+    {
+      "file": "knowledge-bundle.hostile-path-traversal.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "dataset card path with ..",
+      "rule": "FR-020-36",
+      "pointer": "/datasets/0/card",
+      "keyword": "pattern"
+    },
+    {
+      "file": "knowledge-bundle.hostile-conditional-value-and-range.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "row with both value and range",
+      "rule": "FR-020-33",
+      "pointer": "/parameters/1",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "knowledge-bundle.hostile-oversized.json",
+      "schema": "knowledge-bundle.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "definition longer than 1,000 characters",
+      "rule": "FR-020-39",
+      "pointer": "/glossary/1/definition_es",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "figures.valid.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "three charts (xy, viridis field, teaching function) and one registered photograph"
+    },
+    {
+      "file": "figures.valid-3d.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "a three-dimensional chart with its justification3d"
+    },
+    {
+      "file": "figures.hostile-conditional-justification3d.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "3-D figure without justification3d",
+      "rule": "FR-020-09",
+      "pointer": "/figures/0",
+      "keyword": "required"
+    },
+    {
+      "file": "figures.hostile-conditional-justification-2d.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "justification3d on a 2-D figure",
+      "rule": "FR-020-09",
+      "pointer": "/figures/0",
+      "keyword": "not"
+    },
+    {
+      "file": "figures.hostile-unknown-enum-colormap.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "colour map outside the allowed four",
+      "rule": "FR-020-10",
+      "pointer": "/figures/1/colormap",
+      "keyword": "enum"
+    },
+    {
+      "file": "figures.hostile-conditional-field-colormap.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "continuous field without a colour map",
+      "rule": "FR-020-10",
+      "pointer": "/figures/1/colormap",
+      "keyword": "not"
+    },
+    {
+      "file": "figures.hostile-unknown-enum-topic.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown theory topic",
+      "rule": "FR-020-06",
+      "pointer": "/figures/0/topic",
+      "keyword": "enum"
+    },
+    {
+      "file": "figures.hostile-missing-alt.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "photograph without alt text",
+      "rule": "FR-020-16",
+      "pointer": "/figures/3",
+      "keyword": "required"
+    },
+    {
+      "file": "figures.hostile-path-traversal.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "photograph path with ..",
+      "rule": "FR-020-16",
+      "pointer": "/figures/3/file",
+      "keyword": "pattern"
+    },
+    {
+      "file": "figures.hostile-out-of-range-step.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "control step <= 0",
+      "rule": "FR-020-14",
+      "pointer": "/figures/0/controls/0/step",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "figures.hostile-missing-es-label.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "control label without ES text",
+      "rule": "DC-020-04",
+      "pointer": "/figures/0/controls/1/label",
+      "keyword": "required"
+    },
+    {
+      "file": "figures.hostile-bad-pattern-engine.json",
+      "schema": "figures.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "teaching function id in kebab case",
+      "rule": "DC-020-04",
+      "pointer": "/figures/2/engine/id",
+      "keyword": "pattern"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "methods.schema.json",
+      "class": "malformed YAML, anchors, tags, implicit booleans, duplicate keys",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "methods.schema.json",
+      "class": "duplicate method id (23 entries but one id twice)",
+      "by": "checker",
+      "rule": "FR-020-19"
+    },
+    {
+      "schema": "methods.schema.json",
+      "class": "docs_page number differs from the id, or the page does not exist",
+      "by": "checker",
+      "rule": "FR-020-18"
+    },
+    {
+      "schema": "methods.schema.json",
+      "class": "criterion text or requirement id differs from the owning spec's SC row",
+      "by": "checker",
+      "rule": "FR-020-24"
+    },
+    {
+      "schema": "results.schema.json",
+      "class": "non-finite interval bound, value or p-value",
+      "by": "loader",
+      "rule": "FR-020-23"
+    },
+    {
+      "schema": "results.schema.json",
+      "class": "interval with lo > hi",
+      "by": "checker",
+      "rule": "FR-020-23"
+    },
+    {
+      "schema": "results.schema.json",
+      "class": "McNemar verdict direction differs from b versus c, or p-value differs from the exact test",
+      "by": "checker",
+      "rule": "FR-020-22"
+    },
+    {
+      "schema": "results.schema.json",
+      "class": "performance data of TensorRT for RTX, Isaac Sim, Kit, Replicator or ovrtx in any row (from the producer tools of the listed runs)",
+      "by": "checker",
+      "rule": "FR-020-29"
+    },
+    {
+      "schema": "results.schema.json",
+      "class": "TensorRT licence digest differs from the reviewed value (numbers replaced at display)",
+      "by": "checker",
+      "rule": "FR-020-30"
+    },
+    {
+      "schema": "results.schema.json",
+      "class": "criterion status differs from the registry criterion applied to the rows",
+      "by": "checker",
+      "rule": "FR-020-24"
+    },
+    {
+      "schema": "results.schema.json",
+      "class": "id differs from the file stem; run id not a published run",
+      "by": "checker",
+      "rule": "DC-020-02"
+    },
+    {
+      "schema": "knowledge-bundle.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "knowledge-bundle.schema.json",
+      "class": "file size above a byte cap",
+      "by": "loader",
+      "rule": "-",
+      "note": "no byte cap is stated for the bundle; FR-001-05's cap table does not list it"
+    },
+    {
+      "schema": "knowledge-bundle.schema.json",
+      "class": "citation key missing from the bibliography",
+      "by": "checker",
+      "rule": "FR-020-39"
+    },
+    {
+      "schema": "knowledge-bundle.schema.json",
+      "class": "duplicate id (parameter, equation, glossary term, dataset, framework or bibliography key)",
+      "by": "checker",
+      "rule": "FR-020-39"
+    },
+    {
+      "schema": "knowledge-bundle.schema.json",
+      "class": "two generations differ in bytes, or rows not sorted by id",
+      "by": "checker",
+      "rule": "FR-020-40"
+    },
+    {
+      "schema": "knowledge-bundle.schema.json",
+      "class": "cited_by lists inconsistent with the citations of parameters and equations",
+      "by": "checker",
+      "rule": "FR-020-38"
+    },
+    {
+      "schema": "knowledge-bundle.schema.json",
+      "class": "SI value differs from the converted published value",
+      "by": "checker",
+      "rule": "FR-020-33"
+    },
+    {
+      "schema": "figures.schema.json",
+      "class": "malformed YAML, anchors, tags, implicit booleans, duplicate keys",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "figures.schema.json",
+      "class": "control with min >= max or a default outside [min, max]; choice default not among the options",
+      "by": "checker",
+      "rule": "FR-020-14"
+    },
+    {
+      "schema": "figures.schema.json",
+      "class": "digest_exempt set on a control whose range is not a single value",
+      "by": "checker",
+      "rule": "FR-020-13"
+    },
+    {
+      "schema": "figures.schema.json",
+      "class": "duplicate figure id; theory topic without a chart; engine not implemented",
+      "by": "checker",
+      "rule": "FR-020-06"
+    },
+    {
+      "schema": "figures.schema.json",
+      "class": "raster image on a theory, method or results page not registered here",
+      "by": "checker",
+      "rule": "FR-020-16"
+    }
+  ]
+}

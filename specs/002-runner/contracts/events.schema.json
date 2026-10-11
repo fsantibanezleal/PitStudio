@@ -1,0 +1,548 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/events.schema.json",
+  "title": "PitStudio run events and telemetry",
+  "description": "Run event lines, telemetry samples, published telemetry and the stream error payload (DC-002-03, spec 002-runner; SSE payloads DC-003-04).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/event"
+    },
+    {
+      "$ref": "#/$defs/telemetry_sample"
+    },
+    {
+      "$ref": "#/$defs/published_telemetry"
+    },
+    {
+      "$ref": "#/$defs/stream_error"
+    }
+  ],
+  "$defs": {
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?Z$"
+    },
+    "event": {
+      "type": "object",
+      "description": "one line of runs/<run_id>/events.jsonl (plan.md D6), at most 16,384 bytes; seq strictly increasing per run",
+      "additionalProperties": false,
+      "required": [
+        "seq",
+        "t",
+        "run_id",
+        "type"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "t": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "run_id": {
+          "$ref": "#/$defs/run_id"
+        },
+        "type": {
+          "enum": [
+            "run-started",
+            "run-finished",
+            "stage-started",
+            "stage-finished",
+            "stage-cache-hit",
+            "stage-retry",
+            "stage-skipped",
+            "stage-not-run",
+            "shard-finished",
+            "guard-refused",
+            "lock-waiting",
+            "lock-acquired",
+            "hold-detected",
+            "store-corrupt",
+            "low-disk",
+            "cancelled",
+            "interrupted"
+          ]
+        },
+        "stage": {
+          "$ref": "manifest.schema.json#/$defs/stage_key"
+        },
+        "shard": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9999
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "data": {
+          "type": "object",
+          "description": "scalar details of the event",
+          "propertyNames": {
+            "maxLength": 32,
+            "pattern": "^[a-z][a-z0-9_]{0,31}$"
+          },
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ],
+            "maxLength": 300
+          },
+          "maxProperties": 16
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "stage-started",
+                  "stage-finished",
+                  "stage-cache-hit",
+                  "stage-retry",
+                  "stage-skipped",
+                  "stage-not-run",
+                  "shard-finished"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "stage"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "shard-finished"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "shard"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "stage-not-run"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "detail"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "run-started",
+                  "run-finished"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "stage"
+                  ]
+                },
+                {
+                  "required": [
+                    "shard"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "telemetry_sample": {
+      "type": "object",
+      "description": "one line of runs/<run_id>/telemetry.jsonl (plan.md D6); an unsupported, failing, non-finite or negative reading is null (FR-002-32); shard 0 for unsharded stages",
+      "additionalProperties": false,
+      "required": [
+        "t_s",
+        "run_id",
+        "stage",
+        "shard",
+        "gpu",
+        "mem_used_bytes",
+        "mem_total_bytes",
+        "util_pct",
+        "power_w",
+        "power_limit_w",
+        "temp_c",
+        "sm_clock_mhz",
+        "clocks_event_mask",
+        "energy_mj",
+        "nvenc_util_pct",
+        "pcie_replays"
+      ],
+      "properties": {
+        "t_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 31536000
+        },
+        "run_id": {
+          "$ref": "#/$defs/run_id"
+        },
+        "stage": {
+          "$ref": "manifest.schema.json#/$defs/stage_key"
+        },
+        "shard": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9999
+        },
+        "gpu": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "mem_used_bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mem_total_bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "util_pct": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "power_w": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "power_limit_w": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "temp_c": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sm_clock_mhz": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 20000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "clocks_event_mask": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "energy_mj": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nvenc_util_pct": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pcie_replays": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "published_point": {
+      "type": "object",
+      "description": "one equal-time bucket: mean utilisation, power and clock; maximum temperature and memory; OR of the masks",
+      "additionalProperties": false,
+      "required": [
+        "t_s",
+        "util_pct",
+        "power_w",
+        "sm_clock_mhz",
+        "temp_c",
+        "mem_used_bytes",
+        "clocks_event_mask"
+      ],
+      "properties": {
+        "t_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 31536000
+        },
+        "util_pct": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "power_w": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sm_clock_mhz": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 20000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "temp_c": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mem_used_bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "clocks_event_mask": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "published_stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "performance",
+        "bucket_s",
+        "points"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "manifest.schema.json#/$defs/stage_key"
+        },
+        "performance": {
+          "const": "public"
+        },
+        "bucket_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 31536000
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/published_point"
+          },
+          "maxItems": 2000
+        }
+      }
+    },
+    "published_telemetry": {
+      "type": "object",
+      "description": "web/public/assets/runs/<run_id>/telemetry.json written by studio publish (FR-002-48, FR-002-50); public stages only, at most 200 KB",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "stages"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "editor hint; ignored by consumers"
+        },
+        "run_id": {
+          "$ref": "#/$defs/run_id"
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/published_stage"
+          },
+          "maxItems": 64
+        }
+      }
+    },
+    "stream_error": {
+      "type": "object",
+      "description": "data of the console's SSE `error` event: an events.jsonl line that is not a valid event (spec 003 plan.md D4)",
+      "additionalProperties": false,
+      "required": [
+        "line",
+        "message"
+      ],
+      "properties": {
+        "line": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      }
+    }
+  }
+}

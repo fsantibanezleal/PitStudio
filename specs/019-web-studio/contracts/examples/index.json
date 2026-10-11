@@ -1,0 +1,312 @@
+{
+  "spec": "019-web-studio",
+  "examples": [
+    {
+      "file": "toolmap.valid.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the 20 registry ids in 7 bands with 12 declared handoffs"
+    },
+    {
+      "file": "toolmap.hostile-duplicate-band.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "duplicate band",
+      "rule": "FR-019-38",
+      "pointer": "/bands",
+      "keyword": "maxContains"
+    },
+    {
+      "file": "toolmap.hostile-unknown-enum-band.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown band",
+      "rule": "FR-019-38",
+      "pointer": "/bands/6/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "toolmap.hostile-unknown-enum-kind.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "edge to an unknown artefact kind",
+      "rule": "FR-019-38",
+      "pointer": "/edges/0/kind",
+      "keyword": "enum"
+    },
+    {
+      "file": "toolmap.hostile-path-traversal.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "edge tool id with a path",
+      "rule": "FR-019-38",
+      "pointer": "/edges/1/to",
+      "keyword": "pattern"
+    },
+    {
+      "file": "toolmap.hostile-missing-required.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "edge without an artefact kind",
+      "rule": "FR-019-38",
+      "pointer": "/edges/2",
+      "keyword": "required"
+    },
+    {
+      "file": "toolmap.hostile-unknown-field.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field (lane belongs to the registry)",
+      "rule": "FR-019-38",
+      "pointer": "/bands/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "toolmap.hostile-duplicate-tool.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tool listed twice in a band",
+      "rule": "FR-019-38",
+      "pointer": "/bands/1/tools",
+      "keyword": "uniqueItems"
+    },
+    {
+      "file": "toolmap.hostile-duplicate-edge.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "duplicate edge",
+      "rule": "FR-019-38",
+      "pointer": "/edges",
+      "keyword": "uniqueItems"
+    },
+    {
+      "file": "toolmap.hostile-empty.json",
+      "schema": "toolmap.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "band without tools",
+      "rule": "DC-019-02",
+      "pointer": "/bands/5/tools",
+      "keyword": "minItems"
+    },
+    {
+      "file": "studio-index.valid.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "four tools (lock, skipped and local-only probes, not-adopted group), one observed edge"
+    },
+    {
+      "file": "studio-index.valid-violations.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "a failing local-only check naming the file, the field and the tool"
+    },
+    {
+      "file": "studio-index.hostile-unknown-enum-probe.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown probe status",
+      "rule": "FR-019-42",
+      "pointer": "/tools/1/probe/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "studio-index.hostile-conditional-probe-pass.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "probe pass without its date",
+      "rule": "FR-019-09",
+      "pointer": "/tools/0/probe",
+      "keyword": "required"
+    },
+    {
+      "file": "studio-index.hostile-conditional-not-probed.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-probed status with probe data",
+      "rule": "FR-019-42",
+      "pointer": "/tools/3/probe",
+      "keyword": "not"
+    },
+    {
+      "file": "studio-index.hostile-conditional-observed-edge.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "observed edge without its run evidence",
+      "rule": "FR-019-06",
+      "pointer": "/edges/1",
+      "keyword": "required"
+    },
+    {
+      "file": "studio-index.hostile-conditional-check-fail.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "failing check with no violation",
+      "rule": "FR-019-33",
+      "pointer": "/honesty/checks/0/violations",
+      "keyword": "minItems"
+    },
+    {
+      "file": "studio-index.hostile-unknown-enum-check.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown honesty check",
+      "rule": "FR-019-38",
+      "pointer": "/honesty/checks/5/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "studio-index.hostile-malformed-digest.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "short git SHA",
+      "rule": "DC-019-03",
+      "pointer": "/git_sha",
+      "keyword": "pattern"
+    },
+    {
+      "file": "studio-index.hostile-path-traversal.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "violation file path with ..",
+      "rule": "FR-019-38",
+      "pointer": "/honesty/checks/4/violations/0/file",
+      "keyword": "pattern"
+    },
+    {
+      "file": "studio-index.hostile-absolute-path.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute violation path",
+      "rule": "FR-019-38",
+      "pointer": "/honesty/checks/4/violations/0/file",
+      "keyword": "pattern"
+    },
+    {
+      "file": "studio-index.hostile-out-of-range.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative layout coordinate",
+      "rule": "FR-019-02",
+      "pointer": "/tools/0/position/x_px",
+      "keyword": "minimum"
+    },
+    {
+      "file": "studio-index.hostile-wrong-type-metrics.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "local-only metrics with the wrong notice",
+      "rule": "FR-019-09",
+      "pointer": "/tools/2/probe/metrics",
+      "keyword": "oneOf"
+    },
+    {
+      "file": "studio-index.hostile-unknown-field.json",
+      "schema": "studio-index.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field",
+      "rule": "FR-019-38",
+      "pointer": "/tools/0",
+      "keyword": "additionalProperties"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "toolmap.schema.json",
+      "class": "malformed YAML, YAML anchors, tags, implicit booleans, duplicate keys",
+      "by": "loader",
+      "rule": "FR-001-06"
+    },
+    {
+      "schema": "toolmap.schema.json",
+      "class": "edge naming a tool that is not a registry id",
+      "by": "checker",
+      "rule": "FR-019-38"
+    },
+    {
+      "schema": "toolmap.schema.json",
+      "class": "tool listed in two bands, or a studio-tool registry entry absent from every band",
+      "by": "checker",
+      "rule": "FR-019-38"
+    },
+    {
+      "schema": "toolmap.schema.json",
+      "class": "bands not in the order scene, physics, sensors-synthetic-data, training, acceleration, encoding, web",
+      "by": "checker",
+      "rule": "FR-019-02"
+    },
+    {
+      "schema": "toolmap.schema.json",
+      "class": "edge from a tool to itself",
+      "by": "checker",
+      "rule": "-",
+      "note": "no requirement covers self-edges; proposed as part of the FR-019-38 build check"
+    },
+    {
+      "schema": "studio-index.schema.json",
+      "class": "file larger than 1,000,000 bytes",
+      "by": "loader",
+      "rule": "-",
+      "note": "NFR-019-03 sets the cap; FR-001-05's cap table does not list this file yet"
+    },
+    {
+      "schema": "studio-index.schema.json",
+      "class": "non-finite metric value",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "studio-index.schema.json",
+      "class": "two generations from identical inputs differ in bytes",
+      "by": "checker",
+      "rule": "FR-019-02"
+    },
+    {
+      "schema": "studio-index.schema.json",
+      "class": "duplicate tool id; edge naming a tool absent from tools",
+      "by": "checker",
+      "rule": "FR-019-38"
+    },
+    {
+      "schema": "studio-index.schema.json",
+      "class": "artefact id absent from the web manifest or produced by another tool",
+      "by": "checker",
+      "rule": "FR-019-12"
+    },
+    {
+      "schema": "studio-index.schema.json",
+      "class": "version differs from the lock or record it names",
+      "by": "checker",
+      "rule": "FR-019-10"
+    },
+    {
+      "schema": "studio-index.schema.json",
+      "class": "definition_of_done counts inconsistent with the tools and the registry",
+      "by": "checker",
+      "rule": "SC-019-01"
+    }
+  ]
+}

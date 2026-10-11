@@ -1,0 +1,1369 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/geotech.schema.json",
+  "title": "Engine geotech: input and output messages",
+  "description": "Input and output messages of the browser engine `geotech` (cases C1): the minephys.geotech port: limit equilibrium, Monte-Carlo PoF, inverse velocity, the Bayesian failure band and slope-radar line of sight (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `geotech`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "geotech",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "bishop",
+            "spencer",
+            "pof_monte_carlo",
+            "pof_from_samples",
+            "inverse_velocity",
+            "failure_band",
+            "slope_radar_los"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "bishop"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/bishop_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "spencer"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/spencer_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "pof_monte_carlo"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/pof_monte_carlo_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "pof_from_samples"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/pof_from_samples_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "inverse_velocity"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/inverse_velocity_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "failure_band"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/failure_band_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "slope_radar_los"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/slope_radar_los_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `geotech`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "geotech",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "bishop",
+            "spencer",
+            "pof_monte_carlo",
+            "pof_from_samples",
+            "inverse_velocity",
+            "failure_band",
+            "slope_radar_los"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "bishop"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/bishop_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "spencer"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/spencer_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "pof_monte_carlo"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/pof_monte_carlo_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "pof_from_samples"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/pof_from_samples_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "inverse_velocity"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/inverse_velocity_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "failure_band"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/failure_band_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "slope_radar_los"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/slope_radar_los_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "bishop_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slices",
+        "cohesion_pa",
+        "friction_angle_rad"
+      ],
+      "properties": {
+        "slices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slice"
+          },
+          "minItems": 1,
+          "maxItems": 200,
+          "description": "Slices (at most 200, spec 018 section 7.1)."
+        },
+        "cohesion_pa": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000000.0,
+          "description": "Effective cohesion c' (>= 0)."
+        },
+        "friction_angle_rad": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.0471975511965976,
+          "description": "Effective friction angle phi' (0 to 60 degrees)."
+        },
+        "tolerance": {
+          "type": "number",
+          "minimum": 1e-15,
+          "maximum": 1e-09,
+          "description": "Relative step tolerance (default 1e-12); parity rtol = max(1e-9, 10 x tolerance)."
+        },
+        "max_iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Iteration cap (default 200)."
+        }
+      }
+    },
+    "bishop_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fos",
+        "iterations"
+      ],
+      "properties": {
+        "fos": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0,
+          "description": "Bishop simplified factor of safety."
+        },
+        "iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      }
+    },
+    "spencer_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slices",
+        "cohesion_pa",
+        "friction_angle_rad"
+      ],
+      "properties": {
+        "slices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slice"
+          },
+          "minItems": 2,
+          "maxItems": 200,
+          "description": "Slices (2 to 200)."
+        },
+        "cohesion_pa": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000000.0,
+          "description": "Effective cohesion c' (>= 0)."
+        },
+        "friction_angle_rad": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.0471975511965976,
+          "description": "Effective friction angle phi' (0 to 60 degrees)."
+        },
+        "tolerance": {
+          "type": "number",
+          "minimum": 1e-15,
+          "maximum": 1e-09,
+          "description": "Relative step tolerance (default 1e-12); parity rtol = max(1e-9, 10 x tolerance)."
+        },
+        "max_iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Iteration cap (default 200)."
+        }
+      }
+    },
+    "spencer_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fos",
+        "theta_rad",
+        "iterations"
+      ],
+      "properties": {
+        "fos": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0,
+          "description": "Spencer factor of safety."
+        },
+        "theta_rad": {
+          "type": "number",
+          "exclusiveMinimum": -1.5707963267948966,
+          "exclusiveMaximum": 1.5707963267948966,
+          "description": "Interslice force inclination."
+        },
+        "iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      }
+    },
+    "pof_monte_carlo_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "surfaces",
+        "method",
+        "n_samples",
+        "seed",
+        "cohesion_pa",
+        "friction_angle_rad"
+      ],
+      "properties": {
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/slice"
+            },
+            "minItems": 2,
+            "maxItems": 200
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "description": "Slices of the K lowest-F circles of the mean case (K <= 64 live)."
+        },
+        "method": {
+          "enum": [
+            "bishop",
+            "spencer"
+          ]
+        },
+        "n_samples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000,
+          "description": "Samples N (at most 10^5, spec 018 section 7.1)."
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Seed of the PCG64 + SeedSequence port (FR-018-49)."
+        },
+        "cohesion_pa": {
+          "$ref": "#/$defs/cohesion_distribution"
+        },
+        "friction_angle_rad": {
+          "$ref": "#/$defs/friction_distribution"
+        }
+      }
+    },
+    "pof_monte_carlo_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "n_samples",
+        "failures",
+        "pof",
+        "wilson_low",
+        "wilson_high"
+      ],
+      "properties": {
+        "n_samples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "failures": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000,
+          "description": "Samples with F < 1."
+        },
+        "pof": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "k / N."
+        },
+        "wilson_low": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "wilson_high": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "pof_from_samples_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "surfaces",
+        "method",
+        "samples"
+      ],
+      "properties": {
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/slice"
+            },
+            "minItems": 2,
+            "maxItems": 200
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "description": "Slices of the K lowest-F circles of the mean case (K <= 64 live)."
+        },
+        "method": {
+          "enum": [
+            "bishop",
+            "spencer"
+          ]
+        },
+        "samples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sample"
+          },
+          "minItems": 1,
+          "maxItems": 100000,
+          "description": "Fixture sample matrix (FR-018-52)."
+        }
+      }
+    },
+    "pof_from_samples_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "n_samples",
+        "failures",
+        "pof",
+        "wilson_low",
+        "wilson_high"
+      ],
+      "properties": {
+        "n_samples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "failures": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000,
+          "description": "Samples with F < 1."
+        },
+        "pof": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "k / N."
+        },
+        "wilson_low": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "wilson_high": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "inverse_velocity_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record"
+      ],
+      "properties": {
+        "record": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record_point"
+          },
+          "minItems": 3,
+          "maxItems": 100000,
+          "description": "Velocity record (3 to 10^5 points in the browser)."
+        },
+        "window": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 100000,
+          "description": "Use the last window points (default all)."
+        }
+      }
+    },
+    "inverse_velocity_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accelerating",
+        "slope_per_m",
+        "intercept_s_per_m",
+        "r_squared",
+        "n_used"
+      ],
+      "properties": {
+        "accelerating": {
+          "type": "boolean",
+          "description": "False when the fitted slope is >= 0 (no failure predicted)."
+        },
+        "failure_time_s": {
+          "type": "number",
+          "minimum": -1000000000000.0,
+          "maximum": 1000000000000.0,
+          "description": "Root of the 1/v line; present only when accelerating."
+        },
+        "slope_per_m": {
+          "type": "number",
+          "description": "Slope of 1/v against time."
+        },
+        "intercept_s_per_m": {
+          "type": "number",
+          "description": "Intercept of 1/v."
+        },
+        "r_squared": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "n_used": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 100000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "accelerating": {
+                "const": true
+              }
+            },
+            "required": [
+              "accelerating"
+            ]
+          },
+          "then": {
+            "required": [
+              "failure_time_s"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "failure_time_s"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "failure_band_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record",
+        "seed",
+        "n_draws"
+      ],
+      "properties": {
+        "record": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record_point"
+          },
+          "minItems": 3,
+          "maxItems": 100000,
+          "description": "Velocity record (3 to 10^5 points in the browser)."
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Seed of the engine's generator; an integer exactly representable in a JavaScript number."
+        },
+        "n_draws": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 100000,
+          "description": "Posterior draws (at most 10^5 in the browser)."
+        },
+        "credible": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1,
+          "description": "Credible level (default 0.9)."
+        },
+        "noise_sd_s_per_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0,
+          "description": "Noise of 1/v; default from the residuals."
+        },
+        "prior_mean": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000000000.0,
+            "maximum": 1000000000000.0
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Prior mean of (intercept, slope); default flat prior."
+        },
+        "prior_cov": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1e+24,
+              "maximum": 1e+24
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Prior covariance, symmetric positive definite."
+        },
+        "window": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 100000
+        }
+      },
+      "dependentRequired": {
+        "prior_mean": [
+          "prior_cov"
+        ],
+        "prior_cov": [
+          "prior_mean"
+        ]
+      }
+    },
+    "failure_band_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "fraction_not_accelerating",
+        "posterior_mean",
+        "posterior_cov"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "band",
+            "no-accelerating-draw"
+          ]
+        },
+        "median_s": {
+          "type": "number",
+          "minimum": -1000000000000.0,
+          "maximum": 1000000000000.0
+        },
+        "lower_s": {
+          "type": "number",
+          "minimum": -1000000000000.0,
+          "maximum": 1000000000000.0
+        },
+        "upper_s": {
+          "type": "number",
+          "minimum": -1000000000000.0,
+          "maximum": 1000000000000.0
+        },
+        "fraction_not_accelerating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "posterior_mean": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "posterior_cov": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "band"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "median_s",
+              "lower_s",
+              "upper_s"
+            ]
+          }
+        }
+      ]
+    },
+    "slope_radar_los_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "radar_position_m",
+        "targets_m",
+        "displacements_m"
+      ],
+      "properties": {
+        "radar_position_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -10000000.0,
+            "maximum": 10000000.0
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "Radar position."
+        },
+        "targets_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Target positions.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float64",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "pixels",
+                "components"
+              ],
+              "properties": {
+                "pixels": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000000
+                },
+                "components": {
+                  "const": 3
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 24000000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "displacements_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Displacements.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float64",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "pixels",
+                "components"
+              ],
+              "properties": {
+                "pixels": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000000
+                },
+                "components": {
+                  "const": 3
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 24000000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        }
+      }
+    },
+    "slope_radar_los_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "los_m"
+      ],
+      "properties": {
+        "los_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Line-of-sight displacement, positive away from the radar (minephys convention).",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float64",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "pixels"
+              ],
+              "properties": {
+                "pixels": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000000
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 8000000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        }
+      }
+    },
+    "slice": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One slice of a fixed slip surface (minephys.geotech).",
+      "required": [
+        "width_m",
+        "weight_n_per_m",
+        "base_angle_rad",
+        "pore_pressure_pa"
+      ],
+      "properties": {
+        "width_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000.0,
+          "description": "Slice width (> 0)."
+        },
+        "weight_n_per_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000000.0,
+          "description": "Slice weight per metre of slope (>= 0)."
+        },
+        "base_angle_rad": {
+          "type": "number",
+          "exclusiveMinimum": -1.5707963267948966,
+          "exclusiveMaximum": 1.5707963267948966,
+          "description": "Base inclination, open interval (-pi/2, pi/2)."
+        },
+        "pore_pressure_pa": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000000.0,
+          "description": "Pore pressure at the slice base (>= 0)."
+        }
+      }
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One Monte-Carlo sample of the strength parameters.",
+      "required": [
+        "cohesion_pa",
+        "friction_angle_rad"
+      ],
+      "properties": {
+        "cohesion_pa": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000000.0,
+          "description": "Effective cohesion c' (>= 0)."
+        },
+        "friction_angle_rad": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.0471975511965976,
+          "description": "Effective friction angle phi', 0 to 60 degrees (FR-010-07)."
+        }
+      }
+    },
+    "record_point": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One point of a displacement-velocity record.",
+      "required": [
+        "t_s",
+        "velocity_m_per_s"
+      ],
+      "properties": {
+        "t_s": {
+          "type": "number",
+          "minimum": -10000000000.0,
+          "maximum": 10000000000.0,
+          "description": "Observation time; strictly increasing along the record."
+        },
+        "velocity_m_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.01,
+          "description": "Displacement velocity (> 0), at most the minephys tripwire 1e-2 m/s."
+        }
+      }
+    },
+    "cohesion_distribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Sampling distribution of a strength parameter, in Pa.",
+      "required": [
+        "distribution"
+      ],
+      "properties": {
+        "distribution": {
+          "enum": [
+            "normal",
+            "lognormal",
+            "uniform"
+          ],
+          "description": "Distribution family (FR-010-03)."
+        },
+        "mean": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000000.0,
+          "description": "Mean, in Pa."
+        },
+        "sd": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000000.0,
+          "description": "Standard deviation (> 0), in Pa."
+        },
+        "lower": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000000.0,
+          "description": "Lower bound (uniform) or truncation bound (normal, inverse CDF), in Pa."
+        },
+        "upper": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000000.0,
+          "description": "Upper bound (uniform) or truncation bound (normal), in Pa."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "distribution": {
+                "enum": [
+                  "normal",
+                  "lognormal"
+                ]
+              }
+            },
+            "required": [
+              "distribution"
+            ]
+          },
+          "then": {
+            "required": [
+              "mean",
+              "sd"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "distribution": {
+                "const": "uniform"
+              }
+            },
+            "required": [
+              "distribution"
+            ]
+          },
+          "then": {
+            "required": [
+              "lower",
+              "upper"
+            ]
+          }
+        }
+      ]
+    },
+    "friction_distribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Sampling distribution of a strength parameter, in rad.",
+      "required": [
+        "distribution"
+      ],
+      "properties": {
+        "distribution": {
+          "enum": [
+            "normal",
+            "lognormal",
+            "uniform"
+          ],
+          "description": "Distribution family (FR-010-03)."
+        },
+        "mean": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.0471975511965976,
+          "description": "Mean, in rad."
+        },
+        "sd": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1.0471975511965976,
+          "description": "Standard deviation (> 0), in rad."
+        },
+        "lower": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.0471975511965976,
+          "description": "Lower bound (uniform) or truncation bound (normal, inverse CDF), in rad."
+        },
+        "upper": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.0471975511965976,
+          "description": "Upper bound (uniform) or truncation bound (normal), in rad."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "distribution": {
+                "enum": [
+                  "normal",
+                  "lognormal"
+                ]
+              }
+            },
+            "required": [
+              "distribution"
+            ]
+          },
+          "then": {
+            "required": [
+              "mean",
+              "sd"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "distribution": {
+                "const": "uniform"
+              }
+            },
+            "required": [
+              "distribution"
+            ]
+          },
+          "then": {
+            "required": [
+              "lower",
+              "upper"
+            ]
+          }
+        }
+      ]
+    },
+    "unit_scales": {
+      "description": "Unit scale s_y of every numeric result field, per function, in the field's own unit; the parity tolerance is 1e-12 s_y + rtol |y| (FR-018-51).",
+      "const": {
+        "bishop": {
+          "fos": 1
+        },
+        "spencer": {
+          "fos": 1,
+          "theta_rad": 1
+        },
+        "pof_monte_carlo": {
+          "pof": 1,
+          "wilson_low": 1,
+          "wilson_high": 1
+        },
+        "pof_from_samples": {
+          "pof": 1,
+          "wilson_low": 1,
+          "wilson_high": 1
+        },
+        "inverse_velocity": {
+          "failure_time_s": 1,
+          "slope_per_m": 1,
+          "intercept_s_per_m": 1,
+          "r_squared": 1
+        },
+        "failure_band": {
+          "median_s": 1,
+          "lower_s": 1,
+          "upper_s": 1,
+          "fraction_not_accelerating": 1,
+          "posterior_mean": 1,
+          "posterior_cov": 1
+        },
+        "slope_radar_los": {
+          "los_m": 1
+        }
+      }
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}

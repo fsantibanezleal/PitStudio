@@ -1,0 +1,488 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/plume.schema.json",
+  "title": "Engine plume: input and output messages",
+  "description": "Input and output messages of the browser engine `plume` (cases C3): the minephys.environment port: AP-42 unpaved-road emission factor and the Gaussian plume on a receptor grid (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `plume`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "plume",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "ap42_emission_factor",
+            "pasquill_sigmas",
+            "plume_grid"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "ap42_emission_factor"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/ap42_emission_factor_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "pasquill_sigmas"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/pasquill_sigmas_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "plume_grid"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/plume_grid_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `plume`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "plume",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "ap42_emission_factor",
+            "pasquill_sigmas",
+            "plume_grid"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "ap42_emission_factor"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/ap42_emission_factor_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "pasquill_sigmas"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/pasquill_sigmas_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "plume_grid"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/plume_grid_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "ap42_emission_factor_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "silt_fraction",
+        "mean_weight_kg",
+        "size_class"
+      ],
+      "properties": {
+        "silt_fraction": {
+          "type": "number",
+          "minimum": 0.018,
+          "maximum": 0.252,
+          "description": "Surface silt content as a fraction; AP-42 validity 1.8 to 25.2 %."
+        },
+        "mean_weight_kg": {
+          "type": "number",
+          "minimum": 1814.36948,
+          "maximum": 263083.5746,
+          "description": "Mean vehicle weight; AP-42 validity 2 to 290 short tons."
+        },
+        "size_class": {
+          "enum": [
+            "PM2.5",
+            "PM10",
+            "PM30"
+          ]
+        }
+      }
+    },
+    "ap42_emission_factor_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "emission_factor_kg_per_m"
+      ],
+      "properties": {
+        "emission_factor_kg_per_m": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Emission per vehicle metre travelled (kg/VKT x 10^-3)."
+        }
+      }
+    },
+    "pasquill_sigmas_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "downwind_distance_m",
+        "stability_class",
+        "terrain"
+      ],
+      "properties": {
+        "downwind_distance_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000.0
+        },
+        "stability_class": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "description": "Pasquill-Gifford stability class."
+        },
+        "terrain": {
+          "enum": [
+            "rural",
+            "urban"
+          ]
+        }
+      }
+    },
+    "pasquill_sigmas_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sigma_y_m",
+        "sigma_z_m"
+      ],
+      "properties": {
+        "sigma_y_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sigma_z_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 5000,
+          "description": "Capped at 5,000 m for classes A to C."
+        }
+      }
+    },
+    "plume_grid_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_strength_kg_per_s",
+        "wind_speed_m_per_s",
+        "stability_class",
+        "terrain",
+        "release_height_m",
+        "x_start_m",
+        "x_step_m",
+        "nx",
+        "y_start_m",
+        "y_step_m",
+        "ny",
+        "receptor_height_m"
+      ],
+      "properties": {
+        "source_strength_kg_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Source strength Q (>= 0)."
+        },
+        "wind_speed_m_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "description": "Wind speed u (> 0)."
+        },
+        "stability_class": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "description": "Pasquill-Gifford stability class."
+        },
+        "terrain": {
+          "enum": [
+            "rural",
+            "urban"
+          ]
+        },
+        "release_height_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 500,
+          "description": "Effective release height h (>= 0)."
+        },
+        "mixing_height_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000,
+          "description": "Mixing height; absent means no lid."
+        },
+        "x_start_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000.0,
+          "description": "First receptor column, downwind of the source (plume frame)."
+        },
+        "x_step_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000.0
+        },
+        "nx": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256,
+          "description": "Receptor columns (at most 256)."
+        },
+        "y_start_m": {
+          "type": "number",
+          "minimum": -100000.0,
+          "maximum": 100000.0,
+          "description": "First receptor row, crosswind."
+        },
+        "y_step_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000.0
+        },
+        "ny": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256,
+          "description": "Receptor rows (at most 256)."
+        },
+        "receptor_height_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 500
+        }
+      }
+    },
+    "plume_grid_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "concentration_kg_per_m3",
+        "max_concentration_kg_per_m3",
+        "max_x_m",
+        "max_y_m"
+      ],
+      "properties": {
+        "concentration_kg_per_m3": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Concentration at the receptors, rows = y, cols = x.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float64",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 256
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 256
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 524288,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "max_concentration_kg_per_m3": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max_x_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max_y_m": {
+          "type": "number"
+        }
+      }
+    },
+    "unit_scales": {
+      "description": "Unit scale s_y of every numeric result field, per function, in the field's own unit; the parity tolerance is 1e-12 s_y + rtol |y| (FR-018-51).",
+      "const": {
+        "ap42_emission_factor": {
+          "emission_factor_kg_per_m": 1e-06
+        },
+        "pasquill_sigmas": {
+          "sigma_y_m": 1,
+          "sigma_z_m": 1
+        },
+        "plume_grid": {
+          "concentration_kg_per_m3": 1e-09,
+          "max_concentration_kg_per_m3": 1e-09,
+          "max_x_m": 1,
+          "max_y_m": 1
+        }
+      }
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}

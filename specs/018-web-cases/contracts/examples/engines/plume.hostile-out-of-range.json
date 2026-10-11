@@ -1,0 +1,11 @@
+{
+  "kind": "input",
+  "engine": "plume",
+  "engine_version": "0.1.0",
+  "function": "ap42_emission_factor",
+  "args": {
+    "silt_fraction": 0.3,
+    "mean_weight_kg": 200000.0,
+    "size_class": "PM10"
+  }
+}

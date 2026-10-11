@@ -1,0 +1,330 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/lp.schema.json",
+  "title": "Engine lp: input and output messages",
+  "description": "Input and output messages of the browser engine `lp` (cases A1): the small flow-rate LP of spec 007 solved by the TypeScript simplex (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `lp`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "lp",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "solve"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "solve"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/solve_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `lp`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "lp",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "solve"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "solve"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/solve_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "solve_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "paths",
+        "loader_capacity_per_s",
+        "dump_capacity_per_s",
+        "trucks"
+      ],
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "loader",
+              "dump",
+              "objective_weight",
+              "round_trip_s"
+            ],
+            "properties": {
+              "loader": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 15,
+                "description": "Loader index."
+              },
+              "dump": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 15,
+                "description": "Declared destination dump index."
+              },
+              "objective_weight": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1000000.0,
+                "description": "Weight m of the path in the objective sum of m f_p (FR-007-19)."
+              },
+              "round_trip_s": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 86400,
+                "description": "Queue-free round trip T_p (> 0, FR-007-21)."
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "description": "Loader to destination paths (at most 64, NFR-007-04)."
+        },
+        "loader_capacity_per_s": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10,
+            "description": "Capacity in loads per second (>= 0, FR-007-21)."
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "description": "Loader capacities mu_s."
+        },
+        "dump_capacity_per_s": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10,
+            "description": "Capacity in loads per second (>= 0, FR-007-21)."
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "description": "Dump capacities kappa_d."
+        },
+        "trucks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 400,
+          "description": "Fleet size N_T."
+        },
+        "blend_floors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "coefficients"
+            ],
+            "properties": {
+              "coefficients": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": -1000000.0,
+                  "maximum": 1000000.0
+                },
+                "minItems": 1,
+                "maxItems": 64,
+                "description": "One coefficient per path; the floor is sum(a_p f_p) >= 0."
+              }
+            }
+          },
+          "minItems": 0,
+          "maxItems": 16,
+          "description": "Optional blend floors."
+        }
+      }
+    },
+    "solve_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "optimal",
+            "infeasible",
+            "unbounded",
+            "invalid-input"
+          ],
+          "description": "Typed LP status (FR-007-21)."
+        },
+        "objective": {
+          "type": "number",
+          "description": "Optimum of the objective."
+        },
+        "flows_per_s": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "description": "Flow f_p per path, in loads per second."
+        },
+        "duals": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Dual value of every constraint.",
+          "required": [
+            "loader",
+            "dump",
+            "fleet",
+            "blend"
+          ],
+          "properties": {
+            "loader": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 1,
+              "maxItems": 16
+            },
+            "dump": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 1,
+              "maxItems": 16
+            },
+            "fleet": {
+              "type": "number"
+            },
+            "blend": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 0,
+              "maxItems": 16
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "optimal"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "objective",
+              "flows_per_s",
+              "duals"
+            ]
+          }
+        }
+      ]
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}
