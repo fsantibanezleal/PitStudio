@@ -1,0 +1,133 @@
+{
+  "$schema": "../manifest.schema.json",
+  "kind": "web-index",
+  "schema_version": "1.0",
+  "generated": "2026-10-07",
+  "git_sha": "cccccccccccccccccccccccccccccccccccccccc",
+  "runs": [
+    {
+      "run_id": "20261007T120000Z-a2-haulage",
+      "manifest": "20261007T120000Z-a2-haulage/manifest.json",
+      "sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  ],
+  "artefacts": [
+    {
+      "id": "a2-dispatch-policy",
+      "run_id": "20261006T081500Z-a2-dispatch",
+      "git_sha": "1111111111111111111111111111111111111111",
+      "path": "a2-dispatch-policy.onnx",
+      "bytes": 12582912,
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "media_type": "application/octet-stream",
+      "kind": "onnx",
+      "producer": {
+        "tool": "pytorch",
+        "stage": {
+          "id": "s60_export"
+        }
+      },
+      "inputs": [
+        {
+          "id": "example-haul-network",
+          "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "kind": "source"
+        }
+      ],
+      "cases": [
+        "A2"
+      ],
+      "lane": "live",
+      "lane_measurements": {
+        "web_drivable": true,
+        "max_asset_bytes": 12582912,
+        "interaction_ms": 3.2,
+        "run_ms_t2": null,
+        "trace_bytes": null,
+        "measured": {
+          "tier": "T2",
+          "date": "2026-10-07",
+          "browser": "Chromium 141"
+        }
+      },
+      "licence_class": "attribution",
+      "spdx": "CC-BY-4.0",
+      "attribution": "Road network derived from an example open dataset (CC BY 4.0).",
+      "asset_host": "release",
+      "release_tag": "assets-v1.00.001",
+      "budget_class": "onnx"
+    },
+    {
+      "id": "a2-haul-clip",
+      "run_id": "20261007T120000Z-a2-haulage",
+      "git_sha": "cccccccccccccccccccccccccccccccccccccccc",
+      "path": "assets/runs/20261007T120000Z-a2-haulage/a2-haul.mp4",
+      "bytes": 5242880,
+      "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+      "media_type": "video/mp4",
+      "kind": "video",
+      "producer": {
+        "tool": "nvenc-ffmpeg",
+        "stage": {
+          "id": "st56_encode"
+        }
+      },
+      "inputs": [
+        {
+          "id": "a2-frames",
+          "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "kind": "artefact"
+        }
+      ],
+      "cases": [
+        "A2"
+      ],
+      "lane": "replay",
+      "lane_measurements": {
+        "web_drivable": true,
+        "max_asset_bytes": 5242880,
+        "interaction_ms": null,
+        "run_ms_t2": null,
+        "trace_bytes": null,
+        "measured": {
+          "tier": "T2",
+          "date": "2026-10-07",
+          "browser": "Chromium 141"
+        }
+      },
+      "licence_class": "own",
+      "spdx": "CC-BY-4.0",
+      "asset_host": "git",
+      "budget_class": "videos",
+      "encoder": {
+        "codec": "av1",
+        "profile": "main",
+        "pix_fmt": "yuv420p",
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "frames": 600,
+        "duration_s": 20.0,
+        "bitrate_kbps": 2097.152,
+        "vmaf": {
+          "mean": 93.1,
+          "p5": 88.4,
+          "model": "vmaf_v0.6.1"
+        },
+        "source_frames_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "encoder": {
+          "ffmpeg_version": "n7.1",
+          "build_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "nvenc_api": "13.0",
+          "args": [
+            "-c:v",
+            "av1_nvenc",
+            "-cq",
+            "30"
+          ]
+        },
+        "encode_fps": 240.0
+      }
+    }
+  ]
+}
