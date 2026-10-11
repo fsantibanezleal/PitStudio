@@ -43,5 +43,29 @@
     "t1": "T1 · WebGPU",
     "t2": "T2 · WebAssembly",
     "t0": "T0 · precalculado"
+  },
+  "catalogue": {
+    "title": "Catálogo de casos",
+    "case": "Caso",
+    "name": "Título",
+    "category": "Categoría",
+    "kpis": "KPI",
+    "real": "Datos reales",
+    "synthetic": "Datos sintéticos",
+    "none": "ninguno"
+  },
+  "coverage": {
+    "title": "Matriz de cobertura de métodos",
+    "legend": "● el caso ejercita el método. Cada método M1 a M23 aparece en al menos un caso.",
+    "method": "Método"
+  },
+  "tools": {
+    "title": "Matriz de herramientas del estudio",
+    "legend": "● la herramienta se nombra en el caso. ○ la herramienta cumple un rol de apoyo.",
+    "tool": "Herramienta"
+  },
+  "matrix": {
+    "named": "nombrada",
+    "supporting": "de apoyo"
   }
 }

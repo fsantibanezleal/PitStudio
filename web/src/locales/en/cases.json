@@ -43,5 +43,29 @@
     "t1": "T1 · WebGPU",
     "t2": "T2 · WebAssembly",
     "t0": "T0 · baked"
+  },
+  "catalogue": {
+    "title": "Case catalogue",
+    "case": "Case",
+    "name": "Title",
+    "category": "Category",
+    "kpis": "KPIs",
+    "real": "Real data",
+    "synthetic": "Synthetic data",
+    "none": "none"
+  },
+  "coverage": {
+    "title": "Method coverage matrix",
+    "legend": "● the case exercises the method. Every method M1 to M23 appears in at least one case.",
+    "method": "Method"
+  },
+  "tools": {
+    "title": "Studio tool matrix",
+    "legend": "● the tool is named in the case. ○ the tool has a supporting role.",
+    "tool": "Tool"
+  },
+  "matrix": {
+    "named": "named",
+    "supporting": "supporting"
   }
 }
