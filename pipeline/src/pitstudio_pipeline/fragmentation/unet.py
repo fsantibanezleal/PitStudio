@@ -104,3 +104,19 @@ def normalise(image: np.ndarray) -> torch.Tensor:
     mean = torch.tensor(IMAGENET_MEAN).view(3, 1, 1)
     std = torch.tensor(IMAGENET_STD).view(3, 1, 1)
     return (x - mean) / std
+
+
+def infer(model: nn.Module, x: torch.Tensor) -> torch.Tensor:
+    """FR-012-23: class probabilities softmax(model(x), dim=1) for a float32 [N, 3, 512, 512] tensor with finite values.
+
+    Anything else raises ValueError before the model runs.
+    """
+    if not isinstance(x, torch.Tensor):
+        raise ValueError(f"x must be a torch.Tensor, got {type(x).__name__}")
+    if x.dtype != torch.float32:
+        raise ValueError(f"x must be float32, got {x.dtype}")
+    if x.ndim != 4 or tuple(x.shape[1:]) != (3, 512, 512):
+        raise ValueError(f"x must have shape [N, 3, 512, 512], got {tuple(x.shape)}")
+    if not bool(torch.isfinite(x).all()):
+        raise ValueError("x contains a non-finite value")
+    return torch.softmax(model(x), dim=1)
