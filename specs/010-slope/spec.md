@@ -140,6 +140,9 @@ Fixed parameters referred to as "§7" are in the parameter table of section 7.
 | FR-010-43 | Unwanted | If a slope-section document has a crest or toe outside the ground x range, `rho_min` not below `rho_max`, repeated material ids, or a distribution naming an undefined material, then the section loader shall reject it with error class `section-invalid` naming the field. | unit (hostile) |
 | FR-010-44 | Unwanted | If a displacement series has arrays whose lengths differ from each other or from `n_samples`, or `t_0` not before `t_f`, then the series loader shall reject it with error class `series-inconsistent` naming the field. | unit (hostile) |
 | FR-010-45 | Unwanted | If the `section_sha256` of a slope-results document is not the SHA-256 of the RFC 8785 canonical JSON of the section it names, then the results loader shall reject it with error class `section-digest-mismatch`. | unit (hostile) |
+| FR-010-46 | State | While a displacement series or slope section (DC-010-01, DC-010-02) is a contract fixture, the forecaster stages and `s50_evaluate` shall run against it, shall write `fixture: true` on every checkpoint, prediction file and TTF result, and shall publish no lead-time claim computed from it. | unit |
+| FR-010-47 | State | While only some of the displacement series or strata that a forecaster comparison names exist (the de Wit event not ingested, or a stratum not generated), `s50_evaluate` shall report each existing stratum, list each missing one as `not run (absent)`, label the TTF results `partial`, and compute no pooled claim or SC-010 verdict over the incomplete set. | pipeline |
+| FR-010-48 | Unwanted | If the digest of a displacement series or slope section recorded in a training or evaluation manifest differs from the digest of the file now present, then the stage shall fail with error class `input-stale` (FR-002-69) naming the series, and shall produce no checkpoint or result from it. | unit (hostile) |
 
 ## 4. Correctness properties
 
@@ -296,6 +299,8 @@ Every artefact is also described by its manifest entry (DC-000-01, `contracts/ma
   only and no F when no slip surface is valid, and the PoF reports the candidate set and z = 1.96.
 - Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
 - (no open items)
+
+- Availability states (2026-10-11): FR-010-46, FR-010-47, FR-010-48 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

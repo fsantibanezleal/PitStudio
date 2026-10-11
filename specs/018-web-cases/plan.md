@@ -137,6 +137,8 @@ served like Pages; contract = pytest under `tests/contract/`; gpu = Playwright p
 | SC-018-01 | gate | parity report of the release commit | DC-018-05 |
 | SC-018-02 | gate | E2E and parity tasks of A1 and C1 green on the preview | CI |
 | FR-018-69 | unit (hostile) | hand calculation: a case fixture with KPI `tph` twice gives a failure naming the case | pytest |
+| FR-018-70 | E2E | hand calculation: a manifest with one fixture artefact renders one "fixture" label in the development build and one "Not yet run" and no artefact in the release build | Playwright |
+| FR-018-71 | unit + E2E | hand calculation: a manifest covering 3 of 12 cases renders "3 of 12" and 9 "Not yet run" cells and no sentence containing "all" or "every" | Vitest + Playwright |
 
 ## Risks and complexity tracking
 | Deviation | Why needed | Simpler alternative rejected because |

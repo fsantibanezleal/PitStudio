@@ -162,6 +162,8 @@ All modules live in the `pipeline/` environment (package `pitstudio_pipeline`): 
 | FR-008-43 | Ubiquitous | Every registry entry shall have `data/cards/<id>.md`. Its front matter shall be valid against `contracts/data-card.schema.json`, and its id, SPDX id, licence class, redistribution class and SHA-256 list shall equal the registry entry's. Its body shall contain the sections What and why, Composition, Collection and provenance, Licence and attribution, Size checksums and access, Assumptions and limits, and In PitStudio. | contract |
 | FR-008-44 | Unwanted | If a data card disagrees with the registry, or a required section is missing, then the CI card check shall fail, naming the card, the field and both values. | contract (hostile) |
 | FR-008-45 | Ubiquitous | `data/samples/` shall hold only public-domain or CC0 crops, or synthetic fixtures, each with a sample card naming its source and licence. It shall hold no Mendeley image, mask or crop: that set publishes metrics only. | contract |
+| FR-008-49 | State | While a source is a fixture (a registry entry with `fixture: true`, or a file under `data/samples/` used in place of a downloaded source), `s10_preprocess` and `s20_feature_extraction` shall process it, shall mark every output `fixture: true`, and the card check shall require the card to say "fixture". | pipeline (CPU) |
+| FR-008-50 | State | While only some files of a multi-file source are verified (for example some of the 69 Bingham LAZ tiles), `s10_preprocess` shall ingest the verified files, list each missing file with status `unavailable`, mark the ingestion report `partial`, and `s00_download` shall not record the source as complete. | integration |
 
 ## 4. Correctness properties
 
@@ -295,6 +297,8 @@ inputs by SHA-256 and the licence class computed by spec 001 (FR-001-18).
   (d) split record ids match `^[A-Za-z0-9_][A-Za-z0-9._-]{0,127}$`; the membership SHA-256 is taken over the RFC 8785 canonical JSON of `{groups, folds}`; the group-key rules are the FR-008-31 types; `single-group` ⇒ method `none` and no folds; for `mendeley-78ht3pjsr4` the schema fixes its group-key rule, the seeded grouped k-fold, 9 links, 5 folds and 48 test records per fold;
   (e) the data card is one of two closed kinds (real, synthetic); `descriptive-only (single real event)` is class `descriptive-only` with basis `single real event`; `validated-against-real` ⇒ a real reference and tests (verdict `pending` allowed); `unvalidated` ⇒ the exact label and `c2st_tstr: not-applicable` and no tests; neither `unvalidated` nor `descriptive-only` may carry a C2ST or TSTR test (FR-008-37);
   (f) cross-spec note: `relpath` forbids spaces, so Mendeley archive members (`Annotated data/…`) need a declared local name when FR-008-18 extracts them.
+
+- Availability states (2026-10-11): FR-008-49, FR-008-50 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 Not applicable: a new feature. The registry fields this spec reads are defined by spec 001 (DC-001-04).

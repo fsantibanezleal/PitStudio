@@ -113,6 +113,8 @@ comparisons differ only in the segmentation.
 | NFR-012-03 | contract | run manifest fields | pytest |
 | NFR-012-04 | pipeline | metamorphic: two runs, byte-identical outputs | pytest |
 | SC-012-01 … SC-012-05 | pipeline (acceptance) | pre-registered thresholds read from the evaluation report (DC-012-03) | pytest |
+| FR-012-47 | unit | hand calculation: a fixture index gives a report `fixture: true` and a D1 file with the statement; a real index gives neither | pytest |
+| FR-012-48 | unit (hostile) | hand calculation: one altered render gives `input-stale` naming its record before any tile is built | pytest |
 
 ### Tolerances and their justification
 - Swebrec fit recovery and scale equivariance: rtol 1e-6 — the solver stops at xtol = ftol = 1e-12, and the

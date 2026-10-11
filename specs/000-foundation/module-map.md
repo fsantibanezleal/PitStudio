@@ -18,11 +18,11 @@ Companion of [`modules.yaml`](modules.yaml) (the machine-readable source, DC-000
 |---|---|
 | Modules (including 3 external actors) | 147 |
 | Edges | 392 |
-| Contracts (names) | 133 |
-| Data-contract rows in the feature specs (active) | 112 (3 retired: DC-008-01, DC-013-06, DC-019-01) |
-| DC rows that appear as an edge | 112 of 112 |
+| Contracts (names) | 134 |
+| Data-contract rows in the feature specs (active) | 113 (3 retired: DC-008-01, DC-013-06, DC-019-01) |
+| DC rows that appear as an edge | 112 of 113 |
 | Edges by schema state | promoted 8, draft 335, derived 13, none 36 |
-| DC contract names by schema state | promoted 1, draft 114, derived 4 |
+| DC contract names by schema state | promoted 1, draft 115, derived 4 |
 | Modules that need the GPU | 28 |
 | Modules per environment | external 3, pipeline 47, pipeline/accel 2, root 21, studio 17, studio/isaac 4, studio/isaaclab 2, studio/rtx 3, web 48 |
 | Modules per kind | actor 3, api 2, docs 2, engine 25, eval 12, export 3, infer 4, ingestion 16, lib 7, probe 2, release 2, route 11, runner 5, sdg 2, solver 14, stage 16, tool 12, train 8, ui 1 |
@@ -1526,7 +1526,7 @@ Kahn's algorithm removes all 147 modules: **no cycle** (392 edges, 0 strongly co
 
 ### 5.2 Data-contract rows
 
-All 112 active DC rows of the feature specs appear as at least one edge. The three retired rows (DC-008-01, DC-013-06, DC-019-01) are not mapped; each is superseded by a mapped row (DC-001-04, DC-010-02, DC-002-03 with DC-001-01).
+All 113 active DC rows of the feature specs appear as at least one edge. The three retired rows (DC-008-01, DC-013-06, DC-019-01) are not mapped; each is superseded by a mapped row (DC-001-04, DC-010-02, DC-002-03 with DC-001-01).
 
 ### 5.3 Edges whose contract has no schema at all
 
@@ -1573,7 +1573,7 @@ All 112 active DC rows of the feature specs appear as at least one edge. The thr
 
 ### 5.4 Schema state of the contracts that DC rows declare
 
-Of 119 contract names declared by DC rows, 1 is promoted to `contracts/` today (`capabilities`); 114 are drafts under `specs/NNN-*/contracts/` and 4 are derived. The harness requires every edge to have a promoted contract, fixtures and generated types before the spec phase closes; the promotion of every draft is task T-NNN-001 of each spec and is not done by this map.
+Of 120 contract names declared by DC rows, 1 is promoted to `contracts/` today (`capabilities`); 115 are drafts under `specs/NNN-*/contracts/` and 4 are derived. The harness requires every edge to have a promoted contract, fixtures and generated types before the spec phase closes; the promotion of every draft is task T-NNN-001 of each spec and is not done by this map.
 
 ### 5.5 Orphans
 
@@ -1672,5 +1672,109 @@ Stages with 0 rows: `st45b_kit_validate`, `s05_haul`, `st52_rtx_render`, `st59a_
 
 ## 6. Availability states per edge
 
-Section 6 is filled in by the availability-state deliverable (ADR-0040 table, refined per edge); see `availability` in `modules.yaml` and the "Phase - availability states" section of each spec's `tasks.md`.
+Every edge declares what its consumer does when the input is in each of six states. The default behaviours are the table of the availability-state rule of the harness; each edge refines them for its consumer and cites the requirement that already specifies the behaviour. Where no requirement existed, one was added to the consumer's spec (section 6.4).
+
+| State | Meaning | Default consumer behaviour |
+|---|---|---|
+| `absent` | the producer has not run, or the source is unavailable | API: an explicit `not-run` status with a reason and no error response. UI: "Not yet run" plus what will appear. Pipeline: the stage reports `not run (input absent)` and so do the stages downstream. |
+| `fixture` | only the contract fixture exists | built and tested against it; never shown as a result (a "fixture" label in development builds, excluded from releases) |
+| `partial` | some items exist, for example 3 of 13 models trained or one fold of five | show what exists with its provenance; list what is missing; aggregate claims only over complete sets |
+| `real` | a contract-valid real artefact | the normal behaviour |
+| `stale` | the artefact does not match the current inputs or code (digest mismatch) | shown with a "stale" badge and its original date, or the stage fails `input-stale`; never mixed silently with fresh data |
+| `invalid` | fails its contract | rejected at the trust boundary with the validation reason; the edge falls back to `absent` |
+
+In `modules.yaml` each state of each edge is `{behaviour, covered_by, na?}`: `covered_by` lists requirement ids that exist in `specs/requirements.index.json`; `na` states why a state cannot occur (a single document has no partial state).
+
+### 6.1 Coverage
+
+392 edges x 6 states = 2352 states declared. Each is specified by an existing requirement, by a requirement added with this map, or marked `na` with a reason:
+
+| State | Existing requirement | Added requirement | `na` |
+|---|---|---|---|
+| `absent` | 340 | 52 | 0 |
+| `fixture` | 65 | 327 | 0 |
+| `partial` | 160 | 131 | 101 |
+| `real` | 356 | 0 | 36 |
+| `stale` | 168 | 224 | 0 |
+| `invalid` | 392 | 0 | 0 |
+| all | 1481 | 734 | 137 |
+
+`real` is specified by the DC row of the contract (an edge with no DC row, listed in section 5.3, is `na` for `real`).
+
+### 6.2 Requirements that already specified a behaviour, by consumer spec
+
+| Consumer spec | absent | partial | stale | invalid |
+|---|---|---|---|---|
+| 001 | FR-000-14 | - | P-000-02 | FR-001-05, FR-001-23, FR-001-32 |
+| 002 | FR-002-42, FR-002-21, FR-002-60 | FR-002-21 | FR-002-21 | FR-002-03, FR-002-61, FR-002-13 |
+| 003 | FR-003-23, FR-003-11 | FR-003-15, FR-003-16 | - | FR-003-14, FR-003-23, FR-003-12 |
+| 004 | FR-004-09, FR-004-38, FR-002-60 | FR-004-09 | FR-004-32 | FR-004-40, FR-004-32 |
+| 005 | FR-005-49, FR-002-60 | - | - | FR-005-51, FR-005-55, FR-005-52 |
+| 006 | FR-006-10, FR-006-11, FR-002-60 | - | FR-006-12 | FR-006-12 |
+| 007 | FR-007-12, FR-002-60 | - | FR-007-44 | FR-007-44, FR-007-13 |
+| 008 | FR-008-14, FR-008-13, FR-008-35 | - | FR-008-06, FR-008-35 | FR-008-21, FR-008-02, FR-008-44 |
+| 009 | FR-009-40, FR-000-07 | - | - | FR-009-15, FR-009-43 |
+| 010 | FR-010-14, FR-010-17, FR-010-38 | - | - | FR-010-14 |
+| 011 | FR-002-60, SC-005-01 | - | - | FR-011-14, FR-011-41 |
+| 012 | FR-012-39, FR-012-40 | FR-012-39 | FR-012-40 | FR-012-02 |
+| 013 | FR-013-30, FR-013-41 | FR-013-05 | FR-013-05 | FR-013-42, FR-013-15, FR-013-08 |
+| 014 | FR-014-03, FR-014-23, FR-014-24 | FR-014-24 | - | FR-014-46 |
+| 015 | FR-015-07, FR-015-10 | FR-015-07 | FR-015-02, FR-015-23 | FR-015-23, FR-015-47 |
+| 016 | FR-016-24 | FR-016-31 | FR-016-23, FR-016-13 | FR-016-02 |
+| 017 | FR-017-24, FR-017-43, FR-017-44 | - | FR-017-24, FR-017-32 | FR-017-49 |
+| 018 | FR-018-04, FR-018-05, FR-018-15, FR-018-20, FR-000-07 | - | FR-018-43, FR-018-63 | FR-018-45, FR-018-67 |
+| 019 | FR-019-13, FR-019-31, FR-000-07 | FR-019-07 | - | FR-019-38 |
+| 020 | FR-020-31, FR-020-18, FR-020-24 | - | - | FR-020-39, FR-020-48 |
+
+### 6.3 Consumer specs with no requirement for a state (before this map)
+
+`fixture` had no requirement anywhere, because the fixture-first rule is newer than the specs. `partial` and `stale` had one only where a spec already needed it. Requirements were added for exactly these gaps.
+
+### 6.4 Requirements added
+
+41 requirements in 20 feature specs, each with a task in the section "Phase - availability states" of the spec's `tasks.md` and an oracle row in its `plan.md`; plus FR-000-20 to FR-000-24 in the foundation spec.
+
+| Requirement | State | Spec | Task | Test |
+|---|---|---|---|---|
+| FR-001-60 | `fixture` | 001 | T-001-094 | `tests/contract/test_t_001_094_manifest_fixture_stale_fields.py` |
+| FR-001-61 | `fixture-gate` | 001 | T-001-095 | `tests/unit/test_t_001_095_release_fixture_gate.py` |
+| FR-001-62 | `absent` | 001 | T-001-096 | `tests/unit/test_t_001_096_loader_absent.py` |
+| FR-002-67 | `fixture` | 002 | T-002-096 | `tests/unit/test_t_002_096_capability_fixture.py` |
+| FR-002-68 | `stale` | 002 | T-002-097 | `tests/unit/test_t_002_097_run_stale.py` |
+| FR-002-69 | `input-stale` | 002 | T-002-098 | `tests/unit/test_t_002_098_input_stale.py` |
+| FR-003-32 | `fixture` | 003 | T-003-093 | `tests/contract/test_t_003_093_fixture_store.py` |
+| FR-003-33 | `stale` | 003 | T-003-094 | `tests/contract/test_t_003_094_stale_runs.py` |
+| FR-004-44 | `fixture` | 004 | T-004-094 | `tests/unit/test_t_004_094_fixture_propagation.py` |
+| FR-005-56 | `fixture` | 005 | T-005-093 | `tests/unit/test_t_005_093_fixture_propagation.py` |
+| FR-005-57 | `stale` | 005 | T-005-094 | `tests/unit/test_t_005_094_input_stale.py` |
+| FR-006-23 | `fixture` | 006 | T-006-092 | `tests/unit/test_t_006_092_fixture_clip.py` |
+| FR-007-46 | `fixture` | 007 | T-007-092 | `tests/pipeline/test_t_007_092_fixture_propagation.py` |
+| FR-007-47 | `partial` | 007 | T-007-093 | `tests/pipeline/test_t_007_093_partial_seeds.py` |
+| FR-008-49 | `fixture` | 008 | T-008-092 | `tests/pipeline/test_t_008_092_fixture_source.py` |
+| FR-008-50 | `partial` | 008 | T-008-093 | `tests/pipeline/test_t_008_093_partial_source.py` |
+| FR-009-51 | `fixture` | 009 | T-009-097 | `tests/unit/test_t_009_097_fixture_propagation.py` |
+| FR-009-52 | `partial` | 009 | T-009-098 | `tests/unit/test_t_009_098_partial_models.py` |
+| FR-009-53 | `stale` | 009 | T-009-099 | `tests/unit/test_t_009_099_input_stale.py` |
+| FR-010-46 | `fixture` | 010 | T-010-095 | `tests/unit/test_t_010_095_fixture_propagation.py` |
+| FR-010-47 | `partial` | 010 | T-010-096 | `tests/pipeline/test_t_010_096_partial_strata.py` |
+| FR-010-48 | `stale` | 010 | T-010-097 | `tests/unit/test_t_010_097_input_stale.py` |
+| FR-011-49 | `fixture` | 011 | T-011-095 | `tests/pipeline/test_t_011_095_fixture_propagation.py` |
+| FR-011-50 | `partial` | 011 | T-011-096 | `tests/pipeline/test_t_011_096_partial_cases.py` |
+| FR-011-51 | `stale` | 011 | T-011-097 | `tests/unit/test_t_011_097_input_stale.py` |
+| FR-012-47 | `fixture` | 012 | T-012-092 | `tests/unit/test_t_012_092_fixture_propagation.py` |
+| FR-012-48 | `stale` | 012 | T-012-093 | `tests/unit/test_t_012_093_input_stale.py` |
+| FR-013-43 | `fixture` | 013 | T-013-092 | `tests/unit/test_t_013_092_fixture_envelope.py` |
+| FR-014-48 | `fixture` | 014 | T-014-092 | `tests/unit/test_t_014_092_fixture_propagation.py` |
+| FR-014-49 | `stale` | 014 | T-014-093 | `tests/unit/test_t_014_093_input_stale.py` |
+| FR-015-50 | `fixture` | 015 | T-015-094 | `tests/unit/test_t_015_094_fixture_propagation.py` |
+| FR-016-40 | `fixture` | 016 | T-016-092 | `tests/unit/test_t_016_092_fixture_propagation.py` |
+| FR-017-52 | `fixture` | 017 | T-017-092 | `tests/pipeline/test_t_017_092_fixture_propagation.py` |
+| FR-017-53 | `partial` | 017 | T-017-093 | `tests/pipeline/test_t_017_093_partial_cells.py` |
+| FR-018-70 | `fixture` | 018 | T-018-093 | `web/e2e/t-018-093-fixture-artefact.spec.ts` |
+| FR-018-71 | `partial` | 018 | T-018-094 | `web/e2e/t-018-094-partial-coverage.spec.ts` |
+| FR-019-48 | `fixture` | 019 | T-019-094 | `web/src/studio/t_019_094_fixture_run.test.ts` |
+| FR-019-49 | `stale` | 019 | T-019-095 | `web/src/studio/t_019_095_stale_run.test.ts` |
+| FR-020-52 | `fixture` | 020 | T-020-092 | `web/src/results/t_020_092_fixture_row.test.ts` |
+| FR-020-53 | `partial` | 020 | T-020-093 | `web/src/results/t_020_093_partial_models.test.ts` |
+| FR-020-54 | `stale` | 020 | T-020-094 | `web/src/results/t_020_094_stale_row.test.ts` |
 

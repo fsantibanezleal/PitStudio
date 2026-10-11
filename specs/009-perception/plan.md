@@ -118,6 +118,9 @@ sampling logic is tested on CPU without Isaac Sim, and the GPU stage is a thin c
 | FR-009-48 | unit (hostile) | hand calculation: `nul.png`, and `A.png` with `a.png`, give `coco-path-invalid` | pytest |
 | FR-009-49 | unit (hostile) | reference implementation: `hashlib.sha256` of a fixture file; one byte changed gives `asset-digest-mismatch` | pytest |
 | FR-009-50 | unit (hostile) | hand calculation: a report fixture with one key twice gives `report-duplicate-row` | pytest |
+| FR-009-51 | unit (fake trainer) | hand calculation: a fixture index gives a checkpoint record, predictions and a report `fixture: true`, and the publish step carries no metric from it | pytest |
+| FR-009-52 | unit | hand calculation: 2 of 3 models evaluated give `partial`, the third listed `not run (absent)`, and no pooled metric or verdict | pytest |
+| FR-009-53 | unit (hostile) | hand calculation: one altered pixel in one image gives `input-stale` naming that record before any step; an untouched index passes | pytest |
 
 ### Tolerances and their justification
 - float64 closed forms (haze, exposure, sRGB, vector conversion): atol / rtol 1e-12 — fewer than 20 operations on

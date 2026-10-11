@@ -37,6 +37,11 @@ start with the requirement ID followed by " · "; Python tests use `@pytest.mark
 - [ ] T-019-092 (FR-019-46) tool-map self-edges fail the build check — test: tests/unit/test_t_019_092_toolmap_self_edge.py
 - [ ] T-019-093 (FR-019-47) studio index byte cap (1,000,000 bytes) in the loader and the cap table — test: tests/unit/test_t_019_093_studio_index_cap.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-019-094 (FR-019-48) fixture runs: label in development builds, excluded from release builds — test: web/src/studio/t_019_094_fixture_run.test.ts
+- [ ] T-019-095 (FR-019-49) stale runs: badge, original date, never the latest fresh run — test: web/src/studio/t_019_095_stale_run.test.ts
+
 ## Phase 6 — Quality, gates and independent review
 - [ ] T-019-040 [US-019-1] (NFR-019-01, NFR-019-02, NFR-019-03) initial JS, map readiness and studio data sizes — test: web/e2e/t_019_040_budgets.spec.ts
 - [ ] T-019-041 [US-019-1] (NFR-019-04, NFR-019-05, NFR-000-02, FR-000-03) axe matrix and Lighthouse for the studio routes — test: web/e2e/t_019_041_a11y_studio.spec.ts

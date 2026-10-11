@@ -86,6 +86,11 @@ Rules:
 - [ ] T-008-061 [US-008-1] (FR-008-45, NFR-008-03) Samples: public-domain/CC0 crops or synthetic fixtures with sample
   cards, no Mendeley pixels, each < 1 MB; no tracked file under the data roots — test: tests/contract/test_t_008_061_samples_hygiene.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-008-092 (FR-008-49) fixture sources: outputs marked, card says "fixture" — test: tests/pipeline/test_t_008_092_fixture_source.py
+- [ ] T-008-093 (FR-008-50) partial multi-file sources: ingest what is verified, list the rest — test: tests/pipeline/test_t_008_093_partial_source.py
+
 ## Phase 8 — Polish and independent review
 - [ ] T-008-090 Mutation run on `pitstudio_pipeline.{download, archive, ingest, splits, synthesize, features, cards}`;
   record the scores against `thresholds.yaml` `mutation`

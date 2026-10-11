@@ -133,6 +133,7 @@ The S4b slope-radar series is specified in spec 010-slope (§3.4, FR-010-34…37
 | FR-013-39 | Unwanted | If the baked slider asset fails its SHA-256 or `contracts/dust-slider.schema.json`, holds a NaN, infinite or negative τ, a reference-target τ of 0, or more than 150,000 returns, or the slider receives a level outside 0…40, then the worker shall reject it, keep showing the clean frame, and the panel shall show "dust model unavailable — clean frame shown"; and if a replay cloud shard fails its SHA-256 or `contracts/web-cloud-shard.schema.json`, then the viewer shall not render it and shall show the poster frame. | web unit + E2E (hostile) |
 | FR-013-40 | Ubiquitous | The sensor-comparison widget shall show one frame as RGB, semantic, lidar and radar (diverging Doppler colour map centred on 0 m/s), each with a REPLAY badge and provenance (producing tool, run id, commit), and shall show rendering performance only as the card "measured locally, not published (licence)". | E2E |
 | FR-013-41 | Unwanted | If no S1–S4a artefact is published, then the B1, B2 and E2 sensor panels and the ovrtx tool page shall show "not yet run" (FR-000-07) and no placeholder image. | E2E |
+| FR-013-43 | State | While a sensor recipe block or the lidar envelope (DC-013-01, DC-013-02) is a contract fixture, `st53_sensors` and `st57_rain_lidar` shall run on the fake backend only, shall write `fixture: true` on every shard, and shall publish none. | unit (fake backend) |
 
 ## 4. Correctness properties
 
@@ -288,6 +289,8 @@ pinhole (P-013-14), web parity (P-013-15).
 - Integration 2026-10-07 (2): FR-013-35 states that the position code type is declared in the shard header and read from it,
   the rule of the replay-shard schema DC-018-03 (spec 018). The sensor web shard keeps its own header (DC-013-04)
   because it also carries 8-bit intensity and class channels, which DC-018-03's raw16 layout does not.
+
+- Availability states (2026-10-11): FR-013-43 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 

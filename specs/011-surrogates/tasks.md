@@ -56,6 +56,12 @@ the CPU; GPU work starts only after the GPU hold is lifted and through the runne
 - [ ] T-011-093 (FR-011-47) duplicate tensor and channel names — test: tests/unit/test_t_011_093_surrogate_unique_names.py
 - [ ] T-011-094 (FR-011-48) granular rollout bounds must be ordered — test: tests/unit/test_t_011_094_rollout_bounds.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-011-095 (FR-011-49) fixture propagation through the surrogate stages — test: tests/pipeline/test_t_011_095_fixture_propagation.py
+- [ ] T-011-096 (FR-011-50) partial evaluation sets: reported with provenance, no claim over missing cases — test: tests/pipeline/test_t_011_096_partial_cases.py
+- [ ] T-011-097 (FR-011-51) stale rollouts fail `input-stale` — test: tests/unit/test_t_011_097_input_stale.py
+
 ## Phase 6 — Polish and independent review
 - [ ] T-011-090 mutation run on `src/pitstudio/granular/`, `src/pitstudio/calibration/` and the spectral layer; record the scores
 - [ ] T-011-091 independent review of the diff against this spec; append tasks for gaps

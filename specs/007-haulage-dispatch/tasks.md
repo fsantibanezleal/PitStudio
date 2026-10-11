@@ -108,6 +108,11 @@ Rules:
 - [ ] T-007-070 [US-007-2] (FR-007-41) Every A1/A2 artefact header and manifest entry carries the exact label and the
   cycle-time bias note, and no C2ST/TSTR field — test: tests/contract/test_t_007_070_haulage_honesty.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-007-092 (FR-007-46) fixture propagation through the dispatch stages — test: tests/pipeline/test_t_007_092_fixture_propagation.py
+- [ ] T-007-093 (FR-007-47) comparisons over fewer than 30 paired seeds are `partial` and carry no verdict — test: tests/pipeline/test_t_007_093_partial_seeds.py
+
 ## Phase 9 — Polish and independent review
 - [ ] T-007-090 Mutation run on `pitstudio_pipeline.haulage`, `pitstudio_pipeline.dispatch`, `pitstudio.haulage` and
   `web/src/engines/{random,des,lp,routing,haulage}`; record the scores against `thresholds.yaml` `mutation`

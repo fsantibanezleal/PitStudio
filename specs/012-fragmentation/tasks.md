@@ -48,6 +48,11 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/012-fragmentatio
 ## Phase 7 — US-012-6 (P2) Design outputs from cited models
 - [ ] T-012-060 [US-012-6] (FR-012-41, FR-012-46) D1 design grid from `minephys.blasting`; hostile design inputs — test: tests/unit/test_t_012_060_d1_design_grid.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-012-092 (FR-012-47) fixture propagation through the fragmentation stages — test: tests/unit/test_t_012_092_fixture_propagation.py
+- [ ] T-012-093 (FR-012-48) stale renders fail `input-stale` — test: tests/unit/test_t_012_093_input_stale.py
+
 ## Phase 8 — Polish and hostile review
 - [ ] T-012-090 mutation run on the generator, PSD / fit, IoU and C2ST modules; record the score (≥ 0.80 numerical core)
 - [ ] T-012-091 independent review of the diff against this spec; append tasks for gaps

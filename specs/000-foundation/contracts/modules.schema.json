@@ -234,7 +234,8 @@
         "to",
         "contract",
         "schema",
-        "schema_state"
+        "schema_state",
+        "availability"
       ],
       "properties": {
         "id": {

@@ -116,6 +116,8 @@ redirects, oversize bodies and failures.
 | FR-008-43, FR-008-44 | contract | registry ↔ card field equality | pytest + jsonschema |
 | FR-008-45, NFR-008-03 | contract | `git ls-files` listing; sample cards | pytest |
 | DC-008-02 … DC-008-05 | contract | JSON Schema 2020-12 meta-schema; round-trip of the generated types; one hostile document per schema | pytest + jsonschema |
+| FR-008-49 | pipeline (CPU) | hand calculation: a fixture entry gives ingestion report, split and features all `fixture: true`; a card without the word fails the check naming the card | pytest |
+| FR-008-50 | integration | hand calculation: 3 of 5 fixture tiles verified give an ingestion report with 3 accepted, 2 `unavailable` and `partial`; the fetch record of the source is not `complete` | pytest (mocked transport) |
 
 ### Metamorphic relations per numerical core (≥ 3 each)
 

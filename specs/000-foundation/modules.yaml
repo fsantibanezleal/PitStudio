@@ -2540,6 +2540,13 @@ contracts:
   owner_spec: 009
   gap_class: binary-format
   what: trained detector weights (D-FINE-N/S, RF-DETR-Seg-N)
+- name: modules
+  dc:
+  - DC-000-06
+  schema_state: draft
+  schema: specs/000-foundation/contracts/modules.schema.json
+  promoted_target: contracts/modules.schema.json
+  owner_spec: '000'
 - name: muck-pile-render
   dc:
   - DC-012-04
@@ -2965,6 +2972,37 @@ edges:
   dc: DC-000-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: &id001
+    absent:
+      behaviour: an artefact without a manifest entry is neither published nor shown; the web shows "Not yet run"
+      covered_by:
+      - FR-000-14
+      - FR-000-07
+    fixture:
+      behaviour: 'a manifest entry with `fixture: true` fails release builds and is labelled "fixture" in development builds'
+      covered_by:
+      - FR-001-60
+      - FR-001-61
+    partial:
+      behaviour: the manifest lists the artefacts that exist; consumers show each with its provenance and "Not yet run" for the others
+      covered_by:
+      - FR-000-06
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-000-01; no label, no caveat
+      covered_by:
+      - DC-000-01
+    stale:
+      behaviour: '`stale: true` and the original date travel with the entry; the served file digest must equal the manifest digest'
+      covered_by:
+      - FR-001-60
+      - P-000-02
+      - FR-018-43
+    invalid:
+      behaviour: a manifest that fails its schema is rejected with the pointer and treated as absent
+      covered_by:
+      - FR-001-05
+      - FR-018-43
+      - FR-019-38
 - id: E-DC-000-01-02
   from: runner-store
   to: contracts-validate
@@ -2972,6 +3010,37 @@ edges:
   dc: DC-000-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: &id002
+    absent:
+      behaviour: an artefact without a manifest entry is neither published nor shown; the web shows "Not yet run"
+      covered_by:
+      - FR-000-14
+      - FR-000-07
+    fixture:
+      behaviour: 'a manifest entry with `fixture: true` fails release builds and is labelled "fixture" in development builds'
+      covered_by:
+      - FR-001-60
+      - FR-001-61
+    partial:
+      behaviour: the manifest lists the artefacts that exist; consumers show each with its provenance and "Not yet run" for the others
+      covered_by:
+      - FR-000-06
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-000-01; no label, no caveat
+      covered_by:
+      - DC-000-01
+    stale:
+      behaviour: '`stale: true` and the original date travel with the entry; the served file digest must equal the manifest digest'
+      covered_by:
+      - FR-001-60
+      - P-000-02
+      - FR-018-43
+    invalid:
+      behaviour: a manifest that fails its schema is rejected with the pointer and treated as absent
+      covered_by:
+      - FR-001-05
+      - FR-018-43
+      - FR-019-38
 - id: E-DC-000-01-03
   from: s60_export
   to: web-assets-loader
@@ -2979,6 +3048,7 @@ edges:
   dc: DC-000-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-000-01-04
   from: s60_export
   to: contracts-validate
@@ -2986,6 +3056,7 @@ edges:
   dc: DC-000-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-000-02-01
   from: bench-probes
   to: runner-guards
@@ -2993,6 +3064,34 @@ edges:
   dc: DC-000-02
   schema: contracts/capabilities.schema.json
   schema_state: promoted
+  availability: &id008
+    absent:
+      behaviour: 'no capability report or no entry for a probe: the stage is refused with reason `capability` and exit 5, or the web
+        shows the tool "Not yet run"; nothing crashes'
+      covered_by:
+      - FR-002-21
+      - FR-000-07
+    fixture:
+      behaviour: a fixture report allows the fake backend only and is never shown as a measured probe
+      covered_by:
+      - FR-002-67
+    partial:
+      behaviour: an entry for each probe that ran; a stage that lists a missing probe is refused, the others run
+      covered_by:
+      - FR-002-21
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-000-02; no label, no caveat
+      covered_by:
+      - DC-000-02
+    stale:
+      behaviour: a report whose driver differs from the live driver is refused `capability-stale`
+      covered_by:
+      - FR-002-21
+    invalid:
+      behaviour: an invalid report is rejected and treated as absent
+      covered_by:
+      - FR-002-21
+      - FR-019-38
 - id: E-DC-000-02-02
   from: bench-probes
   to: web-route-studio
@@ -3000,6 +3099,34 @@ edges:
   dc: DC-000-02
   schema: contracts/capabilities.schema.json
   schema_state: promoted
+  availability: &id009
+    absent:
+      behaviour: 'no capability report or no entry for a probe: the stage is refused with reason `capability` and exit 5, or the web
+        shows the tool "Not yet run"; nothing crashes'
+      covered_by:
+      - FR-002-21
+      - FR-000-07
+    fixture:
+      behaviour: a fixture report allows the fake backend only and is never shown as a measured probe
+      covered_by:
+      - FR-002-67
+    partial:
+      behaviour: an entry for each probe that ran; a stage that lists a missing probe is refused, the others run
+      covered_by:
+      - FR-002-21
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-000-02; no label, no caveat
+      covered_by:
+      - DC-000-02
+    stale:
+      behaviour: a report whose driver differs from the live driver is refused `capability-stale`
+      covered_by:
+      - FR-002-21
+    invalid:
+      behaviour: an invalid report is rejected and treated as absent
+      covered_by:
+      - FR-002-21
+      - FR-019-38
 - id: E-DC-000-03-01
   from: actor-maintainer
   to: runner-core
@@ -3007,6 +3134,33 @@ edges:
   dc: DC-000-03
   schema: specs/001-contracts/contracts/recipe.schema.json
   schema_state: draft
+  availability: &id003
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-000-03; no label, no caveat
+      covered_by:
+      - DC-000-03
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-000-04-01
   from: actor-maintainer
   to: web-route-studio
@@ -3014,6 +3168,33 @@ edges:
   dc: DC-000-04
   schema: specs/001-contracts/contracts/tools.schema.json
   schema_state: draft
+  availability: &id004
+    absent:
+      behaviour: the build fails naming the missing tool registry or tool map file
+      covered_by:
+      - FR-019-38
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-000-04; no label, no caveat
+      covered_by:
+      - DC-000-04
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: a registry, tool map, manifest, capability or telemetry file that fails its schema fails the build naming file and
+        JSON pointer
+      covered_by:
+      - FR-019-38
 - id: E-DC-000-05-01
   from: actor-maintainer
   to: s00_download
@@ -3021,6 +3202,33 @@ edges:
   dc: DC-000-05
   schema: specs/001-contracts/contracts/sources.schema.json
   schema_state: draft
+  availability: &id005
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-000-05; no label, no caveat
+      covered_by:
+      - DC-000-05
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-000-05-02
   from: actor-maintainer
   to: docs-knowledge-build
@@ -3028,6 +3236,33 @@ edges:
   dc: DC-000-05
   schema: specs/001-contracts/contracts/sources.schema.json
   schema_state: draft
+  availability: &id006
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-000-05; no label, no caveat
+      covered_by:
+      - DC-000-05
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-001-01-01
   from: runner-store
   to: web-assets-loader
@@ -3035,6 +3270,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-001-01-02
   from: runner-store
   to: ci-pages-deploy
@@ -3042,6 +3278,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-001-01-03
   from: runner-store
   to: contracts-validate
@@ -3049,6 +3286,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-001-01-04
   from: s60_export
   to: web-assets-loader
@@ -3056,6 +3294,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-001-01-05
   from: s60_export
   to: ci-pages-deploy
@@ -3063,6 +3302,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-001-01-06
   from: s60_export
   to: contracts-validate
@@ -3070,6 +3310,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-001-01-07
   from: st56_encode
   to: web-assets-loader
@@ -3077,6 +3318,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-001-01-08
   from: st56_encode
   to: ci-pages-deploy
@@ -3084,6 +3326,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-001-01-09
   from: st56_encode
   to: contracts-validate
@@ -3091,6 +3334,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-001-01-10
   from: runner-publish
   to: web-assets-loader
@@ -3098,6 +3342,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-001-01-11
   from: runner-publish
   to: ci-pages-deploy
@@ -3105,6 +3350,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-001-01-12
   from: runner-publish
   to: contracts-validate
@@ -3112,6 +3358,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-001-02-01
   from: actor-maintainer
   to: runner-core
@@ -3119,6 +3366,7 @@ edges:
   dc: DC-001-02
   schema: specs/001-contracts/contracts/recipe.schema.json
   schema_state: draft
+  availability: *id003
 - id: E-DC-001-02-02
   from: console-jobs
   to: runner-core
@@ -3126,6 +3374,40 @@ edges:
   dc: DC-001-02
   schema: specs/001-contracts/contracts/recipe.schema.json
   schema_state: draft
+  availability: &id016
+    absent:
+      behaviour: 'an unknown or missing recipe, profile or capability report exits 2 or 5 naming it; a stage whose upstream did not
+        run ends `skipped` with `upstream not run: <stage>`'
+      covered_by:
+      - FR-002-42
+      - FR-002-21
+      - FR-002-60
+    fixture:
+      behaviour: a fixture capability report allows the fake GPU backend only; real-GPU stages are refused `capability-fixture`
+      covered_by:
+      - FR-002-67
+    partial:
+      behaviour: a capability report that lacks a listed probe refuses only the stages that require it
+      covered_by:
+      - FR-002-21
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-02; no label, no caveat
+      covered_by:
+      - DC-001-02
+    stale:
+      behaviour: '`capability-stale` refusal when the driver differs; a run whose cache key differs from the recomputed key is reported
+        `stale`; a changed input digest fails `input-stale`'
+      covered_by:
+      - FR-002-21
+      - FR-002-68
+      - FR-002-69
+    invalid:
+      behaviour: '`studio plan` exits 2 naming every offending stage; an invalid `result.json` is `invalid-result`; an invalid output
+        is `invalid-output` and downstream stages are skipped'
+      covered_by:
+      - FR-002-03
+      - FR-002-61
+      - FR-002-13
 - id: E-DC-001-03-01
   from: actor-maintainer
   to: web-route-studio
@@ -3133,6 +3415,7 @@ edges:
   dc: DC-001-03
   schema: specs/001-contracts/contracts/tools.schema.json
   schema_state: draft
+  availability: *id004
 - id: E-DC-001-03-02
   from: actor-maintainer
   to: contracts-validate
@@ -3140,6 +3423,33 @@ edges:
   dc: DC-001-03
   schema: specs/001-contracts/contracts/tools.schema.json
   schema_state: draft
+  availability: &id007
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-03; no label, no caveat
+      covered_by:
+      - DC-001-03
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-001-04-01
   from: actor-maintainer
   to: s00_download
@@ -3147,6 +3457,7 @@ edges:
   dc: DC-001-04
   schema: specs/001-contracts/contracts/sources.schema.json
   schema_state: draft
+  availability: *id005
 - id: E-DC-001-04-02
   from: actor-maintainer
   to: docs-knowledge-build
@@ -3154,6 +3465,7 @@ edges:
   dc: DC-001-04
   schema: specs/001-contracts/contracts/sources.schema.json
   schema_state: draft
+  availability: *id006
 - id: E-DC-001-04-03
   from: actor-maintainer
   to: contracts-validate
@@ -3161,6 +3473,7 @@ edges:
   dc: DC-001-04
   schema: specs/001-contracts/contracts/sources.schema.json
   schema_state: draft
+  availability: *id007
 - id: E-DC-001-05-01
   from: bench-probes
   to: runner-guards
@@ -3168,6 +3481,7 @@ edges:
   dc: DC-001-05
   schema: contracts/capabilities.schema.json
   schema_state: promoted
+  availability: *id008
 - id: E-DC-001-05-02
   from: bench-probes
   to: web-route-studio
@@ -3175,6 +3489,7 @@ edges:
   dc: DC-001-05
   schema: contracts/capabilities.schema.json
   schema_state: promoted
+  availability: *id009
 - id: E-DC-001-06-01
   from: contracts-gen-py
   to: runner-core
@@ -3182,6 +3497,32 @@ edges:
   dc: DC-001-06
   schema: null
   schema_state: derived
+  availability:
+    absent:
+      behaviour: the generator fails naming the missing source schema; the build fails
+      covered_by:
+      - FR-001-05
+    fixture:
+      behaviour: conformance fixtures are test inputs; generated files never contain fixture data
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: a generated or conformance artefact is complete or absent
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-06; no label, no caveat
+      covered_by:
+      - DC-001-06
+    stale:
+      behaviour: a generated file that differs from the one regenerated from the schemas fails the drift check
+      covered_by:
+      - FR-003-17
+      - P-001-06
+    invalid:
+      behaviour: a schema that cannot be turned into a model fails generation naming the schema
+      covered_by:
+      - FR-001-05
 - id: E-DC-001-06-02
   from: contracts-gen-py
   to: console-api
@@ -3189,6 +3530,32 @@ edges:
   dc: DC-001-06
   schema: null
   schema_state: derived
+  availability: &id010
+    absent:
+      behaviour: the generator fails naming the missing source schema; the build fails
+      covered_by:
+      - FR-001-05
+    fixture:
+      behaviour: conformance fixtures are test inputs; generated files never contain fixture data
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: a generated or conformance artefact is complete or absent
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-06; no label, no caveat
+      covered_by:
+      - DC-001-06
+    stale:
+      behaviour: a generated file that differs from the one regenerated from the schemas fails the drift check
+      covered_by:
+      - FR-003-17
+      - P-001-06
+    invalid:
+      behaviour: a schema that cannot be turned into a model fails generation naming the schema
+      covered_by:
+      - FR-001-05
 - id: E-DC-001-06-03
   from: contracts-gen-py
   to: console-jobs
@@ -3196,6 +3563,7 @@ edges:
   dc: DC-001-06
   schema: null
   schema_state: derived
+  availability: *id010
 - id: E-DC-001-06-04
   from: contracts-gen-py
   to: s10_real_data
@@ -3203,6 +3571,32 @@ edges:
   dc: DC-001-06
   schema: null
   schema_state: derived
+  availability: &id011
+    absent:
+      behaviour: the generator fails naming the missing source schema; the build fails
+      covered_by:
+      - FR-001-05
+    fixture:
+      behaviour: conformance fixtures are test inputs; generated files never contain fixture data
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: a generated or conformance artefact is complete or absent
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-06; no label, no caveat
+      covered_by:
+      - DC-001-06
+    stale:
+      behaviour: a generated file that differs from the one regenerated from the schemas fails the drift check
+      covered_by:
+      - FR-003-17
+      - P-001-06
+    invalid:
+      behaviour: a schema that cannot be turned into a model fails generation naming the schema
+      covered_by:
+      - FR-001-05
 - id: E-DC-001-06-05
   from: contracts-gen-py
   to: s10_synthetic_data
@@ -3210,6 +3604,7 @@ edges:
   dc: DC-001-06
   schema: null
   schema_state: derived
+  availability: *id011
 - id: E-DC-001-06-06
   from: contracts-gen-py
   to: contracts-validate
@@ -3217,6 +3612,32 @@ edges:
   dc: DC-001-06
   schema: null
   schema_state: derived
+  availability:
+    absent:
+      behaviour: the generator fails naming the missing source schema; the build fails
+      covered_by:
+      - FR-001-05
+    fixture:
+      behaviour: conformance fixtures are test inputs; generated files never contain fixture data
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: a generated or conformance artefact is complete or absent
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-06; no label, no caveat
+      covered_by:
+      - DC-001-06
+    stale:
+      behaviour: a generated file that differs from the one regenerated from the schemas fails the drift check
+      covered_by:
+      - FR-003-17
+      - P-001-06
+    invalid:
+      behaviour: a schema that cannot be turned into a model fails generation naming the schema
+      covered_by:
+      - FR-001-05
 - id: E-DC-001-07-01
   from: contracts-gen-ts
   to: web-assets-loader
@@ -3224,6 +3645,32 @@ edges:
   dc: DC-001-07
   schema: null
   schema_state: derived
+  availability: &id012
+    absent:
+      behaviour: the generator fails naming the missing source schema; the build fails
+      covered_by:
+      - FR-001-05
+    fixture:
+      behaviour: conformance fixtures are test inputs; generated files never contain fixture data
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: a generated or conformance artefact is complete or absent
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-07; no label, no caveat
+      covered_by:
+      - DC-001-07
+    stale:
+      behaviour: a generated file that differs from the one regenerated from the schemas fails the drift check
+      covered_by:
+      - FR-003-17
+      - P-001-06
+    invalid:
+      behaviour: a schema that cannot be turned into a model fails generation naming the schema
+      covered_by:
+      - FR-001-05
 - id: E-DC-001-07-02
   from: contracts-gen-ts
   to: web-engine-host
@@ -3231,6 +3678,7 @@ edges:
   dc: DC-001-07
   schema: null
   schema_state: derived
+  availability: *id012
 - id: E-DC-001-07-03
   from: contracts-gen-ts
   to: console-ui
@@ -3238,6 +3686,32 @@ edges:
   dc: DC-001-07
   schema: null
   schema_state: derived
+  availability:
+    absent:
+      behaviour: the generator fails naming the missing source schema; the build fails
+      covered_by:
+      - FR-001-05
+    fixture:
+      behaviour: conformance fixtures are test inputs; generated files never contain fixture data
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: a generated or conformance artefact is complete or absent
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-07; no label, no caveat
+      covered_by:
+      - DC-001-07
+    stale:
+      behaviour: a generated file that differs from the one regenerated from the schemas fails the drift check
+      covered_by:
+      - FR-003-17
+      - P-001-06
+    invalid:
+      behaviour: a schema that cannot be turned into a model fails generation naming the schema
+      covered_by:
+      - FR-001-05
 - id: E-DC-001-08-01
   from: actor-tests
   to: contracts-validate
@@ -3245,6 +3719,7 @@ edges:
   dc: DC-001-08
   schema: null
   schema_state: derived
+  availability: *id007
 - id: E-DC-001-08-02
   from: actor-tests
   to: contracts-gen-py
@@ -3252,6 +3727,7 @@ edges:
   dc: DC-001-08
   schema: null
   schema_state: derived
+  availability: *id007
 - id: E-DC-001-08-03
   from: actor-tests
   to: contracts-gen-ts
@@ -3259,6 +3735,7 @@ edges:
   dc: DC-001-08
   schema: null
   schema_state: derived
+  availability: *id007
 - id: E-DC-002-01-01
   from: actor-maintainer
   to: runner-core
@@ -3266,6 +3743,7 @@ edges:
   dc: DC-002-01
   schema: specs/002-runner/contracts/profile.schema.json
   schema_state: draft
+  availability: *id003
 - id: E-DC-002-01-02
   from: actor-tests
   to: runner-core
@@ -3273,6 +3751,7 @@ edges:
   dc: DC-002-01
   schema: specs/002-runner/contracts/profile.schema.json
   schema_state: draft
+  availability: *id003
 - id: E-DC-002-02-01
   from: runner-core
   to: stagekit
@@ -3280,6 +3759,35 @@ edges:
   dc: DC-002-02
   schema: specs/002-runner/contracts/job.schema.json
   schema_state: draft
+  availability: &id013
+    absent:
+      behaviour: 'no run, store or event yet: the console answers 404 or 503 as defined and the UI shows an empty state; nothing is
+        invented'
+      covered_by:
+      - FR-003-23
+      - FR-003-11
+    fixture:
+      behaviour: 'a fixture store is labelled `fixture: true` and "fixture" in the UI'
+      covered_by:
+      - FR-003-32
+    partial:
+      behaviour: a run in progress streams the events so far and resumes through `Last-Event-ID`
+      covered_by:
+      - FR-003-15
+      - FR-003-16
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-002-02; no label, no caveat
+      covered_by:
+      - DC-002-02
+    stale:
+      behaviour: 'a run with a changed cache key is `stale: true` with its original date'
+      covered_by:
+      - FR-003-33
+    invalid:
+      behaviour: a malformed request or body is refused with a problem body; hostile input never produces a 5xx
+      covered_by:
+      - FR-003-14
+      - FR-003-23
 - id: E-DC-002-02-02
   from: stagekit
   to: runner-store
@@ -3287,6 +3795,7 @@ edges:
   dc: DC-002-02
   schema: specs/002-runner/contracts/job.schema.json
   schema_state: draft
+  availability: *id013
 - id: E-DC-002-03-01
   from: runner-store
   to: console-api
@@ -3294,6 +3803,35 @@ edges:
   dc: DC-002-03
   schema: specs/002-runner/contracts/events.schema.json
   schema_state: draft
+  availability: &id014
+    absent:
+      behaviour: 'no run, store or event yet: the console answers 404 or 503 as defined and the UI shows an empty state; nothing is
+        invented'
+      covered_by:
+      - FR-003-23
+      - FR-003-11
+    fixture:
+      behaviour: 'a fixture store is labelled `fixture: true` and "fixture" in the UI'
+      covered_by:
+      - FR-003-32
+    partial:
+      behaviour: a run in progress streams the events so far and resumes through `Last-Event-ID`
+      covered_by:
+      - FR-003-15
+      - FR-003-16
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-002-03; no label, no caveat
+      covered_by:
+      - DC-002-03
+    stale:
+      behaviour: 'a run with a changed cache key is `stale: true` with its original date'
+      covered_by:
+      - FR-003-33
+    invalid:
+      behaviour: a malformed request or body is refused with a problem body; hostile input never produces a 5xx
+      covered_by:
+      - FR-003-14
+      - FR-003-23
 - id: E-DC-002-03-02
   from: runner-store
   to: runner-publish
@@ -3301,6 +3839,7 @@ edges:
   dc: DC-002-03
   schema: specs/002-runner/contracts/events.schema.json
   schema_state: draft
+  availability: *id013
 - id: E-DC-002-03-03
   from: runner-telemetry
   to: console-api
@@ -3308,6 +3847,7 @@ edges:
   dc: DC-002-03
   schema: specs/002-runner/contracts/events.schema.json
   schema_state: draft
+  availability: *id014
 - id: E-DC-002-03-04
   from: runner-telemetry
   to: runner-publish
@@ -3315,6 +3855,7 @@ edges:
   dc: DC-002-03
   schema: specs/002-runner/contracts/events.schema.json
   schema_state: draft
+  availability: *id013
 - id: E-DC-002-03-05
   from: runner-publish
   to: web-route-studio-runs
@@ -3322,6 +3863,35 @@ edges:
   dc: DC-002-03
   schema: specs/002-runner/contracts/events.schema.json
   schema_state: draft
+  availability: &id015
+    absent:
+      behaviour: 'no run, store or event yet: the console answers 404 or 503 as defined and the UI shows an empty state; nothing is
+        invented'
+      covered_by:
+      - FR-003-23
+      - FR-003-11
+    fixture:
+      behaviour: 'a fixture store is labelled `fixture: true` and "fixture" in the UI'
+      covered_by:
+      - FR-003-32
+    partial:
+      behaviour: a run in progress streams the events so far and resumes through `Last-Event-ID`
+      covered_by:
+      - FR-003-15
+      - FR-003-16
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-002-03; no label, no caveat
+      covered_by:
+      - DC-002-03
+    stale:
+      behaviour: 'a run with a changed cache key is `stale: true` with its original date'
+      covered_by:
+      - FR-003-33
+    invalid:
+      behaviour: a malformed request or body is refused with a problem body; hostile input never produces a 5xx
+      covered_by:
+      - FR-003-14
+      - FR-003-23
 - id: E-DC-002-03-06
   from: runner-publish
   to: web-route-studio-gpu
@@ -3329,6 +3899,7 @@ edges:
   dc: DC-002-03
   schema: specs/002-runner/contracts/events.schema.json
   schema_state: draft
+  availability: *id015
 - id: E-DC-002-03-07
   from: runner-guards
   to: runner-telemetry
@@ -3336,6 +3907,7 @@ edges:
   dc: DC-002-03
   schema: specs/002-runner/contracts/events.schema.json
   schema_state: draft
+  availability: *id013
 - id: E-DC-002-04-01
   from: runner-store
   to: web-assets-loader
@@ -3343,6 +3915,7 @@ edges:
   dc: DC-002-04
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-002-04-02
   from: runner-store
   to: contracts-validate
@@ -3350,6 +3923,7 @@ edges:
   dc: DC-002-04
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-002-05-01
   from: actor-maintainer
   to: runner-core
@@ -3357,6 +3931,7 @@ edges:
   dc: DC-002-05
   schema: specs/001-contracts/contracts/recipe.schema.json
   schema_state: draft
+  availability: *id003
 - id: E-DC-002-05-02
   from: console-jobs
   to: runner-core
@@ -3364,6 +3939,7 @@ edges:
   dc: DC-002-05
   schema: specs/001-contracts/contracts/recipe.schema.json
   schema_state: draft
+  availability: *id016
 - id: E-DC-002-06-01
   from: bench-probes
   to: runner-guards
@@ -3371,6 +3947,7 @@ edges:
   dc: DC-002-06
   schema: contracts/capabilities.schema.json
   schema_state: promoted
+  availability: *id008
 - id: E-DC-003-01-01
   from: console-api
   to: console-ui
@@ -3378,6 +3955,7 @@ edges:
   dc: DC-003-01
   schema: specs/003-console/contracts/console.schema.json
   schema_state: draft
+  availability: *id014
 - id: E-DC-003-01-02
   from: console-jobs
   to: console-ui
@@ -3385,6 +3963,7 @@ edges:
   dc: DC-003-01
   schema: specs/003-console/contracts/console.schema.json
   schema_state: draft
+  availability: *id014
 - id: E-DC-003-01-03
   from: console-api
   to: web-route-studio
@@ -3392,6 +3971,7 @@ edges:
   dc: DC-003-01
   schema: specs/003-console/contracts/console.schema.json
   schema_state: draft
+  availability: *id015
 - id: E-DC-003-02-01
   from: console-api
   to: console-ui
@@ -3399,6 +3979,7 @@ edges:
   dc: DC-003-02
   schema: api/openapi.json
   schema_state: derived
+  availability: *id014
 - id: E-DC-003-03-01
   from: actor-operator
   to: console-jobs
@@ -3406,6 +3987,33 @@ edges:
   dc: DC-003-03
   schema: specs/001-contracts/contracts/recipe.schema.json
   schema_state: draft
+  availability:
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-003-03; no label, no caveat
+      covered_by:
+      - DC-003-03
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-003-04-01
   from: runner-store
   to: console-api
@@ -3413,6 +4021,7 @@ edges:
   dc: DC-003-04
   schema: specs/002-runner/contracts/events.schema.json
   schema_state: draft
+  availability: *id014
 - id: E-DC-003-04-02
   from: console-api
   to: console-ui
@@ -3420,6 +4029,7 @@ edges:
   dc: DC-003-04
   schema: specs/002-runner/contracts/events.schema.json
   schema_state: draft
+  availability: *id014
 - id: E-DC-004-01-01
   from: actor-maintainer
   to: st10_terrain
@@ -3427,6 +4037,33 @@ edges:
   dc: DC-004-01
   schema: specs/004-scene-pipeline/contracts/scene-spec.schema.json
   schema_state: draft
+  availability: &id017
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-01; no label, no caveat
+      covered_by:
+      - DC-004-01
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-004-01-02
   from: actor-maintainer
   to: st20_pit_design
@@ -3434,6 +4071,7 @@ edges:
   dc: DC-004-01
   schema: specs/004-scene-pipeline/contracts/scene-spec.schema.json
   schema_state: draft
+  availability: *id017
 - id: E-DC-004-01-03
   from: actor-maintainer
   to: st30_assets
@@ -3441,6 +4079,7 @@ edges:
   dc: DC-004-01
   schema: specs/004-scene-pipeline/contracts/scene-spec.schema.json
   schema_state: draft
+  availability: *id017
 - id: E-DC-004-01-04
   from: actor-maintainer
   to: st40_compose
@@ -3448,6 +4087,7 @@ edges:
   dc: DC-004-01
   schema: specs/004-scene-pipeline/contracts/scene-spec.schema.json
   schema_state: draft
+  availability: *id017
 - id: E-DC-004-01-05
   from: actor-maintainer
   to: st45_validate
@@ -3455,6 +4095,7 @@ edges:
   dc: DC-004-01
   schema: specs/004-scene-pipeline/contracts/scene-spec.schema.json
   schema_state: draft
+  availability: *id017
 - id: E-DC-004-01-06
   from: actor-maintainer
   to: s60_export
@@ -3462,6 +4103,33 @@ edges:
   dc: DC-004-01
   schema: specs/004-scene-pipeline/contracts/scene-spec.schema.json
   schema_state: draft
+  availability: &id047
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-01; no label, no caveat
+      covered_by:
+      - DC-004-01
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-004-02-01
   from: st40_compose
   to: st45_validate
@@ -3469,6 +4137,35 @@ edges:
   dc: DC-004-02
   schema: specs/004-scene-pipeline/contracts/scene-manifest.schema.json
   schema_state: draft
+  availability: &id018
+    absent:
+      behaviour: an unavailable optional source is recorded `not run (<reason>)` and the Bingham scene still completes; an unavailable
+        validator makes the scene `incomplete`; an upstream stage not run skips the rest
+      covered_by:
+      - FR-004-09
+      - FR-004-38
+      - FR-002-60
+    fixture:
+      behaviour: 'stages run and are tested against fixtures; outputs and the scene manifest carry `fixture: true`'
+      covered_by:
+      - FR-004-44
+    partial:
+      behaviour: 'optional sources may be missing: the scene carries only the sources that ran, each listed'
+      covered_by:
+      - FR-004-09
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-02; no label, no caveat
+      covered_by:
+      - DC-004-02
+    stale:
+      behaviour: a sublayer whose SHA-256 differs from the upstream stage's record fails `compose-invalid`; nothing is corrected silently
+      covered_by:
+      - FR-004-32
+    invalid:
+      behaviour: parameters that fail the scene specification fail `params-invalid` listing every violation before a file is opened
+      covered_by:
+      - FR-004-40
+      - FR-004-32
 - id: E-DC-004-02-02
   from: st45_validate
   to: st50_physics
@@ -3476,6 +4173,35 @@ edges:
   dc: DC-004-02
   schema: specs/004-scene-pipeline/contracts/scene-manifest.schema.json
   schema_state: draft
+  availability: &id019
+    absent:
+      behaviour: GPU-only benchmarks are `not run (no GPU)`, never `pass`; an upstream scene stage not run skips the solver
+      covered_by:
+      - FR-005-49
+      - FR-002-60
+    fixture:
+      behaviour: 'fixture scene inputs give outputs and benchmark rows marked `fixture: true` and no solver-version verdict'
+      covered_by:
+      - FR-005-56
+    partial:
+      behaviour: 'a solver run uses one scene and one scenario: there is no partial input'
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-02; no label, no caveat
+      covered_by:
+      - DC-004-02
+    stale:
+      behaviour: a changed scene, terrain or road digest fails `input-stale` before any solver starts
+      covered_by:
+      - FR-005-57
+    invalid:
+      behaviour: a scenario with an unknown solver or card, an out-of-domain parameter or a bad domain is rejected `physics-params-invalid`;
+        a non-finite state aborts `nonfinite-state`
+      covered_by:
+      - FR-005-51
+      - FR-005-55
+      - FR-005-52
 - id: E-DC-004-02-03
   from: st45_validate
   to: st53_sensors
@@ -3483,6 +4209,37 @@ edges:
   dc: DC-004-02
   schema: specs/004-scene-pipeline/contracts/scene-manifest.schema.json
   schema_state: draft
+  availability: &id039
+    absent:
+      behaviour: a rain arm without the isaacsim probe is "not run" with the reason and nothing is published; the sensor panels of B1,
+        B2 and E2 show "not yet run" with no placeholder
+      covered_by:
+      - FR-013-30
+      - FR-013-41
+    fixture:
+      behaviour: 'fixture sensor inputs run on the fake backend only; shards carry `fixture: true` and none is published'
+      covered_by:
+      - FR-013-43
+    partial:
+      behaviour: a lidar configuration missing from the envelope is refused before rendering, naming it; the other configurations still
+        run
+      covered_by:
+      - FR-013-05
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-02; no label, no caveat
+      covered_by:
+      - DC-004-02
+    stale:
+      behaviour: an envelope for different ovrtx or ovstage versions than the lock is refused (exit 2) before rendering
+      covered_by:
+      - FR-013-05
+    invalid:
+      behaviour: an invalid shard, cloud or profile raises `ValueError` naming the input and writes no metric or shard; a clean lidar
+        frame with no valid point fails `lidar-zero-points`
+      covered_by:
+      - FR-013-42
+      - FR-013-15
+      - FR-013-08
 - id: E-DC-004-02-04
   from: st45_validate
   to: st55_sdg
@@ -3490,6 +4247,36 @@ edges:
   dc: DC-004-02
   schema: specs/004-scene-pipeline/contracts/scene-manifest.schema.json
   schema_state: draft
+  availability: &id034
+    absent:
+      behaviour: without a passing Isaac Sim probe `st55_sdg` and every downstream perception stage end "not run" with no substitute
+        data and B2 shows "not yet run"; without ovrtx the crusher family is "not run"
+      covered_by:
+      - FR-009-40
+      - FR-000-07
+    fixture:
+      behaviour: 'detector stages run on fixtures; checkpoints, predictions and reports carry `fixture: true` and no metric is published'
+      covered_by:
+      - FR-009-51
+    partial:
+      behaviour: an evaluation over fewer than all models or arms lists the missing ones `not run (absent)`, is `partial` and computes
+        no pooled claim
+      covered_by:
+      - FR-009-52
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-02; no label, no caveat
+      covered_by:
+      - DC-004-02
+    stale:
+      behaviour: an SDG image whose SHA-256 differs from the index fails `input-stale` before training
+      covered_by:
+      - FR-009-53
+    invalid:
+      behaviour: a COCO file with a non-finite coordinate, a bad box, a duplicate or a dangling id is rejected whole; invalid predictions
+        are rejected with the reason and report no metric
+      covered_by:
+      - FR-009-15
+      - FR-009-43
 - id: E-DC-004-02-05
   from: st45_validate
   to: s60_export
@@ -3497,6 +4284,34 @@ edges:
   dc: DC-004-02
   schema: specs/004-scene-pipeline/contracts/scene-manifest.schema.json
   schema_state: draft
+  availability: &id020
+    absent:
+      behaviour: 'TensorRT, the CUDA 13 runtime or a GPU unavailable: every TensorRT cell is "not run" and the PyTorch and ONNX Runtime
+        cells still run'
+      covered_by:
+      - FR-016-24
+    fixture:
+      behaviour: 'export and bench run on fixtures; parity reports and bench rows carry `fixture: true` and are dropped from the table'
+      covered_by:
+      - FR-016-40
+    partial:
+      behaviour: every `rejected`, `build-failed` or "not run" cell is listed with its reason and none is dropped
+      covered_by:
+      - FR-016-31
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-02; no label, no caveat
+      covered_by:
+      - DC-004-02
+    stale:
+      behaviour: a TensorRT licence text that changed since review marks every TensorRT result `local-only`; a timing record whose SHA-256
+        differs from its artefact is ignored
+      covered_by:
+      - FR-016-23
+      - FR-016-13
+    invalid:
+      behaviour: an export config with an opset outside the allowed set, an IR version other than 10 or a failing checker is refused
+      covered_by:
+      - FR-016-02
 - id: E-DC-004-02-06
   from: st45_validate
   to: runner-publish
@@ -3504,6 +4319,40 @@ edges:
   dc: DC-004-02
   schema: specs/004-scene-pipeline/contracts/scene-manifest.schema.json
   schema_state: draft
+  availability: &id023
+    absent:
+      behaviour: 'a stage that did not run leaves no output: the manifest records it `not_run` with the reason and `studio publish`
+        refuses a run with a published output from a non-succeeded stage'
+      covered_by:
+      - FR-002-60
+      - FR-002-49
+    fixture:
+      behaviour: 'outputs of the fake backend are never published; an artefact marked `fixture: true` stays in the run store and the
+        release build refuses it'
+      covered_by:
+      - FR-002-56
+      - FR-001-60
+      - FR-001-61
+    partial:
+      behaviour: an interrupted run resumes by executing only the executions without a promoted entry; publish writes only promoted
+        outputs
+      covered_by:
+      - FR-002-36
+      - FR-002-49
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-02; no label, no caveat
+      covered_by:
+      - DC-004-02
+    stale:
+      behaviour: a run whose cache key differs from the recomputed key is `stale` and publishes only with `--allow-stale`
+      covered_by:
+      - FR-002-68
+    invalid:
+      behaviour: an output that is missing, links outside the stage folder or fails its validator fails `invalid-output` and is never
+        promoted; a duplicate output path is `invalid-result`
+      covered_by:
+      - FR-002-13
+      - FR-002-65
 - id: E-DC-004-03-01
   from: st10_terrain
   to: st20_pit_design
@@ -3511,6 +4360,7 @@ edges:
   dc: DC-004-03
   schema: specs/004-scene-pipeline/contracts/terrain-grid.schema.json
   schema_state: draft
+  availability: *id018
 - id: E-DC-004-03-02
   from: st10_terrain
   to: st50_physics
@@ -3518,6 +4368,7 @@ edges:
   dc: DC-004-03
   schema: specs/004-scene-pipeline/contracts/terrain-grid.schema.json
   schema_state: draft
+  availability: *id019
 - id: E-DC-004-03-03
   from: st10_terrain
   to: survey-dem-differencing
@@ -3525,6 +4376,38 @@ edges:
   dc: DC-004-03
   schema: specs/004-scene-pipeline/contracts/terrain-grid.schema.json
   schema_state: draft
+  availability: &id048
+    absent:
+      behaviour: 'MineLib unreachable: E1 shows "Not run - <reason>" and continues on `oreblocks`; Brush missing: the splat view says
+        "Not run"; RTX camera unavailable: synthetic flights say "Not run - RTX camera unavailable" and the real volume is still produced'
+      covered_by:
+      - FR-017-24
+      - FR-017-43
+      - FR-017-44
+    fixture:
+      behaviour: 'planning and survey stages run on fixtures; results carry `fixture: true` and no E1, E2 or D2 number is published'
+      covered_by:
+      - FR-017-52
+    partial:
+      behaviour: an evaluation over fewer than all methods, flights or deposits lists the missing cells, is `partial` and summarises
+        only complete groups
+      covered_by:
+      - FR-017-53
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-03; no label, no caveat
+      covered_by:
+      - DC-004-03
+    stale:
+      behaviour: a MineLib file that fails its pinned SHA-256 is "Not run - <reason>"; differing vertical datums without a declared
+        transform give "Not run - vertical datums differ"
+      covered_by:
+      - FR-017-24
+      - FR-017-32
+    invalid:
+      behaviour: a PLY or SPZ file that fails to parse, declares more than 10^7 Gaussians or has non-finite attributes is rejected and
+        the splat view shows "Not run - <reason>"
+      covered_by:
+      - FR-017-49
 - id: E-DC-004-04-01
   from: st10_terrain
   to: st40_compose
@@ -3532,6 +4415,7 @@ edges:
   dc: DC-004-04
   schema: specs/004-scene-pipeline/contracts/terrain-tiles.schema.json
   schema_state: draft
+  availability: *id018
 - id: E-DC-004-04-02
   from: st10_terrain
   to: s60_export
@@ -3539,6 +4423,7 @@ edges:
   dc: DC-004-04
   schema: specs/004-scene-pipeline/contracts/terrain-tiles.schema.json
   schema_state: draft
+  availability: *id020
 - id: E-DC-004-05-01
   from: st20_pit_design
   to: st45_validate
@@ -3546,6 +4431,35 @@ edges:
   dc: DC-004-05
   schema: specs/004-scene-pipeline/contracts/pit-design-report.schema.json
   schema_state: draft
+  availability: &id049
+    absent:
+      behaviour: an unavailable optional source is recorded `not run (<reason>)` and the Bingham scene still completes; an unavailable
+        validator makes the scene `incomplete`; an upstream stage not run skips the rest
+      covered_by:
+      - FR-004-09
+      - FR-004-38
+      - FR-002-60
+    fixture:
+      behaviour: 'stages run and are tested against fixtures; outputs and the scene manifest carry `fixture: true`'
+      covered_by:
+      - FR-004-44
+    partial:
+      behaviour: 'optional sources may be missing: the scene carries only the sources that ran, each listed'
+      covered_by:
+      - FR-004-09
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-05; no label, no caveat
+      covered_by:
+      - DC-004-05
+    stale:
+      behaviour: a sublayer whose SHA-256 differs from the upstream stage's record fails `compose-invalid`; nothing is corrected silently
+      covered_by:
+      - FR-004-32
+    invalid:
+      behaviour: parameters that fail the scene specification fail `params-invalid` listing every violation before a file is opened
+      covered_by:
+      - FR-004-40
+      - FR-004-32
 - id: E-DC-004-05-02
   from: st20_pit_design
   to: web-route-case
@@ -3553,6 +4467,40 @@ edges:
   dc: DC-004-05
   schema: specs/004-scene-pipeline/contracts/pit-design-report.schema.json
   schema_state: draft
+  availability: &id028
+    absent:
+      behaviour: a layer, KPI or replay without a published artefact shows "Not yet run" (disabled toggle, KPI value, empty replay tab);
+        a missing case recipe shows "Not yet run - recipe planned"
+      covered_by:
+      - FR-018-04
+      - FR-018-05
+      - FR-018-15
+      - FR-018-20
+      - FR-000-07
+    fixture:
+      behaviour: a fixture artefact is labelled "fixture" in development builds and excluded, with "Not yet run", from release builds
+      covered_by:
+      - FR-018-70
+    partial:
+      behaviour: coverage shows published of planned counts with "Not yet run" cells and no aggregate claim
+      covered_by:
+      - FR-018-71
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-05; no label, no caveat
+      covered_by:
+      - DC-004-05
+    stale:
+      behaviour: bytes that do not match the manifest SHA-256 show "integrity check failed"; an engine missing from or failing in the
+        parity report of the deployed commit runs in T0 with "parity not confirmed"
+      covered_by:
+      - FR-018-43
+      - FR-018-63
+    invalid:
+      behaviour: an invalid shard header or byte length is rejected `E_SCHEMA` and the poster frame is shown; an invalid parity or lane
+        file fails the build
+      covered_by:
+      - FR-018-45
+      - FR-018-67
 - id: E-DC-004-06-01
   from: st20_pit_design
   to: haul-network-builder
@@ -3560,6 +4508,36 @@ edges:
   dc: DC-004-06
   schema: specs/004-scene-pipeline/contracts/road-network.schema.json
   schema_state: draft
+  availability: &id021
+    absent:
+      behaviour: a reference-engine feature outside the twin's set makes the web fall back to the baked trace with that reason; an upstream
+        scenario stage not run skips the stage
+      covered_by:
+      - FR-007-12
+      - FR-002-60
+    fixture:
+      behaviour: 'dispatch stages run on fixtures; traces, KPI tables, checkpoints and reports carry `fixture: true` and no comparison
+        is published'
+      covered_by:
+      - FR-007-46
+    partial:
+      behaviour: a comparison over fewer than 30 paired seeds is `partial` with the counts and carries no verdict
+      covered_by:
+      - FR-007-47
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-06; no label, no caveat
+      covered_by:
+      - DC-004-06
+    stale:
+      behaviour: a policy whose ONNX SHA-256 differs from its manifest stops the run `PolicyPinMismatch` and returns no partial KPIs
+      covered_by:
+      - FR-007-44
+    invalid:
+      behaviour: a wrong shape, dtype, layout version or non-finite feature stops with `InvalidPolicyInput`; an invalid seed, horizon
+        or event budget stops within 2 s
+      covered_by:
+      - FR-007-44
+      - FR-007-13
 - id: E-DC-004-06-02
   from: st20_pit_design
   to: haul-routing
@@ -3567,6 +4545,7 @@ edges:
   dc: DC-004-06
   schema: specs/004-scene-pipeline/contracts/road-network.schema.json
   schema_state: draft
+  availability: *id021
 - id: E-DC-004-06-03
   from: st20_pit_design
   to: st50_physics
@@ -3574,6 +4553,7 @@ edges:
   dc: DC-004-06
   schema: specs/004-scene-pipeline/contracts/road-network.schema.json
   schema_state: draft
+  availability: *id019
 - id: E-DC-004-07-01
   from: st45_validate
   to: runner-publish
@@ -3581,6 +4561,40 @@ edges:
   dc: DC-004-07
   schema: specs/004-scene-pipeline/contracts/scene-validation-report.schema.json
   schema_state: draft
+  availability: &id027
+    absent:
+      behaviour: 'a stage that did not run leaves no output: the manifest records it `not_run` with the reason and `studio publish`
+        refuses a run with a published output from a non-succeeded stage'
+      covered_by:
+      - FR-002-60
+      - FR-002-49
+    fixture:
+      behaviour: 'outputs of the fake backend are never published; an artefact marked `fixture: true` stays in the run store and the
+        release build refuses it'
+      covered_by:
+      - FR-002-56
+      - FR-001-60
+      - FR-001-61
+    partial:
+      behaviour: an interrupted run resumes by executing only the executions without a promoted entry; publish writes only promoted
+        outputs
+      covered_by:
+      - FR-002-36
+      - FR-002-49
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-07; no label, no caveat
+      covered_by:
+      - DC-004-07
+    stale:
+      behaviour: a run whose cache key differs from the recomputed key is `stale` and publishes only with `--allow-stale`
+      covered_by:
+      - FR-002-68
+    invalid:
+      behaviour: an output that is missing, links outside the stage folder or fails its validator fails `invalid-output` and is never
+        promoted; a duplicate output path is `invalid-result`
+      covered_by:
+      - FR-002-13
+      - FR-002-65
 - id: E-DC-004-07-02
   from: st45_validate
   to: web-route-studio-runs
@@ -3588,6 +4602,35 @@ edges:
   dc: DC-004-07
   schema: specs/004-scene-pipeline/contracts/scene-validation-report.schema.json
   schema_state: draft
+  availability: &id051
+    absent:
+      behaviour: a tool with no artefact that is not `evaluated-not-adopted` shows "Not yet run" on its node and page with no image,
+        video or metric; a null telemetry field shows "not available on this GPU", never 0
+      covered_by:
+      - FR-019-13
+      - FR-019-31
+      - FR-000-07
+    fixture:
+      behaviour: a fixture run is labelled in development builds and excluded from release builds, where the tool shows "Not yet run"
+      covered_by:
+      - FR-019-48
+    partial:
+      behaviour: the physical-AI loop links the runs that exist and shows "Not yet run" for each step without one
+      covered_by:
+      - FR-019-07
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-004-07; no label, no caveat
+      covered_by:
+      - DC-004-07
+    stale:
+      behaviour: a stale run shows a "stale" badge with its original date and is never the latest fresh run
+      covered_by:
+      - FR-019-49
+    invalid:
+      behaviour: a registry, tool map, manifest, capability or telemetry file that fails its schema fails the build naming file and
+        JSON pointer
+      covered_by:
+      - FR-019-38
 - id: E-DC-004-08-01
   from: st40_compose
   to: s60_export
@@ -3595,6 +4638,7 @@ edges:
   dc: DC-004-08
   schema: specs/004-scene-pipeline/contracts/scene-digest.schema.json
   schema_state: draft
+  availability: *id020
 - id: E-DC-005-01-01
   from: actor-maintainer
   to: st50_physics
@@ -3602,6 +4646,33 @@ edges:
   dc: DC-005-01
   schema: specs/005-physics/contracts/physics-scenario.schema.json
   schema_state: draft
+  availability:
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-005-01; no label, no caveat
+      covered_by:
+      - DC-005-01
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-005-02-01
   from: st50_physics
   to: fno-train
@@ -3609,6 +4680,35 @@ edges:
   dc: DC-005-02
   schema: specs/005-physics/contracts/physics-field.schema.json
   schema_state: draft
+  availability: &id022
+    absent:
+      behaviour: an upstream solver stage not run skips surrogate training and evaluation; the benchmark gate keeps unvalidated rollouts
+        out of training
+      covered_by:
+      - FR-002-60
+      - SC-005-01
+    fixture:
+      behaviour: 'surrogate stages run on fixtures; checkpoints, rollouts and reports carry `fixture: true` and no result is published'
+      covered_by:
+      - FR-011-49
+    partial:
+      behaviour: an evaluation over fewer than all geometries, terrains or trials lists the missing cases, is `partial` and makes no
+        claim over them
+      covered_by:
+      - FR-011-50
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-005-02; no label, no caveat
+      covered_by:
+      - DC-005-02
+    stale:
+      behaviour: a rollout or field file whose digest differs from the training manifest fails `input-stale`
+      covered_by:
+      - FR-011-51
+    invalid:
+      behaviour: a rollout or field file that fails its schema is rejected with the reason and never coerced
+      covered_by:
+      - FR-011-14
+      - FR-011-41
 - id: E-DC-005-02-02
   from: st50_physics
   to: s60_export
@@ -3616,6 +4716,7 @@ edges:
   dc: DC-005-02
   schema: specs/005-physics/contracts/physics-field.schema.json
   schema_state: draft
+  availability: *id020
 - id: E-DC-005-03-01
   from: st50_physics
   to: gns-train
@@ -3623,6 +4724,7 @@ edges:
   dc: DC-005-03
   schema: specs/005-physics/contracts/physics-observables.schema.json
   schema_state: draft
+  availability: *id022
 - id: E-DC-005-03-02
   from: st50_physics
   to: surrogates-eval
@@ -3630,6 +4732,7 @@ edges:
   dc: DC-005-03
   schema: specs/005-physics/contracts/physics-observables.schema.json
   schema_state: draft
+  availability: *id022
 - id: E-DC-005-03-03
   from: st50_physics
   to: runner-publish
@@ -3637,6 +4740,7 @@ edges:
   dc: DC-005-03
   schema: specs/005-physics/contracts/physics-observables.schema.json
   schema_state: draft
+  availability: *id023
 - id: E-DC-005-04-01
   from: st50_physics
   to: runner-publish
@@ -3644,6 +4748,7 @@ edges:
   dc: DC-005-04
   schema: specs/018-web-cases/contracts/replay-shard.schema.json
   schema_state: draft
+  availability: *id023
 - id: E-DC-005-04-02
   from: st50_physics
   to: web-assets-loader
@@ -3651,6 +4756,40 @@ edges:
   dc: DC-005-04
   schema: specs/018-web-cases/contracts/replay-shard.schema.json
   schema_state: draft
+  availability: &id025
+    absent:
+      behaviour: a layer, KPI or replay without a published artefact shows "Not yet run" (disabled toggle, KPI value, empty replay tab);
+        a missing case recipe shows "Not yet run - recipe planned"
+      covered_by:
+      - FR-018-04
+      - FR-018-05
+      - FR-018-15
+      - FR-018-20
+      - FR-000-07
+    fixture:
+      behaviour: a fixture artefact is labelled "fixture" in development builds and excluded, with "Not yet run", from release builds
+      covered_by:
+      - FR-018-70
+    partial:
+      behaviour: coverage shows published of planned counts with "Not yet run" cells and no aggregate claim
+      covered_by:
+      - FR-018-71
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-005-04; no label, no caveat
+      covered_by:
+      - DC-005-04
+    stale:
+      behaviour: bytes that do not match the manifest SHA-256 show "integrity check failed"; an engine missing from or failing in the
+        parity report of the deployed commit runs in T0 with "parity not confirmed"
+      covered_by:
+      - FR-018-43
+      - FR-018-63
+    invalid:
+      behaviour: an invalid shard header or byte length is rejected `E_SCHEMA` and the poster frame is shown; an invalid parity or lane
+        file fails the build
+      covered_by:
+      - FR-018-45
+      - FR-018-67
 - id: E-DC-005-05-01
   from: st50_physics
   to: gns-train
@@ -3658,6 +4797,35 @@ edges:
   dc: DC-005-05
   schema: specs/005-physics/contracts/physics-benchmark-report.schema.json
   schema_state: draft
+  availability: &id024
+    absent:
+      behaviour: an upstream solver stage not run skips surrogate training and evaluation; the benchmark gate keeps unvalidated rollouts
+        out of training
+      covered_by:
+      - FR-002-60
+      - SC-005-01
+    fixture:
+      behaviour: 'surrogate stages run on fixtures; checkpoints, rollouts and reports carry `fixture: true` and no result is published'
+      covered_by:
+      - FR-011-49
+    partial:
+      behaviour: an evaluation over fewer than all geometries, terrains or trials lists the missing cases, is `partial` and makes no
+        claim over them
+      covered_by:
+      - FR-011-50
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-005-05; no label, no caveat
+      covered_by:
+      - DC-005-05
+    stale:
+      behaviour: a rollout or field file whose digest differs from the training manifest fails `input-stale`
+      covered_by:
+      - FR-011-51
+    invalid:
+      behaviour: a rollout or field file that fails its schema is rejected with the reason and never coerced
+      covered_by:
+      - FR-011-14
+      - FR-011-41
 - id: E-DC-005-05-02
   from: st50_physics
   to: fno-train
@@ -3665,6 +4833,7 @@ edges:
   dc: DC-005-05
   schema: specs/005-physics/contracts/physics-benchmark-report.schema.json
   schema_state: draft
+  availability: *id024
 - id: E-DC-005-05-03
   from: st50_physics
   to: frag-pile-generator
@@ -3672,6 +4841,35 @@ edges:
   dc: DC-005-05
   schema: specs/005-physics/contracts/physics-benchmark-report.schema.json
   schema_state: draft
+  availability:
+    absent:
+      behaviour: 'no Isaac Sim: TSTR, synthetic x50 and C2ST are "not run" and TRTR and watershed publish as "TRTR only - synthetic
+        arm not run"; no Mendeley archive: TRTR, TSTR and the real comparison are "not run" and D1 says "synthetic-only U-Net claim;
+        no measured sim-to-real"'
+      covered_by:
+      - FR-012-39
+      - FR-012-40
+    fixture:
+      behaviour: 'fragmentation stages run on fixtures; reports carry `fixture: true` and D1 says "fixture, no measured result"'
+      covered_by:
+      - FR-012-47
+    partial:
+      behaviour: '"TRTR only - synthetic arm not run" is the partial report: the arms that ran are published with that label'
+      covered_by:
+      - FR-012-39
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-005-05; no label, no caveat
+      covered_by:
+      - DC-005-05
+    stale:
+      behaviour: an archive that fails its SHA-256 check marks the real arms "not run"; a changed render or fragment digest fails `input-stale`
+      covered_by:
+      - FR-012-40
+      - FR-012-48
+    invalid:
+      behaviour: an unsafe, mis-sized or missing archive member stops the reader and leaves no partial dataset
+      covered_by:
+      - FR-012-02
 - id: E-DC-005-05-04
   from: st50_physics
   to: web-route-results
@@ -3679,6 +4877,37 @@ edges:
   dc: DC-005-05
   schema: specs/005-physics/contracts/physics-benchmark-report.schema.json
   schema_state: draft
+  availability: &id029
+    absent:
+      behaviour: a comparison, criterion or tab without a published result shows "Not yet run" with what will be reported and its pre-registered
+        criterion, and no placeholder number
+      covered_by:
+      - FR-020-31
+      - FR-020-18
+      - FR-020-24
+    fixture:
+      behaviour: a fixture result row is labelled with no verdict in development builds and counts as "Not yet run" in release builds
+      covered_by:
+      - FR-020-52
+    partial:
+      behaviour: results show the number of models with a result out of the total and no claim about the models as a whole
+      covered_by:
+      - FR-020-53
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-005-05; no label, no caveat
+      covered_by:
+      - DC-005-05
+    stale:
+      behaviour: a row whose stored verdict differs from the recomputed one, or whose run is stale, shows a "stale" badge and counts
+        in no summary
+      covered_by:
+      - FR-020-54
+    invalid:
+      behaviour: a knowledge row without citation, units, page or verification status fails generation naming file and row; an unknown
+        or over-long query parameter falls back to the default
+      covered_by:
+      - FR-020-39
+      - FR-020-48
 - id: E-DC-005-06-01
   from: st50_physics
   to: make-parity-fixtures
@@ -3686,6 +4915,7 @@ edges:
   dc: DC-005-06
   schema: specs/005-physics/contracts/physics-parity-golden.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-005-06-02
   from: st50_physics
   to: web-parity-suite
@@ -3693,6 +4923,7 @@ edges:
   dc: DC-005-06
   schema: specs/005-physics/contracts/physics-parity-golden.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-006-01-01
   from: st52_rtx_render
   to: st56_encode
@@ -3700,6 +4931,33 @@ edges:
   dc: DC-006-01
   schema: specs/006-media-telemetry/contracts/frame-manifest.schema.json
   schema_state: draft
+  availability: &id026
+    absent:
+      behaviour: a missing or unsupported FFmpeg ends `not_run` with the reason within 2 s; no frames means the stage is skipped upstream
+      covered_by:
+      - FR-006-10
+      - FR-006-11
+      - FR-002-60
+    fixture:
+      behaviour: 'fixture frames are encoded for tests; the clip pair and report are marked `fixture: true` and published nowhere'
+      covered_by:
+      - FR-006-23
+    partial:
+      behaviour: 'one clip pair per stage run: there is no partial input'
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-006-01; no label, no caveat
+      covered_by:
+      - DC-006-01
+    stale:
+      behaviour: a frame list whose SHA-256 differs from the frame manifest fails `frames-invalid` before any encode
+      covered_by:
+      - FR-006-12
+    invalid:
+      behaviour: truncated, mismatched or out-of-range frames fail `frames-invalid` naming the first bad frame
+      covered_by:
+      - FR-006-12
 - id: E-DC-006-01-02
   from: st50_physics
   to: st56_encode
@@ -3707,6 +4965,7 @@ edges:
   dc: DC-006-01
   schema: specs/006-media-telemetry/contracts/frame-manifest.schema.json
   schema_state: draft
+  availability: *id026
 - id: E-DC-006-01-03
   from: st58_kit_capture
   to: st56_encode
@@ -3714,6 +4973,7 @@ edges:
   dc: DC-006-01
   schema: specs/006-media-telemetry/contracts/frame-manifest.schema.json
   schema_state: draft
+  availability: *id026
 - id: E-DC-006-02-01
   from: st56_encode
   to: runner-store
@@ -3721,6 +4981,7 @@ edges:
   dc: DC-006-02
   schema: specs/006-media-telemetry/contracts/encode-report.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-006-03-01
   from: profile-stages
   to: runner-store
@@ -3728,6 +4989,7 @@ edges:
   dc: DC-006-03
   schema: specs/006-media-telemetry/contracts/profile-summary.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-007-01-01
   from: haul-network-builder
   to: haul-des-adapter
@@ -3735,6 +4997,7 @@ edges:
   dc: DC-007-01
   schema: specs/007-haulage-dispatch/contracts/haul-scenario.schema.json
   schema_state: draft
+  availability: *id021
 - id: E-DC-007-01-02
   from: s05_haul
   to: haul-des-adapter
@@ -3742,6 +5005,7 @@ edges:
   dc: DC-007-01
   schema: specs/007-haulage-dispatch/contracts/haul-scenario.schema.json
   schema_state: draft
+  availability: *id021
 - id: E-DC-007-01-03
   from: haul-network-builder
   to: engine-des
@@ -3749,6 +5013,7 @@ edges:
   dc: DC-007-01
   schema: specs/007-haulage-dispatch/contracts/haul-scenario.schema.json
   schema_state: draft
+  availability: *id021
 - id: E-DC-007-01-04
   from: haul-network-builder
   to: haul-train
@@ -3756,6 +5021,7 @@ edges:
   dc: DC-007-01
   schema: specs/007-haulage-dispatch/contracts/haul-scenario.schema.json
   schema_state: draft
+  availability: *id021
 - id: E-DC-007-02-01
   from: haul-des-adapter
   to: haul-kpi
@@ -3763,6 +5029,7 @@ edges:
   dc: DC-007-02
   schema: specs/007-haulage-dispatch/contracts/des-trace.schema.json
   schema_state: draft
+  availability: *id021
 - id: E-DC-007-02-02
   from: haul-des-adapter
   to: make-parity-fixtures
@@ -3770,6 +5037,7 @@ edges:
   dc: DC-007-02
   schema: specs/007-haulage-dispatch/contracts/des-trace.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-007-02-03
   from: haul-des-adapter
   to: web-assets-loader
@@ -3777,6 +5045,7 @@ edges:
   dc: DC-007-02
   schema: specs/007-haulage-dispatch/contracts/des-trace.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-007-03-01
   from: haul-eval
   to: web-route-case
@@ -3784,6 +5053,7 @@ edges:
   dc: DC-007-03
   schema: specs/007-haulage-dispatch/contracts/dispatch-eval.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-007-03-02
   from: haul-eval
   to: runner-store
@@ -3791,6 +5061,7 @@ edges:
   dc: DC-007-03
   schema: specs/007-haulage-dispatch/contracts/dispatch-eval.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-007-03-03
   from: haul-eval
   to: docs-knowledge-build
@@ -3798,6 +5069,7 @@ edges:
   dc: DC-007-03
   schema: specs/007-haulage-dispatch/contracts/dispatch-eval.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-007-04-01
   from: s60_export
   to: engine-policies
@@ -3805,6 +5077,36 @@ edges:
   dc: DC-007-04
   schema: specs/007-haulage-dispatch/contracts/dispatch-policy-io.schema.json
   schema_state: draft
+  availability: &id030
+    absent:
+      behaviour: a reference-engine feature outside the twin's set makes the web fall back to the baked trace with that reason; an upstream
+        scenario stage not run skips the stage
+      covered_by:
+      - FR-007-12
+      - FR-002-60
+    fixture:
+      behaviour: 'dispatch stages run on fixtures; traces, KPI tables, checkpoints and reports carry `fixture: true` and no comparison
+        is published'
+      covered_by:
+      - FR-007-46
+    partial:
+      behaviour: a comparison over fewer than 30 paired seeds is `partial` with the counts and carries no verdict
+      covered_by:
+      - FR-007-47
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-007-04; no label, no caveat
+      covered_by:
+      - DC-007-04
+    stale:
+      behaviour: a policy whose ONNX SHA-256 differs from its manifest stops the run `PolicyPinMismatch` and returns no partial KPIs
+      covered_by:
+      - FR-007-44
+    invalid:
+      behaviour: a wrong shape, dtype, layout version or non-finite feature stops with `InvalidPolicyInput`; an invalid seed, horizon
+        or event budget stops within 2 s
+      covered_by:
+      - FR-007-44
+      - FR-007-13
 - id: E-DC-007-04-02
   from: s60_export
   to: engine-des
@@ -3812,6 +5114,7 @@ edges:
   dc: DC-007-04
   schema: specs/007-haulage-dispatch/contracts/dispatch-policy-io.schema.json
   schema_state: draft
+  availability: *id030
 - id: E-DC-007-05-01
   from: haul-routing
   to: web-route-case
@@ -3819,6 +5122,7 @@ edges:
   dc: DC-007-05
   schema: specs/007-haulage-dispatch/contracts/haul-energy.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-008-02-01
   from: s00_download
   to: runner-store
@@ -3826,6 +5130,7 @@ edges:
   dc: DC-008-02
   schema: specs/008-data-pipeline/contracts/fetch-record.schema.json
   schema_state: draft
+  availability: *id023
 - id: E-DC-008-02-02
   from: s00_download
   to: s10_real_data
@@ -3833,6 +5138,40 @@ edges:
   dc: DC-008-02
   schema: specs/008-data-pipeline/contracts/fetch-record.schema.json
   schema_state: draft
+  availability: &id031
+    absent:
+      behaviour: an unavailable source with no fallback is `unavailable` and every dependent stage `not_run` with the reason; with a
+        fallback the fetch record says `fallback-used`; a missing studio output marks the synthetic set `not-run`
+      covered_by:
+      - FR-008-14
+      - FR-008-13
+      - FR-008-35
+    fixture:
+      behaviour: 'fixture sources are processed; outputs carry `fixture: true` and the card says "fixture"'
+      covered_by:
+      - FR-008-49
+    partial:
+      behaviour: verified files are ingested, missing files are listed `unavailable`, the report is `partial` and the source is not
+        recorded complete
+      covered_by:
+      - FR-008-50
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-008-02; no label, no caveat
+      covered_by:
+      - DC-008-02
+    stale:
+      behaviour: a file whose SHA-256 or size differs from the registry is quarantined `ChecksumMismatch`; a studio output whose digest
+        differs from its manifest marks the set `not-run`
+      covered_by:
+      - FR-008-06
+      - FR-008-35
+    invalid:
+      behaviour: a frame that violates its schema is rejected with a full ingestion report and no output for that source; an invalid
+        registry is rejected whole
+      covered_by:
+      - FR-008-21
+      - FR-008-02
+      - FR-008-44
 - id: E-DC-008-03-01
   from: s10_real_data
   to: runner-store
@@ -3840,6 +5179,7 @@ edges:
   dc: DC-008-03
   schema: specs/008-data-pipeline/contracts/ingestion-report.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-008-03-02
   from: s10_synthetic_data
   to: runner-store
@@ -3847,6 +5187,7 @@ edges:
   dc: DC-008-03
   schema: specs/008-data-pipeline/contracts/ingestion-report.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-008-04-01
   from: s10_real_data
   to: s20_feature_extraction
@@ -3854,6 +5195,7 @@ edges:
   dc: DC-008-04
   schema: specs/008-data-pipeline/contracts/split.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-008-04-02
   from: s10_real_data
   to: slope-train
@@ -3861,6 +5203,34 @@ edges:
   dc: DC-008-04
   schema: specs/008-data-pipeline/contracts/split.schema.json
   schema_state: draft
+  availability: &id032
+    absent:
+      behaviour: a real archive that fails its checksum or is not ingested gives "Not run - <reason>" and no TTF number; without observed
+        SNR the strata are nominal and labelled so
+      covered_by:
+      - FR-010-14
+      - FR-010-17
+      - FR-010-38
+    fixture:
+      behaviour: 'forecaster stages run on fixtures; results carry `fixture: true` and no lead-time claim is published'
+      covered_by:
+      - FR-010-46
+    partial:
+      behaviour: an evaluation over fewer than all series or strata lists the missing ones, is `partial` and makes no pooled claim
+      covered_by:
+      - FR-010-47
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-008-04; no label, no caveat
+      covered_by:
+      - DC-008-04
+    stale:
+      behaviour: a series or section whose digest differs from the manifest fails `input-stale`
+      covered_by:
+      - FR-010-48
+    invalid:
+      behaviour: an archive with unsafe paths, non-monotonic timestamps, no unit or no failure time is rejected with the reason
+      covered_by:
+      - FR-010-14
 - id: E-DC-008-04-03
   from: s10_real_data
   to: slope-eval
@@ -3868,6 +5238,7 @@ edges:
   dc: DC-008-04
   schema: specs/008-data-pipeline/contracts/split.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-008-04-04
   from: s10_real_data
   to: unet-train
@@ -3875,6 +5246,35 @@ edges:
   dc: DC-008-04
   schema: specs/008-data-pipeline/contracts/split.schema.json
   schema_state: draft
+  availability: &id033
+    absent:
+      behaviour: 'no Isaac Sim: TSTR, synthetic x50 and C2ST are "not run" and TRTR and watershed publish as "TRTR only - synthetic
+        arm not run"; no Mendeley archive: TRTR, TSTR and the real comparison are "not run" and D1 says "synthetic-only U-Net claim;
+        no measured sim-to-real"'
+      covered_by:
+      - FR-012-39
+      - FR-012-40
+    fixture:
+      behaviour: 'fragmentation stages run on fixtures; reports carry `fixture: true` and D1 says "fixture, no measured result"'
+      covered_by:
+      - FR-012-47
+    partial:
+      behaviour: '"TRTR only - synthetic arm not run" is the partial report: the arms that ran are published with that label'
+      covered_by:
+      - FR-012-39
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-008-04; no label, no caveat
+      covered_by:
+      - DC-008-04
+    stale:
+      behaviour: an archive that fails its SHA-256 check marks the real arms "not run"; a changed render or fragment digest fails `input-stale`
+      covered_by:
+      - FR-012-40
+      - FR-012-48
+    invalid:
+      behaviour: an unsafe, mis-sized or missing archive member stops the reader and leaves no partial dataset
+      covered_by:
+      - FR-012-02
 - id: E-DC-008-04-05
   from: s10_real_data
   to: frag-eval
@@ -3882,6 +5282,7 @@ edges:
   dc: DC-008-04
   schema: specs/008-data-pipeline/contracts/split.schema.json
   schema_state: draft
+  availability: *id033
 - id: E-DC-008-05-01
   from: s00_download
   to: data-card-check
@@ -3889,6 +5290,7 @@ edges:
   dc: DC-008-05
   schema: specs/008-data-pipeline/contracts/data-card.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-008-05-02
   from: s05_haul
   to: data-card-check
@@ -3896,6 +5298,7 @@ edges:
   dc: DC-008-05
   schema: specs/008-data-pipeline/contracts/data-card.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-008-05-03
   from: s05_creep
   to: data-card-check
@@ -3903,6 +5306,7 @@ edges:
   dc: DC-008-05
   schema: specs/008-data-pipeline/contracts/data-card.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-008-05-04
   from: s05_sensors
   to: data-card-check
@@ -3910,6 +5314,7 @@ edges:
   dc: DC-008-05
   schema: specs/008-data-pipeline/contracts/data-card.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-008-05-05
   from: s05_comminution
   to: data-card-check
@@ -3917,6 +5322,7 @@ edges:
   dc: DC-008-05
   schema: specs/008-data-pipeline/contracts/data-card.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-008-05-06
   from: s05_oreblocks
   to: data-card-check
@@ -3924,6 +5330,7 @@ edges:
   dc: DC-008-05
   schema: specs/008-data-pipeline/contracts/data-card.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-008-05-07
   from: actor-maintainer
   to: data-card-check
@@ -3931,6 +5338,7 @@ edges:
   dc: DC-008-05
   schema: specs/008-data-pipeline/contracts/data-card.schema.json
   schema_state: draft
+  availability: *id005
 - id: E-DC-009-01-01
   from: st55_sdg
   to: s10_synthetic_data
@@ -3938,6 +5346,7 @@ edges:
   dc: DC-009-01
   schema: specs/009-perception/contracts/perception-dataset.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-009-01-02
   from: st55_sdg
   to: perception-train
@@ -3945,6 +5354,7 @@ edges:
   dc: DC-009-01
   schema: specs/009-perception/contracts/perception-dataset.schema.json
   schema_state: draft
+  availability: *id034
 - id: E-DC-009-01-03
   from: st55_sdg
   to: perception-eval
@@ -3952,6 +5362,7 @@ edges:
   dc: DC-009-01
   schema: specs/009-perception/contracts/perception-dataset.schema.json
   schema_state: draft
+  availability: *id034
 - id: E-DC-009-01-04
   from: st52_rtx_render
   to: s10_synthetic_data
@@ -3959,6 +5370,7 @@ edges:
   dc: DC-009-01
   schema: specs/009-perception/contracts/perception-dataset.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-009-01-05
   from: st52_rtx_render
   to: perception-train
@@ -3966,6 +5378,7 @@ edges:
   dc: DC-009-01
   schema: specs/009-perception/contracts/perception-dataset.schema.json
   schema_state: draft
+  availability: *id034
 - id: E-DC-009-01-06
   from: st52_rtx_render
   to: perception-eval
@@ -3973,6 +5386,7 @@ edges:
   dc: DC-009-01
   schema: specs/009-perception/contracts/perception-dataset.schema.json
   schema_state: draft
+  availability: *id034
 - id: E-DC-009-02-01
   from: st55_sdg
   to: perception-dataset-builder
@@ -3980,6 +5394,7 @@ edges:
   dc: DC-009-02
   schema: specs/009-perception/contracts/coco-instances.schema.json
   schema_state: draft
+  availability: *id034
 - id: E-DC-009-02-02
   from: perception-dataset-builder
   to: perception-train
@@ -3987,6 +5402,7 @@ edges:
   dc: DC-009-02
   schema: specs/009-perception/contracts/coco-instances.schema.json
   schema_state: draft
+  availability: *id034
 - id: E-DC-009-03-01
   from: actor-maintainer
   to: st55_sdg
@@ -3994,6 +5410,33 @@ edges:
   dc: DC-009-03
   schema: specs/009-perception/contracts/sdg-randomisation.schema.json
   schema_state: draft
+  availability: &id035
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-009-03; no label, no caveat
+      covered_by:
+      - DC-009-03
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-009-03-02
   from: sdg-dr-sampler
   to: st55_sdg
@@ -4001,6 +5444,7 @@ edges:
   dc: DC-009-03
   schema: specs/009-perception/contracts/sdg-randomisation.schema.json
   schema_state: draft
+  availability: *id034
 - id: E-DC-009-03-03
   from: actor-maintainer
   to: sdg-dr-sampler
@@ -4008,6 +5452,7 @@ edges:
   dc: DC-009-03
   schema: specs/009-perception/contracts/sdg-randomisation.schema.json
   schema_state: draft
+  availability: *id035
 - id: E-DC-009-04-01
   from: actor-maintainer
   to: st30_assets
@@ -4015,6 +5460,7 @@ edges:
   dc: DC-009-04
   schema: specs/009-perception/contracts/people-asset-record.schema.json
   schema_state: draft
+  availability: *id017
 - id: E-DC-009-04-02
   from: actor-maintainer
   to: data-card-check
@@ -4022,6 +5468,7 @@ edges:
   dc: DC-009-04
   schema: specs/009-perception/contracts/people-asset-record.schema.json
   schema_state: draft
+  availability: *id005
 - id: E-DC-009-05-01
   from: perception-eval
   to: s60_export
@@ -4029,6 +5476,34 @@ edges:
   dc: DC-009-05
   schema: specs/009-perception/contracts/detection-eval.schema.json
   schema_state: draft
+  availability: &id036
+    absent:
+      behaviour: 'TensorRT, the CUDA 13 runtime or a GPU unavailable: every TensorRT cell is "not run" and the PyTorch and ONNX Runtime
+        cells still run'
+      covered_by:
+      - FR-016-24
+    fixture:
+      behaviour: 'export and bench run on fixtures; parity reports and bench rows carry `fixture: true` and are dropped from the table'
+      covered_by:
+      - FR-016-40
+    partial:
+      behaviour: every `rejected`, `build-failed` or "not run" cell is listed with its reason and none is dropped
+      covered_by:
+      - FR-016-31
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-009-05; no label, no caveat
+      covered_by:
+      - DC-009-05
+    stale:
+      behaviour: a TensorRT licence text that changed since review marks every TensorRT result `local-only`; a timing record whose SHA-256
+        differs from its artefact is ignored
+      covered_by:
+      - FR-016-23
+      - FR-016-13
+    invalid:
+      behaviour: an export config with an opset outside the allowed set, an IR version other than 10 or a failing checker is refused
+      covered_by:
+      - FR-016-02
 - id: E-DC-009-05-02
   from: perception-eval
   to: web-route-case
@@ -4036,6 +5511,7 @@ edges:
   dc: DC-009-05
   schema: specs/009-perception/contracts/detection-eval.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-009-05-03
   from: perception-eval
   to: docs-knowledge-build
@@ -4043,6 +5519,7 @@ edges:
   dc: DC-009-05
   schema: specs/009-perception/contracts/detection-eval.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-010-01-01
   from: s10_real_data
   to: slope-analysis
@@ -4050,6 +5527,34 @@ edges:
   dc: DC-010-01
   schema: specs/010-slope/contracts/slope-section.schema.json
   schema_state: draft
+  availability:
+    absent:
+      behaviour: a real archive that fails its checksum or is not ingested gives "Not run - <reason>" and no TTF number; without observed
+        SNR the strata are nominal and labelled so
+      covered_by:
+      - FR-010-14
+      - FR-010-17
+      - FR-010-38
+    fixture:
+      behaviour: 'forecaster stages run on fixtures; results carry `fixture: true` and no lead-time claim is published'
+      covered_by:
+      - FR-010-46
+    partial:
+      behaviour: an evaluation over fewer than all series or strata lists the missing ones, is `partial` and makes no pooled claim
+      covered_by:
+      - FR-010-47
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-010-01; no label, no caveat
+      covered_by:
+      - DC-010-01
+    stale:
+      behaviour: a series or section whose digest differs from the manifest fails `input-stale`
+      covered_by:
+      - FR-010-48
+    invalid:
+      behaviour: an archive with unsafe paths, non-monotonic timestamps, no unit or no failure time is rejected with the reason
+      covered_by:
+      - FR-010-14
 - id: E-DC-010-02-01
   from: s05_creep
   to: slope-train
@@ -4057,6 +5562,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-010-02-02
   from: s05_creep
   to: slope-infer
@@ -4064,6 +5570,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-010-02-03
   from: s05_creep
   to: slope-eval
@@ -4071,6 +5578,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-010-02-04
   from: s05_creep
   to: web-route-case
@@ -4078,6 +5586,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-010-02-05
   from: s10_real_data
   to: slope-train
@@ -4085,6 +5594,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-010-02-06
   from: s10_real_data
   to: slope-infer
@@ -4092,6 +5602,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-010-02-07
   from: s10_real_data
   to: slope-eval
@@ -4099,6 +5610,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-010-02-08
   from: s10_real_data
   to: web-route-case
@@ -4106,6 +5618,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-010-02-09
   from: slope-radar-builder
   to: slope-train
@@ -4113,6 +5626,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-010-02-10
   from: slope-radar-builder
   to: slope-infer
@@ -4120,6 +5634,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-010-02-11
   from: slope-radar-builder
   to: slope-eval
@@ -4127,6 +5642,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id032
 - id: E-DC-010-02-12
   from: slope-radar-builder
   to: web-route-case
@@ -4134,6 +5650,7 @@ edges:
   dc: DC-010-02
   schema: specs/010-slope/contracts/displacement-series.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-010-03-01
   from: slope-eval
   to: s60_export
@@ -4141,6 +5658,7 @@ edges:
   dc: DC-010-03
   schema: specs/010-slope/contracts/ttf-results.schema.json
   schema_state: draft
+  availability: *id036
 - id: E-DC-010-03-02
   from: slope-eval
   to: web-route-case
@@ -4148,6 +5666,7 @@ edges:
   dc: DC-010-03
   schema: specs/010-slope/contracts/ttf-results.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-010-03-03
   from: slope-eval
   to: docs-knowledge-build
@@ -4155,6 +5674,7 @@ edges:
   dc: DC-010-03
   schema: specs/010-slope/contracts/ttf-results.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-010-04-01
   from: slope-analysis
   to: web-route-case
@@ -4162,6 +5682,7 @@ edges:
   dc: DC-010-04
   schema: specs/010-slope/contracts/slope-results.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-010-04-02
   from: slope-analysis
   to: docs-knowledge-build
@@ -4169,6 +5690,7 @@ edges:
   dc: DC-010-04
   schema: specs/010-slope/contracts/slope-results.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-010-05-01
   from: s60_export
   to: engine-forecasters
@@ -4176,6 +5698,40 @@ edges:
   dc: DC-010-05
   schema: specs/011-surrogates/contracts/surrogate-io.schema.json
   schema_state: draft
+  availability: &id037
+    absent:
+      behaviour: a layer, KPI or replay without a published artefact shows "Not yet run" (disabled toggle, KPI value, empty replay tab);
+        a missing case recipe shows "Not yet run - recipe planned"
+      covered_by:
+      - FR-018-04
+      - FR-018-05
+      - FR-018-15
+      - FR-018-20
+      - FR-000-07
+    fixture:
+      behaviour: a fixture artefact is labelled "fixture" in development builds and excluded, with "Not yet run", from release builds
+      covered_by:
+      - FR-018-70
+    partial:
+      behaviour: coverage shows published of planned counts with "Not yet run" cells and no aggregate claim
+      covered_by:
+      - FR-018-71
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-010-05; no label, no caveat
+      covered_by:
+      - DC-010-05
+    stale:
+      behaviour: bytes that do not match the manifest SHA-256 show "integrity check failed"; an engine missing from or failing in the
+        parity report of the deployed commit runs in T0 with "parity not confirmed"
+      covered_by:
+      - FR-018-43
+      - FR-018-63
+    invalid:
+      behaviour: an invalid shard header or byte length is rejected `E_SCHEMA` and the poster frame is shown; an invalid parity or lane
+        file fails the build
+      covered_by:
+      - FR-018-45
+      - FR-018-67
 - id: E-DC-011-01-01
   from: st50_physics
   to: s10_synthetic_data
@@ -4183,6 +5739,7 @@ edges:
   dc: DC-011-01
   schema: specs/011-surrogates/contracts/granular-rollout.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-011-01-02
   from: st50_physics
   to: gns-train
@@ -4190,6 +5747,7 @@ edges:
   dc: DC-011-01
   schema: specs/011-surrogates/contracts/granular-rollout.schema.json
   schema_state: draft
+  availability: *id022
 - id: E-DC-011-01-03
   from: st50_physics
   to: surrogates-eval
@@ -4197,6 +5755,7 @@ edges:
   dc: DC-011-01
   schema: specs/011-surrogates/contracts/granular-rollout.schema.json
   schema_state: draft
+  availability: *id022
 - id: E-DC-011-02-01
   from: s60_export
   to: engine-gns
@@ -4204,6 +5763,7 @@ edges:
   dc: DC-011-02
   schema: specs/011-surrogates/contracts/surrogate-io.schema.json
   schema_state: draft
+  availability: *id037
 - id: E-DC-011-02-02
   from: s60_export
   to: engine-fno
@@ -4211,6 +5771,7 @@ edges:
   dc: DC-011-02
   schema: specs/011-surrogates/contracts/surrogate-io.schema.json
   schema_state: draft
+  availability: *id037
 - id: E-DC-011-02-03
   from: s60_export
   to: engine-forecasters
@@ -4218,6 +5779,7 @@ edges:
   dc: DC-011-02
   schema: specs/011-surrogates/contracts/surrogate-io.schema.json
   schema_state: draft
+  availability: *id037
 - id: E-DC-011-02-04
   from: s60_export
   to: engine-meta-model
@@ -4225,6 +5787,7 @@ edges:
   dc: DC-011-02
   schema: specs/011-surrogates/contracts/surrogate-io.schema.json
   schema_state: draft
+  availability: *id037
 - id: E-DC-011-03-01
   from: st50_physics
   to: s10_synthetic_data
@@ -4232,6 +5795,7 @@ edges:
   dc: DC-011-03
   schema: specs/011-surrogates/contracts/field-dataset.schema.json
   schema_state: draft
+  availability: *id031
 - id: E-DC-011-03-02
   from: st50_physics
   to: fno-train
@@ -4239,6 +5803,7 @@ edges:
   dc: DC-011-03
   schema: specs/011-surrogates/contracts/field-dataset.schema.json
   schema_state: draft
+  availability: *id022
 - id: E-DC-011-04-01
   from: calibration-driver
   to: surrogates-eval
@@ -4246,6 +5811,7 @@ edges:
   dc: DC-011-04
   schema: specs/011-surrogates/contracts/calibration-result.schema.json
   schema_state: draft
+  availability: *id024
 - id: E-DC-011-04-02
   from: calibration-driver
   to: web-route-case
@@ -4253,6 +5819,7 @@ edges:
   dc: DC-011-04
   schema: specs/011-surrogates/contracts/calibration-result.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-011-04-03
   from: calibration-driver
   to: il-mpm-eval
@@ -4260,6 +5827,34 @@ edges:
   dc: DC-011-04
   schema: specs/011-surrogates/contracts/calibration-result.schema.json
   schema_state: draft
+  availability: &id041
+    absent:
+      behaviour: without a passing isaaclab probe the IL stages are skipped with the reason, the tool is `evaluated, not adopted` and
+        the panels say so; IL-2b and IL-3 are "not run" with the reason
+      covered_by:
+      - FR-014-03
+      - FR-014-23
+      - FR-014-24
+    fixture:
+      behaviour: 'IL stages run on fixtures; policies, episodes and reports carry `fixture: true` and no gap is published'
+      covered_by:
+      - FR-014-48
+    partial:
+      behaviour: IL-3 is evaluated and published only where trained, otherwise its panel shows "not run"
+      covered_by:
+      - FR-014-24
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-011-04; no label, no caveat
+      covered_by:
+      - DC-011-04
+    stale:
+      behaviour: a policy handoff whose checkpoint SHA-256 differs from the file fails `input-stale` at export
+      covered_by:
+      - FR-014-49
+    invalid:
+      behaviour: an invalid IL task configuration is rejected naming the key
+      covered_by:
+      - FR-014-46
 - id: E-DC-012-01-01
   from: frag-pile-generator
   to: frag-dataset-builder
@@ -4267,6 +5862,7 @@ edges:
   dc: DC-012-01
   schema: specs/012-fragmentation/contracts/fragment-table.schema.json
   schema_state: draft
+  availability: *id033
 - id: E-DC-012-01-02
   from: frag-pile-generator
   to: frag-eval
@@ -4274,6 +5870,7 @@ edges:
   dc: DC-012-01
   schema: specs/012-fragmentation/contracts/fragment-table.schema.json
   schema_state: draft
+  availability: *id033
 - id: E-DC-012-01-03
   from: st55_sdg
   to: frag-dataset-builder
@@ -4281,6 +5878,7 @@ edges:
   dc: DC-012-01
   schema: specs/012-fragmentation/contracts/fragment-table.schema.json
   schema_state: draft
+  availability: *id033
 - id: E-DC-012-01-04
   from: st55_sdg
   to: frag-eval
@@ -4288,6 +5886,7 @@ edges:
   dc: DC-012-01
   schema: specs/012-fragmentation/contracts/fragment-table.schema.json
   schema_state: draft
+  availability: *id033
 - id: E-DC-012-02-01
   from: frag-split-builder
   to: unet-train
@@ -4295,6 +5894,7 @@ edges:
   dc: DC-012-02
   schema: specs/012-fragmentation/contracts/fragment-split.schema.json
   schema_state: draft
+  availability: *id033
 - id: E-DC-012-02-02
   from: frag-split-builder
   to: frag-eval
@@ -4302,6 +5902,7 @@ edges:
   dc: DC-012-02
   schema: specs/012-fragmentation/contracts/fragment-split.schema.json
   schema_state: draft
+  availability: *id033
 - id: E-DC-012-03-01
   from: frag-eval
   to: s60_export
@@ -4309,6 +5910,7 @@ edges:
   dc: DC-012-03
   schema: specs/012-fragmentation/contracts/fragmentation-eval.schema.json
   schema_state: draft
+  availability: *id036
 - id: E-DC-012-03-02
   from: frag-eval
   to: web-route-case
@@ -4316,6 +5918,7 @@ edges:
   dc: DC-012-03
   schema: specs/012-fragmentation/contracts/fragmentation-eval.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-012-03-03
   from: frag-eval
   to: docs-knowledge-build
@@ -4323,6 +5926,7 @@ edges:
   dc: DC-012-03
   schema: specs/012-fragmentation/contracts/fragmentation-eval.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-012-04-01
   from: st55_sdg
   to: frag-dataset-builder
@@ -4330,6 +5934,7 @@ edges:
   dc: DC-012-04
   schema: specs/012-fragmentation/contracts/muck-pile-render.schema.json
   schema_state: draft
+  availability: *id033
 - id: E-DC-012-04-02
   from: st52_rtx_render
   to: frag-dataset-builder
@@ -4337,6 +5942,7 @@ edges:
   dc: DC-012-04
   schema: specs/012-fragmentation/contracts/muck-pile-render.schema.json
   schema_state: draft
+  availability: *id033
 - id: E-DC-012-05-01
   from: frag-d1-grid
   to: web-route-case
@@ -4344,6 +5950,7 @@ edges:
   dc: DC-012-05
   schema: specs/012-fragmentation/contracts/d1-design-grid.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-012-05-02
   from: frag-d1-grid
   to: docs-knowledge-build
@@ -4351,6 +5958,7 @@ edges:
   dc: DC-012-05
   schema: specs/012-fragmentation/contracts/d1-design-grid.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-013-01-01
   from: actor-maintainer
   to: st53_sensors
@@ -4358,6 +5966,33 @@ edges:
   dc: DC-013-01
   schema: specs/013-sensors/contracts/sensor-recipe.schema.json
   schema_state: draft
+  availability: &id038
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-013-01; no label, no caveat
+      covered_by:
+      - DC-013-01
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-013-01-02
   from: actor-maintainer
   to: st57_rain_lidar
@@ -4365,6 +6000,7 @@ edges:
   dc: DC-013-01
   schema: specs/013-sensors/contracts/sensor-recipe.schema.json
   schema_state: draft
+  availability: *id038
 - id: E-DC-013-01-03
   from: actor-maintainer
   to: s05_sensors
@@ -4372,6 +6008,7 @@ edges:
   dc: DC-013-01
   schema: specs/013-sensors/contracts/sensor-recipe.schema.json
   schema_state: draft
+  availability: *id038
 - id: E-DC-013-02-01
   from: rtx-lidar-envelope-probe
   to: st53_sensors
@@ -4379,6 +6016,34 @@ edges:
   dc: DC-013-02
   schema: specs/013-sensors/contracts/lidar-envelope.schema.json
   schema_state: draft
+  availability:
+    absent:
+      behaviour: 'no capability report or no entry for a probe: the stage is refused with reason `capability` and exit 5, or the web
+        shows the tool "Not yet run"; nothing crashes'
+      covered_by:
+      - FR-002-21
+      - FR-000-07
+    fixture:
+      behaviour: a fixture report allows the fake backend only and is never shown as a measured probe
+      covered_by:
+      - FR-002-67
+    partial:
+      behaviour: an entry for each probe that ran; a stage that lists a missing probe is refused, the others run
+      covered_by:
+      - FR-002-21
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-013-02; no label, no caveat
+      covered_by:
+      - DC-013-02
+    stale:
+      behaviour: a report whose driver differs from the live driver is refused `capability-stale`
+      covered_by:
+      - FR-002-21
+    invalid:
+      behaviour: an invalid report is rejected and treated as absent
+      covered_by:
+      - FR-002-21
+      - FR-019-38
 - id: E-DC-013-03-01
   from: st53_sensors
   to: s05_sensors
@@ -4386,6 +6051,7 @@ edges:
   dc: DC-013-03
   schema: specs/013-sensors/contracts/sensor-shard.schema.json
   schema_state: draft
+  availability: *id039
 - id: E-DC-013-03-02
   from: st53_sensors
   to: sensors-metrics
@@ -4393,6 +6059,7 @@ edges:
   dc: DC-013-03
   schema: specs/013-sensors/contracts/sensor-shard.schema.json
   schema_state: draft
+  availability: *id039
 - id: E-DC-013-03-03
   from: st53_sensors
   to: s60_export
@@ -4400,6 +6067,7 @@ edges:
   dc: DC-013-03
   schema: specs/013-sensors/contracts/sensor-shard.schema.json
   schema_state: draft
+  availability: *id020
 - id: E-DC-013-03-04
   from: st57_rain_lidar
   to: s05_sensors
@@ -4407,6 +6075,7 @@ edges:
   dc: DC-013-03
   schema: specs/013-sensors/contracts/sensor-shard.schema.json
   schema_state: draft
+  availability: *id039
 - id: E-DC-013-03-05
   from: st57_rain_lidar
   to: sensors-metrics
@@ -4414,6 +6083,7 @@ edges:
   dc: DC-013-03
   schema: specs/013-sensors/contracts/sensor-shard.schema.json
   schema_state: draft
+  availability: *id039
 - id: E-DC-013-03-06
   from: st57_rain_lidar
   to: s60_export
@@ -4421,6 +6091,7 @@ edges:
   dc: DC-013-03
   schema: specs/013-sensors/contracts/sensor-shard.schema.json
   schema_state: draft
+  availability: *id020
 - id: E-DC-013-04-01
   from: s60_export
   to: web-route-case
@@ -4428,6 +6099,7 @@ edges:
   dc: DC-013-04
   schema: specs/013-sensors/contracts/web-cloud-shard.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-013-05-01
   from: s60_export
   to: engine-dust-lidar
@@ -4435,6 +6107,7 @@ edges:
   dc: DC-013-05
   schema: specs/013-sensors/contracts/dust-slider.schema.json
   schema_state: draft
+  availability: *id039
 - id: E-DC-013-07-01
   from: st53_sensors
   to: web-assets-loader
@@ -4442,6 +6115,7 @@ edges:
   dc: DC-013-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-013-07-02
   from: st53_sensors
   to: contracts-validate
@@ -4449,6 +6123,7 @@ edges:
   dc: DC-013-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-013-07-03
   from: st57_rain_lidar
   to: web-assets-loader
@@ -4456,6 +6131,7 @@ edges:
   dc: DC-013-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-013-07-04
   from: st57_rain_lidar
   to: contracts-validate
@@ -4463,6 +6139,7 @@ edges:
   dc: DC-013-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-013-08-01
   from: bench-probes
   to: runner-core
@@ -4470,6 +6147,7 @@ edges:
   dc: DC-013-08
   schema: contracts/capabilities.schema.json
   schema_state: promoted
+  availability: *id008
 - id: E-DC-014-01-01
   from: actor-maintainer
   to: il-train
@@ -4477,6 +6155,33 @@ edges:
   dc: DC-014-01
   schema: specs/014-robot-learning/contracts/il-task.schema.json
   schema_state: draft
+  availability: &id040
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-014-01; no label, no caveat
+      covered_by:
+      - DC-014-01
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-014-01-02
   from: actor-maintainer
   to: il-mpm-eval
@@ -4484,6 +6189,7 @@ edges:
   dc: DC-014-01
   schema: specs/014-robot-learning/contracts/il-task.schema.json
   schema_state: draft
+  availability: *id040
 - id: E-DC-014-02-01
   from: actor-maintainer
   to: st30_assets
@@ -4491,6 +6197,7 @@ edges:
   dc: DC-014-02
   schema: specs/014-robot-learning/contracts/machine-params.schema.json
   schema_state: draft
+  availability: *id017
 - id: E-DC-014-02-02
   from: actor-maintainer
   to: il-twin-runner
@@ -4498,6 +6205,7 @@ edges:
   dc: DC-014-02
   schema: specs/014-robot-learning/contracts/machine-params.schema.json
   schema_state: draft
+  availability: *id040
 - id: E-DC-014-02-03
   from: actor-maintainer
   to: il-train
@@ -4505,6 +6213,7 @@ edges:
   dc: DC-014-02
   schema: specs/014-robot-learning/contracts/machine-params.schema.json
   schema_state: draft
+  availability: *id040
 - id: E-DC-014-03-01
   from: il-train
   to: s60_export
@@ -4512,6 +6221,34 @@ edges:
   dc: DC-014-03
   schema: specs/014-robot-learning/contracts/il-policy-handoff.schema.json
   schema_state: draft
+  availability: &id046
+    absent:
+      behaviour: 'TensorRT, the CUDA 13 runtime or a GPU unavailable: every TensorRT cell is "not run" and the PyTorch and ONNX Runtime
+        cells still run'
+      covered_by:
+      - FR-016-24
+    fixture:
+      behaviour: 'export and bench run on fixtures; parity reports and bench rows carry `fixture: true` and are dropped from the table'
+      covered_by:
+      - FR-016-40
+    partial:
+      behaviour: every `rejected`, `build-failed` or "not run" cell is listed with its reason and none is dropped
+      covered_by:
+      - FR-016-31
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-014-03; no label, no caveat
+      covered_by:
+      - DC-014-03
+    stale:
+      behaviour: a TensorRT licence text that changed since review marks every TensorRT result `local-only`; a timing record whose SHA-256
+        differs from its artefact is ignored
+      covered_by:
+      - FR-016-23
+      - FR-016-13
+    invalid:
+      behaviour: an export config with an opset outside the allowed set, an IR version other than 10 or a failing checker is refused
+      covered_by:
+      - FR-016-02
 - id: E-DC-014-04-01
   from: il-train
   to: il-eval
@@ -4519,6 +6256,34 @@ edges:
   dc: DC-014-04
   schema: specs/014-robot-learning/contracts/il-episodes.schema.json
   schema_state: draft
+  availability: &id042
+    absent:
+      behaviour: without a passing isaaclab probe the IL stages are skipped with the reason, the tool is `evaluated, not adopted` and
+        the panels say so; IL-2b and IL-3 are "not run" with the reason
+      covered_by:
+      - FR-014-03
+      - FR-014-23
+      - FR-014-24
+    fixture:
+      behaviour: 'IL stages run on fixtures; policies, episodes and reports carry `fixture: true` and no gap is published'
+      covered_by:
+      - FR-014-48
+    partial:
+      behaviour: IL-3 is evaluated and published only where trained, otherwise its panel shows "not run"
+      covered_by:
+      - FR-014-24
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-014-04; no label, no caveat
+      covered_by:
+      - DC-014-04
+    stale:
+      behaviour: a policy handoff whose checkpoint SHA-256 differs from the file fails `input-stale` at export
+      covered_by:
+      - FR-014-49
+    invalid:
+      behaviour: an invalid IL task configuration is rejected naming the key
+      covered_by:
+      - FR-014-46
 - id: E-DC-014-04-02
   from: il-mpm-eval
   to: il-eval
@@ -4526,6 +6291,7 @@ edges:
   dc: DC-014-04
   schema: specs/014-robot-learning/contracts/il-episodes.schema.json
   schema_state: draft
+  availability: *id041
 - id: E-DC-014-04-03
   from: il-twin-runner
   to: il-eval
@@ -4533,6 +6299,7 @@ edges:
   dc: DC-014-04
   schema: specs/014-robot-learning/contracts/il-episodes.schema.json
   schema_state: draft
+  availability: *id042
 - id: E-DC-014-05-01
   from: s60_export
   to: engine-il1-twin
@@ -4540,6 +6307,34 @@ edges:
   dc: DC-014-05
   schema: specs/014-robot-learning/contracts/il-twin.schema.json
   schema_state: draft
+  availability: &id043
+    absent:
+      behaviour: without a passing isaaclab probe the IL stages are skipped with the reason, the tool is `evaluated, not adopted` and
+        the panels say so; IL-2b and IL-3 are "not run" with the reason
+      covered_by:
+      - FR-014-03
+      - FR-014-23
+      - FR-014-24
+    fixture:
+      behaviour: 'IL stages run on fixtures; policies, episodes and reports carry `fixture: true` and no gap is published'
+      covered_by:
+      - FR-014-48
+    partial:
+      behaviour: IL-3 is evaluated and published only where trained, otherwise its panel shows "not run"
+      covered_by:
+      - FR-014-24
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-014-05; no label, no caveat
+      covered_by:
+      - DC-014-05
+    stale:
+      behaviour: a policy handoff whose checkpoint SHA-256 differs from the file fails `input-stale` at export
+      covered_by:
+      - FR-014-49
+    invalid:
+      behaviour: an invalid IL task configuration is rejected naming the key
+      covered_by:
+      - FR-014-46
 - id: E-DC-014-05-02
   from: s60_export
   to: engine-il2-twin
@@ -4547,6 +6342,7 @@ edges:
   dc: DC-014-05
   schema: specs/014-robot-learning/contracts/il-twin.schema.json
   schema_state: draft
+  availability: *id043
 - id: E-DC-014-06-01
   from: il-train
   to: web-assets-loader
@@ -4554,6 +6350,7 @@ edges:
   dc: DC-014-06
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-014-06-02
   from: il-train
   to: contracts-validate
@@ -4561,6 +6358,7 @@ edges:
   dc: DC-014-06
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-014-06-03
   from: il-mpm-eval
   to: web-assets-loader
@@ -4568,6 +6366,7 @@ edges:
   dc: DC-014-06
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-014-06-04
   from: il-mpm-eval
   to: contracts-validate
@@ -4575,6 +6374,7 @@ edges:
   dc: DC-014-06
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-014-07-01
   from: bench-probes
   to: runner-core
@@ -4582,6 +6382,7 @@ edges:
   dc: DC-014-07
   schema: contracts/capabilities.schema.json
   schema_state: promoted
+  availability: *id008
 - id: E-DC-015-01-01
   from: st55_sdg
   to: vlm-query-builder
@@ -4589,6 +6390,37 @@ edges:
   dc: DC-015-01
   schema: specs/015-vlm/contracts/frame-state.schema.json
   schema_state: draft
+  availability: &id044
+    absent:
+      behaviour: 'no Hugging Face token or a gated 401 or 403: every Cosmos arm is "not run" with the reason, tasks A-C still run on
+        the Qwen control and the baselines; an unloadable BF16 reference makes BF16 and Q8_0 "not run"'
+      covered_by:
+      - FR-015-07
+      - FR-015-10
+    fixture:
+      behaviour: 'VLM stages run on fixtures; records and metrics carry `fixture: true` and no accuracy claim is published'
+      covered_by:
+      - FR-015-50
+    partial:
+      behaviour: tasks A-C run on the arms that exist (Qwen control, baselines) while the Cosmos arms are "not run"
+      covered_by:
+      - FR-015-07
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-015-01; no label, no caveat
+      covered_by:
+      - DC-015-01
+    stale:
+      behaviour: a pin whose SHA-256 differs makes every `st59_*` stage exit 2 before starting a process; a frame whose SHA-256 differs
+        from its frame state is rejected
+      covered_by:
+      - FR-015-02
+      - FR-015-23
+    invalid:
+      behaviour: an invalid frame state or query set is refused and never guessed; the rule answers "not applicable" and the count is
+        reported
+      covered_by:
+      - FR-015-23
+      - FR-015-47
 - id: E-DC-015-01-02
   from: st55_sdg
   to: vlm-scoring
@@ -4596,6 +6428,7 @@ edges:
   dc: DC-015-01
   schema: specs/015-vlm/contracts/frame-state.schema.json
   schema_state: draft
+  availability: *id044
 - id: E-DC-015-02-01
   from: vlm-query-builder
   to: st59a_vqa
@@ -4603,6 +6436,7 @@ edges:
   dc: DC-015-02
   schema: specs/015-vlm/contracts/vlm-queries.schema.json
   schema_state: draft
+  availability: *id044
 - id: E-DC-015-02-02
   from: vlm-query-builder
   to: vlm-scoring
@@ -4610,6 +6444,7 @@ edges:
   dc: DC-015-02
   schema: specs/015-vlm/contracts/vlm-queries.schema.json
   schema_state: draft
+  availability: *id044
 - id: E-DC-015-03-01
   from: actor-maintainer
   to: st59a_vqa
@@ -4617,6 +6452,33 @@ edges:
   dc: DC-015-03
   schema: specs/015-vlm/contracts/reason-pins.schema.json
   schema_state: draft
+  availability: &id045
+    absent:
+      behaviour: the load fails naming the missing path; no default is invented; the stage ends `not_run` or the build fails
+      covered_by:
+      - FR-001-62
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-015-03; no label, no caveat
+      covered_by:
+      - DC-015-03
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: rejected at the trust boundary with the validation reason before any work starts; the edge falls back to `absent`
+      covered_by:
+      - FR-001-05
+      - FR-001-23
 - id: E-DC-015-03-02
   from: actor-maintainer
   to: st59b_plausibility
@@ -4624,6 +6486,7 @@ edges:
   dc: DC-015-03
   schema: specs/015-vlm/contracts/reason-pins.schema.json
   schema_state: draft
+  availability: *id045
 - id: E-DC-015-03-03
   from: actor-maintainer
   to: st59c_captions
@@ -4631,6 +6494,7 @@ edges:
   dc: DC-015-03
   schema: specs/015-vlm/contracts/reason-pins.schema.json
   schema_state: draft
+  availability: *id045
 - id: E-DC-015-03-04
   from: actor-maintainer
   to: st59_reason_bench
@@ -4638,6 +6502,7 @@ edges:
   dc: DC-015-03
   schema: specs/015-vlm/contracts/reason-pins.schema.json
   schema_state: draft
+  availability: *id045
 - id: E-DC-015-04-01
   from: runner-publish
   to: web-route-case
@@ -4645,6 +6510,7 @@ edges:
   dc: DC-015-04
   schema: specs/015-vlm/contracts/vlm-record.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-015-05-01
   from: vlm-scoring
   to: web-route-results
@@ -4652,6 +6518,7 @@ edges:
   dc: DC-015-05
   schema: specs/015-vlm/contracts/vlm-metrics.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-015-05-02
   from: vlm-scoring
   to: docs-knowledge-build
@@ -4659,6 +6526,7 @@ edges:
   dc: DC-015-05
   schema: specs/015-vlm/contracts/vlm-metrics.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-015-06-01
   from: vlm-pair-builder
   to: st59b_plausibility
@@ -4666,6 +6534,7 @@ edges:
   dc: DC-015-06
   schema: specs/015-vlm/contracts/plausibility-pairs.schema.json
   schema_state: draft
+  availability: *id044
 - id: E-DC-015-07-01
   from: st59a_vqa
   to: web-assets-loader
@@ -4673,6 +6542,7 @@ edges:
   dc: DC-015-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-015-07-02
   from: st59a_vqa
   to: contracts-validate
@@ -4680,6 +6550,7 @@ edges:
   dc: DC-015-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-015-07-03
   from: st59b_plausibility
   to: web-assets-loader
@@ -4687,6 +6558,7 @@ edges:
   dc: DC-015-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-015-07-04
   from: st59b_plausibility
   to: contracts-validate
@@ -4694,6 +6566,7 @@ edges:
   dc: DC-015-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-015-07-05
   from: st59c_captions
   to: web-assets-loader
@@ -4701,6 +6574,7 @@ edges:
   dc: DC-015-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-015-07-06
   from: st59c_captions
   to: contracts-validate
@@ -4708,6 +6582,7 @@ edges:
   dc: DC-015-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-015-07-07
   from: st59_reason_bench
   to: web-assets-loader
@@ -4715,6 +6590,7 @@ edges:
   dc: DC-015-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-015-07-08
   from: st59_reason_bench
   to: contracts-validate
@@ -4722,6 +6598,7 @@ edges:
   dc: DC-015-07
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id002
 - id: E-DC-015-08-01
   from: bench-probes
   to: runner-core
@@ -4729,6 +6606,7 @@ edges:
   dc: DC-015-08
   schema: contracts/capabilities.schema.json
   schema_state: promoted
+  availability: *id008
 - id: E-DC-016-01-01
   from: s64_bench
   to: docs-knowledge-build
@@ -4736,6 +6614,7 @@ edges:
   dc: DC-016-01
   schema: specs/016-export-acceleration/contracts/bench-record.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-016-02-01
   from: s60_export
   to: release-tooling
@@ -4743,6 +6622,7 @@ edges:
   dc: DC-016-02
   schema: specs/016-export-acceleration/contracts/release-assets.schema.json
   schema_state: draft
+  availability: *id046
 - id: E-DC-016-02-02
   from: s60_export
   to: ci-pages-deploy
@@ -4750,6 +6630,38 @@ edges:
   dc: DC-016-02
   schema: specs/016-export-acceleration/contracts/release-assets.schema.json
   schema_state: draft
+  availability:
+    absent:
+      behaviour: the loader raises `ContractError` of class `absent` naming the path; the stage ends `not_run` or the build fails; no
+        default is invented
+      covered_by:
+      - FR-001-62
+      - FR-000-14
+    fixture:
+      behaviour: 'the release gate fails on any artefact with `fixture: true`; development builds label it'
+      covered_by:
+      - FR-001-60
+      - FR-001-61
+    partial:
+      behaviour: 'a contract check reads each document whole: it passes or fails the document, never part of it'
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-016-02; no label, no caveat
+      covered_by:
+      - DC-016-02
+    stale:
+      behaviour: manifests carry `stale`; the digest of each served file must equal the manifest digest
+      covered_by:
+      - FR-001-60
+      - P-000-02
+    invalid:
+      behaviour: '`load_json` raises `ContractError` naming file and pointer before schema validation and returns no partial object;
+        hostile recipes and registries are rejected'
+      covered_by:
+      - FR-001-05
+      - FR-001-23
+      - FR-001-32
 - id: E-DC-016-03-01
   from: s60_export
   to: runner-store
@@ -4757,6 +6669,7 @@ edges:
   dc: DC-016-03
   schema: specs/016-export-acceleration/contracts/export-parity-report.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-016-03-02
   from: s60_export
   to: docs-knowledge-build
@@ -4764,6 +6677,7 @@ edges:
   dc: DC-016-03
   schema: specs/016-export-acceleration/contracts/export-parity-report.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-016-03-03
   from: s64_bench
   to: runner-store
@@ -4771,6 +6685,7 @@ edges:
   dc: DC-016-03
   schema: specs/016-export-acceleration/contracts/export-parity-report.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-016-03-04
   from: s64_bench
   to: docs-knowledge-build
@@ -4778,6 +6693,7 @@ edges:
   dc: DC-016-03
   schema: specs/016-export-acceleration/contracts/export-parity-report.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-016-04-01
   from: actor-maintainer
   to: s60_export
@@ -4785,6 +6701,7 @@ edges:
   dc: DC-016-04
   schema: specs/016-export-acceleration/contracts/export-config.schema.json
   schema_state: draft
+  availability: *id047
 - id: E-DC-016-04-02
   from: actor-maintainer
   to: s62_accel
@@ -4792,6 +6709,7 @@ edges:
   dc: DC-016-04
   schema: specs/016-export-acceleration/contracts/export-config.schema.json
   schema_state: draft
+  availability: *id047
 - id: E-DC-016-05-01
   from: s64_bench
   to: web-route-results
@@ -4799,6 +6717,7 @@ edges:
   dc: DC-016-05
   schema: specs/016-export-acceleration/contracts/accel-table.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-017-01-01
   from: s05_comminution
   to: meta-train
@@ -4806,6 +6725,7 @@ edges:
   dc: DC-017-01
   schema: specs/017-planning-survey/contracts/comminution-sweep.schema.json
   schema_state: draft
+  availability: *id048
 - id: E-DC-017-01-02
   from: s05_comminution
   to: meta-eval
@@ -4813,6 +6733,7 @@ edges:
   dc: DC-017-01
   schema: specs/017-planning-survey/contracts/comminution-sweep.schema.json
   schema_state: draft
+  availability: *id048
 - id: E-DC-017-01-03
   from: s05_comminution
   to: web-route-case
@@ -4820,6 +6741,7 @@ edges:
   dc: DC-017-01
   schema: specs/017-planning-survey/contracts/comminution-sweep.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-017-02-01
   from: s05_oreblocks
   to: plan-mincut
@@ -4827,6 +6749,7 @@ edges:
   dc: DC-017-02
   schema: specs/017-planning-survey/contracts/block-model.schema.json
   schema_state: draft
+  availability: *id048
 - id: E-DC-017-02-02
   from: s05_oreblocks
   to: plan-scheduler
@@ -4834,6 +6757,7 @@ edges:
   dc: DC-017-02
   schema: specs/017-planning-survey/contracts/block-model.schema.json
   schema_state: draft
+  availability: *id048
 - id: E-DC-017-02-03
   from: s05_oreblocks
   to: engine-mincut
@@ -4841,6 +6765,7 @@ edges:
   dc: DC-017-02
   schema: specs/017-planning-survey/contracts/block-model.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-017-02-04
   from: s10_real_data
   to: plan-mincut
@@ -4848,6 +6773,7 @@ edges:
   dc: DC-017-02
   schema: specs/017-planning-survey/contracts/block-model.schema.json
   schema_state: draft
+  availability: *id048
 - id: E-DC-017-02-05
   from: s10_real_data
   to: plan-scheduler
@@ -4855,6 +6781,7 @@ edges:
   dc: DC-017-02
   schema: specs/017-planning-survey/contracts/block-model.schema.json
   schema_state: draft
+  availability: *id048
 - id: E-DC-017-02-06
   from: s10_real_data
   to: engine-mincut
@@ -4862,6 +6789,7 @@ edges:
   dc: DC-017-02
   schema: specs/017-planning-survey/contracts/block-model.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-017-03-01
   from: plan-mincut
   to: st20_pit_design
@@ -4869,6 +6797,7 @@ edges:
   dc: DC-017-03
   schema: specs/017-planning-survey/contracts/pit-shells.schema.json
   schema_state: draft
+  availability: *id049
 - id: E-DC-017-03-02
   from: plan-mincut
   to: haul-routing
@@ -4876,6 +6805,36 @@ edges:
   dc: DC-017-03
   schema: specs/017-planning-survey/contracts/pit-shells.schema.json
   schema_state: draft
+  availability:
+    absent:
+      behaviour: a reference-engine feature outside the twin's set makes the web fall back to the baked trace with that reason; an upstream
+        scenario stage not run skips the stage
+      covered_by:
+      - FR-007-12
+      - FR-002-60
+    fixture:
+      behaviour: 'dispatch stages run on fixtures; traces, KPI tables, checkpoints and reports carry `fixture: true` and no comparison
+        is published'
+      covered_by:
+      - FR-007-46
+    partial:
+      behaviour: a comparison over fewer than 30 paired seeds is `partial` with the counts and carries no verdict
+      covered_by:
+      - FR-007-47
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-017-03; no label, no caveat
+      covered_by:
+      - DC-017-03
+    stale:
+      behaviour: a policy whose ONNX SHA-256 differs from its manifest stops the run `PolicyPinMismatch` and returns no partial KPIs
+      covered_by:
+      - FR-007-44
+    invalid:
+      behaviour: a wrong shape, dtype, layout version or non-finite feature stops with `InvalidPolicyInput`; an invalid seed, horizon
+        or event budget stops within 2 s
+      covered_by:
+      - FR-007-44
+      - FR-007-13
 - id: E-DC-017-03-03
   from: plan-mincut
   to: web-route-case
@@ -4883,6 +6842,7 @@ edges:
   dc: DC-017-03
   schema: specs/017-planning-survey/contracts/pit-shells.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-017-03-04
   from: plan-mincut
   to: plan-scheduler
@@ -4890,6 +6850,38 @@ edges:
   dc: DC-017-03
   schema: specs/017-planning-survey/contracts/pit-shells.schema.json
   schema_state: draft
+  availability:
+    absent:
+      behaviour: 'MineLib unreachable: E1 shows "Not run - <reason>" and continues on `oreblocks`; Brush missing: the splat view says
+        "Not run"; RTX camera unavailable: synthetic flights say "Not run - RTX camera unavailable" and the real volume is still produced'
+      covered_by:
+      - FR-017-24
+      - FR-017-43
+      - FR-017-44
+    fixture:
+      behaviour: 'planning and survey stages run on fixtures; results carry `fixture: true` and no E1, E2 or D2 number is published'
+      covered_by:
+      - FR-017-52
+    partial:
+      behaviour: an evaluation over fewer than all methods, flights or deposits lists the missing cells, is `partial` and summarises
+        only complete groups
+      covered_by:
+      - FR-017-53
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-017-03; no label, no caveat
+      covered_by:
+      - DC-017-03
+    stale:
+      behaviour: a MineLib file that fails its pinned SHA-256 is "Not run - <reason>"; differing vertical datums without a declared
+        transform give "Not run - vertical datums differ"
+      covered_by:
+      - FR-017-24
+      - FR-017-32
+    invalid:
+      behaviour: a PLY or SPZ file that fails to parse, declares more than 10^7 Gaussians or has non-finite attributes is rejected and
+        the splat view shows "Not run - <reason>"
+      covered_by:
+      - FR-017-49
 - id: E-DC-017-03-05
   from: plan-scheduler
   to: web-route-case
@@ -4897,6 +6889,7 @@ edges:
   dc: DC-017-03
   schema: specs/017-planning-survey/contracts/pit-shells.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-017-04-01
   from: survey-eval
   to: web-route-case
@@ -4904,6 +6897,7 @@ edges:
   dc: DC-017-04
   schema: specs/017-planning-survey/contracts/survey-volume.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-017-04-02
   from: survey-eval
   to: docs-knowledge-build
@@ -4911,6 +6905,7 @@ edges:
   dc: DC-017-04
   schema: specs/017-planning-survey/contracts/survey-volume.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-017-05-01
   from: st53_sensors
   to: survey-splat
@@ -4918,6 +6913,7 @@ edges:
   dc: DC-017-05
   schema: specs/017-planning-survey/contracts/survey-flight.schema.json
   schema_state: draft
+  availability: *id048
 - id: E-DC-017-05-02
   from: st53_sensors
   to: survey-eval
@@ -4925,6 +6921,7 @@ edges:
   dc: DC-017-05
   schema: specs/017-planning-survey/contracts/survey-flight.schema.json
   schema_state: draft
+  availability: *id048
 - id: E-DC-018-01-01
   from: actor-maintainer
   to: web-route-explore
@@ -4932,6 +6929,34 @@ edges:
   dc: DC-018-01
   schema: specs/018-web-cases/contracts/cases.schema.json
   schema_state: draft
+  availability: &id050
+    absent:
+      behaviour: the build fails naming the missing registry file or the case with no entry; nothing is rendered from a default
+      covered_by:
+      - FR-018-10
+    fixture:
+      behaviour: 'fixture files are built and tested against; every output derived from them carries `fixture: true`'
+      covered_by:
+      - FR-000-23
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: 'one document, read whole: there is no partial input'
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-018-01; no label, no caveat
+      covered_by:
+      - DC-018-01
+    stale:
+      behaviour: a committed file cannot be stale; a digest recorded elsewhere (manifest inputs, pins) that no longer matches fails
+        `input-stale`
+      covered_by:
+      - FR-002-69
+    invalid:
+      behaviour: an invalid shard header or byte length is rejected `E_SCHEMA` and the poster frame is shown; an invalid parity or lane
+        file fails the build
+      covered_by:
+      - FR-018-45
+      - FR-018-67
 - id: E-DC-018-01-02
   from: actor-maintainer
   to: web-route-cases
@@ -4939,6 +6964,7 @@ edges:
   dc: DC-018-01
   schema: specs/018-web-cases/contracts/cases.schema.json
   schema_state: draft
+  availability: *id050
 - id: E-DC-018-01-03
   from: actor-maintainer
   to: web-route-case
@@ -4946,6 +6972,7 @@ edges:
   dc: DC-018-01
   schema: specs/018-web-cases/contracts/cases.schema.json
   schema_state: draft
+  availability: *id050
 - id: E-DC-018-01-04
   from: actor-maintainer
   to: web-route-studio-tool
@@ -4953,6 +6980,7 @@ edges:
   dc: DC-018-01
   schema: specs/018-web-cases/contracts/cases.schema.json
   schema_state: draft
+  availability: *id004
 - id: E-DC-018-01-05
   from: actor-maintainer
   to: contracts-validate
@@ -4960,6 +6988,7 @@ edges:
   dc: DC-018-01
   schema: specs/018-web-cases/contracts/cases.schema.json
   schema_state: draft
+  availability: *id007
 - id: E-DC-018-01-06
   from: actor-maintainer
   to: docs-knowledge-build
@@ -4967,6 +6996,7 @@ edges:
   dc: DC-018-01
   schema: specs/018-web-cases/contracts/cases.schema.json
   schema_state: draft
+  availability: *id006
 - id: E-DC-018-02-01
   from: actor-maintainer
   to: make-parity-fixtures
@@ -4974,6 +7004,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/
   schema_state: draft
+  availability: *id050
 - id: E-DC-018-03-01
   from: s60_export
   to: web-assets-loader
@@ -4981,6 +7012,7 @@ edges:
   dc: DC-018-03
   schema: specs/018-web-cases/contracts/replay-shard.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-018-03-02
   from: runner-publish
   to: web-assets-loader
@@ -4988,6 +7020,7 @@ edges:
   dc: DC-018-03
   schema: specs/018-web-cases/contracts/replay-shard.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-018-04-01
   from: make-parity-fixtures
   to: web-parity-suite
@@ -4995,6 +7028,7 @@ edges:
   dc: DC-018-04
   schema: specs/018-web-cases/contracts/parity-fixture.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-018-05-01
   from: web-parity-suite
   to: web-engine-host
@@ -5002,6 +7036,7 @@ edges:
   dc: DC-018-05
   schema: specs/018-web-cases/contracts/parity-report.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-018-05-02
   from: web-parity-suite
   to: web-route-results
@@ -5009,6 +7044,7 @@ edges:
   dc: DC-018-05
   schema: specs/018-web-cases/contracts/parity-report.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-018-06-01
   from: web-lane-gate
   to: ci-lane-check
@@ -5016,6 +7052,38 @@ edges:
   dc: DC-018-06
   schema: specs/018-web-cases/contracts/lane-measurements.schema.json
   schema_state: draft
+  availability: &id052
+    absent:
+      behaviour: the loader raises `ContractError` of class `absent` naming the path; the stage ends `not_run` or the build fails; no
+        default is invented
+      covered_by:
+      - FR-001-62
+      - FR-000-14
+    fixture:
+      behaviour: 'the release gate fails on any artefact with `fixture: true`; development builds label it'
+      covered_by:
+      - FR-001-60
+      - FR-001-61
+    partial:
+      behaviour: a report over an incomplete set is labelled `partial`; verdicts are computed only over complete sets
+      covered_by: []
+      na: consumer reads the report whole
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-018-06; no label, no caveat
+      covered_by:
+      - DC-018-06
+    stale:
+      behaviour: manifests carry `stale`; the digest of each served file must equal the manifest digest
+      covered_by:
+      - FR-001-60
+      - P-000-02
+    invalid:
+      behaviour: '`load_json` raises `ContractError` naming file and pointer before schema validation and returns no partial object;
+        hostile recipes and registries are rejected'
+      covered_by:
+      - FR-001-05
+      - FR-001-23
+      - FR-001-32
 - id: E-DC-018-06-02
   from: web-lane-gate
   to: s60_export
@@ -5023,6 +7091,7 @@ edges:
   dc: DC-018-06
   schema: specs/018-web-cases/contracts/lane-measurements.schema.json
   schema_state: draft
+  availability: *id036
 - id: E-DC-019-02-01
   from: actor-maintainer
   to: web-build-studio-index
@@ -5030,6 +7099,7 @@ edges:
   dc: DC-019-02
   schema: specs/019-web-studio/contracts/toolmap.schema.json
   schema_state: draft
+  availability: *id004
 - id: E-DC-019-03-01
   from: web-build-studio-index
   to: web-route-studio
@@ -5037,6 +7107,7 @@ edges:
   dc: DC-019-03
   schema: specs/019-web-studio/contracts/studio-index.schema.json
   schema_state: draft
+  availability: *id051
 - id: E-DC-019-03-02
   from: web-build-studio-index
   to: web-route-studio-tool
@@ -5044,6 +7115,7 @@ edges:
   dc: DC-019-03
   schema: specs/019-web-studio/contracts/studio-index.schema.json
   schema_state: draft
+  availability: *id051
 - id: E-DC-019-03-03
   from: web-build-studio-index
   to: web-route-studio-runs
@@ -5051,6 +7123,7 @@ edges:
   dc: DC-019-03
   schema: specs/019-web-studio/contracts/studio-index.schema.json
   schema_state: draft
+  availability: *id051
 - id: E-DC-019-03-04
   from: web-build-studio-index
   to: web-route-studio-gpu
@@ -5058,6 +7131,7 @@ edges:
   dc: DC-019-03
   schema: specs/019-web-studio/contracts/studio-index.schema.json
   schema_state: draft
+  availability: *id051
 - id: E-DC-019-03-05
   from: web-build-studio-index
   to: contracts-validate
@@ -5065,6 +7139,7 @@ edges:
   dc: DC-019-03
   schema: specs/019-web-studio/contracts/studio-index.schema.json
   schema_state: draft
+  availability: *id052
 - id: E-DC-020-01-01
   from: actor-maintainer
   to: web-route-methods
@@ -5072,6 +7147,7 @@ edges:
   dc: DC-020-01
   schema: specs/020-web-knowledge/contracts/methods.schema.json
   schema_state: draft
+  availability: *id006
 - id: E-DC-020-01-02
   from: actor-maintainer
   to: web-route-results
@@ -5079,6 +7155,7 @@ edges:
   dc: DC-020-01
   schema: specs/020-web-knowledge/contracts/methods.schema.json
   schema_state: draft
+  availability: *id006
 - id: E-DC-020-01-03
   from: actor-maintainer
   to: contracts-validate
@@ -5086,6 +7163,7 @@ edges:
   dc: DC-020-01
   schema: specs/020-web-knowledge/contracts/methods.schema.json
   schema_state: draft
+  availability: *id007
 - id: E-DC-020-02-01
   from: perception-eval
   to: runner-publish
@@ -5093,6 +7171,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-020-02-02
   from: slope-eval
   to: runner-publish
@@ -5100,6 +7179,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-020-02-03
   from: surrogates-eval
   to: runner-publish
@@ -5107,6 +7187,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-020-02-04
   from: frag-eval
   to: runner-publish
@@ -5114,6 +7195,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-020-02-05
   from: haul-eval
   to: runner-publish
@@ -5121,6 +7203,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-020-02-06
   from: il-eval
   to: runner-publish
@@ -5128,6 +7211,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-020-02-07
   from: meta-eval
   to: runner-publish
@@ -5135,6 +7219,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-020-02-08
   from: vlm-scoring
   to: runner-publish
@@ -5142,6 +7227,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-020-02-09
   from: s64_bench
   to: runner-publish
@@ -5149,6 +7235,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id027
 - id: E-DC-020-02-10
   from: runner-publish
   to: web-route-results
@@ -5156,6 +7243,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-020-02-11
   from: runner-publish
   to: web-route-case
@@ -5163,6 +7251,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id028
 - id: E-DC-020-02-12
   from: runner-publish
   to: contracts-validate
@@ -5170,6 +7259,7 @@ edges:
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
   schema_state: draft
+  availability: *id052
 - id: E-DC-020-03-01
   from: docs-knowledge-build
   to: web-route-knowledge
@@ -5177,6 +7267,7 @@ edges:
   dc: DC-020-03
   schema: specs/020-web-knowledge/contracts/knowledge-bundle.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-020-03-02
   from: docs-knowledge-build
   to: web-route-theory
@@ -5184,6 +7275,7 @@ edges:
   dc: DC-020-03
   schema: specs/020-web-knowledge/contracts/knowledge-bundle.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-020-03-03
   from: docs-knowledge-build
   to: ci-guards
@@ -5191,6 +7283,7 @@ edges:
   dc: DC-020-03
   schema: specs/020-web-knowledge/contracts/knowledge-bundle.schema.json
   schema_state: draft
+  availability: *id029
 - id: E-DC-020-04-01
   from: actor-maintainer
   to: web-route-theory
@@ -5198,6 +7291,7 @@ edges:
   dc: DC-020-04
   schema: specs/020-web-knowledge/contracts/figures.schema.json
   schema_state: draft
+  availability: *id006
 - id: E-DC-020-04-02
   from: actor-maintainer
   to: ci-guards
@@ -5205,6 +7299,7 @@ edges:
   dc: DC-020-04
   schema: specs/020-web-knowledge/contracts/figures.schema.json
   schema_state: draft
+  availability: *id006
 - id: E-DC-001-01-13
   from: runner-store
   to: web-build-budgets
@@ -5212,6 +7307,37 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: &id053
+    absent:
+      behaviour: an artefact without a manifest entry is neither published nor shown; the web shows "Not yet run"
+      covered_by:
+      - FR-000-14
+      - FR-000-07
+    fixture:
+      behaviour: 'a manifest entry with `fixture: true` fails release builds and is labelled "fixture" in development builds'
+      covered_by:
+      - FR-001-60
+      - FR-001-61
+    partial:
+      behaviour: the manifest lists the artefacts that exist; consumers show each with its provenance and "Not yet run" for the others
+      covered_by:
+      - FR-000-06
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-01; no label, no caveat
+      covered_by:
+      - DC-001-01
+    stale:
+      behaviour: '`stale: true` and the original date travel with the entry; the served file digest must equal the manifest digest'
+      covered_by:
+      - FR-001-60
+      - P-000-02
+      - FR-018-43
+    invalid:
+      behaviour: a manifest that fails its schema is rejected with the pointer and treated as absent
+      covered_by:
+      - FR-001-05
+      - FR-018-43
+      - FR-019-38
 - id: E-DC-001-01-14
   from: s60_export
   to: web-build-budgets
@@ -5219,6 +7345,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id053
 - id: E-DC-001-01-15
   from: web-assets-loader
   to: web-route-explore
@@ -5226,6 +7353,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-001-01-16
   from: web-assets-loader
   to: web-route-case
@@ -5233,6 +7361,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-001-01-17
   from: web-assets-loader
   to: web-route-studio-tool
@@ -5240,6 +7369,37 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: &id054
+    absent:
+      behaviour: an artefact without a manifest entry is neither published nor shown; the web shows "Not yet run"
+      covered_by:
+      - FR-000-14
+      - FR-000-07
+    fixture:
+      behaviour: 'a manifest entry with `fixture: true` fails release builds and is labelled "fixture" in development builds'
+      covered_by:
+      - FR-001-60
+      - FR-001-61
+    partial:
+      behaviour: the manifest lists the artefacts that exist; consumers show each with its provenance and "Not yet run" for the others
+      covered_by:
+      - FR-000-06
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-001-01; no label, no caveat
+      covered_by:
+      - DC-001-01
+    stale:
+      behaviour: '`stale: true` and the original date travel with the entry; the served file digest must equal the manifest digest'
+      covered_by:
+      - FR-001-60
+      - P-000-02
+      - FR-018-43
+    invalid:
+      behaviour: a manifest that fails its schema is rejected with the pointer and treated as absent
+      covered_by:
+      - FR-001-05
+      - FR-018-43
+      - FR-019-38
 - id: E-DC-001-01-18
   from: web-assets-loader
   to: web-route-studio-runs
@@ -5247,6 +7407,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id054
 - id: E-DC-001-01-19
   from: web-assets-loader
   to: web-route-studio-gpu
@@ -5254,6 +7415,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id054
 - id: E-DC-001-01-20
   from: web-assets-loader
   to: web-media
@@ -5261,6 +7423,7 @@ edges:
   dc: DC-001-01
   schema: specs/001-contracts/contracts/manifest.schema.json
   schema_state: draft
+  availability: *id001
 - id: E-DC-018-03-03
   from: web-assets-loader
   to: web-route-case
@@ -5268,6 +7431,7 @@ edges:
   dc: DC-018-03
   schema: specs/018-web-cases/contracts/replay-shard.schema.json
   schema_state: draft
+  availability: *id025
 - id: E-DC-018-02-02
   from: engine-des
   to: web-engine-host
@@ -5275,6 +7439,35 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/des.schema.json
   schema_state: draft
+  availability: &id055
+    absent:
+      behaviour: an engine that cannot load or run falls back to T0 and shows "<runtime> could not load - showing precomputed results"
+      covered_by:
+      - FR-018-44
+      - FR-018-31
+      - FR-000-02
+    fixture:
+      behaviour: parity fixtures are test inputs only; a fixture output is never shown as a result
+      covered_by:
+      - FR-018-70
+    partial:
+      behaviour: not applicable
+      covered_by: []
+      na: a generated or conformance artefact is complete or absent
+    real:
+      behaviour: the contract-valid artefact is used as specified by DC-018-02; no label, no caveat
+      covered_by:
+      - DC-018-02
+    stale:
+      behaviour: an engine absent from or failing in the parity report of the deployed commit runs in T0 with "parity not confirmed"
+      covered_by:
+      - FR-018-63
+    invalid:
+      behaviour: a request or response outside the engine schema is refused with a typed error (`E_SCHEMA`, `E_SIZE`, `E_TIMEOUT`)
+      covered_by:
+      - FR-018-39
+      - FR-018-40
+      - FR-018-46
 - id: E-DC-018-02-03
   from: engine-policies
   to: web-engine-host
@@ -5282,6 +7475,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/policies.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-04
   from: engine-haulage
   to: web-engine-host
@@ -5289,6 +7483,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/haulage.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-05
   from: engine-lp
   to: web-engine-host
@@ -5296,6 +7491,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/lp.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-06
   from: engine-routing
   to: web-engine-host
@@ -5303,6 +7499,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/routing.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-07
   from: engine-il1-twin
   to: web-engine-host
@@ -5310,6 +7507,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/il1-twin.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-08
   from: engine-il2-twin
   to: web-engine-host
@@ -5317,6 +7515,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/il2-twin.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-09
   from: engine-granular
   to: web-engine-host
@@ -5324,6 +7523,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/granular.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-10
   from: engine-gns
   to: web-engine-host
@@ -5331,6 +7531,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/gns.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-11
   from: engine-traffic
   to: web-engine-host
@@ -5338,6 +7539,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/traffic.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-12
   from: engine-dust-lidar
   to: web-engine-host
@@ -5345,6 +7547,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/dust-lidar.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-13
   from: engine-detector
   to: web-engine-host
@@ -5352,6 +7555,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/detector.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-14
   from: engine-geotech
   to: web-engine-host
@@ -5359,6 +7563,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/geotech.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-15
   from: engine-forecasters
   to: web-engine-host
@@ -5366,6 +7571,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/forecasters.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-16
   from: engine-swe
   to: web-engine-host
@@ -5373,6 +7579,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/swe.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-17
   from: engine-fno
   to: web-engine-host
@@ -5380,6 +7587,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/fno.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-18
   from: engine-plume
   to: web-engine-host
@@ -5387,6 +7595,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/plume.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-19
   from: engine-dust-particles
   to: web-engine-host
@@ -5394,6 +7603,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/dust-particles.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-20
   from: engine-blasting
   to: web-engine-host
@@ -5401,6 +7611,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/blasting.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-21
   from: engine-watershed
   to: web-engine-host
@@ -5408,6 +7619,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/watershed.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-22
   from: engine-unet
   to: web-engine-host
@@ -5415,6 +7627,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/unet.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-23
   from: engine-comminution
   to: web-engine-host
@@ -5422,6 +7635,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/comminution.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-24
   from: engine-meta-model
   to: web-engine-host
@@ -5429,6 +7643,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/meta-model.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-25
   from: engine-mincut
   to: web-engine-host
@@ -5436,6 +7651,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/mincut.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-26
   from: engine-volume
   to: web-engine-host
@@ -5443,6 +7659,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/volume.schema.json
   schema_state: draft
+  availability: *id055
 - id: E-DC-018-02-27
   from: web-engine-host
   to: web-route-case
@@ -5450,6 +7667,7 @@ edges:
   dc: DC-018-02
   schema: specs/018-web-cases/contracts/engines/
   schema_state: draft
+  availability: *id055
 - id: E-GAP-01
   from: frag-dataset-builder
   to: unet-train
@@ -5459,6 +7677,35 @@ edges:
   what: synthetic 512 x 512 training tiles with masks
   gap_class: undefined
   evidence: FR-012-17 and FR-012-22 name the training tiles; DC-012-04 is the render index that feeds the builder, not its output
+  availability:
+    absent:
+      behaviour: 'no Isaac Sim: TSTR, synthetic x50 and C2ST are "not run" and TRTR and watershed publish as "TRTR only - synthetic
+        arm not run"; no Mendeley archive: TRTR, TSTR and the real comparison are "not run" and D1 says "synthetic-only U-Net claim;
+        no measured sim-to-real"'
+      covered_by:
+      - FR-012-39
+      - FR-012-40
+    fixture:
+      behaviour: 'fragmentation stages run on fixtures; reports carry `fixture: true` and D1 says "fixture, no measured result"'
+      covered_by:
+      - FR-012-47
+    partial:
+      behaviour: '"TRTR only - synthetic arm not run" is the partial report: the arms that ran are published with that label'
+      covered_by:
+      - FR-012-39
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: an archive that fails its SHA-256 check marks the real arms "not run"; a changed render or fragment digest fails `input-stale`
+      covered_by:
+      - FR-012-40
+      - FR-012-48
+    invalid:
+      behaviour: an unsafe, mis-sized or missing archive member stops the reader and leaves no partial dataset
+      covered_by:
+      - FR-012-02
 - id: E-GAP-02
   from: frag-watershed
   to: frag-eval
@@ -5468,6 +7715,35 @@ edges:
   what: watershed plus Swebrec baseline masks and PSDs per tile
   gap_class: undefined
   evidence: FR-012-32 compares against it; no schema defines the baseline output
+  availability:
+    absent:
+      behaviour: 'no Isaac Sim: TSTR, synthetic x50 and C2ST are "not run" and TRTR and watershed publish as "TRTR only - synthetic
+        arm not run"; no Mendeley archive: TRTR, TSTR and the real comparison are "not run" and D1 says "synthetic-only U-Net claim;
+        no measured sim-to-real"'
+      covered_by:
+      - FR-012-39
+      - FR-012-40
+    fixture:
+      behaviour: 'fragmentation stages run on fixtures; reports carry `fixture: true` and D1 says "fixture, no measured result"'
+      covered_by:
+      - FR-012-47
+    partial:
+      behaviour: '"TRTR only - synthetic arm not run" is the partial report: the arms that ran are published with that label'
+      covered_by:
+      - FR-012-39
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: an archive that fails its SHA-256 check marks the real arms "not run"; a changed render or fragment digest fails `input-stale`
+      covered_by:
+      - FR-012-40
+      - FR-012-48
+    invalid:
+      behaviour: an unsafe, mis-sized or missing archive member stops the reader and leaves no partial dataset
+      covered_by:
+      - FR-012-02
 - id: E-GAP-03
   from: st20_pit_design
   to: st40_compose
@@ -5477,6 +7753,35 @@ edges:
   what: OpenUSD design layers composed into the scene
   gap_class: binary-format
   evidence: OpenUSD layers; the contract is the USD format plus the unit, axis and SHA-256 rules of FR-004-32; no JSON Schema
+  availability: &id056
+    absent:
+      behaviour: an unavailable optional source is recorded `not run (<reason>)` and the Bingham scene still completes; an unavailable
+        validator makes the scene `incomplete`; an upstream stage not run skips the rest
+      covered_by:
+      - FR-004-09
+      - FR-004-38
+      - FR-002-60
+    fixture:
+      behaviour: 'stages run and are tested against fixtures; outputs and the scene manifest carry `fixture: true`'
+      covered_by:
+      - FR-004-44
+    partial:
+      behaviour: 'optional sources may be missing: the scene carries only the sources that ran, each listed'
+      covered_by:
+      - FR-004-09
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a sublayer whose SHA-256 differs from the upstream stage's record fails `compose-invalid`; nothing is corrected silently
+      covered_by:
+      - FR-004-32
+    invalid:
+      behaviour: parameters that fail the scene specification fail `params-invalid` listing every violation before a file is opened
+      covered_by:
+      - FR-004-40
+      - FR-004-32
 - id: E-GAP-04
   from: st30_assets
   to: st40_compose
@@ -5486,6 +7791,7 @@ edges:
   what: OpenUSD asset layers composed into the scene
   gap_class: binary-format
   evidence: same
+  availability: *id056
 - id: E-GAP-05
   from: s60_export
   to: s62_accel
@@ -5495,6 +7801,34 @@ edges:
   what: exported ONNX model file
   gap_class: binary-format
   evidence: ONNX; checked by onnx.checker (FR-016-01); described by manifest entry and parity report
+  availability:
+    absent:
+      behaviour: 'TensorRT, the CUDA 13 runtime or a GPU unavailable: every TensorRT cell is "not run" and the PyTorch and ONNX Runtime
+        cells still run'
+      covered_by:
+      - FR-016-24
+    fixture:
+      behaviour: 'export and bench run on fixtures; parity reports and bench rows carry `fixture: true` and are dropped from the table'
+      covered_by:
+      - FR-016-40
+    partial:
+      behaviour: every `rejected`, `build-failed` or "not run" cell is listed with its reason and none is dropped
+      covered_by:
+      - FR-016-31
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a TensorRT licence text that changed since review marks every TensorRT result `local-only`; a timing record whose SHA-256
+        differs from its artefact is ignored
+      covered_by:
+      - FR-016-23
+      - FR-016-13
+    invalid:
+      behaviour: an export config with an opset outside the allowed set, an IR version other than 10 or a failing checker is refused
+      covered_by:
+      - FR-016-02
 - id: E-GAP-06
   from: s62_accel
   to: s64_bench
@@ -5504,6 +7838,34 @@ edges:
   what: TensorRT engine (local-only, never committed)
   gap_class: binary-format
   evidence: engine plan file; not a published contract by design (FR-016-23)
+  availability:
+    absent:
+      behaviour: 'TensorRT, the CUDA 13 runtime or a GPU unavailable: every TensorRT cell is "not run" and the PyTorch and ONNX Runtime
+        cells still run'
+      covered_by:
+      - FR-016-24
+    fixture:
+      behaviour: 'export and bench run on fixtures; parity reports and bench rows carry `fixture: true` and are dropped from the table'
+      covered_by:
+      - FR-016-40
+    partial:
+      behaviour: every `rejected`, `build-failed` or "not run" cell is listed with its reason and none is dropped
+      covered_by:
+      - FR-016-31
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a TensorRT licence text that changed since review marks every TensorRT result `local-only`; a timing record whose SHA-256
+        differs from its artefact is ignored
+      covered_by:
+      - FR-016-23
+      - FR-016-13
+    invalid:
+      behaviour: an export config with an opset outside the allowed set, an IR version other than 10 or a failing checker is refused
+      covered_by:
+      - FR-016-02
 - id: E-GAP-07
   from: perception-infer
   to: vlm-detector-rule
@@ -5513,6 +7875,37 @@ edges:
   what: D-FINE detections with scores >= 0.5
   gap_class: undefined
   evidence: FR-015-29 consumes them; no schema
+  availability:
+    absent:
+      behaviour: 'no Hugging Face token or a gated 401 or 403: every Cosmos arm is "not run" with the reason, tasks A-C still run on
+        the Qwen control and the baselines; an unloadable BF16 reference makes BF16 and Q8_0 "not run"'
+      covered_by:
+      - FR-015-07
+      - FR-015-10
+    fixture:
+      behaviour: 'VLM stages run on fixtures; records and metrics carry `fixture: true` and no accuracy claim is published'
+      covered_by:
+      - FR-015-50
+    partial:
+      behaviour: tasks A-C run on the arms that exist (Qwen control, baselines) while the Cosmos arms are "not run"
+      covered_by:
+      - FR-015-07
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a pin whose SHA-256 differs makes every `st59_*` stage exit 2 before starting a process; a frame whose SHA-256 differs
+        from its frame state is rejected
+      covered_by:
+      - FR-015-02
+      - FR-015-23
+    invalid:
+      behaviour: an invalid frame state or query set is refused and never guessed; the rule answers "not applicable" and the count is
+        reported
+      covered_by:
+      - FR-015-23
+      - FR-015-47
 - id: E-GAP-08
   from: st59a_vqa
   to: vlm-scoring
@@ -5522,6 +7915,37 @@ edges:
   what: raw and parsed answers per query
   gap_class: undefined
   evidence: only the published record has a schema (DC-015-04, FR-015-40)
+  availability: &id057
+    absent:
+      behaviour: 'no Hugging Face token or a gated 401 or 403: every Cosmos arm is "not run" with the reason, tasks A-C still run on
+        the Qwen control and the baselines; an unloadable BF16 reference makes BF16 and Q8_0 "not run"'
+      covered_by:
+      - FR-015-07
+      - FR-015-10
+    fixture:
+      behaviour: 'VLM stages run on fixtures; records and metrics carry `fixture: true` and no accuracy claim is published'
+      covered_by:
+      - FR-015-50
+    partial:
+      behaviour: tasks A-C run on the arms that exist (Qwen control, baselines) while the Cosmos arms are "not run"
+      covered_by:
+      - FR-015-07
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a pin whose SHA-256 differs makes every `st59_*` stage exit 2 before starting a process; a frame whose SHA-256 differs
+        from its frame state is rejected
+      covered_by:
+      - FR-015-02
+      - FR-015-23
+    invalid:
+      behaviour: an invalid frame state or query set is refused and never guessed; the rule answers "not applicable" and the count is
+        reported
+      covered_by:
+      - FR-015-23
+      - FR-015-47
 - id: E-GAP-09
   from: st59b_plausibility
   to: vlm-scoring
@@ -5531,6 +7955,7 @@ edges:
   what: raw and parsed answers per pair
   gap_class: undefined
   evidence: same
+  availability: *id057
 - id: E-GAP-10
   from: st59c_captions
   to: vlm-scoring
@@ -5540,6 +7965,7 @@ edges:
   what: captions per frame
   gap_class: undefined
   evidence: same
+  availability: *id057
 - id: E-GAP-11
   from: vlm-detector-rule
   to: vlm-scoring
@@ -5549,6 +7975,7 @@ edges:
   what: rule answers per query
   gap_class: undefined
   evidence: same
+  availability: *id057
 - id: E-GAP-12
   from: perception-train
   to: perception-infer
@@ -5558,6 +7985,36 @@ edges:
   what: trained detector weights (D-FINE-N/S, RF-DETR-Seg-N)
   gap_class: binary-format
   evidence: FR-009-18 names the checkpoints; no DC row
+  availability:
+    absent:
+      behaviour: without a passing Isaac Sim probe `st55_sdg` and every downstream perception stage end "not run" with no substitute
+        data and B2 shows "not yet run"; without ovrtx the crusher family is "not run"
+      covered_by:
+      - FR-009-40
+      - FR-000-07
+    fixture:
+      behaviour: 'detector stages run on fixtures; checkpoints, predictions and reports carry `fixture: true` and no metric is published'
+      covered_by:
+      - FR-009-51
+    partial:
+      behaviour: an evaluation over fewer than all models or arms lists the missing ones `not run (absent)`, is `partial` and computes
+        no pooled claim
+      covered_by:
+      - FR-009-52
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: an SDG image whose SHA-256 differs from the index fails `input-stale` before training
+      covered_by:
+      - FR-009-53
+    invalid:
+      behaviour: a COCO file with a non-finite coordinate, a bad box, a duplicate or a dangling id is rejected whole; invalid predictions
+        are rejected with the reason and report no metric
+      covered_by:
+      - FR-009-15
+      - FR-009-43
 - id: E-GAP-13
   from: perception-train
   to: s60_export
@@ -5567,6 +8024,34 @@ edges:
   what: trained detector weights
   gap_class: binary-format
   evidence: no DC row
+  availability: &id058
+    absent:
+      behaviour: 'TensorRT, the CUDA 13 runtime or a GPU unavailable: every TensorRT cell is "not run" and the PyTorch and ONNX Runtime
+        cells still run'
+      covered_by:
+      - FR-016-24
+    fixture:
+      behaviour: 'export and bench run on fixtures; parity reports and bench rows carry `fixture: true` and are dropped from the table'
+      covered_by:
+      - FR-016-40
+    partial:
+      behaviour: every `rejected`, `build-failed` or "not run" cell is listed with its reason and none is dropped
+      covered_by:
+      - FR-016-31
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a TensorRT licence text that changed since review marks every TensorRT result `local-only`; a timing record whose SHA-256
+        differs from its artefact is ignored
+      covered_by:
+      - FR-016-23
+      - FR-016-13
+    invalid:
+      behaviour: an export config with an opset outside the allowed set, an IR version other than 10 or a failing checker is refused
+      covered_by:
+      - FR-016-02
 - id: E-GAP-14
   from: perception-infer
   to: perception-eval
@@ -5576,6 +8061,36 @@ edges:
   what: detector prediction files
   gap_class: undefined
   evidence: FR-009-43 validates them but names no schema
+  availability:
+    absent:
+      behaviour: without a passing Isaac Sim probe `st55_sdg` and every downstream perception stage end "not run" with no substitute
+        data and B2 shows "not yet run"; without ovrtx the crusher family is "not run"
+      covered_by:
+      - FR-009-40
+      - FR-000-07
+    fixture:
+      behaviour: 'detector stages run on fixtures; checkpoints, predictions and reports carry `fixture: true` and no metric is published'
+      covered_by:
+      - FR-009-51
+    partial:
+      behaviour: an evaluation over fewer than all models or arms lists the missing ones `not run (absent)`, is `partial` and computes
+        no pooled claim
+      covered_by:
+      - FR-009-52
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: an SDG image whose SHA-256 differs from the index fails `input-stale` before training
+      covered_by:
+      - FR-009-53
+    invalid:
+      behaviour: a COCO file with a non-finite coordinate, a bad box, a duplicate or a dangling id is rejected whole; invalid predictions
+        are rejected with the reason and report no metric
+      covered_by:
+      - FR-009-15
+      - FR-009-43
 - id: E-GAP-15
   from: slope-train
   to: slope-infer
@@ -5585,6 +8100,34 @@ edges:
   what: forecaster weights (TCN, PatchTST, Chronos-Bolt)
   gap_class: binary-format
   evidence: no DC row
+  availability:
+    absent:
+      behaviour: a real archive that fails its checksum or is not ingested gives "Not run - <reason>" and no TTF number; without observed
+        SNR the strata are nominal and labelled so
+      covered_by:
+      - FR-010-14
+      - FR-010-17
+      - FR-010-38
+    fixture:
+      behaviour: 'forecaster stages run on fixtures; results carry `fixture: true` and no lead-time claim is published'
+      covered_by:
+      - FR-010-46
+    partial:
+      behaviour: an evaluation over fewer than all series or strata lists the missing ones, is `partial` and makes no pooled claim
+      covered_by:
+      - FR-010-47
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a series or section whose digest differs from the manifest fails `input-stale`
+      covered_by:
+      - FR-010-48
+    invalid:
+      behaviour: an archive with unsafe paths, non-monotonic timestamps, no unit or no failure time is rejected with the reason
+      covered_by:
+      - FR-010-14
 - id: E-GAP-16
   from: slope-train
   to: s60_export
@@ -5594,6 +8137,7 @@ edges:
   what: forecaster weights
   gap_class: binary-format
   evidence: no DC row
+  availability: *id058
 - id: E-GAP-17
   from: slope-infer
   to: slope-eval
@@ -5603,6 +8147,34 @@ edges:
   what: forecaster predictions per window
   gap_class: undefined
   evidence: DC-010-03 is the result, not the predictions
+  availability:
+    absent:
+      behaviour: a real archive that fails its checksum or is not ingested gives "Not run - <reason>" and no TTF number; without observed
+        SNR the strata are nominal and labelled so
+      covered_by:
+      - FR-010-14
+      - FR-010-17
+      - FR-010-38
+    fixture:
+      behaviour: 'forecaster stages run on fixtures; results carry `fixture: true` and no lead-time claim is published'
+      covered_by:
+      - FR-010-46
+    partial:
+      behaviour: an evaluation over fewer than all series or strata lists the missing ones, is `partial` and makes no pooled claim
+      covered_by:
+      - FR-010-47
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a series or section whose digest differs from the manifest fails `input-stale`
+      covered_by:
+      - FR-010-48
+    invalid:
+      behaviour: an archive with unsafe paths, non-monotonic timestamps, no unit or no failure time is rejected with the reason
+      covered_by:
+      - FR-010-14
 - id: E-GAP-18
   from: gns-train
   to: surrogates-infer
@@ -5612,6 +8184,35 @@ edges:
   what: GNS weights
   gap_class: binary-format
   evidence: no DC row
+  availability: &id059
+    absent:
+      behaviour: an upstream solver stage not run skips surrogate training and evaluation; the benchmark gate keeps unvalidated rollouts
+        out of training
+      covered_by:
+      - FR-002-60
+      - SC-005-01
+    fixture:
+      behaviour: 'surrogate stages run on fixtures; checkpoints, rollouts and reports carry `fixture: true` and no result is published'
+      covered_by:
+      - FR-011-49
+    partial:
+      behaviour: an evaluation over fewer than all geometries, terrains or trials lists the missing cases, is `partial` and makes no
+        claim over them
+      covered_by:
+      - FR-011-50
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a rollout or field file whose digest differs from the training manifest fails `input-stale`
+      covered_by:
+      - FR-011-51
+    invalid:
+      behaviour: a rollout or field file that fails its schema is rejected with the reason and never coerced
+      covered_by:
+      - FR-011-14
+      - FR-011-41
 - id: E-GAP-19
   from: gns-train
   to: s60_export
@@ -5621,6 +8222,7 @@ edges:
   what: GNS weights
   gap_class: binary-format
   evidence: no DC row
+  availability: *id058
 - id: E-GAP-20
   from: fno-train
   to: surrogates-infer
@@ -5630,6 +8232,7 @@ edges:
   what: FNO weights
   gap_class: binary-format
   evidence: no DC row
+  availability: *id059
 - id: E-GAP-21
   from: fno-train
   to: s60_export
@@ -5639,6 +8242,7 @@ edges:
   what: FNO weights
   gap_class: binary-format
   evidence: no DC row
+  availability: *id058
 - id: E-GAP-22
   from: surrogates-infer
   to: surrogates-eval
@@ -5648,6 +8252,35 @@ edges:
   what: GNS rollouts and FNO fields on held-out inputs
   gap_class: undefined
   evidence: no DC row
+  availability:
+    absent:
+      behaviour: an upstream solver stage not run skips surrogate training and evaluation; the benchmark gate keeps unvalidated rollouts
+        out of training
+      covered_by:
+      - FR-002-60
+      - SC-005-01
+    fixture:
+      behaviour: 'surrogate stages run on fixtures; checkpoints, rollouts and reports carry `fixture: true` and no result is published'
+      covered_by:
+      - FR-011-49
+    partial:
+      behaviour: an evaluation over fewer than all geometries, terrains or trials lists the missing cases, is `partial` and makes no
+        claim over them
+      covered_by:
+      - FR-011-50
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a rollout or field file whose digest differs from the training manifest fails `input-stale`
+      covered_by:
+      - FR-011-51
+    invalid:
+      behaviour: a rollout or field file that fails its schema is rejected with the reason and never coerced
+      covered_by:
+      - FR-011-14
+      - FR-011-41
 - id: E-GAP-23
   from: unet-train
   to: unet-infer
@@ -5657,6 +8290,35 @@ edges:
   what: U-Net weights (TSTR and five TRTR folds)
   gap_class: binary-format
   evidence: no DC row
+  availability:
+    absent:
+      behaviour: 'no Isaac Sim: TSTR, synthetic x50 and C2ST are "not run" and TRTR and watershed publish as "TRTR only - synthetic
+        arm not run"; no Mendeley archive: TRTR, TSTR and the real comparison are "not run" and D1 says "synthetic-only U-Net claim;
+        no measured sim-to-real"'
+      covered_by:
+      - FR-012-39
+      - FR-012-40
+    fixture:
+      behaviour: 'fragmentation stages run on fixtures; reports carry `fixture: true` and D1 says "fixture, no measured result"'
+      covered_by:
+      - FR-012-47
+    partial:
+      behaviour: '"TRTR only - synthetic arm not run" is the partial report: the arms that ran are published with that label'
+      covered_by:
+      - FR-012-39
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: an archive that fails its SHA-256 check marks the real arms "not run"; a changed render or fragment digest fails `input-stale`
+      covered_by:
+      - FR-012-40
+      - FR-012-48
+    invalid:
+      behaviour: an unsafe, mis-sized or missing archive member stops the reader and leaves no partial dataset
+      covered_by:
+      - FR-012-02
 - id: E-GAP-24
   from: unet-train
   to: s60_export
@@ -5666,6 +8328,7 @@ edges:
   what: U-Net weights
   gap_class: binary-format
   evidence: no DC row
+  availability: *id058
 - id: E-GAP-25
   from: unet-infer
   to: frag-eval
@@ -5675,6 +8338,35 @@ edges:
   what: U-Net masks per tile
   gap_class: undefined
   evidence: no DC row
+  availability:
+    absent:
+      behaviour: 'no Isaac Sim: TSTR, synthetic x50 and C2ST are "not run" and TRTR and watershed publish as "TRTR only - synthetic
+        arm not run"; no Mendeley archive: TRTR, TSTR and the real comparison are "not run" and D1 says "synthetic-only U-Net claim;
+        no measured sim-to-real"'
+      covered_by:
+      - FR-012-39
+      - FR-012-40
+    fixture:
+      behaviour: 'fragmentation stages run on fixtures; reports carry `fixture: true` and D1 says "fixture, no measured result"'
+      covered_by:
+      - FR-012-47
+    partial:
+      behaviour: '"TRTR only - synthetic arm not run" is the partial report: the arms that ran are published with that label'
+      covered_by:
+      - FR-012-39
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: an archive that fails its SHA-256 check marks the real arms "not run"; a changed render or fragment digest fails `input-stale`
+      covered_by:
+      - FR-012-40
+      - FR-012-48
+    invalid:
+      behaviour: an unsafe, mis-sized or missing archive member stops the reader and leaves no partial dataset
+      covered_by:
+      - FR-012-02
 - id: E-GAP-26
   from: haul-train
   to: s60_export
@@ -5684,6 +8376,7 @@ edges:
   what: dispatch policy weights
   gap_class: binary-format
   evidence: DC-007-04 describes the exported layout only
+  availability: *id058
 - id: E-GAP-27
   from: haul-train
   to: haul-eval
@@ -5693,6 +8386,36 @@ edges:
   what: dispatch policy weights for evaluation
   gap_class: binary-format
   evidence: no DC row
+  availability:
+    absent:
+      behaviour: a reference-engine feature outside the twin's set makes the web fall back to the baked trace with that reason; an upstream
+        scenario stage not run skips the stage
+      covered_by:
+      - FR-007-12
+      - FR-002-60
+    fixture:
+      behaviour: 'dispatch stages run on fixtures; traces, KPI tables, checkpoints and reports carry `fixture: true` and no comparison
+        is published'
+      covered_by:
+      - FR-007-46
+    partial:
+      behaviour: a comparison over fewer than 30 paired seeds is `partial` with the counts and carries no verdict
+      covered_by:
+      - FR-007-47
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a policy whose ONNX SHA-256 differs from its manifest stops the run `PolicyPinMismatch` and returns no partial KPIs
+      covered_by:
+      - FR-007-44
+    invalid:
+      behaviour: a wrong shape, dtype, layout version or non-finite feature stops with `InvalidPolicyInput`; an invalid seed, horizon
+        or event budget stops within 2 s
+      covered_by:
+      - FR-007-44
+      - FR-007-13
 - id: E-GAP-28
   from: meta-train
   to: meta-eval
@@ -5702,6 +8425,38 @@ edges:
   what: meta-model weights
   gap_class: binary-format
   evidence: no DC row
+  availability:
+    absent:
+      behaviour: 'MineLib unreachable: E1 shows "Not run - <reason>" and continues on `oreblocks`; Brush missing: the splat view says
+        "Not run"; RTX camera unavailable: synthetic flights say "Not run - RTX camera unavailable" and the real volume is still produced'
+      covered_by:
+      - FR-017-24
+      - FR-017-43
+      - FR-017-44
+    fixture:
+      behaviour: 'planning and survey stages run on fixtures; results carry `fixture: true` and no E1, E2 or D2 number is published'
+      covered_by:
+      - FR-017-52
+    partial:
+      behaviour: an evaluation over fewer than all methods, flights or deposits lists the missing cells, is `partial` and summarises
+        only complete groups
+      covered_by:
+      - FR-017-53
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a MineLib file that fails its pinned SHA-256 is "Not run - <reason>"; differing vertical datums without a declared
+        transform give "Not run - vertical datums differ"
+      covered_by:
+      - FR-017-24
+      - FR-017-32
+    invalid:
+      behaviour: a PLY or SPZ file that fails to parse, declares more than 10^7 Gaussians or has non-finite attributes is rejected and
+        the splat view shows "Not run - <reason>"
+      covered_by:
+      - FR-017-49
 - id: E-GAP-29
   from: meta-train
   to: s60_export
@@ -5711,6 +8466,7 @@ edges:
   what: meta-model weights
   gap_class: binary-format
   evidence: no DC row
+  availability: *id058
 - id: E-GAP-30
   from: s60_export
   to: engine-detector
@@ -5720,6 +8476,40 @@ edges:
   what: ONNX input/output description of the detector (names, shapes, dtypes, scaling)
   gap_class: undefined
   evidence: DC-011-02 is declared for gns, fno, forecasters and meta-model only; specs 009 and 016 name no schema for it
+  availability:
+    absent:
+      behaviour: a layer, KPI or replay without a published artefact shows "Not yet run" (disabled toggle, KPI value, empty replay tab);
+        a missing case recipe shows "Not yet run - recipe planned"
+      covered_by:
+      - FR-018-04
+      - FR-018-05
+      - FR-018-15
+      - FR-018-20
+      - FR-000-07
+    fixture:
+      behaviour: a fixture artefact is labelled "fixture" in development builds and excluded, with "Not yet run", from release builds
+      covered_by:
+      - FR-018-70
+    partial:
+      behaviour: coverage shows published of planned counts with "Not yet run" cells and no aggregate claim
+      covered_by:
+      - FR-018-71
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: bytes that do not match the manifest SHA-256 show "integrity check failed"; an engine missing from or failing in the
+        parity report of the deployed commit runs in T0 with "parity not confirmed"
+      covered_by:
+      - FR-018-43
+      - FR-018-63
+    invalid:
+      behaviour: an invalid shard header or byte length is rejected `E_SCHEMA` and the poster frame is shown; an invalid parity or lane
+        file fails the build
+      covered_by:
+      - FR-018-45
+      - FR-018-67
 - id: E-GAP-31
   from: s60_export
   to: engine-unet
@@ -5729,6 +8519,40 @@ edges:
   what: ONNX input/output description of the U-Net
   gap_class: undefined
   evidence: 'same: specs 012 and 016 name no schema for it'
+  availability:
+    absent:
+      behaviour: a layer, KPI or replay without a published artefact shows "Not yet run" (disabled toggle, KPI value, empty replay tab);
+        a missing case recipe shows "Not yet run - recipe planned"
+      covered_by:
+      - FR-018-04
+      - FR-018-05
+      - FR-018-15
+      - FR-018-20
+      - FR-000-07
+    fixture:
+      behaviour: a fixture artefact is labelled "fixture" in development builds and excluded, with "Not yet run", from release builds
+      covered_by:
+      - FR-018-70
+    partial:
+      behaviour: coverage shows published of planned counts with "Not yet run" cells and no aggregate claim
+      covered_by:
+      - FR-018-71
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: bytes that do not match the manifest SHA-256 show "integrity check failed"; an engine missing from or failing in the
+        parity report of the deployed commit runs in T0 with "parity not confirmed"
+      covered_by:
+      - FR-018-43
+      - FR-018-63
+    invalid:
+      behaviour: an invalid shard header or byte length is rejected `E_SCHEMA` and the poster frame is shown; an invalid parity or lane
+        file fails the build
+      covered_by:
+      - FR-018-45
+      - FR-018-67
 - id: E-GAP-32
   from: survey-dem-differencing
   to: survey-eval
@@ -5738,6 +8562,38 @@ edges:
   what: photogrammetric and DEM-difference surfaces (grids with digests)
   gap_class: undefined
   evidence: DC-017-04 lists the surfaces' digests but no schema defines the surface file
+  availability: &id060
+    absent:
+      behaviour: 'MineLib unreachable: E1 shows "Not run - <reason>" and continues on `oreblocks`; Brush missing: the splat view says
+        "Not run"; RTX camera unavailable: synthetic flights say "Not run - RTX camera unavailable" and the real volume is still produced'
+      covered_by:
+      - FR-017-24
+      - FR-017-43
+      - FR-017-44
+    fixture:
+      behaviour: 'planning and survey stages run on fixtures; results carry `fixture: true` and no E1, E2 or D2 number is published'
+      covered_by:
+      - FR-017-52
+    partial:
+      behaviour: an evaluation over fewer than all methods, flights or deposits lists the missing cells, is `partial` and summarises
+        only complete groups
+      covered_by:
+      - FR-017-53
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a MineLib file that fails its pinned SHA-256 is "Not run - <reason>"; differing vertical datums without a declared
+        transform give "Not run - vertical datums differ"
+      covered_by:
+      - FR-017-24
+      - FR-017-32
+    invalid:
+      behaviour: a PLY or SPZ file that fails to parse, declares more than 10^7 Gaussians or has non-finite attributes is rejected and
+        the splat view shows "Not run - <reason>"
+      covered_by:
+      - FR-017-49
 - id: E-GAP-33
   from: survey-splat
   to: survey-eval
@@ -5747,6 +8603,7 @@ edges:
   what: splat-derived surface grids
   gap_class: undefined
   evidence: same
+  availability: *id060
 - id: E-GAP-34
   from: survey-splat
   to: survey-splat-package
@@ -5756,6 +8613,38 @@ edges:
   what: trained splat (PLY/SPZ) before packaging
   gap_class: binary-format
   evidence: FR-017-49 parses it but names no schema
+  availability:
+    absent:
+      behaviour: 'MineLib unreachable: E1 shows "Not run - <reason>" and continues on `oreblocks`; Brush missing: the splat view says
+        "Not run"; RTX camera unavailable: synthetic flights say "Not run - RTX camera unavailable" and the real volume is still produced'
+      covered_by:
+      - FR-017-24
+      - FR-017-43
+      - FR-017-44
+    fixture:
+      behaviour: 'planning and survey stages run on fixtures; results carry `fixture: true` and no E1, E2 or D2 number is published'
+      covered_by:
+      - FR-017-52
+    partial:
+      behaviour: an evaluation over fewer than all methods, flights or deposits lists the missing cells, is `partial` and summarises
+        only complete groups
+      covered_by:
+      - FR-017-53
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a MineLib file that fails its pinned SHA-256 is "Not run - <reason>"; differing vertical datums without a declared
+        transform give "Not run - vertical datums differ"
+      covered_by:
+      - FR-017-24
+      - FR-017-32
+    invalid:
+      behaviour: a PLY or SPZ file that fails to parse, declares more than 10^7 Gaussians or has non-finite attributes is rejected and
+        the splat view shows "Not run - <reason>"
+      covered_by:
+      - FR-017-49
 - id: E-GAP-35
   from: survey-splat-package
   to: web-assets-loader
@@ -5765,6 +8654,40 @@ edges:
   what: packaged splat asset, described only by its manifest entry
   gap_class: undefined
   evidence: the manifest entry (DC-001-01) carries bytes and SHA-256 but not the splat header
+  availability:
+    absent:
+      behaviour: a layer, KPI or replay without a published artefact shows "Not yet run" (disabled toggle, KPI value, empty replay tab);
+        a missing case recipe shows "Not yet run - recipe planned"
+      covered_by:
+      - FR-018-04
+      - FR-018-05
+      - FR-018-15
+      - FR-018-20
+      - FR-000-07
+    fixture:
+      behaviour: a fixture artefact is labelled "fixture" in development builds and excluded, with "Not yet run", from release builds
+      covered_by:
+      - FR-018-70
+    partial:
+      behaviour: coverage shows published of planned counts with "Not yet run" cells and no aggregate claim
+      covered_by:
+      - FR-018-71
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: bytes that do not match the manifest SHA-256 show "integrity check failed"; an engine missing from or failing in the
+        parity report of the deployed commit runs in T0 with "parity not confirmed"
+      covered_by:
+      - FR-018-43
+      - FR-018-63
+    invalid:
+      behaviour: an invalid shard header or byte length is rejected `E_SCHEMA` and the poster frame is shown; an invalid parity or lane
+        file fails the build
+      covered_by:
+      - FR-018-45
+      - FR-018-67
 - id: E-GAP-36
   from: st45b_kit_validate
   to: st45_validate
@@ -5774,3 +8697,32 @@ edges:
   what: Kit-lane validation result
   gap_class: undefined
   evidence: spec 004 section 7 resolves st45b out of scope; no spec owns it
+  availability:
+    absent:
+      behaviour: an unavailable optional source is recorded `not run (<reason>)` and the Bingham scene still completes; an unavailable
+        validator makes the scene `incomplete`; an upstream stage not run skips the rest
+      covered_by:
+      - FR-004-09
+      - FR-004-38
+      - FR-002-60
+    fixture:
+      behaviour: 'stages run and are tested against fixtures; outputs and the scene manifest carry `fixture: true`'
+      covered_by:
+      - FR-004-44
+    partial:
+      behaviour: 'optional sources may be missing: the scene carries only the sources that ran, each listed'
+      covered_by:
+      - FR-004-09
+    real:
+      behaviour: the artefact is used as the producing requirement describes; the contract is not yet defined
+      covered_by: []
+      na: 'gap edge: no DC row and no schema (module-map section 5.3)'
+    stale:
+      behaviour: a sublayer whose SHA-256 differs from the upstream stage's record fails `compose-invalid`; nothing is corrected silently
+      covered_by:
+      - FR-004-32
+    invalid:
+      behaviour: parameters that fail the scene specification fail `params-invalid` listing every violation before a file is opened
+      covered_by:
+      - FR-004-40
+      - FR-004-32

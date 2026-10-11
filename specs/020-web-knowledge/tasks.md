@@ -47,6 +47,12 @@ start with the requirement ID followed by " · "; Python tests use `@pytest.mark
 - [ ] T-020-063 [US-020-5] (NFR-020-02, NFR-020-07, NFR-000-03) first view per route; figure render and zoom timing — test: web/e2e/t_020_063_first_view.spec.ts
 - [ ] T-020-064 [US-020-5] (NFR-020-05, NFR-020-06, SC-020-01, NFR-000-02) axe over the route matrix; Lighthouse — test: web/e2e/t_020_064_a11y_matrix.spec.ts
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-020-092 (FR-020-52) fixture result rows: label and no verdict in development, "Not yet run" in release — test: web/src/results/t_020_092_fixture_row.test.ts
+- [ ] T-020-093 (FR-020-53) partial model coverage: count out of total, no whole-set claim — test: web/src/results/t_020_093_partial_models.test.ts
+- [ ] T-020-094 (FR-020-54) stale result rows: badge, excluded from summaries — test: web/src/results/t_020_094_stale_row.test.ts
+
 ## Phase 8 — Gates, polish and independent review
 - [ ] T-020-088 [US-020-2] (SC-020-02) all 13 model rows of plan §7 present with criterion and status on the release build — test: web/e2e/t_020_088_criteria_rows.spec.ts
 - [ ] T-020-090 (NFR-020-09) coverage and mutation run on `web/src/charts/**`, `web/src/theory/fn/**`, `web/src/results/verdict*`, `web/src/knowledge/search*`; scores checked against `thresholds.yaml` — test: tests/contract/test_t_020_090_web_quality_scores.py

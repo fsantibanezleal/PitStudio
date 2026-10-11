@@ -57,6 +57,10 @@ run only on the reference machine, never in CI, and only under the GPU lock.
 - [ ] T-013-072 [US-013-6] (FR-013-29) rain arm local render at 0 and 50 mm/h — test: tests/gpu/test_t_013_072_rain_render.py
 - [ ] T-013-073 [US-013-3] (FR-013-34) re-run check on one real shard — test: tests/gpu/test_t_013_073_rerun_real.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-013-092 (FR-013-43) fixture sensor inputs: fake backend only, shards marked, none published — test: tests/unit/test_t_013_092_fixture_envelope.py
+
 ## Phase 9 — Polish and review
 - [ ] T-013-090 mutation run on `src/pitstudio/sensors/` and the lane guards; record the score (numerical core ≥ 0.80)
 - [ ] T-013-091 independent review of the diff against this spec; append tasks for gaps

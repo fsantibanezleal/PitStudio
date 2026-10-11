@@ -172,6 +172,8 @@ are defined in those specs and are not restated here.
 | FR-018-67 | Unwanted | If a parity fixture fails its schema or its pinned SHA-256, an engine's fixture set is empty, or the parity report or the lane-measurement file fails its schema, then the parity suite or the build shall fail and name the file, and no engine shall be recorded as passing on an empty or invalid fixture set. | contract (hostile) |
 | FR-018-68 | Unwanted | If the `SimClock` receives a non-finite or negative time or rate, then it shall ignore the call and keep its state; a seek beyond the duration D shall clamp to D. | unit (hostile) |
 | FR-018-69 | Unwanted | If a case in `cases.yaml` declares the same KPI id twice, then `tools/check_cases.py` shall fail with error class `case-duplicate-kpi` naming the case and the id. | unit (hostile) |
+| FR-018-70 | State | While an artefact in the web manifest has `fixture: true`, a development build shall show it with the label "fixture" instead of the LIVE, REPLAY or STATIC badge, and a release build shall exclude it and show "Not yet run" in its place (FR-000-07, FR-000-23). | E2E |
+| FR-018-71 | State | While only some cases or KPIs have published artefacts, the catalogue matrices (FR-018-09) and the Explore KPI rail shall show for each count its numerator and denominator (published of planned), shall mark each missing cell "Not yet run", and shall state no aggregate claim over cases without an artefact. | unit + E2E |
 
 ## 4. Correctness properties
 Property tests use fast-check with the `property_tests` counts of `thresholds.yaml` (200 in CI, 2,000 at release); "exact" means `===` on
@@ -467,6 +469,8 @@ name of its `minephys` reference, and the FR-018-51 parity fixtures call the ref
 - Integration 2026-10-07 (2): shard code type resolved. This spec owns the replay-shard schema (DC-018-03); its header and the
   replay manifest declare `code_type` (`int16` or `uint16`), the reader takes the code type from the header, and
   DC-018-03, P-018-68 and FR-005-45 no longer fix one type (the open contradiction of the first pass is closed).
+
+- Availability states (2026-10-11): FR-018-70, FR-018-71 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

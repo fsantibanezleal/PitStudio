@@ -32,6 +32,10 @@ run in the studio CPU job with fakes or with the pinned CPU build of FFmpeg.
 ## Phase 5 — Acceptance
 - [ ] T-006-040 (NFR-006-01, SC-006-01, SC-006-02) acceptance on the published runs (data-and-models phase): encode time, VMAF and budgets per clip, throughput and encoder records present — test: tests/pipeline/test_t_006_040_media_acceptance.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-006-092 (FR-006-23) fixture frames: encode marks outputs `fixture: true` and publishes none — test: tests/unit/test_t_006_092_fixture_clip.py
+
 ## Phase 6 — Polish and review
 - [ ] T-006-090 mutation run on `pitstudio_studio.media.search`, `pitstudio_studio.media.frames` and `pitstudio_studio.telemetry.throughput`; record the score against `mutation.numerical_core_min`
 - [ ] T-006-091 independent review of the diff against this spec; append tasks for gaps
