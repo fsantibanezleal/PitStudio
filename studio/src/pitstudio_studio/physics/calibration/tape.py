@@ -363,31 +363,22 @@ class _Dem:
         }
 
 
-def rollout_gradient(
-    scene: TapeScene,
-    mu: float,
-    *,
-    settle_steps: int = 0,
-    record_steps: int,
-    dt: float,
-    objective: str = "mean_x",
-    device: str = "cpu",
-) -> TapeRollout:
-    """Settle without recording, record `record_steps` steps and return the objective and d objective / d mu_s."""
-    _validate(scene, mu, record_steps, settle_steps, dt, objective)
+def _vec(a: np.ndarray, device: str, grad: bool = False) -> wp.array:
+    return wp.array(np.ascontiguousarray(a, dtype=np.float32), dtype=wp.vec3, device=device, requires_grad=grad)
+
+
+def _settle(
+    scene: TapeScene, mu: float, settle_steps: int, dt: float, device: str
+) -> tuple[_Dem, np.ndarray, np.ndarray, np.ndarray]:
+    """Run `settle_steps` plain (unrecorded) steps; candidate pairs are refreshed when the heap has moved."""
     dem = _Dem(scene, float(mu), float(dt), device)
     n = dem.n
     pos = np.asarray(scene.positions, dtype=np.float64)
     vel = np.asarray(scene.velocities, dtype=np.float64)
     ang = np.zeros((n, 3)) if scene.angular_velocities is None else np.asarray(scene.angular_velocities, dtype=np.float64)
     r_max = float(dem.radii_np.max())
-
-    def vec(a: np.ndarray, grad: bool = False) -> wp.array:
-        return wp.array(np.ascontiguousarray(a, dtype=np.float32), dtype=wp.vec3, device=device, requires_grad=grad)
-
-    # ---- settling: plain launches on two alternating state sets, candidate pairs refreshed when the heap has moved
-    state_a = [vec(pos), vec(vel), vec(ang)]
-    state_b = [vec(pos), vec(vel), vec(ang)]
+    state_a = [_vec(pos, device), _vec(vel, device), _vec(ang, device)]
+    state_b = [_vec(pos, device), _vec(vel, device), _vec(ang, device)]
     mu_floor_plain = wp.array(np.full(n, float(mu), dtype=np.float32), dtype=float, device=device)
     skin = 0.5 * r_max
     built_at = pos.copy()
@@ -403,39 +394,213 @@ def rollout_gradient(
                 built_at = now
         dem.step(topo, tuple(cur), tuple(nxt), buf, mu_floor_plain)
         cur, nxt = nxt, cur
-    now_x = cur[0].numpy().astype(np.float64)
-    now_v = cur[1].numpy().astype(np.float64)
-    now_w = cur[2].numpy().astype(np.float64)
+    return (
+        dem,
+        cur[0].numpy().astype(np.float64),
+        cur[1].numpy().astype(np.float64),
+        cur[2].numpy().astype(np.float64),
+    )
 
-    # ---- the recorded window
+
+def _window_skin(now_v: np.ndarray, now_w: np.ndarray, r_max: float, record_steps: int, dt: float) -> float:
     speed = float(np.abs(now_v).max()) + float(np.abs(now_w).max()) * r_max
-    window_skin = max(0.5 * r_max, 2.0 * speed * record_steps * dt + 0.5 * G * (record_steps * dt) ** 2)
-    pairs = candidate_pairs(now_x, dem.radii_np, window_skin)
+    return max(0.5 * r_max, 2.0 * speed * record_steps * dt + 0.5 * G * (record_steps * dt) ** 2)
+
+
+def _record(
+    dem: _Dem,
+    now: tuple[np.ndarray, np.ndarray, np.ndarray],
+    mu: float,
+    record_steps: int,
+    device: str,
+    finish: Any,
+) -> tuple[list[tuple], dict[str, Any], wp.array, np.ndarray]:
+    """Record `record_steps` steps under the tape; `finish(final_x_array, tape)` adds the observable kernels and returns
+    (output array, seed gradient host function); the tape is back-propagated by the caller."""
+    now_x, now_v, now_w = now
+    r_max = float(dem.radii_np.max())
+    pairs = candidate_pairs(now_x, dem.radii_np, _window_skin(now_v, now_w, r_max, record_steps, dem.dt))
     topo = dem.pair_arrays(pairs, grad=True)
-    mu_floor = wp.array(np.full(n, float(mu), dtype=np.float32), dtype=float, device=device, requires_grad=True)
-    states = [(vec(now_x, True), vec(now_v, True), vec(now_w, True))]
+    mu_floor = wp.array(np.full(dem.n, float(mu), dtype=np.float32), dtype=float, device=device, requires_grad=True)
+    states = [(_vec(now_x, device, True), _vec(now_v, device, True), _vec(now_w, device, True))]
+    zeros = np.zeros_like(now_x)
     for _ in range(record_steps):
-        states.append((vec(now_x * 0, True), vec(now_x * 0, True), vec(now_x * 0, True)))
-    obj = wp.zeros(n, dtype=float, device=device, requires_grad=True)
+        states.append((_vec(zeros, device, True), _vec(zeros, device, True), _vec(zeros, device, True)))
     tape = wp.Tape()
     with tape:
         for t in range(record_steps):
             dem.step(topo, states[t], states[t + 1], dem.buffers(topo["p"], True), mu_floor)
-        axis = 0 if objective == "mean_x" else 2
-        wp.launch(_objective, dim=n, inputs=[states[-1][0], axis, 1.0 / n], outputs=[obj], device=device)
-    value = math.fsum(float(v) for v in obj.numpy())
-    tape.backward(grads={obj: wp.array(np.ones(n, dtype=np.float32), dtype=float, device=device)})
-    grads = [float(g) for g in mu_floor.grad.numpy()]
+        out = finish(states[-1][0])
+    return states, {"tape": tape, "topo": topo, "mu_floor": mu_floor, "pairs": pairs}, out, now_x
+
+
+def _mu_gradient(ctx: dict[str, Any], n: int) -> float:
+    """d / d mu from the per-contact and per-particle friction adjoints, summed exactly (order-independent)."""
+    grads = [float(g) for g in ctx["mu_floor"].grad.numpy()[:n]]
+    topo = ctx["topo"]
     if topo["p"]:
         grads += [float(g) for g in topo["mu_p"].grad.numpy()[: topo["p"]]]
-    gradient = math.fsum(grads)
+    return math.fsum(grads)
+
+
+def rollout_gradient(
+    scene: TapeScene,
+    mu: float,
+    *,
+    settle_steps: int = 0,
+    record_steps: int,
+    dt: float,
+    objective: str = "mean_x",
+    device: str = "cpu",
+) -> TapeRollout:
+    """Settle without recording, record `record_steps` steps and return the objective and d objective / d mu_s."""
+    _validate(scene, mu, record_steps, settle_steps, dt, objective)
+    dem, now_x, now_v, now_w = _settle(scene, mu, settle_steps, dt, device)
+    n = dem.n
+    obj = wp.zeros(n, dtype=float, device=device, requires_grad=True)
+    axis = 0 if objective == "mean_x" else 2
+
+    def finish(final_x: wp.array) -> wp.array:
+        wp.launch(_objective, dim=n, inputs=[final_x, axis, 1.0 / n], outputs=[obj], device=device)
+        return obj
+
+    states, ctx, _, _ = _record(dem, (now_x, now_v, now_w), mu, record_steps, device, finish)
+    value = math.fsum(float(v) for v in obj.numpy())
+    ctx["tape"].backward(grads={obj: wp.array(np.ones(n, dtype=np.float32), dtype=float, device=device)})
+    gradient = _mu_gradient(ctx, n)
     final_x = states[-1][0].numpy().astype(np.float64)
     final_v = states[-1][1].numpy().astype(np.float64)
-    _check_pairs_still_cover(final_x, dem.radii_np, pairs)
-    tape.zero()
+    _check_pairs_still_cover(final_x, dem.radii_np, ctx["pairs"])
+    ctx["tape"].zero()
     return TapeRollout(
-        objective=value, gradient=gradient, final_positions=final_x, final_velocities=final_v, deterministic=True, pairs=topo["p"]
+        objective=value, gradient=gradient, final_positions=final_x, final_velocities=final_v, deterministic=True, pairs=ctx["topo"]["p"]
     )
+
+
+@wp.kernel
+def _soft_sum(
+    x: wp.array(dtype=wp.vec3),
+    centres: wp.array(dtype=float),
+    axis_x: float,
+    axis_y: float,
+    d: float,
+    beta: float,
+    top: float,
+    sums: wp.array(dtype=float),
+):
+    b, i = wp.tid()
+    dx = x[i][0] - axis_x
+    dy = x[i][1] - axis_y
+    r = wp.sqrt(dx * dx + dy * dy)
+    dr = r - centres[b]
+    w = wp.exp(-(dr * dr) / (2.0 * d * d))
+    wp.atomic_add(sums, b, w * wp.exp(beta * (x[i][2] + 0.5 * d - top)))
+
+
+@wp.kernel
+def _soft_log(sums: wp.array(dtype=float), beta: float, top: float, out: wp.array(dtype=float)):
+    b = wp.tid()
+    out[b] = wp.log(sums[b]) / beta + top
+
+
+@dataclass
+class ReposeRollout:
+    """Smooth and hard repose angle of the heap at the end of the recorded window (and d theta_smooth / d mu_s)."""
+
+    theta_smooth_deg: float
+    theta_hard_deg: float
+    gradient_deg_per_unit: float | None
+    final_positions: np.ndarray
+    bin_range: tuple[int, int]
+
+
+def rollout_repose(
+    scene: TapeScene,
+    mu: float,
+    *,
+    settle_steps: int,
+    record_steps: int,
+    dt: float,
+    device: str = "cpu",
+    differentiate: bool = True,
+) -> ReposeRollout:
+    """Settle a heap, freeze the bin range at the start of the window, run the window and measure the repose angle.
+
+    The smooth observable (soft-max envelope, FR-011-18) is evaluated on the device inside the tape and back-propagated through
+    the host-computed derivative of the least-squares slope and the arctan; without `differentiate` the window runs plainly.
+    """
+    from pitstudio.calibration import observables as obs
+
+    _validate(scene, mu, max(record_steps, 1), settle_steps, dt, "mean_x")
+    dem, now_x, now_v, now_w = _settle(scene, mu, settle_steps, dt, device)
+    d = 2.0 * float(dem.radii_np.mean())
+    heights = now_x[:, 2] + 0.5 * d
+    axis_xy = (float(now_x[:, 0].mean()), float(now_x[:, 1].mean()))
+    first, last = obs.freeze_bin_range(now_x, d=d, axis_xy=axis_xy)
+    indices = np.arange(first, last + 1)
+    centres_np = 2.0 * d * (indices + 0.5)
+    if not differentiate:
+        _, ex, _, _ = _settle_continue(dem, (now_x, now_v, now_w), mu, record_steps, device)
+        return ReposeRollout(
+            theta_smooth_deg=obs.smooth_repose_deg(ex, d=d, axis_xy=axis_xy, bin_range=(first, last)),
+            theta_hard_deg=obs.hard_repose_deg(ex, d=d, axis_xy=axis_xy, bin_range=(first, last)),
+            gradient_deg_per_unit=None,
+            final_positions=ex,
+            bin_range=(first, last),
+        )
+    nb = len(centres_np)
+    n = dem.n
+    top = float(heights.max()) + 0.25 * d  # a constant reference for the stable soft maximum (it cancels exactly)
+    beta = obs.BETA_OVER_D / d
+    centres = wp.array(centres_np.astype(np.float32), dtype=float, device=device)
+    sums = wp.zeros(nb, dtype=float, device=device, requires_grad=True)
+    env = wp.zeros(nb, dtype=float, device=device, requires_grad=True)
+
+    def finish(final_x: wp.array) -> wp.array:
+        wp.launch(_soft_sum, dim=(nb, n), inputs=[final_x, centres, axis_xy[0], axis_xy[1], d, beta, top], outputs=[sums], device=device)
+        wp.launch(_soft_log, dim=nb, inputs=[sums, beta, top], outputs=[env], device=device)
+        return env
+
+    states, ctx, _, _ = _record(dem, (now_x, now_v, now_w), mu, record_steps, device, finish)
+    h = env.numpy().astype(np.float64)
+    r = centres_np
+    r_bar, h_bar = r.mean(), h.mean()
+    sxx = float(((r - r_bar) ** 2).sum())
+    slope = float(((r - r_bar) * (h - h_bar)).sum() / sxx)
+    theta = math.degrees(math.atan(-slope))
+    # d theta / d h_b = (-1 / (1 + slope^2)) * (r_b - r_bar) / Sxx, in degrees
+    seed = (-(r - r_bar) / sxx / (1.0 + slope**2)) * (180.0 / math.pi)
+    ctx["tape"].backward(grads={env: wp.array(seed.astype(np.float32), dtype=float, device=device)})
+    gradient = _mu_gradient(ctx, n)
+    final_x = states[-1][0].numpy().astype(np.float64)
+    _check_pairs_still_cover(final_x, dem.radii_np, ctx["pairs"])
+    hard = obs.hard_repose_deg(final_x, d=d, axis_xy=axis_xy, bin_range=(first, last))
+    ctx["tape"].zero()
+    return ReposeRollout(theta_smooth_deg=theta, theta_hard_deg=hard, gradient_deg_per_unit=gradient, final_positions=final_x, bin_range=(first, last))
+
+
+def _settle_continue(dem: _Dem, now: tuple[np.ndarray, np.ndarray, np.ndarray], mu: float, steps: int, device: str):
+    """Plain (unrecorded) continuation of a settled state by `steps` steps; returns (dem, final x, final v, final w)."""
+    x, v, w = now
+    n = dem.n
+    r_max = float(dem.radii_np.max())
+    skin = max(0.5 * r_max, 0.5 * r_max)
+    topo = dem.pair_arrays(candidate_pairs(x, dem.radii_np, skin), grad=False)
+    buf = dem.buffers(topo["p"], grad=False)
+    mu_floor = wp.array(np.full(n, float(mu), dtype=np.float32), dtype=float, device=device)
+    cur = [_vec(x, device), _vec(v, device), _vec(w, device)]
+    nxt = [_vec(x, device), _vec(v, device), _vec(w, device)]
+    built = x.copy()
+    for s in range(steps):
+        if s and s % REBUILD_CHECK_EVERY == 0:
+            now_x = cur[0].numpy().astype(np.float64)
+            if float(np.abs(now_x - built).max()) > 0.25 * skin:
+                topo = dem.pair_arrays(candidate_pairs(now_x, dem.radii_np, skin), grad=False)
+                buf = dem.buffers(topo["p"], grad=False)
+                built = now_x
+        dem.step(topo, tuple(cur), tuple(nxt), buf, mu_floor)
+        cur, nxt = nxt, cur
+    return dem, cur[0].numpy().astype(np.float64), cur[1].numpy().astype(np.float64), cur[2].numpy().astype(np.float64)
 
 
 def _check_pairs_still_cover(positions: np.ndarray, radii: np.ndarray, pairs: np.ndarray) -> None:
