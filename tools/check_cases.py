@@ -79,7 +79,11 @@ def _known(root: Path) -> tuple[set[str], set[str], set[str], set[str]]:
         listed = [e for e in (doc.get("tools") or []) if isinstance(e, dict)] if isinstance(doc, dict) else []
         if listed:
             tools = _ids(doc, "tools", "components")
-            studio = {e["id"] for e in listed if e.get("status") != "evaluated-not-adopted" and "id" in e}
+            studio = {
+                e["id"]
+                for e in listed
+                if e.get("category", "studio-tool") == "studio-tool" and e.get("status") != "evaluated-not-adopted"
+            }
     sources: set[str] = set()
     f = root / "data" / "sources.yaml"
     if f.is_file():
