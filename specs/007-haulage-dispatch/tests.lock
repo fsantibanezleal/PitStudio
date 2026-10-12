@@ -22,3 +22,4 @@ d1aacdd4f243545cb3f35211f649890a931e22fa4e6b1129e24e699e6f332570  tests/pipeline
 def186de031a0dcd96128702d06317f1113cf433984bce413799780a7137f7aa  web/src/engines/des/twin.metamorphic.test.ts
 37106a4fe2f4f780881121ed325d6d1657f11d6797f9e4dc3d0843e1378b8265  tests/pipeline/test_t_007_022_adapter_limits.py
 03cd3674f6f8ef0b7238883c6ded02133cd549a977446d4b5a9df622a3ca6715  web/src/engines/des/twin.hostile.test.ts
+7296e7841aea40afc1a33653c04348031f6094f0f8f785f71165a9eae839dd93  web/e2e/haulage-engines-budget.spec.ts
