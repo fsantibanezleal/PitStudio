@@ -568,6 +568,13 @@
       "rule": "FR-008-49",
       "pointer": "/fixture",
       "keyword": "type"
+    },
+    {
+      "file": "ingestion-report.valid-partial-rejected.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "partial report whose verified file was rejected: no output, one file unavailable (FR-008-50)"
     }
   ],
   "not_schema_checkable": [

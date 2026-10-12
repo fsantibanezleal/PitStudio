@@ -146,9 +146,6 @@
       },
       "then": {
         "properties": {
-          "status": {
-            "const": "accepted"
-          },
           "files": {
             "contains": {
               "type": "object",
