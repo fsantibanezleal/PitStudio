@@ -7,6 +7,7 @@ from functools import cache
 from typing import Any
 
 from jsonschema import Draft202012Validator
+from jsonschema.exceptions import best_match
 from pitstudio.contracts.io import pointer_of
 from pitstudio.contracts.validate import CONTRACTS_DIR
 from referencing import Registry, Resource
@@ -29,6 +30,14 @@ def validator(name: str, definition: str | None = None) -> Draft202012Validator:
     if definition is not None:
         schema = {"$ref": schema["$id"] + "#/$defs/" + definition}
     return Draft202012Validator(schema, registry=_registry())
+
+
+def best_error(name: str, document: Any, definition: str | None = None) -> tuple[str, str] | None:
+    """The most relevant violation (jsonschema `best_match`: descends into `oneOf` branches) as (pointer, message)."""
+    error = best_match(validator(name, definition).iter_errors(document))
+    if error is None:
+        return None
+    return pointer_of(list(error.absolute_path)), error.message[:300]
 
 
 def schema_errors(name: str, document: Any, definition: str | None = None) -> list[tuple[str, str]]:
