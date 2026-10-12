@@ -1,0 +1,1402 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PitStudio console API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "the only body readable from the public site",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "problem, status 400",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "get": {
+        "summary": "Recipes",
+        "operationId": "recipes_recipes_get",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipeList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "problem, status 400",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recipes/{recipe_id}": {
+      "get": {
+        "summary": "Recipe",
+        "operationId": "recipe_recipes__recipe_id__get",
+        "parameters": [
+          {
+            "name": "recipe_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64,
+              "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+              "title": "Recipe Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the validated recipe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "problem, status 404",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "problem, status 422",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/queue": {
+      "get": {
+        "summary": "Queue List",
+        "operationId": "queue_list_queue_get",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobList"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "problem, status 500",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "problem, status 503",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs/{job_id}": {
+      "get": {
+        "summary": "Job",
+        "operationId": "job_jobs__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 25,
+              "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}$",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "problem, status 404",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "problem, status 422",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "problem, status 500",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "problem, status 503",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs": {
+      "post": {
+        "summary": "Create Job",
+        "operationId": "create_job_jobs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobCreated"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "problem, status 400",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "problem, status 403",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "problem, status 413",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "problem, status 415",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "problem, status 422",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "problem, status 503",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobs/{job_id}/cancel": {
+      "post": {
+        "summary": "Cancel Job",
+        "operationId": "cancel_job_jobs__job_id__cancel_post",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 25,
+              "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}$",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "the job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "problem, status 403",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "problem, status 404",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "problem, status 409",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "problem, status 422",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "problem, status 500",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "problem, status 503",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runs": {
+      "get": {
+        "summary": "Runs",
+        "operationId": "runs_runs_get",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunList"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "problem, status 503",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runs/{run_id}": {
+      "get": {
+        "summary": "Run",
+        "operationId": "run_runs__run_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64,
+              "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the validated run manifest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "problem, status 404",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "problem, status 409",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "problem, status 422",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "problem, status 503",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runs/{run_id}/artefacts/{artefact_id}": {
+      "get": {
+        "summary": "Artefact",
+        "operationId": "artefact_runs__run_id__artefacts__artefact_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64,
+              "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "artefact_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 96,
+              "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$",
+              "title": "Artefact Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the bytes",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "206": {
+            "description": "partial content",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "problem, status 404",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "problem, status 409",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "416": {
+            "description": "problem, status 416",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "problem, status 422",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "problem, status 503",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runs/{run_id}/events": {
+      "get": {
+        "summary": "Events",
+        "operationId": "events_runs__run_id__events_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64,
+              "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "server-sent events",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "problem, status 404",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "problem, status 422",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "problem, status 429",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "problem, status 503",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CaseId": {
+        "type": "string",
+        "enum": [
+          "A1",
+          "A2",
+          "A3",
+          "B1",
+          "B2",
+          "C1",
+          "C2",
+          "C3",
+          "D1",
+          "D2",
+          "E1",
+          "E2"
+        ],
+        "title": "CaseId"
+      },
+      "ContractVersion": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/ContractVersion1"
+          },
+          {
+            "$ref": "#/components/schemas/ContractVersion2"
+          }
+        ],
+        "title": "ContractVersion",
+        "description": "a contract's schema_version, or its exact PitStudio $id"
+      },
+      "ContractVersion1": {
+        "type": "string",
+        "maxLength": 8,
+        "pattern": "^[0-9]{1,3}\\.[0-9]{1,4}$",
+        "title": "ContractVersion1",
+        "description": "a contract's schema_version, or its exact PitStudio $id"
+      },
+      "ContractVersion2": {
+        "type": "string",
+        "maxLength": 120,
+        "pattern": "^https://fsantibanezleal\\.github\\.io/PitStudio/contracts/[a-z][a-z0-9-]{0,31}\\.schema\\.json$",
+        "title": "ContractVersion2",
+        "description": "a contract's schema_version, or its exact PitStudio $id"
+      },
+      "ErrorItem": {
+        "properties": {
+          "pointer": {
+            "type": "string",
+            "maxLength": 512,
+            "pattern": "^(/[^/\\x00-\\x1f\\x7f]*)*$",
+            "title": "Pointer"
+          },
+          "keyword": {
+            "type": "string",
+            "maxLength": 48,
+            "pattern": "^[A-Za-z$][A-Za-z0-9_-]{0,47}$",
+            "title": "Keyword"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "pattern": "^[^\\x00-\\x1f\\x7f]*$",
+            "title": "Message"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pointer",
+          "keyword",
+          "message"
+        ],
+        "title": "ErrorItem",
+        "description": "one validation error: instance JSON pointer, schema keyword or loader code, one-line message"
+      },
+      "ExitCode": {
+        "type": "integer",
+        "maximum": 6.0,
+        "minimum": 0.0,
+        "title": "ExitCode"
+      },
+      "Health": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status"
+          },
+          "console_version": {
+            "$ref": "#/components/schemas/Semver"
+          },
+          "runner_version": {
+            "$ref": "#/components/schemas/Semver"
+          },
+          "contracts": {
+            "patternProperties": {
+              "^[a-z][a-z0-9-]{0,31}$": {
+                "$ref": "#/components/schemas/ContractVersion"
+              }
+            },
+            "propertyNames": {
+              "maxLength": 32
+            },
+            "type": "object",
+            "maxProperties": 16,
+            "minProperties": 1,
+            "title": "Contracts",
+            "description": "schema stem -> contract version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "console_version",
+          "runner_version",
+          "contracts"
+        ],
+        "title": "Health",
+        "description": "GET /health (FR-003-06): the only body readable from the public site, so no free text, path, host or user name"
+      },
+      "Job": {
+        "properties": {
+          "job_id": {
+            "$ref": "#/components/schemas/JobId"
+          },
+          "recipe": {
+            "$ref": "#/components/schemas/Slug"
+          },
+          "state": {
+            "$ref": "#/components/schemas/JobState"
+          },
+          "run_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RunId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created": {
+            "$ref": "#/components/schemas/UtcTimestamp"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StageKeyModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "shards": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Shards"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "exit_code": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExitCode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Reason"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "job_id",
+          "recipe",
+          "state",
+          "run_id",
+          "created",
+          "stage",
+          "shards",
+          "exit_code",
+          "reason"
+        ],
+        "title": "Job",
+        "description": "a runner job record (FR-003-08); exit_code is the runner exit code of spec 002 plan.md D2"
+      },
+      "JobCreated": {
+        "properties": {
+          "job_id": {
+            "$ref": "#/components/schemas/JobId"
+          },
+          "location": {
+            "type": "string",
+            "maxLength": 31,
+            "pattern": "^/jobs/[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}$",
+            "title": "Location"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "job_id",
+          "location"
+        ],
+        "title": "JobCreated",
+        "description": "202 body of POST /jobs (FR-003-09); location equals the Location header"
+      },
+      "JobId": {
+        "type": "string",
+        "maxLength": 25,
+        "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}$",
+        "title": "JobId"
+      },
+      "JobList": {
+        "properties": {
+          "jobs": {
+            "items": {
+              "$ref": "#/components/schemas/Job"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Jobs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "jobs"
+        ],
+        "title": "JobList",
+        "description": "GET /queue"
+      },
+      "JobState": {
+        "type": "string",
+        "enum": [
+          "queued",
+          "running",
+          "succeeded",
+          "failed",
+          "cancelled",
+          "blocked",
+          "held",
+          "interrupted"
+        ],
+        "title": "JobState",
+        "description": "runner job states (spec 002 plan.md D3)"
+      },
+      "Problem": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "maxLength": 200,
+            "pattern": "^(about:blank|https://[A-Za-z0-9.-]+(/[A-Za-z0-9._~%-]+)*)$",
+            "title": "Type"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "pattern": "^[^\\x00-\\x1f\\x7f]*$",
+            "title": "Title"
+          },
+          "status": {
+            "type": "integer",
+            "maximum": 599.0,
+            "minimum": 400.0,
+            "title": "Status"
+          },
+          "detail": {
+            "type": "string",
+            "maxLength": 300,
+            "pattern": "^[^\\x00-\\x1f\\x7f]*$",
+            "title": "Detail"
+          },
+          "errors": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ErrorItem"
+                },
+                "type": "array",
+                "maxItems": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errors"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "title",
+          "status",
+          "detail"
+        ],
+        "title": "Problem",
+        "description": "application/problem+json error body (RFC 9457, FR-003-22); one-line texts, no stack trace"
+      },
+      "Reason": {
+        "type": "string",
+        "maxLength": 300,
+        "minLength": 1,
+        "pattern": "^[^\\x00-\\x1f\\x7f]*$",
+        "title": "Reason"
+      },
+      "RecipeList": {
+        "properties": {
+          "recipes": {
+            "items": {
+              "$ref": "#/components/schemas/RecipeSummary"
+            },
+            "type": "array",
+            "maxItems": 256,
+            "title": "Recipes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "recipes"
+        ],
+        "title": "RecipeList",
+        "description": "GET /recipes"
+      },
+      "RecipePath": {
+        "type": "string",
+        "maxLength": 255,
+        "pattern": "^studio/recipes/(cases|_bench)/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?\\.yaml$",
+        "title": "RecipePath"
+      },
+      "RecipeSummary": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Slug"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "case": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CaseId"
+              },
+              {
+                "type": "string",
+                "const": "bench"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case"
+          },
+          "path": {
+            "$ref": "#/components/schemas/RecipePath"
+          },
+          "sha256": {
+            "$ref": "#/components/schemas/Sha256"
+          },
+          "stages": {
+            "type": "integer",
+            "maximum": 64.0,
+            "minimum": 0.0,
+            "title": "Stages"
+          },
+          "valid": {
+            "type": "boolean",
+            "title": "Valid"
+          },
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/ErrorItem"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Errors"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "case",
+          "path",
+          "sha256",
+          "stages",
+          "valid",
+          "errors"
+        ],
+        "title": "RecipeSummary",
+        "description": "one recipe file (FR-003-07); id and case are null when an invalid file does not yield them"
+      },
+      "RunId": {
+        "type": "string",
+        "maxLength": 64,
+        "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$",
+        "title": "RunId"
+      },
+      "RunList": {
+        "properties": {
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/RunSummary"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Runs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "runs"
+        ],
+        "title": "RunList",
+        "description": "GET /runs"
+      },
+      "RunSummary": {
+        "properties": {
+          "run_id": {
+            "$ref": "#/components/schemas/RunId"
+          },
+          "recipe": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Slug"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UtcTimestamp"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Slug"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobState"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stages": {
+            "type": "integer",
+            "maximum": 64.0,
+            "minimum": 0.0,
+            "title": "Stages"
+          },
+          "published": {
+            "type": "boolean",
+            "title": "Published"
+          },
+          "valid": {
+            "type": "boolean",
+            "title": "Valid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "recipe",
+          "created",
+          "profile",
+          "state",
+          "stages",
+          "published",
+          "valid"
+        ],
+        "title": "RunSummary",
+        "description": "one run of the store (FR-003-12); manifest fields are null when the manifest is invalid, state is null when no queue record exists"
+      },
+      "Semver": {
+        "type": "string",
+        "maxLength": 32,
+        "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+        "title": "Semver"
+      },
+      "Sha256": {
+        "type": "string",
+        "maxLength": 64,
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Sha256"
+      },
+      "Shards": {
+        "properties": {
+          "done": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 0.0,
+            "title": "Done"
+          },
+          "total": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "Total"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "done",
+          "total"
+        ],
+        "title": "Shards"
+      },
+      "Slug": {
+        "type": "string",
+        "maxLength": 64,
+        "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+        "title": "Slug"
+      },
+      "StageId": {
+        "type": "string",
+        "enum": [
+          "s00_download",
+          "s05_synthesize",
+          "s10_preprocess",
+          "s20_feature_extraction",
+          "s30_train",
+          "s40_infer",
+          "s50_evaluate",
+          "s60_export",
+          "s62_accel",
+          "s64_bench",
+          "st10_terrain",
+          "st20_pit_design",
+          "st30_assets",
+          "st40_compose",
+          "st45_validate",
+          "st45b_kit_validate",
+          "st50_physics",
+          "st52_rtx_render",
+          "st53_sensors",
+          "st54_vehicles",
+          "st55_sdg",
+          "st56_encode",
+          "st57_rain_lidar",
+          "st58_kit_capture",
+          "st58b_capture_splat",
+          "st59_reason_bench",
+          "st59a_vqa",
+          "st59b_plausibility",
+          "st59c_captions",
+          "st60_il_train",
+          "st61_il_mpm_eval"
+        ],
+        "title": "StageId"
+      },
+      "StageKeyModel": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/StageId"
+          },
+          "variant": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Variant"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "StageKeyModel",
+        "description": "stage id plus optional variant"
+      },
+      "UtcTimestamp": {
+        "type": "string",
+        "maxLength": 32,
+        "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?Z$",
+        "title": "UtcTimestamp"
+      },
+      "Variant": {
+        "type": "string",
+        "maxLength": 32,
+        "pattern": "^[a-z0-9][a-z0-9-]{0,31}$",
+        "title": "Variant"
+      },
+      "StageKey": {
+        "additionalProperties": false,
+        "description": "stage id plus optional variant",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/StageId"
+          },
+          "variant": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Variant"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "StageKey",
+        "type": "object"
+      },
+      "JobRequest": {
+        "additionalProperties": false,
+        "description": "body of the console's POST /jobs (data-model §3.5); never an inline recipe",
+        "properties": {
+          "recipe": {
+            "$ref": "#/components/schemas/Slug"
+          },
+          "stages": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/StageKey"
+                },
+                "maxItems": 64,
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Stages"
+          },
+          "force": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": false,
+            "title": "Force"
+          },
+          "rerun_check": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": false,
+            "title": "Rerun Check"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/Slug"
+          }
+        },
+        "required": [
+          "recipe",
+          "profile"
+        ],
+        "title": "JobRequest",
+        "type": "object"
+      }
+    }
+  }
+}
