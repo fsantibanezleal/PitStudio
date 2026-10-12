@@ -62,6 +62,6 @@ class HttpxDownloader:
             if response.status_code != 200:
                 raise DownloadFailed(f"HTTP {response.status_code}")
             with part.open("wb") as handle:
-                for chunk in response.iter_raw(CHUNK):
+                for chunk in response.iter_bytes(CHUNK):
                     handle.write(chunk)
             return Fetched(str(response.url), 1)

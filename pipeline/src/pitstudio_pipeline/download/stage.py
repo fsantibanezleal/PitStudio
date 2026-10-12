@@ -12,11 +12,11 @@ from typing import Any
 
 import httpx
 
-from pitstudio_pipeline.download.hashing import sha256_file
+from pitstudio_pipeline.download.hashing import md5_file, sha256_file
 from pitstudio_pipeline.download.http import HttpxDownloader
 from pitstudio_pipeline.download.names import local_name
 from pitstudio_pipeline.download.registry import load_registry
-from pitstudio_pipeline.errors import ChecksumMismatch
+from pitstudio_pipeline.errors import ChecksumMismatch, PublisherChecksumMismatch
 from pitstudio_pipeline.paths import find_repo_root, resolve_data_root
 
 log = logging.getLogger("pitstudio_pipeline.download")
@@ -96,6 +96,40 @@ def run_download(
     return result
 
 
+def _quarantine(path: Path, root: Path, source: str, name: str) -> Path:
+    """Move a file that failed verification to `quarantine/<id>/<name>` (FR-008-06)."""
+    target = root / "quarantine" / source / name
+    target.parent.mkdir(parents=True, exist_ok=True)
+    os.replace(path, target)
+    return target
+
+
+def _publisher_status(path: Path, file: Mapping[str, Any], digest: str) -> str:
+    """Compare the file with the checksum its publisher states (`md5:<hex>` or `sha256:<hex>`): `match`, `mismatch`,
+    `not-declared`."""
+    declared = file.get("publisher_checksum")
+    if not declared:
+        return "not-declared"
+    algorithm, _, expected = declared.partition(":")
+    actual = digest if algorithm == "sha256" else md5_file(path)
+    return "match" if actual == expected else "mismatch"
+
+
+def _verify(path: Path, entry: Mapping[str, Any], file: Mapping[str, Any], name: str) -> tuple[str, int, str]:
+    """(sha256, bytes, publisher status) of `path`; raise `ChecksumMismatch` when it differs from the pin."""
+    digest, size = sha256_file(path), path.stat().st_size
+    if digest != file.get("sha256") or size != file.get("bytes"):
+        raise ChecksumMismatch(
+            entry["id"],
+            name,
+            expected_sha256=file.get("sha256"),
+            actual_sha256=digest,
+            expected_bytes=file.get("bytes"),
+            actual_bytes=size,
+        )
+    return digest, size, _publisher_status(path, file, digest)
+
+
 def _run_entry(
     entry: Mapping[str, Any],
     root: Path,
@@ -107,27 +141,24 @@ def _run_entry(
     complete = True
     for file in entry["files"]:
         name = local_name(file["url"], file.get("name"))
-        target_dir = root / folder / entry["id"]
-        target = target_dir / name
+        target = root / folder / entry["id"] / name
+        part = target.with_name(target.name + ".part")
+        fetched = None
         try:
-            target_dir.mkdir(parents=True, exist_ok=True)
-            part = target.with_name(target.name + ".part")
-            fetched = downloader.fetch(file["url"], part, max_bytes=file.get("bytes"))
-            digest, size = sha256_file(part), part.stat().st_size
-            if digest != file.get("sha256") or size != file.get("bytes"):
-                part.unlink(missing_ok=True)
-                raise ChecksumMismatch(
-                    entry["id"],
-                    name,
-                    expected_sha256=file.get("sha256"),
-                    actual_sha256=digest,
-                    expected_bytes=file.get("bytes"),
-                    actual_bytes=size,
-                )
-            os.replace(part, target)
+            if target.exists():  # a cached file is re-verified before it is reused (FR-008-05)
+                digest, size, publisher = _verify_cached(target, root, entry, file, name)
+            elif entry["access"] == "manual":
+                result.records.append(_record(entry, file, name))
+                complete = False
+                continue
+            else:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                fetched = downloader.fetch(file["url"], part, max_bytes=file.get("bytes"))
+                digest, size, publisher = _verify_part(part, root, entry, file, name)
+                os.replace(part, target)
         except Exception as exc:
             result.errors.setdefault(entry["id"], exc)
-            result.records.append(_record(entry, file, name))
+            result.records.append(_failure_record(entry, file, name, exc))
             complete = False
             break
         result.records.append(
@@ -135,14 +166,46 @@ def _run_entry(
                 entry,
                 file,
                 name,
-                final_url=fetched.final_url,
+                final_url=fetched.final_url if fetched else file["url"],
                 stored_as=f"{folder}/{entry['id']}/{name}",
                 bytes=size,
                 sha256=digest,
                 retrieved=_utc_text(clock()),
                 status="verified",
-                attempts=fetched.attempts,
-                publisher_checksum_status="not-declared" if not file.get("publisher_checksum") else "not-checked",
+                attempts=fetched.attempts if fetched else 0,
+                publisher_checksum_status=publisher,
             )
         )
     result.complete[entry["id"]] = complete
+
+
+def _verify_cached(target: Path, root: Path, entry: Mapping[str, Any], file: Mapping[str, Any], name: str):
+    try:
+        return _verify_or_raise(target, entry, file, name)
+    except ChecksumMismatch, PublisherChecksumMismatch:
+        _quarantine(target, root, entry["id"], name)
+        raise
+
+
+def _verify_part(part: Path, root: Path, entry: Mapping[str, Any], file: Mapping[str, Any], name: str):
+    try:
+        return _verify_or_raise(part, entry, file, name)
+    except ChecksumMismatch, PublisherChecksumMismatch:
+        _quarantine(part, root, entry["id"], name)
+        raise
+
+
+def _verify_or_raise(path: Path, entry: Mapping[str, Any], file: Mapping[str, Any], name: str):
+    digest, size, publisher = _verify(path, entry, file, name)
+    if publisher == "mismatch":
+        raise PublisherChecksumMismatch(f"{entry['id']}/{name}: the publisher checksum differs from the computed one")
+    return digest, size, publisher
+
+
+def _failure_record(entry: Mapping[str, Any], file: Mapping[str, Any], name: str, exc: Exception) -> dict[str, Any]:
+    over: dict[str, Any] = {"attempts": getattr(exc, "attempts", 0)}
+    if isinstance(exc, ChecksumMismatch):
+        over.update(sha256=exc.actual_sha256, bytes=exc.actual_bytes)
+    if isinstance(exc, PublisherChecksumMismatch):
+        over.update(publisher_checksum_status="mismatch")
+    return _record(entry, file, name, **over)
