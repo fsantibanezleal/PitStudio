@@ -1,30 +1,23 @@
 import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router";
-import { ArtefactCard } from "~/cards/ArtefactCard";
+import { publishedBundles } from "~/results/bundles";
 import { NotFound } from "~/shell/NotFound";
 import { Tabs } from "~/shell/Tabs";
 import { parseTabParam } from "~/shell/tabParam";
 import { useHydrated } from "~/shell/useHydrated";
 import { TierBadge } from "~/tier/TierBadge";
+import { ChartsTab } from "./ChartsTab";
 import { ContextTab } from "./ContextTab";
-import styles from "./cases.module.css";
 import { Stage } from "./ExploreView";
 import { artefactsOfCase, latestRunId, useWebManifest } from "./manifest";
+import { ReplayTab } from "./ReplayTab";
 import { ReproduceBlock } from "./ReproduceBlock";
 import { recipeOf } from "./recipes";
 import { caseRegistry } from "./registry";
+import { SimulateTab } from "./SimulateTab";
 import { type CaseEntry, type CaseId, caseEntry, isCaseId, type Lang, pick } from "./types";
 
 export const CASE_TAB_IDS = ["scene", "simulate", "replay", "charts", "context"] as const;
-
-function Pending({ children }: { children: string }) {
-  const { t } = useTranslation("cases");
-  return (
-    <p className={styles.panel}>
-      <span className={styles.pending}>{t("notYetRun")}</span> · {children}
-    </p>
-  );
-}
 
 function Workbench({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
   const { t, i18n } = useTranslation("cases");
@@ -34,7 +27,6 @@ function Workbench({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
   const manifest = useWebManifest();
   const selected = hydrated ? parseTabParam(params.toString(), CASE_TAB_IDS) : CASE_TAB_IDS[0];
   const own = artefactsOfCase(manifest.artefacts, caseId);
-  const replay = own.filter((a) => a.lane === "replay");
 
   const select = (id: string) => {
     const next = new URLSearchParams(params);
@@ -59,22 +51,15 @@ function Workbench({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
         onSelect={select}
       >
         {selected === "scene" && <Stage caseId={caseId} entry={entry} />}
-        {selected === "simulate" && (
-          <Pending>{t("case.simulatePending", { engines: entry.engines.join(", ") })}</Pending>
+        {selected === "simulate" && <SimulateTab caseId={caseId} registry={caseRegistry} />}
+        {selected === "replay" && <ReplayTab caseId={caseId} artefacts={manifest.artefacts} />}
+        {selected === "charts" && (
+          <ChartsTab
+            caseId={caseId}
+            registry={caseRegistry}
+            rows={publishedBundles.flatMap((bundle) => bundle.comparison)}
+          />
         )}
-        {selected === "replay" &&
-          (replay.length > 0 ? (
-            <ul className={styles.cardList}>
-              {replay.map((artefact) => (
-                <li key={artefact.id}>
-                  <ArtefactCard artefact={artefact} run={null} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <Pending>{t("case.replayPending")}</Pending>
-          ))}
-        {selected === "charts" && <Pending>{t("case.chartsPending")}</Pending>}
         {selected === "context" && <ContextTab caseId={caseId} registry={caseRegistry} sources={[]} />}
       </Tabs>
       <ReproduceBlock caseId={caseId} recipe={recipeOf(caseId)} runId={latestRunId(own)} />

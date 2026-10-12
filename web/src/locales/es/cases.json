@@ -99,6 +99,46 @@
     "copied": "Copiado",
     "planned": "Aún no ejecutado — receta planificada"
   },
+  "engine": {
+    "state": {
+      "idle": "listo",
+      "loading": "cargando",
+      "running": "calculando",
+      "done": "terminado",
+      "error": "error",
+      "replay": "precalculado"
+    },
+    "range": "Ingrese un número de {{min}} a {{max}} {{unit}}. Se conservó el último valor válido.",
+    "capNote": "Limitado al tope de tamaño de {{cap}} {{unit}}.",
+    "notice": {
+      "parity": "paridad no confirmada — se muestran resultados precalculados",
+      "needsWebGpu": "necesita WebGPU para calcular en vivo",
+      "noBackend": "este motor aún no está disponible en el navegador — se muestran resultados precalculados",
+      "runtime": "{{runtime}} no pudo cargarse — se muestran resultados precalculados",
+      "failed": "{{runtime}} falló — continúa en {{tier}}",
+      "tier": "{{runtime}} dejó de funcionar: este motor ahora corre en {{tier}}"
+    },
+    "control": {},
+    "progress": {
+      "label": "Descargando {{runtime}}",
+      "abort": "Cancelar"
+    },
+    "python": {
+      "run": "Ejecutar en Python",
+      "pass": "La referencia en Python coincide con el resultado del navegador",
+      "fail": "La referencia en Python difiere del resultado del navegador",
+      "unavailable": "No se pudo cargar la referencia en Python"
+    }
+  },
+  "charts": {
+    "chartTitle": "Gráfico de {{name}}",
+    "interval": "intervalo de la diferencia",
+    "values": "línea base y alternativa",
+    "discordant": "pares discordantes",
+    "estimate": "estimación con su intervalo",
+    "position": "posición",
+    "noData": "sin datos"
+  },
   "case": {
     "back": "Todos los casos",
     "tabs": "Vistas del caso",

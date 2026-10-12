@@ -99,6 +99,46 @@
     "copied": "Copied",
     "planned": "Not yet run — recipe planned"
   },
+  "engine": {
+    "state": {
+      "idle": "ready",
+      "loading": "loading",
+      "running": "running",
+      "done": "done",
+      "error": "error",
+      "replay": "precomputed"
+    },
+    "range": "Enter a number from {{min}} to {{max}} {{unit}}. The last valid value was kept.",
+    "capNote": "Clamped to the size cap of {{cap}} {{unit}}.",
+    "notice": {
+      "parity": "parity not confirmed — showing precomputed results",
+      "needsWebGpu": "needs WebGPU to compute live",
+      "noBackend": "this engine is not available in the browser yet — showing precomputed results",
+      "runtime": "{{runtime}} could not load — showing precomputed results",
+      "failed": "{{runtime}} failed — continuing on {{tier}}",
+      "tier": "{{runtime}} stopped working: this engine now runs on {{tier}}"
+    },
+    "control": {},
+    "progress": {
+      "label": "Downloading {{runtime}}",
+      "abort": "Abort"
+    },
+    "python": {
+      "run": "Run in Python",
+      "pass": "Python reference agrees with the browser result",
+      "fail": "Python reference differs from the browser result",
+      "unavailable": "Python reference could not load"
+    }
+  },
+  "charts": {
+    "chartTitle": "Chart of {{name}}",
+    "interval": "interval of the difference",
+    "values": "baseline and challenger",
+    "discordant": "discordant pairs",
+    "estimate": "estimate with its interval",
+    "position": "position",
+    "noData": "no data"
+  },
   "case": {
     "back": "All cases",
     "tabs": "Case views",
