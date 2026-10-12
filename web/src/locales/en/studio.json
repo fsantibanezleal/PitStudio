@@ -170,5 +170,39 @@
     "equal": "equal",
     "different": "different",
     "tolerance": "rtol {{rtol}}, atol {{atol}}"
+  },
+  "gpu": {
+    "notAvailable": "not available on this GPU",
+    "busyLabel": "time-busy fraction, not SM occupancy",
+    "powerAtLimit": "Power at limit",
+    "localOnly": "Performance measured locally, not published (licence: NVIDIA SLA §8.9 / TensorRT for RTX SLA §2.13)",
+    "chart": {
+      "busy": "GPU busy",
+      "memory": "Memory used",
+      "power": "Board power",
+      "smClock": "SM clock",
+      "throttle": "Clocks-event reasons",
+      "time": "time"
+    },
+    "ref": {
+      "vram_total": "GPU memory",
+      "power_limit": "Enforced power limit"
+    },
+    "how": {
+      "button": "How measured",
+      "rate": "Sampled at {{hz}} Hz.",
+      "noRate": "Sampling rate: {{na}}.",
+      "utilisation": "Utilisation is the fraction of the sample period in which at least one kernel was running (time-busy); it does not say how many SMs were used.",
+      "power": "Power averaging: board power as NVML reports it, averaged over its own window and sampled at the rate above.",
+      "energy": "Energy is the difference of the total-energy counter between the start and the end of the stage.",
+      "linkQueries": "NVML device queries",
+      "linkClocks": "NVML clocks event reasons"
+    },
+    "conditions": {
+      "gpu": "GPU",
+      "driver": "driver",
+      "limit": "enforced power limit",
+      "notBenchmark": "our hardware, not a comparative benchmark"
+    }
   }
 }

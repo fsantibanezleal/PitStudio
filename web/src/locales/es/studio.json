@@ -170,5 +170,39 @@
     "equal": "iguales",
     "different": "distintos",
     "tolerance": "rtol {{rtol}}, atol {{atol}}"
+  },
+  "gpu": {
+    "notAvailable": "no disponible en esta GPU",
+    "busyLabel": "fracción de tiempo ocupada, no ocupación de SM",
+    "powerAtLimit": "Potencia en el límite",
+    "localOnly": "Rendimiento medido localmente, no publicado (licencia: NVIDIA SLA §8.9 / TensorRT for RTX SLA §2.13)",
+    "chart": {
+      "busy": "GPU ocupada",
+      "memory": "Memoria usada",
+      "power": "Potencia de la placa",
+      "smClock": "Reloj de SM",
+      "throttle": "Motivos de limitación de reloj",
+      "time": "tiempo"
+    },
+    "ref": {
+      "vram_total": "Memoria de la GPU",
+      "power_limit": "Límite de potencia aplicado"
+    },
+    "how": {
+      "button": "Cómo se midió",
+      "rate": "Muestreado a {{hz}} Hz.",
+      "noRate": "Frecuencia de muestreo: {{na}}.",
+      "utilisation": "La utilización es la fracción del periodo de muestreo en que corría al menos un kernel (tiempo ocupado); no dice cuántos SM se usaron.",
+      "power": "Promedio de potencia: la potencia de la placa según NVML, promediada en su propia ventana y muestreada a la frecuencia indicada.",
+      "energy": "La energía es la diferencia del contador de energía total entre el inicio y el fin de la etapa.",
+      "linkQueries": "Consultas de dispositivo de NVML",
+      "linkClocks": "Motivos de eventos de reloj de NVML"
+    },
+    "conditions": {
+      "gpu": "GPU",
+      "driver": "controlador",
+      "limit": "límite de potencia aplicado",
+      "notBenchmark": "nuestro hardware, no una comparación de rendimiento"
+    }
   }
 }
