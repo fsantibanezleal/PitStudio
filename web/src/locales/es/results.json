@@ -262,6 +262,45 @@
       "dem-calibration": "Calibración DEM",
       "cosmos": "Cosmos Reason 2",
       "tensorrt-engines": "Motores TensorRT"
+    },
+    "fallback": {
+      "rfdetr-seg": "RF-DETR-Seg-N (fp32) en imágenes de reserva de la familia de rajo: AP50 de máscara de al menos 0.70 (SC-009-05)",
+      "il2": "Factor de llenado de IL-2 de al menos 0.8 en al menos 80 % de los episodios FEE (SC-014-06)",
+      "dem-calibration": "El intervalo de 95 % del parámetro recuperado cubre la verdad sintética en al menos 90 % de los ensayos, al menos 45 de 50, para cada brazo (SC-011-02)",
+      "tensorrt-engines": "Paridad por motor en cada versión de TensorRT y proveedor de ejecución: fp32 con rtol 1e-3 y atol 1e-5; precisión reducida a menos de 1 punto porcentual; las variantes que fallan se informan como rechazadas, ninguna se omite (SC-016-01)"
     }
+  },
+  "methodsPage": {
+    "title": "Métodos",
+    "lead": "La escalera de métodos M1 a M23 del registro de métodos: qué calcula cada uno, cómo se compara y dónde se ejecuta.",
+    "table": {
+      "id": "Id",
+      "name": "Método",
+      "tiers": "Nivel",
+      "implementation": "Implementación",
+      "spdx": "Licencia (SPDX)",
+      "lanes": "Carril",
+      "cases": "Casos",
+      "learned": "Tipo",
+      "status": "Estado"
+    },
+    "learned": "aprendido",
+    "classical": "clásico",
+    "computes": "Qué calcula",
+    "design": "Referencia y diseño de comparación",
+    "baseline": "Referencia: {{baseline}}",
+    "metric": "Métrica: {{metric}} ({{unit}}), {{orientation}}",
+    "pairing": "Unidad de pareo: {{unit}}, n = {{n}}",
+    "criterion": "Criterio de aceptación preregistrado",
+    "criterionRef": "{{requirement}} de {{spec}}",
+    "lane": "Carril",
+    "laneList": "Carriles: {{lanes}}",
+    "estimate": "estimación",
+    "measured": "Valores medidos de la compuerta: interacción {{interaction}} ms, ejecución en T2 {{run}} ms, activo mayor {{bytes}} bytes; medido en {{tier}} el {{date}} en {{browser}}",
+    "simulate": "Se ejecuta en vivo en la pestaña Simular de",
+    "docs": "Página de documentación",
+    "status": "Estado",
+    "pass": "aprobado",
+    "fail": "fallido"
   }
 }

@@ -262,6 +262,45 @@
       "dem-calibration": "DEM calibration",
       "cosmos": "Cosmos Reason 2",
       "tensorrt-engines": "TensorRT engines"
+    },
+    "fallback": {
+      "rfdetr-seg": "RF-DETR-Seg-N (fp32) on pit-family held-out images: mask AP50 of at least 0.70 (SC-009-05)",
+      "il2": "IL-2 fill factor of at least 0.8 in at least 80 % of FEE episodes (SC-014-06)",
+      "dem-calibration": "The 95 % interval of the recovered parameter covers the synthetic truth in at least 90 % of trials, at least 45 of 50, for each arm (SC-011-02)",
+      "tensorrt-engines": "Per-engine parity on every TensorRT version and execution provider: fp32 rtol 1e-3 and atol 1e-5; reduced precision within 1 percentage point; failing variants reported as rejected, none dropped (SC-016-01)"
     }
+  },
+  "methodsPage": {
+    "title": "Methods",
+    "lead": "The ladder of methods M1 to M23 from the method registry: what each computes, how it is compared and where it runs.",
+    "table": {
+      "id": "Id",
+      "name": "Method",
+      "tiers": "Tier",
+      "implementation": "Implementation",
+      "spdx": "Licence (SPDX)",
+      "lanes": "Lane",
+      "cases": "Cases",
+      "learned": "Kind",
+      "status": "Status"
+    },
+    "learned": "learned",
+    "classical": "classical",
+    "computes": "What it computes",
+    "design": "Baseline and comparison design",
+    "baseline": "Baseline: {{baseline}}",
+    "metric": "Metric: {{metric}} ({{unit}}), {{orientation}}",
+    "pairing": "Pairing unit: {{unit}}, n = {{n}}",
+    "criterion": "Pre-registered acceptance criterion",
+    "criterionRef": "{{requirement}} of {{spec}}",
+    "lane": "Lane",
+    "laneList": "Lanes: {{lanes}}",
+    "estimate": "estimate",
+    "measured": "Measured gate values: interaction {{interaction}} ms, run at T2 {{run}} ms, largest asset {{bytes}} bytes; measured on {{tier}} on {{date}} in {{browser}}",
+    "simulate": "Runs live in the Simulate tab of",
+    "docs": "Documentation page",
+    "status": "Status",
+    "pass": "pass",
+    "fail": "fail"
   }
 }

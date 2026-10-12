@@ -25,6 +25,8 @@ export interface PublishedBundle {
   comparison: ComparisonRow[];
   acceleration: AccelRow[];
   criteria: CriterionRecord[];
+  /** The run conditions of an acceleration bundle (DC-020-02 `conditions`), as published. */
+  conditions?: unknown;
 }
 
 export interface CriterionRecord {
@@ -63,7 +65,15 @@ export function readBundle(raw: unknown): PublishedBundle | null {
   const criteria = readCriteria(b.criteria);
   const title = (b.title ?? { en: b.id, es: b.id }) as Text2;
   if (b.kind === "acceleration" && tab === "acceleration") {
-    return { id: b.id, tab, title, comparison: [], acceleration: b.rows as AccelRow[], criteria };
+    return {
+      id: b.id,
+      tab,
+      title,
+      comparison: [],
+      acceleration: b.rows as AccelRow[],
+      criteria,
+      conditions: b.conditions,
+    };
   }
   if (b.kind !== "comparison" || tab === "acceleration" || tab === "parity") return null;
   const rows = (b.rows as ComparisonRow[]).filter(

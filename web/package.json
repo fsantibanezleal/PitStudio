@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "react-router dev",
-    "build": "react-router build && node scripts/postbuild.mjs",
+    "build": "node scripts/stage-results.mjs && react-router build && node scripts/postbuild.mjs",
     "serve": "node scripts/serve-static.mjs",
     "typecheck": "react-router typegen && tsc",
     "lint": "biome ci .",

@@ -1,5 +1,3 @@
-import type { PublishedBundle } from "./bundles";
-
 export type CriterionStatus = "pass" | "fail" | "not-yet-run";
 
 export interface ModelRow {
@@ -33,7 +31,7 @@ export const MODEL_ROWS: readonly ModelRow[] = [
 /** fail beats pass beats not-yet-run; an empty list, or a requirement no bundle records as pass, is not-yet-run. */
 export function criterionStatus(
   requirements: readonly string[],
-  bundles: ReadonlyArray<Pick<PublishedBundle, "criteria">>,
+  bundles: ReadonlyArray<{ criteria?: ReadonlyArray<{ requirement: string; status: string }> }>,
 ): CriterionStatus {
   if (requirements.length === 0) return "not-yet-run";
   const seen = new Map<string, "pass" | "fail">();
