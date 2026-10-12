@@ -16,6 +16,7 @@ negated bases are constants too) and no broadcast node.
 from __future__ import annotations
 
 import math
+import re
 from functools import lru_cache
 
 import numpy as np
@@ -112,10 +113,20 @@ def spectral_conv2d(
     return torch.matmul(b["c1t"], t1 - t4) + torch.matmul(b["ns1t"], t2 + t3)
 
 
-def spectral_oracle_statement() -> str:
-    """Which oracle checked the layer (card text of FR-011-43): the numpy transform, plus neuraloperator when it is installed."""
-    import importlib.util
+_VERSION = re.compile(r"^[0-9]+(\.[0-9]+)*$")
 
-    if importlib.util.find_spec("neuralop") is not None:
-        return "spectral layer checked against the numpy reference and the neuraloperator spectral convolution"
-    return "the numpy reference is the only spectral oracle (neuraloperator 2.0.0 is not installed)"
+
+def spectral_oracle_statement(*, neuraloperator_version: str | None) -> str:
+    """The sentence of the model card that names the spectral oracle (FR-011-43).
+
+    Without `neuraloperator` the card states that the numpy FFT reference is the only spectral oracle; with it, that the layer was
+    also checked against its spectral convolution with the same weights (named with its version).
+    """
+    if neuraloperator_version is None:
+        return "The numpy FFT reference is the only spectral oracle of the spectral layer (neuraloperator did not resolve in the lock)."
+    if not isinstance(neuraloperator_version, str) or not _VERSION.fullmatch(neuraloperator_version):
+        raise ValueError(f"neuraloperator_version must be a dotted version such as '2.0.0', got {neuraloperator_version!r}")
+    return (
+        "The spectral layer was checked against the numpy FFT reference and also against the spectral convolution of "
+        f"neuraloperator {neuraloperator_version} with the same weights."
+    )
