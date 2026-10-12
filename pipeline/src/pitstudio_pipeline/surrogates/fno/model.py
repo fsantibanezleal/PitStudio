@@ -27,14 +27,14 @@ class Pointwise(nn.Module):
     def __init__(self, c_in: int, c_out: int) -> None:
         super().__init__()
         self.weight = nn.Parameter(torch.empty(c_out, c_in))
-        self.bias = nn.Parameter(torch.zeros(c_out))
+        self.bias = nn.Parameter(torch.zeros(1, c_out, 1))  # stored in broadcast shape: the graph adds it unchanged
         bound = 1.0 / c_in**0.5
         nn.init.uniform_(self.weight, -bound, bound)
         nn.init.uniform_(self.bias, -bound, bound)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         b, c, h, w = x.shape
-        y = torch.matmul(self.weight, x.reshape(b, c, h * w)) + self.bias.reshape(1, -1, 1)
+        y = torch.matmul(self.weight, x.reshape(b, c, h * w)) + self.bias
         return y.reshape(b, self.weight.shape[0], h, w)
 
 
