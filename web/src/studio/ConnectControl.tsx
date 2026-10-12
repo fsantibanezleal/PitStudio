@@ -1,7 +1,7 @@
 import { type FormEvent, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styles from "./studio.module.css";
 import { type ConnectResult, connectLocal, validatePort } from "./connect";
+import styles from "./studio.module.css";
 
 /** The opt-in control: nothing is requested on render or while typing, one request per valid press (FR-019-44). */
 export function ConnectControl({ fetchImpl, timeoutMs }: { fetchImpl?: typeof fetch; timeoutMs?: number }) {

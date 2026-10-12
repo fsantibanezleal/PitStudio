@@ -15,7 +15,9 @@ const finite = (v: unknown): v is number => typeof v === "number" && Number.isFi
 
 function digestsOf(rerun: unknown): [string, string] | null {
   const d = (rerun as { digests?: unknown } | undefined)?.digests;
-  return Array.isArray(d) && d.length === 2 && d.every((x) => typeof x === "string") ? [d[0], d[1]] : null;
+  return Array.isArray(d) && d.length === 2 && d.every((x) => typeof x === "string")
+    ? [String(d[0]), String(d[1])]
+    : null;
 }
 
 function observablesOf(rerun: unknown): Observable[] {

@@ -7,25 +7,27 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "react-router dev",
-    "build": "react-router build && node scripts/postbuild.mjs",
+    "dev": "node scripts/build-studio-index.mjs && react-router dev",
+    "build": "node scripts/build-studio-index.mjs && react-router build && node scripts/postbuild.mjs",
     "serve": "node scripts/serve-static.mjs",
-    "typecheck": "react-router typegen && tsc",
+    "typecheck": "node scripts/build-studio-index.mjs && react-router typegen && tsc",
     "lint": "biome ci .",
     "format": "biome check --write .",
     "test": "vitest run",
     "gen:types": "node scripts/gen-types.mjs",
     "gen:validators": "node scripts/gen-validators.mjs",
     "check:locales": "node ../tools/check_locales.mjs",
-    "check": "pnpm run check:locales && biome ci . && react-router typegen && tsc && vitest run",
+    "check": "pnpm run check:locales && biome ci . && node scripts/build-studio-index.mjs && react-router typegen && tsc && vitest run",
     "test:e2e": "playwright test",
-    "test:live": "playwright test -c playwright.live.config.ts"
+    "test:live": "playwright test -c playwright.live.config.ts",
+    "build:studio-index": "node scripts/build-studio-index.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@react-router/node": "^8.4.0",
+    "@xyflow/react": "^12.12.0",
     "i18next": "^26.4.2",
     "isbot": "^5.2.2",
     "lucide-react": "^1.51.0",
@@ -52,6 +54,7 @@
     "json-schema-to-typescript": "^16.0.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.2",
-    "vitest": "^5.0.3"
+    "vitest": "^5.0.3",
+    "yaml": "^2.9.1"
   }
 }

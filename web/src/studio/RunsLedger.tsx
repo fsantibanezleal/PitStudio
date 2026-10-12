@@ -42,9 +42,7 @@ export function RunsLedger({
       run,
       cases: unique(run.artefacts.flatMap((a) => a.cases ?? [])),
       tools: unique(run.artefacts.map((a) => a.producer.tool)),
-      classes: unique(
-        run.stages.map((s) => s.determinism?.class).filter((c): c is string => typeof c === "string"),
-      ),
+      classes: unique(run.stages.flatMap((s) => (s.determinism ? [s.determinism.class as string] : []))),
     }))
     .filter(
       (r) =>

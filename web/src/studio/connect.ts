@@ -44,7 +44,8 @@ export async function connectLocal(
       const body: unknown = JSON.parse(await response.text());
       if (typeof body !== "object" || body === null || Array.isArray(body)) return NOT_CONNECTED;
       const { status, console_version: version } = body as Record<string, unknown>;
-      if (status !== "ok" || typeof version !== "string" || version.length > 64 || !VERSION.test(version)) return NOT_CONNECTED;
+      if (status !== "ok" || typeof version !== "string" || version.length > 64 || !VERSION.test(version))
+        return NOT_CONNECTED;
       return { connected: true, version, label: `connected — console ${version}` };
     } catch {
       return NOT_CONNECTED;
