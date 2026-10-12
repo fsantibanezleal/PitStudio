@@ -8,6 +8,7 @@ field or, for a problem inside an object, its `prim_id`.
 from __future__ import annotations
 
 import functools
+import hashlib
 import json
 import math
 from collections.abc import Mapping
@@ -87,6 +88,12 @@ def _check_quaternions(doc: Mapping[str, Any]) -> None:
             raise FrameStateInvalid(
                 f"{name}: rotation_xyzw has norm {norm!r}, it must be 1 within {QUATERNION_TOLERANCE}"
             )
+
+
+def canonical_sha256(doc: Any) -> str:
+    """SHA-256 of the canonical JSON text of a document: sorted keys, no spaces, UTF-8 without ASCII escapes."""
+    text = json.dumps(doc, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def validate_frame_state(doc: Mapping[str, Any]) -> None:
