@@ -176,6 +176,7 @@ export function GpuTimelines({ run, telemetry }: { run: RunCard; telemetry: Publ
             // biome-ignore lint/suspicious/noArrayIndexKey: a stage is identified by its place in the telemetry file
             key={i}
             data-testid="gpu-stage"
+            data-run={run.run_id}
             data-stage={id}
             className={styles.block}
           >
