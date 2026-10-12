@@ -35,7 +35,10 @@ def root(tmp_path: Path) -> Path:
 
 def _frame(width: int, height: int, visible_px: int, *, up: str = "Z") -> dict:
     return kit.frame_state(
-        [kit.truck(50.0, 0.0, visible_px=visible_px, prim_id="/World/Big_Truck", up=up), kit.person(60.0, 3.0, up=up)],
+        [
+            kit.truck(50.0, 0.0, visible_px=visible_px, prim_id="/World/Big_Truck", up=up),
+            kit.person(60.0, 3.0, up=up, visible_px=min(640, width * height)),
+        ],
         width=width,
         height=height,
         up_axis=up,
