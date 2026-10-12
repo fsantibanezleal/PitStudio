@@ -81,6 +81,9 @@ class FnoModel(nn.Module):
         self.layer_has_activation = [k < layers - 1 for k in range(layers)]
         self.project = Pointwise(width, out_channels)
         self.gelu = nn.GELU()
+        # the network works in standardised output units; the graph returns physical units (set by the training stage)
+        self.register_buffer("output_mean", torch.zeros(1, out_channels, 1, 1))
+        self.register_buffer("output_std", torch.ones(1, out_channels, 1, 1))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         h = self.lift(x)
@@ -88,7 +91,7 @@ class FnoModel(nn.Module):
             h = layer(h)
             if active:
                 h = self.gelu(h)
-        return self.project(h)
+        return self.project(h) * self.output_std + self.output_mean
 
 
 def build_tailings_model() -> FnoModel:
