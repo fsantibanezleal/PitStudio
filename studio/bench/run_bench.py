@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import math
 import os
 import subprocess
 import sys
@@ -24,6 +25,8 @@ from pathlib import Path
 from typing import Any
 
 from gpu_guard import START_MAX_C, STOP_C, utc_now_iso, whea_count
+
+from pitstudio.contracts import dump_json, load_json
 
 ROOT = Path(__file__).resolve().parents[2]
 BENCH = Path(__file__).resolve().parent
@@ -171,8 +174,11 @@ def run_one(name: str, tele: Telemetry, timeout_s: int) -> dict[str, Any]:
     since = utc_now_iso()
     cmd = ["uv", "run", "--locked", "--project", str(pdir), *extra, "python", str(BENCH / f"probe_{name}.py")]
     t0 = time.perf_counter()
-    with tele, tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as out, \
-            tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as err:
+    with (
+        tele,
+        tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as out,
+        tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as err,
+    ):
         p = subprocess.Popen(cmd, stdout=out, stderr=err, text=True, cwd=BENCH)
         stopped = ""
         while p.poll() is None:  # supervise: the guard and the timeout stop the whole process tree
@@ -212,18 +218,47 @@ def scrub(text: str) -> str:
     return text
 
 
+def non_finite_name(result: dict[str, Any]) -> str | None:
+    """The name of the first metric or telemetry value of a probe result that is NaN or infinite (FR-001-37)."""
+    for part in ("metrics", "telemetry"):
+        values = result.get(part)
+        if isinstance(values, dict):
+            for name, value in values.items():
+                if isinstance(value, float) and not math.isfinite(value):
+                    return str(name)
+    return None
+
+
+def fail_non_finite(result: dict[str, Any]) -> dict[str, Any]:
+    """A copy of a probe result with NaN and infinity replaced by null; such a probe is a failure (FR-001-37)."""
+    name = non_finite_name(result)
+    if name is None:
+        return result
+    clean = dict(result)
+    for part in ("metrics", "telemetry"):
+        values = result.get(part)
+        if isinstance(values, dict):
+            clean[part] = {k: None if isinstance(v, float) and not math.isfinite(v) else v for k, v in values.items()}
+    clean["status"] = "fail"
+    clean["error"] = f"non-finite metric {name[:64]}"
+    clean["non_finite"] = name[:64]
+    return clean
+
+
 def public_view(results: list[dict[str, Any]], driver: str, gpu: str) -> dict[str, Any]:
     """The committed capabilities: performance figures and telemetry only for probes whose licence allows it."""
     probes = {}
-    for r in results:
+    for original in results:
+        r = fail_non_finite(original)
+        failed_non_finite = "non_finite" in r
         versions = {k: str(v) for k, v in r.get("versions", {}).items()}
         if py := r.get("env", {}).get("python"):
             versions = {"python": py, **versions}
         entry: dict[str, Any] = {"status": r["status"], "versions": versions}
         public = r.get("publish") == "public"
-        if r.get("metrics"):
+        if r.get("metrics") and not failed_non_finite:
             entry["metrics"] = r["metrics"] if public else LOCAL_ONLY
-        if public and r.get("telemetry"):
+        if public and r.get("telemetry") and not failed_non_finite:
             entry["telemetry"] = r["telemetry"]
         if r.get("notes"):
             entry["notes"] = [scrub(n) for n in r["notes"]]
@@ -273,13 +308,14 @@ def main(argv: list[str]) -> int:
             results.append(r)
     finally:
         lock.release()
+    results = [fail_non_finite(r) for r in results]  # a NaN or infinity never reaches either file (FR-001-37)
     stamp = dt.datetime.now(dt.UTC).strftime("%Y%m%dT%H%M%SZ")
     local = local_dir() / f"bench-{stamp}.json"
-    local.write_text(json.dumps({"gpu": gpu, "driver": driver, "results": results}, indent=2), encoding="utf-8")
+    local.write_bytes(dump_json({"gpu": gpu, "driver": driver, "results": results}))
     print(f"[bench] local report: {local}")
     if not a.no_write:
         cap = ROOT / "studio" / "capabilities.json"
-        old = json.loads(cap.read_text(encoding="utf-8")) if cap.exists() else {"probes": {}}
+        old = load_json(cap) if cap.exists() else {"probes": {}}
         new = public_view(results, driver, gpu)
         new["probes"] = {**old.get("probes", {}), **new["probes"]}
         cap.write_text(json.dumps(new, indent=2) + "\n", encoding="utf-8", newline="\n")

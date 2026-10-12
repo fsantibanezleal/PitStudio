@@ -59,6 +59,11 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/014-robot-learni
 - [ ] T-014-062 [US-014-1] (FR-014-05, FR-014-25, NFR-014-01, NFR-014-02) MJCF compile, short training run with resume, VRAM and time budget checks — test: tests/gpu/test_t_014_062_training_smoke.py
 - [ ] T-014-063 [US-014-2] (FR-014-22) coupled rigid–MPM smoke — test: tests/gpu/test_t_014_063_mpm_smoke.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-014-092 (FR-014-48) fixture propagation through the IL stages — test: tests/unit/test_t_014_092_fixture_propagation.py
+- [ ] T-014-093 (FR-014-49) stale policy checkpoints fail `input-stale` at export — test: tests/unit/test_t_014_093_input_stale.py
+
 ## Phase 8 — Polish and review
 - [ ] T-014-090 mutation run on `src/pitstudio/robots/` and `pitstudio_pipeline.evaluate.il`; record the score (numerical core ≥ 0.80)
 - [ ] T-014-091 independent review of the diff against this spec; append tasks for gaps

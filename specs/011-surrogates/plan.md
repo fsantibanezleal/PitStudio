@@ -159,6 +159,9 @@ Data flow: `st50_physics` (rollouts, fields, calibration runs; DC-011-01, DC-011
 | FR-011-46 | unit (hostile) | hand calculation: [0.1, 0.5, 0.5], [0.5, 0.1] and [0, 0.5] are rejected; [0.1, 0.5, 0.9] is accepted | pytest |
 | FR-011-47 | unit (hostile) | hand calculation: two tensors named `u` are rejected; distinct names are accepted | pytest |
 | FR-011-48 | unit (hostile) | hand calculation: x_min = x_max gives `rollout-bounds-invalid`; ordered bounds are accepted | pytest |
+| FR-011-49 | pipeline | hand calculation: a fixture rollout set gives a report `fixture: true` and the publish step drops it | pytest |
+| FR-011-50 | pipeline | hand calculation: 40 of 50 calibration trials give `partial` with 10 missing and no coverage claim; 50 give the coverage | pytest |
+| FR-011-51 | unit (hostile) | hand calculation: one altered frame gives `input-stale` naming the file before any step | pytest |
 
 ### Threshold keys (`thresholds.yaml`, ratchet-only)
 `models.gns_repose_abs_deg_max: 1.5`, `models.gns_runout_rel_max: 0.05`, `models.fno_rel_l2_mean_max: 0.05`,

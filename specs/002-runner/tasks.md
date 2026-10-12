@@ -63,6 +63,12 @@ against the fake GPU backend and fake stages unless it is marked `gpu`.
 - [ ] T-002-094 (FR-002-66) thermal guard: pause at `runner.run_pause_temp_c`, resume at `runner.run_resume_temp_c`, stop at `runner.run_stop_temp_c` or on a new WHEA/PCIe AER event with a checkpoint, exit code 5, and the GPU time block cap with cool-down — test: tests/unit/test_t_002_094_thermal_guard.py
 - [ ] T-002-095 (P-002-13) thermal guard property: never resumes above the resume temperature, never runs past a stop condition — test: tests/property/test_t_002_095_thermal_guard_property.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-002-096 (FR-002-67) fixture capability report: fake backend only, real-GPU stages refused `capability-fixture` — test: tests/unit/test_t_002_096_capability_fixture.py
+- [ ] T-002-097 (FR-002-68) stale runs: `studio status` and `studio publish` compare the recomputed cache key with the manifest key — test: tests/unit/test_t_002_097_run_stale.py
+- [ ] T-002-098 (FR-002-69) error class `input-stale` (additive change of the stage-result schema) and its handling — test: tests/unit/test_t_002_098_input_stale.py
+
 ## Phase 9 — Polish and hostile review
 
 - [ ] T-002-090 (NFR-002-05) mutation run on the cache-key, seed, guard and telemetry-summary modules; record the score and fail below 0.80 — test: tests/unit/test_t_002_090_mutation_score.py

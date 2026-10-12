@@ -132,6 +132,8 @@ published telemetry (DC-002-03, ≤ 200 KB per run, FR-002-50); this spec reads 
 | FR-019-45 | Unwanted | If the port field of the "connect to my local studio" control holds anything other than a decimal integer in 1024–65535 (e.g. `abc`, `80`, `65536`, `8765/x`, `8765@host`, ` 8765`), then the control shall make no request and show an inline validation message. | unit (web, hostile) |
 | FR-019-46 | Unwanted | If the tool map has an edge whose source and target are the same tool, then the build check of FR-019-38 shall fail with the tool id. | unit (hostile) |
 | FR-019-47 | Unwanted | If the generated studio index is larger than 1,000,000 bytes (NFR-019-03), then the loader and the CI size check shall reject it, and the cap shall be listed in the cap table of FR-001-05. | unit (hostile) |
+| FR-019-48 | State | While a run manifest or telemetry file in the studio index has `fixture: true`, a development build shall show its run card with the label "fixture" and shall not count it as an artefact of its tool; a release build shall exclude it from the index, so that the tool shows "Not yet run" (FR-000-07). | unit + E2E |
+| FR-019-49 | State | While a run's manifest has `stale: true` (FR-001-60), the run card, the run ledger row and the tool page shall show a "stale" badge with the run's original date, and the studio index shall not count it as the latest fresh run of its tool. | unit + E2E |
 
 ## 4. Correctness properties
 | ID | Property (for all …) | Input domain / generator | Tolerance |
@@ -253,6 +255,8 @@ with it.
   minimal consistent option): `label-set` and `metrics` are not separate artefacts — label sets and metric tables
   publish as `table` — and `screenshot` cannot be declared at all (an unknown kind fails the manifest schema), so the
   screenshot clause is dropped and the scene-lineage rule of FR-019-35 carries the intent. No kind is added to spec 001.
+
+- Availability states (2026-10-11): FR-019-48, FR-019-49 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

@@ -142,6 +142,8 @@ Levels map to `tests/` folders:
 | NFR-007-05 | pipeline | recipe schema | pytest |
 | SC-007-04 | pipeline | reference DES in fast mode | pytest |
 | DC-007-01 … DC-007-05 | contract | JSON Schema 2020-12 meta-schema; round-trip of the generated types | pytest + jsonschema |
+| FR-007-46 | unit | hand calculation: a fixture bundle gives KPI tables and a comparison row `fixture: true`; the publish step drops them | pytest |
+| FR-007-47 | unit | hand calculation: 29 paired seeds give `partial` with present 29 and missing 1 and no verdict; 30 seeds give the verdict by the decision rule | pytest |
 
 ### Metamorphic relations per numerical core (≥ 3 each)
 

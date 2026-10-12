@@ -12,7 +12,11 @@ dependencies = [
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [dependency-groups]
-dev = []
+dev = [
+    "hypothesis>=6.169.0",
+    "pytest>=9.1.1",
+    "scipy>=1.18.1",
+]
 
 [tool.uv]
 package = false

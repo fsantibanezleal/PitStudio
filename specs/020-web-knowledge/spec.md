@@ -139,6 +139,9 @@ Sizes use KB = 10³ bytes and MB = 10⁶ bytes, as specs 001 and 006 do; the git
 | FR-020-48 | Unwanted | If `?tab=`, `?q=`, `?module=`, `?status=` or `?lang=` on `/theory`, `/methods`, `/results` or `/knowledge` is unknown, malformed or longer than 2,000 characters, then the page shall fall back to its default, render normally, raise no uncaught error and request no resource derived from the value. | E2E (hostile) |
 | FR-020-49 | Ubiquitous | The teaching functions of `web/src/theory/fn/` (Beverloo discharge, Ritter dam break, lidar range with Beer–Lambert extinction, PPO clipped objective, exact McNemar test, Gaussian two-sample AUC, paired-t interval) shall equal their analytical forms on hand-calculated cases and SciPy reference values within rtol 1e-9. | unit + parity |
 | FR-020-50 | Unwanted | If a teaching function receives NaN, ±Infinity or an argument outside its domain (D ≤ 0, d ≤ 0, h₀ ≤ 0, t < 0, R ≤ 0, ε ∉ (0, 1), non-integer or negative counts, n < 2, σ ≤ 0), then it shall throw a `RangeError` naming the argument and return no value. | unit (hostile) |
+| FR-020-52 | State | While a results-bundle row (DC-020-02) is derived from a fixture (`fixture: true` on any of its run ids), `/results` shall show it in a development build with the label "fixture" and no verdict, and in a release build shall treat it as having no published result ("Not yet run", FR-020-31). | unit + E2E |
+| FR-020-53 | State | While only some of the models of FR-020-24 have a published result, `/results` shall show the number of models with a result out of the total, shall state no claim about the models as a whole (no "all", "every" or pooled verdict), and shall show each unmeasured model as "Not yet run" with its criterion. | unit + E2E |
+| FR-020-54 | Unwanted | If the stored verdict of a results row differs from the verdict recomputed from its interval, orientation and the pre-registered criterion in `studio/methods.yaml`, or its run manifest is `stale`, then `/results` shall show the row with a "stale" badge and its original date and shall not count it toward any summary. | unit + E2E |
 
 ## 4. Correctness properties
 fast-check with 200 examples per property in CI and 2,000 at release (`property_tests`).
@@ -286,6 +289,8 @@ UNVERIFIED badge next to the control. Tests use hand-chosen inputs, so no oracle
 - Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys. Initial JS and site total use the existing `web.*` keys (one key per
   rule).
 - Integration 2026-10-07 (2): spec 016 now reports latency p95 (FR-016-26), the source of the p95 that FR-020-28 shows.
+
+- Availability states (2026-10-11): FR-020-52, FR-020-53, FR-020-54 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

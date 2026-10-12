@@ -136,6 +136,8 @@ Fixed parameters referred to as "§7" are in the tables of section 7.
 | FR-017-49 | Unwanted | If a PLY or SPZ file fails to parse, declares more than 10⁷ Gaussians, or has non-finite attributes, then the packaging stage shall reject it and the splat view shall show "Not run — <reason>". | unit (hostile) |
 | FR-017-50 | Optional | Where a CUDA GPU is available, COLMAP dense stereo and Brush training shall run only through the runner under `gpu0.compute`, honour `gpu0.hold`, and stop with a recorded reason on a timeout (default 2 h per flight) or out-of-memory; these behaviours shall be verified with the fake GPU backend and fake tool binaries. | unit (fake GPU) + gpu |
 | FR-017-51 | Ubiquitous | Every D2, E1 and E2 artefact shall carry a manifest (DC-000-01): sweeps and meta-model labelled "calibrated synthetic — not validated against real data", `oreblocks` deposits labelled synthetic, MineLib-derived layers in separate CC BY-SA 3.0 entries, the real Bingham volume with its public-domain attribution, and the splat with its producing tools. | contract |
+| FR-017-52 | State | While a block model, a flight record or a sweep (DC-017-01, DC-017-02, DC-017-05) is a contract fixture, the planning, survey and meta-model stages shall run against it, shall write `fixture: true` on every shell set, schedule, surface, volume and report, and shall publish no E1, E2 or D2 number computed from it. | pipeline (hostile) |
+| FR-017-53 | State | While only some of the flights, survey methods or deposits that a survey or planning evaluation names exist, `s50_evaluate` shall report the existing (method, flight, seed) cells, list each missing cell as `not run (absent)`, label the survey volumes `partial`, and compute the error summary only over complete (method, design) groups. | pipeline |
 
 ## 4. Correctness properties
 
@@ -157,7 +159,7 @@ Fixed parameters referred to as "§7" are in the tables of section 7.
 | P-017-14 | Adding the same constant to both surfaces leaves V_cut and V_fill unchanged; scaling the difference field by k scales them by k. | c ∈ [−10³, 10³] m; k ∈ [0, 10] | \|ΔV\| ≤ 1e-15 (\|c\| + (k + 1) max\|z\|) N A_c (one rounding per cell and operation) |
 | P-017-15 | The divergence-theorem volume of a closed polyhedral mesh equals the closed form of a cube, a prism and a frustum mesh; it is unchanged by translation and scales as k³. | edge lengths in [0.1, 10³] m | rtol 1e-12 |
 | P-017-16 | The Umeyama alignment recovers a known similarity transform from noise-free correspondences, and is unchanged by permuting the correspondences together. | scale ∈ [0.1, 10], random rotations and shifts, ≥ 3 non-collinear points | rtol 1e-9 |
-| P-017-17 | Chain identities: t/h × kWh/t = η P_mill; kWh/t is non-increasing in the target P80 and non-decreasing in W_i; the Bond term tends to 0 as P80 approaches F80 from below (tested at P80 = F80·(1 − 10⁻⁹)). | the §7 box | rtol 1e-12; exact (order) |
+| P-017-17 | Chain identities: t/h × kWh/t = η P_mill; kWh/t is non-increasing in the target P80 and non-decreasing in W_i; the Bond term tends to 0 as P80 approaches F80 from below (tested at P80 = F80·(1 − ε), ε = 10⁻⁹, against its first-order value 5 W_i ε / √F80, relative bound 1e-6; the same property as P-018-43). | the §7 box | rtol 1e-12 (identities); \|E − 5 W_i ε / √F80\| ≤ 1e-6 · 5 W_i ε / √F80 (Bond limit); exact (order) |
 | P-017-18 | R² equals 1 for exact predictions, matches the hand calculation, and is unchanged when y and ŷ undergo the same affine map a y + b with a ≠ 0. | random vectors, n ∈ [2, 10⁴] | rtol 1e-12 |
 | P-017-19 | The sweep design is a deterministic function of its seed, and its training, validation and held-out configurations are disjoint. | seeds 0–999 | exact |
 
@@ -287,6 +289,8 @@ t/h × kWh/t = η P_mill.
   2 × 2 = 12 flights), poses are camera-to-world (x right, y down, z forward) with unit quaternions, and depth maps
   are planar z in metres.
 - Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
+
+- Availability states (2026-10-11): FR-017-52, FR-017-53 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

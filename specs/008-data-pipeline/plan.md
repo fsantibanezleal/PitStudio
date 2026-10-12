@@ -106,7 +106,7 @@ redirects, oversize bodies and failures.
 | FR-008-26 | pipeline | hand-drawn polygons inside and outside the box | pytest |
 | FR-008-27, FR-008-28, P-008-06, P-008-08 | pipeline | hand calculation (72 groups, the listed components) | pytest, Hypothesis |
 | FR-008-29, SC-008-01 | pipeline | exact flip/rotation identities on generated masks (CI); the card's counts on the real archive (local) | pytest |
-| FR-008-30, P-008-07 | pipeline | hand calculation (48 per fold; group counts 45, 46, 46, 47, 47) | pytest, Hypothesis |
+| FR-008-30, P-008-07 | pipeline | hand calculation (48 per fold; group counts 10, 15, 15, 16, 16) | pytest, Hypothesis |
 | FR-008-31 | pipeline | the group-key table of FR-008-31 | pytest |
 | FR-008-32, FR-008-35, FR-008-38, P-008-09 | pipeline | double-run SHA-256 equality; missing or tampered studio fixtures | pytest |
 | FR-008-33, FR-008-34 | pipeline | the real-data validators applied to synthetic fixtures | pytest |
@@ -116,6 +116,8 @@ redirects, oversize bodies and failures.
 | FR-008-43, FR-008-44 | contract | registry ↔ card field equality | pytest + jsonschema |
 | FR-008-45, NFR-008-03 | contract | `git ls-files` listing; sample cards | pytest |
 | DC-008-02 … DC-008-05 | contract | JSON Schema 2020-12 meta-schema; round-trip of the generated types; one hostile document per schema | pytest + jsonschema |
+| FR-008-49 | pipeline (CPU) | hand calculation: a fixture entry gives ingestion report, split and features all `fixture: true`; a card without the word fails the check naming the card | pytest |
+| FR-008-50 | integration | hand calculation: 3 of 5 fixture tiles verified give an ingestion report with 3 accepted, 2 `unavailable` and `partial`; the fetch record of the source is not `complete` | pytest (mocked transport) |
 
 ### Metamorphic relations per numerical core (≥ 3 each)
 

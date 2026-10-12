@@ -183,6 +183,8 @@ Key decisions:
 | SC-005-01, SC-005-02 | pipeline (data phase) | benchmark reports; FR-000-05 decision rule | pytest on published runs |
 | DC-005-01…06 | contract | JSON Schema 2020-12 meta-validation; valid and invalid examples; generated types round-trip | jsonschema |
 | FR-005-55 | unit (hostile) | hand calculation: a box with min = max on one axis and a source with end_s = start_s give `physics-params-invalid` | pytest |
+| FR-005-56 | unit (fake GPU backend) | hand calculation: a fixture scene gives outputs and benchmark rows `fixture: true` and no verdict stamp on rollouts; a real scene gives `false` and the verdict | pytest + fake GPU backend |
+| FR-005-57 | unit (hostile) | hand calculation: one changed byte in the terrain grid gives `input-stale` with both digests and no solver call (a call counter on the fake solver stays 0) | pytest + fake GPU backend |
 
 ### Tolerances and their justification
 | Quantity | Tolerance | Why |

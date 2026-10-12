@@ -140,6 +140,8 @@ bucket reliably; reviewers who need paired, pre-registered comparisons.
 |---|---|---|---|
 | FR-014-46 | Unwanted | If the IL task parameters are invalid against `contracts/il-task.schema.json` — an unknown key, a randomisation range with lower > upper bound or outside the FR-014-13 / FR-014-19 limits, a non-finite reward weight, an observation layout that does not sum to 63 (IL-1) or 46 (IL-2), or evaluation seeds overlapping training seeds — or `--resume` names a checkpoint whose task-configuration hash differs from the current one, then the IL stage shall exit with code 2 before any GPU work and name the field. | unit (hostile) |
 | FR-014-47 | Unwanted | If the TTC function, a twin step or the fill model receives a non-finite position, velocity, action or state, a footprint with a non-positive side, a time step ≤ 0, or a bucket width ≤ 0, then it shall raise `ValueError` naming the input. | unit (hostile) |
+| FR-014-48 | State | While an IL task file, a machine parameter file or a policy handoff (DC-014-01 to DC-014-03) is a contract fixture, the IL stages, the twin runner and `s50_evaluate` shall run against it, shall write `fixture: true` on every policy, episode table and report, and shall publish no sim-to-sim gap computed from it. | unit (fake trainer) |
+| FR-014-49 | Unwanted | If the checkpoint SHA-256 in a policy handoff (DC-014-03) differs from the SHA-256 of the checkpoint file now present, then `s60_export` shall fail with error class `input-stale` (FR-002-69) naming the checkpoint and shall export nothing. | unit (hostile) |
 
 ## 4. Correctness properties
 
@@ -281,6 +283,8 @@ fill model (P-014-13).
   lateral errors for the pooled RMS, and an MPM table holds 16–64 rows; "< 1 MB" for the ONNX policy is ≤ 999,999
   bytes, and the twin bundle pins the "sim-to-sim" label, the FR-014-45 statement, the 2,000-step goldens and the IL-1
   twin step of 0.01 s (the IL-2 arm step, unspecified, is ≤ 0.05 s).
+
+- Availability states (2026-10-11): FR-014-48, FR-014-49 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 

@@ -38,8 +38,16 @@ class FakeGPU:
 
 
 def guard(g: FakeGPU, **kw) -> Guard:
-    return Guard(read_temp=g.read, whea=g.whea, clock=g.clock, sleep=g.sleep, log=lambda m: None,
-                 temp_every_s=0, whea_every_s=0, **kw)
+    return Guard(
+        read_temp=g.read,
+        whea=g.whea,
+        clock=g.clock,
+        sleep=g.sleep,
+        log=lambda m: None,
+        temp_every_s=0,
+        whea_every_s=0,
+        **kw,
+    )
 
 
 def test_cool_gpu_runs_without_pausing() -> None:
@@ -77,7 +85,8 @@ def test_new_whea_event_raises_hw_error() -> None:
     with pytest.raises(GuardStop) as e:
         gd.check()
     assert e.value.reason == "hw-error"
-    assert g.since_args and g.since_args[0] == gd.since  # counted by time from the guard's start, not by log size
+    assert g.since_args  # the event log was queried
+    assert g.since_args[0] == gd.since  # counted by time from the guard's start, not by log size
 
 
 def test_no_new_whea_event_keeps_running() -> None:
@@ -89,8 +98,9 @@ def test_failed_whea_query_is_not_read_as_zero_and_is_reported(monkeypatch: pyte
     monkeypatch.setattr(gpu_guard.sys, "platform", "win32")
     logs: list[str] = []
     g = FakeGPU([60], whea=[None])
-    gd = Guard(read_temp=g.read, whea=g.whea, clock=g.clock, sleep=g.sleep, log=logs.append,
-               temp_every_s=0, whea_every_s=0)
+    gd = Guard(
+        read_temp=g.read, whea=g.whea, clock=g.clock, sleep=g.sleep, log=logs.append, temp_every_s=0, whea_every_s=0
+    )
     assert gd.check() == "ok"
     assert gd.check() == "ok"
     assert sum("hardware-error detection unavailable" in m for m in logs) == 1  # reported once, never silent

@@ -267,6 +267,9 @@ runner:
 | FR-002-66 | unit (fake GPU, fake clock) | hand calculation: a scripted sequence 70, 84, 80, 76, 74, 88 °C pauses at 84, stays paused at 80 and 76, resumes at 74 and stops at 88 with `thermal` and exit code 5; a scripted WHEA event stops with `hw-error`; a 45-minute block is followed by a 10-minute cool-down | pytest + fake GPU backend |
 | P-002-13 | property | invariant: a reference state machine over the same sequence (written from the requirement, not from the guard) agrees with the guard on every step | Hypothesis |
 | P-002-04 | property | reference implementation: the descendants of the changed stage computed with networkx on the generated DAG | Hypothesis |
+| FR-002-67 | unit (fake GPU) | hand calculation: a fixture capability file with a real-GPU stage gives exit 5 and reason `capability-fixture`; the same stage on the fake backend runs and its manifest records no measured probe | pytest + fake GPU backend |
+| FR-002-68 | unit | hand calculation: a run whose recorded key differs from the recomputed key is reported `stale`; publish without the flag exits 2, with it writes `stale: true`; a matching key is `fresh` | pytest |
+| FR-002-69 | unit (hostile) | hand calculation: a job spec with one wrong digest ends `input-stale` with both digests in the result and promotes no output; the schema accepts the new class | pytest |
 
 **Tolerances (P-002-08).** Means are float64 sums: for n ≤ 10⁴ non-negative terms the relative error of a recursive sum
 is ≤ (n − 1)·u ≈ 1.1 × 10⁻¹² (u = 2⁻⁵³), and multiplying each term by c adds ≤ u per term, so reordering or scaling

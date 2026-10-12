@@ -71,7 +71,8 @@ def Xform "World"
         float horizontalAperture = 36
         float verticalAperture = 36
         float2 clippingRange = (0.1, 200)
-        matrix4d xformOp:transform = ( (0.7071068, 0.4082483, -0.5773503, 0), (-0.7071068, 0.4082483, -0.5773503, 0), (0, 0.8164966, 0.5773503, 0), (8, 8, 8, 1) )
+        matrix4d xformOp:transform = ( (0.7071068, 0.4082483, -0.5773503, 0), (-0.7071068, 0.4082483, -0.5773503, 0),
+            (0, 0.8164966, 0.5773503, 0), (8, 8, 8, 1) )
         uniform token[] xformOpOrder = ["xformOp:transform"]
     }}
 }}
@@ -143,8 +144,7 @@ def _drop_test(r: dict[str, Any]) -> None:
             cols = []
             with sdk.read(SimObjectType.RIGID_BODY, ["position"], scope=ObjectScope.ALL) as res:
                 for g in res.groups:
-                    for t in g.tensors:
-                        cols.append(t.numpy()[:, 2])
+                    cols.extend(t.numpy()[:, 2] for t in g.tensors)
             return np.concatenate(cols)
 
         z0 = heights()

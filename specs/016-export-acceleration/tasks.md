@@ -42,6 +42,10 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/016-export-accel
 ## Phase 7 — US-016-6 (P2) Camera streams per GPU
 - [ ] T-016-060 [US-016-6] (FR-016-35, FR-016-38, P-016-07, P-016-12) tile count and streams per GPU; hostile stream inputs — test: tests/unit/test_t_016_060_camera_streams.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-016-092 (FR-016-40) fixture propagation through export and bench — test: tests/unit/test_t_016_092_fixture_propagation.py
+
 ## Phase 8 — Polish and hostile review
 - [ ] T-016-090 mutation run on the comparator, statistics, energy, lane, budget and stream modules; record the score (≥ 0.80 numerical core)
 - [ ] T-016-091 independent review of the diff against this spec; append tasks for gaps

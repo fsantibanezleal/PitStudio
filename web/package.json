@@ -14,6 +14,7 @@
     "lint": "biome ci .",
     "format": "biome check --write .",
     "test": "vitest run",
+    "gen:types": "node scripts/gen-types.mjs",
     "check:locales": "node ../tools/check_locales.mjs",
     "check": "pnpm run check:locales && biome ci . && react-router typegen && tsc && vitest run",
     "test:e2e": "playwright test",
@@ -46,6 +47,7 @@
     "@types/react-dom": "^19.3.0",
     "fast-check": "^4.10.2",
     "jsdom": "^30.1.1",
+    "json-schema-to-typescript": "^16.0.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.2",
     "vitest": "^5.0.3"

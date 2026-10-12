@@ -61,6 +61,12 @@ Order: C1 is part of the first vertical slice (with A1); phases 1–4 and 6 come
 - [ ] T-010-093 (FR-010-44) displacement-series self-consistency — test: tests/unit/test_t_010_093_series_self_consistency.py
 - [ ] T-010-094 (FR-010-45) slope-results section digest is verified — test: tests/unit/test_t_010_094_results_section_digest.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-010-095 (FR-010-46) fixture propagation through the forecaster stages — test: tests/unit/test_t_010_095_fixture_propagation.py
+- [ ] T-010-096 (FR-010-47) partial strata: reported with provenance, no pooled claim — test: tests/pipeline/test_t_010_096_partial_strata.py
+- [ ] T-010-097 (FR-010-48) stale series fail `input-stale` — test: tests/unit/test_t_010_097_input_stale.py
+
 ## Phase 7 — Polish and independent review
 - [ ] T-010-090 mutation run on `src/pitstudio/slope/`; record the score (numerical-core threshold)
 - [ ] T-010-091 independent review of the diff against this spec; append tasks for gaps

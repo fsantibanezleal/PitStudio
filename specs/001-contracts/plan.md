@@ -112,6 +112,9 @@ contracts:
 | FR-001-58 | unit (hostile) | hand calculation: one fixture entry `public-domain` with one `share-alike` file override, then the same entry at `share-alike`, gives rejected, then accepted | pytest |
 | FR-001-59 | unit (hostile) | hand calculation: fixtures with a Windows drive-letter path, a POSIX home-directory path and a clean note give rejected, rejected, accepted | pytest |
 | SC-001-01 | CI history | reference implementation: the conclusion of every CI run on `main` after the build phase, read from the hosting API, all `success` | review at release |
+| FR-001-60 | contract | hand calculation: manifest examples with each boolean combination validate and a string, a number or a missing key in a published manifest fails; the generated types round-trip them | pytest + jsonschema |
+| FR-001-61 | CI (fixture manifests) | hand calculation: a manifest with one fixture artefact fails the release build naming it and passes the development build; one with none passes both | pytest |
+| FR-001-62 | unit (hostile) | hand calculation: a missing path, a directory and a zero-byte file each raise `ContractError` of class `absent` with the path and return nothing | pytest |
 
 **Tolerances.** Every assertion here is exact. P-001-02 compares `x_ms ≤ 16` with `x_ms / 1000 ≤ 0.016` (and the
 other thresholds likewise) for `x_ms` drawn with at most three decimals: the smallest distance between such a value and

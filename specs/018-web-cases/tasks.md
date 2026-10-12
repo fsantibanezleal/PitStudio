@@ -74,6 +74,11 @@ start with the requirement ID followed by " · " (for example `it("FR-018-39 · 
 ## Phase — Hostile-input classes without a requirement (G5 review)
 - [ ] T-018-092 (FR-018-69) a repeated KPI id within a case fails the case check — test: tests/unit/test_t_018_092_case_duplicate_kpi.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-018-093 (FR-018-70) fixture artefacts: label in development builds, excluded from release builds — test: web/e2e/t-018-093-fixture-artefact.spec.ts
+- [ ] T-018-094 (FR-018-71) partial coverage: numerator and denominator, no aggregate claim — test: web/e2e/t-018-094-partial-coverage.spec.ts
+
 ## Phase 9 — Gates, polish and independent review
 - [ ] T-018-088 [US-018-3] (SC-018-01, FR-018-67) parity-report completeness: every engine of §7.1 passes or is shown in T0; invalid report or measurement files fail the build — test: web/src/engines/t_018_088_parity_report.test.ts
 - [ ] T-018-089 [US-018-2] (SC-018-02) vertical slice A1 + C1 end to end on the preview build — test: web/e2e/t_018_089_vertical_slice.spec.ts

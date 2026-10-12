@@ -58,6 +58,7 @@ def body(r: dict[str, Any]) -> None:
     use_cuda13_runtime_wheel()
     import numpy as np
     import onnxruntime as ort
+
     try:
         import tensorrt as trt
     except ModuleNotFoundError:  # the standalone cu13 wheels ship the module as `tensorrt_bindings`
