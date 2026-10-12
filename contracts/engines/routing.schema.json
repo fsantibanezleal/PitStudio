@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/routing.schema.json",
+  "title": "Engine routing: input and output messages",
+  "description": "Input and output messages of the browser engine `routing` (cases A2, E1): the least-energy grade-limited A* route of spec 007 on a DEM (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `routing`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "routing",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "route"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "route"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/route_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `routing`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "routing",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "route"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "route"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/route_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "route_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dem",
+        "rows",
+        "cols",
+        "cell_size_m",
+        "start",
+        "goal",
+        "grade_max",
+        "mass_kg",
+        "efficiency",
+        "rolling_resistance"
+      ],
+      "properties": {
+        "dem": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "DEM raster: float32, row-major rows x cols, nodata cells NaN inside the asset (FR-007-36).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4194304,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 1024,
+          "description": "DEM rows (browser cap 1024, FR-007-36)."
+        },
+        "cols": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 1024,
+          "description": "DEM columns (browser cap 1024, FR-007-36)."
+        },
+        "cell_size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000,
+          "description": "Cell size (> 0)."
+        },
+        "start": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "row",
+            "col"
+          ],
+          "properties": {
+            "row": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1023
+            },
+            "col": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1023
+            }
+          }
+        },
+        "goal": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "row",
+            "col"
+          ],
+          "properties": {
+            "row": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1023
+            },
+            "col": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1023
+            }
+          }
+        },
+        "grade_max": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Grade limit g_max as a fraction, 0 < g_max <= 1 (FR-007-36)."
+        },
+        "mass_kg": {
+          "type": "number",
+          "minimum": 1000.0,
+          "maximum": 2000000.0,
+          "description": "Truck mass m in the edge cost."
+        },
+        "efficiency": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Drivetrain efficiency eta in the edge cost."
+        },
+        "rolling_resistance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.2,
+          "description": "Rolling resistance as a fraction (RR/100 of FR-007-35)."
+        }
+      }
+    },
+    "route_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "route",
+            "no-feasible-route"
+          ],
+          "description": "NoFeasibleRoute is a value (FR-007-37)."
+        },
+        "cells": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1048575
+          },
+          "minItems": 2,
+          "maxItems": 1048576,
+          "description": "Path as cell indices row x cols + col, start first."
+        },
+        "cost_j": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Energy cost of the path."
+        },
+        "length_m": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Plan length of the path."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "route"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "cells",
+              "cost_j",
+              "length_m"
+            ]
+          }
+        }
+      ]
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

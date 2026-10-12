@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/scene-digest.schema.json",
+  "title": "Scene digest",
+  "description": "Geometry prims of the flattened stage per lod variant, written by st40_compose for the export parity test (DC-004-08, spec 004-scene-pipeline).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "case",
+    "manifest_id",
+    "params_sha256",
+    "up_axis",
+    "meters_per_unit",
+    "kilograms_per_unit",
+    "lods"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "kind": {
+      "const": "scene-digest"
+    },
+    "case": {
+      "$ref": "#/$defs/case_id"
+    },
+    "manifest_id": {
+      "$ref": "#/$defs/slug"
+    },
+    "params_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "up_axis": {
+      "const": "Z"
+    },
+    "meters_per_unit": {
+      "const": 1.0
+    },
+    "kilograms_per_unit": {
+      "const": 1.0
+    },
+    "lods": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lod_digest"
+      },
+      "minItems": 1,
+      "maxItems": 3
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "prim_path": {
+      "description": "absolute USD prim path",
+      "type": "string",
+      "maxLength": 1024,
+      "pattern": "^/[A-Za-z_][A-Za-z0-9_]{0,127}(/[A-Za-z_][A-Za-z0-9_]{0,127}){0,31}$"
+    },
+    "prim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "transform",
+        "vertices",
+        "faces",
+        "class"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/prim_path"
+        },
+        "transform": {
+          "type": "array",
+          "description": "world transform, row-major 4 x 4, float64 (USD row-vector convention: translation in 12-14)",
+          "items": {
+            "type": "number",
+            "minimum": -100000,
+            "maximum": 100000
+          },
+          "minItems": 16,
+          "maxItems": 16
+        },
+        "vertices": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 16777216
+        },
+        "faces": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 33554432
+        },
+        "class": {
+          "$ref": "scene-spec.schema.json#/$defs/class_label"
+        },
+        "part": {
+          "$ref": "scene-spec.schema.json#/$defs/part_label"
+        }
+      }
+    },
+    "lod_digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lod",
+        "prims"
+      ],
+      "properties": {
+        "lod": {
+          "$ref": "scene-spec.schema.json#/$defs/lod_name"
+        },
+        "prims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/prim"
+          },
+          "minItems": 1,
+          "maxItems": 20000
+        }
+      }
+    }
+  }
+}

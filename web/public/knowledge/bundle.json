@@ -1,0 +1,206 @@
+{
+  "bibliography": [],
+  "datasets": [],
+  "equations": [],
+  "frameworks": [
+    {
+      "category": "component",
+      "id": "brush",
+      "licence_class": "attribution",
+      "name": "Brush",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "component",
+      "id": "colmap",
+      "licence_class": "attribution",
+      "name": "COLMAP",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "cosmos-predict-transfer",
+      "licence_class": "reference-only",
+      "name": "Cosmos Predict / Transfer 2.5",
+      "status": "evaluated-not-adopted"
+    },
+    {
+      "category": "studio-tool",
+      "id": "cosmos-reason-2",
+      "licence_class": "reference-only",
+      "name": "Cosmos Reason 2 (2B)",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "cuopt",
+      "licence_class": "attribution",
+      "name": "NVIDIA cuOpt",
+      "status": "evaluated-not-adopted"
+    },
+    {
+      "category": "studio-tool",
+      "id": "isaac-lab",
+      "licence_class": "attribution",
+      "name": "Isaac Lab",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "isaac-sim-replicator",
+      "licence_class": "reference-only",
+      "name": "Isaac Sim + Replicator",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "kit-usd-composer-explorer",
+      "licence_class": "reference-only",
+      "name": "USD Composer / Explorer (Kit)",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "component",
+      "id": "minehaulsim",
+      "licence_class": "attribution",
+      "name": "minehaulsim",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "component",
+      "id": "minephys",
+      "licence_class": "attribution",
+      "name": "minephys",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "mujoco-warp",
+      "licence_class": "attribution",
+      "name": "MuJoCo-Warp",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "newton",
+      "licence_class": "attribution",
+      "name": "Newton",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "nsight-nvml",
+      "licence_class": "attribution",
+      "name": "Nsight / NVML",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "nvenc-ffmpeg",
+      "licence_class": "attribution",
+      "name": "NVENC / FFmpeg",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "onnx-runtime",
+      "licence_class": "attribution",
+      "name": "ONNX Runtime (+ Web)",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "openusd",
+      "licence_class": "attribution",
+      "name": "OpenUSD",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "component",
+      "id": "oreblocks",
+      "licence_class": "attribution",
+      "name": "oreblocks",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "ovrtx",
+      "licence_class": "reference-only",
+      "name": "ovrtx",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "physicsnemo",
+      "licence_class": "attribution",
+      "name": "PhysicsNeMo",
+      "status": "evaluated-not-adopted"
+    },
+    {
+      "category": "studio-tool",
+      "id": "physx-ovphysx",
+      "licence_class": "reference-only",
+      "name": "PhysX / ovphysx",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "component",
+      "id": "pitstudio",
+      "licence_class": "own",
+      "name": "PitStudio",
+      "status": "done"
+    },
+    {
+      "category": "studio-tool",
+      "id": "pytorch",
+      "licence_class": "attribution",
+      "name": "PyTorch",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "rapier-webgpu-pyodide",
+      "licence_class": "attribution",
+      "name": "Rapier / WebGPU / Pyodide",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "tensorrt",
+      "licence_class": "reference-only",
+      "name": "TensorRT",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "threejs-r3f-3d-tiles",
+      "licence_class": "attribution",
+      "name": "three.js / R3F / 3D Tiles",
+      "status": "not-yet-run"
+    },
+    {
+      "category": "studio-tool",
+      "id": "warp",
+      "licence_class": "attribution",
+      "name": "NVIDIA Warp",
+      "status": "not-yet-run"
+    }
+  ],
+  "glossary": [],
+  "parameters": [],
+  "schema_version": "1.0",
+  "source": {
+    "inputs": [
+      {
+        "path": "data/sources.yaml",
+        "sha256": "5eddeef37b731cded7b398c86b959a01aa5c5e29cbc39f41af18481f217fafa9"
+      },
+      {
+        "path": "studio/tools.yaml",
+        "sha256": "d15af1cca6e700cfdbe16eb8de3b534888f71ce36dcf1e8e1b86b9509af6ecb8"
+      }
+    ],
+    "minephys_commit": "143e709d119258f2defc4a7953663ba6377bd6ae",
+    "minephys_version": "0.0.0"
+  }
+}

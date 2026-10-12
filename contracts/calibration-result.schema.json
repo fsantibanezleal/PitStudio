@@ -1,0 +1,843 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/calibration-result.schema.json",
+  "title": "DEM calibration result",
+  "description": "One calibration trial or literature-target calibration of the Warp DEM written by the calibration driver (DC-011-04, spec 011-surrogates).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "arm",
+    "trial_id",
+    "solver",
+    "solver_version",
+    "secondary_arm",
+    "particle_count",
+    "oom_fallback",
+    "target",
+    "parameters",
+    "loss",
+    "window_steps",
+    "settling_steps",
+    "packing_seeds",
+    "interval_runs",
+    "seeds",
+    "budget_simulations",
+    "simulations",
+    "interval_simulations",
+    "check_simulations",
+    "stop_reason",
+    "wall_time_s",
+    "deterministic_accumulation",
+    "label"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "kind": {
+      "enum": [
+        "synthetic-trial",
+        "literature-target"
+      ]
+    },
+    "arm": {
+      "enum": [
+        "gradient",
+        "cma-es"
+      ]
+    },
+    "trial_id": {
+      "$ref": "#/$defs/slug"
+    },
+    "solver": {
+      "enum": [
+        "warp-dem",
+        "newton-mpm"
+      ]
+    },
+    "solver_version": {
+      "$ref": "#/$defs/version"
+    },
+    "secondary_arm": {
+      "type": "boolean",
+      "description": "true: (sliding, rolling) from repose and discharge"
+    },
+    "particle_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20000
+    },
+    "oom_fallback": {
+      "type": "boolean",
+      "description": "particle count halved once after out-of-memory"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "theta_deg"
+      ],
+      "properties": {
+        "theta_deg": {
+          "type": "number",
+          "description": "target repose angle",
+          "minimum": 5,
+          "maximum": 60
+        },
+        "discharge_rate_kg_per_s": {
+          "type": "number",
+          "description": "secondary arm only",
+          "exclusiveMinimum": 0,
+          "maximum": 10000.0
+        },
+        "packing_seed": {
+          "$ref": "#/$defs/seed"
+        },
+        "material": {
+          "$ref": "#/$defs/slug"
+        },
+        "knowledge_row": {
+          "type": "string",
+          "description": "knowledge-table row id or calibration trial id",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "verification": {
+          "enum": [
+            "verified",
+            "UNVERIFIED"
+          ]
+        }
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/parameter_result"
+      },
+      "minItems": 1,
+      "maxItems": 2
+    },
+    "loss": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observable",
+        "softmax_beta_per_d",
+        "bin_width_d",
+        "bin_range_pct",
+        "terms",
+        "total",
+        "smooth_theta_deg",
+        "hard_theta_deg"
+      ],
+      "properties": {
+        "observable": {
+          "const": "smooth-envelope"
+        },
+        "softmax_beta_per_d": {
+          "const": 10
+        },
+        "bin_width_d": {
+          "const": 2
+        },
+        "bin_range_pct": {
+          "const": [
+            20,
+            80
+          ]
+        },
+        "terms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "weight",
+              "value"
+            ],
+            "properties": {
+              "name": {
+                "enum": [
+                  "repose",
+                  "discharge"
+                ]
+              },
+              "weight": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1000000.0
+              },
+              "value": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1000000000.0
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 2
+        },
+        "total": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "smooth_theta_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 90
+        },
+        "hard_theta_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 90
+        }
+      }
+    },
+    "window_steps": {
+      "type": "integer",
+      "description": "W, recorded steps",
+      "minimum": 100,
+      "maximum": 5000
+    },
+    "settling_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000000
+    },
+    "packing_seeds": {
+      "type": "integer",
+      "description": "S",
+      "minimum": 2,
+      "maximum": 64
+    },
+    "interval_runs": {
+      "type": "integer",
+      "description": "R",
+      "minimum": 2,
+      "maximum": 64
+    },
+    "seeds": {
+      "type": "object",
+      "description": "pairwise disjoint seed sets",
+      "additionalProperties": false,
+      "required": [
+        "target",
+        "optimisation",
+        "interval"
+      ],
+      "properties": {
+        "target": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/seed"
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "optimisation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/seed"
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "interval": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/seed"
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "gradient_check": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/seed"
+          },
+          "maxItems": 64,
+          "uniqueItems": true
+        }
+      }
+    },
+    "budget_simulations": {
+      "type": "integer",
+      "description": "forward-equivalent budget (one adjoint pass = 2)",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "simulations": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "interval_simulations": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "check_simulations": {
+      "type": "integer",
+      "description": "gradient-check runs, outside the budget",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "stop_reason": {
+      "enum": [
+        "loss-tolerance",
+        "budget"
+      ]
+    },
+    "wall_time_s": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10000000.0
+    },
+    "deterministic_accumulation": {
+      "type": "boolean"
+    },
+    "gradient_check": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/gradient_check"
+      },
+      "minItems": 2,
+      "maxItems": 4
+    },
+    "gradient_status": {
+      "enum": [
+        "reliable",
+        "unreliable"
+      ]
+    },
+    "cmaes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sigma0",
+        "population"
+      ],
+      "properties": {
+        "sigma0": {
+          "const": 0.1
+        },
+        "population": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 64
+        },
+        "cma_version": {
+          "$ref": "#/$defs/version"
+        }
+      }
+    },
+    "label": {
+      "const": "calibrated synthetic — not validated against real data"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "arm": {
+            "const": "gradient"
+          }
+        },
+        "required": [
+          "arm"
+        ]
+      },
+      "then": {
+        "required": [
+          "gradient_check",
+          "gradient_status"
+        ],
+        "properties": {
+          "deterministic_accumulation": {
+            "const": true
+          }
+        },
+        "not": {
+          "required": [
+            "cmaes"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "arm": {
+            "const": "cma-es"
+          }
+        },
+        "required": [
+          "arm"
+        ]
+      },
+      "then": {
+        "required": [
+          "cmaes"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "gradient_check"
+              ]
+            },
+            {
+              "required": [
+                "gradient_status"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "solver": {
+            "const": "newton-mpm"
+          }
+        },
+        "required": [
+          "solver"
+        ]
+      },
+      "then": {
+        "properties": {
+          "arm": {
+            "const": "cma-es"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "synthetic-trial"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "particle_count": {
+            "maximum": 5000
+          },
+          "parameters": {
+            "items": {
+              "required": [
+                "truth",
+                "covers_truth"
+              ]
+            }
+          },
+          "target": {
+            "required": [
+              "packing_seed"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "literature-target"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parameters": {
+            "items": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "truth"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "covers_truth"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "target": {
+            "required": [
+              "material",
+              "knowledge_row",
+              "verification"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gradient_status": {
+            "const": "unreliable"
+          }
+        },
+        "required": [
+          "gradient_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parameters": {
+            "items": {
+              "properties": {
+                "covers_truth": {
+                  "const": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "secondary_arm": {
+            "const": true
+          }
+        },
+        "required": [
+          "secondary_arm"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parameters": {
+            "minItems": 2
+          },
+          "target": {
+            "required": [
+              "discharge_rate_kg_per_s"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "secondary_arm": {
+            "const": false
+          }
+        },
+        "required": [
+          "secondary_arm"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parameters": {
+            "maxItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "gradient_check": {
+      "type": "object",
+      "description": "tape gradient against the 4 + 4 run central finite difference",
+      "additionalProperties": false,
+      "required": [
+        "iterate",
+        "parameter",
+        "mu",
+        "tape_gradient",
+        "fd_gradient",
+        "se_fd",
+        "runs_per_side",
+        "dof",
+        "trusted",
+        "failure"
+      ],
+      "properties": {
+        "iterate": {
+          "enum": [
+            "first",
+            "final"
+          ]
+        },
+        "parameter": {
+          "enum": [
+            "sliding_friction",
+            "rolling_friction"
+          ]
+        },
+        "mu": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 2
+        },
+        "tape_gradient": {
+          "type": "number",
+          "minimum": -1000000000.0,
+          "maximum": 1000000000.0
+        },
+        "fd_gradient": {
+          "type": "number",
+          "minimum": -1000000000.0,
+          "maximum": 1000000000.0
+        },
+        "se_fd": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "runs_per_side": {
+          "const": 4
+        },
+        "dof": {
+          "const": 6
+        },
+        "trusted": {
+          "type": "boolean"
+        },
+        "failure": {
+          "enum": [
+            "none",
+            "fd-not-significant",
+            "sign-mismatch",
+            "disagreement"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "trusted": {
+                "const": true
+              }
+            },
+            "required": [
+              "trusted"
+            ]
+          },
+          "then": {
+            "properties": {
+              "failure": {
+                "const": "none"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "trusted": {
+                "const": false
+              }
+            },
+            "required": [
+              "trusted"
+            ]
+          },
+          "then": {
+            "properties": {
+              "failure": {
+                "not": {
+                  "const": "none"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "parameter_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "start",
+        "bounds",
+        "estimate",
+        "fd_step",
+        "interval",
+        "identification"
+      ],
+      "properties": {
+        "name": {
+          "enum": [
+            "sliding_friction",
+            "rolling_friction"
+          ]
+        },
+        "truth": {
+          "type": "number",
+          "description": "synthetic truth (synthetic trials only)",
+          "minimum": 0.05,
+          "maximum": 2
+        },
+        "start": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 2
+        },
+        "bounds": {
+          "type": "array",
+          "description": "lower, upper",
+          "items": {
+            "type": "number",
+            "minimum": 0.05,
+            "maximum": 2
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "estimate": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 2
+        },
+        "fd_step": {
+          "type": "number",
+          "description": "h = 0.05 x estimate",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "interval": {
+          "type": "object",
+          "description": "seed-ensemble delta interval; bounds null when not identified",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "lower",
+            "upper",
+            "t_quantile",
+            "sigma_theta_deg",
+            "slope_deg_per_unit",
+            "slope_interval_deg_per_unit"
+          ],
+          "properties": {
+            "level": {
+              "const": 0.95
+            },
+            "lower": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": -100,
+              "maximum": 100
+            },
+            "upper": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": -100,
+              "maximum": 100
+            },
+            "t_quantile": {
+              "type": "number",
+              "description": "Student t 0.975 quantile with R - 1 degrees of freedom",
+              "exclusiveMinimum": 0,
+              "maximum": 100
+            },
+            "sigma_theta_deg": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 90
+            },
+            "slope_deg_per_unit": {
+              "type": "number",
+              "description": "central-difference slope of the seed means",
+              "minimum": -10000.0,
+              "maximum": 10000.0
+            },
+            "slope_interval_deg_per_unit": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": -10000.0,
+                "maximum": 10000.0
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        },
+        "identification": {
+          "enum": [
+            "identified",
+            "not-identified",
+            "weakly-identified"
+          ]
+        },
+        "covers_truth": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "identification": {
+                "const": "not-identified"
+              }
+            },
+            "required": [
+              "identification"
+            ]
+          },
+          "then": {
+            "properties": {
+              "covers_truth": {
+                "const": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    }
+  }
+}

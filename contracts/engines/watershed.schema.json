@@ -1,0 +1,404 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/watershed.schema.json",
+  "title": "Engine watershed: input and output messages",
+  "description": "Input and output messages of the browser engine `watershed` (cases D1): the marker watershed of the spec 012 baseline with x50 and x80 (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `watershed`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "watershed",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "segment"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "segment"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/segment_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `watershed`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "watershed",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "segment"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "segment"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/segment_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "segment_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "elevation",
+        "markers",
+        "pixel_size_m"
+      ],
+      "properties": {
+        "elevation": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Elevation image of the fixture or sample frame.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 16,
+                  "maximum": 1024,
+                  "description": "Image rows (at most 1,024)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 16,
+                  "maximum": 1024,
+                  "description": "Image columns (at most 1,024)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4194304,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "markers": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Marker image: 0 no marker, k > 0 marker label.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "int32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 16,
+                  "maximum": 1024,
+                  "description": "Image rows (at most 1,024)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 16,
+                  "maximum": 1024,
+                  "description": "Image columns (at most 1,024)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4194304,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "mask": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Foreground mask: 1 inside, 0 outside; absent means every pixel.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "uint8",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 16,
+                  "maximum": 1024,
+                  "description": "Image rows (at most 1,024)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 16,
+                  "maximum": 1024,
+                  "description": "Image columns (at most 1,024)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1048576,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "connectivity": {
+          "enum": [
+            1,
+            2
+          ],
+          "description": "Pixel connectivity (default 1)."
+        },
+        "min_area_px": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024,
+          "description": "Smallest kept instance (default 4, FR-012-28)."
+        },
+        "pixel_size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Pixel size; sizes scale with it (P-018-48)."
+        }
+      }
+    },
+    "segment_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "labels",
+        "instance_count",
+        "status"
+      ],
+      "properties": {
+        "labels": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Label map; 0 background.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "int32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "type": "integer",
+                  "minimum": 16,
+                  "maximum": 1024,
+                  "description": "Image rows (at most 1,024)."
+                },
+                "cols": {
+                  "type": "integer",
+                  "minimum": 16,
+                  "maximum": 1024,
+                  "description": "Image columns (at most 1,024)."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4194304,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "instance_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        },
+        "status": {
+          "enum": [
+            "fit",
+            "no-fit"
+          ],
+          "description": "no-fit with fewer than 3 instances (FR-012-25)."
+        },
+        "x50_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "x80_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "fit"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "x50_m",
+              "x80_m"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "x50_m"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "unit_scales": {
+      "description": "Unit scale s_y of every numeric result field, per function, in the field's own unit; the parity tolerance is 1e-12 s_y + rtol |y| (FR-018-51).",
+      "const": {
+        "segment": {
+          "x50_m": 1,
+          "x80_m": 1
+        }
+      }
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}

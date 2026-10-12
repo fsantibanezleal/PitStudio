@@ -1,0 +1,596 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/perception-dataset.schema.json",
+  "title": "Perception dataset index record",
+  "description": "One dataset-index record per synthetic image (one JSON Lines line of the index) written by st55_sdg and the crusher handoff (DC-009-01, spec 009-perception).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "synthetic",
+    "family",
+    "arm",
+    "split",
+    "scenario_seed",
+    "layout_id",
+    "image",
+    "coco",
+    "coco_image_id",
+    "semantic_mask",
+    "depth",
+    "intrinsics",
+    "instance_source",
+    "dr",
+    "licence"
+  ],
+  "properties": {
+    "record_id": {
+      "$ref": "#/$defs/artefact_id"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "family": {
+      "enum": [
+        "pit",
+        "crusher"
+      ]
+    },
+    "arm": {
+      "enum": [
+        "structured",
+        "unstructured"
+      ]
+    },
+    "split": {
+      "enum": [
+        "train",
+        "validation",
+        "test"
+      ]
+    },
+    "scenario_seed": {
+      "$ref": "#/$defs/seed"
+    },
+    "layout_id": {
+      "$ref": "#/$defs/artefact_id"
+    },
+    "image": {
+      "$ref": "#/$defs/image_file"
+    },
+    "coco": {
+      "$ref": "#/$defs/file"
+    },
+    "coco_image_id": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "semantic_mask": {
+      "$ref": "#/$defs/mask_file"
+    },
+    "instance_mask": {
+      "$ref": "#/$defs/mask_file"
+    },
+    "depth": {
+      "$ref": "#/$defs/depth_file"
+    },
+    "intrinsics": {
+      "$ref": "#/$defs/intrinsics"
+    },
+    "frame_state": {
+      "$ref": "#/$defs/file"
+    },
+    "instance_source": {
+      "enum": [
+        "replicator",
+        "connected-components"
+      ]
+    },
+    "dr": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/dr_structured"
+        },
+        {
+          "$ref": "#/$defs/dr_unstructured"
+        }
+      ]
+    },
+    "licence": {
+      "$ref": "#/$defs/licence"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "arm": {
+            "const": "unstructured"
+          }
+        },
+        "required": [
+          "arm"
+        ]
+      },
+      "then": {
+        "properties": {
+          "family": {
+            "const": "pit"
+          },
+          "split": {
+            "const": "train"
+          },
+          "dr": {
+            "$ref": "#/$defs/dr_unstructured"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "dr": {
+            "$ref": "#/$defs/dr_structured"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "family": {
+            "const": "pit"
+          }
+        },
+        "required": [
+          "family"
+        ]
+      },
+      "then": {
+        "required": [
+          "frame_state"
+        ],
+        "properties": {
+          "instance_source": {
+            "const": "replicator"
+          },
+          "image": {
+            "properties": {
+              "width_px": {
+                "const": 1280
+              },
+              "height_px": {
+                "const": 720
+              }
+            }
+          },
+          "depth": {
+            "properties": {
+              "quantity": {
+                "const": "distance-to-image-plane"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "instance_source": {
+            "const": "connected-components"
+          }
+        },
+        "not": {
+          "required": [
+            "instance_mask"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?Z$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 67108864
+    },
+    "class_name": {
+      "enum": [
+        "haul_truck",
+        "shovel",
+        "light_vehicle",
+        "person",
+        "boulder"
+      ]
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "$ref": "#/$defs/size_bytes"
+        }
+      }
+    },
+    "image_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes",
+        "width_px",
+        "height_px",
+        "format",
+        "colour_space"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "$ref": "#/$defs/size_bytes"
+        },
+        "width_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1920
+        },
+        "height_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1080
+        },
+        "format": {
+          "const": "png"
+        },
+        "colour_space": {
+          "const": "srgb"
+        }
+      }
+    },
+    "mask_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes",
+        "width_px",
+        "height_px",
+        "format"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "$ref": "#/$defs/size_bytes"
+        },
+        "width_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1920
+        },
+        "height_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1080
+        },
+        "format": {
+          "const": "png"
+        }
+      }
+    },
+    "depth_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes",
+        "width_px",
+        "height_px",
+        "format",
+        "dtype",
+        "unit",
+        "quantity"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "$ref": "#/$defs/size_bytes"
+        },
+        "width_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1920
+        },
+        "height_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1080
+        },
+        "format": {
+          "const": "npy"
+        },
+        "dtype": {
+          "const": "float32"
+        },
+        "unit": {
+          "const": "m"
+        },
+        "quantity": {
+          "enum": [
+            "distance-to-image-plane",
+            "distance-to-camera"
+          ]
+        }
+      }
+    },
+    "intrinsics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "fx_px",
+        "fy_px",
+        "cx_px",
+        "cy_px"
+      ],
+      "properties": {
+        "model": {
+          "const": "pinhole"
+        },
+        "fx_px": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "fy_px": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "cx_px": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1920
+        },
+        "cy_px": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1080
+        }
+      }
+    },
+    "placement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "class",
+        "x_m",
+        "y_m",
+        "z_m",
+        "yaw_deg"
+      ],
+      "properties": {
+        "class": {
+          "$ref": "#/$defs/class_name"
+        },
+        "x_m": {
+          "type": "number",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "y_m": {
+          "type": "number",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "z_m": {
+          "type": "number",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "yaw_deg": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 360
+        }
+      }
+    },
+    "wet_segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segment_id",
+        "wet"
+      ],
+      "properties": {
+        "segment_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "wet": {
+          "type": "boolean"
+        },
+        "minutes_since_watering": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 527040
+        }
+      }
+    },
+    "dr_structured": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sun_utc",
+        "sun_elevation_deg",
+        "sun_azimuth_deg",
+        "dust_extinction_per_km",
+        "wet_segments",
+        "rock_texture_ids",
+        "placements"
+      ],
+      "properties": {
+        "sun_utc": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "sun_elevation_deg": {
+          "type": "number",
+          "minimum": 5,
+          "maximum": 90
+        },
+        "sun_azimuth_deg": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 360
+        },
+        "dust_extinction_per_km": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "wet_segments": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/wet_segment"
+          }
+        },
+        "rock_texture_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/artefact_id"
+          }
+        },
+        "placements": {
+          "type": "array",
+          "maxItems": 512,
+          "items": {
+            "$ref": "#/$defs/placement"
+          }
+        }
+      }
+    },
+    "dr_unstructured": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "texture_ids",
+        "light_intensity_factor",
+        "colour_temperature_k",
+        "sun_elevation_deg",
+        "sun_azimuth_deg",
+        "distractor_count",
+        "placements"
+      ],
+      "properties": {
+        "texture_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "items": {
+            "$ref": "#/$defs/artefact_id"
+          }
+        },
+        "light_intensity_factor": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 10
+        },
+        "colour_temperature_k": {
+          "type": "number",
+          "minimum": 2000,
+          "maximum": 12000
+        },
+        "sun_elevation_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 90
+        },
+        "sun_azimuth_deg": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 360
+        },
+        "distractor_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "placements": {
+          "type": "array",
+          "maxItems": 512,
+          "items": {
+            "$ref": "#/$defs/placement"
+          }
+        }
+      }
+    },
+    "licence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spdx",
+        "licence_class"
+      ],
+      "properties": {
+        "spdx": {
+          "const": "CC-BY-4.0"
+        },
+        "licence_class": {
+          "const": "own"
+        }
+      }
+    }
+  }
+}
