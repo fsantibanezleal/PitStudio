@@ -85,40 +85,36 @@ def draw_tailings_scenarios(n: int, *, seed: int, patch_id: str | None = None) -
     """`n` breach scenarios drawn in the training envelope: uniform, except the plastic viscosity (log-uniform over a
     decade)."""
     rng = _rng(seed, patch_id, 1)
-    out = []
-    for _ in range(n):
-        out.append(
-            {
-                "breach_row": int(rng.integers(0, GRID)),
-                "breach_col": int(rng.integers(0, GRID)),
-                "release_volume_m3": float(rng.uniform(*RELEASE_VOLUME_M3)),
-                "yield_stress_pa": float(rng.uniform(*YIELD_STRESS_PA)),
-                "plastic_viscosity_pa_s": float(
-                    math.exp(rng.uniform(math.log(PLASTIC_VISCOSITY_PA_S[0]), math.log(PLASTIC_VISCOSITY_PA_S[1])))
-                ),
-                "density_kg_per_m3": float(rng.uniform(*DENSITY_KG_M3)),
-            }
-        )
-    return out
+    return [
+        {
+            "breach_row": int(rng.integers(0, GRID)),
+            "breach_col": int(rng.integers(0, GRID)),
+            "release_volume_m3": float(rng.uniform(*RELEASE_VOLUME_M3)),
+            "yield_stress_pa": float(rng.uniform(*YIELD_STRESS_PA)),
+            "plastic_viscosity_pa_s": float(
+                math.exp(rng.uniform(math.log(PLASTIC_VISCOSITY_PA_S[0]), math.log(PLASTIC_VISCOSITY_PA_S[1])))
+            ),
+            "density_kg_per_m3": float(rng.uniform(*DENSITY_KG_M3)),
+        }
+        for _ in range(n)
+    ]
 
 
 def draw_dust_scenarios(n: int, *, seed: int, patch_id: str | None = None) -> list[dict[str, Any]]:
     """`n` dust scenarios: a source line on the grid, a source strength and a wind (speed and direction)."""
     rng = _rng(seed, patch_id, 2)
-    out = []
-    for _ in range(n):
-        out.append(
-            {
-                "source_row_start": int(rng.integers(0, GRID)),
-                "source_col_start": int(rng.integers(0, GRID)),
-                "source_row_end": int(rng.integers(0, GRID)),
-                "source_col_end": int(rng.integers(0, GRID)),
-                "source_strength_kg_per_m2_s": float(rng.uniform(*SOURCE_STRENGTH)),
-                "wind_speed_m_per_s": float(rng.uniform(*WIND_SPEED_M_S)),
-                "wind_direction_deg": float(rng.uniform(0.0, 360.0)),
-            }
-        )
-    return out
+    return [
+        {
+            "source_row_start": int(rng.integers(0, GRID)),
+            "source_col_start": int(rng.integers(0, GRID)),
+            "source_row_end": int(rng.integers(0, GRID)),
+            "source_col_end": int(rng.integers(0, GRID)),
+            "source_strength_kg_per_m2_s": float(rng.uniform(*SOURCE_STRENGTH)),
+            "wind_speed_m_per_s": float(rng.uniform(*WIND_SPEED_M_S)),
+            "wind_direction_deg": float(rng.uniform(0.0, 360.0)),
+        }
+        for _ in range(n)
+    ]
 
 
 def scenarios_for_patches(patch_ids: Sequence[str], *, seed: int) -> dict[str, dict[str, list[dict[str, Any]]]]:

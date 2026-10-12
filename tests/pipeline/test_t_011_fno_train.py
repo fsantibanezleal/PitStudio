@@ -59,7 +59,7 @@ def test_the_model_returns_physical_units_and_is_reproducible_by_seed() -> None:
     a = train.train_fno(Splits(), CONFIG, seed=1)
     b = train.train_fno(Splits(), CONFIG, seed=1)
     assert a.log == b.log
-    x, y = Splits().data["val"][0]
+    x, _ = Splits().data["val"][0]
     with torch.no_grad():
         out = train.load_model(a.checkpoint)(torch.from_numpy(x)[None]).numpy()[0, 0]
     assert abs(out.mean() - 5.0) < 1.0  # the output scale is physical (target mean 5)
