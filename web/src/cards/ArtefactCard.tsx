@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import styles from "~/cases/cases.module.css";
 import type { ArtefactRecord, RunSummary } from "~/cases/types";
+import { SafeText } from "~/studio/SafeText";
 
 /** UTC calendar date (YYYY-MM-DD) of an ISO timestamp, or null when it does not parse. */
 export function utcDate(created: string): string | null {
@@ -44,7 +45,11 @@ export function ArtefactCard({ artefact, run }: { artefact: ArtefactRecord; run?
           <span>{tStudio("cosmos.built")}</span> <span>{tStudio("cosmos.displayOnly")}</span>
         </p>
       )}
-      {artefact.attribution && <p className={styles.unit}>{artefact.attribution}</p>}
+      {artefact.attribution && (
+        <p className={styles.unit}>
+          <SafeText value={artefact.attribution} />
+        </p>
+      )}
       {sources.length > 0 && (
         <p className={styles.unit}>
           {t("card.sources")}: {sources.map((s) => s.id).join(", ")}

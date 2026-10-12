@@ -4,7 +4,8 @@ import { CASE_IDS, type RunSummary } from "~/cases/types";
 import { docsHref } from "../links";
 import { SafeText } from "../SafeText";
 import styles from "../studio.module.css";
-import type { ArtefactLike, StudioTool } from "../types";
+import type { ArtefactLike, RunCard, StudioTool } from "../types";
+import { ProvenanceChips } from "./Provenance";
 
 const NONE = "none";
 
@@ -22,10 +23,13 @@ export function ArtefactsBlock({
   tool,
   artefacts,
   runs,
+  cards,
 }: {
   tool: StudioTool;
   artefacts: ArtefactLike[];
   runs?: Array<RunSummary & { stale?: boolean }>;
+  /** The full run cards: with them each artefact carries its provenance chips (FR-019-15). */
+  cards?: RunCard[];
 }) {
   const { t } = useTranslation("studio");
   const mine = artefacts.filter((a) => a.producer.tool === tool.id);
@@ -72,6 +76,9 @@ export function ArtefactsBlock({
                       </span>
                     )}
                     <ArtefactCard artefact={a} run={run} />
+                    {cards && (
+                      <ProvenanceChips artefact={a} run={cards.find((c) => c.run_id === a.run_id) ?? null} />
+                    )}
                   </div>
                 );
               })}
