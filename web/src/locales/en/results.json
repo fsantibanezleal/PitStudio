@@ -302,5 +302,81 @@
     "status": "Status",
     "pass": "pass",
     "fail": "fail"
+  },
+  "knowledge": {
+    "title": "Knowledge base",
+    "lead": "Glossary, equations, parameters, datasets, frameworks and bibliography, generated at build time from the pinned minephys tables.",
+    "navLabel": "Knowledge sections",
+    "nav": {
+      "glossary": "Glossary",
+      "equations": "Equations",
+      "parameters": "Parameters",
+      "datasets": "Datasets",
+      "frameworks": "Frameworks",
+      "bibliography": "Bibliography"
+    },
+    "provenance": "Generated from minephys {{version}} at commit {{commit}}",
+    "unverified": "UNVERIFIED — pinned at specification",
+    "verified": "verified",
+    "search": "Search",
+    "noTerms": "No matching terms",
+    "noParameters": "No matching parameters",
+    "filter": {
+      "module": "Module",
+      "status": "Status",
+      "all": "All"
+    },
+    "glossary": {
+      "termEn": "English term",
+      "termEs": "Spanish term",
+      "source": "Source: {{key}}"
+    },
+    "param": {
+      "id": "ID",
+      "module": "Module",
+      "value": "Value",
+      "units": "Units",
+      "si": "SI value",
+      "citation": "Citation",
+      "page": "Page or table",
+      "verification": "Verification",
+      "symbols": "Code symbols"
+    },
+    "eq": {
+      "symbols": "Symbols",
+      "symbol": "Symbol",
+      "meaning": "Meaning",
+      "units": "Units",
+      "source": "Source: {{key}}, {{page}}",
+      "function": "Implemented by",
+      "theory": "Theory page",
+      "tryIt": "Try it",
+      "result": "{{value}} {{unit}}",
+      "failed": "The engine could not evaluate this equation.",
+      "noEngine": "No browser engine is available in this build."
+    },
+    "datasets": {
+      "id": "Id",
+      "kind": "Kind",
+      "real": "real",
+      "synthetic": "synthetic",
+      "spdx": "Licence (SPDX)",
+      "redistribution": "Redistribution",
+      "landing": "Landing page",
+      "card": "Dataset card",
+      "provenance": "fetched by the pipeline, never redistributed"
+    },
+    "frameworks": {
+      "notYetRun": "Not yet run",
+      "evaluatedNotAdopted": "Evaluated, not adopted",
+      "done": "Done",
+      "licence": "Licence class: {{value}}"
+    },
+    "bib": {
+      "doi": "DOI",
+      "link": "Link",
+      "citedParameters": "Cited by parameters",
+      "citedEquations": "Cited by equations"
+    }
   }
 }

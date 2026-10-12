@@ -302,5 +302,81 @@
     "status": "Estado",
     "pass": "aprobado",
     "fail": "fallido"
+  },
+  "knowledge": {
+    "title": "Base de conocimiento",
+    "lead": "Glosario, ecuaciones, parámetros, conjuntos de datos, frameworks y bibliografía, generados al compilar desde las tablas fijadas de minephys.",
+    "navLabel": "Secciones del conocimiento",
+    "nav": {
+      "glossary": "Glosario",
+      "equations": "Ecuaciones",
+      "parameters": "Parámetros",
+      "datasets": "Conjuntos de datos",
+      "frameworks": "Frameworks",
+      "bibliography": "Bibliografía"
+    },
+    "provenance": "Generado desde minephys {{version}} en el commit {{commit}}",
+    "unverified": "SIN VERIFICAR — fijado en la especificación",
+    "verified": "verificado",
+    "search": "Buscar",
+    "noTerms": "Ningún término coincide",
+    "noParameters": "Ningún parámetro coincide",
+    "filter": {
+      "module": "Módulo",
+      "status": "Estado",
+      "all": "Todos"
+    },
+    "glossary": {
+      "termEn": "Término en inglés",
+      "termEs": "Término en español",
+      "source": "Fuente: {{key}}"
+    },
+    "param": {
+      "id": "ID",
+      "module": "Módulo",
+      "value": "Valor",
+      "units": "Unidades",
+      "si": "Valor SI",
+      "citation": "Cita",
+      "page": "Página o tabla",
+      "verification": "Verificación",
+      "symbols": "Símbolos de código"
+    },
+    "eq": {
+      "symbols": "Símbolos",
+      "symbol": "Símbolo",
+      "meaning": "Significado",
+      "units": "Unidades",
+      "source": "Fuente: {{key}}, {{page}}",
+      "function": "Implementada por",
+      "theory": "Página de teoría",
+      "tryIt": "Probar",
+      "result": "{{value}} {{unit}}",
+      "failed": "El motor no pudo evaluar esta ecuación.",
+      "noEngine": "No hay un motor de navegador disponible en esta compilación."
+    },
+    "datasets": {
+      "id": "Id",
+      "kind": "Tipo",
+      "real": "real",
+      "synthetic": "sintético",
+      "spdx": "Licencia (SPDX)",
+      "redistribution": "Redistribución",
+      "landing": "Página de origen",
+      "card": "Ficha del conjunto",
+      "provenance": "descargado por el pipeline, nunca redistribuido"
+    },
+    "frameworks": {
+      "notYetRun": "Aún no ejecutado",
+      "evaluatedNotAdopted": "Evaluado, no adoptado",
+      "done": "Hecho",
+      "licence": "Clase de licencia: {{value}}"
+    },
+    "bib": {
+      "doi": "DOI",
+      "link": "Enlace",
+      "citedParameters": "Citada por parámetros",
+      "citedEquations": "Citada por ecuaciones"
+    }
   }
 }
