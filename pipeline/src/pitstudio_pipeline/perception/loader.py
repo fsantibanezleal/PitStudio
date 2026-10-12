@@ -18,15 +18,17 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from pitstudio.contracts.io import pointer_of
 
+from pitstudio.contracts.io import pointer_of
 from pitstudio_pipeline._contracts import best_error
 
 _INDEX_SCHEMA = "perception-dataset.schema.json"
 _COCO_SCHEMA = "coco-instances.schema.json"
 _MARGIN_PX = 0.5  # a box may extend this far beyond its image (FR-009-15)
 _AREA_TOLERANCE_PX2 = 1.0  # stored area against the polygon area (FR-009-47)
-_DEVICE_NAMES = frozenset({"con", "prn", "aux", "nul", *(f"com{i}" for i in range(1, 10)), *(f"lpt{i}" for i in range(1, 10))})
+_DEVICE_NAMES = frozenset(
+    {"con", "prn", "aux", "nul", *(f"com{i}" for i in range(1, 10)), *(f"lpt{i}" for i in range(1, 10))}
+)
 _DRIVE = re.compile(r"^[A-Za-z]:")
 CLASS_VALUES = frozenset(range(6))
 
@@ -99,7 +101,7 @@ def read_index(path: Path) -> IndexReadResult:
             continue
         try:
             doc = json.loads(line.decode("utf-8"))
-        except (UnicodeDecodeError, ValueError, RecursionError):
+        except UnicodeDecodeError, ValueError, RecursionError:
             rejected.append(IndexRecordError(number, None, "", "the line is not UTF-8 JSON"))
             continue
         rid = _record_id(doc)
@@ -231,7 +233,7 @@ def load_coco(path: Path) -> dict[str, Any]:
         raise CocoError("file", "", "the file is empty", code="coco-file-invalid")
     try:
         doc = json.loads(text, parse_constant=float)  # NaN / Infinity tokens become floats and are caught below
-    except (ValueError, RecursionError):
+    except ValueError, RecursionError:
         raise CocoError("file", "", "the file is not valid JSON", code="coco-file-invalid") from None
     bad = _non_finite(doc, [])
     if bad is not None:
@@ -244,7 +246,10 @@ def load_coco(path: Path) -> dict[str, Any]:
         if len(parts) >= 3 and parts[0] == "annotations" and parts[2] in ("segmentation", "area"):
             ann = doc["annotations"][parts[1]]
             problem = None
-            image = next((i for i in doc.get("images", []) if isinstance(i, Mapping) and i.get("id") == ann.get("image_id")), None)
+            image = next(
+                (i for i in doc.get("images", []) if isinstance(i, Mapping) and i.get("id") == ann.get("image_id")),
+                None,
+            )
             if parts[2] == "segmentation" and isinstance(image, Mapping):
                 problem = _polygon_problem(ann.get("segmentation"), image.get("width", 0), image.get("height", 0))
             raise CocoError(owner, pointer, problem or f"schema: {message}", code="coco-polygon-invalid")
@@ -257,27 +262,44 @@ def _semantic_checks(doc: dict[str, Any]) -> None:
     images: dict[int, dict[str, Any]] = {}
     for n, image in enumerate(doc["images"]):
         if image["id"] in images:
-            raise CocoError(f"image:{image['id']}", f"/images/{n}/id", f"duplicate image id {image['id']}", code="coco-id-duplicate")
+            raise CocoError(
+                f"image:{image['id']}", f"/images/{n}/id", f"duplicate image id {image['id']}", code="coco-id-duplicate"
+            )
         images[image["id"]] = image
     seen_annotations: set[int] = set()
     for n, ann in enumerate(doc["annotations"]):
         owner = f"annotation:{ann['id']}"
         if ann["id"] in seen_annotations:
-            raise CocoError(owner, f"/annotations/{n}/id", f"duplicate annotation id {ann['id']}", code="coco-id-duplicate")
+            raise CocoError(
+                owner, f"/annotations/{n}/id", f"duplicate annotation id {ann['id']}", code="coco-id-duplicate"
+            )
         seen_annotations.add(ann["id"])
     for n, ann in enumerate(doc["annotations"]):
         owner = f"annotation:{ann['id']}"
         image = images.get(ann["image_id"])
         if image is None:
-            raise CocoError(owner, f"/annotations/{n}/image_id", f"annotation points to a missing image {ann['image_id']}", code="coco-image-missing")
+            raise CocoError(
+                owner,
+                f"/annotations/{n}/image_id",
+                f"annotation points to a missing image {ann['image_id']}",
+                code="coco-image-missing",
+            )
         x, y, w, h = ann["bbox"]
         if w <= 0 or h <= 0:
-            raise CocoError(owner, f"/annotations/{n}/bbox", f"box size must be positive, got {w} x {h}", code="coco-box-invalid")
-        if x < -_MARGIN_PX or y < -_MARGIN_PX or x + w > image["width"] + _MARGIN_PX or y + h > image["height"] + _MARGIN_PX:
+            raise CocoError(
+                owner, f"/annotations/{n}/bbox", f"box size must be positive, got {w} x {h}", code="coco-box-invalid"
+            )
+        if (
+            x < -_MARGIN_PX
+            or y < -_MARGIN_PX
+            or x + w > image["width"] + _MARGIN_PX
+            or y + h > image["height"] + _MARGIN_PX
+        ):
             raise CocoError(
                 owner,
                 f"/annotations/{n}/bbox",
-                f"box [{x}, {y}, {w}, {h}] extends beyond image {image['id']} ({image['width']} x {image['height']}) by more than {_MARGIN_PX} px",
+                f"box [{x}, {y}, {w}, {h}] extends beyond image {image['id']} ({image['width']} x {image['height']}) "
+                f"by more than {_MARGIN_PX} px",
                 code="coco-box-invalid",
             )
         problem = _polygon_problem(ann["segmentation"], image["width"], image["height"])
@@ -288,7 +310,8 @@ def _semantic_checks(doc: dict[str, Any]) -> None:
             raise CocoError(
                 owner,
                 f"/annotations/{n}/area",
-                f"area {ann['area']} differs from the polygon area {polygon_area} by more than {_AREA_TOLERANCE_PX2} px2",
+                f"area {ann['area']} differs from the polygon area {polygon_area} by more than "
+                f"{_AREA_TOLERANCE_PX2} px2",
                 code="coco-polygon-invalid",
             )
     folded: dict[str, str] = {}
@@ -296,7 +319,13 @@ def _semantic_checks(doc: dict[str, Any]) -> None:
         name = image["file_name"]
         owner = f"image:{image['id']}"
         if _device_segment(name):
-            raise CocoError(owner, f"/images/{n}/file_name", f"file_name {name!r} has a Windows device name", code="coco-path-invalid", entries=(name,))
+            raise CocoError(
+                owner,
+                f"/images/{n}/file_name",
+                f"file_name {name!r} has a Windows device name",
+                code="coco-path-invalid",
+                entries=(name,),
+            )
         key = name.casefold()
         if key in folded:
             raise CocoError(
@@ -362,7 +391,9 @@ def check_frame(record: Mapping[str, Any], root: Path) -> None:
     for label, ref in refs:
         p = ref["path"]
         if not isinstance(p, str) or p == "" or _unsafe_file_name(p):
-            raise FrameRejected(rid, "path-unsafe", f"{label} path {p!r} is absolute, has '..', a drive letter or a backslash")
+            raise FrameRejected(
+                rid, "path-unsafe", f"{label} path {p!r} is absolute, has '..', a drive letter or a backslash"
+            )
     first = best_error(_INDEX_SCHEMA, record)
     if first is not None:
         pointer, message = first
@@ -374,7 +405,9 @@ def check_frame(record: Mapping[str, Any], root: Path) -> None:
     for label, ref in refs:
         digest = ref.get("sha256")
         if digest is not None and hashlib.sha256((base / ref["path"]).read_bytes()).hexdigest() != digest:
-            raise FrameRejected(rid, "sha256-mismatch", f"{label} file {ref['path']} differs from the SHA-256 in the record")
+            raise FrameRejected(
+                rid, "sha256-mismatch", f"{label} file {ref['path']} differs from the SHA-256 in the record"
+            )
     image = record.get("image")
     if isinstance(image, Mapping):
         size = _png_size(base / image["path"])

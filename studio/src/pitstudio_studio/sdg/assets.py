@@ -23,7 +23,8 @@ MAKEHUMAN_LICENCE_TEXT = (
     "released under the licence CC0-1.0 (SPDX identifier)."
 )
 MANNEQUIN_LICENCE_TEXT = (
-    "People source: the procedural mannequin generator of this repository (own data), licence CC-BY-4.0 (SPDX identifier)."
+    "People source: the procedural mannequin generator of this repository (own data), "
+    "licence CC-BY-4.0 (SPDX identifier)."
 )
 
 
@@ -34,17 +35,21 @@ class AssetLicenceError(Exception):
 
     def __init__(self, paths: Sequence[str]) -> None:
         self.paths = tuple(paths)
-        super().__init__(f"{self.code}: {len(self.paths)} asset path(s) refused: " + "; ".join(repr(p) for p in self.paths))
+        super().__init__(
+            f"{self.code}: {len(self.paths)} asset path(s) refused: " + "; ".join(repr(p) for p in self.paths)
+        )
 
 
 class AssetDigestError(Exception):
-    """The SHA-256 of an exported people file differs from its record (`asset-digest-mismatch`): the file is not used."""
+    """The SHA-256 of an exported people file differs from its record (`asset-digest-mismatch`); it is not used."""
 
     code = "asset-digest-mismatch"
 
     def __init__(self, character_id: str, expected: str, actual: str) -> None:
         self.character_id, self.expected, self.actual = character_id, expected, actual
-        super().__init__(f"{self.code}: record {character_id}: the file has SHA-256 {actual}, the record states {expected}")
+        super().__init__(
+            f"{self.code}: record {character_id}: the file has SHA-256 {actual}, the record states {expected}"
+        )
 
 
 _HEX64 = re.compile(r"^[0-9a-f]{64}$")
@@ -57,7 +62,14 @@ def verify_export_digest(record: Mapping[str, Any], root: Path) -> Path:
     The file is read in full, in blocks, and never executed or imported.
     """
     rel = record.get("export_path")
-    if not isinstance(rel, str) or rel == "" or rel.startswith(("/", "\\")) or "\\" in rel or _DRIVE.match(rel) or ".." in rel.split("/"):
+    if (
+        not isinstance(rel, str)
+        or rel == ""
+        or rel.startswith(("/", "\\"))
+        or "\\" in rel
+        or _DRIVE.match(rel)
+        or ".." in rel.split("/")
+    ):
         raise ValueError(f"export_path {rel!r} must be a relative path without '..', a drive letter or a backslash")
     expected = record.get("export_sha256")
     if not isinstance(expected, str) or not _HEX64.match(expected):
@@ -140,9 +152,7 @@ class PeopleSelection:
     licence_text: str
 
 
-def select_people(
-    records: Sequence[object], *, pinned_zip_sha256: str, root: Path | None = None
-) -> PeopleSelection:
+def select_people(records: Sequence[object], *, pinned_zip_sha256: str, root: Path | None = None) -> PeopleSelection:
     """Validate the people records and choose the source: MakeHuman if one valid record remains, else mannequins.
 
     A MakeHuman record is valid when it satisfies the DC-009-04 schema and its zip SHA-256 equals
@@ -169,7 +179,9 @@ def select_people(
             continue
         if record["source"] == "makehuman" and record["zip_sha256"] != pinned_zip_sha256:
             rejected.append(
-                Rejection(character_id, "/zip_sha256", "the zip SHA-256 differs from the pinned value of the official zip")
+                Rejection(
+                    character_id, "/zip_sha256", "the zip SHA-256 differs from the pinned value of the official zip"
+                )
             )
             continue
         if root is not None:
@@ -179,7 +191,9 @@ def select_people(
                 rejected.append(Rejection(character_id, "/export_sha256", str(exc)))
                 continue
             except FileNotFoundError:
-                rejected.append(Rejection(character_id, "/export_sha256", f"the export file {record['export_path']} is missing"))
+                rejected.append(
+                    Rejection(character_id, "/export_sha256", f"the export file {record['export_path']} is missing")
+                )
                 continue
         (makehuman if record["source"] == "makehuman" else mannequins).append(dict(record))
     if makehuman:

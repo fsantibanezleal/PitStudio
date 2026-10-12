@@ -1,7 +1,9 @@
-"""The detector stages `s30_train` and `s40_infer` around an injected trainer and predictor, with the availability states of
+"""The detector stages `s30_train` and `s40_infer` around an injected trainer and predictor, with the availability
+states of
 spec 009: fixture propagation (FR-009-51) and stale-input refusal (FR-009-53).
 
-The stage functions own what is checked and recorded, never the model work: the trainer and the predictor are callables, so a
+The stage functions own what is checked and recorded, never the model work: the trainer and the predictor are
+callables, so a
 fake can stand in for the GPU (and the contract-fixture index runs through the same code as a real one). A checkpoint, a
 prediction file and a report made from a contract-fixture index carry `fixture: true`.
 """
@@ -39,7 +41,9 @@ class InputStaleError(Exception):
         self.record_ids = tuple(record_ids)
         self.record_id = self.record_ids[0]
         self.expected, self.actual = expected, actual
-        super().__init__(f"{self.code}: image of record(s) {', '.join(self.record_ids)} differs from the recorded SHA-256")
+        super().__init__(
+            f"{self.code}: image of record(s) {', '.join(self.record_ids)} differs from the recorded SHA-256"
+        )
 
 
 def _check_provenance(provenance: object) -> str:
@@ -97,16 +101,14 @@ def s30_train(
     root: Path | None = None,
     arm: str = "S",
 ) -> TrainStageResult:
-    """Train on the training split of an arm: freshness (with `root`), licence guard, then the trainer; write the checkpoint
+    """Train on the training split of an arm: freshness (with `root`), licence guard, then the trainer; write the
+    checkpoint
     and its record to `out_dir`. Nothing is written when a check fails."""
     provenance = _check_provenance(provenance)
     if root is not None:
         check_index_fresh(records, root)
     check_training_inputs(
-        [
-            {"id": r["record_id"], "licence_class": r["licence"]["licence_class"], "source": "synthetic"}
-            for r in records
-        ]
+        [{"id": r["record_id"], "licence_class": r["licence"]["licence_class"], "source": "synthetic"} for r in records]
     )
     selected = select_training_records(records, arm=arm)
     set_digest = training_set_digest(selected)
@@ -115,9 +117,7 @@ def s30_train(
     out.mkdir(parents=True, exist_ok=True)
     checkpoint = out / "checkpoint.bin"
     checkpoint.write_bytes(blob)
-    record = training_record(
-        config, checkpoint_sha256=hashlib.sha256(blob).hexdigest(), training_set_sha256=set_digest
-    )
+    record = training_record(config, checkpoint_sha256=hashlib.sha256(blob).hexdigest(), training_set_sha256=set_digest)
     record["fixture"] = provenance == "fixture"
     (out / "checkpoint.json").write_text(json.dumps(record, sort_keys=True), encoding="utf-8")
     return TrainStageResult(record, checkpoint)

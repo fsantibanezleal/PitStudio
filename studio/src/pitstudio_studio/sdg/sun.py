@@ -77,7 +77,7 @@ def solar_position(
 
 
 def sun_direction_stage(elevation_deg: float, azimuth_deg: float) -> tuple[float, float, float]:
-    """Unit vector from the scene toward the sun in the stage frame (X east, Y north, Z up); azimuth clockwise from north."""
+    """Unit vector toward the sun in the stage frame (X east, Y north, Z up); azimuth clockwise from north."""
     el = math.radians(_finite("elevation_deg", elevation_deg))
     az = math.radians(_finite("azimuth_deg", azimuth_deg))
     c = math.cos(el)
@@ -101,5 +101,7 @@ def sample_sun(
         when = t0 + dt.timedelta(seconds=float(rng.uniform(0.0, span_s)))
         pos = solar_position(when, latitude_deg, longitude_deg, elevation_m=elevation_m)
         if pos.elevation_deg >= floor:
-            return SunSample(when, pos.elevation_deg, pos.azimuth_deg, sun_direction_stage(pos.elevation_deg, pos.azimuth_deg))
+            return SunSample(
+                when, pos.elevation_deg, pos.azimuth_deg, sun_direction_stage(pos.elevation_deg, pos.azimuth_deg)
+            )
     raise ValueError(f"no instant with solar elevation >= {floor} deg in {_MAX_DRAWS} draws at this site and year")

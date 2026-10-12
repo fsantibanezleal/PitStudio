@@ -1,7 +1,9 @@
 """The publish step of the detection evaluation report (FR-009-51).
 
-A report computed from a contract-fixture SDG index (`fixture: true`) is published without any metric: every metric key is
-removed at every depth, rows and blocks stay (statuses, supports, labels), and every acceptance verdict becomes "not run".
+A report computed from a contract-fixture SDG index (`fixture: true`) is published without any metric: every metric
+key is
+removed at every depth, rows and blocks stay (statuses, supports, labels), and every acceptance verdict becomes "not
+run".
 A real report is published unchanged.
 """
 

@@ -1,9 +1,12 @@
 """The stage `s50_evaluate`: the detection evaluation report DC-009-05 from held-out test predictions.
 
-For every prediction set (model, precision, training arm) it computes box AP per family (pit, crusher, pooled) and class,
+For every prediction set (model, precision, training arm) it computes box AP per family (pit, crusher, pooled) and
+class,
 the mask AP of RF-DETR-Seg-N, cluster-bootstrap intervals, the pre-registered acceptance rows (SC-009-01 ... SC-009-06),
-the corruption curves, the paired DR ablation (FR-009-31) and the optional real probe (FR-009-33). It states what it did not
-do: a fixture index gives a `fixture` report (FR-009-51); models named by the evaluation but absent give a `partial` report
+the corruption curves, the paired DR ablation (FR-009-31) and the optional real probe (FR-009-33). It states what it
+did not
+do: a fixture index gives a `fixture` report (FR-009-51); models named by the evaluation but absent give a `partial`
+report
 with no pooled metric, no ablation and no pass or fail verdict (FR-009-52); a stale image fails `input-stale` before any
 metric (FR-009-53); hostile predictions are refused before any metric (FR-009-43). The report is deterministic.
 """
@@ -19,7 +22,7 @@ from typing import Any
 from pitstudio_pipeline.perception import evaluate as ev
 from pitstudio_pipeline.perception import probe as probe_mod
 from pitstudio_pipeline.perception.ablation import paired_cluster_bootstrap
-from pitstudio_pipeline.perception.acceptance import NOT_EVALUABLE, acceptance_row, not_run_row
+from pitstudio_pipeline.perception.acceptance import acceptance_row, not_run_row
 from pitstudio_pipeline.perception.classes import CLASSES
 from pitstudio_pipeline.perception.honesty import HONESTY_LABEL, NOT_MEASURED
 from pitstudio_pipeline.perception.robustness import ARMS, MODELS, PRECISIONS, corruption_rows, sc03_rows
@@ -74,7 +77,9 @@ def _triple(value: object, name: str) -> tuple[str, str, str]:
         raise ValueError(f"{name} entry {value!r} must be a (model, precision, arm) triple")
     model, precision, arm = value
     if model not in MODELS or precision not in PRECISIONS or arm not in ARMS:
-        raise ValueError(f"{name} entry {value!r} must be (model in {MODELS}, precision in {PRECISIONS}, arm in {ARMS})")
+        raise ValueError(
+            f"{name} entry {value!r} must be (model in {MODELS}, precision in {PRECISIONS}, arm in {ARMS})"
+        )
     return model, precision, arm
 
 
@@ -204,7 +209,9 @@ def run_s50_evaluate(spec: Mapping[str, Any]) -> S50Result:
                         "support": m.support,
                         "descriptive": descriptive,
                         "honesty_label": HONESTY_LABEL,
-                        "sim_to_real": "measured" if probe_selection is not None and cid in probe_mod.PROBE_CLASSES else NOT_MEASURED,
+                        "sim_to_real": "measured"
+                        if probe_selection is not None and cid in probe_mod.PROBE_CLASSES
+                        else NOT_MEASURED,
                     }
                     if m.support > 0:
                         row["ap50"], row["ap50_95"] = float(m.ap50), float(m.ap50_95)  # type: ignore[arg-type]
@@ -346,7 +353,8 @@ def _ablation(
     seed: int,
     spec: Mapping[str, Any],
 ) -> dict[str, Any]:
-    assert arm_s.box is not None and arm_u.box is not None
+    assert arm_s.box is not None
+    assert arm_u.box is not None
     _, _, _, included = ev.metrics_on(arm_s.box, pit_ids, min_support)
     scorers = {a: ev.ClusterScorer(a_set.box, pit_ids, cluster) for a, a_set in (("S", arm_s), ("U", arm_u))}  # type: ignore[arg-type]
     keys = list(scorers["S"].clusters)
@@ -408,8 +416,7 @@ def _acceptance(
         return acceptance_row(criterion, value=value, support=support, min_support=min_support, **kw)
 
     if partial:
-        for c in ("SC-009-01", "SC-009-02", "SC-009-05", "SC-009-06"):
-            rows.append(not_run_row(c, _PARTIAL_REASON))
+        rows.extend(not_run_row(c, _PARTIAL_REASON) for c in ("SC-009-01", "SC-009-02", "SC-009-05", "SC-009-06"))
         rows += sc03_rows([], support=pooled_support, reason=_PARTIAL_REASON)
         return rows
     rows.append(evaluate("SC-009-01", ("d-fine-s", "fp32", "S", "pooled", "box"), "pooled"))

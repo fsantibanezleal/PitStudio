@@ -1,7 +1,8 @@
 """Box and mask AP with cluster-bootstrap intervals, and the checks on prediction inputs (FR-009-22, FR-009-23,
 FR-009-43).
 
-The protocol is the COCO one as implemented by `pycocotools`: IoU thresholds 0.50:0.05:0.95, 101 recall points, `maxDets` 100,
+The protocol is the COCO one as implemented by `pycocotools`: IoU thresholds 0.50:0.05:0.95, 101 recall points,
+`maxDets` 100,
 area "all". `pycocotools` does the per-image matching (`COCOeval.evaluate`); the accumulation over images is the same
 arithmetic as `COCOeval.accumulate`, redone here over cached per-image results so that a bootstrap resample (which pools
 images, one image possibly several times) costs a concatenation and a sort instead of a full evaluation. Tests compare
@@ -34,7 +35,8 @@ _N_IOU = 10  # 0.50:0.05:0.95
 class PredictionError(ValueError):
     """A prediction input is rejected and no metric is computed from it.
 
-    `code`: schema, non-finite, unknown-image, unknown-category, too-many-detections or arms-mismatch; `reason` names the
+    `code`: schema, non-finite, unknown-image, unknown-category, too-many-detections or arms-mismatch; `reason` names
+    the
     offending id, count or field; `index` is the position of the offending detection (None for set-level errors).
     """
 
@@ -52,12 +54,15 @@ def _is_number(value: object) -> bool:
     return isinstance(value, int | float) and not isinstance(value, bool)
 
 
-def validate_predictions(gt: Mapping[str, Any], detections: Sequence[Mapping[str, Any]], *, require_bbox: bool = True) -> None:
+def validate_predictions(
+    gt: Mapping[str, Any], detections: Sequence[Mapping[str, Any]], *, require_bbox: bool = True
+) -> None:
     """Check a detection list against the test set `gt`; raise `PredictionError` for the first bad detection.
 
     Per detection, in order: it is a mapping with int `image_id` and `category_id`, a 4-number `bbox` (unless
     `require_bbox` is False, for mask detections) and a numeric `score` (schema); score and box are finite (non-finite);
-    the image is a test image (unknown-image); the category is in 1..5 (unknown-category). Then at most 300 detections per
+    the image is a test image (unknown-image); the category is in 1..5 (unknown-category). Then at most 300 detections
+    per
     image (too-many-detections).
     """
     image_ids = {im["id"] for im in gt["images"]}
@@ -68,9 +73,10 @@ def validate_predictions(gt: Mapping[str, Any], detections: Sequence[Mapping[str
         if not _is_int(det.get("image_id")) or not _is_int(det.get("category_id")) or not _is_number(det.get("score")):
             raise PredictionError("schema", "image_id and category_id must be ints and score a number", i)
         bbox = det.get("bbox")
-        if require_bbox or bbox is not None:
-            if not isinstance(bbox, list | tuple) or len(bbox) != 4 or not all(_is_number(v) for v in bbox):
-                raise PredictionError("schema", "bbox must be 4 numbers [x, y, w, h]", i)
+        if (require_bbox or bbox is not None) and (
+            not isinstance(bbox, list | tuple) or len(bbox) != 4 or not all(_is_number(v) for v in bbox)
+        ):
+            raise PredictionError("schema", "bbox must be 4 numbers [x, y, w, h]", i)
         values = [det["score"], *(bbox if isinstance(bbox, list | tuple) else [])]
         if not all(math.isfinite(v) for v in values):
             raise PredictionError("non-finite", "score or box holds a NaN or infinity", i)
@@ -92,7 +98,8 @@ def validate_arm_coverage(image_ids_a: Collection[int], image_ids_b: Collection[
     if a != b or not a:
         raise PredictionError(
             "arms-mismatch",
-            f"the arms cover different test images: only in the first {sorted(a - b)}, only in the second {sorted(b - a)}",
+            f"the arms cover different test images: only in the first {sorted(a - b)}, "
+            f"only in the second {sorted(b - a)}",
         )
 
 
@@ -231,7 +238,7 @@ def prepare(gt: Mapping[str, Any], detections: Sequence[Mapping[str, Any]], iou_
 
 
 def _accumulate(entries: Sequence[_Entry]) -> tuple[float, float] | None:
-    """AP50 and AP50:95 of one class over the given per-image results (COCOeval.accumulate); None without ground truth."""
+    """AP50 and AP50:95 of one class over per-image results (COCOeval.accumulate); None without ground truth."""
     npig = sum(e.npig for e in entries)
     if npig == 0:
         return None
@@ -302,7 +309,9 @@ def metrics_on(
     return per_class, map50, map50_95, included
 
 
-def evaluate_boxes(gt: Mapping[str, Any], detections: Sequence[Mapping[str, Any]], *, min_support: int = 100) -> BoxEval:
+def evaluate_boxes(
+    gt: Mapping[str, Any], detections: Sequence[Mapping[str, Any]], *, min_support: int = 100
+) -> BoxEval:
     """Box AP50 and AP50:95 per class and the mean over classes with at least `min_support` instances."""
     min_support = _check_min_support(min_support)
     validate_predictions(gt, detections)
@@ -353,7 +362,7 @@ class ClusterScorer:
         }
 
     def per_class(self, cluster_list: Sequence[int]) -> dict[int, tuple[float, float] | None]:
-        """(AP50, AP50:95) of every class over `cluster_list`; None where the resample holds no instance of the class."""
+        """(AP50, AP50:95) of every class over `cluster_list`; None where the resample has no instance of it."""
         return {c: _accumulate([self.blocks[c][k] for k in cluster_list]) for c in self.prep.cat_ids}
 
     def map50(self, cluster_list: Sequence[int], classes: Sequence[int]) -> float:
@@ -415,7 +424,8 @@ def bootstrap_prepared(
         return (float(lo), float(hi))
 
     per_class = {
-        c: {"ap50": interval([v[0] for v in values[c]]), "ap50_95": interval([v[1] for v in values[c]])} for c in supported
+        c: {"ap50": interval([v[0] for v in values[c]]), "ap50_95": interval([v[1] for v in values[c]])}
+        for c in supported
     }
     return BootstrapResult(map50=interval(map50), per_class=per_class)
 

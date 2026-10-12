@@ -1,8 +1,12 @@
-"""Adapter to the upstream D-FINE code (Apache-2.0, github.com/Peterande/D-FINE) pinned at a commit (FR-009-18, FR-009-35).
+"""Adapter to the upstream D-FINE code (Apache-2.0, github.com/Peterande/D-FINE) pinned at a commit (FR-009-18,
+FR-009-35).
 
-The upstream repository is a research code base driven by YAML files, not an installable package: this module imports it from
-a checkout (`PITSTUDIO_DFINE_CODE`, at `pins.DFINE_CODE_COMMIT`), builds the model, the criterion and the post-processor from
-the upstream configuration files with the overrides below, loads the pinned COCO-pretrained checkpoint (the weights whose
+The upstream repository is a research code base driven by YAML files, not an installable package: this module imports
+it from
+a checkout (`PITSTUDIO_DFINE_CODE`, at `pins.DFINE_CODE_COMMIT`), builds the model, the criterion and the
+post-processor from
+the upstream configuration files with the overrides below, loads the pinned COCO-pretrained checkpoint (the weights
+whose
 shapes match; the class heads are re-initialised for the five perception classes) and exports the deployment graph.
 Nothing here trains: the training loop of `s30_train` is `train_dfine`.
 """
@@ -94,7 +98,8 @@ def export_onnx(checkpoint: Path, output: Path, *, opset: int = 19) -> Path:
     """Export the deployment graph of a checkpoint with the post-processor and the top-300 selection inside (no NMS).
 
     Inputs `images` float32 [N, 3, 640, 640] and `orig_target_sizes` int64 [N, 2]; outputs `labels` int64 [N, 300],
-    `boxes` float32 [N, 300, 4] (xyxy, px) and `scores` float32 [N, 300]; the upstream exporter's logic at opset 19, where
+    `boxes` float32 [N, 300, 4] (xyxy, px) and `scores` float32 [N, 300]; the upstream exporter's logic at opset 19,
+    where
     GridSample keeps its since-version 16.
     """
     import torch

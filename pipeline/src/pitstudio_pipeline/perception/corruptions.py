@@ -1,10 +1,14 @@
 """The corruption ladder of the robustness suite: dust, night and rain at five pre-registered severities (FR-009-25 to
 FR-009-29, Table C of spec 009).
 
-Every operation is defined in linear RGB (IEC 61966-2-1 transfer function) and the result is re-encoded: a uint8 image gives a
-uint8 image with round-half-to-even (the 8-bit value of an sRGB value v is `numpy.rint(255 v)`), a float image in [0, 1] gives
-a float64 image. Severity 0 is the identity. The functions are pure: inputs are never modified and a failed check returns no
-image. The design values are fixed before any result; they follow the five-severity layout of Hendrycks and Dietterich 2019
+Every operation is defined in linear RGB (IEC 61966-2-1 transfer function) and the result is re-encoded: a uint8 image
+gives a
+uint8 image with round-half-to-even (the 8-bit value of an sRGB value v is `numpy.rint(255 v)`), a float image in [0,
+1] gives
+a float64 image. Severity 0 is the identity. The functions are pure: inputs are never modified and a failed check
+returns no
+image. The design values are fixed before any result; they follow the five-severity layout of Hendrycks and Dietterich
+2019
 (https://arxiv.org/abs/1903.12261): dust plays the role of fog, night of brightness, rain of snow plus contrast.
 """
 
@@ -139,7 +143,7 @@ def dust_linear(lin: np.ndarray, depth_m: np.ndarray, severity: int) -> np.ndarr
 
 
 def dust(image: np.ndarray, depth_m: np.ndarray | None, severity: int) -> CorruptionResult:
-    """Dust haze on an sRGB image (uint8 or float in [0, 1]) with the renderer depth in metres, or the reference depth."""
+    """Dust haze on an sRGB image (uint8 or float in [0, 1]) with the depth in metres, or the reference depth."""
     severity = _check_severity(severity)
     image = _check_image(image)
     assumed = depth_m is None
@@ -204,8 +208,10 @@ class Streak:
 def _streak_pixels(s: Streak, height: int, width: int) -> np.ndarray:
     """Flat indices of the 1-px-wide digital line of a streak, clipped to the image.
 
-    Points are taken from the start in steps of one pixel along the major axis (floor(major extent) + 1 of them, so a streak
-    adds at most its length plus one pixel); each point is rounded to its pixel (pixel centres at integer coordinates), and
+    Points are taken from the start in steps of one pixel along the major axis (floor(major extent) + 1 of them, so a
+    streak
+    adds at most its length plus one pixel); each point is rounded to its pixel (pixel centres at integer
+    coordinates), and
     consecutive points differ by at most one pixel in each axis, so the line is 8-connected.
     """
     dx, dy = s.x1 - s.x0, s.y1 - s.y0
@@ -214,7 +220,7 @@ def _streak_pixels(s: Streak, height: int, width: int) -> np.ndarray:
         steps = np.zeros(1)
         ux = uy = 0.0
     else:
-        steps = np.arange(0, int(math.floor(major)) + 1, dtype=np.float64)
+        steps = np.arange(0, math.floor(major) + 1, dtype=np.float64)
         ux, uy = dx / major, dy / major
     xs = np.rint(s.x0 + steps * ux).astype(np.int64)
     ys = np.rint(s.y0 + steps * uy).astype(np.int64)

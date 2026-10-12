@@ -84,7 +84,9 @@ def _leaf(error: Any) -> Any:
 def best_error(name: str, document: Any) -> tuple[str, str] | None:
     """The first violation as (JSON pointer, message), or `None`: errors ordered by pointer, and a failing combinator
     reported at the error of its closest branch instead of at its own pointer."""
-    errors = sorted(_validator(name).iter_errors(document), key=lambda e: ([str(p) for p in e.absolute_path], e.message))
+    errors = sorted(
+        _validator(name).iter_errors(document), key=lambda e: ([str(p) for p in e.absolute_path], e.message)
+    )
     if not errors:
         return None
     leaf = _leaf(errors[0])

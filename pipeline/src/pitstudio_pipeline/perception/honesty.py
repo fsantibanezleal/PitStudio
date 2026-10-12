@@ -1,6 +1,7 @@
 """The sim-to-real honesty rules of the evaluation report and the B2 baked data (FR-009-32, SC-009-07).
 
-While no labelled real probe exists, every report and every B2 baked data file carries `sim_to_real: "not measured"` and the
+While no labelled real probe exists, every report and every B2 baked data file carries `sim_to_real: "not measured"`
+and the
 label "calibrated synthetic — not validated against real data" (U+2014) for every class, and holds no real-domain metric
 field: no key whose snake_case words include `real` or `probe`, other than `sim_to_real` itself.
 """

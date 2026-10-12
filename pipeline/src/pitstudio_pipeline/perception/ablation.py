@@ -1,9 +1,12 @@
 """The paired cluster-bootstrap DR ablation and its verdict (FR-009-31, P-009-11, SC-009-04).
 
-D-FINE-S trained on arm S is compared with D-FINE-S trained on arm U on the same pit-family test images. The statistic is a
+D-FINE-S trained on arm S is compared with D-FINE-S trained on arm U on the same pit-family test images. The statistic
+is a
 set-level metric (mAP50), so images of one scenario are resampled together: each draw resamples the test scenario seeds
-(clusters) with replacement and BOTH arms are scored on that same resample (identical resample indices). The verdict follows
-FR-000-05: "better" if the lower bound is above 0, "worse" if the upper bound is below 0, else "no significant difference".
+(clusters) with replacement and BOTH arms are scored on that same resample (identical resample indices). The verdict
+follows
+FR-000-05: "better" if the lower bound is above 0, "worse" if the upper bound is below 0, else "no significant
+difference".
 """
 
 from __future__ import annotations

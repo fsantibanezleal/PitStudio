@@ -25,7 +25,7 @@ _MAX_DISTRACTORS = 20  # FR-009-08
 def _finite_pair(name: str, value: Sequence[float], envelope: tuple[float, float]) -> tuple[float, float]:
     try:
         lo, hi = (float(v) for v in value)
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         raise ValueError(f"{name} must be a (min, max) pair of numbers, got {value!r}") from None
     if not (math.isfinite(lo) and math.isfinite(hi)) or lo >= hi:
         raise ValueError(f"{name} must be finite with min < max, got {value!r}")

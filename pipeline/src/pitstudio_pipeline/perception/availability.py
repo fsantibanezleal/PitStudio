@@ -1,7 +1,9 @@
 """Honest "not run" of the perception stages and the local-only rule of SDG and sensor figures (FR-009-40, FR-009-41).
 
-The capability report of the machine decides what runs: Isaac Sim / Replicator (probe `isaacsim`) is needed by `st55_sdg`
-and so by every stage downstream of it; ovrtx (probe `ovrtx`) feeds the crusher family only. Nothing is ever substituted:
+The capability report of the machine decides what runs: Isaac Sim / Replicator (probe `isaacsim`) is needed by
+`st55_sdg`
+and so by every stage downstream of it; ovrtx (probe `ovrtx`) feeds the crusher family only. Nothing is ever
+substituted:
 a stage that cannot run ends "not run" and B2 shows "not yet run" (FR-000-07).
 """
 
@@ -58,7 +60,9 @@ def plan_perception(capabilities: Mapping[str, Any]) -> PerceptionPlan:
     if not isinstance(probes, Mapping):
         raise ValueError("capabilities must be a capability report with a `probes` mapping")
     if not _passes(probes, "isaacsim"):
-        reason = "probe isaacsim does not pass (Isaac Sim / Replicator unavailable): st55_sdg cannot run, no substitute data"
+        reason = (
+            "probe isaacsim does not pass (Isaac Sim / Replicator unavailable): st55_sdg cannot run, no substitute data"
+        )
         return PerceptionPlan(
             stages=tuple(StageStatus(s, "not run", reason) for s in STAGES),
             families={"pit": "not run", "crusher": "not run"},
@@ -82,7 +86,10 @@ class LocalOnlyViolation(ValueError):
 
     def __init__(self, pointer: str) -> None:
         self.pointer = pointer
-        super().__init__(f"{pointer}: a throughput, timing or telemetry figure of Isaac Sim, Replicator or ovrtx is not published; {_NOTICE}")
+        super().__init__(
+            f"{pointer}: a throughput, timing or telemetry figure of Isaac Sim, Replicator or ovrtx is not published; "
+            f"{_NOTICE}"
+        )
 
 
 def _first_figure(node: Any, path: list[Any]) -> list[Any] | None:
@@ -113,5 +120,7 @@ def validate_stage_record(record: Mapping[str, Any]) -> None:
     if record.get("stage") not in LOCAL_ONLY_STAGES:
         return
     if record.get("performance") != "local-only":
-        raise ValueError(f"stage {record.get('stage')!r} must carry performance 'local-only', got {record.get('performance')!r}")
+        raise ValueError(
+            f"stage {record.get('stage')!r} must carry performance 'local-only', got {record.get('performance')!r}"
+        )
     assert_no_local_only_figures(record)

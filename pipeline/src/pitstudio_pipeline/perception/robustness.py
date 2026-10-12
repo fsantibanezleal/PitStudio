@@ -1,6 +1,7 @@
 """Relative drop under corruption, the curve rows and the robustness criterion SC-009-03 (FR-009-30, P-009-10).
 
-delta_rel(c, s) = 100 (m_clean - m_c,s) / m_clean in percent of the clean score; m is mAP50 for the detectors and mask AP50
+delta_rel(c, s) = 100 (m_clean - m_c,s) / m_clean in percent of the clean score; m is mAP50 for the detectors and mask
+AP50
 (descriptive) for RF-DETR-Seg-N.
 """
 

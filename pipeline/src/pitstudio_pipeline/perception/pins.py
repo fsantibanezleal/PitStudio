@@ -1,4 +1,5 @@
-"""Pinned upstream artefacts of the perception detectors (FR-009-18): checkpoints by SHA-256 and the D-FINE code by commit.
+"""Pinned upstream artefacts of the perception detectors (FR-009-18): checkpoints by SHA-256 and the D-FINE code by
+commit.
 
 Values were read on 2026-10-12 from the staged files (`Data/Models/pitstudio/hub/MANIFEST.json`): the SHA-256 is of the
 upstream file itself, computed after download. Every checkpoint is Apache-2.0.

@@ -1,8 +1,10 @@
 """Per-frame frame-state files of `st55_sdg` (FR-009-44, FR-009-45).
 
 The Isaac stage reads a frame's stage data (transforms in stage units) and calls `write_frame_state`; this module
-converts them to metres with the stage's own `metersPerUnit`, adds the SHA-256 of the frame's files and writes one document
-valid against `contracts/frame-state.schema.json` (DC-015-01, owned by spec 015-vlm; not redefined here). Stage data that
+converts them to metres with the stage's own `metersPerUnit`, adds the SHA-256 of the frame's files and writes one
+document
+valid against `contracts/frame-state.schema.json` (DC-015-01, owned by spec 015-vlm; not redefined here). Stage data
+that
 cannot give a valid frame state is refused with a coded `FrameStateError`: the frame writes nothing, stays out of the
 dataset index and is counted by `process_frames`.
 """
@@ -41,7 +43,7 @@ def _is_real(value: object) -> bool:
 
 def _finite(values: object) -> bool:
     """True when `values` is a number or a flat sequence of numbers and all of them are finite."""
-    if isinstance(values, Mapping) or isinstance(values, str):
+    if isinstance(values, Mapping | str):
         return False
     items = values if isinstance(values, Sequence) else [values]
     return all(_is_real(v) and math.isfinite(v) for v in items)
@@ -83,7 +85,9 @@ def _check(frame: Mapping[str, Any], root: Path) -> float:
             continue
         label = obj.get("class")
         if not isinstance(label, str) or label not in _CLASSES:
-            raise FrameStateError("class-unknown", fid, f"class {label!r} of prim {obj.get('prim_id')} is not one of {sorted(_CLASSES)}")
+            raise FrameStateError(
+                "class-unknown", fid, f"class {label!r} of prim {obj.get('prim_id')} is not one of {sorted(_CLASSES)}"
+            )
     for obj in objects:
         if not isinstance(obj, Mapping):
             continue
@@ -109,7 +113,7 @@ def _check(frame: Mapping[str, Any], root: Path) -> float:
 
 
 def build_frame_state(frame: Mapping[str, Any], root: Path) -> dict[str, Any]:
-    """The DC-015-01 document of one frame: stage units converted to metres, file digests added; raises `FrameStateError`."""
+    """The DC-015-01 document of one frame: units converted to metres, file digests added; `FrameStateError` if not."""
     root = Path(root)
     mpu = _check(frame, root)
     fid = frame["frame_id"] if isinstance(frame.get("frame_id"), str) else None
@@ -131,7 +135,10 @@ def build_frame_state(frame: Mapping[str, Any], root: Path) -> dict[str, Any]:
             "terrain": {"path": frame["terrain"]["path"], "sha256": _digest(root / frame["terrain"]["path"])},
             "camera": {
                 "intrinsics": dict(camera["intrinsics"]),
-                "pose": {"translation_m": _scaled(camera["translation"], mpu), "rotation_xyzw": list(camera["rotation_xyzw"])},
+                "pose": {
+                    "translation_m": _scaled(camera["translation"], mpu),
+                    "rotation_xyzw": list(camera["rotation_xyzw"]),
+                },
             },
             "objects": [],
             "bench_edges": [dict(e) for e in frame["bench_edges"]],
@@ -146,7 +153,10 @@ def build_frame_state(frame: Mapping[str, Any], root: Path) -> dict[str, Any]:
             out_obj: dict[str, Any] = {
                 "prim_id": obj["prim_id"],
                 "class": obj["class"],
-                "pose": {"translation_m": _scaled(obj["translation"], mpu), "rotation_xyzw": list(obj["rotation_xyzw"])},
+                "pose": {
+                    "translation_m": _scaled(obj["translation"], mpu),
+                    "rotation_xyzw": list(obj["rotation_xyzw"]),
+                },
                 "footprint": {
                     "centre_m": _scaled(fp["centre"], mpu),
                     "half_extents_m": _scaled(fp["half_extents"], mpu),
@@ -159,7 +169,9 @@ def build_frame_state(frame: Mapping[str, Any], root: Path) -> dict[str, Any]:
                 out_obj["asset_id"] = obj["asset_id"]
             doc["objects"].append(out_obj)
     except (KeyError, TypeError, AttributeError) as exc:
-        raise FrameStateError("schema", fid, f"the frame is incomplete or malformed ({type(exc).__name__}: {exc})") from None
+        raise FrameStateError(
+            "schema", fid, f"the frame is incomplete or malformed ({type(exc).__name__}: {exc})"
+        ) from None
     errors = schema_errors(_SCHEMA, doc)
     if errors:
         pointer, message = errors[0]

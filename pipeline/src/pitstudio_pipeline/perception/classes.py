@@ -19,7 +19,7 @@ def class_id(name: str) -> int:
     """COCO category id (1 to 5) of a class `name`."""
     try:
         return _IDS[name]
-    except (KeyError, TypeError):
+    except KeyError, TypeError:
         raise ValueError(f"unknown class name {name!r}: expected one of {sorted(_IDS)}") from None
 
 

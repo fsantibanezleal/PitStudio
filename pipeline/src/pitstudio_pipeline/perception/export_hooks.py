@@ -2,7 +2,8 @@
 (FR-009-35 to FR-009-39, NFR-009-01, NFR-009-02, NFR-009-06).
 
 The generic export, parity layers and TensorRT work belong to spec 016; this module fixes what only spec 009 knows: the
-D-FINE and RF-DETR-Seg-N graph signatures, which two ONNX files may ship, when a live candidate falls back to precompute,
+D-FINE and RF-DETR-Seg-N graph signatures, which two ONNX files may ship, when a live candidate falls back to
+precompute,
 and which reduced-precision variants are rejected.
 """
 
@@ -26,7 +27,9 @@ MIN_WARMUP_RUNS = 5
 MAX_GALLERY = 300  # NFR-009-06
 OPSET = 19
 _GRID_SAMPLE_VERSION = 16
-_RELPATH = re.compile(r"^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$")
+_RELPATH = re.compile(
+    r"^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+)
 _DRIFT_LIMIT_PP = 1.0  # FR-009-39: absolute change of mAP50 against fp32, in either direction
 _SC03_LIMIT_PCT = 10.0
 
@@ -111,7 +114,10 @@ def _check_opset(model: Any, violations: list[str], nodes: Sequence[Any]) -> Non
     if opset is not None and any(n.op_type == "GridSample" and n.domain in ("", "ai.onnx") for n in nodes):
         version = onnx.defs.get_schema("GridSample", max_inclusive_version=opset).since_version
         if version != _GRID_SAMPLE_VERSION:
-            violations.append(f"GridSample resolves to since-version {version} at opset {opset}, version {_GRID_SAMPLE_VERSION} is required")
+            violations.append(
+                f"GridSample resolves to since-version {version} at opset {opset}, "
+                f"version {_GRID_SAMPLE_VERSION} is required"
+            )
 
 
 def _check_tensor(
@@ -134,12 +140,12 @@ def _check_tensor(
 
 def _check_names(infos: Sequence[Any], expected: Sequence[str], kind: str, violations: list[str]) -> dict[str, Any]:
     by_name = {i.name: i for i in infos}
-    for name in expected:
-        if name not in by_name:
-            violations.append(f"{kind} {name} is missing")
-    for name in by_name:
-        if name not in expected:
-            violations.append(f"unexpected {kind} {name}: the {kind}s are exactly {', '.join(expected)}")
+    violations.extend(f"{kind} {name} is missing" for name in expected if name not in by_name)
+    violations.extend(
+        f"unexpected {kind} {name}: the {kind}s are exactly {', '.join(expected)}"
+        for name in by_name
+        if name not in expected
+    )
     return by_name
 
 
@@ -209,7 +215,8 @@ def inspect_rfdetr_seg(model: Any, *, output_names: Sequence[str]) -> None:
 
 def initial_lane(model: str, precision: str) -> str:
     """The lane before any measurement: RF-DETR-Seg-N is precompute at every precision (FR-009-36); a D-FINE variant is
-    live only when it is one of the two live candidates (FR-009-37) and then still has to pass `decide_detector_lane`."""
+    live only when it is one of the two live candidates (FR-009-37) and then still has to pass
+    `decide_detector_lane`."""
     if model not in MODELS:
         raise ValueError(f"model must be one of {MODELS}, got {model!r}")
     if precision not in PRECISIONS:
@@ -218,7 +225,7 @@ def initial_lane(model: str, precision: str) -> str:
 
 
 def export_dfine_onnx(checkpoint: Path, output: Path) -> Path:
-    """Export a D-FINE checkpoint at opset 19 with the in-graph post-processor (upstream export logic, re-exported at 19)."""
+    """Export a D-FINE checkpoint at opset 19 with the in-graph post-processor (the upstream export logic)."""
     from pitstudio_pipeline.perception import dfine
 
     return dfine.export_onnx(Path(checkpoint), Path(output), opset=OPSET)
@@ -293,7 +300,8 @@ def decide_detector_lane(*, size_bytes: int, timing: Mapping[str, Any] | None) -
 def shipping_plan(variants: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     """Which variants ship as ONNX files and which only as baked outputs.
 
-    A variant ships as an ONNX file only if it is one of the live files and `decide_detector_lane` says live; every other
+    A variant ships as an ONNX file only if it is one of the live files and `decide_detector_lane` says live; every
+    other
     variant is baked only; a variant with `accepted: false` ships nowhere and is listed under `rejected`.
     """
     if not isinstance(variants, list):
@@ -337,7 +345,12 @@ def gallery_budget(thumbnails: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         raise ValueError("thumbnails must be a list of {path, bytes} objects")
     total = 0
     for t in thumbnails:
-        if not isinstance(t, Mapping) or not isinstance(t.get("path"), str) or not _is_int(t.get("bytes")) or t["bytes"] < 0:
+        if (
+            not isinstance(t, Mapping)
+            or not isinstance(t.get("path"), str)
+            or not _is_int(t.get("bytes"))
+            or t["bytes"] < 0
+        ):
             raise ValueError(f"thumbnails entry {t!r} needs a path and a non-negative int bytes")
         total += t["bytes"]
     if len(thumbnails) > MAX_GALLERY:
@@ -350,7 +363,7 @@ def gallery_budget(thumbnails: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
 # ----------------------------------------------------------------------------------------------------------------
 @dataclass(frozen=True)
 class VariantVerdict:
-    """`accepted` or `rejected` with reasons (each starts with `delta-map50` or `sc-009-03`) and the numbers behind them."""
+    """`accepted` or `rejected` with reasons (each starts with `delta-map50` or `sc-009-03`) and their numbers."""
 
     model: str
     precision: str
@@ -373,7 +386,8 @@ def judge_variant(
     map50_variant: float,
     corruption_points: Sequence[Mapping[str, Any]],
 ) -> VariantVerdict:
-    """Reject an fp16 or int8 variant whose mAP50 differs from fp32 by more than 1 pp, or whose relative drop exceeds 10 %
+    """Reject an fp16 or int8 variant whose mAP50 differs from fp32 by more than 1 pp, or whose relative drop exceeds
+    10 %
     for a corruption at severity 1 or 2 (SC-009-03 on its own clean score)."""
     if precision not in ("fp16", "int8"):
         raise ValueError(f"precision must be 'fp16' or 'int8', got {precision!r}")
@@ -392,7 +406,7 @@ def judge_variant(
                 and 1 <= p["severity"] <= 5
             )
             drop = delta_rel(p["m_clean"], p["m_corrupted"]) if ok else None
-        except (KeyError, ValueError):
+        except KeyError, ValueError:
             drop = None
         if drop is None:
             raise ValueError(f"corruption_points row {p!r} is malformed")
@@ -402,14 +416,17 @@ def judge_variant(
     numbers = {"delta_pp": delta_pp}
     reasons: list[str] = []
     if delta_pp > _DRIFT_LIMIT_PP:
-        reasons.append(f"delta-map50: mAP50 changes by {delta_pp:.2f} pp against fp32, more than {_DRIFT_LIMIT_PP:g} pp")
+        reasons.append(
+            f"delta-map50: mAP50 changes by {delta_pp:.2f} pp against fp32, more than {_DRIFT_LIMIT_PP:g} pp"
+        )
     if drops:
         worst = max(drops)
         numbers["worst_delta_rel_pct"] = worst[0]
         for drop, corruption, severity in sorted(drops):
             if drop > _SC03_LIMIT_PCT:
                 reasons.append(
-                    f"sc-009-03: {corruption} severity {severity} loses {drop:.2f} % of the clean score, more than {_SC03_LIMIT_PCT:g} %"
+                    f"sc-009-03: {corruption} severity {severity} loses {drop:.2f} % of the clean score, "
+                    f"more than {_SC03_LIMIT_PCT:g} %"
                 )
     return VariantVerdict(model, precision, "rejected" if reasons else "accepted", tuple(reasons), numbers)
 

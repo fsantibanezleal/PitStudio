@@ -64,7 +64,7 @@ def _validated_scenarios(scenarios: Sequence[tuple[int, str]], rng_seed: object)
     for item in scenarios:
         try:
             seed, layout = item
-        except (TypeError, ValueError):
+        except TypeError, ValueError:
             raise SplitError("scenario-invalid", f"scenario {item!r} is not a (seed, layout_id) pair") from None
         if not _is_int(seed) or not 0 <= seed <= MAX_SEED:
             raise SplitError("scenario-invalid", f"scenario seed {seed!r} is not an int in 0..2**63-1")
@@ -105,9 +105,7 @@ def assign_splits(scenarios: Sequence[tuple[int, str]], *, rng_seed: int) -> Spl
     return _assign(_validated_scenarios(scenarios, rng_seed), [rng_seed])
 
 
-def build_arm_splits(
-    pit: Sequence[tuple[int, str]], crusher: Sequence[tuple[int, str]], *, rng_seed: int
-) -> ArmSplits:
+def build_arm_splits(pit: Sequence[tuple[int, str]], crusher: Sequence[tuple[int, str]], *, rng_seed: int) -> ArmSplits:
     """Splits per family; the unstructured arm reuses exactly the structured pit training seeds."""
     pit_split = _assign(_validated_scenarios(pit, rng_seed), [rng_seed, 0])
     crusher_split = _assign(_validated_scenarios(crusher, rng_seed), [rng_seed, 1])
@@ -143,7 +141,9 @@ def _checked_records(records: Sequence[Mapping[str, Any]]) -> list[Mapping[str, 
             or not isinstance(r.get("layout_id"), str)
             or r.get("split") not in _SPLIT_NAMES
         ):
-            raise SplitError("scenario-invalid", f"malformed record {r!r}: needs record_id, scenario_seed, layout_id, split")
+            raise SplitError(
+                "scenario-invalid", f"malformed record {r!r}: needs record_id, scenario_seed, layout_id, split"
+            )
     return list(records)
 
 
@@ -151,13 +151,13 @@ def _cross_split_pairs(records: list[Mapping[str, Any]], key: str, reason: str) 
     groups: dict[Any, list[Mapping[str, Any]]] = {}
     for r in records:
         groups.setdefault(r[key], []).append(r)
-    pairs = []
-    for members in groups.values():
-        for i, a in enumerate(members):
-            for b in members[i + 1 :]:
-                if a["split"] != b["split"]:
-                    pairs.append((a["record_id"], b["record_id"], reason))
-    return pairs
+    return [
+        (a["record_id"], b["record_id"], reason)
+        for members in groups.values()
+        for i, a in enumerate(members)
+        for b in members[i + 1 :]
+        if a["split"] != b["split"]
+    ]
 
 
 def check_leaks(
@@ -170,7 +170,9 @@ def check_leaks(
     below `root`; without either, the hash check is not made.
     """
     recs = _checked_records(records)
-    pairs = _cross_split_pairs(recs, "scenario_seed", "scenario_seed") + _cross_split_pairs(recs, "layout_id", "layout_id")
+    pairs = _cross_split_pairs(recs, "scenario_seed", "scenario_seed") + _cross_split_pairs(
+        recs, "layout_id", "layout_id"
+    )
     if hashes is not None or root is not None:
         values: dict[str, int] = {}
         for r in recs:
@@ -197,5 +199,8 @@ def check_leaks(
 def arm_volume_ok(requested: int, valid: int) -> bool:
     """True iff at least 95 % of the requested images of an arm are valid (exact integer arithmetic)."""
     if not _is_int(requested) or not _is_int(valid) or requested < 1 or valid < 0 or valid > requested:
-        raise SplitError("volume-invalid", f"requested {requested!r} and valid {valid!r} must be ints with 0 <= valid <= requested >= 1")
+        raise SplitError(
+            "volume-invalid",
+            f"requested {requested!r} and valid {valid!r} must be ints with 0 <= valid <= requested >= 1",
+        )
     return 100 * valid >= 95 * requested

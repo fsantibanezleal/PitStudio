@@ -1,9 +1,11 @@
 """The `s30_train` loop: out-of-memory fallback and resume at epoch granularity (FR-009-20, FR-009-21, NFR-009-03).
 
-The loop owns what must not change between a run that fits, a run that fell back and a run that resumed: the sample order of
+The loop owns what must not change between a run that fits, a run that fell back and a run that resumed: the sample
+order of
 each epoch, the optimiser-step count and the cosine learning-rate schedule. The model work is an injected `step_fn` that
 receives one micro-batch; the checkpoint store receives exactly one state per finished epoch. A CUDA out-of-memory error
-restarts the current epoch from its first optimiser step with the batch halved and the gradient accumulation doubled (the
+restarts the current epoch from its first optimiser step with the batch halved and the gradient accumulation doubled
+(the
 effective batch never changes); below a batch of 1 the loop stops with `oom-exhausted`.
 """
 
@@ -211,7 +213,8 @@ def check_training_segments(segments: Sequence[Mapping[str, Any]]) -> None:
         for value in (start, end):
             if not isinstance(value, dt.datetime) or value.tzinfo is None or value.utcoffset() is None:
                 raise TrainLoopError("segment-invalid", "start_utc and end_utc must be timezone-aware datetimes")
-        assert isinstance(start, dt.datetime) and isinstance(end, dt.datetime)
+        assert isinstance(start, dt.datetime)
+        assert isinstance(end, dt.datetime)
         if end < start:
             raise TrainLoopError("segment-invalid", "the segment ends before it starts")
         if end - start > MAX_SEGMENT:

@@ -1,7 +1,8 @@
 """Pre-registered acceptance rows of the detection evaluation report (FR-009-24, SC-009-01 ... SC-009-06).
 
 Each criterion pins its model, precision, statistic and threshold (the schema pins them too). A class with fewer than
-`min_support` test instances in the statistic's support makes the criterion "not evaluable (insufficient support)" with the
+`min_support` test instances in the statistic's support makes the criterion "not evaluable (insufficient support)"
+with the
 class and its count, instead of pass or fail.
 """
 
@@ -14,7 +15,8 @@ from typing import Any
 NOT_EVALUABLE = "not evaluable (insufficient support)"
 CORRUPTIONS = ("dust", "night", "rain")
 
-# criterion -> (model, precision, statistic, threshold, direction); direction "min": value >= threshold, "max": value <= threshold
+# criterion -> (model, precision, statistic, threshold, direction); direction "min": value >= threshold, "max": value
+# <= threshold
 _CRITERIA: dict[str, tuple[str | None, str | None, str, float, str]] = {
     "SC-009-01": ("d-fine-s", "fp32", "map50", 0.8, "min"),
     "SC-009-02": ("d-fine-n", "fp32", "map50", 0.7, "min"),
@@ -39,7 +41,7 @@ def not_run_row(
     corruption: str | None = None,
     severity: int | None = None,
 ) -> dict[str, Any]:
-    """A row of a criterion that was not run: its pinned statistic and threshold, the verdict `not run` and the reason."""
+    """A row of a criterion that was not run: pinned statistic and threshold, verdict `not run`, and the reason."""
     if criterion not in _CRITERIA:
         raise ValueError(f"criterion must be one of {sorted(_CRITERIA)}, got {criterion!r}")
     pinned_model, pinned_precision, statistic, threshold, _ = _CRITERIA[criterion]
@@ -90,7 +92,9 @@ def acceptance_row(
         if precision not in (None, pinned_precision):
             raise ValueError(f"precision of {criterion} is {pinned_precision!r}, got {precision!r}")
         if corruption is not None or severity is not None:
-            raise ValueError(f"corruption and severity belong to SC-009-03 only, got {corruption!r} / {severity!r} for {criterion}")
+            raise ValueError(
+                f"corruption and severity belong to SC-009-03 only, got {corruption!r} / {severity!r} for {criterion}"
+            )
         row_model, row_precision = pinned_model, pinned_precision
     row: dict[str, Any] = {
         "criterion": criterion,

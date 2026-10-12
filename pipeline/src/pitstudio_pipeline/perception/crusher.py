@@ -1,6 +1,7 @@
 """Crusher-family instances from the 8-connected components of a semantic mask (FR-009-13).
 
-The ovrtx crusher camera hands off semantic masks without instance ids; one instance is derived per 8-connected component
+The ovrtx crusher camera hands off semantic masks without instance ids; one instance is derived per 8-connected
+component
 of each class value and labelled `instance_source: connected-components`. Touching boulders of the same class merge.
 """
 

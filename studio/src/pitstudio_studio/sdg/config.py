@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Any
 
 from pitstudio.contracts.io import pointer_of
-
 from pitstudio_studio.sdg._schemas import schema_errors
 
 _SCHEMA = "sdg-randomisation"
@@ -80,7 +79,7 @@ def load_config(path: Path) -> dict[str, Any]:
     try:
         # NaN / Infinity tokens become floats, so that `validate_config` reports the pointer of the number
         doc = json.loads(text, parse_constant=float)
-    except (ValueError, RecursionError):
+    except ValueError, RecursionError:
         raise SdgConfigError("", "the config file is not valid JSON") from None
     validate_config(doc)
     assert isinstance(doc, dict)

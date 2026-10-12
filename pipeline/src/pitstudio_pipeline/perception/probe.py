@@ -1,9 +1,12 @@
 """The optional labelled real probe: aggregate metrics, inter-annotator agreement and hostile probe inputs (FR-009-33,
 FR-009-34).
 
-The probe is at most 200 real images with a per-file licence from a fixed list and boxes from two labellers. Detectors are
-scored against labeller A (AP50 per class with an image-bootstrap interval); labeller B gives a sensitivity mAP50 and the
-per-class box F1 between the two labellers measures their agreement. Only aggregate metrics are published: no file name and no
+The probe is at most 200 real images with a per-file licence from a fixed list and boxes from two labellers. Detectors
+are
+scored against labeller A (AP50 per class with an image-bootstrap interval); labeller B gives a sensitivity mAP50 and
+the
+per-class box F1 between the two labellers measures their agreement. Only aggregate metrics are published: no file
+name and no
 image id leaves this module.
 """
 
@@ -16,7 +19,9 @@ from typing import Any
 from pitstudio_pipeline.perception import evaluate as ev
 from pitstudio_pipeline.perception.classes import CLASSES
 
-ALLOWED_LICENCES: frozenset[str] = frozenset({"CC0-1.0", "CC-BY-2.0", "CC-BY-2.5", "CC-BY-3.0", "CC-BY-4.0", "public domain"})
+ALLOWED_LICENCES: frozenset[str] = frozenset(
+    {"CC0-1.0", "CC-BY-2.0", "CC-BY-2.5", "CC-BY-3.0", "CC-BY-4.0", "public domain"}
+)
 PROBE_CLASSES: tuple[int, ...] = (1, 2, 3, 4)  # haul_truck, shovel, light_vehicle, person; boulder has no probe
 MAX_IMAGES = 200
 _NAMES = dict(CLASSES)
@@ -86,7 +91,7 @@ def _iou(a: Sequence[float], b: Sequence[float]) -> float:
 def agreement_f1(
     boxes_a: Sequence[Mapping[str, Any]], boxes_b: Sequence[Mapping[str, Any]], *, iou_threshold: float = _IOU_THRESHOLD
 ) -> dict[int, float | None]:
-    """Per category with boxes: F1 = 2 TP / (n_A + n_B), greedy one-to-one matching by descending IoU within an image."""
+    """Per category with boxes: F1 = 2 TP / (n_A + n_B), greedy one-to-one matching by descending IoU per image."""
     categories = sorted({int(b["category_id"]) for b in boxes_a} | {int(b["category_id"]) for b in boxes_b})
     out: dict[int, float | None] = {}
     for cat in categories:
@@ -137,7 +142,9 @@ def _gt_doc(images: Sequence[Mapping[str, Any]], annotations: Sequence[Mapping[s
 def _check_categories(rows: Sequence[Mapping[str, Any]], where: str) -> None:
     for r in rows:
         if int(r["category_id"]) not in PROBE_CLASSES:
-            raise ValueError(f"category_id {r['category_id']} in {where} is not one of the probe classes {PROBE_CLASSES}")
+            raise ValueError(
+                f"category_id {r['category_id']} in {where} is not one of the probe classes {PROBE_CLASSES}"
+            )
 
 
 def evaluate_probe(
@@ -184,9 +191,7 @@ def evaluate_probe(
         point_b = ev.evaluate_boxes(gt_b, dets, min_support=1)
         if point_b.map50 is not None:
             labeller_b.append({"model": model, "map50": point_b.map50})
-    f1 = agreement_f1(
-        [{**a} for a in annotations_a], [{**b} for b in annotations_b], iou_threshold=_IOU_THRESHOLD
-    )
+    f1 = agreement_f1([{**a} for a in annotations_a], [{**b} for b in annotations_b], iou_threshold=_IOU_THRESHOLD)
     agreement = [
         {"class": _NAMES[cid], "box_f1": value, "iou_threshold": _IOU_THRESHOLD}
         for cid, value in sorted(f1.items())

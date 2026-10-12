@@ -1,6 +1,7 @@
 """`s30_train` inputs: training configuration, pinned checkpoints, training-input licence guard (FR-009-18, FR-009-19).
 
-The detectors are fine-tuned from the upstream COCO-pretrained Apache-2.0 checkpoints (D-FINE-N, D-FINE-S) and the upstream
+The detectors are fine-tuned from the upstream COCO-pretrained Apache-2.0 checkpoints (D-FINE-N, D-FINE-S) and the
+upstream
 segmentation-nano checkpoint (RF-DETR-Seg-N), each pinned by SHA-256, on the synthetic training split only, with bf16
 autocast and no FP8 training and the upstream default loss coefficients. The run is recorded by `training_record`.
 """
@@ -121,15 +122,16 @@ def select_training_records(records: Sequence[Mapping[str, Any]], *, arm: str) -
         if r.get("split") != "train":
             continue
         kind, family = r.get("arm"), r.get("family")
-        if arm == "S" and kind == "structured":
-            out.append(dict(r))
-        elif arm == "U" and ((kind == "unstructured" and family == "pit") or (kind == "structured" and family == "crusher")):
+        if (arm == "S" and kind == "structured") or (
+            arm == "U"
+            and ((kind == "unstructured" and family == "pit") or (kind == "structured" and family == "crusher"))
+        ):
             out.append(dict(r))
     return out
 
 
 def training_set_digest(records: Sequence[Mapping[str, Any]]) -> str:
-    """SHA-256 of the UTF-8 text of the lines `<record_id> <image sha256>` (each ended by a newline), sorted by record id."""
+    """SHA-256 of the UTF-8 text of the lines `<record_id> <image sha256>` (newline-ended), sorted by record id."""
     if len(records) == 0:
         raise ValueError("records must not be empty")
     lines = sorted((r["record_id"], r["image"]["sha256"]) for r in records)
@@ -154,18 +156,22 @@ def training_record(cfg: TrainConfig, *, checkpoint_sha256: str, training_set_sh
 
 
 def check_training_inputs(inputs: Sequence[Mapping[str, Any]]) -> None:
-    """Refuse a training manifest that holds a display-only or reference-only input or a real-probe image, naming all."""
+    """Refuse a manifest with a display-only or reference-only input or a real-probe image, naming every one."""
     offenders: list[str] = []
     for item in inputs:
         if not isinstance(item, Mapping):
             raise ValueError(f"training input {item!r} is not a mapping with id, licence_class and source")
         licence = item.get("licence_class")
         if licence not in _LICENCE_CLASSES:
-            raise ValueError(f"licence_class {licence!r} of input {item.get('id')!r} is not one of {sorted(_LICENCE_CLASSES)}")
+            raise ValueError(
+                f"licence_class {licence!r} of input {item.get('id')!r} is not one of {sorted(_LICENCE_CLASSES)}"
+            )
         name = str(item.get("id"))
         if (licence in _REFUSED_LICENCE_CLASSES or item.get("source") == _REAL_PROBE) and name not in offenders:
             offenders.append(name)
     if offenders:
         raise TrainError(
-            "training-input-licence", "inputs with a display-only or reference-only licence, or real-probe images", offenders
+            "training-input-licence",
+            "inputs with a display-only or reference-only licence, or real-probe images",
+            offenders,
         )

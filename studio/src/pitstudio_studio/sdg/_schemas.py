@@ -8,10 +8,11 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import best_match
-from pitstudio.contracts.io import pointer_of
-from pitstudio.contracts.validate import CONTRACTS_DIR
 from referencing import Registry, Resource
 from referencing.jsonschema import DRAFT202012
+
+from pitstudio.contracts.io import pointer_of
+from pitstudio.contracts.validate import CONTRACTS_DIR
 
 
 @cache
@@ -42,6 +43,8 @@ def best_error(name: str, document: Any, definition: str | None = None) -> tuple
 
 def schema_errors(name: str, document: Any, definition: str | None = None) -> list[tuple[str, str]]:
     """Every violation of `document` as (JSON pointer, message), shallowest pointer first then by pointer."""
-    found = [(pointer_of(list(e.absolute_path)), e.message[:300]) for e in validator(name, definition).iter_errors(document)]
+    found = [
+        (pointer_of(list(e.absolute_path)), e.message[:300]) for e in validator(name, definition).iter_errors(document)
+    ]
     found.sort(key=lambda item: (item[0].count("/"), item[0], item[1]))
     return found

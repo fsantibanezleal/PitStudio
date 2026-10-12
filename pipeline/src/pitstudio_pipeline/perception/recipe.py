@@ -10,7 +10,8 @@ from typing import Any
 DEFAULT_SEED = 20261007
 _STRUCTURED_PIT_TRAIN = "structured-pit-train"
 
-# Texture pool of the default recipe: the contract example's entries. The digests belong to the example pool; the SDG job
+# Texture pool of the default recipe: the contract example's entries. The digests belong to the example pool; the SDG
+# job
 # passes the staged CC0 pool (ids, source, SHA-256 of the real files) to `default_recipe(texture_pool=...)`.
 _EXAMPLE_POOL: tuple[dict[str, str], ...] = (
     {

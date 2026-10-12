@@ -1,9 +1,9 @@
 """Canonical serialisation, duplicate-row check, writer and reader of the detection evaluation report (NFR-009-04,
 FR-009-50).
 
-A report is written as UTF-8 JSON with sorted keys, separators `,` and `:`, no ASCII escaping and one trailing newline, so two
-runs on the same input give byte-identical files. The writer and the reader both refuse a report in which two rows of
-`per_class` share the key (model, precision, training_arm, family, task, class).
+A report is written as UTF-8 JSON with sorted keys, separators `,` and `:`, no ASCII escaping and one trailing
+newline, so two runs on the same input give byte-identical files. The writer and the reader both refuse a report in
+which two rows of `per_class` share the key (model, precision, training_arm, family, task, class).
 """
 
 from __future__ import annotations
@@ -81,7 +81,7 @@ def read_report(path: Path) -> dict[str, Any]:
         raise ReportError("report-invalid", "the file is empty")
     try:
         doc = json.loads(text, parse_constant=_refuse_constant)
-    except (ValueError, RecursionError):
+    except ValueError, RecursionError:
         raise ReportError("report-invalid", "the file is not valid JSON without NaN or infinity") from None
     if not isinstance(doc, dict):
         raise ReportError("report-invalid", "the report is not a JSON object")

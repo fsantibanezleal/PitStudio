@@ -1,6 +1,7 @@
 """B2 baked data of the perception case: JSON files built from the evaluation report (FR-009-32, FR-009-41, SC-009-07).
 
-Every file carries the report's `sim_to_real` and `honesty_label` at its top, every object that names a class carries both
+Every file carries the report's `sim_to_real` and `honesty_label` at its top, every object that names a class carries
+both
 labels, and no file holds a real-domain field or a throughput, timing or telemetry figure of Isaac Sim, Replicator or
 ovrtx. A fixture report is published first, so its files hold no metric.
 """
