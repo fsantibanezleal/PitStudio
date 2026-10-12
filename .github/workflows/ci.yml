@@ -40,6 +40,11 @@ jobs:
       - name: Surrogate tests of spec 011 (torch, ONNX Runtime; the root job skips them)
         working-directory: pipeline
         run: uv run pytest -m "not gpu and not slow" ../tests/pipeline/test_t_011_* ../tests/property/test_t_011_05*
+      - name: Slope tests of spec 010 (torch, ONNX Runtime, scipy, tifffile; the root job skips them)
+        working-directory: pipeline
+        run: uv run pytest -m "not gpu and not slow" ../tests/pipeline/test_t_010_*
+      - name: pySlope 1.4.0 oracle of spec 010 (the oracle group of the root environment, never a runtime dependency)
+        run: uv run pytest -o addopts="" tests/pipeline/test_t_010_012_pyslope_oracle.py
 
   studio:
     runs-on: ubuntu-24.04
