@@ -122,11 +122,11 @@
 | FR-000-02 | 000-foundation | draft | T-018-011 | - |
 | FR-000-03 | 000-foundation | draft | T-018-037, T-019-041, T-020-060 | web/src/shell/prefs.test.ts, web/e2e/shell.spec.ts |
 | FR-000-04 | 000-foundation | draft | T-000-020 | web/src/shell/AccessGate.test.tsx, web/src/shell/digest.test.ts, web/e2e/shell.spec.ts |
-| FR-000-05 | 000-foundation | draft | T-018-032, T-020-030 | - |
+| FR-000-05 | 000-foundation | draft | T-018-032, T-020-030 | tests/pipeline/test_t_007_055_dispatch_eval.py |
 | FR-000-06 | 000-foundation | draft | T-018-034, T-019-022 | web/src/cards/t_018_034_artefact_card.test.tsx |
 | FR-000-07 | 000-foundation | draft | T-019-004 | - |
 | FR-000-08 | 000-foundation | draft | T-019-004, T-019-034, T-020-035 | - |
-| FR-000-09 | 000-foundation | draft | T-018-033, T-020-033 | web/src/routes/t_018_033_context_tab.test.tsx |
+| FR-000-09 | 000-foundation | draft | T-018-033, T-020-033 | tests/contract/test_t_007_070_haulage_honesty.py, web/src/routes/t_018_033_context_tab.test.tsx |
 | FR-000-10 | 000-foundation | draft | T-018-033, T-020-041 | web/src/routes/t_018_033_context_tab.test.tsx |
 | FR-000-11 | 000-foundation | draft | T-018-014, T-019-035 | - |
 | FR-000-12 | 000-foundation | draft | T-000-021 | - |
@@ -399,76 +399,76 @@
 | FR-005-55 | 005-physics | draft | T-005-092 | - |
 | FR-005-56 | 005-physics | draft | T-005-093 | - |
 | FR-005-57 | 005-physics | draft | T-005-094 | - |
-| FR-006-01 | 006-media-telemetry | draft | T-006-016 | - |
-| FR-006-02 | 006-media-telemetry | draft | T-006-010 | - |
-| FR-006-03 | 006-media-telemetry | draft | T-006-010 | - |
-| FR-006-04 | 006-media-telemetry | draft | T-006-010 | - |
-| FR-006-05 | 006-media-telemetry | draft | T-006-012 | - |
-| FR-006-06 | 006-media-telemetry | draft | T-006-013 | - |
-| FR-006-07 | 006-media-telemetry | draft | T-006-014 | - |
+| FR-006-01 | 006-media-telemetry | draft | T-006-016 | tests/gpu/test_t_006_016_nvenc_encode.py |
+| FR-006-02 | 006-media-telemetry | draft | T-006-010 | tests/metamorphic/test_t_006_011_vmaf_aggregation.py, tests/property/test_t_006_010_vmaf_search.py |
+| FR-006-03 | 006-media-telemetry | draft | T-006-010 | tests/property/test_t_006_010_vmaf_search.py |
+| FR-006-04 | 006-media-telemetry | draft | T-006-010 | tests/property/test_t_006_010_vmaf_search.py |
+| FR-006-05 | 006-media-telemetry | draft | T-006-012 | tests/unit/test_t_006_012_output_verification.py |
+| FR-006-06 | 006-media-telemetry | draft | T-006-013 | tests/contract/test_t_006_013_encoder_record.py |
+| FR-006-07 | 006-media-telemetry | draft | T-006-014 | tests/unit/test_t_006_014_nvenc_lock.py |
 | FR-006-08 | 006-media-telemetry | retired | - | - |
-| FR-006-09 | 006-media-telemetry | draft | T-006-020 | - |
-| FR-006-10 | 006-media-telemetry | draft | T-006-020 | - |
-| FR-006-11 | 006-media-telemetry | draft | T-006-020 | - |
-| FR-006-12 | 006-media-telemetry | draft | T-006-021 | - |
-| FR-006-13 | 006-media-telemetry | draft | T-006-021 | - |
-| FR-006-14 | 006-media-telemetry | draft | T-006-013 | - |
-| FR-006-15 | 006-media-telemetry | draft | T-006-022 | - |
-| FR-006-16 | 006-media-telemetry | draft | T-006-016 | - |
-| FR-006-17 | 006-media-telemetry | draft | T-006-030 | - |
-| FR-006-18 | 006-media-telemetry | draft | T-006-031 | - |
-| FR-006-19 | 006-media-telemetry | draft | T-006-031 | - |
-| FR-006-20 | 006-media-telemetry | draft | T-006-032 | - |
-| FR-006-21 | 006-media-telemetry | draft | T-006-032 | - |
-| FR-006-22 | 006-media-telemetry | draft | T-006-014 | - |
-| FR-006-23 | 006-media-telemetry | draft | T-006-092 | - |
-| FR-007-01 | 007-haulage-dispatch | draft | T-007-013 | - |
-| FR-007-02 | 007-haulage-dispatch | draft | T-007-003 | - |
-| FR-007-03 | 007-haulage-dispatch | draft | T-007-014 | - |
-| FR-007-04 | 007-haulage-dispatch | draft | T-007-014 | - |
-| FR-007-05 | 007-haulage-dispatch | draft | T-007-010, T-007-012 | - |
-| FR-007-06 | 007-haulage-dispatch | draft | T-007-011, T-007-012 | - |
-| FR-007-07 | 007-haulage-dispatch | draft | T-007-011 | - |
-| FR-007-08 | 007-haulage-dispatch | draft | T-007-016 | - |
-| FR-007-09 | 007-haulage-dispatch | draft | T-007-013 | - |
-| FR-007-10 | 007-haulage-dispatch | draft | T-007-021 | - |
-| FR-007-11 | 007-haulage-dispatch | draft | T-007-020 | - |
-| FR-007-12 | 007-haulage-dispatch | draft | T-007-022 | - |
-| FR-007-13 | 007-haulage-dispatch | draft | T-007-022 | - |
-| FR-007-14 | 007-haulage-dispatch | draft | T-007-015 | - |
-| FR-007-15 | 007-haulage-dispatch | draft | T-007-030 | - |
-| FR-007-16 | 007-haulage-dispatch | draft | T-007-030 | - |
-| FR-007-17 | 007-haulage-dispatch | draft | T-007-017 | - |
-| FR-007-18 | 007-haulage-dispatch | draft | T-007-017 | - |
-| FR-007-19 | 007-haulage-dispatch | draft | T-007-040 | - |
-| FR-007-20 | 007-haulage-dispatch | draft | T-007-041 | - |
-| FR-007-21 | 007-haulage-dispatch | draft | T-007-040, T-007-041 | - |
-| FR-007-22 | 007-haulage-dispatch | draft | T-007-042 | - |
-| FR-007-23 | 007-haulage-dispatch | draft | T-007-050 | - |
-| FR-007-24 | 007-haulage-dispatch | draft | T-007-050, T-007-052 | - |
-| FR-007-25 | 007-haulage-dispatch | draft | T-007-051 | - |
-| FR-007-26 | 007-haulage-dispatch | draft | T-007-053 | - |
-| FR-007-27 | 007-haulage-dispatch | draft | T-007-053 | - |
-| FR-007-28 | 007-haulage-dispatch | draft | T-007-053, T-007-055 | - |
-| FR-007-29 | 007-haulage-dispatch | draft | T-007-055 | - |
-| FR-007-30 | 007-haulage-dispatch | draft | T-007-055 | - |
-| FR-007-31 | 007-haulage-dispatch | draft | T-007-056 | - |
-| FR-007-32 | 007-haulage-dispatch | draft | T-007-057 | - |
-| FR-007-33 | 007-haulage-dispatch | draft | T-007-042, T-007-056 | - |
-| FR-007-34 | 007-haulage-dispatch | draft | T-007-062 | - |
-| FR-007-35 | 007-haulage-dispatch | draft | T-007-060 | - |
-| FR-007-36 | 007-haulage-dispatch | draft | T-007-061 | - |
-| FR-007-37 | 007-haulage-dispatch | draft | T-007-060 | - |
-| FR-007-38 | 007-haulage-dispatch | draft | T-007-063 | - |
-| FR-007-39 | 007-haulage-dispatch | draft | T-007-064 | - |
-| FR-007-40 | 007-haulage-dispatch | draft | T-007-062 | - |
-| FR-007-41 | 007-haulage-dispatch | draft | T-007-070 | - |
-| FR-007-42 | 007-haulage-dispatch | draft | T-007-016 | - |
-| FR-007-43 | 007-haulage-dispatch | draft | T-007-050 | - |
-| FR-007-44 | 007-haulage-dispatch | draft | T-007-056 | - |
-| FR-007-45 | 007-haulage-dispatch | draft | T-007-062, T-007-063 | - |
-| FR-007-46 | 007-haulage-dispatch | draft | T-007-092 | - |
-| FR-007-47 | 007-haulage-dispatch | draft | T-007-093 | - |
+| FR-006-09 | 006-media-telemetry | draft | T-006-020 | tests/unit/test_t_006_020_ffmpeg_gates.py |
+| FR-006-10 | 006-media-telemetry | draft | T-006-020 | tests/unit/test_t_006_020_ffmpeg_gates.py |
+| FR-006-11 | 006-media-telemetry | draft | T-006-020 | tests/unit/test_t_006_020_ffmpeg_gates.py |
+| FR-006-12 | 006-media-telemetry | draft | T-006-021 | tests/unit/test_t_006_021_frames_hostile.py |
+| FR-006-13 | 006-media-telemetry | draft | T-006-021 | tests/unit/test_t_006_021_frames_hostile.py |
+| FR-006-14 | 006-media-telemetry | draft | T-006-013 | tests/contract/test_t_006_013_encoder_record.py |
+| FR-006-15 | 006-media-telemetry | draft | T-006-022 | tests/unit/test_t_006_022_preview_encoder.py |
+| FR-006-16 | 006-media-telemetry | draft | T-006-016 | tests/gpu/test_t_006_016_nvenc_encode.py |
+| FR-006-17 | 006-media-telemetry | draft | T-006-030 | tests/property/test_t_006_030_nvtx_ranges.py |
+| FR-006-18 | 006-media-telemetry | draft | T-006-031 | tests/unit/test_t_006_031_throughput.py |
+| FR-006-19 | 006-media-telemetry | draft | T-006-031 | tests/unit/test_t_006_031_throughput.py |
+| FR-006-20 | 006-media-telemetry | draft | T-006-032 | tests/unit/test_t_006_032_profile_outputs.py |
+| FR-006-21 | 006-media-telemetry | draft | T-006-032 | tests/unit/test_t_006_032_profile_outputs.py |
+| FR-006-22 | 006-media-telemetry | draft | T-006-014 | tests/unit/test_t_006_014_nvenc_lock.py |
+| FR-006-23 | 006-media-telemetry | draft | T-006-092 | tests/unit/test_t_006_092_fixture_clip.py |
+| FR-007-01 | 007-haulage-dispatch | draft | T-007-013 | tests/pipeline/test_t_007_013_adapter_trace.py |
+| FR-007-02 | 007-haulage-dispatch | draft | T-007-003 | tests/pipeline/test_t_007_003_engine_pin.py |
+| FR-007-03 | 007-haulage-dispatch | draft | T-007-014 | tests/pipeline/test_t_007_014_scenario_hostile.py, web/src/engines/des/scenario.hostile.test.ts |
+| FR-007-04 | 007-haulage-dispatch | draft | T-007-014 | tests/pipeline/test_t_007_014_scenario_hostile.py, web/src/engines/des/scenario.hostile.test.ts |
+| FR-007-05 | 007-haulage-dispatch | draft | T-007-010, T-007-012 | tests/pipeline/test_t_007_010_philox.py, web/src/engines/random/philox.test.ts |
+| FR-007-06 | 007-haulage-dispatch | draft | T-007-011, T-007-012 | tests/pipeline/test_t_007_010_philox.py, tests/pipeline/test_t_007_011_variates.py, web/src/engines/random/no-transcendental.test.ts, web/src/engines/random/philox.test.ts, web/src/engines/random/variates.test.ts |
+| FR-007-07 | 007-haulage-dispatch | draft | T-007-011 | tests/pipeline/test_t_007_011_variates.py, web/src/engines/random/variates.test.ts |
+| FR-007-08 | 007-haulage-dispatch | draft | T-007-016 | tests/pipeline/test_t_007_016_kpi.py |
+| FR-007-09 | 007-haulage-dispatch | draft | T-007-013 | tests/pipeline/test_t_007_013_adapter_trace.py |
+| FR-007-10 | 007-haulage-dispatch | draft | T-007-021 | web/src/engines/des/twin.parity.test.ts |
+| FR-007-11 | 007-haulage-dispatch | draft | T-007-020 | tests/pipeline/test_t_007_020_golden_coverage.py, web/src/engines/des/twin.parity.test.ts |
+| FR-007-12 | 007-haulage-dispatch | draft | T-007-022 | tests/pipeline/test_t_007_022_adapter_limits.py, web/src/engines/des/twin.hostile.test.ts |
+| FR-007-13 | 007-haulage-dispatch | draft | T-007-022 | tests/pipeline/test_t_007_022_adapter_limits.py, web/src/engines/des/twin.hostile.test.ts |
+| FR-007-14 | 007-haulage-dispatch | draft | T-007-015 | tests/pipeline/test_t_007_015_dispatchers.py |
+| FR-007-15 | 007-haulage-dispatch | draft | T-007-030 | tests/parity/test_t_007_030_m1_goldens.py, web/src/engines/haulage/queueing.test.ts |
+| FR-007-16 | 007-haulage-dispatch | draft | T-007-030 | tests/parity/test_t_007_030_m1_goldens.py, web/src/engines/haulage/queueing.test.ts |
+| FR-007-17 | 007-haulage-dispatch | draft | T-007-017 | tests/pipeline/test_t_007_017_des_oracles.py |
+| FR-007-18 | 007-haulage-dispatch | draft | T-007-017 | tests/pipeline/test_t_007_017_des_oracles.py |
+| FR-007-19 | 007-haulage-dispatch | draft | T-007-040 | tests/pipeline/test_t_007_040_lp_highs.py, web/src/engines/lp/simplex.test.ts |
+| FR-007-20 | 007-haulage-dispatch | draft | T-007-041 | web/src/engines/lp/simplex.test.ts |
+| FR-007-21 | 007-haulage-dispatch | draft | T-007-040, T-007-041 | tests/pipeline/test_t_007_040_lp_highs.py, tests/pipeline/test_t_007_042_lp_dispatch.py, web/src/engines/lp/simplex.test.ts |
+| FR-007-22 | 007-haulage-dispatch | draft | T-007-042 | tests/pipeline/test_t_007_042_lp_dispatch.py |
+| FR-007-23 | 007-haulage-dispatch | draft | T-007-050 | tests/pipeline/test_t_007_050_env.py |
+| FR-007-24 | 007-haulage-dispatch | draft | T-007-050, T-007-052 | tests/pipeline/test_t_007_050_env.py, tests/pipeline/test_t_007_052_policies.py |
+| FR-007-25 | 007-haulage-dispatch | draft | T-007-051 | tests/pipeline/test_t_007_051_gae.py |
+| FR-007-26 | 007-haulage-dispatch | draft | T-007-053 | tests/gpu/test_t_007_053_train_gpu.py, tests/pipeline/test_t_007_053_train_stage.py |
+| FR-007-27 | 007-haulage-dispatch | draft | T-007-053 | tests/pipeline/test_t_007_053_train_stage.py |
+| FR-007-28 | 007-haulage-dispatch | draft | T-007-053, T-007-055 | tests/pipeline/test_t_007_053_train_stage.py, tests/pipeline/test_t_007_055_dispatch_eval.py |
+| FR-007-29 | 007-haulage-dispatch | draft | T-007-055 | tests/pipeline/test_t_007_055_dispatch_eval.py |
+| FR-007-30 | 007-haulage-dispatch | draft | T-007-055 | tests/pipeline/test_t_007_055_dispatch_eval.py |
+| FR-007-31 | 007-haulage-dispatch | draft | T-007-056 | tests/pipeline/test_t_007_056_policy_export.py, web/src/engines/des/policy.parity.test.ts |
+| FR-007-32 | 007-haulage-dispatch | draft | T-007-057 | web/src/engines/des/policy.parity.test.ts |
+| FR-007-33 | 007-haulage-dispatch | draft | T-007-042, T-007-056 | tests/pipeline/test_t_007_042_lp_dispatch.py, tests/pipeline/test_t_007_056_policy_export.py, web/src/engines/des/policy.parity.test.ts |
+| FR-007-34 | 007-haulage-dispatch | draft | T-007-062 | tests/unit/test_t_007_062_route_energy.py, web/src/engines/haulage/energy.test.ts |
+| FR-007-35 | 007-haulage-dispatch | draft | T-007-060 | tests/property/test_t_007_060_astar.py, web/src/engines/routing/astar.test.ts |
+| FR-007-36 | 007-haulage-dispatch | draft | T-007-061 | tests/unit/test_t_007_061_astar_hostile.py, web/src/engines/routing/astar.test.ts |
+| FR-007-37 | 007-haulage-dispatch | draft | T-007-060 | tests/property/test_t_007_060_astar.py, tests/unit/test_t_007_061_astar_hostile.py, web/src/engines/routing/astar.test.ts |
+| FR-007-38 | 007-haulage-dispatch | draft | T-007-063 | tests/property/test_t_007_063_network_builder.py |
+| FR-007-39 | 007-haulage-dispatch | draft | T-007-064 | web/src/engines/haulage/energy.test.ts, web/src/engines/routing/astar.test.ts |
+| FR-007-40 | 007-haulage-dispatch | draft | T-007-062 | tests/unit/test_t_007_062_route_energy.py |
+| FR-007-41 | 007-haulage-dispatch | draft | T-007-070 | tests/contract/test_t_007_070_haulage_honesty.py |
+| FR-007-42 | 007-haulage-dispatch | draft | T-007-016 | tests/pipeline/test_t_007_016_kpi.py |
+| FR-007-43 | 007-haulage-dispatch | draft | T-007-050 | tests/pipeline/test_t_007_050_env.py |
+| FR-007-44 | 007-haulage-dispatch | draft | T-007-056 | tests/pipeline/test_t_007_056_policy_export.py, web/src/engines/des/policy.parity.test.ts |
+| FR-007-45 | 007-haulage-dispatch | draft | T-007-062, T-007-063 | tests/property/test_t_007_063_network_builder.py, tests/unit/test_t_007_061_astar_hostile.py, tests/unit/test_t_007_062_route_energy.py, web/src/engines/haulage/energy.test.ts, web/src/engines/routing/astar.test.ts |
+| FR-007-46 | 007-haulage-dispatch | draft | T-007-092 | tests/pipeline/test_t_007_053_train_stage.py, tests/pipeline/test_t_007_092_fixture_propagation.py |
+| FR-007-47 | 007-haulage-dispatch | draft | T-007-093 | tests/pipeline/test_t_007_093_partial_seeds.py |
 | FR-008-01 | 008-data-pipeline | draft | T-008-010 | tests/contract/test_t_008_010_registry.py |
 | FR-008-02 | 008-data-pipeline | draft | T-008-010 | tests/contract/test_t_008_010_registry.py |
 | FR-008-03 | 008-data-pipeline | retired | - | - |
@@ -1159,14 +1159,14 @@
 | NFR-005-03 | 005-physics | draft | T-005-067 | - |
 | NFR-005-04 | 005-physics | draft | T-005-066 | - |
 | NFR-005-05 | 005-physics | draft | T-005-066 | - |
-| NFR-006-01 | 006-media-telemetry | draft | T-006-040 | - |
-| NFR-006-02 | 006-media-telemetry | draft | T-006-033 | - |
-| NFR-006-03 | 006-media-telemetry | draft | T-006-033 | - |
-| NFR-007-01 | 007-haulage-dispatch | draft | T-007-023 | - |
-| NFR-007-02 | 007-haulage-dispatch | draft | T-007-023 | - |
-| NFR-007-03 | 007-haulage-dispatch | draft | T-007-056 | - |
-| NFR-007-04 | 007-haulage-dispatch | draft | T-007-041, T-007-064 | - |
-| NFR-007-05 | 007-haulage-dispatch | draft | T-007-053 | - |
+| NFR-006-01 | 006-media-telemetry | draft | T-006-040 | tests/pipeline/test_t_006_040_media_acceptance.py |
+| NFR-006-02 | 006-media-telemetry | draft | T-006-033 | tests/unit/test_t_006_033_evidence_overhead.py |
+| NFR-006-03 | 006-media-telemetry | draft | T-006-033 | tests/unit/test_t_006_033_evidence_overhead.py |
+| NFR-007-01 | 007-haulage-dispatch | draft | T-007-023 | web/e2e/haulage-engines-budget.spec.ts |
+| NFR-007-02 | 007-haulage-dispatch | draft | T-007-023 | web/e2e/haulage-engines-budget.spec.ts |
+| NFR-007-03 | 007-haulage-dispatch | draft | T-007-056 | tests/pipeline/test_t_007_056_policy_export.py, web/src/engines/des/policy.parity.test.ts |
+| NFR-007-04 | 007-haulage-dispatch | draft | T-007-041, T-007-064 | web/src/engines/lp/simplex.test.ts, web/src/engines/routing/astar.test.ts |
+| NFR-007-05 | 007-haulage-dispatch | draft | T-007-053 | tests/pipeline/test_t_007_053_train_stage.py |
 | NFR-008-01 | 008-data-pipeline | draft | T-008-018 | tests/pipeline/test_t_008_018_mendeley_memory.py |
 | NFR-008-02 | 008-data-pipeline | draft | T-008-015 | tests/pipeline/test_t_008_015_retry_resume.py |
 | NFR-008-03 | 008-data-pipeline | draft | T-008-061 | tests/contract/test_t_008_061_samples_hygiene.py |
@@ -1306,35 +1306,35 @@
 | P-005-26 | 005-physics | draft | T-005-051 | - |
 | P-005-27 | 005-physics | draft | T-005-060 | - |
 | P-005-28 | 005-physics | draft | T-005-062, T-005-063 | - |
-| P-006-01 | 006-media-telemetry | draft | T-006-010 | - |
-| P-006-02 | 006-media-telemetry | draft | T-006-010 | - |
-| P-006-03 | 006-media-telemetry | draft | T-006-010 | - |
-| P-006-04 | 006-media-telemetry | draft | T-006-010 | - |
-| P-006-05 | 006-media-telemetry | draft | T-006-011 | - |
-| P-006-06 | 006-media-telemetry | draft | T-006-015 | - |
-| P-006-07 | 006-media-telemetry | draft | T-006-031 | - |
-| P-006-08 | 006-media-telemetry | draft | T-006-030 | - |
-| P-007-01 | 007-haulage-dispatch | draft | T-007-010 | - |
-| P-007-02 | 007-haulage-dispatch | draft | T-007-010 | - |
-| P-007-03 | 007-haulage-dispatch | draft | T-007-011 | - |
-| P-007-04 | 007-haulage-dispatch | draft | T-007-012 | - |
-| P-007-05 | 007-haulage-dispatch | draft | T-007-013 | - |
-| P-007-06 | 007-haulage-dispatch | draft | T-007-018, T-007-021 | - |
-| P-007-07 | 007-haulage-dispatch | draft | T-007-018, T-007-021 | - |
-| P-007-08 | 007-haulage-dispatch | draft | T-007-021, T-007-050 | - |
-| P-007-09 | 007-haulage-dispatch | draft | T-007-017 | - |
-| P-007-10 | 007-haulage-dispatch | draft | T-007-042 | - |
-| P-007-11 | 007-haulage-dispatch | draft | T-007-040, T-007-041 | - |
-| P-007-12 | 007-haulage-dispatch | draft | T-007-019 | - |
-| P-007-13 | 007-haulage-dispatch | draft | T-007-050 | - |
-| P-007-14 | 007-haulage-dispatch | draft | T-007-051 | - |
-| P-007-15 | 007-haulage-dispatch | draft | T-007-052 | - |
-| P-007-16 | 007-haulage-dispatch | draft | T-007-052 | - |
-| P-007-17 | 007-haulage-dispatch | draft | T-007-060 | - |
-| P-007-18 | 007-haulage-dispatch | draft | T-007-060 | - |
-| P-007-19 | 007-haulage-dispatch | draft | T-007-062 | - |
-| P-007-20 | 007-haulage-dispatch | draft | T-007-016 | - |
-| P-007-21 | 007-haulage-dispatch | draft | T-007-013 | - |
+| P-006-01 | 006-media-telemetry | draft | T-006-010 | tests/property/test_t_006_010_vmaf_search.py |
+| P-006-02 | 006-media-telemetry | draft | T-006-010 | tests/property/test_t_006_010_vmaf_search.py |
+| P-006-03 | 006-media-telemetry | draft | T-006-010 | tests/property/test_t_006_010_vmaf_search.py |
+| P-006-04 | 006-media-telemetry | draft | T-006-010 | tests/property/test_t_006_010_vmaf_search.py |
+| P-006-05 | 006-media-telemetry | draft | T-006-011 | tests/metamorphic/test_t_006_011_vmaf_aggregation.py |
+| P-006-06 | 006-media-telemetry | draft | T-006-015 | tests/property/test_t_006_015_frame_digest.py |
+| P-006-07 | 006-media-telemetry | draft | T-006-031 | tests/unit/test_t_006_031_throughput.py |
+| P-006-08 | 006-media-telemetry | draft | T-006-030 | tests/property/test_t_006_030_nvtx_ranges.py |
+| P-007-01 | 007-haulage-dispatch | draft | T-007-010 | tests/pipeline/test_t_007_010_philox.py, web/src/engines/random/philox.test.ts |
+| P-007-02 | 007-haulage-dispatch | draft | T-007-010 | tests/pipeline/test_t_007_010_philox.py, web/src/engines/random/philox.test.ts, web/src/engines/random/variates.test.ts |
+| P-007-03 | 007-haulage-dispatch | draft | T-007-011 | tests/pipeline/test_t_007_011_variates.py |
+| P-007-04 | 007-haulage-dispatch | draft | T-007-012 | web/src/engines/random/variates.test.ts |
+| P-007-05 | 007-haulage-dispatch | draft | T-007-013 | tests/pipeline/test_t_007_013_adapter_trace.py, web/src/engines/des/twin.parity.test.ts |
+| P-007-06 | 007-haulage-dispatch | draft | T-007-018, T-007-021 | tests/pipeline/test_t_007_018_des_metamorphic.py, web/src/engines/des/twin.metamorphic.test.ts |
+| P-007-07 | 007-haulage-dispatch | draft | T-007-018, T-007-021 | tests/pipeline/test_t_007_018_des_metamorphic.py, web/src/engines/des/twin.metamorphic.test.ts |
+| P-007-08 | 007-haulage-dispatch | draft | T-007-021, T-007-050 | tests/pipeline/test_t_007_050_env.py, web/src/engines/des/twin.metamorphic.test.ts |
+| P-007-09 | 007-haulage-dispatch | draft | T-007-017 | tests/pipeline/test_t_007_017_des_oracles.py |
+| P-007-10 | 007-haulage-dispatch | draft | T-007-042 | tests/pipeline/test_t_007_042_lp_dispatch.py |
+| P-007-11 | 007-haulage-dispatch | draft | T-007-040, T-007-041 | tests/pipeline/test_t_007_040_lp_highs.py, web/src/engines/lp/simplex.test.ts |
+| P-007-12 | 007-haulage-dispatch | draft | T-007-019 | tests/pipeline/test_t_007_019_simpy_oracle.py |
+| P-007-13 | 007-haulage-dispatch | draft | T-007-050 | tests/pipeline/test_t_007_050_env.py |
+| P-007-14 | 007-haulage-dispatch | draft | T-007-051 | tests/pipeline/test_t_007_051_gae.py |
+| P-007-15 | 007-haulage-dispatch | draft | T-007-052 | tests/pipeline/test_t_007_052_policies.py |
+| P-007-16 | 007-haulage-dispatch | draft | T-007-052 | tests/pipeline/test_t_007_052_policies.py |
+| P-007-17 | 007-haulage-dispatch | draft | T-007-060 | tests/property/test_t_007_060_astar.py |
+| P-007-18 | 007-haulage-dispatch | draft | T-007-060 | tests/property/test_t_007_060_astar.py |
+| P-007-19 | 007-haulage-dispatch | draft | T-007-062 | tests/unit/test_t_007_062_route_energy.py, web/src/engines/haulage/energy.test.ts |
+| P-007-20 | 007-haulage-dispatch | draft | T-007-016 | tests/pipeline/test_t_007_016_kpi.py |
+| P-007-21 | 007-haulage-dispatch | draft | T-007-013 | tests/pipeline/test_t_007_013_adapter_trace.py |
 | P-008-01 | 008-data-pipeline | draft | T-008-012 | tests/pipeline/test_t_008_012_download_verify.py |
 | P-008-02 | 008-data-pipeline | draft | T-008-015 | tests/pipeline/test_t_008_015_retry_resume.py |
 | P-008-03 | 008-data-pipeline | draft | T-008-020 | tests/pipeline/test_t_008_020_tabular_schemas.py |
@@ -1609,12 +1609,12 @@
 | SC-004-02 | 004-scene-pipeline | draft | T-004-019 | - |
 | SC-005-01 | 005-physics | draft | T-005-066 | - |
 | SC-005-02 | 005-physics | draft | T-005-066 | - |
-| SC-006-01 | 006-media-telemetry | draft | T-006-040 | - |
-| SC-006-02 | 006-media-telemetry | draft | T-006-040 | - |
-| SC-007-01 | 007-haulage-dispatch | draft | T-007-055 | - |
-| SC-007-02 | 007-haulage-dispatch | draft | T-007-055 | - |
-| SC-007-03 | 007-haulage-dispatch | draft | T-007-056 | - |
-| SC-007-04 | 007-haulage-dispatch | draft | T-007-054 | - |
+| SC-006-01 | 006-media-telemetry | draft | T-006-040 | tests/pipeline/test_t_006_040_media_acceptance.py |
+| SC-006-02 | 006-media-telemetry | draft | T-006-040 | tests/pipeline/test_t_006_040_media_acceptance.py |
+| SC-007-01 | 007-haulage-dispatch | draft | T-007-055 | tests/pipeline/test_t_007_055_dispatch_eval.py |
+| SC-007-02 | 007-haulage-dispatch | draft | T-007-055 | tests/pipeline/test_t_007_055_dispatch_eval.py |
+| SC-007-03 | 007-haulage-dispatch | draft | T-007-056 | tests/pipeline/test_t_007_056_policy_export.py |
+| SC-007-04 | 007-haulage-dispatch | draft | T-007-054 | tests/pipeline/test_t_007_054_env_fidelity.py |
 | SC-008-01 | 008-data-pipeline | draft | T-008-031 | tests/pipeline/test_t_008_031_mendeley_integrity.py |
 | SC-009-01 | 009-perception | draft | T-009-034 | - |
 | SC-009-02 | 009-perception | draft | T-009-034 | - |

@@ -126,7 +126,9 @@
         "T-018-032",
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_055_dispatch_eval.py"
+      ]
     },
     "FR-000-06": {
       "spec": "000-foundation",
@@ -173,6 +175,7 @@
         "T-020-033"
       ],
       "tests": [
+        "tests/contract/test_t_007_070_haulage_honesty.py",
         "web/src/routes/t_018_033_context_tab.test.tsx"
       ]
     },
@@ -5023,7 +5026,9 @@
       "tasks": [
         "T-006-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_006_016_nvenc_encode.py"
+      ]
     },
     "FR-006-02": {
       "spec": "006-media-telemetry",
@@ -5033,7 +5038,10 @@
       "tasks": [
         "T-006-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_006_011_vmaf_aggregation.py",
+        "tests/property/test_t_006_010_vmaf_search.py"
+      ]
     },
     "FR-006-03": {
       "spec": "006-media-telemetry",
@@ -5043,7 +5051,9 @@
       "tasks": [
         "T-006-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_006_010_vmaf_search.py"
+      ]
     },
     "FR-006-04": {
       "spec": "006-media-telemetry",
@@ -5053,7 +5063,9 @@
       "tasks": [
         "T-006-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_006_010_vmaf_search.py"
+      ]
     },
     "FR-006-05": {
       "spec": "006-media-telemetry",
@@ -5063,7 +5075,9 @@
       "tasks": [
         "T-006-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_012_output_verification.py"
+      ]
     },
     "FR-006-06": {
       "spec": "006-media-telemetry",
@@ -5073,7 +5087,9 @@
       "tasks": [
         "T-006-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_006_013_encoder_record.py"
+      ]
     },
     "FR-006-07": {
       "spec": "006-media-telemetry",
@@ -5083,7 +5099,9 @@
       "tasks": [
         "T-006-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_014_nvenc_lock.py"
+      ]
     },
     "FR-006-08": {
       "spec": "006-media-telemetry",
@@ -5101,7 +5119,9 @@
       "tasks": [
         "T-006-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_014_nvenc_lock.py"
+      ]
     },
     "FR-006-09": {
       "spec": "006-media-telemetry",
@@ -5111,7 +5131,9 @@
       "tasks": [
         "T-006-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_020_ffmpeg_gates.py"
+      ]
     },
     "FR-006-10": {
       "spec": "006-media-telemetry",
@@ -5121,7 +5143,9 @@
       "tasks": [
         "T-006-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_020_ffmpeg_gates.py"
+      ]
     },
     "FR-006-11": {
       "spec": "006-media-telemetry",
@@ -5131,7 +5155,9 @@
       "tasks": [
         "T-006-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_020_ffmpeg_gates.py"
+      ]
     },
     "FR-006-12": {
       "spec": "006-media-telemetry",
@@ -5141,7 +5167,9 @@
       "tasks": [
         "T-006-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_021_frames_hostile.py"
+      ]
     },
     "FR-006-13": {
       "spec": "006-media-telemetry",
@@ -5151,7 +5179,9 @@
       "tasks": [
         "T-006-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_021_frames_hostile.py"
+      ]
     },
     "FR-006-14": {
       "spec": "006-media-telemetry",
@@ -5161,7 +5191,9 @@
       "tasks": [
         "T-006-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_006_013_encoder_record.py"
+      ]
     },
     "FR-006-15": {
       "spec": "006-media-telemetry",
@@ -5171,7 +5203,9 @@
       "tasks": [
         "T-006-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_022_preview_encoder.py"
+      ]
     },
     "FR-006-16": {
       "spec": "006-media-telemetry",
@@ -5181,7 +5215,9 @@
       "tasks": [
         "T-006-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_006_016_nvenc_encode.py"
+      ]
     },
     "FR-006-17": {
       "spec": "006-media-telemetry",
@@ -5191,7 +5227,9 @@
       "tasks": [
         "T-006-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_006_030_nvtx_ranges.py"
+      ]
     },
     "FR-006-18": {
       "spec": "006-media-telemetry",
@@ -5201,7 +5239,9 @@
       "tasks": [
         "T-006-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_031_throughput.py"
+      ]
     },
     "FR-006-19": {
       "spec": "006-media-telemetry",
@@ -5211,7 +5251,9 @@
       "tasks": [
         "T-006-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_031_throughput.py"
+      ]
     },
     "FR-006-20": {
       "spec": "006-media-telemetry",
@@ -5221,7 +5263,9 @@
       "tasks": [
         "T-006-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_032_profile_outputs.py"
+      ]
     },
     "FR-006-21": {
       "spec": "006-media-telemetry",
@@ -5231,7 +5275,9 @@
       "tasks": [
         "T-006-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_032_profile_outputs.py"
+      ]
     },
     "FR-006-23": {
       "spec": "006-media-telemetry",
@@ -5241,7 +5287,9 @@
       "tasks": [
         "T-006-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_092_fixture_clip.py"
+      ]
     },
     "P-006-01": {
       "spec": "006-media-telemetry",
@@ -5251,7 +5299,9 @@
       "tasks": [
         "T-006-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_006_010_vmaf_search.py"
+      ]
     },
     "P-006-02": {
       "spec": "006-media-telemetry",
@@ -5261,7 +5311,9 @@
       "tasks": [
         "T-006-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_006_010_vmaf_search.py"
+      ]
     },
     "P-006-03": {
       "spec": "006-media-telemetry",
@@ -5271,7 +5323,9 @@
       "tasks": [
         "T-006-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_006_010_vmaf_search.py"
+      ]
     },
     "P-006-04": {
       "spec": "006-media-telemetry",
@@ -5281,7 +5335,9 @@
       "tasks": [
         "T-006-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_006_010_vmaf_search.py"
+      ]
     },
     "P-006-05": {
       "spec": "006-media-telemetry",
@@ -5291,7 +5347,9 @@
       "tasks": [
         "T-006-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_006_011_vmaf_aggregation.py"
+      ]
     },
     "P-006-06": {
       "spec": "006-media-telemetry",
@@ -5301,7 +5359,9 @@
       "tasks": [
         "T-006-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_006_015_frame_digest.py"
+      ]
     },
     "P-006-07": {
       "spec": "006-media-telemetry",
@@ -5311,7 +5371,9 @@
       "tasks": [
         "T-006-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_031_throughput.py"
+      ]
     },
     "P-006-08": {
       "spec": "006-media-telemetry",
@@ -5321,7 +5383,9 @@
       "tasks": [
         "T-006-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_006_030_nvtx_ranges.py"
+      ]
     },
     "NFR-006-01": {
       "spec": "006-media-telemetry",
@@ -5331,7 +5395,9 @@
       "tasks": [
         "T-006-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_006_040_media_acceptance.py"
+      ]
     },
     "NFR-006-02": {
       "spec": "006-media-telemetry",
@@ -5341,7 +5407,9 @@
       "tasks": [
         "T-006-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_033_evidence_overhead.py"
+      ]
     },
     "NFR-006-03": {
       "spec": "006-media-telemetry",
@@ -5351,7 +5419,9 @@
       "tasks": [
         "T-006-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_006_033_evidence_overhead.py"
+      ]
     },
     "SC-006-01": {
       "spec": "006-media-telemetry",
@@ -5361,7 +5431,9 @@
       "tasks": [
         "T-006-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_006_040_media_acceptance.py"
+      ]
     },
     "SC-006-02": {
       "spec": "006-media-telemetry",
@@ -5371,7 +5443,9 @@
       "tasks": [
         "T-006-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_006_040_media_acceptance.py"
+      ]
     },
     "DC-006-01": {
       "spec": "006-media-telemetry",
@@ -5495,7 +5569,9 @@
       "tasks": [
         "T-007-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_013_adapter_trace.py"
+      ]
     },
     "FR-007-02": {
       "spec": "007-haulage-dispatch",
@@ -5505,7 +5581,9 @@
       "tasks": [
         "T-007-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_003_engine_pin.py"
+      ]
     },
     "FR-007-03": {
       "spec": "007-haulage-dispatch",
@@ -5515,7 +5593,10 @@
       "tasks": [
         "T-007-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_014_scenario_hostile.py",
+        "web/src/engines/des/scenario.hostile.test.ts"
+      ]
     },
     "FR-007-04": {
       "spec": "007-haulage-dispatch",
@@ -5525,7 +5606,10 @@
       "tasks": [
         "T-007-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_014_scenario_hostile.py",
+        "web/src/engines/des/scenario.hostile.test.ts"
+      ]
     },
     "FR-007-05": {
       "spec": "007-haulage-dispatch",
@@ -5536,7 +5620,10 @@
         "T-007-010",
         "T-007-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_010_philox.py",
+        "web/src/engines/random/philox.test.ts"
+      ]
     },
     "FR-007-06": {
       "spec": "007-haulage-dispatch",
@@ -5547,7 +5634,13 @@
         "T-007-011",
         "T-007-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_010_philox.py",
+        "tests/pipeline/test_t_007_011_variates.py",
+        "web/src/engines/random/no-transcendental.test.ts",
+        "web/src/engines/random/philox.test.ts",
+        "web/src/engines/random/variates.test.ts"
+      ]
     },
     "FR-007-07": {
       "spec": "007-haulage-dispatch",
@@ -5557,7 +5650,10 @@
       "tasks": [
         "T-007-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_011_variates.py",
+        "web/src/engines/random/variates.test.ts"
+      ]
     },
     "FR-007-08": {
       "spec": "007-haulage-dispatch",
@@ -5567,7 +5663,9 @@
       "tasks": [
         "T-007-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_016_kpi.py"
+      ]
     },
     "FR-007-42": {
       "spec": "007-haulage-dispatch",
@@ -5577,7 +5675,9 @@
       "tasks": [
         "T-007-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_016_kpi.py"
+      ]
     },
     "FR-007-09": {
       "spec": "007-haulage-dispatch",
@@ -5587,7 +5687,9 @@
       "tasks": [
         "T-007-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_013_adapter_trace.py"
+      ]
     },
     "FR-007-10": {
       "spec": "007-haulage-dispatch",
@@ -5597,7 +5699,9 @@
       "tasks": [
         "T-007-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/des/twin.parity.test.ts"
+      ]
     },
     "FR-007-11": {
       "spec": "007-haulage-dispatch",
@@ -5607,7 +5711,10 @@
       "tasks": [
         "T-007-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_020_golden_coverage.py",
+        "web/src/engines/des/twin.parity.test.ts"
+      ]
     },
     "FR-007-12": {
       "spec": "007-haulage-dispatch",
@@ -5617,7 +5724,10 @@
       "tasks": [
         "T-007-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_022_adapter_limits.py",
+        "web/src/engines/des/twin.hostile.test.ts"
+      ]
     },
     "FR-007-13": {
       "spec": "007-haulage-dispatch",
@@ -5627,7 +5737,10 @@
       "tasks": [
         "T-007-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_022_adapter_limits.py",
+        "web/src/engines/des/twin.hostile.test.ts"
+      ]
     },
     "FR-007-14": {
       "spec": "007-haulage-dispatch",
@@ -5637,7 +5750,9 @@
       "tasks": [
         "T-007-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_015_dispatchers.py"
+      ]
     },
     "FR-007-15": {
       "spec": "007-haulage-dispatch",
@@ -5647,7 +5762,10 @@
       "tasks": [
         "T-007-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/parity/test_t_007_030_m1_goldens.py",
+        "web/src/engines/haulage/queueing.test.ts"
+      ]
     },
     "FR-007-16": {
       "spec": "007-haulage-dispatch",
@@ -5657,7 +5775,10 @@
       "tasks": [
         "T-007-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/parity/test_t_007_030_m1_goldens.py",
+        "web/src/engines/haulage/queueing.test.ts"
+      ]
     },
     "FR-007-17": {
       "spec": "007-haulage-dispatch",
@@ -5667,7 +5788,9 @@
       "tasks": [
         "T-007-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_017_des_oracles.py"
+      ]
     },
     "FR-007-18": {
       "spec": "007-haulage-dispatch",
@@ -5677,7 +5800,9 @@
       "tasks": [
         "T-007-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_017_des_oracles.py"
+      ]
     },
     "FR-007-19": {
       "spec": "007-haulage-dispatch",
@@ -5687,7 +5812,10 @@
       "tasks": [
         "T-007-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_040_lp_highs.py",
+        "web/src/engines/lp/simplex.test.ts"
+      ]
     },
     "FR-007-20": {
       "spec": "007-haulage-dispatch",
@@ -5697,7 +5825,9 @@
       "tasks": [
         "T-007-041"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/lp/simplex.test.ts"
+      ]
     },
     "FR-007-21": {
       "spec": "007-haulage-dispatch",
@@ -5708,7 +5838,11 @@
         "T-007-040",
         "T-007-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_040_lp_highs.py",
+        "tests/pipeline/test_t_007_042_lp_dispatch.py",
+        "web/src/engines/lp/simplex.test.ts"
+      ]
     },
     "FR-007-22": {
       "spec": "007-haulage-dispatch",
@@ -5718,7 +5852,9 @@
       "tasks": [
         "T-007-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_042_lp_dispatch.py"
+      ]
     },
     "FR-007-23": {
       "spec": "007-haulage-dispatch",
@@ -5728,7 +5864,9 @@
       "tasks": [
         "T-007-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_050_env.py"
+      ]
     },
     "FR-007-43": {
       "spec": "007-haulage-dispatch",
@@ -5738,7 +5876,9 @@
       "tasks": [
         "T-007-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_050_env.py"
+      ]
     },
     "FR-007-24": {
       "spec": "007-haulage-dispatch",
@@ -5749,7 +5889,10 @@
         "T-007-050",
         "T-007-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_050_env.py",
+        "tests/pipeline/test_t_007_052_policies.py"
+      ]
     },
     "FR-007-25": {
       "spec": "007-haulage-dispatch",
@@ -5759,7 +5902,9 @@
       "tasks": [
         "T-007-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_051_gae.py"
+      ]
     },
     "FR-007-26": {
       "spec": "007-haulage-dispatch",
@@ -5769,7 +5914,10 @@
       "tasks": [
         "T-007-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_007_053_train_gpu.py",
+        "tests/pipeline/test_t_007_053_train_stage.py"
+      ]
     },
     "FR-007-27": {
       "spec": "007-haulage-dispatch",
@@ -5779,7 +5927,9 @@
       "tasks": [
         "T-007-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_053_train_stage.py"
+      ]
     },
     "FR-007-28": {
       "spec": "007-haulage-dispatch",
@@ -5790,7 +5940,10 @@
         "T-007-053",
         "T-007-055"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_053_train_stage.py",
+        "tests/pipeline/test_t_007_055_dispatch_eval.py"
+      ]
     },
     "FR-007-29": {
       "spec": "007-haulage-dispatch",
@@ -5800,7 +5953,9 @@
       "tasks": [
         "T-007-055"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_055_dispatch_eval.py"
+      ]
     },
     "FR-007-30": {
       "spec": "007-haulage-dispatch",
@@ -5810,7 +5965,9 @@
       "tasks": [
         "T-007-055"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_055_dispatch_eval.py"
+      ]
     },
     "FR-007-31": {
       "spec": "007-haulage-dispatch",
@@ -5820,7 +5977,10 @@
       "tasks": [
         "T-007-056"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_056_policy_export.py",
+        "web/src/engines/des/policy.parity.test.ts"
+      ]
     },
     "FR-007-32": {
       "spec": "007-haulage-dispatch",
@@ -5830,7 +5990,9 @@
       "tasks": [
         "T-007-057"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/des/policy.parity.test.ts"
+      ]
     },
     "FR-007-33": {
       "spec": "007-haulage-dispatch",
@@ -5841,7 +6003,11 @@
         "T-007-042",
         "T-007-056"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_042_lp_dispatch.py",
+        "tests/pipeline/test_t_007_056_policy_export.py",
+        "web/src/engines/des/policy.parity.test.ts"
+      ]
     },
     "FR-007-44": {
       "spec": "007-haulage-dispatch",
@@ -5851,7 +6017,10 @@
       "tasks": [
         "T-007-056"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_056_policy_export.py",
+        "web/src/engines/des/policy.parity.test.ts"
+      ]
     },
     "FR-007-34": {
       "spec": "007-haulage-dispatch",
@@ -5861,7 +6030,10 @@
       "tasks": [
         "T-007-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_007_062_route_energy.py",
+        "web/src/engines/haulage/energy.test.ts"
+      ]
     },
     "FR-007-45": {
       "spec": "007-haulage-dispatch",
@@ -5872,7 +6044,13 @@
         "T-007-062",
         "T-007-063"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_007_063_network_builder.py",
+        "tests/unit/test_t_007_061_astar_hostile.py",
+        "tests/unit/test_t_007_062_route_energy.py",
+        "web/src/engines/haulage/energy.test.ts",
+        "web/src/engines/routing/astar.test.ts"
+      ]
     },
     "FR-007-35": {
       "spec": "007-haulage-dispatch",
@@ -5882,7 +6060,10 @@
       "tasks": [
         "T-007-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_007_060_astar.py",
+        "web/src/engines/routing/astar.test.ts"
+      ]
     },
     "FR-007-36": {
       "spec": "007-haulage-dispatch",
@@ -5892,7 +6073,10 @@
       "tasks": [
         "T-007-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_007_061_astar_hostile.py",
+        "web/src/engines/routing/astar.test.ts"
+      ]
     },
     "FR-007-37": {
       "spec": "007-haulage-dispatch",
@@ -5902,7 +6086,11 @@
       "tasks": [
         "T-007-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_007_060_astar.py",
+        "tests/unit/test_t_007_061_astar_hostile.py",
+        "web/src/engines/routing/astar.test.ts"
+      ]
     },
     "FR-007-38": {
       "spec": "007-haulage-dispatch",
@@ -5912,7 +6100,9 @@
       "tasks": [
         "T-007-063"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_007_063_network_builder.py"
+      ]
     },
     "FR-007-39": {
       "spec": "007-haulage-dispatch",
@@ -5922,7 +6112,10 @@
       "tasks": [
         "T-007-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/haulage/energy.test.ts",
+        "web/src/engines/routing/astar.test.ts"
+      ]
     },
     "FR-007-40": {
       "spec": "007-haulage-dispatch",
@@ -5932,7 +6125,9 @@
       "tasks": [
         "T-007-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_007_062_route_energy.py"
+      ]
     },
     "FR-007-41": {
       "spec": "007-haulage-dispatch",
@@ -5942,7 +6137,9 @@
       "tasks": [
         "T-007-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_007_070_haulage_honesty.py"
+      ]
     },
     "FR-007-46": {
       "spec": "007-haulage-dispatch",
@@ -5952,7 +6149,10 @@
       "tasks": [
         "T-007-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_053_train_stage.py",
+        "tests/pipeline/test_t_007_092_fixture_propagation.py"
+      ]
     },
     "FR-007-47": {
       "spec": "007-haulage-dispatch",
@@ -5962,7 +6162,9 @@
       "tasks": [
         "T-007-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_093_partial_seeds.py"
+      ]
     },
     "P-007-01": {
       "spec": "007-haulage-dispatch",
@@ -5972,7 +6174,10 @@
       "tasks": [
         "T-007-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_010_philox.py",
+        "web/src/engines/random/philox.test.ts"
+      ]
     },
     "P-007-02": {
       "spec": "007-haulage-dispatch",
@@ -5982,7 +6187,11 @@
       "tasks": [
         "T-007-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_010_philox.py",
+        "web/src/engines/random/philox.test.ts",
+        "web/src/engines/random/variates.test.ts"
+      ]
     },
     "P-007-03": {
       "spec": "007-haulage-dispatch",
@@ -5992,7 +6201,9 @@
       "tasks": [
         "T-007-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_011_variates.py"
+      ]
     },
     "P-007-04": {
       "spec": "007-haulage-dispatch",
@@ -6002,7 +6213,9 @@
       "tasks": [
         "T-007-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/variates.test.ts"
+      ]
     },
     "P-007-05": {
       "spec": "007-haulage-dispatch",
@@ -6012,7 +6225,10 @@
       "tasks": [
         "T-007-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_013_adapter_trace.py",
+        "web/src/engines/des/twin.parity.test.ts"
+      ]
     },
     "P-007-06": {
       "spec": "007-haulage-dispatch",
@@ -6023,7 +6239,10 @@
         "T-007-018",
         "T-007-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_018_des_metamorphic.py",
+        "web/src/engines/des/twin.metamorphic.test.ts"
+      ]
     },
     "P-007-07": {
       "spec": "007-haulage-dispatch",
@@ -6034,7 +6253,10 @@
         "T-007-018",
         "T-007-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_018_des_metamorphic.py",
+        "web/src/engines/des/twin.metamorphic.test.ts"
+      ]
     },
     "P-007-08": {
       "spec": "007-haulage-dispatch",
@@ -6045,7 +6267,10 @@
         "T-007-021",
         "T-007-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_050_env.py",
+        "web/src/engines/des/twin.metamorphic.test.ts"
+      ]
     },
     "P-007-09": {
       "spec": "007-haulage-dispatch",
@@ -6055,7 +6280,9 @@
       "tasks": [
         "T-007-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_017_des_oracles.py"
+      ]
     },
     "P-007-10": {
       "spec": "007-haulage-dispatch",
@@ -6065,7 +6292,9 @@
       "tasks": [
         "T-007-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_042_lp_dispatch.py"
+      ]
     },
     "P-007-11": {
       "spec": "007-haulage-dispatch",
@@ -6076,7 +6305,10 @@
         "T-007-040",
         "T-007-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_040_lp_highs.py",
+        "web/src/engines/lp/simplex.test.ts"
+      ]
     },
     "P-007-12": {
       "spec": "007-haulage-dispatch",
@@ -6086,7 +6318,9 @@
       "tasks": [
         "T-007-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_019_simpy_oracle.py"
+      ]
     },
     "P-007-13": {
       "spec": "007-haulage-dispatch",
@@ -6096,7 +6330,9 @@
       "tasks": [
         "T-007-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_050_env.py"
+      ]
     },
     "P-007-14": {
       "spec": "007-haulage-dispatch",
@@ -6106,7 +6342,9 @@
       "tasks": [
         "T-007-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_051_gae.py"
+      ]
     },
     "P-007-15": {
       "spec": "007-haulage-dispatch",
@@ -6116,7 +6354,9 @@
       "tasks": [
         "T-007-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_052_policies.py"
+      ]
     },
     "P-007-16": {
       "spec": "007-haulage-dispatch",
@@ -6126,7 +6366,9 @@
       "tasks": [
         "T-007-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_052_policies.py"
+      ]
     },
     "P-007-17": {
       "spec": "007-haulage-dispatch",
@@ -6136,7 +6378,9 @@
       "tasks": [
         "T-007-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_007_060_astar.py"
+      ]
     },
     "P-007-18": {
       "spec": "007-haulage-dispatch",
@@ -6146,7 +6390,9 @@
       "tasks": [
         "T-007-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_007_060_astar.py"
+      ]
     },
     "P-007-19": {
       "spec": "007-haulage-dispatch",
@@ -6156,7 +6402,10 @@
       "tasks": [
         "T-007-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_007_062_route_energy.py",
+        "web/src/engines/haulage/energy.test.ts"
+      ]
     },
     "P-007-20": {
       "spec": "007-haulage-dispatch",
@@ -6166,7 +6415,9 @@
       "tasks": [
         "T-007-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_016_kpi.py"
+      ]
     },
     "P-007-21": {
       "spec": "007-haulage-dispatch",
@@ -6176,7 +6427,9 @@
       "tasks": [
         "T-007-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_013_adapter_trace.py"
+      ]
     },
     "NFR-007-01": {
       "spec": "007-haulage-dispatch",
@@ -6186,7 +6439,9 @@
       "tasks": [
         "T-007-023"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/haulage-engines-budget.spec.ts"
+      ]
     },
     "NFR-007-02": {
       "spec": "007-haulage-dispatch",
@@ -6196,7 +6451,9 @@
       "tasks": [
         "T-007-023"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/haulage-engines-budget.spec.ts"
+      ]
     },
     "NFR-007-03": {
       "spec": "007-haulage-dispatch",
@@ -6206,7 +6463,10 @@
       "tasks": [
         "T-007-056"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_056_policy_export.py",
+        "web/src/engines/des/policy.parity.test.ts"
+      ]
     },
     "NFR-007-04": {
       "spec": "007-haulage-dispatch",
@@ -6217,7 +6477,10 @@
         "T-007-041",
         "T-007-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/lp/simplex.test.ts",
+        "web/src/engines/routing/astar.test.ts"
+      ]
     },
     "NFR-007-05": {
       "spec": "007-haulage-dispatch",
@@ -6227,7 +6490,9 @@
       "tasks": [
         "T-007-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_053_train_stage.py"
+      ]
     },
     "SC-007-01": {
       "spec": "007-haulage-dispatch",
@@ -6237,7 +6502,9 @@
       "tasks": [
         "T-007-055"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_055_dispatch_eval.py"
+      ]
     },
     "SC-007-02": {
       "spec": "007-haulage-dispatch",
@@ -6247,7 +6514,9 @@
       "tasks": [
         "T-007-055"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_055_dispatch_eval.py"
+      ]
     },
     "SC-007-03": {
       "spec": "007-haulage-dispatch",
@@ -6257,7 +6526,9 @@
       "tasks": [
         "T-007-056"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_056_policy_export.py"
+      ]
     },
     "SC-007-04": {
       "spec": "007-haulage-dispatch",
@@ -6267,7 +6538,9 @@
       "tasks": [
         "T-007-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_007_054_env_fidelity.py"
+      ]
     },
     "DC-007-01": {
       "spec": "007-haulage-dispatch",
