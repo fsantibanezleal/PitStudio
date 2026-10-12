@@ -15,8 +15,9 @@ counts are known by construction, plan.md test strategy "counting on a synthetic
 `jsonschema`).
 
 Expected API of the implementation (package `pitstudio`, root environment):
-- `pitstudio.reason.queries.build_queries(frames, *, root, seed, per_type=1080, truth_fn=None) -> QueryBuild` (see
-  test_t_015_033_frame_state_hostile.py for the shared contract); `truth_fn(frame, qtype) -> label | None` replaces the
+- `pitstudio.reason.queries.build_queries(frames, *, root, seed, per_type=1080, subsets=True, truth_fn=None) -> QueryBuild` (see
+  test_t_015_033_frame_state_hostile.py for the shared contract; `subsets=False` leaves the subset flags False and is used with a small
+  `per_type`); `truth_fn(frame, qtype) -> label | None` replaces the
   module's own ground truth (None = not askable); frames whose `case` is not "B2" are never drawn.
 - `QueryBuild.queries`: list of dicts with the DC-015-02 fields (`query_id`, `frame_id`, `frame_state_sha256` = SHA-256 of
   the canonical JSON of the frame state, `type`, `condition`, `location`, `truth`, `gate_subset`, `reasoning_subset`);
@@ -76,13 +77,16 @@ def _root(tmp_path_factory: pytest.TempPathFactory) -> Path:
     kit.write_frame_files(r)
     _STATE["root"] = r
     _STATE["builds"] = {}
+    _STATE["frames"] = (
+        _frames()
+    )  # built once: the prim ids of the kit objects come from a counter, so a second build would differ
     return r
 
 
 def _build(seed: int):
     if seed not in _STATE["builds"]:
         _STATE["builds"][seed] = build_queries(
-            _frames(), root=_STATE["root"], seed=seed, per_type=PER_TYPE, truth_fn=truth_fn
+            _STATE["frames"], root=_STATE["root"], seed=seed, per_type=PER_TYPE, truth_fn=truth_fn
         )
     return _STATE["builds"][seed]
 
@@ -132,7 +136,7 @@ def test_at_most_one_query_per_frame_and_type_and_ids_are_unique() -> None:
 
 @pytest.mark.req("FR-015-16")
 def test_every_query_carries_the_exact_truth_and_the_frame_attributes_and_never_a_not_askable_frame() -> None:
-    frames = {f["frame_id"]: f for f in _frames()}
+    frames = {f["frame_id"]: f for f in _STATE["frames"]}
     for q in _build(7).queries:
         f = frames[q["frame_id"]]
         assert truth_fn(f, q["type"]) == q["truth"]  # not None: an unaskable frame is never used
@@ -142,7 +146,10 @@ def test_every_query_carries_the_exact_truth_and_the_frame_attributes_and_never_
 
 @pytest.mark.req("FR-015-16")
 def test_the_same_seed_gives_the_same_query_set_and_another_seed_a_different_one() -> None:
-    a, b, c = _build(7), _build(7), _build(8)
+    a, c = _build(7), _build(8)
+    b = build_queries(
+        list(_STATE["frames"]), root=_STATE["root"], seed=7, per_type=PER_TYPE, truth_fn=truth_fn
+    )  # a second, independent run
     assert a.to_document() == b.to_document()
     assert a.to_document()["seed"] == 7
     assert {q["query_id"] for q in a.queries} != {q["query_id"] for q in c.queries} or [
@@ -164,7 +171,7 @@ def test_only_frames_of_the_b2_scenes_are_drawn() -> None:
     for i, f in enumerate(other):
         f["case"] = "A1"
         f["frame_id"] = f"a1-pit-s0001-f{i + 90000:05d}"
-    res = build_queries(frames + other, root=_STATE["root"], seed=3, per_type=4, truth_fn=truth_fn)
+    res = build_queries([*frames, *other], root=_STATE["root"], seed=3, per_type=4, subsets=False, truth_fn=truth_fn)
     assert res.queries
     assert all(q["frame_id"].startswith("b2-") for q in res.queries)
 
