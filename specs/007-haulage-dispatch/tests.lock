@@ -12,3 +12,4 @@ ec20c0db2eff108b8eaa2b84e3ed3b5eb196eeef473e857bfa705b6f390b4325  tests/pipeline
 ded8758bae4dd39f9464b1036deca6f01c770f1a2948097040dc6e432c2c3dde  web/src/engines/random/variates.test.ts
 3626e01de02c21388ef9fa987e001491aaa06b37fad1815dd5c16ce980c255d4  web/src/engines/random/no-transcendental.test.ts
 197c20c222c9099d1a2cd71f1103fe8bb12069cb344f75c2b21c00b0cb7c31d4  tests/fixtures/haulage/philox_vectors.json
+27b7cedfb84b538805145e692453af815e29e3bc4435ac6896c76ead72cbe054  web/src/engines/des/scenario.hostile.test.ts
