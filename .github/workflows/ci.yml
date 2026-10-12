@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0 # full history for tools/check_tdd.py
           persist-credentials: false
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-      - run: uv sync --all-groups --locked
+      - run: uv sync --all-groups --extra runner --extra api --locked
       - run: uv run ruff check . && uv run ruff format --check .
       - run: uv run mypy src
       - run: uv run pytest -m "not gpu" --cov=src --cov-branch
@@ -34,6 +34,35 @@ jobs:
       - name: Pipeline smoke (CPU, samples only)
         working-directory: pipeline
         run: uv sync --extra cpu --all-groups --locked && uv run pytest -m "not gpu and not slow"
+
+  runner-plan:
+    # FR-002-05, SC-002-01: every committed recipe plans for Linux against the fake GPU, with no leak (no GPU anywhere).
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - run: uv sync --all-groups --extra runner --extra api --locked
+      - run: uv run python tools/plan_all_recipes.py --profile linux-gpu
+
+  runner-container:
+    # FR-002-07: the runner and contract tests that need no GPU, inside the pinned open-source image.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - run: docker build -f studio/containers/Dockerfile.open -t pitstudio-runner .
+      - run: docker run --rm pitstudio-runner pytest -m "not gpu" tests/unit tests/contract tests/property -p no:cacheprovider
+
+  runner-windows:
+    # FR-002-27, FR-002-29: job objects, keep-awake and lock release are Windows behaviour; the reference machine is Windows.
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - run: uv sync --all-groups --extra runner --extra api --locked
+      - run: uv run pytest -m "not gpu" tests/unit tests/contract tests/property -k "t_002 or t_003" -p no:cacheprovider
 
   web:
     runs-on: ubuntu-24.04
@@ -52,6 +81,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run check # biome ci + typegen + tsc + vitest
       - run: pnpm run build # includes the Pages layout step and the initial-JS budget
+      - run: python3 ../tools/check_pages_artifact.py # FR-003-24: no console code, marker or Python file in the public artifact
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm run test:e2e # served like Pages at BASE_PATH: deep links, 404, gate, theme, language, ⓘ, axe
       - if: failure()
