@@ -5,9 +5,10 @@ Output: one line per finding, "<check>: <subject>: <pointer or size>".
 Exit:   0 clean, 1 findings, 2 usage error or unreadable input (the message names the file). Never a traceback.
 
 Checks:
-
-  studio-index-too-large   `web/public/studio/index.json` has more than 1,000,000 bytes (FR-019-47, NFR-019-03); a missing
-                           file is not an error (nothing was generated yet)
+  toolmap-self-edge        an edge of the tool map from a tool to itself (FR-019-46); the subject is the tool, the
+                           pointer is `/edges/<index>` into studio/toolmap.yaml
+  studio-index-too-large   `web/public/studio/index.json` has more than 1,000,000 bytes (FR-019-47, NFR-019-03);
+                           a missing file is not an error (nothing was generated yet)
 """
 
 from __future__ import annotations
