@@ -3406,7 +3406,9 @@
       "tasks": [
         "T-004-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_010_terrain_crs_units.py"
+      ]
     },
     "FR-004-02": {
       "spec": "004-scene-pipeline",
@@ -3416,7 +3418,9 @@
       "tasks": [
         "T-004-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_011_site_frame.py"
+      ]
     },
     "FR-004-03": {
       "spec": "004-scene-pipeline",
@@ -3426,7 +3430,9 @@
       "tasks": [
         "T-004-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_010_terrain_crs_units.py"
+      ]
     },
     "FR-004-04": {
       "spec": "004-scene-pipeline",
@@ -3436,7 +3442,9 @@
       "tasks": [
         "T-004-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_012_ground_grid.py"
+      ]
     },
     "FR-004-05": {
       "spec": "004-scene-pipeline",
@@ -3446,7 +3454,9 @@
       "tasks": [
         "T-004-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_013_hole_fill.py"
+      ]
     },
     "FR-004-06": {
       "spec": "004-scene-pipeline",
@@ -3456,7 +3466,9 @@
       "tasks": [
         "T-004-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_014_rtin.py"
+      ]
     },
     "FR-004-07": {
       "spec": "004-scene-pipeline",
@@ -3466,7 +3478,9 @@
       "tasks": [
         "T-004-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_015_terrain_tiles.py"
+      ]
     },
     "FR-004-08": {
       "spec": "004-scene-pipeline",
@@ -3476,7 +3490,9 @@
       "tasks": [
         "T-004-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_016_terrain_usd.py"
+      ]
     },
     "FR-004-09": {
       "spec": "004-scene-pipeline",
@@ -3486,7 +3502,9 @@
       "tasks": [
         "T-004-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_018_optional_sources.py"
+      ]
     },
     "FR-004-10": {
       "spec": "004-scene-pipeline",
@@ -3496,7 +3514,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-11": {
       "spec": "004-scene-pipeline",
@@ -3506,7 +3526,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-12": {
       "spec": "004-scene-pipeline",
@@ -3516,7 +3538,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-13": {
       "spec": "004-scene-pipeline",
@@ -3526,7 +3550,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-14": {
       "spec": "004-scene-pipeline",
@@ -3536,7 +3562,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-15": {
       "spec": "004-scene-pipeline",
@@ -3546,7 +3574,9 @@
       "tasks": [
         "T-004-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_019_site_name.py"
+      ]
     },
     "FR-004-16": {
       "spec": "004-scene-pipeline",
@@ -3556,7 +3586,9 @@
       "tasks": [
         "T-004-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_020_benches.py"
+      ]
     },
     "FR-004-17": {
       "spec": "004-scene-pipeline",
@@ -3566,7 +3598,9 @@
       "tasks": [
         "T-004-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_021_ramp.py"
+      ]
     },
     "FR-004-18": {
       "spec": "004-scene-pipeline",
@@ -3576,7 +3610,9 @@
       "tasks": [
         "T-004-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_022_windrows.py"
+      ]
     },
     "FR-004-19": {
       "spec": "004-scene-pipeline",
@@ -3586,7 +3622,9 @@
       "tasks": [
         "T-004-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_023_cut_fill.py"
+      ]
     },
     "FR-004-20": {
       "spec": "004-scene-pipeline",
@@ -3596,7 +3634,9 @@
       "tasks": [
         "T-004-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_024_design_provenance.py"
+      ]
     },
     "FR-004-21": {
       "spec": "004-scene-pipeline",
@@ -3606,7 +3646,9 @@
       "tasks": [
         "T-004-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_025_road_network.py"
+      ]
     },
     "FR-004-22": {
       "spec": "004-scene-pipeline",
@@ -3616,7 +3658,9 @@
       "tasks": [
         "T-004-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_026_design_hostile.py"
+      ]
     },
     "FR-004-23": {
       "spec": "004-scene-pipeline",
@@ -3626,7 +3670,9 @@
       "tasks": [
         "T-004-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_026_design_hostile.py"
+      ]
     },
     "FR-004-24": {
       "spec": "004-scene-pipeline",
@@ -3636,7 +3682,9 @@
       "tasks": [
         "T-004-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_030_assets_physics.py"
+      ]
     },
     "FR-004-25": {
       "spec": "004-scene-pipeline",
@@ -3646,7 +3694,9 @@
       "tasks": [
         "T-004-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_031_labels.py"
+      ]
     },
     "FR-004-26": {
       "spec": "004-scene-pipeline",
@@ -3656,7 +3706,9 @@
       "tasks": [
         "T-004-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_032_materials_licence.py"
+      ]
     },
     "FR-004-27": {
       "spec": "004-scene-pipeline",
@@ -3666,7 +3718,9 @@
       "tasks": [
         "T-004-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_033_assets_hostile.py"
+      ]
     },
     "FR-004-28": {
       "spec": "004-scene-pipeline",
@@ -3676,7 +3730,9 @@
       "tasks": [
         "T-004-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_034_people_route.py"
+      ]
     },
     "FR-004-29": {
       "spec": "004-scene-pipeline",
@@ -3686,7 +3742,9 @@
       "tasks": [
         "T-004-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_040_compose.py"
+      ]
     },
     "FR-004-30": {
       "spec": "004-scene-pipeline",
@@ -3696,7 +3754,9 @@
       "tasks": [
         "T-004-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_040_compose.py"
+      ]
     },
     "FR-004-31": {
       "spec": "004-scene-pipeline",
@@ -3706,7 +3766,9 @@
       "tasks": [
         "T-004-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_041_scene_digest.py"
+      ]
     },
     "FR-004-32": {
       "spec": "004-scene-pipeline",
@@ -3716,7 +3778,9 @@
       "tasks": [
         "T-004-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_042_compose_hostile.py"
+      ]
     },
     "FR-004-33": {
       "spec": "004-scene-pipeline",
@@ -3726,7 +3790,9 @@
       "tasks": [
         "T-004-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_042_compose_hostile.py"
+      ]
     },
     "FR-004-34": {
       "spec": "004-scene-pipeline",
@@ -3736,7 +3802,9 @@
       "tasks": [
         "T-004-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_050_validators.py"
+      ]
     },
     "FR-004-35": {
       "spec": "004-scene-pipeline",
@@ -3746,7 +3814,9 @@
       "tasks": [
         "T-004-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_051_invariants.py"
+      ]
     },
     "FR-004-36": {
       "spec": "004-scene-pipeline",
@@ -3756,7 +3826,9 @@
       "tasks": [
         "T-004-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_052_build_twice.py"
+      ]
     },
     "FR-004-37": {
       "spec": "004-scene-pipeline",
@@ -3766,7 +3838,9 @@
       "tasks": [
         "T-004-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_050_validators.py"
+      ]
     },
     "FR-004-38": {
       "spec": "004-scene-pipeline",
@@ -3776,7 +3850,9 @@
       "tasks": [
         "T-004-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_050_validators.py"
+      ]
     },
     "FR-004-39": {
       "spec": "004-scene-pipeline",
@@ -3786,7 +3862,9 @@
       "tasks": [
         "T-004-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_052_build_twice.py"
+      ]
     },
     "FR-004-40": {
       "spec": "004-scene-pipeline",
@@ -3797,7 +3875,8 @@
         "T-004-001"
       ],
       "tests": [
-        "tests/contract/test_t_004_001_scene_schemas.py"
+        "tests/contract/test_t_004_001_scene_schemas.py",
+        "tests/unit/test_t_004_043_scene_manifest_privacy.py"
       ]
     },
     "FR-004-41": {
@@ -3808,7 +3887,9 @@
       "tasks": [
         "T-004-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_043_scene_manifest_privacy.py"
+      ]
     },
     "FR-004-42": {
       "spec": "004-scene-pipeline",
@@ -3818,7 +3899,9 @@
       "tasks": [
         "T-004-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_092_terrain_two_laz.py"
+      ]
     },
     "FR-004-43": {
       "spec": "004-scene-pipeline",
@@ -3828,7 +3911,9 @@
       "tasks": [
         "T-004-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_093_scene_device_name_path.py"
+      ]
     },
     "FR-004-44": {
       "spec": "004-scene-pipeline",
@@ -3838,7 +3923,9 @@
       "tasks": [
         "T-004-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_094_fixture_propagation.py"
+      ]
     },
     "P-004-01": {
       "spec": "004-scene-pipeline",
@@ -3848,7 +3935,9 @@
       "tasks": [
         "T-004-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_014_rtin.py"
+      ]
     },
     "P-004-02": {
       "spec": "004-scene-pipeline",
@@ -3858,7 +3947,9 @@
       "tasks": [
         "T-004-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_015_terrain_tiles.py"
+      ]
     },
     "P-004-03": {
       "spec": "004-scene-pipeline",
@@ -3868,7 +3959,9 @@
       "tasks": [
         "T-004-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_011_site_frame.py"
+      ]
     },
     "P-004-04": {
       "spec": "004-scene-pipeline",
@@ -3878,7 +3971,9 @@
       "tasks": [
         "T-004-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_010_terrain_crs_units.py"
+      ]
     },
     "P-004-05": {
       "spec": "004-scene-pipeline",
@@ -3888,7 +3983,9 @@
       "tasks": [
         "T-004-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_012_ground_grid.py"
+      ]
     },
     "P-004-06": {
       "spec": "004-scene-pipeline",
@@ -3898,7 +3995,9 @@
       "tasks": [
         "T-004-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_013_hole_fill.py"
+      ]
     },
     "P-004-07": {
       "spec": "004-scene-pipeline",
@@ -3908,7 +4007,9 @@
       "tasks": [
         "T-004-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_023_cut_fill.py"
+      ]
     },
     "P-004-08": {
       "spec": "004-scene-pipeline",
@@ -3918,7 +4019,9 @@
       "tasks": [
         "T-004-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_020_benches.py"
+      ]
     },
     "P-004-09": {
       "spec": "004-scene-pipeline",
@@ -3928,7 +4031,9 @@
       "tasks": [
         "T-004-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_020_benches.py"
+      ]
     },
     "P-004-10": {
       "spec": "004-scene-pipeline",
@@ -3938,7 +4043,9 @@
       "tasks": [
         "T-004-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_021_ramp.py"
+      ]
     },
     "P-004-11": {
       "spec": "004-scene-pipeline",
@@ -3948,7 +4055,9 @@
       "tasks": [
         "T-004-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_052_build_twice.py"
+      ]
     },
     "P-004-12": {
       "spec": "004-scene-pipeline",
@@ -3958,7 +4067,9 @@
       "tasks": [
         "T-004-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_031_labels.py"
+      ]
     },
     "NFR-004-01": {
       "spec": "004-scene-pipeline",
@@ -3968,7 +4079,9 @@
       "tasks": [
         "T-004-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_054_bingham_scene.py"
+      ]
     },
     "NFR-004-02": {
       "spec": "004-scene-pipeline",
@@ -3988,7 +4101,9 @@
       "tasks": [
         "T-004-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_053_scene_nfr.py"
+      ]
     },
     "NFR-004-04": {
       "spec": "004-scene-pipeline",
@@ -3998,7 +4113,9 @@
       "tasks": [
         "T-004-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_053_scene_nfr.py"
+      ]
     },
     "NFR-004-05": {
       "spec": "004-scene-pipeline",
@@ -4008,7 +4125,9 @@
       "tasks": [
         "T-004-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_053_scene_nfr.py"
+      ]
     },
     "SC-004-01": {
       "spec": "004-scene-pipeline",
@@ -4018,7 +4137,9 @@
       "tasks": [
         "T-004-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_054_bingham_scene.py"
+      ]
     },
     "SC-004-02": {
       "spec": "004-scene-pipeline",
@@ -4028,7 +4149,9 @@
       "tasks": [
         "T-004-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_019_site_name.py"
+      ]
     },
     "DC-004-01": {
       "spec": "004-scene-pipeline",
@@ -11447,7 +11570,9 @@
       "tasks": [
         "T-013-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_010_sensor_backend.py"
+      ]
     },
     "FR-013-02": {
       "spec": "013-sensors",
@@ -11457,7 +11582,9 @@
       "tasks": [
         "T-013-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_010_sensor_backend.py"
+      ]
     },
     "FR-013-03": {
       "spec": "013-sensors",
@@ -11467,7 +11594,9 @@
       "tasks": [
         "T-013-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_011_runtime_isolation.py"
+      ]
     },
     "FR-013-04": {
       "spec": "013-sensors",
@@ -11477,7 +11606,9 @@
       "tasks": [
         "T-013-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_012_recipe_validation.py"
+      ]
     },
     "FR-013-05": {
       "spec": "013-sensors",
@@ -11487,7 +11618,9 @@
       "tasks": [
         "T-013-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_013_lidar_envelope.py"
+      ]
     },
     "FR-013-06": {
       "spec": "013-sensors",
@@ -11498,7 +11631,9 @@
         "T-013-013",
         "T-013-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_013_lidar_envelope.py"
+      ]
     },
     "FR-013-07": {
       "spec": "013-sensors",
@@ -11509,7 +11644,9 @@
         "T-013-014",
         "T-013-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_014_point_count_guard.py"
+      ]
     },
     "FR-013-08": {
       "spec": "013-sensors",
@@ -11520,7 +11657,9 @@
         "T-013-014",
         "T-013-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_014_point_count_guard.py"
+      ]
     },
     "FR-013-09": {
       "spec": "013-sensors",
@@ -11530,7 +11669,9 @@
       "tasks": [
         "T-013-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_015_backend_output.py"
+      ]
     },
     "FR-013-10": {
       "spec": "013-sensors",
@@ -11540,7 +11681,9 @@
       "tasks": [
         "T-013-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_014_point_count_guard.py"
+      ]
     },
     "FR-013-11": {
       "spec": "013-sensors",
@@ -11550,7 +11693,9 @@
       "tasks": [
         "T-013-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_020_dust_optical_depth.py"
+      ]
     },
     "FR-013-12": {
       "spec": "013-sensors",
@@ -11560,7 +11705,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "FR-013-13": {
       "spec": "013-sensors",
@@ -11570,7 +11717,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "FR-013-14": {
       "spec": "013-sensors",
@@ -11581,7 +11730,10 @@
         "T-013-022",
         "T-013-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_022_beam_hash.py",
+        "web/src/engines/sensors/beam-hash.test.ts"
+      ]
     },
     "FR-013-15": {
       "spec": "013-sensors",
@@ -11591,7 +11743,9 @@
       "tasks": [
         "T-013-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_023_dust_hostile.py"
+      ]
     },
     "FR-013-16": {
       "spec": "013-sensors",
@@ -11601,7 +11755,9 @@
       "tasks": [
         "T-013-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_040_haze.py"
+      ]
     },
     "FR-013-17": {
       "spec": "013-sensors",
@@ -11611,7 +11767,9 @@
       "tasks": [
         "T-013-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_041_component_boxes.py"
+      ]
     },
     "FR-013-18": {
       "spec": "013-sensors",
@@ -11621,7 +11779,9 @@
       "tasks": [
         "T-013-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_042_exposure.py"
+      ]
     },
     "FR-013-19": {
       "spec": "013-sensors",
@@ -11632,7 +11792,9 @@
         "T-013-043",
         "T-013-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_043_pinhole.py"
+      ]
     },
     "FR-013-20": {
       "spec": "013-sensors",
@@ -11642,7 +11804,9 @@
       "tasks": [
         "T-013-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_044_camera_hostile.py"
+      ]
     },
     "FR-013-21": {
       "spec": "013-sensors",
@@ -11652,7 +11816,9 @@
       "tasks": [
         "T-013-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_024_radar_lane.py"
+      ]
     },
     "FR-013-22": {
       "spec": "013-sensors",
@@ -11662,7 +11828,9 @@
       "tasks": [
         "T-013-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_024_radar_lane.py"
+      ]
     },
     "FR-013-23": {
       "spec": "013-sensors",
@@ -11683,7 +11851,10 @@
         "T-013-024",
         "T-013-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_024_radar_lane.py",
+        "web/e2e/sensors-widget.spec.ts"
+      ]
     },
     "FR-013-25": {
       "spec": "013-sensors",
@@ -11726,7 +11897,9 @@
         "T-013-060",
         "T-013-072"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_060_rain_arm.py"
+      ]
     },
     "FR-013-30": {
       "spec": "013-sensors",
@@ -11736,7 +11909,9 @@
       "tasks": [
         "T-013-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_060_rain_arm.py"
+      ]
     },
     "FR-013-31": {
       "spec": "013-sensors",
@@ -11746,7 +11921,9 @@
       "tasks": [
         "T-013-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_013_016_shard_writer.py"
+      ]
     },
     "FR-013-32": {
       "spec": "013-sensors",
@@ -11756,7 +11933,9 @@
       "tasks": [
         "T-013-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_013_017_manifest_local_only.py"
+      ]
     },
     "FR-013-33": {
       "spec": "013-sensors",
@@ -11766,7 +11945,9 @@
       "tasks": [
         "T-013-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_018_clean_room.py"
+      ]
     },
     "FR-013-34": {
       "spec": "013-sensors",
@@ -11777,7 +11958,9 @@
         "T-013-019",
         "T-013-073"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_019_rerun_check.py"
+      ]
     },
     "FR-013-35": {
       "spec": "013-sensors",
@@ -11787,7 +11970,9 @@
       "tasks": [
         "T-013-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_026_cloud_quantiser.py"
+      ]
     },
     "FR-013-36": {
       "spec": "013-sensors",
@@ -11797,7 +11982,9 @@
       "tasks": [
         "T-013-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py"
+      ]
     },
     "FR-013-37": {
       "spec": "013-sensors",
@@ -11807,7 +11994,9 @@
       "tasks": [
         "T-013-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py"
+      ]
     },
     "FR-013-42": {
       "spec": "013-sensors",
@@ -11818,7 +12007,10 @@
         "T-013-025",
         "T-013-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py",
+        "tests/property/test_t_013_026_cloud_quantiser.py"
+      ]
     },
     "FR-013-38": {
       "spec": "013-sensors",
@@ -11829,7 +12021,11 @@
         "T-013-030",
         "T-013-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/parity/test_t_013_030_slider_bake.py",
+        "web/src/engines/sensors/dust-slider-parity.test.ts",
+        "web/e2e/sensors-dust-slider.spec.ts"
+      ]
     },
     "FR-013-39": {
       "spec": "013-sensors",
@@ -11839,7 +12035,10 @@
       "tasks": [
         "T-013-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/sensors/dust-slider-hostile.test.ts",
+        "web/e2e/sensors-dust-slider.spec.ts"
+      ]
     },
     "FR-013-40": {
       "spec": "013-sensors",
@@ -11849,7 +12048,9 @@
       "tasks": [
         "T-013-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-widget.spec.ts"
+      ]
     },
     "FR-013-41": {
       "spec": "013-sensors",
@@ -11859,7 +12060,9 @@
       "tasks": [
         "T-013-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-widget.spec.ts"
+      ]
     },
     "FR-013-43": {
       "spec": "013-sensors",
@@ -11869,7 +12072,9 @@
       "tasks": [
         "T-013-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_092_fixture_envelope.py"
+      ]
     },
     "P-013-01": {
       "spec": "013-sensors",
@@ -11879,7 +12084,9 @@
       "tasks": [
         "T-013-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_020_dust_optical_depth.py"
+      ]
     },
     "P-013-02": {
       "spec": "013-sensors",
@@ -11889,7 +12096,9 @@
       "tasks": [
         "T-013-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_020_dust_optical_depth.py"
+      ]
     },
     "P-013-03": {
       "spec": "013-sensors",
@@ -11899,7 +12108,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "P-013-04": {
       "spec": "013-sensors",
@@ -11909,7 +12120,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "P-013-05": {
       "spec": "013-sensors",
@@ -11919,7 +12132,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "P-013-06": {
       "spec": "013-sensors",
@@ -11929,7 +12144,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "P-013-07": {
       "spec": "013-sensors",
@@ -11939,7 +12156,9 @@
       "tasks": [
         "T-013-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_040_haze.py"
+      ]
     },
     "P-013-08": {
       "spec": "013-sensors",
@@ -11949,7 +12168,9 @@
       "tasks": [
         "T-013-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_042_exposure.py"
+      ]
     },
     "P-013-09": {
       "spec": "013-sensors",
@@ -11975,7 +12196,9 @@
       "tasks": [
         "T-013-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_026_cloud_quantiser.py"
+      ]
     },
     "P-013-12": {
       "spec": "013-sensors",
@@ -11985,7 +12208,9 @@
       "tasks": [
         "T-013-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_022_beam_hash.py"
+      ]
     },
     "P-013-13": {
       "spec": "013-sensors",
@@ -11995,7 +12220,9 @@
       "tasks": [
         "T-013-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py"
+      ]
     },
     "P-013-14": {
       "spec": "013-sensors",
@@ -12005,7 +12232,9 @@
       "tasks": [
         "T-013-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_043_pinhole.py"
+      ]
     },
     "P-013-15": {
       "spec": "013-sensors",
@@ -12015,7 +12244,10 @@
       "tasks": [
         "T-013-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/parity/test_t_013_030_slider_bake.py",
+        "web/src/engines/sensors/dust-slider-parity.test.ts"
+      ]
     },
     "NFR-013-01": {
       "spec": "013-sensors",
@@ -12025,7 +12257,9 @@
       "tasks": [
         "T-013-033"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-dust-slider.spec.ts"
+      ]
     },
     "NFR-013-02": {
       "spec": "013-sensors",
@@ -12035,7 +12269,9 @@
       "tasks": [
         "T-013-033"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-dust-slider.spec.ts"
+      ]
     },
     "NFR-013-03": {
       "spec": "013-sensors",
@@ -12045,7 +12281,9 @@
       "tasks": [
         "T-013-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-widget.spec.ts"
+      ]
     },
     "NFR-013-04": {
       "spec": "013-sensors",
@@ -12055,7 +12293,9 @@
       "tasks": [
         "T-013-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_018_clean_room.py"
+      ]
     },
     "NFR-013-05": {
       "spec": "013-sensors",
@@ -12065,7 +12305,9 @@
       "tasks": [
         "T-013-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_012_recipe_validation.py"
+      ]
     },
     "SC-013-01": {
       "spec": "013-sensors",
@@ -12085,7 +12327,9 @@
       "tasks": [
         "T-013-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_013_017_manifest_local_only.py"
+      ]
     },
     "SC-013-03": {
       "spec": "013-sensors",
@@ -12105,7 +12349,9 @@
       "tasks": [
         "T-013-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py"
+      ]
     },
     "DC-013-01": {
       "spec": "013-sensors",

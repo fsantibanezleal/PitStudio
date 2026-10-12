@@ -10,6 +10,7 @@ dependencies = [
     "laspy[lazrs]", "rasterio", "pyproj", "shapely", "trimesh", "ortools",
     "pynvvideocodec", "nvidia-ml-py", "nvtx",
     "cma>=4.5.0",
+    "simready-foundation-tier-core>=2026.8.0",  # the tier content that simready-validate checks scenes against (FR-004-34)
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [dependency-groups]
