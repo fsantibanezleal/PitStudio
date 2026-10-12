@@ -1,0 +1,18 @@
+# Fake GPU device for CI planning (specs/002-runner FR-002-55, DC-002-01): one 48 GiB server GPU, idle and cool.
+# Valid against contracts/profile.schema.json#/$defs/fake_device.
+name: Fake GPU 48GB
+driver: 580.95.05
+vram_total_bytes: 51539607552
+init_error: false
+unsupported:
+  - nvenc_util_pct
+series:
+  free_bytes: 49392123904
+  temp_c: 45
+  power_w: 120
+  power_limit_w: 300
+  util_pct: 0
+  sm_clock_mhz: 1980
+  clocks_event_mask: 0
+  energy_mj_per_s: 120000
+  pcie_replays: 0

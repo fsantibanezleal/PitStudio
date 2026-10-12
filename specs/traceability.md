@@ -2,7 +2,7 @@
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
-| DC-000-01 | 000-foundation | draft | T-009-005, T-012-003, T-016-003 | tests/contract/test_t_009_005_detection_eval_schema.py, tests/contract/test_t_012_003_fragmentation_eval_schema.py, tests/contract/test_t_016_003_parity_report_schema.py |
+| DC-000-01 | 000-foundation | draft | T-009-005, T-012-003, T-016-003 | - |
 | DC-000-02 | 000-foundation | draft | T-000-050 | - |
 | DC-000-03 | 000-foundation | draft | T-000-051 | - |
 | DC-000-04 | 000-foundation | draft | T-000-052 | - |
@@ -16,119 +16,119 @@
 | DC-001-06 | 001-contracts | draft | T-001-002 | tests/contract/test_t_001_002_generated_types.py |
 | DC-001-07 | 001-contracts | draft | T-001-002 | web/src/contracts/generated.test.ts |
 | DC-001-08 | 001-contracts | draft | T-001-004 | tests/contract/test_t_001_004_corpus_coverage.py |
-| DC-002-01 | 002-runner | draft | T-002-001 | - |
-| DC-002-02 | 002-runner | draft | T-002-001 | - |
-| DC-002-03 | 002-runner | draft | T-002-001 | - |
+| DC-002-01 | 002-runner | draft | T-002-001 | tests/contract/test_t_002_001_runner_contracts.py |
+| DC-002-02 | 002-runner | draft | T-002-001 | tests/contract/test_t_002_001_runner_contracts.py |
+| DC-002-03 | 002-runner | draft | T-002-001 | tests/contract/test_t_002_001_runner_contracts.py |
 | DC-002-04 | 002-runner | draft | T-002-051 | - |
 | DC-002-05 | 002-runner | draft | T-002-012 | - |
 | DC-002-06 | 002-runner | draft | T-002-031 | - |
-| DC-003-01 | 003-console | draft | T-003-001 | - |
-| DC-003-02 | 003-console | draft | T-003-001 | - |
-| DC-003-03 | 003-console | draft | T-003-001 | - |
-| DC-003-04 | 003-console | draft | T-003-001 | - |
-| DC-004-01 | 004-scene-pipeline | draft | T-004-001 | tests/contract/test_t_004_001_scene_schemas.py |
-| DC-004-02 | 004-scene-pipeline | draft | T-004-001 | tests/contract/test_t_004_001_scene_schemas.py |
-| DC-004-03 | 004-scene-pipeline | draft | T-004-001 | tests/contract/test_t_004_001_scene_schemas.py |
-| DC-004-04 | 004-scene-pipeline | draft | T-004-001 | tests/contract/test_t_004_001_scene_schemas.py |
-| DC-004-05 | 004-scene-pipeline | draft | T-004-001 | tests/contract/test_t_004_001_scene_schemas.py |
-| DC-004-06 | 004-scene-pipeline | draft | T-004-001 | tests/contract/test_t_004_001_scene_schemas.py |
-| DC-004-07 | 004-scene-pipeline | draft | T-004-001 | tests/contract/test_t_004_001_scene_schemas.py |
-| DC-004-08 | 004-scene-pipeline | draft | T-004-001 | tests/contract/test_t_004_001_scene_schemas.py |
-| DC-005-01 | 005-physics | draft | T-005-001 | tests/contract/test_t_005_001_physics_schemas.py |
-| DC-005-02 | 005-physics | draft | T-005-001 | tests/contract/test_t_005_001_physics_schemas.py |
-| DC-005-03 | 005-physics | draft | T-005-001 | tests/contract/test_t_005_001_physics_schemas.py |
-| DC-005-04 | 005-physics | draft | T-005-001 | tests/contract/test_t_005_001_physics_schemas.py |
-| DC-005-05 | 005-physics | draft | T-005-001 | tests/contract/test_t_005_001_physics_schemas.py |
-| DC-005-06 | 005-physics | draft | T-005-001 | tests/contract/test_t_005_001_physics_schemas.py |
-| DC-006-01 | 006-media-telemetry | draft | T-006-001 | tests/contract/test_t_006_001_media_schemas.py |
-| DC-006-02 | 006-media-telemetry | draft | T-006-001 | tests/contract/test_t_006_001_media_schemas.py |
-| DC-006-03 | 006-media-telemetry | draft | T-006-001 | tests/contract/test_t_006_001_media_schemas.py |
-| DC-007-01 | 007-haulage-dispatch | draft | T-007-001 | tests/contract/test_t_007_001_haulage_schemas.py |
-| DC-007-02 | 007-haulage-dispatch | draft | T-007-001 | tests/contract/test_t_007_001_haulage_schemas.py |
-| DC-007-03 | 007-haulage-dispatch | draft | T-007-001 | tests/contract/test_t_007_001_haulage_schemas.py |
-| DC-007-04 | 007-haulage-dispatch | draft | T-007-001 | tests/contract/test_t_007_001_haulage_schemas.py |
-| DC-007-05 | 007-haulage-dispatch | draft | T-007-001 | tests/contract/test_t_007_001_haulage_schemas.py |
+| DC-003-01 | 003-console | draft | T-003-001 | tests/contract/test_t_003_001_console_contracts.py |
+| DC-003-02 | 003-console | draft | T-003-001 | tests/contract/test_t_003_001_console_contracts.py |
+| DC-003-03 | 003-console | draft | T-003-001 | tests/contract/test_t_003_001_console_contracts.py |
+| DC-003-04 | 003-console | draft | T-003-001 | tests/contract/test_t_003_001_console_contracts.py |
+| DC-004-01 | 004-scene-pipeline | draft | T-004-001 | - |
+| DC-004-02 | 004-scene-pipeline | draft | T-004-001 | - |
+| DC-004-03 | 004-scene-pipeline | draft | T-004-001 | - |
+| DC-004-04 | 004-scene-pipeline | draft | T-004-001 | - |
+| DC-004-05 | 004-scene-pipeline | draft | T-004-001 | - |
+| DC-004-06 | 004-scene-pipeline | draft | T-004-001 | - |
+| DC-004-07 | 004-scene-pipeline | draft | T-004-001 | - |
+| DC-004-08 | 004-scene-pipeline | draft | T-004-001 | - |
+| DC-005-01 | 005-physics | draft | T-005-001 | - |
+| DC-005-02 | 005-physics | draft | T-005-001 | - |
+| DC-005-03 | 005-physics | draft | T-005-001 | - |
+| DC-005-04 | 005-physics | draft | T-005-001 | - |
+| DC-005-05 | 005-physics | draft | T-005-001 | - |
+| DC-005-06 | 005-physics | draft | T-005-001 | - |
+| DC-006-01 | 006-media-telemetry | draft | T-006-001 | - |
+| DC-006-02 | 006-media-telemetry | draft | T-006-001 | - |
+| DC-006-03 | 006-media-telemetry | draft | T-006-001 | - |
+| DC-007-01 | 007-haulage-dispatch | draft | T-007-001 | - |
+| DC-007-02 | 007-haulage-dispatch | draft | T-007-001 | - |
+| DC-007-03 | 007-haulage-dispatch | draft | T-007-001 | - |
+| DC-007-04 | 007-haulage-dispatch | draft | T-007-001 | - |
+| DC-007-05 | 007-haulage-dispatch | draft | T-007-001 | - |
 | DC-008-01 | 008-data-pipeline | retired | - | - |
-| DC-008-02 | 008-data-pipeline | draft | T-008-001 | tests/contract/test_t_008_001_data_schemas.py |
-| DC-008-03 | 008-data-pipeline | draft | T-008-001 | tests/contract/test_t_008_001_data_schemas.py |
-| DC-008-04 | 008-data-pipeline | draft | T-008-001 | tests/contract/test_t_008_001_data_schemas.py |
-| DC-008-05 | 008-data-pipeline | draft | T-008-001 | tests/contract/test_t_008_001_data_schemas.py |
-| DC-009-01 | 009-perception | draft | T-009-001 | tests/contract/test_t_009_001_perception_dataset_schema.py |
-| DC-009-02 | 009-perception | draft | T-009-002 | tests/contract/test_t_009_002_coco_instances_schema.py |
-| DC-009-03 | 009-perception | draft | T-009-003 | tests/contract/test_t_009_003_sdg_randomisation_schema.py |
-| DC-009-04 | 009-perception | draft | T-009-004 | tests/contract/test_t_009_004_people_asset_record_schema.py |
-| DC-009-05 | 009-perception | draft | T-009-005 | tests/contract/test_t_009_005_detection_eval_schema.py |
-| DC-010-01 | 010-slope | draft | T-010-001 | tests/contract/test_t_010_001_slope_schemas.py |
-| DC-010-02 | 010-slope | draft | T-010-001 | tests/contract/test_t_010_001_slope_schemas.py |
-| DC-010-03 | 010-slope | draft | T-010-001 | tests/contract/test_t_010_001_slope_schemas.py |
-| DC-010-04 | 010-slope | draft | T-010-001 | tests/contract/test_t_010_001_slope_schemas.py |
+| DC-008-02 | 008-data-pipeline | draft | T-008-001 | - |
+| DC-008-03 | 008-data-pipeline | draft | T-008-001 | - |
+| DC-008-04 | 008-data-pipeline | draft | T-008-001 | - |
+| DC-008-05 | 008-data-pipeline | draft | T-008-001 | - |
+| DC-009-01 | 009-perception | draft | T-009-001 | - |
+| DC-009-02 | 009-perception | draft | T-009-002 | - |
+| DC-009-03 | 009-perception | draft | T-009-003 | - |
+| DC-009-04 | 009-perception | draft | T-009-004 | - |
+| DC-009-05 | 009-perception | draft | T-009-005 | - |
+| DC-010-01 | 010-slope | draft | T-010-001 | - |
+| DC-010-02 | 010-slope | draft | T-010-001 | - |
+| DC-010-03 | 010-slope | draft | T-010-001 | - |
+| DC-010-04 | 010-slope | draft | T-010-001 | - |
 | DC-010-05 | 010-slope | draft | T-010-032 | - |
-| DC-011-01 | 011-surrogates | draft | T-011-001 | tests/contract/test_t_011_001_surrogate_schemas.py |
-| DC-011-02 | 011-surrogates | draft | T-011-001 | tests/contract/test_t_011_001_surrogate_schemas.py |
-| DC-011-03 | 011-surrogates | draft | T-011-001 | tests/contract/test_t_011_001_surrogate_schemas.py |
-| DC-011-04 | 011-surrogates | draft | T-011-001 | tests/contract/test_t_011_001_surrogate_schemas.py |
-| DC-012-01 | 012-fragmentation | draft | T-012-001 | tests/contract/test_t_012_001_fragment_table_schema.py |
-| DC-012-02 | 012-fragmentation | draft | T-012-002 | tests/contract/test_t_012_002_fragment_split_schema.py |
-| DC-012-03 | 012-fragmentation | draft | T-012-003 | tests/contract/test_t_012_003_fragmentation_eval_schema.py |
-| DC-012-04 | 012-fragmentation | draft | T-012-004 | tests/contract/test_t_012_004_muck_pile_render_schema.py |
-| DC-012-05 | 012-fragmentation | draft | T-012-005 | tests/contract/test_t_012_005_d1_design_grid_schema.py |
-| DC-013-01 | 013-sensors | draft | T-013-001 | tests/contract/test_t_013_001_sensor_schemas.py |
-| DC-013-02 | 013-sensors | draft | T-013-001 | tests/contract/test_t_013_001_sensor_schemas.py |
-| DC-013-03 | 013-sensors | draft | T-013-001 | tests/contract/test_t_013_001_sensor_schemas.py |
-| DC-013-04 | 013-sensors | draft | T-013-001 | tests/contract/test_t_013_001_sensor_schemas.py |
-| DC-013-05 | 013-sensors | draft | T-013-001 | tests/contract/test_t_013_001_sensor_schemas.py |
+| DC-011-01 | 011-surrogates | draft | T-011-001 | - |
+| DC-011-02 | 011-surrogates | draft | T-011-001 | - |
+| DC-011-03 | 011-surrogates | draft | T-011-001 | - |
+| DC-011-04 | 011-surrogates | draft | T-011-001 | - |
+| DC-012-01 | 012-fragmentation | draft | T-012-001 | - |
+| DC-012-02 | 012-fragmentation | draft | T-012-002 | - |
+| DC-012-03 | 012-fragmentation | draft | T-012-003 | - |
+| DC-012-04 | 012-fragmentation | draft | T-012-004 | - |
+| DC-012-05 | 012-fragmentation | draft | T-012-005 | - |
+| DC-013-01 | 013-sensors | draft | T-013-001 | - |
+| DC-013-02 | 013-sensors | draft | T-013-001 | - |
+| DC-013-03 | 013-sensors | draft | T-013-001 | - |
+| DC-013-04 | 013-sensors | draft | T-013-001 | - |
+| DC-013-05 | 013-sensors | draft | T-013-001 | - |
 | DC-013-06 | 013-sensors | retired | - | - |
 | DC-013-07 | 013-sensors | draft | T-013-017 | - |
 | DC-013-08 | 013-sensors | draft | T-013-013 | - |
-| DC-014-01 | 014-robot-learning | draft | T-014-001 | tests/contract/test_t_014_001_il_schemas.py |
-| DC-014-02 | 014-robot-learning | draft | T-014-001 | tests/contract/test_t_014_001_il_schemas.py |
-| DC-014-03 | 014-robot-learning | draft | T-014-001 | tests/contract/test_t_014_001_il_schemas.py |
-| DC-014-04 | 014-robot-learning | draft | T-014-001 | tests/contract/test_t_014_001_il_schemas.py |
-| DC-014-05 | 014-robot-learning | draft | T-014-001 | tests/contract/test_t_014_001_il_schemas.py |
+| DC-014-01 | 014-robot-learning | draft | T-014-001 | - |
+| DC-014-02 | 014-robot-learning | draft | T-014-001 | - |
+| DC-014-03 | 014-robot-learning | draft | T-014-001 | - |
+| DC-014-04 | 014-robot-learning | draft | T-014-001 | - |
+| DC-014-05 | 014-robot-learning | draft | T-014-001 | - |
 | DC-014-06 | 014-robot-learning | draft | T-014-002 | - |
 | DC-014-07 | 014-robot-learning | draft | T-014-010 | - |
-| DC-015-01 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
-| DC-015-02 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
-| DC-015-03 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
-| DC-015-04 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
-| DC-015-05 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
-| DC-015-06 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
+| DC-015-01 | 015-vlm | draft | T-015-001 | - |
+| DC-015-02 | 015-vlm | draft | T-015-001 | - |
+| DC-015-03 | 015-vlm | draft | T-015-001 | - |
+| DC-015-04 | 015-vlm | draft | T-015-001 | - |
+| DC-015-05 | 015-vlm | draft | T-015-001 | - |
+| DC-015-06 | 015-vlm | draft | T-015-001 | - |
 | DC-015-07 | 015-vlm | draft | T-015-020 | - |
 | DC-015-08 | 015-vlm | draft | T-015-020 | - |
-| DC-016-01 | 016-export-acceleration | draft | T-016-001 | tests/contract/test_t_016_001_bench_record_schema.py |
-| DC-016-02 | 016-export-acceleration | draft | T-016-002 | tests/contract/test_t_016_002_release_assets_schema.py |
-| DC-016-03 | 016-export-acceleration | draft | T-016-003 | tests/contract/test_t_016_003_parity_report_schema.py |
-| DC-016-04 | 016-export-acceleration | draft | T-016-004 | tests/contract/test_t_016_004_export_config_schema.py |
-| DC-016-05 | 016-export-acceleration | draft | T-016-005 | tests/contract/test_t_016_005_accel_table_schema.py |
-| DC-017-01 | 017-planning-survey | draft | T-017-001 | tests/contract/test_t_017_001_planning_survey_schemas.py |
-| DC-017-02 | 017-planning-survey | draft | T-017-001 | tests/contract/test_t_017_001_planning_survey_schemas.py |
-| DC-017-03 | 017-planning-survey | draft | T-017-001 | tests/contract/test_t_017_001_planning_survey_schemas.py |
-| DC-017-04 | 017-planning-survey | draft | T-017-001 | tests/contract/test_t_017_001_planning_survey_schemas.py |
-| DC-017-05 | 017-planning-survey | draft | T-017-001 | tests/contract/test_t_017_001_planning_survey_schemas.py |
-| DC-018-01 | 018-web-cases | draft | T-018-001 | tests/contract/test_t_018_001_cases_registry.py |
-| DC-018-02 | 018-web-cases | draft | T-018-002 | tests/contract/test_t_018_002_engine_schemas.py |
-| DC-018-03 | 018-web-cases | draft | T-018-003 | tests/contract/test_t_018_003_replay_shard_schema.py |
-| DC-018-04 | 018-web-cases | draft | T-018-004, T-018-005 | tests/contract/test_t_018_004_parity_lane_schemas.py, tests/contract/test_t_018_005_parity_fixtures.py |
-| DC-018-05 | 018-web-cases | draft | T-018-004 | tests/contract/test_t_018_004_parity_lane_schemas.py |
-| DC-018-06 | 018-web-cases | draft | T-018-004, T-018-081 | tests/contract/test_t_018_004_parity_lane_schemas.py |
+| DC-016-01 | 016-export-acceleration | draft | T-016-001 | - |
+| DC-016-02 | 016-export-acceleration | draft | T-016-002 | - |
+| DC-016-03 | 016-export-acceleration | draft | T-016-003 | - |
+| DC-016-04 | 016-export-acceleration | draft | T-016-004 | - |
+| DC-016-05 | 016-export-acceleration | draft | T-016-005 | - |
+| DC-017-01 | 017-planning-survey | draft | T-017-001 | - |
+| DC-017-02 | 017-planning-survey | draft | T-017-001 | - |
+| DC-017-03 | 017-planning-survey | draft | T-017-001 | - |
+| DC-017-04 | 017-planning-survey | draft | T-017-001 | - |
+| DC-017-05 | 017-planning-survey | draft | T-017-001 | - |
+| DC-018-01 | 018-web-cases | draft | T-018-001 | - |
+| DC-018-02 | 018-web-cases | draft | T-018-002 | - |
+| DC-018-03 | 018-web-cases | draft | T-018-003 | - |
+| DC-018-04 | 018-web-cases | draft | T-018-004, T-018-005 | - |
+| DC-018-05 | 018-web-cases | draft | T-018-004 | - |
+| DC-018-06 | 018-web-cases | draft | T-018-004, T-018-081 | - |
 | DC-019-01 | 019-web-studio | retired | - | - |
-| DC-019-02 | 019-web-studio | draft | T-019-001 | tests/contract/test_t_019_001_studio_schemas.py |
-| DC-019-03 | 019-web-studio | draft | T-019-001 | tests/contract/test_t_019_001_studio_schemas.py |
-| DC-020-01 | 020-web-knowledge | draft | T-020-001 | tests/contract/test_t_020_001_methods_registry.py |
-| DC-020-02 | 020-web-knowledge | draft | T-020-002 | tests/contract/test_t_020_002_results_bundle.py |
-| DC-020-03 | 020-web-knowledge | draft | T-020-004 | tests/contract/test_t_020_004_knowledge_bundle.py |
-| DC-020-04 | 020-web-knowledge | draft | T-020-003 | tests/contract/test_t_020_003_figure_registry.py |
+| DC-019-02 | 019-web-studio | draft | T-019-001 | - |
+| DC-019-03 | 019-web-studio | draft | T-019-001 | - |
+| DC-020-01 | 020-web-knowledge | draft | T-020-001 | - |
+| DC-020-02 | 020-web-knowledge | draft | T-020-002 | - |
+| DC-020-03 | 020-web-knowledge | draft | T-020-004 | - |
+| DC-020-04 | 020-web-knowledge | draft | T-020-003 | - |
 | FR-000-01 | 000-foundation | draft | T-018-034 | web/src/cards/t_018_034_artefact_card.test.tsx |
-| FR-000-02 | 000-foundation | draft | T-018-011 | web/src/engines/tier/t_018_011_fallback.test.ts, web/e2e/t_018_011_tier_fallback.spec.ts |
+| FR-000-02 | 000-foundation | draft | T-018-011 | - |
 | FR-000-03 | 000-foundation | draft | T-018-037, T-019-041, T-020-060 | web/src/shell/prefs.test.ts, web/e2e/shell.spec.ts |
 | FR-000-04 | 000-foundation | draft | T-000-020 | web/src/shell/AccessGate.test.tsx, web/src/shell/digest.test.ts, web/e2e/shell.spec.ts |
-| FR-000-05 | 000-foundation | draft | T-018-032, T-020-030 | web/src/results/t_020_030_verdict.test.ts, web/src/routes/t_018_032_charts_tab.test.tsx |
-| FR-000-06 | 000-foundation | draft | T-018-034, T-019-022 | web/src/cards/t_018_034_artefact_card.test.tsx, web/src/studio/blocks/t_019_022_artefacts.test.tsx, web/e2e/t_019_022_not_yet_run.spec.ts |
-| FR-000-07 | 000-foundation | draft | T-019-004 | web/src/studio/blocks/t_019_022_artefacts.test.tsx, web/e2e/t_019_022_not_yet_run.spec.ts |
-| FR-000-08 | 000-foundation | draft | T-019-004, T-019-034, T-020-035 | web/src/results/t_020_035_acceleration.test.tsx, web/src/studio/telemetry/t_019_034_local_only.test.tsx |
-| FR-000-09 | 000-foundation | draft | T-018-033, T-020-033 | web/src/results/t_020_033_gaps_parity.test.tsx, web/src/routes/t_018_033_context_tab.test.tsx |
+| FR-000-05 | 000-foundation | draft | T-018-032, T-020-030 | - |
+| FR-000-06 | 000-foundation | draft | T-018-034, T-019-022 | web/src/cards/t_018_034_artefact_card.test.tsx |
+| FR-000-07 | 000-foundation | draft | T-019-004 | - |
+| FR-000-08 | 000-foundation | draft | T-019-004, T-019-034, T-020-035 | - |
+| FR-000-09 | 000-foundation | draft | T-018-033, T-020-033 | web/src/routes/t_018_033_context_tab.test.tsx |
 | FR-000-10 | 000-foundation | draft | T-018-033, T-020-041 | web/src/routes/t_018_033_context_tab.test.tsx |
-| FR-000-11 | 000-foundation | draft | T-018-014, T-019-035 | web/e2e/t_019_035_no_loopback.spec.ts |
+| FR-000-11 | 000-foundation | draft | T-018-014, T-019-035 | - |
 | FR-000-12 | 000-foundation | draft | T-000-021 | - |
 | FR-000-13 | 000-foundation | draft | T-000-022 | - |
 | FR-000-14 | 000-foundation | draft | T-000-023 | - |
@@ -196,106 +196,106 @@
 | FR-001-60 | 001-contracts | draft | T-001-094 | - |
 | FR-001-61 | 001-contracts | draft | T-001-095 | - |
 | FR-001-62 | 001-contracts | draft | T-001-096 | - |
-| FR-002-01 | 002-runner | draft | T-002-010 | - |
-| FR-002-02 | 002-runner | draft | T-002-010 | - |
-| FR-002-03 | 002-runner | draft | T-002-010 | - |
-| FR-002-04 | 002-runner | draft | T-002-011 | - |
-| FR-002-05 | 002-runner | draft | T-002-012 | - |
-| FR-002-06 | 002-runner | draft | T-002-010 | - |
-| FR-002-07 | 002-runner | draft | T-002-012 | - |
-| FR-002-08 | 002-runner | draft | T-002-020 | - |
-| FR-002-09 | 002-runner | draft | T-002-020 | - |
-| FR-002-10 | 002-runner | draft | T-002-021 | - |
-| FR-002-11 | 002-runner | draft | T-002-021 | - |
-| FR-002-12 | 002-runner | draft | T-002-021 | - |
-| FR-002-13 | 002-runner | draft | T-002-021 | - |
-| FR-002-14 | 002-runner | draft | T-002-021 | - |
-| FR-002-15 | 002-runner | draft | T-002-030 | - |
-| FR-002-16 | 002-runner | draft | T-002-030 | - |
-| FR-002-17 | 002-runner | draft | T-002-030 | - |
-| FR-002-18 | 002-runner | draft | T-002-030 | - |
-| FR-002-19 | 002-runner | draft | T-002-031 | - |
-| FR-002-20 | 002-runner | draft | T-002-031 | - |
-| FR-002-21 | 002-runner | draft | T-002-031 | - |
-| FR-002-22 | 002-runner | draft | T-002-031 | - |
-| FR-002-23 | 002-runner | draft | T-002-030 | - |
-| FR-002-24 | 002-runner | draft | T-002-040 | - |
-| FR-002-25 | 002-runner | draft | T-002-040 | - |
-| FR-002-26 | 002-runner | draft | T-002-041 | - |
-| FR-002-27 | 002-runner | draft | T-002-042 | - |
-| FR-002-28 | 002-runner | draft | T-002-042 | - |
-| FR-002-29 | 002-runner | draft | T-002-043 | - |
-| FR-002-30 | 002-runner | draft | T-002-050 | - |
-| FR-002-31 | 002-runner | draft | T-002-050 | - |
-| FR-002-32 | 002-runner | draft | T-002-050 | - |
-| FR-002-33 | 002-runner | draft | T-002-044 | - |
-| FR-002-34 | 002-runner | draft | T-002-044 | - |
-| FR-002-35 | 002-runner | draft | T-002-045 | - |
-| FR-002-36 | 002-runner | draft | T-002-045 | - |
-| FR-002-37 | 002-runner | draft | T-002-045 | - |
-| FR-002-38 | 002-runner | draft | T-002-046 | - |
-| FR-002-39 | 002-runner | draft | T-002-060 | - |
-| FR-002-40 | 002-runner | draft | T-002-060 | - |
-| FR-002-41 | 002-runner | draft | T-002-060 | - |
-| FR-002-42 | 002-runner | draft | T-002-061 | - |
-| FR-002-43 | 002-runner | draft | T-002-061 | - |
-| FR-002-44 | 002-runner | draft | T-002-001 | - |
-| FR-002-45 | 002-runner | draft | T-002-001 | - |
-| FR-002-46 | 002-runner | draft | T-002-051 | - |
-| FR-002-47 | 002-runner | draft | T-002-051 | - |
-| FR-002-48 | 002-runner | draft | T-002-052 | - |
-| FR-002-49 | 002-runner | draft | T-002-052 | - |
-| FR-002-50 | 002-runner | draft | T-002-052 | - |
-| FR-002-51 | 002-runner | draft | T-002-070 | - |
-| FR-002-52 | 002-runner | draft | T-002-070 | - |
-| FR-002-53 | 002-runner | draft | T-002-071 | - |
-| FR-002-54 | 002-runner | draft | T-002-072 | - |
-| FR-002-55 | 002-runner | draft | T-002-032 | - |
-| FR-002-56 | 002-runner | draft | T-002-032 | - |
-| FR-002-57 | 002-runner | draft | T-002-032 | - |
-| FR-002-58 | 002-runner | draft | T-002-060 | - |
+| FR-002-01 | 002-runner | draft | T-002-010 | tests/unit/test_t_002_010_plan.py |
+| FR-002-02 | 002-runner | draft | T-002-010 | tests/unit/test_t_002_010_plan.py |
+| FR-002-03 | 002-runner | draft | T-002-010 | tests/unit/test_t_002_010_plan.py |
+| FR-002-04 | 002-runner | draft | T-002-011 | tests/property/test_t_002_011_plan_independence.py, tests/unit/test_t_002_012_plan_all_recipes.py |
+| FR-002-05 | 002-runner | draft | T-002-012 | tests/unit/test_t_002_012_plan_all_recipes.py |
+| FR-002-06 | 002-runner | draft | T-002-010 | tests/unit/test_t_002_010_plan.py |
+| FR-002-07 | 002-runner | draft | T-002-012 | tests/unit/test_t_002_012_plan_all_recipes.py |
+| FR-002-08 | 002-runner | draft | T-002-020 | tests/property/test_t_002_020_cache_key.py |
+| FR-002-09 | 002-runner | draft | T-002-020 | tests/property/test_t_002_020_cache_key.py |
+| FR-002-10 | 002-runner | draft | T-002-021 | tests/unit/test_t_002_021_store.py |
+| FR-002-11 | 002-runner | draft | T-002-021 | tests/unit/test_t_002_021_store.py |
+| FR-002-12 | 002-runner | draft | T-002-021 | tests/unit/test_t_002_021_store.py |
+| FR-002-13 | 002-runner | draft | T-002-021 | tests/unit/test_t_002_021_store.py |
+| FR-002-14 | 002-runner | draft | T-002-021 | tests/unit/test_t_002_021_store.py |
+| FR-002-15 | 002-runner | draft | T-002-030 | tests/unit/test_t_002_030_locks_hold.py |
+| FR-002-16 | 002-runner | draft | T-002-030 | tests/unit/test_t_002_030_locks_hold.py |
+| FR-002-17 | 002-runner | draft | T-002-030 | tests/unit/test_t_002_030_locks_hold.py |
+| FR-002-18 | 002-runner | draft | T-002-030 | tests/unit/test_t_002_030_locks_hold.py |
+| FR-002-19 | 002-runner | draft | T-002-031 | tests/unit/test_t_002_031_guards.py |
+| FR-002-20 | 002-runner | draft | T-002-031 | tests/unit/test_t_002_031_guards.py |
+| FR-002-21 | 002-runner | draft | T-002-031 | tests/unit/test_t_002_031_guards.py |
+| FR-002-22 | 002-runner | draft | T-002-031 | tests/unit/test_t_002_031_guards.py |
+| FR-002-23 | 002-runner | draft | T-002-030 | tests/unit/test_t_002_030_locks_hold.py |
+| FR-002-24 | 002-runner | draft | T-002-040 | tests/unit/test_t_002_040_launch.py |
+| FR-002-25 | 002-runner | draft | T-002-040 | tests/unit/test_t_002_040_launch.py |
+| FR-002-26 | 002-runner | draft | T-002-041 | tests/unit/test_t_002_041_stagekit.py |
+| FR-002-27 | 002-runner | draft | T-002-042 | tests/unit/test_t_002_042_process_tree.py |
+| FR-002-28 | 002-runner | draft | T-002-042 | tests/unit/test_t_002_042_process_tree.py |
+| FR-002-29 | 002-runner | draft | T-002-043 | tests/unit/test_t_002_043_keep_awake.py |
+| FR-002-30 | 002-runner | draft | T-002-050 | tests/property/test_t_002_050_telemetry.py |
+| FR-002-31 | 002-runner | draft | T-002-050 | tests/property/test_t_002_050_telemetry.py |
+| FR-002-32 | 002-runner | draft | T-002-050 | tests/property/test_t_002_050_telemetry.py |
+| FR-002-33 | 002-runner | draft | T-002-044 | tests/unit/test_t_002_044_retries.py |
+| FR-002-34 | 002-runner | draft | T-002-044 | tests/unit/test_t_002_044_retries.py |
+| FR-002-35 | 002-runner | draft | T-002-045 | tests/property/test_t_002_045_resume.py |
+| FR-002-36 | 002-runner | draft | T-002-045 | tests/property/test_t_002_045_resume.py |
+| FR-002-37 | 002-runner | draft | T-002-045 | tests/property/test_t_002_045_resume.py |
+| FR-002-38 | 002-runner | draft | T-002-046 | tests/unit/test_t_002_046_rerun_check.py |
+| FR-002-39 | 002-runner | draft | T-002-060 | tests/unit/test_t_002_060_queue.py |
+| FR-002-40 | 002-runner | draft | T-002-060 | tests/unit/test_t_002_060_queue.py |
+| FR-002-41 | 002-runner | draft | T-002-060 | tests/unit/test_t_002_060_queue.py |
+| FR-002-42 | 002-runner | draft | T-002-061 | tests/unit/test_t_002_061_cli.py |
+| FR-002-43 | 002-runner | draft | T-002-061 | tests/unit/test_t_002_061_cli.py |
+| FR-002-44 | 002-runner | draft | T-002-001 | tests/contract/test_t_002_001_runner_contracts.py |
+| FR-002-45 | 002-runner | draft | T-002-001 | tests/contract/test_t_002_001_runner_contracts.py |
+| FR-002-46 | 002-runner | draft | T-002-051 | tests/contract/test_t_002_051_run_manifest.py |
+| FR-002-47 | 002-runner | draft | T-002-051 | tests/contract/test_t_002_051_run_manifest.py |
+| FR-002-48 | 002-runner | draft | T-002-052 | tests/contract/test_t_002_052_publish.py |
+| FR-002-49 | 002-runner | draft | T-002-052 | tests/contract/test_t_002_052_publish.py |
+| FR-002-50 | 002-runner | draft | T-002-052 | tests/contract/test_t_002_052_publish.py |
+| FR-002-51 | 002-runner | draft | T-002-070 | tests/property/test_t_002_070_gc.py |
+| FR-002-52 | 002-runner | draft | T-002-070 | tests/property/test_t_002_070_gc.py |
+| FR-002-53 | 002-runner | draft | T-002-071 | tests/unit/test_t_002_071_bench_env.py |
+| FR-002-54 | 002-runner | draft | T-002-072 | tests/unit/test_t_002_072_profile_cmd.py |
+| FR-002-55 | 002-runner | draft | T-002-032 | tests/unit/test_t_002_032_fake_backend.py |
+| FR-002-56 | 002-runner | draft | T-002-032 | tests/unit/test_t_002_032_fake_backend.py |
+| FR-002-57 | 002-runner | draft | T-002-032 | tests/unit/test_t_002_032_fake_backend.py |
+| FR-002-58 | 002-runner | draft | T-002-060 | tests/unit/test_t_002_060_queue.py |
 | FR-002-59 | 002-runner | draft | T-002-075 | - |
-| FR-002-60 | 002-runner | draft | T-002-047 | - |
-| FR-002-61 | 002-runner | draft | T-002-047 | - |
-| FR-002-62 | 002-runner | draft | T-002-048 | - |
-| FR-002-63 | 002-runner | draft | T-002-048 | - |
-| FR-002-64 | 002-runner | draft | T-002-092 | - |
-| FR-002-65 | 002-runner | draft | T-002-093 | - |
-| FR-002-66 | 002-runner | draft | T-002-094 | - |
+| FR-002-60 | 002-runner | draft | T-002-047 | tests/unit/test_t_002_047_not_run.py |
+| FR-002-61 | 002-runner | draft | T-002-047 | tests/unit/test_t_002_047_not_run.py |
+| FR-002-62 | 002-runner | draft | T-002-048 | tests/unit/test_t_002_048_held_locks.py |
+| FR-002-63 | 002-runner | draft | T-002-048 | tests/unit/test_t_002_048_held_locks.py |
+| FR-002-64 | 002-runner | draft | T-002-092 | tests/unit/test_t_002_092_profile_duplicate_gpu.py |
+| FR-002-65 | 002-runner | draft | T-002-093 | tests/unit/test_t_002_093_result_duplicate_output_path.py |
+| FR-002-66 | 002-runner | draft | T-002-094 | tests/unit/test_t_002_094_thermal_guard.py |
 | FR-002-67 | 002-runner | draft | T-002-096 | - |
 | FR-002-68 | 002-runner | draft | T-002-097 | - |
 | FR-002-69 | 002-runner | draft | T-002-098 | - |
-| FR-003-01 | 003-console | draft | T-003-010 | - |
-| FR-003-02 | 003-console | draft | T-003-010 | - |
-| FR-003-03 | 003-console | draft | T-003-010 | - |
-| FR-003-04 | 003-console | draft | T-003-010 | - |
-| FR-003-05 | 003-console | draft | T-003-010 | - |
-| FR-003-06 | 003-console | draft | T-003-011 | - |
-| FR-003-07 | 003-console | draft | T-003-011 | - |
-| FR-003-08 | 003-console | draft | T-003-011 | - |
-| FR-003-09 | 003-console | draft | T-003-012 | - |
-| FR-003-10 | 003-console | draft | T-003-020 | - |
-| FR-003-11 | 003-console | draft | T-003-012 | - |
-| FR-003-12 | 003-console | draft | T-003-011 | - |
-| FR-003-13 | 003-console | draft | T-003-013 | - |
-| FR-003-14 | 003-console | draft | T-003-021 | - |
-| FR-003-15 | 003-console | draft | T-003-014 | - |
-| FR-003-16 | 003-console | draft | T-003-014 | - |
-| FR-003-17 | 003-console | draft | T-003-001 | - |
-| FR-003-18 | 003-console | draft | T-003-022 | - |
-| FR-003-19 | 003-console | draft | T-003-022 | - |
-| FR-003-20 | 003-console | draft | T-003-022 | - |
-| FR-003-21 | 003-console | draft | T-003-022 | - |
-| FR-003-22 | 003-console | draft | T-003-022 | - |
-| FR-003-23 | 003-console | draft | T-003-023 | - |
-| FR-003-24 | 003-console | draft | T-003-030 | - |
-| FR-003-25 | 003-console | draft | T-003-031 | - |
+| FR-003-01 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
+| FR-003-02 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
+| FR-003-03 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
+| FR-003-04 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
+| FR-003-05 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
+| FR-003-06 | 003-console | draft | T-003-011 | tests/contract/test_t_003_011_read_endpoints.py |
+| FR-003-07 | 003-console | draft | T-003-011 | tests/contract/test_t_003_011_read_endpoints.py |
+| FR-003-08 | 003-console | draft | T-003-011 | tests/contract/test_t_003_011_read_endpoints.py |
+| FR-003-09 | 003-console | draft | T-003-012 | tests/contract/test_t_003_012_jobs.py |
+| FR-003-10 | 003-console | draft | T-003-020 | tests/contract/test_t_003_020_jobs_hostile.py |
+| FR-003-11 | 003-console | draft | T-003-012 | tests/contract/test_t_003_012_jobs.py |
+| FR-003-12 | 003-console | draft | T-003-011 | tests/contract/test_t_003_011_read_endpoints.py |
+| FR-003-13 | 003-console | draft | T-003-013 | tests/contract/test_t_003_013_artefacts.py |
+| FR-003-14 | 003-console | draft | T-003-021 | tests/property/test_t_003_021_path_params.py |
+| FR-003-15 | 003-console | draft | T-003-014 | tests/property/test_t_003_014_event_stream.py |
+| FR-003-16 | 003-console | draft | T-003-014 | tests/property/test_t_003_014_event_stream.py |
+| FR-003-17 | 003-console | draft | T-003-001 | tests/contract/test_t_003_001_console_contracts.py |
+| FR-003-18 | 003-console | draft | T-003-022 | tests/contract/test_t_003_022_request_hygiene.py |
+| FR-003-19 | 003-console | draft | T-003-022 | tests/contract/test_t_003_022_request_hygiene.py |
+| FR-003-20 | 003-console | draft | T-003-022 | tests/contract/test_t_003_022_request_hygiene.py |
+| FR-003-21 | 003-console | draft | T-003-022 | tests/contract/test_t_003_022_request_hygiene.py |
+| FR-003-22 | 003-console | draft | T-003-022 | tests/contract/test_t_003_022_request_hygiene.py |
+| FR-003-23 | 003-console | draft | T-003-023 | tests/unit/test_t_003_023_unavailable_store.py |
+| FR-003-24 | 003-console | draft | T-003-030 | tests/unit/test_t_003_030_pages_artifact.py |
+| FR-003-25 | 003-console | draft | T-003-031 | web/e2e/console-optin.spec.ts |
 | FR-003-26 | 003-console | retired | - | - |
 | FR-003-27 | 003-console | retired | - | - |
-| FR-003-28 | 003-console | draft | T-003-040 | - |
-| FR-003-29 | 003-console | draft | T-003-040 | - |
-| FR-003-30 | 003-console | draft | T-003-041 | - |
-| FR-003-31 | 003-console | draft | T-003-092 | - |
+| FR-003-28 | 003-console | draft | T-003-040 | web/e2e/console/console-ui.spec.ts |
+| FR-003-29 | 003-console | draft | T-003-040 | web/e2e/console/console-ui.spec.ts |
+| FR-003-30 | 003-console | draft | T-003-041 | web/e2e/console/console-hostile.spec.ts |
+| FR-003-31 | 003-console | draft | T-003-092 | tests/unit/test_t_003_092_job_record_shards.py |
 | FR-003-32 | 003-console | draft | T-003-093 | - |
 | FR-003-33 | 003-console | draft | T-003-094 | - |
 | FR-004-01 | 004-scene-pipeline | draft | T-004-010 | - |
@@ -337,7 +337,7 @@
 | FR-004-37 | 004-scene-pipeline | draft | T-004-050 | - |
 | FR-004-38 | 004-scene-pipeline | draft | T-004-050 | - |
 | FR-004-39 | 004-scene-pipeline | draft | T-004-052 | - |
-| FR-004-40 | 004-scene-pipeline | draft | T-004-001 | tests/contract/test_t_004_001_scene_schemas.py |
+| FR-004-40 | 004-scene-pipeline | draft | T-004-001 | - |
 | FR-004-41 | 004-scene-pipeline | draft | T-004-043 | - |
 | FR-004-42 | 004-scene-pipeline | draft | T-004-092 | - |
 | FR-004-43 | 004-scene-pipeline | draft | T-004-093 | - |
@@ -469,56 +469,56 @@
 | FR-007-45 | 007-haulage-dispatch | draft | T-007-062, T-007-063 | - |
 | FR-007-46 | 007-haulage-dispatch | draft | T-007-092 | - |
 | FR-007-47 | 007-haulage-dispatch | draft | T-007-093 | - |
-| FR-008-01 | 008-data-pipeline | draft | T-008-010 | tests/contract/test_t_008_010_registry.py |
-| FR-008-02 | 008-data-pipeline | draft | T-008-010 | tests/contract/test_t_008_010_registry.py |
+| FR-008-01 | 008-data-pipeline | draft | T-008-010 | - |
+| FR-008-02 | 008-data-pipeline | draft | T-008-010 | - |
 | FR-008-03 | 008-data-pipeline | retired | - | - |
-| FR-008-04 | 008-data-pipeline | draft | T-008-011 | tests/pipeline/test_t_008_011_licence_classes.py |
-| FR-008-05 | 008-data-pipeline | draft | T-008-012 | tests/pipeline/test_t_008_012_download_verify.py |
-| FR-008-06 | 008-data-pipeline | draft | T-008-012 | tests/pipeline/test_t_008_012_download_verify.py |
-| FR-008-07 | 008-data-pipeline | draft | T-008-013 | tests/pipeline/test_t_008_013_pin_licence.py |
-| FR-008-08 | 008-data-pipeline | draft | T-008-013 | tests/pipeline/test_t_008_013_pin_licence.py |
+| FR-008-04 | 008-data-pipeline | draft | T-008-011 | - |
+| FR-008-05 | 008-data-pipeline | draft | T-008-012 | - |
+| FR-008-06 | 008-data-pipeline | draft | T-008-012 | - |
+| FR-008-07 | 008-data-pipeline | draft | T-008-013 | - |
+| FR-008-08 | 008-data-pipeline | draft | T-008-013 | - |
 | FR-008-09 | 008-data-pipeline | retired | - | - |
-| FR-008-10 | 008-data-pipeline | draft | T-008-014 | tests/pipeline/test_t_008_014_download_hostile.py |
-| FR-008-11 | 008-data-pipeline | draft | T-008-014 | tests/pipeline/test_t_008_014_download_hostile.py |
-| FR-008-12 | 008-data-pipeline | draft | T-008-015 | tests/pipeline/test_t_008_015_retry_resume.py |
-| FR-008-13 | 008-data-pipeline | draft | T-008-016 | tests/pipeline/test_t_008_016_fallback_offline.py |
-| FR-008-14 | 008-data-pipeline | draft | T-008-016 | tests/pipeline/test_t_008_016_fallback_offline.py |
-| FR-008-15 | 008-data-pipeline | draft | T-008-014 | tests/pipeline/test_t_008_014_download_hostile.py, tests/pipeline/test_t_008_020_tabular_schemas.py, tests/pipeline/test_t_008_040_synthesize.py, tests/pipeline/test_t_008_050_window_features.py |
-| FR-008-16 | 008-data-pipeline | draft | T-008-016 | tests/pipeline/test_t_008_016_fallback_offline.py |
-| FR-008-17 | 008-data-pipeline | draft | T-008-012 | tests/pipeline/test_t_008_012_download_verify.py |
-| FR-008-18 | 008-data-pipeline | draft | T-008-017 | tests/pipeline/test_t_008_017_archive_safety.py |
-| FR-008-19 | 008-data-pipeline | draft | T-008-017 | tests/pipeline/test_t_008_017_archive_safety.py |
-| FR-008-20 | 008-data-pipeline | draft | T-008-020 | tests/pipeline/test_t_008_020_tabular_schemas.py |
-| FR-008-21 | 008-data-pipeline | draft | T-008-020 | tests/pipeline/test_t_008_020_tabular_schemas.py |
-| FR-008-22 | 008-data-pipeline | draft | T-008-021 | tests/pipeline/test_t_008_021_outlier_policy.py |
-| FR-008-23 | 008-data-pipeline | draft | T-008-022 | tests/pipeline/test_t_008_022_file_validators.py |
-| FR-008-24 | 008-data-pipeline | draft | T-008-022 | tests/pipeline/test_t_008_022_file_validators.py |
-| FR-008-25 | 008-data-pipeline | draft | T-008-023 | tests/pipeline/test_t_008_023_units.py |
-| FR-008-26 | 008-data-pipeline | draft | T-008-024 | tests/pipeline/test_t_008_024_site_name.py |
-| FR-008-27 | 008-data-pipeline | draft | T-008-030 | tests/pipeline/test_t_008_030_mendeley_groups.py, tests/pipeline/test_t_008_033_group_keys.py |
-| FR-008-28 | 008-data-pipeline | draft | T-008-030 | tests/pipeline/test_t_008_030_mendeley_groups.py |
-| FR-008-29 | 008-data-pipeline | draft | T-008-031 | tests/pipeline/test_t_008_031_mendeley_integrity.py |
-| FR-008-30 | 008-data-pipeline | draft | T-008-032 | tests/pipeline/test_t_008_032_mendeley_folds.py |
-| FR-008-31 | 008-data-pipeline | draft | T-008-033 | tests/pipeline/test_t_008_033_group_keys.py |
-| FR-008-32 | 008-data-pipeline | draft | T-008-040 | tests/pipeline/test_t_008_040_synthesize.py |
-| FR-008-33 | 008-data-pipeline | draft | T-008-041 | tests/pipeline/test_t_008_041_synthetic_format.py |
-| FR-008-34 | 008-data-pipeline | draft | T-008-041 | tests/pipeline/test_t_008_041_synthetic_format.py |
-| FR-008-35 | 008-data-pipeline | draft | T-008-040 | tests/pipeline/test_t_008_040_synthesize.py |
-| FR-008-36 | 008-data-pipeline | draft | T-008-042 | tests/pipeline/test_t_008_042_honesty_rule.py |
-| FR-008-37 | 008-data-pipeline | draft | T-008-042 | tests/pipeline/test_t_008_042_honesty_rule.py |
-| FR-008-38 | 008-data-pipeline | draft | T-008-040 | tests/pipeline/test_t_008_040_synthesize.py |
-| FR-008-39 | 008-data-pipeline | draft | T-008-050 | tests/pipeline/test_t_008_050_window_features.py |
-| FR-008-40 | 008-data-pipeline | draft | T-008-051 | tests/gpu/test_t_008_051_embeddings_gpu.py, tests/pipeline/test_t_008_051_embeddings.py |
-| FR-008-41 | 008-data-pipeline | draft | T-008-051 | tests/pipeline/test_t_008_051_embeddings.py |
-| FR-008-42 | 008-data-pipeline | draft | T-008-050 | tests/pipeline/test_t_008_050_window_features.py |
-| FR-008-43 | 008-data-pipeline | draft | T-008-060 | tests/contract/test_t_008_060_data_cards.py |
-| FR-008-44 | 008-data-pipeline | draft | T-008-060 | tests/contract/test_t_008_060_data_cards.py |
-| FR-008-45 | 008-data-pipeline | draft | T-008-061 | tests/contract/test_t_008_061_samples_hygiene.py |
-| FR-008-46 | 008-data-pipeline | draft | T-008-023 | tests/pipeline/test_t_008_023_units.py |
-| FR-008-47 | 008-data-pipeline | draft | T-008-032 | tests/pipeline/test_t_008_032_mendeley_folds.py |
-| FR-008-48 | 008-data-pipeline | draft | T-008-050 | tests/pipeline/test_t_008_050_window_features.py, tests/pipeline/test_t_008_051_embeddings.py |
-| FR-008-49 | 008-data-pipeline | draft | T-008-092 | tests/contract/test_t_008_060_data_cards.py, tests/pipeline/test_t_008_092_fixture_source.py |
-| FR-008-50 | 008-data-pipeline | draft | T-008-093 | tests/pipeline/test_t_008_093_partial_source.py |
+| FR-008-10 | 008-data-pipeline | draft | T-008-014 | - |
+| FR-008-11 | 008-data-pipeline | draft | T-008-014 | - |
+| FR-008-12 | 008-data-pipeline | draft | T-008-015 | - |
+| FR-008-13 | 008-data-pipeline | draft | T-008-016 | - |
+| FR-008-14 | 008-data-pipeline | draft | T-008-016 | - |
+| FR-008-15 | 008-data-pipeline | draft | T-008-014 | - |
+| FR-008-16 | 008-data-pipeline | draft | T-008-016 | - |
+| FR-008-17 | 008-data-pipeline | draft | T-008-012 | - |
+| FR-008-18 | 008-data-pipeline | draft | T-008-017 | - |
+| FR-008-19 | 008-data-pipeline | draft | T-008-017 | - |
+| FR-008-20 | 008-data-pipeline | draft | T-008-020 | - |
+| FR-008-21 | 008-data-pipeline | draft | T-008-020 | - |
+| FR-008-22 | 008-data-pipeline | draft | T-008-021 | - |
+| FR-008-23 | 008-data-pipeline | draft | T-008-022 | - |
+| FR-008-24 | 008-data-pipeline | draft | T-008-022 | - |
+| FR-008-25 | 008-data-pipeline | draft | T-008-023 | - |
+| FR-008-26 | 008-data-pipeline | draft | T-008-024 | - |
+| FR-008-27 | 008-data-pipeline | draft | T-008-030 | - |
+| FR-008-28 | 008-data-pipeline | draft | T-008-030 | - |
+| FR-008-29 | 008-data-pipeline | draft | T-008-031 | - |
+| FR-008-30 | 008-data-pipeline | draft | T-008-032 | - |
+| FR-008-31 | 008-data-pipeline | draft | T-008-033 | - |
+| FR-008-32 | 008-data-pipeline | draft | T-008-040 | - |
+| FR-008-33 | 008-data-pipeline | draft | T-008-041 | - |
+| FR-008-34 | 008-data-pipeline | draft | T-008-041 | - |
+| FR-008-35 | 008-data-pipeline | draft | T-008-040 | - |
+| FR-008-36 | 008-data-pipeline | draft | T-008-042 | - |
+| FR-008-37 | 008-data-pipeline | draft | T-008-042 | - |
+| FR-008-38 | 008-data-pipeline | draft | T-008-040 | - |
+| FR-008-39 | 008-data-pipeline | draft | T-008-050 | - |
+| FR-008-40 | 008-data-pipeline | draft | T-008-051 | - |
+| FR-008-41 | 008-data-pipeline | draft | T-008-051 | - |
+| FR-008-42 | 008-data-pipeline | draft | T-008-050 | - |
+| FR-008-43 | 008-data-pipeline | draft | T-008-060 | - |
+| FR-008-44 | 008-data-pipeline | draft | T-008-060 | - |
+| FR-008-45 | 008-data-pipeline | draft | T-008-061 | - |
+| FR-008-46 | 008-data-pipeline | draft | T-008-023 | - |
+| FR-008-47 | 008-data-pipeline | draft | T-008-032 | - |
+| FR-008-48 | 008-data-pipeline | draft | T-008-050 | - |
+| FR-008-49 | 008-data-pipeline | draft | T-008-092 | - |
+| FR-008-50 | 008-data-pipeline | draft | T-008-093 | - |
 | FR-009-01 | 009-perception | draft | T-009-010 | - |
 | FR-009-02 | 009-perception | draft | T-009-016 | - |
 | FR-009-03 | 009-perception | draft | T-009-010 | - |
@@ -620,57 +620,57 @@
 | FR-010-46 | 010-slope | draft | T-010-095 | - |
 | FR-010-47 | 010-slope | draft | T-010-096 | - |
 | FR-010-48 | 010-slope | draft | T-010-097 | - |
-| FR-011-01 | 011-surrogates | draft | T-011-010 | tests/pipeline/test_t_011_010_gns_model.py |
-| FR-011-02 | 011-surrogates | draft | T-011-011 | tests/property/test_t_011_011_radius_graph.py, web/src/engines/gns/radiusGraph.test.ts |
-| FR-011-03 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_t_011_014_gns_training.py |
-| FR-011-04 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_t_011_014_gns_training.py |
-| FR-011-05 | 011-surrogates | draft | T-011-013 | tests/property/test_t_011_013_observables.py |
-| FR-011-06 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py |
-| FR-011-07 | 011-surrogates | draft | T-011-012 | tests/pipeline/test_t_011_012_gns_export.py |
-| FR-011-08 | 011-surrogates | draft | T-011-016 | tests/pipeline/test_t_011_016_gns_parity.py |
-| FR-011-09 | 011-surrogates | draft | T-011-020 | web/e2e/a3-gns-live.spec.ts |
-| FR-011-10 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py |
-| FR-011-11 | 011-surrogates | draft | T-011-020 | web/e2e/a3-gns-live.spec.ts |
-| FR-011-12 | 011-surrogates | draft | T-011-017 | tests/pipeline/test_t_011_015_gns_evaluate.py, tests/unit/test_t_011_017_rollout_guards.py |
-| FR-011-13 | 011-surrogates | draft | T-011-011 | tests/pipeline/test_t_011_015_gns_evaluate.py, tests/property/test_t_011_011_radius_graph.py, tests/unit/test_t_011_017_rollout_guards.py, web/src/engines/gns/radiusGraph.test.ts |
-| FR-011-14 | 011-surrogates | draft | T-011-018 | tests/pipeline/test_t_011_018_rollout_ingest.py |
-| FR-011-15 | 011-surrogates | draft | T-011-019 | tests/pipeline/test_t_011_019_gns_input_guards.py, tests/property/test_t_011_011_radius_graph.py, tests/unit/test_t_011_017_rollout_guards.py, web/src/engines/gns/inputGuards.test.ts, web/src/engines/gns/radiusGraph.test.ts |
-| FR-011-16 | 011-surrogates | draft | T-011-021 | tests/pipeline/test_t_011_021_gns_speed_report.py |
-| FR-011-17 | 011-surrogates | draft | T-011-034 | tests/unit/test_t_011_034_tape_arm.py, tests/unit/test_t_011_039_calibration_guards.py |
-| FR-011-18 | 011-surrogates | draft | T-011-030 | tests/property/test_t_011_030_heap_observables.py |
-| FR-011-19 | 011-surrogates | draft | T-011-034 | tests/unit/test_t_011_034_tape_arm.py |
-| FR-011-20 | 011-surrogates | draft | T-011-033 | tests/unit/test_t_011_033_cmaes_arm.py |
-| FR-011-21 | 011-surrogates | draft | T-011-033 | tests/unit/test_t_011_033_cmaes_arm.py, tests/unit/test_t_011_034_tape_arm.py |
-| FR-011-22 | 011-surrogates | draft | T-011-031 | tests/property/test_t_011_031_interval_coverage.py |
-| FR-011-23 | 011-surrogates | draft | T-011-032 | tests/property/test_t_011_032_gradient_gate.py |
-| FR-011-24 | 011-surrogates | draft | T-011-035 | tests/pipeline/test_t_011_035_coverage_study.py |
-| FR-011-25 | 011-surrogates | draft | T-011-035 | tests/pipeline/test_t_011_035_coverage_study.py |
-| FR-011-26 | 011-surrogates | draft | T-011-036 | tests/contract/test_t_011_036_calibration_result.py, tests/unit/test_t_011_039_calibration_guards.py |
-| FR-011-27 | 011-surrogates | draft | T-011-037 | tests/unit/test_t_011_037_secondary_arm.py |
-| FR-011-28 | 011-surrogates | draft | T-011-038 | tests/unit/test_t_011_038_literature_targets.py |
-| FR-011-29 | 011-surrogates | draft | T-011-039 | tests/unit/test_t_011_039_calibration_guards.py |
-| FR-011-30 | 011-surrogates | draft | T-011-039 | tests/unit/test_t_011_039_calibration_guards.py |
-| FR-011-31 | 011-surrogates | draft | T-011-040 | web/e2e/a3-calibration-replay.spec.ts |
-| FR-011-32 | 011-surrogates | draft | T-011-050 | tests/pipeline/test_t_011_051_fno_model.py, tests/property/test_t_011_050_dft_spectral.py |
-| FR-011-33 | 011-surrogates | draft | T-011-051 | tests/pipeline/test_t_011_051_fno_model.py |
-| FR-011-34 | 011-surrogates | draft | T-011-052 | tests/pipeline/test_t_011_052_field_ingest.py |
-| FR-011-35 | 011-surrogates | draft | T-011-053 | tests/pipeline/test_t_011_053_fno_evaluate.py |
-| FR-011-36 | 011-surrogates | draft | T-011-054 | tests/pipeline/test_t_011_054_fno_export.py |
-| FR-011-37 | 011-surrogates | draft | T-011-054 | tests/pipeline/test_t_011_054_fno_export.py |
-| FR-011-38 | 011-surrogates | draft | T-011-056 | web/e2e/c2-c3-fno-live.spec.ts |
-| FR-011-39 | 011-surrogates | draft | T-011-056 | web/e2e/c2-c3-fno-live.spec.ts |
-| FR-011-40 | 011-surrogates | draft | T-011-055 | tests/pipeline/test_t_011_051_fno_model.py, tests/pipeline/test_t_011_052_field_ingest.py, tests/pipeline/test_t_011_055_fno_input_guards.py, web/src/engines/fno/inputGuards.test.ts |
-| FR-011-41 | 011-surrogates | draft | T-011-052 | tests/pipeline/test_t_011_052_field_ingest.py |
-| FR-011-42 | 011-surrogates | draft | T-011-053 | tests/pipeline/test_t_011_053_fno_evaluate.py |
-| FR-011-43 | 011-surrogates | draft | T-011-057 | tests/pipeline/test_t_011_057_neuraloperator_parity.py |
-| FR-011-44 | 011-surrogates | draft | T-011-060 | tests/unit/test_t_011_060_gpu_fake.py |
-| FR-011-45 | 011-surrogates | draft | T-011-061 | tests/contract/test_t_011_061_surrogate_manifests.py |
-| FR-011-46 | 011-surrogates | draft | T-011-092 | tests/unit/test_t_011_092_surrogate_quantile_order.py |
-| FR-011-47 | 011-surrogates | draft | T-011-093 | tests/unit/test_t_011_093_surrogate_unique_names.py |
-| FR-011-48 | 011-surrogates | draft | T-011-094 | tests/unit/test_t_011_094_rollout_bounds.py |
-| FR-011-49 | 011-surrogates | draft | T-011-095 | tests/pipeline/test_t_011_095_fixture_propagation.py |
-| FR-011-50 | 011-surrogates | draft | T-011-096 | tests/pipeline/test_t_011_096_partial_cases.py |
-| FR-011-51 | 011-surrogates | draft | T-011-097 | tests/unit/test_t_011_097_input_stale.py |
+| FR-011-01 | 011-surrogates | draft | T-011-010 | - |
+| FR-011-02 | 011-surrogates | draft | T-011-011 | - |
+| FR-011-03 | 011-surrogates | draft | T-011-014 | - |
+| FR-011-04 | 011-surrogates | draft | T-011-014 | - |
+| FR-011-05 | 011-surrogates | draft | T-011-013 | - |
+| FR-011-06 | 011-surrogates | draft | T-011-015 | - |
+| FR-011-07 | 011-surrogates | draft | T-011-012 | - |
+| FR-011-08 | 011-surrogates | draft | T-011-016 | - |
+| FR-011-09 | 011-surrogates | draft | T-011-020 | - |
+| FR-011-10 | 011-surrogates | draft | T-011-015 | - |
+| FR-011-11 | 011-surrogates | draft | T-011-020 | - |
+| FR-011-12 | 011-surrogates | draft | T-011-017 | - |
+| FR-011-13 | 011-surrogates | draft | T-011-011 | - |
+| FR-011-14 | 011-surrogates | draft | T-011-018 | - |
+| FR-011-15 | 011-surrogates | draft | T-011-019 | - |
+| FR-011-16 | 011-surrogates | draft | T-011-021 | - |
+| FR-011-17 | 011-surrogates | draft | T-011-034 | - |
+| FR-011-18 | 011-surrogates | draft | T-011-030 | - |
+| FR-011-19 | 011-surrogates | draft | T-011-034 | - |
+| FR-011-20 | 011-surrogates | draft | T-011-033 | - |
+| FR-011-21 | 011-surrogates | draft | T-011-033 | - |
+| FR-011-22 | 011-surrogates | draft | T-011-031 | - |
+| FR-011-23 | 011-surrogates | draft | T-011-032 | - |
+| FR-011-24 | 011-surrogates | draft | T-011-035 | - |
+| FR-011-25 | 011-surrogates | draft | T-011-035 | - |
+| FR-011-26 | 011-surrogates | draft | T-011-036 | - |
+| FR-011-27 | 011-surrogates | draft | T-011-037 | - |
+| FR-011-28 | 011-surrogates | draft | T-011-038 | - |
+| FR-011-29 | 011-surrogates | draft | T-011-039 | - |
+| FR-011-30 | 011-surrogates | draft | T-011-039 | - |
+| FR-011-31 | 011-surrogates | draft | T-011-040 | - |
+| FR-011-32 | 011-surrogates | draft | T-011-050 | - |
+| FR-011-33 | 011-surrogates | draft | T-011-051 | - |
+| FR-011-34 | 011-surrogates | draft | T-011-052 | - |
+| FR-011-35 | 011-surrogates | draft | T-011-053 | - |
+| FR-011-36 | 011-surrogates | draft | T-011-054 | - |
+| FR-011-37 | 011-surrogates | draft | T-011-054 | - |
+| FR-011-38 | 011-surrogates | draft | T-011-056 | - |
+| FR-011-39 | 011-surrogates | draft | T-011-056 | - |
+| FR-011-40 | 011-surrogates | draft | T-011-055 | - |
+| FR-011-41 | 011-surrogates | draft | T-011-052 | - |
+| FR-011-42 | 011-surrogates | draft | T-011-053 | - |
+| FR-011-43 | 011-surrogates | draft | T-011-057 | - |
+| FR-011-44 | 011-surrogates | draft | T-011-060 | - |
+| FR-011-45 | 011-surrogates | draft | T-011-061 | - |
+| FR-011-46 | 011-surrogates | draft | T-011-092 | - |
+| FR-011-47 | 011-surrogates | draft | T-011-093 | - |
+| FR-011-48 | 011-surrogates | draft | T-011-094 | - |
+| FR-011-49 | 011-surrogates | draft | T-011-095 | - |
+| FR-011-50 | 011-surrogates | draft | T-011-096 | - |
+| FR-011-51 | 011-surrogates | draft | T-011-097 | - |
 | FR-012-01 | 012-fragmentation | draft | T-012-010 | - |
 | FR-012-02 | 012-fragmentation | draft | T-012-010 | - |
 | FR-012-03 | 012-fragmentation | draft | T-012-011 | - |
@@ -871,7 +871,7 @@
 | FR-016-08 | 016-export-acceleration | draft | T-016-020 | - |
 | FR-016-09 | 016-export-acceleration | draft | T-016-020 | - |
 | FR-016-10 | 016-export-acceleration | draft | T-016-020 | - |
-| FR-016-11 | 016-export-acceleration | draft | T-016-030 | tests/contract/test_t_016_003_parity_report_schema.py |
+| FR-016-11 | 016-export-acceleration | draft | T-016-030 | - |
 | FR-016-12 | 016-export-acceleration | draft | T-016-030 | - |
 | FR-016-13 | 016-export-acceleration | draft | T-016-030 | - |
 | FR-016-14 | 016-export-acceleration | draft | T-016-031 | - |
@@ -930,10 +930,10 @@
 | FR-017-27 | 017-planning-survey | draft | T-017-026 | - |
 | FR-017-28 | 017-planning-survey | draft | T-017-030 | - |
 | FR-017-29 | 017-planning-survey | draft | T-017-034 | - |
-| FR-017-30 | 017-planning-survey | draft | T-017-040 | web/src/engines/volume/t_018_072_volume.test.ts |
+| FR-017-30 | 017-planning-survey | draft | T-017-040 | - |
 | FR-017-31 | 017-planning-survey | draft | T-017-042 | - |
 | FR-017-32 | 017-planning-survey | draft | T-017-042 | - |
-| FR-017-33 | 017-planning-survey | draft | T-017-041 | web/src/engines/volume/t_018_072_volume.test.ts |
+| FR-017-33 | 017-planning-survey | draft | T-017-041 | - |
 | FR-017-34 | 017-planning-survey | draft | T-017-043 | - |
 | FR-017-35 | 017-planning-survey | draft | T-017-044 | - |
 | FR-017-36 | 017-planning-survey | draft | T-017-045 | - |
@@ -947,184 +947,184 @@
 | FR-017-44 | 017-planning-survey | draft | T-017-048 | - |
 | FR-017-45 | 017-planning-survey | draft | T-017-048 | - |
 | FR-017-46 | 017-planning-survey | draft | T-017-060 | - |
-| FR-017-47 | 017-planning-survey | draft | T-017-060 | web/src/engines/volume/t_018_072_volume.test.ts |
-| FR-017-48 | 017-planning-survey | draft | T-017-040 | web/src/engines/volume/t_018_072_volume.test.ts |
+| FR-017-47 | 017-planning-survey | draft | T-017-060 | - |
+| FR-017-48 | 017-planning-survey | draft | T-017-040 | - |
 | FR-017-49 | 017-planning-survey | draft | T-017-049 | - |
 | FR-017-50 | 017-planning-survey | draft | T-017-050 | - |
 | FR-017-51 | 017-planning-survey | draft | T-017-070 | - |
 | FR-017-52 | 017-planning-survey | draft | T-017-092 | - |
 | FR-017-53 | 017-planning-survey | draft | T-017-093 | - |
-| FR-018-01 | 018-web-cases | draft | T-018-020 | web/e2e/t_018_020_explore_pit.spec.ts |
+| FR-018-01 | 018-web-cases | draft | T-018-020 | - |
 | FR-018-02 | 018-web-cases | draft | T-018-021 | web/src/routes/t_018_021_case_rail.test.tsx, web/e2e/t_018_021_case_rail.spec.ts |
 | FR-018-03 | 018-web-cases | draft | T-018-021 | web/e2e/t_018_021_case_rail.spec.ts |
 | FR-018-04 | 018-web-cases | draft | T-018-022 | web/e2e/t_018_022_layers_kpis.spec.ts |
 | FR-018-05 | 018-web-cases | draft | T-018-022 | web/src/routes/t_018_022_kpis.test.tsx, web/e2e/t_018_022_layers_kpis.spec.ts |
-| FR-018-06 | 018-web-cases | draft | T-018-011 | web/e2e/t_018_011_tier_fallback.spec.ts |
-| FR-018-07 | 018-web-cases | draft | T-018-020 | web/e2e/t_018_020_explore_pit.spec.ts |
-| FR-018-08 | 018-web-cases | draft | T-018-023 | web/e2e/t_018_023_no_3d_fallback.spec.ts |
+| FR-018-06 | 018-web-cases | draft | T-018-011 | - |
+| FR-018-07 | 018-web-cases | draft | T-018-020 | - |
+| FR-018-08 | 018-web-cases | draft | T-018-023 | - |
 | FR-018-09 | 018-web-cases | draft | T-018-025 | web/src/routes/t_018_025_catalogue.test.tsx, web/e2e/t_018_025_catalogue.spec.ts |
-| FR-018-10 | 018-web-cases | draft | T-018-001 | tests/contract/test_t_018_001_cases_registry.py |
+| FR-018-10 | 018-web-cases | draft | T-018-001 | - |
 | FR-018-11 | 018-web-cases | draft | T-018-030 | web/e2e/t_018_030_case_pages.spec.ts |
 | FR-018-12 | 018-web-cases | draft | T-018-030 | web/e2e/t_018_030_case_pages.spec.ts |
 | FR-018-13 | 018-web-cases | draft | T-018-030 | web/e2e/t_018_030_case_pages.spec.ts |
-| FR-018-14 | 018-web-cases | draft | T-018-031 | web/src/engines/t_018_050_registry.test.ts, web/src/routes/t_018_031_case_tabs.test.tsx, web/e2e/t_018_031_case_tabs.spec.ts |
-| FR-018-15 | 018-web-cases | draft | T-018-031 | web/src/routes/t_018_031_case_tabs.test.tsx, web/e2e/t_018_031_case_tabs.spec.ts |
-| FR-018-16 | 018-web-cases | draft | T-018-032 | web/src/routes/t_018_032_charts_tab.test.tsx |
+| FR-018-14 | 018-web-cases | draft | T-018-031 | - |
+| FR-018-15 | 018-web-cases | draft | T-018-031 | - |
+| FR-018-16 | 018-web-cases | draft | T-018-032 | - |
 | FR-018-17 | 018-web-cases | draft | T-018-033 | web/src/routes/t_018_033_context_tab.test.tsx |
 | FR-018-18 | 018-web-cases | draft | T-018-034 | web/src/cards/t_018_034_artefact_card.test.tsx |
 | FR-018-19 | 018-web-cases | draft | T-018-035 | web/src/routes/t_018_035_reproduce.test.tsx, web/e2e/t_018_035_reproduce.spec.ts |
 | FR-018-20 | 018-web-cases | draft | T-018-035 | web/src/routes/t_018_035_reproduce.test.tsx |
-| FR-018-21 | 018-web-cases | draft | T-018-040 | web/src/sim/t_018_040_clock.test.ts, web/e2e/t_018_041_clock_sync.spec.ts |
-| FR-018-22 | 018-web-cases | draft | T-018-040 | web/src/sim/t_018_040_clock.test.ts, web/e2e/t_018_041_clock_sync.spec.ts |
-| FR-018-23 | 018-web-cases | draft | T-018-041 | web/e2e/t_018_041_clock_sync.spec.ts |
-| FR-018-24 | 018-web-cases | draft | T-018-041 | web/src/media/t_018_042_video_source.test.ts, web/e2e/t_018_041_clock_sync.spec.ts |
-| FR-018-25 | 018-web-cases | draft | T-018-042 | web/src/media/t_018_042_video_source.test.ts, web/e2e/t_018_042_video_cards.spec.ts |
-| FR-018-26 | 018-web-cases | draft | T-018-042 | web/src/media/t_018_042_video_source.test.ts, web/e2e/t_018_042_video_cards.spec.ts |
-| FR-018-27 | 018-web-cases | draft | T-018-042 | web/src/media/t_018_042_video_source.test.ts, web/e2e/t_018_042_video_cards.spec.ts |
-| FR-018-28 | 018-web-cases | draft | T-018-041 | web/e2e/t_018_041_clock_sync.spec.ts |
-| FR-018-29 | 018-web-cases | draft | T-018-010 | web/src/engines/host/t_018_012_protocol.test.ts, web/src/engines/tier/t_018_006_fake_gpu.test.ts, web/src/engines/tier/t_018_010_probe.test.ts, web/e2e/t_018_011_tier_fallback.spec.ts |
-| FR-018-30 | 018-web-cases | draft | T-018-010 | web/src/engines/tier/t_018_010_probe.test.ts, web/src/engines/tier/t_018_011_fallback.test.ts, web/e2e/t_018_011_tier_fallback.spec.ts |
-| FR-018-31 | 018-web-cases | draft | T-018-011 | web/src/engines/tier/t_018_006_fake_gpu.test.ts, web/src/engines/tier/t_018_011_fallback.test.ts, web/e2e/t_018_011_tier_fallback.spec.ts |
-| FR-018-32 | 018-web-cases | draft | T-018-017 | web/src/engines/t_018_050_registry.test.ts, web/e2e/t_018_017_t2_replay.spec.ts |
-| FR-018-33 | 018-web-cases | draft | T-018-014 | web/e2e/t_018_014_runtime_loading.spec.ts |
-| FR-018-34 | 018-web-cases | draft | T-018-014 | web/e2e/t_018_014_runtime_loading.spec.ts |
-| FR-018-35 | 018-web-cases | draft | T-018-014 | web/e2e/t_018_014_runtime_loading.spec.ts |
-| FR-018-36 | 018-web-cases | draft | T-018-015 | web/e2e/t_018_015_long_tasks.spec.ts |
-| FR-018-37 | 018-web-cases | draft | T-018-014 | web/e2e/t_018_014_runtime_loading.spec.ts |
-| FR-018-38 | 018-web-cases | draft | T-018-012 | web/src/engines/host/t_018_012_protocol.test.ts |
-| FR-018-39 | 018-web-cases | draft | T-018-012 | web/src/engines/host/t_018_012_protocol.test.ts |
-| FR-018-40 | 018-web-cases | draft | T-018-012 | web/src/engines/host/t_018_012_protocol.test.ts, web/e2e/t_018_036_hostile_inputs.spec.ts |
-| FR-018-41 | 018-web-cases | draft | T-018-036 | web/e2e/t_018_036_hostile_inputs.spec.ts |
-| FR-018-42 | 018-web-cases | draft | T-018-036 | web/src/engines/tier/t_018_010_probe.test.ts, web/e2e/t_018_036_hostile_inputs.spec.ts |
-| FR-018-43 | 018-web-cases | draft | T-018-013 | web/src/assets/t_018_013_loader_shard.test.ts |
-| FR-018-44 | 018-web-cases | draft | T-018-016 | web/e2e/t_018_016_offline_runtimes.spec.ts |
-| FR-018-45 | 018-web-cases | draft | T-018-013 | web/src/assets/t_018_013_loader_shard.test.ts |
-| FR-018-46 | 018-web-cases | draft | T-018-012 | web/src/engines/host/t_018_012_protocol.test.ts |
-| FR-018-47 | 018-web-cases | draft | T-018-050 | web/src/engines/t_018_050_registry.test.ts |
-| FR-018-48 | 018-web-cases | draft | T-018-052 | web/src/engines/t_018_088_parity_report.test.ts, web/src/engines/host/t_018_052_hosted_engines.test.ts, web/e2e/parity/t_018_052_hosted_report.spec.ts |
-| FR-018-49 | 018-web-cases | draft | T-018-051 | web/src/engines/random/t_018_051_pcg64.test.ts |
+| FR-018-21 | 018-web-cases | draft | T-018-040 | - |
+| FR-018-22 | 018-web-cases | draft | T-018-040 | - |
+| FR-018-23 | 018-web-cases | draft | T-018-041 | - |
+| FR-018-24 | 018-web-cases | draft | T-018-041 | - |
+| FR-018-25 | 018-web-cases | draft | T-018-042 | - |
+| FR-018-26 | 018-web-cases | draft | T-018-042 | - |
+| FR-018-27 | 018-web-cases | draft | T-018-042 | - |
+| FR-018-28 | 018-web-cases | draft | T-018-041 | - |
+| FR-018-29 | 018-web-cases | draft | T-018-010 | - |
+| FR-018-30 | 018-web-cases | draft | T-018-010 | - |
+| FR-018-31 | 018-web-cases | draft | T-018-011 | - |
+| FR-018-32 | 018-web-cases | draft | T-018-017 | - |
+| FR-018-33 | 018-web-cases | draft | T-018-014 | - |
+| FR-018-34 | 018-web-cases | draft | T-018-014 | - |
+| FR-018-35 | 018-web-cases | draft | T-018-014 | - |
+| FR-018-36 | 018-web-cases | draft | T-018-015 | - |
+| FR-018-37 | 018-web-cases | draft | T-018-014 | - |
+| FR-018-38 | 018-web-cases | draft | T-018-012 | - |
+| FR-018-39 | 018-web-cases | draft | T-018-012 | - |
+| FR-018-40 | 018-web-cases | draft | T-018-012 | - |
+| FR-018-41 | 018-web-cases | draft | T-018-036 | - |
+| FR-018-42 | 018-web-cases | draft | T-018-036 | - |
+| FR-018-43 | 018-web-cases | draft | T-018-013 | - |
+| FR-018-44 | 018-web-cases | draft | T-018-016 | - |
+| FR-018-45 | 018-web-cases | draft | T-018-013 | - |
+| FR-018-46 | 018-web-cases | draft | T-018-012 | - |
+| FR-018-47 | 018-web-cases | draft | T-018-050 | - |
+| FR-018-48 | 018-web-cases | draft | T-018-052 | - |
+| FR-018-49 | 018-web-cases | draft | T-018-051 | - |
 | FR-018-50 | 018-web-cases | retired | - | - |
-| FR-018-51 | 018-web-cases | draft | T-018-064, T-018-066, T-018-068, T-018-070, T-018-072 | web/src/engines/volume/t_018_072_volume.test.ts, web/src/engines/analytical/blasting/t_018_068_blasting.test.ts, web/src/engines/analytical/comminution/t_018_070_comminution.test.ts, web/src/engines/analytical/environment/t_018_066_plume.test.ts, web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| FR-018-52 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| FR-018-53 | 018-web-cases | draft | T-018-071 | web/src/engines/mincut/t_018_071_mincut.test.ts |
-| FR-018-54 | 018-web-cases | draft | T-018-061 | web/e2e/parity/t_018_061_rapier_hash.spec.ts |
-| FR-018-55 | 018-web-cases | draft | T-018-061 | web/src/engines/traffic/t_018_061_ttc.test.ts |
-| FR-018-56 | 018-web-cases | draft | T-005-025, T-018-059, T-018-065, T-018-067 | web/e2e/gpu/t_018_059_granular.spec.ts, web/e2e/gpu/t_018_065_shallow_water.spec.ts, web/e2e/gpu/t_018_067_dust_particles.spec.ts |
-| FR-018-57 | 018-web-cases | draft | T-018-060 | web/e2e/gpu/t_018_060_onnx_webgpu.spec.ts, web/e2e/parity/t_018_060_onnx_wasm.spec.ts |
-| FR-018-58 | 018-web-cases | draft | T-018-063 | web/src/engines/ml/t_018_063_detector.test.ts, web/e2e/parity/t_018_063_detector.spec.ts |
-| FR-018-59 | 018-web-cases | draft | T-018-069 | web/src/engines/watershed/t_018_069_watershed.test.ts |
+| FR-018-51 | 018-web-cases | draft | T-018-064, T-018-066, T-018-068, T-018-070, T-018-072 | - |
+| FR-018-52 | 018-web-cases | draft | T-018-064 | - |
+| FR-018-53 | 018-web-cases | draft | T-018-071 | - |
+| FR-018-54 | 018-web-cases | draft | T-018-061 | - |
+| FR-018-55 | 018-web-cases | draft | T-018-061 | - |
+| FR-018-56 | 018-web-cases | draft | T-005-025, T-018-059, T-018-065, T-018-067 | - |
+| FR-018-57 | 018-web-cases | draft | T-018-060 | - |
+| FR-018-58 | 018-web-cases | draft | T-018-063 | - |
+| FR-018-59 | 018-web-cases | draft | T-018-069 | - |
 | FR-018-60 | 018-web-cases | retired | - | - |
-| FR-018-61 | 018-web-cases | draft | T-018-073 | web/e2e/t_018_073_pyodide.spec.ts |
-| FR-018-62 | 018-web-cases | draft | T-018-073 | web/e2e/t_018_073_pyodide.spec.ts |
-| FR-018-63 | 018-web-cases | draft | T-018-050 | web/src/engines/t_018_050_registry.test.ts, web/src/engines/t_018_088_parity_report.test.ts, web/src/engines/host/t_018_052_hosted_engines.test.ts, web/e2e/t_018_050_parity_gate.spec.ts, web/e2e/parity/t_018_052_hosted_report.spec.ts |
-| FR-018-64 | 018-web-cases | draft | T-018-081 | web/src/engines/t_018_088_parity_report.test.ts, web/src/lane/t_018_082_check_lanes.test.ts, web/e2e/lane-gate/t_018_081_measure.spec.ts |
-| FR-018-65 | 018-web-cases | draft | T-018-080 | web/src/lane/t_018_080_derive_lane.test.ts |
-| FR-018-66 | 018-web-cases | draft | T-018-082 | web/src/lane/t_018_082_check_lanes.test.ts |
-| FR-018-67 | 018-web-cases | draft | T-018-005, T-018-088 | tests/contract/test_t_018_005_parity_fixtures.py, web/src/engines/t_018_088_parity_report.test.ts, web/src/lane/t_018_082_check_lanes.test.ts, web/src/engines/host/t_018_052_hosted_engines.test.ts |
-| FR-018-68 | 018-web-cases | draft | T-018-040 | web/src/sim/t_018_040_clock.test.ts |
-| FR-018-69 | 018-web-cases | draft | T-018-092 | tests/unit/test_t_018_092_case_duplicate_kpi.py |
+| FR-018-61 | 018-web-cases | draft | T-018-073 | - |
+| FR-018-62 | 018-web-cases | draft | T-018-073 | - |
+| FR-018-63 | 018-web-cases | draft | T-018-050 | - |
+| FR-018-64 | 018-web-cases | draft | T-018-081 | - |
+| FR-018-65 | 018-web-cases | draft | T-018-080 | - |
+| FR-018-66 | 018-web-cases | draft | T-018-082 | - |
+| FR-018-67 | 018-web-cases | draft | T-018-005, T-018-088 | - |
+| FR-018-68 | 018-web-cases | draft | T-018-040 | - |
+| FR-018-69 | 018-web-cases | draft | T-018-092 | - |
 | FR-018-70 | 018-web-cases | draft | T-018-093 | - |
 | FR-018-71 | 018-web-cases | draft | T-018-094 | - |
-| FR-019-01 | 019-web-studio | draft | T-019-010 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_010_tool_map.spec.ts |
-| FR-019-02 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts, web/src/studio/t_019_010_tool_map.test.tsx |
-| FR-019-03 | 019-web-studio | draft | T-019-011 | web/e2e/t_019_011_map_fallback.spec.ts |
-| FR-019-04 | 019-web-studio | draft | T-019-011 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_011_map_fallback.spec.ts |
-| FR-019-05 | 019-web-studio | draft | T-019-010 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_010_tool_map.spec.ts |
-| FR-019-06 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts, web/src/studio/t_019_010_tool_map.test.tsx |
-| FR-019-07 | 019-web-studio | draft | T-019-012 | web/src/studio/t_019_012_loop.test.tsx, web/e2e/t_019_012_loop.spec.ts |
-| FR-019-08 | 019-web-studio | draft | T-019-020 | web/e2e/t_019_020_tool_pages.spec.ts |
-| FR-019-09 | 019-web-studio | draft | T-019-002, T-019-021 | tests/contract/test_t_019_002_resolve_versions.py, web/src/studio/blocks/t_019_021_blocks.test.tsx |
-| FR-019-10 | 019-web-studio | draft | T-019-002 | tests/contract/test_t_019_002_resolve_versions.py |
-| FR-019-11 | 019-web-studio | draft | T-019-021 | web/src/studio/blocks/t_019_021_blocks.test.tsx |
-| FR-019-12 | 019-web-studio | draft | T-019-022 | web/src/studio/blocks/t_019_022_artefacts.test.tsx, web/e2e/t_019_022_not_yet_run.spec.ts |
-| FR-019-13 | 019-web-studio | draft | T-019-022 | web/src/studio/t_019_010_tool_map.test.tsx, web/src/studio/blocks/t_019_022_artefacts.test.tsx, web/e2e/t_019_022_not_yet_run.spec.ts |
-| FR-019-14 | 019-web-studio | draft | T-019-022 | web/src/studio/blocks/t_019_022_artefacts.test.tsx, web/e2e/t_019_022_not_yet_run.spec.ts |
-| FR-019-15 | 019-web-studio | draft | T-019-023 | web/src/studio/blocks/t_019_023_provenance.test.tsx, web/e2e/t_019_023_provenance.spec.ts |
-| FR-019-16 | 019-web-studio | draft | T-019-021 | web/src/studio/blocks/t_019_021_blocks.test.tsx |
-| FR-019-17 | 019-web-studio | draft | T-019-021 | web/src/studio/blocks/t_019_021_blocks.test.tsx |
-| FR-019-18 | 019-web-studio | draft | T-019-021 | web/src/studio/blocks/t_019_021_blocks.test.tsx |
-| FR-019-19 | 019-web-studio | draft | T-019-021 | web/src/studio/blocks/t_019_021_blocks.test.tsx |
-| FR-019-20 | 019-web-studio | draft | T-019-020 | web/e2e/t_019_020_tool_pages.spec.ts |
-| FR-019-21 | 019-web-studio | draft | T-019-030 | web/src/studio/t_019_030_runs_ledger.test.tsx, web/e2e/t_019_030_runs.spec.ts |
-| FR-019-22 | 019-web-studio | draft | T-019-031 | web/e2e/t_019_031_run_page.spec.ts |
-| FR-019-23 | 019-web-studio | draft | T-019-031 | web/src/studio/t_019_031_manifest_tree.test.tsx, web/e2e/t_019_031_run_page.spec.ts |
-| FR-019-24 | 019-web-studio | draft | T-019-032 | web/src/studio/t_019_032_dag_determinism.test.tsx |
-| FR-019-25 | 019-web-studio | draft | T-019-032 | web/src/studio/t_019_032_dag_determinism.test.tsx |
-| FR-019-26 | 019-web-studio | draft | T-019-030 | web/e2e/t_019_030_runs.spec.ts |
-| FR-019-27 | 019-web-studio | draft | T-019-033 | web/src/studio/telemetry/t_019_033_timelines.test.tsx, web/e2e/t_019_033_gpu_page.spec.ts |
-| FR-019-28 | 019-web-studio | draft | T-019-033 | web/src/studio/telemetry/t_019_033_timelines.test.tsx, web/e2e/t_019_033_gpu_page.spec.ts |
-| FR-019-29 | 019-web-studio | draft | T-019-033 | web/src/studio/telemetry/t_019_033_timelines.test.tsx, web/e2e/t_019_033_gpu_page.spec.ts |
-| FR-019-30 | 019-web-studio | draft | T-019-034 | web/src/studio/telemetry/t_019_034_local_only.test.tsx |
-| FR-019-31 | 019-web-studio | draft | T-019-033 | web/src/studio/telemetry/t_019_033_timelines.test.tsx, web/e2e/t_019_033_gpu_page.spec.ts |
-| FR-019-32 | 019-web-studio | draft | T-019-034 | web/src/studio/telemetry/t_019_034_local_only.test.tsx |
-| FR-019-33 | 019-web-studio | draft | T-019-004 | tests/contract/test_t_019_004_check_showcase.py |
-| FR-019-34 | 019-web-studio | draft | T-019-004 | tests/contract/test_t_019_004_check_showcase.py |
-| FR-019-35 | 019-web-studio | draft | T-019-004 | tests/contract/test_t_019_004_check_showcase.py |
-| FR-019-36 | 019-web-studio | draft | T-019-004 | tests/contract/test_t_019_004_check_showcase.py |
-| FR-019-37 | 019-web-studio | draft | T-019-023 | web/src/studio/blocks/t_019_023_provenance.test.tsx, web/e2e/t_019_023_provenance.spec.ts |
-| FR-019-38 | 019-web-studio | draft | T-019-001 | tests/contract/test_t_019_001_studio_schemas.py |
-| FR-019-39 | 019-web-studio | draft | T-019-011 | web/e2e/t_019_011_map_fallback.spec.ts |
-| FR-019-40 | 019-web-studio | draft | T-019-024 | web/src/studio/t_019_024_hostile_strings.test.tsx, web/e2e/t_019_024_hostile_strings.spec.ts |
-| FR-019-41 | 019-web-studio | draft | T-019-030 | web/src/studio/t_019_030_runs_ledger.test.tsx, web/e2e/t_019_030_runs.spec.ts |
-| FR-019-42 | 019-web-studio | draft | T-019-021 | web/src/studio/blocks/t_019_021_blocks.test.tsx |
-| FR-019-43 | 019-web-studio | draft | T-019-004 | tests/contract/test_t_019_004_check_showcase.py |
-| FR-019-44 | 019-web-studio | draft | T-019-036 | web/src/studio/connect.test.ts, web/e2e/t_019_036_connect.spec.ts |
-| FR-019-45 | 019-web-studio | draft | T-019-036 | web/src/studio/connect.test.ts, web/e2e/t_019_036_connect.spec.ts |
-| FR-019-46 | 019-web-studio | draft | T-019-092 | tests/unit/test_t_019_092_toolmap_self_edge.py |
-| FR-019-47 | 019-web-studio | draft | T-019-093 | tests/unit/test_t_019_093_studio_index_cap.py, web/src/studio/t_019_093_index_loader.test.ts |
+| FR-019-01 | 019-web-studio | draft | T-019-010 | - |
+| FR-019-02 | 019-web-studio | draft | T-019-003 | - |
+| FR-019-03 | 019-web-studio | draft | T-019-011 | - |
+| FR-019-04 | 019-web-studio | draft | T-019-011 | - |
+| FR-019-05 | 019-web-studio | draft | T-019-010 | - |
+| FR-019-06 | 019-web-studio | draft | T-019-003 | - |
+| FR-019-07 | 019-web-studio | draft | T-019-012 | - |
+| FR-019-08 | 019-web-studio | draft | T-019-020 | - |
+| FR-019-09 | 019-web-studio | draft | T-019-002, T-019-021 | - |
+| FR-019-10 | 019-web-studio | draft | T-019-002 | - |
+| FR-019-11 | 019-web-studio | draft | T-019-021 | - |
+| FR-019-12 | 019-web-studio | draft | T-019-022 | - |
+| FR-019-13 | 019-web-studio | draft | T-019-022 | - |
+| FR-019-14 | 019-web-studio | draft | T-019-022 | - |
+| FR-019-15 | 019-web-studio | draft | T-019-023 | - |
+| FR-019-16 | 019-web-studio | draft | T-019-021 | - |
+| FR-019-17 | 019-web-studio | draft | T-019-021 | - |
+| FR-019-18 | 019-web-studio | draft | T-019-021 | - |
+| FR-019-19 | 019-web-studio | draft | T-019-021 | - |
+| FR-019-20 | 019-web-studio | draft | T-019-020 | - |
+| FR-019-21 | 019-web-studio | draft | T-019-030 | - |
+| FR-019-22 | 019-web-studio | draft | T-019-031 | - |
+| FR-019-23 | 019-web-studio | draft | T-019-031 | - |
+| FR-019-24 | 019-web-studio | draft | T-019-032 | - |
+| FR-019-25 | 019-web-studio | draft | T-019-032 | - |
+| FR-019-26 | 019-web-studio | draft | T-019-030 | - |
+| FR-019-27 | 019-web-studio | draft | T-019-033 | - |
+| FR-019-28 | 019-web-studio | draft | T-019-033 | - |
+| FR-019-29 | 019-web-studio | draft | T-019-033 | - |
+| FR-019-30 | 019-web-studio | draft | T-019-034 | - |
+| FR-019-31 | 019-web-studio | draft | T-019-033 | - |
+| FR-019-32 | 019-web-studio | draft | T-019-034 | - |
+| FR-019-33 | 019-web-studio | draft | T-019-004 | - |
+| FR-019-34 | 019-web-studio | draft | T-019-004 | - |
+| FR-019-35 | 019-web-studio | draft | T-019-004 | - |
+| FR-019-36 | 019-web-studio | draft | T-019-004 | - |
+| FR-019-37 | 019-web-studio | draft | T-019-023 | - |
+| FR-019-38 | 019-web-studio | draft | T-019-001 | - |
+| FR-019-39 | 019-web-studio | draft | T-019-011 | - |
+| FR-019-40 | 019-web-studio | draft | T-019-024 | - |
+| FR-019-41 | 019-web-studio | draft | T-019-030 | - |
+| FR-019-42 | 019-web-studio | draft | T-019-021 | - |
+| FR-019-43 | 019-web-studio | draft | T-019-004 | - |
+| FR-019-44 | 019-web-studio | draft | T-019-036 | - |
+| FR-019-45 | 019-web-studio | draft | T-019-036 | - |
+| FR-019-46 | 019-web-studio | draft | T-019-092 | - |
+| FR-019-47 | 019-web-studio | draft | T-019-093 | - |
 | FR-019-48 | 019-web-studio | draft | T-019-094 | - |
 | FR-019-49 | 019-web-studio | draft | T-019-095 | - |
-| FR-020-01 | 020-web-knowledge | draft | T-020-014 | web/e2e/t_020_014_theory_pages.spec.ts |
-| FR-020-02 | 020-web-knowledge | draft | T-020-014 | tests/contract/test_t_020_014_theory_content.py |
-| FR-020-03 | 020-web-knowledge | draft | T-020-014 | tests/contract/test_t_020_014_theory_content.py |
-| FR-020-04 | 020-web-knowledge | draft | T-020-014 | web/e2e/t_020_014_theory_pages.spec.ts |
-| FR-020-05 | 020-web-knowledge | draft | T-020-014 | tests/contract/test_t_020_014_theory_content.py, web/e2e/t_020_014_theory_pages.spec.ts |
-| FR-020-06 | 020-web-knowledge | draft | T-020-015 | web/src/theory/t_020_015_figures.test.tsx, web/e2e/t_020_015_figures.spec.ts |
-| FR-020-07 | 020-web-knowledge | draft | T-020-010 | web/src/charts/t_020_010_chart.test.ts, web/e2e/t_020_010_chart.spec.ts |
-| FR-020-08 | 020-web-knowledge | draft | T-020-015 | web/src/theory/t_020_015_figures.test.tsx, web/e2e/t_020_015_figures.spec.ts |
-| FR-020-09 | 020-web-knowledge | draft | T-020-003 | tests/contract/test_t_020_003_figure_registry.py |
-| FR-020-10 | 020-web-knowledge | draft | T-020-003 | tests/contract/test_t_020_003_figure_registry.py |
-| FR-020-11 | 020-web-knowledge | draft | T-020-010 | web/e2e/t_020_010_chart.spec.ts |
-| FR-020-12 | 020-web-knowledge | draft | T-020-010 | web/src/charts/t_020_010_chart.test.ts, web/e2e/t_020_010_chart.spec.ts |
-| FR-020-13 | 020-web-knowledge | draft | T-020-015 | web/src/theory/t_020_015_figures.test.tsx, web/e2e/t_020_015_figures.spec.ts |
-| FR-020-14 | 020-web-knowledge | draft | T-020-016 | web/e2e/t_020_016_hostile.spec.ts |
-| FR-020-15 | 020-web-knowledge | draft | T-020-010 | web/src/charts/t_020_010_chart.test.ts, web/e2e/t_020_010_chart.spec.ts |
-| FR-020-16 | 020-web-knowledge | draft | T-020-003 | tests/contract/test_t_020_003_figure_registry.py |
-| FR-020-17 | 020-web-knowledge | draft | T-020-020 | web/src/routes/t_020_020_methods.test.tsx, web/e2e/t_020_020_methods.spec.ts |
-| FR-020-18 | 020-web-knowledge | draft | T-020-020 | web/src/routes/t_020_020_methods.test.tsx, web/e2e/t_020_020_methods.spec.ts |
-| FR-020-19 | 020-web-knowledge | draft | T-020-001 | tests/contract/test_t_020_001_methods_registry.py |
+| FR-020-01 | 020-web-knowledge | draft | T-020-014 | - |
+| FR-020-02 | 020-web-knowledge | draft | T-020-014 | - |
+| FR-020-03 | 020-web-knowledge | draft | T-020-014 | - |
+| FR-020-04 | 020-web-knowledge | draft | T-020-014 | - |
+| FR-020-05 | 020-web-knowledge | draft | T-020-014 | - |
+| FR-020-06 | 020-web-knowledge | draft | T-020-015 | - |
+| FR-020-07 | 020-web-knowledge | draft | T-020-010 | - |
+| FR-020-08 | 020-web-knowledge | draft | T-020-015 | - |
+| FR-020-09 | 020-web-knowledge | draft | T-020-003 | - |
+| FR-020-10 | 020-web-knowledge | draft | T-020-003 | - |
+| FR-020-11 | 020-web-knowledge | draft | T-020-010 | - |
+| FR-020-12 | 020-web-knowledge | draft | T-020-010 | - |
+| FR-020-13 | 020-web-knowledge | draft | T-020-015 | - |
+| FR-020-14 | 020-web-knowledge | draft | T-020-016 | - |
+| FR-020-15 | 020-web-knowledge | draft | T-020-010 | - |
+| FR-020-16 | 020-web-knowledge | draft | T-020-003 | - |
+| FR-020-17 | 020-web-knowledge | draft | T-020-020 | - |
+| FR-020-18 | 020-web-knowledge | draft | T-020-020 | - |
+| FR-020-19 | 020-web-knowledge | draft | T-020-001 | - |
 | FR-020-20 | 020-web-knowledge | draft | T-020-031 | web/src/results/t_020_031_rows.test.tsx, web/e2e/t_020_031_results.spec.ts |
 | FR-020-21 | 020-web-knowledge | draft | T-020-031 | web/src/results/t_020_031_rows.test.tsx |
-| FR-020-22 | 020-web-knowledge | draft | T-020-030 | web/src/results/t_020_030_verdict.test.ts, web/src/routes/t_018_032_charts_tab.test.tsx |
-| FR-020-23 | 020-web-knowledge | draft | T-020-002 | tests/contract/test_t_020_002_results_bundle.py |
-| FR-020-24 | 020-web-knowledge | draft | T-020-032 | web/src/results/t_020_032_criteria.test.ts, web/e2e/t_020_088_criteria_rows.spec.ts |
-| FR-020-25 | 020-web-knowledge | draft | T-020-033 | web/src/results/t_020_033_gaps_parity.test.tsx |
-| FR-020-26 | 020-web-knowledge | draft | T-020-033 | web/src/results/t_020_033_gaps_parity.test.tsx |
-| FR-020-27 | 020-web-knowledge | draft | T-020-034 | web/src/results/t_020_034_cosmos.test.tsx, web/e2e/t_020_034_cosmos_headline.spec.ts |
-| FR-020-28 | 020-web-knowledge | draft | T-020-035 | web/src/results/t_020_035_acceleration.test.tsx |
-| FR-020-29 | 020-web-knowledge | draft | T-020-002 | tests/contract/test_t_020_002_results_bundle.py |
-| FR-020-30 | 020-web-knowledge | draft | T-020-035 | web/src/results/t_020_035_acceleration.test.tsx |
+| FR-020-22 | 020-web-knowledge | draft | T-020-030 | - |
+| FR-020-23 | 020-web-knowledge | draft | T-020-002 | - |
+| FR-020-24 | 020-web-knowledge | draft | T-020-032 | - |
+| FR-020-25 | 020-web-knowledge | draft | T-020-033 | - |
+| FR-020-26 | 020-web-knowledge | draft | T-020-033 | - |
+| FR-020-27 | 020-web-knowledge | draft | T-020-034 | - |
+| FR-020-28 | 020-web-knowledge | draft | T-020-035 | - |
+| FR-020-29 | 020-web-knowledge | draft | T-020-002 | - |
+| FR-020-30 | 020-web-knowledge | draft | T-020-035 | - |
 | FR-020-31 | 020-web-knowledge | draft | T-020-031 | web/src/results/t_020_031_rows.test.tsx, web/e2e/t_020_031_results.spec.ts |
-| FR-020-32 | 020-web-knowledge | draft | T-020-040 | web/src/knowledge/t_020_040_sections.test.tsx, web/e2e/t_020_040_knowledge.spec.ts |
-| FR-020-33 | 020-web-knowledge | draft | T-020-041 | web/src/knowledge/t_020_041_parameters_equations.test.tsx |
-| FR-020-34 | 020-web-knowledge | draft | T-020-041 | web/src/knowledge/t_020_041_parameters_equations.test.tsx |
-| FR-020-35 | 020-web-knowledge | draft | T-020-042 | web/src/knowledge/t_020_042_search.test.ts, web/e2e/t_020_042_search.spec.ts |
-| FR-020-36 | 020-web-knowledge | draft | T-020-040 | web/src/knowledge/t_020_040_sections.test.tsx, web/e2e/t_020_040_knowledge.spec.ts |
-| FR-020-37 | 020-web-knowledge | draft | T-020-040 | web/src/knowledge/t_020_040_sections.test.tsx, web/e2e/t_020_040_knowledge.spec.ts |
-| FR-020-38 | 020-web-knowledge | draft | T-020-040 | web/src/knowledge/t_020_040_sections.test.tsx, web/e2e/t_020_040_knowledge.spec.ts |
-| FR-020-39 | 020-web-knowledge | draft | T-020-004 | tests/contract/test_t_020_004_knowledge_bundle.py |
-| FR-020-40 | 020-web-knowledge | draft | T-020-004 | tests/contract/test_t_020_004_knowledge_bundle.py |
-| FR-020-41 | 020-web-knowledge | draft | T-020-042 | web/src/knowledge/t_020_042_search.test.ts, web/e2e/t_020_042_search.spec.ts |
-| FR-020-42 | 020-web-knowledge | draft | T-020-043 | web/src/knowledge/t_020_043_unverified_headline.test.ts |
-| FR-020-43 | 020-web-knowledge | draft | T-020-050 | web/e2e/t_020_050_architecture_modal.spec.ts |
-| FR-020-44 | 020-web-knowledge | draft | T-020-050 | web/e2e/t_020_050_architecture_modal.spec.ts |
+| FR-020-32 | 020-web-knowledge | draft | T-020-040 | - |
+| FR-020-33 | 020-web-knowledge | draft | T-020-041 | - |
+| FR-020-34 | 020-web-knowledge | draft | T-020-041 | - |
+| FR-020-35 | 020-web-knowledge | draft | T-020-042 | - |
+| FR-020-36 | 020-web-knowledge | draft | T-020-040 | - |
+| FR-020-37 | 020-web-knowledge | draft | T-020-040 | - |
+| FR-020-38 | 020-web-knowledge | draft | T-020-040 | - |
+| FR-020-39 | 020-web-knowledge | draft | T-020-004 | - |
+| FR-020-40 | 020-web-knowledge | draft | T-020-004 | - |
+| FR-020-41 | 020-web-knowledge | draft | T-020-042 | - |
+| FR-020-42 | 020-web-knowledge | draft | T-020-043 | - |
+| FR-020-43 | 020-web-knowledge | draft | T-020-050 | - |
+| FR-020-44 | 020-web-knowledge | draft | T-020-050 | - |
 | FR-020-45 | 020-web-knowledge | draft | T-020-060 | web/src/locales/t_020_060_locales.test.ts |
-| FR-020-46 | 020-web-knowledge | draft | T-020-061 | web/src/shell/t_020_061_contrast.test.ts |
-| FR-020-47 | 020-web-knowledge | draft | T-020-014 | tests/contract/test_t_020_014_theory_content.py, web/e2e/t_020_014_theory_pages.spec.ts |
-| FR-020-48 | 020-web-knowledge | draft | T-020-016 | web/e2e/t_020_016_hostile.spec.ts |
-| FR-020-49 | 020-web-knowledge | draft | T-020-011, T-020-012, T-020-013 | web/src/theory/fn/t_020_011_beverloo_ritter.test.ts, web/src/theory/fn/t_020_012_lidar_ppo.test.ts, web/src/theory/fn/t_020_013_statistics.test.ts |
-| FR-020-50 | 020-web-knowledge | draft | T-020-011, T-020-012, T-020-013 | web/src/theory/fn/t_020_011_beverloo_ritter.test.ts, web/src/theory/fn/t_020_012_lidar_ppo.test.ts, web/src/theory/fn/t_020_013_statistics.test.ts |
-| FR-020-51 | 020-web-knowledge | draft | T-020-051 | tests/contract/test_t_020_051_inline_svg.py |
+| FR-020-46 | 020-web-knowledge | draft | T-020-061 | - |
+| FR-020-47 | 020-web-knowledge | draft | T-020-014 | - |
+| FR-020-48 | 020-web-knowledge | draft | T-020-016 | - |
+| FR-020-49 | 020-web-knowledge | draft | T-020-011, T-020-012, T-020-013 | - |
+| FR-020-50 | 020-web-knowledge | draft | T-020-011, T-020-012, T-020-013 | - |
+| FR-020-51 | 020-web-knowledge | draft | T-020-051 | - |
 | FR-020-52 | 020-web-knowledge | draft | T-020-092 | - |
 | FR-020-53 | 020-web-knowledge | draft | T-020-093 | - |
 | FR-020-54 | 020-web-knowledge | draft | T-020-094 | - |
@@ -1141,14 +1141,14 @@
 | NFR-001-03 | 001-contracts | draft | T-001-004 | tests/contract/test_t_001_004_corpus_coverage.py |
 | NFR-001-04 | 001-contracts | draft | T-001-002 | tests/contract/test_t_001_002_generated_types.py |
 | NFR-001-05 | 001-contracts | draft | T-001-090 | - |
-| NFR-002-01 | 002-runner | draft | T-002-002 | - |
-| NFR-002-02 | 002-runner | draft | T-002-010 | - |
-| NFR-002-03 | 002-runner | draft | T-002-040 | - |
-| NFR-002-04 | 002-runner | draft | T-002-030 | - |
-| NFR-002-05 | 002-runner | draft | T-002-090 | - |
-| NFR-003-01 | 003-console | draft | T-003-015 | - |
-| NFR-003-02 | 003-console | draft | T-003-024, T-003-024 | - |
-| NFR-003-03 | 003-console | draft | T-003-040 | - |
+| NFR-002-01 | 002-runner | draft | T-002-002 | tests/unit/test_t_002_002_loc_budget.py |
+| NFR-002-02 | 002-runner | draft | T-002-010 | tests/unit/test_t_002_010_plan.py |
+| NFR-002-03 | 002-runner | draft | T-002-040 | tests/unit/test_t_002_040_launch.py |
+| NFR-002-04 | 002-runner | draft | T-002-030 | tests/unit/test_t_002_030_locks_hold.py |
+| NFR-002-05 | 002-runner | draft | T-002-090 | tests/unit/test_t_002_090_mutation_score.py |
+| NFR-003-01 | 003-console | draft | T-003-015 | tests/unit/test_t_003_015_latency_idempotence.py |
+| NFR-003-02 | 003-console | draft | T-003-024, T-003-024 | tests/contract/test_t_003_024_schemathesis.py |
+| NFR-003-03 | 003-console | draft | T-003-040 | web/e2e/console/console-ui.spec.ts |
 | NFR-004-01 | 004-scene-pipeline | draft | T-004-054 | - |
 | NFR-004-02 | 004-scene-pipeline | draft | T-004-054 | - |
 | NFR-004-03 | 004-scene-pipeline | draft | T-004-053 | - |
@@ -1167,9 +1167,9 @@
 | NFR-007-03 | 007-haulage-dispatch | draft | T-007-056 | - |
 | NFR-007-04 | 007-haulage-dispatch | draft | T-007-041, T-007-064 | - |
 | NFR-007-05 | 007-haulage-dispatch | draft | T-007-053 | - |
-| NFR-008-01 | 008-data-pipeline | draft | T-008-018 | tests/pipeline/test_t_008_018_mendeley_memory.py |
-| NFR-008-02 | 008-data-pipeline | draft | T-008-015 | tests/pipeline/test_t_008_015_retry_resume.py |
-| NFR-008-03 | 008-data-pipeline | draft | T-008-061 | tests/contract/test_t_008_061_samples_hygiene.py |
+| NFR-008-01 | 008-data-pipeline | draft | T-008-018 | - |
+| NFR-008-02 | 008-data-pipeline | draft | T-008-015 | - |
+| NFR-008-03 | 008-data-pipeline | draft | T-008-061 | - |
 | NFR-009-01 | 009-perception | draft | T-009-071 | - |
 | NFR-009-02 | 009-perception | draft | T-009-071 | - |
 | NFR-009-03 | 009-perception | draft | T-009-031 | - |
@@ -1182,10 +1182,10 @@
 | NFR-010-04 | 010-slope | draft | T-010-032 | - |
 | NFR-010-05 | 010-slope | draft | T-010-034 | - |
 | NFR-010-06 | 010-slope | draft | T-010-062 | - |
-| NFR-011-01 | 011-surrogates | draft | T-011-016 | tests/pipeline/test_t_011_016_gns_parity.py |
-| NFR-011-02 | 011-surrogates | draft | T-011-020 | web/e2e/a3-gns-live.spec.ts |
-| NFR-011-03 | 011-surrogates | draft | T-011-054 | tests/pipeline/test_t_011_054_fno_export.py |
-| NFR-011-04 | 011-surrogates | draft | T-011-062 | tests/unit/test_t_011_062_budget_record.py |
+| NFR-011-01 | 011-surrogates | draft | T-011-016 | - |
+| NFR-011-02 | 011-surrogates | draft | T-011-020 | - |
+| NFR-011-03 | 011-surrogates | draft | T-011-054 | - |
+| NFR-011-04 | 011-surrogates | draft | T-011-062 | - |
 | NFR-012-01 | 012-fragmentation | draft | T-012-050 | - |
 | NFR-012-02 | 012-fragmentation | draft | T-012-050 | - |
 | NFR-012-03 | 012-fragmentation | draft | T-012-016 | tests/unit/test_t_012_016_training_arms.py |
@@ -1217,27 +1217,27 @@
 | NFR-017-05 | 017-planning-survey | draft | T-017-049 | - |
 | NFR-017-06 | 017-planning-survey | draft | T-017-028 | - |
 | NFR-017-07 | 017-planning-survey | draft | T-017-050 | - |
-| NFR-018-01 | 018-web-cases | draft | T-018-020 | web/e2e/t_018_020_explore_pit.spec.ts |
-| NFR-018-02 | 018-web-cases | draft | T-018-020 | web/e2e/t_018_020_explore_pit.spec.ts |
-| NFR-018-03 | 018-web-cases | draft | T-018-081 | web/e2e/lane-gate/t_018_081_measure.spec.ts |
-| NFR-018-04 | 018-web-cases | draft | T-018-037 | web/e2e/t_018_037_a11y_cases.spec.ts |
-| NFR-018-05 | 018-web-cases | draft | T-018-090 | tests/contract/test_t_018_090_web_quality_scores.py |
+| NFR-018-01 | 018-web-cases | draft | T-018-020 | - |
+| NFR-018-02 | 018-web-cases | draft | T-018-020 | - |
+| NFR-018-03 | 018-web-cases | draft | T-018-081 | - |
+| NFR-018-04 | 018-web-cases | draft | T-018-037 | - |
+| NFR-018-05 | 018-web-cases | draft | T-018-090 | - |
 | NFR-018-06 | 018-web-cases | draft | T-018-073 | - |
-| NFR-019-01 | 019-web-studio | draft | T-019-040 | web/e2e/t_019_040_budgets.spec.ts |
-| NFR-019-02 | 019-web-studio | draft | T-019-040 | web/e2e/t_019_040_budgets.spec.ts |
-| NFR-019-03 | 019-web-studio | draft | T-019-040 | web/e2e/t_019_040_budgets.spec.ts |
-| NFR-019-04 | 019-web-studio | draft | T-019-041 | web/e2e/t_019_041_a11y_studio.spec.ts |
-| NFR-019-05 | 019-web-studio | draft | T-019-041 | web/e2e/t_019_041_a11y_studio.spec.ts |
-| NFR-019-06 | 019-web-studio | draft | T-019-090 | tests/contract/test_t_019_090_studio_quality_scores.py |
-| NFR-020-01 | 020-web-knowledge | draft | T-020-062 | tests/contract/test_t_020_062_budgets.py |
-| NFR-020-02 | 020-web-knowledge | draft | T-020-063 | web/e2e/t_020_063_first_view.spec.ts |
-| NFR-020-03 | 020-web-knowledge | draft | T-020-062 | tests/contract/test_t_020_062_budgets.py |
-| NFR-020-04 | 020-web-knowledge | draft | T-020-062 | tests/contract/test_t_020_062_budgets.py |
-| NFR-020-05 | 020-web-knowledge | draft | T-020-064 | web/e2e/t_020_064_a11y_matrix.spec.ts |
-| NFR-020-06 | 020-web-knowledge | draft | T-020-064 | web/e2e/t_020_064_a11y_matrix.spec.ts |
-| NFR-020-07 | 020-web-knowledge | draft | T-020-063 | web/e2e/t_020_063_first_view.spec.ts |
-| NFR-020-08 | 020-web-knowledge | draft | T-020-042 | web/src/knowledge/t_020_042_search.test.ts |
-| NFR-020-09 | 020-web-knowledge | draft | T-020-090 | tests/contract/test_t_020_090_web_quality_scores.py |
+| NFR-019-01 | 019-web-studio | draft | T-019-040 | - |
+| NFR-019-02 | 019-web-studio | draft | T-019-040 | - |
+| NFR-019-03 | 019-web-studio | draft | T-019-040 | - |
+| NFR-019-04 | 019-web-studio | draft | T-019-041 | - |
+| NFR-019-05 | 019-web-studio | draft | T-019-041 | - |
+| NFR-019-06 | 019-web-studio | draft | T-019-090 | - |
+| NFR-020-01 | 020-web-knowledge | draft | T-020-062 | - |
+| NFR-020-02 | 020-web-knowledge | draft | T-020-063 | - |
+| NFR-020-03 | 020-web-knowledge | draft | T-020-062 | - |
+| NFR-020-04 | 020-web-knowledge | draft | T-020-062 | - |
+| NFR-020-05 | 020-web-knowledge | draft | T-020-064 | - |
+| NFR-020-06 | 020-web-knowledge | draft | T-020-064 | - |
+| NFR-020-07 | 020-web-knowledge | draft | T-020-063 | - |
+| NFR-020-08 | 020-web-knowledge | draft | T-020-042 | - |
+| NFR-020-09 | 020-web-knowledge | draft | T-020-090 | - |
 | P-000-01 | 000-foundation | draft | T-000-030 | - |
 | P-000-02 | 000-foundation | draft | T-000-031 | - |
 | P-000-03 | 000-foundation | draft | T-000-032 | - |
@@ -1249,23 +1249,23 @@
 | P-001-06 | 001-contracts | draft | T-001-041 | tests/contract/test_t_001_041_agreement.py |
 | P-001-07 | 001-contracts | draft | T-001-040 | tests/property/test_t_001_040_roundtrip.py |
 | P-001-08 | 001-contracts | draft | T-001-040 | tests/property/test_t_001_040_roundtrip.py |
-| P-002-01 | 002-runner | draft | T-002-020 | - |
-| P-002-02 | 002-runner | draft | T-002-020 | - |
-| P-002-03 | 002-runner | draft | T-002-020 | - |
-| P-002-04 | 002-runner | draft | T-002-022 | - |
-| P-002-05 | 002-runner | draft | T-002-020 | - |
-| P-002-06 | 002-runner | draft | T-002-021 | - |
-| P-002-07 | 002-runner | draft | T-002-045 | - |
-| P-002-08 | 002-runner | draft | T-002-050 | - |
-| P-002-09 | 002-runner | draft | T-002-030 | - |
-| P-002-10 | 002-runner | draft | T-002-031 | - |
-| P-002-11 | 002-runner | draft | T-002-070 | - |
-| P-002-12 | 002-runner | draft | T-002-011 | - |
-| P-002-13 | 002-runner | draft | T-002-095 | - |
-| P-003-01 | 003-console | draft | T-003-020 | - |
-| P-003-02 | 003-console | draft | T-003-021 | - |
-| P-003-03 | 003-console | draft | T-003-015 | - |
-| P-003-04 | 003-console | draft | T-003-014 | - |
+| P-002-01 | 002-runner | draft | T-002-020 | tests/property/test_t_002_020_cache_key.py |
+| P-002-02 | 002-runner | draft | T-002-020 | tests/property/test_t_002_020_cache_key.py |
+| P-002-03 | 002-runner | draft | T-002-020 | tests/property/test_t_002_020_cache_key.py |
+| P-002-04 | 002-runner | draft | T-002-022 | tests/property/test_t_002_022_propagation.py |
+| P-002-05 | 002-runner | draft | T-002-020 | tests/property/test_t_002_020_cache_key.py |
+| P-002-06 | 002-runner | draft | T-002-021 | tests/unit/test_t_002_021_store.py |
+| P-002-07 | 002-runner | draft | T-002-045 | tests/property/test_t_002_045_resume.py |
+| P-002-08 | 002-runner | draft | T-002-050 | tests/property/test_t_002_050_telemetry.py |
+| P-002-09 | 002-runner | draft | T-002-030 | tests/unit/test_t_002_030_locks_hold.py |
+| P-002-10 | 002-runner | draft | T-002-031 | tests/unit/test_t_002_031_guards.py |
+| P-002-11 | 002-runner | draft | T-002-070 | tests/property/test_t_002_070_gc.py |
+| P-002-12 | 002-runner | draft | T-002-011 | tests/property/test_t_002_011_plan_independence.py |
+| P-002-13 | 002-runner | draft | T-002-095 | tests/property/test_t_002_095_thermal_guard_property.py |
+| P-003-01 | 003-console | draft | T-003-020 | tests/contract/test_t_003_020_jobs_hostile.py |
+| P-003-02 | 003-console | draft | T-003-021 | tests/property/test_t_003_021_path_params.py |
+| P-003-03 | 003-console | draft | T-003-015 | tests/unit/test_t_003_015_latency_idempotence.py |
+| P-003-04 | 003-console | draft | T-003-014 | tests/property/test_t_003_014_event_stream.py |
 | P-004-01 | 004-scene-pipeline | draft | T-004-014 | - |
 | P-004-02 | 004-scene-pipeline | draft | T-004-015 | - |
 | P-004-03 | 004-scene-pipeline | draft | T-004-011 | - |
@@ -1335,17 +1335,17 @@
 | P-007-19 | 007-haulage-dispatch | draft | T-007-062 | - |
 | P-007-20 | 007-haulage-dispatch | draft | T-007-016 | - |
 | P-007-21 | 007-haulage-dispatch | draft | T-007-013 | - |
-| P-008-01 | 008-data-pipeline | draft | T-008-012 | tests/pipeline/test_t_008_012_download_verify.py |
-| P-008-02 | 008-data-pipeline | draft | T-008-015 | tests/pipeline/test_t_008_015_retry_resume.py |
-| P-008-03 | 008-data-pipeline | draft | T-008-020 | tests/pipeline/test_t_008_020_tabular_schemas.py |
-| P-008-04 | 008-data-pipeline | draft | T-008-021 | tests/pipeline/test_t_008_021_outlier_policy.py |
-| P-008-05 | 008-data-pipeline | draft | T-008-017 | tests/pipeline/test_t_008_017_archive_safety.py |
-| P-008-06 | 008-data-pipeline | draft | T-008-030 | tests/pipeline/test_t_008_030_mendeley_groups.py |
-| P-008-07 | 008-data-pipeline | draft | T-008-032 | tests/pipeline/test_t_008_032_mendeley_folds.py |
-| P-008-08 | 008-data-pipeline | draft | T-008-030 | tests/pipeline/test_t_008_030_mendeley_groups.py |
-| P-008-09 | 008-data-pipeline | draft | T-008-040 | tests/pipeline/test_t_008_040_synthesize.py |
-| P-008-10 | 008-data-pipeline | draft | T-008-050 | tests/pipeline/test_t_008_050_window_features.py |
-| P-008-11 | 008-data-pipeline | draft | T-008-023 | tests/pipeline/test_t_008_023_units.py |
+| P-008-01 | 008-data-pipeline | draft | T-008-012 | - |
+| P-008-02 | 008-data-pipeline | draft | T-008-015 | - |
+| P-008-03 | 008-data-pipeline | draft | T-008-020 | - |
+| P-008-04 | 008-data-pipeline | draft | T-008-021 | - |
+| P-008-05 | 008-data-pipeline | draft | T-008-017 | - |
+| P-008-06 | 008-data-pipeline | draft | T-008-030 | - |
+| P-008-07 | 008-data-pipeline | draft | T-008-032 | - |
+| P-008-08 | 008-data-pipeline | draft | T-008-030 | - |
+| P-008-09 | 008-data-pipeline | draft | T-008-040 | - |
+| P-008-10 | 008-data-pipeline | draft | T-008-050 | - |
+| P-008-11 | 008-data-pipeline | draft | T-008-023 | - |
 | P-008-12 | 008-data-pipeline | retired | - | - |
 | P-009-01 | 009-perception | draft | T-009-040 | - |
 | P-009-02 | 009-perception | draft | T-009-040 | - |
@@ -1378,22 +1378,22 @@
 | P-010-15 | 010-slope | draft | T-010-050 | - |
 | P-010-16 | 010-slope | draft | T-010-054 | - |
 | P-010-17 | 010-slope | draft | T-010-054 | - |
-| P-011-01 | 011-surrogates | draft | T-011-010 | tests/pipeline/test_t_011_010_gns_model.py |
-| P-011-02 | 011-surrogates | draft | T-011-010 | tests/pipeline/test_t_011_010_gns_model.py |
-| P-011-03 | 011-surrogates | draft | T-011-017 | tests/unit/test_t_011_017_rollout_guards.py |
-| P-011-04 | 011-surrogates | draft | T-011-011 | tests/property/test_t_011_011_radius_graph.py, web/src/engines/gns/radiusGraph.test.ts |
-| P-011-05 | 011-surrogates | draft | T-011-012 | tests/pipeline/test_t_011_010_gns_model.py, tests/pipeline/test_t_011_012_gns_export.py |
-| P-011-06 | 011-surrogates | draft | T-011-013 | tests/property/test_t_011_013_observables.py |
-| P-011-07 | 011-surrogates | draft | T-011-013 | tests/property/test_t_011_013_observables.py |
-| P-011-08 | 011-surrogates | draft | T-011-030 | tests/property/test_t_011_030_heap_observables.py |
-| P-011-09 | 011-surrogates | draft | T-011-031 | tests/property/test_t_011_031_interval_coverage.py |
-| P-011-10 | 011-surrogates | draft | T-011-032 | tests/property/test_t_011_032_gradient_gate.py |
-| P-011-11 | 011-surrogates | draft | T-011-034 | tests/unit/test_t_011_034_tape_arm.py |
-| P-011-12 | 011-surrogates | draft | T-011-050 | tests/property/test_t_011_050_dft_spectral.py |
-| P-011-13 | 011-surrogates | draft | T-011-050 | tests/property/test_t_011_050_dft_spectral.py |
-| P-011-14 | 011-surrogates | draft | T-011-050 | tests/property/test_t_011_050_dft_spectral.py |
-| P-011-15 | 011-surrogates | draft | T-011-050 | tests/property/test_t_011_050_dft_spectral.py |
-| P-011-16 | 011-surrogates | draft | T-011-050 | tests/property/test_t_011_050_dft_spectral.py |
+| P-011-01 | 011-surrogates | draft | T-011-010 | - |
+| P-011-02 | 011-surrogates | draft | T-011-010 | - |
+| P-011-03 | 011-surrogates | draft | T-011-017 | - |
+| P-011-04 | 011-surrogates | draft | T-011-011 | - |
+| P-011-05 | 011-surrogates | draft | T-011-012 | - |
+| P-011-06 | 011-surrogates | draft | T-011-013 | - |
+| P-011-07 | 011-surrogates | draft | T-011-013 | - |
+| P-011-08 | 011-surrogates | draft | T-011-030 | - |
+| P-011-09 | 011-surrogates | draft | T-011-031 | - |
+| P-011-10 | 011-surrogates | draft | T-011-032 | - |
+| P-011-11 | 011-surrogates | draft | T-011-034 | - |
+| P-011-12 | 011-surrogates | draft | T-011-050 | - |
+| P-011-13 | 011-surrogates | draft | T-011-050 | - |
+| P-011-14 | 011-surrogates | draft | T-011-050 | - |
+| P-011-15 | 011-surrogates | draft | T-011-050 | - |
+| P-011-16 | 011-surrogates | draft | T-011-050 | - |
 | P-012-01 | 012-fragmentation | draft | T-012-030 | - |
 | P-012-02 | 012-fragmentation | draft | T-012-030 | - |
 | P-012-03 | 012-fragmentation | draft | T-012-030 | - |
@@ -1467,7 +1467,7 @@
 | P-016-11 | 016-export-acceleration | draft | T-016-010 | - |
 | P-016-12 | 016-export-acceleration | draft | T-016-060 | - |
 | P-017-01 | 017-planning-survey | draft | T-017-022 | - |
-| P-017-02 | 017-planning-survey | draft | T-017-021 | web/src/engines/mincut/t_018_071_mincut.test.ts |
+| P-017-02 | 017-planning-survey | draft | T-017-021 | - |
 | P-017-03 | 017-planning-survey | draft | T-017-024 | - |
 | P-017-04 | 017-planning-survey | draft | T-017-021 | - |
 | P-017-05 | 017-planning-survey | draft | T-017-021 | - |
@@ -1485,11 +1485,11 @@
 | P-017-17 | 017-planning-survey | draft | T-017-010 | - |
 | P-017-18 | 017-planning-survey | draft | T-017-013 | - |
 | P-017-19 | 017-planning-survey | draft | T-017-011 | - |
-| P-018-01 | 018-web-cases | draft | T-018-040 | web/src/sim/t_018_040_clock.test.ts |
-| P-018-02 | 018-web-cases | draft | T-018-040 | web/src/sim/t_018_040_clock.test.ts |
-| P-018-03 | 018-web-cases | draft | T-018-040 | web/src/sim/t_018_040_clock.test.ts |
-| P-018-04 | 018-web-cases | draft | T-018-051 | web/src/engines/random/t_018_051_pcg64.test.ts, web/e2e/parity/t_018_051_pcg64_browsers.spec.ts |
-| P-018-05 | 018-web-cases | draft | T-018-051 | web/src/engines/random/t_018_051_pcg64.test.ts |
+| P-018-01 | 018-web-cases | draft | T-018-040 | - |
+| P-018-02 | 018-web-cases | draft | T-018-040 | - |
+| P-018-03 | 018-web-cases | draft | T-018-040 | - |
+| P-018-04 | 018-web-cases | draft | T-018-051 | - |
+| P-018-05 | 018-web-cases | draft | T-018-051 | - |
 | P-018-06 | 018-web-cases | retired | - | - |
 | P-018-07 | 018-web-cases | retired | - | - |
 | P-018-08 | 018-web-cases | retired | - | - |
@@ -1503,108 +1503,108 @@
 | P-018-16 | 018-web-cases | retired | - | - |
 | P-018-17 | 018-web-cases | retired | - | - |
 | P-018-18 | 018-web-cases | retired | - | - |
-| P-018-19 | 018-web-cases | draft | T-018-061 | web/src/engines/traffic/t_018_061_ttc.test.ts |
-| P-018-20 | 018-web-cases | draft | T-018-061 | web/src/engines/traffic/t_018_061_ttc.test.ts |
-| P-018-21 | 018-web-cases | draft | T-018-061 | web/src/engines/traffic/t_018_061_ttc.test.ts |
+| P-018-19 | 018-web-cases | draft | T-018-061 | - |
+| P-018-20 | 018-web-cases | draft | T-018-061 | - |
+| P-018-21 | 018-web-cases | draft | T-018-061 | - |
 | P-018-22 | 018-web-cases | retired | - | - |
 | P-018-23 | 018-web-cases | retired | - | - |
 | P-018-24 | 018-web-cases | retired | - | - |
 | P-018-25 | 018-web-cases | retired | - | - |
 | P-018-26 | 018-web-cases | retired | - | - |
-| P-018-27 | 018-web-cases | draft | T-018-063 | web/src/engines/ml/t_018_063_detector.test.ts |
-| P-018-28 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-018-29 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-018-30 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-018-31 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-018-32 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-018-33 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-018-34 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-018-35 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-018-36 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-018-37 | 018-web-cases | draft | T-018-066 | web/src/engines/analytical/environment/t_018_066_plume.test.ts |
-| P-018-38 | 018-web-cases | draft | T-018-066 | web/src/engines/analytical/environment/t_018_066_plume.test.ts |
-| P-018-39 | 018-web-cases | draft | T-018-066 | web/src/engines/analytical/environment/t_018_066_plume.test.ts |
-| P-018-40 | 018-web-cases | draft | T-018-068 | web/src/engines/analytical/blasting/t_018_068_blasting.test.ts |
-| P-018-41 | 018-web-cases | draft | T-018-068 | web/src/engines/analytical/blasting/t_018_068_blasting.test.ts |
-| P-018-42 | 018-web-cases | draft | T-018-068 | web/src/engines/analytical/blasting/t_018_068_blasting.test.ts |
-| P-018-43 | 018-web-cases | draft | T-018-070 | web/src/engines/analytical/comminution/t_018_070_comminution.test.ts |
-| P-018-44 | 018-web-cases | draft | T-018-070 | web/src/engines/analytical/comminution/t_018_070_comminution.test.ts |
-| P-018-45 | 018-web-cases | draft | T-018-070 | web/src/engines/analytical/comminution/t_018_070_comminution.test.ts |
-| P-018-46 | 018-web-cases | draft | T-018-069 | web/src/engines/watershed/t_018_069_watershed.test.ts |
-| P-018-47 | 018-web-cases | draft | T-018-069 | web/src/engines/watershed/t_018_069_watershed.test.ts |
-| P-018-48 | 018-web-cases | draft | T-018-069 | web/src/engines/watershed/t_018_069_watershed.test.ts |
-| P-018-49 | 018-web-cases | draft | T-018-071 | web/src/engines/mincut/t_018_071_mincut.test.ts |
-| P-018-50 | 018-web-cases | draft | T-018-071 | web/src/engines/mincut/t_018_071_mincut.test.ts |
-| P-018-51 | 018-web-cases | draft | T-018-071 | web/src/engines/mincut/t_018_071_mincut.test.ts |
-| P-018-52 | 018-web-cases | draft | T-018-072 | web/src/engines/volume/t_018_072_volume.test.ts |
-| P-018-53 | 018-web-cases | draft | T-018-072 | web/src/engines/volume/t_018_072_volume.test.ts |
-| P-018-54 | 018-web-cases | draft | T-018-072 | web/src/engines/volume/t_018_072_volume.test.ts |
+| P-018-27 | 018-web-cases | draft | T-018-063 | - |
+| P-018-28 | 018-web-cases | draft | T-018-064 | - |
+| P-018-29 | 018-web-cases | draft | T-018-064 | - |
+| P-018-30 | 018-web-cases | draft | T-018-064 | - |
+| P-018-31 | 018-web-cases | draft | T-018-064 | - |
+| P-018-32 | 018-web-cases | draft | T-018-064 | - |
+| P-018-33 | 018-web-cases | draft | T-018-064 | - |
+| P-018-34 | 018-web-cases | draft | T-018-064 | - |
+| P-018-35 | 018-web-cases | draft | T-018-064 | - |
+| P-018-36 | 018-web-cases | draft | T-018-064 | - |
+| P-018-37 | 018-web-cases | draft | T-018-066 | - |
+| P-018-38 | 018-web-cases | draft | T-018-066 | - |
+| P-018-39 | 018-web-cases | draft | T-018-066 | - |
+| P-018-40 | 018-web-cases | draft | T-018-068 | - |
+| P-018-41 | 018-web-cases | draft | T-018-068 | - |
+| P-018-42 | 018-web-cases | draft | T-018-068 | - |
+| P-018-43 | 018-web-cases | draft | T-018-070 | - |
+| P-018-44 | 018-web-cases | draft | T-018-070 | - |
+| P-018-45 | 018-web-cases | draft | T-018-070 | - |
+| P-018-46 | 018-web-cases | draft | T-018-069 | - |
+| P-018-47 | 018-web-cases | draft | T-018-069 | - |
+| P-018-48 | 018-web-cases | draft | T-018-069 | - |
+| P-018-49 | 018-web-cases | draft | T-018-071 | - |
+| P-018-50 | 018-web-cases | draft | T-018-071 | - |
+| P-018-51 | 018-web-cases | draft | T-018-071 | - |
+| P-018-52 | 018-web-cases | draft | T-018-072 | - |
+| P-018-53 | 018-web-cases | draft | T-018-072 | - |
+| P-018-54 | 018-web-cases | draft | T-018-072 | - |
 | P-018-55 | 018-web-cases | retired | - | - |
 | P-018-56 | 018-web-cases | retired | - | - |
 | P-018-57 | 018-web-cases | retired | - | - |
 | P-018-58 | 018-web-cases | retired | - | - |
-| P-018-59 | 018-web-cases | draft | T-018-059 | web/e2e/gpu/t_018_059_granular.spec.ts |
-| P-018-60 | 018-web-cases | draft | T-018-059 | web/e2e/gpu/t_018_059_granular.spec.ts |
-| P-018-61 | 018-web-cases | draft | T-018-059 | web/e2e/gpu/t_018_059_granular.spec.ts |
-| P-018-62 | 018-web-cases | draft | T-018-065 | web/e2e/gpu/t_018_065_shallow_water.spec.ts |
-| P-018-63 | 018-web-cases | draft | T-018-065 | web/e2e/gpu/t_018_065_shallow_water.spec.ts |
-| P-018-64 | 018-web-cases | draft | T-018-065 | web/e2e/gpu/t_018_065_shallow_water.spec.ts |
-| P-018-65 | 018-web-cases | draft | T-018-067 | web/e2e/gpu/t_018_067_dust_particles.spec.ts |
-| P-018-66 | 018-web-cases | draft | T-018-067 | web/e2e/gpu/t_018_067_dust_particles.spec.ts |
-| P-018-67 | 018-web-cases | draft | T-018-067 | web/e2e/gpu/t_018_067_dust_particles.spec.ts |
-| P-018-68 | 018-web-cases | draft | T-018-013 | web/src/assets/t_018_013_loader_shard.test.ts |
-| P-018-69 | 018-web-cases | draft | T-018-013 | web/src/assets/t_018_013_loader_shard.test.ts |
-| P-018-70 | 018-web-cases | draft | T-018-013 | web/src/assets/t_018_013_loader_shard.test.ts |
-| P-018-71 | 018-web-cases | draft | T-018-080 | web/src/lane/t_018_080_derive_lane.test.ts |
-| P-018-72 | 018-web-cases | draft | T-018-080 | web/src/lane/t_018_080_derive_lane.test.ts |
-| P-018-73 | 018-web-cases | draft | T-018-080 | web/src/lane/t_018_080_derive_lane.test.ts |
-| P-018-74 | 018-web-cases | draft | T-018-051 | web/src/engines/random/t_018_051_pcg64.test.ts |
-| P-018-75 | 018-web-cases | draft | T-018-051 | web/src/engines/random/t_018_051_pcg64.test.ts |
-| P-018-76 | 018-web-cases | draft | T-018-064 | web/src/engines/analytical/geotech/t_018_064_geotech.test.ts |
-| P-019-01 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts |
-| P-019-02 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts |
-| P-019-03 | 019-web-studio | draft | T-019-004 | tests/contract/test_t_019_004_check_showcase.py |
-| P-019-04 | 019-web-studio | draft | T-019-004 | tests/contract/test_t_019_004_check_showcase.py |
-| P-019-05 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts |
-| P-020-01 | 020-web-knowledge | draft | T-020-030 | web/src/results/t_020_030_verdict.test.ts |
-| P-020-02 | 020-web-knowledge | draft | T-020-030 | web/src/results/t_020_030_verdict.test.ts |
-| P-020-03 | 020-web-knowledge | draft | T-020-030 | web/src/results/t_020_030_verdict.test.ts |
-| P-020-04 | 020-web-knowledge | draft | T-020-010 | web/src/charts/t_020_010_chart.test.ts |
-| P-020-05 | 020-web-knowledge | draft | T-020-010 | web/src/charts/t_020_010_chart.test.ts |
-| P-020-06 | 020-web-knowledge | draft | T-020-010 | web/src/charts/t_020_010_chart.test.ts |
-| P-020-07 | 020-web-knowledge | draft | T-020-010 | web/src/charts/t_020_010_chart.test.ts |
-| P-020-08 | 020-web-knowledge | draft | T-020-010 | web/src/charts/t_020_010_chart.test.ts |
-| P-020-09 | 020-web-knowledge | draft | T-020-010 | web/src/charts/t_020_010_chart.test.ts |
-| P-020-10 | 020-web-knowledge | draft | T-020-011 | web/src/theory/fn/t_020_011_beverloo_ritter.test.ts |
-| P-020-11 | 020-web-knowledge | draft | T-020-011 | web/src/theory/fn/t_020_011_beverloo_ritter.test.ts |
-| P-020-12 | 020-web-knowledge | draft | T-020-011 | web/src/theory/fn/t_020_011_beverloo_ritter.test.ts |
-| P-020-13 | 020-web-knowledge | draft | T-020-011 | web/src/theory/fn/t_020_011_beverloo_ritter.test.ts |
-| P-020-14 | 020-web-knowledge | draft | T-020-011 | web/src/theory/fn/t_020_011_beverloo_ritter.test.ts |
-| P-020-15 | 020-web-knowledge | draft | T-020-011 | web/src/theory/fn/t_020_011_beverloo_ritter.test.ts |
-| P-020-16 | 020-web-knowledge | draft | T-020-012 | web/src/theory/fn/t_020_012_lidar_ppo.test.ts |
-| P-020-17 | 020-web-knowledge | draft | T-020-012 | web/src/theory/fn/t_020_012_lidar_ppo.test.ts |
-| P-020-18 | 020-web-knowledge | draft | T-020-012 | web/src/theory/fn/t_020_012_lidar_ppo.test.ts |
-| P-020-19 | 020-web-knowledge | draft | T-020-012 | web/src/theory/fn/t_020_012_lidar_ppo.test.ts |
-| P-020-20 | 020-web-knowledge | draft | T-020-012 | web/src/theory/fn/t_020_012_lidar_ppo.test.ts |
-| P-020-21 | 020-web-knowledge | draft | T-020-012 | web/src/theory/fn/t_020_012_lidar_ppo.test.ts |
-| P-020-22 | 020-web-knowledge | draft | T-020-013 | web/src/theory/fn/t_020_013_statistics.test.ts |
-| P-020-23 | 020-web-knowledge | draft | T-020-013 | web/src/theory/fn/t_020_013_statistics.test.ts |
-| P-020-24 | 020-web-knowledge | draft | T-020-013 | web/src/theory/fn/t_020_013_statistics.test.ts |
-| P-020-25 | 020-web-knowledge | draft | T-020-013 | web/src/theory/fn/t_020_013_statistics.test.ts |
-| P-020-26 | 020-web-knowledge | draft | T-020-013 | web/src/theory/fn/t_020_013_statistics.test.ts |
-| P-020-27 | 020-web-knowledge | draft | T-020-013 | web/src/theory/fn/t_020_013_statistics.test.ts |
-| P-020-28 | 020-web-knowledge | draft | T-020-013 | web/src/theory/fn/t_020_013_statistics.test.ts |
-| P-020-29 | 020-web-knowledge | draft | T-020-013 | web/src/theory/fn/t_020_013_statistics.test.ts |
-| P-020-30 | 020-web-knowledge | draft | T-020-013 | web/src/theory/fn/t_020_013_statistics.test.ts |
-| P-020-31 | 020-web-knowledge | draft | T-020-004 | tests/contract/test_t_020_004_knowledge_bundle.py |
-| P-020-32 | 020-web-knowledge | draft | T-020-042 | web/src/knowledge/t_020_042_search.test.ts |
+| P-018-59 | 018-web-cases | draft | T-018-059 | - |
+| P-018-60 | 018-web-cases | draft | T-018-059 | - |
+| P-018-61 | 018-web-cases | draft | T-018-059 | - |
+| P-018-62 | 018-web-cases | draft | T-018-065 | - |
+| P-018-63 | 018-web-cases | draft | T-018-065 | - |
+| P-018-64 | 018-web-cases | draft | T-018-065 | - |
+| P-018-65 | 018-web-cases | draft | T-018-067 | - |
+| P-018-66 | 018-web-cases | draft | T-018-067 | - |
+| P-018-67 | 018-web-cases | draft | T-018-067 | - |
+| P-018-68 | 018-web-cases | draft | T-018-013 | - |
+| P-018-69 | 018-web-cases | draft | T-018-013 | - |
+| P-018-70 | 018-web-cases | draft | T-018-013 | - |
+| P-018-71 | 018-web-cases | draft | T-018-080 | - |
+| P-018-72 | 018-web-cases | draft | T-018-080 | - |
+| P-018-73 | 018-web-cases | draft | T-018-080 | - |
+| P-018-74 | 018-web-cases | draft | T-018-051 | - |
+| P-018-75 | 018-web-cases | draft | T-018-051 | - |
+| P-018-76 | 018-web-cases | draft | T-018-064 | - |
+| P-019-01 | 019-web-studio | draft | T-019-003 | - |
+| P-019-02 | 019-web-studio | draft | T-019-003 | - |
+| P-019-03 | 019-web-studio | draft | T-019-004 | - |
+| P-019-04 | 019-web-studio | draft | T-019-004 | - |
+| P-019-05 | 019-web-studio | draft | T-019-003 | - |
+| P-020-01 | 020-web-knowledge | draft | T-020-030 | - |
+| P-020-02 | 020-web-knowledge | draft | T-020-030 | - |
+| P-020-03 | 020-web-knowledge | draft | T-020-030 | - |
+| P-020-04 | 020-web-knowledge | draft | T-020-010 | - |
+| P-020-05 | 020-web-knowledge | draft | T-020-010 | - |
+| P-020-06 | 020-web-knowledge | draft | T-020-010 | - |
+| P-020-07 | 020-web-knowledge | draft | T-020-010 | - |
+| P-020-08 | 020-web-knowledge | draft | T-020-010 | - |
+| P-020-09 | 020-web-knowledge | draft | T-020-010 | - |
+| P-020-10 | 020-web-knowledge | draft | T-020-011 | - |
+| P-020-11 | 020-web-knowledge | draft | T-020-011 | - |
+| P-020-12 | 020-web-knowledge | draft | T-020-011 | - |
+| P-020-13 | 020-web-knowledge | draft | T-020-011 | - |
+| P-020-14 | 020-web-knowledge | draft | T-020-011 | - |
+| P-020-15 | 020-web-knowledge | draft | T-020-011 | - |
+| P-020-16 | 020-web-knowledge | draft | T-020-012 | - |
+| P-020-17 | 020-web-knowledge | draft | T-020-012 | - |
+| P-020-18 | 020-web-knowledge | draft | T-020-012 | - |
+| P-020-19 | 020-web-knowledge | draft | T-020-012 | - |
+| P-020-20 | 020-web-knowledge | draft | T-020-012 | - |
+| P-020-21 | 020-web-knowledge | draft | T-020-012 | - |
+| P-020-22 | 020-web-knowledge | draft | T-020-013 | - |
+| P-020-23 | 020-web-knowledge | draft | T-020-013 | - |
+| P-020-24 | 020-web-knowledge | draft | T-020-013 | - |
+| P-020-25 | 020-web-knowledge | draft | T-020-013 | - |
+| P-020-26 | 020-web-knowledge | draft | T-020-013 | - |
+| P-020-27 | 020-web-knowledge | draft | T-020-013 | - |
+| P-020-28 | 020-web-knowledge | draft | T-020-013 | - |
+| P-020-29 | 020-web-knowledge | draft | T-020-013 | - |
+| P-020-30 | 020-web-knowledge | draft | T-020-013 | - |
+| P-020-31 | 020-web-knowledge | draft | T-020-004 | - |
+| P-020-32 | 020-web-knowledge | draft | T-020-042 | - |
 | SC-000-01 | 000-foundation | draft | T-000-042 | - |
 | SC-000-02 | 000-foundation | draft | T-000-043 | - |
 | SC-000-03 | 000-foundation | draft | T-000-044 | - |
 | SC-000-04 | 000-foundation | draft | T-000-045 | - |
 | SC-001-01 | 001-contracts | draft | T-001-030 | tests/unit/test_t_001_030_check_contracts.py |
-| SC-002-01 | 002-runner | draft | T-002-012 | - |
-| SC-003-01 | 003-console | draft | T-003-024 | - |
+| SC-002-01 | 002-runner | draft | T-002-012 | tests/unit/test_t_002_012_plan_all_recipes.py |
+| SC-003-01 | 003-console | draft | T-003-024 | tests/contract/test_t_003_024_schemathesis.py |
 | SC-004-01 | 004-scene-pipeline | draft | T-004-054 | - |
 | SC-004-02 | 004-scene-pipeline | draft | T-004-019 | - |
 | SC-005-01 | 005-physics | draft | T-005-066 | - |
@@ -1615,7 +1615,7 @@
 | SC-007-02 | 007-haulage-dispatch | draft | T-007-055 | - |
 | SC-007-03 | 007-haulage-dispatch | draft | T-007-056 | - |
 | SC-007-04 | 007-haulage-dispatch | draft | T-007-054 | - |
-| SC-008-01 | 008-data-pipeline | draft | T-008-031 | tests/pipeline/test_t_008_031_mendeley_integrity.py |
+| SC-008-01 | 008-data-pipeline | draft | T-008-031 | - |
 | SC-009-01 | 009-perception | draft | T-009-034 | - |
 | SC-009-02 | 009-perception | draft | T-009-034 | - |
 | SC-009-03 | 009-perception | draft | T-009-044 | - |
@@ -1628,12 +1628,12 @@
 | SC-010-03 | 010-slope | draft | T-010-042 | - |
 | SC-010-04 | 010-slope | draft | T-010-032 | - |
 | SC-010-05 | 010-slope | draft | T-010-012 | - |
-| SC-011-01 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py |
-| SC-011-02 | 011-surrogates | draft | T-011-035 | tests/pipeline/test_t_011_035_coverage_study.py |
-| SC-011-03 | 011-surrogates | draft | T-011-053 | tests/pipeline/test_t_011_053_fno_evaluate.py |
-| SC-011-04 | 011-surrogates | draft | T-011-016, T-011-054 | tests/pipeline/test_t_011_016_gns_parity.py, tests/pipeline/test_t_011_054_fno_export.py |
-| SC-011-05 | 011-surrogates | draft | T-011-035 | tests/pipeline/test_t_011_035_coverage_study.py |
-| SC-011-06 | 011-surrogates | draft | T-011-036 | tests/contract/test_t_011_036_calibration_result.py |
+| SC-011-01 | 011-surrogates | draft | T-011-015 | - |
+| SC-011-02 | 011-surrogates | draft | T-011-035 | - |
+| SC-011-03 | 011-surrogates | draft | T-011-053 | - |
+| SC-011-04 | 011-surrogates | draft | T-011-016, T-011-054 | - |
+| SC-011-05 | 011-surrogates | draft | T-011-035 | - |
+| SC-011-06 | 011-surrogates | draft | T-011-036 | - |
 | SC-012-01 | 012-fragmentation | draft | T-012-033 | - |
 | SC-012-02 | 012-fragmentation | draft | T-012-018 | - |
 | SC-012-03 | 012-fragmentation | draft | T-012-033 | - |
@@ -1668,13 +1668,13 @@
 | SC-017-04 | 017-planning-survey | draft | T-017-031 | - |
 | SC-017-05 | 017-planning-survey | draft | T-017-025 | - |
 | SC-017-06 | 017-planning-survey | draft | T-017-047 | - |
-| SC-018-01 | 018-web-cases | draft | T-018-088 | web/src/engines/t_018_088_parity_report.test.ts, web/e2e/parity/t_018_051_pcg64_browsers.spec.ts |
-| SC-018-02 | 018-web-cases | draft | T-018-089 | web/e2e/t_018_089_vertical_slice.spec.ts |
-| SC-019-01 | 019-web-studio | draft | T-019-088 | tests/contract/test_t_019_088_showcase_gate.py |
-| SC-019-02 | 019-web-studio | draft | T-019-088 | tests/contract/test_t_019_088_showcase_gate.py |
+| SC-018-01 | 018-web-cases | draft | T-018-088 | - |
+| SC-018-02 | 018-web-cases | draft | T-018-089 | - |
+| SC-019-01 | 019-web-studio | draft | T-019-088 | - |
+| SC-019-02 | 019-web-studio | draft | T-019-088 | - |
 | SC-020-01 | 020-web-knowledge | draft | T-020-064 | - |
-| SC-020-02 | 020-web-knowledge | draft | T-020-088 | web/e2e/t_020_088_criteria_rows.spec.ts |
-| SC-020-03 | 020-web-knowledge | draft | T-020-043 | web/src/knowledge/t_020_043_unverified_headline.test.ts |
+| SC-020-02 | 020-web-knowledge | draft | T-020-088 | - |
+| SC-020-03 | 020-web-knowledge | draft | T-020-043 | - |
 | US-000-1 | 000-foundation | draft | T-000-010, T-000-010 | - |
 | US-000-2 | 000-foundation | draft | T-000-011, T-000-011 | - |
 | US-000-3 | 000-foundation | draft | T-000-012, T-000-012 | - |
@@ -1776,7 +1776,7 @@
 | US-018-5 | 018-web-cases | draft | T-018-040, T-018-041, T-018-042 | - |
 | US-018-6 | 018-web-cases | draft | T-018-035 | - |
 | US-018-7 | 018-web-cases | draft | T-018-025 | - |
-| US-019-1 | 019-web-studio | draft | T-019-010, T-019-011, T-019-012, T-019-035, T-019-036, T-019-040, T-019-041 | web/e2e/t_019_010_tool_map.spec.ts |
+| US-019-1 | 019-web-studio | draft | T-019-010, T-019-011, T-019-012, T-019-035, T-019-036, T-019-040, T-019-041 | - |
 | US-019-2 | 019-web-studio | draft | T-019-020, T-019-021, T-019-022, T-019-023, T-019-024 | - |
 | US-019-3 | 019-web-studio | draft | T-019-030, T-019-031, T-019-032 | - |
 | US-019-4 | 019-web-studio | draft | T-019-033, T-019-034 | - |

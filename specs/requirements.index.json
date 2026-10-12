@@ -1625,7 +1625,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "FR-002-02": {
       "spec": "002-runner",
@@ -1635,7 +1637,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "FR-002-03": {
       "spec": "002-runner",
@@ -1645,7 +1649,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "FR-002-04": {
       "spec": "002-runner",
@@ -1655,7 +1661,10 @@
       "tasks": [
         "T-002-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_011_plan_independence.py",
+        "tests/unit/test_t_002_012_plan_all_recipes.py"
+      ]
     },
     "FR-002-05": {
       "spec": "002-runner",
@@ -1665,7 +1674,9 @@
       "tasks": [
         "T-002-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_012_plan_all_recipes.py"
+      ]
     },
     "FR-002-06": {
       "spec": "002-runner",
@@ -1675,7 +1686,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "FR-002-07": {
       "spec": "002-runner",
@@ -1685,7 +1698,9 @@
       "tasks": [
         "T-002-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_012_plan_all_recipes.py"
+      ]
     },
     "FR-002-08": {
       "spec": "002-runner",
@@ -1695,7 +1710,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "FR-002-09": {
       "spec": "002-runner",
@@ -1705,7 +1722,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "FR-002-10": {
       "spec": "002-runner",
@@ -1715,7 +1734,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-11": {
       "spec": "002-runner",
@@ -1725,7 +1746,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-12": {
       "spec": "002-runner",
@@ -1735,7 +1758,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-13": {
       "spec": "002-runner",
@@ -1745,7 +1770,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-14": {
       "spec": "002-runner",
@@ -1755,7 +1782,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-15": {
       "spec": "002-runner",
@@ -1765,7 +1794,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-16": {
       "spec": "002-runner",
@@ -1775,7 +1806,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-17": {
       "spec": "002-runner",
@@ -1785,7 +1818,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-18": {
       "spec": "002-runner",
@@ -1795,7 +1830,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-19": {
       "spec": "002-runner",
@@ -1805,7 +1842,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "FR-002-20": {
       "spec": "002-runner",
@@ -1815,7 +1854,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "FR-002-21": {
       "spec": "002-runner",
@@ -1825,7 +1866,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "FR-002-22": {
       "spec": "002-runner",
@@ -1835,7 +1878,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "FR-002-23": {
       "spec": "002-runner",
@@ -1845,7 +1890,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-24": {
       "spec": "002-runner",
@@ -1855,7 +1902,9 @@
       "tasks": [
         "T-002-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_040_launch.py"
+      ]
     },
     "FR-002-25": {
       "spec": "002-runner",
@@ -1865,7 +1914,9 @@
       "tasks": [
         "T-002-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_040_launch.py"
+      ]
     },
     "FR-002-26": {
       "spec": "002-runner",
@@ -1875,7 +1926,9 @@
       "tasks": [
         "T-002-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_041_stagekit.py"
+      ]
     },
     "FR-002-27": {
       "spec": "002-runner",
@@ -1885,7 +1938,9 @@
       "tasks": [
         "T-002-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_042_process_tree.py"
+      ]
     },
     "FR-002-28": {
       "spec": "002-runner",
@@ -1895,7 +1950,9 @@
       "tasks": [
         "T-002-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_042_process_tree.py"
+      ]
     },
     "FR-002-29": {
       "spec": "002-runner",
@@ -1905,7 +1962,9 @@
       "tasks": [
         "T-002-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_043_keep_awake.py"
+      ]
     },
     "FR-002-30": {
       "spec": "002-runner",
@@ -1915,7 +1974,9 @@
       "tasks": [
         "T-002-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_050_telemetry.py"
+      ]
     },
     "FR-002-31": {
       "spec": "002-runner",
@@ -1925,7 +1986,9 @@
       "tasks": [
         "T-002-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_050_telemetry.py"
+      ]
     },
     "FR-002-32": {
       "spec": "002-runner",
@@ -1935,7 +1998,9 @@
       "tasks": [
         "T-002-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_050_telemetry.py"
+      ]
     },
     "FR-002-60": {
       "spec": "002-runner",
@@ -1945,7 +2010,9 @@
       "tasks": [
         "T-002-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_047_not_run.py"
+      ]
     },
     "FR-002-61": {
       "spec": "002-runner",
@@ -1955,7 +2022,9 @@
       "tasks": [
         "T-002-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_047_not_run.py"
+      ]
     },
     "FR-002-62": {
       "spec": "002-runner",
@@ -1965,7 +2034,9 @@
       "tasks": [
         "T-002-048"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_048_held_locks.py"
+      ]
     },
     "FR-002-63": {
       "spec": "002-runner",
@@ -1975,7 +2046,9 @@
       "tasks": [
         "T-002-048"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_048_held_locks.py"
+      ]
     },
     "FR-002-33": {
       "spec": "002-runner",
@@ -1985,7 +2058,9 @@
       "tasks": [
         "T-002-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_044_retries.py"
+      ]
     },
     "FR-002-34": {
       "spec": "002-runner",
@@ -1995,7 +2070,9 @@
       "tasks": [
         "T-002-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_044_retries.py"
+      ]
     },
     "FR-002-35": {
       "spec": "002-runner",
@@ -2005,7 +2082,9 @@
       "tasks": [
         "T-002-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_045_resume.py"
+      ]
     },
     "FR-002-36": {
       "spec": "002-runner",
@@ -2015,7 +2094,9 @@
       "tasks": [
         "T-002-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_045_resume.py"
+      ]
     },
     "FR-002-37": {
       "spec": "002-runner",
@@ -2025,7 +2106,9 @@
       "tasks": [
         "T-002-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_045_resume.py"
+      ]
     },
     "FR-002-38": {
       "spec": "002-runner",
@@ -2035,7 +2118,9 @@
       "tasks": [
         "T-002-046"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_046_rerun_check.py"
+      ]
     },
     "FR-002-39": {
       "spec": "002-runner",
@@ -2045,7 +2130,9 @@
       "tasks": [
         "T-002-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_060_queue.py"
+      ]
     },
     "FR-002-40": {
       "spec": "002-runner",
@@ -2055,7 +2142,9 @@
       "tasks": [
         "T-002-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_060_queue.py"
+      ]
     },
     "FR-002-41": {
       "spec": "002-runner",
@@ -2065,7 +2154,9 @@
       "tasks": [
         "T-002-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_060_queue.py"
+      ]
     },
     "FR-002-42": {
       "spec": "002-runner",
@@ -2075,7 +2166,9 @@
       "tasks": [
         "T-002-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_061_cli.py"
+      ]
     },
     "FR-002-43": {
       "spec": "002-runner",
@@ -2085,7 +2178,9 @@
       "tasks": [
         "T-002-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_061_cli.py"
+      ]
     },
     "FR-002-58": {
       "spec": "002-runner",
@@ -2095,7 +2190,9 @@
       "tasks": [
         "T-002-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_060_queue.py"
+      ]
     },
     "FR-002-44": {
       "spec": "002-runner",
@@ -2105,7 +2202,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "FR-002-45": {
       "spec": "002-runner",
@@ -2115,7 +2214,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "FR-002-46": {
       "spec": "002-runner",
@@ -2125,7 +2226,9 @@
       "tasks": [
         "T-002-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_051_run_manifest.py"
+      ]
     },
     "FR-002-47": {
       "spec": "002-runner",
@@ -2135,7 +2238,9 @@
       "tasks": [
         "T-002-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_051_run_manifest.py"
+      ]
     },
     "FR-002-48": {
       "spec": "002-runner",
@@ -2145,7 +2250,9 @@
       "tasks": [
         "T-002-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_052_publish.py"
+      ]
     },
     "FR-002-49": {
       "spec": "002-runner",
@@ -2155,7 +2262,9 @@
       "tasks": [
         "T-002-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_052_publish.py"
+      ]
     },
     "FR-002-50": {
       "spec": "002-runner",
@@ -2165,7 +2274,9 @@
       "tasks": [
         "T-002-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_052_publish.py"
+      ]
     },
     "FR-002-51": {
       "spec": "002-runner",
@@ -2175,7 +2286,9 @@
       "tasks": [
         "T-002-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_070_gc.py"
+      ]
     },
     "FR-002-52": {
       "spec": "002-runner",
@@ -2185,7 +2298,9 @@
       "tasks": [
         "T-002-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_070_gc.py"
+      ]
     },
     "FR-002-53": {
       "spec": "002-runner",
@@ -2195,7 +2310,9 @@
       "tasks": [
         "T-002-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_071_bench_env.py"
+      ]
     },
     "FR-002-54": {
       "spec": "002-runner",
@@ -2205,7 +2322,9 @@
       "tasks": [
         "T-002-072"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_072_profile_cmd.py"
+      ]
     },
     "FR-002-55": {
       "spec": "002-runner",
@@ -2215,7 +2334,9 @@
       "tasks": [
         "T-002-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_032_fake_backend.py"
+      ]
     },
     "FR-002-56": {
       "spec": "002-runner",
@@ -2225,7 +2346,9 @@
       "tasks": [
         "T-002-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_032_fake_backend.py"
+      ]
     },
     "FR-002-57": {
       "spec": "002-runner",
@@ -2235,7 +2358,9 @@
       "tasks": [
         "T-002-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_032_fake_backend.py"
+      ]
     },
     "FR-002-59": {
       "spec": "002-runner",
@@ -2255,7 +2380,9 @@
       "tasks": [
         "T-002-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_092_profile_duplicate_gpu.py"
+      ]
     },
     "FR-002-65": {
       "spec": "002-runner",
@@ -2265,7 +2392,9 @@
       "tasks": [
         "T-002-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_093_result_duplicate_output_path.py"
+      ]
     },
     "FR-002-66": {
       "spec": "002-runner",
@@ -2275,7 +2404,9 @@
       "tasks": [
         "T-002-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_094_thermal_guard.py"
+      ]
     },
     "FR-002-67": {
       "spec": "002-runner",
@@ -2315,7 +2446,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "P-002-02": {
       "spec": "002-runner",
@@ -2325,7 +2458,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "P-002-03": {
       "spec": "002-runner",
@@ -2335,7 +2470,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "P-002-04": {
       "spec": "002-runner",
@@ -2345,7 +2482,9 @@
       "tasks": [
         "T-002-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_022_propagation.py"
+      ]
     },
     "P-002-05": {
       "spec": "002-runner",
@@ -2355,7 +2494,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "P-002-06": {
       "spec": "002-runner",
@@ -2365,7 +2506,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "P-002-07": {
       "spec": "002-runner",
@@ -2375,7 +2518,9 @@
       "tasks": [
         "T-002-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_045_resume.py"
+      ]
     },
     "P-002-08": {
       "spec": "002-runner",
@@ -2385,7 +2530,9 @@
       "tasks": [
         "T-002-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_050_telemetry.py"
+      ]
     },
     "P-002-09": {
       "spec": "002-runner",
@@ -2395,7 +2542,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "P-002-10": {
       "spec": "002-runner",
@@ -2405,7 +2554,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "P-002-11": {
       "spec": "002-runner",
@@ -2415,7 +2566,9 @@
       "tasks": [
         "T-002-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_070_gc.py"
+      ]
     },
     "P-002-12": {
       "spec": "002-runner",
@@ -2425,7 +2578,9 @@
       "tasks": [
         "T-002-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_011_plan_independence.py"
+      ]
     },
     "P-002-13": {
       "spec": "002-runner",
@@ -2435,7 +2590,9 @@
       "tasks": [
         "T-002-095"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_095_thermal_guard_property.py"
+      ]
     },
     "NFR-002-01": {
       "spec": "002-runner",
@@ -2445,7 +2602,9 @@
       "tasks": [
         "T-002-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_002_loc_budget.py"
+      ]
     },
     "NFR-002-02": {
       "spec": "002-runner",
@@ -2455,7 +2614,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "NFR-002-03": {
       "spec": "002-runner",
@@ -2465,7 +2626,9 @@
       "tasks": [
         "T-002-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_040_launch.py"
+      ]
     },
     "NFR-002-04": {
       "spec": "002-runner",
@@ -2475,7 +2638,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "NFR-002-05": {
       "spec": "002-runner",
@@ -2485,7 +2650,9 @@
       "tasks": [
         "T-002-090"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_090_mutation_score.py"
+      ]
     },
     "SC-002-01": {
       "spec": "002-runner",
@@ -2495,7 +2662,9 @@
       "tasks": [
         "T-002-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_012_plan_all_recipes.py"
+      ]
     },
     "DC-002-01": {
       "spec": "002-runner",
@@ -2505,7 +2674,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "DC-002-02": {
       "spec": "002-runner",
@@ -2515,7 +2686,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "DC-002-03": {
       "spec": "002-runner",
@@ -2525,7 +2698,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "DC-002-04": {
       "spec": "002-runner",
@@ -2626,7 +2801,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-02": {
       "spec": "003-console",
@@ -2636,7 +2813,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-03": {
       "spec": "003-console",
@@ -2646,7 +2825,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-04": {
       "spec": "003-console",
@@ -2656,7 +2837,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-05": {
       "spec": "003-console",
@@ -2666,7 +2849,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-06": {
       "spec": "003-console",
@@ -2676,7 +2861,9 @@
       "tasks": [
         "T-003-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_011_read_endpoints.py"
+      ]
     },
     "FR-003-07": {
       "spec": "003-console",
@@ -2686,7 +2873,9 @@
       "tasks": [
         "T-003-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_011_read_endpoints.py"
+      ]
     },
     "FR-003-08": {
       "spec": "003-console",
@@ -2696,7 +2885,9 @@
       "tasks": [
         "T-003-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_011_read_endpoints.py"
+      ]
     },
     "FR-003-09": {
       "spec": "003-console",
@@ -2706,7 +2897,9 @@
       "tasks": [
         "T-003-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_012_jobs.py"
+      ]
     },
     "FR-003-10": {
       "spec": "003-console",
@@ -2716,7 +2909,9 @@
       "tasks": [
         "T-003-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_020_jobs_hostile.py"
+      ]
     },
     "FR-003-11": {
       "spec": "003-console",
@@ -2726,7 +2921,9 @@
       "tasks": [
         "T-003-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_012_jobs.py"
+      ]
     },
     "FR-003-12": {
       "spec": "003-console",
@@ -2736,7 +2933,9 @@
       "tasks": [
         "T-003-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_011_read_endpoints.py"
+      ]
     },
     "FR-003-13": {
       "spec": "003-console",
@@ -2746,7 +2945,9 @@
       "tasks": [
         "T-003-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_013_artefacts.py"
+      ]
     },
     "FR-003-14": {
       "spec": "003-console",
@@ -2756,7 +2957,9 @@
       "tasks": [
         "T-003-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_021_path_params.py"
+      ]
     },
     "FR-003-15": {
       "spec": "003-console",
@@ -2766,7 +2969,9 @@
       "tasks": [
         "T-003-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_014_event_stream.py"
+      ]
     },
     "FR-003-16": {
       "spec": "003-console",
@@ -2776,7 +2981,9 @@
       "tasks": [
         "T-003-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_014_event_stream.py"
+      ]
     },
     "FR-003-17": {
       "spec": "003-console",
@@ -2786,7 +2993,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "FR-003-18": {
       "spec": "003-console",
@@ -2796,7 +3005,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-19": {
       "spec": "003-console",
@@ -2806,7 +3017,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-20": {
       "spec": "003-console",
@@ -2816,7 +3029,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-21": {
       "spec": "003-console",
@@ -2826,7 +3041,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-22": {
       "spec": "003-console",
@@ -2836,7 +3053,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-23": {
       "spec": "003-console",
@@ -2846,7 +3065,9 @@
       "tasks": [
         "T-003-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_023_unavailable_store.py"
+      ]
     },
     "FR-003-24": {
       "spec": "003-console",
@@ -2856,7 +3077,9 @@
       "tasks": [
         "T-003-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_030_pages_artifact.py"
+      ]
     },
     "FR-003-25": {
       "spec": "003-console",
@@ -2866,7 +3089,9 @@
       "tasks": [
         "T-003-031"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console-optin.spec.ts"
+      ]
     },
     "FR-003-26": {
       "spec": "003-console",
@@ -2892,7 +3117,9 @@
       "tasks": [
         "T-003-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console/console-ui.spec.ts"
+      ]
     },
     "FR-003-29": {
       "spec": "003-console",
@@ -2902,7 +3129,9 @@
       "tasks": [
         "T-003-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console/console-ui.spec.ts"
+      ]
     },
     "FR-003-30": {
       "spec": "003-console",
@@ -2912,7 +3141,9 @@
       "tasks": [
         "T-003-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console/console-hostile.spec.ts"
+      ]
     },
     "FR-003-31": {
       "spec": "003-console",
@@ -2922,7 +3153,9 @@
       "tasks": [
         "T-003-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_092_job_record_shards.py"
+      ]
     },
     "FR-003-32": {
       "spec": "003-console",
@@ -2952,7 +3185,9 @@
       "tasks": [
         "T-003-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_020_jobs_hostile.py"
+      ]
     },
     "P-003-02": {
       "spec": "003-console",
@@ -2962,7 +3197,9 @@
       "tasks": [
         "T-003-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_021_path_params.py"
+      ]
     },
     "P-003-03": {
       "spec": "003-console",
@@ -2972,7 +3209,9 @@
       "tasks": [
         "T-003-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_015_latency_idempotence.py"
+      ]
     },
     "P-003-04": {
       "spec": "003-console",
@@ -2982,7 +3221,9 @@
       "tasks": [
         "T-003-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_014_event_stream.py"
+      ]
     },
     "NFR-003-01": {
       "spec": "003-console",
@@ -2992,7 +3233,9 @@
       "tasks": [
         "T-003-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_015_latency_idempotence.py"
+      ]
     },
     "NFR-003-02": {
       "spec": "003-console",
@@ -3003,7 +3246,9 @@
         "T-003-024",
         "T-003-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_024_schemathesis.py"
+      ]
     },
     "NFR-003-03": {
       "spec": "003-console",
@@ -3013,7 +3258,9 @@
       "tasks": [
         "T-003-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console/console-ui.spec.ts"
+      ]
     },
     "SC-003-01": {
       "spec": "003-console",
@@ -3023,7 +3270,9 @@
       "tasks": [
         "T-003-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_024_schemathesis.py"
+      ]
     },
     "DC-003-01": {
       "spec": "003-console",
@@ -3033,7 +3282,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "DC-003-02": {
       "spec": "003-console",
@@ -3043,7 +3294,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "DC-003-03": {
       "spec": "003-console",
@@ -3053,7 +3306,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "DC-003-04": {
       "spec": "003-console",
@@ -3063,7 +3318,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "US-004-1": {
       "spec": "004-scene-pipeline",
