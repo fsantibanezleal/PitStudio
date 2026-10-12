@@ -8957,7 +8957,9 @@
       "tasks": [
         "T-011-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py"
+      ]
     },
     "FR-011-02": {
       "spec": "011-surrogates",
@@ -8967,7 +8969,10 @@
       "tasks": [
         "T-011-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_011_radius_graph.py",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "FR-011-03": {
       "spec": "011-surrogates",
@@ -8977,7 +8982,9 @@
       "tasks": [
         "T-011-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_014_gns_training.py"
+      ]
     },
     "FR-011-04": {
       "spec": "011-surrogates",
@@ -8987,7 +8994,9 @@
       "tasks": [
         "T-011-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_014_gns_training.py"
+      ]
     },
     "FR-011-05": {
       "spec": "011-surrogates",
@@ -8997,7 +9006,9 @@
       "tasks": [
         "T-011-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_013_observables.py"
+      ]
     },
     "FR-011-06": {
       "spec": "011-surrogates",
@@ -9007,7 +9018,9 @@
       "tasks": [
         "T-011-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py"
+      ]
     },
     "FR-011-07": {
       "spec": "011-surrogates",
@@ -9017,7 +9030,9 @@
       "tasks": [
         "T-011-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_012_gns_export.py"
+      ]
     },
     "FR-011-08": {
       "spec": "011-surrogates",
@@ -9027,7 +9042,9 @@
       "tasks": [
         "T-011-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_016_gns_parity.py"
+      ]
     },
     "FR-011-09": {
       "spec": "011-surrogates",
@@ -9037,7 +9054,9 @@
       "tasks": [
         "T-011-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-gns-live.spec.ts"
+      ]
     },
     "FR-011-10": {
       "spec": "011-surrogates",
@@ -9047,7 +9066,9 @@
       "tasks": [
         "T-011-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py"
+      ]
     },
     "FR-011-11": {
       "spec": "011-surrogates",
@@ -9057,7 +9078,9 @@
       "tasks": [
         "T-011-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-gns-live.spec.ts"
+      ]
     },
     "FR-011-12": {
       "spec": "011-surrogates",
@@ -9067,7 +9090,10 @@
       "tasks": [
         "T-011-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py",
+        "tests/unit/test_t_011_017_rollout_guards.py"
+      ]
     },
     "FR-011-13": {
       "spec": "011-surrogates",
@@ -9077,7 +9103,12 @@
       "tasks": [
         "T-011-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py",
+        "tests/property/test_t_011_011_radius_graph.py",
+        "tests/unit/test_t_011_017_rollout_guards.py",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "FR-011-14": {
       "spec": "011-surrogates",
@@ -9087,7 +9118,9 @@
       "tasks": [
         "T-011-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_018_rollout_ingest.py"
+      ]
     },
     "FR-011-15": {
       "spec": "011-surrogates",
@@ -9097,7 +9130,13 @@
       "tasks": [
         "T-011-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_019_gns_input_guards.py",
+        "tests/property/test_t_011_011_radius_graph.py",
+        "tests/unit/test_t_011_017_rollout_guards.py",
+        "web/src/engines/gns/inputGuards.test.ts",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "FR-011-16": {
       "spec": "011-surrogates",
@@ -9107,7 +9146,9 @@
       "tasks": [
         "T-011-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_021_gns_speed_report.py"
+      ]
     },
     "FR-011-17": {
       "spec": "011-surrogates",
@@ -9117,7 +9158,10 @@
       "tasks": [
         "T-011-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_034_tape_arm.py",
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-18": {
       "spec": "011-surrogates",
@@ -9127,7 +9171,9 @@
       "tasks": [
         "T-011-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_030_heap_observables.py"
+      ]
     },
     "FR-011-19": {
       "spec": "011-surrogates",
@@ -9137,7 +9183,9 @@
       "tasks": [
         "T-011-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_034_tape_arm.py"
+      ]
     },
     "FR-011-20": {
       "spec": "011-surrogates",
@@ -9147,7 +9195,9 @@
       "tasks": [
         "T-011-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_033_cmaes_arm.py"
+      ]
     },
     "FR-011-21": {
       "spec": "011-surrogates",
@@ -9157,7 +9207,10 @@
       "tasks": [
         "T-011-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_033_cmaes_arm.py",
+        "tests/unit/test_t_011_034_tape_arm.py"
+      ]
     },
     "FR-011-22": {
       "spec": "011-surrogates",
@@ -9167,7 +9220,9 @@
       "tasks": [
         "T-011-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_031_interval_coverage.py"
+      ]
     },
     "FR-011-23": {
       "spec": "011-surrogates",
@@ -9177,7 +9232,9 @@
       "tasks": [
         "T-011-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_032_gradient_gate.py"
+      ]
     },
     "FR-011-24": {
       "spec": "011-surrogates",
@@ -9187,7 +9244,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "FR-011-25": {
       "spec": "011-surrogates",
@@ -9197,7 +9256,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "FR-011-26": {
       "spec": "011-surrogates",
@@ -9207,7 +9268,10 @@
       "tasks": [
         "T-011-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_036_calibration_result.py",
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-27": {
       "spec": "011-surrogates",
@@ -9217,7 +9281,9 @@
       "tasks": [
         "T-011-037"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_037_secondary_arm.py"
+      ]
     },
     "FR-011-28": {
       "spec": "011-surrogates",
@@ -9227,7 +9293,9 @@
       "tasks": [
         "T-011-038"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_038_literature_targets.py"
+      ]
     },
     "FR-011-29": {
       "spec": "011-surrogates",
@@ -9237,7 +9305,9 @@
       "tasks": [
         "T-011-039"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-30": {
       "spec": "011-surrogates",
@@ -9247,7 +9317,9 @@
       "tasks": [
         "T-011-039"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-31": {
       "spec": "011-surrogates",
@@ -9257,7 +9329,9 @@
       "tasks": [
         "T-011-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-calibration-replay.spec.ts"
+      ]
     },
     "FR-011-32": {
       "spec": "011-surrogates",
@@ -9267,7 +9341,10 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_051_fno_model.py",
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "FR-011-33": {
       "spec": "011-surrogates",
@@ -9277,7 +9354,9 @@
       "tasks": [
         "T-011-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_051_fno_model.py"
+      ]
     },
     "FR-011-34": {
       "spec": "011-surrogates",
@@ -9287,7 +9366,9 @@
       "tasks": [
         "T-011-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_052_field_ingest.py"
+      ]
     },
     "FR-011-35": {
       "spec": "011-surrogates",
@@ -9297,7 +9378,9 @@
       "tasks": [
         "T-011-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_053_fno_evaluate.py"
+      ]
     },
     "FR-011-36": {
       "spec": "011-surrogates",
@@ -9307,7 +9390,9 @@
       "tasks": [
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "FR-011-37": {
       "spec": "011-surrogates",
@@ -9317,7 +9402,9 @@
       "tasks": [
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "FR-011-38": {
       "spec": "011-surrogates",
@@ -9327,7 +9414,9 @@
       "tasks": [
         "T-011-056"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c2-c3-fno-live.spec.ts"
+      ]
     },
     "FR-011-39": {
       "spec": "011-surrogates",
@@ -9337,7 +9426,9 @@
       "tasks": [
         "T-011-056"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c2-c3-fno-live.spec.ts"
+      ]
     },
     "FR-011-40": {
       "spec": "011-surrogates",
@@ -9347,7 +9438,12 @@
       "tasks": [
         "T-011-055"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_051_fno_model.py",
+        "tests/pipeline/test_t_011_052_field_ingest.py",
+        "tests/pipeline/test_t_011_055_fno_input_guards.py",
+        "web/src/engines/fno/inputGuards.test.ts"
+      ]
     },
     "FR-011-41": {
       "spec": "011-surrogates",
@@ -9357,7 +9453,9 @@
       "tasks": [
         "T-011-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_052_field_ingest.py"
+      ]
     },
     "FR-011-42": {
       "spec": "011-surrogates",
@@ -9367,7 +9465,9 @@
       "tasks": [
         "T-011-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_053_fno_evaluate.py"
+      ]
     },
     "FR-011-43": {
       "spec": "011-surrogates",
@@ -9377,7 +9477,9 @@
       "tasks": [
         "T-011-057"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_057_neuraloperator_parity.py"
+      ]
     },
     "FR-011-44": {
       "spec": "011-surrogates",
@@ -9387,7 +9489,9 @@
       "tasks": [
         "T-011-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_060_gpu_fake.py"
+      ]
     },
     "FR-011-45": {
       "spec": "011-surrogates",
@@ -9397,7 +9501,9 @@
       "tasks": [
         "T-011-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_061_surrogate_manifests.py"
+      ]
     },
     "FR-011-46": {
       "spec": "011-surrogates",
@@ -9407,7 +9513,9 @@
       "tasks": [
         "T-011-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_092_surrogate_quantile_order.py"
+      ]
     },
     "FR-011-47": {
       "spec": "011-surrogates",
@@ -9417,7 +9525,9 @@
       "tasks": [
         "T-011-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_093_surrogate_unique_names.py"
+      ]
     },
     "FR-011-48": {
       "spec": "011-surrogates",
@@ -9427,7 +9537,9 @@
       "tasks": [
         "T-011-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_094_rollout_bounds.py"
+      ]
     },
     "FR-011-49": {
       "spec": "011-surrogates",
@@ -9437,7 +9549,9 @@
       "tasks": [
         "T-011-095"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_095_fixture_propagation.py"
+      ]
     },
     "FR-011-50": {
       "spec": "011-surrogates",
@@ -9447,7 +9561,9 @@
       "tasks": [
         "T-011-096"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_096_partial_cases.py"
+      ]
     },
     "FR-011-51": {
       "spec": "011-surrogates",
@@ -9457,7 +9573,9 @@
       "tasks": [
         "T-011-097"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_097_input_stale.py"
+      ]
     },
     "P-011-01": {
       "spec": "011-surrogates",
@@ -9467,7 +9585,9 @@
       "tasks": [
         "T-011-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py"
+      ]
     },
     "P-011-02": {
       "spec": "011-surrogates",
@@ -9477,7 +9597,9 @@
       "tasks": [
         "T-011-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py"
+      ]
     },
     "P-011-03": {
       "spec": "011-surrogates",
@@ -9487,7 +9609,9 @@
       "tasks": [
         "T-011-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_017_rollout_guards.py"
+      ]
     },
     "P-011-04": {
       "spec": "011-surrogates",
@@ -9497,7 +9621,10 @@
       "tasks": [
         "T-011-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_011_radius_graph.py",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "P-011-05": {
       "spec": "011-surrogates",
@@ -9507,7 +9634,10 @@
       "tasks": [
         "T-011-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py",
+        "tests/pipeline/test_t_011_012_gns_export.py"
+      ]
     },
     "P-011-06": {
       "spec": "011-surrogates",
@@ -9517,7 +9647,9 @@
       "tasks": [
         "T-011-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_013_observables.py"
+      ]
     },
     "P-011-07": {
       "spec": "011-surrogates",
@@ -9527,7 +9659,9 @@
       "tasks": [
         "T-011-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_013_observables.py"
+      ]
     },
     "P-011-08": {
       "spec": "011-surrogates",
@@ -9537,7 +9671,9 @@
       "tasks": [
         "T-011-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_030_heap_observables.py"
+      ]
     },
     "P-011-09": {
       "spec": "011-surrogates",
@@ -9547,7 +9683,9 @@
       "tasks": [
         "T-011-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_031_interval_coverage.py"
+      ]
     },
     "P-011-10": {
       "spec": "011-surrogates",
@@ -9557,7 +9695,9 @@
       "tasks": [
         "T-011-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_032_gradient_gate.py"
+      ]
     },
     "P-011-11": {
       "spec": "011-surrogates",
@@ -9567,7 +9707,9 @@
       "tasks": [
         "T-011-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_034_tape_arm.py"
+      ]
     },
     "P-011-12": {
       "spec": "011-surrogates",
@@ -9577,7 +9719,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-13": {
       "spec": "011-surrogates",
@@ -9587,7 +9731,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-14": {
       "spec": "011-surrogates",
@@ -9597,7 +9743,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-15": {
       "spec": "011-surrogates",
@@ -9607,7 +9755,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-16": {
       "spec": "011-surrogates",
@@ -9617,7 +9767,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "NFR-011-01": {
       "spec": "011-surrogates",
@@ -9627,7 +9779,9 @@
       "tasks": [
         "T-011-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_016_gns_parity.py"
+      ]
     },
     "NFR-011-02": {
       "spec": "011-surrogates",
@@ -9637,7 +9791,9 @@
       "tasks": [
         "T-011-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-gns-live.spec.ts"
+      ]
     },
     "NFR-011-03": {
       "spec": "011-surrogates",
@@ -9647,7 +9803,9 @@
       "tasks": [
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "NFR-011-04": {
       "spec": "011-surrogates",
@@ -9657,7 +9815,9 @@
       "tasks": [
         "T-011-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_062_budget_record.py"
+      ]
     },
     "SC-011-01": {
       "spec": "011-surrogates",
@@ -9667,7 +9827,9 @@
       "tasks": [
         "T-011-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py"
+      ]
     },
     "SC-011-02": {
       "spec": "011-surrogates",
@@ -9677,7 +9839,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "SC-011-03": {
       "spec": "011-surrogates",
@@ -9687,7 +9851,9 @@
       "tasks": [
         "T-011-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_053_fno_evaluate.py"
+      ]
     },
     "SC-011-04": {
       "spec": "011-surrogates",
@@ -9698,7 +9864,10 @@
         "T-011-016",
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_016_gns_parity.py",
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "SC-011-05": {
       "spec": "011-surrogates",
@@ -9708,7 +9877,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "SC-011-06": {
       "spec": "011-surrogates",
@@ -9718,7 +9889,9 @@
       "tasks": [
         "T-011-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_036_calibration_result.py"
+      ]
     },
     "DC-011-01": {
       "spec": "011-surrogates",
