@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/split.schema.json",
+  "title": "Grouped split file",
+  "description": "Groups and grouped folds fixed at ingestion by s10_preprocess under data/splits/ (DC-008-04, spec 008-data-pipeline).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "dataset",
+    "group_key",
+    "links",
+    "groups",
+    "method",
+    "seed",
+    "folds",
+    "membership_sha256"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "id": {
+      "$ref": "#/$defs/slug"
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        },
+        "kind": {
+          "enum": [
+            "real",
+            "synthetic"
+          ]
+        }
+      }
+    },
+    "group_key": {
+      "$ref": "#/$defs/group_key"
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "a",
+          "b"
+        ],
+        "properties": {
+          "a": {
+            "$ref": "#/$defs/record_id"
+          },
+          "b": {
+            "$ref": "#/$defs/record_id"
+          }
+        }
+      },
+      "maxItems": 4096
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "members"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/record_id"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/record_id"
+            },
+            "minItems": 1,
+            "maxItems": 100000,
+            "uniqueItems": true
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 100000
+    },
+    "method": {
+      "enum": [
+        "seeded-greedy-grouped-kfold",
+        "none"
+      ]
+    },
+    "seed": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "folds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/fold"
+      },
+      "maxItems": 20
+    },
+    "membership_sha256": {
+      "$ref": "#/$defs/sha256",
+      "description": "SHA-256 of the RFC 8785 canonical JSON of {groups, folds}."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "method": {
+            "const": "seeded-greedy-grouped-kfold"
+          }
+        },
+        "required": [
+          "method"
+        ]
+      },
+      "then": {
+        "properties": {
+          "seed": {
+            "not": {
+              "const": null
+            }
+          },
+          "folds": {
+            "minItems": 2
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "seed": {
+            "const": null
+          },
+          "folds": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "group_key": {
+            "properties": {
+              "rule": {
+                "const": "single-group"
+              }
+            },
+            "required": [
+              "rule"
+            ]
+          }
+        },
+        "required": [
+          "group_key"
+        ]
+      },
+      "then": {
+        "properties": {
+          "method": {
+            "const": "none"
+          },
+          "groups": {
+            "maxItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "dataset": {
+            "properties": {
+              "id": {
+                "const": "mendeley-78ht3pjsr4"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "required": [
+          "dataset"
+        ]
+      },
+      "then": {
+        "properties": {
+          "group_key": {
+            "properties": {
+              "rule": {
+                "const": "mendeley-original-component"
+              }
+            }
+          },
+          "method": {
+            "const": "seeded-greedy-grouped-kfold"
+          },
+          "links": {
+            "minItems": 9,
+            "maxItems": 9
+          },
+          "folds": {
+            "minItems": 5,
+            "maxItems": 5,
+            "items": {
+              "properties": {
+                "test": {
+                  "minItems": 48,
+                  "maxItems": 48
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]{1,4}$"
+    },
+    "record_id": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_][A-Za-z0-9._-]{0,127}$"
+    },
+    "group_key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule"
+      ],
+      "properties": {
+        "rule": {
+          "enum": [
+            "mendeley-original-component",
+            "scenario-seed",
+            "event-seed",
+            "muck-pile-id",
+            "pit-layout-id",
+            "scene-seed",
+            "project-spatial-block",
+            "single-group"
+          ]
+        },
+        "block_size_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "rule": {
+                "const": "project-spatial-block"
+              }
+            },
+            "required": [
+              "rule"
+            ]
+          },
+          "then": {
+            "required": [
+              "block_size_m"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "block_size_m"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "fold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "test",
+        "train_pool"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 19
+        },
+        "test": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record_id"
+          },
+          "maxItems": 100000,
+          "uniqueItems": true
+        },
+        "train_pool": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record_id"
+          },
+          "maxItems": 1000000,
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

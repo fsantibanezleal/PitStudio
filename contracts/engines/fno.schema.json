@@ -1,0 +1,549 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/fno.schema.json",
+  "title": "Engine fno: input and output messages",
+  "description": "Input and output messages of the browser engine `fno` (cases C2): Fourier neural operator what-if fields run with ORT-web (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `fno`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "fno",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "tailings_field",
+            "dust_field"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "tailings_field"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/tailings_field_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "dust_field"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/dust_field_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `fno`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "fno",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "tailings_field",
+            "dust_field"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "tailings_field"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/tailings_field_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "dust_field"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/dust_field_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "tailings_field_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "precision",
+        "patch",
+        "breach_cell",
+        "release_volume_m3",
+        "yield_stress_pa",
+        "viscosity_pa_s",
+        "density_kg_per_m3"
+      ],
+      "properties": {
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX model of at most 25,000,000 bytes (spec 018 section 7.1).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "precision": {
+          "enum": [
+            "fp32",
+            "fp16"
+          ],
+          "description": "Live graph precision (FR-011-37)."
+        },
+        "patch": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Bed-elevation patch on the model's 64 x 64 grid (DC-011-02).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "breach_cell": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Breach position on the patch.",
+          "required": [
+            "row",
+            "col"
+          ],
+          "properties": {
+            "row": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 63
+            },
+            "col": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 63
+            }
+          }
+        },
+        "release_volume_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000000.0,
+          "description": "Released volume (> 0)."
+        },
+        "yield_stress_pa": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 500,
+          "description": "Bingham yield stress tau_y."
+        },
+        "viscosity_pa_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Bingham viscosity mu_B."
+        },
+        "density_kg_per_m3": {
+          "type": "number",
+          "minimum": 1000,
+          "maximum": 2500,
+          "description": "Mixture density rho."
+        }
+      }
+    },
+    "tailings_field_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "times_s",
+        "depth_m",
+        "max_depth_m",
+        "extrapolation"
+      ],
+      "properties": {
+        "times_s": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "minItems": 8,
+          "maxItems": 8,
+          "description": "t_k = k T_end / 8, k = 1..8 (FR-011-33)."
+        },
+        "depth_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Depth h(t_k).",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "frames",
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "frames": {
+                  "const": 8
+                },
+                "rows": {
+                  "const": 64
+                },
+                "cols": {
+                  "const": 64
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 131072,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "max_depth_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Maximum depth h_max.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "const": 64
+                },
+                "cols": {
+                  "const": 64
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16384,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "extrapolation": {
+          "type": "boolean",
+          "description": "Outside the training ranges (FR-011-39)."
+        }
+      }
+    },
+    "dust_field_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "precision",
+        "patch",
+        "source_strength_kg_per_s",
+        "wind_speed_m_per_s",
+        "wind_direction_rad"
+      ],
+      "properties": {
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX model of at most 25,000,000 bytes (spec 018 section 7.1).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "precision": {
+          "enum": [
+            "fp32",
+            "fp16"
+          ],
+          "description": "Live graph precision (FR-011-37)."
+        },
+        "patch": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Bed-elevation patch on the model's 64 x 64 grid (DC-011-02).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "source_strength_kg_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Source strength."
+        },
+        "wind_speed_m_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 30,
+          "description": "Wind speed."
+        },
+        "wind_direction_rad": {
+          "type": "number",
+          "minimum": -3.141592653589793,
+          "maximum": 3.141592653589793,
+          "description": "Direction the wind blows toward, counter-clockwise from the patch +x axis."
+        }
+      }
+    },
+    "dust_field_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "concentration_kg_per_m3",
+        "extrapolation"
+      ],
+      "properties": {
+        "concentration_kg_per_m3": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Time-averaged concentration.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols"
+              ],
+              "properties": {
+                "rows": {
+                  "const": 64
+                },
+                "cols": {
+                  "const": 64
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16384,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "extrapolation": {
+          "type": "boolean",
+          "description": "Outside the training ranges (FR-011-39)."
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

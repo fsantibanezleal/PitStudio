@@ -1,0 +1,519 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/des-trace.schema.json",
+  "title": "Haulage DES event trace",
+  "description": "Event trace, cyclelog and scalar results of one shift, written by the haulage adapter (DC-007-02, spec 007-haulage-dispatch).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "header",
+    "events",
+    "cyclelog",
+    "results"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "header": {
+      "$ref": "#/$defs/header"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      },
+      "maxItems": 2000000
+    },
+    "cyclelog": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cyclelog_row"
+      },
+      "maxItems": 2000000
+    },
+    "results": {
+      "$ref": "#/$defs/results"
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]{1,4}$"
+    },
+    "honesty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "bias_note"
+      ],
+      "properties": {
+        "label": {
+          "const": "calibrated synthetic — not validated against real data"
+        },
+        "bias_note": {
+          "const": "Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it."
+        }
+      }
+    },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package",
+        "version",
+        "pin_sha256"
+      ],
+      "properties": {
+        "package": {
+          "const": "minehaulsim"
+        },
+        "version": {
+          "$ref": "#/$defs/semver"
+        },
+        "pin_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "lp_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "fallback"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "optimal",
+            "infeasible",
+            "unbounded",
+            "invalid-input"
+          ]
+        },
+        "fallback": {
+          "enum": [
+            "none",
+            "sptf"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "optimal"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "fallback": {
+                "const": "none"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "fallback": {
+                "const": "sptf"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "header": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "bundle_sha256",
+        "seed",
+        "dispatcher",
+        "variate_profile",
+        "mode",
+        "horizon_s",
+        "kpi_window",
+        "engine",
+        "variates",
+        "producer",
+        "synthetic",
+        "honesty"
+      ],
+      "properties": {
+        "scenario_id": {
+          "$ref": "#/$defs/slug"
+        },
+        "bundle_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "dispatcher": {
+          "$ref": "haul-scenario.schema.json#/$defs/dispatcher_id"
+        },
+        "variate_profile": {
+          "$ref": "haul-scenario.schema.json#/$defs/variate_profile"
+        },
+        "mode": {
+          "enum": [
+            "fast",
+            "traffic"
+          ]
+        },
+        "horizon_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 604800
+        },
+        "kpi_window": {
+          "$ref": "haul-scenario.schema.json#/$defs/kpi_window"
+        },
+        "engine": {
+          "$ref": "#/$defs/engine"
+        },
+        "variates": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "generator",
+            "key_hash"
+          ],
+          "properties": {
+            "generator": {
+              "const": "philox4x64-10"
+            },
+            "key_hash": {
+              "const": "fnv-1a-64"
+            }
+          }
+        },
+        "producer": {
+          "enum": [
+            "python-reference",
+            "typescript-twin"
+          ]
+        },
+        "lp": {
+          "$ref": "#/$defs/lp_status"
+        },
+        "policy": {
+          "$ref": "haul-scenario.schema.json#/$defs/policy_ref"
+        },
+        "synthetic": {
+          "const": true
+        },
+        "honesty": {
+          "$ref": "#/$defs/honesty"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "dispatcher": {
+                "const": "lp"
+              }
+            },
+            "required": [
+              "dispatcher"
+            ]
+          },
+          "then": {
+            "required": [
+              "lp"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "lp"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "dispatcher": {
+                "enum": [
+                  "ppo",
+                  "attention"
+                ]
+              }
+            },
+            "required": [
+              "dispatcher"
+            ]
+          },
+          "then": {
+            "required": [
+              "policy"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "policy"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "t_s",
+        "seq",
+        "kind",
+        "truck",
+        "node"
+      ],
+      "properties": {
+        "t_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 604800
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "kind": {
+          "enum": [
+            "arrive-loader",
+            "load-end",
+            "depart-loaded",
+            "arrive-dump",
+            "dump-end",
+            "dispatch",
+            "loader-repair-end",
+            "segment-exit",
+            "junction-cross-end",
+            "zone-probe",
+            "bin-dump",
+            "lhd-start",
+            "lhd-dig",
+            "lhd-to-tip",
+            "lhd-at-tip",
+            "lhd-after-tip"
+          ]
+        },
+        "truck": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "node": {
+          "anyOf": [
+            {
+              "$ref": "haul-scenario.schema.json#/$defs/node_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "cyclelog_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "t_s",
+        "truck",
+        "node",
+        "event",
+        "payload_t"
+      ],
+      "properties": {
+        "t_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 604800
+        },
+        "truck": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "node": {
+          "$ref": "haul-scenario.schema.json#/$defs/node_id"
+        },
+        "event": {
+          "enum": [
+            "load",
+            "haul",
+            "dump",
+            "return"
+          ]
+        },
+        "payload_t": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        }
+      }
+    },
+    "results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tonnes_t",
+        "cycles",
+        "truck_wait_s",
+        "loader_wait_s",
+        "events_executed",
+        "downtime"
+      ],
+      "properties": {
+        "tonnes_t": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "cycles": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000000
+        },
+        "truck_wait_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "loader_wait_s": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "loader",
+              "wait_s"
+            ],
+            "properties": {
+              "loader": {
+                "$ref": "haul-scenario.schema.json#/$defs/node_id"
+              },
+              "wait_s": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1000000000.0
+              }
+            }
+          },
+          "maxItems": 64
+        },
+        "events_executed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000000
+        },
+        "downtime": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "truck_s",
+                "loader_s"
+              ],
+              "properties": {
+                "truck_s": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "truck",
+                      "downtime_s"
+                    ],
+                    "properties": {
+                      "truck": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      "downtime_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 604800
+                      }
+                    }
+                  },
+                  "maxItems": 400
+                },
+                "loader_s": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "loader",
+                      "downtime_s"
+                    ],
+                    "properties": {
+                      "loader": {
+                        "$ref": "haul-scenario.schema.json#/$defs/node_id"
+                      },
+                      "downtime_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 604800
+                      }
+                    }
+                  },
+                  "maxItems": 64
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

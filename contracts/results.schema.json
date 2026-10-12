@@ -1,0 +1,1102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/results.schema.json",
+  "title": "Results bundle",
+  "description": "One published comparison web/public/results/<comparison-id>.json (DC-020-02, spec 020-web-knowledge).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/comparison_bundle"
+    },
+    {
+      "$ref": "#/$defs/acceleration_bundle"
+    }
+  ],
+  "$defs": {
+    "accel_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "backend",
+        "precision",
+        "status",
+        "latency_ms",
+        "throughput_items_per_s",
+        "energy_j_per_inference",
+        "accuracy_delta_pp",
+        "parity"
+      ],
+      "properties": {
+        "model": {
+          "$ref": "#/$defs/slug"
+        },
+        "backend": {
+          "enum": [
+            "pytorch",
+            "ort-cpu",
+            "ort-cuda",
+            "ort-tensorrt",
+            "tensorrt"
+          ]
+        },
+        "precision": {
+          "enum": [
+            "fp32",
+            "fp16",
+            "int8",
+            "fp8"
+          ]
+        },
+        "status": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "build-failed",
+            "not-run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "latency_ms": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/latency"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "throughput_items_per_s": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        "energy_j_per_inference": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "accuracy_delta_pp": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": -100,
+          "maximum": 100
+        },
+        "parity": {
+          "enum": [
+            "pass",
+            "rejected",
+            "not-run"
+          ]
+        },
+        "tensorrt_licence_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "accepted"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parity": {
+                "const": "pass"
+              },
+              "latency_ms": {
+                "not": {
+                  "const": null
+                }
+              }
+            },
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "reason"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "backend": {
+                "enum": [
+                  "tensorrt",
+                  "ort-tensorrt"
+                ]
+              }
+            },
+            "required": [
+              "backend"
+            ]
+          },
+          "then": {
+            "required": [
+              "tensorrt_licence_sha256"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "tensorrt_licence_sha256"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "acceleration_bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "tab",
+        "title",
+        "cases",
+        "run_ids",
+        "criteria",
+        "rows",
+        "conditions"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200
+        },
+        "schema_version": {
+          "type": "string",
+          "maxLength": 8,
+          "pattern": "^1\\.[0-9]+$"
+        },
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "title": {
+          "$ref": "#/$defs/name_en_es"
+        },
+        "cases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/case_id"
+          },
+          "minItems": 1,
+          "maxItems": 12,
+          "uniqueItems": true
+        },
+        "run_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/run_id"
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "criteria": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/criterion_status"
+          },
+          "minItems": 0,
+          "maxItems": 8
+        },
+        "kind": {
+          "const": "acceleration"
+        },
+        "tab": {
+          "const": "acceleration"
+        },
+        "conditions": {
+          "$ref": "#/$defs/conditions"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/accel_row"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        }
+      }
+    },
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "comparison_bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "tab",
+        "title",
+        "cases",
+        "run_ids",
+        "criteria",
+        "rows"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200
+        },
+        "schema_version": {
+          "type": "string",
+          "maxLength": 8,
+          "pattern": "^1\\.[0-9]+$"
+        },
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "title": {
+          "$ref": "#/$defs/name_en_es"
+        },
+        "cases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/case_id"
+          },
+          "minItems": 1,
+          "maxItems": 12,
+          "uniqueItems": true
+        },
+        "run_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/run_id"
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "criteria": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/criterion_status"
+          },
+          "minItems": 0,
+          "maxItems": 8
+        },
+        "kind": {
+          "const": "comparison"
+        },
+        "tab": {
+          "enum": [
+            "learned-vs-classical",
+            "sim-to-real",
+            "dr-ablation",
+            "isaac-lab",
+            "cosmos"
+          ]
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/paired_row"
+              },
+              {
+                "$ref": "#/$defs/mcnemar_row"
+              },
+              {
+                "$ref": "#/$defs/single_event_row"
+              },
+              {
+                "$ref": "#/$defs/estimate_row"
+              }
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 64
+        }
+      },
+      "description": "Comparison rows shown together, never folded into a composite score (FR-020-21)."
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gpu",
+        "driver",
+        "power_limit_enforced_w",
+        "throttle_frac"
+      ],
+      "properties": {
+        "gpu": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "driver": {
+          "$ref": "#/$defs/driver"
+        },
+        "power_limit_enforced_w": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "throttle_frac": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sw_power_cap",
+            "sw_thermal",
+            "hw_thermal",
+            "hw_slowdown",
+            "power_brake"
+          ],
+          "properties": {
+            "sw_power_cap": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "sw_thermal": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "hw_thermal": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "hw_slowdown": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "power_brake": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "versions": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/version"
+          },
+          "maxProperties": 16
+        }
+      }
+    },
+    "criterion_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requirement",
+        "status"
+      ],
+      "properties": {
+        "requirement": {
+          "type": "string",
+          "maxLength": 9,
+          "pattern": "^SC-[0-9]{3}-[0-9]{2}$"
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "not-run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not-run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "diff_interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lo",
+        "hi",
+        "level",
+        "method"
+      ],
+      "properties": {
+        "lo": {
+          "type": "number",
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "hi": {
+          "type": "number",
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "level": {
+          "const": 0.95
+        },
+        "method": {
+          "enum": [
+            "paired-t",
+            "paired-bootstrap"
+          ]
+        },
+        "resamples": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 1000000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "method": {
+                "const": "paired-bootstrap"
+              }
+            },
+            "required": [
+              "method"
+            ]
+          },
+          "then": {
+            "required": [
+              "resamples"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "resamples"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "95 % interval of the paired difference challenger - baseline, in the metric's unit."
+    },
+    "driver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+(\\.[0-9]+)+$"
+    },
+    "estimate_interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lo",
+        "hi",
+        "level",
+        "method"
+      ],
+      "properties": {
+        "lo": {
+          "type": "number",
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "hi": {
+          "type": "number",
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "level": {
+          "const": 0.95
+        },
+        "method": {
+          "enum": [
+            "percentile-bootstrap",
+            "wilson",
+            "t"
+          ]
+        }
+      }
+    },
+    "estimate_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "metric",
+        "system",
+        "n",
+        "value"
+      ],
+      "properties": {
+        "kind": {
+          "const": "estimate"
+        },
+        "group": {
+          "$ref": "#/$defs/slug"
+        },
+        "metric": {
+          "$ref": "#/$defs/metric"
+        },
+        "system": {
+          "$ref": "#/$defs/label"
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "value": {
+          "type": "number",
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "interval": {
+          "$ref": "#/$defs/estimate_interval"
+        },
+        "threshold": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "comparator",
+            "value"
+          ],
+          "properties": {
+            "comparator": {
+              "enum": [
+                "ge",
+                "le"
+              ]
+            },
+            "value": {
+              "type": "number",
+              "minimum": -1000000000000000.0,
+              "maximum": 1000000000000000.0
+            }
+          }
+        }
+      },
+      "description": "One system's metric with its interval, optionally against a pre-registered threshold."
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "latency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "p50",
+        "p95"
+      ],
+      "properties": {
+        "p50": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000.0
+        },
+        "p95": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000.0
+        }
+      }
+    },
+    "mcnemar_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "metric",
+        "challenger",
+        "baseline",
+        "pairing_unit",
+        "n",
+        "b",
+        "c",
+        "p_value",
+        "verdict"
+      ],
+      "properties": {
+        "kind": {
+          "const": "mcnemar"
+        },
+        "group": {
+          "$ref": "#/$defs/slug"
+        },
+        "metric": {
+          "$ref": "#/$defs/metric"
+        },
+        "challenger": {
+          "$ref": "#/$defs/label"
+        },
+        "baseline": {
+          "$ref": "#/$defs/label"
+        },
+        "pairing_unit": {
+          "$ref": "#/$defs/name_en_es"
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "b": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "c": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "p_value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "verdict": {
+          "enum": [
+            "challenger-better",
+            "baseline-better",
+            "no-significant-difference"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "p_value": {
+                "minimum": 0.05
+              }
+            },
+            "required": [
+              "p_value"
+            ]
+          },
+          "then": {
+            "properties": {
+              "verdict": {
+                "const": "no-significant-difference"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "verdict": {
+                "not": {
+                  "const": "no-significant-difference"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "Exact McNemar test; b = challenger right and baseline wrong, c = the reverse."
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "unit",
+        "orientation"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/param_key"
+        },
+        "name": {
+          "$ref": "#/$defs/name_en_es"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "orientation": {
+          "enum": [
+            "higher-is-better",
+            "lower-is-better"
+          ]
+        }
+      }
+    },
+    "name_en_es": {
+      "$ref": "methods.schema.json#/$defs/name_en_es"
+    },
+    "package": {
+      "type": "string",
+      "maxLength": 100,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$"
+    },
+    "paired_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "metric",
+        "challenger",
+        "baseline",
+        "pairing_unit",
+        "n",
+        "interval",
+        "verdict"
+      ],
+      "properties": {
+        "kind": {
+          "const": "paired"
+        },
+        "group": {
+          "$ref": "#/$defs/slug"
+        },
+        "metric": {
+          "$ref": "#/$defs/metric"
+        },
+        "challenger": {
+          "$ref": "#/$defs/label"
+        },
+        "baseline": {
+          "$ref": "#/$defs/label"
+        },
+        "pairing_unit": {
+          "$ref": "#/$defs/name_en_es"
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 1000000
+        },
+        "interval": {
+          "$ref": "#/$defs/diff_interval"
+        },
+        "verdict": {
+          "enum": [
+            "challenger-better",
+            "baseline-better",
+            "no-significant-difference"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "metric": {
+                "properties": {
+                  "orientation": {
+                    "const": "higher-is-better"
+                  }
+                },
+                "required": [
+                  "orientation"
+                ]
+              },
+              "interval": {
+                "properties": {
+                  "lo": {
+                    "exclusiveMinimum": 0
+                  }
+                },
+                "required": [
+                  "lo"
+                ]
+              }
+            },
+            "required": [
+              "metric",
+              "interval"
+            ]
+          },
+          "then": {
+            "properties": {
+              "verdict": {
+                "const": "challenger-better"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "metric": {
+                "properties": {
+                  "orientation": {
+                    "const": "higher-is-better"
+                  }
+                },
+                "required": [
+                  "orientation"
+                ]
+              },
+              "interval": {
+                "properties": {
+                  "hi": {
+                    "exclusiveMaximum": 0
+                  }
+                },
+                "required": [
+                  "hi"
+                ]
+              }
+            },
+            "required": [
+              "metric",
+              "interval"
+            ]
+          },
+          "then": {
+            "properties": {
+              "verdict": {
+                "const": "baseline-better"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "metric": {
+                "properties": {
+                  "orientation": {
+                    "const": "lower-is-better"
+                  }
+                },
+                "required": [
+                  "orientation"
+                ]
+              },
+              "interval": {
+                "properties": {
+                  "hi": {
+                    "exclusiveMaximum": 0
+                  }
+                },
+                "required": [
+                  "hi"
+                ]
+              }
+            },
+            "required": [
+              "metric",
+              "interval"
+            ]
+          },
+          "then": {
+            "properties": {
+              "verdict": {
+                "const": "challenger-better"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "metric": {
+                "properties": {
+                  "orientation": {
+                    "const": "lower-is-better"
+                  }
+                },
+                "required": [
+                  "orientation"
+                ]
+              },
+              "interval": {
+                "properties": {
+                  "lo": {
+                    "exclusiveMinimum": 0
+                  }
+                },
+                "required": [
+                  "lo"
+                ]
+              }
+            },
+            "required": [
+              "metric",
+              "interval"
+            ]
+          },
+          "then": {
+            "properties": {
+              "verdict": {
+                "const": "baseline-better"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "interval": {
+                "properties": {
+                  "lo": {
+                    "maximum": 0
+                  },
+                  "hi": {
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "lo",
+                  "hi"
+                ]
+              }
+            },
+            "required": [
+              "interval"
+            ]
+          },
+          "then": {
+            "properties": {
+              "verdict": {
+                "const": "no-significant-difference"
+              }
+            }
+          }
+        }
+      ],
+      "description": "Paired comparison; verdict by the decision rule of FR-020-22 on the oriented interval."
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "single_event_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "metric",
+        "challenger",
+        "baseline",
+        "n",
+        "challenger_value",
+        "baseline_value",
+        "verdict"
+      ],
+      "properties": {
+        "kind": {
+          "const": "single-event"
+        },
+        "group": {
+          "$ref": "#/$defs/slug"
+        },
+        "metric": {
+          "$ref": "#/$defs/metric"
+        },
+        "challenger": {
+          "$ref": "#/$defs/label"
+        },
+        "baseline": {
+          "$ref": "#/$defs/label"
+        },
+        "n": {
+          "const": 1
+        },
+        "challenger_value": {
+          "type": "number"
+        },
+        "baseline_value": {
+          "type": "number"
+        },
+        "verdict": {
+          "const": "single-real-event"
+        }
+      }
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    }
+  }
+}

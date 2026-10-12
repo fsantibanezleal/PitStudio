@@ -1,0 +1,548 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/il-twin.schema.json",
+  "title": "PitStudio web twin bundle",
+  "description": "Web twin bundle written by s60_export: twin parameters, policy asset and golden sequences (DC-014-05, spec 014-robot-learning).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/truck_twin"
+    },
+    {
+      "$ref": "#/$defs/arm_twin"
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "schema_version": {
+      "description": "Contract version (major 1).",
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "policy_asset": {
+      "description": "Exported ONNX policy.",
+      "type": "object",
+      "required": [
+        "id",
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "description": "ONNX size (bytes), below 1 MB.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999999
+        }
+      }
+    },
+    "goldens": {
+      "description": "Golden sequences from the Python reference twin (parity).",
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "sequences",
+        "steps",
+        "policy_check_steps"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000
+        },
+        "sequences": {
+          "description": "Golden action sequences.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "steps": {
+          "description": "Steps per golden sequence.",
+          "const": 2000
+        },
+        "policy_check_steps": {
+          "description": "Closed-loop steps checked against ONNX Runtime CPU.",
+          "const": 200
+        }
+      }
+    },
+    "truck_twin": {
+      "description": "IL-1 truck twin bundle.",
+      "type": "object",
+      "required": [
+        "schema_version",
+        "label",
+        "disclaimer",
+        "policy_asset",
+        "replay",
+        "goldens",
+        "policy",
+        "twin",
+        "observation_size",
+        "action_size",
+        "parameters",
+        "input_ranges"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "schema_version": {
+          "$ref": "#/$defs/schema_version"
+        },
+        "label": {
+          "const": "sim-to-sim"
+        },
+        "disclaimer": {
+          "const": "simulation only — compared with a classical controller on the same simulator; no field claim"
+        },
+        "policy_asset": {
+          "$ref": "#/$defs/policy_asset"
+        },
+        "replay": {
+          "description": "Isaac Lab rollouts shown as REPLAY and used as the fallback.",
+          "$ref": "#/$defs/artefact_id"
+        },
+        "goldens": {
+          "$ref": "#/$defs/goldens"
+        },
+        "policy": {
+          "const": "IL-1"
+        },
+        "twin": {
+          "const": "dynamic-bicycle"
+        },
+        "observation_size": {
+          "const": 63
+        },
+        "action_size": {
+          "const": 2
+        },
+        "parameters": {
+          "description": "Dynamic-bicycle twin parameters (FR-014-40).",
+          "type": "object",
+          "required": [
+            "machine",
+            "mass_kg",
+            "rated_payload_kg",
+            "yaw_inertia_kg_m2",
+            "cg_to_front_axle_m",
+            "cg_to_rear_axle_m",
+            "cornering_stiffness_front_n_per_rad",
+            "cornering_stiffness_rear_n_per_rad",
+            "max_steer_deg",
+            "max_steer_rate_deg_per_s",
+            "envelope",
+            "dt_s",
+            "kinematic_below_m_per_s",
+            "substeps"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "machine": {
+              "description": "Machine parameter file the values were mapped from.",
+              "$ref": "#/$defs/slug"
+            },
+            "mass_kg": {
+              "description": "Empty mass (kg).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1000000
+            },
+            "rated_payload_kg": {
+              "description": "Rated payload (kg).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1000000
+            },
+            "yaw_inertia_kg_m2": {
+              "description": "Yaw inertia (kg m2).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 10000000000
+            },
+            "cg_to_front_axle_m": {
+              "description": "CG to front axle (m).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 20
+            },
+            "cg_to_rear_axle_m": {
+              "description": "CG to rear axle (m).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 20
+            },
+            "cornering_stiffness_front_n_per_rad": {
+              "description": "Front cornering stiffness (N/rad).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 100000000
+            },
+            "cornering_stiffness_rear_n_per_rad": {
+              "description": "Rear cornering stiffness (N/rad).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 100000000
+            },
+            "max_steer_deg": {
+              "description": "Maximum steering angle (deg).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 60
+            },
+            "max_steer_rate_deg_per_s": {
+              "description": "Maximum steering rate (deg/s).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 180
+            },
+            "envelope": {
+              "description": "Rimpull and retarder envelope samples by speed (increasing speed is a checker rule).",
+              "type": "array",
+              "items": {
+                "description": "Envelope sample.",
+                "type": "object",
+                "required": [
+                  "speed_m_per_s",
+                  "rimpull_n",
+                  "retarder_n"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "speed_m_per_s": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 40
+                  },
+                  "rimpull_n": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10000000
+                  },
+                  "retarder_n": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10000000
+                  }
+                }
+              },
+              "minItems": 2,
+              "maxItems": 64
+            },
+            "dt_s": {
+              "description": "Semi-implicit Euler step (s).",
+              "const": 0.01
+            },
+            "kinematic_below_m_per_s": {
+              "description": "Kinematic-bicycle switch speed (m/s).",
+              "const": 1
+            },
+            "substeps": {
+              "description": "Physics substeps per animation frame.",
+              "const": 5
+            }
+          }
+        },
+        "input_ranges": {
+          "description": "Training ranges the panel clamps visitor inputs to.",
+          "type": "object",
+          "required": [
+            "payload_fraction",
+            "light_vehicle_speed_km_h"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "payload_fraction": {
+              "description": "Payload fraction clamp range [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "light_vehicle_speed_km_h": {
+              "description": "Light-vehicle speed clamp range (km/h) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 20,
+                "maximum": 40
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        }
+      }
+    },
+    "arm_twin": {
+      "description": "IL-2 excavator twin bundle.",
+      "type": "object",
+      "required": [
+        "schema_version",
+        "label",
+        "disclaimer",
+        "policy_asset",
+        "replay",
+        "goldens",
+        "policy",
+        "twin",
+        "observation_size",
+        "action_size",
+        "parameters",
+        "input_ranges"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "schema_version": {
+          "$ref": "#/$defs/schema_version"
+        },
+        "label": {
+          "const": "sim-to-sim"
+        },
+        "disclaimer": {
+          "const": "simulation only — compared with a classical controller on the same simulator; no field claim"
+        },
+        "policy_asset": {
+          "$ref": "#/$defs/policy_asset"
+        },
+        "replay": {
+          "description": "Isaac Lab rollouts shown as REPLAY and used as the fallback.",
+          "$ref": "#/$defs/artefact_id"
+        },
+        "goldens": {
+          "$ref": "#/$defs/goldens"
+        },
+        "policy": {
+          "const": "IL-2"
+        },
+        "twin": {
+          "const": "planar-arm"
+        },
+        "observation_size": {
+          "const": 46
+        },
+        "action_size": {
+          "const": 4
+        },
+        "parameters": {
+          "description": "Planar arm twin parameters, swing fixed (FR-014-41).",
+          "type": "object",
+          "required": [
+            "machine",
+            "boom_pivot_m",
+            "links",
+            "joints",
+            "bucket_width_m",
+            "heaped_volume_m3",
+            "fill_cap",
+            "gravity_m_per_s2",
+            "dt_s"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "machine": {
+              "description": "Machine parameter file the values were mapped from.",
+              "$ref": "#/$defs/slug"
+            },
+            "boom_pivot_m": {
+              "description": "Boom pivot (x, z) (m).",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": -20,
+                "maximum": 20
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "links": {
+              "type": "object",
+              "required": [
+                "boom",
+                "stick",
+                "bucket"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "boom": {
+                  "type": "object",
+                  "required": [
+                    "length_m"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "length_m": {
+                      "description": "Link length (m).",
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 30
+                    }
+                  }
+                },
+                "stick": {
+                  "type": "object",
+                  "required": [
+                    "length_m"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "length_m": {
+                      "description": "Link length (m).",
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 30
+                    }
+                  }
+                },
+                "bucket": {
+                  "type": "object",
+                  "required": [
+                    "length_m"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "length_m": {
+                      "description": "Link length (m).",
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 30
+                    }
+                  }
+                }
+              }
+            },
+            "joints": {
+              "type": "object",
+              "required": [
+                "boom",
+                "stick",
+                "bucket"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "boom": {
+                  "$ref": "machine-params.schema.json#/$defs/joint"
+                },
+                "stick": {
+                  "$ref": "machine-params.schema.json#/$defs/joint"
+                },
+                "bucket": {
+                  "$ref": "machine-params.schema.json#/$defs/joint"
+                }
+              }
+            },
+            "bucket_width_m": {
+              "description": "Bucket width w (m).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 10
+            },
+            "heaped_volume_m3": {
+              "description": "Rated heaped volume V_h (m3).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 100
+            },
+            "fill_cap": {
+              "description": "Fill cap as a multiple of V_h.",
+              "const": 1.15
+            },
+            "gravity_m_per_s2": {
+              "const": 9.81
+            },
+            "dt_s": {
+              "description": "Twin step (s).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 0.05
+            }
+          }
+        },
+        "input_ranges": {
+          "description": "Training ranges the panel clamps visitor inputs to.",
+          "type": "object",
+          "required": [
+            "cohesion_kpa",
+            "friction_angle_deg"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "cohesion_kpa": {
+              "description": "Cohesion clamp range (kPa) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 20
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "friction_angle_deg": {
+              "description": "Friction-angle clamp range (deg) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 25,
+                "maximum": 40
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        }
+      }
+    }
+  }
+}

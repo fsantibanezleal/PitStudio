@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/vlm-queries.schema.json",
+  "title": "Task-A query set",
+  "description": "Task-A hazard query set written by the query builder: one query per (frame, type) with its exact answer (DC-015-02, spec 015-vlm).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "source_run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "queries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/query"
+      },
+      "maxItems": 6480,
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "seed",
+    "source_run_id",
+    "queries"
+  ],
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "answer_label": {
+      "enum": [
+        "yes",
+        "no",
+        "0",
+        "1",
+        "2",
+        "3+"
+      ]
+    },
+    "query": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "query_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "frame_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "frame_state_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "type": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "condition": {
+          "$ref": "frame-state.schema.json#/$defs/condition"
+        },
+        "location": {
+          "$ref": "frame-state.schema.json#/$defs/location"
+        },
+        "truth": {
+          "$ref": "#/$defs/answer_label"
+        },
+        "gate_subset": {
+          "type": "boolean"
+        },
+        "reasoning_subset": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "query_id",
+        "frame_id",
+        "frame_state_sha256",
+        "type",
+        "condition",
+        "location",
+        "truth",
+        "gate_subset",
+        "reasoning_subset"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": 3
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "truth": {
+                "enum": [
+                  "0",
+                  "1",
+                  "2",
+                  "3+"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "truth": {
+                "enum": [
+                  "yes",
+                  "no"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "gate_subset": {
+                "const": true
+              }
+            },
+            "required": [
+              "gate_subset"
+            ]
+          },
+          "then": {
+            "properties": {
+              "type": {
+                "not": {
+                  "const": 3
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

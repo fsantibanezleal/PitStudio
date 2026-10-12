@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/lidar-envelope.schema.json",
+  "title": "PitStudio lidar envelope",
+  "description": "studio/rtx/lidar-envelope.json, written by the ovrtx probe and read by the st53_sensors guard (DC-013-02, spec 013-sensors).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated",
+    "versions",
+    "probe_scene",
+    "configurations"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "generated": {
+      "description": "When the probe wrote the file (UTC).",
+      "$ref": "#/$defs/utc_timestamp"
+    },
+    "versions": {
+      "description": "Versions read from studio/rtx/uv.lock.",
+      "type": "object",
+      "required": [
+        "ovrtx",
+        "ovstage"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ovrtx": {
+          "$ref": "#/$defs/version"
+        },
+        "ovstage": {
+          "$ref": "#/$defs/version"
+        }
+      }
+    },
+    "probe_scene": {
+      "description": "Probe scene: a ground plane and a 2 m cube at 20 m.",
+      "type": "object",
+      "required": [
+        "cube_edge_m",
+        "cube_range_m"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "cube_edge_m": {
+          "const": 2
+        },
+        "cube_range_m": {
+          "const": 20
+        }
+      }
+    },
+    "configurations": {
+      "description": "Every lidar configuration referenced by the committed recipes.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/configuration"
+      },
+      "minItems": 1,
+      "maxItems": 256
+    }
+  },
+  "$defs": {
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?Z$"
+    },
+    "schema_version": {
+      "description": "Contract version (major 1).",
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "configuration": {
+      "description": "One probed lidar configuration.",
+      "type": "object",
+      "required": [
+        "scan_type",
+        "elevation_fan_deg",
+        "azimuth_fan_deg",
+        "mount_rotation_deg",
+        "status",
+        "valid_points"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "scan_type": {
+          "$ref": "sensor-recipe.schema.json#/$defs/scan_type"
+        },
+        "elevation_fan_deg": {
+          "$ref": "sensor-recipe.schema.json#/$defs/elevation_fan_deg"
+        },
+        "azimuth_fan_deg": {
+          "$ref": "sensor-recipe.schema.json#/$defs/azimuth_fan_deg"
+        },
+        "mount_rotation_deg": {
+          "$ref": "sensor-recipe.schema.json#/$defs/mount_rotation_deg"
+        },
+        "status": {
+          "description": "pass: more than 0 valid points on the probe scene.",
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "valid_points": {
+          "description": "Valid points of the probe frame (a count, not performance data).",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "pass"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valid_points": {
+                "minimum": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "fail"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valid_points": {
+                "maximum": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

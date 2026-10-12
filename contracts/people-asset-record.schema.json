@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/people-asset-record.schema.json",
+  "title": "People asset record",
+  "description": "Provenance record of one person character for the SDG scenes, either a MakeHuman 1.3.0 export or a procedural mannequin, read by the st30_assets handoff and the dataset card (DC-009-04, spec 009-perception).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/makehuman"
+    },
+    {
+      "$ref": "#/$defs/mannequin"
+    }
+  ],
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "git_sha": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?Z$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "setting_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "name",
+        "origin"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "skin",
+            "clothes",
+            "hair",
+            "eyebrows",
+            "eyelashes",
+            "eyes",
+            "teeth",
+            "tongue",
+            "proxy",
+            "material"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._ -]{0,127}$"
+        },
+        "origin": {
+          "const": "system"
+        }
+      }
+    },
+    "export_settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "scale_unit",
+        "skeleton"
+      ],
+      "properties": {
+        "format": {
+          "enum": [
+            "fbx",
+            "dae",
+            "obj"
+          ]
+        },
+        "scale_unit": {
+          "enum": [
+            "m",
+            "dm",
+            "cm",
+            "mm"
+          ]
+        },
+        "skeleton": {
+          "$ref": "#/$defs/setting_id"
+        },
+        "pose": {
+          "$ref": "#/$defs/setting_id"
+        },
+        "feet_on_ground": {
+          "type": "boolean"
+        },
+        "subdivide": {
+          "type": "boolean"
+        },
+        "hide_faces_under_clothes": {
+          "type": "boolean"
+        }
+      }
+    },
+    "makehuman": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "character_id",
+        "application",
+        "application_version",
+        "build",
+        "zip_sha256",
+        "assets",
+        "export_settings",
+        "seed",
+        "export_path",
+        "export_sha256",
+        "licence"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "source": {
+          "const": "makehuman"
+        },
+        "character_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "application": {
+          "const": "MakeHuman"
+        },
+        "application_version": {
+          "const": "1.3.0"
+        },
+        "build": {
+          "const": "official-unmodified"
+        },
+        "zip_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "assets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "items": {
+            "$ref": "#/$defs/asset"
+          }
+        },
+        "export_settings": {
+          "$ref": "#/$defs/export_settings"
+        },
+        "seed": {
+          "$ref": "#/$defs/seed"
+        },
+        "export_path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "export_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "exported_utc": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "licence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "spdx",
+            "licence_class"
+          ],
+          "properties": {
+            "spdx": {
+              "const": "CC0-1.0"
+            },
+            "licence_class": {
+              "const": "open-no-attribution"
+            }
+          }
+        }
+      }
+    },
+    "mannequin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "character_id",
+        "generator",
+        "generator_version",
+        "git_sha",
+        "seed",
+        "export_path",
+        "export_sha256",
+        "licence"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "source": {
+          "const": "mannequin"
+        },
+        "character_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "generator": {
+          "const": "procedural-mannequin"
+        },
+        "generator_version": {
+          "$ref": "#/$defs/semver"
+        },
+        "git_sha": {
+          "$ref": "#/$defs/git_sha"
+        },
+        "seed": {
+          "$ref": "#/$defs/seed"
+        },
+        "export_path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "export_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "exported_utc": {
+          "$ref": "#/$defs/utc_timestamp"
+        },
+        "licence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "spdx",
+            "licence_class"
+          ],
+          "properties": {
+            "spdx": {
+              "const": "CC-BY-4.0"
+            },
+            "licence_class": {
+              "const": "own"
+            }
+          }
+        }
+      }
+    }
+  }
+}

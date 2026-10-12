@@ -1,0 +1,1261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/bench-record.schema.json",
+  "title": "Bench record",
+  "description": "One s64_bench record per model, backend, precision and TensorRT version: timings with intervals, throughput, energy, VRAM, parity, status and the performance marker (DC-016-01, spec 016-export-acceleration).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "git_sha": {
+      "$ref": "#/$defs/git_sha"
+    },
+    "date": {
+      "$ref": "#/$defs/date"
+    },
+    "model": {
+      "$ref": "#/$defs/slug"
+    },
+    "backend": {
+      "$ref": "#/$defs/backend"
+    },
+    "precision": {
+      "$ref": "#/$defs/precision"
+    },
+    "tensorrt_version": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/version"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "reason": {
+      "$ref": "#/$defs/reason"
+    },
+    "performance": {
+      "enum": [
+        "public",
+        "local-only"
+      ]
+    },
+    "latency": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/latency_entry"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        },
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/local_only"
+        }
+      ]
+    },
+    "throughput": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/throughput_entry"
+          },
+          "maxItems": 4,
+          "minItems": 3
+        },
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/local_only"
+        }
+      ]
+    },
+    "joules_per_inference": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/local_only"
+        }
+      ]
+    },
+    "energy_window_s": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 86400
+        },
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/local_only"
+        }
+      ]
+    },
+    "energy_reason": {
+      "$ref": "#/$defs/reason"
+    },
+    "vram_peak_bytes": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/local_only"
+        }
+      ]
+    },
+    "thermal_slowdown": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/local_only"
+        }
+      ]
+    },
+    "telemetry_hz": {
+      "const": 10
+    },
+    "camera_streams": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/camera_streams"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/local_only"
+        }
+      ]
+    },
+    "parity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/parity"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "fingerprint": {
+      "$ref": "#/$defs/fingerprint"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      },
+      "maxItems": 8
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "git_sha",
+    "date",
+    "model",
+    "backend",
+    "precision",
+    "tensorrt_version",
+    "status",
+    "performance",
+    "latency",
+    "throughput",
+    "joules_per_inference",
+    "energy_window_s",
+    "vram_peak_bytes",
+    "thermal_slowdown",
+    "telemetry_hz",
+    "camera_streams",
+    "parity",
+    "fingerprint"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "rejected",
+              "build-failed",
+              "not_run"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "build-failed",
+              "not_run"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "latency": {
+            "const": null
+          },
+          "throughput": {
+            "const": null
+          },
+          "joules_per_inference": {
+            "const": null
+          },
+          "energy_window_s": {
+            "const": null
+          },
+          "vram_peak_bytes": {
+            "const": null
+          },
+          "thermal_slowdown": {
+            "const": null
+          },
+          "camera_streams": {
+            "const": null
+          },
+          "parity": {
+            "const": null
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "pass"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parity": {
+            "not": {
+              "const": null
+            },
+            "properties": {
+              "verdict": {
+                "const": "pass"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "performance": {
+            "const": "local-only"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "rejected"
+            ]
+          }
+        },
+        "required": [
+          "performance",
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "latency": {
+            "$ref": "#/$defs/local_only"
+          },
+          "throughput": {
+            "$ref": "#/$defs/local_only"
+          },
+          "joules_per_inference": {
+            "$ref": "#/$defs/local_only"
+          },
+          "energy_window_s": {
+            "$ref": "#/$defs/local_only"
+          },
+          "vram_peak_bytes": {
+            "$ref": "#/$defs/local_only"
+          },
+          "thermal_slowdown": {
+            "$ref": "#/$defs/local_only"
+          },
+          "camera_streams": {
+            "$ref": "#/$defs/local_only"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "performance": {
+            "const": "public"
+          }
+        },
+        "required": [
+          "performance"
+        ]
+      },
+      "then": {
+        "properties": {
+          "latency": {
+            "not": {
+              "$ref": "#/$defs/local_only"
+            }
+          },
+          "throughput": {
+            "not": {
+              "$ref": "#/$defs/local_only"
+            }
+          },
+          "joules_per_inference": {
+            "not": {
+              "$ref": "#/$defs/local_only"
+            }
+          },
+          "energy_window_s": {
+            "not": {
+              "$ref": "#/$defs/local_only"
+            }
+          },
+          "vram_peak_bytes": {
+            "not": {
+              "$ref": "#/$defs/local_only"
+            }
+          },
+          "thermal_slowdown": {
+            "not": {
+              "$ref": "#/$defs/local_only"
+            }
+          },
+          "camera_streams": {
+            "not": {
+              "$ref": "#/$defs/local_only"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "const": "tensorrt-rtx"
+          }
+        },
+        "required": [
+          "backend"
+        ]
+      },
+      "then": {
+        "properties": {
+          "performance": {
+            "const": "local-only"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "enum": [
+              "tensorrt",
+              "ort-tensorrt"
+            ]
+          },
+          "fingerprint": {
+            "properties": {
+              "tensorrt_licence_sha256": {
+                "not": {
+                  "const": "c86915fd95bbefbdda3135aace3e6ad6b4612846dcbdbc5d2f5a38b139dd88b4"
+                }
+              }
+            },
+            "required": [
+              "tensorrt_licence_sha256"
+            ]
+          }
+        },
+        "required": [
+          "backend",
+          "fingerprint"
+        ]
+      },
+      "then": {
+        "required": [
+          "notes"
+        ],
+        "properties": {
+          "performance": {
+            "const": "local-only"
+          },
+          "notes": {
+            "contains": {
+              "const": "TensorRT licence text changed since review"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "joules_per_inference": {
+            "const": null
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "rejected"
+            ]
+          }
+        },
+        "required": [
+          "joules_per_inference",
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "energy_reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "joules_per_inference": {
+            "not": {
+              "anyOf": [
+                {
+                  "const": null
+                },
+                {
+                  "$ref": "#/$defs/local_only"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "joules_per_inference"
+        ]
+      },
+      "then": {
+        "properties": {
+          "energy_window_s": {
+            "minimum": 1,
+            "not": {
+              "const": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "const": "tensorrt"
+          }
+        },
+        "required": [
+          "backend"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tensorrt_version": {
+            "pattern": "^11\\.3(\\.[0-9]+){0,2}$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "const": "ort-tensorrt"
+          }
+        },
+        "required": [
+          "backend"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tensorrt_version": {
+            "pattern": "^10\\.14(\\.[0-9]+){0,2}$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "enum": [
+              "tensorrt",
+              "ort-tensorrt",
+              "tensorrt-rtx"
+            ]
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "rejected",
+              "build-failed"
+            ]
+          }
+        },
+        "required": [
+          "backend",
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tensorrt_version": {
+            "not": {
+              "const": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "enum": [
+              "pytorch",
+              "ort-cpu",
+              "ort-cuda"
+            ]
+          }
+        },
+        "required": [
+          "backend"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tensorrt_version": {
+            "const": null
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "precision": {
+            "const": "fp32"
+          }
+        },
+        "required": [
+          "precision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parity": {
+            "properties": {
+              "rtol": {
+                "const": 0.001
+              },
+              "atol": {
+                "const": 1e-05
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "precision": {
+            "const": "fp32"
+          },
+          "parity": {
+            "properties": {
+              "verdict": {
+                "const": "pass"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          }
+        },
+        "required": [
+          "precision",
+          "parity"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parity": {
+            "properties": {
+              "mismatch_fraction": {
+                "const": 0
+              },
+              "max_abs_error": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "precision": {
+            "not": {
+              "const": "fp32"
+            }
+          },
+          "parity": {
+            "properties": {
+              "verdict": {
+                "const": "pass"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          }
+        },
+        "required": [
+          "precision",
+          "parity"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parity": {
+            "properties": {
+              "metric_delta_pp": {
+                "minimum": -1,
+                "maximum": 1,
+                "not": {
+                  "const": null
+                }
+              },
+              "mask_iou": {
+                "minimum": 0.99
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "git_sha": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "date": {
+      "type": "string",
+      "maxLength": 10,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "driver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+(\\.[0-9]+)+$"
+    },
+    "local_only": {
+      "const": "measured locally, not published (licence)"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "backend": {
+      "enum": [
+        "pytorch",
+        "ort-cpu",
+        "ort-cuda",
+        "ort-tensorrt",
+        "tensorrt",
+        "tensorrt-rtx"
+      ]
+    },
+    "precision": {
+      "enum": [
+        "fp32",
+        "fp16",
+        "int8",
+        "fp8"
+      ]
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "rejected",
+        "build-failed",
+        "not_run"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "fraction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "quantile_ms": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600000
+        },
+        "lo_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600000
+        },
+        "hi_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600000
+        }
+      },
+      "required": [
+        "value_ms",
+        "lo_ms",
+        "hi_ms"
+      ]
+    },
+    "latency_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regime": {
+          "enum": [
+            "spaced",
+            "sustained"
+          ]
+        },
+        "scope": {
+          "enum": [
+            "gpu-compute",
+            "end-to-end"
+          ]
+        },
+        "gap_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 200
+        },
+        "warmup_s": {
+          "type": "number",
+          "minimum": 5,
+          "maximum": 600
+        },
+        "iterations": {
+          "type": "integer",
+          "minimum": 50,
+          "maximum": 1000
+        },
+        "timed_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 3600
+        },
+        "p50": {
+          "$ref": "#/$defs/quantile_ms"
+        },
+        "p90": {
+          "$ref": "#/$defs/quantile_ms"
+        },
+        "p95": {
+          "$ref": "#/$defs/quantile_ms"
+        },
+        "p99": {
+          "$ref": "#/$defs/quantile_ms"
+        },
+        "bootstrap": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "resamples": {
+              "const": 2000
+            },
+            "seed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9223372036854775807
+            },
+            "level": {
+              "const": 0.95
+            }
+          },
+          "required": [
+            "resamples",
+            "seed",
+            "level"
+          ]
+        }
+      },
+      "required": [
+        "regime",
+        "scope",
+        "gap_ms",
+        "warmup_s",
+        "iterations",
+        "timed_s",
+        "p50",
+        "p90",
+        "p95",
+        "p99",
+        "bootstrap"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "regime": {
+                "const": "spaced"
+              }
+            },
+            "required": [
+              "regime"
+            ]
+          },
+          "then": {
+            "properties": {
+              "gap_ms": {
+                "const": 200
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "gap_ms": {
+                "const": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "throughput_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sweep": {
+          "enum": [
+            "batch",
+            "particles"
+          ]
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000
+        },
+        "elapsed_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 86400
+        },
+        "samples_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000
+        }
+      },
+      "required": [
+        "sweep",
+        "size",
+        "iterations",
+        "elapsed_s",
+        "samples_per_s"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "sweep": {
+                "const": "batch"
+              }
+            },
+            "required": [
+              "sweep"
+            ]
+          },
+          "then": {
+            "properties": {
+              "size": {
+                "enum": [
+                  1,
+                  4,
+                  16,
+                  64,
+                  4096
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "size": {
+                "enum": [
+                  1000,
+                  2000,
+                  10000
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "camera_streams": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "frame_w_px": {
+          "const": 3840
+        },
+        "frame_h_px": {
+          "const": 2160
+        },
+        "tile_px": {
+          "const": 640
+        },
+        "overlap_px": {
+          "const": 64
+        },
+        "n_tiles": {
+          "const": 28
+        },
+        "fps": {
+          "const": 10
+        },
+        "best_batch": {
+          "enum": [
+            1,
+            4,
+            16,
+            64
+          ]
+        },
+        "tiles_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "streams": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "recall": {
+          "$ref": "#/$defs/fraction"
+        },
+        "recall_score_min": {
+          "const": 0.5
+        },
+        "recall_iou_min": {
+          "const": 0.5
+        }
+      },
+      "required": [
+        "frame_w_px",
+        "frame_h_px",
+        "tile_px",
+        "overlap_px",
+        "n_tiles",
+        "fps",
+        "best_batch",
+        "tiles_per_s",
+        "streams",
+        "recall",
+        "recall_score_min",
+        "recall_iou_min"
+      ]
+    },
+    "parity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "verdict": {
+          "enum": [
+            "pass",
+            "rejected"
+          ]
+        },
+        "reference": {
+          "const": "pytorch-fp32-golden"
+        },
+        "rtol": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "atol": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max_abs_error": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mismatch_fraction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metric_delta_pp": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": -100,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mask_iou": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tf32_cleared": {
+          "const": true
+        }
+      },
+      "required": [
+        "verdict",
+        "reference",
+        "rtol",
+        "atol",
+        "max_abs_error",
+        "mismatch_fraction",
+        "metric_delta_pp",
+        "mask_iou",
+        "tf32_cleared"
+      ]
+    },
+    "fingerprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gpu_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "driver": {
+          "$ref": "#/$defs/driver"
+        },
+        "ort_version": {
+          "$ref": "#/$defs/version"
+        },
+        "torch_version": {
+          "$ref": "#/$defs/version"
+        },
+        "onnx_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "engine_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "power_limit_enforced_w": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "power_source": {
+          "enum": [
+            "ac",
+            "battery"
+          ]
+        },
+        "os_power_mode": {
+          "enum": [
+            "best-power-efficiency",
+            "balanced",
+            "best-performance"
+          ]
+        },
+        "tensorrt_licence_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "gpu_name",
+        "driver",
+        "ort_version",
+        "torch_version",
+        "onnx_sha256",
+        "engine_sha256",
+        "power_limit_enforced_w",
+        "power_source",
+        "os_power_mode",
+        "tensorrt_licence_sha256"
+      ]
+    }
+  }
+}
