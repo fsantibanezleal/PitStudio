@@ -106,7 +106,7 @@ redirects, oversize bodies and failures.
 | FR-008-26 | pipeline | hand-drawn polygons inside and outside the box | pytest |
 | FR-008-27, FR-008-28, P-008-06, P-008-08 | pipeline | hand calculation (72 groups, the listed components) | pytest, Hypothesis |
 | FR-008-29, SC-008-01 | pipeline | exact flip/rotation identities on generated masks (CI); the card's counts on the real archive (local) | pytest |
-| FR-008-30, P-008-07 | pipeline | hand calculation (48 per fold; group counts 45, 46, 46, 47, 47) | pytest, Hypothesis |
+| FR-008-30, P-008-07 | pipeline | hand calculation (48 per fold; group counts 10, 15, 15, 16, 16) | pytest, Hypothesis |
 | FR-008-31 | pipeline | the group-key table of FR-008-31 | pytest |
 | FR-008-32, FR-008-35, FR-008-38, P-008-09 | pipeline | double-run SHA-256 equality; missing or tampered studio fixtures | pytest |
 | FR-008-33, FR-008-34 | pipeline | the real-data validators applied to synthetic fixtures | pytest |

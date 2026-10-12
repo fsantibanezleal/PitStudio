@@ -1,0 +1,8 @@
+{
+  "$schema": "../recipe.schema.json",
+  "id": "a2-haulage",
+  "case": "A2",
+  "seed": 20261007,
+  "description": "A2 haulage replay: network, granular spill and the encoded clip.",
+  "stages": []
+}
