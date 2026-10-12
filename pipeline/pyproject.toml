@@ -26,6 +26,7 @@ dependencies = [
 cpu = ["torch", "torchvision", "onnxruntime"]
 cu126 = ["torch", "torchvision", "onnxruntime"]          # driver >= 525
 cu130 = ["torch", "torchvision", "onnxruntime-gpu"]      # driver >= 580 (this laptop: 582.78)
+neuralop = ["neuraloperator>=2.0.0"]               # optional second spectral oracle (FR-011-43)
 
 [dependency-groups]
 dev = [
