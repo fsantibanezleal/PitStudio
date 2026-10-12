@@ -28,7 +28,32 @@ export function pairedVerdict(interval: Interval | undefined, orientation: strin
 
 /** McNemar: p must be below 0.05; the direction comes from the discordant counts (b: challenger right, baseline wrong). */
 export function mcnemarVerdict(b: number, c: number, p: number): Verdict {
-  if (!finite(b) || !finite(c) || !finite(p)) return "unavailable";
+  // The discordant counts of a McNemar table are integers >= 0.
+  if (!Number.isInteger(b) || !Number.isInteger(c) || b < 0 || c < 0 || !finite(p)) return "unavailable";
   if (!(p < 0.05) || b === c) return "none";
   return b > c ? "challenger" : "baseline";
+}
+
+/** "single" exactly when the comparison rests on one real event (n === 1): no significance test is possible. */
+export function singleEventVerdict(n: number): "single" | null {
+  return n === 1 ? "single" : null;
+}
+
+/**
+ * The words of the display. An unusable verdict prints no claim at all (FR-000-05); the names are used verbatim, so the
+ * caller escapes them by rendering them as text.
+ */
+export function verdictLabel(verdict: Verdict | "single", challenger: string, baseline: string): string {
+  switch (verdict) {
+    case "challenger":
+      return `${challenger} better than ${baseline}`;
+    case "baseline":
+      return `${baseline} better than ${challenger}`;
+    case "none":
+      return "no significant difference";
+    case "single":
+      return "single real event — no significance test";
+    default:
+      return "";
+  }
 }
