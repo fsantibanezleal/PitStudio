@@ -158,32 +158,15 @@ def ingest_table(
     )
     name = schema_name or (schema if isinstance(schema, str) else "table")
     rel = relative_to_root(root, path)
-    entry: dict[str, Any] = {
-        "path": rel,
-        "sha256": sha256_file(path),
-        "validator": "tabular",
-        "schema_name": name,
-        "status": "accepted",
-        "records": None,
-    }
+    entry, frame, found = _check_file(path, schema, name, rel)
     outputs: list[dict[str, str]] = []
-    try:
-        frame = pl.read_parquet(path)
-    except Exception as exc:
-        entry["status"] = "rejected"
-        found = [violation(rel, "file", "readable Parquet file", field_kind="property", value=type(exc).__name__)]
-    else:
-        entry["records"] = frame.height
-        found = _violations(frame, _resolve(schema), rel)
-        if found:
-            entry["status"] = "rejected"
-        else:
-            metadata: dict[str, str] = {"fixture": "true"} if is_fixture else {}
-            if exclusions:
-                excluded = apply_exclusions(frame, exclusions)
-                frame = excluded.frame
-                metadata["exclusions"] = json.dumps(excluded.removed, sort_keys=True)
-            outputs.append(write_parquet(frame, root / "processed" / source / f"{path.stem}.parquet", root, metadata))
+    if frame is not None:
+        metadata: dict[str, str] = {"fixture": "true"} if is_fixture else {}
+        if exclusions:
+            excluded = apply_exclusions(frame, exclusions)
+            frame = excluded.frame
+            metadata["exclusions"] = json.dumps(excluded.removed, sort_keys=True)
+        outputs.append(write_parquet(frame, root / "processed" / source / f"{path.stem}.parquet", root, metadata))
     return build_report(
         source=source,
         stage=STAGE,
@@ -194,3 +177,99 @@ def ingest_table(
         outputs=outputs,
         fixture=is_fixture,
     )
+
+
+def ingest_source(
+    source: str,
+    schema: pa.DataFrameSchema | str,
+    fetch_records: Sequence[Mapping[str, Any]],
+    *,
+    schema_name: str | None = None,
+    data_root: Path | str,
+    run_id: str,
+    now: Callable[[], dt.datetime],
+    repo_root: Path | str | None = None,
+    exclusions: Sequence[Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Ingest the verified files of a multi-file source and list the rest as `unavailable` (FR-008-50).
+
+    `fetch_records` are the records `s00_download` wrote for the source. Every record that stored a verified file is
+    validated like `ingest_table` does; every other record becomes a file entry with status `unavailable`, and the
+    report is marked `partial`. Outputs are written only when no file of the source was rejected.
+    """
+    root = check_data_root(data_root, repo_root=repo_root)
+    name = schema_name or (schema if isinstance(schema, str) else "table")
+    files: list[dict[str, Any]] = []
+    found: list[dict[str, Any]] = []
+    accepted: list[tuple[Path, pl.DataFrame]] = []
+    partial = False
+    for record in fetch_records:
+        stored = record.get("stored_as")
+        if record.get("status") not in ("verified", "pin-proposed") or not stored:
+            partial = True
+            rel = stored or f"raw/{record.get('source', source)}/{record['name']}"
+            files.append(
+                {
+                    "path": rel,
+                    "sha256": None,
+                    "validator": "tabular",
+                    "schema_name": name,
+                    "status": "unavailable",
+                    "records": None,
+                }
+            )
+            continue
+        path = root / stored
+        entry, frame, violations = _check_file(path, schema, name, stored)
+        files.append(entry)
+        found.extend(violations)
+        if frame is not None:
+            accepted.append((path, frame))
+    outputs: list[dict[str, str]] = []
+    if not found:
+        for path, frame in accepted:
+            metadata: dict[str, str] = {}
+            if exclusions:
+                excluded = apply_exclusions(frame, exclusions)
+                frame = excluded.frame
+                metadata["exclusions"] = json.dumps(excluded.removed, sort_keys=True)
+            outputs.append(write_parquet(frame, root / "processed" / source / f"{path.stem}.parquet", root, metadata))
+    return build_report(
+        source=source,
+        stage=STAGE,
+        run_id=run_id,
+        now=now(),
+        files=files,
+        violations=found,
+        outputs=outputs,
+        partial=partial,
+    )
+
+
+def _check_file(
+    path: Path, schema: pa.DataFrameSchema | str, name: str, rel: str
+) -> tuple[dict[str, Any], pl.DataFrame | None, list[dict[str, Any]]]:
+    """(file entry, the frame when it is valid, its violations) for one Parquet file."""
+    entry: dict[str, Any] = {
+        "path": rel,
+        "sha256": sha256_file(path),
+        "validator": "tabular",
+        "schema_name": name,
+        "status": "accepted",
+        "records": None,
+    }
+    try:
+        frame = pl.read_parquet(path)
+    except Exception as exc:
+        entry["status"] = "rejected"
+        return (
+            entry,
+            None,
+            [violation(rel, "file", "readable Parquet file", field_kind="property", value=type(exc).__name__)],
+        )
+    entry["records"] = frame.height
+    found = _violations(frame, _resolve(schema), rel)
+    if found:
+        entry["status"] = "rejected"
+        return entry, None, found
+    return entry, frame, []
