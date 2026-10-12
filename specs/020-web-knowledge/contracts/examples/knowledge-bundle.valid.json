@@ -214,6 +214,49 @@
         "parameters": [],
         "equations": []
       }
+    },
+    {
+      "key": "beverloo1961",
+      "entry_type": "article",
+      "authors": "Beverloo, W. A.; Leniger, H. A.; van de Velde, J.",
+      "title": "The flow of granular solids through orifices",
+      "year": 1961,
+      "doi": "10.1016/0009-2509(61)85030-6",
+      "access": "paywalled",
+      "cited_by": {
+        "parameters": [
+          "beverloo_exponent"
+        ],
+        "equations": []
+      }
+    },
+    {
+      "key": "bond1961",
+      "entry_type": "article",
+      "authors": "Bond, F. C.",
+      "title": "Crushing and grinding calculations",
+      "year": 1961,
+      "url": "https://store.smenet.org/20slp36/703",
+      "access": "bibliographic-only",
+      "cited_by": {
+        "parameters": [],
+        "equations": [
+          "bond_specific_energy"
+        ]
+      }
+    },
+    {
+      "key": "burt2014",
+      "entry_type": "article",
+      "authors": "Burt, C. N.; Caccetta, L.",
+      "title": "Equipment selection for surface mining: a review",
+      "year": 2014,
+      "doi": "10.1287/inte.2013.0732",
+      "access": "paywalled",
+      "cited_by": {
+        "parameters": [],
+        "equations": []
+      }
     }
   ]
 }
