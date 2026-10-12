@@ -9,6 +9,7 @@ dependencies = [
     "numpy", "pyyaml", "pydantic", "zarr", "pyarrow",
     "laspy[lazrs]", "rasterio", "pyproj", "shapely", "trimesh", "ortools",
     "pynvvideocodec", "nvidia-ml-py", "nvtx",
+    "cma>=4.5.0",
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [dependency-groups]
