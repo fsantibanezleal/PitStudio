@@ -1,9 +1,13 @@
 """FNO held-out evaluation (s50_evaluate; FR-011-35, FR-011-42, SC-011-03, FR-011-49, FR-011-50).
 
-Per held-out scenario and per output field the relative L2 error ||u_hat - u||_2 / ||u||_2 on the grid in physical units, its mean over
-the scenarios and its 90th percentile (an empty solver field, norm below 1e-9, is excluded and counted), the tailings KPI errors
-(inundated area at h_thr, arrival time at the checkpoint cells, maximum depth, relative volume error of each h(t_k)), the dust
-receptor concentration errors, and the resolution-transfer evaluation at 128 x 128 (labelled "not claimed"). SC-011-03 is the mean
+Per held-out scenario and per output field the relative L2 error ||u_hat - u||_2 / ||u||_2 on the grid in physical
+units, its mean over
+the scenarios and its 90th percentile (an empty solver field, norm below 1e-9, is excluded and counted), the tailings
+KPI errors
+(inundated area at h_thr, arrival time at the checkpoint cells, maximum depth, relative volume error of each h(t_k)),
+the dust
+receptor concentration errors, and the resolution-transfer evaluation at 128 x 128 (labelled "not claimed"). SC-011-03
+is the mean
 relative L2 of h_max (tailings) or of the time-averaged concentration (dust) against `models.fno_rel_l2_mean_max`.
 """
 
@@ -40,7 +44,9 @@ def relative_l2(pred: np.ndarray, truth: np.ndarray) -> float:
 def _check_sets(preds: np.ndarray, truths: np.ndarray, names: Sequence[str]) -> tuple[np.ndarray, np.ndarray]:
     p, t = np.asarray(preds, dtype=np.float64), np.asarray(truths, dtype=np.float64)
     if p.ndim != 4 or p.shape != t.shape:
-        raise EvaluationError(f"preds and truths must be [S, C, H, W] arrays of one shape, got {list(p.shape)} and {list(t.shape)}")
+        raise EvaluationError(
+            f"preds and truths must be [S, C, H, W] arrays of one shape, got {list(p.shape)} and {list(t.shape)}"
+        )
     if p.shape[0] < 1:
         raise EvaluationError("no scenario to evaluate")
     if p.shape[1] != len(names):
@@ -161,7 +167,9 @@ def tailings_kpi_errors(
     """KPI errors of one scenario: pred and truth are [9, H, W] (h(t_1 ... t_8), h_max)."""
     p, t = np.asarray(pred, dtype=np.float64), np.asarray(truth, dtype=np.float64)
     if p.ndim != 3 or p.shape != t.shape or p.shape[0] != N_SNAPSHOTS + 1:
-        raise EvaluationError(f"pred and truth must be [9, H, W] arrays of one shape, got {list(p.shape)} and {list(t.shape)}")
+        raise EvaluationError(
+            f"pred and truth must be [9, H, W] arrays of one shape, got {list(p.shape)} and {list(t.shape)}"
+        )
     if not (np.isfinite(p).all() and np.isfinite(t).all()):
         raise EvaluationError("predictions or truths contain a non-finite value")
     cell = _positive("cell_size_m", cell_size_m)
@@ -199,7 +207,9 @@ def dust_kpi_errors(pred: np.ndarray, truth: np.ndarray, *, receptors: Sequence[
     """Concentration error at each receptor cell; pred and truth are [1, H, W] (the time-averaged concentration)."""
     p, t = np.asarray(pred, dtype=np.float64), np.asarray(truth, dtype=np.float64)
     if p.ndim != 3 or p.shape != t.shape or p.shape[0] != 1:
-        raise EvaluationError(f"pred and truth must be [1, H, W] arrays of one shape, got {list(p.shape)} and {list(t.shape)}")
+        raise EvaluationError(
+            f"pred and truth must be [1, H, W] arrays of one shape, got {list(p.shape)} and {list(t.shape)}"
+        )
     if not (np.isfinite(p).all() and np.isfinite(t).all()):
         raise EvaluationError("predictions or truths contain a non-finite value")
     out = []

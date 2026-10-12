@@ -1,8 +1,11 @@
-"""GNS inference (s40_infer): ONNX Runtime step with the same input guards as PyTorch (FR-011-15), rollout adapters, flags.
+"""GNS inference (s40_infer): ONNX Runtime step with the same input guards as PyTorch (FR-011-15), rollout adapters,
+flags.
 
 `OrtGnsStep` validates its six inputs before the session is run, so a hostile call raises the same `InvalidGraphError`
-(same messages) as the PyTorch model and the session never sees it. `make_surrogate` turns any acceleration function into
-the `surrogate(initial_state, n_steps)` callable of `evaluate_held_out`, through the rollout loop of FR-011-12 / FR-011-13.
+(same messages) as the PyTorch model and the session never sees it. `make_surrogate` turns any acceleration function
+into
+the `surrogate(initial_state, n_steps)` callable of `evaluate_held_out`, through the rollout loop of FR-011-12 /
+FR-011-13.
 """
 
 from __future__ import annotations

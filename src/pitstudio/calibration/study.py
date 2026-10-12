@@ -1,9 +1,12 @@
 """Coverage study of the calibration arms, paired comparisons and gradient-reliability accounting (FR-011-24, FR-011-25,
 SC-011-02, SC-011-05, SC-011-06, FR-011-50).
 
-The study runs 50 synthetic-truth trials per arm: the truth mu_dagger of each trial is drawn once (uniform in [0.3, 0.8], seeded)
-and the target theta* comes from a packing seed disjoint from every other seed; every arm receives the same trial. For each
-arm the 95 % interval of FR-011-22 is formed at the arm's estimate, the coverage is reported with its Wilson interval, and
+The study runs 50 synthetic-truth trials per arm: the truth mu_dagger of each trial is drawn once (uniform in [0.3,
+0.8], seeded)
+and the target theta* comes from a packing seed disjoint from every other seed; every arm receives the same trial. For
+each
+arm the 95 % interval of FR-011-22 is formed at the arm's estimate, the coverage is reported with its Wilson interval,
+and
 "better / faster / narrower" statements about two arms come only from the paired percentile bootstrap of the per-trial
 differences (the decision rule of FR-000-05): otherwise "no significant difference".
 """
@@ -90,7 +93,10 @@ def compare_arms(
         a_wins, b_wins = ci[1] < 0.0, ci[0] > 0.0
     else:
         a_wins, b_wins = ci[0] > 0.0, ci[1] < 0.0
-    detail = f"paired difference {name_a} - {name_b} = {res.mean_diff:.4g}, 95 % percentile interval [{ci[0]:.4g}, {ci[1]:.4g}]"
+    detail = (
+        f"paired difference {name_a} - {name_b} = {res.mean_diff:.4g}, "
+        f"95 % percentile interval [{ci[0]:.4g}, {ci[1]:.4g}]"
+    )
     if a_wins or b_wins:
         winner, loser = (name_a, name_b) if a_wins else (name_b, name_a)
         sense = "lower" if lower_is_better else "higher"
@@ -109,8 +115,11 @@ def _stats(values: Sequence[float]) -> dict[str, float] | None:
     return {"mean": float(arr.mean()), "median": float(np.median(arr)), "max": float(arr.max())}
 
 
-def summarise_arm(trials: Sequence[Mapping[str, Any]], *, parameter: int = 0, expected_trials: int | None = None) -> dict[str, Any]:
-    """Coverage, counts and statistics of one arm's DC-011-04 documents; a partial set gives no coverage claim (FR-011-50)."""
+def summarise_arm(
+    trials: Sequence[Mapping[str, Any]], *, parameter: int = 0, expected_trials: int | None = None
+) -> dict[str, Any]:
+    """Coverage, counts and statistics of one arm's DC-011-04 documents; a partial set gives no coverage claim
+    (FR-011-50)."""
     n = len(trials)
     if n == 0:
         raise InvalidCalibrationError("no trial to summarise")
@@ -160,7 +169,9 @@ def gradient_reliability(results: Sequence[Mapping[str, Any]]) -> dict[str, Any]
         "trials": len(docs),
         "reliable": len(reliable),
         "unreliable": sum(1 for d in docs if d.get("gradient_status") == "unreliable"),
-        "untrusted_used": sum(1 for d in reliable if any(c.get("trusted") is not True for c in d.get("gradient_check", []))),
+        "untrusted_used": sum(
+            1 for d in reliable if any(c.get("trusted") is not True for c in d.get("gradient_check", []))
+        ),
         "failures": failures,
     }
 
@@ -216,7 +227,9 @@ def run_coverage_study(
     return out
 
 
-def _record(arm: str, simulator: Any, trial: Mapping[str, Any], result: Mapping[str, Any], packing_seeds: int) -> dict[str, Any]:
+def _record(
+    arm: str, simulator: Any, trial: Mapping[str, Any], result: Mapping[str, Any], packing_seeds: int
+) -> dict[str, Any]:
     mu_hat = float(result["mu_hat"])
     iv = seed_ensemble_interval(
         simulator.theta, mu_hat, interval_seeds=trial["seeds"]["interval"], n_packing_seeds=packing_seeds

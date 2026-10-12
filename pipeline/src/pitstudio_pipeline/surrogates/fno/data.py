@@ -1,11 +1,15 @@
 """FNO data (s10_preprocess; FR-011-34, FR-011-41): terrain patches, scenarios, the split and the field files.
 
-- 64 terrain patches of 64 x 64 cells (default cell 8 m, block-mean resampled from the 1 m Bingham 3DEP DEM) split by patch into
-  48 training, 6 validation and 10 test patches; 40 tailings and 20 dust scenarios per patch drawn from the recipe ranges (the
+- 64 terrain patches of 64 x 64 cells (default cell 8 m, block-mean resampled from the 1 m Bingham 3DEP DEM) split by
+patch into
+  48 training, 6 validation and 10 test patches; 40 tailings and 20 dust scenarios per patch drawn from the recipe
+  ranges (the
   training envelope of DC-011-02) by a seeded generator;
 - `load_field_file` validates one field dataset (DC-011-03 metadata plus a Zarr payload with one float32 array `data`
-  [C, ny, nx] in metadata channel order) and never coerces: grids other than 64 x 64 (128 x 128 only for a resolution-transfer run),
-  missing units or cell size, non-finite values, a depth below -1e-9 m, an absolute or `..` store path, a digest or a payload shape
+  [C, ny, nx] in metadata channel order) and never coerces: grids other than 64 x 64 (128 x 128 only for a
+  resolution-transfer run),
+  missing units or cell size, non-finite values, a depth below -1e-9 m, an absolute or `..` store path, a digest or a
+  payload shape
   that differs, output times that are not k T_end / 8 all raise `FieldFileError` naming the key or the class.
 """
 
@@ -22,9 +26,8 @@ import numpy as np
 from jsonschema import Draft202012Validator
 
 from pitstudio_pipeline.surrogates.digest import load_schema, zarr_digest
-from pitstudio_pipeline.surrogates.errors import DatasetError, FieldFileError
+from pitstudio_pipeline.surrogates.errors import DatasetError, FieldFileError, RolloutFileError
 from pitstudio_pipeline.surrogates.gns.data import check_store_path, read_metadata  # shared strict readers
-from pitstudio_pipeline.surrogates.errors import RolloutFileError
 
 __all__ = [
     "PatchSplit",
@@ -79,7 +82,8 @@ def _rng(seed: int, patch_id: str | None, stream: int) -> np.random.Generator:
 
 
 def draw_tailings_scenarios(n: int, *, seed: int, patch_id: str | None = None) -> list[dict[str, Any]]:
-    """`n` breach scenarios drawn in the training envelope: uniform, except the plastic viscosity (log-uniform over a decade)."""
+    """`n` breach scenarios drawn in the training envelope: uniform, except the plastic viscosity (log-uniform over a
+    decade)."""
     rng = _rng(seed, patch_id, 1)
     out = []
     for _ in range(n):
@@ -89,7 +93,9 @@ def draw_tailings_scenarios(n: int, *, seed: int, patch_id: str | None = None) -
                 "breach_col": int(rng.integers(0, GRID)),
                 "release_volume_m3": float(rng.uniform(*RELEASE_VOLUME_M3)),
                 "yield_stress_pa": float(rng.uniform(*YIELD_STRESS_PA)),
-                "plastic_viscosity_pa_s": float(math.exp(rng.uniform(math.log(PLASTIC_VISCOSITY_PA_S[0]), math.log(PLASTIC_VISCOSITY_PA_S[1])))),
+                "plastic_viscosity_pa_s": float(
+                    math.exp(rng.uniform(math.log(PLASTIC_VISCOSITY_PA_S[0]), math.log(PLASTIC_VISCOSITY_PA_S[1])))
+                ),
                 "density_kg_per_m3": float(rng.uniform(*DENSITY_KG_M3)),
             }
         )
@@ -154,8 +160,11 @@ def _reason(error: Any) -> str:
     return f"{where}: {error.message}"
 
 
-def load_field_file(meta_path: str | Path, *, root: str | Path, expected_channels: Sequence[str] | None = None) -> FieldRecord:
-    """Validate one field file and return its channels; the payload is read only after the metadata and its digest are valid."""
+def load_field_file(
+    meta_path: str | Path, *, root: str | Path, expected_channels: Sequence[str] | None = None
+) -> FieldRecord:
+    """Validate one field file and return its channels; the payload is read only after the metadata and its digest are
+    valid."""
     try:
         meta = read_metadata(meta_path)
     except RolloutFileError as exc:
@@ -166,7 +175,9 @@ def load_field_file(meta_path: str | Path, *, root: str | Path, expected_channel
             check_store_path(store.get("path"))
         except RolloutFileError as exc:
             raise FieldFileError(exc.reason) from None
-    errors = sorted(Draft202012Validator(load_schema("field-dataset")).iter_errors(meta), key=lambda e: [str(p) for p in e.path])
+    errors = sorted(
+        Draft202012Validator(load_schema("field-dataset")).iter_errors(meta), key=lambda e: [str(p) for p in e.path]
+    )
     if errors:
         raise FieldFileError(_reason(errors[0]))
     _check_semantics(meta)
@@ -184,7 +195,9 @@ def load_field_file(meta_path: str | Path, *, root: str | Path, expected_channel
         raise FieldFileError(f"store/sha256: recorded {meta['store']['sha256']} but the payload digest is {actual}")
     arr = _read_zarr(payload)
     if arr.shape != (len(channels), ny, nx):
-        raise FieldFileError(f"payload shape {list(arr.shape)} differs from [channels, ny, nx] = {[len(channels), ny, nx]}")
+        raise FieldFileError(
+            f"payload shape {list(arr.shape)} differs from [channels, ny, nx] = {[len(channels), ny, nx]}"
+        )
     if not np.isfinite(arr).all():
         raise FieldFileError("payload holds a non-finite value")
     for i, name in enumerate(channels):
@@ -205,7 +218,9 @@ def _check_semantics(meta: Mapping[str, Any]) -> None:
     if meta["model"] == "tailings":
         times = meta["output_times_s"]
         expected = [k * meta["t_end_s"] / 8.0 for k in range(1, 9)]
-        if len(times) != 8 or not all(math.isclose(a, b, rel_tol=1e-9, abs_tol=1e-9) for a, b in zip(times, expected, strict=False)):
+        if len(times) != 8 or not all(
+            math.isclose(a, b, rel_tol=1e-9, abs_tol=1e-9) for a, b in zip(times, expected, strict=False)
+        ):
             raise FieldFileError(f"output_times_s: must be k T_end / 8 for k = 1 ... 8 ({expected}), got {times}")
 
 

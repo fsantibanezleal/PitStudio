@@ -1,8 +1,11 @@
 """CMA-ES calibration arm (FR-011-20, FR-011-21): gradient-free minimisation of the repose loss on the common budget.
 
-Minimises L(mu) = mean over the S optimisation seeds of (theta(mu, seed) - theta*)^2 with the `cma` package (pycma, BSD-3-Clause):
-start mu0, sigma0 = 0.1, the default population of one dimension (4 + floor(3 ln 1) = 4), the box bounds of FR-011-17. A generation
-costs population x S forward simulations; the arm stops when L <= (0.1 deg)^2 or when another generation would exceed the budget
+Minimises L(mu) = mean over the S optimisation seeds of (theta(mu, seed) - theta*)^2 with the `cma` package (pycma,
+BSD-3-Clause):
+start mu0, sigma0 = 0.1, the default population of one dimension (4 + floor(3 ln 1) = 4), the box bounds of FR-011-17.
+A generation
+costs population x S forward simulations; the arm stops when L <= (0.1 deg)^2 or when another generation would exceed
+the budget
 of 60 forward-equivalent simulations (the budget is never exceeded), and returns the best evaluated candidate.
 """
 

@@ -1,8 +1,11 @@
 """Small statistics helpers of the calibration protocol (numpy and the standard library only).
 
-`student_t_quantile` inverts the Student t distribution function, computed through the regularised incomplete beta function
-(Lentz continued fraction, Numerical Recipes section 6.4), to full double precision; it replaces a table so that any number
-of interval seeds works (FR-011-22 uses t at R - 1 degrees of freedom). `wilson_interval` is the Wilson score interval of a
+`student_t_quantile` inverts the Student t distribution function, computed through the regularised incomplete beta
+function
+(Lentz continued fraction, Numerical Recipes section 6.4), to full double precision; it replaces a table so that any
+number
+of interval seeds works (FR-011-22 uses t at R - 1 degrees of freedom). `wilson_interval` is the Wilson score interval
+of a
 binomial proportion (FR-011-24).
 """
 

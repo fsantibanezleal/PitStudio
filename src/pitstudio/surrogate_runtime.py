@@ -1,11 +1,14 @@
 """Runner behaviour of surrogate training and calibration stages on a GPU (FR-011-44).
 
-A CUDA stage must hold the `gpu<N>.compute` lock (the environment variable `PITSTUDIO_HELD_LOCKS` of FR-002-62: a sorted,
+A CUDA stage must hold the `gpu<N>.compute` lock (the environment variable `PITSTUDIO_HELD_LOCKS` of FR-002-62: a
+sorted,
 comma-separated list of distinct lock names set by the runner), must not run while the `gpu0.hold` file exists, and on a
-CUDA out-of-memory error applies the declared fallback: GNS and FNO training halve the batch at most twice, a calibration
+CUDA out-of-memory error applies the declared fallback: GNS and FNO training halve the batch at most twice, a
+calibration
 halves the particle count once; every halving is recorded in the manifest. Standard library only.
 
-Spec 002's runner owns the stage kit; this module is the seam the surrogate stages call, kept small so it can be replaced by
+Spec 002's runner owns the stage kit; this module is the seam the surrogate stages call, kept small so it can be
+replaced by
 the runner's own when that lands.
 """
 
@@ -84,7 +87,8 @@ def check_hold(device: str, *, lock_dir: str | Path) -> None:
 
 
 def is_cuda_oom(exc: BaseException) -> bool:
-    """True for torch.cuda.OutOfMemoryError (by class name) and for RuntimeError or MemoryError saying "out of memory"."""
+    """True for torch.cuda.OutOfMemoryError (by class name) and for RuntimeError or MemoryError saying "out of
+    memory"."""
     if any(cls.__name__ == "OutOfMemoryError" for cls in type(exc).__mro__):
         return True
     return isinstance(exc, RuntimeError | MemoryError) and "out of memory" in str(exc).lower()
@@ -93,7 +97,8 @@ def is_cuda_oom(exc: BaseException) -> bool:
 def run_with_oom_fallback(
     kind: str, params: Mapping[str, Any], attempt: Callable[[dict[str, Any]], Any], *, manifest: dict[str, Any]
 ) -> Any:
-    """Call `attempt(params_copy)`, halving the declared parameter after each CUDA out-of-memory error (see module doc)."""
+    """Call `attempt(params_copy)`, halving the declared parameter after each CUDA out-of-memory error (see module
+    doc)."""
     if kind not in FALLBACKS:
         raise ValueError(f"kind must be one of {list(FALLBACKS)}, got {kind!r}")
     name, allowed = FALLBACKS[kind]
@@ -117,7 +122,9 @@ def run_with_oom_fallback(
                     params=current,
                 ) from exc
             halved = current[name] // 2
-            manifest.setdefault("fallbacks", []).append({"param": name, "from": current[name], "to": halved, "reason": "oom"})
+            manifest.setdefault("fallbacks", []).append(
+                {"param": name, "from": current[name], "to": halved, "reason": "oom"}
+            )
             manifest["oom_fallback"] = True
             current[name] = halved
             halvings += 1

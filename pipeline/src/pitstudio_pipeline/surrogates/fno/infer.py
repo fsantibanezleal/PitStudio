@@ -1,7 +1,9 @@
 """FNO inference with the input guards of FR-011-40 (PyTorch and ONNX Runtime share them).
 
-`FnoPredictor(backend, io, known_patches)` checks, before any model evaluation, the shape of `x` ([1, C_in, 64, 64]), the channel
-order against the DC-011-02 description, the finiteness of `x` and the patch id; any failure raises `InvalidFieldInputError`
+`FnoPredictor(backend, io, known_patches)` checks, before any model evaluation, the shape of `x` ([1, C_in, 64, 64]),
+the channel
+order against the DC-011-02 description, the finiteness of `x` and the patch id; any failure raises
+`InvalidFieldInputError`
 naming the argument and returns no field. The ONNX Runtime backend uses the CPU provider.
 """
 
@@ -42,7 +44,9 @@ class FnoPredictor:
         if arr.shape != expected:
             raise InvalidFieldInputError(f"x: shape {list(arr.shape)} is not {list(expected)}")
         if list(channels) != self.channels:
-            raise InvalidFieldInputError(f"channels: {list(channels)} differ from the model's channel order {self.channels}")
+            raise InvalidFieldInputError(
+                f"channels: {list(channels)} differ from the model's channel order {self.channels}"
+            )
         if not np.issubdtype(arr.dtype, np.floating) or not np.isfinite(arr).all():
             raise InvalidFieldInputError("x: the field holds a non-finite value (or is not a float array)")
         if not isinstance(patch_id, str) or patch_id not in self.known_patches:

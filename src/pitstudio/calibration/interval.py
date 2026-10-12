@@ -1,13 +1,17 @@
 """Seed-ensemble delta interval of a calibrated parameter (FR-011-22, P-011-09).
 
-Both optimisers form the same 95 % interval: R forward simulations at mu_hat - h, mu_hat and mu_hat + h (h = 0.05 mu_hat), one
-per interval seed (seeds disjoint from the target and optimisation seeds). sigma_hat is the sample standard deviation (R - 1
+Both optimisers form the same 95 % interval: R forward simulations at mu_hat - h, mu_hat and mu_hat + h (h = 0.05
+mu_hat), one
+per interval seed (seeds disjoint from the target and optimisation seeds). sigma_hat is the sample standard deviation
+(R - 1
 degrees of freedom) of the repose angle at mu_hat, g_hat the central-difference slope of the seed means, and
 
     CI = mu_hat +/- t_{0.975, R-1} * sigma_hat * sqrt(1 + 1/S) / |g_hat|.
 
-The slope is judged on the paired per-seed slopes g_r = (theta_r(mu_hat + h) - theta_r(mu_hat - h)) / (2 h) (the same packing
-seed at both ends): when g_hat +/- t * sd(g_r) / sqrt(R) contains 0 the parameter is "not identified", the interval has no
+The slope is judged on the paired per-seed slopes g_r = (theta_r(mu_hat + h) - theta_r(mu_hat - h)) / (2 h) (the same
+packing
+seed at both ends): when g_hat +/- t * sd(g_r) / sqrt(R) contains 0 the parameter is "not identified", the interval has
+no
 bounds and it never covers (a non-identified trial counts against coverage).
 """
 
@@ -41,7 +45,9 @@ class IntervalResult:
 
     def covers(self, truth: float) -> bool:
         """True iff the interval is bounded (identified) and contains `truth`."""
-        return self.identified and self.lower is not None and self.upper is not None and self.lower <= truth <= self.upper
+        return (
+            self.identified and self.lower is not None and self.upper is not None and self.lower <= truth <= self.upper
+        )
 
 
 def seed_ensemble_interval(
@@ -67,7 +73,9 @@ def seed_ensemble_interval(
         for seed in seeds:
             value = float(simulate(mu, seed))
             if not math.isfinite(value):
-                raise InvalidCalibrationError(f"the simulator returned a non-finite repose angle (mu = {mu}, seed = {seed})")
+                raise InvalidCalibrationError(
+                    f"the simulator returned a non-finite repose angle (mu = {mu}, seed = {seed})"
+                )
             columns[key].append(value)
     minus, centre, plus = (np.asarray(columns[k]) for k in ("minus", "centre", "plus"))
     r = len(seeds)

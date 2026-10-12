@@ -1,7 +1,9 @@
 """GNS speed report (FR-011-16): steps per second of the surrogate and of the solver, measurements only.
 
-Steps per second is the reciprocal of the MEDIAN step time (NFR-011-02 uses the median of 100 steps). Hardware and tier are
-named for every rate; a missing device or tier is reported "not run" with its reason and never guessed. The statement is a
+Steps per second is the reciprocal of the MEDIAN step time (NFR-011-02 uses the median of 100 steps). Hardware and tier
+are
+named for every rate; a missing device or tier is reported "not run" with its reason and never guessed. The statement
+is a
 list of measurements and carries no comparative wording.
 """
 
@@ -55,7 +57,9 @@ def build_speed_report(
         "steps_per_s": 1.0 / cpu_median,
     }
     gpu = _measured_or_not_run("python_gpu", python_gpu, extra=())
-    tiers = {tier: _measured_or_not_run(f"browser {tier}", browser[tier], extra=("browser",), tier=tier) for tier in TIERS}
+    tiers = {
+        tier: _measured_or_not_run(f"browser {tier}", browser[tier], extra=("browser",), tier=tier) for tier in TIERS
+    }
     wall = solver.get("wall_s_per_step")
     if not isinstance(wall, int | float) or isinstance(wall, bool) or not math.isfinite(wall) or wall <= 0:
         raise ValueError(f"solver: wall_s_per_step must be a positive finite number, got {wall!r}")
@@ -74,7 +78,9 @@ def build_speed_report(
     }
 
 
-def _measured_or_not_run(label: str, entry: Mapping[str, Any], *, extra: Sequence[str], tier: str | None = None) -> dict[str, Any]:
+def _measured_or_not_run(
+    label: str, entry: Mapping[str, Any], *, extra: Sequence[str], tier: str | None = None
+) -> dict[str, Any]:
     base: dict[str, Any] = {}
     if tier:
         base["tier"] = tier
@@ -110,5 +116,8 @@ def _statement(geometry_id: str, particles: int, surrogate: Mapping[str, Any], s
             parts.append(f"surrogate in the browser, tier {tier} ({where}): {entry['steps_per_s']:.2f} steps/s;")
         else:
             parts.append(f"surrogate in the browser, tier {tier} ({where}): not run ({entry['reason']});")
-    parts.append(f"solver on {solver['hardware']}: {solver['steps_per_s']:.2f} steps/s ({solver['wall_s_per_step']:.3f} s per step).")
+    parts.append(
+        f"solver on {solver['hardware']}: {solver['steps_per_s']:.2f} steps/s "
+        f"({solver['wall_s_per_step']:.3f} s per step)."
+    )
     return " ".join(parts)

@@ -1,8 +1,11 @@
 """Manifest records and labels of the surrogate artefacts (FR-011-45, DC-000-01).
 
-Every rollout, field and calibration dataset and every surrogate artefact is described by a manifest `artefact` record naming
-the producing tool (Warp, Newton, PyTorch, ONNX Runtime), its stage, its inputs with SHA-256 and its lane, and is labelled
-"calibrated synthetic - not validated against real data" (FR-000-09, the dash is U+2014); the literature repose targets are the only real-world
+Every rollout, field and calibration dataset and every surrogate artefact is described by a manifest `artefact` record
+naming
+the producing tool (Warp, Newton, PyTorch, ONNX Runtime), its stage, its inputs with SHA-256 and its lane, and is
+labelled
+"calibrated synthetic - not validated against real data" (FR-000-09, the dash is U+2014); the literature repose targets
+are the only real-world
 anchor and do not change the label. The lane is measured, never declared: an ONNX record claims `live` only when its T2
 lane measurements pass the gate of `thresholds.yaml` (`lane_gate`).
 """
@@ -27,9 +30,23 @@ _GIT_LIMIT = 10 * 1024 * 1024  # a git-hosted asset must be under 10 MiB (manife
 
 # kind -> (artefact kind, producer tool or {solver: tool}, stage id, lane rule, budget class, needs a solver)
 _TABLE: dict[str, tuple[str, Any, str, str, str, bool]] = {
-    "rollout-set": ("shard", {"warp-dem": "warp", "newton-mpm": "newton"}, "st50_physics", "replay", "shards-clouds", True),
+    "rollout-set": (
+        "shard",
+        {"warp-dem": "warp", "newton-mpm": "newton"},
+        "st50_physics",
+        "replay",
+        "shards-clouds",
+        True,
+    ),
     "field-dataset": ("field", "warp", "st50_physics", "replay", "shards-clouds", False),
-    "calibration-dataset": ("table", {"warp-dem": "warp", "newton-mpm": "newton"}, "st50_physics", "static", "own-code", True),
+    "calibration-dataset": (
+        "table",
+        {"warp-dem": "warp", "newton-mpm": "newton"},
+        "st50_physics",
+        "static",
+        "own-code",
+        True,
+    ),
     "gns-onnx": ("onnx", "pytorch", "s60_export", "measured", "onnx", False),
     "fno-onnx": ("onnx", "pytorch", "s60_export", "measured", "onnx", False),
     "parity-report": ("table", "onnxruntime", "s60_export", "static", "own-code", False),
@@ -92,7 +109,7 @@ def artefact_record(
 ) -> dict[str, Any]:
     """A manifest `artefact` record for a file of the given kind; see the module docstring for the rules."""
     label_for(kind)
-    art_kind, tool, stage, lane_rule, budget_class, needs_solver = _TABLE[kind]
+    art_kind, tool, stage, lane_rule, budget_class, _ = _TABLE[kind]
     defs = _manifest_defs()
     _check(defs, "artefact_id", artefact_id, "artefact_id")
     _check(defs, "run_id", run_id, "run_id")

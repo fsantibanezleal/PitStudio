@@ -1,10 +1,16 @@
-"""FNO export (s60_export; FR-011-36, FR-011-37, SC-011-04, NFR-011-03): MatMul-only graphs, the operator whitelist, parity, fp16.
+"""FNO export (s60_export; FR-011-36, FR-011-37, SC-011-04, NFR-011-03): MatMul-only graphs, the operator whitelist,
+parity, fp16.
 
-`export_fno` writes `<model_id>-fp32.onnx` and `<model_id>-fp16.onnx` at opset 19 and IR version 10 with the float32 interface
-`fields` [1, C_in, 64, 64] -> `depth` [1, C_out, 64, 64] (the fp16 graph keeps float32 inputs and outputs through Cast nodes), runs
-`verify_graph` on both and describes each with a DC-011-02 document. The graph may hold only the operators of the whitelist of
-spec 011 section 7 (no DFT, no Einsum, no tensor of a two-component number type): anything else fails FR-011-36 with the operator
-named. The fp16 graph is the live one only when the mean relative L2 of every field changes by at most 1 percentage point.
+`export_fno` writes `<model_id>-fp32.onnx` and `<model_id>-fp16.onnx` at opset 19 and IR version 10 with the float32
+interface
+`fields` [1, C_in, 64, 64] -> `depth` [1, C_out, 64, 64] (the fp16 graph keeps float32 inputs and outputs through Cast
+nodes), runs
+`verify_graph` on both and describes each with a DC-011-02 document. The graph may hold only the operators of the
+whitelist of
+spec 011 section 7 (no DFT, no Einsum, no tensor of a two-component number type): anything else fails FR-011-36 with
+the operator
+named. The fp16 graph is the live one only when the mean relative L2 of every field changes by at most 1 percentage
+point.
 """
 
 from __future__ import annotations
@@ -170,7 +176,9 @@ def export_fno(
             "training_envelope": copy.deepcopy(dict(envelope)),
         }
         if len(raw) > LIVE_BYTES_MAX:
-            raise ValueError(f"live graph {key} is {len(raw)} bytes, above the {LIVE_BYTES_MAX} byte limit (NFR-011-03)")
+            raise ValueError(
+                f"live graph {key} is {len(raw)} bytes, above the {LIVE_BYTES_MAX} byte limit (NFR-011-03)"
+            )
         (out / f"{model_id}-{key}.io.json").write_text(json.dumps(docs[key], indent=2) + "\n", encoding="utf-8")
     return FnoExport(model_id=model_id, paths=paths, io=docs)
 
@@ -193,7 +201,9 @@ def check_parity(model: FnoModel, onnx_path: str | Path, *, n_golden: int = MIN_
         with torch.no_grad():
             want = model(torch.from_numpy(x)).numpy().astype(np.float64)
         diff = np.abs(got - want)
-        if not (np.isfinite(got).all() and bool((diff <= tolerances["atol"] + tolerances["rtol"] * np.abs(want)).all())):
+        if not (
+            np.isfinite(got).all() and bool((diff <= tolerances["atol"] + tolerances["rtol"] * np.abs(want)).all())
+        ):
             passed = False
         step_max = float(diff.max()) if np.isfinite(diff).all() else math.inf
         max_abs = max(max_abs, step_max)
@@ -202,11 +212,13 @@ def check_parity(model: FnoModel, onnx_path: str | Path, *, n_golden: int = MIN_
             worst, worst_step = step_max, k
     if max_abs > tolerances["max_abs"]:
         passed = False
-    return ParityReport(passed=passed, n_golden=n_golden, max_abs=max_abs, max_rel=max_rel, tolerances=tolerances, worst_step=worst_step)
+    return ParityReport(
+        passed=passed, n_golden=n_golden, max_abs=max_abs, max_rel=max_rel, tolerances=tolerances, worst_step=worst_step
+    )
 
 
 def choose_live_precision(delta_pp: Mapping[str, float]) -> str:
-    """"fp16" iff every field's mean relative L2 changes by at most 1 percentage point (FR-011-37), else "fp32"."""
+    """ "fp16" iff every field's mean relative L2 changes by at most 1 percentage point (FR-011-37), else "fp32"."""
     if not delta_pp:
         return "fp32"
     limit = float(model_threshold("quantized_task_metric_delta_max_pp"))

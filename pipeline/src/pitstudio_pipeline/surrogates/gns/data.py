@@ -1,12 +1,16 @@
-"""GNS data (s10_preprocess): rollout files, the geometry split, the packing plan and the 30 d selection (FR-011-03, FR-011-14).
+"""GNS data (s10_preprocess): rollout files, the geometry split, the packing plan and the 30 d selection (FR-011-03,
+FR-011-14).
 
-- `s10_preprocess` reads one rollout (DC-011-01 metadata plus its Parquet or Zarr payload), validates everything and never
-  coerces: a number given as a string, a path that is absolute or climbs with `..`, a digest that differs, a payload whose
+- `s10_preprocess` reads one rollout (DC-011-01 metadata plus its Parquet or Zarr payload), validates everything and
+never
+  coerces: a number given as a string, a path that is absolute or climbs with `..`, a digest that differs, a payload
+  whose
   particle or frame count disagrees with the metadata all raise `RolloutFileError` naming the key or the class.
 - `make_geometry_split` splits 100 geometries into 70 / 10 / 20 by geometry id, the test geometries lying inside the
   training envelope and at a normalised parameter distance >= 0.05 from every training geometry (8 collapses, 6 piles,
   6 dumps).
-- `select_geometries` takes the first n candidates whose reference pile at rest is at least 30 d high and counts the rest.
+- `select_geometries` takes the first n candidates whose reference pile at rest is at least 30 d high and counts the
+rest.
 """
 
 from __future__ import annotations
@@ -80,7 +84,8 @@ def make_geometry_split(
     """Split exactly 100 geometries into train (70), val (10) and test (20: 8 collapses, 6 piles, 6 dumps) id lists.
 
     Test geometries lie inside the training envelope (per parameter between the training minimum and maximum of their
-    family) and at a distance >= `min_distance` (Euclidean, on parameters normalised by their range, same family) from every
+    family) and at a distance >= `min_distance` (Euclidean, on parameters normalised by their range, same family) from
+    every
     training geometry; geometries closer than that to a test geometry go to validation. Reproducible by `seed`.
     """
     ranges = ranges or FAMILY_RANGES
@@ -95,7 +100,9 @@ def make_geometry_split(
     by_family = {f: [g for g in geometries if g["family"] == f] for f in FAMILIES}
     for family, quota in TEST_QUOTA.items():
         if len(by_family[family]) < quota + 1:
-            raise DatasetError(f"family {family}: {len(by_family[family])} geometries cannot fill {quota} test geometries")
+            raise DatasetError(
+                f"family {family}: {len(by_family[family])} geometries cannot fill {quota} test geometries"
+            )
     vec = {g["geometry_id"]: _normalised(g, ranges) for g in geometries}
     fam_of = {g["geometry_id"]: g["family"] for g in geometries}
 
@@ -106,7 +113,7 @@ def make_geometry_split(
     extreme = _extremes(by_family, vec)
     rng_root = np.random.SeedSequence(seed)
     failure = "no admissible test set found"
-    for attempt in range(_SPLIT_ATTEMPTS):
+    for _ in range(_SPLIT_ATTEMPTS):
         rng = np.random.default_rng(rng_root.spawn(1)[0])
         test: list[str] = []
         forced: set[str] = set()
@@ -142,7 +149,10 @@ def make_geometry_split(
             continue
         if _split_valid(train, test, vec, fam_of, min_distance, by_family):
             return GeometrySplit(train=train, val=sorted(val), test=sorted(test))
-        failure = "the test geometries are not inside the training envelope or too near a training geometry (distance, envelope)"
+        failure = (
+            "the test geometries are not inside the training envelope or too near a training geometry "
+            "(distance, envelope)"
+        )
     raise DatasetError(f"cannot split the geometries: {failure}")
 
 
@@ -176,7 +186,9 @@ def _split_valid(
     return True
 
 
-def packing_plan(geometry_ids: Sequence[str], *, seed: int, seeds_per_geometry: int = SEEDS_PER_GEOMETRY) -> list[dict[str, Any]]:
+def packing_plan(
+    geometry_ids: Sequence[str], *, seed: int, seeds_per_geometry: int = SEEDS_PER_GEOMETRY
+) -> list[dict[str, Any]]:
     """`seeds_per_geometry` packing seeds per geometry, all distinct over the dataset, reproducible by `seed`."""
     total = len(geometry_ids) * seeds_per_geometry
     seeds = np.random.default_rng(seed).choice(2**32, size=total, replace=False)
@@ -190,7 +202,8 @@ def packing_plan(geometry_ids: Sequence[str], *, seed: int, seeds_per_geometry: 
 def select_geometries(
     candidates: Sequence[Mapping[str, Any]], *, n: int = N_GEOMETRIES, min_pile_height_d: float = 30.0
 ) -> SelectionResult:
-    """The first `n` candidates (in order) whose reference pile at rest is >= `min_pile_height_d` x d; count the others."""
+    """The first `n` candidates (in order) whose reference pile at rest is >= `min_pile_height_d` x d; count the
+    others."""
     chosen: list[dict[str, Any]] = []
     replaced = 0
     for cand in candidates:
@@ -201,7 +214,9 @@ def select_geometries(
         else:
             replaced += 1
     if len(chosen) < n:
-        raise DatasetError(f"only {len(chosen)} of {n} candidates have a reference pile at least {min_pile_height_d} d high")
+        raise DatasetError(
+            f"only {len(chosen)} of {n} candidates have a reference pile at least {min_pile_height_d} d high"
+        )
     return SelectionResult(geometries=chosen, replaced=replaced)
 
 
@@ -269,7 +284,9 @@ def validate_metadata(meta: dict[str, Any]) -> None:
     store = meta.get("store")
     if isinstance(store, dict):
         check_store_path(store.get("path"))
-    errors = sorted(Draft202012Validator(load_schema("granular-rollout")).iter_errors(meta), key=lambda e: list(map(str, e.path)))
+    errors = sorted(
+        Draft202012Validator(load_schema("granular-rollout")).iter_errors(meta), key=lambda e: list(map(str, e.path))
+    )
     if errors:
         e = errors[0]
         where = "/".join(str(p) for p in e.path) or "<root>"
@@ -280,15 +297,20 @@ def validate_metadata(meta: dict[str, Any]) -> None:
         raise RolloutFileError(str(exc)) from None
     d, radius = meta["particle_diameter_m"], meta["connectivity_radius_m"]
     if not math.isclose(radius, RADIUS_FACTOR * d, rel_tol=1e-6):
-        raise RolloutFileError(f"connectivity_radius_m: {radius} is not {RADIUS_FACTOR} x particle_diameter_m ({RADIUS_FACTOR * d})")
+        raise RolloutFileError(
+            f"connectivity_radius_m: {radius} is not {RADIUS_FACTOR} x particle_diameter_m ({RADIUS_FACTOR * d})"
+        )
     times = meta["frame_times_s"]
     for i in range(1, len(times)):
         if not times[i] > times[i - 1]:
-            raise RolloutFileError(f"frame_times_s: not strictly increasing at index {i} ({times[i - 1]} then {times[i]})")
+            raise RolloutFileError(
+                f"frame_times_s: not strictly increasing at index {i} ({times[i - 1]} then {times[i]})"
+            )
 
 
 def s10_preprocess(meta_path: str | Path, *, root: str | Path) -> PreprocessedRollout:
-    """Validate one rollout file and return its frames; the payload is read only after the metadata and path are valid."""
+    """Validate one rollout file and return its frames; the payload is read only after the metadata and path are
+    valid."""
     meta = read_metadata(meta_path)
     validate_metadata(meta)
     store = meta["store"]
@@ -336,7 +358,9 @@ def _read_parquet(path: Path, meta: dict[str, Any]) -> tuple[np.ndarray, np.ndar
         raise RolloutFileError(f"particle count changes between frames ({sorted(set(counts.tolist()))})")
     n, t = int(counts[0]), len(frames)
     if n != meta["particle_count"]:
-        raise RolloutFileError(f"particle_count: metadata says {meta['particle_count']} but the payload has {n} per frame")
+        raise RolloutFileError(
+            f"particle_count: metadata says {meta['particle_count']} but the payload has {n} per frame"
+        )
     if t != len(meta["frame_times_s"]):
         raise RolloutFileError(f"frame_times_s has {len(meta['frame_times_s'])} entries but the payload has {t} frames")
     order = np.lexsort((cols["particle"], cols["frame"]))
@@ -365,9 +389,13 @@ def _read_zarr(path: Path, meta: dict[str, Any]) -> tuple[np.ndarray, np.ndarray
     if not np.issubdtype(positions.dtype, np.floating) or not np.isfinite(positions).all():
         raise RolloutFileError("payload positions hold a non-finite value")
     if positions.shape[1] != meta["particle_count"]:
-        raise RolloutFileError(f"particle_count: metadata says {meta['particle_count']} but the payload has {positions.shape[1]}")
+        raise RolloutFileError(
+            f"particle_count: metadata says {meta['particle_count']} but the payload has {positions.shape[1]}"
+        )
     if positions.shape[0] != len(meta["frame_times_s"]):
-        raise RolloutFileError(f"frame_times_s has {len(meta['frame_times_s'])} entries but the payload has {positions.shape[0]} frames")
+        raise RolloutFileError(
+            f"frame_times_s has {len(meta['frame_times_s'])} entries but the payload has {positions.shape[0]} frames"
+        )
     if types.shape != (positions.shape[1],):
         raise RolloutFileError(f"payload type_index must have shape [{positions.shape[1]}], got {list(types.shape)}")
     if times.shape != (positions.shape[0],) or not np.allclose(times, meta["frame_times_s"], rtol=0, atol=1e-6):
@@ -378,7 +406,9 @@ def _read_zarr(path: Path, meta: dict[str, Any]) -> tuple[np.ndarray, np.ndarray
 def _check_payload(positions: np.ndarray, types: np.ndarray, meta: dict[str, Any]) -> None:
     n_types = len(meta["particle_types"])
     if types.min() < 0 or types.max() >= n_types:
-        raise RolloutFileError(f"type: a particle type index is outside [0, {n_types}) (declared {meta['particle_types']})")
+        raise RolloutFileError(
+            f"type: a particle type index is outside [0, {n_types}) (declared {meta['particle_types']})"
+        )
 
 
 # ------------------------------------------------------------------ training and evaluation views
@@ -446,9 +476,7 @@ class DirectorySplits:
         return RolloutSet(paths, root=self.root, cache_size=self.cache_size)
 
 
-def evaluation_geometries(
-    meta_dir: Path, *, root: Path, geometry_ids: Sequence[str]
-) -> list[dict[str, Any]]:
+def evaluation_geometries(meta_dir: Path, *, root: Path, geometry_ids: Sequence[str]) -> list[dict[str, Any]]:
     """The `geometries` argument of `evaluate_held_out` for the given held-out ids (references in seed order)."""
     out = []
     for gid in geometry_ids:
@@ -467,7 +495,9 @@ def evaluation_geometries(
                 "dt": meta["frame_interval_s"],
                 "bounds": list(meta["bounds_m"]),
             }
-            refs.append({"seed": meta["packing_seed"], "positions": pre.positions, "particle_types": pre.particle_types})
+            refs.append(
+                {"seed": meta["packing_seed"], "positions": pre.positions, "particle_types": pre.particle_types}
+            )
         if base is not None:
             refs.sort(key=lambda r: r["seed"])
             out.append({**base, "references": refs})

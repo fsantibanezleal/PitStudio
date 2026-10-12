@@ -1,4 +1,5 @@
-"""GNS export parity (FR-011-08, SC-011-04): ONNX Runtime CPU fp32 against PyTorch fp32 on golden steps, and the fp16 rule.
+"""GNS export parity (FR-011-08, SC-011-04): ONNX Runtime CPU fp32 against PyTorch fp32 on golden steps, and the fp16
+rule.
 
 The tolerances are `models.onnx_cpu_fp32` of `thresholds.yaml` (rtol, atol, max abs); the fp16 acceptance limits are
 `models.surrogate_fp16_rollout_delta` (repose in degrees, run-out relative), both read at call time, never copied here.
@@ -90,9 +91,10 @@ def check_parity(model: GnsStep, onnx_path: str | Path, *, n_golden: int = MIN_G
 
 
 def choose_live_precision(deltas: Sequence[Mapping[str, Any]]) -> str:
-    """"fp16" iff every held-out geometry's fp16 rollout stays within the limits of FR-011-08 (inclusive), else "fp32".
+    """ "fp16" iff every held-out geometry's fp16 rollout stays within the limits of FR-011-08 (inclusive), else "fp32".
 
-    `deltas`: one {"geometry_id", "delta_repose_deg", "delta_runout_rel"} per geometry (absolute changes against the fp32
+    `deltas`: one {"geometry_id", "delta_repose_deg", "delta_runout_rel"} per geometry (absolute changes against the
+    fp32
     rollout). No evidence, a non-finite or a negative delta keeps fp32.
     """
     if not deltas:

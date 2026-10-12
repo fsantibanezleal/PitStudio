@@ -1,10 +1,14 @@
 """GNS held-out evaluation (s50_evaluate; FR-011-06, FR-011-10, FR-011-12, FR-011-13, SC-011-01, FR-011-49, FR-011-50).
 
-For each held-out geometry the surrogate is rolled out from the initial packing of each of 3 at-rest reference packings to
-T_end; the means over the 3 packings of the repose angle and the run-out are compared with the reference means by the one
-observable function of `pitstudio.granular.observables`; the verdict is the SC-011-01 limits of `thresholds.yaml`. The report
+For each held-out geometry the surrogate is rolled out from the initial packing of each of 3 at-rest reference packings
+to
+T_end; the means over the 3 packings of the repose angle and the run-out are compared with the reference means by the
+one
+observable function of `pitstudio.granular.observables`; the verdict is the SC-011-01 limits of `thresholds.yaml`. The
+report
 also carries the reference packing spread, the position error growth per step, the particle count per step and the
-overflow count. A diverged rollout fails its geometry; a geometry without 3 at-rest reference packings fails with a reason.
+overflow count. A diverged rollout fails its geometry; a geometry without 3 at-rest reference packings fails with a
+reason.
 """
 
 from __future__ import annotations
@@ -58,7 +62,8 @@ def evaluate_held_out(
     dataset_manifest: Mapping[str, Any] | None = None,
     g: float = 9.81,
 ) -> dict[str, Any]:
-    """Score `surrogate` on the held-out geometries; the report layout is documented in the module docstring and the tests."""
+    """Score `surrogate` on the held-out geometries; the report layout is documented in the module docstring and the
+    tests."""
     fixture = is_fixture(dataset_manifest)  # a non-boolean flag stops the stage before any work
     if not geometries:
         raise ValueError("no held-out geometry to evaluate")
@@ -103,7 +108,11 @@ def evaluate_held_out(
 
 
 def _evaluate_geometry(
-    geometry: Mapping[str, Any], surrogate: Callable[[dict[str, Any], int], Any], repose_limit: float, runout_limit: float, g: float
+    geometry: Mapping[str, Any],
+    surrogate: Callable[[dict[str, Any], int], Any],
+    repose_limit: float,
+    runout_limit: float,
+    g: float,
 ) -> dict[str, Any]:
     d, dt = float(geometry["d"]), float(geometry["dt"])
     family, params = geometry["family"], geometry["geometry"]
@@ -182,7 +191,11 @@ def _evaluate_geometry(
     growth = []
     for t in range(shortest):
         errs = [
-            float(np.linalg.norm(out[t].astype(np.float64) - np.asarray(ref["positions"])[t].astype(np.float64), axis=1).mean())
+            float(
+                np.linalg.norm(
+                    out[t].astype(np.float64) - np.asarray(ref["positions"])[t].astype(np.float64), axis=1
+                ).mean()
+            )
             for ref, out, _ in results
         ]
         growth.append(float(np.mean(errs)))
@@ -202,6 +215,8 @@ def _evaluate_geometry(
     record["surrogate_repose_deg"] = float(np.mean([o["repose_deg"] for o in sur_obs]))
     record["surrogate_runout_m"] = float(np.mean([o["run_out_m"] for o in sur_obs]))
     record["delta_repose_deg"] = abs(record["surrogate_repose_deg"] - record["reference_repose_deg"])
-    record["delta_runout_rel"] = abs(record["surrogate_runout_m"] - record["reference_runout_m"]) / abs(record["reference_runout_m"])
+    record["delta_runout_rel"] = abs(record["surrogate_runout_m"] - record["reference_runout_m"]) / abs(
+        record["reference_runout_m"]
+    )
     record["pass"] = bool(record["delta_repose_deg"] <= repose_limit and record["delta_runout_rel"] <= runout_limit)
     return record

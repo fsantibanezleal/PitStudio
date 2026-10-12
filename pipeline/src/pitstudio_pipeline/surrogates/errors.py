@@ -12,7 +12,8 @@ class DatasetError(ValueError):
 
 
 class RolloutFileError(ValueError):
-    """A rollout file fails `granular-rollout.schema.json` or its payload checks (FR-011-14); `reason` names the cause."""
+    """A rollout file fails `granular-rollout.schema.json` or its payload checks (FR-011-14); `reason` names the
+    cause."""
 
     def __init__(self, reason: str) -> None:
         super().__init__(reason)

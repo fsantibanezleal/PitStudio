@@ -1,7 +1,9 @@
 """Rollout loop of the GNS with divergence stop, conservation and overflow accounting (FR-011-12, FR-011-13, P-011-03).
 
-The step is passed in as a callable so the loop serves PyTorch, ONNX Runtime and test fakes alike. State 0 is the initial
-state; step s = 1 ... n builds the radius graph of state s - 1, calls the step and obtains state s. A non-finite state s, or a
+The step is passed in as a callable so the loop serves PyTorch, ONNX Runtime and test fakes alike. State 0 is the
+initial
+state; step s = 1 ... n builds the radius graph of state s - 1, calls the step and obtains state s. A non-finite state
+s, or a
 particle of state s farther than R beyond the bounds, stops the rollout at step s: the bad state is not stored,
 `diverged_at_step` is s and the label is "diverged at step s".
 """
@@ -18,7 +20,9 @@ from pitstudio.granular.graph import K_MAX, build_radius_graph, validate_positio
 
 N_HISTORY = 5  # the last C = 5 velocities (FR-011-01)
 
-StepFn = Callable[[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray], tuple[np.ndarray, np.ndarray]]
+StepFn = Callable[
+    [np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray], tuple[np.ndarray, np.ndarray]
+]
 
 
 @dataclass

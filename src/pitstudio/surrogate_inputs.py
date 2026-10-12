@@ -1,8 +1,10 @@
 """Stale-input guard of the training and evaluation stages (FR-011-51).
 
 A training manifest records the SHA-256 of every rollout file and field dataset it was built from (the digest of a Zarr
-directory is the SHA-256 of the sorted `<relative path> <file sha256>` listing, spec 011 section 8). `run_stage` re-reads
-each input before the work function is called; the first digest that differs raises `InputStaleError` (class `input-stale`,
+directory is the SHA-256 of the sorted `<relative path> <file sha256>` listing, spec 011 section 8). `run_stage`
+re-reads
+each input before the work function is called; the first digest that differs raises `InputStaleError` (class
+`input-stale`,
 FR-002-69) naming the file with the expected and the actual digest, and nothing is trained or scored.
 """
 

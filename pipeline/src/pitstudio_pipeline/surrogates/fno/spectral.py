@@ -1,15 +1,21 @@
 """Spectral convolution of the FNO as real matrix products (FR-011-32, P-011-12 ... P-011-16).
 
-The layer keeps the modes k1 in {0 ... m1-1} and {N-m1 ... N-1} (rows) and k2 in {0 ... m2-1} (columns) of the two-dimensional
+The layer keeps the modes k1 in {0 ... m1-1} and {N-m1 ... N-1} (rows) and k2 in {0 ... m2-1} (columns) of the
+two-dimensional
 Fourier transform of a real field. The forward transform at those modes is the unnormalised sum
 
     X[k1, k2] = sum_{n1, n2} x[n1, n2] exp(-2 pi i (k1 n1 + k2 n2) / N),
 
-written as real products with precomputed cosine and sine bases (real part C1 x C2^T - S1 x S2^T, imaginary part -(S1 x C2^T +
-C1 x S2^T)). The per-mode channel mixing multiplies the two real planes with the real and imaginary weights, one batched matrix
-product per mode. The inverse transform (weight 1 for k2 = 0 and 2 otherwise, divided by N^2) is again four real products. No call
-to the transform of any library is made and no tensor of a two-component number type is created, so the graph exports to ONNX with
-MatMul, Add, Sub, Reshape and Transpose only (the whitelist of FR-011-36): the bases are constants, there is no negation node (the
+written as real products with precomputed cosine and sine bases (real part C1 x C2^T - S1 x S2^T, imaginary part -(S1 x
+C2^T +
+C1 x S2^T)). The per-mode channel mixing multiplies the two real planes with the real and imaginary weights, one
+batched matrix
+product per mode. The inverse transform (weight 1 for k2 = 0 and 2 otherwise, divided by N^2) is again four real
+products. No call
+to the transform of any library is made and no tensor of a two-component number type is created, so the graph exports
+to ONNX with
+MatMul, Add, Sub, Reshape and Transpose only (the whitelist of FR-011-36): the bases are constants, there is no
+negation node (the
 negated bases are constants too) and no broadcast node.
 """
 
@@ -49,7 +55,9 @@ def _bases_np(n: int, modes1: int, modes2: int) -> dict[str, np.ndarray]:
 
 
 def _bases(n: int, modes1: int, modes2: int, like: torch.Tensor) -> dict[str, torch.Tensor]:
-    return {k: torch.from_numpy(v).to(dtype=like.dtype, device=like.device) for k, v in _bases_np(n, modes1, modes2).items()}
+    return {
+        k: torch.from_numpy(v).to(dtype=like.dtype, device=like.device) for k, v in _bases_np(n, modes1, modes2).items()
+    }
 
 
 def _check_field(x: torch.Tensor, modes1: int, modes2: int) -> int:
@@ -64,7 +72,8 @@ def _check_field(x: torch.Tensor, modes1: int, modes2: int) -> int:
 
 
 def dft_forward(x: torch.Tensor, modes1: int = MODES, modes2: int = MODES) -> tuple[torch.Tensor, torch.Tensor]:
-    """Real and imaginary parts [..., 2 modes1, modes2] of the unnormalised transform of `x` [..., N, N] at the kept modes."""
+    """Real and imaginary parts [..., 2 modes1, modes2] of the unnormalised transform of `x` [..., N, N] at the kept
+    modes."""
     n = _check_field(x, modes1, modes2)
     b = _bases(n, modes1, modes2, x)
     cols_c = torch.matmul(x, b["c2t"])  # [..., N, m2]
@@ -85,7 +94,9 @@ def spectral_conv2d(
     expected = (2 * modes1, modes2)
     for name, w in (("weight_re", weight_re), ("weight_im", weight_im)):
         if w.dim() != 4 or tuple(w.shape[2:]) != expected or int(w.shape[0]) != c_in:
-            raise ValueError(f"{name} must have shape [{c_in}, C_out, {expected[0]}, {expected[1]}], got {list(w.shape)}")
+            raise ValueError(
+                f"{name} must have shape [{c_in}, C_out, {expected[0]}, {expected[1]}], got {list(w.shape)}"
+            )
     if weight_re.shape != weight_im.shape:
         raise ValueError("weight_re and weight_im must have the same shape")
     batch, c_out = int(x.shape[0]), int(weight_re.shape[1])
@@ -119,13 +130,19 @@ _VERSION = re.compile(r"^[0-9]+(\.[0-9]+)*$")
 def spectral_oracle_statement(*, neuraloperator_version: str | None) -> str:
     """The sentence of the model card that names the spectral oracle (FR-011-43).
 
-    Without `neuraloperator` the card states that the numpy FFT reference is the only spectral oracle; with it, that the layer was
+    Without `neuraloperator` the card states that the numpy FFT reference is the only spectral oracle; with it, that
+    the layer was
     also checked against its spectral convolution with the same weights (named with its version).
     """
     if neuraloperator_version is None:
-        return "The numpy FFT reference is the only spectral oracle of the spectral layer (neuraloperator did not resolve in the lock)."
+        return (
+            "The numpy FFT reference is the only spectral oracle of the spectral layer "
+            "(neuraloperator did not resolve in the lock)."
+        )
     if not isinstance(neuraloperator_version, str) or not _VERSION.fullmatch(neuraloperator_version):
-        raise ValueError(f"neuraloperator_version must be a dotted version such as '2.0.0', got {neuraloperator_version!r}")
+        raise ValueError(
+            f"neuraloperator_version must be a dotted version such as '2.0.0', got {neuraloperator_version!r}"
+        )
     return (
         "The spectral layer was checked against the numpy FFT reference and also against the spectral convolution of "
         f"neuraloperator {neuraloperator_version} with the same weights."

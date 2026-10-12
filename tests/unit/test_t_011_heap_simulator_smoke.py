@@ -1,8 +1,11 @@
 """Smoke test of the Warp heap simulator of the calibration driver on the CPU device (not a locked test).
 
-A small column of grains collapses and settles; the checks are the ones the driver relies on: the angle is a finite repose angle,
-the same call repeats bitwise, a higher sliding friction does not give a flatter heap, and the tape gradient has the sign and the
-order of magnitude of a central finite difference of the forward angle (the gate of FR-011-23 decides on the real runs, on repeated
+A small column of grains collapses and settles; the checks are the ones the driver relies on: the angle is a finite
+repose angle,
+the same call repeats bitwise, a higher sliding friction does not give a flatter heap, and the tape gradient has the
+sign and the
+order of magnitude of a central finite difference of the forward angle (the gate of FR-011-23 decides on the real runs,
+on repeated
 runs; this only guards against a broken adjoint).
 """
 
@@ -64,15 +67,19 @@ def test_more_friction_does_not_flatten_the_heap(sim: HeapSimulator) -> None:
 
 
 def test_the_tape_gradient_matches_the_finite_difference_of_the_recorded_window(sim: HeapSimulator) -> None:
-    """The tape differentiates the recorded window only (FR-011-19): the settled heap is an input. Its gradient must equal the
-    central difference of the angle when mu changes in the window alone; the response through the settling phase (a heap that
-    formed at another friction) is not in it, which is why the gate of FR-011-23 checks the gradient against full re-runs."""
-    from pitstudio.calibration import observables as obs
+    """The tape differentiates the recorded window only (FR-011-19): the settled heap is an input. Its gradient must
+    equal the
+    central difference of the angle when mu changes in the window alone; the response through the settling phase (a
+    heap that
+    formed at another friction) is not in it, which is why the gate of FR-011-23 checks the gradient against full
+    re-runs."""
     from pitstudio_studio.physics.calibration import tape
+
+    from pitstudio.calibration import observables as obs
 
     mu, h = 0.5, 0.2
     scene = sim._scene(11)
-    dem, x, v, w = tape._settle(scene, mu, sim.settle_steps, sim.dt, "cpu")
+    _, x, v, w = tape._settle(scene, mu, sim.settle_steps, sim.dt, "cpu")
     d = 2.0 * sim.radius_m
     axis = (float(x[:, 0].mean()), float(x[:, 1].mean()))
     bins = obs.freeze_bin_range(x, d=d, axis_xy=axis)

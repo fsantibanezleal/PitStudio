@@ -1,20 +1,29 @@
 """Differentiable DEM on the Warp tape and the gradient calibration arm (FR-011-17, FR-011-19, FR-011-21, P-011-11).
 
-`rollout_gradient` settles a heap without recording, records the last W steps under `wp.Tape` and differentiates an objective of the
-final state with respect to the sliding friction mu_s of the contact law. The recorded dynamics are a history-free form of the
+`rollout_gradient` settles a heap without recording, records the last W steps under `wp.Tape` and differentiates an
+objective of the
+final state with respect to the sliding friction mu_s of the contact law. The recorded dynamics are a history-free form
+of the
 Hertz-Mindlin law of spec 005 (`dem/contact.py` shares the Hertz normal force and damping):
 
 - normal force: Hertz elastic force plus the damping of the restitution coefficient (`hertz_normal`);
-- sliding friction: F_t = -mu_s F_n v_t / sqrt(|v_t|^2 + eps^2), the Coulomb cap with a smooth sign of the slip velocity v_t at the
-  contact point (spin included), so that mu_s enters linearly and the tape sees a smooth dependence (no stored tangential spring:
+- sliding friction: F_t = -mu_s F_n v_t / sqrt(|v_t|^2 + eps^2), the Coulomb cap with a smooth sign of the slip
+velocity v_t at the
+  contact point (spin included), so that mu_s enters linearly and the tape sees a smooth dependence (no stored
+  tangential spring:
   its history would have to be recorded step by step);
 - rolling resistance: tau = -mu_r R* F_n w_t / sqrt(|w_t|^2 + eps_w^2) (the same smooth cap).
 
-Contacts come from a candidate pair list built on the host from the positions at the start of the window (plus a skin that covers the
-motion of the window; a window that outgrows it raises instead of silently missing a contact). Per-contact force buffers are written
-by one kernel per step, summed per particle by a gather over a fixed CSR of the pairs (no atomics), and integrated by semi-implicit
-Euler. Every step has its own state and buffer arrays, so the adjoint reads exactly the forward values. The friction is passed to the
-kernels as one array element per contact and per particle; the gradient is the exact sum (`math.fsum`) of their adjoints, so it does not
+Contacts come from a candidate pair list built on the host from the positions at the start of the window (plus a skin
+that covers the
+motion of the window; a window that outgrows it raises instead of silently missing a contact). Per-contact force
+buffers are written
+by one kernel per step, summed per particle by a gather over a fixed CSR of the pairs (no atomics), and integrated by
+semi-implicit
+Euler. Every step has its own state and buffer arrays, so the adjoint reads exactly the forward values. The friction is
+passed to the
+kernels as one array element per contact and per particle; the gradient is the exact sum (`math.fsum`) of their
+adjoints, so it does not
 depend on the order of any atomic. `wp.config.deterministic` is set to RUN_TO_RUN for this module (FR-011-19).
 """
 
@@ -32,7 +41,7 @@ import warp as wp
 from pitstudio.calibration.errors import InvalidCalibrationError
 from pitstudio_studio.physics.calibration.cmaes import ArmResult
 from pitstudio_studio.physics.dem.contact import damping_beta, hertz_normal
-from pitstudio_studio.physics.dem.step import rayleigh_time_step, DemMaterial
+from pitstudio_studio.physics.dem.step import DemMaterial, rayleigh_time_step
 
 wp.config.quiet = True
 wp.set_module_options({"deterministic": wp.DeterministicMode.RUN_TO_RUN})
@@ -75,7 +84,9 @@ class TapeRollout:
 
 def tape_memory_bytes(particles: int, window_steps: int, pairs_per_particle: float = 3.0) -> int:
     """Bytes the recorded window allocates: per-step state and force arrays plus the per-contact force buffers."""
-    return int(window_steps * (BYTES_PER_PARTICLE_STEP * particles + BYTES_PER_PAIR_STEP * pairs_per_particle * particles))
+    return int(
+        window_steps * (BYTES_PER_PARTICLE_STEP * particles + BYTES_PER_PAIR_STEP * pairs_per_particle * particles)
+    )
 
 
 # ------------------------------------------------------------------ kernels
@@ -117,7 +128,7 @@ def _pair_forces(
     m_star = mass[i] * mass[j] / (mass[i] + mass[j])
     v_rel = (v[i] + wp.cross(w[i], n * ri)) - (v[j] + wp.cross(w[j], -n * rj))
     v_n = wp.dot(v_rel, n)
-    f_el, f_d, s_n = hertz_normal(e_star, r_star, m_star, beta, delta, v_n)
+    f_el, f_d, _s_n = hertz_normal(e_star, r_star, m_star, beta, delta, v_n)
     fn = wp.max(f_el + f_d, 0.0)
     v_t = v_rel - n * v_n
     ft = -(mu_s[p] * fn) * v_t / wp.sqrt(wp.dot(v_t, v_t) + 1.0e-6)
@@ -154,7 +165,7 @@ def _floor_forces(
     n = wp.vec3(0.0, 0.0, -1.0)
     v_rel = v[i] + wp.cross(w[i], n * r)
     v_n = wp.dot(v_rel, n)
-    f_el, f_d, s_n = hertz_normal(e_star, r, mass[i], beta, delta, v_n)
+    f_el, f_d, _s_n = hertz_normal(e_star, r, mass[i], beta, delta, v_n)
     fn = wp.max(f_el + f_d, 0.0)
     v_t = v_rel - n * v_n
     ft = -(mu_s[i] * fn) * v_t / wp.sqrt(wp.dot(v_t, v_t) + 1.0e-6)
@@ -246,7 +257,12 @@ def _validate(scene: TapeScene, mu: float, record_steps: int, settle_steps: int,
         value = getattr(scene, name)
         if not isinstance(value, int | float | np.floating) or not math.isfinite(value) or value < 0:
             raise InvalidCalibrationError(f"scene.{name} must be a finite non-negative number, got {value!r}")
-    if not 0.0 < scene.restitution <= 1.0 or scene.density <= 0 or scene.youngs_modulus <= 0 or scene.poisson_ratio >= 0.5:
+    if (
+        not 0.0 < scene.restitution <= 1.0
+        or scene.density <= 0
+        or scene.youngs_modulus <= 0
+        or scene.poisson_ratio >= 0.5
+    ):
         raise InvalidCalibrationError("scene material is outside the physical range")
     material = DemMaterial(scene.density, scene.youngs_modulus, scene.poisson_ratio, scene.restitution, 0.5, 0.0)
     limit = RAYLEIGH_FRACTION * rayleigh_time_step(material, float(rad.min()))
@@ -282,14 +298,19 @@ def candidate_pairs(positions: np.ndarray, radii: np.ndarray, skin: float) -> np
 
 
 def _csr(pairs: np.ndarray, n: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Per-particle lists of (pair index, side) in pair order: start offsets, pair ids, side flags (0 = first, 1 = second)."""
+    """Per-particle lists of (pair index, side) in pair order: start offsets, pair ids, side flags (0 = first, 1 =
+    second)."""
     owner = np.concatenate([pairs[:, 0], pairs[:, 1]]) if len(pairs) else np.zeros(0, dtype=np.int32)
     pair_id = np.concatenate([np.arange(len(pairs)), np.arange(len(pairs))]).astype(np.int32)
     side = np.concatenate([np.zeros(len(pairs)), np.ones(len(pairs))]).astype(np.int32)
     order = np.lexsort((pair_id, owner))
     counts = np.bincount(owner, minlength=n)
     start = np.concatenate([[0], np.cumsum(counts)]).astype(np.int32)
-    return start, pair_id[order] if len(owner) else np.zeros(1, np.int32), side[order] if len(owner) else np.zeros(1, np.int32)
+    return (
+        start,
+        pair_id[order] if len(owner) else np.zeros(1, np.int32),
+        side[order] if len(owner) else np.zeros(1, np.int32),
+    )
 
 
 class _Dem:
@@ -331,25 +352,54 @@ class _Dem:
         d = self.device
         if topo["p"]:
             wp.launch(
-                _pair_forces, dim=topo["p"],
-                inputs=[topo["pi"], topo["pj"], x, v, w, self.radius, self.mass, topo["mu_p"], self.e_star, self.beta, self.mu_r],
-                outputs=[buf["pair_f"], buf["pair_ti"], buf["pair_tj"]], device=d,
-            )  # fmt: skip
+                _pair_forces,
+                dim=topo["p"],
+                inputs=[
+                    topo["pi"],
+                    topo["pj"],
+                    x,
+                    v,
+                    w,
+                    self.radius,
+                    self.mass,
+                    topo["mu_p"],
+                    self.e_star,
+                    self.beta,
+                    self.mu_r,
+                ],
+                outputs=[buf["pair_f"], buf["pair_ti"], buf["pair_tj"]],
+                device=d,
+            )
         wp.launch(
-            _floor_forces, dim=self.n,
+            _floor_forces,
+            dim=self.n,
             inputs=[x, v, w, self.radius, self.mass, mu_floor, self.e_star, self.beta, self.mu_r],
-            outputs=[buf["floor_f"], buf["floor_t"]], device=d,
-        )  # fmt: skip
+            outputs=[buf["floor_f"], buf["floor_t"]],
+            device=d,
+        )
         wp.launch(
-            _accumulate, dim=self.n,
-            inputs=[topo["start"], topo["pair"], topo["side"], buf["pair_f"], buf["pair_ti"], buf["pair_tj"], buf["floor_f"], buf["floor_t"]],
-            outputs=[buf["f_total"], buf["t_total"]], device=d,
-        )  # fmt: skip
+            _accumulate,
+            dim=self.n,
+            inputs=[
+                topo["start"],
+                topo["pair"],
+                topo["side"],
+                buf["pair_f"],
+                buf["pair_ti"],
+                buf["pair_tj"],
+                buf["floor_f"],
+                buf["floor_t"],
+            ],
+            outputs=[buf["f_total"], buf["t_total"]],
+            device=d,
+        )
         wp.launch(
-            _integrate, dim=self.n,
+            _integrate,
+            dim=self.n,
             inputs=[x, v, w, buf["f_total"], buf["t_total"], self.mass, self.inertia, self.dt],
-            outputs=list(nxt), device=d,
-        )  # fmt: skip
+            outputs=list(nxt),
+            device=d,
+        )
 
     def buffers(self, p: int, grad: bool) -> dict[str, Any]:
         return {
@@ -375,7 +425,9 @@ def _settle(
     n = dem.n
     pos = np.asarray(scene.positions, dtype=np.float64)
     vel = np.asarray(scene.velocities, dtype=np.float64)
-    ang = np.zeros((n, 3)) if scene.angular_velocities is None else np.asarray(scene.angular_velocities, dtype=np.float64)
+    ang = (
+        np.zeros((n, 3)) if scene.angular_velocities is None else np.asarray(scene.angular_velocities, dtype=np.float64)
+    )
     r_max = float(dem.radii_np.max())
     state_a = [_vec(pos, device), _vec(vel, device), _vec(ang, device)]
     state_b = [_vec(pos, device), _vec(vel, device), _vec(ang, device)]
@@ -424,8 +476,9 @@ def _record(
     mu_floor = wp.array(np.full(dem.n, float(mu), dtype=np.float32), dtype=float, device=device, requires_grad=True)
     states = [(_vec(now_x, device, True), _vec(now_v, device, True), _vec(now_w, device, True))]
     zeros = np.zeros_like(now_x)
-    for _ in range(record_steps):
-        states.append((_vec(zeros, device, True), _vec(zeros, device, True), _vec(zeros, device, True)))
+    states.extend(
+        (_vec(zeros, device, True), _vec(zeros, device, True), _vec(zeros, device, True)) for _ in range(record_steps)
+    )
     tape = wp.Tape()
     with tape:
         for t in range(record_steps):
@@ -473,7 +526,12 @@ def rollout_gradient(
     _check_pairs_still_cover(final_x, dem.radii_np, ctx["pairs"])
     ctx["tape"].zero()
     return TapeRollout(
-        objective=value, gradient=gradient, final_positions=final_x, final_velocities=final_v, deterministic=True, pairs=ctx["topo"]["p"]
+        objective=value,
+        gradient=gradient,
+        final_positions=final_x,
+        final_velocities=final_v,
+        deterministic=True,
+        pairs=ctx["topo"]["p"],
     )
 
 
@@ -526,8 +584,10 @@ def rollout_repose(
 ) -> ReposeRollout:
     """Settle a heap, freeze the bin range at the start of the window, run the window and measure the repose angle.
 
-    The smooth observable (soft-max envelope, FR-011-18) is evaluated on the device inside the tape and back-propagated through
-    the host-computed derivative of the least-squares slope and the arctan; without `differentiate` the window runs plainly.
+    The smooth observable (soft-max envelope, FR-011-18) is evaluated on the device inside the tape and back-propagated
+    through
+    the host-computed derivative of the least-squares slope and the arctan; without `differentiate` the window runs
+    plainly.
     """
     from pitstudio.calibration import observables as obs
 
@@ -557,7 +617,13 @@ def rollout_repose(
     env = wp.zeros(nb, dtype=float, device=device, requires_grad=True)
 
     def finish(final_x: wp.array) -> wp.array:
-        wp.launch(_soft_sum, dim=(nb, n), inputs=[final_x, centres, axis_xy[0], axis_xy[1], d, beta, top], outputs=[sums], device=device)
+        wp.launch(
+            _soft_sum,
+            dim=(nb, n),
+            inputs=[final_x, centres, axis_xy[0], axis_xy[1], d, beta, top],
+            outputs=[sums],
+            device=device,
+        )
         wp.launch(_soft_log, dim=nb, inputs=[sums, beta, top], outputs=[env], device=device)
         return env
 
@@ -576,7 +642,13 @@ def rollout_repose(
     _check_pairs_still_cover(final_x, dem.radii_np, ctx["pairs"])
     hard = obs.hard_repose_deg(final_x, d=d, axis_xy=axis_xy, bin_range=(first, last))
     ctx["tape"].zero()
-    return ReposeRollout(theta_smooth_deg=theta, theta_hard_deg=hard, gradient_deg_per_unit=gradient, final_positions=final_x, bin_range=(first, last))
+    return ReposeRollout(
+        theta_smooth_deg=theta,
+        theta_hard_deg=hard,
+        gradient_deg_per_unit=gradient,
+        final_positions=final_x,
+        bin_range=(first, last),
+    )
 
 
 def _settle_continue(dem: _Dem, now: tuple[np.ndarray, np.ndarray, np.ndarray], mu: float, steps: int, device: str):
@@ -627,8 +699,10 @@ def run_gradient_arm(
 ) -> ArmResult:
     """Adam on L(mu) = mean over seeds of (theta - theta*)^2 with the tape gradient of `simulator.theta_and_grad`.
 
-    One iteration evaluates every packing seed with its adjoint pass (3 forward-equivalents per heap, FR-011-21), updates mu with Adam
-    (beta1 0.9, beta2 0.999, eps 1e-8; Kingma and Ba 2015) clipped to `bounds`, and stops when L <= tolerance^2 or when another
+    One iteration evaluates every packing seed with its adjoint pass (3 forward-equivalents per heap, FR-011-21),
+    updates mu with Adam
+    (beta1 0.9, beta2 0.999, eps 1e-8; Kingma and Ba 2015) clipped to `bounds`, and stops when L <= tolerance^2 or when
+    another
     iteration would exceed `budget`.
     """
     seeds = list(packing_seeds)

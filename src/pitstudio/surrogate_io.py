@@ -2,8 +2,10 @@
 
 `load_surrogate_io(source)` returns the validated document of a dict or a JSON file. Everything it rejects raises
 `SurrogateIoError` with `error_class == "surrogate-io-invalid"` and a message that names the offending field
-(`outputs[0].quantiles`, `inputs[1].name`, ...). Beyond the JSON Schema it enforces what a schema cannot express: quantile
-levels strictly increasing inside (0, 1), tensor names unique over inputs and outputs together, channel names unique inside
+(`outputs[0].quantiles`, `inputs[1].name`, ...). Beyond the JSON Schema it enforces what a schema cannot express:
+quantile
+levels strictly increasing inside (0, 1), tensor names unique over inputs and outputs together, channel names unique
+inside
 a tensor.
 """
 
@@ -15,6 +17,7 @@ import math
 import os
 from collections import Counter
 from functools import cache
+from itertools import pairwise
 from pathlib import Path
 from typing import Any
 
@@ -34,7 +37,8 @@ class SurrogateIoError(ValueError):
 def load_contract_schema(name: str) -> dict[str, Any]:
     """The JSON Schema `<name>.schema.json`: the promoted `contracts/` copy first, then the spec 011 draft.
 
-    Found by walking up from this module (a checkout); `PITSTUDIO_CONTRACTS` names a directory that overrides the search.
+    Found by walking up from this module (a checkout); `PITSTUDIO_CONTRACTS` names a directory that overrides the
+    search.
     """
     file = f"{name}.schema.json"
     override = os.environ.get("PITSTUDIO_CONTRACTS")
@@ -72,7 +76,8 @@ def _read(source: dict[str, Any] | str | Path) -> dict[str, Any]:
 
 
 def load_surrogate_io(source: dict[str, Any] | str | Path) -> dict[str, Any]:
-    """Validate a DC-011-02 document (a dict, or a path to its JSON file) and return it; the argument is not modified."""
+    """Validate a DC-011-02 document (a dict, or a path to its JSON file) and return it; the argument is not
+    modified."""
     doc = _read(source)
     errors = sorted(
         Draft202012Validator(load_contract_schema("surrogate-io")).iter_errors(doc),
@@ -95,7 +100,7 @@ def _check_quantiles(doc: dict[str, Any]) -> None:
             where = f"{group}[{i}].quantiles"
             if not all(isinstance(v, int | float) and math.isfinite(v) and 0.0 < v < 1.0 for v in levels):
                 raise SurrogateIoError(f"{where}: every level must be a finite number inside (0, 1)")
-            if any(b <= a for a, b in zip(levels, levels[1:], strict=False)):
+            if any(b <= a for a, b in pairwise(levels)):
                 raise SurrogateIoError(f"{where}: the levels must increase strictly, got {levels}")
 
 
@@ -103,10 +108,14 @@ def _check_names(doc: dict[str, Any]) -> None:
     names = Counter(t["name"] for group in ("inputs", "outputs") for t in doc[group])
     for name, count in names.items():
         if count > 1:
-            raise SurrogateIoError(f"tensor name {name!r} is used {count} times; names must be unique over inputs and outputs")
+            raise SurrogateIoError(
+                f"tensor name {name!r} is used {count} times; names must be unique over inputs and outputs"
+            )
     for group in ("inputs", "outputs"):
         for i, tensor in enumerate(doc[group]):
             channels = Counter(c["name"] for c in tensor.get("channels", []))
             for name, count in channels.items():
                 if count > 1:
-                    raise SurrogateIoError(f"{group}[{i}].channels: channel name {name!r} is repeated; names must be unique")
+                    raise SurrogateIoError(
+                        f"{group}[{i}].channels: channel name {name!r} is repeated; names must be unique"
+                    )

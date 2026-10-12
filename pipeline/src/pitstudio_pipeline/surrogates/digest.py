@@ -1,8 +1,11 @@
 """Payload digests of DC-011-01 / DC-011-03 and the contract schemas (spec 011).
 
-A Parquet payload is digested as the SHA-256 of the file. A Zarr payload is a directory: its digest is the SHA-256 of the
-sorted chunk-digest listing, one line `<relative posix path> <sha256 of the file>\\n` for every file of the store, sorted by
-path (spec 011 section 8; this is the form the rollout generator writes, checked against its output). Paths are relative to
+A Parquet payload is digested as the SHA-256 of the file. A Zarr payload is a directory: its digest is the SHA-256 of
+the
+sorted chunk-digest listing, one line `<relative posix path> <sha256 of the file>\\n` for every file of the store,
+sorted by
+path (spec 011 section 8; this is the form the rollout generator writes, checked against its output). Paths are
+relative to
 the store, so the digest does not depend on where the store lives.
 """
 
@@ -46,11 +49,16 @@ def load_schema(name: str) -> dict[str, Any]:
     """
     import os
 
-    relative = [Path("contracts") / f"{name}.schema.json", Path("specs") / "011-surrogates" / "contracts" / f"{name}.schema.json"]
-    override = os.environ.get("PITSTUDIO_CONTRACTS")
-    candidates = [Path(override) / f"{name}.schema.json"] if override else [
-        parent / rel for parent in Path(__file__).resolve().parents for rel in relative
+    relative = [
+        Path("contracts") / f"{name}.schema.json",
+        Path("specs") / "011-surrogates" / "contracts" / f"{name}.schema.json",
     ]
+    override = os.environ.get("PITSTUDIO_CONTRACTS")
+    candidates = (
+        [Path(override) / f"{name}.schema.json"]
+        if override
+        else [parent / rel for parent in Path(__file__).resolve().parents for rel in relative]
+    )
     for path in candidates:
         if path.is_file():
             return json.loads(path.read_text(encoding="utf-8"))

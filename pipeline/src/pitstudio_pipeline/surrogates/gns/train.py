@@ -1,11 +1,15 @@
 """GNS training (s30_train; FR-011-04): one-step normalised-acceleration MSE with random-walk velocity noise.
 
 Everything that is chosen is chosen on the validation geometries only: the noise scale (a short pilot per candidate, in
-the order of `noise_scales`), the checkpoint epoch (the argmin of the logged per-epoch validation loss). The test split is
-never read. Normalisation statistics (velocities, accelerations by finite differences) come from the training split alone.
+the order of `noise_scales`), the checkpoint epoch (the argmin of the logged per-epoch validation loss). The test split
+is
+never read. Normalisation statistics (velocities, accelerations by finite differences) come from the training split
+alone.
 
-Sample (rollout r, frame t): inputs are the velocities (x_k - x_{k-1}) / dt for the five frames ending at t and the positions
-at t; the target acceleration is a = ((x_{t+1} - x_t) / dt - v_t) / dt, so that the semi-implicit Euler update reproduces
+Sample (rollout r, frame t): inputs are the velocities (x_k - x_{k-1}) / dt for the five frames ending at t and the
+positions
+at t; the target acceleration is a = ((x_{t+1} - x_t) / dt - v_t) / dt, so that the semi-implicit Euler update
+reproduces
 x_{t+1} (FR-011-01). With noise, v_t carries the noise and the target is corrected by it (the noise-correcting target of
 Sanchez-Gonzalez et al. 2020). Noise scales are fractions of the training velocity standard deviation.
 """
@@ -40,7 +44,8 @@ class TrainResult:
 
 
 def random_walk_noise(n_particles: int, history: int, scale: float, *, seed: int) -> np.ndarray:
-    """Random-walk noise [n, history, 2]: the cumulative sum of independent Gaussian increments of std scale / sqrt(history).
+    """Random-walk noise [n, history, 2]: the cumulative sum of independent Gaussian increments of std scale /
+    sqrt(history).
 
     The variance grows with the history index, it is zero for scale 0, linear in `scale` and reproducible by `seed`.
     """
@@ -54,8 +59,11 @@ def random_walk_noise(n_particles: int, history: int, scale: float, *, seed: int
     return (scale / math.sqrt(history)) * np.cumsum(increments, axis=1)
 
 
-def one_step_loss(model: GnsStep, batch: Mapping[str, torch.Tensor], *, stats: Mapping[str, Mapping[str, Sequence[float]]]) -> torch.Tensor:
-    """Mean squared error of the normalised accelerations; `stats["acceleration"]` holds the mean and std (FR-011-04)."""
+def one_step_loss(
+    model: GnsStep, batch: Mapping[str, torch.Tensor], *, stats: Mapping[str, Mapping[str, Sequence[float]]]
+) -> torch.Tensor:
+    """Mean squared error of the normalised accelerations; `stats["acceleration"]` holds the mean and std
+    (FR-011-04)."""
     pred = model.acceleration_unchecked(
         batch["positions"],
         batch["velocities"],
@@ -107,7 +115,9 @@ def make_sample(
     history = (np.diff(window[: HISTORY + 1], axis=0) / dt).transpose(1, 0, 2)  # [N, 5, 2]
     forward = (window[HISTORY + 1] - window[HISTORY]) / dt
     if noise_scale > 0:
-        history = history + random_walk_noise(history.shape[0], HISTORY, noise_scale, seed=seed) * np.asarray(velocity_std)
+        history = history + random_walk_noise(history.shape[0], HISTORY, noise_scale, seed=seed) * np.asarray(
+            velocity_std
+        )
     target = (forward - history[:, -1, :]) / dt
     current = np.asarray(pos[t], dtype=np.float32)
     radius = radius if radius is not None else 2.5 * float(rollout["d"])
@@ -126,7 +136,18 @@ def make_sample(
 def collate(samples: Sequence[Mapping[str, np.ndarray]], device: torch.device) -> dict[str, torch.Tensor]:
     """One big graph from several samples: neighbour indices offset, bounds repeated per particle."""
     offset = 0
-    parts: dict[str, list[np.ndarray]] = {k: [] for k in ("positions", "velocities", "particle_type", "neighbour_index", "neighbour_mask", "target_acceleration", "bounds")}
+    parts: dict[str, list[np.ndarray]] = {
+        k: []
+        for k in (
+            "positions",
+            "velocities",
+            "particle_type",
+            "neighbour_index",
+            "neighbour_mask",
+            "target_acceleration",
+            "bounds",
+        )
+    }
     for s in samples:
         n = s["positions"].shape[0]
         for k in ("positions", "velocities", "particle_type", "neighbour_mask", "target_acceleration"):
@@ -235,7 +256,9 @@ class _Run:
         with torch.no_grad():
             for lo in range(0, len(self.val_pick), self.cfg["batch_size"]):
                 chunk = self.val_pick[lo : lo + self.cfg["batch_size"]]
-                batch = collate([make_sample(self.val[r], t, radius=self.cfg["connectivity_radius"]) for r, t in chunk], self.device)
+                batch = collate(
+                    [make_sample(self.val[r], t, radius=self.cfg["connectivity_radius"]) for r, t in chunk], self.device
+                )
                 weight = batch["positions"].shape[0]
                 total += float(one_step_loss(self.model, batch, stats=self.stats)) * weight
                 count += weight
@@ -284,8 +307,10 @@ def train_gns(
 ) -> TrainResult:
     """Train the GNS on `splits.rollouts("train")`, select on `splits.rollouts("val")`, never read "test" (FR-011-04).
 
-    `config`: noise_scales (>= 1 non-negative floats), epochs, batch_size, lr, connectivity_radius, latent, steps; optional
-    device, checkpoint_steps, samples_per_epoch, val_samples, lr_final_ratio, pilot_epochs. `dataset_manifest["fixture"]` makes the
+    `config`: noise_scales (>= 1 non-negative floats), epochs, batch_size, lr, connectivity_radius, latent, steps;
+    optional
+    device, checkpoint_steps, samples_per_epoch, val_samples, lr_final_ratio, pilot_epochs.
+    `dataset_manifest["fixture"]` makes the
     run flag its checkpoint and log `fixture: true` (FR-011-49). Returns the checkpoint, the log and the trained model.
     """
     cfg = validate_config(config)
@@ -299,7 +324,9 @@ def train_gns(
     stats = compute_stats(train_rollouts)  # training split alone
     n_types = 1 + max(int(np.max(r["particle_types"])) for r in train_rollouts)
     dt = float(np.mean([r["dt"] for r in train_rollouts]))
-    steps_per_epoch = math.ceil(min(cfg["samples_per_epoch"] or math.inf, len(_sample_index(train_rollouts))) / cfg["batch_size"])
+    steps_per_epoch = math.ceil(
+        min(cfg["samples_per_epoch"] or math.inf, len(_sample_index(train_rollouts))) / cfg["batch_size"]
+    )
 
     candidates: list[dict[str, Any]] = []
     scales = cfg["noise_scales"]
@@ -360,7 +387,8 @@ def train_gns(
         dataset_manifest,
     )
     if fixture:
-        assert checkpoint["fixture"] is True and log["fixture"] is True
+        assert checkpoint["fixture"] is True
+        assert log["fixture"] is True
     return TrainResult(checkpoint=checkpoint, log=log, model=run.model)
 
 

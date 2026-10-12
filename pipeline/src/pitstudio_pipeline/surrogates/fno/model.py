@@ -1,10 +1,15 @@
 """FNO of the tailings and dust fields (FR-011-32, FR-011-33).
 
-A direct map from input channels on a 64 x 64 grid to output channels: pointwise lifting to width 32, four Fourier layers (the sum of a
-pointwise linear map and the spectral convolution of `spectral`, GELU after every layer but the last) and a pointwise projection.
-Every pointwise map is a matrix product over the channel axis (no convolution node), so the exported graph stays inside the operator
-whitelist of FR-011-36. The tailings instance maps [bed elevation, release depth, yield stress, plastic viscosity, density] to
-[h(t_1) ... h(t_8), h_max]; the dust instance maps [bed elevation, source strength, wind speed, wind direction cos, sin] to the
+A direct map from input channels on a 64 x 64 grid to output channels: pointwise lifting to width 32, four Fourier
+layers (the sum of a
+pointwise linear map and the spectral convolution of `spectral`, GELU after every layer but the last) and a pointwise
+projection.
+Every pointwise map is a matrix product over the channel axis (no convolution node), so the exported graph stays inside
+the operator
+whitelist of FR-011-36. The tailings instance maps [bed elevation, release depth, yield stress, plastic viscosity,
+density] to
+[h(t_1) ... h(t_8), h_max]; the dust instance maps [bed elevation, source strength, wind speed, wind direction cos,
+sin] to the
 time-averaged concentration.
 """
 
@@ -58,7 +63,13 @@ class FnoModel(nn.Module):
     """The 2-D Fourier neural operator (direct map, real arithmetic only)."""
 
     def __init__(
-        self, in_channels: int, out_channels: int, *, width: int = 32, layers: int = 4, modes: tuple[int, int] = (MODES, MODES)
+        self,
+        in_channels: int,
+        out_channels: int,
+        *,
+        width: int = 32,
+        layers: int = 4,
+        modes: tuple[int, int] = (MODES, MODES),
     ) -> None:
         super().__init__()
         if min(in_channels, out_channels, width, layers) < 1:

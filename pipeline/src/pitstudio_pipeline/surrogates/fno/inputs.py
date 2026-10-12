@@ -1,8 +1,11 @@
 """FNO input builder (FR-011-33, FR-011-40): the normalisation rules of DC-011-02, applied channel by channel.
 
-`build_fno_input(fields, io)` stacks the named fields in the channel order of the model's description and applies each channel's
-rule when the graph does not (`applied_in_graph` false): none; standardise (x - mean) / std; log-standardise (ln x - mean) / std;
-patch-relief (x - patch mean) / patch relief, the relief being the range (max - min) of the patch. A scalar fills its whole channel.
+`build_fno_input(fields, io)` stacks the named fields in the channel order of the model's description and applies each
+channel's
+rule when the graph does not (`applied_in_graph` false): none; standardise (x - mean) / std; log-standardise (ln x -
+mean) / std;
+patch-relief (x - patch mean) / patch relief, the relief being the range (max - min) of the patch. A scalar fills its
+whole channel.
 Anything that is not a clean [64, 64] field of finite numbers raises `InvalidFieldInputError` and nothing is built.
 """
 

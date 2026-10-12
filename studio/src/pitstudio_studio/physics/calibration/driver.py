@@ -1,13 +1,19 @@
-"""Calibration driver: requests, one DC-011-04 document per arm, interval, gradient checks, OOM fallback, literature targets.
+"""Calibration driver: requests, one DC-011-04 document per arm, interval, gradient checks, OOM fallback, literature
+targets.
 
-`calibrate(request, simulator)` validates the request (FR-011-30, before any simulation), runs one arm (the gradient arm of
-`tape.run_gradient_arm` or the CMA-ES arm of `cmaes.run_cmaes_arm`), then forms the 95 % seed-ensemble interval of FR-011-22 at the best
-evaluated mu_hat and, for the gradient arm, checks the tape gradient at the first and the final iterate against a 4 + 4 run finite
+`calibrate(request, simulator)` validates the request (FR-011-30, before any simulation), runs one arm (the gradient
+arm of
+`tape.run_gradient_arm` or the CMA-ES arm of `cmaes.run_cmaes_arm`), then forms the 95 % seed-ensemble interval of
+FR-011-22 at the best
+evaluated mu_hat and, for the gradient arm, checks the tape gradient at the first and the final iterate against a 4 + 4
+run finite
 difference (FR-011-23, outside the budget); the result is a document of `calibration-result.schema.json` (FR-011-26).
 
 Simulator protocol (see tests/_calib_fake.py): `solver`, `differentiable`, `particle_count`, `free_device_memory_bytes`,
-`theta(mu, seed)` (smooth repose angle, deg), `hard_theta(mu, seed)` (hard observable of the same simulation, no extra run),
-`theta_and_grad(mu, seed)`, and for the optional secondary arm `observables(mu_s, mu_r, seed) -> (theta_deg, discharge_kg_per_s)`.
+`theta(mu, seed)` (smooth repose angle, deg), `hard_theta(mu, seed)` (hard observable of the same simulation, no extra
+run),
+`theta_and_grad(mu, seed)`, and for the optional secondary arm `observables(mu_s, mu_r, seed) -> (theta_deg,
+discharge_kg_per_s)`.
 """
 
 from __future__ import annotations
@@ -59,7 +65,11 @@ def _fail(key: str, reason: str) -> InvalidCalibrationError:
 
 
 def _number(value: Any) -> bool:
-    return isinstance(value, int | float | np.floating | np.integer) and not isinstance(value, bool) and math.isfinite(value)
+    return (
+        isinstance(value, int | float | np.floating | np.integer)
+        and not isinstance(value, bool)
+        and math.isfinite(value)
+    )
 
 
 def _integer(value: Any) -> bool:
@@ -82,14 +92,17 @@ def _check_bounds(key: str, bounds: Any) -> tuple[float, float]:
 
 
 def validate_request(request: Mapping[str, Any], simulator: Any) -> dict[str, Any]:
-    """Return a normalised copy of the request or raise InvalidCalibrationError naming the key, before any simulation."""
+    """Return a normalised copy of the request or raise InvalidCalibrationError naming the key, before any
+    simulation."""
     req = dict(request)
     if req.get("kind") not in ("synthetic-trial", "literature-target"):
         raise _fail("kind", f"must be 'synthetic-trial' or 'literature-target', got {req.get('kind')!r}")
     if req.get("arm") not in ("gradient", "cma-es"):
         raise _fail("arm", f"must be 'gradient' or 'cma-es', got {req.get('arm')!r}")
     if not isinstance(req.get("trial_id"), str) or not SLUG.fullmatch(req["trial_id"]):
-        raise _fail("trial_id", f"must be a slug of lower-case letters, digits and hyphens, got {req.get('trial_id')!r}")
+        raise _fail(
+            "trial_id", f"must be a slug of lower-case letters, digits and hyphens, got {req.get('trial_id')!r}"
+        )
     target = req.get("target")
     if not isinstance(target, Mapping):
         raise _fail("target", "must be an object with theta_deg")
@@ -110,7 +123,10 @@ def validate_request(request: Mapping[str, Any], simulator: Any) -> dict[str, An
             raise _fail(key, f"must be an integer >= 2, got {req.get(key)!r}")
     limit = SYNTHETIC_MAX_PARTICLES if req["kind"] == "synthetic-trial" else LITERATURE_MAX_PARTICLES
     if not _integer(req.get("particle_count")) or not 1 <= req["particle_count"] <= limit:
-        raise _fail("particle_count", f"must be an integer in [1, {limit}] for a {req['kind']}, got {req.get('particle_count')!r}")
+        raise _fail(
+            "particle_count",
+            f"must be an integer in [1, {limit}] for a {req['kind']}, got {req.get('particle_count')!r}",
+        )
     seeds = _check_seeds(req)
     req["seeds"] = seeds
     if getattr(simulator, "solver", None) not in ("warp-dem", "newton-mpm"):
@@ -130,7 +146,8 @@ def validate_request(request: Mapping[str, Any], simulator: Any) -> dict[str, An
         if estimate > MEMORY_FRACTION * free:
             raise _fail(
                 "memory",
-                f"the estimated tape memory {estimate} B exceeds {MEMORY_FRACTION:.0%} of the free device memory ({free:.0f} B)",
+                f"the estimated tape memory {estimate} B exceeds {MEMORY_FRACTION:.0%} of the free device memory "
+                f"({free:.0f} B)",
             )
         req["adam_lr"] = _check_range("adam_lr", req.get("adam_lr", 0.02), 1e-6, 10.0)
     return req
@@ -156,7 +173,9 @@ def _check_seeds(req: Mapping[str, Any]) -> dict[str, list[int]]:
     if len(flat) != len(set(flat)):
         raise _fail("seeds", "the seed sets must be pairwise disjoint and free of repeats")
     if len(out["optimisation"]) != req["packing_seeds"]:
-        raise _fail("seeds.optimisation", f"needs {req['packing_seeds']} seeds (packing_seeds), got {len(out['optimisation'])}")
+        raise _fail(
+            "seeds.optimisation", f"needs {req['packing_seeds']} seeds (packing_seeds), got {len(out['optimisation'])}"
+        )
     if len(out["interval"]) != req["interval_runs"]:
         raise _fail("seeds.interval", f"needs {req['interval_runs']} seeds (interval_runs), got {len(out['interval'])}")
     if req["arm"] == "gradient" and len(out.get("gradient_check", [])) != 4:
@@ -196,7 +215,15 @@ def _interval_block(iv: IntervalResult) -> dict[str, Any]:
 
 
 def _parameter(
-    name: str, req: Mapping[str, Any], *, start: float, bounds: Sequence[float], estimate: float, iv: IntervalResult, truth: float | None, cover_ok: bool
+    name: str,
+    req: Mapping[str, Any],
+    *,
+    start: float,
+    bounds: Sequence[float],
+    estimate: float,
+    iv: IntervalResult,
+    truth: float | None,
+    cover_ok: bool,
 ) -> dict[str, Any]:
     width = (iv.upper - iv.lower) if iv.identified and iv.lower is not None and iv.upper is not None else None
     if not iv.identified:
@@ -226,7 +253,14 @@ def _target_block(req: Mapping[str, Any]) -> dict[str, Any]:
     return {k: target[k] for k in keys if k in target}
 
 
-def _base_document(req: Mapping[str, Any], simulator: Any, *, parameters: list[dict[str, Any]], loss: dict[str, Any], run: Mapping[str, Any]) -> dict[str, Any]:
+def _base_document(
+    req: Mapping[str, Any],
+    simulator: Any,
+    *,
+    parameters: list[dict[str, Any]],
+    loss: dict[str, Any],
+    run: Mapping[str, Any],
+) -> dict[str, Any]:
     doc: dict[str, Any] = {
         "kind": req["kind"],
         "arm": req["arm"],
@@ -269,14 +303,27 @@ def calibrate(request: Mapping[str, Any], simulator: Any) -> dict[str, Any]:
     bounds = (req["bounds"][0], req["bounds"][1])
     if req["arm"] == "cma-es":
         arm = cmaes.run_cmaes_arm(
-            simulator, theta_star=theta_star, packing_seeds=seeds["optimisation"], mu0=req["mu0"], bounds=bounds,
-            budget=req["budget"], sigma0=SIGMA0, rng_seed=int(req.get("cma_seed", 0)), loss_tolerance_deg=LOSS_TOLERANCE_DEG,
-        )  # fmt: skip
+            simulator,
+            theta_star=theta_star,
+            packing_seeds=seeds["optimisation"],
+            mu0=req["mu0"],
+            bounds=bounds,
+            budget=req["budget"],
+            sigma0=SIGMA0,
+            rng_seed=int(req.get("cma_seed", 0)),
+            loss_tolerance_deg=LOSS_TOLERANCE_DEG,
+        )
     else:
         arm = tape.run_gradient_arm(
-            simulator, theta_star=theta_star, packing_seeds=seeds["optimisation"], mu0=req["mu0"], bounds=bounds,
-            budget=req["budget"], adam_lr=req["adam_lr"], loss_tolerance_deg=LOSS_TOLERANCE_DEG,
-        )  # fmt: skip
+            simulator,
+            theta_star=theta_star,
+            packing_seeds=seeds["optimisation"],
+            mu0=req["mu0"],
+            bounds=bounds,
+            budget=req["budget"],
+            adam_lr=req["adam_lr"],
+            loss_tolerance_deg=LOSS_TOLERANCE_DEG,
+        )
     mu_hat = arm.mu_hat
     thetas = arm.thetas[mu_hat]
     smooth = float(np.mean(thetas))
@@ -284,15 +331,27 @@ def calibrate(request: Mapping[str, Any], simulator: Any) -> dict[str, Any]:
     checks: list[dict[str, Any]] = []
     check_simulations = 0
     if req["arm"] == "gradient":
-        for label, mu_i, tape_gradient in (("first", arm.path[0], arm.gradients[0]), ("final", arm.path[-1], arm.gradients[-1])):
+        for label, mu_i, tape_gradient in (
+            ("first", arm.path[0], arm.gradients[0]),
+            ("final", arm.path[-1], arm.gradients[-1]),
+        ):
             record = _gradient_check(simulator, label, mu_i, tape_gradient, seeds["gradient_check"], theta_star)
             checks.append(record)
             check_simulations += 2 * len(seeds["gradient_check"])
     unreliable = any(not c["trusted"] for c in checks)
-    iv = seed_ensemble_interval(simulator.theta, mu_hat, interval_seeds=seeds["interval"], n_packing_seeds=req["packing_seeds"])
+    iv = seed_ensemble_interval(
+        simulator.theta, mu_hat, interval_seeds=seeds["interval"], n_packing_seeds=req["packing_seeds"]
+    )
     truth = req["truth"]["sliding_friction"] if req["kind"] == "synthetic-trial" else None
     parameter = _parameter(
-        "sliding_friction", req, start=req["mu0"], bounds=req["bounds"], estimate=mu_hat, iv=iv, truth=truth, cover_ok=not unreliable
+        "sliding_friction",
+        req,
+        start=req["mu0"],
+        bounds=req["bounds"],
+        estimate=mu_hat,
+        iv=iv,
+        truth=truth,
+        cover_ok=not unreliable,
     )
     loss = {
         "observable": "smooth-envelope",
@@ -375,27 +434,58 @@ def _calibrate_secondary(req: dict[str, Any], simulator: Any, started: float) ->
 
     lo_s, hi_s = req["bounds"]
     lo_r, hi_r = req["rolling_bounds"]
-    best, best_loss, evaluations, reason, population = cmaes.minimise_cmaes(
-        objective, [req["mu0"], req["mu0_rolling"]], ([lo_s, lo_r], [hi_s, hi_r]), sigma0=SIGMA0,
-        rng_seed=int(req.get("cma_seed", 0)), max_evaluations=req["budget"] // len(opt), tolerance=LOSS_TOLERANCE_DEG**2,
-    )  # fmt: skip
+    best, _, evaluations, reason, population = cmaes.minimise_cmaes(
+        objective,
+        [req["mu0"], req["mu0_rolling"]],
+        ([lo_s, lo_r], [hi_s, hi_r]),
+        sigma0=SIGMA0,
+        rng_seed=int(req.get("cma_seed", 0)),
+        max_evaluations=req["budget"] // len(opt),
+        tolerance=LOSS_TOLERANCE_DEG**2,
+    )
     mu_s, mu_r = best
     repose, discharge, smooth = terms(mu_s, mu_r)
     iv_s = seed_ensemble_interval(
-        lambda x, s: simulator.observables(x, mu_r, s)[0], mu_s, interval_seeds=seeds["interval"], n_packing_seeds=req["packing_seeds"]
+        lambda x, s: simulator.observables(x, mu_r, s)[0],
+        mu_s,
+        interval_seeds=seeds["interval"],
+        n_packing_seeds=req["packing_seeds"],
     )
     iv_r = seed_ensemble_interval(
-        lambda x, s: simulator.observables(mu_s, x, s)[0], mu_r, interval_seeds=seeds["interval"], n_packing_seeds=req["packing_seeds"]
+        lambda x, s: simulator.observables(mu_s, x, s)[0],
+        mu_r,
+        interval_seeds=seeds["interval"],
+        n_packing_seeds=req["packing_seeds"],
     )
     synthetic = req["kind"] == "synthetic-trial"
     truth = req.get("truth", {})
     parameters = [
-        _parameter("sliding_friction", req, start=req["mu0"], bounds=req["bounds"], estimate=mu_s, iv=iv_s,
-                   truth=truth.get("sliding_friction") if synthetic else None, cover_ok=True),
-        _parameter("rolling_friction", req, start=req["mu0_rolling"], bounds=req["rolling_bounds"], estimate=mu_r, iv=iv_r,
-                   truth=truth.get("rolling_friction") if synthetic else None, cover_ok=True),
-    ]  # fmt: skip
-    hard = float(getattr(simulator, "hard_theta", lambda m, s: smooth)(mu_s, opt[0])) if hasattr(simulator, "hard_theta") else smooth
+        _parameter(
+            "sliding_friction",
+            req,
+            start=req["mu0"],
+            bounds=req["bounds"],
+            estimate=mu_s,
+            iv=iv_s,
+            truth=truth.get("sliding_friction") if synthetic else None,
+            cover_ok=True,
+        ),
+        _parameter(
+            "rolling_friction",
+            req,
+            start=req["mu0_rolling"],
+            bounds=req["rolling_bounds"],
+            estimate=mu_r,
+            iv=iv_r,
+            truth=truth.get("rolling_friction") if synthetic else None,
+            cover_ok=True,
+        ),
+    ]
+    hard = (
+        float(getattr(simulator, "hard_theta", lambda m, s: smooth)(mu_s, opt[0]))
+        if hasattr(simulator, "hard_theta")
+        else smooth
+    )
     loss = {
         "observable": "smooth-envelope",
         "softmax_beta_per_d": 10,
@@ -425,7 +515,9 @@ def _calibrate_secondary(req: dict[str, Any], simulator: Any, started: float) ->
 # ------------------------------------------------------------------ both arms, OOM fallback, literature targets
 
 
-def calibrate_arms(request: Mapping[str, Any], simulator: Any, arms: Sequence[str] = ("gradient", "cma-es")) -> CalibrationRun:
+def calibrate_arms(
+    request: Mapping[str, Any], simulator: Any, arms: Sequence[str] = ("gradient", "cma-es")
+) -> CalibrationRun:
     """Run the requested arms on the same request; a non-differentiable solver refuses the gradient arm (FR-011-29)."""
     run = CalibrationRun()
     for arm in arms:
@@ -439,13 +531,16 @@ def calibrate_arms(request: Mapping[str, Any], simulator: Any, arms: Sequence[st
 def calibrate_with_oom_fallback(
     request: Mapping[str, Any], simulator_factory: Callable[[int], Any], *, manifest: dict[str, Any]
 ) -> dict[str, Any]:
-    """`calibrate` with the declared fallback: the particle count is halved once after a CUDA out-of-memory error (FR-011-44)."""
+    """`calibrate` with the declared fallback: the particle count is halved once after a CUDA out-of-memory error
+    (FR-011-44)."""
 
     def attempt(params: dict[str, Any]) -> dict[str, Any]:
         simulator = simulator_factory(params["particle_count"])
         return calibrate({**request, "particle_count": params["particle_count"]}, simulator)
 
-    doc = run_with_oom_fallback("calibration", {"particle_count": int(request["particle_count"])}, attempt, manifest=manifest)
+    doc = run_with_oom_fallback(
+        "calibration", {"particle_count": int(request["particle_count"])}, attempt, manifest=manifest
+    )
     doc["oom_fallback"] = bool(manifest.get("oom_fallback", False))
     return doc
 
@@ -481,7 +576,8 @@ def calibrate_literature_targets(
 ) -> list[dict[str, Any]]:
     """Calibrate the sliding friction at full scale against each cited literature repose target (FR-011-28).
 
-    No coverage claim: the documents carry no truth. Each row gets its own trial id and disjoint seeds; the target keeps the
+    No coverage claim: the documents carry no truth. Each row gets its own trial id and disjoint seeds; the target
+    keeps the
     knowledge-table row and its verification status (UNVERIFIED is propagated, never upgraded).
     """
     _check_rows(rows)

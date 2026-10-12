@@ -1,7 +1,9 @@
 """Radius graph of the GNS (FR-011-02, FR-011-13): padded neighbour lists, binary64 squared distances.
 
-Particle j is a neighbour of i when j != i and |x_i - x_j|^2 < R^2 (strict). The squared distance is computed in binary64
-from the binary32 positions (this module accepts either dtype and widens). Lists are ordered by (squared distance, index),
+Particle j is a neighbour of i when j != i and |x_i - x_j|^2 < R^2 (strict). The squared distance is computed in
+binary64
+from the binary32 positions (this module accepts either dtype and widens). Lists are ordered by (squared distance,
+index),
 the first `k_max` are kept and a particle with more neighbours than that is counted in `overflow_count`. The TypeScript
 twin (`web/src/engines/gns/radiusGraph.ts`) returns identical arrays.
 """
@@ -20,7 +22,8 @@ _CHUNK = 256  # rows of the distance matrix handled at once: bounds memory at 25
 
 @dataclass(frozen=True)
 class RadiusGraph:
-    """Padded neighbour lists. Masked-off entries of `neighbour_index` hold the particle's own index (a valid gather)."""
+    """Padded neighbour lists. Masked-off entries of `neighbour_index` hold the particle's own index (a valid
+    gather)."""
 
     neighbour_index: np.ndarray  # int64 [N, k_max]
     neighbour_mask: np.ndarray  # bool [N, k_max]

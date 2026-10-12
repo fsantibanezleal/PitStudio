@@ -22,16 +22,18 @@ class Rollout:
 
 
 def validate_rollout_metadata(meta: dict[str, Any]) -> dict[str, Any]:
-    """Return a copy of the metadata when its bounds are ordered; raise RolloutError("rollout-bounds-invalid") otherwise.
+    """Return a copy of the metadata when its bounds are ordered; raise RolloutError("rollout-bounds-invalid")
+    otherwise.
 
-    `bounds_m` is [x_min, y_min, x_max, y_max]; x_min must be below x_max and y_min below y_max (NaN is not below anything).
+    `bounds_m` is [x_min, y_min, x_max, y_max]; x_min must be below x_max and y_min below y_max (NaN is not below
+    anything).
     """
     bounds = meta.get("bounds_m")
     if not isinstance(bounds, list | tuple) or len(bounds) != 4:
         raise RolloutError(BOUNDS_INVALID, "bounds_m must be [x_min, y_min, x_max, y_max]")
     try:
         x_min, y_min, x_max, y_max = (float(b) for b in bounds)
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         raise RolloutError(BOUNDS_INVALID, "bounds_m holds a value that is not a number") from None
     if not all(math.isfinite(v) for v in (x_min, y_min, x_max, y_max)):
         raise RolloutError(BOUNDS_INVALID, "bounds_m holds a non-finite value")

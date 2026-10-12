@@ -1,14 +1,18 @@
 """GNS stages as the GPU runner calls them: s30_train, s50_evaluate, s60_export and the speed measurement.
 
-    python -m pitstudio_pipeline.surrogates.gns train    --data <rollouts> --out <dir> [--config cfg.json] [--device cuda]
+    python -m pitstudio_pipeline.surrogates.gns train    --data <rollouts> --out <dir> [--config cfg.json] [--device
+    cuda]
     python -m pitstudio_pipeline.surrogates.gns evaluate --data <rollouts> --run <dir> [--device cuda]
     python -m pitstudio_pipeline.surrogates.gns export   --data <rollouts> --run <dir> [--ort-provider cuda]
     python -m pitstudio_pipeline.surrogates.gns speed    --data <rollouts> --run <dir> [--device cuda]
 
 `<rollouts>` holds `meta/*.json` (DC-011-01 metadata) and the payloads they name, plus (optionally) the generator's
-`_state.json`, whose `slots[*].split` assigns each geometry to train, val or test (checked against the rules of FR-011-03).
-A CUDA stage needs the machine lock (`PITSTUDIO_HELD_LOCKS` holds `gpu0.compute`, set by whatever acquired the lock), honours
-the hold file in `GPU_LOCK_DIR`, halves the batch on a CUDA out-of-memory error at most twice and records it in the manifest
+`_state.json`, whose `slots[*].split` assigns each geometry to train, val or test (checked against the rules of
+FR-011-03).
+A CUDA stage needs the machine lock (`PITSTUDIO_HELD_LOCKS` holds `gpu0.compute`, set by whatever acquired the lock),
+honours
+the hold file in `GPU_LOCK_DIR`, halves the batch on a CUDA out-of-memory error at most twice and records it in the
+manifest
 (FR-011-44). GPU hours are recorded in every training manifest (NFR-011-04). Inputs are verified against their recorded
 digests before any step (FR-011-51).
 """
@@ -100,7 +104,9 @@ def check_split(records: Sequence[Mapping[str, Any]], split: Mapping[str, Sequen
             raise DatasetError(f"test geometry {tid}: no training geometry of its family (envelope)")
         stack = np.array(same)
         if float(np.linalg.norm(stack - vec(test), axis=1).min()) < data.MIN_DISTANCE:
-            raise DatasetError(f"test geometry {tid} is at a normalised distance below {data.MIN_DISTANCE} from a training geometry")
+            raise DatasetError(
+                f"test geometry {tid} is at a normalised distance below {data.MIN_DISTANCE} from a training geometry"
+            )
         if ((vec(test) < stack.min(axis=0) - 1e-12) | (vec(test) > stack.max(axis=0) + 1e-12)).any():
             raise DatasetError(f"test geometry {tid} lies outside the training envelope")
 
@@ -138,7 +144,9 @@ class Dataset:
 
     def paths_of(self, geometry_id: str) -> list[Path]:
         """The metadata files of a geometry, in file-name order."""
-        return [p for p in sorted(self.meta_dir.glob("*.json")) if data.read_metadata(p).get("geometry_id") == geometry_id]
+        return [
+            p for p in sorted(self.meta_dir.glob("*.json")) if data.read_metadata(p).get("geometry_id") == geometry_id
+        ]
 
     def inputs(self, names: Sequence[str]) -> list[dict[str, str]]:
         ids = {i for n in names for i in self.split[n]}
@@ -146,7 +154,13 @@ class Dataset:
         for path in sorted(self.meta_dir.glob("*.json")):
             meta = data.read_metadata(path)
             if meta.get("geometry_id") in ids:
-                out.append({"id": f"{meta['geometry_id']}-s{meta['packing_seed']}", "path": meta["store"]["path"], "sha256": meta["store"]["sha256"]})
+                out.append(
+                    {
+                        "id": f"{meta['geometry_id']}-s{meta['packing_seed']}",
+                        "path": meta["store"]["path"],
+                        "sha256": meta["store"]["sha256"],
+                    }
+                )
         return out
 
     def splits(self, cache_size: int = 300) -> data.DirectorySplits:
@@ -187,7 +201,9 @@ def _device_name(device: str) -> str:
 # ------------------------------------------------------------------ stages
 
 
-def s30_train(dataset: Dataset, out: Path, config: Mapping[str, Any], *, seed: int, device: str, env: Mapping[str, str]) -> dict[str, Any]:
+def s30_train(
+    dataset: Dataset, out: Path, config: Mapping[str, Any], *, seed: int, device: str, env: Mapping[str, str]
+) -> dict[str, Any]:
     """Train on the training split, select on validation, write checkpoint, log and manifest."""
     _gpu_guard(device, env)
     cfg = {**DEFAULT_CONFIG, **config, "device": device}
@@ -267,15 +283,15 @@ def _state_ids(dataset: Dataset, name: str) -> list[str]:
     return split_from_state(state)[name] if state.is_file() else dataset.split[name]
 
 
-def fp16_deltas(
-    dataset: Dataset, paths: Mapping[str, Path], model: Any, *, provider: str
-) -> list[dict[str, Any]]:
+def fp16_deltas(dataset: Dataset, paths: Mapping[str, Path], model: Any, *, provider: str) -> list[dict[str, Any]]:
     """Per held-out geometry, the change of the 3-packing mean repose and run-out between the fp16 and fp32 rollouts."""
     providers = ["CUDAExecutionProvider", "CPUExecutionProvider"] if provider == "cuda" else ["CPUExecutionProvider"]
     n_types = model.n_particle_types
     steppers = {
         key: infer.make_surrogate(
-            infer.OrtGnsStep(paths[key], n_particle_types=n_types, providers=providers, frame_interval=model.frame_interval).advance
+            infer.OrtGnsStep(
+                paths[key], n_particle_types=n_types, providers=providers, frame_interval=model.frame_interval
+            ).advance
         )
         for key in ("fp32", "fp16")
     }
@@ -297,7 +313,9 @@ def fp16_deltas(
             for key, surrogate in steppers.items():
                 rollout = surrogate(state, frames.shape[0] - 1)
                 try:
-                    o = observables(rollout.positions[-1], d=geometry["d"], family=geometry["family"], geometry=geometry["geometry"])
+                    o = observables(
+                        rollout.positions[-1], d=geometry["d"], family=geometry["family"], geometry=geometry["geometry"]
+                    )
                     value = (o["repose_deg"], o["run_out_m"]) if rollout.status == "ok" else (math.nan, math.nan)
                 except ValueError:
                     value = (math.nan, math.nan)  # no observable: the change is unknown, so fp32 stays live
@@ -326,7 +344,9 @@ def s60_export(dataset: Dataset, run: Path, *, ort_provider: str, model_id: str 
         particle_diameter_m=d,
         envelope=training_envelope(dataset.records, dataset.split["train"], d),
         normalisation=checkpoint["stats"],
-        categories=("grain",) if model.n_particle_types == 1 else tuple(f"type-{i}" for i in range(model.n_particle_types)),
+        categories=("grain",)
+        if model.n_particle_types == 1
+        else tuple(f"type-{i}" for i in range(model.n_particle_types)),
     )
     report = parity.check_parity(model, result.paths["fp32"])
     if not report.passed:
@@ -358,7 +378,9 @@ def s_speed(dataset: Dataset, run: Path, *, device: str, env: Mapping[str, str],
     _gpu_guard(device, env)
     checkpoint = _load_checkpoint(run)
     model = train.load_model(checkpoint)
-    geometry = data.evaluation_geometries(dataset.meta_dir, root=dataset.root, geometry_ids=dataset.split["test"][:1])[0]
+    geometry = data.evaluation_geometries(dataset.meta_dir, root=dataset.root, geometry_ids=dataset.split["test"][:1])[
+        0
+    ]
     pos = np.asarray(geometry["references"][0]["positions"][-1], dtype=np.float32)
     n = pos.shape[0]
     arrays = {
@@ -398,8 +420,16 @@ def s_speed(dataset: Dataset, run: Path, *, device: str, env: Mapping[str, str],
         python_cpu={"hardware": "CPU", "step_times_s": time_device("cpu")},
         python_gpu=gpu_entry,
         browser={
-            "T1": {"hardware": "not measured here", "browser": "n/a", "reason": "measured by the web lane suite (spec 018)"},
-            "T2": {"hardware": "not measured here", "browser": "n/a", "reason": "measured by the web lane suite (spec 018)"},
+            "T1": {
+                "hardware": "not measured here",
+                "browser": "n/a",
+                "reason": "measured by the web lane suite (spec 018)",
+            },
+            "T2": {
+                "hardware": "not measured here",
+                "browser": "n/a",
+                "reason": "measured by the web lane suite (spec 018)",
+            },
         },
         solver={"hardware": "solver run recorded in _state.json", "wall_s_per_step": wall},
     )

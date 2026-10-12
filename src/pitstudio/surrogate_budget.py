@@ -31,8 +31,8 @@ def gpu_hours_record(stage: str, seconds: float) -> dict[str, Any]:
     statement = (
         ""
         if within
-        else f"{stage}: overrun of the GPU-hour estimate: measured {hours:.2f} GPU-h against an estimate of {budget:g} GPU-h "
-        f"(over by {overrun:.2f} GPU-h)"
+        else f"{stage}: overrun of the GPU-hour estimate: measured {hours:.2f} GPU-h against an estimate of "
+        f"{budget:g} GPU-h (over by {overrun:.2f} GPU-h)"
     )
     return {
         "stage": stage,

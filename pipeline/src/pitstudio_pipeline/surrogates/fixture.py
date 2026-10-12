@@ -10,7 +10,8 @@ from typing import Any
 
 
 def is_fixture(dataset_manifest: Mapping[str, Any] | None) -> bool:
-    """True iff `dataset_manifest["fixture"]` is True; absent (or no manifest) is False; a non-boolean raises ValueError."""
+    """True iff `dataset_manifest["fixture"]` is True; absent (or no manifest) is False; a non-boolean raises
+    ValueError."""
     if not dataset_manifest or "fixture" not in dataset_manifest:
         return False
     flag = dataset_manifest["fixture"]
@@ -20,7 +21,8 @@ def is_fixture(dataset_manifest: Mapping[str, Any] | None) -> bool:
 
 
 def stamp(artefact: Mapping[str, Any], dataset_manifest: Mapping[str, Any] | None) -> dict[str, Any]:
-    """A shallow copy of `artefact` flagged `fixture: True` when the dataset is a fixture (the argument is untouched)."""
+    """A shallow copy of `artefact` flagged `fixture: True` when the dataset is a fixture (the argument is
+    untouched)."""
     out = dict(artefact)
     if is_fixture(dataset_manifest):
         out["fixture"] = True

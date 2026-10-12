@@ -1,7 +1,8 @@
 """Tape-gradient gate against a central finite difference (FR-011-23, P-011-10).
 
 FD = (mean of 4 runs at mu + h  -  mean of 4 runs at mu - h) / (2 h);
-SE_FD = s_p sqrt(1/4 + 1/4) / (2 h), s_p the pooled standard deviation of the two groups (6 degrees of freedom). The tape
+SE_FD = s_p sqrt(1/4 + 1/4) / (2 h), s_p the pooled standard deviation of the two groups (6 degrees of freedom). The
+tape
 gradient is trusted only if |FD| >= 2.447 SE_FD (t_{0.975,6}, FD is significant), its sign equals the sign of FD, and
 |g_tape - FD| <= 3.707 SE_FD (t_{0.995,6}). The quantiles are the published values of the spec (section 7).
 """
@@ -41,7 +42,9 @@ def _runs(name: str, values: Sequence[float]) -> np.ndarray:
     return arr
 
 
-def check_gradient(tape_gradient: float, plus_runs: Sequence[float], minus_runs: Sequence[float], h: float) -> GateResult:
+def check_gradient(
+    tape_gradient: float, plus_runs: Sequence[float], minus_runs: Sequence[float], h: float
+) -> GateResult:
     """Decide whether the tape gradient agrees with the finite difference of 4 + 4 repeated runs."""
     plus, minus = _runs("plus_runs", plus_runs), _runs("minus_runs", minus_runs)
     if not isinstance(h, int | float | np.floating) or not math.isfinite(h) or h <= 0:

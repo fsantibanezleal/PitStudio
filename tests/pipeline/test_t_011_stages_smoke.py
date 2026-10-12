@@ -1,8 +1,12 @@
-"""Smoke test of the GNS stages as the GPU runner calls them (train, evaluate, export, speed), on a tiny synthetic rollout
-directory written by the test: Parquet payloads of an analytic collapse pile, four geometries (2 train, 1 val, 1 test), CPU.
+"""Smoke test of the GNS stages as the GPU runner calls them (train, evaluate, export, speed), on a tiny synthetic
+rollout
+directory written by the test: Parquet payloads of an analytic collapse pile, four geometries (2 train, 1 val, 1 test),
+CPU.
 
-Not a locked test: it checks that the stage functions chain (the stale-input guard, the fixture and label flags, the GPU-hour
-record, the held-out report, the export card) and that the files the runner expects are written. Accuracy is not asserted.
+Not a locked test: it checks that the stage functions chain (the stale-input guard, the fixture and label flags, the
+GPU-hour
+record, the held-out report, the export card) and that the files the runner expects are written. Accuracy is not
+asserted.
 """
 
 from __future__ import annotations
@@ -32,7 +36,9 @@ from pitstudio_pipeline.surrogates.gns import stages  # noqa: E402
 from pitstudio.surrogate_inputs import InputStaleError  # noqa: E402
 
 VALID = json.loads(
-    (ROOT / "specs" / "011-surrogates" / "contracts" / "examples" / "granular-rollout.valid.json").read_text(encoding="utf-8")
+    (ROOT / "specs" / "011-surrogates" / "contracts" / "examples" / "granular-rollout.valid.json").read_text(
+        encoding="utf-8"
+    )
 )
 FRAMES = 8
 GEOMS = {  # id -> (aspect ratio, column width, split)
@@ -72,8 +78,7 @@ def write_dataset(root: Path) -> None:
                 rest_time_s=round(fx.DT * (FRAMES - 1), 6),
                 bounds_m=[-2.0, 0.0, 3.0, 1.0],
             )
-            meta["geometry"] = {"aspect_ratio": aspect, "column_width_m": fx.L0 if width else fx.L0}
-            meta["geometry"]["column_width_m"] = width
+            meta["geometry"] = {"aspect_ratio": aspect, "column_width_m": width}
             meta["store"] = {
                 "format": "parquet",
                 "path": f"payload/{name}.parquet",
@@ -106,7 +111,7 @@ def run_dir(tmp_path_factory) -> tuple[stages.Dataset, Path, dict]:
 
 
 def test_train_writes_checkpoint_log_and_a_manifest_with_gpu_hours_label_and_inputs(run_dir) -> None:
-    dataset, out, manifest = run_dir
+    _, out, manifest = run_dir
     assert (out / "checkpoint.pt").is_file()
     assert (out / "train_log.json").is_file()
     saved = json.loads((out / "train_manifest.json").read_text(encoding="utf-8"))
@@ -124,7 +129,14 @@ def test_train_refuses_a_changed_input_before_any_step(run_dir, tmp_path: Path) 
     payload.write_bytes(original + b"\x00")
     try:
         with pytest.raises(InputStaleError, match="g001-s1000"):
-            stages.s30_train(dataset, tmp_path / "again", {"noise_scales": [0.0], "epochs": 1, "batch_size": 1, "lr": 1e-3}, seed=0, device="cpu", env={})
+            stages.s30_train(
+                dataset,
+                tmp_path / "again",
+                {"noise_scales": [0.0], "epochs": 1, "batch_size": 1, "lr": 1e-3},
+                seed=0,
+                device="cpu",
+                env={},
+            )
     finally:
         payload.write_bytes(original)
     assert not (tmp_path / "again" / "checkpoint.pt").exists()
@@ -135,7 +147,14 @@ def test_a_cuda_stage_without_the_machine_lock_is_refused(run_dir, tmp_path: Pat
 
     dataset, _, _ = run_dir
     with pytest.raises(LockNotHeldError):
-        stages.s30_train(dataset, tmp_path / "x", {"noise_scales": [0.0], "epochs": 1, "batch_size": 1, "lr": 1e-3}, seed=0, device="cuda", env={})
+        stages.s30_train(
+            dataset,
+            tmp_path / "x",
+            {"noise_scales": [0.0], "epochs": 1, "batch_size": 1, "lr": 1e-3},
+            seed=0,
+            device="cuda",
+            env={},
+        )
 
 
 def test_evaluate_reports_the_held_out_geometry_complete_and_labelled(run_dir) -> None:

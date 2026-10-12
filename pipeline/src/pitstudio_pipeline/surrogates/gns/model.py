@@ -1,14 +1,19 @@
-"""GNS step (FR-011-01, FR-011-15, P-011-01, P-011-02, P-011-05): encode, M residual message-passing steps, decode, Euler.
+"""GNS step (FR-011-01, FR-011-15, P-011-01, P-011-02, P-011-05): encode, M residual message-passing steps, decode,
+Euler.
 
 Design (Sanchez-Gonzalez et al. 2020, "Learning to Simulate Complex Physics with Graph Networks"; the `geoelements/gns`
 reference is cited, not copied): every MLP has two hidden layers of the latent width with ReLU; the encoders and the
-processor MLPs end in a layer normalisation, the decoder does not. Node features are the C = 5 standardised velocities, a
+processor MLPs end in a layer normalisation, the decoder does not. Node features are the C = 5 standardised velocities,
+a
 type embedding and the four wall distances clipped at R; edge features are (x_i - x_j) / R and its norm. No absolute
 position enters, so a shift of particles and bounds together changes nothing (P-011-02).
 
-The neighbour layout is the padded one of FR-011-02: `neighbour_index` [N, K] lists the senders of particle i, the mask tells
-the listed ones. "padded" aggregation gathers and sums the masked edge latents along K (Gather + ReduceSum in ONNX, the live
-graph); "scatter" aggregation sums the same masked edges with `scatter_add` (ScatterElements in ONNX, bench only); the two
+The neighbour layout is the padded one of FR-011-02: `neighbour_index` [N, K] lists the senders of particle i, the mask
+tells
+the listed ones. "padded" aggregation gathers and sums the masked edge latents along K (Gather + ReduceSum in ONNX, the
+live
+graph); "scatter" aggregation sums the same masked edges with `scatter_add` (ScatterElements in ONNX, bench only); the
+two
 are equal up to the order of the additions (P-011-05).
 """
 
@@ -126,7 +131,9 @@ class _Processor(nn.Module):
         else:  # "scatter": the same masked edges, summed at their receiver with scatter_add (bench only)
             n, latent = h.shape
             receiver = torch.arange(n, device=h.device).unsqueeze(1).expand(n, k).reshape(-1)
-            agg = torch.zeros_like(h).scatter_add(0, receiver.unsqueeze(1).expand(-1, latent), masked.reshape(-1, latent))
+            agg = torch.zeros_like(h).scatter_add(
+                0, receiver.unsqueeze(1).expand(-1, latent), masked.reshape(-1, latent)
+            )
         h = h + self.node_mlp(torch.cat([h, agg], dim=-1))
         return h, e
 
@@ -212,7 +219,12 @@ class GnsStep(nn.Module):
         vel = (velocities - self.velocity_mean) / self.velocity_std
         b = bounds if bounds.dim() == 2 else bounds.unsqueeze(0)
         walls = torch.stack(
-            [positions[:, 0] - b[:, 0], b[:, 2] - positions[:, 0], positions[:, 1] - b[:, 1], b[:, 3] - positions[:, 1]],
+            [
+                positions[:, 0] - b[:, 0],
+                b[:, 2] - positions[:, 0],
+                positions[:, 1] - b[:, 1],
+                b[:, 3] - positions[:, 1],
+            ],
             dim=-1,
         )
         walls = torch.clamp(walls / r, -1.0, 1.0)  # wall distances clipped at R

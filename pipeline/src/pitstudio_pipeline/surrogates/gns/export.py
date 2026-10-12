@@ -1,9 +1,13 @@
-"""GNS export (FR-011-07): opset 17, IR version 10, the padded-layout live graph in fp32 and fp16, the ScatterElements bench graph.
+"""GNS export (FR-011-07): opset 17, IR version 10, the padded-layout live graph in fp32 and fp16, the ScatterElements
+bench graph.
 
 `export_gns` writes `<model_id>-fp32.onnx`, `<model_id>-fp16.onnx` (Gather + masked ReduceSum, no ScatterElements) and
-`<model_id>-scatter-bench.onnx` (ScatterElements(reduction = add), fp32, bench only), each with its DC-011-02 description
-(`<name>.io.json` next to it). The standardisation statistics are written into the model in place and into the graph, so the
-PyTorch model and the graphs agree (SC-011-04). The fp16 graph keeps float32 inputs and outputs (Cast nodes at the boundary).
+`<model_id>-scatter-bench.onnx` (ScatterElements(reduction = add), fp32, bench only), each with its DC-011-02
+description
+(`<name>.io.json` next to it). The standardisation statistics are written into the model in place and into the graph,
+so the
+PyTorch model and the graphs agree (SC-011-04). The fp16 graph keeps float32 inputs and outputs (Cast nodes at the
+boundary).
 """
 
 from __future__ import annotations
@@ -240,7 +244,9 @@ def _description(
         "training_envelope": copy.deepcopy(dict(envelope)),
     }
     if bench:
-        doc["delivery_reason"] = "ScatterElements(reduction = add) is unverified on WebGPU; used for the CPU and TensorRT bench only"
+        doc["delivery_reason"] = (
+            "ScatterElements(reduction = add) is unverified on WebGPU; used for the CPU and TensorRT bench only"
+        )
     elif len(raw) > LIVE_BYTES_MAX:
         raise ValueError(f"live graph {key} is {len(raw)} bytes, above the {LIVE_BYTES_MAX} byte limit (NFR-011-01)")
     return doc

@@ -1,12 +1,17 @@
 """Repose-angle and run-out observables of the GNS evaluation (FR-011-05, P-011-06, P-011-07).
 
 One function serves reference and surrogate rollouts. Conventions (spec section 7):
-- the free surface is the maximum particle top height (y + d / 2) per bin of width 2 d, the bins counted outward from the
-  family's reference abscissa (wall x = 0 for the column collapse, the pour point x_p for the pile, the crest x_c for the dump);
-- the repose angle is the arctan of the least-squares slope of the bin heights over the bins whose height lies between 20 % and
-  80 % of the pile height (the highest bin of the flank); the pile averages its two flanks, the dump uses the flank on the
+- the free surface is the maximum particle top height (y + d / 2) per bin of width 2 d, the bins counted outward from
+the
+  family's reference abscissa (wall x = 0 for the column collapse, the pour point x_p for the pile, the crest x_c for
+  the dump);
+- the repose angle is the arctan of the least-squares slope of the bin heights over the bins whose height lies between
+20 % and
+  80 % of the pile height (the highest bin of the flank); the pile averages its two flanks, the dump uses the flank on
+  the
   side x > x_c;
-- the run-out is built from the 99th (and 1st) percentile of the particle x (linear interpolation between order statistics).
+- the run-out is built from the 99th (and 1st) percentile of the particle x (linear interpolation between order
+statistics).
 """
 
 from __future__ import annotations
@@ -17,7 +22,11 @@ from collections.abc import Mapping
 import numpy as np
 
 FAMILIES = ("column-collapse", "pile-formation", "dump-over-crest")
-_REFERENCE_KEY = {"column-collapse": "column_width_m", "pile-formation": "pour_point_x_m", "dump-over-crest": "crest_x_m"}
+_REFERENCE_KEY = {
+    "column-collapse": "column_width_m",
+    "pile-formation": "pour_point_x_m",
+    "dump-over-crest": "crest_x_m",
+}
 _MIN_BINS = 2
 
 

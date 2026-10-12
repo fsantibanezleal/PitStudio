@@ -2,14 +2,19 @@
 
 `HeapSimulator` implements the simulator protocol of the driver on the differentiable DEM of `tape`:
 
-- `theta(mu, seed)`: the packing seed jitters a lattice column of `particle_count` grains (radius `radius_m`) a few grain diameters above
-  the plate, the column collapses and settles for `settle_steps` unrecorded steps, the bin range of the observable is frozen, the
-  window of `window_steps` steps runs and the smooth repose angle (FR-011-18) of the final heap is returned; the hard angle of the
+- `theta(mu, seed)`: the packing seed jitters a lattice column of `particle_count` grains (radius `radius_m`) a few
+grain diameters above
+  the plate, the column collapses and settles for `settle_steps` unrecorded steps, the bin range of the observable is
+  frozen, the
+  window of `window_steps` steps runs and the smooth repose angle (FR-011-18) of the final heap is returned; the hard
+  angle of the
   same run is kept for `hard_theta`;
 - `theta_and_grad(mu, seed)`: the same run under the tape, returning the smooth angle and d theta / d mu_s (FR-011-19).
 
-The sliding friction is the only parameter; rolling friction, restitution, modulus and density are held at the material values given
-(cited knowledge-table values, FR-011-17). `free_device_memory_bytes` comes from the Warp device (NVML-free: the CUDA mempool free size)
+The sliding friction is the only parameter; rolling friction, restitution, modulus and density are held at the material
+values given
+(cited knowledge-table values, FR-011-17). `free_device_memory_bytes` comes from the Warp device (NVML-free: the CUDA
+mempool free size)
 and is infinite on the CPU.
 """
 
@@ -45,7 +50,7 @@ def column_scene(
         raise InvalidCalibrationError(f"particle_count must be at least 1, got {particle_count}")
     rng = np.random.default_rng(seed)
     spacing = 2.05 * radius_m
-    half = int(math.ceil(column_radius_over_r * radius_m / spacing))
+    half = math.ceil(column_radius_over_r * radius_m / spacing)
     lattice = [
         (i * spacing, j * spacing)
         for i in range(-half, half + 1)
@@ -107,7 +112,11 @@ class HeapSimulator:
     @property
     def free_device_memory_bytes(self) -> float:
         if str(self.device).startswith("cuda"):
-            free, _total = wp.get_device(self.device).get_memory_info() if hasattr(wp.get_device(self.device), "get_memory_info") else (2**30, 0)
+            free, _total = (
+                wp.get_device(self.device).get_memory_info()
+                if hasattr(wp.get_device(self.device), "get_memory_info")
+                else (2**30, 0)
+            )
             return float(free)
         return float("inf")
 
@@ -118,9 +127,14 @@ class HeapSimulator:
 
     def theta(self, mu: float, seed: int) -> float:
         run = tape.rollout_repose(
-            self._scene(seed), mu, settle_steps=self.settle_steps, record_steps=self.window_steps, dt=self.dt,
-            device=self.device, differentiate=False,
-        )  # fmt: skip
+            self._scene(seed),
+            mu,
+            settle_steps=self.settle_steps,
+            record_steps=self.window_steps,
+            dt=self.dt,
+            device=self.device,
+            differentiate=False,
+        )
         self._hard[(float(mu), int(seed))] = run.theta_hard_deg
         return run.theta_smooth_deg
 
@@ -132,24 +146,40 @@ class HeapSimulator:
 
     def theta_and_grad(self, mu: float, seed: int) -> tuple[float, float]:
         run = tape.rollout_repose(
-            self._scene(seed), mu, settle_steps=self.settle_steps, record_steps=self.window_steps, dt=self.dt,
-            device=self.device, differentiate=True,
-        )  # fmt: skip
+            self._scene(seed),
+            mu,
+            settle_steps=self.settle_steps,
+            record_steps=self.window_steps,
+            dt=self.dt,
+            device=self.device,
+            differentiate=True,
+        )
         self._hard[(float(mu), int(seed))] = run.theta_hard_deg
         assert run.gradient_deg_per_unit is not None
         return run.theta_smooth_deg, run.gradient_deg_per_unit
 
 
 def simulator_factory(
-    *, radius_m: float, settle_steps: int, window_steps: int, dt: float, device: str, material: HeapMaterial | None = None
+    *,
+    radius_m: float,
+    settle_steps: int,
+    window_steps: int,
+    dt: float,
+    device: str,
+    material: HeapMaterial | None = None,
 ):
     """`factory(particle_count) -> HeapSimulator`, the form `calibrate_with_oom_fallback` takes."""
 
     def make(particle_count: int) -> HeapSimulator:
         return HeapSimulator(
-            particle_count=particle_count, radius_m=radius_m, settle_steps=settle_steps, window_steps=window_steps,
-            dt=dt, material=material, device=device,
-        )  # fmt: skip
+            particle_count=particle_count,
+            radius_m=radius_m,
+            settle_steps=settle_steps,
+            window_steps=window_steps,
+            dt=dt,
+            material=material,
+            device=device,
+        )
 
     return make
 
