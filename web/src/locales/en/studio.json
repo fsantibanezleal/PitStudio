@@ -9,7 +9,9 @@
     "button": "Connect to my local studio",
     "invalid": "Enter a whole port number from 1024 to 65535.",
     "connected": "connected — console {{version}}",
-    "notConnected": "not connected"
+    "notConnected": "not connected",
+    "title": "Connect to my local studio",
+    "lead": "Optional. This page never contacts a local service on its own: pressing the button sends one health request to your own machine, and nothing else."
   },
   "stale": "stale",
   "probe": {
@@ -65,7 +67,10 @@
       "noCase": "No case"
     },
     "provenance": {
-      "title": "Provenance"
+      "title": "Provenance",
+      "lead": "Each artefact card carries its run, recipe, commit, GPU, driver, timings and throttle shares. Licence and data sources:",
+      "none": "No artefact yet, so no provenance to show.",
+      "from": "made from"
     },
     "whereRan": {
       "title": "Where it ran",
@@ -204,5 +209,26 @@
       "limit": "enforced power limit",
       "notBenchmark": "our hardware, not a comparative benchmark"
     }
+  },
+  "nav": {
+    "label": "Studio pages",
+    "runs": "Published runs",
+    "gpu": "GPU evidence"
+  },
+  "toolPage": {
+    "lead": "What this tool produced in the local studio, where it ran and what it cost."
+  },
+  "runPage": {
+    "title": "Run",
+    "loading": "Loading",
+    "manifest": "Manifest",
+    "telemetry": "Telemetry of the open-runtime stages",
+    "noTelemetry": "No published telemetry for this run.",
+    "artefacts": "Artefacts of this run",
+    "noArtefacts": "This run published no artefact."
+  },
+  "gpuPage": {
+    "title": "GPU evidence",
+    "lead": "Timelines of the open-runtime stages of every published run, measured on our hardware. Stages of proprietary tools appear only as a licence note with links to their outputs."
   }
 }

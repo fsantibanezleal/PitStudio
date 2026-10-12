@@ -9,7 +9,9 @@
     "button": "Conectar con mi estudio local",
     "invalid": "Escribe un número de puerto entero de 1024 a 65535.",
     "connected": "conectado — consola {{version}}",
-    "notConnected": "no conectado"
+    "notConnected": "no conectado",
+    "title": "Conectar con mi estudio local",
+    "lead": "Opcional. Esta página nunca contacta un servicio local por su cuenta: al pulsar el botón envía una consulta de estado a tu propia máquina y nada más."
   },
   "stale": "obsoleto",
   "probe": {
@@ -65,7 +67,10 @@
       "noCase": "Sin caso"
     },
     "provenance": {
-      "title": "Procedencia"
+      "title": "Procedencia",
+      "lead": "Cada tarjeta de artefacto lleva su ejecución, receta, commit, GPU, controlador, tiempos y porcentajes de limitación. Licencia y fuentes de datos:",
+      "none": "Aún no hay artefactos, por lo que no hay procedencia que mostrar.",
+      "from": "hecho a partir de"
     },
     "whereRan": {
       "title": "Dónde se ejecutó",
@@ -204,5 +209,26 @@
       "limit": "límite de potencia aplicado",
       "notBenchmark": "nuestro hardware, no una comparación de rendimiento"
     }
+  },
+  "nav": {
+    "label": "Páginas del estudio",
+    "runs": "Ejecuciones publicadas",
+    "gpu": "Evidencia de GPU"
+  },
+  "toolPage": {
+    "lead": "Qué produjo esta herramienta en el estudio local, dónde se ejecutó y cuánto costó."
+  },
+  "runPage": {
+    "title": "Ejecución",
+    "loading": "Cargando",
+    "manifest": "Manifiesto",
+    "telemetry": "Telemetría de las etapas de runtime abierto",
+    "noTelemetry": "No hay telemetría publicada para esta ejecución.",
+    "artefacts": "Artefactos de esta ejecución",
+    "noArtefacts": "Esta ejecución no publicó artefactos."
+  },
+  "gpuPage": {
+    "title": "Evidencia de GPU",
+    "lead": "Líneas de tiempo de las etapas de runtime abierto de cada ejecución publicada, medidas en nuestro hardware. Las etapas de herramientas propietarias aparecen solo como una nota de licencia con enlaces a sus salidas."
   }
 }

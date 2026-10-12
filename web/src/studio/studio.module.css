@@ -114,15 +114,15 @@
   cursor: pointer;
 }
 
-.mapNode:focus-visible .mapNodeBox,
-.mapNode:hover .mapNodeBox {
-  stroke-width: 3;
-}
-
 .mapNodeBox {
   fill: var(--bg);
   stroke: var(--border-strong);
   stroke-width: 1.5;
+}
+
+.mapNode:focus-visible .mapNodeBox,
+.mapNode:hover .mapNodeBox {
+  stroke-width: 3;
 }
 
 .mapNodeBox[data-lane="live"] {
@@ -147,11 +147,6 @@
 .mapNodeNote {
   fill: var(--fg-muted);
   font-size: 11px;
-}
-
-.mapNode svg,
-.mapNode g[data-testid="licence-icon"] {
-  color: var(--fg-muted);
 }
 
 .mapEdge {
@@ -249,4 +244,98 @@
 .dagNode {
   padding: 0.25rem 0;
   border-bottom: 1px solid var(--border);
+}
+
+.flowFrame {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.flowNode {
+  /* React Flow turns pointer events off on nodes that are neither draggable nor selectable; the link must stay clickable */
+  pointer-events: all;
+  display: grid;
+  align-content: center;
+  gap: 0.125rem;
+  box-sizing: border-box;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-strong);
+  border-left-width: 6px;
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 0.75rem;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.flowNode:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.flowNode[data-lane="live"] {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, var(--bg));
+}
+
+.flowNode[data-lane="replay"] {
+  border-color: var(--info);
+  background: color-mix(in srgb, var(--info) 12%, var(--bg));
+}
+
+.flowNode[data-lane="local-only"] {
+  border-color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 14%, var(--bg));
+}
+
+.flowNodeHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+}
+
+.flowNodeMeta {
+  display: flex;
+  gap: 0.5rem;
+  color: var(--fg-muted);
+}
+
+.flowNodeNote {
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.flowHandle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.conditions {
+  margin-block: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-inline-start: 3px solid var(--border-strong);
+  background: var(--bg);
+  font-size: 0.875rem;
+}
+
+.gpuStages {
+  display: grid;
+  gap: 1rem;
+}
+
+.chartNotes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.how {
+  display: inline-block;
 }

@@ -154,7 +154,7 @@ export function StaticMap({
         viewBox={`0 0 ${width} ${height}`}
         width="100%"
         className={styles.mapSvg}
-        hidden={hideSvg}
+        style={hideSvg ? { display: "none" } : undefined}
       >
         {index.edges.map((edge) => {
           const g = edgeGeometry(edge, positions);
