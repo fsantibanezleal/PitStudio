@@ -18,9 +18,9 @@ import polars as pl
 
 from pitstudio_pipeline.download.hashing import sha256_file
 from pitstudio_pipeline.errors import IngestionRejected
-from pitstudio_pipeline.ingest.report import build_report, relative_to_root, violation
+from pitstudio_pipeline.ingest.report import build_report, relative_to_root, resolve_fixture, violation
 from pitstudio_pipeline.ingest.series import series_violations
-from pitstudio_pipeline.ingest.tables import write_parquet
+from pitstudio_pipeline.ingest.tables import default_samples_dir, write_parquet
 from pitstudio_pipeline.paths import check_data_root
 
 STAGE = "s20_feature_extraction"
@@ -111,10 +111,15 @@ def run_series_stage(
     run_id: str,
     now: Callable[[], dt.datetime],
     repo_root: Path | str | None = None,
+    fixture: bool | None = None,
+    samples_dir: Path | str | None = None,
 ) -> dict[str, Any]:
     """Validate one series file (`{"t": [...], "x": [...]}`), compute its window features and report (DC-008-03)."""
     root = check_data_root(data_root, repo_root=repo_root)
     path = Path(path)
+    is_fixture = resolve_fixture(
+        path, fixture, samples_dir if samples_dir is not None else default_samples_dir(repo_root)
+    )
     rel = relative_to_root(root, path)
     entry: dict[str, Any] = {
         "path": rel,
@@ -140,9 +145,16 @@ def run_series_stage(
     else:
         found = []
         out = root / "processed" / source / f"{path.stem}.features.parquet"
-        outputs.append(write_parquet(pl.DataFrame(table), out, root))
+        outputs.append(write_parquet(pl.DataFrame(table), out, root, {"fixture": "true"} if is_fixture else None))
     return build_report(
-        source=source, stage=STAGE, run_id=run_id, now=now(), files=[entry], violations=found, outputs=outputs
+        source=source,
+        stage=STAGE,
+        run_id=run_id,
+        now=now(),
+        files=[entry],
+        violations=found,
+        outputs=outputs,
+        fixture=is_fixture,
     )
 
 

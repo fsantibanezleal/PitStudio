@@ -74,6 +74,15 @@ def safe_relpath(text: str) -> str:
     return cleaned[:99]
 
 
+def resolve_fixture(path: Path, fixture: Any, samples_dir: Path | str | None) -> bool:
+    """FR-008-49: a source is a fixture when asked to be (`fixture=True`) or when its file lies under `samples_dir`."""
+    if fixture is not None and not isinstance(fixture, bool):
+        raise TypeError(f"fixture must be a bool or None, not {type(fixture).__name__}")
+    if fixture:
+        return True
+    return samples_dir is not None and Path(path).resolve().is_relative_to(Path(samples_dir).resolve())
+
+
 def build_report(
     *,
     source: str,

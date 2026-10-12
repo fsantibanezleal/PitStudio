@@ -16,11 +16,16 @@ import polars as pl
 from pitstudio_pipeline.download.hashing import sha256_file
 from pitstudio_pipeline.errors import IngestionRejected
 from pitstudio_pipeline.ingest.exclusions import apply_exclusions
-from pitstudio_pipeline.ingest.report import build_report, relative_to_root, violation
+from pitstudio_pipeline.ingest.report import build_report, relative_to_root, resolve_fixture, violation
 from pitstudio_pipeline.ingest.schemas import SCHEMAS
-from pitstudio_pipeline.paths import check_data_root
+from pitstudio_pipeline.paths import check_data_root, default_data_root
 
 STAGE = "s10_preprocess"
+
+
+def default_samples_dir(repo_root: Path | str | None) -> Path:
+    """`<repo>/data/samples`: the folder whose files are fixtures by location."""
+    return default_data_root(repo_root) / "samples"
 
 
 def _resolve(schema: pa.DataFrameSchema | str) -> pa.DataFrameSchema:
@@ -136,14 +141,21 @@ def ingest_table(
     now: Callable[[], dt.datetime],
     repo_root: Path | str | None = None,
     exclusions: Sequence[Mapping[str, Any]] | None = None,
+    fixture: bool | None = None,
+    samples_dir: Path | str | None = None,
 ) -> dict[str, Any]:
     """Validate one Parquet file and write its output; the ingestion report (DC-008-03) says what happened.
 
     `exclusions` are the declared rules of FR-008-22; they run after validation, and their removal counts are stored in
-    the output's Parquet metadata entry `exclusions` (the manifest of the run records them too).
+    the output's Parquet metadata entry `exclusions` (the manifest of the run records them too). A fixture source
+    (`fixture=True`, or a file under `samples_dir`, default `<repo>/data/samples`) is processed the same way and
+    every output is marked: `fixture: true` on the report and the Parquet metadata entry `fixture` (FR-008-49).
     """
     root = check_data_root(data_root, repo_root=repo_root)
     path = Path(path)
+    is_fixture = resolve_fixture(
+        path, fixture, samples_dir if samples_dir is not None else default_samples_dir(repo_root)
+    )
     name = schema_name or (schema if isinstance(schema, str) else "table")
     rel = relative_to_root(root, path)
     entry: dict[str, Any] = {
@@ -166,11 +178,19 @@ def ingest_table(
         if found:
             entry["status"] = "rejected"
         else:
-            metadata: dict[str, str] = {}
+            metadata: dict[str, str] = {"fixture": "true"} if is_fixture else {}
             if exclusions:
                 excluded = apply_exclusions(frame, exclusions)
-                frame, metadata = excluded.frame, {"exclusions": json.dumps(excluded.removed, sort_keys=True)}
+                frame = excluded.frame
+                metadata["exclusions"] = json.dumps(excluded.removed, sort_keys=True)
             outputs.append(write_parquet(frame, root / "processed" / source / f"{path.stem}.parquet", root, metadata))
     return build_report(
-        source=source, stage=STAGE, run_id=run_id, now=now(), files=[entry], violations=found, outputs=outputs
+        source=source,
+        stage=STAGE,
+        run_id=run_id,
+        now=now(),
+        files=[entry],
+        violations=found,
+        outputs=outputs,
+        fixture=is_fixture,
     )
