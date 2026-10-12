@@ -30,6 +30,9 @@ dependencies = [
     "pycocotools>=2.0.11",
     "imagehash==4.3.2",
     "rfdetr==1.11.1",
+    "faster-coco-eval>=1.8.0",
+    "calflops>=0.3.2",
+    "tensorboard>=2.21.0",
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [project.optional-dependencies]
