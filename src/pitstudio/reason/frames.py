@@ -110,10 +110,40 @@ def validate_frame_state(doc: Mapping[str, Any]) -> None:
     _check_quaternions(doc)
 
 
+def _check_unique_prims(doc: Mapping[str, Any]) -> None:
+    seen: set[str] = set()
+    for obj in doc["objects"]:
+        if obj["prim_id"] in seen:
+            raise FrameStateInvalid(f"object {obj['prim_id']}: duplicated prim_id")
+        seen.add(obj["prim_id"])
+
+
+def _check_image(doc: Mapping[str, Any], root: Path) -> None:
+    """The image under `root` hashes to the declared SHA-256 (the relpath pattern keeps the path inside `root`)."""
+    image = doc["image"]
+    try:
+        data = (Path(root) / image["path"]).read_bytes()
+    except OSError as exc:
+        raise FrameStateInvalid(f"image/path: cannot read {image['path']}: {exc.strerror}") from exc
+    if hashlib.sha256(data).hexdigest() != image["sha256"]:
+        raise FrameStateInvalid(f"image/sha256: the bytes of {image['path']} do not match the declared digest")
+
+
+def _read_json(path: Path) -> Any:
+    try:
+        return json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, ValueError, RecursionError) as exc:
+        raise FrameStateInvalid(f"frame state file is not readable JSON: {type(exc).__name__}") from exc
+
+
 def load_frame_state(source: Mapping[str, Any] | str | Path, *, root: Path) -> dict[str, Any]:
-    """Validate a frame state (a mapping) and return it unchanged."""
-    del root
-    if not isinstance(source, Mapping):
-        raise FrameStateInvalid("frame state: not a JSON object")
-    validate_frame_state(source)
-    return dict(source)
+    """Validate a frame state (a mapping, or the path of a JSON file) and return it unchanged.
+
+    Raises `FrameStateInvalid` for any violation: the schema, a non-finite number, a quaternion off unit norm,
+    `visible_px` above the frame area, a duplicated prim id, an unreadable image or a digest that differs from it.
+    """
+    doc = _read_json(Path(source)) if isinstance(source, str | Path) else source
+    validate_frame_state(doc)
+    _check_unique_prims(doc)
+    _check_image(doc, root)
+    return dict(doc)
