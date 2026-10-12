@@ -12796,7 +12796,9 @@
       "tasks": [
         "T-015-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_010_runtime_pins.py"
+      ]
     },
     "FR-015-02": {
       "spec": "015-vlm",
@@ -12806,7 +12808,9 @@
       "tasks": [
         "T-015-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_010_runtime_pins.py"
+      ]
     },
     "FR-015-03": {
       "spec": "015-vlm",
@@ -12816,7 +12820,9 @@
       "tasks": [
         "T-015-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_011_weights_provenance.py"
+      ]
     },
     "FR-015-04": {
       "spec": "015-vlm",
@@ -12826,7 +12832,9 @@
       "tasks": [
         "T-015-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_011_weights_provenance.py"
+      ]
     },
     "FR-015-05": {
       "spec": "015-vlm",
@@ -12837,7 +12845,10 @@
         "T-015-012",
         "T-015-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_015_070_reason_local.py",
+        "tests/pipeline/test_t_015_012_gguf_conversion.py"
+      ]
     },
     "FR-015-06": {
       "spec": "015-vlm",
@@ -12847,7 +12858,10 @@
       "tasks": [
         "T-015-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_012_gguf_conversion.py",
+        "tests/unit/test_t_015_013_no_weights_published.py"
+      ]
     },
     "FR-015-07": {
       "spec": "015-vlm",
@@ -12858,7 +12872,10 @@
         "T-015-014",
         "T-015-063"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_014_gated_terms_token.py",
+        "web/e2e/reason-panels.spec.ts"
+      ]
     },
     "FR-015-08": {
       "spec": "015-vlm",
@@ -12868,7 +12885,9 @@
       "tasks": [
         "T-015-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_014_gated_terms_token.py"
+      ]
     },
     "FR-015-09": {
       "spec": "015-vlm",
@@ -12879,7 +12898,10 @@
         "T-015-015",
         "T-015-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_015_070_reason_local.py",
+        "tests/pipeline/test_t_015_015_bf16_reference.py"
+      ]
     },
     "FR-015-10": {
       "spec": "015-vlm",
@@ -12889,7 +12911,9 @@
       "tasks": [
         "T-015-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_015_bf16_reference.py"
+      ]
     },
     "FR-015-11": {
       "spec": "015-vlm",
@@ -12899,7 +12923,9 @@
       "tasks": [
         "T-015-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_016_server_driver.py"
+      ]
     },
     "FR-015-12": {
       "spec": "015-vlm",
@@ -12909,7 +12935,9 @@
       "tasks": [
         "T-015-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_016_server_driver.py"
+      ]
     },
     "FR-015-13": {
       "spec": "015-vlm",
@@ -12920,7 +12948,10 @@
         "T-015-020",
         "T-015-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_020_reason_bench.py",
+        "tests/gpu/test_t_015_070_reason_local.py"
+      ]
     },
     "FR-015-14": {
       "spec": "015-vlm",
@@ -12931,7 +12962,10 @@
         "T-015-021",
         "T-015-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_015_071_agreement_real.py",
+        "tests/unit/test_t_015_021_agreement_gate.py"
+      ]
     },
     "FR-015-15": {
       "spec": "015-vlm",
@@ -12941,7 +12975,9 @@
       "tasks": [
         "T-015-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_021_agreement_gate.py"
+      ]
     },
     "FR-015-16": {
       "spec": "015-vlm",
@@ -12951,7 +12987,9 @@
       "tasks": [
         "T-015-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_030_query_builder.py"
+      ]
     },
     "FR-015-17": {
       "spec": "015-vlm",
@@ -12961,7 +12999,9 @@
       "tasks": [
         "T-015-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_031_truth_types_1_3.py"
+      ]
     },
     "FR-015-18": {
       "spec": "015-vlm",
@@ -12971,7 +13011,9 @@
       "tasks": [
         "T-015-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_031_truth_types_1_3.py"
+      ]
     },
     "FR-015-19": {
       "spec": "015-vlm",
@@ -12981,7 +13023,9 @@
       "tasks": [
         "T-015-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_031_truth_types_1_3.py"
+      ]
     },
     "FR-015-20": {
       "spec": "015-vlm",
@@ -12991,7 +13035,9 @@
       "tasks": [
         "T-015-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_032_truth_types_4_6.py"
+      ]
     },
     "FR-015-21": {
       "spec": "015-vlm",
@@ -13001,7 +13047,9 @@
       "tasks": [
         "T-015-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_032_truth_types_4_6.py"
+      ]
     },
     "FR-015-22": {
       "spec": "015-vlm",
@@ -13011,7 +13059,9 @@
       "tasks": [
         "T-015-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_032_truth_types_4_6.py"
+      ]
     },
     "FR-015-23": {
       "spec": "015-vlm",
@@ -13021,7 +13071,9 @@
       "tasks": [
         "T-015-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_033_frame_state_hostile.py"
+      ]
     },
     "FR-015-24": {
       "spec": "015-vlm",
@@ -13031,7 +13083,9 @@
       "tasks": [
         "T-015-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_017_prompts_config.py"
+      ]
     },
     "FR-015-25": {
       "spec": "015-vlm",
@@ -13041,7 +13095,9 @@
       "tasks": [
         "T-015-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_017_prompts_config.py"
+      ]
     },
     "FR-015-26": {
       "spec": "015-vlm",
@@ -13051,7 +13107,9 @@
       "tasks": [
         "T-015-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_015_034_answer_parser.py"
+      ]
     },
     "FR-015-27": {
       "spec": "015-vlm",
@@ -13061,7 +13119,9 @@
       "tasks": [
         "T-015-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_015_034_answer_parser.py"
+      ]
     },
     "FR-015-28": {
       "spec": "015-vlm",
@@ -13071,7 +13131,9 @@
       "tasks": [
         "T-015-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_035_arms_detector_rule.py"
+      ]
     },
     "FR-015-29": {
       "spec": "015-vlm",
@@ -13081,7 +13143,9 @@
       "tasks": [
         "T-015-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_035_arms_detector_rule.py"
+      ]
     },
     "FR-015-30": {
       "spec": "015-vlm",
@@ -13091,7 +13155,10 @@
       "tasks": [
         "T-015-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_036_task_a_metrics.py",
+        "tests/pipeline/test_t_015_036_reference_parity.py"
+      ]
     },
     "FR-015-31": {
       "spec": "015-vlm",
@@ -13101,7 +13168,9 @@
       "tasks": [
         "T-015-037"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_037_mcnemar.py"
+      ]
     },
     "FR-015-32": {
       "spec": "015-vlm",
@@ -13111,7 +13180,10 @@
       "tasks": [
         "T-015-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_036_task_a_metrics.py",
+        "tests/metamorphic/test_t_015_037_mcnemar.py"
+      ]
     },
     "FR-015-33": {
       "spec": "015-vlm",
@@ -13121,7 +13193,9 @@
       "tasks": [
         "T-015-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_040_plausibility_pairs.py"
+      ]
     },
     "FR-015-34": {
       "spec": "015-vlm",
@@ -13131,7 +13205,9 @@
       "tasks": [
         "T-015-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_040_plausibility_pairs.py"
+      ]
     },
     "FR-015-35": {
       "spec": "015-vlm",
@@ -13141,7 +13217,9 @@
       "tasks": [
         "T-015-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_040_plausibility_pairs.py"
+      ]
     },
     "FR-015-36": {
       "spec": "015-vlm",
@@ -13151,7 +13229,9 @@
       "tasks": [
         "T-015-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_041_task_b_scoring.py"
+      ]
     },
     "FR-015-37": {
       "spec": "015-vlm",
@@ -13161,7 +13241,10 @@
       "tasks": [
         "T-015-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_041_task_b_scoring.py",
+        "tests/pipeline/test_t_015_041_reference_parity.py"
+      ]
     },
     "FR-015-38": {
       "spec": "015-vlm",
@@ -13171,7 +13254,9 @@
       "tasks": [
         "T-015-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_050_caption_scoring.py"
+      ]
     },
     "FR-015-39": {
       "spec": "015-vlm",
@@ -13181,7 +13266,9 @@
       "tasks": [
         "T-015-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_051_captions_display_only.py"
+      ]
     },
     "FR-015-46": {
       "spec": "015-vlm",
@@ -13191,7 +13278,9 @@
       "tasks": [
         "T-015-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_050_caption_scoring.py"
+      ]
     },
     "FR-015-47": {
       "spec": "015-vlm",
@@ -13201,7 +13290,9 @@
       "tasks": [
         "T-015-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_035_arms_detector_rule.py"
+      ]
     },
     "FR-015-40": {
       "spec": "015-vlm",
@@ -13211,7 +13302,9 @@
       "tasks": [
         "T-015-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_060_records.py"
+      ]
     },
     "FR-015-41": {
       "spec": "015-vlm",
@@ -13221,7 +13314,9 @@
       "tasks": [
         "T-015-063"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/reason-panels.spec.ts"
+      ]
     },
     "FR-015-42": {
       "spec": "015-vlm",
@@ -13232,7 +13327,10 @@
         "T-015-061",
         "T-015-063"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_061_not_headline.py",
+        "web/e2e/reason-panels.spec.ts"
+      ]
     },
     "FR-015-43": {
       "spec": "015-vlm",
@@ -13242,7 +13340,10 @@
       "tasks": [
         "T-015-062"
       ],
-      "tests": []
+      "tests": [
+        "web/src/features/reason/records-hostile.test.ts",
+        "web/e2e/reason-panels.spec.ts"
+      ]
     },
     "FR-015-44": {
       "spec": "015-vlm",
@@ -13252,7 +13353,9 @@
       "tasks": [
         "T-015-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_017_prompts_config.py"
+      ]
     },
     "FR-015-45": {
       "spec": "015-vlm",
@@ -13262,7 +13365,10 @@
       "tasks": [
         "T-015-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_060_records.py",
+        "tests/pipeline/test_t_015_060_kappa_parity.py"
+      ]
     },
     "FR-015-48": {
       "spec": "015-vlm",
@@ -13272,7 +13378,9 @@
       "tasks": [
         "T-015-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_092_frame_state_visible_px.py"
+      ]
     },
     "FR-015-49": {
       "spec": "015-vlm",
@@ -13282,7 +13390,9 @@
       "tasks": [
         "T-015-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_093_frame_state_quaternion.py"
+      ]
     },
     "FR-015-50": {
       "spec": "015-vlm",
@@ -13292,7 +13402,9 @@
       "tasks": [
         "T-015-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_094_fixture_propagation.py"
+      ]
     },
     "P-015-01": {
       "spec": "015-vlm",
@@ -13302,7 +13414,10 @@
       "tasks": [
         "T-015-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_036_task_a_metrics.py",
+        "tests/pipeline/test_t_015_036_reference_parity.py"
+      ]
     },
     "P-015-02": {
       "spec": "015-vlm",
@@ -13312,7 +13427,10 @@
       "tasks": [
         "T-015-037"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_037_mcnemar.py",
+        "tests/pipeline/test_t_015_037_mcnemar_parity.py"
+      ]
     },
     "P-015-03": {
       "spec": "015-vlm",
@@ -13322,7 +13440,10 @@
       "tasks": [
         "T-015-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_036_task_a_metrics.py",
+        "tests/pipeline/test_t_015_036_reference_parity.py"
+      ]
     },
     "P-015-04": {
       "spec": "015-vlm",
@@ -13332,7 +13453,10 @@
       "tasks": [
         "T-015-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_036_task_a_metrics.py",
+        "tests/pipeline/test_t_015_036_reference_parity.py"
+      ]
     },
     "P-015-05": {
       "spec": "015-vlm",
@@ -13342,7 +13466,9 @@
       "tasks": [
         "T-015-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_021_agreement_gate.py"
+      ]
     },
     "P-015-06": {
       "spec": "015-vlm",
@@ -13352,7 +13478,9 @@
       "tasks": [
         "T-015-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_041_task_b_scoring.py"
+      ]
     },
     "P-015-07": {
       "spec": "015-vlm",
@@ -13362,7 +13490,9 @@
       "tasks": [
         "T-015-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_050_caption_scoring.py"
+      ]
     },
     "P-015-08": {
       "spec": "015-vlm",
@@ -13373,7 +13503,10 @@
         "T-015-031",
         "T-015-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_031_truth_types_1_3.py",
+        "tests/metamorphic/test_t_015_032_truth_types_4_6.py"
+      ]
     },
     "P-015-09": {
       "spec": "015-vlm",
@@ -13383,7 +13516,9 @@
       "tasks": [
         "T-015-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_035_arms_detector_rule.py"
+      ]
     },
     "P-015-10": {
       "spec": "015-vlm",
@@ -13393,7 +13528,9 @@
       "tasks": [
         "T-015-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_015_040_plausibility_pairs.py"
+      ]
     },
     "P-015-11": {
       "spec": "015-vlm",
@@ -13403,7 +13540,9 @@
       "tasks": [
         "T-015-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_015_034_answer_parser.py"
+      ]
     },
     "P-015-12": {
       "spec": "015-vlm",
@@ -13414,7 +13553,10 @@
         "T-015-012",
         "T-015-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_015_070_reason_local.py",
+        "tests/pipeline/test_t_015_012_gguf_conversion.py"
+      ]
     },
     "NFR-015-01": {
       "spec": "015-vlm",
@@ -13424,7 +13566,10 @@
       "tasks": [
         "T-015-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_020_reason_bench.py",
+        "tests/gpu/test_t_015_070_reason_local.py"
+      ]
     },
     "NFR-015-02": {
       "spec": "015-vlm",
@@ -13434,7 +13579,9 @@
       "tasks": [
         "T-015-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_020_reason_bench.py"
+      ]
     },
     "NFR-015-03": {
       "spec": "015-vlm",
@@ -13444,7 +13591,9 @@
       "tasks": [
         "T-015-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_060_records.py"
+      ]
     },
     "NFR-015-04": {
       "spec": "015-vlm",
@@ -13454,7 +13603,9 @@
       "tasks": [
         "T-015-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_015_016_server_driver.py"
+      ]
     },
     "SC-015-01": {
       "spec": "015-vlm",
@@ -13464,7 +13615,10 @@
       "tasks": [
         "T-015-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_015_071_agreement_real.py",
+        "tests/unit/test_t_015_021_agreement_gate.py"
+      ]
     },
     "SC-015-02": {
       "spec": "015-vlm",
@@ -13474,7 +13628,9 @@
       "tasks": [
         "T-015-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_036_task_a_metrics.py"
+      ]
     },
     "SC-015-03": {
       "spec": "015-vlm",
@@ -13484,7 +13640,9 @@
       "tasks": [
         "T-015-037"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_037_mcnemar.py"
+      ]
     },
     "SC-015-04": {
       "spec": "015-vlm",
@@ -13494,7 +13652,9 @@
       "tasks": [
         "T-015-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_061_not_headline.py"
+      ]
     },
     "SC-015-05": {
       "spec": "015-vlm",
@@ -13504,7 +13664,9 @@
       "tasks": [
         "T-015-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_041_task_b_scoring.py"
+      ]
     },
     "SC-015-06": {
       "spec": "015-vlm",
@@ -13514,7 +13676,9 @@
       "tasks": [
         "T-015-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_015_050_caption_scoring.py"
+      ]
     },
     "DC-015-01": {
       "spec": "015-vlm",
@@ -13606,7 +13770,9 @@
       "tasks": [
         "T-015-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_020_reason_bench.py"
+      ]
     },
     "US-016-1": {
       "spec": "016-export-acceleration",

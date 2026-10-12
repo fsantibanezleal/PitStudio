@@ -94,7 +94,7 @@
 | DC-015-05 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
 | DC-015-06 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
 | DC-015-07 | 015-vlm | draft | T-015-020 | - |
-| DC-015-08 | 015-vlm | draft | T-015-020 | - |
+| DC-015-08 | 015-vlm | draft | T-015-020 | tests/contract/test_t_015_020_reason_bench.py |
 | DC-016-01 | 016-export-acceleration | draft | T-016-001 | tests/contract/test_t_016_001_bench_record_schema.py |
 | DC-016-02 | 016-export-acceleration | draft | T-016-002 | tests/contract/test_t_016_002_release_assets_schema.py |
 | DC-016-03 | 016-export-acceleration | draft | T-016-003 | tests/contract/test_t_016_003_parity_report_schema.py |
@@ -811,56 +811,56 @@
 | FR-014-47 | 014-robot-learning | draft | T-014-038 | - |
 | FR-014-48 | 014-robot-learning | draft | T-014-092 | - |
 | FR-014-49 | 014-robot-learning | draft | T-014-093 | - |
-| FR-015-01 | 015-vlm | draft | T-015-010 | - |
-| FR-015-02 | 015-vlm | draft | T-015-010 | - |
-| FR-015-03 | 015-vlm | draft | T-015-011 | - |
-| FR-015-04 | 015-vlm | draft | T-015-011 | - |
-| FR-015-05 | 015-vlm | draft | T-015-012, T-015-070 | - |
-| FR-015-06 | 015-vlm | draft | T-015-013 | - |
-| FR-015-07 | 015-vlm | draft | T-015-014, T-015-063 | - |
-| FR-015-08 | 015-vlm | draft | T-015-014 | - |
-| FR-015-09 | 015-vlm | draft | T-015-015, T-015-070 | - |
-| FR-015-10 | 015-vlm | draft | T-015-015 | - |
-| FR-015-11 | 015-vlm | draft | T-015-016 | - |
-| FR-015-12 | 015-vlm | draft | T-015-016 | - |
-| FR-015-13 | 015-vlm | draft | T-015-020, T-015-070 | - |
-| FR-015-14 | 015-vlm | draft | T-015-021, T-015-071 | - |
-| FR-015-15 | 015-vlm | draft | T-015-021 | - |
-| FR-015-16 | 015-vlm | draft | T-015-030 | - |
-| FR-015-17 | 015-vlm | draft | T-015-031 | - |
-| FR-015-18 | 015-vlm | draft | T-015-031 | - |
-| FR-015-19 | 015-vlm | draft | T-015-031 | - |
-| FR-015-20 | 015-vlm | draft | T-015-032 | - |
-| FR-015-21 | 015-vlm | draft | T-015-032 | - |
-| FR-015-22 | 015-vlm | draft | T-015-032 | - |
-| FR-015-23 | 015-vlm | draft | T-015-033 | - |
-| FR-015-24 | 015-vlm | draft | T-015-017 | - |
-| FR-015-25 | 015-vlm | draft | T-015-017 | - |
-| FR-015-26 | 015-vlm | draft | T-015-034 | - |
-| FR-015-27 | 015-vlm | draft | T-015-034 | - |
-| FR-015-28 | 015-vlm | draft | T-015-035 | - |
-| FR-015-29 | 015-vlm | draft | T-015-035 | - |
-| FR-015-30 | 015-vlm | draft | T-015-036 | - |
-| FR-015-31 | 015-vlm | draft | T-015-037 | - |
-| FR-015-32 | 015-vlm | draft | T-015-036 | - |
-| FR-015-33 | 015-vlm | draft | T-015-040 | - |
-| FR-015-34 | 015-vlm | draft | T-015-040 | - |
-| FR-015-35 | 015-vlm | draft | T-015-040 | - |
-| FR-015-36 | 015-vlm | draft | T-015-041 | - |
-| FR-015-37 | 015-vlm | draft | T-015-041 | - |
-| FR-015-38 | 015-vlm | draft | T-015-050 | - |
-| FR-015-39 | 015-vlm | draft | T-015-051 | - |
-| FR-015-40 | 015-vlm | draft | T-015-060 | - |
-| FR-015-41 | 015-vlm | draft | T-015-063 | - |
-| FR-015-42 | 015-vlm | draft | T-015-061, T-015-063 | - |
-| FR-015-43 | 015-vlm | draft | T-015-062 | - |
-| FR-015-44 | 015-vlm | draft | T-015-017 | - |
-| FR-015-45 | 015-vlm | draft | T-015-060 | - |
-| FR-015-46 | 015-vlm | draft | T-015-050 | - |
-| FR-015-47 | 015-vlm | draft | T-015-035 | - |
-| FR-015-48 | 015-vlm | draft | T-015-092 | - |
-| FR-015-49 | 015-vlm | draft | T-015-093 | - |
-| FR-015-50 | 015-vlm | draft | T-015-094 | - |
+| FR-015-01 | 015-vlm | draft | T-015-010 | tests/pipeline/test_t_015_010_runtime_pins.py |
+| FR-015-02 | 015-vlm | draft | T-015-010 | tests/pipeline/test_t_015_010_runtime_pins.py |
+| FR-015-03 | 015-vlm | draft | T-015-011 | tests/pipeline/test_t_015_011_weights_provenance.py |
+| FR-015-04 | 015-vlm | draft | T-015-011 | tests/pipeline/test_t_015_011_weights_provenance.py |
+| FR-015-05 | 015-vlm | draft | T-015-012, T-015-070 | tests/gpu/test_t_015_070_reason_local.py, tests/pipeline/test_t_015_012_gguf_conversion.py |
+| FR-015-06 | 015-vlm | draft | T-015-013 | tests/pipeline/test_t_015_012_gguf_conversion.py, tests/unit/test_t_015_013_no_weights_published.py |
+| FR-015-07 | 015-vlm | draft | T-015-014, T-015-063 | tests/pipeline/test_t_015_014_gated_terms_token.py, web/e2e/reason-panels.spec.ts |
+| FR-015-08 | 015-vlm | draft | T-015-014 | tests/pipeline/test_t_015_014_gated_terms_token.py |
+| FR-015-09 | 015-vlm | draft | T-015-015, T-015-070 | tests/gpu/test_t_015_070_reason_local.py, tests/pipeline/test_t_015_015_bf16_reference.py |
+| FR-015-10 | 015-vlm | draft | T-015-015 | tests/pipeline/test_t_015_015_bf16_reference.py |
+| FR-015-11 | 015-vlm | draft | T-015-016 | tests/pipeline/test_t_015_016_server_driver.py |
+| FR-015-12 | 015-vlm | draft | T-015-016 | tests/pipeline/test_t_015_016_server_driver.py |
+| FR-015-13 | 015-vlm | draft | T-015-020, T-015-070 | tests/contract/test_t_015_020_reason_bench.py, tests/gpu/test_t_015_070_reason_local.py |
+| FR-015-14 | 015-vlm | draft | T-015-021, T-015-071 | tests/gpu/test_t_015_071_agreement_real.py, tests/unit/test_t_015_021_agreement_gate.py |
+| FR-015-15 | 015-vlm | draft | T-015-021 | tests/unit/test_t_015_021_agreement_gate.py |
+| FR-015-16 | 015-vlm | draft | T-015-030 | tests/unit/test_t_015_030_query_builder.py |
+| FR-015-17 | 015-vlm | draft | T-015-031 | tests/metamorphic/test_t_015_031_truth_types_1_3.py |
+| FR-015-18 | 015-vlm | draft | T-015-031 | tests/metamorphic/test_t_015_031_truth_types_1_3.py |
+| FR-015-19 | 015-vlm | draft | T-015-031 | tests/metamorphic/test_t_015_031_truth_types_1_3.py |
+| FR-015-20 | 015-vlm | draft | T-015-032 | tests/metamorphic/test_t_015_032_truth_types_4_6.py |
+| FR-015-21 | 015-vlm | draft | T-015-032 | tests/metamorphic/test_t_015_032_truth_types_4_6.py |
+| FR-015-22 | 015-vlm | draft | T-015-032 | tests/metamorphic/test_t_015_032_truth_types_4_6.py |
+| FR-015-23 | 015-vlm | draft | T-015-033 | tests/unit/test_t_015_033_frame_state_hostile.py |
+| FR-015-24 | 015-vlm | draft | T-015-017 | tests/unit/test_t_015_017_prompts_config.py |
+| FR-015-25 | 015-vlm | draft | T-015-017 | tests/unit/test_t_015_017_prompts_config.py |
+| FR-015-26 | 015-vlm | draft | T-015-034 | tests/property/test_t_015_034_answer_parser.py |
+| FR-015-27 | 015-vlm | draft | T-015-034 | tests/property/test_t_015_034_answer_parser.py |
+| FR-015-28 | 015-vlm | draft | T-015-035 | tests/unit/test_t_015_035_arms_detector_rule.py |
+| FR-015-29 | 015-vlm | draft | T-015-035 | tests/unit/test_t_015_035_arms_detector_rule.py |
+| FR-015-30 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/pipeline/test_t_015_036_reference_parity.py |
+| FR-015-31 | 015-vlm | draft | T-015-037 | tests/metamorphic/test_t_015_037_mcnemar.py |
+| FR-015-32 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/metamorphic/test_t_015_037_mcnemar.py |
+| FR-015-33 | 015-vlm | draft | T-015-040 | tests/unit/test_t_015_040_plausibility_pairs.py |
+| FR-015-34 | 015-vlm | draft | T-015-040 | tests/unit/test_t_015_040_plausibility_pairs.py |
+| FR-015-35 | 015-vlm | draft | T-015-040 | tests/unit/test_t_015_040_plausibility_pairs.py |
+| FR-015-36 | 015-vlm | draft | T-015-041 | tests/metamorphic/test_t_015_041_task_b_scoring.py |
+| FR-015-37 | 015-vlm | draft | T-015-041 | tests/metamorphic/test_t_015_041_task_b_scoring.py, tests/pipeline/test_t_015_041_reference_parity.py |
+| FR-015-38 | 015-vlm | draft | T-015-050 | tests/metamorphic/test_t_015_050_caption_scoring.py |
+| FR-015-39 | 015-vlm | draft | T-015-051 | tests/contract/test_t_015_051_captions_display_only.py |
+| FR-015-40 | 015-vlm | draft | T-015-060 | tests/contract/test_t_015_060_records.py |
+| FR-015-41 | 015-vlm | draft | T-015-063 | web/e2e/reason-panels.spec.ts |
+| FR-015-42 | 015-vlm | draft | T-015-061, T-015-063 | tests/contract/test_t_015_061_not_headline.py, web/e2e/reason-panels.spec.ts |
+| FR-015-43 | 015-vlm | draft | T-015-062 | web/src/features/reason/records-hostile.test.ts, web/e2e/reason-panels.spec.ts |
+| FR-015-44 | 015-vlm | draft | T-015-017 | tests/unit/test_t_015_017_prompts_config.py |
+| FR-015-45 | 015-vlm | draft | T-015-060 | tests/contract/test_t_015_060_records.py, tests/pipeline/test_t_015_060_kappa_parity.py |
+| FR-015-46 | 015-vlm | draft | T-015-050 | tests/metamorphic/test_t_015_050_caption_scoring.py |
+| FR-015-47 | 015-vlm | draft | T-015-035 | tests/unit/test_t_015_035_arms_detector_rule.py |
+| FR-015-48 | 015-vlm | draft | T-015-092 | tests/unit/test_t_015_092_frame_state_visible_px.py |
+| FR-015-49 | 015-vlm | draft | T-015-093 | tests/unit/test_t_015_093_frame_state_quaternion.py |
+| FR-015-50 | 015-vlm | draft | T-015-094 | tests/unit/test_t_015_094_fixture_propagation.py |
 | FR-016-01 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-02 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-03 | 016-export-acceleration | draft | T-016-011 | - |
@@ -1200,10 +1200,10 @@
 | NFR-014-03 | 014-robot-learning | draft | T-014-041 | - |
 | NFR-014-04 | 014-robot-learning | draft | T-014-054 | - |
 | NFR-014-05 | 014-robot-learning | draft | T-014-012 | - |
-| NFR-015-01 | 015-vlm | draft | T-015-020 | - |
-| NFR-015-02 | 015-vlm | draft | T-015-020 | - |
-| NFR-015-03 | 015-vlm | draft | T-015-060 | - |
-| NFR-015-04 | 015-vlm | draft | T-015-016 | - |
+| NFR-015-01 | 015-vlm | draft | T-015-020 | tests/contract/test_t_015_020_reason_bench.py, tests/gpu/test_t_015_070_reason_local.py |
+| NFR-015-02 | 015-vlm | draft | T-015-020 | tests/contract/test_t_015_020_reason_bench.py |
+| NFR-015-03 | 015-vlm | draft | T-015-060 | tests/contract/test_t_015_060_records.py |
+| NFR-015-04 | 015-vlm | draft | T-015-016 | tests/pipeline/test_t_015_016_server_driver.py |
 | NFR-016-01 | 016-export-acceleration | draft | T-016-050 | - |
 | NFR-016-02 | 016-export-acceleration | draft | T-016-045 | - |
 | NFR-016-03 | 016-export-acceleration | draft | T-016-010 | - |
@@ -1442,18 +1442,18 @@
 | P-014-13 | 014-robot-learning | draft | T-014-023 | - |
 | P-014-14 | 014-robot-learning | draft | T-014-025, T-014-034 | - |
 | P-014-15 | 014-robot-learning | draft | T-014-061 | - |
-| P-015-01 | 015-vlm | draft | T-015-036 | - |
-| P-015-02 | 015-vlm | draft | T-015-037 | - |
-| P-015-03 | 015-vlm | draft | T-015-036 | - |
-| P-015-04 | 015-vlm | draft | T-015-036 | - |
-| P-015-05 | 015-vlm | draft | T-015-021 | - |
-| P-015-06 | 015-vlm | draft | T-015-041 | - |
-| P-015-07 | 015-vlm | draft | T-015-050 | - |
-| P-015-08 | 015-vlm | draft | T-015-031, T-015-032 | - |
-| P-015-09 | 015-vlm | draft | T-015-035 | - |
-| P-015-10 | 015-vlm | draft | T-015-040 | - |
-| P-015-11 | 015-vlm | draft | T-015-034 | - |
-| P-015-12 | 015-vlm | draft | T-015-012, T-015-070 | - |
+| P-015-01 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/pipeline/test_t_015_036_reference_parity.py |
+| P-015-02 | 015-vlm | draft | T-015-037 | tests/metamorphic/test_t_015_037_mcnemar.py, tests/pipeline/test_t_015_037_mcnemar_parity.py |
+| P-015-03 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/pipeline/test_t_015_036_reference_parity.py |
+| P-015-04 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/pipeline/test_t_015_036_reference_parity.py |
+| P-015-05 | 015-vlm | draft | T-015-021 | tests/unit/test_t_015_021_agreement_gate.py |
+| P-015-06 | 015-vlm | draft | T-015-041 | tests/metamorphic/test_t_015_041_task_b_scoring.py |
+| P-015-07 | 015-vlm | draft | T-015-050 | tests/metamorphic/test_t_015_050_caption_scoring.py |
+| P-015-08 | 015-vlm | draft | T-015-031, T-015-032 | tests/metamorphic/test_t_015_031_truth_types_1_3.py, tests/metamorphic/test_t_015_032_truth_types_4_6.py |
+| P-015-09 | 015-vlm | draft | T-015-035 | tests/unit/test_t_015_035_arms_detector_rule.py |
+| P-015-10 | 015-vlm | draft | T-015-040 | tests/unit/test_t_015_040_plausibility_pairs.py |
+| P-015-11 | 015-vlm | draft | T-015-034 | tests/property/test_t_015_034_answer_parser.py |
+| P-015-12 | 015-vlm | draft | T-015-012, T-015-070 | tests/gpu/test_t_015_070_reason_local.py, tests/pipeline/test_t_015_012_gguf_conversion.py |
 | P-016-01 | 016-export-acceleration | draft | T-016-012 | - |
 | P-016-02 | 016-export-acceleration | draft | T-016-012 | - |
 | P-016-03 | 016-export-acceleration | draft | T-016-012 | - |
@@ -1653,12 +1653,12 @@
 | SC-014-08 | 014-robot-learning | draft | T-014-045 | - |
 | SC-014-09 | 014-robot-learning | draft | T-014-044 | - |
 | SC-014-10 | 014-robot-learning | draft | T-014-041 | - |
-| SC-015-01 | 015-vlm | draft | T-015-021 | - |
-| SC-015-02 | 015-vlm | draft | T-015-036 | - |
-| SC-015-03 | 015-vlm | draft | T-015-037 | - |
-| SC-015-04 | 015-vlm | draft | T-015-061 | - |
-| SC-015-05 | 015-vlm | draft | T-015-041 | - |
-| SC-015-06 | 015-vlm | draft | T-015-050 | - |
+| SC-015-01 | 015-vlm | draft | T-015-021 | tests/gpu/test_t_015_071_agreement_real.py, tests/unit/test_t_015_021_agreement_gate.py |
+| SC-015-02 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py |
+| SC-015-03 | 015-vlm | draft | T-015-037 | tests/metamorphic/test_t_015_037_mcnemar.py |
+| SC-015-04 | 015-vlm | draft | T-015-061 | tests/contract/test_t_015_061_not_headline.py |
+| SC-015-05 | 015-vlm | draft | T-015-041 | tests/metamorphic/test_t_015_041_task_b_scoring.py |
+| SC-015-06 | 015-vlm | draft | T-015-050 | tests/metamorphic/test_t_015_050_caption_scoring.py |
 | SC-016-01 | 016-export-acceleration | draft | T-016-045 | - |
 | SC-016-02 | 016-export-acceleration | draft | T-016-014 | - |
 | SC-016-03 | 016-export-acceleration | draft | T-016-021 | - |
