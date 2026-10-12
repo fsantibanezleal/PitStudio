@@ -37,6 +37,10 @@ def skipped_in(report: Path) -> list[str]:
 
 
 def main(argv: list[str]) -> int:
+    marker = "not gpu and not slow"
+    rest = argv[1:]
+    if rest[:1] == ["--marker"] and len(rest) >= 2:
+        marker, rest = rest[1], rest[2:]
     files = test_files()
     if not files:
         print("no test file of specs 004 to 006 found")
@@ -48,9 +52,9 @@ def main(argv: list[str]) -> int:
             "-m",
             "pytest",
             "-m",
-            "not gpu and not slow",
+            marker,
             f"--junitxml={report}",
-            *argv[1:],
+            *rest,
             *(str(f) for f in files),
         ]
         code = subprocess.run(command, cwd=ROOT, check=False).returncode
