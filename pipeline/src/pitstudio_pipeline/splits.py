@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from pitstudio.contracts.jcs import canonicalize
-from pitstudio_pipeline.errors import LinksInvalid
+from pitstudio_pipeline.errors import LinksInvalid, SplitIntegrityError
 
 MENDELEY_ID = "mendeley-78ht3pjsr4"
 MENDELEY_LINKS: tuple[tuple[int, int], ...] = (
@@ -217,11 +217,91 @@ def write_mendeley_split(
     return doc
 
 
+def _first_integrity_problem(doc: Mapping[str, Any]) -> tuple[str, str | None] | None:
+    """(message, first offending record) of the first structural problem of a schema-valid split, or None."""
+    group_of: dict[str, str] = {}
+    for group in doc["groups"]:
+        for member in group["members"]:
+            if member in group_of:
+                return "a record is in two groups", member
+            group_of[member] = group["id"]
+    members_of = {g["id"]: g["members"] for g in doc["groups"]}
+    seen_in_test: set[str] = set()
+    for fold in doc["folds"]:
+        pool = set(fold["train_pool"])
+        for record in fold["test"]:
+            if record in seen_in_test:
+                return "a record is in two test lists", record
+            seen_in_test.add(record)
+            if record in pool:
+                return "a record is in both the test list and the training pool of one fold", record
+            if record not in group_of:
+                return "a test record belongs to no group", record
+            if any(member in pool for member in members_of[group_of[record]]):
+                return "a group is in both the test list and the training pool of one fold", record
+    return None
+
+
+def load_split(path: Path | str) -> dict[str, Any]:
+    """Parse and check a split file; `SplitIntegrityError` unless its schema, structure and digest are all intact.
+
+    Every consumer of a split (`s20`, `s30`, `s50`) reads it through this function (FR-008-47). The error names the
+    first offending record when one exists.
+    """
+    from pitstudio.contracts.io import ContractError, load_json
+    from pitstudio_pipeline._contracts import schema_errors
+
+    try:
+        doc = load_json(Path(path))
+    except ContractError as exc:
+        raise SplitIntegrityError(f"the split file cannot be read: {exc.reason}") from None
+    failures = schema_errors("split.schema.json", doc)
+    if failures:
+        pointer, message = failures[0]
+        raise SplitIntegrityError(f"the split file fails its schema at {pointer or '/'}: {message}")
+    problem = _first_integrity_problem(doc)
+    if problem is not None:
+        raise SplitIntegrityError(*problem)
+    if membership_sha256(doc["groups"], doc["folds"]) != doc["membership_sha256"]:
+        raise SplitIntegrityError("the membership SHA-256 differs from the lists")
+    assert isinstance(doc, dict)
+    return doc
+
+
+def carve_validation(doc: Mapping[str, Any], fold: int, *, fraction: float, seed: int) -> dict[str, list[str]]:
+    """A validation subset carved from the training pool of `fold`, by group: a group is wholly on one side (FR-008-30).
+
+    Groups are drawn in a seeded order until about `fraction` of the pool's records are taken; at least one group
+    stays in the training side.
+    """
+    if not isinstance(fraction, int | float) or not 0.0 < fraction < 1.0:
+        raise ValueError("fraction must be strictly between 0 and 1")
+    seed = _check_seed(seed)
+    folds = doc["folds"]
+    if not _is_int(fold) or not 0 <= fold < len(folds):
+        raise ValueError(f"fold {fold!r} does not exist")
+    pool = set(folds[fold]["train_pool"])
+    by_group = {g["id"]: sorted(m for m in g["members"] if m in pool) for g in doc["groups"]}
+    by_group = {gid: ms for gid, ms in by_group.items() if ms}
+    order = sorted(by_group)
+    random.Random(seed).shuffle(order)
+    target = max(1, round(fraction * len(pool)))
+    validation: list[str] = []
+    for position, gid in enumerate(order):
+        if len(validation) >= target or position == len(order) - 1:
+            break
+        validation.extend(by_group[gid])
+    taken = set(validation)
+    return {"train": sorted(pool - taken), "validation": sorted(taken)}
+
+
 __all__ = [
     "MENDELEY_LINKS",
     "build_mendeley_split",
+    "carve_validation",
     "greedy_folds",
     "group_mendeley",
+    "load_split",
     "membership_sha256",
     "validate_links",
     "write_mendeley_split",
