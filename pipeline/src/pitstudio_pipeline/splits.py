@@ -11,7 +11,9 @@ Record ids are strings. The Mendeley files are numbered 1 ... 960 and their ids 
 from __future__ import annotations
 
 import hashlib
+import math
 import random
+import re
 from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
@@ -295,11 +297,139 @@ def carve_validation(doc: Mapping[str, Any], fold: int, *, fraction: float, seed
     return {"train": sorted(pool - taken), "validation": sorted(taken)}
 
 
+_RECORD_ID = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9._-]{0,127}$")
+_SLUG = re.compile(r"^[a-z0-9][a-z0-9-]{0,63}$")
+_VERSION = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$")
+SEEDED_RULES = {  # FR-008-31: rule -> (record field, key prefix)
+    "scenario-seed": ("scenario_seed", "seed"),
+    "event-seed": ("event_seed", "event"),
+    "muck-pile-id": ("muck_pile_id", "muck"),
+    "pit-layout-id": ("pit_layout_id", "layout"),
+    "scene-seed": ("scene_seed", "scene"),
+}
+SPATIAL_RULE, SINGLE_RULE = "project-spatial-block", "single-group"
+MAX_BLOCK_M = 1_000_000.0
+
+
+def _key_text(value: Any, what: str) -> str:
+    """A key value as text; it must make a valid group id, and equal values give equal text."""
+    if isinstance(value, bool) or value is None:
+        raise ValueError(f"{what}: {value!r} is not a usable key value")
+    if isinstance(value, float):
+        if not value.is_integer():
+            raise ValueError(f"{what}: {value!r} is not a usable key value")
+        value = int(value)
+    text = str(value)
+    if not _RECORD_ID.match(text):
+        raise ValueError(f"{what}: {text[:40]!r} cannot be part of a group id")
+    return text
+
+
+def group_key(rule: str, record: Mapping[str, Any], *, block_size_m: float | None = None) -> str:
+    """The group of `record` under `rule` (FR-008-31). Equal keys exactly when the defining values are equal.
+
+    Seeded types key on their seed or id field; real terrain tiles on (project, spatial block), the block being the
+    integer floor division of the coordinates by `block_size_m`; the single real slope-failure series is one group.
+    """
+    if rule == SINGLE_RULE:
+        return "single"
+    if rule in SEEDED_RULES:
+        field, prefix = SEEDED_RULES[rule]
+        if field not in record:
+            raise ValueError(f"the record has no field {field!r} (rule {rule})")
+        return f"{prefix}-{_key_text(record[field], field)}"
+    if rule == SPATIAL_RULE:
+        size = block_size_m
+        if size is None or not isinstance(size, int | float) or not math.isfinite(size) or size <= 0:
+            raise ValueError("the spatial block size must be declared, positive and finite")
+        for field in ("project", "x", "y"):
+            if field not in record:
+                raise ValueError(f"the record has no field {field!r} (rule {rule})")
+        x, y = record["x"], record["y"]
+        if not (isinstance(x, int | float) and isinstance(y, int | float) and math.isfinite(x) and math.isfinite(y)):
+            raise ValueError("the coordinates must be finite numbers")
+        project = _key_text(record["project"], "project")
+        if "__" in project:
+            raise ValueError("a project name cannot contain a double underscore")
+        return f"{project}__{int(x // size)}_{int(y // size)}"
+    raise ValueError(f"unknown group-key rule {rule!r}")
+
+
+def build_split(
+    dataset_id: str,
+    version: str,
+    kind: str,
+    rule: str,
+    records: Sequence[Mapping[str, Any]],
+    *,
+    seed: int | None = None,
+    n_folds: int = 5,
+    block_size_m: float | None = None,
+) -> dict[str, Any]:
+    """A split document over `records` (mappings with an `id` and the key field of `rule`), at group level.
+
+    One group per key; `n_folds` seeded greedy folds by record count (FR-008-30 rule), the test list holding the fold's
+    records and the training pool all the others. `single-group` gives one group, method `none` and no folds.
+    """
+    if not isinstance(dataset_id, str) or not _SLUG.match(dataset_id):
+        raise ValueError("the dataset id must be a lowercase slug")
+    if not isinstance(version, str) or not _VERSION.match(version):
+        raise ValueError("the dataset version has an invalid form")
+    if kind not in ("real", "synthetic"):
+        raise ValueError("kind must be `real` or `synthetic`")
+    if not records:
+        raise ValueError("a split needs at least one record")
+    ids = []
+    for record in records:
+        rid = record.get("id")
+        if not isinstance(rid, str) or not _RECORD_ID.match(rid):
+            raise ValueError(f"record id {str(rid)[:40]!r} is not a valid split record id")
+        ids.append(rid)
+    if len(set(ids)) != len(ids):
+        raise ValueError("record ids must be unique")
+    groups: dict[str, list[str]] = {}
+    for record in records:
+        groups.setdefault(group_key(rule, record, block_size_m=block_size_m), []).append(record["id"])
+    key_doc: dict[str, Any] = {"rule": rule}
+    if rule == SPATIAL_RULE:
+        key_doc["block_size_m"] = float(block_size_m)  # type: ignore[arg-type]  # group_key rejected None above
+    dataset = {"id": dataset_id, "version": version, "kind": kind}
+    if rule == SINGLE_RULE:
+        doc = _assemble(
+            dataset=dataset, group_key=key_doc, links=[], groups=groups, seed=None, fold_groups=[], all_records=ids
+        )
+    else:
+        folds_n = n_folds
+        if not _is_int(folds_n) or not 2 <= folds_n <= 20:
+            raise ValueError("n_folds must be an integer in 2 ... 20")
+        if len(groups) < folds_n:
+            raise ValueError(f"{len(groups)} groups cannot fill {folds_n} folds")
+        if seed is None:
+            raise ValueError("a seed is required for a seeded split")
+        doc = _assemble(
+            dataset=dataset,
+            group_key=key_doc,
+            links=[],
+            groups=groups,
+            seed=_check_seed(seed),
+            fold_groups=greedy_folds({g: len(ms) for g, ms in groups.items()}, _check_seed(seed), folds_n),
+            all_records=ids,
+        )
+    from pitstudio_pipeline._contracts import schema_errors
+
+    failures = schema_errors("split.schema.json", doc)
+    if failures:
+        raise ValueError(f"the split would not satisfy its schema at {failures[0][0] or '/'}: {failures[0][1]}")
+    return doc
+
+
 __all__ = [
     "MENDELEY_LINKS",
     "build_mendeley_split",
+    "build_split",
     "carve_validation",
     "greedy_folds",
+    "group_key",
     "group_mendeley",
     "load_split",
     "membership_sha256",
