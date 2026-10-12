@@ -130,6 +130,27 @@
       "unavailable": "No se pudo cargar la referencia en Python"
     }
   },
+  "clock": {
+    "label": "Reloj de simulación",
+    "play": "Reproducir",
+    "pause": "Pausar",
+    "stepBack": "Paso atrás",
+    "stepForward": "Paso adelante",
+    "time": "Tiempo",
+    "seconds": "{{t}} s"
+  },
+  "video": {
+    "title": "Video de reproducción",
+    "unavailable": "Video no disponible en este navegador",
+    "integrity": "falló la verificación de integridad",
+    "state": {
+      "idle": "sin cargar",
+      "loading": "cargando",
+      "playing": "reproduciendo",
+      "unavailable": "no disponible",
+      "integrity-failed": "bloqueado"
+    }
+  },
   "charts": {
     "chartTitle": "Gráfico de {{name}}",
     "interval": "intervalo de la diferencia",

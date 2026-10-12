@@ -130,6 +130,27 @@
       "unavailable": "Python reference could not load"
     }
   },
+  "clock": {
+    "label": "Simulation clock",
+    "play": "Play",
+    "pause": "Pause",
+    "stepBack": "Step back",
+    "stepForward": "Step forward",
+    "time": "Time",
+    "seconds": "{{t}} s"
+  },
+  "video": {
+    "title": "Replay video",
+    "unavailable": "Video not available in this browser",
+    "integrity": "integrity check failed",
+    "state": {
+      "idle": "not loaded",
+      "loading": "loading",
+      "playing": "playing",
+      "unavailable": "unavailable",
+      "integrity-failed": "blocked"
+    }
+  },
   "charts": {
     "chartTitle": "Chart of {{name}}",
     "interval": "interval of the difference",
