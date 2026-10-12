@@ -37,6 +37,20 @@ jobs:
         working-directory: pipeline
         run: uv sync --extra cpu --all-groups --locked && uv run pytest -m "not gpu and not slow"
 
+  studio:
+    # The studio environment (OpenUSD, rasterio, laspy) runs the scene tests of specs 004 to 006 on CPU only; tools/studio_pytest.py
+    # fails the job when one of those tests is skipped. Never a GPU runner (NFR-004-03).
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - run: uv run --project studio --frozen python tools/studio_pytest.py # runs pytest -m "not gpu and not slow" on the specs 004 to 006 tests
+
   web:
     runs-on: ubuntu-24.04
     defaults: { run: { working-directory: web } }

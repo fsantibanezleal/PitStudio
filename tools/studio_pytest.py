@@ -1,0 +1,64 @@
+"""Run the studio-environment tests of specs 004 to 006 and fail when any of them is skipped (T-004-002).
+
+Usage:  uv run --project studio --frozen python tools/studio_pytest.py [pytest arguments]
+The tests live in the root `tests/` tree and need `pxr`, `rasterio`, `laspy` and friends, which only the studio
+environment has; the root CI job skips such modules. This runner collects the test files of specs 004 to 006, runs them
+with `-m "not gpu and not slow"` (plus any extra arguments), and exits non-zero when pytest fails or when one of
+those files reports a skipped test, so that a skip in the root job can never hide a missing run.
+Exit:    0 all passed and none skipped, 1 a test failed or was skipped, 2 no test file found.
+"""
+
+from __future__ import annotations
+
+import subprocess
+import sys
+import tempfile
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+SPECS = ("004", "005", "006")
+
+
+def test_files() -> list[Path]:
+    found: list[Path] = []
+    for spec in SPECS:
+        found.extend(sorted((ROOT / "tests").rglob(f"test_t_{spec}_*.py")))
+    return found
+
+
+def skipped_in(report: Path) -> list[str]:
+    tree = ET.parse(report)
+    return [
+        f"{case.get('classname')}::{case.get('name')}"
+        for case in tree.iter("testcase")
+        if case.find("skipped") is not None
+    ]
+
+
+def main(argv: list[str]) -> int:
+    files = test_files()
+    if not files:
+        print("no test file of specs 004 to 006 found")
+        return 2
+    with tempfile.TemporaryDirectory() as tmp:
+        report = Path(tmp) / "junit.xml"
+        command = [
+            sys.executable,
+            "-m",
+            "pytest",
+            "-m",
+            "not gpu and not slow",
+            f"--junitxml={report}",
+            *argv[1:],
+            *(str(f) for f in files),
+        ]
+        code = subprocess.run(command, cwd=ROOT, check=False).returncode
+        skipped = skipped_in(report) if report.is_file() else []
+    for name in skipped:
+        print(f"SKIPPED in the studio job: {name}")
+    return 1 if code or skipped else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))
