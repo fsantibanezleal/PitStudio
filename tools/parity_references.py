@@ -682,11 +682,74 @@ def gen_comminution(root: Path) -> list[Path]:
     return written
 
 
+def gen_mincut(root: Path) -> list[Path]:
+    """Golden instances of the ultimate pit, run on the reference.
+
+    The reference numbers a block (x ny + y) nz + z with z the level; the engine of the browser numbers it
+    (level rows + row) cols + col (T-018-071). The instance is permuted into the reference grid, solved there, and the
+    pit is mapped back, so the fixture states the engine's numbering.
+    """
+    mp = minephys()
+    pl = importlib.import_module("minephys.planning")
+    rng = np.random.default_rng(SEED + 4)
+    cases: list[dict[str, Any]] = []
+    plan = [(2, 1, 1), (2, 3, 3), (1, 2, 3), (3, 2, 2), (3, 3, 3)] * 2
+    plan += [(int(rng.integers(2, 9)), int(rng.integers(2, 13)), int(rng.integers(2, 13))) for _ in range(22)]
+    plan += [(8, 20, 20), (6, 25, 25), (10, 30, 30)]
+    for k, (levels, rows, cols) in enumerate(plan):
+        pattern = "1-9" if k % 3 == 2 else "1-5"
+        n = levels * rows * cols
+        small = n <= 27
+        depth = np.repeat(np.arange(levels), rows * cols)
+        if small:
+            values = rng.integers(-20, 21, n)
+        else:
+            values = rng.integers(-1000, 1001, n) + depth * int(rng.integers(40, 160))
+        values = values.astype(np.int64)
+        lv, rw, cl = (
+            np.divmod(np.arange(n), rows * cols)[0],
+            np.divmod(np.divmod(np.arange(n), rows * cols)[1], cols)[0],
+            np.arange(n) % cols,
+        )
+        ref_index = (cl * rows + rw) * levels + lv  # reference numbering of every engine block
+        ref_values = np.zeros(n, dtype=np.int64)
+        ref_values[ref_index] = values
+        arcs = pl.regular_grid_precedence((cols, rows, levels), pattern)
+        pit = pl.ultimate_pit_mincut(ref_values.astype(np.float64), arcs)
+        engine_blocks = sorted(int(b) for b in np.flatnonzero(values * 0 + np.asarray(pit.mask)[ref_index]))
+        cases.append(
+            {
+                "name": f"v{k}",
+                "input": {
+                    "shape": {"levels": levels, "rows": rows, "cols": cols},
+                    "block_count": n,
+                    "pattern": pattern,
+                    "values_cents": [int(v) for v in values],
+                },
+                "output": {
+                    "pit_value_cents": round(_f(pit.value)),
+                    "block_count": len(engine_blocks),
+                    "blocks": engine_blocks,
+                },
+            }
+        )
+    doc = mpf.build_fixture(
+        "mincut",
+        "ultimate_pit",
+        "ultimate-pit",
+        reference(mp, "minephys.planning.ultimate_pit_mincut"),
+        {"class": "min-cut", "objective_rtol": 1e-12},
+        cases,
+    )
+    return [mpf.write_fixture(root, doc, gzip=True)]
+
+
 GENERATORS: dict[str, Callable[[Path], list[Path]]] = {
     "geotech": gen_geotech,
     "plume": gen_plume,
     "blasting": gen_blasting,
     "comminution": gen_comminution,
+    "mincut": gen_mincut,
 }
 
 
