@@ -22,3 +22,4 @@ e61c10991dabb620beec39f4f6d0df32441b9e0e6e1d620dde4e0702e6d7b29a  tests/_sensor_
 89c6f0a405ef7ef444a2a4a5f815a21fb458da779586d401ecd5bff856e8d971  web/src/engines/sensors/__fixtures__/dust-golden-1.json
 e2044b78ebb504094d5512fd98aa8139420f35bf902518ec75cf532ffc48e6de  web/src/engines/sensors/__fixtures__/dust-golden-2.json
 9c505f273b8006494cb7d3fffaf8817b3b9ab8baf1a4d76b5306c748e7caa553  web/src/engines/sensors/__fixtures__/dust-golden-3.json
+528355ef827135b90e14dedf152a387d88fee79b55a438d119f54a6f45d570c1  web/src/engines/sensors/beam-hash.test.ts
