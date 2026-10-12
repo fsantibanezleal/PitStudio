@@ -59,3 +59,33 @@ def schema_errors(name: str, document: Any) -> list[tuple[str, str]]:
         pointer = "".join("/" + str(p).replace("~", "~0").replace("/", "~1") for p in error.absolute_path)
         out.append((pointer, error.message[:200]))
     return sorted(out)
+
+
+def _pointer(error: Any) -> str:
+    return "".join("/" + str(p).replace("~", "~0").replace("/", "~1") for p in error.absolute_path)
+
+
+def _leaf(error: Any) -> Any:
+    """Descend a failing `oneOf` / `anyOf` into the one branch with the fewest errors (the one the document is closest
+    to); when several branches tie there is no closest one and the combinator itself is the error."""
+    context = list(error.context or [])
+    if not context:
+        return error
+    branches: dict[Any, list[Any]] = {}
+    for c in context:
+        branches.setdefault(c.schema_path[0] if c.schema_path else 0, []).append(c)
+    fewest = min(len(b) for b in branches.values())
+    closest = [b for b in branches.values() if len(b) == fewest]
+    if len(closest) != 1:
+        return error
+    return _leaf(min(closest[0], key=lambda c: ([str(p) for p in c.absolute_path], c.message)))
+
+
+def best_error(name: str, document: Any) -> tuple[str, str] | None:
+    """The first violation as (JSON pointer, message), or `None`: errors ordered by pointer, and a failing combinator
+    reported at the error of its closest branch instead of at its own pointer."""
+    errors = sorted(_validator(name).iter_errors(document), key=lambda e: ([str(p) for p in e.absolute_path], e.message))
+    if not errors:
+        return None
+    leaf = _leaf(errors[0])
+    return _pointer(leaf), leaf.message[:200]
