@@ -9,5 +9,7 @@ export default [
   route("methods", "routes/methods.tsx"),
   route("results", "routes/results.tsx"),
   route("knowledge", "routes/knowledge.tsx"),
+  // Unlisted sandbox of the interactive chart (driven by the browser tests, not linked from the navigation).
+  route("charts", "routes/charts.tsx"),
   route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;

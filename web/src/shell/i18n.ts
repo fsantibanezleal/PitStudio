@@ -2,10 +2,12 @@ import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import appEn from "~/locales/en/app.json";
 import casesEn from "~/locales/en/cases.json";
+import chartsEn from "~/locales/en/charts.json";
 import resultsEn from "~/locales/en/results.json";
 import shellEn from "~/locales/en/shell.json";
 import appEs from "~/locales/es/app.json";
 import casesEs from "~/locales/es/cases.json";
+import chartsEs from "~/locales/es/charts.json";
 import resultsEs from "~/locales/es/results.json";
 import shellEs from "~/locales/es/shell.json";
 import { DEFAULT_LANGUAGE, LANGUAGES } from "./prefs";
@@ -18,11 +20,11 @@ void i18n.use(initReactI18next).init({
   lng: DEFAULT_LANGUAGE,
   fallbackLng: DEFAULT_LANGUAGE,
   supportedLngs: [...LANGUAGES],
-  ns: ["shell", "app", "cases", "results"],
+  ns: ["shell", "app", "cases", "results", "charts"],
   defaultNS: "app",
   resources: {
-    en: { shell: shellEn, app: appEn, cases: casesEn, results: resultsEn },
-    es: { shell: shellEs, app: appEs, cases: casesEs, results: resultsEs },
+    en: { shell: shellEn, app: appEn, cases: casesEn, results: resultsEn, charts: chartsEn },
+    es: { shell: shellEs, app: appEs, cases: casesEs, results: resultsEs, charts: chartsEs },
   },
   interpolation: { escapeValue: false },
   initAsync: false,

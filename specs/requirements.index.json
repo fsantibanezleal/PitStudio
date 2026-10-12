@@ -86,7 +86,10 @@
       "tasks": [
         "T-018-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/tier/t_018_011_fallback.test.ts",
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-000-03": {
       "spec": "000-foundation",
@@ -126,7 +129,10 @@
         "T-018-032",
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_030_verdict.test.ts",
+        "web/src/routes/t_018_032_charts_tab.test.tsx"
+      ]
     },
     "FR-000-06": {
       "spec": "000-foundation",
@@ -138,7 +144,9 @@
         "T-019-022"
       ],
       "tests": [
-        "web/src/cards/t_018_034_artefact_card.test.tsx"
+        "web/src/cards/t_018_034_artefact_card.test.tsx",
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
       ]
     },
     "FR-000-07": {
@@ -149,7 +157,10 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
+      ]
     },
     "FR-000-08": {
       "spec": "000-foundation",
@@ -161,7 +172,10 @@
         "T-019-034",
         "T-020-035"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_035_acceleration.test.tsx",
+        "web/src/studio/telemetry/t_019_034_local_only.test.tsx"
+      ]
     },
     "FR-000-09": {
       "spec": "000-foundation",
@@ -173,6 +187,7 @@
         "T-020-033"
       ],
       "tests": [
+        "web/src/results/t_020_033_gaps_parity.test.tsx",
         "web/src/routes/t_018_033_context_tab.test.tsx"
       ]
     },
@@ -198,7 +213,9 @@
         "T-018-014",
         "T-019-035"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_035_no_loopback.spec.ts"
+      ]
     },
     "FR-000-12": {
       "spec": "000-foundation",
@@ -9331,7 +9348,9 @@
       "tasks": [
         "T-011-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py"
+      ]
     },
     "FR-011-02": {
       "spec": "011-surrogates",
@@ -9341,7 +9360,10 @@
       "tasks": [
         "T-011-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_011_radius_graph.py",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "FR-011-03": {
       "spec": "011-surrogates",
@@ -9351,7 +9373,9 @@
       "tasks": [
         "T-011-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_014_gns_training.py"
+      ]
     },
     "FR-011-04": {
       "spec": "011-surrogates",
@@ -9361,7 +9385,9 @@
       "tasks": [
         "T-011-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_014_gns_training.py"
+      ]
     },
     "FR-011-05": {
       "spec": "011-surrogates",
@@ -9371,7 +9397,9 @@
       "tasks": [
         "T-011-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_013_observables.py"
+      ]
     },
     "FR-011-06": {
       "spec": "011-surrogates",
@@ -9381,7 +9409,9 @@
       "tasks": [
         "T-011-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py"
+      ]
     },
     "FR-011-07": {
       "spec": "011-surrogates",
@@ -9391,7 +9421,9 @@
       "tasks": [
         "T-011-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_012_gns_export.py"
+      ]
     },
     "FR-011-08": {
       "spec": "011-surrogates",
@@ -9401,7 +9433,9 @@
       "tasks": [
         "T-011-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_016_gns_parity.py"
+      ]
     },
     "FR-011-09": {
       "spec": "011-surrogates",
@@ -9411,7 +9445,9 @@
       "tasks": [
         "T-011-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-gns-live.spec.ts"
+      ]
     },
     "FR-011-10": {
       "spec": "011-surrogates",
@@ -9421,7 +9457,9 @@
       "tasks": [
         "T-011-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py"
+      ]
     },
     "FR-011-11": {
       "spec": "011-surrogates",
@@ -9431,7 +9469,9 @@
       "tasks": [
         "T-011-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-gns-live.spec.ts"
+      ]
     },
     "FR-011-12": {
       "spec": "011-surrogates",
@@ -9441,7 +9481,10 @@
       "tasks": [
         "T-011-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py",
+        "tests/unit/test_t_011_017_rollout_guards.py"
+      ]
     },
     "FR-011-13": {
       "spec": "011-surrogates",
@@ -9451,7 +9494,12 @@
       "tasks": [
         "T-011-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py",
+        "tests/property/test_t_011_011_radius_graph.py",
+        "tests/unit/test_t_011_017_rollout_guards.py",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "FR-011-14": {
       "spec": "011-surrogates",
@@ -9461,7 +9509,9 @@
       "tasks": [
         "T-011-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_018_rollout_ingest.py"
+      ]
     },
     "FR-011-15": {
       "spec": "011-surrogates",
@@ -9471,7 +9521,13 @@
       "tasks": [
         "T-011-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_019_gns_input_guards.py",
+        "tests/property/test_t_011_011_radius_graph.py",
+        "tests/unit/test_t_011_017_rollout_guards.py",
+        "web/src/engines/gns/inputGuards.test.ts",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "FR-011-16": {
       "spec": "011-surrogates",
@@ -9481,7 +9537,9 @@
       "tasks": [
         "T-011-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_021_gns_speed_report.py"
+      ]
     },
     "FR-011-17": {
       "spec": "011-surrogates",
@@ -9491,7 +9549,10 @@
       "tasks": [
         "T-011-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_034_tape_arm.py",
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-18": {
       "spec": "011-surrogates",
@@ -9501,7 +9562,9 @@
       "tasks": [
         "T-011-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_030_heap_observables.py"
+      ]
     },
     "FR-011-19": {
       "spec": "011-surrogates",
@@ -9511,7 +9574,9 @@
       "tasks": [
         "T-011-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_034_tape_arm.py"
+      ]
     },
     "FR-011-20": {
       "spec": "011-surrogates",
@@ -9521,7 +9586,9 @@
       "tasks": [
         "T-011-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_033_cmaes_arm.py"
+      ]
     },
     "FR-011-21": {
       "spec": "011-surrogates",
@@ -9531,7 +9598,10 @@
       "tasks": [
         "T-011-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_033_cmaes_arm.py",
+        "tests/unit/test_t_011_034_tape_arm.py"
+      ]
     },
     "FR-011-22": {
       "spec": "011-surrogates",
@@ -9541,7 +9611,9 @@
       "tasks": [
         "T-011-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_031_interval_coverage.py"
+      ]
     },
     "FR-011-23": {
       "spec": "011-surrogates",
@@ -9551,7 +9623,9 @@
       "tasks": [
         "T-011-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_032_gradient_gate.py"
+      ]
     },
     "FR-011-24": {
       "spec": "011-surrogates",
@@ -9561,7 +9635,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "FR-011-25": {
       "spec": "011-surrogates",
@@ -9571,7 +9647,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "FR-011-26": {
       "spec": "011-surrogates",
@@ -9581,7 +9659,10 @@
       "tasks": [
         "T-011-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_036_calibration_result.py",
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-27": {
       "spec": "011-surrogates",
@@ -9591,7 +9672,9 @@
       "tasks": [
         "T-011-037"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_037_secondary_arm.py"
+      ]
     },
     "FR-011-28": {
       "spec": "011-surrogates",
@@ -9601,7 +9684,9 @@
       "tasks": [
         "T-011-038"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_038_literature_targets.py"
+      ]
     },
     "FR-011-29": {
       "spec": "011-surrogates",
@@ -9611,7 +9696,9 @@
       "tasks": [
         "T-011-039"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-30": {
       "spec": "011-surrogates",
@@ -9621,7 +9708,9 @@
       "tasks": [
         "T-011-039"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-31": {
       "spec": "011-surrogates",
@@ -9631,7 +9720,9 @@
       "tasks": [
         "T-011-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-calibration-replay.spec.ts"
+      ]
     },
     "FR-011-32": {
       "spec": "011-surrogates",
@@ -9641,7 +9732,10 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_051_fno_model.py",
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "FR-011-33": {
       "spec": "011-surrogates",
@@ -9651,7 +9745,9 @@
       "tasks": [
         "T-011-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_051_fno_model.py"
+      ]
     },
     "FR-011-34": {
       "spec": "011-surrogates",
@@ -9661,7 +9757,9 @@
       "tasks": [
         "T-011-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_052_field_ingest.py"
+      ]
     },
     "FR-011-35": {
       "spec": "011-surrogates",
@@ -9671,7 +9769,9 @@
       "tasks": [
         "T-011-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_053_fno_evaluate.py"
+      ]
     },
     "FR-011-36": {
       "spec": "011-surrogates",
@@ -9681,7 +9781,9 @@
       "tasks": [
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "FR-011-37": {
       "spec": "011-surrogates",
@@ -9691,7 +9793,9 @@
       "tasks": [
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "FR-011-38": {
       "spec": "011-surrogates",
@@ -9701,7 +9805,9 @@
       "tasks": [
         "T-011-056"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c2-c3-fno-live.spec.ts"
+      ]
     },
     "FR-011-39": {
       "spec": "011-surrogates",
@@ -9711,7 +9817,9 @@
       "tasks": [
         "T-011-056"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c2-c3-fno-live.spec.ts"
+      ]
     },
     "FR-011-40": {
       "spec": "011-surrogates",
@@ -9721,7 +9829,12 @@
       "tasks": [
         "T-011-055"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_051_fno_model.py",
+        "tests/pipeline/test_t_011_052_field_ingest.py",
+        "tests/pipeline/test_t_011_055_fno_input_guards.py",
+        "web/src/engines/fno/inputGuards.test.ts"
+      ]
     },
     "FR-011-41": {
       "spec": "011-surrogates",
@@ -9731,7 +9844,9 @@
       "tasks": [
         "T-011-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_052_field_ingest.py"
+      ]
     },
     "FR-011-42": {
       "spec": "011-surrogates",
@@ -9741,7 +9856,9 @@
       "tasks": [
         "T-011-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_053_fno_evaluate.py"
+      ]
     },
     "FR-011-43": {
       "spec": "011-surrogates",
@@ -9751,7 +9868,9 @@
       "tasks": [
         "T-011-057"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_057_neuraloperator_parity.py"
+      ]
     },
     "FR-011-44": {
       "spec": "011-surrogates",
@@ -9761,7 +9880,9 @@
       "tasks": [
         "T-011-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_060_gpu_fake.py"
+      ]
     },
     "FR-011-45": {
       "spec": "011-surrogates",
@@ -9771,7 +9892,9 @@
       "tasks": [
         "T-011-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_061_surrogate_manifests.py"
+      ]
     },
     "FR-011-46": {
       "spec": "011-surrogates",
@@ -9781,7 +9904,9 @@
       "tasks": [
         "T-011-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_092_surrogate_quantile_order.py"
+      ]
     },
     "FR-011-47": {
       "spec": "011-surrogates",
@@ -9791,7 +9916,9 @@
       "tasks": [
         "T-011-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_093_surrogate_unique_names.py"
+      ]
     },
     "FR-011-48": {
       "spec": "011-surrogates",
@@ -9801,7 +9928,9 @@
       "tasks": [
         "T-011-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_094_rollout_bounds.py"
+      ]
     },
     "FR-011-49": {
       "spec": "011-surrogates",
@@ -9811,7 +9940,9 @@
       "tasks": [
         "T-011-095"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_095_fixture_propagation.py"
+      ]
     },
     "FR-011-50": {
       "spec": "011-surrogates",
@@ -9821,7 +9952,9 @@
       "tasks": [
         "T-011-096"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_096_partial_cases.py"
+      ]
     },
     "FR-011-51": {
       "spec": "011-surrogates",
@@ -9831,7 +9964,9 @@
       "tasks": [
         "T-011-097"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_097_input_stale.py"
+      ]
     },
     "P-011-01": {
       "spec": "011-surrogates",
@@ -9841,7 +9976,9 @@
       "tasks": [
         "T-011-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py"
+      ]
     },
     "P-011-02": {
       "spec": "011-surrogates",
@@ -9851,7 +9988,9 @@
       "tasks": [
         "T-011-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py"
+      ]
     },
     "P-011-03": {
       "spec": "011-surrogates",
@@ -9861,7 +10000,9 @@
       "tasks": [
         "T-011-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_017_rollout_guards.py"
+      ]
     },
     "P-011-04": {
       "spec": "011-surrogates",
@@ -9871,7 +10012,10 @@
       "tasks": [
         "T-011-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_011_radius_graph.py",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "P-011-05": {
       "spec": "011-surrogates",
@@ -9881,7 +10025,10 @@
       "tasks": [
         "T-011-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py",
+        "tests/pipeline/test_t_011_012_gns_export.py"
+      ]
     },
     "P-011-06": {
       "spec": "011-surrogates",
@@ -9891,7 +10038,9 @@
       "tasks": [
         "T-011-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_013_observables.py"
+      ]
     },
     "P-011-07": {
       "spec": "011-surrogates",
@@ -9901,7 +10050,9 @@
       "tasks": [
         "T-011-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_013_observables.py"
+      ]
     },
     "P-011-08": {
       "spec": "011-surrogates",
@@ -9911,7 +10062,9 @@
       "tasks": [
         "T-011-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_030_heap_observables.py"
+      ]
     },
     "P-011-09": {
       "spec": "011-surrogates",
@@ -9921,7 +10074,9 @@
       "tasks": [
         "T-011-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_031_interval_coverage.py"
+      ]
     },
     "P-011-10": {
       "spec": "011-surrogates",
@@ -9931,7 +10086,9 @@
       "tasks": [
         "T-011-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_032_gradient_gate.py"
+      ]
     },
     "P-011-11": {
       "spec": "011-surrogates",
@@ -9941,7 +10098,9 @@
       "tasks": [
         "T-011-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_034_tape_arm.py"
+      ]
     },
     "P-011-12": {
       "spec": "011-surrogates",
@@ -9951,7 +10110,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-13": {
       "spec": "011-surrogates",
@@ -9961,7 +10122,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-14": {
       "spec": "011-surrogates",
@@ -9971,7 +10134,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-15": {
       "spec": "011-surrogates",
@@ -9981,7 +10146,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-16": {
       "spec": "011-surrogates",
@@ -9991,7 +10158,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "NFR-011-01": {
       "spec": "011-surrogates",
@@ -10001,7 +10170,9 @@
       "tasks": [
         "T-011-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_016_gns_parity.py"
+      ]
     },
     "NFR-011-02": {
       "spec": "011-surrogates",
@@ -10011,7 +10182,9 @@
       "tasks": [
         "T-011-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-gns-live.spec.ts"
+      ]
     },
     "NFR-011-03": {
       "spec": "011-surrogates",
@@ -10021,7 +10194,9 @@
       "tasks": [
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "NFR-011-04": {
       "spec": "011-surrogates",
@@ -10031,7 +10206,9 @@
       "tasks": [
         "T-011-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_062_budget_record.py"
+      ]
     },
     "SC-011-01": {
       "spec": "011-surrogates",
@@ -10041,7 +10218,9 @@
       "tasks": [
         "T-011-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py"
+      ]
     },
     "SC-011-02": {
       "spec": "011-surrogates",
@@ -10051,7 +10230,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "SC-011-03": {
       "spec": "011-surrogates",
@@ -10061,7 +10242,9 @@
       "tasks": [
         "T-011-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_053_fno_evaluate.py"
+      ]
     },
     "SC-011-04": {
       "spec": "011-surrogates",
@@ -10072,7 +10255,10 @@
         "T-011-016",
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_016_gns_parity.py",
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "SC-011-05": {
       "spec": "011-surrogates",
@@ -10082,7 +10268,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "SC-011-06": {
       "spec": "011-surrogates",
@@ -10092,7 +10280,9 @@
       "tasks": [
         "T-011-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_036_calibration_result.py"
+      ]
     },
     "DC-011-01": {
       "spec": "011-surrogates",
@@ -14895,7 +15085,9 @@
       "tasks": [
         "T-017-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "FR-017-31": {
       "spec": "017-planning-survey",
@@ -14925,7 +15117,9 @@
       "tasks": [
         "T-017-041"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "FR-017-34": {
       "spec": "017-planning-survey",
@@ -15065,7 +15259,9 @@
       "tasks": [
         "T-017-060"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "FR-017-48": {
       "spec": "017-planning-survey",
@@ -15075,7 +15271,9 @@
       "tasks": [
         "T-017-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "FR-017-49": {
       "spec": "017-planning-survey",
@@ -15145,7 +15343,9 @@
       "tasks": [
         "T-017-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
+      ]
     },
     "P-017-03": {
       "spec": "017-planning-survey",
@@ -15625,7 +15825,9 @@
       "tasks": [
         "T-018-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_020_explore_pit.spec.ts"
+      ]
     },
     "FR-018-02": {
       "spec": "018-web-cases",
@@ -15685,7 +15887,9 @@
       "tasks": [
         "T-018-011"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-018-07": {
       "spec": "018-web-cases",
@@ -15695,7 +15899,9 @@
       "tasks": [
         "T-018-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_020_explore_pit.spec.ts"
+      ]
     },
     "FR-018-08": {
       "spec": "018-web-cases",
@@ -15705,7 +15911,9 @@
       "tasks": [
         "T-018-023"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_023_no_3d_fallback.spec.ts"
+      ]
     },
     "FR-018-09": {
       "spec": "018-web-cases",
@@ -15776,7 +15984,11 @@
       "tasks": [
         "T-018-031"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_050_registry.test.ts",
+        "web/src/routes/t_018_031_case_tabs.test.tsx",
+        "web/e2e/t_018_031_case_tabs.spec.ts"
+      ]
     },
     "FR-018-15": {
       "spec": "018-web-cases",
@@ -15786,7 +15998,10 @@
       "tasks": [
         "T-018-031"
       ],
-      "tests": []
+      "tests": [
+        "web/src/routes/t_018_031_case_tabs.test.tsx",
+        "web/e2e/t_018_031_case_tabs.spec.ts"
+      ]
     },
     "FR-018-16": {
       "spec": "018-web-cases",
@@ -15796,7 +16011,9 @@
       "tasks": [
         "T-018-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/routes/t_018_032_charts_tab.test.tsx"
+      ]
     },
     "FR-018-17": {
       "spec": "018-web-cases",
@@ -15855,7 +16072,10 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts",
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-22": {
       "spec": "018-web-cases",
@@ -15865,7 +16085,10 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts",
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-23": {
       "spec": "018-web-cases",
@@ -15875,7 +16098,9 @@
       "tasks": [
         "T-018-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-24": {
       "spec": "018-web-cases",
@@ -15885,7 +16110,10 @@
       "tasks": [
         "T-018-041"
       ],
-      "tests": []
+      "tests": [
+        "web/src/media/t_018_042_video_source.test.ts",
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-25": {
       "spec": "018-web-cases",
@@ -15895,7 +16123,10 @@
       "tasks": [
         "T-018-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/media/t_018_042_video_source.test.ts",
+        "web/e2e/t_018_042_video_cards.spec.ts"
+      ]
     },
     "FR-018-26": {
       "spec": "018-web-cases",
@@ -15905,7 +16136,10 @@
       "tasks": [
         "T-018-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/media/t_018_042_video_source.test.ts",
+        "web/e2e/t_018_042_video_cards.spec.ts"
+      ]
     },
     "FR-018-27": {
       "spec": "018-web-cases",
@@ -15915,7 +16149,10 @@
       "tasks": [
         "T-018-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/media/t_018_042_video_source.test.ts",
+        "web/e2e/t_018_042_video_cards.spec.ts"
+      ]
     },
     "FR-018-28": {
       "spec": "018-web-cases",
@@ -15925,7 +16162,9 @@
       "tasks": [
         "T-018-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-29": {
       "spec": "018-web-cases",
@@ -15935,7 +16174,12 @@
       "tasks": [
         "T-018-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts",
+        "web/src/engines/tier/t_018_006_fake_gpu.test.ts",
+        "web/src/engines/tier/t_018_010_probe.test.ts",
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-018-30": {
       "spec": "018-web-cases",
@@ -15945,7 +16189,11 @@
       "tasks": [
         "T-018-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/tier/t_018_010_probe.test.ts",
+        "web/src/engines/tier/t_018_011_fallback.test.ts",
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-018-31": {
       "spec": "018-web-cases",
@@ -15955,7 +16203,11 @@
       "tasks": [
         "T-018-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/tier/t_018_006_fake_gpu.test.ts",
+        "web/src/engines/tier/t_018_011_fallback.test.ts",
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-018-32": {
       "spec": "018-web-cases",
@@ -15965,7 +16217,10 @@
       "tasks": [
         "T-018-017"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_050_registry.test.ts",
+        "web/e2e/t_018_017_t2_replay.spec.ts"
+      ]
     },
     "FR-018-33": {
       "spec": "018-web-cases",
@@ -15975,7 +16230,9 @@
       "tasks": [
         "T-018-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_014_runtime_loading.spec.ts"
+      ]
     },
     "FR-018-34": {
       "spec": "018-web-cases",
@@ -15985,7 +16242,9 @@
       "tasks": [
         "T-018-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_014_runtime_loading.spec.ts"
+      ]
     },
     "FR-018-35": {
       "spec": "018-web-cases",
@@ -15995,7 +16254,9 @@
       "tasks": [
         "T-018-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_014_runtime_loading.spec.ts"
+      ]
     },
     "FR-018-36": {
       "spec": "018-web-cases",
@@ -16005,7 +16266,9 @@
       "tasks": [
         "T-018-015"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_015_long_tasks.spec.ts"
+      ]
     },
     "FR-018-37": {
       "spec": "018-web-cases",
@@ -16015,7 +16278,9 @@
       "tasks": [
         "T-018-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_014_runtime_loading.spec.ts"
+      ]
     },
     "FR-018-38": {
       "spec": "018-web-cases",
@@ -16025,7 +16290,9 @@
       "tasks": [
         "T-018-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts"
+      ]
     },
     "FR-018-39": {
       "spec": "018-web-cases",
@@ -16035,7 +16302,9 @@
       "tasks": [
         "T-018-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts"
+      ]
     },
     "FR-018-40": {
       "spec": "018-web-cases",
@@ -16045,7 +16314,10 @@
       "tasks": [
         "T-018-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts",
+        "web/e2e/t_018_036_hostile_inputs.spec.ts"
+      ]
     },
     "FR-018-41": {
       "spec": "018-web-cases",
@@ -16055,7 +16327,9 @@
       "tasks": [
         "T-018-036"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_036_hostile_inputs.spec.ts"
+      ]
     },
     "FR-018-42": {
       "spec": "018-web-cases",
@@ -16065,7 +16339,10 @@
       "tasks": [
         "T-018-036"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/tier/t_018_010_probe.test.ts",
+        "web/e2e/t_018_036_hostile_inputs.spec.ts"
+      ]
     },
     "FR-018-43": {
       "spec": "018-web-cases",
@@ -16075,7 +16352,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "FR-018-44": {
       "spec": "018-web-cases",
@@ -16085,7 +16364,9 @@
       "tasks": [
         "T-018-016"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_016_offline_runtimes.spec.ts"
+      ]
     },
     "FR-018-45": {
       "spec": "018-web-cases",
@@ -16095,7 +16376,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "FR-018-46": {
       "spec": "018-web-cases",
@@ -16105,7 +16388,9 @@
       "tasks": [
         "T-018-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts"
+      ]
     },
     "FR-018-47": {
       "spec": "018-web-cases",
@@ -16115,7 +16400,9 @@
       "tasks": [
         "T-018-050"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_050_registry.test.ts"
+      ]
     },
     "FR-018-48": {
       "spec": "018-web-cases",
@@ -16125,7 +16412,11 @@
       "tasks": [
         "T-018-052"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/src/engines/host/t_018_052_hosted_engines.test.ts",
+        "web/e2e/parity/t_018_052_hosted_report.spec.ts"
+      ]
     },
     "FR-018-49": {
       "spec": "018-web-cases",
@@ -16135,7 +16426,9 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts"
+      ]
     },
     "FR-018-50": {
       "spec": "018-web-cases",
@@ -16157,7 +16450,13 @@
         "T-018-070",
         "T-018-072"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts",
+        "web/src/engines/analytical/blasting/t_018_068_blasting.test.ts",
+        "web/src/engines/analytical/comminution/t_018_070_comminution.test.ts",
+        "web/src/engines/analytical/environment/t_018_066_plume.test.ts",
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "FR-018-52": {
       "spec": "018-web-cases",
@@ -16167,7 +16466,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "FR-018-53": {
       "spec": "018-web-cases",
@@ -16177,7 +16478,9 @@
       "tasks": [
         "T-018-071"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
+      ]
     },
     "FR-018-54": {
       "spec": "018-web-cases",
@@ -16187,7 +16490,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/parity/t_018_061_rapier_hash.spec.ts"
+      ]
     },
     "FR-018-55": {
       "spec": "018-web-cases",
@@ -16197,7 +16502,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/traffic/t_018_061_ttc.test.ts"
+      ]
     },
     "FR-018-56": {
       "spec": "018-web-cases",
@@ -16210,7 +16517,11 @@
         "T-018-065",
         "T-018-067"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_059_granular.spec.ts",
+        "web/e2e/gpu/t_018_065_shallow_water.spec.ts",
+        "web/e2e/gpu/t_018_067_dust_particles.spec.ts"
+      ]
     },
     "FR-018-57": {
       "spec": "018-web-cases",
@@ -16220,7 +16531,10 @@
       "tasks": [
         "T-018-060"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_060_onnx_webgpu.spec.ts",
+        "web/e2e/parity/t_018_060_onnx_wasm.spec.ts"
+      ]
     },
     "FR-018-58": {
       "spec": "018-web-cases",
@@ -16230,7 +16544,10 @@
       "tasks": [
         "T-018-063"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/ml/t_018_063_detector.test.ts",
+        "web/e2e/parity/t_018_063_detector.spec.ts"
+      ]
     },
     "FR-018-59": {
       "spec": "018-web-cases",
@@ -16240,7 +16557,9 @@
       "tasks": [
         "T-018-069"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/watershed/t_018_069_watershed.test.ts"
+      ]
     },
     "FR-018-60": {
       "spec": "018-web-cases",
@@ -16258,7 +16577,9 @@
       "tasks": [
         "T-018-073"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_073_pyodide.spec.ts"
+      ]
     },
     "FR-018-62": {
       "spec": "018-web-cases",
@@ -16268,7 +16589,9 @@
       "tasks": [
         "T-018-073"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_073_pyodide.spec.ts"
+      ]
     },
     "FR-018-63": {
       "spec": "018-web-cases",
@@ -16278,7 +16601,13 @@
       "tasks": [
         "T-018-050"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_050_registry.test.ts",
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/src/engines/host/t_018_052_hosted_engines.test.ts",
+        "web/e2e/t_018_050_parity_gate.spec.ts",
+        "web/e2e/parity/t_018_052_hosted_report.spec.ts"
+      ]
     },
     "FR-018-64": {
       "spec": "018-web-cases",
@@ -16288,7 +16617,11 @@
       "tasks": [
         "T-018-081"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/src/lane/t_018_082_check_lanes.test.ts",
+        "web/e2e/lane-gate/t_018_081_measure.spec.ts"
+      ]
     },
     "FR-018-65": {
       "spec": "018-web-cases",
@@ -16298,7 +16631,9 @@
       "tasks": [
         "T-018-080"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_080_derive_lane.test.ts"
+      ]
     },
     "FR-018-66": {
       "spec": "018-web-cases",
@@ -16308,7 +16643,9 @@
       "tasks": [
         "T-018-082"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_082_check_lanes.test.ts"
+      ]
     },
     "FR-018-67": {
       "spec": "018-web-cases",
@@ -16319,7 +16656,12 @@
         "T-018-005",
         "T-018-088"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_005_parity_fixtures.py",
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/src/lane/t_018_082_check_lanes.test.ts",
+        "web/src/engines/host/t_018_052_hosted_engines.test.ts"
+      ]
     },
     "FR-018-68": {
       "spec": "018-web-cases",
@@ -16329,7 +16671,9 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts"
+      ]
     },
     "FR-018-69": {
       "spec": "018-web-cases",
@@ -16339,7 +16683,9 @@
       "tasks": [
         "T-018-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_018_092_case_duplicate_kpi.py"
+      ]
     },
     "FR-018-70": {
       "spec": "018-web-cases",
@@ -16369,7 +16715,9 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts"
+      ]
     },
     "P-018-02": {
       "spec": "018-web-cases",
@@ -16379,7 +16727,9 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts"
+      ]
     },
     "P-018-03": {
       "spec": "018-web-cases",
@@ -16389,7 +16739,9 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts"
+      ]
     },
     "P-018-04": {
       "spec": "018-web-cases",
@@ -16399,7 +16751,10 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts",
+        "web/e2e/parity/t_018_051_pcg64_browsers.spec.ts"
+      ]
     },
     "P-018-05": {
       "spec": "018-web-cases",
@@ -16409,7 +16764,9 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts"
+      ]
     },
     "P-018-06": {
       "spec": "018-web-cases",
@@ -16523,7 +16880,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/traffic/t_018_061_ttc.test.ts"
+      ]
     },
     "P-018-20": {
       "spec": "018-web-cases",
@@ -16533,7 +16892,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/traffic/t_018_061_ttc.test.ts"
+      ]
     },
     "P-018-21": {
       "spec": "018-web-cases",
@@ -16543,7 +16904,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/traffic/t_018_061_ttc.test.ts"
+      ]
     },
     "P-018-22": {
       "spec": "018-web-cases",
@@ -16593,7 +16956,9 @@
       "tasks": [
         "T-018-063"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/ml/t_018_063_detector.test.ts"
+      ]
     },
     "P-018-28": {
       "spec": "018-web-cases",
@@ -16603,7 +16968,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-29": {
       "spec": "018-web-cases",
@@ -16613,7 +16980,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-30": {
       "spec": "018-web-cases",
@@ -16623,7 +16992,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-31": {
       "spec": "018-web-cases",
@@ -16633,7 +17004,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-32": {
       "spec": "018-web-cases",
@@ -16643,7 +17016,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-33": {
       "spec": "018-web-cases",
@@ -16653,7 +17028,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-34": {
       "spec": "018-web-cases",
@@ -16663,7 +17040,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-35": {
       "spec": "018-web-cases",
@@ -16673,7 +17052,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-36": {
       "spec": "018-web-cases",
@@ -16683,7 +17064,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-37": {
       "spec": "018-web-cases",
@@ -16693,7 +17076,9 @@
       "tasks": [
         "T-018-066"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/environment/t_018_066_plume.test.ts"
+      ]
     },
     "P-018-38": {
       "spec": "018-web-cases",
@@ -16703,7 +17088,9 @@
       "tasks": [
         "T-018-066"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/environment/t_018_066_plume.test.ts"
+      ]
     },
     "P-018-39": {
       "spec": "018-web-cases",
@@ -16713,7 +17100,9 @@
       "tasks": [
         "T-018-066"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/environment/t_018_066_plume.test.ts"
+      ]
     },
     "P-018-40": {
       "spec": "018-web-cases",
@@ -16723,7 +17112,9 @@
       "tasks": [
         "T-018-068"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/blasting/t_018_068_blasting.test.ts"
+      ]
     },
     "P-018-41": {
       "spec": "018-web-cases",
@@ -16733,7 +17124,9 @@
       "tasks": [
         "T-018-068"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/blasting/t_018_068_blasting.test.ts"
+      ]
     },
     "P-018-42": {
       "spec": "018-web-cases",
@@ -16743,7 +17136,9 @@
       "tasks": [
         "T-018-068"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/blasting/t_018_068_blasting.test.ts"
+      ]
     },
     "P-018-43": {
       "spec": "018-web-cases",
@@ -16753,7 +17148,9 @@
       "tasks": [
         "T-018-070"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/comminution/t_018_070_comminution.test.ts"
+      ]
     },
     "P-018-44": {
       "spec": "018-web-cases",
@@ -16763,7 +17160,9 @@
       "tasks": [
         "T-018-070"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/comminution/t_018_070_comminution.test.ts"
+      ]
     },
     "P-018-45": {
       "spec": "018-web-cases",
@@ -16773,7 +17172,9 @@
       "tasks": [
         "T-018-070"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/comminution/t_018_070_comminution.test.ts"
+      ]
     },
     "P-018-46": {
       "spec": "018-web-cases",
@@ -16783,7 +17184,9 @@
       "tasks": [
         "T-018-069"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/watershed/t_018_069_watershed.test.ts"
+      ]
     },
     "P-018-47": {
       "spec": "018-web-cases",
@@ -16793,7 +17196,9 @@
       "tasks": [
         "T-018-069"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/watershed/t_018_069_watershed.test.ts"
+      ]
     },
     "P-018-48": {
       "spec": "018-web-cases",
@@ -16803,7 +17208,9 @@
       "tasks": [
         "T-018-069"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/watershed/t_018_069_watershed.test.ts"
+      ]
     },
     "P-018-49": {
       "spec": "018-web-cases",
@@ -16813,7 +17220,9 @@
       "tasks": [
         "T-018-071"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
+      ]
     },
     "P-018-50": {
       "spec": "018-web-cases",
@@ -16823,7 +17232,9 @@
       "tasks": [
         "T-018-071"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
+      ]
     },
     "P-018-51": {
       "spec": "018-web-cases",
@@ -16833,7 +17244,9 @@
       "tasks": [
         "T-018-071"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
+      ]
     },
     "P-018-52": {
       "spec": "018-web-cases",
@@ -16843,7 +17256,9 @@
       "tasks": [
         "T-018-072"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "P-018-53": {
       "spec": "018-web-cases",
@@ -16853,7 +17268,9 @@
       "tasks": [
         "T-018-072"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "P-018-54": {
       "spec": "018-web-cases",
@@ -16863,7 +17280,9 @@
       "tasks": [
         "T-018-072"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "P-018-55": {
       "spec": "018-web-cases",
@@ -16905,7 +17324,9 @@
       "tasks": [
         "T-018-059"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_059_granular.spec.ts"
+      ]
     },
     "P-018-60": {
       "spec": "018-web-cases",
@@ -16915,7 +17336,9 @@
       "tasks": [
         "T-018-059"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_059_granular.spec.ts"
+      ]
     },
     "P-018-61": {
       "spec": "018-web-cases",
@@ -16925,7 +17348,9 @@
       "tasks": [
         "T-018-059"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_059_granular.spec.ts"
+      ]
     },
     "P-018-62": {
       "spec": "018-web-cases",
@@ -16935,7 +17360,9 @@
       "tasks": [
         "T-018-065"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_065_shallow_water.spec.ts"
+      ]
     },
     "P-018-63": {
       "spec": "018-web-cases",
@@ -16945,7 +17372,9 @@
       "tasks": [
         "T-018-065"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_065_shallow_water.spec.ts"
+      ]
     },
     "P-018-64": {
       "spec": "018-web-cases",
@@ -16955,7 +17384,9 @@
       "tasks": [
         "T-018-065"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_065_shallow_water.spec.ts"
+      ]
     },
     "P-018-65": {
       "spec": "018-web-cases",
@@ -16965,7 +17396,9 @@
       "tasks": [
         "T-018-067"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_067_dust_particles.spec.ts"
+      ]
     },
     "P-018-66": {
       "spec": "018-web-cases",
@@ -16975,7 +17408,9 @@
       "tasks": [
         "T-018-067"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_067_dust_particles.spec.ts"
+      ]
     },
     "P-018-67": {
       "spec": "018-web-cases",
@@ -16985,7 +17420,9 @@
       "tasks": [
         "T-018-067"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_067_dust_particles.spec.ts"
+      ]
     },
     "P-018-68": {
       "spec": "018-web-cases",
@@ -16995,7 +17432,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "P-018-69": {
       "spec": "018-web-cases",
@@ -17005,7 +17444,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "P-018-70": {
       "spec": "018-web-cases",
@@ -17015,7 +17456,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "P-018-71": {
       "spec": "018-web-cases",
@@ -17025,7 +17468,9 @@
       "tasks": [
         "T-018-080"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_080_derive_lane.test.ts"
+      ]
     },
     "P-018-72": {
       "spec": "018-web-cases",
@@ -17035,7 +17480,9 @@
       "tasks": [
         "T-018-080"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_080_derive_lane.test.ts"
+      ]
     },
     "P-018-73": {
       "spec": "018-web-cases",
@@ -17045,7 +17492,9 @@
       "tasks": [
         "T-018-080"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_080_derive_lane.test.ts"
+      ]
     },
     "P-018-74": {
       "spec": "018-web-cases",
@@ -17055,7 +17504,9 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts"
+      ]
     },
     "P-018-75": {
       "spec": "018-web-cases",
@@ -17065,7 +17516,9 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts"
+      ]
     },
     "P-018-76": {
       "spec": "018-web-cases",
@@ -17075,7 +17528,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "NFR-018-01": {
       "spec": "018-web-cases",
@@ -17085,7 +17540,9 @@
       "tasks": [
         "T-018-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_020_explore_pit.spec.ts"
+      ]
     },
     "NFR-018-02": {
       "spec": "018-web-cases",
@@ -17095,7 +17552,9 @@
       "tasks": [
         "T-018-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_020_explore_pit.spec.ts"
+      ]
     },
     "NFR-018-03": {
       "spec": "018-web-cases",
@@ -17105,7 +17564,9 @@
       "tasks": [
         "T-018-081"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/lane-gate/t_018_081_measure.spec.ts"
+      ]
     },
     "NFR-018-04": {
       "spec": "018-web-cases",
@@ -17115,7 +17576,9 @@
       "tasks": [
         "T-018-037"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_037_a11y_cases.spec.ts"
+      ]
     },
     "NFR-018-05": {
       "spec": "018-web-cases",
@@ -17125,7 +17588,9 @@
       "tasks": [
         "T-018-090"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_090_web_quality_scores.py"
+      ]
     },
     "NFR-018-06": {
       "spec": "018-web-cases",
@@ -17145,7 +17610,10 @@
       "tasks": [
         "T-018-088"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/e2e/parity/t_018_051_pcg64_browsers.spec.ts"
+      ]
     },
     "SC-018-02": {
       "spec": "018-web-cases",
@@ -17155,7 +17623,9 @@
       "tasks": [
         "T-018-089"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_089_vertical_slice.spec.ts"
+      ]
     },
     "DC-018-01": {
       "spec": "018-web-cases",
@@ -17203,7 +17673,8 @@
         "T-018-005"
       ],
       "tests": [
-        "tests/contract/test_t_018_004_parity_lane_schemas.py"
+        "tests/contract/test_t_018_004_parity_lane_schemas.py",
+        "tests/contract/test_t_018_005_parity_fixtures.py"
       ]
     },
     "DC-018-05": {
@@ -17245,7 +17716,9 @@
         "T-019-040",
         "T-019-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_010_tool_map.spec.ts"
+      ]
     },
     "US-019-2": {
       "spec": "019-web-studio",
@@ -17302,7 +17775,10 @@
       "tasks": [
         "T-019-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_010_tool_map.test.tsx",
+        "web/e2e/t_019_010_tool_map.spec.ts"
+      ]
     },
     "FR-019-02": {
       "spec": "019-web-studio",
@@ -17312,7 +17788,10 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts",
+        "web/src/studio/t_019_010_tool_map.test.tsx"
+      ]
     },
     "FR-019-03": {
       "spec": "019-web-studio",
@@ -17322,7 +17801,9 @@
       "tasks": [
         "T-019-011"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_011_map_fallback.spec.ts"
+      ]
     },
     "FR-019-04": {
       "spec": "019-web-studio",
@@ -17332,7 +17813,10 @@
       "tasks": [
         "T-019-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_010_tool_map.test.tsx",
+        "web/e2e/t_019_011_map_fallback.spec.ts"
+      ]
     },
     "FR-019-05": {
       "spec": "019-web-studio",
@@ -17342,7 +17826,10 @@
       "tasks": [
         "T-019-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_010_tool_map.test.tsx",
+        "web/e2e/t_019_010_tool_map.spec.ts"
+      ]
     },
     "FR-019-06": {
       "spec": "019-web-studio",
@@ -17352,7 +17839,10 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts",
+        "web/src/studio/t_019_010_tool_map.test.tsx"
+      ]
     },
     "FR-019-07": {
       "spec": "019-web-studio",
@@ -17362,7 +17852,10 @@
       "tasks": [
         "T-019-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_012_loop.test.tsx",
+        "web/e2e/t_019_012_loop.spec.ts"
+      ]
     },
     "FR-019-08": {
       "spec": "019-web-studio",
@@ -17372,7 +17865,9 @@
       "tasks": [
         "T-019-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_020_tool_pages.spec.ts"
+      ]
     },
     "FR-019-09": {
       "spec": "019-web-studio",
@@ -17383,7 +17878,10 @@
         "T-019-002",
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_002_resolve_versions.py",
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-10": {
       "spec": "019-web-studio",
@@ -17393,7 +17891,9 @@
       "tasks": [
         "T-019-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_002_resolve_versions.py"
+      ]
     },
     "FR-019-11": {
       "spec": "019-web-studio",
@@ -17403,7 +17903,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-12": {
       "spec": "019-web-studio",
@@ -17413,7 +17915,10 @@
       "tasks": [
         "T-019-022"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
+      ]
     },
     "FR-019-13": {
       "spec": "019-web-studio",
@@ -17423,7 +17928,11 @@
       "tasks": [
         "T-019-022"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_010_tool_map.test.tsx",
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
+      ]
     },
     "FR-019-14": {
       "spec": "019-web-studio",
@@ -17433,7 +17942,10 @@
       "tasks": [
         "T-019-022"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
+      ]
     },
     "FR-019-15": {
       "spec": "019-web-studio",
@@ -17443,7 +17955,10 @@
       "tasks": [
         "T-019-023"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_023_provenance.test.tsx",
+        "web/e2e/t_019_023_provenance.spec.ts"
+      ]
     },
     "FR-019-16": {
       "spec": "019-web-studio",
@@ -17453,7 +17968,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-17": {
       "spec": "019-web-studio",
@@ -17463,7 +17980,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-18": {
       "spec": "019-web-studio",
@@ -17473,7 +17992,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-19": {
       "spec": "019-web-studio",
@@ -17483,7 +18004,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-20": {
       "spec": "019-web-studio",
@@ -17493,7 +18016,9 @@
       "tasks": [
         "T-019-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_020_tool_pages.spec.ts"
+      ]
     },
     "FR-019-21": {
       "spec": "019-web-studio",
@@ -17503,7 +18028,10 @@
       "tasks": [
         "T-019-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_030_runs_ledger.test.tsx",
+        "web/e2e/t_019_030_runs.spec.ts"
+      ]
     },
     "FR-019-22": {
       "spec": "019-web-studio",
@@ -17513,7 +18041,9 @@
       "tasks": [
         "T-019-031"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_031_run_page.spec.ts"
+      ]
     },
     "FR-019-23": {
       "spec": "019-web-studio",
@@ -17523,7 +18053,10 @@
       "tasks": [
         "T-019-031"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_031_manifest_tree.test.tsx",
+        "web/e2e/t_019_031_run_page.spec.ts"
+      ]
     },
     "FR-019-24": {
       "spec": "019-web-studio",
@@ -17533,7 +18066,9 @@
       "tasks": [
         "T-019-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_032_dag_determinism.test.tsx"
+      ]
     },
     "FR-019-25": {
       "spec": "019-web-studio",
@@ -17543,7 +18078,9 @@
       "tasks": [
         "T-019-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_032_dag_determinism.test.tsx"
+      ]
     },
     "FR-019-26": {
       "spec": "019-web-studio",
@@ -17553,7 +18090,9 @@
       "tasks": [
         "T-019-030"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_030_runs.spec.ts"
+      ]
     },
     "FR-019-27": {
       "spec": "019-web-studio",
@@ -17563,7 +18102,10 @@
       "tasks": [
         "T-019-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_033_timelines.test.tsx",
+        "web/e2e/t_019_033_gpu_page.spec.ts"
+      ]
     },
     "FR-019-28": {
       "spec": "019-web-studio",
@@ -17573,7 +18115,10 @@
       "tasks": [
         "T-019-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_033_timelines.test.tsx",
+        "web/e2e/t_019_033_gpu_page.spec.ts"
+      ]
     },
     "FR-019-29": {
       "spec": "019-web-studio",
@@ -17583,7 +18128,10 @@
       "tasks": [
         "T-019-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_033_timelines.test.tsx",
+        "web/e2e/t_019_033_gpu_page.spec.ts"
+      ]
     },
     "FR-019-30": {
       "spec": "019-web-studio",
@@ -17593,7 +18141,9 @@
       "tasks": [
         "T-019-034"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_034_local_only.test.tsx"
+      ]
     },
     "FR-019-31": {
       "spec": "019-web-studio",
@@ -17603,7 +18153,10 @@
       "tasks": [
         "T-019-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_033_timelines.test.tsx",
+        "web/e2e/t_019_033_gpu_page.spec.ts"
+      ]
     },
     "FR-019-32": {
       "spec": "019-web-studio",
@@ -17613,7 +18166,9 @@
       "tasks": [
         "T-019-034"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_034_local_only.test.tsx"
+      ]
     },
     "FR-019-33": {
       "spec": "019-web-studio",
@@ -17623,7 +18178,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-43": {
       "spec": "019-web-studio",
@@ -17633,7 +18190,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-34": {
       "spec": "019-web-studio",
@@ -17643,7 +18202,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-35": {
       "spec": "019-web-studio",
@@ -17653,7 +18214,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-36": {
       "spec": "019-web-studio",
@@ -17663,7 +18226,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-37": {
       "spec": "019-web-studio",
@@ -17673,7 +18238,10 @@
       "tasks": [
         "T-019-023"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_023_provenance.test.tsx",
+        "web/e2e/t_019_023_provenance.spec.ts"
+      ]
     },
     "FR-019-38": {
       "spec": "019-web-studio",
@@ -17695,7 +18263,9 @@
       "tasks": [
         "T-019-011"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_011_map_fallback.spec.ts"
+      ]
     },
     "FR-019-40": {
       "spec": "019-web-studio",
@@ -17705,7 +18275,10 @@
       "tasks": [
         "T-019-024"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_024_hostile_strings.test.tsx",
+        "web/e2e/t_019_024_hostile_strings.spec.ts"
+      ]
     },
     "FR-019-41": {
       "spec": "019-web-studio",
@@ -17715,7 +18288,10 @@
       "tasks": [
         "T-019-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_030_runs_ledger.test.tsx",
+        "web/e2e/t_019_030_runs.spec.ts"
+      ]
     },
     "FR-019-42": {
       "spec": "019-web-studio",
@@ -17725,7 +18301,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-44": {
       "spec": "019-web-studio",
@@ -17735,7 +18313,10 @@
       "tasks": [
         "T-019-036"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/connect.test.ts",
+        "web/e2e/t_019_036_connect.spec.ts"
+      ]
     },
     "FR-019-45": {
       "spec": "019-web-studio",
@@ -17745,7 +18326,10 @@
       "tasks": [
         "T-019-036"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/connect.test.ts",
+        "web/e2e/t_019_036_connect.spec.ts"
+      ]
     },
     "FR-019-46": {
       "spec": "019-web-studio",
@@ -17755,7 +18339,9 @@
       "tasks": [
         "T-019-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_019_092_toolmap_self_edge.py"
+      ]
     },
     "FR-019-47": {
       "spec": "019-web-studio",
@@ -17765,7 +18351,10 @@
       "tasks": [
         "T-019-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_019_093_studio_index_cap.py",
+        "web/src/studio/t_019_093_index_loader.test.ts"
+      ]
     },
     "FR-019-48": {
       "spec": "019-web-studio",
@@ -17795,7 +18384,9 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts"
+      ]
     },
     "P-019-02": {
       "spec": "019-web-studio",
@@ -17805,7 +18396,9 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts"
+      ]
     },
     "P-019-03": {
       "spec": "019-web-studio",
@@ -17815,7 +18408,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "P-019-04": {
       "spec": "019-web-studio",
@@ -17825,7 +18420,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "P-019-05": {
       "spec": "019-web-studio",
@@ -17835,7 +18432,9 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts"
+      ]
     },
     "NFR-019-01": {
       "spec": "019-web-studio",
@@ -17845,7 +18444,9 @@
       "tasks": [
         "T-019-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_040_budgets.spec.ts"
+      ]
     },
     "NFR-019-02": {
       "spec": "019-web-studio",
@@ -17855,7 +18456,9 @@
       "tasks": [
         "T-019-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_040_budgets.spec.ts"
+      ]
     },
     "NFR-019-03": {
       "spec": "019-web-studio",
@@ -17865,7 +18468,9 @@
       "tasks": [
         "T-019-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_040_budgets.spec.ts"
+      ]
     },
     "NFR-019-04": {
       "spec": "019-web-studio",
@@ -17875,7 +18480,9 @@
       "tasks": [
         "T-019-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_041_a11y_studio.spec.ts"
+      ]
     },
     "NFR-019-05": {
       "spec": "019-web-studio",
@@ -17885,7 +18492,9 @@
       "tasks": [
         "T-019-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_041_a11y_studio.spec.ts"
+      ]
     },
     "NFR-019-06": {
       "spec": "019-web-studio",
@@ -17895,7 +18504,9 @@
       "tasks": [
         "T-019-090"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_090_studio_quality_scores.py"
+      ]
     },
     "SC-019-01": {
       "spec": "019-web-studio",
@@ -17905,7 +18516,9 @@
       "tasks": [
         "T-019-088"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_088_showcase_gate.py"
+      ]
     },
     "SC-019-02": {
       "spec": "019-web-studio",
@@ -17915,7 +18528,9 @@
       "tasks": [
         "T-019-088"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_088_showcase_gate.py"
+      ]
     },
     "DC-019-01": {
       "spec": "019-web-studio",
@@ -18037,7 +18652,9 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_014_theory_pages.spec.ts"
+      ]
     },
     "FR-020-02": {
       "spec": "020-web-knowledge",
@@ -18047,7 +18664,9 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_014_theory_content.py"
+      ]
     },
     "FR-020-03": {
       "spec": "020-web-knowledge",
@@ -18057,7 +18676,9 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_014_theory_content.py"
+      ]
     },
     "FR-020-04": {
       "spec": "020-web-knowledge",
@@ -18067,7 +18688,9 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_014_theory_pages.spec.ts"
+      ]
     },
     "FR-020-05": {
       "spec": "020-web-knowledge",
@@ -18077,7 +18700,10 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_014_theory_content.py",
+        "web/e2e/t_020_014_theory_pages.spec.ts"
+      ]
     },
     "FR-020-06": {
       "spec": "020-web-knowledge",
@@ -18087,7 +18713,10 @@
       "tasks": [
         "T-020-015"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/t_020_015_figures.test.tsx",
+        "web/e2e/t_020_015_figures.spec.ts"
+      ]
     },
     "FR-020-07": {
       "spec": "020-web-knowledge",
@@ -18097,7 +18726,10 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts",
+        "web/e2e/t_020_010_chart.spec.ts"
+      ]
     },
     "FR-020-08": {
       "spec": "020-web-knowledge",
@@ -18107,7 +18739,10 @@
       "tasks": [
         "T-020-015"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/t_020_015_figures.test.tsx",
+        "web/e2e/t_020_015_figures.spec.ts"
+      ]
     },
     "FR-020-09": {
       "spec": "020-web-knowledge",
@@ -18141,7 +18776,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_010_chart.spec.ts"
+      ]
     },
     "FR-020-12": {
       "spec": "020-web-knowledge",
@@ -18151,7 +18788,10 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts",
+        "web/e2e/t_020_010_chart.spec.ts"
+      ]
     },
     "FR-020-13": {
       "spec": "020-web-knowledge",
@@ -18161,7 +18801,10 @@
       "tasks": [
         "T-020-015"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/t_020_015_figures.test.tsx",
+        "web/e2e/t_020_015_figures.spec.ts"
+      ]
     },
     "FR-020-14": {
       "spec": "020-web-knowledge",
@@ -18171,7 +18814,9 @@
       "tasks": [
         "T-020-016"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_016_hostile.spec.ts"
+      ]
     },
     "FR-020-15": {
       "spec": "020-web-knowledge",
@@ -18181,7 +18826,10 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts",
+        "web/e2e/t_020_010_chart.spec.ts"
+      ]
     },
     "FR-020-16": {
       "spec": "020-web-knowledge",
@@ -18203,7 +18851,10 @@
       "tasks": [
         "T-020-020"
       ],
-      "tests": []
+      "tests": [
+        "web/src/routes/t_020_020_methods.test.tsx",
+        "web/e2e/t_020_020_methods.spec.ts"
+      ]
     },
     "FR-020-18": {
       "spec": "020-web-knowledge",
@@ -18213,7 +18864,10 @@
       "tasks": [
         "T-020-020"
       ],
-      "tests": []
+      "tests": [
+        "web/src/routes/t_020_020_methods.test.tsx",
+        "web/e2e/t_020_020_methods.spec.ts"
+      ]
     },
     "FR-020-19": {
       "spec": "020-web-knowledge",
@@ -18260,7 +18914,10 @@
       "tasks": [
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_030_verdict.test.ts",
+        "web/src/routes/t_018_032_charts_tab.test.tsx"
+      ]
     },
     "FR-020-23": {
       "spec": "020-web-knowledge",
@@ -18282,7 +18939,10 @@
       "tasks": [
         "T-020-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_032_criteria.test.ts",
+        "web/e2e/t_020_088_criteria_rows.spec.ts"
+      ]
     },
     "FR-020-25": {
       "spec": "020-web-knowledge",
@@ -18292,7 +18952,9 @@
       "tasks": [
         "T-020-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_033_gaps_parity.test.tsx"
+      ]
     },
     "FR-020-26": {
       "spec": "020-web-knowledge",
@@ -18302,7 +18964,9 @@
       "tasks": [
         "T-020-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_033_gaps_parity.test.tsx"
+      ]
     },
     "FR-020-27": {
       "spec": "020-web-knowledge",
@@ -18312,7 +18976,10 @@
       "tasks": [
         "T-020-034"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_034_cosmos.test.tsx",
+        "web/e2e/t_020_034_cosmos_headline.spec.ts"
+      ]
     },
     "FR-020-28": {
       "spec": "020-web-knowledge",
@@ -18322,7 +18989,9 @@
       "tasks": [
         "T-020-035"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_035_acceleration.test.tsx"
+      ]
     },
     "FR-020-29": {
       "spec": "020-web-knowledge",
@@ -18344,7 +19013,9 @@
       "tasks": [
         "T-020-035"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_035_acceleration.test.tsx"
+      ]
     },
     "FR-020-31": {
       "spec": "020-web-knowledge",
@@ -18367,7 +19038,10 @@
       "tasks": [
         "T-020-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_040_sections.test.tsx",
+        "web/e2e/t_020_040_knowledge.spec.ts"
+      ]
     },
     "FR-020-33": {
       "spec": "020-web-knowledge",
@@ -18377,7 +19051,9 @@
       "tasks": [
         "T-020-041"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_041_parameters_equations.test.tsx"
+      ]
     },
     "FR-020-34": {
       "spec": "020-web-knowledge",
@@ -18387,7 +19063,9 @@
       "tasks": [
         "T-020-041"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_041_parameters_equations.test.tsx"
+      ]
     },
     "FR-020-35": {
       "spec": "020-web-knowledge",
@@ -18397,7 +19075,10 @@
       "tasks": [
         "T-020-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_042_search.test.ts",
+        "web/e2e/t_020_042_search.spec.ts"
+      ]
     },
     "FR-020-36": {
       "spec": "020-web-knowledge",
@@ -18407,7 +19088,10 @@
       "tasks": [
         "T-020-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_040_sections.test.tsx",
+        "web/e2e/t_020_040_knowledge.spec.ts"
+      ]
     },
     "FR-020-37": {
       "spec": "020-web-knowledge",
@@ -18417,7 +19101,10 @@
       "tasks": [
         "T-020-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_040_sections.test.tsx",
+        "web/e2e/t_020_040_knowledge.spec.ts"
+      ]
     },
     "FR-020-38": {
       "spec": "020-web-knowledge",
@@ -18427,7 +19114,10 @@
       "tasks": [
         "T-020-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_040_sections.test.tsx",
+        "web/e2e/t_020_040_knowledge.spec.ts"
+      ]
     },
     "FR-020-39": {
       "spec": "020-web-knowledge",
@@ -18461,7 +19151,10 @@
       "tasks": [
         "T-020-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_042_search.test.ts",
+        "web/e2e/t_020_042_search.spec.ts"
+      ]
     },
     "FR-020-42": {
       "spec": "020-web-knowledge",
@@ -18471,7 +19164,9 @@
       "tasks": [
         "T-020-043"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_043_unverified_headline.test.ts"
+      ]
     },
     "FR-020-43": {
       "spec": "020-web-knowledge",
@@ -18481,7 +19176,9 @@
       "tasks": [
         "T-020-050"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_050_architecture_modal.spec.ts"
+      ]
     },
     "FR-020-44": {
       "spec": "020-web-knowledge",
@@ -18491,7 +19188,9 @@
       "tasks": [
         "T-020-050"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_050_architecture_modal.spec.ts"
+      ]
     },
     "FR-020-51": {
       "spec": "020-web-knowledge",
@@ -18501,7 +19200,9 @@
       "tasks": [
         "T-020-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_051_inline_svg.py"
+      ]
     },
     "FR-020-45": {
       "spec": "020-web-knowledge",
@@ -18523,7 +19224,9 @@
       "tasks": [
         "T-020-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/shell/t_020_061_contrast.test.ts"
+      ]
     },
     "FR-020-47": {
       "spec": "020-web-knowledge",
@@ -18533,7 +19236,10 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_014_theory_content.py",
+        "web/e2e/t_020_014_theory_pages.spec.ts"
+      ]
     },
     "FR-020-48": {
       "spec": "020-web-knowledge",
@@ -18543,7 +19249,9 @@
       "tasks": [
         "T-020-016"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_016_hostile.spec.ts"
+      ]
     },
     "FR-020-49": {
       "spec": "020-web-knowledge",
@@ -18555,7 +19263,11 @@
         "T-020-012",
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts",
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts",
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "FR-020-50": {
       "spec": "020-web-knowledge",
@@ -18567,7 +19279,11 @@
         "T-020-012",
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts",
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts",
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "FR-020-52": {
       "spec": "020-web-knowledge",
@@ -18607,7 +19323,9 @@
       "tasks": [
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_030_verdict.test.ts"
+      ]
     },
     "P-020-02": {
       "spec": "020-web-knowledge",
@@ -18617,7 +19335,9 @@
       "tasks": [
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_030_verdict.test.ts"
+      ]
     },
     "P-020-03": {
       "spec": "020-web-knowledge",
@@ -18627,7 +19347,9 @@
       "tasks": [
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_030_verdict.test.ts"
+      ]
     },
     "P-020-04": {
       "spec": "020-web-knowledge",
@@ -18637,7 +19359,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-05": {
       "spec": "020-web-knowledge",
@@ -18647,7 +19371,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-06": {
       "spec": "020-web-knowledge",
@@ -18657,7 +19383,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-07": {
       "spec": "020-web-knowledge",
@@ -18667,7 +19395,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-08": {
       "spec": "020-web-knowledge",
@@ -18677,7 +19407,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-09": {
       "spec": "020-web-knowledge",
@@ -18687,7 +19419,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-10": {
       "spec": "020-web-knowledge",
@@ -18697,7 +19431,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-11": {
       "spec": "020-web-knowledge",
@@ -18707,7 +19443,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-12": {
       "spec": "020-web-knowledge",
@@ -18717,7 +19455,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-13": {
       "spec": "020-web-knowledge",
@@ -18727,7 +19467,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-14": {
       "spec": "020-web-knowledge",
@@ -18737,7 +19479,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-15": {
       "spec": "020-web-knowledge",
@@ -18747,7 +19491,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-16": {
       "spec": "020-web-knowledge",
@@ -18757,7 +19503,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-17": {
       "spec": "020-web-knowledge",
@@ -18767,7 +19515,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-18": {
       "spec": "020-web-knowledge",
@@ -18777,7 +19527,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-19": {
       "spec": "020-web-knowledge",
@@ -18787,7 +19539,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-20": {
       "spec": "020-web-knowledge",
@@ -18797,7 +19551,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-21": {
       "spec": "020-web-knowledge",
@@ -18807,7 +19563,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-22": {
       "spec": "020-web-knowledge",
@@ -18817,7 +19575,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-23": {
       "spec": "020-web-knowledge",
@@ -18827,7 +19587,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-24": {
       "spec": "020-web-knowledge",
@@ -18837,7 +19599,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-25": {
       "spec": "020-web-knowledge",
@@ -18847,7 +19611,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-26": {
       "spec": "020-web-knowledge",
@@ -18857,7 +19623,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-27": {
       "spec": "020-web-knowledge",
@@ -18867,7 +19635,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-28": {
       "spec": "020-web-knowledge",
@@ -18877,7 +19647,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-29": {
       "spec": "020-web-knowledge",
@@ -18887,7 +19659,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-30": {
       "spec": "020-web-knowledge",
@@ -18897,7 +19671,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-31": {
       "spec": "020-web-knowledge",
@@ -18919,7 +19695,9 @@
       "tasks": [
         "T-020-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_042_search.test.ts"
+      ]
     },
     "NFR-020-01": {
       "spec": "020-web-knowledge",
@@ -18929,7 +19707,9 @@
       "tasks": [
         "T-020-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_062_budgets.py"
+      ]
     },
     "NFR-020-02": {
       "spec": "020-web-knowledge",
@@ -18939,7 +19719,9 @@
       "tasks": [
         "T-020-063"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_063_first_view.spec.ts"
+      ]
     },
     "NFR-020-03": {
       "spec": "020-web-knowledge",
@@ -18949,7 +19731,9 @@
       "tasks": [
         "T-020-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_062_budgets.py"
+      ]
     },
     "NFR-020-04": {
       "spec": "020-web-knowledge",
@@ -18959,7 +19743,9 @@
       "tasks": [
         "T-020-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_062_budgets.py"
+      ]
     },
     "NFR-020-05": {
       "spec": "020-web-knowledge",
@@ -18969,7 +19755,9 @@
       "tasks": [
         "T-020-064"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_064_a11y_matrix.spec.ts"
+      ]
     },
     "NFR-020-06": {
       "spec": "020-web-knowledge",
@@ -18979,7 +19767,9 @@
       "tasks": [
         "T-020-064"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_064_a11y_matrix.spec.ts"
+      ]
     },
     "NFR-020-07": {
       "spec": "020-web-knowledge",
@@ -18989,7 +19779,9 @@
       "tasks": [
         "T-020-063"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_063_first_view.spec.ts"
+      ]
     },
     "NFR-020-08": {
       "spec": "020-web-knowledge",
@@ -18999,7 +19791,9 @@
       "tasks": [
         "T-020-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_042_search.test.ts"
+      ]
     },
     "NFR-020-09": {
       "spec": "020-web-knowledge",
@@ -19009,7 +19803,9 @@
       "tasks": [
         "T-020-090"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_090_web_quality_scores.py"
+      ]
     },
     "SC-020-01": {
       "spec": "020-web-knowledge",
@@ -19029,7 +19825,9 @@
       "tasks": [
         "T-020-088"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_088_criteria_rows.spec.ts"
+      ]
     },
     "SC-020-03": {
       "spec": "020-web-knowledge",
@@ -19039,7 +19837,9 @@
       "tasks": [
         "T-020-043"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_043_unverified_headline.test.ts"
+      ]
     },
     "DC-020-01": {
       "spec": "020-web-knowledge",
