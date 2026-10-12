@@ -15,6 +15,7 @@ from typing import Any
 import httpx
 import yaml
 
+from pitstudio_pipeline.archive import extract_archive
 from pitstudio_pipeline.download.hashing import md5_file, sha256_file
 from pitstudio_pipeline.download.http import HttpxDownloader
 from pitstudio_pipeline.download.names import local_name
@@ -243,6 +244,13 @@ def _run_entry(entry: Mapping[str, Any], work: _Work, downloader: HttpxDownloade
                 fetched = downloader.fetch(file["url"], part, max_bytes=file.get("bytes"))
                 digest, size, publisher = _verify_part(part, work.root, entry, file, name)
                 os.replace(part, target)
+            if file.get("kind") == "archive" and file.get("extract"):  # FR-008-18: only the declared members, capped
+                extract_archive(
+                    target,
+                    work.root / "interim" / sid,
+                    extract=file["extract"],
+                    uncompressed_bytes=file.get("uncompressed_bytes"),
+                )
         except Exception as exc:
             _remove_if_empty(target_dir)  # a failed source leaves no empty folder behind
             result.errors.setdefault(sid, exc)
