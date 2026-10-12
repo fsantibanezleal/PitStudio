@@ -1,11 +1,96 @@
 {
   "notYetRun": "Not yet run",
-  "safe": { "showFull": "Show full text", "showLess": "Show less" },
+  "safe": {
+    "showFull": "Show full text",
+    "showLess": "Show less"
+  },
   "connect": {
     "port": "Port of my local studio",
     "button": "Connect to my local studio",
     "invalid": "Enter a whole port number from 1024 to 65535.",
     "connected": "connected — console {{version}}",
     "notConnected": "not connected"
+  },
+  "stale": "stale",
+  "probe": {
+    "pass": "pass",
+    "fail": "probe failed",
+    "skip": "probe skipped",
+    "notProbed": "not probed",
+    "on": "{{date}} · {{gpu}} · driver {{driver}}"
+  },
+  "cosmos": {
+    "built": "Built on NVIDIA Cosmos",
+    "displayOnly": "display-only"
+  },
+  "throttle": {
+    "sw_power_cap": "software power cap",
+    "sw_thermal": "software thermal",
+    "hw_thermal": "hardware thermal",
+    "hw_slowdown": "hardware slowdown",
+    "power_brake": "power brake"
+  },
+  "prov": {
+    "run": "run",
+    "recipe": "recipe",
+    "git": "commit",
+    "gpu": "GPU",
+    "driver": "driver",
+    "wall": "wall time",
+    "vram": "peak VRAM",
+    "energy": "energy",
+    "localOnly": "performance"
+  },
+  "blocks": {
+    "identity": {
+      "title": "Identity",
+      "version": "Version",
+      "released": "Released",
+      "licence": "Licence",
+      "licenceClass": "Licence class",
+      "ring": "Ring",
+      "env": "Environment",
+      "probe": "Capability probe",
+      "nvidia": "Not affiliated with or endorsed by NVIDIA."
+    },
+    "role": {
+      "title": "Role in mining",
+      "cases": "Cases that use it",
+      "none": "No case lists this tool yet."
+    },
+    "artefacts": {
+      "title": "Artefacts it produced",
+      "notAdopted": "Evaluated, not adopted",
+      "evidence": "Read the evidence page",
+      "noCase": "No case"
+    },
+    "provenance": {
+      "title": "Provenance"
+    },
+    "whereRan": {
+      "title": "Where it ran",
+      "live": "Live in your browser",
+      "precomputed": "Precomputed on {{gpu}} ({{gb}} GB, power limit {{w}} W) on {{date}}",
+      "noLimit": "Precomputed on {{gpu}} ({{gb}} GB) on {{date}}",
+      "unknown": "Precomputed (the run record is not available)"
+    },
+    "limits": {
+      "title": "Limits and failures",
+      "run": "run",
+      "failed": "failed",
+      "exit": "exit {{code}}",
+      "attempt": "attempt {{n}}",
+      "ok": "ok",
+      "none": "No limit or failed variant recorded."
+    },
+    "reproduce": {
+      "title": "Reproduce",
+      "noRuns": "No published run of this tool yet.",
+      "needsNvidia": "needs an NVIDIA RTX GPU and acceptance of the NVIDIA terms"
+    },
+    "alternatives": {
+      "title": "Alternatives rejected",
+      "none": "None recorded."
+    }
   }
 }

@@ -1,11 +1,96 @@
 {
   "notYetRun": "Aún sin ejecutar",
-  "safe": { "showFull": "Mostrar el texto completo", "showLess": "Mostrar menos" },
+  "safe": {
+    "showFull": "Mostrar el texto completo",
+    "showLess": "Mostrar menos"
+  },
   "connect": {
     "port": "Puerto de mi estudio local",
     "button": "Conectar con mi estudio local",
     "invalid": "Escribe un número de puerto entero de 1024 a 65535.",
     "connected": "conectado — consola {{version}}",
     "notConnected": "no conectado"
+  },
+  "stale": "obsoleto",
+  "probe": {
+    "pass": "aprobada",
+    "fail": "la prueba falló",
+    "skip": "prueba omitida",
+    "notProbed": "sin probar",
+    "on": "{{date}} · {{gpu}} · controlador {{driver}}"
+  },
+  "cosmos": {
+    "built": "Construido sobre NVIDIA Cosmos",
+    "displayOnly": "solo visualización"
+  },
+  "throttle": {
+    "sw_power_cap": "límite de potencia por software",
+    "sw_thermal": "límite térmico por software",
+    "hw_thermal": "límite térmico por hardware",
+    "hw_slowdown": "ralentización por hardware",
+    "power_brake": "freno de potencia"
+  },
+  "prov": {
+    "run": "ejecución",
+    "recipe": "receta",
+    "git": "commit",
+    "gpu": "GPU",
+    "driver": "controlador",
+    "wall": "tiempo de pared",
+    "vram": "VRAM máxima",
+    "energy": "energía",
+    "localOnly": "rendimiento"
+  },
+  "blocks": {
+    "identity": {
+      "title": "Identidad",
+      "version": "Versión",
+      "released": "Publicada",
+      "licence": "Licencia",
+      "licenceClass": "Clase de licencia",
+      "ring": "Anillo",
+      "env": "Entorno",
+      "probe": "Prueba de capacidad",
+      "nvidia": "Sin afiliación ni respaldo de NVIDIA."
+    },
+    "role": {
+      "title": "Papel en minería",
+      "cases": "Casos que la usan",
+      "none": "Ningún caso lista aún esta herramienta."
+    },
+    "artefacts": {
+      "title": "Artefactos que produjo",
+      "notAdopted": "Evaluada, no adoptada",
+      "evidence": "Leer la página de evidencia",
+      "noCase": "Sin caso"
+    },
+    "provenance": {
+      "title": "Procedencia"
+    },
+    "whereRan": {
+      "title": "Dónde se ejecutó",
+      "live": "En vivo en tu navegador",
+      "precomputed": "Precalculado en {{gpu}} ({{gb}} GB, límite de potencia {{w}} W) el {{date}}",
+      "noLimit": "Precalculado en {{gpu}} ({{gb}} GB) el {{date}}",
+      "unknown": "Precalculado (el registro de la ejecución no está disponible)"
+    },
+    "limits": {
+      "title": "Límites y fallos",
+      "run": "ejecución",
+      "failed": "falló",
+      "exit": "salida {{code}}",
+      "attempt": "intento {{n}}",
+      "ok": "correcto",
+      "none": "Ningún límite ni variante fallida registrados."
+    },
+    "reproduce": {
+      "title": "Reproducir",
+      "noRuns": "Aún no hay una ejecución publicada de esta herramienta.",
+      "needsNvidia": "requiere una GPU NVIDIA RTX y la aceptación de los términos de NVIDIA"
+    },
+    "alternatives": {
+      "title": "Alternativas descartadas",
+      "none": "Ninguna registrada."
+    }
   }
 }
