@@ -420,9 +420,160 @@ def gen_plume(root: Path) -> list[Path]:
     return written
 
 
+def _span(rng: np.random.Generator, i: int, lo: float, hi: float, log: bool = False) -> float:
+    """The first vectors sit on the ends of the validity range, the rest are uniform (or log-uniform) inside it."""
+    if i % 8 == 0:
+        return lo
+    if i % 8 == 1:
+        return hi
+    value = math.exp(rng.uniform(math.log(lo), math.log(hi))) if log else rng.uniform(lo, hi)
+    return round(_f(value), 9)
+
+
+def gen_blasting(root: Path) -> list[Path]:
+    mp = minephys()
+    bl = importlib.import_module("minephys.blasting")
+    rng = np.random.default_rng(SEED + 2)
+    written: list[Path] = []
+
+    def write(function: str, fixture: str, callable_path: str, cases: list[dict[str, Any]]) -> None:
+        doc = mpf.build_fixture("blasting", function, fixture, reference(mp, callable_path), ANALYTICAL, cases)
+        written.append(mpf.write_fixture(root, doc, gzip=True))
+
+    def case(cases: list[dict[str, Any]], args: dict[str, Any], output: dict[str, Any]) -> None:
+        cases.append({"name": f"v{len(cases)}", "input": args, "output": output})
+
+    cases: list[dict[str, Any]] = []
+    for i in range(N_VECTORS):
+        a = {
+            "explosive_density_kg_per_m3": _span(rng, i, 100, 2000),
+            "hole_diameter_m": _span(rng, i + 3, 0.02, 1.0, True),
+            "charge_length_m": _span(rng, i + 5, 0.1, 100, True),
+        }
+        q = bl.charge_per_hole(a["explosive_density_kg_per_m3"], a["hole_diameter_m"], a["charge_length_m"])
+        case(cases, a, {"charge_kg": _f(q)})
+    write("charge_per_hole", "charge-per-hole", "minephys.blasting.charge_per_hole", cases)
+
+    cases = []
+    for i in range(N_VECTORS):
+        a = {
+            "charge_kg": _span(rng, i, 1, 1e5, True),
+            "burden_m": _span(rng, i + 2, 0.5, 50, True),
+            "spacing_m": _span(rng, i + 4, 0.5, 50, True),
+            "bench_height_m": _span(rng, i + 6, 1, 100, True),
+        }
+        k = bl.powder_factor(a["charge_kg"], a["burden_m"], a["spacing_m"], a["bench_height_m"])
+        case(cases, a, {"powder_factor_kg_per_m3": _f(k)})
+    write("powder_factor", "powder-factor", "minephys.blasting.powder_factor", cases)
+
+    cases = []
+    for i in range(N_VECTORS):
+        a = {
+            "rock_factor": _span(rng, i, 0.8, 22),
+            "powder_factor_kg_per_m3": _span(rng, i + 2, 0.05, 5, True),
+            "charge_kg": _span(rng, i + 4, 1, 1e5, True),
+            "rws": _span(rng, i + 6, 20, 200),
+            "variant": "cunningham2005" if i % 2 else "cunningham1983",
+        }
+        x = bl.kuznetsov_x50(
+            a["rock_factor"], a["powder_factor_kg_per_m3"], a["charge_kg"], a["rws"], variant=a["variant"]
+        )
+        case(cases, a, {"x50_m": _f(x)})
+    write("kuznetsov_x50", "kuznetsov-x50", "minephys.blasting.kuznetsov_x50", cases)
+
+    cases = []
+    while len(cases) < N_VECTORS:
+        d = _span(rng, len(cases) + 1, 0.05, 0.6, True)
+        burden = round(_f(rng.uniform(0.5, 0.15 * 1000 * d / 14 * 1.0)), 6)
+        length = round(_f(rng.uniform(0.5, 30)), 6)
+        a: dict[str, Any] = {
+            "burden_m": burden,
+            "spacing_m": round(_f(rng.uniform(burden, 1.6 * burden)), 6),
+            "hole_diameter_m": d,
+            "charge_length_m": length,
+            "bench_height_m": round(_f(rng.uniform(length, 40)), 6),
+            "drilling_deviation_m": round(_f(rng.uniform(0, 0.8 * burden)), 6),
+        }
+        if rng.random() < 0.5:
+            a["bottom_charge_length_m"] = round(_f(rng.uniform(0, length)), 6)
+            a["column_charge_length_m"] = round(_f(rng.uniform(0, length - a["bottom_charge_length_m"])), 6)
+        try:
+            n = bl.uniformity_index(
+                a["burden_m"],
+                a["spacing_m"],
+                a["hole_diameter_m"],
+                a["drilling_deviation_m"],
+                a["charge_length_m"],
+                a["bench_height_m"],
+                a.get("bottom_charge_length_m"),
+                a.get("column_charge_length_m"),
+            )
+        except Exception:
+            continue
+        if _f(n) > 0:
+            case(cases, a, {"uniformity": _f(n)})
+    write("uniformity_index", "uniformity-index", "minephys.blasting.uniformity_index", cases)
+
+    cases = []
+    while len(cases) < N_VECTORS:
+        xmax = _span(rng, len(cases), 0.1, 100, True)
+        x50 = round(_f(xmax * rng.uniform(0.02, 0.95)), 9)
+        sizes = sorted(
+            min(100.0, round(_f(xmax * rng.uniform(0.001, 1.3)), 9)) for _ in range(int(rng.integers(1, 12)))
+        )
+        a = {"sizes_m": sizes, "x50_m": x50, "xmax_m": xmax, "undulation": _span(rng, len(cases), 0.05, 50, True)}
+        p = bl.swebrec_passing(np.array(sizes), x50, xmax, a["undulation"])
+        case(cases, a, {"passing": [_f(v) for v in np.atleast_1d(p)]})
+    write("swebrec_passing", "swebrec-passing", "minephys.blasting.swebrec_passing", cases)
+
+    cases = []
+    while len(cases) < N_VECTORS:
+        xmax = _span(rng, len(cases), 0.1, 100, True)
+        a = {
+            "uniformity": _span(rng, len(cases), 0.05, 10, True),
+            "x50_m": round(_f(xmax * rng.uniform(0.02, 0.95)), 9),
+            "xmax_m": xmax,
+        }
+        b = bl.kco_undulation(a["uniformity"], a["x50_m"], a["xmax_m"])
+        case(cases, a, {"undulation": _f(b)})
+    write("kco_undulation", "kco-undulation", "minephys.blasting.kco_undulation", cases)
+
+    cases = []
+    vib = importlib.import_module("minephys.blasting")
+    for i in range(N_VECTORS):
+        a = {
+            "distance_m": _span(rng, i, 1, 1e5, True),
+            "charge_per_delay_kg": _span(rng, i + 2, 0.1, 1e5, True),
+            "k_site_m_per_s": _span(rng, i + 4, 0.01, 100, True),
+            "site_exponent": _span(rng, i + 6, 0.5, 5, True),
+        }
+        sd = a["distance_m"] / math.sqrt(a["charge_per_delay_kg"])
+        ppv = vib.ppv_scaled_distance(
+            a["distance_m"], a["charge_per_delay_kg"], a["k_site_m_per_s"], a["site_exponent"]
+        )
+        case(cases, a, {"scaled_distance_m_per_kg_half": _f(sd), "ppv_m_per_s": _f(ppv)})
+    write("ppv_scaled_distance", "ppv-scaled-distance", "minephys.blasting.ppv_scaled_distance", cases)
+
+    cases = []
+    for i in range(N_VECTORS):
+        a = {
+            "launch_speed_m_per_s": _span(rng, i, 0.1, 500, True),
+            "launch_angle_rad": _span(rng, i + 3, 0.0, math.pi / 2),
+        }
+        if i % 3 == 0:
+            a["gravity_m_per_s2"] = _span(rng, i, 1.0, 100.0)
+        r = bl.flyrock_range_no_drag(
+            a["launch_speed_m_per_s"], a["launch_angle_rad"], a.get("gravity_m_per_s2", 9.80665)
+        )
+        case(cases, a, {"range_m": _f(r)})
+    write("flyrock_range_no_drag", "flyrock-range-no-drag", "minephys.blasting.flyrock_range_no_drag", cases)
+    return written
+
+
 GENERATORS: dict[str, Callable[[Path], list[Path]]] = {
     "geotech": gen_geotech,
     "plume": gen_plume,
+    "blasting": gen_blasting,
 }
 
 
