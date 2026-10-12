@@ -157,7 +157,10 @@ def _engine_validator(engine: str, kind: str) -> Draft202012Validator:
     return Draft202012Validator(sub, registry=reg._contract_registry(ROOT))
 
 
-def _buffer_descriptors(schema: Any, payload: Any) -> Any:
+GRID_DIMS = {"rows": "ny", "cols": "nx"}  # a non-constant dimension of a result buffer is named by an input field
+
+
+def _buffer_descriptors(schema: Any, payload: Any, inputs: dict[str, Any] | None = None) -> Any:
     """A typed buffer travels as a descriptor in a message (dtype, shape, byte_length); a fixture holds its numbers
     as a flat list, so the check swaps each such list for the descriptor the schema asks for."""
     if not isinstance(schema, dict) or not isinstance(payload, dict):
@@ -169,14 +172,22 @@ def _buffer_descriptors(schema: Any, payload: Any) -> Any:
         values = out.get(key)
         if not isinstance(values, list):
             continue
-        dims = (prop.get("properties") or {}).get("shape", {}).get("required") or []
-        shape_props = (prop.get("properties") or {}).get("shape", {}).get("properties") or {}
+        shape_schema = (prop.get("properties") or {}).get("shape", {})
+        dims = shape_schema.get("required") or []
+        props = shape_schema.get("properties") or {}
         fixed = 1
-        for d in dims[1:]:
-            fixed *= int(shape_props.get(d, {}).get("const", 1))
-        shape = {dims[0]: len(values) // max(fixed, 1)} if dims else {}
-        for d in dims[1:]:
-            shape[d] = int(shape_props.get(d, {}).get("const", 1))
+        shape: dict[str, int] = {}
+        for d in dims:
+            spec = props.get(d, {})
+            if "const" in spec:
+                shape[d] = int(spec["const"])
+                fixed *= shape[d]
+            elif inputs and GRID_DIMS.get(d) in inputs:
+                shape[d] = int(inputs[GRID_DIMS[d]])
+                fixed *= shape[d]
+        for d in dims:
+            if d not in shape:
+                shape[d] = len(values) // max(fixed, 1)
         out[key] = {"dtype": "float64", "shape": shape, "byte_length": 8 * len(values)}
     return out
 
@@ -195,7 +206,7 @@ def _engine_problems(rel: str, engine: str, doc: dict[str, Any]) -> list[Problem
     defs = reg.schema_of(ROOT, f"engines/{engine}.schema.json")["$defs"]
     for i, case in enumerate(doc.get("cases", [])):
         for kind, validator, key in (("input", vin, "args"), ("output", vout, "result")):
-            payload = _buffer_descriptors(defs.get(f"{function}_{key}"), case.get(kind))
+            payload = _buffer_descriptors(defs.get(f"{function}_{key}"), case.get(kind), case.get("input"))
             msg = {"kind": kind, **envelope, key: payload}
             errs = sorted(validator.iter_errors(msg), key=lambda e: [str(p) for p in e.absolute_path])
             if errs:

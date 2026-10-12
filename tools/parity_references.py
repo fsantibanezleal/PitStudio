@@ -9,6 +9,7 @@ routing, twins) have no generator: asking for one is reported, never faked.
 
 from __future__ import annotations
 
+import importlib
 import math
 import os
 import sys
@@ -110,7 +111,7 @@ def _geotech_strength(rng: np.random.Generator, i: int) -> tuple[float, float]:
 
 def gen_geotech(root: Path) -> list[Path]:
     mp = minephys()
-    g = mp.geotech
+    g = importlib.import_module("minephys.geotech")
     rng = np.random.default_rng(SEED)
     written: list[Path] = []
 
@@ -300,8 +301,128 @@ def gen_geotech(root: Path) -> list[Path]:
     return written
 
 
+def gen_plume(root: Path) -> list[Path]:
+    mp = minephys()
+    env = importlib.import_module("minephys.environment")
+    rng = np.random.default_rng(SEED + 1)
+    written: list[Path] = []
+    classes = list("ABCDEF")
+
+    cases: list[dict[str, Any]] = []
+    sizes = ["PM2.5", "PM10", "PM30"]
+    corners = [(0.018, 1814.36948), (0.252, 263083.5746), (0.018, 263083.5746), (0.252, 1814.36948)]
+    for i in range(N_VECTORS):
+        silt, weight = corners[i % 4] if i < 12 else (rng.uniform(0.018, 0.252), rng.uniform(1814.36948, 263083.5746))
+        size = sizes[i % 3]
+        e = env.ap42_unpaved_emission_factor(float(silt), float(weight), size)
+        cases.append(
+            {
+                "name": f"v{i}",
+                "input": {"silt_fraction": _f(silt), "mean_weight_kg": _f(weight), "size_class": size},
+                "output": {"emission_factor_kg_per_m": _f(e)},
+            }
+        )
+    doc = mpf.build_fixture(
+        "plume",
+        "ap42_emission_factor",
+        "ap42-emission-factor",
+        reference(mp, "minephys.environment.ap42_unpaved_emission_factor"),
+        ANALYTICAL,
+        cases,
+    )
+    written.append(mpf.write_fixture(root, doc, gzip=True))
+
+    cases = []
+    while len(cases) < N_VECTORS:
+        x = _f(10 ** rng.uniform(0, 5))
+        cls = classes[len(cases) % 6]
+        terrain = "rural" if rng.random() < 0.6 else "urban"
+        sy, sz = env.pasquill_sigmas(x, cls, terrain)
+        if not (0 < _f(sz) <= 5000 and _f(sy) > 0):
+            continue
+        cases.append(
+            {
+                "name": f"v{len(cases)}",
+                "input": {"downwind_distance_m": x, "stability_class": cls, "terrain": terrain},
+                "output": {"sigma_y_m": _f(sy), "sigma_z_m": _f(sz)},
+            }
+        )
+    doc = mpf.build_fixture(
+        "plume",
+        "pasquill_sigmas",
+        "pasquill-sigmas",
+        reference(mp, "minephys.environment.pasquill_sigmas"),
+        ANALYTICAL,
+        cases,
+    )
+    written.append(mpf.write_fixture(root, doc, gzip=True))
+
+    cases = []
+    while len(cases) < N_VECTORS:
+        nx, ny = int(rng.integers(1, 7)), int(rng.integers(1, 7))
+        cls = classes[len(cases) % 6]
+        terrain = "rural" if rng.random() < 0.5 else "urban"
+        args: dict[str, Any] = {
+            "source_strength_kg_per_s": round(_f(rng.uniform(0, 5)), 6),
+            "wind_speed_m_per_s": round(_f(rng.uniform(0.5, 15)), 6),
+            "stability_class": cls,
+            "terrain": terrain,
+            "release_height_m": round(_f(rng.uniform(0, 80)), 6),
+            "x_start_m": round(_f(rng.uniform(100, 3000)), 6),
+            "x_step_m": round(_f(rng.uniform(10, 1500)), 6),
+            "nx": nx,
+            "y_start_m": round(_f(rng.uniform(-300, 0)), 6),
+            "y_step_m": round(_f(rng.uniform(5, 150)), 6),
+            "ny": ny,
+            "receptor_height_m": round(_f(rng.uniform(0, 30)), 6),
+        }
+        if rng.random() < 0.4:
+            args["mixing_height_m"] = round(_f(rng.uniform(20, 3000)), 6)
+        x = args["x_start_m"] + args["x_step_m"] * np.arange(nx)
+        y = (args["y_start_m"] + args["y_step_m"] * np.arange(ny))[:, None]
+        sy, sz = env.pasquill_sigmas(x, cls, terrain)
+        grid = env.gaussian_plume(
+            args["source_strength_kg_per_s"],
+            args["wind_speed_m_per_s"],
+            y,
+            args["receptor_height_m"],
+            args["release_height_m"],
+            sy,
+            sz,
+            args.get("mixing_height_m"),
+        )
+        grid = np.asarray(grid, dtype=np.float64).reshape(ny, nx)
+        if not np.all(np.isfinite(grid)):
+            continue
+        k = int(np.argmax(grid))
+        iy, ix = divmod(k, nx)
+        cases.append(
+            {
+                "name": f"v{len(cases)}",
+                "input": args,
+                "output": {
+                    "concentration_kg_per_m3": [_f(v) for v in grid.reshape(-1)],
+                    "max_concentration_kg_per_m3": _f(grid.reshape(-1)[k]),
+                    "max_x_m": _f(x[ix]),
+                    "max_y_m": _f(y[iy, 0]),
+                },
+            }
+        )
+    doc = mpf.build_fixture(
+        "plume",
+        "plume_grid",
+        "plume-grid",
+        reference(mp, "minephys.environment.gaussian_plume"),
+        ANALYTICAL,
+        cases,
+    )
+    written.append(mpf.write_fixture(root, doc, gzip=True))
+    return written
+
+
 GENERATORS: dict[str, Callable[[Path], list[Path]]] = {
     "geotech": gen_geotech,
+    "plume": gen_plume,
 }
 
 

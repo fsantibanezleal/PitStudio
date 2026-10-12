@@ -41,3 +41,9 @@ export function asInteger(value: unknown, name: string, b: Bounds = {}): number 
 export function optional<T>(value: unknown, make: (v: unknown) => T, fallback: T): T {
   return value === undefined ? fallback : make(value);
 }
+
+export function asEnum<T extends string>(value: unknown, name: string, options: readonly T[]): T {
+  if (typeof value !== "string" || !options.includes(value as T))
+    throw schemaError(`${name} must be one of ${options.join(", ")}`);
+  return value as T;
+}
