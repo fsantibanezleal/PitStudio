@@ -1,0 +1,422 @@
+# Generated from contracts/haul-scenario.schema.json by tools/gen_types.py. Do not edit.
+
+from __future__ import annotations
+
+from typing import Annotated, Literal
+
+from pydantic import BaseModel, ConfigDict, Field, RootModel
+
+
+class Slug(RootModel[str]):
+    root: Annotated[str, Field(max_length=64, pattern="^[a-z0-9][a-z0-9-]{0,63}$")]
+
+
+class Sha256(RootModel[str]):
+    root: Annotated[str, Field(max_length=64, pattern="^[0-9a-f]{64}$")]
+
+
+class Relpath(RootModel[str]):
+    root: Annotated[
+        str,
+        Field(
+            max_length=255,
+            pattern="^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$",
+        ),
+    ]
+
+
+class ArtefactId(RootModel[str]):
+    root: Annotated[str, Field(max_length=96, pattern="^[a-z0-9][a-z0-9_-]{0,95}$")]
+
+
+class SchemaVersion(RootModel[str]):
+    root: Annotated[str, Field(max_length=8, pattern="^1\\.[0-9]{1,4}$")]
+
+
+class NodeId(RootModel[int]):
+    root: Annotated[int, Field(description="Node id of the road network.", ge=0, le=2147483647)]
+
+
+class Point3MItem(RootModel[float]):
+    root: Annotated[float, Field(ge=-10000000.0, le=10000000.0)]
+
+
+class Point3M(RootModel[list[Point3MItem]]):
+    """
+    World position (x, y, z) in metres.
+    """
+
+    root: Annotated[
+        list[Point3MItem],
+        Field(
+            description="World position (x, y, z) in metres.",
+            max_length=3,
+            min_length=3,
+        ),
+    ]
+
+
+class Node(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    id: NodeId
+    kind: Literal["face", "dump", "crusher", "junction", "portal", "bay", "chute", "bin", "waypoint"]
+    pos_m: Point3M
+
+
+class ZoneId(RootModel[int]):
+    root: Annotated[int, Field(ge=0, le=2147483647)]
+
+
+class Segment(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    id: Annotated[int, Field(ge=0, le=2147483647)]
+    a: NodeId
+    b: NodeId
+    polyline_m: Annotated[list[Point3M], Field(max_length=512, min_length=2)]
+    length_m: Annotated[float, Field(gt=0.0, le=100000.0)]
+    grade_pct: Annotated[
+        float,
+        Field(description="Signed grade in the a -> b direction (%).", gt=-100.0, lt=100.0),
+    ]
+    width_class: Literal[1, 2]
+    one_way: bool
+    speed_limit_kmh: Annotated[float, Field(gt=0.0, le=120.0)]
+    rolling_resistance_pct: Annotated[float, Field(ge=0.0, le=30.0)]
+    zone_id: ZoneId | None
+    single_lane_op: bool
+
+
+class SegmentId(RootModel[int]):
+    root: Annotated[int, Field(ge=0, le=2147483647)]
+
+
+class Zone(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    id: Annotated[int, Field(ge=0, le=2147483647)]
+    segment_ids: Annotated[list[SegmentId], Field(max_length=256, min_length=1)]
+    policy: Literal["lockout", "loaded_priority", "group_batching"]
+    max_in_zone: Annotated[int, Field(ge=1, le=64)]
+    batch_k: Annotated[int, Field(ge=1, le=64)]
+    max_hold_s: Annotated[float, Field(ge=0.0, le=86400.0)]
+
+
+class Junction(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    node: NodeId
+    capacity: Annotated[int, Field(ge=1, le=16)]
+    cross_s: Annotated[float, Field(ge=0.0, le=3600.0)]
+
+
+class Network(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    nodes: Annotated[list[Node], Field(max_length=10000, min_length=2)]
+    segments: Annotated[list[Segment], Field(max_length=10000, min_length=1)]
+    zones: Annotated[list[Zone], Field(max_length=256)]
+    junctions: Annotated[list[Junction], Field(max_length=1024)]
+
+
+class TruckClassName(RootModel[Literal["CAT_777G", "CAT_785D", "CAT_793F", "UG_TRUCK_50", "UG_TRUCK_63"]]):
+    root: Annotated[
+        Literal["CAT_777G", "CAT_785D", "CAT_793F", "UG_TRUCK_50", "UG_TRUCK_63"],
+        Field(description="Truck class of the pinned reference-engine catalog."),
+    ]
+
+
+class LoaderClassName(
+    RootModel[Literal["SHOVEL_25", "SHOVEL_45", "WHEEL_LOADER_18", "CHUTE", "LHD_14_LOADING", "LHD_18_LOADING"]]
+):
+    root: Annotated[
+        Literal["SHOVEL_25", "SHOVEL_45", "WHEEL_LOADER_18", "CHUTE", "LHD_14_LOADING", "LHD_18_LOADING"],
+        Field(description="Loader class of the pinned reference-engine catalog."),
+    ]
+
+
+class CurvePoint(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    speed_kmh: Annotated[float, Field(gt=0.0, le=120.0)]
+    force_kn: Annotated[float, Field(ge=0.0, le=100000.0)]
+
+
+class TruckClass(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    name: TruckClassName
+    kind: Literal["rigid", "articulated-ug"]
+    payload_mean_t: Annotated[float, Field(gt=0.0, le=500.0)]
+    payload_sd_t: Annotated[float, Field(ge=0.0, le=100.0)]
+    empty_t: Annotated[float, Field(gt=0.0, le=1000.0)]
+    width_class: Literal[1, 2]
+    power_kw: Annotated[float, Field(gt=0.0, le=10000.0)]
+    max_speed_kmh: Annotated[float, Field(gt=0.0, le=120.0)]
+    rimpull_kn: Annotated[list[CurvePoint], Field(max_length=32, min_length=2)]
+    retarder_kn: Annotated[list[CurvePoint], Field(max_length=32, min_length=2)]
+
+
+class LoaderClass(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    name: LoaderClassName
+    pass_t: Annotated[float, Field(gt=0.0, le=200.0)]
+    pass_time_s: Annotated[float, Field(gt=0.0, le=3600.0)]
+    time_cv: Annotated[float, Field(ge=0.0, le=2.0)]
+    spot_time_s: Annotated[float, Field(ge=0.0, le=3600.0)]
+
+
+class Equipment(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    truck_classes: Annotated[list[TruckClass], Field(max_length=8, min_length=1)]
+    loader_classes: Annotated[list[LoaderClass], Field(max_length=8, min_length=1)]
+
+
+class Truck(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    id: Annotated[int, Field(ge=0, le=2147483647)]
+    truck_class: TruckClassName
+    start_loader: NodeId
+
+
+class Loader(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    node: NodeId
+    loader_class: LoaderClassName
+    n_spots: Annotated[int, Field(ge=1, le=8)]
+    destination_dump: Annotated[
+        int | None,
+        Field(
+            description="Declared destination dump; absent = the first dump.",
+            ge=0,
+            le=2147483647,
+        ),
+    ] = None
+
+
+class DispatcherId(
+    RootModel[Literal["fixed", "nearest", "sptf", "sq", "random", "min-idle", "lp", "ppo", "attention"]]
+):
+    root: Literal["fixed", "nearest", "sptf", "sq", "random", "min-idle", "lp", "ppo", "attention"]
+
+
+class VariateProfile(RootModel[Literal["engine", "exponential", "deterministic"]]):
+    root: Literal["engine", "exponential", "deterministic"]
+
+
+class Term(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    loader: NodeId
+    coef: Annotated[float, Field(ge=-1000000.0, le=1000000.0)]
+
+
+class BlendFloor(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    terms: Annotated[list[Term], Field(max_length=64, min_length=1)]
+    min: Annotated[float, Field(ge=-1000000000.0, le=1000000000.0)]
+
+
+class LpConfig(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    blend_floors: Annotated[list[BlendFloor], Field(max_length=16)]
+
+
+class PolicyRef(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    artefact_id: ArtefactId
+    onnx_sha256: Sha256
+    layout_version: Literal[1]
+
+
+class Dispatcher(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    id: DispatcherId
+    lp: LpConfig | None = None
+    policy: PolicyRef | None = None
+
+
+class QuantileTable(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    family: Literal["uniform", "normal", "exponential", "lognormal-unit-mean"]
+    sigma: Annotated[float | None, Field(ge=0.05, le=1.0)] = None
+    bins: Literal[4096]
+    encoding: Literal["float64-le-base64"]
+    knots_f64le_b64: Annotated[
+        str,
+        Field(
+            description="4097 knots (float64, little-endian), base64.",
+            max_length=43704,
+            min_length=43704,
+            pattern="^[A-Za-z0-9+/]*={0,2}$",
+        ),
+    ]
+    knots_sha256: Sha256
+
+
+class EngineConstants(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    stagger_window_s: Annotated[float, Field(ge=0.0, le=3600.0)]
+    dump_mean_s: Annotated[float, Field(gt=0.0, le=3600.0)]
+    dump_cv: Annotated[float, Field(ge=0.0, le=2.0)]
+    closure_retry_s: Annotated[float, Field(gt=0.0, le=86400.0)]
+    headway_m: Annotated[float, Field(gt=0.0, le=1000.0)]
+    headway_s: Annotated[float, Field(ge=0.0, le=600.0)]
+    payload_min_frac_of_mean: Annotated[float, Field(ge=0.0, le=1.0)]
+    payload_max_t: Annotated[float, Field(gt=0.0, le=1000.0)]
+
+
+class Closure(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    start_s: Annotated[float, Field(ge=0.0, le=604800.0)]
+    duration_s: Annotated[float, Field(gt=0.0, le=604800.0)]
+    segment_ids: Annotated[list[SegmentId], Field(max_length=256, min_length=1)]
+
+
+class Failures(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    truck_mtbf_h: Annotated[float, Field(gt=0.0, le=100000.0)]
+    truck_repair_mean_s: Annotated[float, Field(gt=0.0, le=604800.0)]
+    truck_repair_cv: Annotated[float, Field(ge=0.0, le=2.0)]
+    loader_mtbf_h: Annotated[float, Field(gt=0.0, le=100000.0)]
+    loader_repair_mean_s: Annotated[float, Field(gt=0.0, le=604800.0)]
+    loader_repair_cv: Annotated[float, Field(ge=0.0, le=2.0)]
+    closures: Annotated[list[Closure], Field(max_length=256)]
+
+
+class KpiWindow(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    warmup_s: Annotated[float, Field(ge=0.0, le=604800.0)]
+
+
+class CostRates(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    truck_per_h: Annotated[float, Field(ge=0.0, le=1000000.0)]
+    loader_per_h: Annotated[float, Field(ge=0.0, le=1000000.0)]
+    currency: Annotated[str, Field(max_length=3, min_length=3, pattern="^[A-Z]{3}$")]
+
+
+class Lhd(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    id: Annotated[int, Field(ge=0, le=2147483647)]
+    lhd_class: Literal["LHD_14", "LHD_18"]
+    drawpoints: Annotated[list[NodeId], Field(max_length=16, min_length=1)]
+    tip_node: NodeId
+    pass_id: Annotated[int, Field(ge=0, le=2147483647)]
+
+
+class OrePass(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    id: Annotated[int, Field(ge=0, le=2147483647)]
+    chute_node: NodeId
+    capacity_t: Annotated[float, Field(gt=0.0, le=1000000.0)]
+
+
+class ShaftBin(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    node: NodeId
+    capacity_t: Annotated[float, Field(gt=0.0, le=1000000.0)]
+    hoist_t_per_h: Annotated[float, Field(gt=0.0, le=100000.0)]
+
+
+class PlanningOverlay(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    path: Relpath
+    sha256: Sha256
+
+
+class ReferenceOnly(BaseModel):
+    """
+    Reference-engine features outside the twin's feature set (FR-007-12).
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    lhds: Annotated[list[Lhd] | None, Field(max_length=64)] = None
+    ore_passes: Annotated[list[OrePass] | None, Field(max_length=16)] = None
+    shaft_bin: ShaftBin | None = None
+    planning_overlay: PlanningOverlay | None = None
+    zone_penalty_s: Annotated[float | None, Field(ge=0.0, le=3600.0)] = None
+
+
+class HaulageScenarioBundle(BaseModel):
+    """
+    Scenario bundle read by the haulage adapter, the TypeScript twin and the vectorised environment (DC-007-01, spec 007-haulage-dispatch).
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    field_schema: Annotated[str | None, Field(alias="$schema", max_length=200)] = None
+    schema_version: SchemaVersion
+    id: Slug
+    description: Annotated[str | None, Field(max_length=500, min_length=1)] = None
+    live: Annotated[bool, Field(description="Bundle offered to the live lane (fleet <= 40 trucks).")]
+    mode: Literal["fast", "traffic"]
+    horizon_s: Annotated[float, Field(gt=0.0, le=604800.0)]
+    kpi_window: KpiWindow
+    network: Network
+    equipment: Equipment
+    fleet: Annotated[list[Truck], Field(max_length=400, min_length=1)]
+    loaders: Annotated[list[Loader], Field(max_length=64, min_length=1)]
+    dumps: Annotated[
+        list[NodeId],
+        Field(
+            description="Dump node ids; the first is the default.",
+            max_length=32,
+            min_length=1,
+        ),
+    ]
+    dispatcher: Dispatcher
+    variate_profile: VariateProfile
+    quantile_tables: Annotated[list[QuantileTable], Field(max_length=32)]
+    engine_constants: EngineConstants
+    failures: Failures | None
+    cost_rates: CostRates | None = None
+    reference_only: ReferenceOnly | None = None
