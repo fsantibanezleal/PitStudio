@@ -744,12 +744,130 @@ def gen_mincut(root: Path) -> list[Path]:
     return [mpf.write_fixture(root, doc, gzip=True)]
 
 
+def _star_polygon(rng: np.random.Generator, centre: tuple[float, float], radius: float) -> list[list[float]]:
+    """A simple polygon: vertices at increasing angles around a centre, so no edge crosses another."""
+    k = int(rng.integers(3, 12))
+    angles = np.sort(rng.uniform(0, 2 * math.pi, k))
+    radii = rng.uniform(0.35, 1.0, k) * radius
+    return [
+        [round(_f(centre[0] + r * math.cos(a)), 6), round(_f(centre[1] + r * math.sin(a)), 6)]
+        for a, r in zip(angles, radii, strict=True)
+    ]
+
+
+def _orient(a: list[float], b: list[float], c: list[float]) -> float:
+    return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
+
+
+def _simple(poly: list[list[float]]) -> bool:
+    """True when no two non-adjacent edges touch (the engine rejects any other polygon)."""
+    n = len(poly)
+
+    def hit(a: list[float], b: list[float], c: list[float], d: list[float]) -> bool:
+        o1, o2, o3, o4 = _orient(a, b, c), _orient(a, b, d), _orient(c, d, a), _orient(c, d, b)
+        if (o1 * o2 < 0) and (o3 * o4 < 0):
+            return True
+        return 0.0 in (o1, o2, o3, o4)
+
+    for i in range(n):
+        for j in range(i + 1, n):
+            if j == i + 1 or (i == 0 and j == n - 1):
+                continue
+            if hit(poly[i], poly[(i + 1) % n], poly[j], poly[(j + 1) % n]):
+                return False
+    return True
+
+
+def _inside(poly: list[list[float]], x: float, y: float) -> bool:
+    hit = False
+    j = len(poly) - 1
+    for i, (xi, yi) in enumerate(poly):
+        xj, yj = poly[j]
+        if (yi > y) != (yj > y) and x < (xj - xi) * (y - yi) / (yj - yi) + xi:
+            hit = not hit
+        j = i
+    return hit
+
+
+def gen_volume(root: Path) -> list[Path]:
+    """Cut/fill of two DEM epochs in a polygon (spec 017 FR-017-30, FR-017-33): numpy differencing and math.fsum."""
+    rng = np.random.default_rng(SEED + 5)
+    cases: list[dict[str, Any]] = []
+    while len(cases) < N_VECTORS:
+        rows, cols = int(rng.integers(3, 21)), int(rng.integers(3, 21))
+        cell = round(_f(10 ** rng.uniform(-2, 2)), 6) if len(cases) > 1 else (0.01, 100.0)[len(cases)]
+        origin = [round(_f(rng.uniform(-1000, 1000)), 3), round(_f(rng.uniform(-1000, 1000)), 3)]
+        centre = (origin[0] + cols * cell / 2, origin[1] - rows * cell / 2)
+        poly = _star_polygon(rng, centre, 0.7 * max(rows, cols) * cell)
+        if not _simple(poly):
+            continue
+        before = np.round(rng.uniform(50, 150, rows * cols), 4)
+        after = np.round(before + rng.normal(0, 2, rows * cols), 4)
+        bad = rng.random(rows * cols) < 0.06
+        z0 = [None if (b and rng.random() < 0.5) else _f(v) for b, v in zip(bad, before, strict=True)]
+        z1 = [None if (b and rng.random() < 0.5) else _f(v) for b, v in zip(bad, after, strict=True)]
+        fills: list[float] = []
+        cuts: list[float] = []
+        nodata = touched = 0
+        for r in range(rows):
+            y = origin[1] - (r + 0.5) * cell
+            for c in range(cols):
+                x = origin[0] + (c + 0.5) * cell
+                if not _inside(poly, x, y):
+                    continue
+                touched += 1
+                a0, a1 = z0[r * cols + c], z1[r * cols + c]
+                if a0 is None or a1 is None:
+                    nodata += 1
+                    continue
+                d = a1 - a0
+                fills.append(max(d, 0.0))
+                cuts.append(max(-d, 0.0))
+        if touched == 0 or not fills:
+            continue
+        area = cell * cell
+        s0, s1 = round(_f(rng.uniform(0, 1)), 4), round(_f(rng.uniform(0, 1)), 4)
+        sigma = math.sqrt(s0 * s0 + s1 * s1)
+        valid = len(fills)
+        fill, cut = area * math.fsum(fills), area * math.fsum(cuts)
+        cases.append(
+            {
+                "name": f"v{len(cases)}",
+                "input": {
+                    "before": z0,
+                    "after": z1,
+                    "rows": rows,
+                    "cols": cols,
+                    "cell_size_m": cell,
+                    "origin_m": origin,
+                    "polygon_m": poly,
+                    "rmse_before_m": s0,
+                    "rmse_after_m": s1,
+                },
+                "output": {
+                    "fill_m3": fill,
+                    "cut_m3": cut,
+                    "net_m3": fill - cut,
+                    "valid_cells": valid,
+                    "nodata_cells": nodata,
+                    "nodata_fraction": nodata / (valid + nodata),
+                    "bound_uncorrelated_m3": area * math.sqrt(valid) * sigma,
+                    "bound_correlated_m3": area * valid * sigma,
+                },
+            }
+        )
+    ref = {"name": "numpy", "version": np.__version__, "callable": "numpy.subtract"}
+    doc = mpf.build_fixture("volume", "cut_fill", "cut-fill", ref, ANALYTICAL, cases)
+    return [mpf.write_fixture(root, doc, gzip=True)]
+
+
 GENERATORS: dict[str, Callable[[Path], list[Path]]] = {
     "geotech": gen_geotech,
     "plume": gen_plume,
     "blasting": gen_blasting,
     "comminution": gen_comminution,
     "mincut": gen_mincut,
+    "volume": gen_volume,
 }
 
 

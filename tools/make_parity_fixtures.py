@@ -17,6 +17,8 @@ import gzip
 import hashlib
 import io
 import json
+import math
+import struct
 import sys
 from pathlib import Path
 from typing import Any
@@ -167,10 +169,18 @@ def _buffer_descriptors(schema: Any, payload: Any, inputs: dict[str, Any] | None
         return payload
     out = dict(payload)
     for key, prop in (schema.get("properties") or {}).items():
-        if not (isinstance(prop, dict) and "byte_length" in (prop.get("required") or [])):
+        if not isinstance(prop, dict):
             continue
         values = out.get(key)
         if not isinstance(values, list):
+            continue
+        required = prop.get("required") or []
+        if {"artefact", "sha256", "bytes"} <= set(required):
+            # an artefact reference of a message; the fixture carries the loaded values (null = no data, as NaN)
+            raw = struct.pack(f"<{len(values)}f", *((math.nan if v is None else v) for v in values))
+            out[key] = {"artefact": f"fixture-{key}", "sha256": _sha(raw), "bytes": len(raw)}
+            continue
+        if "byte_length" not in required:
             continue
         shape_schema = (prop.get("properties") or {}).get("shape", {})
         dims = shape_schema.get("required") or []
