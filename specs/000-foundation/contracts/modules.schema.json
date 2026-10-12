@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/fsantibanezleal/PitStudio/contracts/modules.schema.json",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/modules.schema.json",
   "title": "PitStudio module map (modules.yaml)",
   "description": "Modules, contracts and producer-to-consumer edges of the product. Checked in CI by tools/check_modules.py (schema, acyclicity, every edge names an existing module and contract, every data-contract row is an edge or an output).",
   "type": "object",
@@ -18,38 +18,44 @@
     },
     "generated": {
       "type": "string",
-      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "maxLength": 10
     },
     "modules": {
       "type": "array",
       "minItems": 1,
       "items": {
         "$ref": "#/$defs/module"
-      }
+      },
+      "maxItems": 2000
     },
     "contracts": {
       "type": "array",
       "minItems": 1,
       "items": {
         "$ref": "#/$defs/contract"
-      }
+      },
+      "maxItems": 2000
     },
     "edges": {
       "type": "array",
       "minItems": 1,
       "items": {
         "$ref": "#/$defs/edge"
-      }
+      },
+      "maxItems": 2000
     }
   },
   "$defs": {
     "id": {
       "type": "string",
-      "pattern": "^[a-z0-9][a-z0-9_-]{1,62}$"
+      "pattern": "^[a-z0-9][a-z0-9_-]{1,62}$",
+      "maxLength": 64
     },
     "spec": {
       "type": "string",
-      "pattern": "^[0-9]{3}$"
+      "pattern": "^[0-9]{3}$",
+      "maxLength": 3
     },
     "module": {
       "type": "object",
@@ -145,7 +151,8 @@
         },
         "stage": {
           "type": "string",
-          "pattern": "^s[0-9]{2}[a-z]?_[a-z0-9_]+$|^st[0-9]{2}[a-z]?_[a-z0-9_]+$"
+          "pattern": "^s[0-9]{2}[a-z]?_[a-z0-9_]+$|^st[0-9]{2}[a-z]?_[a-z0-9_]+$",
+          "maxLength": 64
         },
         "title": {
           "type": "string",
@@ -157,14 +164,16 @@
           "uniqueItems": true,
           "items": {
             "$ref": "#/$defs/id"
-          }
+          },
+          "maxItems": 256
         },
         "outputs": {
           "type": "array",
           "uniqueItems": true,
           "items": {
             "$ref": "#/$defs/id"
-          }
+          },
+          "maxItems": 256
         }
       }
     },
@@ -188,8 +197,10 @@
           "uniqueItems": true,
           "items": {
             "type": "string",
-            "pattern": "^DC-[0-9]{3}-[0-9]{2}$"
-          }
+            "pattern": "^DC-[0-9]{3}-[0-9]{2}$",
+            "maxLength": 16
+          },
+          "maxItems": 16
         },
         "schema_state": {
           "enum": [
@@ -203,13 +214,15 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "maxLength": 200
         },
         "promoted_target": {
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "maxLength": 200
         },
         "owner_spec": {
           "$ref": "#/$defs/spec"
@@ -221,7 +234,8 @@
           ]
         },
         "what": {
-          "type": "string"
+          "type": "string",
+          "maxLength": 500
         }
       }
     },
@@ -240,7 +254,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^E-(DC-[0-9]{3}-[0-9]{2}|GAP)-[0-9]{2}$"
+          "pattern": "^E-(DC-[0-9]{3}-[0-9]{2}|GAP)-[0-9]{2}$",
+          "maxLength": 16
         },
         "from": {
           "$ref": "#/$defs/id"
@@ -253,13 +268,15 @@
         },
         "dc": {
           "type": "string",
-          "pattern": "^DC-[0-9]{3}-[0-9]{2}$"
+          "pattern": "^DC-[0-9]{3}-[0-9]{2}$",
+          "maxLength": 16
         },
         "schema": {
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "maxLength": 200
         },
         "schema_state": {
           "enum": [
@@ -270,7 +287,8 @@
           ]
         },
         "what": {
-          "type": "string"
+          "type": "string",
+          "maxLength": 500
         },
         "gap_class": {
           "enum": [
@@ -279,7 +297,8 @@
           ]
         },
         "evidence": {
-          "type": "string"
+          "type": "string",
+          "maxLength": 500
         },
         "availability": {
           "$ref": "#/$defs/availability"
@@ -316,8 +335,10 @@
               "uniqueItems": true,
               "items": {
                 "type": "string",
-                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
-              }
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$",
+                "maxLength": 16
+              },
+              "maxItems": 32
             },
             "na": {
               "type": "string",
@@ -343,8 +364,10 @@
               "uniqueItems": true,
               "items": {
                 "type": "string",
-                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
-              }
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$",
+                "maxLength": 16
+              },
+              "maxItems": 32
             },
             "na": {
               "type": "string",
@@ -370,8 +393,10 @@
               "uniqueItems": true,
               "items": {
                 "type": "string",
-                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
-              }
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$",
+                "maxLength": 16
+              },
+              "maxItems": 32
             },
             "na": {
               "type": "string",
@@ -397,8 +422,10 @@
               "uniqueItems": true,
               "items": {
                 "type": "string",
-                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
-              }
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$",
+                "maxLength": 16
+              },
+              "maxItems": 32
             },
             "na": {
               "type": "string",
@@ -424,8 +451,10 @@
               "uniqueItems": true,
               "items": {
                 "type": "string",
-                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
-              }
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$",
+                "maxLength": 16
+              },
+              "maxItems": 32
             },
             "na": {
               "type": "string",
@@ -451,8 +480,10 @@
               "uniqueItems": true,
               "items": {
                 "type": "string",
-                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$"
-              }
+                "pattern": "^(FR|NFR|SC|P|DC)-[0-9]{3}-[0-9]{2}$",
+                "maxLength": 16
+              },
+              "maxItems": 32
             },
             "na": {
               "type": "string",
