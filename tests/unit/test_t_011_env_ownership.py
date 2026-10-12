@@ -1,4 +1,4 @@
-"""The ownership map of tests/envs.yaml and the collection rule of tests/conftest.py (not a locked test; root environment)."""
+"""The ownership map of tests/envs.yaml and the collection rule of tests/conftest.py (not locked; root environment)."""
 
 from __future__ import annotations
 

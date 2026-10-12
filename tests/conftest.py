@@ -1,8 +1,8 @@
 """Collection by environment ownership (tests/envs.yaml): a run ignores the test files that another environment owns.
 
-The running environment is named by PITSTUDIO_TEST_ENV (root, pipeline or studio; default root). Ownership is explicit and complete:
-there is no skip, no xfail and no import guard involved, so a file that cannot import in the running environment is a mistake in
-the map, not something to hide.
+The running environment is named by PITSTUDIO_TEST_ENV (root, pipeline or studio; default root). Ownership is explicit and
+complete: there is no skip, no xfail and no import guard involved. A file that cannot import in the environment that owns it
+is a mistake in the map or in the lock, not something to hide.
 """
 
 from __future__ import annotations
