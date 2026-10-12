@@ -24,6 +24,27 @@ export interface PublishedBundle {
   title: Text2;
   comparison: ComparisonRow[];
   acceleration: AccelRow[];
+  criteria: CriterionRecord[];
+}
+
+export interface CriterionRecord {
+  requirement: string;
+  status: "pass" | "fail" | "not-run";
+}
+
+const CRITERION_STATUSES = new Set(["pass", "fail", "not-run"]);
+
+function readCriteria(raw: unknown): CriterionRecord[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter(
+      (c): c is CriterionRecord =>
+        typeof c === "object" &&
+        c !== null &&
+        typeof (c as CriterionRecord).requirement === "string" &&
+        CRITERION_STATUSES.has((c as CriterionRecord).status),
+    )
+    .map((c) => ({ requirement: c.requirement, status: c.status }));
 }
 
 const COMPARISON_KINDS = new Set(["paired", "mcnemar", "single-event", "estimate"]);
@@ -39,15 +60,16 @@ export function readBundle(raw: unknown): PublishedBundle | null {
   )
     return null;
   if (!Array.isArray(b.rows)) return null;
+  const criteria = readCriteria(b.criteria);
   const title = (b.title ?? { en: b.id, es: b.id }) as Text2;
   if (b.kind === "acceleration" && tab === "acceleration") {
-    return { id: b.id, tab, title, comparison: [], acceleration: b.rows as AccelRow[] };
+    return { id: b.id, tab, title, comparison: [], acceleration: b.rows as AccelRow[], criteria };
   }
   if (b.kind !== "comparison" || tab === "acceleration" || tab === "parity") return null;
   const rows = (b.rows as ComparisonRow[]).filter(
     (row) => typeof row === "object" && row !== null && COMPARISON_KINDS.has(row.kind),
   );
-  return { id: b.id, tab: tab as ResultsTabId, title, comparison: rows, acceleration: [] };
+  return { id: b.id, tab: tab as ResultsTabId, title, comparison: rows, acceleration: [], criteria };
 }
 
 export const publishedBundles: PublishedBundle[] = Object.values(files)
