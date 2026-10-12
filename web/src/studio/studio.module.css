@@ -1,0 +1,11 @@
+/* Layout and components of the studio pages. Colours come from the shared tokens (light and dark). */
+.connect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.error {
+  color: var(--danger, #b00020);
+}

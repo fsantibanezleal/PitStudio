@@ -1,0 +1,11 @@
+{
+  "notYetRun": "Aún sin ejecutar",
+  "safe": { "showFull": "Mostrar el texto completo", "showLess": "Mostrar menos" },
+  "connect": {
+    "port": "Puerto de mi estudio local",
+    "button": "Conectar con mi estudio local",
+    "invalid": "Escribe un número de puerto entero de 1024 a 65535.",
+    "connected": "conectado — consola {{version}}",
+    "notConnected": "no conectado"
+  }
+}

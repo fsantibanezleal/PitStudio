@@ -1,0 +1,11 @@
+{
+  "notYetRun": "Not yet run",
+  "safe": { "showFull": "Show full text", "showLess": "Show less" },
+  "connect": {
+    "port": "Port of my local studio",
+    "button": "Connect to my local studio",
+    "invalid": "Enter a whole port number from 1024 to 65535.",
+    "connected": "connected — console {{version}}",
+    "notConnected": "not connected"
+  }
+}
