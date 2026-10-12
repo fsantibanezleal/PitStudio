@@ -453,6 +453,20 @@ class RolloutSet(Sequence):
         self._cache.move_to_end(i)
         return self._cache[i]
 
+    def preload(self, workers: int = 8) -> None:
+        """Decode and digest-check every rollout once, in parallel (hashing and zarr reads release the GIL)."""
+        if len(self) > self._cache_size:
+            return  # the cache cannot hold them all: stay lazy
+        from concurrent.futures import ThreadPoolExecutor
+
+        missing = [i for i in range(len(self)) if i not in self._cache]
+        with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+            loaded = list(
+                pool.map(lambda i: to_training_rollout(s10_preprocess(self.meta_paths[i], root=self.root)), missing)
+            )
+        for i, rollout in zip(missing, loaded, strict=True):
+            self._cache[i] = rollout
+
     def __iter__(self) -> Iterator[dict[str, Any]]:
         for i in range(len(self)):
             yield self[i]
