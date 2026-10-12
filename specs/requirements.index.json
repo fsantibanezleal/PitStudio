@@ -7332,7 +7332,9 @@
       "tasks": [
         "T-009-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_010_classes_arms.py"
+      ]
     },
     "FR-009-02": {
       "spec": "009-perception",
@@ -7342,7 +7344,9 @@
       "tasks": [
         "T-009-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_009_016_sdg_outputs.py"
+      ]
     },
     "FR-009-03": {
       "spec": "009-perception",
@@ -7352,7 +7356,9 @@
       "tasks": [
         "T-009-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_010_classes_arms.py"
+      ]
     },
     "FR-009-04": {
       "spec": "009-perception",
@@ -7362,7 +7368,9 @@
       "tasks": [
         "T-009-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_011_sun_sampler.py"
+      ]
     },
     "FR-009-05": {
       "spec": "009-perception",
@@ -7372,7 +7380,9 @@
       "tasks": [
         "T-009-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_012_dust_wet_sampler.py"
+      ]
     },
     "FR-009-06": {
       "spec": "009-perception",
@@ -7382,7 +7392,9 @@
       "tasks": [
         "T-009-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_012_dust_wet_sampler.py"
+      ]
     },
     "FR-009-07": {
       "spec": "009-perception",
@@ -7392,7 +7404,9 @@
       "tasks": [
         "T-009-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_013_placement_unstructured.py"
+      ]
     },
     "FR-009-08": {
       "spec": "009-perception",
@@ -7402,7 +7416,9 @@
       "tasks": [
         "T-009-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_013_placement_unstructured.py"
+      ]
     },
     "FR-009-09": {
       "spec": "009-perception",
@@ -7412,7 +7428,9 @@
       "tasks": [
         "T-009-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_014_sdg_config_guards.py"
+      ]
     },
     "FR-009-10": {
       "spec": "009-perception",
@@ -7422,7 +7440,9 @@
       "tasks": [
         "T-009-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_015_asset_people_guard.py"
+      ]
     },
     "FR-009-11": {
       "spec": "009-perception",
@@ -7432,7 +7452,9 @@
       "tasks": [
         "T-009-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_015_asset_people_guard.py"
+      ]
     },
     "FR-009-12": {
       "spec": "009-perception",
@@ -7442,7 +7464,9 @@
       "tasks": [
         "T-009-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_015_asset_people_guard.py"
+      ]
     },
     "FR-009-13": {
       "spec": "009-perception",
@@ -7452,7 +7476,9 @@
       "tasks": [
         "T-009-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_017_crusher_components.py"
+      ]
     },
     "FR-009-14": {
       "spec": "009-perception",
@@ -7462,7 +7488,9 @@
       "tasks": [
         "T-009-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_019_coco_loader.py"
+      ]
     },
     "FR-009-15": {
       "spec": "009-perception",
@@ -7472,7 +7500,9 @@
       "tasks": [
         "T-009-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_019_coco_loader.py"
+      ]
     },
     "FR-009-16": {
       "spec": "009-perception",
@@ -7482,7 +7512,9 @@
       "tasks": [
         "T-009-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_020_splits.py"
+      ]
     },
     "FR-009-17": {
       "spec": "009-perception",
@@ -7492,7 +7524,9 @@
       "tasks": [
         "T-009-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_020_splits.py"
+      ]
     },
     "FR-009-18": {
       "spec": "009-perception",
@@ -7502,7 +7536,10 @@
       "tasks": [
         "T-009-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_009_030_training_smoke.py",
+        "tests/unit/test_t_009_030_training_inputs.py"
+      ]
     },
     "FR-009-19": {
       "spec": "009-perception",
@@ -7512,7 +7549,9 @@
       "tasks": [
         "T-009-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_030_training_inputs.py"
+      ]
     },
     "FR-009-20": {
       "spec": "009-perception",
@@ -7522,7 +7561,9 @@
       "tasks": [
         "T-009-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_031_oom_resume.py"
+      ]
     },
     "FR-009-21": {
       "spec": "009-perception",
@@ -7532,7 +7573,9 @@
       "tasks": [
         "T-009-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_031_oom_resume.py"
+      ]
     },
     "FR-009-22": {
       "spec": "009-perception",
@@ -7542,7 +7585,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_032_ap_eval.py"
+      ]
     },
     "FR-009-23": {
       "spec": "009-perception",
@@ -7552,7 +7597,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_032_ap_eval.py"
+      ]
     },
     "FR-009-24": {
       "spec": "009-perception",
@@ -7562,7 +7609,9 @@
       "tasks": [
         "T-009-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_033_support_determinism.py"
+      ]
     },
     "FR-009-25": {
       "spec": "009-perception",
@@ -7572,7 +7621,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_040_dust.py"
+      ]
     },
     "FR-009-26": {
       "spec": "009-perception",
@@ -7582,7 +7633,9 @@
       "tasks": [
         "T-009-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_041_night.py"
+      ]
     },
     "FR-009-27": {
       "spec": "009-perception",
@@ -7592,7 +7645,9 @@
       "tasks": [
         "T-009-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_042_rain.py"
+      ]
     },
     "FR-009-28": {
       "spec": "009-perception",
@@ -7602,7 +7657,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_040_dust.py"
+      ]
     },
     "FR-009-29": {
       "spec": "009-perception",
@@ -7612,7 +7669,9 @@
       "tasks": [
         "T-009-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_043_corruption_guards.py"
+      ]
     },
     "FR-009-30": {
       "spec": "009-perception",
@@ -7622,7 +7681,10 @@
       "tasks": [
         "T-009-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_044_corruption_acceptance.py",
+        "tests/unit/test_t_009_044_corruption_curves.py"
+      ]
     },
     "FR-009-31": {
       "spec": "009-perception",
@@ -7632,7 +7694,10 @@
       "tasks": [
         "T-009-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_050_dr_verdict.py",
+        "tests/unit/test_t_009_050_dr_ablation.py"
+      ]
     },
     "FR-009-32": {
       "spec": "009-perception",
@@ -7642,7 +7707,9 @@
       "tasks": [
         "T-009-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_060_sim_to_real_labels.py"
+      ]
     },
     "FR-009-33": {
       "spec": "009-perception",
@@ -7652,7 +7719,9 @@
       "tasks": [
         "T-009-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_061_real_probe.py"
+      ]
     },
     "FR-009-34": {
       "spec": "009-perception",
@@ -7662,7 +7731,9 @@
       "tasks": [
         "T-009-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_061_real_probe.py"
+      ]
     },
     "FR-009-35": {
       "spec": "009-perception",
@@ -7672,7 +7743,9 @@
       "tasks": [
         "T-009-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_070_onnx_signature.py"
+      ]
     },
     "FR-009-36": {
       "spec": "009-perception",
@@ -7682,7 +7755,9 @@
       "tasks": [
         "T-009-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_070_onnx_signature.py"
+      ]
     },
     "FR-009-37": {
       "spec": "009-perception",
@@ -7692,7 +7767,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "FR-009-38": {
       "spec": "009-perception",
@@ -7702,7 +7779,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "FR-009-39": {
       "spec": "009-perception",
@@ -7712,7 +7791,9 @@
       "tasks": [
         "T-009-072"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_072_variant_rejection.py"
+      ]
     },
     "FR-009-40": {
       "spec": "009-perception",
@@ -7722,7 +7803,9 @@
       "tasks": [
         "T-009-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_018_not_run_local_only.py"
+      ]
     },
     "FR-009-41": {
       "spec": "009-perception",
@@ -7732,7 +7815,9 @@
       "tasks": [
         "T-009-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_018_not_run_local_only.py"
+      ]
     },
     "FR-009-42": {
       "spec": "009-perception",
@@ -7742,7 +7827,9 @@
       "tasks": [
         "T-009-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_019_coco_loader.py"
+      ]
     },
     "FR-009-43": {
       "spec": "009-perception",
@@ -7752,7 +7839,9 @@
       "tasks": [
         "T-009-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_033_support_determinism.py"
+      ]
     },
     "FR-009-44": {
       "spec": "009-perception",
@@ -7762,7 +7851,9 @@
       "tasks": [
         "T-009-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_021_frame_state_emission.py"
+      ]
     },
     "FR-009-45": {
       "spec": "009-perception",
@@ -7772,7 +7863,9 @@
       "tasks": [
         "T-009-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_021_frame_state_hostile.py"
+      ]
     },
     "FR-009-46": {
       "spec": "009-perception",
@@ -7782,7 +7875,9 @@
       "tasks": [
         "T-009-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_092_index_duplicate_record.py"
+      ]
     },
     "FR-009-47": {
       "spec": "009-perception",
@@ -7792,7 +7887,9 @@
       "tasks": [
         "T-009-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_093_coco_polygon_consistency.py"
+      ]
     },
     "FR-009-48": {
       "spec": "009-perception",
@@ -7802,7 +7899,9 @@
       "tasks": [
         "T-009-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_094_coco_file_name_paths.py"
+      ]
     },
     "FR-009-49": {
       "spec": "009-perception",
@@ -7812,7 +7911,9 @@
       "tasks": [
         "T-009-095"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_095_asset_export_digest.py"
+      ]
     },
     "FR-009-50": {
       "spec": "009-perception",
@@ -7822,7 +7923,9 @@
       "tasks": [
         "T-009-096"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_096_report_duplicate_row.py"
+      ]
     },
     "FR-009-51": {
       "spec": "009-perception",
@@ -7832,7 +7935,9 @@
       "tasks": [
         "T-009-097"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_097_fixture_propagation.py"
+      ]
     },
     "FR-009-52": {
       "spec": "009-perception",
@@ -7842,7 +7947,9 @@
       "tasks": [
         "T-009-098"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_098_partial_models.py"
+      ]
     },
     "FR-009-53": {
       "spec": "009-perception",
@@ -7852,7 +7959,9 @@
       "tasks": [
         "T-009-099"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_099_input_stale.py"
+      ]
     },
     "P-009-01": {
       "spec": "009-perception",
@@ -7862,7 +7971,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_040_dust_metamorphic.py"
+      ]
     },
     "P-009-02": {
       "spec": "009-perception",
@@ -7872,7 +7983,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_040_dust_metamorphic.py"
+      ]
     },
     "P-009-03": {
       "spec": "009-perception",
@@ -7882,7 +7995,10 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_040_dust_metamorphic.py",
+        "tests/unit/test_t_009_041_night.py"
+      ]
     },
     "P-009-04": {
       "spec": "009-perception",
@@ -7892,7 +8008,9 @@
       "tasks": [
         "T-009-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_041_night.py"
+      ]
     },
     "P-009-05": {
       "spec": "009-perception",
@@ -7902,7 +8020,9 @@
       "tasks": [
         "T-009-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_042_rain.py"
+      ]
     },
     "P-009-06": {
       "spec": "009-perception",
@@ -7912,7 +8032,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_040_dust.py"
+      ]
     },
     "P-009-07": {
       "spec": "009-perception",
@@ -7922,7 +8044,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_032_ap_metamorphic.py"
+      ]
     },
     "P-009-08": {
       "spec": "009-perception",
@@ -7932,7 +8056,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_032_ap_metamorphic.py"
+      ]
     },
     "P-009-09": {
       "spec": "009-perception",
@@ -7942,7 +8068,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_032_ap_metamorphic.py"
+      ]
     },
     "P-009-10": {
       "spec": "009-perception",
@@ -7952,7 +8080,9 @@
       "tasks": [
         "T-009-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_044_corruption_curves.py"
+      ]
     },
     "P-009-11": {
       "spec": "009-perception",
@@ -7962,7 +8092,9 @@
       "tasks": [
         "T-009-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_050_dr_ablation.py"
+      ]
     },
     "P-009-12": {
       "spec": "009-perception",
@@ -7973,7 +8105,10 @@
         "T-009-011",
         "T-009-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_013_placement_unstructured.py",
+        "tests/unit/test_t_009_011_sun_sampler.py"
+      ]
     },
     "P-009-13": {
       "spec": "009-perception",
@@ -7983,7 +8118,9 @@
       "tasks": [
         "T-009-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_020_splits.py"
+      ]
     },
     "P-009-14": {
       "spec": "009-perception",
@@ -7993,7 +8130,9 @@
       "tasks": [
         "T-009-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_017_crusher_components.py"
+      ]
     },
     "NFR-009-01": {
       "spec": "009-perception",
@@ -8003,7 +8142,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "NFR-009-02": {
       "spec": "009-perception",
@@ -8013,7 +8154,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "NFR-009-03": {
       "spec": "009-perception",
@@ -8023,7 +8166,9 @@
       "tasks": [
         "T-009-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_031_oom_resume.py"
+      ]
     },
     "NFR-009-04": {
       "spec": "009-perception",
@@ -8033,7 +8178,9 @@
       "tasks": [
         "T-009-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_033_support_determinism.py"
+      ]
     },
     "NFR-009-05": {
       "spec": "009-perception",
@@ -8043,7 +8190,9 @@
       "tasks": [
         "T-009-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_020_splits.py"
+      ]
     },
     "NFR-009-06": {
       "spec": "009-perception",
@@ -8053,7 +8202,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "SC-009-01": {
       "spec": "009-perception",
@@ -8063,7 +8214,9 @@
       "tasks": [
         "T-009-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_034_acceptance.py"
+      ]
     },
     "SC-009-02": {
       "spec": "009-perception",
@@ -8073,7 +8226,9 @@
       "tasks": [
         "T-009-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_034_acceptance.py"
+      ]
     },
     "SC-009-03": {
       "spec": "009-perception",
@@ -8083,7 +8238,10 @@
       "tasks": [
         "T-009-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_044_corruption_acceptance.py",
+        "tests/unit/test_t_009_044_corruption_curves.py"
+      ]
     },
     "SC-009-04": {
       "spec": "009-perception",
@@ -8093,7 +8251,9 @@
       "tasks": [
         "T-009-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_050_dr_verdict.py"
+      ]
     },
     "SC-009-05": {
       "spec": "009-perception",
@@ -8103,7 +8263,9 @@
       "tasks": [
         "T-009-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_034_acceptance.py"
+      ]
     },
     "SC-009-06": {
       "spec": "009-perception",
@@ -8113,7 +8275,9 @@
       "tasks": [
         "T-009-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_034_acceptance.py"
+      ]
     },
     "SC-009-07": {
       "spec": "009-perception",
@@ -8123,7 +8287,9 @@
       "tasks": [
         "T-009-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_060_sim_to_real_labels.py"
+      ]
     },
     "DC-009-01": {
       "spec": "009-perception",
