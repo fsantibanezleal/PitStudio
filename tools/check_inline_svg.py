@@ -2,16 +2,17 @@
 
 Usage:  python tools/check_inline_svg.py [--root DIR] [--all]
 
-A diagram that the information modal (`web/src/app/architecture.tsx`, imports of `docs/assets/diagrams/<name>.svg?raw`) or
-a theory page (`web/src/content/theory/{en,es}/*.mdx`, `<Diagram name="<name>" />`) inlines must be a well-formed SVG
-document and must hold no hex colour literal outside the custom-property declarations of a `<style>` element (the diagrams
-use theme tokens only), no script element, no event-handler attribute and no `href` / `xlink:href` that is not a `#fragment`.
+A diagram that the information modal (`web/src/app/architecture.tsx`, imports of
+`docs/assets/diagrams/<name>.svg?raw`) or a theory page (`web/src/content/theory/{en,es}/*.mdx`,
+`<Diagram name="<name>" />`) inlines must be a well-formed SVG document and must hold no hex colour literal outside the
+custom-property declarations of a `<style>` element (the diagrams use theme tokens only), no script element, no
+event-handler attribute and no `href` / `xlink:href` that is not a `#fragment`.
 
 The file is parsed as XML, never matched as text, so the text content of a diagram is never examined. A DOCTYPE that
 declares entities is malformed (no entity expansion, no external entity).
 
-Output: one line `<check>: <path>: <detail>` per finding. Exit 0 = clean, 1 = findings, 2 = usage error or unreadable root.
-`--all` checks every file of docs/assets/diagrams instead of the referenced ones.
+Output: one line `<check>: <path>: <detail>` per finding. Exit 0 = clean, 1 = findings, 2 = usage error or unreadable
+root. `--all` checks every file of docs/assets/diagrams instead of the referenced ones.
 """
 
 from __future__ import annotations
@@ -82,8 +83,10 @@ def check_svg(path: Path, root: Path | None = None) -> list[Finding]:
         if tag == "script":
             found.append(Finding("script-element", subject, "a script element"))
         if tag == "style":
-            for colour in _hex_outside_tokens(el.text or ""):
-                found.append(Finding("hex-colour", subject, f"{colour} outside a custom-property declaration"))
+            found.extend(
+                Finding("hex-colour", subject, f"{colour} outside a custom-property declaration")
+                for colour in _hex_outside_tokens(el.text or "")
+            )
         for name, value in el.attrib.items():
             local = _local(name).lower()
             if local.startswith("on"):
@@ -92,8 +95,10 @@ def check_svg(path: Path, root: Path | None = None) -> list[Finding]:
                 if not value.startswith("#"):
                     found.append(Finding("external-href", subject, f"href to {value[:60]}"))
             elif local not in {"id", "class"}:
-                for colour in _hex_outside_tokens(URL_REF.sub("", value)):
-                    found.append(Finding("hex-colour", subject, f"{colour} in attribute {local}"))
+                found.extend(
+                    Finding("hex-colour", subject, f"{colour} in attribute {local}")
+                    for colour in _hex_outside_tokens(URL_REF.sub("", value))
+                )
     return found
 
 
