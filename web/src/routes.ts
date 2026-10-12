@@ -7,6 +7,7 @@ export default [
   route("studio", "routes/studio.tsx"),
   route("theory", "routes/theory.tsx"),
   route("methods", "routes/methods.tsx"),
+  route("methods/:slug", "routes/method.tsx"),
   route("results", "routes/results.tsx"),
   route("knowledge", "routes/knowledge.tsx"),
   // Unlisted sandbox of the interactive chart (driven by the browser tests, not linked from the navigation).

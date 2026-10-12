@@ -1,7 +1,7 @@
 // Serves build/client the way GitHub Pages does, under BASE_PATH: files as-is, `dir/` → `dir/index.html`,
 // `dir` → 301 to `dir/`, `name` → `name.html`, anything else → 404.html with status 404.
 // Used by the E2E tests; no dependencies.
-import { existsSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize, resolve, sep } from "node:path";
 
@@ -26,7 +26,18 @@ const TYPES = {
   ".webm": "video/webm",
 };
 
-const isFile = (p) => existsSync(p) && statSync(p).isFile();
+// GitHub Pages is case-sensitive; Windows and macOS file systems are not. Every segment must match the real name exactly.
+function exactCase(p) {
+  if (p === ROOT) return true;
+  let dir = ROOT;
+  for (const seg of p.slice(ROOT.length + 1).split(sep)) {
+    if (!readdirSync(dir).includes(seg)) return false;
+    dir = join(dir, seg);
+  }
+  return true;
+}
+const exists = (p) => existsSync(p) && exactCase(p);
+const isFile = (p) => exists(p) && statSync(p).isFile();
 
 function send(res, status, file) {
   res.writeHead(status, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" });
@@ -46,7 +57,7 @@ createServer((req, res) => {
   const target = normalize(join(ROOT, rel));
   if (target !== ROOT && !target.startsWith(ROOT + sep)) return notFound();
   if (isFile(target)) return send(res, 200, target);
-  if (existsSync(target) && statSync(target).isDirectory()) {
+  if (exists(target) && statSync(target).isDirectory()) {
     if (!url.pathname.endsWith("/")) {
       res.writeHead(301, { location: `${url.pathname}/${url.search}` });
       return res.end();
