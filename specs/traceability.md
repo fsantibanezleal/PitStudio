@@ -1,4 +1,4 @@
-# Traceability matrix — generated 2026-10-11 by tools/trace.py (do not edit)
+# Traceability matrix — generated 2026-10-12 by tools/trace.py (do not edit)
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
