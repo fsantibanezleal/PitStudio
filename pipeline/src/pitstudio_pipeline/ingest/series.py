@@ -16,10 +16,13 @@ from pitstudio_pipeline.ingest.report import safe_relpath, violation
 
 
 def series_violations(
-    t: Sequence[float] | np.ndarray, x: Sequence[float] | np.ndarray, *, series: str
+    t: Sequence[float] | np.ndarray, x: Sequence[float] | np.ndarray, *, series: str, file: str | None = None
 ) -> list[dict[str, Any]]:
-    """Report violations of a series: length mismatch, non-finite values, non-increasing timestamps (first of each)."""
-    file = safe_relpath(series)
+    """Report violations of a series: length mismatch, non-finite values, non-increasing timestamps (first of each).
+
+    `file` is the report path of the series when it lives in a file; by default it is derived from the series name.
+    """
+    file = file if file is not None else safe_relpath(series)
     found: list[dict[str, Any]] = []
     try:
         times, values = np.asarray(t, dtype=float), np.asarray(x, dtype=float)
@@ -63,8 +66,10 @@ def series_violations(
     return found
 
 
-def validate_series(t: Sequence[float] | np.ndarray, x: Sequence[float] | np.ndarray, *, series: str) -> None:
+def validate_series(
+    t: Sequence[float] | np.ndarray, x: Sequence[float] | np.ndarray, *, series: str, file: str | None = None
+) -> None:
     """Return None for a valid series; raise `IngestionRejected` naming the series and the first offending index."""
-    found = series_violations(t, x, series=series)
+    found = series_violations(t, x, series=series, file=file)
     if found:
         raise IngestionRejected(found)
