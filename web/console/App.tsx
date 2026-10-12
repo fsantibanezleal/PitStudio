@@ -10,6 +10,8 @@ import { Queue } from "./Queue";
 import { Recipes } from "./Recipes";
 import { Runs } from "./Runs";
 
+const BRAND = "PitStudio"; // the product name is not translated
+
 const TABS = [
   { id: "recipes", Panel: Recipes },
   { id: "queue", Panel: Queue },
@@ -44,7 +46,7 @@ export function App() {
         <div className={styles.headerInner}>
           <span className={styles.brand}>
             <Mountain aria-hidden="true" size={22} />
-            <span>PitStudio</span>
+            <span>{BRAND}</span>
           </span>
           <div className={styles.tools}>
             <LanguageSelect />

@@ -24,6 +24,9 @@ export class ApiError extends Error {
   }
 }
 
+/** The top-level field a list answer must hold as an array (a wrong shape is an error, never rendered). */
+const LIST_FIELD: Record<string, string> = { "/recipes": "recipes", "/queue": "jobs", "/runs": "runs" };
+
 async function call<T>(path: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
@@ -45,8 +48,13 @@ async function call<T>(path: string, init?: RequestInit): Promise<T> {
       res.status,
     );
   }
-  if (body === undefined || body === null || typeof body !== "object")
-    throw new ApiError("invalid response body", res.status);
+  const field = LIST_FIELD[path];
+  const ok =
+    typeof body === "object" &&
+    body !== null &&
+    !Array.isArray(body) &&
+    (field === undefined || Array.isArray((body as Json)[field]));
+  if (!ok) throw new ApiError("invalid response body", res.status);
   return body as T;
 }
 

@@ -36,6 +36,8 @@
   "runs": {
     "table": "Ejecuciones",
     "details": "Detalle de la ejecución",
+    "notes": "Notas",
+    "logTail": "Cola del registro",
     "manifest": "Manifiesto",
     "artefacts": "Artefactos",
     "telemetry": "Telemetría",

@@ -36,6 +36,8 @@
   "runs": {
     "table": "Runs",
     "details": "Run details",
+    "notes": "Notes",
+    "logTail": "Log tail",
     "manifest": "Manifest",
     "artefacts": "Artefacts",
     "telemetry": "Telemetry",

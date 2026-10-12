@@ -5,6 +5,8 @@ import { api, type Json } from "./api";
 import { useLoad } from "./hooks";
 import { Telemetry } from "./Telemetry";
 
+const BYTE_UNIT = "B"; // the SI symbol is the same in every language
+
 interface Artefact {
   id: string;
   kind: string;
@@ -23,10 +25,7 @@ function Artefacts({ run, items }: { run: string; items: Artefact[] }) {
         return (
           <article key={a.id} data-testid={`artefact-${a.id}`} className="artefact">
             <h4>
-              {a.id}{" "}
-              <span className="muted">
-                ({a.kind}, {a.bytes} B)
-              </span>
+              {a.id} <span className="muted">{`(${a.kind}, ${a.bytes} ${BYTE_UNIT})`}</span>
             </h4>
             {a.media_type?.startsWith("video/") && (
               <video controls preload="none" width="320" src={url} aria-label={a.id}>
@@ -50,6 +49,9 @@ function RunDetails({ id, onClose }: { id: string; onClose: () => void }) {
   const { t } = useTranslation();
   const { data, error } = useLoad<Json>(() => api.run(id), id);
   const artefacts = Array.isArray(data?.artefacts) ? (data.artefacts as Artefact[]) : [];
+  const notes = Array.isArray(data?.notes) ? (data.notes as string[]) : [];
+  const stages = Array.isArray(data?.stages) ? (data.stages as Json[]) : [];
+  const tails = stages.filter((s) => typeof s.log_tail === "string" && s.log_tail !== "");
   return (
     <section aria-label={t("runs.details")} className="details">
       <h2>{id}</h2>
@@ -61,6 +63,24 @@ function RunDetails({ id, onClose }: { id: string; onClose: () => void }) {
         <>
           <section aria-label={t("runs.manifest")}>
             <h3>{t("runs.manifest")}</h3>
+            {notes.length > 0 && (
+              <>
+                <h4>{t("runs.notes")}</h4>
+                <ul>
+                  {notes.map((n) => (
+                    <li key={n}>{n}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+            {tails.map((s) => (
+              <div key={String((s.key as Json | undefined)?.id)}>
+                <h4>
+                  {t("runs.logTail")} {String((s.key as Json | undefined)?.id)}
+                </h4>
+                <pre>{String(s.log_tail)}</pre>
+              </div>
+            ))}
             <pre>{JSON.stringify(data, null, 2)}</pre>
           </section>
           <Artefacts run={id} items={artefacts} />
