@@ -5,6 +5,7 @@ from __future__ import annotations
 import datetime as dt
 import logging
 import os
+import shutil
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -17,7 +18,7 @@ from pitstudio_pipeline.download.hashing import md5_file, sha256_file
 from pitstudio_pipeline.download.http import HttpxDownloader
 from pitstudio_pipeline.download.names import local_name
 from pitstudio_pipeline.download.registry import load_registry
-from pitstudio_pipeline.errors import ChecksumMismatch, PublisherChecksumMismatch, UnpinnedSource
+from pitstudio_pipeline.errors import ChecksumMismatch, InsufficientDisk, PublisherChecksumMismatch, UnpinnedSource
 from pitstudio_pipeline.paths import find_repo_root, resolve_data_root
 
 log = logging.getLogger("pitstudio_pipeline.download")
@@ -80,6 +81,7 @@ def run_download(
     pin: bool = False,
     publishable: bool = False,
     pins_dir: Path | str | None = None,
+    free_disk: Callable[[Path], int] | None = None,
 ) -> DownloadResult:
     """Run `s00_download` over the registry; see `DownloadResult` for what comes back."""
     environment = dict(os.environ) if env is None else dict(env)
@@ -95,7 +97,7 @@ def run_download(
     downloader = HttpxDownloader(transport, sleep=sleep)
     try:
         for entry in registry["sources"]:
-            _run_entry(entry, root, downloader, clock, result, pin=pin, pins_dir=pins)
+            _run_entry(entry, root, downloader, clock, result, pin=pin, pins_dir=pins, free_disk=free_disk or _free)
     finally:
         downloader.close()
     result.manifest = {
@@ -114,6 +116,21 @@ def _refuse_unpinned(registry: Mapping[str, Any], *, pin: bool, publishable: boo
     if unpinned and (publishable or not pin):
         why = "a publishable run uses pinned files only" if publishable else "run with --pin to propose a pin"
         raise UnpinnedSource(f"source(s) without a pinned sha256: {', '.join(unpinned)} ({why})")
+
+
+def _free(path: Path) -> int:
+    return shutil.disk_usage(path).free
+
+
+def _check_disk(base: Path, file: Mapping[str, Any], free_disk: Callable[[Path], int]) -> None:
+    """FR-008-10: refuse to start a file when the free space is below 1.2 x (bytes + uncompressed bytes)."""
+    need = (file.get("bytes") or 0) + (file.get("uncompressed_bytes") or 0)
+    probe = base
+    while not probe.exists() and probe != probe.parent:
+        probe = probe.parent
+    free = free_disk(probe)
+    if free * 5 < need * 6:  # free < 1.2 x need, in integers
+        raise InsufficientDisk(f"{free} bytes free, {need * 6 // 5} needed (1.2 x {need}) for {file['url']}")
 
 
 def _quarantine(path: Path, root: Path, source: str, name: str) -> Path:
@@ -161,16 +178,18 @@ def _run_entry(
     *,
     pin: bool,
     pins_dir: Path,
+    free_disk: Callable[[Path], int],
 ) -> None:
     proposals: list[dict[str, Any]] = []
     folder = "raw" if entry["access"] in ("direct", "api") else "external"
     complete = True
     for file in entry["files"]:
-        name = local_name(file["url"], file.get("name"))
-        target = root / folder / entry["id"] / name
-        part = target.with_name(target.name + ".part")
+        name = "unsafe-name"  # replaced as soon as the local name passed FR-008-11
         fetched = None
         try:
+            name = local_name(file["url"], file.get("name"))
+            target = root / folder / entry["id"] / name
+            part = target.with_name(target.name + ".part")
             if target.exists():  # a cached file is re-verified before it is reused (FR-008-05)
                 digest, size, publisher = _verify_cached(target, root, entry, file, name)
             elif entry["access"] == "manual":
@@ -178,6 +197,7 @@ def _run_entry(
                 complete = False
                 continue
             else:
+                _check_disk(root / folder, file, free_disk)
                 target.parent.mkdir(parents=True, exist_ok=True)
                 fetched = downloader.fetch(file["url"], part, max_bytes=file.get("bytes"))
                 digest, size, publisher = _verify_part(part, root, entry, file, name)
