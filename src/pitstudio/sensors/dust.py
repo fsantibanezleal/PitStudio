@@ -107,6 +107,19 @@ def _leading_edge(b: np.ndarray, spacing: float, ranges: np.ndarray, rows: np.nd
     return edge
 
 
+def classify(tau: Any, u: Any, retro: Any) -> np.ndarray:
+    """The keep rule of FR-013-12 on baked inputs: a return is kept when `tau <= 0.3216`, or when `tau` is within the
+    material floor and the beam value `u` is below the linear drop probability (`tau` and `u` float64, `retro` bool)."""
+    tau, u = np.asarray(tau, dtype=np.float64), np.asarray(u, dtype=np.float64)
+    floor = np.where(np.asarray(retro, dtype=bool), TAU_FLOOR["retro"], TAU_FLOOR["diffuse"])
+    return (tau <= TAU_ON) | ((tau <= floor) & (u * (floor - TAU_ON) < floor - tau))
+
+
+def emit_dust(tau: Any, kept: Any, max_returns: int) -> np.ndarray:
+    """The dust-return rule of FR-013-13: `tau > 0.3216` and the return was dropped, or `max_returns >= 2`."""
+    return (np.asarray(tau, dtype=np.float64) > TAU_ON) & (~np.asarray(kept, dtype=bool) | (max_returns >= 2))
+
+
 def apply_dust(
     beam: Any,
     range_m: Any,
@@ -147,9 +160,8 @@ def apply_dust(
             )
     tau = _optical_depth(b, spacing, r)
     u = beam_value_array(frame, beams.astype(np.uint32), seed)
-    floor = np.where(mat == "retro", TAU_FLOOR["retro"], TAU_FLOOR["diffuse"])
-    kept = (tau <= TAU_ON) | ((tau <= floor) & (u * (floor - TAU_ON) < floor - tau))
-    emit = (tau > TAU_ON) & (~kept | (max_returns >= 2))
+    kept = classify(tau, u, mat == "retro")
+    emit = emit_dust(tau, kept, max_returns)
     edge = _leading_edge(b, spacing, r, np.flatnonzero(emit))
     emit &= np.isfinite(edge)
     edge = np.where(emit, edge, np.nan)

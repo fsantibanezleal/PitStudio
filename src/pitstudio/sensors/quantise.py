@@ -8,12 +8,15 @@ A coordinate is stored as `round((v - offset) / scale)` with `offset` the per-ax
 from __future__ import annotations
 
 import hashlib
+import math
 import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
+
+from pitstudio.sensors.beamhash import beam_hash_array
 
 MAX_POINTS = 1_250_000
 BYTES_PER_POINT = 8
@@ -144,3 +147,95 @@ def shard_cloud(
             )
         )
     return shards
+
+
+SLIDER_LEVELS = 41
+SLIDER_MAX_RETURNS = 150_000
+SLIDER_TAU_FLOOR = -math.log(0.02)  # T1 = 0.02 on the reference target
+SLIDER_RULE = {"tau_on": 0.3216, "tau_floor_retro": 3.912, "tau_floor_diffuse": 2.8134}
+SLIDER_MATERIALS = {"retro": 0, "diffuse": 1, "dust": 2}
+SLIDER_ENCODING = {
+    "position": "uint16",
+    "intensity": "uint8",
+    "class": "uint8",
+    "tau_unit": "float32",
+    "r_edge_m": "float32",
+    "hash": "uint32",
+    "byte_order": "little",
+    "layout": "planar",
+}
+
+
+def bake_slider(
+    positions: Any,
+    intensity_code: Any,
+    class_codes: Any,
+    tau_unit: Any,
+    r_edge: Any,
+    beam: Any,
+    *,
+    frame: int,
+    seed: int,
+    tau_ref: float,
+    source: Mapping[str, Any],
+    payload_path: str,
+    dust_return_intensity: float,
+    k_first: float = 0.01,
+) -> WebShard:
+    """Bake one clean S1 frame for the web dust slider (DC-013-05, FR-013-38).
+
+    The payload is planar little-endian, 20 bytes per return: x, y, z uint16 over the frame's bounding box, the clean
+    intensity code, the class code (retro 0, diffuse 1), `tau_unit` and `r_edge_m` float32 and the beam hash uint32.
+    The 41 multipliers are `k[0] = 0` and levels 1 to 40 log-spaced from `k_first` to `-ln(0.02) / tau_ref`.
+    """
+    pos = _as_float(positions, "positions")
+    if pos.ndim != 2 or pos.shape[1] != 3 or not 1 <= len(pos) <= SLIDER_MAX_RETURNS:
+        raise ValueError(f"positions must have shape (n, 3) with 1 <= n <= {SLIDER_MAX_RETURNS}, got {pos.shape}")
+    n = len(pos)
+    tau = _as_float(tau_unit, "tau_unit", (n,))
+    edge = _as_float(r_edge, "r_edge", (n,))
+    if np.any(tau < 0.0) or np.any(edge < 0.0):
+        raise ValueError("tau_unit and r_edge must be non-negative")
+    codes = np.asarray(intensity_code)
+    classes = np.asarray(class_codes)
+    beams = np.asarray(beam)
+    if not (codes.shape == classes.shape == beams.shape == (n,)):
+        raise ValueError("intensity_code, class_codes and beam must hold one value per return")
+    if not all(math.isfinite(v) and v > 0 for v in (tau_ref, k_first)) or not 0.0 <= dust_return_intensity <= 1.0:
+        raise ValueError("tau_ref and k_first must be positive and finite, dust_return_intensity in [0, 1]")
+    k_last = SLIDER_TAU_FLOOR / tau_ref
+    if k_first >= k_last:
+        raise ValueError(f"k_first {k_first} must be below the last level {k_last}")
+    offset = pos.min(axis=0)
+    extent = pos.max(axis=0) - offset
+    scale = np.where(extent > 0.0, extent / 65535.0, 1.0)
+    q = np.rint((pos - offset) / scale).astype(np.uint16)
+    payload = b"".join(
+        [
+            q[:, 0].astype("<u2").tobytes(),
+            q[:, 1].astype("<u2").tobytes(),
+            q[:, 2].astype("<u2").tobytes(),
+            codes.astype(np.uint8).tobytes(),
+            classes.astype(np.uint8).tobytes(),
+            tau.astype("<f4").tobytes(),
+            edge.astype("<f4").tobytes(),
+            beam_hash_array(frame, beams, seed).astype("<u4").tobytes(),
+        ]
+    )
+    k = [0.0, *np.geomspace(k_first, k_last, SLIDER_LEVELS - 1).tolist()]
+    header = {
+        "schema_version": "1.0",
+        "source": dict(source),
+        "returns": n,
+        "levels": SLIDER_LEVELS,
+        "k": k,
+        "tau_ref": float(tau_ref),
+        "rule": dict(SLIDER_RULE),
+        "dust_return_intensity": float(dust_return_intensity),
+        "material_codes": dict(SLIDER_MATERIALS),
+        "label": "own Beer–Lambert dust model",  # noqa: RUF001 (the contract literal holds an en dash)
+        "quantisation": {"offset_m": offset.tolist(), "scale_m": scale.tolist()},
+        "encoding": dict(SLIDER_ENCODING),
+        "payload": {"path": payload_path, "bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()},
+    }
+    return WebShard(header=header, payload=payload)
