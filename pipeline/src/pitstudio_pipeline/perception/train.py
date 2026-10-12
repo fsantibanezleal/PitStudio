@@ -175,3 +175,70 @@ def check_training_inputs(inputs: Sequence[Mapping[str, Any]]) -> None:
             "inputs with a display-only or reference-only licence, or real-probe images",
             offenders,
         )
+
+
+@dataclass(frozen=True)
+class TrainResult:
+    """The last checkpoint of a run, its manifest record, the loss of every optimiser step and the precision facts."""
+
+    checkpoint_path: Path
+    record: dict[str, Any]
+    losses: tuple[float, ...]
+    autocast_dtype: str
+    fp8_used: bool
+    steps: int
+
+
+def run_training(
+    cfg: TrainConfig,
+    *,
+    records: Sequence[Mapping[str, Any]],
+    root: Path,
+    checkpoint_path: Path,
+    out_dir: Path,
+    max_steps: int | None = None,
+    guard: Any = None,
+    batch_size: int = 16,
+) -> TrainResult:
+    """Fine-tune `cfg.model` from its pinned checkpoint on the arm S training records (needs CUDA, bf16, no FP8).
+
+    The checkpoint digest, the training-input licences and the stale-image check run before any step; one checkpoint is
+    written per epoch under `out_dir` and the last one is returned with `training_record`.
+    """
+    verify_checkpoint(Path(checkpoint_path), cfg.base_checkpoint_sha256)
+    check_training_inputs(
+        [{"id": r["record_id"], "licence_class": r["licence"]["licence_class"], "source": "synthetic"} for r in records]
+    )
+    selected = select_training_records(records, arm="S")
+    if cfg.model == "rf-detr-seg-n":
+        selected = [r for r in selected if r["family"] == "pit"]  # exact instance masks: the pit family only
+    set_digest = training_set_digest(selected)
+    if cfg.model == "rf-detr-seg-n":
+        from pitstudio_pipeline.perception.train_rfdetr import train_rfdetr
+
+        last = train_rfdetr(
+            base_checkpoint=Path(checkpoint_path),
+            records=selected,
+            root=Path(root),
+            out_dir=Path(out_dir),
+            epochs=cfg.epochs,
+            seed=cfg.seed,
+        )
+        losses: list[float] = []
+    else:
+        from pitstudio_pipeline.perception.train_dfine import train_dfine
+
+        last, losses = train_dfine(
+            model_name=cfg.model,
+            base_checkpoint=Path(checkpoint_path),
+            records=selected,
+            root=Path(root),
+            out_dir=Path(out_dir),
+            epochs=cfg.epochs,
+            seed=cfg.seed,
+            batch_size=batch_size,
+            max_steps=max_steps,
+            guard=guard,
+        )
+    record = training_record(cfg, checkpoint_sha256=file_sha256(last), training_set_sha256=set_digest)
+    return TrainResult(last, record, tuple(losses), cfg.autocast_dtype, cfg.fp8, len(losses))
