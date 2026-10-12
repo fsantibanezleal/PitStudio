@@ -264,27 +264,36 @@ class _Run:
                 count += weight
         return total / count
 
-    def epoch(self, noise_scale: float) -> float:
+    def epoch(
+        self,
+        noise_scale: float,
+        epoch_index: int = 0,
+        start_chunk: int = 0,
+        partial: tuple[float, int] = (0.0, 0),
+        on_step: Callable[[int, float, int], None] | None = None,
+    ) -> float:
+        """One epoch in a data order fixed by (seed, epoch_index), resumable from `start_chunk`."""
         self.model.train()
-        order = self.rng.permutation(len(self.train_index))
+        order = np.random.default_rng([self.seed + 1, epoch_index]).permutation(len(self.train_index))
         limit = self.cfg["samples_per_epoch"] or len(order)
         order = order[:limit]
-        total, count = 0.0, 0
-        for lo in range(0, len(order), self.cfg["batch_size"]):
-            chunk = [self.train_index[i] for i in order[lo : lo + self.cfg["batch_size"]]]
-            samples = []
-            for r, t in chunk:
-                self.noise_counter += 1
-                samples.append(
-                    make_sample(
-                        self.train[r],
-                        t,
-                        radius=self.cfg["connectivity_radius"],
-                        noise_scale=noise_scale,
-                        velocity_std=self.stats["velocities"]["std"],
-                        seed=self.seed * 1_000_003 + self.noise_counter,
-                    )
+        size = self.cfg["batch_size"]
+        total, count = partial
+        for chunk_no, lo in enumerate(range(0, len(order), size)):
+            if chunk_no < start_chunk:
+                continue
+            chunk = [self.train_index[i] for i in order[lo : lo + size]]
+            samples = [
+                make_sample(
+                    self.train[r],
+                    t,
+                    radius=self.cfg["connectivity_radius"],
+                    noise_scale=noise_scale,
+                    velocity_std=self.stats["velocities"]["std"],
+                    seed=self.seed * 1_000_003 + epoch_index * 1_000_000 + lo + k,
                 )
+                for k, (r, t) in enumerate(chunk)
+            ]
             batch = collate(samples, self.device)
             self.optimiser.zero_grad(set_to_none=True)
             loss = one_step_loss(self.model, batch, stats=self.stats)
@@ -294,7 +303,38 @@ class _Run:
             weight = batch["positions"].shape[0]
             total += float(loss.detach()) * weight
             count += weight
+            if on_step:
+                on_step(chunk_no + 1, total, count)
         return total / count
+
+    def state(self) -> dict[str, Any]:
+        return {
+            "model": {k: v.detach().cpu().clone() for k, v in self.model.state_dict().items()},
+            "optimiser": self.optimiser.state_dict(),
+            "scheduler": self.scheduler.state_dict(),
+        }
+
+    def load(self, state: Mapping[str, Any]) -> None:
+        self.model.load_state_dict(state["model"])
+        self.optimiser.load_state_dict(state["optimiser"])
+        self.scheduler.load_state_dict(state["scheduler"])
+
+
+class TrainHooks:
+    """Hooks of a long run: `resume` (a state saved earlier or None) and the two callbacks the runner implements.
+
+    `on_step(snapshot)` is called after every optimiser step of the final training, `on_epoch(snapshot)` after every
+    pilot candidate
+    and every epoch; `snapshot()` returns the picklable state to resume from. A hook may raise to stop the run.
+    """
+
+    resume: dict[str, Any] | None = None
+
+    def on_step(self, snapshot: Callable[[], dict[str, Any]]) -> None:  # pragma: no cover - default does nothing
+        return None
+
+    def on_epoch(self, snapshot: Callable[[], dict[str, Any]]) -> None:  # pragma: no cover - default does nothing
+        return None
 
 
 def train_gns(
@@ -304,6 +344,7 @@ def train_gns(
     seed: int,
     dataset_manifest: Mapping[str, Any] | None = None,
     on_epoch: Callable[[dict[str, Any]], None] | None = None,
+    hooks: TrainHooks | None = None,
 ) -> TrainResult:
     """Train the GNS on `splits.rollouts("train")`, select on `splits.rollouts("val")`, never read "test" (FR-011-04).
 
@@ -328,36 +369,73 @@ def train_gns(
         min(cfg["samples_per_epoch"] or math.inf, len(_sample_index(train_rollouts))) / cfg["batch_size"]
     )
 
-    candidates: list[dict[str, Any]] = []
+    hooks = hooks or TrainHooks()
+    resume = hooks.resume
+    candidates: list[dict[str, Any]] = list(resume["candidates"]) if resume else []
     scales = cfg["noise_scales"]
-    if len(scales) == 1:
+    if resume and resume.get("chosen") is not None:
+        chosen = resume["chosen"]
+    elif len(scales) == 1:
         chosen = scales[0]
-        candidates.append({"scale": chosen, "val_loss": None})
+        candidates = [{"scale": chosen, "val_loss": None}]
     else:
         pilot_epochs = cfg["pilot_epochs"] or max(1, min(cfg["epochs"], cfg["epochs"] // 3 or 1))
-        for scale in scales:
+        for scale in scales[len(candidates) :]:
             pilot = _Run(cfg, train_rollouts, val_rollouts, stats, n_types, dt, seed, pilot_epochs * steps_per_epoch)
             best = math.inf
-            for _ in range(pilot_epochs):
-                pilot.epoch(scale)
+            for e in range(pilot_epochs):
+                pilot.epoch(scale, e)
                 best = min(best, pilot.val_loss())
             candidates.append({"scale": scale, "val_loss": best})
+            hooks.on_epoch(lambda: {"candidates": list(candidates), "chosen": None})
         chosen = min(candidates, key=lambda c: c["val_loss"])["scale"]
 
     run = _Run(cfg, train_rollouts, val_rollouts, stats, n_types, dt, seed, cfg["epochs"] * steps_per_epoch)
-    initial = run.val_loss()
     epochs_log: list[dict[str, Any]] = []
     best_loss, best_epoch, best_state = math.inf, 0, None
-    for epoch in range(1, cfg["epochs"] + 1):
-        train_loss = run.epoch(chosen)
+    start_epoch, start_chunk, partial = 0, 0, (0.0, 0)
+    initial = None
+    if resume and resume.get("chosen") is not None:
+        run.load(resume["run"])
+        epochs_log = list(resume["epochs_log"])
+        best_loss, best_epoch, best_state = resume["best_loss"], resume["best_epoch"], resume["best_state"]
+        start_epoch, start_chunk, partial = resume["epoch_index"], resume["chunk"], tuple(resume["partial"])
+        initial = resume["initial_val_loss"]
+    else:
+        initial = run.val_loss()
+
+    def snapshot(epoch_index: int, chunk: int, part: tuple[float, int]) -> dict[str, Any]:
+        return {
+            "candidates": list(candidates),
+            "chosen": chosen,
+            "run": run.state(),
+            "epochs_log": list(epochs_log),
+            "best_loss": best_loss,
+            "best_epoch": best_epoch,
+            "best_state": best_state,
+            "epoch_index": epoch_index,
+            "chunk": chunk,
+            "partial": part,
+            "initial_val_loss": initial,
+        }
+
+    for epoch_index in range(start_epoch, cfg["epochs"]):
+        train_loss = run.epoch(
+            chosen,
+            epoch_index,
+            start_chunk if epoch_index == start_epoch else 0,
+            partial if epoch_index == start_epoch else (0.0, 0),
+            on_step=lambda chunk, tot, cnt, e=epoch_index: hooks.on_step(lambda: snapshot(e, chunk, (tot, cnt))),
+        )
         val_loss = run.val_loss()
-        entry = {"epoch": epoch, "train_loss": train_loss, "val_loss": val_loss}
+        entry = {"epoch": epoch_index + 1, "train_loss": train_loss, "val_loss": val_loss}
         epochs_log.append(entry)
         if on_epoch:
             on_epoch(entry)
         if val_loss < best_loss:
-            best_loss, best_epoch = val_loss, epoch
+            best_loss, best_epoch = val_loss, epoch_index + 1
             best_state = {k: v.detach().cpu().clone() for k, v in run.model.state_dict().items()}
+        hooks.on_epoch(lambda e=epoch_index: snapshot(e + 1, 0, (0.0, 0)))
     assert best_state is not None
     run.model.load_state_dict(best_state)
     checkpoint = stamp(

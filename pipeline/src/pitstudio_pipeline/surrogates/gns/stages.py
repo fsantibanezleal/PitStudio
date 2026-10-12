@@ -202,7 +202,14 @@ def _device_name(device: str) -> str:
 
 
 def s30_train(
-    dataset: Dataset, out: Path, config: Mapping[str, Any], *, seed: int, device: str, env: Mapping[str, str]
+    dataset: Dataset,
+    out: Path,
+    config: Mapping[str, Any],
+    *,
+    seed: int,
+    device: str,
+    env: Mapping[str, str],
+    hooks: train.TrainHooks | None = None,
 ) -> dict[str, Any]:
     """Train on the training split, select on validation, write checkpoint, log and manifest."""
     _gpu_guard(device, env)
@@ -232,12 +239,17 @@ def s30_train(
         def attempt(params: dict[str, Any]) -> Any:
             if device != "cpu":
                 torch.cuda.empty_cache()
-            return train.train_gns(splits, {**cfg, **params}, seed=seed, dataset_manifest=dataset.manifest)
+            first = (
+                params["batch_size"] == cfg["batch_size"]
+            )  # a resumed position is only valid at the original batch size
+            return train.train_gns(
+                splits, {**cfg, **params}, seed=seed, dataset_manifest=dataset.manifest, hooks=hooks if first else None
+            )
 
         return run_with_oom_fallback("gns", {"batch_size": cfg["batch_size"]}, attempt, manifest=manifest)
 
     result = run_stage("s30_train", manifest, root=dataset.root, work=work)
-    seconds = time.perf_counter() - started
+    seconds = time.perf_counter() - started + float(getattr(hooks, "elapsed_before_s", 0.0))
     attach_gpu_hours(manifest, "gns", seconds)
     manifest["wall_s"] = seconds
     manifest["config"] = {k: v for k, v in cfg.items() if k != "device"}
