@@ -33,6 +33,10 @@
       "linter": { "rules": { "style": { "noJsxLiterals": "off" } } }
     },
     {
+      "includes": ["src/engines/random/**"],
+      "plugins": ["./lint/no-math.grit"]
+    },
+    {
       "includes": ["src/shell/tokens.css"],
       "linter": { "rules": { "complexity": { "noImportantStyles": "off" } } }
     }

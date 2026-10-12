@@ -1,0 +1,10 @@
+language js(typescript)
+
+// FR-018-49: the numpy-compatible PCG64 port uses integer operations only. Any use of the global Math object other
+// than Math.imul (member access, computed access, alias, destructuring, globalThis.Math) fails the lint.
+or {
+  `globalThis.Math` as $m,
+  `Math` as $m where { $m <: not within `Math.imul` }
+} where {
+  register_diagnostic(span=$m, message="Math.* other than Math.imul is not allowed in the PCG64 port (FR-018-49).", severity="error")
+}
