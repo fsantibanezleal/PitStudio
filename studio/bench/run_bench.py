@@ -23,6 +23,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+from gpu_guard import START_MAX_C, STOP_C, utc_now_iso, whea_count
+
 ROOT = Path(__file__).resolve().parents[2]
 BENCH = Path(__file__).resolve().parent
 # probe name → (uv project dir relative to the repo root, extra uv args)
@@ -38,7 +40,8 @@ PROBES: dict[str, tuple[str, list[str]]] = {
 }
 OPT_IN = {"stress"}  # long or disruptive: run only when named explicitly
 MIN_FREE_VRAM_MB = 4096  # refuse to start when another job is holding the GPU
-MAX_START_TEMP_C = 80
+MAX_START_TEMP_C = START_MAX_C  # FR-002-19 / runner.max_start_temp_c (80 C)
+COOLDOWN_WAIT_S = 600  # wait this long for the GPU to cool below MAX_START_TEMP_C before skipping a probe
 
 
 def local_dir() -> Path:
@@ -73,6 +76,7 @@ class Telemetry:
         pynvml.nvmlInit()
         self.h = pynvml.nvmlDeviceGetHandleByIndex(0)
         self.samples: list[dict[str, float]] = []
+        self.tripped = ""  # set by the sampling thread when the guard must stop the probe
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
 
@@ -97,12 +101,22 @@ class Telemetry:
         return s
 
     def _loop(self) -> None:
+        since, t_whea = utc_now_iso(), time.monotonic()
         while not self._stop.is_set():
-            self.samples.append(self.snapshot())
+            s = self.snapshot()
+            self.samples.append(s)
+            if s["temp_c"] >= STOP_C and not self.tripped:
+                self.tripped = f"thermal: GPU at {s['temp_c']} C (stop at {STOP_C} C)"
+            if time.monotonic() - t_whea >= 30:
+                t_whea = time.monotonic()
+                w = whea_count(since)  # by time, so a wrapped log cannot hide one; None = query failed
+                if w is not None and w > 0 and not self.tripped:
+                    self.tripped = f"hw-error: {w} new WHEA hardware-error event(s)"
             self._stop.wait(0.5)
 
     def __enter__(self) -> Telemetry:
         self.samples = []
+        self.tripped = ""
         self._stop.clear()
         self._thread = threading.Thread(target=self._loop, daemon=True)
         self._thread.start()
@@ -128,18 +142,13 @@ class Telemetry:
         }
 
 
-def whea_count() -> int | None:
-    """Number of WHEA-Logger events in the Windows System log (PCIe/hardware errors); None off Windows."""
-    if sys.platform != "win32":
-        return None
-    q = "*[System[Provider[@Name='Microsoft-Windows-WHEA-Logger']]]"
-    out = subprocess.run(
-        ["wevtutil", "qe", "System", f"/q:{q}", "/f:text", "/c:100000"],
-        capture_output=True,
-        text=True,
-        errors="replace",
-    ).stdout
-    return out.count("Event[")
+def kill_tree(p: subprocess.Popen) -> None:
+    """Stop a probe and every process it started (uv -> python -> workers)."""
+    if sys.platform == "win32":
+        subprocess.run(["taskkill", "/T", "/F", "/PID", str(p.pid)], capture_output=True)
+    else:
+        p.kill()
+    p.wait(timeout=60)
 
 
 def run_one(name: str, tele: Telemetry, timeout_s: int) -> dict[str, Any]:
@@ -153,27 +162,45 @@ def run_one(name: str, tele: Telemetry, timeout_s: int) -> dict[str, Any]:
     free_mb = before["mem_total_mb"] - before["mem_used_mb"]
     if free_mb < MIN_FREE_VRAM_MB:
         return {"probe": name, "status": "skip", "notes": [f"only {free_mb:.0f} MB VRAM free; another job uses it"]}
+    deadline = time.monotonic() + COOLDOWN_WAIT_S  # a hot GPU (e.g. right after the previous probe) cools down first
+    while before["temp_c"] > MAX_START_TEMP_C and time.monotonic() < deadline:
+        time.sleep(5)
+        before = tele.snapshot()
     if before["temp_c"] > MAX_START_TEMP_C:
         return {"probe": name, "status": "skip", "notes": [f"GPU at {before['temp_c']} C before start"]}
-    w0 = whea_count()
+    since = utc_now_iso()
     cmd = ["uv", "run", "--locked", "--project", str(pdir), *extra, "python", str(BENCH / f"probe_{name}.py")]
     t0 = time.perf_counter()
-    with tele:
-        try:
-            p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout_s, cwd=BENCH, errors="replace")
-            lines = [ln for ln in p.stdout.splitlines() if ln.startswith("{")]
-            res = (
-                json.loads(lines[-1])
-                if lines
-                else {"probe": name, "status": "fail", "error": (p.stderr or p.stdout)[-800:]}
-            )
-        except subprocess.TimeoutExpired:
-            res = {"probe": name, "status": "fail", "error": f"timeout after {timeout_s} s"}
+    with (
+        tele,
+        tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as out,
+        tempfile.TemporaryFile("w+", encoding="utf-8", errors="replace") as err,
+    ):
+        p = subprocess.Popen(cmd, stdout=out, stderr=err, text=True, cwd=BENCH)
+        stopped = ""
+        while p.poll() is None:  # supervise: the guard and the timeout stop the whole process tree
+            if tele.tripped:
+                stopped = f"guard stop ({tele.tripped})"
+            elif time.perf_counter() - t0 > timeout_s:
+                stopped = f"timeout after {timeout_s} s"
+            if stopped:
+                kill_tree(p)
+                break
+            time.sleep(0.5)
+        out.seek(0)
+        err.seek(0)
+        stdout, stderr = out.read(), err.read()
+        lines = [ln for ln in stdout.splitlines() if ln.startswith("{")]
+        if stopped:
+            res = {"probe": name, "status": "fail", "error": stopped}
+        elif lines:
+            res = json.loads(lines[-1])
+        else:
+            res = {"probe": name, "status": "fail", "error": (stderr or stdout)[-800:]}
     res["wall_s"] = round(time.perf_counter() - t0, 1)
     res["telemetry"] = tele.summary()
-    w1 = whea_count()
-    if w0 is not None and w1 is not None:
-        res["telemetry"]["whea_events_delta"] = w1 - w0
+    w = whea_count(since)  # events created during the probe; None (query failed) is recorded as unavailable
+    res["telemetry"]["whea_events_delta"] = w if w is not None else "unavailable"
     return res
 
 

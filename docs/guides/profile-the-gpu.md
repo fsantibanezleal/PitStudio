@@ -39,7 +39,7 @@ and need the maintainer, because the Nsight Systems CLI must run as administrato
 | Source | Rate | Fields | Where |
 |---|---|---|---|
 | Capability bench (exists) | 2 Hz while a probe runs | temperature, power and enforced power limit, utilisation, used/total memory, SM clock, clocks-event-reasons bitmask, PCIe replay counter; on Windows the change in WHEA hardware-error events | `$PITSTUDIO_TMP/bench/bench-<UTC>.json` (local); public summary in `studio/capabilities.json` for open tools only |
-| Runner telemetry (build phase) | 1–4 Hz per GPU stage | the same NVML fields, NVTX stage ranges | `$PITSTUDIO_STORE/runs/<run_id>/telemetry.parquet`; summary in the manifest: peak VRAM, mean and peak W, energy in Wh, % time per throttle reason |
+| Runner telemetry (build phase) | 1–4 Hz per GPU stage | the same NVML fields, NVTX stage ranges | `$PITSTUDIO_STORE/runs/<run_id>/telemetry.jsonl`; summary in the manifest: peak VRAM, mean and peak W, energy in Wh, % time per throttle reason |
 | `studio profile` (build phase) | on demand | `torch.profiler` traces for PyTorch stages, Warp kernel timings; prints the matching Nsight command | local; summaries publishable for open runtimes |
 | Nsight Systems (optional) | per capture | CUDA kernels, NVTX ranges, Python sampling on Windows, PyTorch annotations [4] | raw `.nsys-rep` stays local; exported to Parquet/SQLite summaries [4] |
 

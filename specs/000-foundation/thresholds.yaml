@@ -21,6 +21,18 @@ models:
   onnx_cpu_fp32: { rtol: 1.0e-3, atol: 1.0e-5, max_abs: 1.0e-4 }
   quantized_task_metric_delta_max_pp: 1.0
   mask_iou_min_vs_fp32: 0.99
+  slope_ttf_rel_error_median_max: 0.10    # SC-010-01, FR-010-24 — plan §7 "TTF error ≤ 10 % of lead time"
+  slope_bootstrap_resamples: 10000        # FR-010-24, FR-010-25 — bootstrap B
+  slope_pyslope_fixed_circle_rtol: 0.01   # SC-010-05 — pySlope oracle, fixed circle
+  slope_pyslope_search_rtol: 0.02         # SC-010-05 — pySlope oracle, searched minimum
+  gns_repose_abs_deg_max: 1.5             # SC-011-01 (= SC-000-03) — plan §7
+  gns_runout_rel_max: 0.05                # SC-011-01 (= SC-000-03) — plan §7
+  fno_rel_l2_mean_max: 0.05               # SC-011-03 — plan §7
+  dem_calibration_coverage_min: 0.90      # SC-011-02 — CI coverage of the synthetic truth
+  dem_calibration_trials: 50              # SC-011-02 — ≥ 45 of 50
+  surrogate_fp16_rollout_delta: { repose_deg: 0.5, runout_rel: 0.01 }   # FR-011-08, FR-011-37 — fp16 live-graph acceptance
+  meta_model_r2_min: 0.95                 # SC-017-01 — plan §7
+  meta_model_onnx_bytes_max: 1000000      # NFR-017-01
 web:
   wasm_fp32_max_abs: 1.0e-4
   webgpu_fp32_max_abs: 1.0e-3
@@ -32,3 +44,80 @@ web:
   model_file_mb_target: 25
   model_file_mb_hard_cap: 95
   site_total_mb_max: 500
+  analytical_fp64_rtol: 1.0e-9            # FR-018-51 — ≤ 20 ulp-accurate ops, margin 2×10^5
+  analytical_fp64_atol_scale: 1.0e-12     # FR-018-51
+  mc_pof_sigma: 3                         # FR-018-52 — binomial 3σ + 1/N bound
+  detector_box_px_max: { wasm: 0.5, webgpu: 1.0 }   # FR-018-58 — 640 × normalised error, with margin
+  granular_repose_deg: 1.5                # FR-018-56 — browser twin observables (docs DEC-0006)
+  granular_runout_rel: 0.05               # FR-018-56
+  granular_discharge_rel: 0.05            # FR-018-56
+  mass_drift_rel_max: 0.005               # FR-018-56, P-018-61, P-018-64 — SEE FLAG 3
+  mincut_blocks_live_max: 100000          # FR-017-25, FR-017-26, NFR-017-03 — plan §10 "live ≤ 10^5 blocks"
+budgets:                                  # MB = 10^6 B; class caps of plan §11 (coordinator proposal)
+  first_view_mb_max: 2                    # NFR-000-03, NFR-018-01/02, specs 018/020 (were "web.first_view_mb_max") — plan §11 first view
+  videos_mb_max: 150                      # NFR-000-04, FR-016-17, NFR-020-03 — budget_class `videos`
+  video_pair_mb_max: 25                   # NFR-000-07, FR-006-03 — one AV1 + H.264 pair (plan §10)
+  tiles_and_glb_mb_max: 95                # FR-016-17, NFR-020-03 — budget_class `tiles-glb`
+  replay_shards_and_clouds_mb_max: 60     # FR-016-17, NFR-020-03, NFR-013-03 — budget_class `shards-clouds`
+  splats_mb_max: 25                       # FR-016-17, NFR-020-03, NFR-017-05 — budget_class `splats`
+  onnx_total_mb_max: 80                   # FR-016-17, NFR-020-03 — budget_class `onnx`
+  onnx_live_each_mb_max: 25               # NFR-000-06, FR-009-38, NFR-010-04, NFR-011-01/03 — live-model cap (stricter than existing web.model_file_mb_hard_cap 95; not a lowering of it)
+  runtimes_mb_max: 55                     # FR-016-17, NFR-020-03 — budget_class `runtimes`
+  own_js_wasm_fonts_mb_max: 10            # FR-016-17, NFR-020-03 — budget_class `own-code`
+  studio_showcase_mb_max: 25              # FR-016-17, NFR-020-03, NFR-019-03 — budget_class `studio-showcase`
+  git_baked_assets_mb_max: 100            # NFR-000-05, FR-016-14 — in-git baked total (plan §11)
+lane_gate:                                # LIVE iff all hold on T2 (coordinator proposal; replaces contracts.lane_* and lane.*)
+  live_asset_mb_max: 25                   # FR-000-15, FR-001-13, P-001-01…03, FR-016-12, FR-009-38, NFR-018-03 — plan §10
+  interaction_ms_max: 16                  # same IDs + NFR-013-01, NFR-010-03 — one 60 Hz frame (plan §10)
+  run_s_max: 1                            # same IDs + NFR-007-01, NFR-010-05, NFR-017-03 — plan §10
+  trace_mb_max: 10                        # same IDs — plan §10
+statistics:
+  decision_rule_ci: 0.95                  # FR-000-05 and every "better than" claim (FR-007-30, FR-009-31, FR-010-25, FR-013-37, SC-011-05, …)
+  min_paired_seeds: 30                    # SC-000-02, SC-007-01, SC-007-02, FR-007-30 — paired seeds for learned vs classical
+runner:
+  loc_max: 1500                           # NFR-000-08, NFR-002-01 — runner size budget (plan)
+  vram_margin_gib_min: 1.5                # FR-002-19, FR-002-45 — free-VRAM guard floor
+  disk_margin_gib_min: 20                 # FR-002-20, FR-002-45 — free-disk guard floor
+  max_start_temp_c: 80                    # FR-002-19, FR-002-45 — = run_bench MAX_START_TEMP_C
+  telemetry_hz: [1, 4]                    # FR-002-30, FR-002-45 — NVML sampling range (plan §9)
+  lock_poll_s_max: 5                      # FR-002-18 — lock polling interval
+  kill_tree_s_max: 10                     # FR-002-27, FR-002-28, FR-002-41 — process-tree clean-up bound
+  thermal_flag_frac: 0.05                 # FR-002-31 — thermal flag when hw_thermal/hw_slowdown share exceeds it
+  power_at_limit_ratio: 0.95              # FR-002-31 — "at limit" = power ≥ 0.95 × enforced limit
+  published_telemetry_points_max: 2000    # FR-002-50 — per stage
+  published_telemetry_kb_max: 200         # FR-002-50, NFR-019-03 — per run (plan §10 "≤ 200 KB per run")
+  log_tail_lines: 50                      # FR-002-34
+  log_tail_chars_max: 4000                # FR-002-34
+  plan_s_max: 5                           # FR-002-01, NFR-002-02 — 64-stage plan latency
+  overhead_s_max: 1.0                     # NFR-002-03 — per-execution runner overhead
+contracts:
+  git_file_bytes_max: 10485760            # FR-001-12, NFR-000-05 — = tools/check_repo.py (10 MiB); SEE FLAG 1
+  error_message_chars_max: 300            # FR-001-08, FR-001-51 — bounded validator messages
+  check_runtime_s_max: 30                 # NFR-001-01 — contract checker on the scale fixture
+console:
+  body_bytes_max: 65536                   # FR-003-10 — POST /jobs body cap
+  response_ms_max: 2000                   # FR-003-10, NFR-003-02 — Schemathesis max_response_time
+  health_ms_max: 200                      # FR-003-06
+  p95_ms_max: 200                         # NFR-003-01
+  sse_delivery_s_max: 2                   # FR-003-15
+  sse_keepalive_s_max: 15                 # FR-003-15 — FastAPI EventSourceResponse default
+  sse_streams_max: 8                      # FR-003-16
+  optin_timeout_s: 3                      # FR-019-44 (moved from FR-003-26) — opt-in /health probe timeout
+media:
+  vmaf_mean_min: 93                       # FR-006-02, SC-006-01 — VMAF target (docs proposal, fixed in spec 006)
+  vmaf_p5_min: 85                         # FR-006-02, SC-006-01 — 5th-percentile floor
+  vmaf_relaxed_mean_min: 80               # FR-006-04 — floor of a recorded relaxation
+  poster_bytes_max: 150000                # FR-006-03 — WebP poster cap
+physics:
+  beverloo_point_rtol: 0.05               # FR-005-10, FR-005-19 — plan tolerance ("Beverloo ± 5 %")
+  beverloo_exponent_atol: 0.15            # FR-005-10 — free-exponent check around 5/2
+  repose_atol_deg: 1.5                    # FR-005-12, P-005-11 — plan tolerance
+  collapse_exponent_atol: [0.15, 0.12]    # FR-005-14, FR-005-18 — linear band, power band
+  swe_l1_max: 0.05                        # FR-005-24, FR-005-25 — Ritter/Stoker L1 at 400 cells
+  swe_volume_drift_max: 1.0e-5            # FR-005-28 — conservative flux form, float32 rounding
+sensors:
+  rerun_point_count_rel_max: 0.01         # FR-013-34 — valid point count per frame within ±1 %
+  rerun_chamfer_over_range_accuracy_max: 3   # FR-013-34 — symmetric mean Chamfer ≤ 3 × rangeAccuracyM (2-σ difference argument, spec 013 §7)
+  rerun_psnr_db_min: 40                   # FR-013-34 — LDR re-render PSNR
+survey:
+  splat_bytes_max: 25000000               # NFR-017-05 — splat asset (plan §11 splats ≤ 25 MB)

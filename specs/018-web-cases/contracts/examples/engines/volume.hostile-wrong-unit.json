@@ -1,0 +1,45 @@
+{
+  "kind": "input",
+  "engine": "volume",
+  "engine_version": "0.1.0",
+  "function": "cut_fill",
+  "args": {
+    "before": {
+      "artefact": "e2-dem-2018-4m",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 4194304
+    },
+    "after": {
+      "artefact": "e2-dem-2023-4m",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 4194304
+    },
+    "rows": 1024,
+    "cols": 1024,
+    "cell_size_m": 4.0,
+    "origin_m": [
+      405000.0,
+      4495000.0
+    ],
+    "polygon_m": [
+      [
+        406000.0,
+        4494000.0
+      ],
+      [
+        408000.0,
+        4494000.0
+      ],
+      [
+        408000.0,
+        4492000.0
+      ],
+      [
+        406000.0,
+        4492000.0
+      ]
+    ],
+    "rmse_before_m": 15.0,
+    "rmse_after_m": 0.1
+  }
+}

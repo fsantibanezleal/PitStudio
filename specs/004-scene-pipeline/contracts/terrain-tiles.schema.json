@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/terrain-tiles.schema.json",
+  "title": "Terrain tile index",
+  "description": "Quadtree tile index of the terrain meshes per level of detail, written by st10_terrain (DC-004-04, spec 004-scene-pipeline).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "frame",
+    "tile_samples",
+    "grid_elevation_sha256",
+    "layer_path",
+    "lods",
+    "tiles"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "kind": {
+      "const": "terrain-tiles"
+    },
+    "frame": {
+      "const": "site-enu"
+    },
+    "tile_samples": {
+      "const": 257,
+      "description": "tiles of 257 x 257 grid samples (FR-004-07)"
+    },
+    "grid_elevation_sha256": {
+      "$ref": "#/$defs/sha256",
+      "description": "elevation array digest of the source grid"
+    },
+    "layer_path": {
+      "$ref": "#/$defs/relpath",
+      "description": "the USD terrain layer holding the tile meshes"
+    },
+    "lods": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lod"
+      },
+      "minItems": 1,
+      "maxItems": 3
+    },
+    "tiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tile"
+      },
+      "minItems": 1,
+      "maxItems": 4096
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "lod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lod",
+        "max_error_m",
+        "skirt_depth_m",
+        "tile_count"
+      ],
+      "properties": {
+        "lod": {
+          "$ref": "scene-spec.schema.json#/$defs/lod_index"
+        },
+        "max_error_m": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 8
+        },
+        "skirt_depth_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16
+        },
+        "tile_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        }
+      }
+    },
+    "bbox": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x_min_m",
+        "y_min_m",
+        "z_min_m",
+        "x_max_m",
+        "y_max_m",
+        "z_max_m"
+      ],
+      "properties": {
+        "x_min_m": {
+          "type": "number",
+          "description": "site-frame coordinate, m (FR-004-02: |offset| <= 1.0e5 m horizontally)",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "y_min_m": {
+          "type": "number",
+          "description": "site-frame coordinate, m (FR-004-02: |offset| <= 1.0e5 m horizontally)",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "z_min_m": {
+          "type": "number",
+          "minimum": -5100,
+          "maximum": 5100
+        },
+        "x_max_m": {
+          "type": "number",
+          "description": "site-frame coordinate, m (FR-004-02: |offset| <= 1.0e5 m horizontally)",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "y_max_m": {
+          "type": "number",
+          "description": "site-frame coordinate, m (FR-004-02: |offset| <= 1.0e5 m horizontally)",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "z_max_m": {
+          "type": "number",
+          "minimum": -5100,
+          "maximum": 5100
+        }
+      },
+      "description": "site-frame bounding box including skirts, m"
+    },
+    "tile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "lod",
+        "level",
+        "x",
+        "y",
+        "prim",
+        "bbox",
+        "max_error_m",
+        "vertices",
+        "triangles",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "description": "<lod>-<quadtree level>-<x>-<y>",
+          "type": "string",
+          "maxLength": 16,
+          "pattern": "^[0-2]-[0-9]{1,2}-[0-9]{1,5}-[0-9]{1,5}$"
+        },
+        "lod": {
+          "$ref": "scene-spec.schema.json#/$defs/lod_index"
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16
+        },
+        "x": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "prim": {
+          "$ref": "scene-digest.schema.json#/$defs/prim_path"
+        },
+        "bbox": {
+          "$ref": "#/$defs/bbox"
+        },
+        "max_error_m": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 8
+        },
+        "vertices": {
+          "type": "integer",
+          "description": "<= 257^2 grid vertices + 4 x 257 skirt vertices",
+          "minimum": 3,
+          "maximum": 67077
+        },
+        "triangles": {
+          "type": "integer",
+          "description": "<= 2 x 256^2 + 8 x 256 skirt triangles",
+          "minimum": 1,
+          "maximum": 133120
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256",
+          "description": "of the tile's float32 positions followed by its uint32 indices, little-endian"
+        }
+      }
+    }
+  }
+}

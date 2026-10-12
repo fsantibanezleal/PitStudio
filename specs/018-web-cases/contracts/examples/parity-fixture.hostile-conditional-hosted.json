@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "engine": "lp",
+  "fixture": "two-shovel-lp",
+  "reference": {
+    "name": "highspy",
+    "version": "1.11.0"
+  },
+  "tolerance": {
+    "class": "hosted"
+  },
+  "cases": [
+    {
+      "input": {
+        "trucks": 12,
+        "shovels": 2
+      },
+      "output": {
+        "objective_t_per_h": 4210.5
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kind": "output",
+  "engine": "granular",
+  "engine_version": "0.1.0",
+  "function": "dem_step",
+  "result": {
+    "forces_n": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "components": 3
+      },
+      "byte_length": 24000
+    },
+    "positions_m": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "components": 3
+      },
+      "byte_length": 24000
+    },
+    "velocities_m_per_s": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "components": 3
+      },
+      "byte_length": 24000
+    },
+    "contacts": 5400
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "$schema": "../contracts/capabilities.schema.json",
+  "generated": "2026-10-11",
+  "gpu": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+  "driver": "595.95",
+  "probes": {
+    "warp_newton": {
+      "status": "pass",
+      "versions": {
+        "python": "3.14.4",
+        "warp": "1.17.0",
+        "usd": "0.26.8",
+        "newton": "1.6.0"
+      },
+      "metrics": {
+        "device": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+        "arch": "sm_89",
+        "saxpy_16M_x20_s": 0.0102,
+        "newton_xpbd_240_steps_s": 4.6557,
+        "newton_particles": 64
+      },
+      "telemetry": {
+        "samples": 26,
+        "max_temp_c": 65,
+        "max_power_w": 593.5,
+        "power_limit_w": 82.2,
+        "max_mem_used_mb": 721,
+        "max_util_pct": 14,
+        "pcie_replays_delta": 0,
+        "whea_events_delta": 0
+      }
+    },
+    "torch_ort": {
+      "status": "pass",
+      "versions": {
+        "python": "3.14.4",
+        "torch": "2.14.1+cu130",
+        "torch_cuda": "13.0",
+        "cudnn": "92400",
+        "onnxruntime": "1.30.0"
+      },
+      "metrics": {
+        "device": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+        "arch": "sm_89",
+        "gemm_fp16_4096_tflops": 104.0,
+        "gemm_bf16_4096_tflops": 107.4,
+        "ort_cuda_conv_x50_s": 0.0271,
+        "ort_vs_torch_max_abs_err": 3.5762786865234375e-07,
+        "torch_max_vram_mb": 136
+      },
+      "telemetry": {
+        "samples": 15,
+        "max_temp_c": 88,
+        "max_power_w": 593.5,
+        "power_limit_w": 105.0,
+        "max_mem_used_mb": 773,
+        "max_util_pct": 20,
+        "pcie_replays_delta": 0,
+        "whea_events_delta": 0
+      }
+    },
+    "tensorrt": {
+      "status": "pass",
+      "versions": {
+        "python": "3.14.4",
+        "tensorrt_licence_sha256": "c86915fd95bbefbdda3135aace3e6ad6b4612846dcbdbc5d2f5a38b139dd88b4",
+        "tensorrt": "11.3.0.99",
+        "polygraphy": "0.53.6",
+        "cuda_runtime": "13.4.92"
+      },
+      "metrics": {
+        "engine_build_fp32_s": 3.9973,
+        "trt_infer_median_ms": 1.003,
+        "trt_vs_ort_cpu_max_abs_err": 3.2186508178710938e-06
+      },
+      "telemetry": {
+        "samples": 18,
+        "max_temp_c": 69,
+        "max_power_w": 66.5,
+        "power_limit_w": 89.9,
+        "max_mem_used_mb": 1065,
+        "max_util_pct": 49,
+        "pcie_replays_delta": 0,
+        "whea_events_delta": 0
+      }
+    },
+    "nvenc": {
+      "status": "pass",
+      "versions": {
+        "python": "3.14.4",
+        "ffmpeg": "n8.1.3-14-g330caae0c1-20261003",
+        "pynvvideocodec": "2.2.3"
+      },
+      "metrics": {
+        "av1_nvenc_fps": 118.1,
+        "av1_nvenc_kbps": 9099,
+        "h264_nvenc_fps": 109.8,
+        "h264_nvenc_kbps": 10975
+      },
+      "telemetry": {
+        "samples": 22,
+        "max_temp_c": 87,
+        "max_power_w": 593.5,
+        "power_limit_w": 105.0,
+        "max_mem_used_mb": 726,
+        "max_util_pct": 6,
+        "pcie_replays_delta": 0,
+        "whea_events_delta": 0
+      }
+    },
+    "ovrtx": {
+      "status": "pass",
+      "versions": {
+        "python": "3.12.15",
+        "ovrtx": "0.5.0.377615",
+        "ovstage": "0.2.0.377349",
+        "ovphysx": "0.6.3",
+        "warp": "1.17.0",
+        "numpy": "2.5.3",
+        "ovrtx_runtime": "0.5.0"
+      },
+      "metrics": "measured locally, not published (licence)",
+      "notes": [
+        "rendered frame written to the local scratch folder (probe_frame.ppm)"
+      ]
+    },
+    "isaacsim": {
+      "status": "pass",
+      "versions": {
+        "python": "3.12.15",
+        "isaacsim": "6.1.0.0",
+        "numpy": "2.3.1",
+        "kit": "110.3.0+feature.371399.00c488ae.gl",
+        "torch": "2.11.0+cu130",
+        "warp": "1.16.0"
+      },
+      "metrics": "measured locally, not published (licence)",
+      "notes": [
+        "rendered frame written to the local scratch folder (probe_frame.ppm)",
+        "compatibility checker extension: not found (windowed app, not run)",
+        "result printed before SimulationApp.close() (shutdown watchdog armed)"
+      ]
+    },
+    "isaaclab": {
+      "status": "pass",
+      "versions": {
+        "python": "3.12.15",
+        "isaaclab": "17.0.2",
+        "isaaclab_newton": "5.4.1",
+        "isaaclab_tasks": "18.0.1",
+        "isaaclab_rl": "0.16.3",
+        "torch": "2.11.0+cu128",
+        "torchvision": "0.26.0+cu128",
+        "warp_lang": "1.16.0",
+        "newton": "1.5.2",
+        "mujoco": "3.11.0",
+        "mujoco_warp": "3.11.0",
+        "rsl_rl_lib": "5.4.1",
+        "cuda": "12.8"
+      },
+      "metrics": "measured locally, not published (licence)",
+      "notes": [
+        "local-only: the environment lock holds licence-restricted packages"
+      ]
+    }
+  }
+}

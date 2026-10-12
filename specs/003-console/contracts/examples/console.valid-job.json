@@ -1,0 +1,17 @@
+{
+  "job_id": "20261007T210000Z-0a1b2c3d",
+  "recipe": "c2-slope",
+  "state": "running",
+  "run_id": "20261007T210000Z-c2-slope",
+  "created": "2026-10-07T21:00:00Z",
+  "stage": {
+    "id": "st55_sdg",
+    "variant": "night"
+  },
+  "shards": {
+    "done": 3,
+    "total": 40
+  },
+  "exit_code": null,
+  "reason": null
+}

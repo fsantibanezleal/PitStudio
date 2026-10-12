@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "llamacpp": {
+    "build": "b11381",
+    "archives": {
+      "binaries": {
+        "name": "llama-b11381-bin-win-cuda-13.4-x64.zip",
+        "url": "https://github.com/ggml-org/llama.cpp/releases/download/b11381/llama-b11381-bin-win-cuda-13.4-x64.zip",
+        "bytes": 153005337,
+        "sha256": "8e3dca4fc1cdd11f3e3ebc770b159483bd8fd7dfeceff396fbb31997495d0b2e"
+      },
+      "cudart": {
+        "name": "cudart-llama-bin-win-cuda-13.4-x64.zip",
+        "url": "https://github.com/ggml-org/llama.cpp/releases/download/b11381/cudart-llama-bin-win-cuda-13.4-x64.zip",
+        "bytes": 423535356,
+        "sha256": "738f8c251ac22b70c3ae6f83a10cf222725df0395246a2cf58f32bdb85fbe668"
+      }
+    },
+    "executables": {
+      "llama-server.exe": "8c45fc675033ce9e34fb7273abbebd050bfc7ded718db92e2388eb7bb04f1830",
+      "llama-quantize.exe": "dd254c26bd618d5530707a65322eff6876305b35ca5bd10b5b2136995850a717"
+    },
+    "converter": {
+      "source_tag": "b11381",
+      "path": "convert_hf_to_gguf.py",
+      "sha256": "ec77d8003b92ff283179456d36b8b56abf635e7b1232e70daf16676e8920ccf1"
+    }
+  },
+  "models": {
+    "cosmos": {
+      "repository": "apolo13x/Cosmos-Reason2-2B-GGUF",
+      "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+      "files": {
+        "model.safetensors": {
+          "sha256": "fa5a6e6ef4fce40216b185cc48a3b24d31637ac3e2ba69c107ed1f389c1e6ede",
+          "bytes": 4877470304
+        }
+      }
+    },
+    "qwen": {
+      "repository": "Qwen/Qwen3-VL-2B-Instruct",
+      "revision": "89644892e4d85e24eaac8bacfd4f463576704203",
+      "files": {
+        "model.safetensors": {
+          "sha256": "7de1838c87a5349b016c26a1c3f7d2bc400a3d485f95ef39a7059ffd734977a0",
+          "bytes": 4255140312
+        }
+      }
+    }
+  },
+  "prompts": {
+    "system": {
+      "path": "studio/reason/prompts/system.txt",
+      "sha256": "d6ca9b4a6ccba1bfa3a298e252c2bc0567144e667081fedc3b92a52378cd1176"
+    },
+    "task_a_type_1": {
+      "path": "studio/reason/prompts/task_a_type_1.txt",
+      "sha256": "ccf0527807c2c52a4d2d3368e037b9f6bd2226e9942b8f5ba927aa04196af4ef"
+    },
+    "task_a_type_2": {
+      "path": "studio/reason/prompts/task_a_type_2.txt",
+      "sha256": "1d12f5d0d8ef9d92c9ebb073ea5ab578d6c4bf1cf27222b3d259fb213f72f48e"
+    },
+    "task_a_type_3": {
+      "path": "studio/reason/prompts/task_a_type_3.txt",
+      "sha256": "43b6fcac7c3b0e1b9b03ec0ea983231de3722e5408e2e93230324af605cad746"
+    },
+    "task_a_type_4": {
+      "path": "studio/reason/prompts/task_a_type_4.txt",
+      "sha256": "f8bf1b6813623ad7c7de76c95fc3d26829c2eccd626908602f805efb53f82f74"
+    },
+    "task_a_type_5": {
+      "path": "studio/reason/prompts/task_a_type_5.txt",
+      "sha256": "2d5211af77b498de6d3f1a67a10dbe85a6de77fd0b44700e6c0ba11cb98f1d3f"
+    },
+    "task_a_type_6": {
+      "path": "studio/reason/prompts/task_a_type_6.txt",
+      "sha256": "7c889e882ca99189baa60be690b93cee81307e7562ae9389169088f7c38fbac3"
+    },
+    "task_b_pair": {
+      "path": "studio/reason/prompts/task_b_pair.txt",
+      "sha256": "eeee816dbaa79252f4403a54ab77b7008a14291269dd66e81379ebaa59b5d88b"
+    },
+    "task_b_single": {
+      "path": "studio/reason/prompts/task_b_single.txt",
+      "sha256": "d9edf2fcac52bd4b176da887e70c618803fced47d5b1d99c3456be68791f0322"
+    },
+    "task_c_caption": {
+      "path": "studio/reason/prompts/task_c_caption.txt",
+      "sha256": "54f7d42c2a7f104f6e38f2d830bc8e474ed85c76d046e1c21af0789054718b96"
+    }
+  }
+}

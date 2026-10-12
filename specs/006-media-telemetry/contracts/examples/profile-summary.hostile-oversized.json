@@ -1,0 +1,146 @@
+{
+  "kind": "profile-summary",
+  "schema_version": "1.0",
+  "run_id": "20261007T140000Z-bench-physics-dem",
+  "stage": {
+    "id": "st50_physics"
+  },
+  "method": "warp-activity-timing",
+  "label": "kernel timing, no admin rights",
+  "device": "cuda",
+  "trace": {
+    "file": "profile/trace.json",
+    "format": "chrome-trace-json",
+    "bytes": 48211000
+  },
+  "truncated": false,
+  "kernels_total": 21,
+  "kernels": [
+    {
+      "name": "kernel_00",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_01",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_02",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_03",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_04",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_05",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_06",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_07",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_08",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_09",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_10",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_11",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_12",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_13",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_14",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_15",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_16",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_17",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_18",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_19",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    },
+    {
+      "name": "kernel_20",
+      "calls": 1,
+      "total_ms": 1.0,
+      "mean_ms": 1.0
+    }
+  ]
+}

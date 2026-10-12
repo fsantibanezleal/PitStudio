@@ -1,0 +1,14 @@
+{
+  "seed": 1000000,
+  "light_vehicles": 2,
+  "termination": "success",
+  "success": true,
+  "collision": false,
+  "steps": 2400,
+  "sum_sq_lateral_error_m2": 172.8,
+  "rms_lateral_error_m": 0.2683,
+  "max_lateral_error_m": 0.71,
+  "min_ttc_s": 6.4,
+  "energy_kwh_per_t_km": 1.12,
+  "frac_within_v_lim": 0.97
+}

@@ -1,0 +1,81 @@
+{
+  "record_id": "pit-u-004711",
+  "synthetic": true,
+  "family": "pit",
+  "arm": "unstructured",
+  "split": "train",
+  "scenario_seed": 4211,
+  "layout_id": "layout-0042",
+  "image": {
+    "path": "sdg/pit-unstructured/shard-0011/rgb/004711.png",
+    "sha256": "8796a5b4c3d2e1f092a3b4c5d6e7f80928394a5b6c7d8e9f8796a5b4c3d2e1f0",
+    "size_bytes": 1843021,
+    "width_px": 1280,
+    "height_px": 720,
+    "format": "png",
+    "colour_space": "srgb"
+  },
+  "coco": {
+    "path": "sdg/pit-unstructured/shard-0011/coco_instances.json",
+    "sha256": "1a2b3c4d5e6f708128394a5b6c7d8e9f1a2b3c4d5e6f708128394a5b6c7d8e9f",
+    "size_bytes": 5120333
+  },
+  "coco_image_id": 4711,
+  "semantic_mask": {
+    "path": "sdg/pit-unstructured/shard-0011/semantic/004711.png",
+    "sha256": "92a3b4c5d6e7f8098796a5b4c3d2e1f028394a5b6c7d8e9f92a3b4c5d6e7f809",
+    "size_bytes": 20480,
+    "width_px": 1280,
+    "height_px": 720,
+    "format": "png"
+  },
+  "depth": {
+    "path": "sdg/pit-unstructured/shard-0011/depth/004711.npy",
+    "sha256": "a0b1c2d3e4f5061792a3b4c5d6e7f8091a2b3c4d5e6f70818796a5b4c3d2e1f0",
+    "size_bytes": 3686528,
+    "width_px": 1280,
+    "height_px": 720,
+    "format": "npy",
+    "dtype": "float32",
+    "unit": "m",
+    "quantity": "distance-to-image-plane"
+  },
+  "intrinsics": {
+    "model": "pinhole",
+    "fx_px": 1108.5,
+    "fy_px": 1108.5,
+    "cx_px": 640.0,
+    "cy_px": 360.0
+  },
+  "frame_state": {
+    "path": "sdg/pit-unstructured/shard-0011/frame_state/004711.json",
+    "sha256": "28394a5b6c7d8e9f0f1e2d3c4b5a69788796a5b4c3d2e1f01a2b3c4d5e6f7081",
+    "size_bytes": 48211
+  },
+  "instance_source": "replicator",
+  "dr": {
+    "texture_ids": [
+      "tex-rusty-metal-03",
+      "tex-grass-01",
+      "tex-asphalt-07"
+    ],
+    "light_intensity_factor": 3.2,
+    "colour_temperature_k": 8450,
+    "sun_elevation_deg": 12.5,
+    "sun_azimuth_deg": 300.0,
+    "distractor_count": 7,
+    "placements": [
+      {
+        "class": "light_vehicle",
+        "x_m": 377.0,
+        "y_m": -90.2,
+        "z_m": 1650.4,
+        "yaw_deg": 245.0
+      }
+    ]
+  },
+  "licence": {
+    "spdx": "CC-BY-4.0",
+    "licence_class": "own"
+  }
+}

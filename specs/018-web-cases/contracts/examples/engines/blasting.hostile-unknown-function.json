@@ -1,0 +1,12 @@
+{
+  "kind": "input",
+  "engine": "blasting",
+  "engine_version": "0.1.0",
+  "function": "evaluate_all",
+  "args": {
+    "rock_factor": 9.0,
+    "powder_factor_kg_per_m3": 0.55,
+    "charge_kg": 480.0,
+    "rws": 100.0
+  }
+}

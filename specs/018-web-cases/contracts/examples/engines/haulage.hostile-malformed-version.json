@@ -1,0 +1,12 @@
+{
+  "kind": "input",
+  "engine": "haulage",
+  "engine_version": "v1",
+  "function": "match_factor",
+  "args": {
+    "trucks": 12,
+    "loaders": 2,
+    "load_time_s": 150.0,
+    "cycle_time_s": 1500.0
+  }
+}

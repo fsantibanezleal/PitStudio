@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261115T101500Z-c1",
+  "snr_basis": "nominal",
+  "t_alarm_h": 24,
+  "horizon_cap_steps": 1024,
+  "events": [
+    {
+      "event_id": "voight-test-nominal-30-000045",
+      "stratum": "nominal_30",
+      "method": "inverse_velocity",
+      "cutoff": 0.8,
+      "t_c_h": 160.0,
+      "t_f_h": 200.0,
+      "outcome": "predicted",
+      "t_hat_f_h": 203.0,
+      "rel_error": 0.075,
+      "error_h": 3.0,
+      "scored_at_cap": false
+    }
+  ],
+  "alarms": [],
+  "summary": [
+    {
+      "method": "inverse_velocity",
+      "stratum": "nominal_30",
+      "cutoff": 0.8,
+      "n_events": 500,
+      "median_rel_error": 0.069,
+      "mean_rel_error": 0.188,
+      "p90_rel_error": 0.377,
+      "median_abs_error_h": 3.3
+    }
+  ],
+  "alarm_summary": [],
+  "acceptance": [
+    {
+      "criterion": "SC-010-01",
+      "method": "tcn",
+      "cutoff": 0.5,
+      "stratum": "snr_obs",
+      "threshold": 0.1,
+      "verdict": "not run",
+      "reason": "observed SNR unavailable"
+    }
+  ],
+  "comparisons": [],
+  "multiplicity": {
+    "comparisons": 8,
+    "family_wise_claim": false
+  },
+  "real_event": {
+    "event_id": "dewit-2025-event",
+    "status": "not run",
+    "label": "single real event — no significance test",
+    "reason": "archive failed its checksum"
+  }
+}

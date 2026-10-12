@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "section_id": "c1-planar-20m-45deg",
+  "source": {
+    "kind": "fixture"
+  },
+  "ground": [
+    [
+      0.0,
+      20.0
+    ],
+    [
+      20.0,
+      20.0
+    ],
+    [
+      40.0,
+      0.0
+    ],
+    [
+      80.0,
+      0.0
+    ]
+  ],
+  "crest_x_m": 20.0,
+  "toe_x_m": 40.0,
+  "materials": [
+    {
+      "id": "fill",
+      "model": "mohr-coulomb",
+      "unit_weight_kn_per_m3": 20.0,
+      "cohesion_kpa": 20.0,
+      "friction_angle_deg": 30.0,
+      "gsi": 50
+    }
+  ],
+  "pore_pressure_ratio": 0.0,
+  "analysis": {
+    "mode": "live",
+    "methods": [
+      "bishop",
+      "spencer"
+    ],
+    "slices": 50,
+    "search": {
+      "entry_points": 40,
+      "exit_points": 40,
+      "radius_ratios": 8,
+      "rho_min": 1.02,
+      "rho_max": 4.0
+    },
+    "pof": {
+      "samples": 2000,
+      "candidates": 64,
+      "seed": 12345,
+      "distributions": [
+        {
+          "material_id": "fill",
+          "parameter": "cohesion_kpa",
+          "distribution": "normal",
+          "mean": 20.0,
+          "sd": 4.0,
+          "truncate_lower": 0.0
+        },
+        {
+          "material_id": "fill",
+          "parameter": "friction_angle_deg",
+          "distribution": "normal",
+          "mean": 30.0,
+          "sd": 3.0,
+          "truncate_lower": 5.0,
+          "truncate_upper": 60.0
+        }
+      ]
+    }
+  }
+}

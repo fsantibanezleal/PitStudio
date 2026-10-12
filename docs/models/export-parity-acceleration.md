@@ -37,7 +37,8 @@ Model-specific design choices that keep graphs portable:
 - **GNS:** message aggregation in plain PyTorch lowers to `ScatterElements` with `reduction=add` (opset ≥ 16) [7];
   neighbour search stays outside the graph and `edge_index` is an input.
 - **FNO:** the spectral layer is written as truncated real DFT matrix products, because exporting `torch.fft.rfft`
-  hits an open shape-inference bug [8]; the graph then holds only `MatMul` / `Einsum`.
+  hits an open shape-inference bug [8]; the spectral layers then export as `MatMul` only, and the export checks the
+  graph against an operator whitelist (no `DFT`, no `Einsum`, no complex tensors).
 
 ## Parity layers
 
@@ -46,7 +47,7 @@ Model-specific design choices that keep graphs portable:
 | 1. ONNX = PyTorch | ORT CPU EP fp32 vs PyTorch fp32 on a golden set of ≥ 200 vectors | rtol 1e-3, atol 1e-5, max abs ≤ 1e-4, 100 % argmax agreement | the export is fixed; nothing ships |
 | 2. Reduced precision | fp16 / int8 / fp8 variant vs the fp32 model | task metric Δ ≤ 1 pp; masks IoU ≥ 0.99; detectors: corruption curves per precision | variant rejected, reason reported |
 | 3. Browser = Python | ORT-web vs the Python reference, per system class | WASM fp32 max abs 1e-4; WebGPU fp32 1e-3; fp16 1e-2; top-1 agreement ≥ 0.995 | the model drops to the next tier or to PRECOMPUTE |
-| 4. TensorRT engine | every engine, every TensorRT version and execution provider, vs PyTorch fp32 | fp32: rtol 1e-3 / atol 1e-5; reduced precision: Δ ≤ 1 pp | engine reported as **rejected** |
+| 4. TensorRT engine | every engine, every TensorRT version and execution provider, vs the stored PyTorch fp32 outputs of the golden set | fp32: rtol 1e-3 / atol 1e-5; reduced precision: Δ ≤ 1 pp | engine reported as **rejected** |
 
 The tolerances are proposed defaults in `specs/000-foundation/thresholds.yaml`, calibrated at specification. TF32 is
 cleared for every fp32 parity run, on PyTorch and on TensorRT, so that a TF32 rounding difference is never mistaken for

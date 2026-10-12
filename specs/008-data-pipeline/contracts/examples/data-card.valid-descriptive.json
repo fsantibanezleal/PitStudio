@@ -1,0 +1,28 @@
+{
+  "id": "voight-creep-series",
+  "kind": "synthetic",
+  "title": "Voight creep displacement series",
+  "spdx": "CC-BY-4.0",
+  "licence_class": "own",
+  "redistribution": "redistributable",
+  "files_sha256": [],
+  "synthetic": true,
+  "generator": {
+    "module": "pitstudio_pipeline.synthesize.voight",
+    "stage": "s05_synthesize",
+    "version": "0.1.0",
+    "git_sha": "2574f49ba848c5522724c9a753bb246dc5daf4c2"
+  },
+  "config_sha256": "cba827a22c2e4c6cbd2c4e4789a54a9c3a96e00b1575d2104e9203bf430d8bfe",
+  "seeds": [
+    11,
+    12
+  ],
+  "priors": [],
+  "assets": [],
+  "validation": {
+    "class": "descriptive-only",
+    "basis": "single real event",
+    "real_reference": "dewit-slope-failure"
+  }
+}

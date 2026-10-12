@@ -1,0 +1,14 @@
+{
+  "recipe": {
+    "id": "c2-slope",
+    "case": "C2",
+    "seed": 1,
+    "stages": []
+  },
+  "stages": [
+    {
+      "id": "st50_physics"
+    }
+  ],
+  "profile": "laptop-rtx5000ada"
+}

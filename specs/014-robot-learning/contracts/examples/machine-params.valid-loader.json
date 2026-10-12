@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "kind": "loader",
+  "id": "generic-loader-25t",
+  "name": "Generic 25 t wheel loader",
+  "operating_mass_kg": 25000,
+  "wheelbase_m": 3.4,
+  "track_width_m": 2.4,
+  "wheel_radius_m": 0.8,
+  "max_steer_deg": 40,
+  "max_rimpull_n": 200000,
+  "arm_pivot_m": [
+    1.0,
+    2.0
+  ],
+  "links": {
+    "arm": {
+      "length_m": 3.5,
+      "mass_kg": 2000
+    },
+    "bucket": {
+      "length_m": 1.4,
+      "mass_kg": 1500
+    }
+  },
+  "joints": {
+    "lift": {
+      "lower_deg": -45,
+      "upper_deg": 50,
+      "torque_max_n_m": 300000,
+      "velocity_max_deg_per_s": 25
+    },
+    "tilt": {
+      "lower_deg": -60,
+      "upper_deg": 50,
+      "torque_max_n_m": 150000,
+      "velocity_max_deg_per_s": 40
+    }
+  },
+  "bucket_width_m": 3.0,
+  "heaped_volume_m3": 4.0,
+  "sources": [
+    {
+      "id": "example-source",
+      "citation": "Illustrative source for this example file; a committed file cites the published reference",
+      "url": "https://example.org/generic-machine-dimensions",
+      "locator": "Table 1"
+    }
+  ],
+  "provenance": {
+    "operating_mass_kg": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "wheelbase_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "track_width_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "wheel_radius_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "max_steer_deg": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "max_rimpull_n": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "arm_pivot_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "links": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "joints": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "bucket_width_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "heaped_volume_m3": {
+      "source": "example-source",
+      "class": "published"
+    }
+  }
+}

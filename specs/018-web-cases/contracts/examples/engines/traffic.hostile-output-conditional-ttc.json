@@ -1,0 +1,9 @@
+{
+  "kind": "output",
+  "engine": "traffic",
+  "engine_version": "0.1.0",
+  "function": "ttc",
+  "result": {
+    "status": "closing"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "document": "replay-manifest",
+  "schema_version": "1.0",
+  "kind": "particle",
+  "units": "m",
+  "bbox_m": {
+    "min": [
+      -1650.0,
+      -1650.0,
+      1500.0
+    ],
+    "max": [
+      1650.0,
+      1650.0,
+      2400.0
+    ]
+  },
+  "fps": 10,
+  "frames": 200,
+  "items": 20000,
+  "code_type": "int16",
+  "solver": {
+    "name": "warp-dem",
+    "version": "1.10.0"
+  },
+  "seed": 20261007,
+  "shards": [
+    {
+      "header": "shard-000.json",
+      "payload": "shard-000.bin",
+      "bytes": 6000000,
+      "sha256": "d3160d174c7e403e4d2f4e86adf34dcb560ace1580ece8a636108eb3fa78dd4d",
+      "frames": {
+        "start": 0,
+        "count": 50
+      }
+    },
+    {
+      "header": "shard-001.json",
+      "payload": "shard-001.bin",
+      "bytes": 6000000,
+      "sha256": "0fcf44fc88774c61e4bcb045af305d8bc7b64486848431e15eed9af8a8ea69a7",
+      "frames": {
+        "start": 50,
+        "count": 50
+      }
+    },
+    {
+      "header": "shard-002.json",
+      "payload": "shard-002.bin",
+      "bytes": 6000000,
+      "sha256": "92a63ecc7fb871068610480a3c3843a21112adb4aecbde499543c98a0a1a3292",
+      "frames": {
+        "start": 100,
+        "count": 50
+      }
+    },
+    {
+      "header": "shard-003.json",
+      "payload": "shard-003.bin",
+      "bytes": 6000000,
+      "sha256": "b186cd4ad28d99392b6fe7246230c3a8481af732c123bfb776088cea04c5b802",
+      "frames": {
+        "start": 150,
+        "count": 50
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "generated": "2026-10-21",
+  "git_sha": "01e2b86d09a37a1a3d9b5aaaedfc7028fd41e137",
+  "caption": "measured on one RTX 5000 Ada Laptop GPU (power-limited), Windows 11, 2026-10-20, 01e2b86d09a37a1a3d9b5aaaedfc7028fd41e137 — not a general benchmark",
+  "conditions": {
+    "gpu_name": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+    "driver": "581.42"
+  },
+  "rows": []
+}

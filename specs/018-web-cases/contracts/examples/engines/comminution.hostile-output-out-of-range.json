@@ -1,0 +1,13 @@
+{
+  "kind": "output",
+  "engine": "comminution",
+  "engine_version": "0.1.0",
+  "function": "mine_to_mill_chain",
+  "result": {
+    "f80_m": 0.011,
+    "fines_fraction": 1.5,
+    "specific_energy_j_per_kg": 34900.0,
+    "crusher_feed_kg_per_s": 630.4,
+    "mill_product_kg_per_s": 630.4
+  }
+}

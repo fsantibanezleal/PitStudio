@@ -51,10 +51,10 @@ x_{50} = A\,K^{-0.8}\,Q^{1/6}\left(\frac{115}{RWS}\right)^{19/30}
 $$
 
 with $x_{50}$ in **cm**, $K$ in kg/m³, $Q$ in kg, $RWS$ the weight strength of the explosive relative to ANFO (ANFO =
-100) and $A$ the rock factor (–). The rock factor is built from rock-mass description, joint, density and hardness
-ratings, $A = 0.06\,(RMD + JF + RDI + HF)$ in Cunningham's adaptation of Lilly's blastability index; the 0.06 and the
-$HF$ term are UNVERIFIED — pinned at specification, while a fetched open-access paper lists $A$ from $RMD$, $JF$ and
-$RDI$ [4].
+100) and $A$ the rock factor (–). Cunningham's adaptation of Lilly's blastability index defines it as
+$A = 0.06\,(RMD + RDI + HF)$, with $RMD$ the rock-mass description, $RDI$ the density influence and $HF$ the hardness
+factor [2] (eq. 4, p. 204); the open-access KCO paper writes the same form [4] (eq. 3). Joints enter through $RMD$:
+for vertically jointed rock $RMD$ takes the jointed-rock factor $JF$, so there is no separate $JF$ term [2].
 
 **Which version.** Two explosive-strength exponents circulate.
 
@@ -168,7 +168,7 @@ limit, the second is a prediction that is only as good as the site regression.
 
 ## 5. Flyrock
 
-Empirical flyrock-range correlations (Lundborg; Richards and Moore) are not transcribed here (UNVERIFIED). A 2023
+Empirical flyrock-range correlations (Lundborg; Richards and Moore) are not transcribed here (UNVERIFIED). A 2022
 open-access review shows that correlation models cannot capture the launch velocity and that trajectory models often
 ignore aerodynamic drag; it argues that ballistic trajectories with drag, driven by launch velocity, are the most
 promising predictor [9]:
@@ -197,7 +197,7 @@ captures [9].
 
 | Model | Valid where | Status |
 |---|---|---|
-| Kuznetsov $x_{50}$ | within the calibration of the rock factor $A$; $RWS$ relative to ANFO | form fetched [4][5]; $A$ constants UNVERIFIED |
+| Kuznetsov $x_{50}$ | within the calibration of the rock factor $A$; $RWS$ relative to ANFO | form fetched [4][5]; $A = 0.06\,(RMD + RDI + HF)$ read on [2] |
 | Cunningham $n$ | typical $n \approx 0.8$–1.5; burden, spacing and accuracy terms in their tested ranges | transcription UNVERIFIED |
 | Swebrec / KCO | sieved blast and crusher data, $0 < x \le x_{\max}$ | form fetched [3][4]; fit-quality claim UNVERIFIED |
 | PPV law | distances and charges inside the site's regression data | site constants only |
@@ -241,8 +241,8 @@ error excludes 0. See [Sim-to-real](sim-to-real.md).
 1. Kuznetsov (1973). The mean diameter of the fragments formed by blasting rock. *Soviet Mining Science* 9(2),
    144–148. https://doi.org/10.1007/BF02506177
 2. Cunningham (2005). The Kuz-Ram fragmentation model — 20 years on. *Proc. EFEE Brighton*, 201–210.
-   https://www.scirp.org/reference/referencespapers?referenceid=4120306 (bibliographic record; full text UNVERIFIED —
-   source unreachable)
+   https://www.scirp.org/reference/referencespapers?referenceid=4120306 (bibliographic record); full text:
+   https://www.smctesting.com/documents/mine-to-mill/The%20kuz%20ram%20fragmentation%20model%2020%20years%20on.pdf
 3. Ouchterlony (2005). The Swebrec function: linking fragmentation by blasting and crushing. *Mining Technology*
    114(1), 29–44. https://doi.org/10.1179/037178405X44539
 4. Mutinda, Alunda, Maina, Kasomo (2021). Prediction of rock fragmentation using the
@@ -254,7 +254,7 @@ error excludes 0. See [Sim-to-real](sim-to-real.md).
 7. Siskind, Stagg, Kopp, Dowding (1980). *USBM Report of Investigations 8507*: structure response to
    surface-mine blast vibration (76 homes, 219 blasts). https://www.osti.gov/biblio/6777883
 8. 30 CFR § 816.67 — Use of explosives: control of adverse effects. https://www.law.cornell.edu/cfr/text/30/816.67
-9. Szendrei, Tose (2023). Flyrock in surface mining — limitations of current predictive models and a better
+9. Szendrei, Tose (2022). Flyrock in surface mining — limitations of current predictive models and a better
    alternative through modelling the aerodynamics of flyrock trajectory. *J. South. Afr. Inst. Min. Metall.* 122(12),
    725–732. https://doi.org/10.17159/2411-9717/1873/2022
 10. Bajpayee, Lobb, Verakis (2004). *An analysis and prevention of flyrock accidents in surface

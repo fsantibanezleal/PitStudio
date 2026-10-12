@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "synthetic": true,
+  "flight": "f01",
+  "design": {
+    "gsd_cm_per_px": 2,
+    "overlap_pct": 80,
+    "sun_elevation_deg": 60
+  },
+  "seed": 0,
+  "camera": {
+    "model": "pinhole",
+    "distortion": "none",
+    "width_px": 4000,
+    "height_px": 3000,
+    "fx_px": 6000.0,
+    "fy_px": 6000.0,
+    "cx_px": 2000.0,
+    "cy_px": 1500.0
+  },
+  "images": [],
+  "scene": {
+    "usd": {
+      "name": "scenes/e2/known_volume.usda",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "exact_surface": {
+      "name": "scenes/e2/exact_surface.tif",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "cell_m": 0.25
+    },
+    "base_z_m": 0.0,
+    "stockpile": {
+      "shape": "conical-frustum",
+      "centre_m": [
+        60.0,
+        100.0
+      ],
+      "radius_bottom_m": 12.0,
+      "radius_top_m": 4.0,
+      "height_m": 6.0,
+      "volume_m3": 1306.902544
+    },
+    "cut": {
+      "shape": "trapezoidal-prism",
+      "centre_m": [
+        140.0,
+        100.0
+      ],
+      "length_m": 40.0,
+      "depth_m": 5.0,
+      "width_bottom_m": 10.0,
+      "width_top_m": 20.0,
+      "volume_m3": 3000.0
+    }
+  }
+}

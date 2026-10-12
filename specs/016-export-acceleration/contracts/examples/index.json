@@ -1,0 +1,880 @@
+{
+  "spec": "016-export-acceleration",
+  "examples": [
+    {
+      "file": "bench-record.valid.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "public TensorRT 11.3 fp16 detector cell: four latency entries, batch sweep, energy, camera streams, layer-4 parity pass"
+    },
+    {
+      "file": "bench-record.valid-rejected.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "rejected fp32 engine kept with its numbers and reason"
+    },
+    {
+      "file": "bench-record.valid-local-only.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "TensorRT for RTX cell: local-only, every performance field replaced by the local-only constant"
+    },
+    {
+      "file": "bench-record.valid-not-run.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "ORT TensorRT-provider cell not run (libraries absent)"
+    },
+    {
+      "file": "bench-record.valid-licence-changed.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "TensorRT licence text changed: local-only with the note"
+    },
+    {
+      "file": "bench-record.hostile-unknown-backend.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown backend",
+      "rule": "FR-016-36",
+      "pointer": "/backend",
+      "keyword": "enum"
+    },
+    {
+      "file": "bench-record.hostile-unknown-precision.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown precision",
+      "rule": "FR-016-36",
+      "pointer": "/precision",
+      "keyword": "enum"
+    },
+    {
+      "file": "bench-record.hostile-local-only-with-numbers.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "local-only record carrying public numbers",
+      "rule": "FR-016-33",
+      "pointer": "/latency",
+      "keyword": "const"
+    },
+    {
+      "file": "bench-record.hostile-rtx-public.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "TensorRT for RTX record marked public",
+      "rule": "FR-016-33",
+      "pointer": "/performance",
+      "keyword": "const"
+    },
+    {
+      "file": "bench-record.hostile-licence-changed-public.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "changed TensorRT licence text with public numbers",
+      "rule": "FR-016-23",
+      "pointer": "/performance",
+      "keyword": "const"
+    },
+    {
+      "file": "bench-record.hostile-public-with-local-only-constant.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "public record hiding a number behind the local-only constant",
+      "rule": "FR-016-31",
+      "pointer": "/vram_peak_bytes",
+      "keyword": "not"
+    },
+    {
+      "file": "bench-record.hostile-too-few-iterations.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 50 timed iterations",
+      "rule": "FR-016-26",
+      "pointer": "/latency/0/iterations",
+      "keyword": "minimum"
+    },
+    {
+      "file": "bench-record.hostile-negative-duration.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative duration",
+      "rule": "FR-016-36",
+      "pointer": "/latency/1/p50/value_ms",
+      "keyword": "minimum"
+    },
+    {
+      "file": "bench-record.hostile-short-warmup.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "warm-up shorter than 5 s",
+      "rule": "FR-016-26",
+      "pointer": "/latency/2/warmup_s",
+      "keyword": "minimum"
+    },
+    {
+      "file": "bench-record.hostile-missing-regime-scope.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "latency without all regime x scope entries",
+      "rule": "FR-016-26",
+      "pointer": "/latency",
+      "keyword": "minItems"
+    },
+    {
+      "file": "bench-record.hostile-energy-null-without-reason.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "joules per inference null without its reason",
+      "rule": "FR-016-29",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "bench-record.hostile-short-energy-window.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "energy window shorter than 1 s",
+      "rule": "FR-016-29",
+      "pointer": "/energy_window_s",
+      "keyword": "minimum"
+    },
+    {
+      "file": "bench-record.hostile-not-run-without-reason.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-run cell without reason",
+      "rule": "FR-016-31",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "bench-record.hostile-malformed-digest.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed ONNX digest",
+      "rule": "FR-016-32",
+      "pointer": "/fingerprint/onnx_sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "bench-record.hostile-conditional-reduced-parity.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "reduced-precision pass with |delta| > 1 pp",
+      "rule": "FR-016-30",
+      "pointer": "/parity/metric_delta_pp",
+      "keyword": "minimum"
+    },
+    {
+      "file": "bench-record.hostile-conditional-fp32-tolerance.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "loosened fp32 tolerance",
+      "rule": "FR-016-30",
+      "pointer": "/parity/rtol",
+      "keyword": "const"
+    },
+    {
+      "file": "bench-record.hostile-conditional-tensorrt-version.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "native TensorRT record with the provider's TensorRT version",
+      "rule": "FR-016-32",
+      "pointer": "/tensorrt_version",
+      "keyword": "pattern"
+    },
+    {
+      "file": "bench-record.hostile-unknown-field.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field (host name)",
+      "rule": "FR-016-32",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "release-assets.valid.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "three release-hosted files sorted by path"
+    },
+    {
+      "file": "release-assets.hostile-absolute-path.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute path",
+      "rule": "FR-016-16",
+      "pointer": "/entries/0/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "release-assets.hostile-path-traversal.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path with ..",
+      "rule": "FR-016-16",
+      "pointer": "/entries/1/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "release-assets.hostile-backslash.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path with a backslash",
+      "rule": "FR-016-16",
+      "pointer": "/entries/1/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "release-assets.hostile-drive-letter.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "path with a drive letter",
+      "rule": "FR-016-16",
+      "pointer": "/entries/2/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "release-assets.hostile-bad-tag.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "tag not assets-vX.YY.ZZZ",
+      "rule": "FR-016-16",
+      "pointer": "/tag",
+      "keyword": "pattern"
+    },
+    {
+      "file": "release-assets.hostile-oversized-file.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "file of 2^31 bytes",
+      "rule": "FR-016-16",
+      "pointer": "/entries/1/bytes",
+      "keyword": "maximum"
+    },
+    {
+      "file": "release-assets.hostile-malformed-digest.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest",
+      "rule": "FR-016-15",
+      "pointer": "/entries/0/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "release-assets.hostile-unknown-field.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown field (URL with a token)",
+      "rule": "DC-016-02",
+      "pointer": "/entries/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "release-assets.hostile-missing-required.json",
+      "schema": "release-assets.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "entry without digest",
+      "rule": "FR-016-15",
+      "pointer": "/entries/2",
+      "keyword": "required"
+    },
+    {
+      "file": "export-parity-report.valid.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "layer 1 on the parity variant: 200 golden inputs, element tolerance, margin-aware argmax"
+    },
+    {
+      "file": "export-parity-report.valid-layer2.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "layer 2: int8 QDQ detector within 1 percentage point"
+    },
+    {
+      "file": "export-parity-report.valid-layer4.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "layer 4: rejected fp32 TensorRT engine with its errors"
+    },
+    {
+      "file": "export-parity-report.hostile-too-few-golden.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "golden set below 200 inputs",
+      "rule": "FR-016-07",
+      "pointer": "/golden_set/inputs",
+      "keyword": "minItems"
+    },
+    {
+      "file": "export-parity-report.hostile-duplicate-golden.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "duplicated golden input",
+      "rule": "FR-016-06",
+      "pointer": "/golden_set/inputs",
+      "keyword": "uniqueItems"
+    },
+    {
+      "file": "export-parity-report.hostile-training-split.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "golden set drawn from training data",
+      "rule": "FR-016-06",
+      "pointer": "/golden_set/split",
+      "keyword": "enum"
+    },
+    {
+      "file": "export-parity-report.hostile-layer1-max-abs.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "layer-1 pass with max error > 1e-4",
+      "rule": "FR-016-04",
+      "pointer": "/max_abs_error",
+      "keyword": "maximum"
+    },
+    {
+      "file": "export-parity-report.hostile-layer1-argmax.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "layer-1 pass with argmax < 100 %",
+      "rule": "FR-016-04",
+      "pointer": "/argmax/agreement",
+      "keyword": "const"
+    },
+    {
+      "file": "export-parity-report.hostile-layer1-loosened.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "loosened layer-1 tolerance",
+      "rule": "FR-016-04",
+      "pointer": "/tolerances/rtol",
+      "keyword": "const"
+    },
+    {
+      "file": "export-parity-report.hostile-layer2-delta.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "layer-2 pass with |delta| > 1 pp",
+      "rule": "FR-016-09",
+      "pointer": "/metric/delta_pp",
+      "keyword": "minimum"
+    },
+    {
+      "file": "export-parity-report.hostile-layer2-fp32.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "layer 2 on the fp32 graph",
+      "rule": "FR-016-09",
+      "pointer": "/precision",
+      "keyword": "enum"
+    },
+    {
+      "file": "export-parity-report.hostile-unknown-layer.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "layer 3 (browser parity, spec 018)",
+      "rule": "DC-016-03",
+      "pointer": "/layer",
+      "keyword": "enum"
+    },
+    {
+      "file": "export-parity-report.hostile-unknown-precision.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown precision",
+      "rule": "FR-016-10",
+      "pointer": "/precision",
+      "keyword": "enum"
+    },
+    {
+      "file": "export-parity-report.hostile-rejected-without-reason.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "rejected without reason",
+      "rule": "FR-016-09",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "export-parity-report.hostile-malformed-digest.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed golden digest",
+      "rule": "FR-016-06",
+      "pointer": "/golden_set/inputs/5",
+      "keyword": "pattern"
+    },
+    {
+      "file": "export-config.valid.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "live web detector at opset 19 with the in-graph post-processor"
+    },
+    {
+      "file": "export-config.valid-gns.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "precompute-only surrogate at opset 17, fp32 and fp16"
+    },
+    {
+      "file": "export-config.hostile-opset-20.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "opset outside {17, 18, 19}",
+      "rule": "FR-016-02",
+      "pointer": "/opset",
+      "keyword": "enum"
+    },
+    {
+      "file": "export-config.hostile-opset-16.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "opset below the allowed set",
+      "rule": "FR-016-02",
+      "pointer": "/opset",
+      "keyword": "enum"
+    },
+    {
+      "file": "export-config.hostile-ir-version.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "IR version other than 10",
+      "rule": "FR-016-02",
+      "pointer": "/ir_version",
+      "keyword": "const"
+    },
+    {
+      "file": "export-config.hostile-fp8-low-opset.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fp8 below opset 19",
+      "rule": "FR-016-10",
+      "pointer": "/opset",
+      "keyword": "const"
+    },
+    {
+      "file": "export-config.hostile-fp8-not-gemm-heavy.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fp8 for a graph not flagged gemm_heavy",
+      "rule": "FR-016-10",
+      "pointer": "/gemm_heavy",
+      "keyword": "const"
+    },
+    {
+      "file": "export-config.hostile-unknown-precision.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown precision",
+      "rule": "FR-016-10",
+      "pointer": "/precisions/1",
+      "keyword": "enum"
+    },
+    {
+      "file": "export-config.hostile-unknown-domain.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "domain outside the allow-list",
+      "rule": "FR-016-02",
+      "pointer": "/domains/1",
+      "keyword": "enum"
+    },
+    {
+      "file": "export-config.hostile-missing-default-domain.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "allow-list without the default domain",
+      "rule": "FR-016-02",
+      "pointer": "/domains",
+      "keyword": "contains"
+    },
+    {
+      "file": "export-config.hostile-missing-opset-reason.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "opset without its reason",
+      "rule": "FR-016-01",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "export-config.hostile-live-not-web.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "live model not flagged web",
+      "rule": "FR-016-12",
+      "pointer": "/web",
+      "keyword": "const"
+    },
+    {
+      "file": "export-config.hostile-unknown-role.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown output role",
+      "rule": "DC-016-04",
+      "pointer": "/outputs/0/role",
+      "keyword": "enum"
+    },
+    {
+      "file": "export-config.hostile-path-traversal.json",
+      "schema": "export-config.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "model id with .. traversal",
+      "rule": "FR-016-02",
+      "pointer": "/model",
+      "keyword": "pattern"
+    },
+    {
+      "file": "accel-table.valid.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "one passing, one rejected and one not-run cell under the one-machine caption"
+    },
+    {
+      "file": "accel-table.hostile-local-only-row.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "local-only row published",
+      "rule": "FR-016-33",
+      "pointer": "/rows/0/performance",
+      "keyword": "const"
+    },
+    {
+      "file": "accel-table.hostile-rtx-row.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "TensorRT for RTX row published",
+      "rule": "FR-016-33",
+      "pointer": "/rows/0/backend",
+      "keyword": "enum"
+    },
+    {
+      "file": "accel-table.hostile-wrong-caption.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "caption without the one-machine statement",
+      "rule": "FR-016-34",
+      "pointer": "/caption",
+      "keyword": "pattern"
+    },
+    {
+      "file": "accel-table.hostile-licence-changed.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "TensorRT row with a changed licence hash",
+      "rule": "FR-016-23",
+      "pointer": "/rows/0/tensorrt_licence_sha256",
+      "keyword": "const"
+    },
+    {
+      "file": "accel-table.hostile-rejected-without-reason.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "rejected cell without reason",
+      "rule": "FR-016-31",
+      "pointer": "/rows/1",
+      "keyword": "required"
+    },
+    {
+      "file": "accel-table.hostile-oversized-reason.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oversized reason",
+      "rule": "NFR-016-01",
+      "pointer": "/rows/1/reason",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "accel-table.hostile-unknown-precision.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown precision",
+      "rule": "FR-016-36",
+      "pointer": "/rows/2/precision",
+      "keyword": "enum"
+    },
+    {
+      "file": "accel-table.hostile-not-run-with-numbers.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-run cell carrying a number",
+      "rule": "FR-016-31",
+      "pointer": "/rows/2/joules_per_inference",
+      "keyword": "const"
+    },
+    {
+      "file": "accel-table.hostile-empty.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty table",
+      "rule": "DC-016-05",
+      "pointer": "/rows",
+      "keyword": "minItems"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "bench-record.schema.json",
+      "class": "non-finite duration or number; malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json; the bench then discards the measurement (FR-016-36)"
+    },
+    {
+      "schema": "bench-record.schema.json",
+      "class": "p50 <= p90 <= p99 and lo <= value <= hi violated",
+      "by": "checker",
+      "rule": "FR-016-26",
+      "note": "order across fields"
+    },
+    {
+      "schema": "bench-record.schema.json",
+      "class": "duplicate (regime, scope) or sweep size entries",
+      "by": "checker",
+      "rule": "FR-016-26",
+      "note": "uniqueness across items (FR-016-27 for the sweep)"
+    },
+    {
+      "schema": "bench-record.schema.json",
+      "class": "samples per second != size x iterations / elapsed seconds",
+      "by": "checker",
+      "rule": "FR-016-27",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "bench-record.schema.json",
+      "class": "joules per inference not (E_end - E_start) / 1,000 / (iterations x batch); decreasing counter",
+      "by": "checker",
+      "rule": "FR-016-28",
+      "note": "arithmetic on the sampled counter (FR-016-29 for the decreasing case)"
+    },
+    {
+      "schema": "bench-record.schema.json",
+      "class": "streams != floor(R / (n_tiles x f))",
+      "by": "checker",
+      "rule": "FR-016-35",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "bench-record.schema.json",
+      "class": "local-only record outside the local run folder",
+      "by": "checker",
+      "rule": "FR-016-33",
+      "note": "CI scan of committed and published files"
+    },
+    {
+      "schema": "bench-record.schema.json",
+      "class": "comparison between records with different power limits or power sources",
+      "by": "checker",
+      "rule": "FR-016-34",
+      "note": "pairing across records"
+    },
+    {
+      "schema": "release-assets.schema.json",
+      "class": "non-finite number; malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json"
+    },
+    {
+      "schema": "release-assets.schema.json",
+      "class": "entries not sorted by path; duplicate or case-fold-equal paths; Windows device names",
+      "by": "checker",
+      "rule": "FR-016-15",
+      "note": "order and uniqueness across items (data-model 001 §1.3)"
+    },
+    {
+      "schema": "release-assets.schema.json",
+      "class": "path resolving outside the bake root (symlink)",
+      "by": "checker",
+      "rule": "FR-016-16",
+      "note": "filesystem resolution"
+    },
+    {
+      "schema": "release-assets.schema.json",
+      "class": "bytes or SHA-256 different from the file",
+      "by": "checker",
+      "rule": "FR-016-15",
+      "note": "digest of the file bytes"
+    },
+    {
+      "schema": "export-parity-report.schema.json",
+      "class": "non-finite number; malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json"
+    },
+    {
+      "schema": "export-parity-report.schema.json",
+      "class": "golden input or reference output with a non-finite value; shape or dtype different from the graph input",
+      "by": "checker",
+      "rule": "FR-016-07",
+      "note": "the parity stage refuses with golden-invalid"
+    },
+    {
+      "schema": "export-parity-report.schema.json",
+      "class": "golden input drawn from training data although labelled validation / held-out",
+      "by": "checker",
+      "rule": "FR-016-06",
+      "note": "set intersection with the training split"
+    },
+    {
+      "schema": "export-parity-report.schema.json",
+      "class": "verdict inconsistent with the element-wise tolerance (rtol, atol) over the outputs",
+      "by": "checker",
+      "rule": "FR-016-04",
+      "note": "recomputation on the stored outputs (FR-016-39 for shape and dtype mismatches)"
+    },
+    {
+      "schema": "export-parity-report.schema.json",
+      "class": "delta_pp != variant - fp32",
+      "by": "checker",
+      "rule": "FR-016-09",
+      "note": "arithmetic across fields"
+    },
+    {
+      "schema": "export-config.schema.json",
+      "class": "non-finite number; malformed JSON or YAML, BOM, duplicate key, YAML anchors and tags",
+      "by": "loader",
+      "rule": "FR-001-06",
+      "note": "load_json / load_yaml (configs may sit inside recipes)"
+    },
+    {
+      "schema": "export-config.schema.json",
+      "class": "unknown model id",
+      "by": "checker",
+      "rule": "FR-016-02",
+      "note": "lookup in the tool and model registry"
+    },
+    {
+      "schema": "export-config.schema.json",
+      "class": "graph node in a domain outside the allow-list; GridSample at since-version >= 20 in a web graph; written ir_version != 10",
+      "by": "checker",
+      "rule": "FR-016-02",
+      "note": "inspection of the exported graph"
+    },
+    {
+      "schema": "export-config.schema.json",
+      "class": "output name absent from the graph; golden-set id unknown",
+      "by": "checker",
+      "rule": "FR-016-06",
+      "note": "lookup in the graph and the golden-set index"
+    },
+    {
+      "schema": "export-config.schema.json",
+      "class": "duplicate output names",
+      "by": "checker",
+      "rule": "FR-016-02",
+      "note": "uniqueness across items"
+    },
+    {
+      "schema": "accel-table.schema.json",
+      "class": "non-finite number; malformed JSON, BOM, duplicate key",
+      "by": "loader",
+      "rule": "FR-001-05",
+      "note": "load_json"
+    },
+    {
+      "schema": "accel-table.schema.json",
+      "class": "baked table larger than 200,000 bytes",
+      "by": "checker",
+      "rule": "NFR-016-01",
+      "note": "CI budget check (bytes)"
+    },
+    {
+      "schema": "accel-table.schema.json",
+      "class": "caption date or commit different from the bench run",
+      "by": "checker",
+      "rule": "FR-016-34",
+      "note": "comparison with generated / git_sha and the bench records"
+    },
+    {
+      "schema": "accel-table.schema.json",
+      "class": "a publishable bench cell missing from the table; duplicate rows",
+      "by": "checker",
+      "rule": "FR-016-31",
+      "note": "set comparison with the bench records"
+    },
+    {
+      "schema": "accel-table.schema.json",
+      "class": "comparison between rows with different power limits or power sources",
+      "by": "checker",
+      "rule": "FR-016-34",
+      "note": "pairing across rows"
+    }
+  ]
+}

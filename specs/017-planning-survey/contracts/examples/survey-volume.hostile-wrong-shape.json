@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "volumes": [
+    {
+      "id": "bingham-2018-2023",
+      "scope": "real",
+      "method": "dem-differencing",
+      "status": "ok",
+      "label": "measurement, not validation",
+      "licence": {
+        "spdx": "LicenseRef-USGov-PD",
+        "licence_class": "public-domain",
+        "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+      },
+      "surfaces": {
+        "before": {
+          "path": "data/processed/e2/dem_2018_on_2023_grid.tif",
+          "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "epoch": "2018",
+          "project": "3DEP lidar project (2018)",
+          "crs": "EPSG:6341",
+          "vertical_datum": "NAVD88",
+          "rmse_z_m": 0.1
+        },
+        "after": {
+          "path": "data/processed/e2/dem_2023.tif",
+          "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+          "epoch": "2023",
+          "project": "3DEP lidar project (2023)",
+          "crs": "EPSG:6341",
+          "vertical_datum": "NAVD88",
+          "rmse_z_m": 0.1
+        }
+      },
+      "grid": {
+        "cell_m": 1.0,
+        "shape": [
+          4000,
+          4000
+        ],
+        "origin_m": [
+          405000.0,
+          4480000.0
+        ],
+        "crs": "EPSG:6341"
+      },
+      "resampling": {
+        "method": "bilinear",
+        "source_crs": "EPSG:6341"
+      },
+      "vertical_transform": {
+        "kind": "none"
+      },
+      "polygon": {
+        "vertices": [
+          [
+            405500.0,
+            4480500.0
+          ],
+          [
+            408500.0,
+            4480500.0
+          ],
+          [
+            408500.0,
+            4483500.0
+          ],
+          [
+            405500.0,
+            4483500.0
+          ]
+        ],
+        "source": "mining-footprint polygon intersected with the 3DEP query box",
+        "overlap_ratio": 0.93
+      },
+      "v_cut_m3": 61250000.0,
+      "v_fill_m3": 8340000.0,
+      "v_net_m3": -52910000.0,
+      "cells": {
+        "valid": 15000000,
+        "nodata": 120000,
+        "nodata_fraction": 0.00793651
+      },
+      "uncertainty_m3": {
+        "uncorrelated": 547.723,
+        "correlated": 2121320.344
+      }
+    },
+    {
+      "id": "f01-s0-photogrammetric",
+      "scope": "synthetic",
+      "method": "photogrammetric",
+      "status": "ok",
+      "flight": "f01",
+      "seed": 0,
+      "surfaces": {
+        "before": {
+          "path": "data/synthetic/e2/base_surface.tif",
+          "sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+        },
+        "after": {
+          "path": "data/synthetic/e2/f01_s0_photogrammetric.tif",
+          "sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+        }
+      },
+      "grid": {
+        "cell_m": 0.25,
+        "shape": [
+          800,
+          800
+        ],
+        "origin_m": [
+          0.0,
+          0.0
+        ],
+        "crs": "local"
+      },
+      "polygon": {
+        "vertices": [
+          [
+            10.0
+          ],
+          [
+            190.0,
+            10.0
+          ],
+          [
+            190.0,
+            190.0
+          ],
+          [
+            10.0,
+            190.0
+          ]
+        ],
+        "source": "known-volume scene footprint"
+      },
+      "v_cut_m3": 11880.0,
+      "v_fill_m3": 9605.0,
+      "v_net_m3": -2275.0,
+      "cells": {
+        "valid": 512000,
+        "nodata": 6400,
+        "nodata_fraction": 0.01234568
+      },
+      "errors": {
+        "fill_pct": 1.42,
+        "cut_pct": -1.0,
+        "floor_fill_pct": 0.05,
+        "floor_cut_pct": -0.04,
+        "reprojection_rmse_px": 0.61,
+        "alignment_rmse_m": 0.012,
+        "depth_abs_median_m": 0.034,
+        "gsd_cm_per_px": 2.0,
+        "registration_ratio": 0.97
+      }
+    },
+    {
+      "id": "f01-s0-splat",
+      "scope": "synthetic",
+      "method": "splat",
+      "status": "not_run",
+      "reason": "Brush unavailable: binary failed its pinned SHA-256",
+      "flight": "f01",
+      "seed": 0
+    }
+  ]
+}

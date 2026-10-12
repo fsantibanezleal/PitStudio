@@ -1,0 +1,569 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/encode-report.schema.json",
+  "title": "Encode report",
+  "description": "Per-clip VMAF search trace, chosen settings, budgets and relaxation written by st56_encode (DC-006-02, spec 006-media-telemetry).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "schema_version",
+    "run_id",
+    "stage",
+    "vmaf_model",
+    "targets",
+    "clips"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "kind": {
+      "const": "encode-report"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "stage": {
+      "$ref": "manifest.schema.json#/$defs/stage_key",
+      "properties": {
+        "id": {
+          "const": "st56_encode"
+        }
+      }
+    },
+    "vmaf_model": {
+      "const": "vmaf_v0.6.1"
+    },
+    "targets": {
+      "description": "targets of FR-006-02 and budgets of FR-006-03",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vmaf_mean_min",
+        "vmaf_p5_min",
+        "relaxed_vmaf_mean_floor",
+        "pair_bytes_max",
+        "poster_bytes_max"
+      ],
+      "properties": {
+        "vmaf_mean_min": {
+          "const": 93
+        },
+        "vmaf_p5_min": {
+          "const": 85
+        },
+        "relaxed_vmaf_mean_floor": {
+          "const": 80
+        },
+        "pair_bytes_max": {
+          "const": 25000000
+        },
+        "poster_bytes_max": {
+          "const": 150000
+        }
+      }
+    },
+    "clips": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "$ref": "#/$defs/clip"
+      }
+    }
+  },
+  "$defs": {
+    "trial": {
+      "description": "one measured encode of the search",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cq",
+        "vmaf_mean",
+        "vmaf_p5",
+        "bytes"
+      ],
+      "properties": {
+        "cq": {
+          "description": "NVENC constant-quality value (0, the automatic value, is excluded)",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 63
+        },
+        "vmaf_mean": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "vmaf_p5": {
+          "description": "5th percentile of per-frame scores (Hyndman-Fan type 7)",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "cq_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 63
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 63
+        }
+      }
+    },
+    "encode_variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "bytes",
+        "sha256",
+        "cq_range",
+        "trials",
+        "chosen_cq",
+        "record"
+      ],
+      "properties": {
+        "file": {
+          "$ref": "#/$defs/relpath"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 25000000
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "cq_range": {
+          "$ref": "#/$defs/cq_range"
+        },
+        "trials": {
+          "description": "the bisection encodes, at most 8 per variant (FR-006-02)",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/trial"
+          }
+        },
+        "chosen_cq": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 63
+        },
+        "record": {
+          "description": "the encoder record of the chosen, re-measured setting, identical to the one attached to the stage result",
+          "$ref": "manifest.schema.json#/$defs/encoder",
+          "properties": {
+            "pix_fmt": {
+              "const": "yuv420p"
+            },
+            "vmaf": {
+              "properties": {
+                "model": {
+                  "const": "vmaf_v0.6.1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "variants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "av1",
+        "h264"
+      ],
+      "properties": {
+        "av1": {
+          "$ref": "#/$defs/encode_variant",
+          "properties": {
+            "record": {
+              "properties": {
+                "codec": {
+                  "const": "av1"
+                },
+                "width": {
+                  "const": 1920
+                },
+                "height": {
+                  "const": 1080
+                }
+              }
+            }
+          }
+        },
+        "h264": {
+          "$ref": "#/$defs/encode_variant",
+          "properties": {
+            "cq_range": {
+              "properties": {
+                "min": {
+                  "maximum": 51
+                },
+                "max": {
+                  "maximum": 51
+                }
+              }
+            },
+            "trials": {
+              "items": {
+                "properties": {
+                  "cq": {
+                    "maximum": 51
+                  }
+                }
+              }
+            },
+            "chosen_cq": {
+              "maximum": 51
+            },
+            "record": {
+              "properties": {
+                "codec": {
+                  "const": "h264"
+                },
+                "profile": {
+                  "const": "high"
+                },
+                "width": {
+                  "const": 1280
+                },
+                "height": {
+                  "const": 720
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "poster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "sha256",
+        "bytes",
+        "quality",
+        "width",
+        "height",
+        "frame"
+      ],
+      "properties": {
+        "file": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 150000
+        },
+        "quality": {
+          "description": "WebP quality chosen to fit the cap",
+          "type": "integer",
+          "minimum": 50,
+          "maximum": 90
+        },
+        "width": {
+          "const": 1280
+        },
+        "height": {
+          "const": 720
+        },
+        "frame": {
+          "description": "index of the poster frame in the sequence (poster_frame, default 0)",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 35999
+        }
+      }
+    },
+    "relaxation": {
+      "description": "a relaxation declared by the recipe for this clip (FR-006-04)",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "reason"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "lower-target",
+            "shorter-duration",
+            "crop"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 300
+        },
+        "vmaf_mean_min": {
+          "type": "number",
+          "minimum": 80,
+          "exclusiveMaximum": 93
+        },
+        "vmaf_p5_min": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 85
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "lower-target"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "vmaf_mean_min",
+              "vmaf_p5_min"
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "vmaf_mean_min"
+                  ]
+                },
+                {
+                  "required": [
+                    "vmaf_p5_min"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "clip": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clip",
+        "source_frames_sha256",
+        "frames",
+        "fps",
+        "variants",
+        "pair_bytes",
+        "poster",
+        "relaxation"
+      ],
+      "properties": {
+        "clip": {
+          "$ref": "#/$defs/slug"
+        },
+        "source_frames_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "frames": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 36000
+        },
+        "fps": {
+          "enum": [
+            24,
+            25,
+            30,
+            50,
+            60
+          ]
+        },
+        "variants": {
+          "$ref": "#/$defs/variants"
+        },
+        "pair_bytes": {
+          "description": "bytes(AV1) + bytes(H.264) (FR-006-03, NFR-000-07)",
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 25000000
+        },
+        "poster": {
+          "$ref": "#/$defs/poster"
+        },
+        "relaxation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/relaxation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "relaxation": {
+                "not": {
+                  "const": null
+                },
+                "properties": {
+                  "kind": {
+                    "const": "lower-target"
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              }
+            },
+            "required": [
+              "relaxation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "variants": {
+                "properties": {
+                  "av1": {
+                    "properties": {
+                      "record": {
+                        "properties": {
+                          "vmaf": {
+                            "properties": {
+                              "mean": {
+                                "minimum": 80
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "h264": {
+                    "properties": {
+                      "record": {
+                        "properties": {
+                          "vmaf": {
+                            "properties": {
+                              "mean": {
+                                "minimum": 80
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "variants": {
+                "properties": {
+                  "av1": {
+                    "properties": {
+                      "record": {
+                        "properties": {
+                          "vmaf": {
+                            "properties": {
+                              "mean": {
+                                "minimum": 93
+                              },
+                              "p5": {
+                                "minimum": 85
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "h264": {
+                    "properties": {
+                      "record": {
+                        "properties": {
+                          "vmaf": {
+                            "properties": {
+                              "mean": {
+                                "minimum": 93
+                              },
+                              "p5": {
+                                "minimum": 85
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "status": "succeeded",
+  "error_class": null,
+  "outputs": [
+    {
+      "path": "media/pit-flyover.mp4",
+      "validator": "file",
+      "artefact": {
+        "kind": "video",
+        "media_type": "video/mp4",
+        "budget_class": "videos",
+        "cases": [
+          "C2"
+        ],
+        "lane_measurements": {
+          "web_drivable": true,
+          "max_asset_bytes": 5242880,
+          "interaction_ms": null,
+          "run_ms_t2": null,
+          "trace_bytes": null,
+          "measured": {
+            "tier": "T2",
+            "date": "2026-10-07",
+            "browser": "Chromium 141"
+          }
+        },
+        "encoder": {
+          "codec": "av1",
+          "profile": "main",
+          "pix_fmt": "yuv420p",
+          "width": 1920,
+          "height": 1080,
+          "fps": 30,
+          "frames": 600,
+          "duration_s": 20.0,
+          "bitrate_kbps": 2097.152,
+          "vmaf": {
+            "mean": 93.1,
+            "p5": 88.4,
+            "model": "vmaf_v0.6.1"
+          },
+          "source_frames_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "encoder": {
+            "ffmpeg_version": "n7.1",
+            "build_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "nvenc_api": "13.0",
+            "args": [
+              "-c:v",
+              "av1_nvenc",
+              "-cq",
+              "30"
+            ]
+          },
+          "encode_fps": 240.0
+        }
+      }
+    },
+    {
+      "path": "physics/observables.json",
+      "validator": "stage-observables",
+      "validated": true
+    }
+  ],
+  "observables": {
+    "repose_deg": 34.2
+  },
+  "throughput": {
+    "value": 240.0,
+    "unit": "frames/s"
+  },
+  "checkpoint": false,
+  "reason": "nothing to do"
+}

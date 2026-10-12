@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "tag": "assets-v1.00.001",
+  "entries": [
+    {
+      "path": "assets/models/d-fine-n-fp16.onnx",
+      "bytes": 18234567,
+      "sha256": "67d877d443588c34db1df09016cf770497d613061859d64dc162b8a2b6650c32"
+    },
+    {
+      "path": "assets/shards/a1-replay.tar",
+      "bytes": 41000000,
+      "sha256": "cb779d3fb0f7b4d8a866bdfbd57e7cb4ae51a3b7732931805d152a04cc5f3360"
+    },
+    {
+      "path": "C:x",
+      "bytes": 23456789,
+      "sha256": "1061c72faf736581c05eda4a0c3b2558c6a9e82527f82cd44d78f71bc90fa0a0"
+    }
+  ]
+}

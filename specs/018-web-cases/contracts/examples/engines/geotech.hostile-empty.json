@@ -1,0 +1,11 @@
+{
+  "kind": "input",
+  "engine": "geotech",
+  "engine_version": "0.1.0",
+  "function": "bishop",
+  "args": {
+    "slices": [],
+    "cohesion_pa": 15000.0,
+    "friction_angle_rad": 0.5235987755982988
+  }
+}

@@ -137,8 +137,8 @@ M01 is itself a baseline: the analytical reference for the DES. It is compared, 
 - **M01 vs M02 under matching assumptions.** With exponential loading and travel times and a single dispatch rule,
   the DES throughput must fall inside its own 95 % confidence interval around the MVA value (product-form networks
   are exact for MVA [5]). This is an oracle test in the build phase.
-- **M01 vs M02 under realistic assumptions.** With deterministic, grade-dependent travel times from
-  [M06](m06-haul-road-energy-routing.md) and non-exponential loading, the DES departs from MVA. The departure is
+- **M01 vs M02 under realistic assumptions.** With deterministic, grade-dependent travel times (computed by the DES
+  on the [M06](m06-haul-road-energy-routing.md) route geometry) and non-exponential loading, the DES departs from MVA. The departure is
   reported as a result ("how much product-form assumptions misjudge this pit"), never treated as a failure. DES is the
   industry-standard validator precisely because these assumptions break in practice [6].
 - No "better than" claim is made for M01, so the [decision rule](README.md#how-methods-are-compared) does not apply.

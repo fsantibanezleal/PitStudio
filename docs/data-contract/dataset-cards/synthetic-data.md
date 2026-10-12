@@ -42,7 +42,8 @@ Every synthetic set is labelled synthetic, uses the same formats and loaders as 
 | MakeHuman-based people | people placed in SDG and sensor scenes | part of the image sets above | [MakeHuman exports](makehuman-people.md) → `st30_assets` | B1, B2; M22 | none by default (optional real probe) |
 | Procedural pit scenes | design surfaces (benches, ramps, pushbacks) and procedural equipment | USD → glTF / 3D Tiles | `st20_pit_design`, `st30_assets` | all 3D cases | real DEMs (terrain statistics) |
 
-**Formats.** Tables, telemetry, event logs and size curves are **Parquet**. N-dimensional fields (heightfields,
+**Formats.** Tables and size curves are **Parquet**; run telemetry and event logs are JSON Lines
+(`telemetry.jsonl`, `events.jsonl`). N-dimensional fields (heightfields,
 concentration fields, particle states) are **Zarr v3**, a chunked format with partial reads [10]. Detection and
 segmentation labels are **COCO JSON**, written by Replicator's COCO writer [12].
 
@@ -146,7 +147,7 @@ not done**, so equipment and people sim-to-real is reported as **"not measured"*
   no test here can see.
 - **DES cycle-time bias.** Simulated truck cycle times "tend to underestimate short hauls while overestimating long
   hauls" [20]; with no real telemetry to correct it, this known bias is stated wherever DES cycle times are shown.
-- **One real image domain.** The fragment validation rests on one dataset of 240 effective tiles.
+- **One real image domain.** The fragment validation rests on one dataset of 80 effective scenes (240 crops, 72 groups).
 - **Planning numbers** (images per second, disk per image, scenarios per hour) are estimates until measured.
 
 ## In PitStudio

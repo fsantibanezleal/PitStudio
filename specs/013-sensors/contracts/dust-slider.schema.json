@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/dust-slider.schema.json",
+  "title": "PitStudio baked dust-slider frame",
+  "description": "Header of a baked dust-slider frame written by s60_export for the web dust worker (DC-013-05, spec 013-sensors).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source",
+    "returns",
+    "levels",
+    "k",
+    "tau_ref",
+    "rule",
+    "dust_return_intensity",
+    "material_codes",
+    "label",
+    "quantisation",
+    "encoding",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "source": {
+      "description": "Clean S1 frame that was baked.",
+      "type": "object",
+      "required": [
+        "run_id",
+        "sensor",
+        "frame"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "$ref": "#/$defs/run_id"
+        },
+        "sensor": {
+          "$ref": "sensor-recipe.schema.json#/$defs/sensor_id"
+        },
+        "frame": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      }
+    },
+    "returns": {
+      "description": "Baked returns, at most 150,000.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 150000
+    },
+    "levels": {
+      "description": "Slider levels 0 ... 40.",
+      "const": 41
+    },
+    "k": {
+      "description": "Dust-load multiplier k_j of each level (tau = k_j * tau_unit).",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1000000
+      },
+      "minItems": 41,
+      "maxItems": 41
+    },
+    "tau_ref": {
+      "description": "Optical depth of the reference target at unit dust load (-), > 0.",
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 100
+    },
+    "rule": {
+      "description": "Detection-rule constants (FR-013-12).",
+      "type": "object",
+      "required": [
+        "tau_on",
+        "tau_floor_retro",
+        "tau_floor_diffuse"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tau_on": {
+          "description": "Onset optical depth (T1 = 0.725).",
+          "const": 0.3216
+        },
+        "tau_floor_retro": {
+          "description": "Floor for retroreflective returns (T1 = 0.02).",
+          "const": 3.912
+        },
+        "tau_floor_diffuse": {
+          "description": "Floor for diffuse returns (T1 = 0.06).",
+          "const": 2.8134
+        }
+      }
+    },
+    "dust_return_intensity": {
+      "description": "Display intensity of dust returns (normalised 0-1).",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "material_codes": {
+      "description": "uint8 class codes of the payload's class channel.",
+      "type": "object",
+      "required": [
+        "retro",
+        "diffuse",
+        "dust"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "retro": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "diffuse": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "dust": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        }
+      }
+    },
+    "label": {
+      "const": "own Beer–Lambert dust model"
+    },
+    "quantisation": {
+      "$ref": "web-cloud-shard.schema.json#/$defs/quantisation"
+    },
+    "encoding": {
+      "description": "Fixed payload layout (20 bytes per return).",
+      "type": "object",
+      "required": [
+        "position",
+        "intensity",
+        "class",
+        "tau_unit",
+        "r_edge_m",
+        "hash",
+        "byte_order",
+        "layout"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "const": "uint16"
+        },
+        "intensity": {
+          "description": "I0 per return.",
+          "const": "uint8"
+        },
+        "class": {
+          "const": "uint8"
+        },
+        "tau_unit": {
+          "description": "Optical depth at unit dust load per return.",
+          "const": "float32"
+        },
+        "r_edge_m": {
+          "description": "Leading edge of the dust cloud per return (m).",
+          "const": "float32"
+        },
+        "hash": {
+          "description": "MurmurHash3 beam value h per return.",
+          "const": "uint32"
+        },
+        "byte_order": {
+          "const": "little"
+        },
+        "layout": {
+          "description": "x[], y[], z[], intensity[], class[], tau_unit[], r_edge_m[], hash[].",
+          "const": "planar"
+        }
+      }
+    },
+    "payload": {
+      "$ref": "web-cloud-shard.schema.json#/$defs/payload"
+    }
+  },
+  "$defs": {
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "schema_version": {
+      "description": "Contract version (major 1).",
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    }
+  }
+}

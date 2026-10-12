@@ -1,0 +1,9 @@
+{
+  "kind": "output",
+  "engine": "comminution",
+  "engine_version": "0.1.0",
+  "function": "bond_energy",
+  "result": {
+    "specific_energy_j_per_kg": 34550.0
+  }
+}

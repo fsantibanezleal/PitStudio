@@ -165,11 +165,12 @@ $\mathbf u$ (mm) and a unit LOS vector $\hat{\mathbf e}$ from the radar to the p
 $\Delta\varphi$ (rad) at wavelength $\lambda$ (mm):
 
 $$
-d_{\text{LOS}} = \mathbf u\cdot\hat{\mathbf e}, \qquad d_{\text{LOS}} = -\frac{\lambda}{4\pi}\,\Delta\varphi
+d_{\text{LOS}} = \mathbf u\cdot\hat{\mathbf e}, \qquad d_{\text{LOS}} = \frac{\lambda}{4\pi}\,\Delta\varphi
 $$
 
-(the second relation is the standard two-way interferometric conversion; its sign convention is pinned at
-specification). Movement across the LOS is invisible, so radar placement matters. Claims of sub-millimetre accuracy
+(the second relation is the two-way interferometric conversion; the primary source writes
+$\Delta\varphi_{21} = 4\pi(R_2 - R_1)/\lambda$ with no minus sign [13] (eq. 4), so a positive phase change is a range
+increase, i.e. motion away from the radar). Movement across the LOS is invisible, so radar placement matters. Claims of sub-millimetre accuracy
 were seen only in a search snippet and are UNVERIFIED. The sensor side, including noise and atmospheric phase, is on
 [RTX sensor physics](rtx-sensor-physics.md).
 

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261007T210000Z-c2-slope",
+  "stage": {
+    "id": "st50_physics"
+  },
+  "entry": "pitstudio_studio.stages.physics",
+  "params": {
+    "solver": "dem",
+    "dt_s": 0.0001,
+    "counts": {
+      "particles": 20000
+    }
+  },
+  "seed": 2175241071291199046,
+  "shard": null,
+  "inputs": [
+    {
+      "name": "st40_compose/scene/scene.usda",
+      "path": "/srv/pitstudio/cas/sha256/ab/abababababababababababababababababababababababababababababababab",
+      "sha256": "abababababababababababababababababababababababababababababababab"
+    }
+  ],
+  "output_dir": "/srv/pitstudio/runs/20261007T210000Z-c2-slope/tmp/st50_physics/0",
+  "scratch_dir": "/srv/pitstudio/runs/20261007T210000Z-c2-slope/tmp/st50_physics/0/scratch",
+  "resume": false,
+  "rerun": false,
+  "profiling": false,
+  "profile": {
+    "id": "linux-gpu",
+    "cpu_slots": 8
+  },
+  "vram_fraction": 1.5,
+  "nvtx_range": "20261007T210000Z-c2-slope/st50_physics/0"
+}

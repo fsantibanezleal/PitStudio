@@ -1,0 +1,128 @@
+{
+  "kind": "synthetic-trial",
+  "arm": "gradient",
+  "trial_id": "cov-017",
+  "solver": "warp-dem",
+  "solver_version": "1.17.0",
+  "secondary_arm": false,
+  "particle_count": 4800,
+  "oom_fallback": false,
+  "target": {
+    "theta_deg": 31.4,
+    "packing_seed": 9017
+  },
+  "parameters": [
+    {
+      "name": "sliding_friction",
+      "truth": 0.48,
+      "start": 0.55,
+      "bounds": [
+        0.1,
+        2.5
+      ],
+      "estimate": 0.474,
+      "fd_step": 0.0237,
+      "interval": {
+        "level": 0.95,
+        "lower": 0.404495,
+        "upper": 0.543505,
+        "t_quantile": 2.3646,
+        "sigma_theta_deg": 0.6,
+        "slope_deg_per_unit": 25.0,
+        "slope_interval_deg_per_unit": [
+          20.1,
+          29.9
+        ]
+      },
+      "identification": "identified",
+      "covers_truth": true
+    }
+  ],
+  "loss": {
+    "observable": "smooth-envelope",
+    "softmax_beta_per_d": 10,
+    "bin_width_d": 2,
+    "bin_range_pct": [
+      20,
+      80
+    ],
+    "terms": [
+      {
+        "name": "repose",
+        "weight": 1.0,
+        "value": 0.0049
+      }
+    ],
+    "total": 0.0049,
+    "smooth_theta_deg": 31.33,
+    "hard_theta_deg": 31.5
+  },
+  "window_steps": 1000,
+  "settling_steps": 20000,
+  "packing_seeds": 2,
+  "interval_runs": 8,
+  "seeds": {
+    "target": [
+      9017
+    ],
+    "optimisation": [
+      101,
+      102
+    ],
+    "interval": [
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208
+    ],
+    "gradient_check": [
+      301,
+      302,
+      303,
+      304,
+      305,
+      306,
+      307,
+      308
+    ]
+  },
+  "budget_simulations": 60,
+  "simulations": 14,
+  "interval_simulations": 24,
+  "check_simulations": 16,
+  "stop_reason": "loss-tolerance",
+  "wall_time_s": 812.5,
+  "deterministic_accumulation": true,
+  "gradient_check": [
+    {
+      "iterate": "first",
+      "parameter": "sliding_friction",
+      "mu": 0.55,
+      "tape_gradient": 87.1,
+      "fd_gradient": 86.2,
+      "se_fd": 3.1,
+      "runs_per_side": 4,
+      "dof": 6,
+      "trusted": true,
+      "failure": "none"
+    },
+    {
+      "iterate": "final",
+      "parameter": "sliding_friction",
+      "mu": 0.474,
+      "tape_gradient": -3.6,
+      "fd_gradient": -3.4,
+      "se_fd": 0.9,
+      "runs_per_side": 4,
+      "dof": 6,
+      "trusted": true,
+      "failure": "none"
+    }
+  ],
+  "gradient_status": "reliable",
+  "label": "calibrated synthetic — not validated against real data"
+}

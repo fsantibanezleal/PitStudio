@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "des-cycles-a1-grouped-5fold",
+  "dataset": {
+    "id": "des-cycles-a1",
+    "version": "1",
+    "kind": "synthetic"
+  },
+  "group_key": {
+    "rule": "scenario-seed"
+  },
+  "links": [],
+  "groups": [
+    {
+      "id": "seed-101",
+      "members": [
+        "../x",
+        "seed-101-shift-2"
+      ]
+    },
+    {
+      "id": "seed-102",
+      "members": [
+        "seed-102-shift-1",
+        "seed-102-shift-2"
+      ]
+    },
+    {
+      "id": "seed-103",
+      "members": [
+        "seed-103-shift-1",
+        "seed-103-shift-2"
+      ]
+    },
+    {
+      "id": "seed-104",
+      "members": [
+        "seed-104-shift-1",
+        "seed-104-shift-2"
+      ]
+    },
+    {
+      "id": "seed-105",
+      "members": [
+        "seed-105-shift-1",
+        "seed-105-shift-2"
+      ]
+    },
+    {
+      "id": "seed-106",
+      "members": [
+        "seed-106-shift-1",
+        "seed-106-shift-2"
+      ]
+    },
+    {
+      "id": "seed-107",
+      "members": [
+        "seed-107-shift-1",
+        "seed-107-shift-2"
+      ]
+    },
+    {
+      "id": "seed-108",
+      "members": [
+        "seed-108-shift-1",
+        "seed-108-shift-2"
+      ]
+    },
+    {
+      "id": "seed-109",
+      "members": [
+        "seed-109-shift-1",
+        "seed-109-shift-2"
+      ]
+    },
+    {
+      "id": "seed-110",
+      "members": [
+        "seed-110-shift-1",
+        "seed-110-shift-2"
+      ]
+    }
+  ],
+  "method": "seeded-greedy-grouped-kfold",
+  "seed": 20261007,
+  "folds": [
+    {
+      "index": 0,
+      "test": [
+        "seed-104-shift-1",
+        "seed-104-shift-2",
+        "seed-108-shift-1",
+        "seed-108-shift-2"
+      ],
+      "train_pool": [
+        "seed-101-shift-1",
+        "seed-101-shift-2",
+        "seed-102-shift-1",
+        "seed-102-shift-2",
+        "seed-103-shift-1",
+        "seed-103-shift-2",
+        "seed-105-shift-1",
+        "seed-105-shift-2",
+        "seed-106-shift-1",
+        "seed-106-shift-2",
+        "seed-107-shift-1",
+        "seed-107-shift-2",
+        "seed-109-shift-1",
+        "seed-109-shift-2",
+        "seed-110-shift-1",
+        "seed-110-shift-2"
+      ]
+    },
+    {
+      "index": 1,
+      "test": [
+        "seed-101-shift-1",
+        "seed-101-shift-2",
+        "seed-110-shift-1",
+        "seed-110-shift-2"
+      ],
+      "train_pool": [
+        "seed-102-shift-1",
+        "seed-102-shift-2",
+        "seed-103-shift-1",
+        "seed-103-shift-2",
+        "seed-104-shift-1",
+        "seed-104-shift-2",
+        "seed-105-shift-1",
+        "seed-105-shift-2",
+        "seed-106-shift-1",
+        "seed-106-shift-2",
+        "seed-107-shift-1",
+        "seed-107-shift-2",
+        "seed-108-shift-1",
+        "seed-108-shift-2",
+        "seed-109-shift-1",
+        "seed-109-shift-2"
+      ]
+    },
+    {
+      "index": 2,
+      "test": [
+        "seed-103-shift-1",
+        "seed-103-shift-2",
+        "seed-106-shift-1",
+        "seed-106-shift-2"
+      ],
+      "train_pool": [
+        "seed-101-shift-1",
+        "seed-101-shift-2",
+        "seed-102-shift-1",
+        "seed-102-shift-2",
+        "seed-104-shift-1",
+        "seed-104-shift-2",
+        "seed-105-shift-1",
+        "seed-105-shift-2",
+        "seed-107-shift-1",
+        "seed-107-shift-2",
+        "seed-108-shift-1",
+        "seed-108-shift-2",
+        "seed-109-shift-1",
+        "seed-109-shift-2",
+        "seed-110-shift-1",
+        "seed-110-shift-2"
+      ]
+    },
+    {
+      "index": 3,
+      "test": [
+        "seed-102-shift-1",
+        "seed-102-shift-2",
+        "seed-109-shift-1",
+        "seed-109-shift-2"
+      ],
+      "train_pool": [
+        "seed-101-shift-1",
+        "seed-101-shift-2",
+        "seed-103-shift-1",
+        "seed-103-shift-2",
+        "seed-104-shift-1",
+        "seed-104-shift-2",
+        "seed-105-shift-1",
+        "seed-105-shift-2",
+        "seed-106-shift-1",
+        "seed-106-shift-2",
+        "seed-107-shift-1",
+        "seed-107-shift-2",
+        "seed-108-shift-1",
+        "seed-108-shift-2",
+        "seed-110-shift-1",
+        "seed-110-shift-2"
+      ]
+    },
+    {
+      "index": 4,
+      "test": [
+        "seed-105-shift-1",
+        "seed-105-shift-2",
+        "seed-107-shift-1",
+        "seed-107-shift-2"
+      ],
+      "train_pool": [
+        "seed-101-shift-1",
+        "seed-101-shift-2",
+        "seed-102-shift-1",
+        "seed-102-shift-2",
+        "seed-103-shift-1",
+        "seed-103-shift-2",
+        "seed-104-shift-1",
+        "seed-104-shift-2",
+        "seed-106-shift-1",
+        "seed-106-shift-2",
+        "seed-108-shift-1",
+        "seed-108-shift-2",
+        "seed-109-shift-1",
+        "seed-109-shift-2",
+        "seed-110-shift-1",
+        "seed-110-shift-2"
+      ]
+    }
+  ],
+  "membership_sha256": "d8b856546ac1f6c8360447d470a16679617be585079d12c840d80f7d686dd8e1"
+}

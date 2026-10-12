@@ -1,0 +1,45 @@
+{
+  "scenario": "S3",
+  "backend": "ovrtx",
+  "poses": "traces/b2-crusher-static.parquet",
+  "sensors": [
+    {
+      "kind": "camera",
+      "id": "crusher-cam",
+      "width_px": 1280,
+      "height_px": 720,
+      "focal_length_m": 0.006,
+      "pixel_pitch_m": 3e-06,
+      "principal_point_px": [
+        640,
+        360
+      ],
+      "render_mode": "realtime-pathtracing",
+      "outputs": [
+        "HdrColor",
+        "LdrColor",
+        "DistanceToCameraSD",
+        "SemanticSegmentation"
+      ],
+      "mount_position_m": [
+        0,
+        -6,
+        8
+      ],
+      "mount_rotation_deg": [
+        0,
+        -35,
+        90
+      ]
+    }
+  ],
+  "haze": {
+    "airlight_rgb": [
+      2000000,
+      0.46,
+      0.31
+    ],
+    "min_box_area_px": 16,
+    "extinction_field": "dust/c3-field-run-01.zarr"
+  }
+}

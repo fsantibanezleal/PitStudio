@@ -2,9 +2,11 @@
 
 Usage:  python tools/trace.py            # regenerate the files
         python tools/trace.py --check    # CI: exit 1 on orphans or unknown/retired references
+        python tools/trace.py --check --release   # G6 / release: also every spec Converged and every ID tested
 IDs (never reused): US-NNN-x, FR-/NFR-/SC-/P-/DC-NNN-xx, tasks T-NNN-xxx. A requirement is DEFINED
-where it appears as the first cell of a table row in specs/**/spec.md; it is RETIRED when written
-~~ID~~ there. Tests reference IDs with @pytest.mark.req("ID") or a TS test title starting "ID · ".
+where it appears as the first cell of a table row in specs/**/spec.md (user stories may also be defined by a
+`### US-NNN-x …` heading, as in the spec template); it is RETIRED when written ~~ID~~ there.
+Tests reference IDs with @pytest.mark.req("ID") or a TS test title starting "ID · ".
 """
 
 from __future__ import annotations
@@ -19,7 +21,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ID = r"(?:US-\d{3}-\d{1,2}|(?:FR|NFR|SC|P|DC)-\d{3}-\d{2})"
 DEF_ROW = re.compile(rf"^\|\s*(~~)?({ID})(~~)?\s*\|", re.M)
-STATUS = re.compile(r"^Status:\s*([A-Za-z]+)", re.M)  # Draft/Clarified specs are not yet held to orphan checks
+DEF_HEADING = re.compile(r"^#{2,4}\s+(~~)?(US-\d{3}-\d{1,2})(~~)?\b", re.M)
+STATUS = re.compile(r"^Status:\s*([A-Za-z]+)", re.M)  # Draft/Clarified: no checks; Approved+: tasks; Converged: tests
 TASK_LINE = re.compile(r"^\s*-\s*\[[ xX]\]\s*(T-\d{3}-\d{3})(.*)$", re.M)
 ANY_ID = re.compile(rf"\b{ID}\b")
 PY_REQ = re.compile(rf"""\.mark\.req\(\s*["']({ID})["']""")
@@ -27,18 +30,35 @@ TS_REQ = re.compile(rf"""\b(?:it|test)\s*\(\s*[`"']({ID})\s*·""")
 TEST_DIRS = ["tests", "web/src", "web/tests", "web/e2e", "pipeline/tests"]
 
 
+def entry(spec: str, retired: bool, draft: bool, phase: str) -> dict:
+    return {"spec": spec, "retired": retired, "draft": draft, "phase": phase, "tasks": [], "tests": []}
+
+
 def scan() -> dict:
     reqs: dict[str, dict] = {}
+    duplicates: list[str] = []
     for spec in sorted(ROOT.glob("specs/**/spec.md")):
         if "_templates" in spec.parts:
             continue
         feature = spec.parent.name
         text = spec.read_text(encoding="utf-8")
         sm = STATUS.search(text)
-        draft = bool(sm and sm.group(1).lower() in {"draft", "clarified"})
+        phase = sm.group(1).lower() if sm else "draft"
+        draft = phase in {"draft", "clarified"}
+        seen_here: set[str] = set()
         for m in DEF_ROW.finditer(text):
             rid = m.group(2)
-            reqs[rid] = {"spec": feature, "retired": bool(m.group(1)), "draft": draft, "tasks": [], "tests": []}
+            if rid in seen_here or (rid in reqs and reqs[rid]["spec"] != feature):
+                first = reqs.get(rid, {}).get("spec", feature)
+                duplicates.append(f"{rid} is defined more than once ({first}, {feature})")
+            seen_here.add(rid)
+            reqs[rid] = entry(feature, bool(m.group(1)), draft, phase)
+        for m in DEF_HEADING.finditer(text):  # the spec template defines user stories as `### US-NNN-x (P1) title`
+            rid = m.group(2)
+            if rid not in reqs:
+                reqs[rid] = entry(feature, bool(m.group(1)), draft, phase)
+            elif reqs[rid]["spec"] != feature:
+                duplicates.append(f"{rid} is defined more than once ({reqs[rid]['spec']}, {feature})")
     tasks: dict[str, list[str]] = {}
     for tf in sorted(ROOT.glob("specs/**/tasks.md")):
         for m in TASK_LINE.finditer(tf.read_text(encoding="utf-8")):
@@ -65,22 +85,28 @@ def scan() -> dict:
                         reqs[rid]["tests"].append(r)
                 else:
                     unknown.append(f"test {r} references unknown {rid}")
-    return {"requirements": reqs, "tasks": tasks, "unknown": unknown}
+    return {"requirements": reqs, "tasks": tasks, "unknown": unknown + duplicates}
 
 
-def problems(data: dict) -> list[str]:
+def problems(data: dict, release: bool = False) -> list[str]:
+    """CI rules by spec status; `release=True` (G6 and tools/release.py) also demands Converged specs and every test."""
     out = list(data["unknown"])
+    not_converged: set[str] = set()
     for rid, r in data["requirements"].items():
         if r["retired"]:
             if r["tests"]:
                 out.append(f"retired {rid} is still referenced by tests {r['tests']}")
             continue
-        if r.get("draft"):
+        if release and r.get("phase") != "converged":
+            not_converged.add(f"{r['spec']} ({r.get('phase')})")
+        if r.get("draft") and not release:
             continue
         if not r["tasks"]:
             out.append(f"{rid} has no task")
-        if not r["tests"] and not rid.startswith("US-"):
+        # tests arrive task by task while a spec is Approved/Implementing; Converged means every one exists (G6)
+        if (release or r.get("phase") == "converged") and not r["tests"] and not rid.startswith("US-"):
             out.append(f"{rid} has no test")
+    out += [f"spec {s} is not Converged (release requires every spec Converged)" for s in sorted(not_converged)]
     return out
 
 
@@ -105,6 +131,7 @@ def render(data: dict) -> str:
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--release", action="store_true", help="release/G6 rules: every spec Converged, every ID tested")
     a = ap.parse_args(argv[1:])
     data = scan()
     (ROOT / "specs").mkdir(exist_ok=True)
@@ -112,7 +139,7 @@ def main(argv: list[str]) -> int:
     (ROOT / "specs" / "requirements.index.json").write_text(
         json.dumps(data, indent=2) + "\n", encoding="utf-8", newline="\n"
     )
-    probs = problems(data)
+    probs = problems(data, release=a.release)
     if a.check and probs:
         print(f"TRACE CHECK FAIL ({len(probs)}):")
         for p in probs:

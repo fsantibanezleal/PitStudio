@@ -1,0 +1,98 @@
+{
+  "record_id": "pit-s-000123",
+  "synthetic": true,
+  "family": "pit",
+  "arm": "structured",
+  "split": "test",
+  "scenario_seed": 4211,
+  "layout_id": "layout-0042",
+  "image": {
+    "path": "../../etc/passwd",
+    "sha256": "8796a5b4c3d2e1f092a3b4c5d6e7f80928394a5b6c7d8e9f8796a5b4c3d2e1f0",
+    "size_bytes": 1843021,
+    "width_px": 1280,
+    "height_px": 720,
+    "format": "png",
+    "colour_space": "srgb"
+  },
+  "coco": {
+    "path": "sdg/pit-structured/shard-0003/coco_instances.json",
+    "sha256": "1a2b3c4d5e6f708128394a5b6c7d8e9f1a2b3c4d5e6f708128394a5b6c7d8e9f",
+    "size_bytes": 5120333
+  },
+  "coco_image_id": 123,
+  "semantic_mask": {
+    "path": "sdg/pit-structured/shard-0003/semantic/000123.png",
+    "sha256": "92a3b4c5d6e7f8098796a5b4c3d2e1f028394a5b6c7d8e9f92a3b4c5d6e7f809",
+    "size_bytes": 20480,
+    "width_px": 1280,
+    "height_px": 720,
+    "format": "png"
+  },
+  "depth": {
+    "path": "sdg/pit-structured/shard-0003/depth/000123.npy",
+    "sha256": "a0b1c2d3e4f5061792a3b4c5d6e7f8091a2b3c4d5e6f70818796a5b4c3d2e1f0",
+    "size_bytes": 3686528,
+    "width_px": 1280,
+    "height_px": 720,
+    "format": "npy",
+    "dtype": "float32",
+    "unit": "m",
+    "quantity": "distance-to-image-plane"
+  },
+  "intrinsics": {
+    "model": "pinhole",
+    "fx_px": 1108.5,
+    "fy_px": 1108.5,
+    "cx_px": 640.0,
+    "cy_px": 360.0
+  },
+  "frame_state": {
+    "path": "sdg/pit-structured/shard-0003/frame_state/000123.json",
+    "sha256": "28394a5b6c7d8e9f0f1e2d3c4b5a69788796a5b4c3d2e1f01a2b3c4d5e6f7081",
+    "size_bytes": 48211
+  },
+  "instance_source": "replicator",
+  "dr": {
+    "sun_utc": "2025-03-14T18:42:07Z",
+    "sun_elevation_deg": 41.7,
+    "sun_azimuth_deg": 203.4,
+    "dust_extinction_per_km": 0.82,
+    "wet_segments": [
+      {
+        "segment_id": "haul-road-03",
+        "wet": true,
+        "minutes_since_watering": 37.5
+      },
+      {
+        "segment_id": "ramp-01",
+        "wet": false,
+        "minutes_since_watering": 142.0
+      }
+    ],
+    "rock_texture_ids": [
+      "rock-quartz-monzonite-01",
+      "rock-gravel-02"
+    ],
+    "placements": [
+      {
+        "class": "haul_truck",
+        "x_m": 412.3,
+        "y_m": -118.9,
+        "z_m": 1642.05,
+        "yaw_deg": 87.5
+      },
+      {
+        "class": "person",
+        "x_m": 398.1,
+        "y_m": -121.4,
+        "z_m": 1641.98,
+        "yaw_deg": 12.0
+      }
+    ]
+  },
+  "licence": {
+    "spdx": "CC-BY-4.0",
+    "licence_class": "own"
+  }
+}

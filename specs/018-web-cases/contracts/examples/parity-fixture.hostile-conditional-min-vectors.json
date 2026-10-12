@@ -1,0 +1,2207 @@
+{
+  "schema_version": "1.0",
+  "engine": "blasting",
+  "fixture": "kuz-ram-x50",
+  "function": "kuz_ram_x50",
+  "reference": {
+    "name": "minephys",
+    "version": "0.1.0",
+    "callable": "minephys.blasting.kuz_ram_x50"
+  },
+  "tolerance": {
+    "class": "analytical-closed-form",
+    "rtol": 1e-09,
+    "atol_scale": 1e-12
+  },
+  "cases": [
+    {
+      "input": {
+        "rock_factor": 1.0,
+        "powder_factor_kg_per_m3": 0.2,
+        "charge_mass_kg": 1.0,
+        "rws": 50.0
+      },
+      "output": {
+        "x50_m": 0.079949812154
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 22.0,
+        "powder_factor_kg_per_m3": 2.0,
+        "charge_mass_kg": 2000.0,
+        "rws": 150.0
+      },
+      "output": {
+        "x50_m": 0.348454921251
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 4.807,
+        "powder_factor_kg_per_m3": 1.391,
+        "charge_mass_kg": 669.78,
+        "rws": 69.8
+      },
+      "output": {
+        "x50_m": 0.175469407989
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 11.28,
+        "powder_factor_kg_per_m3": 1.089,
+        "charge_mass_kg": 960.07,
+        "rws": 95.8
+      },
+      "output": {
+        "x50_m": 0.393643417663
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.555,
+        "powder_factor_kg_per_m3": 0.657,
+        "charge_mass_kg": 1384.07,
+        "rws": 82.4
+      },
+      "output": {
+        "x50_m": 0.420318823821
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.171,
+        "powder_factor_kg_per_m3": 1.617,
+        "charge_mass_kg": 1732.03,
+        "rws": 144.4
+      },
+      "output": {
+        "x50_m": 0.288323168656
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.926,
+        "powder_factor_kg_per_m3": 0.627,
+        "charge_mass_kg": 1469.92,
+        "rws": 107.6
+      },
+      "output": {
+        "x50_m": 0.309222572054
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.239,
+        "powder_factor_kg_per_m3": 1.42,
+        "charge_mass_kg": 1746.63,
+        "rws": 133.6
+      },
+      "output": {
+        "x50_m": 0.119105373478
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.538,
+        "powder_factor_kg_per_m3": 0.738,
+        "charge_mass_kg": 14.32,
+        "rws": 147.6
+      },
+      "output": {
+        "x50_m": 0.086815234033
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.629,
+        "powder_factor_kg_per_m3": 1.509,
+        "charge_mass_kg": 1076.26,
+        "rws": 109.3
+      },
+      "output": {
+        "x50_m": 0.136073383763
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.061,
+        "powder_factor_kg_per_m3": 1.686,
+        "charge_mass_kg": 1200.26,
+        "rws": 80.3
+      },
+      "output": {
+        "x50_m": 0.364160634477
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 3.411,
+        "powder_factor_kg_per_m3": 1.059,
+        "charge_mass_kg": 1845.98,
+        "rws": 64.5
+      },
+      "output": {
+        "x50_m": 0.197659337771
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.363,
+        "powder_factor_kg_per_m3": 1.336,
+        "charge_mass_kg": 321.36,
+        "rws": 70.7
+      },
+      "output": {
+        "x50_m": 0.506264341418
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.411,
+        "powder_factor_kg_per_m3": 0.987,
+        "charge_mass_kg": 814.61,
+        "rws": 98.0
+      },
+      "output": {
+        "x50_m": 0.554030360271
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 3.126,
+        "powder_factor_kg_per_m3": 1.468,
+        "charge_mass_kg": 1177.17,
+        "rws": 103.4
+      },
+      "output": {
+        "x50_m": 0.082657658141
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.132,
+        "powder_factor_kg_per_m3": 1.661,
+        "charge_mass_kg": 1648.11,
+        "rws": 104.5
+      },
+      "output": {
+        "x50_m": 0.203971036196
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 2.862,
+        "powder_factor_kg_per_m3": 0.466,
+        "charge_mass_kg": 305.23,
+        "rws": 57.9
+      },
+      "output": {
+        "x50_m": 0.262532905485
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.614,
+        "powder_factor_kg_per_m3": 1.178,
+        "charge_mass_kg": 408.53,
+        "rws": 141.0
+      },
+      "output": {
+        "x50_m": 0.287714436825
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.226,
+        "powder_factor_kg_per_m3": 1.626,
+        "charge_mass_kg": 1636.27,
+        "rws": 118.2
+      },
+      "output": {
+        "x50_m": 0.322481801761
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.062,
+        "powder_factor_kg_per_m3": 1.973,
+        "charge_mass_kg": 266.66,
+        "rws": 118.9
+      },
+      "output": {
+        "x50_m": 0.172140933928
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.569,
+        "powder_factor_kg_per_m3": 1.061,
+        "charge_mass_kg": 1634.57,
+        "rws": 68.1
+      },
+      "output": {
+        "x50_m": 1.053748021272
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 9.741,
+        "powder_factor_kg_per_m3": 0.688,
+        "charge_mass_kg": 794.51,
+        "rws": 120.2
+      },
+      "output": {
+        "x50_m": 0.383386125017
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 4.014,
+        "powder_factor_kg_per_m3": 0.809,
+        "charge_mass_kg": 1692.29,
+        "rws": 80.1
+      },
+      "output": {
+        "x50_m": 0.231478010088
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 3.647,
+        "powder_factor_kg_per_m3": 1.99,
+        "charge_mass_kg": 1082.79,
+        "rws": 51.8
+      },
+      "output": {
+        "x50_m": 0.143767377746
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.997,
+        "powder_factor_kg_per_m3": 0.463,
+        "charge_mass_kg": 326.43,
+        "rws": 123.9
+      },
+      "output": {
+        "x50_m": 0.588286042054
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.696,
+        "powder_factor_kg_per_m3": 0.967,
+        "charge_mass_kg": 1029.32,
+        "rws": 105.9
+      },
+      "output": {
+        "x50_m": 0.518754032255
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 10.637,
+        "powder_factor_kg_per_m3": 0.382,
+        "charge_mass_kg": 1537.57,
+        "rws": 127.0
+      },
+      "output": {
+        "x50_m": 0.710161348924
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 9.862,
+        "powder_factor_kg_per_m3": 0.927,
+        "charge_mass_kg": 1221.29,
+        "rws": 97.2
+      },
+      "output": {
+        "x50_m": 0.401930541066
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 9.722,
+        "powder_factor_kg_per_m3": 1.777,
+        "charge_mass_kg": 1809.88,
+        "rws": 65.1
+      },
+      "output": {
+        "x50_m": 0.367881809382
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 4.615,
+        "powder_factor_kg_per_m3": 1.612,
+        "charge_mass_kg": 1915.36,
+        "rws": 123.0
+      },
+      "output": {
+        "x50_m": 0.104129672727
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.235,
+        "powder_factor_kg_per_m3": 0.305,
+        "charge_mass_kg": 1654.87,
+        "rws": 143.0
+      },
+      "output": {
+        "x50_m": 0.523061823957
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 16.931,
+        "powder_factor_kg_per_m3": 1.525,
+        "charge_mass_kg": 1945.5,
+        "rws": 102.4
+      },
+      "output": {
+        "x50_m": 0.476558913355
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.532,
+        "powder_factor_kg_per_m3": 0.672,
+        "charge_mass_kg": 153.72,
+        "rws": 133.9
+      },
+      "output": {
+        "x50_m": 0.565213205382
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.672,
+        "powder_factor_kg_per_m3": 1.634,
+        "charge_mass_kg": 261.53,
+        "rws": 80.0
+      },
+      "output": {
+        "x50_m": 0.377720446355
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.332,
+        "powder_factor_kg_per_m3": 0.316,
+        "charge_mass_kg": 657.67,
+        "rws": 110.3
+      },
+      "output": {
+        "x50_m": 1.028086971828
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.674,
+        "powder_factor_kg_per_m3": 1.495,
+        "charge_mass_kg": 793.77,
+        "rws": 90.8
+      },
+      "output": {
+        "x50_m": 0.570788739638
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 11.77,
+        "powder_factor_kg_per_m3": 1.535,
+        "charge_mass_kg": 1991.12,
+        "rws": 51.1
+      },
+      "output": {
+        "x50_m": 0.640327899386
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.436,
+        "powder_factor_kg_per_m3": 1.645,
+        "charge_mass_kg": 92.36,
+        "rws": 75.6
+      },
+      "output": {
+        "x50_m": 0.43462136239
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.744,
+        "powder_factor_kg_per_m3": 0.588,
+        "charge_mass_kg": 325.45,
+        "rws": 63.6
+      },
+      "output": {
+        "x50_m": 0.474833956193
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.194,
+        "powder_factor_kg_per_m3": 0.988,
+        "charge_mass_kg": 215.06,
+        "rws": 134.3
+      },
+      "output": {
+        "x50_m": 0.324053892817
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.538,
+        "powder_factor_kg_per_m3": 0.668,
+        "charge_mass_kg": 1659.65,
+        "rws": 127.6
+      },
+      "output": {
+        "x50_m": 0.798023965544
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.135,
+        "powder_factor_kg_per_m3": 0.358,
+        "charge_mass_kg": 1418.26,
+        "rws": 137.5
+      },
+      "output": {
+        "x50_m": 0.780730933242
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.625,
+        "powder_factor_kg_per_m3": 1.91,
+        "charge_mass_kg": 325.53,
+        "rws": 147.6
+      },
+      "output": {
+        "x50_m": 0.241979764676
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 2.964,
+        "powder_factor_kg_per_m3": 0.855,
+        "charge_mass_kg": 1078.4,
+        "rws": 113.9
+      },
+      "output": {
+        "x50_m": 0.108576048306
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.123,
+        "powder_factor_kg_per_m3": 1.833,
+        "charge_mass_kg": 1549.19,
+        "rws": 135.9
+      },
+      "output": {
+        "x50_m": 0.216704890199
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.211,
+        "powder_factor_kg_per_m3": 1.02,
+        "charge_mass_kg": 42.22,
+        "rws": 114.7
+      },
+      "output": {
+        "x50_m": 0.280075445262
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.646,
+        "powder_factor_kg_per_m3": 0.543,
+        "charge_mass_kg": 1992.69,
+        "rws": 51.8
+      },
+      "output": {
+        "x50_m": 2.546550889881
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 9.339,
+        "powder_factor_kg_per_m3": 1.552,
+        "charge_mass_kg": 1427.17,
+        "rws": 107.7
+      },
+      "output": {
+        "x50_m": 0.234634021044
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.89,
+        "powder_factor_kg_per_m3": 0.644,
+        "charge_mass_kg": 280.85,
+        "rws": 114.5
+      },
+      "output": {
+        "x50_m": 0.251760350995
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 1.385,
+        "powder_factor_kg_per_m3": 0.433,
+        "charge_mass_kg": 1434.28,
+        "rws": 94.6
+      },
+      "output": {
+        "x50_m": 0.109378378841
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 1.36,
+        "powder_factor_kg_per_m3": 0.964,
+        "charge_mass_kg": 1849.69,
+        "rws": 101.2
+      },
+      "output": {
+        "x50_m": 0.055403249056
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.639,
+        "powder_factor_kg_per_m3": 0.446,
+        "charge_mass_kg": 999.32,
+        "rws": 74.2
+      },
+      "output": {
+        "x50_m": 0.607246168454
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.773,
+        "powder_factor_kg_per_m3": 0.31,
+        "charge_mass_kg": 1212.86,
+        "rws": 129.4
+      },
+      "output": {
+        "x50_m": 0.504644508792
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 11.637,
+        "powder_factor_kg_per_m3": 1.302,
+        "charge_mass_kg": 585.39,
+        "rws": 149.2
+      },
+      "output": {
+        "x50_m": 0.21280199568
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.024,
+        "powder_factor_kg_per_m3": 1.852,
+        "charge_mass_kg": 29.34,
+        "rws": 116.1
+      },
+      "output": {
+        "x50_m": 0.074665631318
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.277,
+        "powder_factor_kg_per_m3": 1.225,
+        "charge_mass_kg": 432.79,
+        "rws": 66.8
+      },
+      "output": {
+        "x50_m": 0.755153816498
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 21.76,
+        "powder_factor_kg_per_m3": 1.988,
+        "charge_mass_kg": 472.86,
+        "rws": 91.2
+      },
+      "output": {
+        "x50_m": 0.436900359316
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.394,
+        "powder_factor_kg_per_m3": 1.761,
+        "charge_mass_kg": 59.47,
+        "rws": 104.5
+      },
+      "output": {
+        "x50_m": 0.253097288734
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.232,
+        "powder_factor_kg_per_m3": 0.351,
+        "charge_mass_kg": 1385.69,
+        "rws": 98.7
+      },
+      "output": {
+        "x50_m": 0.555973918358
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.379,
+        "powder_factor_kg_per_m3": 1.568,
+        "charge_mass_kg": 645.95,
+        "rws": 76.3
+      },
+      "output": {
+        "x50_m": 0.162950545492
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.274,
+        "powder_factor_kg_per_m3": 0.553,
+        "charge_mass_kg": 1685.59,
+        "rws": 83.0
+      },
+      "output": {
+        "x50_m": 0.549444642788
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.581,
+        "powder_factor_kg_per_m3": 1.437,
+        "charge_mass_kg": 1078.16,
+        "rws": 139.5
+      },
+      "output": {
+        "x50_m": 0.410455152522
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.832,
+        "powder_factor_kg_per_m3": 0.264,
+        "charge_mass_kg": 1312.8,
+        "rws": 56.3
+      },
+      "output": {
+        "x50_m": 1.671689649437
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.48,
+        "powder_factor_kg_per_m3": 1.952,
+        "charge_mass_kg": 783.17,
+        "rws": 59.0
+      },
+      "output": {
+        "x50_m": 0.686450110756
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 21.108,
+        "powder_factor_kg_per_m3": 0.665,
+        "charge_mass_kg": 1933.49,
+        "rws": 97.7
+      },
+      "output": {
+        "x50_m": 1.205525877063
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.594,
+        "powder_factor_kg_per_m3": 1.774,
+        "charge_mass_kg": 305.08,
+        "rws": 83.4
+      },
+      "output": {
+        "x50_m": 0.436098274017
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 10.052,
+        "powder_factor_kg_per_m3": 0.559,
+        "charge_mass_kg": 1858.62,
+        "rws": 71.0
+      },
+      "output": {
+        "x50_m": 0.887474026851
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.961,
+        "powder_factor_kg_per_m3": 0.529,
+        "charge_mass_kg": 303.5,
+        "rws": 131.3
+      },
+      "output": {
+        "x50_m": 0.226756193849
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.255,
+        "powder_factor_kg_per_m3": 1.261,
+        "charge_mass_kg": 252.02,
+        "rws": 131.1
+      },
+      "output": {
+        "x50_m": 0.096867972589
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 17.475,
+        "powder_factor_kg_per_m3": 1.897,
+        "charge_mass_kg": 111.11,
+        "rws": 117.0
+      },
+      "output": {
+        "x50_m": 0.225844000089
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 16.267,
+        "powder_factor_kg_per_m3": 0.81,
+        "charge_mass_kg": 1378.62,
+        "rws": 82.2
+      },
+      "output": {
+        "x50_m": 0.88367981646
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.275,
+        "powder_factor_kg_per_m3": 1.734,
+        "charge_mass_kg": 1651.92,
+        "rws": 83.2
+      },
+      "output": {
+        "x50_m": 0.399643308316
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.438,
+        "powder_factor_kg_per_m3": 1.915,
+        "charge_mass_kg": 468.11,
+        "rws": 97.2
+      },
+      "output": {
+        "x50_m": 0.125156650787
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 9.775,
+        "powder_factor_kg_per_m3": 0.857,
+        "charge_mass_kg": 1069.42,
+        "rws": 61.7
+      },
+      "output": {
+        "x50_m": 0.638972549859
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 10.769,
+        "powder_factor_kg_per_m3": 1.411,
+        "charge_mass_kg": 1696.94,
+        "rws": 99.0
+      },
+      "output": {
+        "x50_m": 0.325567486963
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.842,
+        "powder_factor_kg_per_m3": 0.709,
+        "charge_mass_kg": 382.7,
+        "rws": 64.7
+      },
+      "output": {
+        "x50_m": 0.357952052132
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.448,
+        "powder_factor_kg_per_m3": 0.891,
+        "charge_mass_kg": 1890.38,
+        "rws": 125.6
+      },
+      "output": {
+        "x50_m": 0.264150729633
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.353,
+        "powder_factor_kg_per_m3": 1.085,
+        "charge_mass_kg": 386.74,
+        "rws": 107.1
+      },
+      "output": {
+        "x50_m": 0.550660733059
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.63,
+        "powder_factor_kg_per_m3": 1.989,
+        "charge_mass_kg": 461.39,
+        "rws": 126.3
+      },
+      "output": {
+        "x50_m": 0.229293783099
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 21.174,
+        "powder_factor_kg_per_m3": 0.908,
+        "charge_mass_kg": 1042.01,
+        "rws": 60.7
+      },
+      "output": {
+        "x50_m": 1.336431087769
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.094,
+        "powder_factor_kg_per_m3": 0.299,
+        "charge_mass_kg": 1561.85,
+        "rws": 125.6
+      },
+      "output": {
+        "x50_m": 1.242119575529
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.453,
+        "powder_factor_kg_per_m3": 1.722,
+        "charge_mass_kg": 139.31,
+        "rws": 137.6
+      },
+      "output": {
+        "x50_m": 0.22937510596
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.834,
+        "powder_factor_kg_per_m3": 1.906,
+        "charge_mass_kg": 1800.75,
+        "rws": 98.1
+      },
+      "output": {
+        "x50_m": 0.383393976556
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.003,
+        "powder_factor_kg_per_m3": 0.559,
+        "charge_mass_kg": 1939.31,
+        "rws": 117.5
+      },
+      "output": {
+        "x50_m": 1.04703428602
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.053,
+        "powder_factor_kg_per_m3": 1.183,
+        "charge_mass_kg": 1147.9,
+        "rws": 74.2
+      },
+      "output": {
+        "x50_m": 0.774327768716
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 17.827,
+        "powder_factor_kg_per_m3": 1.145,
+        "charge_mass_kg": 448.64,
+        "rws": 125.4
+      },
+      "output": {
+        "x50_m": 0.407659119833
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.218,
+        "powder_factor_kg_per_m3": 0.971,
+        "charge_mass_kg": 1612.65,
+        "rws": 92.2
+      },
+      "output": {
+        "x50_m": 0.571674679683
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.236,
+        "powder_factor_kg_per_m3": 1.176,
+        "charge_mass_kg": 732.08,
+        "rws": 85.4
+      },
+      "output": {
+        "x50_m": 0.533027359764
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.368,
+        "powder_factor_kg_per_m3": 0.531,
+        "charge_mass_kg": 345.14,
+        "rws": 81.5
+      },
+      "output": {
+        "x50_m": 0.814804194172
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.973,
+        "powder_factor_kg_per_m3": 0.538,
+        "charge_mass_kg": 1537.79,
+        "rws": 82.8
+      },
+      "output": {
+        "x50_m": 1.217430856269
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.85,
+        "powder_factor_kg_per_m3": 0.395,
+        "charge_mass_kg": 1704.53,
+        "rws": 132.4
+      },
+      "output": {
+        "x50_m": 1.325252158262
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.421,
+        "powder_factor_kg_per_m3": 1.334,
+        "charge_mass_kg": 594.87,
+        "rws": 145.7
+      },
+      "output": {
+        "x50_m": 0.338819651142
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.672,
+        "powder_factor_kg_per_m3": 1.465,
+        "charge_mass_kg": 813.98,
+        "rws": 57.0
+      },
+      "output": {
+        "x50_m": 0.24874264432
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 9.705,
+        "powder_factor_kg_per_m3": 0.772,
+        "charge_mass_kg": 1577.12,
+        "rws": 70.6
+      },
+      "output": {
+        "x50_m": 0.647407368929
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.373,
+        "powder_factor_kg_per_m3": 0.256,
+        "charge_mass_kg": 174.05,
+        "rws": 112.2
+      },
+      "output": {
+        "x50_m": 1.321914932093
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.52,
+        "powder_factor_kg_per_m3": 1.307,
+        "charge_mass_kg": 325.2,
+        "rws": 141.1
+      },
+      "output": {
+        "x50_m": 0.357652222207
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.127,
+        "powder_factor_kg_per_m3": 0.211,
+        "charge_mass_kg": 265.53,
+        "rws": 89.0
+      },
+      "output": {
+        "x50_m": 1.69858864791
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.141,
+        "powder_factor_kg_per_m3": 1.218,
+        "charge_mass_kg": 1674.34,
+        "rws": 111.4
+      },
+      "output": {
+        "x50_m": 0.368269643127
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 21.137,
+        "powder_factor_kg_per_m3": 0.93,
+        "charge_mass_kg": 678.05,
+        "rws": 116.0
+      },
+      "output": {
+        "x50_m": 0.658509129747
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.934,
+        "powder_factor_kg_per_m3": 0.975,
+        "charge_mass_kg": 96.11,
+        "rws": 87.9
+      },
+      "output": {
+        "x50_m": 0.561986273314
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.291,
+        "powder_factor_kg_per_m3": 1.814,
+        "charge_mass_kg": 656.85,
+        "rws": 95.5
+      },
+      "output": {
+        "x50_m": 0.115575393669
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.974,
+        "powder_factor_kg_per_m3": 0.303,
+        "charge_mass_kg": 181.12,
+        "rws": 101.8
+      },
+      "output": {
+        "x50_m": 0.970056277096
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.288,
+        "powder_factor_kg_per_m3": 0.309,
+        "charge_mass_kg": 1489.09,
+        "rws": 123.5
+      },
+      "output": {
+        "x50_m": 0.50809537998
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.891,
+        "powder_factor_kg_per_m3": 0.432,
+        "charge_mass_kg": 1629.46,
+        "rws": 149.5
+      },
+      "output": {
+        "x50_m": 0.726843559395
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 3.342,
+        "powder_factor_kg_per_m3": 1.425,
+        "charge_mass_kg": 103.73,
+        "rws": 61.1
+      },
+      "output": {
+        "x50_m": 0.099509012323
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.997,
+        "powder_factor_kg_per_m3": 1.941,
+        "charge_mass_kg": 913.76,
+        "rws": 104.0
+      },
+      "output": {
+        "x50_m": 0.161235239673
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.625,
+        "powder_factor_kg_per_m3": 0.908,
+        "charge_mass_kg": 579.28,
+        "rws": 58.2
+      },
+      "output": {
+        "x50_m": 1.168983878767
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.899,
+        "powder_factor_kg_per_m3": 1.303,
+        "charge_mass_kg": 1768.47,
+        "rws": 148.9
+      },
+      "output": {
+        "x50_m": 0.129867993885
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.508,
+        "powder_factor_kg_per_m3": 1.404,
+        "charge_mass_kg": 640.06,
+        "rws": 105.9
+      },
+      "output": {
+        "x50_m": 0.157495841829
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 1.34,
+        "powder_factor_kg_per_m3": 1.873,
+        "charge_mass_kg": 1560.81,
+        "rws": 125.7
+      },
+      "output": {
+        "x50_m": 0.025385984905
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.386,
+        "powder_factor_kg_per_m3": 0.885,
+        "charge_mass_kg": 1683.22,
+        "rws": 100.6
+      },
+      "output": {
+        "x50_m": 0.621255795547
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.929,
+        "powder_factor_kg_per_m3": 0.688,
+        "charge_mass_kg": 369.52,
+        "rws": 121.8
+      },
+      "output": {
+        "x50_m": 0.510737386841
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.63,
+        "powder_factor_kg_per_m3": 0.281,
+        "charge_mass_kg": 601.31,
+        "rws": 92.2
+      },
+      "output": {
+        "x50_m": 0.754937722187
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 4.964,
+        "powder_factor_kg_per_m3": 0.451,
+        "charge_mass_kg": 1429.1,
+        "rws": 96.3
+      },
+      "output": {
+        "x50_m": 0.37286557157
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 11.606,
+        "powder_factor_kg_per_m3": 1.489,
+        "charge_mass_kg": 95.62,
+        "rws": 101.6
+      },
+      "output": {
+        "x50_m": 0.203035598667
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 21.71,
+        "powder_factor_kg_per_m3": 0.698,
+        "charge_mass_kg": 1402.12,
+        "rws": 67.8
+      },
+      "output": {
+        "x50_m": 1.599684813505
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.95,
+        "powder_factor_kg_per_m3": 1.008,
+        "charge_mass_kg": 435.39,
+        "rws": 73.9
+      },
+      "output": {
+        "x50_m": 0.372664836913
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.965,
+        "powder_factor_kg_per_m3": 1.052,
+        "charge_mass_kg": 781.51,
+        "rws": 99.5
+      },
+      "output": {
+        "x50_m": 0.266354455845
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.226,
+        "powder_factor_kg_per_m3": 1.179,
+        "charge_mass_kg": 1534.87,
+        "rws": 97.0
+      },
+      "output": {
+        "x50_m": 0.217891257846
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.558,
+        "powder_factor_kg_per_m3": 1.679,
+        "charge_mass_kg": 1252.71,
+        "rws": 99.7
+      },
+      "output": {
+        "x50_m": 0.212589934059
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.502,
+        "powder_factor_kg_per_m3": 1.921,
+        "charge_mass_kg": 233.32,
+        "rws": 142.3
+      },
+      "output": {
+        "x50_m": 0.090184545822
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.425,
+        "powder_factor_kg_per_m3": 1.851,
+        "charge_mass_kg": 91.14,
+        "rws": 119.4
+      },
+      "output": {
+        "x50_m": 0.092874894102
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 11.04,
+        "powder_factor_kg_per_m3": 1.306,
+        "charge_mass_kg": 175.08,
+        "rws": 87.6
+      },
+      "output": {
+        "x50_m": 0.273131214374
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.637,
+        "powder_factor_kg_per_m3": 1.206,
+        "charge_mass_kg": 1437.47,
+        "rws": 145.0
+      },
+      "output": {
+        "x50_m": 0.200407921814
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 7.131,
+        "powder_factor_kg_per_m3": 0.283,
+        "charge_mass_kg": 366.68,
+        "rws": 141.6
+      },
+      "output": {
+        "x50_m": 0.429789052919
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.534,
+        "powder_factor_kg_per_m3": 1.401,
+        "charge_mass_kg": 1993.62,
+        "rws": 129.5
+      },
+      "output": {
+        "x50_m": 0.303309663652
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.382,
+        "powder_factor_kg_per_m3": 1.599,
+        "charge_mass_kg": 335.67,
+        "rws": 132.0
+      },
+      "output": {
+        "x50_m": 0.21259125203
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 4.651,
+        "powder_factor_kg_per_m3": 1.787,
+        "charge_mass_kg": 1702.15,
+        "rws": 107.0
+      },
+      "output": {
+        "x50_m": 0.1081669777
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.854,
+        "powder_factor_kg_per_m3": 0.426,
+        "charge_mass_kg": 975.88,
+        "rws": 71.1
+      },
+      "output": {
+        "x50_m": 0.674583919957
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.716,
+        "powder_factor_kg_per_m3": 0.471,
+        "charge_mass_kg": 167.95,
+        "rws": 129.1
+      },
+      "output": {
+        "x50_m": 0.335001574912
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 17.46,
+        "powder_factor_kg_per_m3": 1.269,
+        "charge_mass_kg": 1246.74,
+        "rws": 131.7
+      },
+      "output": {
+        "x50_m": 0.416192311199
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.494,
+        "powder_factor_kg_per_m3": 1.341,
+        "charge_mass_kg": 112.67,
+        "rws": 57.8
+      },
+      "output": {
+        "x50_m": 0.450813833765
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.534,
+        "powder_factor_kg_per_m3": 1.176,
+        "charge_mass_kg": 568.52,
+        "rws": 130.9
+      },
+      "output": {
+        "x50_m": 0.347257807401
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 10.699,
+        "powder_factor_kg_per_m3": 1.246,
+        "charge_mass_kg": 1916.04,
+        "rws": 94.6
+      },
+      "output": {
+        "x50_m": 0.380682182902
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.71,
+        "powder_factor_kg_per_m3": 1.093,
+        "charge_mass_kg": 1330.51,
+        "rws": 124.4
+      },
+      "output": {
+        "x50_m": 0.564993917265
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 11.715,
+        "powder_factor_kg_per_m3": 1.16,
+        "charge_mass_kg": 1726.9,
+        "rws": 126.3
+      },
+      "output": {
+        "x50_m": 0.32964781271
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.848,
+        "powder_factor_kg_per_m3": 1.481,
+        "charge_mass_kg": 518.64,
+        "rws": 105.6
+      },
+      "output": {
+        "x50_m": 0.310887243503
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.581,
+        "powder_factor_kg_per_m3": 1.498,
+        "charge_mass_kg": 1859.23,
+        "rws": 55.4
+      },
+      "output": {
+        "x50_m": 0.943793881527
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 4.507,
+        "powder_factor_kg_per_m3": 0.603,
+        "charge_mass_kg": 1901.44,
+        "rws": 139.9
+      },
+      "output": {
+        "x50_m": 0.197371116967
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.689,
+        "powder_factor_kg_per_m3": 0.323,
+        "charge_mass_kg": 666.88,
+        "rws": 133.0
+      },
+      "output": {
+        "x50_m": 0.425282667206
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.559,
+        "powder_factor_kg_per_m3": 1.321,
+        "charge_mass_kg": 1876.83,
+        "rws": 126.9
+      },
+      "output": {
+        "x50_m": 0.475091814413
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 1.255,
+        "powder_factor_kg_per_m3": 0.513,
+        "charge_mass_kg": 1657.13,
+        "rws": 126.5
+      },
+      "output": {
+        "x50_m": 0.067264545611
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.243,
+        "powder_factor_kg_per_m3": 1.265,
+        "charge_mass_kg": 1829.86,
+        "rws": 50.0
+      },
+      "output": {
+        "x50_m": 1.230206774565
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.983,
+        "powder_factor_kg_per_m3": 0.269,
+        "charge_mass_kg": 1965.37,
+        "rws": 136.8
+      },
+      "output": {
+        "x50_m": 0.770740390312
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.723,
+        "powder_factor_kg_per_m3": 1.186,
+        "charge_mass_kg": 1047.62,
+        "rws": 108.4
+      },
+      "output": {
+        "x50_m": 0.432993112218
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.955,
+        "powder_factor_kg_per_m3": 0.4,
+        "charge_mass_kg": 1696.88,
+        "rws": 132.9
+      },
+      "output": {
+        "x50_m": 0.435751154274
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.595,
+        "powder_factor_kg_per_m3": 0.973,
+        "charge_mass_kg": 827.11,
+        "rws": 126.0
+      },
+      "output": {
+        "x50_m": 0.189363382867
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.127,
+        "powder_factor_kg_per_m3": 1.415,
+        "charge_mass_kg": 242.49,
+        "rws": 142.1
+      },
+      "output": {
+        "x50_m": 0.125739767918
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.955,
+        "powder_factor_kg_per_m3": 0.88,
+        "charge_mass_kg": 1019.19,
+        "rws": 118.7
+      },
+      "output": {
+        "x50_m": 0.509930400375
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.712,
+        "powder_factor_kg_per_m3": 0.435,
+        "charge_mass_kg": 313.5,
+        "rws": 60.4
+      },
+      "output": {
+        "x50_m": 1.188885214863
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.277,
+        "powder_factor_kg_per_m3": 1.999,
+        "charge_mass_kg": 234.29,
+        "rws": 136.0
+      },
+      "output": {
+        "x50_m": 0.173678743434
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 17.096,
+        "powder_factor_kg_per_m3": 0.663,
+        "charge_mass_kg": 937.85,
+        "rws": 58.3
+      },
+      "output": {
+        "x50_m": 1.41682780604
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.095,
+        "powder_factor_kg_per_m3": 1.041,
+        "charge_mass_kg": 1671.2,
+        "rws": 92.4
+      },
+      "output": {
+        "x50_m": 0.743094392398
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 10.174,
+        "powder_factor_kg_per_m3": 1.182,
+        "charge_mass_kg": 1576.3,
+        "rws": 107.1
+      },
+      "output": {
+        "x50_m": 0.324863198334
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.623,
+        "powder_factor_kg_per_m3": 0.935,
+        "charge_mass_kg": 384.67,
+        "rws": 74.0
+      },
+      "output": {
+        "x50_m": 0.632598355803
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.265,
+        "powder_factor_kg_per_m3": 0.23,
+        "charge_mass_kg": 1620.82,
+        "rws": 103.7
+      },
+      "output": {
+        "x50_m": 2.238032223826
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.385,
+        "powder_factor_kg_per_m3": 1.02,
+        "charge_mass_kg": 818.29,
+        "rws": 122.2
+      },
+      "output": {
+        "x50_m": 0.238260897235
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 16.39,
+        "powder_factor_kg_per_m3": 1.862,
+        "charge_mass_kg": 962.94,
+        "rws": 113.8
+      },
+      "output": {
+        "x50_m": 0.316365814997
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.047,
+        "powder_factor_kg_per_m3": 1.457,
+        "charge_mass_kg": 37.93,
+        "rws": 134.6
+      },
+      "output": {
+        "x50_m": 0.058952145022
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.308,
+        "powder_factor_kg_per_m3": 0.998,
+        "charge_mass_kg": 248.53,
+        "rws": 67.9
+      },
+      "output": {
+        "x50_m": 0.841354821343
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 13.692,
+        "powder_factor_kg_per_m3": 0.218,
+        "charge_mass_kg": 626.75,
+        "rws": 50.4
+      },
+      "output": {
+        "x50_m": 2.966456776568
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 2.434,
+        "powder_factor_kg_per_m3": 0.387,
+        "charge_mass_kg": 1857.9,
+        "rws": 126.7
+      },
+      "output": {
+        "x50_m": 0.166346635707
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 10.664,
+        "powder_factor_kg_per_m3": 1.454,
+        "charge_mass_kg": 229.78,
+        "rws": 121.9
+      },
+      "output": {
+        "x50_m": 0.185088773135
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.037,
+        "powder_factor_kg_per_m3": 1.464,
+        "charge_mass_kg": 751.98,
+        "rws": 135.9
+      },
+      "output": {
+        "x50_m": 0.114514503359
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 2.344,
+        "powder_factor_kg_per_m3": 0.313,
+        "charge_mass_kg": 1756.52,
+        "rws": 132.9
+      },
+      "output": {
+        "x50_m": 0.179726397923
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.155,
+        "powder_factor_kg_per_m3": 0.428,
+        "charge_mass_kg": 1076.81,
+        "rws": 100.5
+      },
+      "output": {
+        "x50_m": 0.585100747808
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 9.529,
+        "powder_factor_kg_per_m3": 1.698,
+        "charge_mass_kg": 173.94,
+        "rws": 88.8
+      },
+      "output": {
+        "x50_m": 0.188437667571
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 14.487,
+        "powder_factor_kg_per_m3": 1.106,
+        "charge_mass_kg": 856.49,
+        "rws": 110.9
+      },
+      "output": {
+        "x50_m": 0.426323612695
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 4.652,
+        "powder_factor_kg_per_m3": 1.113,
+        "charge_mass_kg": 107.36,
+        "rws": 76.6
+      },
+      "output": {
+        "x50_m": 0.136950285588
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 1.804,
+        "powder_factor_kg_per_m3": 0.71,
+        "charge_mass_kg": 81.87,
+        "rws": 149.5
+      },
+      "output": {
+        "x50_m": 0.038533441749
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.773,
+        "powder_factor_kg_per_m3": 0.268,
+        "charge_mass_kg": 266.79,
+        "rws": 142.7
+      },
+      "output": {
+        "x50_m": 1.231156184217
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.967,
+        "powder_factor_kg_per_m3": 1.877,
+        "charge_mass_kg": 1985.57,
+        "rws": 102.3
+      },
+      "output": {
+        "x50_m": 0.501988198425
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 21.854,
+        "powder_factor_kg_per_m3": 1.952,
+        "charge_mass_kg": 598.99,
+        "rws": 99.7
+      },
+      "output": {
+        "x50_m": 0.425552256797
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 11.293,
+        "powder_factor_kg_per_m3": 1.934,
+        "charge_mass_kg": 1255.25,
+        "rws": 83.2
+      },
+      "output": {
+        "x50_m": 0.297608258856
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 17.427,
+        "powder_factor_kg_per_m3": 0.814,
+        "charge_mass_kg": 1215.95,
+        "rws": 80.7
+      },
+      "output": {
+        "x50_m": 0.939742389235
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 10.163,
+        "powder_factor_kg_per_m3": 1.138,
+        "charge_mass_kg": 141.91,
+        "rws": 118.0
+      },
+      "output": {
+        "x50_m": 0.20424526197
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.785,
+        "powder_factor_kg_per_m3": 0.296,
+        "charge_mass_kg": 423.71,
+        "rws": 112.4
+      },
+      "output": {
+        "x50_m": 1.393341488185
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 8.321,
+        "powder_factor_kg_per_m3": 0.272,
+        "charge_mass_kg": 590.03,
+        "rws": 70.5
+      },
+      "output": {
+        "x50_m": 1.086966188378
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 21.083,
+        "powder_factor_kg_per_m3": 1.593,
+        "charge_mass_kg": 183.28,
+        "rws": 96.4
+      },
+      "output": {
+        "x50_m": 0.409388275087
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.328,
+        "powder_factor_kg_per_m3": 0.9,
+        "charge_mass_kg": 516.27,
+        "rws": 73.4
+      },
+      "output": {
+        "x50_m": 0.912411496959
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 9.155,
+        "powder_factor_kg_per_m3": 1.675,
+        "charge_mass_kg": 1968.13,
+        "rws": 147.9
+      },
+      "output": {
+        "x50_m": 0.168907388048
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.482,
+        "powder_factor_kg_per_m3": 0.274,
+        "charge_mass_kg": 1314.06,
+        "rws": 115.6
+      },
+      "output": {
+        "x50_m": 1.807404228392
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 3.674,
+        "powder_factor_kg_per_m3": 0.257,
+        "charge_mass_kg": 965.85,
+        "rws": 80.8
+      },
+      "output": {
+        "x50_m": 0.478960563693
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 19.362,
+        "powder_factor_kg_per_m3": 1.446,
+        "charge_mass_kg": 763.89,
+        "rws": 128.6
+      },
+      "output": {
+        "x50_m": 0.391926606388
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 1.45,
+        "powder_factor_kg_per_m3": 1.151,
+        "charge_mass_kg": 548.02,
+        "rws": 78.7
+      },
+      "output": {
+        "x50_m": 0.053144798406
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.812,
+        "powder_factor_kg_per_m3": 1.421,
+        "charge_mass_kg": 1904.97,
+        "rws": 100.2
+      },
+      "output": {
+        "x50_m": 0.388175663473
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 5.467,
+        "powder_factor_kg_per_m3": 1.849,
+        "charge_mass_kg": 1671.02,
+        "rws": 136.2
+      },
+      "output": {
+        "x50_m": 0.098074894377
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.175,
+        "powder_factor_kg_per_m3": 0.206,
+        "charge_mass_kg": 1524.72,
+        "rws": 59.3
+      },
+      "output": {
+        "x50_m": 2.742634066221
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 10.692,
+        "powder_factor_kg_per_m3": 0.573,
+        "charge_mass_kg": 1450.22,
+        "rws": 94.5
+      },
+      "output": {
+        "x50_m": 0.676773945937
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 20.48,
+        "powder_factor_kg_per_m3": 1.831,
+        "charge_mass_kg": 612.08,
+        "rws": 77.0
+      },
+      "output": {
+        "x50_m": 0.538448371465
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 16.082,
+        "powder_factor_kg_per_m3": 1.806,
+        "charge_mass_kg": 1876.6,
+        "rws": 100.8
+      },
+      "output": {
+        "x50_m": 0.398936024801
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.973,
+        "powder_factor_kg_per_m3": 0.586,
+        "charge_mass_kg": 1542.3,
+        "rws": 82.7
+      },
+      "output": {
+        "x50_m": 0.497159523481
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 18.442,
+        "powder_factor_kg_per_m3": 1.939,
+        "charge_mass_kg": 1380.51,
+        "rws": 103.7
+      },
+      "output": {
+        "x50_m": 0.399722712947
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 21.051,
+        "powder_factor_kg_per_m3": 1.516,
+        "charge_mass_kg": 1221.13,
+        "rws": 111.3
+      },
+      "output": {
+        "x50_m": 0.508939582542
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 12.23,
+        "powder_factor_kg_per_m3": 0.75,
+        "charge_mass_kg": 127.92,
+        "rws": 114.0
+      },
+      "output": {
+        "x50_m": 0.348447372753
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 2.358,
+        "powder_factor_kg_per_m3": 0.976,
+        "charge_mass_kg": 746.48,
+        "rws": 128.3
+      },
+      "output": {
+        "x50_m": 0.065263135344
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 15.244,
+        "powder_factor_kg_per_m3": 1.775,
+        "charge_mass_kg": 1205.2,
+        "rws": 100.9
+      },
+      "output": {
+        "x50_m": 0.355808606169
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 6.133,
+        "powder_factor_kg_per_m3": 0.723,
+        "charge_mass_kg": 821.56,
+        "rws": 102.7
+      },
+      "output": {
+        "x50_m": 0.270898479944
+      }
+    },
+    {
+      "input": {
+        "rock_factor": 10.804,
+        "powder_factor_kg_per_m3": 0.538,
+        "charge_mass_kg": 515.04,
+        "rws": 134.6
+      },
+      "output": {
+        "x50_m": 0.432516210892
+      }
+    }
+  ]
+}

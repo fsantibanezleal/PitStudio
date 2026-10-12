@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "source": "ghcnh",
+  "stage": "s10_preprocess",
+  "run_id": "20261007T101500Z-c3-dust",
+  "created": "2026-10-07T10:16:42Z",
+  "status": "rejected",
+  "files": [
+    {
+      "path": "raw/ghcnh/GHCNh_USW00024127_2025.psv",
+      "sha256": "421dc13d9fb3b02e9c7c8bf1c70c6ec3ef748bca8e642b99b4028987c95b57dc",
+      "validator": "tabular",
+      "schema_name": "ghcnh_hourly",
+      "status": "rejected",
+      "records": 8760
+    }
+  ],
+  "violations": [
+    {
+      "file": "raw/ghcnh/GHCNh_USW00024127_2025.psv",
+      "row": 1203,
+      "pixel": null,
+      "field": "wind_speed",
+      "field_kind": "column",
+      "value": -0.5,
+      "expected": ">= 0",
+      "unit": "m/s"
+    },
+    {
+      "file": "raw/ghcnh/GHCNh_USW00024127_2025.psv",
+      "row": 4410,
+      "pixel": null,
+      "field": "wind_direction",
+      "field_kind": "column",
+      "value": 361,
+      "expected": "in [0, 360]",
+      "rule": "in_range(0, 360)",
+      "unit": "deg"
+    }
+  ],
+  "outputs": []
+}

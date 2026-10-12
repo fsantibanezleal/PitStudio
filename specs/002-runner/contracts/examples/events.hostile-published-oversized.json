@@ -1,0 +1,590 @@
+{
+  "run_id": "20261007T210000Z-c2-slope",
+  "stages": [
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v0"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v1"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v2"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v3"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v4"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v5"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v6"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v7"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v8"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v9"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v10"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v11"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v12"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v13"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v14"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v15"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v16"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v17"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v18"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v19"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v20"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v21"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v22"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v23"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v24"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v25"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v26"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v27"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v28"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v29"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v30"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v31"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v32"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v33"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v34"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v35"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v36"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v37"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v38"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v39"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v40"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v41"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v42"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v43"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v44"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v45"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v46"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v47"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v48"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v49"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v50"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v51"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v52"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v53"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v54"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v55"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v56"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v57"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v58"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v59"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v60"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v61"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v62"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v63"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    },
+    {
+      "key": {
+        "id": "st50_physics",
+        "variant": "v64"
+      },
+      "performance": "public",
+      "bucket_s": 1.0,
+      "points": []
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "kind": "output",
+  "engine": "detector",
+  "engine_version": "0.1.0",
+  "function": "detect",
+  "result": {
+    "boxes_px": {
+      "dtype": "float32",
+      "shape": {
+        "rows": 300,
+        "components": 4
+      },
+      "byte_length": 4800
+    },
+    "labels": {
+      "dtype": "int64",
+      "shape": {
+        "rows": 300
+      },
+      "byte_length": 2400
+    },
+    "scores": {
+      "dtype": "float32",
+      "shape": {
+        "rows": 300
+      },
+      "byte_length": 1200
+    },
+    "detections": [
+      {
+        "label": "haul_truck",
+        "score": 0.91,
+        "box_xyxy_px": [
+          120.0,
+          200.5,
+          310.0,
+          360.0
+        ]
+      },
+      {
+        "label": "light_vehicle",
+        "score": 0.62,
+        "box_xyxy_px": [
+          400.0,
+          330.0,
+          700.0,
+          371.5
+        ]
+      }
+    ]
+  }
+}

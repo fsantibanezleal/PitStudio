@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "section_id": "bingham-wall-01",
+  "source": {
+    "kind": "dem",
+    "source_id": "usgs-3dep-bingham",
+    "dem_sha256": "28394a5b6c7d8e9f1a2b3c4d5e6f708128394a5b6c7d8e9f1a2b3c4d5e6f7081",
+    "crs": "EPSG:26912",
+    "profile_start_m": [
+      401900.0,
+      4486100.0
+    ],
+    "profile_end_m": [
+      402500.0,
+      4486100.0
+    ],
+    "sample_spacing_m": 1,
+    "simplify_tolerance_m": 0.25,
+    "site_label": "Bingham Canyon (provisional)"
+  },
+  "ground": [
+    [
+      0.0,
+      2210.5
+    ],
+    [
+      120.0,
+      2208.0
+    ],
+    [
+      180.0,
+      2160.0
+    ],
+    [
+      200.0,
+      2158.5
+    ],
+    [
+      260.0,
+      2110.0
+    ],
+    [
+      420.0,
+      2105.0
+    ]
+  ],
+  "crest_x_m": 120.0,
+  "toe_x_m": 260.0,
+  "materials": [
+    {
+      "id": "monzonite",
+      "model": "hoek-brown",
+      "unit_weight_kn_per_m3": 26.0,
+      "gsi": 50,
+      "m_i": 10,
+      "sigma_ci_mpa": 60.0,
+      "disturbance_d": 0.7
+    }
+  ],
+  "pore_pressure_ratio": 0.2,
+  "analysis": {
+    "mode": "baked",
+    "methods": [
+      "bishop",
+      "spencer"
+    ],
+    "slices": 200,
+    "search": {
+      "entry_points": 40,
+      "exit_points": 40,
+      "radius_ratios": 8,
+      "rho_min": 1.02,
+      "rho_max": 4.0
+    },
+    "pof": {
+      "samples": 20000,
+      "candidates": 1024,
+      "seed": 18446744073709551615,
+      "distributions": [
+        {
+          "material_id": "monzonite",
+          "parameter": "gsi",
+          "distribution": "normal",
+          "mean": 50,
+          "sd": 5,
+          "truncate_lower": 10,
+          "truncate_upper": 100
+        },
+        {
+          "material_id": "monzonite",
+          "parameter": "sigma_ci_mpa",
+          "distribution": "lognormal",
+          "mean": 60.0,
+          "cv": 0.3
+        },
+        {
+          "parameter": "pore_pressure_ratio",
+          "distribution": "uniform",
+          "lower": 0.1,
+          "upper": 0.3
+        }
+      ]
+    }
+  }
+}
