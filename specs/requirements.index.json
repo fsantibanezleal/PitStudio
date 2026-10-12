@@ -2651,7 +2651,10 @@
         "T-002-090"
       ],
       "tests": [
-        "tests/unit/test_t_002_090_mutation_score.py"
+        "tests/unit/test_t_002_090_mutation_cache.py",
+        "tests/unit/test_t_002_090_mutation_guards.py",
+        "tests/unit/test_t_002_090_mutation_score.py",
+        "tests/unit/test_t_002_090_mutation_telemetry.py"
       ]
     },
     "SC-002-01": {
