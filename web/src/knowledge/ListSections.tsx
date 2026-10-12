@@ -3,7 +3,8 @@ import { Link } from "react-router";
 import styles from "~/cases/cases.module.css";
 import { type BibliographyRow, type DatasetRow, type FrameworkRow, httpsUrl } from "./types";
 
-const REPO_BLOB = "https://github.com/fsantibanezleal/PitStudio/blob/main/";
+// Scheme-relative on purpose: the card lives in the repository, and only the dataset landing page is an https link.
+const REPO_BLOB = "//github.com/fsantibanezleal/PitStudio/blob/main/";
 const safeCard = (p: unknown) =>
   typeof p === "string" && /^[A-Za-z0-9_./-]+$/.test(p) && !p.includes("..") ? `${REPO_BLOB}${p}` : undefined;
 

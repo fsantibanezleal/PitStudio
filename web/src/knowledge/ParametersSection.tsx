@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router";
 import styles from "~/cases/cases.module.css";
 import { unitSymbol } from "~/cases/units";
+import { useHydrated } from "~/shell/useHydrated";
 import { SearchField, useQuery } from "./SearchField";
 import { searchRows } from "./search";
 import type { ParameterRow } from "./types";
@@ -28,8 +29,9 @@ export function ParametersSection({ parameters }: { parameters: ParameterRow[] }
   const [params, setParams] = useSearchParams();
   const [q] = useQuery();
   const modules = [...new Set(parameters.map((p) => p.module))].sort();
-  const moduleParam = params.get("module") ?? "";
-  const statusParam = params.get("status") ?? "";
+  const hydrated = useHydrated();
+  const moduleParam = hydrated ? (params.get("module") ?? "") : "";
+  const statusParam = hydrated ? (params.get("status") ?? "") : "";
   const module = modules.includes(moduleParam) ? moduleParam : "";
   const status = (STATUSES as readonly string[]).includes(statusParam) ? statusParam : "";
 
