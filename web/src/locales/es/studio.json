@@ -92,5 +92,83 @@
       "title": "Alternativas descartadas",
       "none": "Ninguna registrada."
     }
+  },
+  "lane": {
+    "live": "en vivo",
+    "replay": "repetición",
+    "local-only": "solo local"
+  },
+  "status": {
+    "done": "Hecha",
+    "notYetRun": "Aún sin ejecutar",
+    "notAdopted": "Evaluada, no adoptada"
+  },
+  "map": {
+    "alt": "Mapa de las herramientas del estudio: los nodos son herramientas y las aristas son traspasos de archivos.",
+    "observed": "observado en la ejecución {{run}}",
+    "planned": "planificado",
+    "notAdopted": "Evaluada, no adoptada",
+    "tableCaption": "El mismo grafo como tabla",
+    "unavailable": "Mapa interactivo no disponible",
+    "col": {
+      "tool": "Herramienta",
+      "env": "Entorno",
+      "lane": "Carril",
+      "ring": "Anillo",
+      "licence": "Clase de licencia",
+      "status": "Estado",
+      "inbound": "Traspasos de entrada",
+      "outbound": "Traspasos de salida"
+    }
+  },
+  "loop": {
+    "label": "El ciclo de IA física",
+    "title": "El ciclo de IA física",
+    "lead": "Cada paso enlaza con las ejecuciones publicadas cuyas etapas lo realizan.",
+    "scene": "Escena",
+    "sensors": "Sensores y datos sintéticos",
+    "labels": "Etiquetas",
+    "training": "Entrenamiento",
+    "validation": "Validación",
+    "acceleration": "Aceleración",
+    "encoding": "Codificación",
+    "web": "Web"
+  },
+  "fixture": "dato de prueba",
+  "tree": {
+    "label": "Ficha de la ejecución",
+    "copy": "Copiar",
+    "copySha": "Copiar SHA-256"
+  },
+  "runs": {
+    "title": "Ejecuciones publicadas",
+    "lead": "Ejecuciones publicadas con el estudio, las más recientes primero. Cada artefacto del sitio lleva de vuelta a una de ellas.",
+    "none": "Aún no hay ejecuciones publicadas",
+    "unknownFilter": "filtro desconocido ignorado",
+    "col": {
+      "run": "Ejecución",
+      "cases": "Casos",
+      "tools": "Herramientas productoras",
+      "date": "Fecha (UTC)",
+      "determinism": "Determinismo",
+      "artefacts": "Artefactos"
+    }
+  },
+  "dag": {
+    "title": "DAG de etapas",
+    "hit": "caché acertada",
+    "miss": "caché fallida",
+    "exit": "salida {{code}}",
+    "retries": "reintentos {{n}}",
+    "edges": "Traspasos entre etapas",
+    "feeds": "alimenta a"
+  },
+  "det": {
+    "title": "Determinismo",
+    "pending": "pendiente",
+    "notApplicable": "no aplica",
+    "equal": "iguales",
+    "different": "distintos",
+    "tolerance": "rtol {{rtol}}, atol {{atol}}"
   }
 }

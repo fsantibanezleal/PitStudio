@@ -92,5 +92,83 @@
       "title": "Alternatives rejected",
       "none": "None recorded."
     }
+  },
+  "lane": {
+    "live": "live",
+    "replay": "replay",
+    "local-only": "local-only"
+  },
+  "status": {
+    "done": "Done",
+    "notYetRun": "Not yet run",
+    "notAdopted": "Evaluated, not adopted"
+  },
+  "map": {
+    "alt": "Map of the studio tools: nodes are tools, edges are file handoffs.",
+    "observed": "observed in run {{run}}",
+    "planned": "planned",
+    "notAdopted": "Evaluated, not adopted",
+    "tableCaption": "The same graph as a table",
+    "unavailable": "Interactive map unavailable",
+    "col": {
+      "tool": "Tool",
+      "env": "Environment",
+      "lane": "Lane",
+      "ring": "Ring",
+      "licence": "Licence class",
+      "status": "Status",
+      "inbound": "Inbound handoffs",
+      "outbound": "Outbound handoffs"
+    }
+  },
+  "loop": {
+    "label": "The physical-AI loop",
+    "title": "The physical-AI loop",
+    "lead": "Each step links to the published runs whose stages realise it.",
+    "scene": "Scene",
+    "sensors": "Sensors and synthetic data",
+    "labels": "Labels",
+    "training": "Training",
+    "validation": "Validation",
+    "acceleration": "Acceleration",
+    "encoding": "Encoding",
+    "web": "Web"
+  },
+  "fixture": "fixture",
+  "tree": {
+    "label": "Run card",
+    "copy": "Copy",
+    "copySha": "Copy SHA-256"
+  },
+  "runs": {
+    "title": "Published runs",
+    "lead": "Runs published with the studio, newest first. Every artefact on the site leads back to one of them.",
+    "none": "No published runs yet",
+    "unknownFilter": "unknown filter ignored",
+    "col": {
+      "run": "Run",
+      "cases": "Cases",
+      "tools": "Producer tools",
+      "date": "Date (UTC)",
+      "determinism": "Determinism",
+      "artefacts": "Artefacts"
+    }
+  },
+  "dag": {
+    "title": "Stage DAG",
+    "hit": "cache hit",
+    "miss": "cache miss",
+    "exit": "exit {{code}}",
+    "retries": "retries {{n}}",
+    "edges": "Handoffs between stages",
+    "feeds": "feeds"
+  },
+  "det": {
+    "title": "Determinism",
+    "pending": "pending",
+    "notApplicable": "not applicable",
+    "equal": "equal",
+    "different": "different",
+    "tolerance": "rtol {{rtol}}, atol {{atol}}"
   }
 }
