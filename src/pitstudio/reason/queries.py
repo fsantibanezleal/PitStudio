@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import hashlib
 import io
+import json
 import random
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
@@ -19,6 +20,7 @@ from typing import Any
 
 import numpy as np
 
+from pitstudio.reason import _schemas
 from pitstudio.reason import truth as truth_mod
 from pitstudio.reason.frames import canonical_sha256, load_frame_state
 
@@ -67,6 +69,10 @@ class QueryBuild:
             "source_run_id": self.source_run_id,
             "queries": list(self.queries),
         }
+
+
+class QuerySetInvalid(ValueError):
+    """A query set is refused: digest, schema or frame reference does not hold (FR-015-47)."""
 
 
 class TruthInputError(ValueError):
@@ -318,3 +324,39 @@ def build_queries(
     first = min(run_ids) if run_ids else (min(valid) if valid else None)
     source_run_id = (run_ids.get(first) or valid[first]["run_id"]) if first else NO_RUN_ID
     return QueryBuild(queries, rejected, seed, source_run_id, shortfall)
+
+
+def _reject_constant(name: str) -> Any:
+    raise ValueError(f"non-finite JSON constant {name}")
+
+
+def load_query_set(path: Path, *, expected_sha256: str, frames: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    """Read a query set, check its SHA-256, its schema and that every query points at a known frame state.
+
+    `frames` maps a frame id to its (validated) frame state. Each query's `frame_state_sha256` must equal the canonical
+    digest of that frame state. Anything else raises `QuerySetInvalid`; no query is ever guessed.
+    """
+    try:
+        data = Path(path).read_bytes()
+    except OSError as exc:
+        raise QuerySetInvalid(f"cannot read the query set: {exc.strerror}") from exc
+    digest = hashlib.sha256(data).hexdigest()
+    if digest != expected_sha256:
+        raise QuerySetInvalid(f"query set sha256 {digest} differs from the expected {expected_sha256}")
+    try:
+        doc = json.loads(data.decode("utf-8"), parse_constant=_reject_constant)
+    except (UnicodeDecodeError, ValueError, RecursionError) as exc:
+        raise QuerySetInvalid(f"query set is not valid JSON: {type(exc).__name__}") from exc
+    problems = _schemas.errors(doc, "vlm-queries.schema.json")
+    if problems:
+        shown = "; ".join(f"{_schemas.pointer(e)}: {e.message[:120]}" for e in problems[:5])
+        raise QuerySetInvalid(f"query set violates vlm-queries.schema.json: {shown}")
+    for q in doc["queries"]:
+        frame = frames.get(q["frame_id"])
+        if frame is None:
+            raise QuerySetInvalid(
+                f"query {q['query_id']} references frame {q['frame_id']}, absent from the frame states"
+            )
+        if canonical_sha256(frame) != q["frame_state_sha256"]:
+            raise QuerySetInvalid(f"query {q['query_id']}: frame_state_sha256 differs from frame {q['frame_id']}")
+    return doc
