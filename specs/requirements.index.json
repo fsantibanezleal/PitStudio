@@ -13689,7 +13689,9 @@
       "tasks": [
         "T-016-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_010_onnx_export.py"
+      ]
     },
     "FR-016-02": {
       "spec": "016-export-acceleration",
@@ -13699,7 +13701,9 @@
       "tasks": [
         "T-016-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_010_onnx_export.py"
+      ]
     },
     "FR-016-03": {
       "spec": "016-export-acceleration",
@@ -13709,7 +13713,10 @@
       "tasks": [
         "T-016-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_011_onnx_file_guards.py",
+        "tests/unit/test_t_016_040_engine_builds.py"
+      ]
     },
     "FR-016-04": {
       "spec": "016-export-acceleration",
@@ -13719,7 +13726,10 @@
       "tasks": [
         "T-016-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_016_012_comparator_metamorphic.py",
+        "tests/unit/test_t_016_012_parity_comparator.py"
+      ]
     },
     "FR-016-05": {
       "spec": "016-export-acceleration",
@@ -13729,7 +13739,9 @@
       "tasks": [
         "T-016-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_013_golden_sets.py"
+      ]
     },
     "FR-016-06": {
       "spec": "016-export-acceleration",
@@ -13739,7 +13751,9 @@
       "tasks": [
         "T-016-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_013_golden_sets.py"
+      ]
     },
     "FR-016-07": {
       "spec": "016-export-acceleration",
@@ -13749,7 +13763,9 @@
       "tasks": [
         "T-016-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_013_golden_sets.py"
+      ]
     },
     "FR-016-08": {
       "spec": "016-export-acceleration",
@@ -13759,7 +13775,9 @@
       "tasks": [
         "T-016-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_020_reduced_precision.py"
+      ]
     },
     "FR-016-09": {
       "spec": "016-export-acceleration",
@@ -13769,7 +13787,9 @@
       "tasks": [
         "T-016-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_020_reduced_precision.py"
+      ]
     },
     "FR-016-10": {
       "spec": "016-export-acceleration",
@@ -13779,7 +13799,10 @@
       "tasks": [
         "T-016-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_020_reduced_precision.py",
+        "tests/unit/test_t_016_040_engine_builds.py"
+      ]
     },
     "FR-016-11": {
       "spec": "016-export-acceleration",
@@ -13790,7 +13813,8 @@
         "T-016-030"
       ],
       "tests": [
-        "tests/contract/test_t_016_003_parity_report_schema.py"
+        "tests/contract/test_t_016_003_parity_report_schema.py",
+        "tests/unit/test_t_016_030_lanes.py"
       ]
     },
     "FR-016-12": {
@@ -13801,7 +13825,9 @@
       "tasks": [
         "T-016-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_030_lanes.py"
+      ]
     },
     "FR-016-13": {
       "spec": "016-export-acceleration",
@@ -13811,7 +13837,9 @@
       "tasks": [
         "T-016-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_030_lanes.py"
+      ]
     },
     "FR-016-14": {
       "spec": "016-export-acceleration",
@@ -13821,7 +13849,9 @@
       "tasks": [
         "T-016-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_031_release_assets.py"
+      ]
     },
     "FR-016-15": {
       "spec": "016-export-acceleration",
@@ -13831,7 +13861,9 @@
       "tasks": [
         "T-016-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_031_release_assets.py"
+      ]
     },
     "FR-016-16": {
       "spec": "016-export-acceleration",
@@ -13841,7 +13873,9 @@
       "tasks": [
         "T-016-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_031_release_assets.py"
+      ]
     },
     "FR-016-17": {
       "spec": "016-export-acceleration",
@@ -13851,7 +13885,9 @@
       "tasks": [
         "T-016-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_032_budgets.py"
+      ]
     },
     "FR-016-18": {
       "spec": "016-export-acceleration",
@@ -13861,7 +13897,9 @@
       "tasks": [
         "T-016-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_032_budgets.py"
+      ]
     },
     "FR-016-19": {
       "spec": "016-export-acceleration",
@@ -13871,7 +13909,9 @@
       "tasks": [
         "T-016-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_016_033_web_bake_validators.py"
+      ]
     },
     "FR-016-20": {
       "spec": "016-export-acceleration",
@@ -13881,7 +13921,10 @@
       "tasks": [
         "T-016-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_016_040_engine_probe_graph.py",
+        "tests/unit/test_t_016_040_engine_builds.py"
+      ]
     },
     "FR-016-21": {
       "spec": "016-export-acceleration",
@@ -13891,7 +13934,9 @@
       "tasks": [
         "T-016-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_040_engine_builds.py"
+      ]
     },
     "FR-016-22": {
       "spec": "016-export-acceleration",
@@ -13901,7 +13946,9 @@
       "tasks": [
         "T-016-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_050_licence_guards.py"
+      ]
     },
     "FR-016-23": {
       "spec": "016-export-acceleration",
@@ -13911,7 +13958,9 @@
       "tasks": [
         "T-016-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_050_licence_guards.py"
+      ]
     },
     "FR-016-24": {
       "spec": "016-export-acceleration",
@@ -13921,7 +13970,9 @@
       "tasks": [
         "T-016-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_040_engine_builds.py"
+      ]
     },
     "FR-016-25": {
       "spec": "016-export-acceleration",
@@ -13931,7 +13982,9 @@
       "tasks": [
         "T-016-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_041_ort_trt_inputs.py"
+      ]
     },
     "FR-016-26": {
       "spec": "016-export-acceleration",
@@ -13941,7 +13994,9 @@
       "tasks": [
         "T-016-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_042_latency_stats.py"
+      ]
     },
     "FR-016-27": {
       "spec": "016-export-acceleration",
@@ -13951,7 +14006,9 @@
       "tasks": [
         "T-016-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_042_latency_stats.py"
+      ]
     },
     "FR-016-28": {
       "spec": "016-export-acceleration",
@@ -13961,7 +14018,9 @@
       "tasks": [
         "T-016-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_043_energy.py"
+      ]
     },
     "FR-016-29": {
       "spec": "016-export-acceleration",
@@ -13971,7 +14030,9 @@
       "tasks": [
         "T-016-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_043_energy.py"
+      ]
     },
     "FR-016-30": {
       "spec": "016-export-acceleration",
@@ -13981,7 +14042,9 @@
       "tasks": [
         "T-016-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_044_engine_parity.py"
+      ]
     },
     "FR-016-31": {
       "spec": "016-export-acceleration",
@@ -13991,7 +14054,9 @@
       "tasks": [
         "T-016-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_044_engine_parity.py"
+      ]
     },
     "FR-016-32": {
       "spec": "016-export-acceleration",
@@ -14001,7 +14066,9 @@
       "tasks": [
         "T-016-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_044_engine_parity.py"
+      ]
     },
     "FR-016-33": {
       "spec": "016-export-acceleration",
@@ -14011,7 +14078,9 @@
       "tasks": [
         "T-016-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_050_licence_guards.py"
+      ]
     },
     "FR-016-34": {
       "spec": "016-export-acceleration",
@@ -14021,7 +14090,9 @@
       "tasks": [
         "T-016-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_016_050_publish_guards.py"
+      ]
     },
     "FR-016-35": {
       "spec": "016-export-acceleration",
@@ -14031,7 +14102,9 @@
       "tasks": [
         "T-016-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_060_camera_streams.py"
+      ]
     },
     "FR-016-36": {
       "spec": "016-export-acceleration",
@@ -14041,7 +14114,9 @@
       "tasks": [
         "T-016-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_042_latency_stats.py"
+      ]
     },
     "FR-016-37": {
       "spec": "016-export-acceleration",
@@ -14051,7 +14126,9 @@
       "tasks": [
         "T-016-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_016_033_web_bake_validators.py"
+      ]
     },
     "FR-016-38": {
       "spec": "016-export-acceleration",
@@ -14061,7 +14138,9 @@
       "tasks": [
         "T-016-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_060_camera_streams.py"
+      ]
     },
     "FR-016-39": {
       "spec": "016-export-acceleration",
@@ -14071,7 +14150,9 @@
       "tasks": [
         "T-016-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_012_parity_comparator.py"
+      ]
     },
     "FR-016-40": {
       "spec": "016-export-acceleration",
@@ -14081,7 +14162,9 @@
       "tasks": [
         "T-016-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_092_fixture_propagation.py"
+      ]
     },
     "P-016-01": {
       "spec": "016-export-acceleration",
@@ -14091,7 +14174,9 @@
       "tasks": [
         "T-016-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_016_012_comparator_metamorphic.py"
+      ]
     },
     "P-016-02": {
       "spec": "016-export-acceleration",
@@ -14101,7 +14186,9 @@
       "tasks": [
         "T-016-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_016_012_comparator_metamorphic.py"
+      ]
     },
     "P-016-03": {
       "spec": "016-export-acceleration",
@@ -14111,7 +14198,9 @@
       "tasks": [
         "T-016-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_016_012_comparator_metamorphic.py"
+      ]
     },
     "P-016-04": {
       "spec": "016-export-acceleration",
@@ -14121,7 +14210,9 @@
       "tasks": [
         "T-016-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_016_012_comparator_metamorphic.py"
+      ]
     },
     "P-016-05": {
       "spec": "016-export-acceleration",
@@ -14131,7 +14222,9 @@
       "tasks": [
         "T-016-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_016_042_latency_metamorphic.py"
+      ]
     },
     "P-016-06": {
       "spec": "016-export-acceleration",
@@ -14141,7 +14234,9 @@
       "tasks": [
         "T-016-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_043_energy.py"
+      ]
     },
     "P-016-07": {
       "spec": "016-export-acceleration",
@@ -14151,7 +14246,9 @@
       "tasks": [
         "T-016-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_060_camera_streams.py"
+      ]
     },
     "P-016-08": {
       "spec": "016-export-acceleration",
@@ -14161,7 +14258,9 @@
       "tasks": [
         "T-016-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_016_032_budget_metamorphic.py"
+      ]
     },
     "P-016-09": {
       "spec": "016-export-acceleration",
@@ -14171,7 +14270,9 @@
       "tasks": [
         "T-016-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_030_lanes.py"
+      ]
     },
     "P-016-10": {
       "spec": "016-export-acceleration",
@@ -14181,7 +14282,9 @@
       "tasks": [
         "T-016-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_031_release_assets.py"
+      ]
     },
     "P-016-11": {
       "spec": "016-export-acceleration",
@@ -14191,7 +14294,9 @@
       "tasks": [
         "T-016-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_010_onnx_export.py"
+      ]
     },
     "P-016-12": {
       "spec": "016-export-acceleration",
@@ -14201,7 +14306,9 @@
       "tasks": [
         "T-016-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_060_camera_streams.py"
+      ]
     },
     "NFR-016-01": {
       "spec": "016-export-acceleration",
@@ -14211,7 +14318,9 @@
       "tasks": [
         "T-016-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_016_050_publish_guards.py"
+      ]
     },
     "NFR-016-02": {
       "spec": "016-export-acceleration",
@@ -14221,7 +14330,9 @@
       "tasks": [
         "T-016-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_016_045_engine_acceptance.py"
+      ]
     },
     "NFR-016-03": {
       "spec": "016-export-acceleration",
@@ -14231,7 +14342,9 @@
       "tasks": [
         "T-016-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_016_010_export_determinism.py"
+      ]
     },
     "NFR-016-04": {
       "spec": "016-export-acceleration",
@@ -14241,7 +14354,9 @@
       "tasks": [
         "T-016-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_032_budgets.py"
+      ]
     },
     "NFR-016-05": {
       "spec": "016-export-acceleration",
@@ -14251,7 +14366,9 @@
       "tasks": [
         "T-016-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_016_032_budgets.py"
+      ]
     },
     "NFR-016-06": {
       "spec": "016-export-acceleration",
@@ -14261,7 +14378,9 @@
       "tasks": [
         "T-016-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_016_050_publish_guards.py"
+      ]
     },
     "SC-016-01": {
       "spec": "016-export-acceleration",
@@ -14271,7 +14390,9 @@
       "tasks": [
         "T-016-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_016_045_engine_acceptance.py"
+      ]
     },
     "SC-016-02": {
       "spec": "016-export-acceleration",
@@ -14281,7 +14402,9 @@
       "tasks": [
         "T-016-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_016_014_layer1_acceptance.py"
+      ]
     },
     "SC-016-03": {
       "spec": "016-export-acceleration",
@@ -14291,7 +14414,9 @@
       "tasks": [
         "T-016-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_016_021_layer2_acceptance.py"
+      ]
     },
     "DC-016-01": {
       "spec": "016-export-acceleration",
@@ -14439,7 +14564,9 @@
       "tasks": [
         "T-017-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_010_d2_chain.py"
+      ]
     },
     "FR-017-02": {
       "spec": "017-planning-survey",
@@ -14449,7 +14576,9 @@
       "tasks": [
         "T-017-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_011_sweeps.py"
+      ]
     },
     "FR-017-03": {
       "spec": "017-planning-survey",
@@ -14459,7 +14588,9 @@
       "tasks": [
         "T-017-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_012_meta_model_selection.py"
+      ]
     },
     "FR-017-04": {
       "spec": "017-planning-survey",
@@ -14469,7 +14600,9 @@
       "tasks": [
         "T-017-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_012_meta_model_selection.py"
+      ]
     },
     "FR-017-05": {
       "spec": "017-planning-survey",
@@ -14479,7 +14612,9 @@
       "tasks": [
         "T-017-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_013_meta_model_evaluate.py"
+      ]
     },
     "FR-017-06": {
       "spec": "017-planning-survey",
@@ -14489,7 +14624,9 @@
       "tasks": [
         "T-017-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_013_meta_model_evaluate.py"
+      ]
     },
     "FR-017-07": {
       "spec": "017-planning-survey",
@@ -14499,7 +14636,9 @@
       "tasks": [
         "T-017-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_014_meta_model_export.py"
+      ]
     },
     "FR-017-08": {
       "spec": "017-planning-survey",
@@ -14509,7 +14648,9 @@
       "tasks": [
         "T-017-016"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/d2-simulate.spec.ts"
+      ]
     },
     "FR-017-09": {
       "spec": "017-planning-survey",
@@ -14519,7 +14660,9 @@
       "tasks": [
         "T-017-016"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/d2-simulate.spec.ts"
+      ]
     },
     "FR-017-10": {
       "spec": "017-planning-survey",
@@ -14529,7 +14672,9 @@
       "tasks": [
         "T-017-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_011_sweeps.py"
+      ]
     },
     "FR-017-11": {
       "spec": "017-planning-survey",
@@ -14539,7 +14684,11 @@
       "tasks": [
         "T-017-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_015_meta_model_guards.py",
+        "web/src/cases/d2/metaModelGuards.test.ts",
+        "web/e2e/d2-simulate.spec.ts"
+      ]
     },
     "FR-017-12": {
       "spec": "017-planning-survey",
@@ -14549,7 +14698,10 @@
       "tasks": [
         "T-017-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_022_mincut_oracles.py",
+        "tests/unit/test_t_017_020_bev_precedence.py"
+      ]
     },
     "FR-017-13": {
       "spec": "017-planning-survey",
@@ -14559,7 +14711,9 @@
       "tasks": [
         "T-017-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_020_bev_precedence.py"
+      ]
     },
     "FR-017-14": {
       "spec": "017-planning-survey",
@@ -14569,7 +14723,9 @@
       "tasks": [
         "T-017-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_021_closure.py"
+      ]
     },
     "FR-017-15": {
       "spec": "017-planning-survey",
@@ -14580,7 +14736,10 @@
         "T-017-022",
         "T-017-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_022_mincut_oracles.py",
+        "tests/pipeline/test_t_017_023_mincut_ortools.py"
+      ]
     },
     "FR-017-16": {
       "spec": "017-planning-survey",
@@ -14590,7 +14749,9 @@
       "tasks": [
         "T-017-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_024_shells_pushbacks.py"
+      ]
     },
     "FR-017-17": {
       "spec": "017-planning-survey",
@@ -14600,7 +14761,9 @@
       "tasks": [
         "T-017-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_024_shells_pushbacks.py"
+      ]
     },
     "FR-017-18": {
       "spec": "017-planning-survey",
@@ -14610,7 +14773,9 @@
       "tasks": [
         "T-017-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_030_schedule.py"
+      ]
     },
     "FR-017-19": {
       "spec": "017-planning-survey",
@@ -14620,7 +14785,9 @@
       "tasks": [
         "T-017-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_031_schedule_checker.py"
+      ]
     },
     "FR-017-20": {
       "spec": "017-planning-survey",
@@ -14630,7 +14797,9 @@
       "tasks": [
         "T-017-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_032_schedule_enumeration.py"
+      ]
     },
     "FR-017-21": {
       "spec": "017-planning-survey",
@@ -14640,7 +14809,9 @@
       "tasks": [
         "T-017-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_017_033_e1_outputs.py"
+      ]
     },
     "FR-017-22": {
       "spec": "017-planning-survey",
@@ -14650,7 +14821,9 @@
       "tasks": [
         "T-017-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_017_033_e1_outputs.py"
+      ]
     },
     "FR-017-23": {
       "spec": "017-planning-survey",
@@ -14660,7 +14833,9 @@
       "tasks": [
         "T-017-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_025_minelib_marvin.py"
+      ]
     },
     "FR-017-24": {
       "spec": "017-planning-survey",
@@ -14670,7 +14845,9 @@
       "tasks": [
         "T-017-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_025_minelib_marvin.py"
+      ]
     },
     "FR-017-25": {
       "spec": "017-planning-survey",
@@ -14680,7 +14857,9 @@
       "tasks": [
         "T-017-027"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/e1-revenue-factor.spec.ts"
+      ]
     },
     "FR-017-26": {
       "spec": "017-planning-survey",
@@ -14690,7 +14869,9 @@
       "tasks": [
         "T-017-027"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/e1-revenue-factor.spec.ts"
+      ]
     },
     "FR-017-27": {
       "spec": "017-planning-survey",
@@ -14700,7 +14881,9 @@
       "tasks": [
         "T-017-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_026_block_model_guards.py"
+      ]
     },
     "FR-017-28": {
       "spec": "017-planning-survey",
@@ -14710,7 +14893,9 @@
       "tasks": [
         "T-017-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_030_schedule.py"
+      ]
     },
     "FR-017-29": {
       "spec": "017-planning-survey",
@@ -14720,7 +14905,9 @@
       "tasks": [
         "T-017-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/e1-composer-captures.spec.ts"
+      ]
     },
     "FR-017-30": {
       "spec": "017-planning-survey",
@@ -14730,7 +14917,9 @@
       "tasks": [
         "T-017-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_040_dem_difference.py"
+      ]
     },
     "FR-017-31": {
       "spec": "017-planning-survey",
@@ -14740,7 +14929,9 @@
       "tasks": [
         "T-017-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_042_dem_prepare.py"
+      ]
     },
     "FR-017-32": {
       "spec": "017-planning-survey",
@@ -14750,7 +14941,9 @@
       "tasks": [
         "T-017-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_042_dem_prepare.py"
+      ]
     },
     "FR-017-33": {
       "spec": "017-planning-survey",
@@ -14760,7 +14953,9 @@
       "tasks": [
         "T-017-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_041_volume_uncertainty.py"
+      ]
     },
     "FR-017-34": {
       "spec": "017-planning-survey",
@@ -14770,7 +14965,9 @@
       "tasks": [
         "T-017-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_043_bingham_volume.py"
+      ]
     },
     "FR-017-35": {
       "spec": "017-planning-survey",
@@ -14780,7 +14977,9 @@
       "tasks": [
         "T-017-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_044_known_volume_scene.py"
+      ]
     },
     "FR-017-36": {
       "spec": "017-planning-survey",
@@ -14790,7 +14989,9 @@
       "tasks": [
         "T-017-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_017_045_survey_flights.py"
+      ]
     },
     "FR-017-37": {
       "spec": "017-planning-survey",
@@ -14800,7 +15001,10 @@
       "tasks": [
         "T-017-046"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_017_046_reconstruction_smoke.py",
+        "tests/unit/test_t_017_046_reconstruction.py"
+      ]
     },
     "FR-017-38": {
       "spec": "017-planning-survey",
@@ -14810,7 +15014,10 @@
       "tasks": [
         "T-017-046"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_017_046_reconstruction_smoke.py",
+        "tests/unit/test_t_017_046_reconstruction.py"
+      ]
     },
     "FR-017-39": {
       "spec": "017-planning-survey",
@@ -14820,7 +15027,9 @@
       "tasks": [
         "T-017-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_047_survey_report.py"
+      ]
     },
     "FR-017-40": {
       "spec": "017-planning-survey",
@@ -14830,7 +15039,9 @@
       "tasks": [
         "T-017-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_047_survey_report.py"
+      ]
     },
     "FR-017-41": {
       "spec": "017-planning-survey",
@@ -14840,7 +15051,10 @@
       "tasks": [
         "T-017-049"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_049_splat_package.py",
+        "web/e2e/e2-splat-view.spec.ts"
+      ]
     },
     "FR-017-42": {
       "spec": "017-planning-survey",
@@ -14850,7 +15064,9 @@
       "tasks": [
         "T-017-048"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_048_tool_guards.py"
+      ]
     },
     "FR-017-43": {
       "spec": "017-planning-survey",
@@ -14860,7 +15076,9 @@
       "tasks": [
         "T-017-048"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_048_tool_guards.py"
+      ]
     },
     "FR-017-44": {
       "spec": "017-planning-survey",
@@ -14870,7 +15088,9 @@
       "tasks": [
         "T-017-048"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_048_tool_guards.py"
+      ]
     },
     "FR-017-45": {
       "spec": "017-planning-survey",
@@ -14880,7 +15100,9 @@
       "tasks": [
         "T-017-048"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_048_tool_guards.py"
+      ]
     },
     "FR-017-46": {
       "spec": "017-planning-survey",
@@ -14890,7 +15112,10 @@
       "tasks": [
         "T-017-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_060_polygon_guards.py",
+        "web/e2e/e2-polygon-volume.spec.ts"
+      ]
     },
     "FR-017-47": {
       "spec": "017-planning-survey",
@@ -14900,7 +15125,10 @@
       "tasks": [
         "T-017-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_060_polygon_guards.py",
+        "web/e2e/e2-polygon-volume.spec.ts"
+      ]
     },
     "FR-017-48": {
       "spec": "017-planning-survey",
@@ -14910,7 +15138,9 @@
       "tasks": [
         "T-017-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_040_dem_difference.py"
+      ]
     },
     "FR-017-49": {
       "spec": "017-planning-survey",
@@ -14920,7 +15150,10 @@
       "tasks": [
         "T-017-049"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_049_splat_package.py",
+        "web/e2e/e2-splat-view.spec.ts"
+      ]
     },
     "FR-017-50": {
       "spec": "017-planning-survey",
@@ -14930,7 +15163,9 @@
       "tasks": [
         "T-017-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_050_survey_fake_gpu.py"
+      ]
     },
     "FR-017-51": {
       "spec": "017-planning-survey",
@@ -14940,7 +15175,9 @@
       "tasks": [
         "T-017-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_017_070_planning_survey_manifests.py"
+      ]
     },
     "FR-017-52": {
       "spec": "017-planning-survey",
@@ -14950,7 +15187,9 @@
       "tasks": [
         "T-017-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_092_fixture_propagation.py"
+      ]
     },
     "FR-017-53": {
       "spec": "017-planning-survey",
@@ -14960,7 +15199,9 @@
       "tasks": [
         "T-017-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_093_partial_cells.py"
+      ]
     },
     "P-017-01": {
       "spec": "017-planning-survey",
@@ -14970,7 +15211,9 @@
       "tasks": [
         "T-017-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_022_mincut_oracles.py"
+      ]
     },
     "P-017-02": {
       "spec": "017-planning-survey",
@@ -14980,7 +15223,9 @@
       "tasks": [
         "T-017-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_021_closure.py"
+      ]
     },
     "P-017-03": {
       "spec": "017-planning-survey",
@@ -14990,7 +15235,9 @@
       "tasks": [
         "T-017-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_024_shells_pushbacks.py"
+      ]
     },
     "P-017-04": {
       "spec": "017-planning-survey",
@@ -15000,7 +15247,9 @@
       "tasks": [
         "T-017-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_021_closure.py"
+      ]
     },
     "P-017-05": {
       "spec": "017-planning-survey",
@@ -15010,7 +15259,9 @@
       "tasks": [
         "T-017-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_021_closure.py"
+      ]
     },
     "P-017-06": {
       "spec": "017-planning-survey",
@@ -15020,7 +15271,9 @@
       "tasks": [
         "T-017-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_020_bev_precedence.py"
+      ]
     },
     "P-017-07": {
       "spec": "017-planning-survey",
@@ -15030,7 +15283,10 @@
       "tasks": [
         "T-017-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_032_schedule_enumeration.py",
+        "tests/property/test_t_017_031_schedule_checker.py"
+      ]
     },
     "P-017-08": {
       "spec": "017-planning-survey",
@@ -15040,7 +15296,9 @@
       "tasks": [
         "T-017-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_032_schedule_enumeration.py"
+      ]
     },
     "P-017-09": {
       "spec": "017-planning-survey",
@@ -15050,7 +15308,9 @@
       "tasks": [
         "T-017-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_024_shells_pushbacks.py"
+      ]
     },
     "P-017-10": {
       "spec": "017-planning-survey",
@@ -15060,7 +15320,9 @@
       "tasks": [
         "T-017-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_040_dem_difference.py"
+      ]
     },
     "P-017-11": {
       "spec": "017-planning-survey",
@@ -15070,7 +15332,9 @@
       "tasks": [
         "T-017-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_040_dem_difference.py"
+      ]
     },
     "P-017-12": {
       "spec": "017-planning-survey",
@@ -15080,7 +15344,9 @@
       "tasks": [
         "T-017-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_040_dem_difference.py"
+      ]
     },
     "P-017-13": {
       "spec": "017-planning-survey",
@@ -15090,7 +15356,9 @@
       "tasks": [
         "T-017-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_040_dem_difference.py"
+      ]
     },
     "P-017-14": {
       "spec": "017-planning-survey",
@@ -15100,7 +15368,9 @@
       "tasks": [
         "T-017-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_040_dem_difference.py"
+      ]
     },
     "P-017-15": {
       "spec": "017-planning-survey",
@@ -15110,7 +15380,9 @@
       "tasks": [
         "T-017-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_044_known_volume_scene.py"
+      ]
     },
     "P-017-16": {
       "spec": "017-planning-survey",
@@ -15120,7 +15392,9 @@
       "tasks": [
         "T-017-046"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_046_reconstruction.py"
+      ]
     },
     "P-017-17": {
       "spec": "017-planning-survey",
@@ -15130,7 +15404,9 @@
       "tasks": [
         "T-017-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_010_d2_chain.py"
+      ]
     },
     "P-017-18": {
       "spec": "017-planning-survey",
@@ -15140,7 +15416,9 @@
       "tasks": [
         "T-017-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_013_meta_model_evaluate.py"
+      ]
     },
     "P-017-19": {
       "spec": "017-planning-survey",
@@ -15150,7 +15428,9 @@
       "tasks": [
         "T-017-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_011_sweeps.py"
+      ]
     },
     "NFR-017-01": {
       "spec": "017-planning-survey",
@@ -15160,7 +15440,9 @@
       "tasks": [
         "T-017-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_014_meta_model_export.py"
+      ]
     },
     "NFR-017-02": {
       "spec": "017-planning-survey",
@@ -15170,7 +15452,9 @@
       "tasks": [
         "T-017-016"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/d2-simulate.spec.ts"
+      ]
     },
     "NFR-017-03": {
       "spec": "017-planning-survey",
@@ -15180,7 +15464,9 @@
       "tasks": [
         "T-017-027"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/e1-revenue-factor.spec.ts"
+      ]
     },
     "NFR-017-04": {
       "spec": "017-planning-survey",
@@ -15190,7 +15476,10 @@
       "tasks": [
         "T-017-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_060_polygon_guards.py",
+        "web/e2e/e2-polygon-volume.spec.ts"
+      ]
     },
     "NFR-017-05": {
       "spec": "017-planning-survey",
@@ -15200,7 +15489,10 @@
       "tasks": [
         "T-017-049"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_049_splat_package.py",
+        "web/e2e/e2-splat-view.spec.ts"
+      ]
     },
     "NFR-017-06": {
       "spec": "017-planning-survey",
@@ -15210,7 +15502,9 @@
       "tasks": [
         "T-017-028"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_028_mincut_timing_record.py"
+      ]
     },
     "NFR-017-07": {
       "spec": "017-planning-survey",
@@ -15220,7 +15514,9 @@
       "tasks": [
         "T-017-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_017_050_survey_fake_gpu.py"
+      ]
     },
     "SC-017-01": {
       "spec": "017-planning-survey",
@@ -15230,7 +15526,9 @@
       "tasks": [
         "T-017-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_013_meta_model_evaluate.py"
+      ]
     },
     "SC-017-02": {
       "spec": "017-planning-survey",
@@ -15240,7 +15538,9 @@
       "tasks": [
         "T-017-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_014_meta_model_export.py"
+      ]
     },
     "SC-017-03": {
       "spec": "017-planning-survey",
@@ -15251,7 +15551,10 @@
         "T-017-022",
         "T-017-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_022_mincut_oracles.py",
+        "tests/pipeline/test_t_017_023_mincut_ortools.py"
+      ]
     },
     "SC-017-04": {
       "spec": "017-planning-survey",
@@ -15261,7 +15564,9 @@
       "tasks": [
         "T-017-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_017_031_schedule_checker.py"
+      ]
     },
     "SC-017-05": {
       "spec": "017-planning-survey",
@@ -15271,7 +15576,9 @@
       "tasks": [
         "T-017-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_025_minelib_marvin.py"
+      ]
     },
     "SC-017-06": {
       "spec": "017-planning-survey",
@@ -15281,7 +15588,9 @@
       "tasks": [
         "T-017-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_017_047_survey_report.py"
+      ]
     },
     "DC-017-01": {
       "spec": "017-planning-survey",
