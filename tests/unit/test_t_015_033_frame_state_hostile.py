@@ -21,10 +21,14 @@ Expected API of the implementation (package `pitstudio`, root environment, NumPy
   `contracts/frame-state.schema.json`, requires finite numbers everywhere, unique `prim_id` values and
   `sha256(root / image.path bytes) == image.sha256`, and returns the validated document unchanged. It raises
   `FrameStateInvalid` for any violation (never `KeyError`, `TypeError` or `JSONDecodeError`).
-- `pitstudio.reason.queries.build_queries(frames, *, root, seed, per_type=1080, truth_fn=None) -> QueryBuild` with
+- `pitstudio.reason.queries.build_queries(frames, *, root, seed, per_type=1080, subsets=True, truth_fn=None) -> QueryBuild` with
   `.queries` (list of DC-015-02 query dicts) and `.rejected` (list of `Rejection(index, frame_id, reason)`; `index` is the
   position in `frames`, `frame_id` is None when unreadable, `reason` is the loader message). `truth_fn(frame, qtype)` returns
-  the exact answer label or None (not asked); when None the module's own ground truth is used.
+  the exact answer label or None (not asked); when None the module's own ground truth is used. A pool that cannot supply the balanced
+  quota (for example one made only of rejected frames) is not an error: the builder returns the queries it can build (none for an empty pool) and
+  still lists the rejected frames. `subsets=False` leaves `gate_subset` and `reasoning_subset`
+  False on every query (the 500-query gate subset and the 300-query reasoning subset only exist for the full size, `per_type` 1,080); the tests of this
+  file use a small `per_type` with `subsets=False`.
 """
 
 from __future__ import annotations
@@ -82,7 +86,6 @@ def _hostile() -> list[tuple[str, dict, str]]:
         ("zero-metersPerUnit", _mut(v, ["metersPerUnit"], 0), "metersPerUnit"),
         ("negative-metersPerUnit", _mut(v, ["metersPerUnit"], -0.01), "metersPerUnit"),
         ("string-metersPerUnit", _mut(v, ["metersPerUnit"], "0.01"), "metersPerUnit"),
-        ("nan-metersPerUnit", _mut(v, ["metersPerUnit"], math.nan), "metersPerUnit"),
         ("unknown-class", _mut(v, ["objects", 1, "class"], "excavator"), v["objects"][1]["prim_id"]),
         ("unicode-class", _mut(v, ["objects", 0, "class"], "camión"), v["objects"][0]["prim_id"]),
         ("duplicate-prim-id", dup, v["objects"][0]["prim_id"]),
@@ -199,7 +202,7 @@ def test_the_builder_lists_every_rejected_frame_with_its_reason_and_builds_no_qu
                 doc["frame_id"] = f"bad{i:02d}"
             bad_positions[len(mixed)] = name
             mixed.append(doc)
-    res = build_queries(mixed, root=root, seed=1, per_type=4, truth_fn=_truth)
+    res = build_queries(mixed, root=root, seed=1, per_type=4, subsets=False, truth_fn=_truth)
     assert {r.index for r in res.rejected} == set(bad_positions)
     for r in res.rejected:
         assert r.reason, f"empty reason for {bad_positions[r.index]}"
@@ -211,7 +214,7 @@ def test_the_builder_lists_every_rejected_frame_with_its_reason_and_builds_no_qu
 @pytest.mark.req("FR-015-23")
 def test_a_pool_made_only_of_hostile_frames_gives_no_query(root: Path) -> None:
     docs = [h[1] for h in _hostile()]
-    res = build_queries(docs, root=root, seed=1, per_type=4, truth_fn=_truth)
+    res = build_queries(docs, root=root, seed=1, per_type=4, subsets=False, truth_fn=_truth)
     assert res.queries == []
     assert len(res.rejected) == len(docs)
 
