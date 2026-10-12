@@ -130,6 +130,9 @@ Fixed parameters referred to as "§7" are in the tables of section 7.
 | FR-011-46 | Unwanted | If the quantile levels of a surrogate input or output are not strictly increasing inside (0, 1), then the surrogate I/O loader shall reject the document with error class `surrogate-io-invalid` naming the field. | unit (hostile) |
 | FR-011-47 | Unwanted | If the tensor names or the channel names of a surrogate I/O document are not unique, then the loader and the generated types shall reject it with error class `surrogate-io-invalid` naming the repeated name. | unit (hostile) |
 | FR-011-48 | Unwanted | If the bounds of a granular rollout have `x_min` not below `x_max` or `y_min` not below `y_max`, then the rollout loader shall reject it with error class `rollout-bounds-invalid` before any step is read. | unit (hostile) |
+| FR-011-49 | State | While a granular rollout set or field dataset (DC-011-01, DC-011-03) is a contract fixture, `s30_train`, `s40_infer` and `s50_evaluate` of GNS, FNO and calibration shall run against it, shall write `fixture: true` on every checkpoint, rollout and report, and shall publish no repose, run-out or relative-L2 result computed from it. | pipeline |
+| FR-011-50 | State | While only some of the held-out geometries, terrains or trials that a surrogate or calibration evaluation names exist, `s50_evaluate` shall report the cases it has, list each missing family as `not run (absent)`, label the report `partial`, and make no repose, run-out, relative-L2 or coverage claim over the missing cases. | pipeline |
+| FR-011-51 | Unwanted | If the digest of a rollout file or field dataset recorded in a training manifest differs from the digest of the file now present, then `s30_train` and `s50_evaluate` shall fail with error class `input-stale` (FR-002-69) naming the file, and no surrogate shall be trained or scored on it. | unit (hostile) |
 
 ## 4. Correctness properties
 
@@ -273,6 +276,8 @@ Identity, Cast. Anything else fails FR-011-36.
   (≤ 10⁶ particles, ≤ 20,000 frames, seeds 0 … 2³² − 1).
 - Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
 - (no open items)
+
+- Availability states (2026-10-11): FR-011-49, FR-011-50, FR-011-51 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

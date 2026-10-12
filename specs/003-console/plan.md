@@ -162,6 +162,8 @@ console:
 | NFR-003-02, SC-003-01 | contract | Schemathesis in-process over `api/openapi.json` with the listed checks | Schemathesis |
 | NFR-003-03 | E2E (console) | axe-core (reference implementation) | Playwright + `@axe-core/playwright` |
 | FR-003-31 | unit (hostile) | hand calculation: a job fixture done 5 / total 4 gives 500 `job-record-invalid`; done 4 / total 4 is served | pytest |
+| FR-003-32 | integration | hand calculation: a fixture store gives `fixture: true` in the three bodies and the label in the UI snapshot; a normal store gives `false` and no label | pytest + Playwright |
+| FR-003-33 | integration | hand calculation: a store with one fresh and one stale run of one recipe lists the fresh run first and the stale one with `stale: true` and its original date | pytest + Playwright |
 
 ## Risks and complexity tracking
 

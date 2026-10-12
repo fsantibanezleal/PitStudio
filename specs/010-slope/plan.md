@@ -179,6 +179,9 @@ SNR_obs) → `s30_train` → `s40_infer` (all methods on identical windows) → 
 | FR-010-43 | unit (hostile) | hand calculation: one fixture per rule, each giving `section-invalid` with the field name | pytest |
 | FR-010-44 | unit (hostile) | hand calculation: arrays of length 3 and 4 with n_samples 3, and t_0 = t_f, give `series-inconsistent` | pytest |
 | FR-010-45 | unit (hostile) | reference implementation: `hashlib.sha256` of the canonical JSON of a fixture section; one value changed gives `section-digest-mismatch` | pytest |
+| FR-010-46 | unit | hand calculation: a fixture series gives a TTF result row `fixture: true` and the publish step drops it | pytest |
+| FR-010-47 | pipeline | hand calculation: 2 of 3 strata present give `partial`, the third `not run (absent)`, and no pooled verdict | pytest |
+| FR-010-48 | unit (hostile) | hand calculation: one altered sample gives `input-stale` naming the series; an unaltered series passes | pytest |
 
 ### Threshold keys (`thresholds.yaml`, ratchet-only)
 `models.slope_ttf_rel_error_median_max: 0.10`, `models.slope_bootstrap_resamples: 10000`,

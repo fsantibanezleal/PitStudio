@@ -135,6 +135,8 @@ verdicts and gaps → `s60_export` writes the ONNX policies and twin bundles →
 | NFR-014-04 | E2E | measured frame time on T2 | Playwright |
 | NFR-014-05 | unit | repository scan with a planted-violation fixture | pytest |
 | SC-014-01 to SC-014-10 | pipeline | `s50_evaluate` / `s60_export` outputs on the real runs (data-and-models phase), computed by the code verified above | pytest (`tests/pipeline`) |
+| FR-014-48 | unit (fake trainer) | hand calculation: a fixture task gives an episode table and a report `fixture: true` and the publish step drops them | pytest |
+| FR-014-49 | unit (hostile) | hand calculation: a handoff with one wrong digest gives `input-stale` with both digests and no ONNX file | pytest |
 
 ## Risks and complexity tracking
 

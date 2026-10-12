@@ -122,6 +122,9 @@ Story index (for traceability):
 | FR-009-48 | Unwanted | If an image `file_name` of a COCO file has a segment equal to a Windows device name, or two `file_name` values are equal after case folding, then the COCO checker shall reject the file with error class `coco-path-invalid` naming both entries. | unit (hostile) |
 | FR-009-49 | Unwanted | If the SHA-256 recorded in a people-asset record differs from the SHA-256 of the exported file, then the asset ingest shall reject the record with error class `asset-digest-mismatch` naming the record and shall not use the file. | unit (hostile) |
 | FR-009-50 | Unwanted | If a detection-evaluation report holds two rows with the same (model, precision, arm, family, task, class), then the report writer and the report reader shall reject it with error class `report-duplicate-row` naming the key. | unit (hostile) |
+| FR-009-51 | State | While the SDG index (DC-009-01) is a contract fixture, `s30_train`, `s40_infer` and `s50_evaluate` of the perception detectors shall run against it, shall write `fixture: true` on every checkpoint, prediction file and report, and shall publish no metric computed from it. | unit (fake trainer) |
+| FR-009-52 | State | While fewer than all of the detector models or arms that an evaluation names have an evaluated checkpoint, `s50_evaluate` shall report each evaluated model with its provenance, shall list each missing one as `not run (absent)`, shall label the report `partial`, and shall compute the pooled held-out metrics, the DR ablation and the SC-009 verdicts only over complete sets. | unit |
+| FR-009-53 | Unwanted | If the SHA-256 of an image listed in the SDG index (DC-009-01) differs from the digest recorded there, then `s30_train` and `s50_evaluate` shall fail with error class `input-stale` (FR-002-69) naming the record, and no checkpoint shall be trained on it. | unit (hostile) |
 
 ## 4. Correctness properties
 
@@ -265,6 +268,8 @@ choices fixed before any result, not sourced norms.
   annotations per COCO file, ≤ 512 placements per image, image count 1 … 100,000 per arm, drying time (0, 1,440] min,
   `x_os` (0, 10] m) are design bounds.
 - (no open items)
+
+- Availability states (2026-10-11): FR-009-51, FR-009-52, FR-009-53 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

@@ -61,7 +61,7 @@ Rules:
   foreground; `cv2_mask` = `label.png`), `AugmentationStructureBroken`; the card's counts on the real archive (`slow`,
   local) and on generated fixtures (CI) — test: tests/pipeline/test_t_008_031_mendeley_integrity.py
 - [ ] T-008-032 [US-008-3] (FR-008-30, FR-008-47, P-008-07) Seeded greedy grouped 5-fold: 48 originals per fold,
-  group counts 45, 46, 46, 47, 47, originals-only tests, four-version training pools, byte-identical reproduction;
+  group counts 10, 15, 15, 16, 16, originals-only tests, four-version training pools, byte-identical reproduction;
   tampered split files refused by consumers — test: tests/pipeline/test_t_008_032_mendeley_folds.py
 - [ ] T-008-033 [US-008-3] (FR-008-31) Group keys of the synthetic types, terrain spatial blocks, de Wit as a single
   unsplit group — test: tests/pipeline/test_t_008_033_group_keys.py
@@ -85,6 +85,11 @@ Rules:
   equality, required sections; a CI failure names the card, field and both values — test: tests/contract/test_t_008_060_data_cards.py
 - [ ] T-008-061 [US-008-1] (FR-008-45, NFR-008-03) Samples: public-domain/CC0 crops or synthetic fixtures with sample
   cards, no Mendeley pixels, each < 1 MB; no tracked file under the data roots — test: tests/contract/test_t_008_061_samples_hygiene.py
+
+## Phase — availability states (ADR-0040)
+
+- [ ] T-008-092 (FR-008-49) fixture sources: outputs marked, card says "fixture" — test: tests/pipeline/test_t_008_092_fixture_source.py
+- [ ] T-008-093 (FR-008-50) partial multi-file sources: ingest what is verified, list the rest — test: tests/pipeline/test_t_008_093_partial_source.py
 
 ## Phase 8 — Polish and independent review
 - [ ] T-008-090 Mutation run on `pitstudio_pipeline.{download, archive, ingest, splits, synthesize, features, cards}`;

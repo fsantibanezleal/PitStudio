@@ -1,0 +1,536 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/sources.schema.json",
+  "title": "PitStudio source registry",
+  "description": "The data source registry data/sources.yaml (DC-001-04, spec 001-contracts).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sources"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      },
+      "maxItems": 256
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "https_url": {
+      "type": "string",
+      "maxLength": 2048,
+      "pattern": "^https://[A-Za-z0-9.-]+(:[0-9]{1,5})?(/[A-Za-z0-9._~%!$&'()*+,;=:@/-]*)?(\\?[A-Za-z0-9._~%!$&'()*+,;=:@/?-]*)?$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "relglob": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_*?]([A-Za-z0-9._*? -]{0,98}[A-Za-z0-9_*?])?(/[A-Za-z0-9_*?]([A-Za-z0-9._*? -]{0,98}[A-Za-z0-9_*?])?){0,15}$"
+    },
+    "env_var": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Z][A-Z0-9_]{2,63}$"
+    },
+    "spdx_id": {
+      "enum": [
+        "LicenseRef-USGov-PD",
+        "CC0-1.0",
+        "DL-DE-ZERO-2.0",
+        "CC-BY-4.0",
+        "LicenseRef-Copernicus-CLMS",
+        "CC-BY-SA-3.0",
+        "CC-BY-SA-4.0",
+        "Apache-2.0",
+        "MIT",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "MPL-2.0",
+        "LGPL-2.1-or-later",
+        "LicenseRef-TOST-1.0",
+        "LicenseRef-NVIDIA-Open-Model",
+        "LicenseRef-NVIDIA-SLA",
+        "LicenseRef-NvidiaProprietary",
+        "LicenseRef-NVIDIA-Omniverse",
+        "LicenseRef-TensorRT-SLA",
+        "LicenseRef-TensorRT-RTX-SLA"
+      ]
+    },
+    "licence_class": {
+      "enum": [
+        "public-domain",
+        "open-no-attribution",
+        "own",
+        "attribution",
+        "share-alike",
+        "display-only",
+        "reference-only"
+      ]
+    },
+    "file": {
+      "type": "object",
+      "description": "file record (data-model §5.1.1); null sha256 / bytes = not yet pinned / known",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "sha256",
+        "bytes",
+        "kind"
+      ],
+      "properties": {
+        "url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 68719476736
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "$ref": "#/$defs/relpath"
+        },
+        "spdx": {
+          "$ref": "#/$defs/spdx_id"
+        },
+        "kind": {
+          "enum": [
+            "raster",
+            "point-cloud",
+            "vector",
+            "image-set",
+            "table",
+            "document",
+            "archive"
+          ]
+        },
+        "publisher_checksum": {
+          "type": "string",
+          "maxLength": 71,
+          "pattern": "^(md5:[0-9a-f]{32}|sha256:[0-9a-f]{64})$"
+        },
+        "uncompressed_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 68719476736
+        },
+        "extract": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relglob"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "archive"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "uncompressed_bytes"
+                  ]
+                },
+                {
+                  "required": [
+                    "extract"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "entry": {
+      "type": "object",
+      "description": "source registry entry (data-model §5.1)",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "title",
+        "landing_url",
+        "access",
+        "files",
+        "spdx",
+        "licence_url",
+        "licence_class",
+        "redistribution",
+        "citation",
+        "card",
+        "account"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "kind": {
+          "enum": [
+            "real",
+            "synthetic"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "landing_url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "access": {
+          "enum": [
+            "direct",
+            "api",
+            "account",
+            "manual"
+          ]
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/file"
+          },
+          "maxItems": 512
+        },
+        "spdx": {
+          "$ref": "#/$defs/spdx_id"
+        },
+        "licence_url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/licence_class"
+        },
+        "redistribution": {
+          "enum": [
+            "redistributable",
+            "derived-only",
+            "no-redistribution"
+          ]
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "citation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "card": {
+          "type": "string",
+          "maxLength": 80,
+          "pattern": "^data/cards/[a-z0-9-]{1,64}\\.md$"
+        },
+        "account": {
+          "type": "object",
+          "description": "`env_var` is the name of the variable holding the key, never a credential value",
+          "additionalProperties": false,
+          "required": [
+            "needed"
+          ],
+          "properties": {
+            "needed": {
+              "type": "boolean"
+            },
+            "env_var": {
+              "$ref": "#/$defs/env_var"
+            },
+            "note": {
+              "type": "string",
+              "maxLength": 300
+            }
+          }
+        },
+        "fallback": {
+          "type": "object",
+          "description": "substitute sources in order of preference; [] = no substitute data",
+          "additionalProperties": false,
+          "required": [
+            "sources",
+            "text"
+          ],
+          "properties": {
+            "sources": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/slug"
+              },
+              "maxItems": 8,
+              "uniqueItems": true
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            }
+          }
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "allOf": [
+        {
+          "description": "licence class allowed for (spdx, kind) by data-model §5.2",
+          "anyOf": [
+            {
+              "properties": {
+                "kind": {
+                  "const": "real"
+                },
+                "spdx": {
+                  "enum": [
+                    "LicenseRef-USGov-PD"
+                  ]
+                },
+                "licence_class": {
+                  "const": "public-domain"
+                }
+              },
+              "required": [
+                "kind",
+                "spdx",
+                "licence_class"
+              ]
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "real"
+                },
+                "spdx": {
+                  "enum": [
+                    "CC0-1.0",
+                    "DL-DE-ZERO-2.0"
+                  ]
+                },
+                "licence_class": {
+                  "const": "open-no-attribution"
+                }
+              },
+              "required": [
+                "kind",
+                "spdx",
+                "licence_class"
+              ]
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "real"
+                },
+                "spdx": {
+                  "enum": [
+                    "CC-BY-4.0",
+                    "LicenseRef-Copernicus-CLMS"
+                  ]
+                },
+                "licence_class": {
+                  "const": "attribution"
+                }
+              },
+              "required": [
+                "kind",
+                "spdx",
+                "licence_class"
+              ]
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "real"
+                },
+                "spdx": {
+                  "enum": [
+                    "CC-BY-SA-3.0",
+                    "CC-BY-SA-4.0"
+                  ]
+                },
+                "licence_class": {
+                  "const": "share-alike"
+                }
+              },
+              "required": [
+                "kind",
+                "spdx",
+                "licence_class"
+              ]
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "synthetic"
+                },
+                "spdx": {
+                  "enum": [
+                    "CC-BY-4.0",
+                    "Apache-2.0"
+                  ]
+                },
+                "licence_class": {
+                  "const": "own"
+                }
+              },
+              "required": [
+                "kind",
+                "spdx",
+                "licence_class"
+              ]
+            },
+            {
+              "properties": {
+                "kind": {
+                  "const": "synthetic"
+                },
+                "spdx": {
+                  "enum": [
+                    "LicenseRef-NVIDIA-Open-Model"
+                  ]
+                },
+                "licence_class": {
+                  "const": "display-only"
+                }
+              },
+              "required": [
+                "kind",
+                "spdx",
+                "licence_class"
+              ]
+            }
+          ]
+        },
+        {
+          "if": {
+            "properties": {
+              "licence_class": {
+                "enum": [
+                  "attribution",
+                  "share-alike"
+                ]
+              }
+            },
+            "required": [
+              "licence_class"
+            ]
+          },
+          "then": {
+            "required": [
+              "attribution"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "access": {
+                "const": "account"
+              }
+            },
+            "required": [
+              "access"
+            ]
+          },
+          "then": {
+            "properties": {
+              "account": {
+                "properties": {
+                  "needed": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "account": {
+                "properties": {
+                  "needed": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "needed"
+                ]
+              }
+            },
+            "required": [
+              "account"
+            ]
+          },
+          "then": {
+            "required": [
+              "fallback"
+            ],
+            "properties": {
+              "access": {
+                "const": "account"
+              },
+              "account": {
+                "required": [
+                  "env_var"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

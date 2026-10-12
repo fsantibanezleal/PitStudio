@@ -29,6 +29,8 @@ jobs:
       - run: uv run pytest -m "not gpu" --cov=src --cov-branch
       - run: uv run python tools/trace.py --check
       - run: uv run python tools/check_tdd.py --replay
+      - run: uv run python tools/gen_types.py --check # generated Pydantic models equal a fresh generation (spec 001)
+      - run: uv run python tools/check_contracts.py # every contract document against its schema, plus the cross-file rules (spec 001)
       - run: uv run python tools/check_repo.py
       - run: uv run python tools/check_docs.py
       - name: Pipeline smoke (CPU, samples only)
@@ -79,6 +81,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with: { node-version-file: web/.nvmrc, cache: pnpm, cache-dependency-path: web/pnpm-lock.yaml }
       - run: pnpm install --frozen-lockfile
+      - run: pnpm gen:types --check # generated TypeScript types equal a fresh generation (spec 001)
       - run: pnpm run check # biome ci + typegen + tsc + vitest
       - run: pnpm run build # includes the Pages layout step and the initial-JS budget
       - run: python3 ../tools/check_pages_artifact.py # FR-003-24: no console code, marker or Python file in the public artifact

@@ -1,0 +1,156 @@
+{
+  "tabs": {
+    "label": "Grupos de resultados",
+    "learned-vs-classical": "Aprendido vs clásico",
+    "sim-to-real": "Sim a real y sim a sim",
+    "parity": "Paridad",
+    "dr-ablation": "Ablación de DR",
+    "isaac-lab": "Isaac Lab vs referencias",
+    "cosmos": "Cosmos vs Qwen vs detector",
+    "acceleration": "Aceleración"
+  },
+  "pending": {
+    "status": "Aún no ejecutado",
+    "reports": "Qué se reportará",
+    "criterion": "Criterio preregistrado",
+    "ppo-dispatch": {
+      "title": "Despacho PPO frente a SPTF y LP",
+      "reports": "Diferencia pareada en toneladas por hora sobre semillas pareadas, con su intervalo de 95 %",
+      "criterion": "Al menos 30 semillas pareadas; \"supera a SPTF / LP\" solo si el intervalo pareado de 95 % de la diferencia en t/h excluye 0, de lo contrario \"sin diferencia significativa\" (SC-007-01)"
+    },
+    "attention-dispatch": {
+      "title": "Política de atención frente a SPTF, LP y PPO",
+      "reports": "Diferencia pareada en toneladas por hora, global y por tamaño de flota",
+      "criterion": "Al menos 30 semillas pareadas; la misma regla de decisión que para PPO; se reporta la comparación por tamaño de flota (SC-007-02)"
+    },
+    "slope-forecasters": {
+      "title": "Pronosticadores de talud frente a velocidad inversa",
+      "reports": "Error del tiempo de falla como fracción del tiempo de anticipación en eventos sintéticos con semilla, por brazo aprendido",
+      "criterion": "Error mediano de a lo sumo 0,10 del tiempo de anticipación en ambos niveles de ruido; \"mejor que velocidad inversa\" solo cuando el intervalo pareado queda sobre 0 (SC-010-01, SC-010-02)"
+    },
+    "gns-granular": {
+      "title": "Sustituto de red de grafos frente al solver DEM",
+      "reports": "Error del ángulo de reposo y del alcance en geometrías reservadas",
+      "criterion": "Error de reposo de a lo sumo 1,5 grados y de alcance de a lo sumo 5 % en cada una de las 20 geometrías reservadas (SC-011-01)"
+    },
+    "unet-watershed": {
+      "title": "U-Net frente a watershed con ajuste Swebrec",
+      "reports": "Diferencia pareada del error de x50 con su intervalo de 95 %, imágenes reales y sintéticas por separado",
+      "criterion": "\"U-Net supera a watershed\" solo cuando el intervalo de la diferencia pareada excluye 0 a su favor, de lo contrario \"sin diferencia significativa\" (SC-012-03)"
+    },
+    "unet-tstr": {
+      "title": "Entrenar en sintético, probar en real (U-Net)",
+      "reports": "Razón de IoU de primer plano de TSTR a TRTR en los originales reales de prueba sobre 5 pliegues agrupados, con cada pliegue, el mínimo y la dispersión",
+      "criterion": "Razón media de al menos 0,90 (SC-012-02)"
+    },
+    "fragment-realism": {
+      "title": "Realismo de las imágenes sintéticas de fragmentos",
+      "reports": "AUC del clasificador real contra sintético sobre el AUC real contra real, AUC de desplazamiento inyectado, AUC entrenamiento contra prueba y marcas de duplicados",
+      "criterion": "Exceso de AUC de a lo sumo 0,10, AUC de desplazamiento inyectado de al menos 0,80, AUC entrenamiento contra prueba de a lo sumo 0,60 y ninguna marca de duplicado, en ambas familias (SC-012-04)"
+    },
+    "il1-sim-to-sim": {
+      "title": "Política del camión, simulador frente a su gemelo en el navegador",
+      "reports": "La brecha sim a sim con su intervalo de 95 %",
+      "criterion": "La brecha se reporta con su intervalo; sin afirmaciones más allá (SC-014-05)"
+    },
+    "slope-real-event": {
+      "title": "Pronóstico de talud en la serie real de monitoreo",
+      "reports": "Error del tiempo de falla en los cortes de registro de 50 % y 80 %, descrito y no contrastado",
+      "criterion": "Un solo evento real: se reporta de forma descriptiva, sin afirmación de \"mejor que\" (SC-010-03)"
+    },
+    "onnx-parity": {
+      "title": "Exportación ONNX frente al framework de entrenamiento",
+      "reports": "Por modelo: diferencia absoluta y relativa máxima y coincidencia del argmax en entradas de referencia",
+      "criterion": "Tolerancia relativa 1e-3, tolerancia absoluta 1e-5, diferencia absoluta máxima 1e-4 y 100 % de coincidencia del argmax (SC-016-02)"
+    },
+    "web-engine-parity": {
+      "title": "Motores del navegador frente a sus referencias en Python",
+      "reports": "El veredicto de paridad de cada motor del navegador en Chromium, Firefox y WebKit",
+      "criterion": "Cada motor pasa su clase de paridad o se muestra como repetición precalculada con la nota de que la paridad no está confirmada (SC-018-01)"
+    },
+    "structured-dr": {
+      "title": "Aleatorización de dominio estructurada frente a la simple",
+      "reports": "Diferencia pareada de exactitud del detector con su intervalo de 95 %",
+      "criterion": "\"DR estructurada mejor\" solo cuando el intervalo excluye 0 a su favor, de lo contrario \"sin diferencia significativa\" o \"peor\" (SC-009-04)"
+    },
+    "detector-small": {
+      "title": "Detector pequeño en imágenes sintéticas reservadas",
+      "reports": "mAP50 con su intervalo de 95 %",
+      "criterion": "mAP50 de al menos 0,80 (SC-009-01)"
+    },
+    "detector-nano": {
+      "title": "Detector nano en imágenes sintéticas reservadas",
+      "reports": "mAP50 con su intervalo de 95 %",
+      "criterion": "mAP50 de al menos 0,70 (SC-009-02)"
+    },
+    "il1-route": {
+      "title": "Política de imitación del camión, éxito de ruta",
+      "reports": "Éxito de ruta sin colisión sobre episodios con semilla, con su intervalo de Wilson",
+      "criterion": "Al menos 95 % sobre 100 episodios con semilla (SC-014-01)"
+    },
+    "il1-vs-pid": {
+      "title": "Política del camión frente a persecución pura con PID",
+      "reports": "Cada métrica con su intervalo pareado",
+      "criterion": "\"Supera a la persecución pura con PID\" solo por la regla de decisión, por métrica (SC-014-04)"
+    },
+    "il2-fill": {
+      "title": "Política de la excavadora, llenado del balde",
+      "reports": "Factor de llenado por episodio y fracción de episodios con atasco",
+      "criterion": "Factor de llenado de al menos 0,8 en al menos 80 % de los episodios, atascos en a lo sumo 5 % (SC-014-06, SC-014-07)"
+    },
+    "cosmos-vs-qwen": {
+      "title": "Cosmos Reason frente a su modelo base",
+      "reports": "Exactitud balanceada por tipo de pregunta con su intervalo y la prueba de McNemar de las respuestas discordantes",
+      "criterion": "\"Cosmos supera al modelo base\" solo si el valor p de McNemar es menor que 0,05 (SC-015-03)"
+    },
+    "cosmos-task-b": {
+      "title": "Cosmos Reason en la tarea preregistrada de nivel de azar",
+      "reports": "Exactitud de pares con su intervalo de 95 % frente al azar",
+      "criterion": "\"Sobre el azar\" solo por la regla preregistrada frente a 0,5 (SC-015-05)"
+    },
+    "tensorrt-engines": {
+      "title": "Motores TensorRT frente a sus modelos ONNX",
+      "reports": "Latencia, rendimiento, energía y cambio de exactitud por motor, con cada variante rechazada listada",
+      "criterion": "Precisión completa dentro de rtol 1e-3 y atol 1e-5; precisión reducida dentro de 1 punto porcentual; las variantes que fallan se reportan como rechazadas, ninguna se omite (SC-016-01)"
+    },
+    "reduced-precision": {
+      "title": "Variantes de precisión reducida de los modelos publicados",
+      "reports": "Cambio de la métrica de la tarea frente a precisión completa",
+      "criterion": "Cambio absoluto de a lo sumo 1 punto porcentual e IoU de máscara de al menos 0,99 (SC-016-03)"
+    }
+  },
+  "rows": {
+    "versus": "{{challenger}} (retador) frente a {{baseline}} (referencia)",
+    "pairing": "Unidad de pareo: {{unit}} · n = {{n}}",
+    "n": "n = {{n}}",
+    "interval": "Intervalo de {{level}} % de la diferencia: [{{lo}}, {{hi}}] ({{method}})",
+    "noInterval": "intervalo no disponible",
+    "system": "Sistema: {{system}}",
+    "value": "Valor: {{value}}",
+    "values": "Valor del retador: {{challenger}} · valor de la referencia: {{baseline}}",
+    "threshold": "Umbral preregistrado: {{comparator}} {{value}}",
+    "discordant": "Pares discordantes: b = {{b}}, c = {{c}} · p = {{p}}",
+    "unavailable": "no disponible"
+  },
+  "method": {
+    "paired-t": "t pareada",
+    "paired-bootstrap": "bootstrap pareado"
+  },
+  "orientation": {
+    "higher-is-better": "más alto es mejor",
+    "lower-is-better": "más bajo es mejor"
+  },
+  "verdict": {
+    "better": "{{winner}} mejor que {{loser}}",
+    "none": "sin diferencia significativa",
+    "single": "un solo evento real — sin prueba de significancia",
+    "unavailable": "sin veredicto: el intervalo no es utilizable"
+  },
+  "accel": {
+    "model": "Modelo",
+    "backend": "Backend",
+    "precision": "Precisión",
+    "status": "Estado",
+    "parity": "Paridad"
+  }
+}

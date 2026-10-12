@@ -85,6 +85,8 @@ Data flow: [tool-map.svg](../../docs/assets/diagrams/tool-map.svg) and
 | SC-019-01, SC-019-02 | gate | honesty report of the release commit | CI |
 | FR-019-46 | unit (hostile) | hand calculation: a map fixture with edge (a, a) gives a failure naming `a` | pytest |
 | FR-019-47 | unit (hostile) | hand calculation: 1,000,000-byte and 1,000,001-byte fixtures are accepted and rejected | pytest |
+| FR-019-48 | unit + E2E | hand calculation: an index with one fixture run lists it with the label in the development build, none in the release build, and the tool page shows "Not yet run" in the release build | Vitest + Playwright |
+| FR-019-49 | unit + E2E | hand calculation: a tool with one fresh and one stale run shows the fresh run as latest and the stale one with the badge and its original date | Vitest + Playwright |
 
 ## Risks and complexity tracking
 | Deviation | Why needed | Simpler alternative rejected because |

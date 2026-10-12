@@ -1,0 +1,156 @@
+{
+  "tabs": {
+    "label": "Result groups",
+    "learned-vs-classical": "Learned vs classical",
+    "sim-to-real": "Sim-to-real and sim-to-sim",
+    "parity": "Parity",
+    "dr-ablation": "DR ablation",
+    "isaac-lab": "Isaac Lab vs baselines",
+    "cosmos": "Cosmos vs Qwen vs detector",
+    "acceleration": "Acceleration"
+  },
+  "pending": {
+    "status": "Not yet run",
+    "reports": "What will be reported",
+    "criterion": "Pre-registered criterion",
+    "ppo-dispatch": {
+      "title": "PPO dispatch against SPTF and LP",
+      "reports": "Paired difference in tonnes per hour over paired seeds, with its 95 % interval",
+      "criterion": "At least 30 paired seeds; \"beats SPTF / LP\" only if the paired 95 % interval of the t/h difference excludes 0, otherwise \"no significant difference\" (SC-007-01)"
+    },
+    "attention-dispatch": {
+      "title": "Attention policy against SPTF, LP and PPO",
+      "reports": "Paired difference in tonnes per hour, overall and per fleet size",
+      "criterion": "At least 30 paired seeds; the same decision rule as for PPO; the per-fleet-size comparison is reported (SC-007-02)"
+    },
+    "slope-forecasters": {
+      "title": "Slope forecasters against inverse velocity",
+      "reports": "Time-of-failure error as a share of lead time on seeded synthetic events, per learned arm",
+      "criterion": "Median error at most 0.10 of the lead time at both noise levels; \"better than inverse velocity\" only when the paired interval lies above 0 (SC-010-01, SC-010-02)"
+    },
+    "gns-granular": {
+      "title": "Graph-network surrogate against the DEM solver",
+      "reports": "Repose-angle and run-out error on held-out geometries",
+      "criterion": "Repose error at most 1.5 degrees and run-out error at most 5 % on every one of the 20 held-out geometries (SC-011-01)"
+    },
+    "unet-watershed": {
+      "title": "U-Net against watershed with a Swebrec fit",
+      "reports": "Paired difference of the x50 error with its 95 % interval, real and synthetic images stated separately",
+      "criterion": "\"U-Net beats watershed\" only when the interval of the paired difference excludes 0 in its favour, otherwise \"no significant difference\" (SC-012-03)"
+    },
+    "unet-tstr": {
+      "title": "Train on synthetic, test on real (U-Net)",
+      "reports": "Foreground IoU ratio of TSTR to TRTR on the real test originals over 5 grouped folds, with every fold, the minimum and the spread",
+      "criterion": "Mean ratio of at least 0.90 (SC-012-02)"
+    },
+    "fragment-realism": {
+      "title": "Realism of the synthetic fragment images",
+      "reports": "Real-versus-synthetic classifier AUC above the real-versus-real AUC, injected-shift AUC, train-versus-test AUC and duplicate flags",
+      "criterion": "AUC excess at most 0.10, injected-shift AUC at least 0.80, train-versus-test AUC at most 0.60 and no duplicate flag, for both families (SC-012-04)"
+    },
+    "il1-sim-to-sim": {
+      "title": "Haul-truck policy, simulator against its browser twin",
+      "reports": "The sim-to-sim gap with its 95 % interval",
+      "criterion": "The gap is reported with its interval; no claim beyond it (SC-014-05)"
+    },
+    "slope-real-event": {
+      "title": "Slope forecasting on the real monitoring series",
+      "reports": "Time-of-failure error at the 50 % and 80 % record cut-offs, described and not tested",
+      "criterion": "One real event: reported descriptively, with no \"better than\" claim (SC-010-03)"
+    },
+    "onnx-parity": {
+      "title": "ONNX export against the training framework",
+      "reports": "Per model: maximum absolute and relative difference and argmax agreement on golden inputs",
+      "criterion": "Relative tolerance 1e-3, absolute tolerance 1e-5, maximum absolute difference 1e-4 and 100 % argmax agreement (SC-016-02)"
+    },
+    "web-engine-parity": {
+      "title": "Browser engines against their Python references",
+      "reports": "The parity verdict of each in-browser engine in Chromium, Firefox and WebKit",
+      "criterion": "Every engine either passes its parity class or is shown as precomputed replay with the note that parity is not confirmed (SC-018-01)"
+    },
+    "structured-dr": {
+      "title": "Structured domain randomisation against plain randomisation",
+      "reports": "Paired difference of detector accuracy with its 95 % interval",
+      "criterion": "\"Structured DR better\" only when the interval excludes 0 in its favour, otherwise \"no significant difference\" or \"worse\" (SC-009-04)"
+    },
+    "detector-small": {
+      "title": "Small detector on synthetic held-out images",
+      "reports": "mAP50 with its 95 % interval",
+      "criterion": "mAP50 of at least 0.80 (SC-009-01)"
+    },
+    "detector-nano": {
+      "title": "Nano detector on synthetic held-out images",
+      "reports": "mAP50 with its 95 % interval",
+      "criterion": "mAP50 of at least 0.70 (SC-009-02)"
+    },
+    "il1-route": {
+      "title": "Haul-truck imitation policy, route success",
+      "reports": "Route success without collision over seeded episodes, with its Wilson interval",
+      "criterion": "At least 95 % over 100 seeded episodes (SC-014-01)"
+    },
+    "il1-vs-pid": {
+      "title": "Haul-truck policy against pure pursuit with PID",
+      "reports": "Each metric with its paired interval",
+      "criterion": "\"Beats pure pursuit with PID\" only by the decision rule, per metric (SC-014-04)"
+    },
+    "il2-fill": {
+      "title": "Excavator policy, bucket fill",
+      "reports": "Fill factor per episode and the share of stalled episodes",
+      "criterion": "Fill factor of at least 0.8 in at least 80 % of episodes, stalls in at most 5 % (SC-014-06, SC-014-07)"
+    },
+    "cosmos-vs-qwen": {
+      "title": "Cosmos Reason against its base model",
+      "reports": "Per-question-type balanced accuracy with its interval and the McNemar test of the discordant answers",
+      "criterion": "\"Cosmos beats the base model\" only if the McNemar p-value is below 0.05 (SC-015-03)"
+    },
+    "cosmos-task-b": {
+      "title": "Cosmos Reason on the pre-registered chance-level task",
+      "reports": "Pair accuracy with its 95 % interval against chance",
+      "criterion": "\"Above chance\" only by the pre-registered rule against 0.5 (SC-015-05)"
+    },
+    "tensorrt-engines": {
+      "title": "TensorRT engines against their ONNX models",
+      "reports": "Latency, throughput, energy and accuracy change per engine, with every rejected variant listed",
+      "criterion": "Full precision within rtol 1e-3 and atol 1e-5; reduced precision within 1 percentage point; failing variants reported as rejected, none dropped (SC-016-01)"
+    },
+    "reduced-precision": {
+      "title": "Reduced-precision variants of the published models",
+      "reports": "Task-metric change against full precision",
+      "criterion": "Absolute change of at most 1 percentage point and mask IoU of at least 0.99 (SC-016-03)"
+    }
+  },
+  "rows": {
+    "versus": "{{challenger}} (challenger) against {{baseline}} (baseline)",
+    "pairing": "Pairing unit: {{unit}} · n = {{n}}",
+    "n": "n = {{n}}",
+    "interval": "{{level}} % interval of the difference: [{{lo}}, {{hi}}] ({{method}})",
+    "noInterval": "interval unavailable",
+    "system": "System: {{system}}",
+    "value": "Value: {{value}}",
+    "values": "Challenger value: {{challenger}} · baseline value: {{baseline}}",
+    "threshold": "Pre-registered threshold: {{comparator}} {{value}}",
+    "discordant": "Discordant pairs: b = {{b}}, c = {{c}} · p = {{p}}",
+    "unavailable": "unavailable"
+  },
+  "method": {
+    "paired-t": "paired t",
+    "paired-bootstrap": "paired bootstrap"
+  },
+  "orientation": {
+    "higher-is-better": "higher is better",
+    "lower-is-better": "lower is better"
+  },
+  "verdict": {
+    "better": "{{winner}} better than {{loser}}",
+    "none": "no significant difference",
+    "single": "single real event — no significance test",
+    "unavailable": "no verdict: the interval is not usable"
+  },
+  "accel": {
+    "model": "Model",
+    "backend": "Backend",
+    "precision": "Precision",
+    "status": "Status",
+    "parity": "Parity"
+  }
+}

@@ -105,6 +105,7 @@ a GPU.
 | NFR-016-03 | pipeline | metamorphic: two exports, byte-identical files | pytest |
 | NFR-016-06 | CI | hand calculation: CI workflow selects `-m "not gpu"` and never invokes `s62_accel` / `s64_bench` on hardware | pytest |
 | SC-016-01 … SC-016-03 | pipeline (acceptance) | pre-registered tolerances read from the parity reports and bench records | pytest |
+| FR-016-40 | unit (fake GPU) | hand calculation: a fixture golden set gives a parity report and a bench row `fixture: true`; the table bake has none of them | pytest |
 
 ### Tolerances and their justification
 - Layer 1 (rtol 1e-3, atol 1e-5, max abs 1e-4; `thresholds.yaml` `models.onnx_cpu_fp32`): fp32 kernels of ONNX Runtime

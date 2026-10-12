@@ -130,7 +130,7 @@
       "schema": "fragment-split.schema.json",
       "target": "#",
       "valid": true,
-      "note": "illustrative per-fold validation subsets on top of a spec 008 split file (not the seeded draw)"
+      "note": "illustrative per-fold validation subsets on top of a spec 008 split file (whole scene groups of the 72-group rule, FR-008-28; not the seeded draw of the real split)"
     },
     {
       "file": "fragment-split.hostile-validation-file-over-240.json",

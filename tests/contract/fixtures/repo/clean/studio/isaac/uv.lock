@@ -1,0 +1,13 @@
+version = 1
+requires-python = "==3.14.*"
+
+[[package]]
+name = "ovphysx"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+
+[[package]]
+name = "isaacsim"
+version = "5.1.0"
+source = { registry = "https://pypi.org/simple" }
+

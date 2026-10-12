@@ -55,6 +55,11 @@ reconstruction work.
 ## Phase 7 — Labels and manifests
 - [ ] T-017-070 (FR-017-51) manifests, synthetic labels, separate CC BY-SA entries, real-volume attribution — test: tests/contract/test_t_017_070_planning_survey_manifests.py
 
+## Phase — availability states (ADR-0040)
+
+- [ ] T-017-092 (FR-017-52) fixture propagation through the planning and survey stages — test: tests/pipeline/test_t_017_092_fixture_propagation.py
+- [ ] T-017-093 (FR-017-53) partial survey cells: listed, no summary over incomplete groups — test: tests/pipeline/test_t_017_093_partial_cells.py
+
 ## Phase 8 — Polish and independent review
 - [ ] T-017-090 mutation run on `src/pitstudio/planning/`, `src/pitstudio/survey/` and `src/pitstudio/cases/d2/`; record the scores
 - [ ] T-017-091 independent review of the diff against this spec; append tasks for gaps

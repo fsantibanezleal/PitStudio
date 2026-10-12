@@ -149,6 +149,8 @@ with `error_class: unknown`, except `oom` and `lock-not-held`, which are the sta
 | ~~FR-005-53~~ | — | Retired: the stage's own zero-timeout probe of the lock file. | superseded by FR-002-62, FR-002-63 and FR-005-54 (integration 2026-10-07) |
 | FR-005-54 | Unwanted | If `st50_physics` is about to create a CUDA context on device N and the runner's held-lock list (`PITSTUDIO_HELD_LOCKS`, FR-002-62) does not contain `gpuN.compute` or is malformed, then it shall refuse through the stage helper's guard `require_lock("compute", N)` (FR-002-63) with `error_class: lock-not-held`, before importing Warp's CUDA runtime or creating any CUDA context. | unit (fake GPU backend) |
 | FR-005-55 | Unwanted | If a physics scenario has `domain_min_m` not below `domain_max_m` on any axis, or a dust source with `end_s` not after `start_s`, then `st50_physics` shall reject the scenario with error class `physics-params-invalid` naming the field. | unit (hostile) |
+| FR-005-56 | State | While the scene manifest, terrain grid or road network that `st50_physics` reads is a contract fixture, the stage shall write `fixture: true` on every field, observable, replay shard and benchmark row it produces, and shall not stamp a rollout with a solver-version verdict taken from a fixture benchmark report (FR-005-47). | unit (fake GPU backend) |
+| FR-005-57 | Unwanted | If the SHA-256 of a scene manifest, terrain grid or road network recorded in the job inputs of `st50_physics` differs from the digest of the file now present, then the stage shall fail with error class `input-stale` (FR-002-69) before any solver starts and shall promote nothing. | unit (hostile) |
 
 ## 4. Correctness properties
 | ID | Property (for all …) | Input domain / generator | Tolerance |
@@ -327,6 +329,8 @@ The terrain grid comes from DC-004-03 and the road network from DC-004-06; run m
 - Integration 2026-10-07 (2): shard code type. The replay-shard schema has one owner, spec 018 (DC-018-03), whose header and
   replay manifest declare `code_type` (`int16` or `uint16`); FR-005-45 no longer fixes uint16, and consumers read the
   code type from the header. P-005-27's bound (extent / 131,070) holds for both code types (65,535 steps).
+
+- Availability states (2026-10-11): FR-005-56, FR-005-57 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements

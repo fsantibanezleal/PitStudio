@@ -84,6 +84,7 @@ the tool shows "not yet run" because it published nothing (FR-000-07).
 | FR-006-19 | Unwanted | If the work count or the measured time is zero, negative or not finite, then the stage shall omit the throughput (never report a guessed or zero value) and name the reason in its result message. | unit (hostile) |
 | FR-006-20 | Event | When the runner profiles a stage (`PITSTUDIO_PROFILE=1`, spec 002), a Warp-based studio stage shall enable Warp activity timing and write into its output folder a Chrome trace and a table of the 20 kernels with the largest total time (DC-006-03), labelled "kernel timing, no admin rights", and shall never launch `nsys` or `ncu` itself. | unit (fake stage) |
 | FR-006-21 | Unwanted | If `PITSTUDIO_PROFILE` has a value other than `0` or `1`, then the stage shall fail with error class `profile-invalid`; and if a trace would exceed 100,000,000 bytes, the stage shall stop tracing at that size and mark the table `truncated: true`. | unit (hostile) |
+| FR-006-23 | State | While the frame manifest (DC-006-01) or the frames that `st56_encode` reads are a contract fixture, the stage shall encode them for tests, shall mark the clip pair and the encode report `fixture: true`, and shall write them to no published location. | unit (fake FFmpeg) |
 
 ## 4. Correctness properties
 | ID | Property (for all …) | Input domain / generator | Tolerance |
@@ -179,6 +180,8 @@ build is in the tool registry (DC-000-04); recipes (DC-000-03) declare `resource
   the fixed label, ≤ 20 kernels named by `^[A-Za-z_][A-Za-z0-9_.:-]{0,199}$`, and a trace ≤ 100,000,000 bytes; kernel
   order, means and the 100,000-byte table cap are checker and loader rules.
 - Integration 2026-10-07 (2): the maintainer approved the threshold keys; the text now cites them as plain `thresholds.yaml` keys.
+
+- Availability states (2026-10-11): FR-006-23 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements
