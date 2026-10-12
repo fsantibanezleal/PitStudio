@@ -330,3 +330,73 @@ def compare_arms(
             }
         )
     return rows
+
+
+# ---------------------------------------------------------------------------------------------- Student t quantile
+def _betacf(a: float, b: float, x: float) -> float:
+    """Continued fraction of the regularised incomplete beta function (modified Lentz, Numerical Recipes 6.4)."""
+    tiny = 1e-300
+    qab, qap, qam = a + b, a + 1.0, a - 1.0
+    c, d = 1.0, 1.0 - qab * x / qap
+    d = 1.0 / (d if abs(d) > tiny else tiny)
+    h = d
+    for m in range(1, 1000):
+        m2 = 2 * m
+        aa = m * (b - m) * x / ((qam + m2) * (a + m2))
+        d = 1.0 + aa * d
+        d = 1.0 / (d if abs(d) > tiny else tiny)
+        c = 1.0 + aa / c
+        c = c if abs(c) > tiny else tiny
+        h *= d * c
+        aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2))
+        d = 1.0 + aa * d
+        d = 1.0 / (d if abs(d) > tiny else tiny)
+        c = 1.0 + aa / c
+        c = c if abs(c) > tiny else tiny
+        delta = d * c
+        h *= delta
+        if abs(delta - 1.0) < 1e-16:
+            break
+    return h
+
+
+def betainc(a: float, b: float, x: float) -> float:
+    """Regularised incomplete beta function I_x(a, b) for a, b > 0 and 0 <= x <= 1."""
+    if not (a > 0 and b > 0 and 0.0 <= x <= 1.0):
+        raise ValueError("betainc needs a, b > 0 and x in [0, 1]")
+    if x in (0.0, 1.0):
+        return x
+    front = math.exp(math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log1p(-x))
+    if x < (a + 1.0) / (a + b + 2.0):
+        return front * _betacf(a, b, x) / a
+    return 1.0 - front * _betacf(b, a, 1.0 - x) / b
+
+
+def t_cdf(t: float, df: float) -> float:
+    """Cumulative distribution function of Student's t with `df` degrees of freedom."""
+    if not df > 0:
+        raise ValueError("degrees of freedom must be positive")
+    tail = 0.5 * betainc(df / 2.0, 0.5, df / (df + t * t))
+    return 1.0 - tail if t > 0 else tail
+
+
+def t_quantile(p: float, df: float) -> float:
+    """The p-quantile of Student's t with `df` degrees of freedom (bisection on `t_cdf`, to machine precision)."""
+    if not 0.0 < p < 1.0 or not df > 0:
+        raise ValueError("t_quantile needs 0 < p < 1 and df > 0")
+    if p == 0.5:
+        return 0.0
+    if p < 0.5:
+        return -t_quantile(1.0 - p, df)
+    lo, hi = 0.0, 1.0
+    while t_cdf(hi, df) < p:
+        hi *= 2.0
+        if hi > 1e12:
+            raise ValueError("quantile out of range")
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        if t_cdf(mid, df) < p:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
