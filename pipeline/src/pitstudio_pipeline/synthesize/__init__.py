@@ -20,6 +20,8 @@ from typing import Any
 import numpy as np
 
 from pitstudio_pipeline.download.hashing import sha256_file
+from pitstudio_pipeline.ingest import files as ingest_files
+from pitstudio_pipeline.ingest.series import validate_series
 from pitstudio_pipeline.paths import check_data_root
 from pitstudio_pipeline.splits import MAX_SEED
 from pitstudio_pipeline.synthesize import physics
@@ -254,4 +256,16 @@ def collect_studio_outputs(
     return result
 
 
-__all__ = ["GENERATORS", "SynthResult", "collect_studio_outputs", "run"]
+# ------------------------------------------------------------------------- the shared validators of real data
+def validate_set(set_type: str, subject: Any, **kw: Any) -> None:
+    """Pass a synthetic set through the validator of its real counterpart (FR-008-34); same verdict, same violations."""
+    if set_type == "muck-pile-masks":
+        return ingest_files.validate_mask(subject, **kw)
+    if set_type == "procedural-terrain":
+        return ingest_files.validate_raster(subject, **kw)
+    if set_type == "voight-creep-series":
+        return validate_series(subject["t"], subject["x"], **kw)
+    raise ValueError(f"no real-data validator for the set type {set_type!r}")
+
+
+__all__ = ["GENERATORS", "SynthResult", "collect_studio_outputs", "run", "validate_set"]
