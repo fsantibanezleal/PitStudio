@@ -18,12 +18,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SPECS = ("004", "005", "006", "013")
+MIXED_SPECS = ("013",)
+STUDIO_MARKERS = ('"studio" / "src"', '"studio" / "rtx" / "src"', '"studio" / "isaac" / "src"')
 
 
 def test_files() -> list[Path]:
     found: list[Path] = []
     for spec in SPECS:
-        found.extend(sorted((ROOT / "tests").rglob(f"test_t_{spec}_*.py")))
+        files = sorted((ROOT / "tests").rglob(f"test_t_{spec}_*.py"))
+        if spec in MIXED_SPECS:  # spec 013 also has root-environment tests: keep those that need a studio environment
+            files = [f for f in files if any(m in f.read_text(encoding="utf-8") for m in STUDIO_MARKERS)]
+        found.extend(files)
     return found
 
 
