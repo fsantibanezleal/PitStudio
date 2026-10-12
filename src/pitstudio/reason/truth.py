@@ -83,7 +83,7 @@ def truth_type3(frame: Mapping[str, Any]) -> str | None:
 
 
 # ----------------------------------------------------------------------------------------------------- type 4: dust
-def _quat_to_matrix(q: Sequence[float]) -> np.ndarray:
+def quat_to_matrix(q: Sequence[float]) -> np.ndarray:
     x, y, z, w = (float(v) for v in q)
     return np.array(
         [
@@ -102,7 +102,7 @@ def grid_rays(frame: Mapping[str, Any]) -> tuple[np.ndarray, np.ndarray, np.ndar
     """
     img, cam = frame["image"], frame["camera"]
     k = cam["intrinsics"]
-    rot = _quat_to_matrix(cam["pose"]["rotation_xyzw"])
+    rot = quat_to_matrix(cam["pose"]["rotation_xyzw"])
     cols, rows = GRID
     u = (np.arange(cols) + 0.5) * img["width_px"] / cols
     v = (np.arange(rows) + 0.5) * img["height_px"] / rows
@@ -192,7 +192,7 @@ def _boundary_distance(p: Sequence[float], poly: Sequence[Sequence[float]]) -> f
     return min(_segment_distance(p, poly[i], poly[(i + 1) % len(poly)]) for i in range(len(poly)))
 
 
-def _inside(p: Sequence[float], poly: Sequence[Sequence[float]]) -> bool:
+def point_in_polygon(p: Sequence[float], poly: Sequence[Sequence[float]]) -> bool:
     """Even-odd rule (ray casting)."""
     x, y = p
     c = False
@@ -232,7 +232,7 @@ def truth_type5(frame: Mapping[str, Any], *, blind_zones: Mapping[str, Sequence[
         body.append((math.cos(h) * dx + math.sin(h) * dy, -math.sin(h) * dx + math.cos(h) * dy))
     if any(_boundary_distance(p, poly) < BLIND_EXCLUSION_M for p in body):
         return None
-    return "yes" if any(_inside(p, poly) for p in body) else "no"
+    return "yes" if any(point_in_polygon(p, poly) for p in body) else "no"
 
 
 # ---------------------------------------------------------------------------------------------------- type 6: grade

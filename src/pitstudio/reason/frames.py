@@ -7,7 +7,6 @@ field or, for a problem inside an object, its `prim_id`.
 
 from __future__ import annotations
 
-import functools
 import hashlib
 import json
 import math
@@ -15,11 +14,7 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
-from jsonschema import Draft202012Validator
-from referencing import Registry, Resource
-from referencing.jsonschema import DRAFT202012
-
-from pitstudio.contracts.validate import CONTRACTS_DIR
+from pitstudio.reason import _schemas
 
 SCHEMA_FILE = "frame-state.schema.json"
 MAX_REPORTED_ERRORS = 8
@@ -30,16 +25,6 @@ class FrameStateInvalid(ValueError):
     """A frame state is not valid; `error_class` is the stable class name of the failure."""
 
     error_class = "frame-state-invalid"
-
-
-@functools.cache
-def _validator() -> Draft202012Validator:
-    registry: Registry = Registry()
-    for path in sorted(CONTRACTS_DIR.glob("*.schema.json")):
-        doc = json.loads(path.read_text(encoding="utf-8"))
-        registry = registry.with_resource(doc["$id"], Resource.from_contents(doc, default_specification=DRAFT202012))
-    schema = json.loads((CONTRACTS_DIR / SCHEMA_FILE).read_text(encoding="utf-8"))
-    return Draft202012Validator(schema, registry=registry)
 
 
 def _where(doc: Mapping[str, Any], path: list[Any]) -> str:
@@ -54,7 +39,7 @@ def _where(doc: Mapping[str, Any], path: list[Any]) -> str:
 
 
 def _schema_errors(doc: Mapping[str, Any]) -> list[str]:
-    errors = sorted(_validator().iter_errors(doc), key=lambda e: [str(p) for p in e.absolute_path])
+    errors = sorted(_schemas.validator(SCHEMA_FILE).iter_errors(doc), key=lambda e: [str(p) for p in e.absolute_path])
     return [f"{_where(doc, list(e.absolute_path))}: {e.message[:200]}" for e in errors[:MAX_REPORTED_ERRORS]]
 
 

@@ -72,7 +72,7 @@ def _decimals(value: float) -> str:
 
 
 def apply_gate(rows: Sequence[Mapping[str, Any]], gate: Mapping[str, Any]) -> list[dict[str, Any]]:
-    """Task rows after the gate: Q8_0 rows are rejected (gate failed) or not run (gate not evaluable); others unchanged."""
+    """Task rows after the gate: Q8_0 rows are rejected (gate failed) or not run (not evaluable); others unchanged."""
     status = gate["status"]
     out = []
     for row in rows:
