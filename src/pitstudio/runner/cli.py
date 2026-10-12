@@ -1,7 +1,5 @@
 """The `studio` command line (plan.md D1, exit codes D2): usage errors are one line and exit 2."""
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import argparse
@@ -24,7 +22,7 @@ from pitstudio.runner.recipe import (
     load_module,
     load_profile,
     load_recipe,
-    one_line,  # fmt: skip
+    one_line,
     plan,
     recipe_path,
     repo_root,
@@ -35,12 +33,29 @@ from pitstudio.runner.recipe import (
 STAGE_KEY = re.compile(r"[a-z][a-z0-9_]{1,31}(@[a-z0-9][a-z0-9-]{0,31})?")
 JOB_ID = re.compile(r"[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}")
 FLAG, GPU = {"action": "store_true"}, ("--gpu-backend", {})
-SPEC = {"plan": [("recipe", {}), ("--profile", {"required": True}), ("--json", FLAG), GPU],
-        "run": [("recipe", {"nargs": "?"}), ("--profile", {}), ("--stage", {"action": "append", "default": []}), ("--resume", {}),
-                ("--force", FLAG), ("--rerun-check", FLAG), ("--detach", FLAG), GPU],
-        "worker": [GPU], "status": [("--json", FLAG)], "publish": [("run_id", {}), ("--release-tag", {})],
-        "gc": [("--keep-last", {"type": int, "default": 3}), ("--keep-pinned", FLAG), ("--dry-run", FLAG), ("--verify", FLAG)],
-        "profile": [("recipe", {}), ("--profile", {"required": True}), ("--stage", {"required": True}), GPU]}  # fmt: skip
+SPEC = {
+    "plan": [("recipe", {}), ("--profile", {"required": True}), ("--json", FLAG), GPU],
+    "run": [
+        ("recipe", {"nargs": "?"}),
+        ("--profile", {}),
+        ("--stage", {"action": "append", "default": []}),
+        ("--resume", {}),
+        ("--force", FLAG),
+        ("--rerun-check", FLAG),
+        ("--detach", FLAG),
+        GPU,
+    ],
+    "worker": [GPU],
+    "status": [("--json", FLAG)],
+    "publish": [("run_id", {}), ("--release-tag", {})],
+    "gc": [
+        ("--keep-last", {"type": int, "default": 3}),
+        ("--keep-pinned", FLAG),
+        ("--dry-run", FLAG),
+        ("--verify", FLAG),
+    ],
+    "profile": [("recipe", {}), ("--profile", {"required": True}), ("--stage", {"required": True}), GPU],
+}
 
 
 class Parser(argparse.ArgumentParser):
@@ -93,8 +108,11 @@ def do_plan(ns: argparse.Namespace) -> int:
         return 0
     print(f"recipe {result['recipe']} profile {result['profile']}")
     for r in result["stages"]:
-        print(f"{r['key']:<30} {r['status']:<13} env={r['env']} tool={r['tool']} lock={r['lock'] or '-'} key={(r['cache_key'] or '-')[:12]} "
-              f"vram={r['vram_gib_est'] or '-'} disk={r['disk_gib_est'] or '-'} shards={r['shards']}")  # fmt: skip
+        print(
+            f"{r['key']:<30} {r['status']:<13} env={r['env']} tool={r['tool']} lock={r['lock'] or '-'} "
+            f"key={(r['cache_key'] or '-')[:12]} "
+            f"vram={r['vram_gib_est'] or '-'} disk={r['disk_gib_est'] or '-'} shards={r['shards']}"
+        )
     return 0
 
 
@@ -134,8 +152,16 @@ def submit(ns: argparse.Namespace) -> int:
         and (code := hold_gate()) is not None
     ):
         return code
-    req = {"recipe": doc["id"], "profile": prof["id"], "stages": want, "force": getattr(ns, "force", False), "profiling": profiling,
-           "rerun_check": getattr(ns, "rerun_check", False), "gpu_backend": ns.gpu_backend, "resume": resume}  # fmt: skip
+    req = {
+        "recipe": doc["id"],
+        "profile": prof["id"],
+        "stages": want,
+        "force": getattr(ns, "force", False),
+        "profiling": profiling,
+        "rerun_check": getattr(ns, "rerun_check", False),
+        "gpu_backend": ns.gpu_backend,
+        "resume": resume,
+    }
     job_id = queue.enqueue(req)
     if getattr(ns, "detach", False):
         print(f"queued {job_id}")
@@ -217,9 +243,8 @@ def do_gc(ns: argparse.Namespace) -> int:
         except Timeout:
             print("a worker holds locks/worker.lock: gc deletes nothing", file=sys.stderr)
             return 3
-    print(
-        f"gc: {'would free' if ns.dry_run else 'freed'} {gc.collect(store_dir, repo_root(), ns.keep_last, ns.dry_run, ns.verify)} bytes"
-    )
+    freed = gc.collect(store_dir, repo_root(), ns.keep_last, ns.dry_run, ns.verify)
+    print(f"gc: {'would free' if ns.dry_run else 'freed'} {freed} bytes")
     return 0
 
 
@@ -233,8 +258,16 @@ def bench(args: list[str]) -> int:
         return e.code if isinstance(e.code, int) else 2
 
 
-COMMANDS = {"plan": do_plan, "run": submit, "profile": submit, "worker": do_worker, "queue": do_queue, "status": do_status, "gc": do_gc,
-            "publish": lambda ns: print("\n".join(publish.publish(store_root(), repo_root(), ns.run_id, ns.release_tag))) or 0}  # fmt: skip
+COMMANDS = {
+    "plan": do_plan,
+    "run": submit,
+    "profile": submit,
+    "worker": do_worker,
+    "queue": do_queue,
+    "status": do_status,
+    "gc": do_gc,
+    "publish": lambda ns: print("\n".join(publish.publish(store_root(), repo_root(), ns.run_id, ns.release_tag))) or 0,
+}
 
 
 def main(argv: list[str] | None = None) -> int:

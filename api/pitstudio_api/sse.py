@@ -1,6 +1,4 @@
-"""The server-sent event stream of a run: replay, follow, telemetry at most once a second, keep-alive (FR-003-15, 16)."""
-
-# ruff: noqa: E501
+"""The server-sent event stream of a run: replay, follow, telemetry at most once a second, keep-alive (FR-003-15)."""
 
 from __future__ import annotations
 

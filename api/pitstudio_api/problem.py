@@ -1,7 +1,5 @@
 """RFC 9457 problem responses and the security headers every response carries (FR-003-22)."""
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import http
@@ -17,8 +15,15 @@ def line(text: object, limit: int = 300) -> str:
     return " ".join(str(text).split())[:limit]
 
 
-def problem(status: int, detail: str, *, title: str | None = None, kind: str = "about:blank", errors: list[dict] | None = None,
-            headers: dict[str, str] | None = None) -> JSONResponse:  # fmt: skip
+def problem(
+    status: int,
+    detail: str,
+    *,
+    title: str | None = None,
+    kind: str = "about:blank",
+    errors: list[dict] | None = None,
+    headers: dict[str, str] | None = None,
+) -> JSONResponse:
     """A `problem` body (contracts/console.schema.json#/$defs/problem): one-line texts, no trace, no path."""
     body: dict[str, Any] = {
         "type": kind,

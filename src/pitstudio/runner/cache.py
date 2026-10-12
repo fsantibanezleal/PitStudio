@@ -1,7 +1,5 @@
 """Cache key, derived seed, code and lock digests, and the content-addressed store (FR-002-08..14)."""
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import contextlib
@@ -17,11 +15,28 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-PROJECT = {"studio": "studio", "isaac": "studio/isaac", "rtx": "studio/rtx", "isaaclab": "studio/isaaclab", "pipeline": "pipeline",
-           "accel": "pipeline/accel", "kit": "studio", "reason": "studio", "external": "studio"}  # fmt: skip
-CODE = {"studio": ["studio/src"], "isaac": ["studio/isaac/src"], "rtx": ["studio/rtx/src"], "isaaclab": ["studio/isaaclab/src"],
-        "pipeline": ["pipeline/src"], "accel": ["pipeline/accel/src"], "kit": ["studio/src", "studio/kit"],
-        "reason": ["studio/src", "studio/reason"], "external": ["studio/src"]}  # fmt: skip
+PROJECT = {
+    "studio": "studio",
+    "isaac": "studio/isaac",
+    "rtx": "studio/rtx",
+    "isaaclab": "studio/isaaclab",
+    "pipeline": "pipeline",
+    "accel": "pipeline/accel",
+    "kit": "studio",
+    "reason": "studio",
+    "external": "studio",
+}
+CODE = {
+    "studio": ["studio/src"],
+    "isaac": ["studio/isaac/src"],
+    "rtx": ["studio/rtx/src"],
+    "isaaclab": ["studio/isaaclab/src"],
+    "pipeline": ["pipeline/src"],
+    "accel": ["pipeline/accel/src"],
+    "kit": ["studio/src", "studio/kit"],
+    "reason": ["studio/src", "studio/reason"],
+    "external": ["studio/src"],
+}
 SKIP_DIRS = {"__pycache__", ".venv", ".pytest_cache", "node_modules"}
 HEX64 = re.compile(r"[0-9a-f]{64}")
 

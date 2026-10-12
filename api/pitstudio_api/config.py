@@ -1,7 +1,5 @@
 """Console settings read from the environment: the port and the CORS allowlist (FR-003-03, 04, 21)."""
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import re
@@ -24,7 +22,7 @@ def parse_port(value: str | None) -> int | None:
 
 
 def parse_allow_origins(value: str | None) -> list[str]:
-    """Exact origins: https with an optional port, or http://127.0.0.1:<port> / http://localhost:<port> (never `*`, paths or userinfo)."""
+    """Exact origins: https (port optional), http://127.0.0.1:<port> or http://localhost:<port>; no `*`, path, user."""
     if value is None:
         return [DEFAULT_ORIGIN]
     for entry in value.split(","):
@@ -32,6 +30,6 @@ def parse_allow_origins(value: str | None) -> list[str]:
         port = int(m.group(5)) if m and m.group(5) else None
         if not m or (m.group(3) and port is None) or (port is not None and not 1 <= port <= 65535):
             raise ValueError(
-                f"PITSTUDIO_CONSOLE_ALLOW_ORIGINS entry {entry[:80]!r} is not an exact https origin or loopback http origin"
+                f"PITSTUDIO_CONSOLE_ALLOW_ORIGINS entry {entry[:80]!r} is not an exact https or loopback http origin"
             )
     return value.split(",")

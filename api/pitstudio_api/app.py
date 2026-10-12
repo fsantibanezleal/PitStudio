@@ -1,6 +1,4 @@
-"""The console application: request hygiene (Host, Origin, paths, CORS for /health only), problem bodies, OpenAPI (FR-003-17..22)."""
-
-# ruff: noqa: E501
+"""The console application: request hygiene (Host, Origin, paths, CORS of /health), problem bodies, OpenAPI."""
 
 from __future__ import annotations
 
@@ -21,15 +19,27 @@ from pitstudio_api.problem import line, problem, secure
 from pitstudio_api.routes import ID, router
 
 log = logging.getLogger("pitstudio_api")
-# the shapes of the routes: literal segments and `{kind}` parameters; a parameter is checked on the RAW path (%2F stays %2F)
-SHAPES = [("health",), ("recipes",), ("recipes", "{slug}"), ("queue",), ("jobs",), ("jobs", "{job}"), ("jobs", "{job}", "cancel"), ("runs",),
-          ("runs", "{run}"), ("runs", "{run}", "artefacts", "{art}"), ("runs", "{run}", "events"), ("openapi.json",)]  # fmt: skip
+# route shapes: literal segments and `{kind}` parameters; a parameter is checked on the RAW path (%2F stays %2F)
+SHAPES = [
+    ("health",),
+    ("recipes",),
+    ("recipes", "{slug}"),
+    ("queue",),
+    ("jobs",),
+    ("jobs", "{job}"),
+    ("jobs", "{job}", "cancel"),
+    ("runs",),
+    ("runs", "{run}"),
+    ("runs", "{run}", "artefacts", "{art}"),
+    ("runs", "{run}", "events"),
+    ("openapi.json",),
+]
 STATIC = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}")
 Wrap = Callable[[Any], Any]
 
 
 def route_problem(raw: bytes) -> str | None:
-    """A path parameter that does not match its pattern (checked on the raw path), or a UI path that could leave its folder."""
+    """A path parameter that does not match its pattern (raw path), or a UI path that could leave its folder."""
     segs = raw.decode("latin-1").split("/")[1:]
     if segs[:1] == ["ui"]:
         return None if all(s == "" or STATIC.fullmatch(s) for s in segs[1:]) else "the console file path is not valid"
@@ -83,7 +93,7 @@ class Guard:
                 await problem(500, "the console failed to handle the request")(scope, receive, tracked)
 
     def check(self, scope: dict) -> tuple[Response | None, Wrap]:
-        """(a refusal or None, a `send` wrapper): Host, preflight, cross-site POST, path parameters, CORS of GET /health."""
+        """(a refusal or None, a `send` wrapper): Host, preflight, cross-site POST, path parameters, CORS of /health."""
         heads: dict[str, list[str]] = {}
         for k, v in scope["headers"]:
             heads.setdefault(k.decode("latin-1").lower(), []).append(v.decode("latin-1"))

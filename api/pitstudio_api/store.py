@@ -1,9 +1,8 @@
-"""Read-only access to the store, the repository's recipes and the runner's queue records (FR-003-05, 07, 08, 12, 13, 23)."""
-
-# ruff: noqa: E501
+"""Read-only access to the store, the repository's recipes and the runner's queue records (FR-003-05..13, 23)."""
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import logging
@@ -23,7 +22,7 @@ from pitstudio.runner.recipe import (
     load_recipe,
     load_yaml,
     store_root,
-    strict_json,  # fmt: skip
+    strict_json,
     validator,
 )
 
@@ -56,7 +55,7 @@ def ask_queue(call: str, *args: Any) -> Any:
 
 
 def check_job(rec: dict) -> dict:
-    """A record whose shard counter exceeds its total is never served (FR-003-31): the SHA-256 of the record is logged."""
+    """A record whose shard counter exceeds its total is never served (FR-003-31); the record's SHA-256 is logged."""
     shards = rec.get("shards")
     if shards and shards["done"] > shards["total"]:
         digest = hashlib.sha256(json.dumps(rec, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
@@ -65,7 +64,7 @@ def check_job(rec: dict) -> dict:
     return rec
 
 
-# ---- recipes -----------------------------------------------------------------------------------------------------------
+# ---- recipes ------------------------------------------------------
 def recipe_files(repo: Path) -> list[Path]:
     return sorted(
         p for d in ("cases", "_bench") for p in (repo / "studio" / "recipes" / d).glob("*.yaml") if p.is_file()
@@ -103,9 +102,32 @@ def recipe_view(repo: Path, path: Path) -> tuple[dict | None, list[dict]]:
         return None, [{"pointer": "", "keyword": "recipe", "message": " ".join(str(e).split())[:300]}]
 
 
+_SUMMARIES: dict[tuple, dict] = {}
+
+
+def _stamp(path: Path) -> tuple[int, int]:
+    try:
+        st = path.stat()
+    except OSError:
+        return (0, 0)
+    return (st.st_mtime_ns, st.st_size)
+
+
 def recipe_summary(repo: Path, path: Path) -> dict:
-    doc, errors = recipe_view(repo, path)
+    """One list row; a summary is reused while the recipe bytes and the tool registry and probe files are unchanged."""
     raw = path.read_bytes()
+    sha = hashlib.sha256(raw).hexdigest()
+    deps = (_stamp(repo / "studio" / "tools.yaml"), _stamp(repo / "studio" / "bench" / "run_bench.py"))
+    key = (str(repo), path.relative_to(repo).as_posix(), sha, deps)
+    if (hit := _SUMMARIES.get(key)) is None:
+        if len(_SUMMARIES) >= 1024:
+            _SUMMARIES.clear()
+        hit = _SUMMARIES[key] = _summarise(repo, path, sha)
+    return copy.deepcopy(hit)
+
+
+def _summarise(repo: Path, path: Path, sha: str) -> dict:
+    doc, errors = recipe_view(repo, path)
     head = {}
     if not doc:
         with_doc = load_yaml_or_none(path)
@@ -113,9 +135,15 @@ def recipe_summary(repo: Path, path: Path) -> dict:
     src = doc or head
     rid, case = src.get("id"), src.get("case")
     stages = src.get("stages")
-    return {"id": rid if isinstance(rid, str) and SLUG.fullmatch(rid) else None, "case": case if case in CASES else None,
-            "path": path.relative_to(repo).as_posix(), "sha256": hashlib.sha256(raw).hexdigest(),
-            "stages": min(len(stages), 64) if isinstance(stages, list) else 0, "valid": doc is not None, "errors": errors}  # fmt: skip
+    return {
+        "id": rid if isinstance(rid, str) and SLUG.fullmatch(rid) else None,
+        "case": case if case in CASES else None,
+        "path": path.relative_to(repo).as_posix(),
+        "sha256": sha,
+        "stages": min(len(stages), 64) if isinstance(stages, list) else 0,
+        "valid": doc is not None,
+        "errors": errors,
+    }
 
 
 def load_yaml_or_none(path: Path) -> Any:
@@ -129,7 +157,7 @@ def find_recipe_file(repo: Path, rid: str) -> Path | None:
     return next((p for p in recipe_files(repo) if p.stem == rid), None)
 
 
-# ---- runs --------------------------------------------------------------------------------------------------------------
+# ---- runs ------------------------------------------------------
 def run_ids(store: Path) -> list[str]:
     runs = store / "runs"
     return sorted(d.name for d in runs.iterdir() if d.is_dir() and RUN_ID.fullmatch(d.name)) if runs.is_dir() else []
@@ -160,7 +188,7 @@ def read_manifest(store: Path, run_id: str) -> tuple[dict | None, str]:
 
 
 def artefact_file(store: Path, sha: str) -> Path | None:
-    """The stored object of an artefact, or None when it is missing or leads outside `cas/` (for example through a link)."""
+    """The stored object of an artefact, or None when it is missing or leads outside `cas/` (for example by a link)."""
     cas = os.path.realpath(store / "cas")
     p = store / "cas" / "sha256" / sha[:2] / sha
     real = os.path.realpath(p)

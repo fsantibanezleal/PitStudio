@@ -1,6 +1,4 @@
-"""Machine-wide GPU locks and the GPU hold (FR-002-15..18, FR-002-23). `filelock` is imported only when a lock is taken."""
-
-# ruff: noqa: E501
+"""Machine-wide GPU locks and the GPU hold (FR-002-15..18, 23). `filelock` is imported only when a lock is taken."""
 
 from __future__ import annotations
 

@@ -1,7 +1,5 @@
 """The console's endpoints (plan.md D1, D2): every handler is one read of the store or one runner call."""
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import json
@@ -24,7 +22,12 @@ from pitstudio_api import sse, store
 from pitstudio_api.problem import line, problem
 
 LIMIT = 65536
-ID = {"slug": r"^[a-z0-9][a-z0-9-]{0,63}$", "run": r"^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$", "job": r"^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}$", "art": r"^[a-z0-9][a-z0-9_-]{0,95}$"}  # fmt: skip
+ID = {
+    "slug": r"^[a-z0-9][a-z0-9-]{0,63}$",
+    "run": r"^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$",
+    "job": r"^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}$",
+    "art": r"^[a-z0-9][a-z0-9_-]{0,95}$",
+}
 RecipeId = Annotated[str, FPath(pattern=ID["slug"], max_length=64)]
 RunId = Annotated[str, FPath(pattern=ID["run"], max_length=64)]
 JobId = Annotated[str, FPath(pattern=ID["job"], max_length=25)]
@@ -113,8 +116,17 @@ def job(job_id: JobId) -> Response:
     return JSONResponse(rec) if rec else problem(404, f"no job {job_id}")
 
 
-@router.post("/jobs", status_code=202, responses={202: {"model": JobCreated, "description": "accepted"}} | errs(400, 403, 413, 415, 422, 503),
-             openapi_extra={"requestBody": {"required": True, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/JobRequest"}}}}})  # fmt: skip
+@router.post(
+    "/jobs",
+    status_code=202,
+    responses={202: {"model": JobCreated, "description": "accepted"}} | errs(400, 403, 413, 415, 422, 503),
+    openapi_extra={
+        "requestBody": {
+            "required": True,
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/JobRequest"}}},
+        }
+    },
+)
 async def create_job(request: Request) -> Response:
     if request.headers.get("content-type", "").split(";")[0].strip().lower() != "application/json":
         return problem(415, "the content type must be application/json")
@@ -197,8 +209,18 @@ def runs() -> Response:
     rows = []
     for rid in ids:
         m, _ = store.read_manifest(root, rid)
-        rows.append({"run_id": rid, "recipe": m["recipe"]["id"] if m else None, "created": m["created"] if m else None, "profile": m["profile"] if m else None,
-                     "state": states.get(rid), "stages": len(m["stages"]) if m else 0, "published": bool(m and m["published"]), "valid": m is not None})  # fmt: skip
+        rows.append(
+            {
+                "run_id": rid,
+                "recipe": m["recipe"]["id"] if m else None,
+                "created": m["created"] if m else None,
+                "profile": m["profile"] if m else None,
+                "state": states.get(rid),
+                "stages": len(m["stages"]) if m else 0,
+                "published": bool(m and m["published"]),
+                "valid": m is not None,
+            }
+        )
     return JSONResponse({"runs": rows})
 
 
@@ -214,7 +236,7 @@ def run(run_id: RunId) -> Response:
 
 
 def byte_range(header: str | None, total: int) -> tuple[int, int] | str | None:
-    """(first, last) of a single satisfiable `bytes=` range, "unsatisfiable", or None to serve the whole object (RFC 9110, 14.1)."""
+    """(first, last) of one satisfiable `bytes=` range, "unsatisfiable", or None for the whole object (RFC 9110)."""
     m = re.fullmatch(r"bytes=([0-9]*)-([0-9]*)", header or "")
     if not m or not (m.group(1) or m.group(2)):
         return None
@@ -229,7 +251,7 @@ def byte_range(header: str | None, total: int) -> tuple[int, int] | str | None:
 
 
 class Chunked(StreamingResponse):
-    """Sends the chunks in turn without waiting for the peer to speak first, so a client that has already sent its whole request cannot cut the body short."""
+    """Sends the chunks without waiting for the peer to speak first: a client that sent its request cannot cut it."""
 
     async def __call__(self, scope, receive, send) -> None:
         await send({"type": "http.response.start", "status": self.status_code, "headers": self.raw_headers})
@@ -247,8 +269,14 @@ def chunks(path: Path, first: int, last: int) -> Iterator[bytes]:
             yield data
 
 
-@router.get("/runs/{run_id}/artefacts/{artefact_id}", responses={200: {"description": "the bytes", "content": {"*/*": {"schema": {"type": "string", "format": "binary"}}}},
-            206: {"description": "partial content", "content": {"*/*": {"schema": {"type": "string", "format": "binary"}}}}} | errs(404, 409, 416, 422, 503))  # fmt: skip
+@router.get(
+    "/runs/{run_id}/artefacts/{artefact_id}",
+    responses={
+        200: {"description": "the bytes", "content": {"*/*": {"schema": {"type": "string", "format": "binary"}}}},
+        206: {"description": "partial content", "content": {"*/*": {"schema": {"type": "string", "format": "binary"}}}},
+    }
+    | errs(404, 409, 416, 422, 503),
+)
 def artefact(run_id: RunId, artefact_id: ArtId, request: Request) -> Response:
     try:
         root = store.store_dir()

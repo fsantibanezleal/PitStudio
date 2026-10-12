@@ -1,6 +1,4 @@
-"""The job queue: one SQLite file per store, WAL mode, shared by the command line and the console (FR-002-39..41, 58)."""
-
-# ruff: noqa: E501
+"""The job queue: one SQLite file per store, WAL mode, shared by the command line and the console (FR-002-39..41)."""
 
 from __future__ import annotations
 
@@ -14,9 +12,9 @@ from typing import Any
 from pitstudio.runner.recipe import Usage, store_root
 
 FIELDS = ("job_id", "recipe", "state", "run_id", "created", "stage", "shards", "exit_code", "reason")
-SCHEMA = """CREATE TABLE IF NOT EXISTS jobs (seq INTEGER PRIMARY KEY AUTOINCREMENT, job_id TEXT UNIQUE NOT NULL, recipe TEXT,
-profile TEXT, request TEXT, state TEXT, run_id TEXT, created TEXT, stage TEXT, shards TEXT, exit_code INTEGER, reason TEXT,
-pid INTEGER, pid_start REAL, cancel INTEGER DEFAULT 0)"""  # fmt: skip
+SCHEMA = """CREATE TABLE IF NOT EXISTS jobs (seq INTEGER PRIMARY KEY AUTOINCREMENT, job_id TEXT UNIQUE NOT NULL,
+recipe TEXT, profile TEXT, request TEXT, state TEXT, run_id TEXT, created TEXT, stage TEXT, shards TEXT,
+exit_code INTEGER, reason TEXT, pid INTEGER, pid_start REAL, cancel INTEGER DEFAULT 0)"""
 
 
 def _connect() -> sqlite3.Connection:

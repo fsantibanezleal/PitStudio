@@ -1,7 +1,5 @@
 """GPU telemetry: the sampler writing `telemetry.jsonl` and the per-stage summary (FR-002-30..32)."""
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import json
@@ -31,7 +29,7 @@ INTS = {"clocks_event_mask": 2**32 - 1, "energy_mj": 2**53 - 1, "pcie_replays": 
 
 
 def clean(raw: Any, cap: float, integer: bool = False) -> float | int | None:
-    """A reading inside the schema's caps, else None: an unsupported, non-finite, negative or huge value is never a number."""
+    """A reading inside the schema's caps, else None: an unsupported, non-finite, negative or huge value is none."""
     if isinstance(raw, bool) or not isinstance(raw, int | float) or not math.isfinite(raw) or not 0 <= raw <= cap:
         return None
     return round(raw) if integer else raw
@@ -44,8 +42,19 @@ def read_sample(backend: Any, field: str) -> float | int | None:
         return None
 
 
-def sample_loop(backend: Any, path: Path, hz: float, *, clock: Any = time, should_stop: Callable[[], bool], run_id: str,
-                stage: dict, shard: int = 0, gpu: int = 0, on_sample: Callable[[dict], None] | None = None) -> int:  # fmt: skip
+def sample_loop(
+    backend: Any,
+    path: Path,
+    hz: float,
+    *,
+    clock: Any = time,
+    should_stop: Callable[[], bool],
+    run_id: str,
+    stage: dict,
+    shard: int = 0,
+    gpu: int = 0,
+    on_sample: Callable[[dict], None] | None = None,
+) -> int:
     """Append one JSON line per sample (flushed per line) until `should_stop()`; returns the number of samples."""
     n, t0, total = 0, None, backend.vram_total_bytes
     while not should_stop():
@@ -55,8 +64,16 @@ def sample_loop(backend: Any, path: Path, hz: float, *, clock: Any = time, shoul
             used = clean(total - free, total, True) if free <= total else None
         except Exception:
             used = None
-        row = {"t_s": clock.monotonic() - t0, "run_id": run_id, "stage": stage, "shard": shard, "gpu": gpu,
-               "mem_used_bytes": used, "mem_total_bytes": total, **{f: read_sample(backend, f) for f in (*CAPS, *INTS)}}  # fmt: skip
+        row = {
+            "t_s": clock.monotonic() - t0,
+            "run_id": run_id,
+            "stage": stage,
+            "shard": shard,
+            "gpu": gpu,
+            "mem_used_bytes": used,
+            "mem_total_bytes": total,
+            **{f: read_sample(backend, f) for f in (*CAPS, *INTS)},
+        }
         with open(path, "a", encoding="utf-8") as fh:
             fh.write(json.dumps(row) + "\n")
         n += 1

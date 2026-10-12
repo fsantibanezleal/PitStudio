@@ -5,8 +5,6 @@ Without the flag the file is (re)written from the application. With --check noth
 the committed file equals the generated document and 1 (naming the file) when it differs or is missing.
 """
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import argparse
@@ -35,9 +33,7 @@ def main(argv: list[str]) -> int:
     if args.check:
         current = TARGET.read_bytes().decode("utf-8").replace("\r\n", "\n") if TARGET.is_file() else None
         if current != text:
-            print(
-                f"{TARGET.relative_to(ROOT).as_posix()} differs from the application (or is missing): run python tools/gen_openapi.py"
-            )
+            print(f"{TARGET.relative_to(ROOT).as_posix()} is stale or missing: run python tools/gen_openapi.py")
             return 1
         return 0
     TARGET.write_text(text, encoding="utf-8", newline="\n")

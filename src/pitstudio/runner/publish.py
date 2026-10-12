@@ -1,7 +1,5 @@
 """`studio publish`: a finished run as static web files, and published telemetry (FR-002-48..50)."""
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import json
@@ -9,15 +7,24 @@ import math
 import re
 import shutil
 from pathlib import Path
-from typing import Any
 
+from pitstudio.contracts.lane import lane_of
+from pitstudio.contracts.licence import licence_class_of, rank_of
+from pitstudio.contracts.privacy import iter_strings
 from pitstudio.runner.cache import Store, file_sha, sha, write_atomic
 from pitstudio.runner.recipe import RUN_ID, Usage, first_errors, kstr, load_yaml, one_line
 
 LOCAL_ONLY = "measured locally, not published (licence)"
-RANK = ["public-domain", "open-no-attribution", "own", "attribution", "share-alike", "display-only", "reference-only"]
+STILL_KINDS = ("image", "figure", "table", "text", "model-card", "usd")
 TAG = re.compile(r"assets-v[0-9]+\.[0-9]{2}\.[0-9]{3}")
-PRIVATE = [re.compile(p) for p in (r"(?<![A-Za-z0-9])[A-Za-z]:[\\/]", r"\\\\[A-Za-z0-9._$-]+\\", r"(^|[\s\"'=(,:])/(home|Users|root|tmp|var|mnt|media|opt|srv|private|run)/")]  # fmt: skip
+PRIVATE = [
+    re.compile(p)
+    for p in (
+        r"(?<![A-Za-z0-9])[A-Za-z]:[\\/]",
+        r"\\\\[A-Za-z0-9._$-]+\\",
+        r"(^|[\s\"'=(,:])/(home|Users|root|tmp|var|mnt|media|opt|srv|private|run)/",
+    )
+]
 
 
 def _bucket(rows: list[dict], start: float) -> dict:
@@ -33,7 +40,13 @@ def _bucket(rows: list[dict], start: float) -> dict:
     mask = None
     for m in col("clocks_event_mask"):
         mask = (mask or 0) | m
-    return {"t_s": start, **mean, "temp_c": max(col("temp_c"), default=None), "mem_used_bytes": max(col("mem_used_bytes"), default=None), "clocks_event_mask": mask}  # fmt: skip
+    return {
+        "t_s": start,
+        **mean,
+        "temp_c": max(col("temp_c"), default=None),
+        "mem_used_bytes": max(col("mem_used_bytes"), default=None),
+        "clocks_event_mask": mask,
+    }
 
 
 def downsample(samples: list[dict], *, max_points: int = 2000) -> dict:
@@ -66,18 +79,10 @@ def published_telemetry(run_id: str, stages: list[dict], *, max_points: int = 20
         max_points //= 2
 
 
-def _strings(o: Any):
-    yield from (
-        [o]
-        if isinstance(o, str)
-        else (s for v in (o.values() if isinstance(o, dict) else o if isinstance(o, list) else ()) for s in _strings(v))
-    )
-
-
 def _licence(kind: str, inputs: list[dict], sources: dict[str, dict]) -> dict:
     """Licence class (the lattice maximum), SPDX id and attribution of an artefact (plan.md D3)."""
     srcs = [sources[i["id"]] for i in inputs if i["kind"] == "source" and i["id"] in sources]
-    cls = max(["own", *(s["licence_class"] for s in srcs)], key=RANK.index)
+    cls = licence_class_of(s["licence_class"] for s in srcs)
     texts = list(dict.fromkeys(s["attribution"] for s in srcs if s.get("attribution")))
     if cls == "reference-only" or len("; ".join(texts)) > 1000:
         raise Usage("an input is reference-only, or the attribution text exceeds 1,000 characters (licence)")
@@ -92,30 +97,29 @@ def _licence(kind: str, inputs: list[dict], sources: dict[str, dict]) -> dict:
         "Apache-2.0" if kind == "onnx" else "LicenseRef-Copernicus-CLMS" if cls == "attribution" and cc else "CC-BY-4.0"
     )
     return {
-        "licence_class": cls if RANK.index(cls) > 2 else "own",
+        "licence_class": cls if rank_of(cls) > rank_of("own") else "own",
         "spdx": spdx,
         **({"attribution": "; ".join(texts)} if texts else {}),
     }
 
 
 def _lane(kind: str, lm: dict | None) -> str:
-    """`live` iff web drivable, small, fast and with a bounded trace (the lane gate); stills are `static`."""
-    if kind in ("image", "figure", "table", "text", "model-card", "usd"):
-        return "static"
-    fast = lm and any(
-        lm[k] is not None and lm[k] <= limit for k, limit in (("interaction_ms", 16), ("run_ms_t2", 1000))
-    )
-    live = (
-        fast and lm["web_drivable"] and lm["max_asset_bytes"] <= 25_000_000 and (lm["trace_bytes"] or 0) <= 10_000_000
-    )
-    return "live" if live else "replay"
+    """Stills are `static`; the rest is `live` or `replay` by the measured lane gate of spec 001."""
+    try:
+        return "static" if kind in STILL_KINDS else lane_of(lm) if lm else "replay"
+    except ValueError as e:
+        raise Usage(f"lane measurements are invalid: {one_line(e)}") from None
 
 
 def _refuse_unfit(m: dict, events: list[dict]) -> None:
     if not events or events[-1]["type"] != "run-finished":
         raise Usage("run is not finished (no run-finished event)")
-    why = {"a dirty tree (uncommitted changes)": m["git_dirty"], "the test launcher": m["launcher"] != "uv", "the fake GPU backend": (m["gpu"] or {}).get("backend") == "fake",
-           "profiling": any("profiled" in n for n in m.get("notes", []))}  # fmt: skip
+    why = {
+        "a dirty tree (uncommitted changes)": m["git_dirty"],
+        "the test launcher": m["launcher"] != "uv",
+        "the fake GPU backend": (m["gpu"] or {}).get("backend") == "fake",
+        "profiling": any("profiled" in n for n in m.get("notes", [])),
+    }
     if bad := [t for t, hit in why.items() if hit]:
         raise Usage(f"run was made with {' and '.join(bad)}: it cannot be published")
 
@@ -168,10 +172,22 @@ def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[s
                 raise Usage(f"no artefact facts reported for {kstr(st)}/{o['path']}")
             host = "release" if done["bytes"] >= 10 * 2**20 else "git"
             path = f"assets/{run_id}/{o['path']}" if host == "git" else f"{run_id}-{o['path'].replace('/', '-')}"
-            a = {"id": re.sub(r"[^a-z0-9_-]+", "-", f"{recipe['id']}-{kstr(st)}-{o['path']}".lower())[:96], "run_id": run_id, "git_sha": m["git_sha"], "path": path,
-                 "bytes": done["bytes"], "sha256": done["sha256"], "kind": f["kind"], "producer": {"tool": rec["tool"], "stage": rec["key"]}, "inputs": rec["inputs"],
-                 "lane": _lane(f["kind"], f.get("lane_measurements")), "asset_host": host, "budget_class": f["budget_class"],
-                 **{k: f[k] for k in ("media_type", "cases", "encoder", "lane_measurements") if k in f}, **_licence(f["kind"], rec["inputs"], sources)}  # fmt: skip
+            a = {
+                "id": re.sub(r"[^a-z0-9_-]+", "-", f"{recipe['id']}-{kstr(st)}-{o['path']}".lower())[:96],
+                "run_id": run_id,
+                "git_sha": m["git_sha"],
+                "path": path,
+                "bytes": done["bytes"],
+                "sha256": done["sha256"],
+                "kind": f["kind"],
+                "producer": {"tool": rec["tool"], "stage": rec["key"]},
+                "inputs": rec["inputs"],
+                "lane": _lane(f["kind"], f.get("lane_measurements")),
+                "asset_host": host,
+                "budget_class": f["budget_class"],
+                **{k: f[k] for k in ("media_type", "cases", "encoder", "lane_measurements") if k in f},
+                **_licence(f["kind"], rec["inputs"], sources),
+            }
             if a["lane"] == "static":
                 a.pop("lane_measurements", None)
             if host == "release" and not (tag and TAG.fullmatch(tag)):
@@ -196,7 +212,7 @@ def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[s
         pub["stages"].append(s)
     if errs := first_errors("manifest", pub, "#/$defs/run", n=2):
         raise Usage(f"published manifest is invalid: {'; '.join(errs)}")
-    if any(p.search(t) for t in _strings(pub) for p in PRIVATE):
+    if any(p.search(t) for _, t in iter_strings(pub) for p in PRIVATE):
         raise Usage("the published manifest holds an absolute path (privacy rule)")
     idx_path = repo / "web" / "public" / "assets" / "manifest.json"
     idx, body = json.loads(idx_path.read_text(encoding="utf-8")), json.dumps(pub, indent=1) + "\n"

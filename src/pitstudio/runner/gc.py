@@ -1,7 +1,5 @@
 """`studio gc`: mark what the kept runs reach, sweep the rest of cas/, index/ and runs/ (FR-002-51, FR-002-52)."""
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import collections
@@ -27,7 +25,7 @@ def _size(p: Path) -> int:
 
 
 def kept_runs(runs: Path, repo: Path, ids: list[str], keep_last: int) -> set[str]:
-    """Pinned runs, runs of the web index and the model cards, runs of queued or running jobs, the newest N per recipe."""
+    """Pinned runs, runs of the web index and model cards, runs of queued or running jobs, the newest N per recipe."""
     keep = {r for r in ids if (runs / r / "PINNED").exists()}
     keep |= {
         x.get("run_id")

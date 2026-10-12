@@ -1,14 +1,12 @@
 """Keep console code out of the public Pages artifact (FR-003-24).
 
-Usage: python tools/check_pages_artifact.py [BUILD_DIR]      (default: web/build/client/ of the repository holding this script)
+Usage: python tools/check_pages_artifact.py [BUILD_DIR]      (default: web/build/client/ of this repository)
 Scans every file of the artifact and exits 1, printing the path of EVERY offending file, when a file
-  (a) contains the console build marker `pitstudio-console-build` (any file type, text or binary, also across a read-chunk boundary),
+  (a) contains the console build marker `pitstudio-console-build` (any file type, also across a read-chunk boundary),
   (b) lies under a folder named `console`, or
   (c) is a Python file (`*.py`).
 Exit 0: clean. Exit 2: usage error (missing or non-directory build folder, unknown option, extra argument).
 """
-
-# ruff: noqa: E501
 
 from __future__ import annotations
 
@@ -23,7 +21,7 @@ CHUNK = 1 << 20
 
 
 def has_marker(path: Path) -> bool:
-    """True when the marker occurs anywhere in the file; chunks overlap by len(MARKER) - 1 bytes so none can straddle a boundary."""
+    """True when the marker occurs anywhere in the file; chunks overlap by len(MARKER) - 1 bytes."""
     keep = len(MARKER) - 1
     tail = b""
     with open(path, "rb") as fh:

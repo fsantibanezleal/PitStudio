@@ -1,6 +1,4 @@
-"""The worker: runs a job's stages in order with guards, locks, retries, shards, resume, manifest and events (FR-002-35..38, 46, 47)."""
-
-# ruff: noqa: E501
+"""The worker: runs a job's stages in order with guards, locks, retries, shards, resume, manifest and events."""
 
 from __future__ import annotations
 
@@ -33,7 +31,7 @@ from pitstudio.runner.recipe import (
     kstr,
     load_module,
     load_profile,
-    load_recipe,  # fmt: skip
+    load_recipe,
     load_yaml,
     lock_name,
     plan,
@@ -135,16 +133,38 @@ class Run:
         )
         sha, dirty = git_state(self.repo)
         prev = json.loads(mf.read_text(encoding="utf-8")) if self.resume and mf.exists() else {}
-        self.header = {"kind": "run", "schema_version": "1.0", "run_id": self.run_id, "git_sha": sha, "git_dirty": dirty, "runner_version": __version__,
-                       "recipe": {"id": self.doc["id"], "path": f"{self.path.parent.name}/{self.path.name}", "sha256": file_sha(self.path)},
-                       "created": now()[:19] + "Z", "profile": self.prof["id"], "seed": self.doc["seed"], "published": False, "launcher": self.launcher,
-                       "gpu": None, **({"notes": ["profiled run: not publishable"]} if self.profiling else {})}  # fmt: skip
+        self.header = {
+            "kind": "run",
+            "schema_version": "1.0",
+            "run_id": self.run_id,
+            "git_sha": sha,
+            "git_dirty": dirty,
+            "runner_version": __version__,
+            "recipe": {
+                "id": self.doc["id"],
+                "path": f"{self.path.parent.name}/{self.path.name}",
+                "sha256": file_sha(self.path),
+            },
+            "created": now()[:19] + "Z",
+            "profile": self.prof["id"],
+            "seed": self.doc["seed"],
+            "published": False,
+            "launcher": self.launcher,
+            "gpu": None,
+            **({"notes": ["profiled run: not publishable"]} if self.profiling else {}),
+        }
         self.header |= {k: prev[k] for k in ("created", "git_sha", "git_dirty", "recipe", "seed") if k in prev}
         if any(self.by[k]["resources"]["gpu"] != "none" for k in self.order):
             try:
                 b = self.backend = load_backend(self.spec)
-                self.header["gpu"] = {"backend": "fake" if self.launcher == "test" else "nvml", "index": gpu_index(self.prof), "name": b.name, "driver": b.driver,
-                                      "vram_total_bytes": b.vram_total_bytes, "power_limit_enforced_w": telemetry.read_sample(b, "power_limit_w")}  # fmt: skip
+                self.header["gpu"] = {
+                    "backend": "fake" if self.launcher == "test" else "nvml",
+                    "index": gpu_index(self.prof),
+                    "name": b.name,
+                    "driver": b.driver,
+                    "vram_total_bytes": b.vram_total_bytes,
+                    "power_limit_enforced_w": telemetry.read_sample(b, "power_limit_w"),
+                }
             except BackendInitError:
                 self.backend = None
         self.cap = capacity(self.prof, self.backend)
@@ -177,11 +197,30 @@ class Run:
         )
         found, cls = lock_versions(self.repo, project), st["determinism"]
         cls = cls if isinstance(cls, str) else cls["class"]
-        return {"key": skey(st), "tool": st["tool"], "cache_key": self.keys.key(st, st.get("params", {}), 0, {}), "cache": "miss", "status": "succeeded",
-                "env": {"name": st["env"], "python": python, "lock_sha256": self.keys.digests(st["env"])[1], "versions": {pkg: found[pkg]} if pkg in found else {}},
-                "exit_code": None, "error_class": None, "attempts": [{"n": 1, "error_class": None}], "params": st.get("params", {}), "seed": self.keys.seed(st, 0),
-                "determinism": {"class": cls, "rerun_check": "not-applicable" if cls == "none" else "pending"}, "performance": tool["performance"],
-                "telemetry": None, "thermal_flag": False, "inputs": [], "outputs": []}  # fmt: skip
+        return {
+            "key": skey(st),
+            "tool": st["tool"],
+            "cache_key": self.keys.key(st, st.get("params", {}), 0, {}),
+            "cache": "miss",
+            "status": "succeeded",
+            "env": {
+                "name": st["env"],
+                "python": python,
+                "lock_sha256": self.keys.digests(st["env"])[1],
+                "versions": {pkg: found[pkg]} if pkg in found else {},
+            },
+            "exit_code": None,
+            "error_class": None,
+            "attempts": [{"n": 1, "error_class": None}],
+            "params": st.get("params", {}),
+            "seed": self.keys.seed(st, 0),
+            "determinism": {"class": cls, "rerun_check": "not-applicable" if cls == "none" else "pending"},
+            "performance": tool["performance"],
+            "telemetry": None,
+            "thermal_flag": False,
+            "inputs": [],
+            "outputs": [],
+        }
 
     @cached_property
     def tools(self) -> dict[str, dict]:
@@ -213,7 +252,14 @@ class Run:
             return self.end(st, rec)
         inputs = input_map(st, self.outs) or {}
         rec["cache_key"] = self.keys.key(st, st.get("params", {}), 0, inputs)
-        rec["inputs"] = [{"id": re.sub(r"[^a-z0-9_-]+", "-", nm.lower()).strip("-")[:96], "sha256": d, "kind": "artefact" if "/" in nm else "source"} for nm, d in inputs.items()]  # fmt: skip
+        rec["inputs"] = [
+            {
+                "id": re.sub(r"[^a-z0-9_-]+", "-", nm.lower()).strip("-")[:96],
+                "sha256": d,
+                "kind": "artefact" if "/" in nm else "source",
+            }
+            for nm, d in inputs.items()
+        ]
         exs: list[dict] = []
         try:
             for i in range(n):
@@ -236,8 +282,15 @@ class Run:
             print(f"{k}: {s.error_class}: {s.reason}", file=sys.stderr)
             return self.end(st, rec, f"{s.error_class}: {s.reason}")
         first = exs[0]
-        rec |= {"cache_key": first["key"], "params": first["params"], "attempts": ex["attempts"], "status": ex["status"], "exit_code": ex["exit_code"],
-                "error_class": ex["error_class"], "cache": "hit" if all(e["hit"] for e in exs) and len(exs) == n else "miss"}  # fmt: skip
+        rec |= {
+            "cache_key": first["key"],
+            "params": first["params"],
+            "attempts": ex["attempts"],
+            "status": ex["status"],
+            "exit_code": ex["exit_code"],
+            "error_class": ex["error_class"],
+            "cache": "hit" if all(e["hit"] for e in exs) and len(exs) == n else "miss",
+        }
         rec |= {"outputs": first["outs"]} if ex["status"] == "succeeded" else {}
         rec |= {"wall_s": round(sum(e["wall_s"] for e in exs), 3)} if not ex["hit"] else {}
         rec |= {"throughput": ex["throughput"]} if ex.get("throughput") else {}
@@ -283,10 +336,18 @@ class Run:
         if gpu and (why := locks.hold_reason(self.lockdir)) is not None:
             raise self.held(st, why)
         caps, quota = self.repo / "studio" / "capabilities.json", self.prof.get("quotas", {}).get(st["id"])
-        checks = [refusal(st, self.prof, self.cap), "no-gpu" if gpu and self.backend is None else None,
-                  gpu and st.get("requires") and self.backend and guards.capability_refusal(caps, st["requires"], self.backend.driver),
-                  None if guards.disk_ok(shutil.disk_usage(self.store.root).free, est, g["disk_margin_gib"]) else "disk",
-                  "quota" if quota is not None and not guards.quota_ok(self.store.stage_bytes(st["id"]), est, quota) else None]  # fmt: skip
+        checks = [
+            refusal(st, self.prof, self.cap),
+            "no-gpu" if gpu and self.backend is None else None,
+            gpu
+            and st.get("requires")
+            and self.backend
+            and guards.capability_refusal(caps, st["requires"], self.backend.driver),
+            None if guards.disk_ok(shutil.disk_usage(self.store.root).free, est, g["disk_margin_gib"]) else "disk",
+            "quota"
+            if quota is not None and not guards.quota_ok(self.store.stage_bytes(st["id"]), est, quota)
+            else None,
+        ]
         if why := next((c for c in checks if c), None):
             raise self.refuse(st, why)
 
@@ -300,8 +361,20 @@ class Run:
 
             if e := self.store.lookup(key0, on_corrupt=corrupt):
                 self.ev("stage-cache-hit", st, i if st.get("shardable") else None)
-                return {"hit": True, "key": key0, "params": base, "attempts": [{"n": 1, "error_class": None}], "status": "succeeded", "error_class": None,
-                        "exit_code": None, "outs": e["outputs"], "obs": e.get("observables"), "wall_s": 0.0, "tail": "", "reason": None}  # fmt: skip
+                return {
+                    "hit": True,
+                    "key": key0,
+                    "params": base,
+                    "attempts": [{"n": 1, "error_class": None}],
+                    "status": "succeeded",
+                    "error_class": None,
+                    "exit_code": None,
+                    "outs": e["outputs"],
+                    "obs": e.get("observables"),
+                    "wall_s": 0.0,
+                    "tail": "",
+                    "reason": None,
+                }
         self.preflight(st)
         name = lock_name(st, self.prof)
         try:
@@ -335,7 +408,7 @@ class Run:
             raise self.refuse(st, "no-gpu") from None
 
     def attempts(self, st: dict, i: int, inputs: dict, key0: str, rerun: bool, name: str | None) -> dict:
-        """Run until it works or fails for good: OOM walks the declared fallbacks, a first warm-up timeout is retried once."""
+        """Run until it works or fails for good: OOM walks the fallbacks, a first warm-up timeout is retried."""
         base, steps, atts, tries, applied = (
             st.get("params", {}),
             list(st.get("retry", {}).get("oom_fallback", [])),
@@ -364,9 +437,22 @@ class Run:
             params, tries = {**params, **(applied or {})}, tries + 1
             self.ev("stage-retry", st, i if st.get("shardable") else None, detail=f"after {a['ec']}", attempt=tries)
         res = a["result"] or {}
-        ex = {"hit": False, "key": key0 if params == base else self.keys.key(st, params, i, inputs), "params": params, "attempts": atts,
-              "status": a["status"], "error_class": a["ec"], "exit_code": a["code"], "outs": [], "obs": res.get("observables"), "reason": a["reason"],
-              "wall_s": sum(x["duration_s"] for x in atts), "tail": a["tail"], "problem": a["problem"], "throughput": res.get("throughput")}  # fmt: skip
+        ex = {
+            "hit": False,
+            "key": key0 if params == base else self.keys.key(st, params, i, inputs),
+            "params": params,
+            "attempts": atts,
+            "status": a["status"],
+            "error_class": a["ec"],
+            "exit_code": a["code"],
+            "outs": [],
+            "obs": res.get("observables"),
+            "reason": a["reason"],
+            "wall_s": sum(x["duration_s"] for x in atts),
+            "tail": a["tail"],
+            "problem": a["problem"],
+            "throughput": res.get("throughput"),
+        }
         if a["status"] == "succeeded" and (rerun or self.profiling):
             ex["outs"] = [
                 {"name": nm, "sha256": file_sha(p), "bytes": p.stat().st_size} for nm, p in a["files"].items()
@@ -407,15 +493,39 @@ class Run:
         total, est = self.backend.vram_total_bytes if self.backend else None, res.get("vram_gib_est")
         frac = min(1.0, est * 2**30 / total) if gpu and total and est else None
         nvtx, seed = f"pitstudio:{k}:{i}", self.keys.seed(st, i)
-        job = {"schema_version": "1.0", "run_id": self.run_id, "stage": skey(st), "entry": st["entry"], "params": params, "seed": seed,
-               "shard": {"index": i, "size": sh["shard_size"], "total": sh["total"]} if sh else None,
-               "inputs": [{"name": nm, "path": self.store.obj(d).as_posix(), "sha256": d} for nm, d in inputs.items() if "/" in nm],
-               "output_dir": out.as_posix(), "scratch_dir": scratch.as_posix(), "resume": bool(self.resume), "rerun": rerun, "profiling": self.profiling,
-               "profile": {"id": self.prof["id"], "cpu_slots": self.prof["cpu_slots"]}, "vram_fraction": frac, "nvtx_range": nvtx}  # fmt: skip
+        job = {
+            "schema_version": "1.0",
+            "run_id": self.run_id,
+            "stage": skey(st),
+            "entry": st["entry"],
+            "params": params,
+            "seed": seed,
+            "shard": {"index": i, "size": sh["shard_size"], "total": sh["total"]} if sh else None,
+            "inputs": [
+                {"name": nm, "path": self.store.obj(d).as_posix(), "sha256": d} for nm, d in inputs.items() if "/" in nm
+            ],
+            "output_dir": out.as_posix(),
+            "scratch_dir": scratch.as_posix(),
+            "resume": bool(self.resume),
+            "rerun": rerun,
+            "profiling": self.profiling,
+            "profile": {"id": self.prof["id"], "cpu_slots": self.prof["cpu_slots"]},
+            "vram_fraction": frac,
+            "nvtx_range": nvtx,
+        }
         (out / "job.json").write_text(json.dumps(job), encoding="utf-8")
-        env = {**os.environ, "PITSTUDIO_RUN_ID": self.run_id, "PITSTUDIO_STAGE": k, "PITSTUDIO_SHARD": str(i), "PITSTUDIO_SEED": str(seed),
-               "PITSTUDIO_NVTX_RANGE": nvtx, "PITSTUDIO_CPU_SLOTS": str(min(res.get("cpu", 1), self.prof["cpu_slots"])), "PITSTUDIO_HELD_LOCKS": name or "",
-               "PYTHONPATH": os.pathsep.join(x for x in (str(KIT), os.environ.get("PYTHONPATH")) if x), "GPU_LOCK_DIR": str(self.lockdir)}  # fmt: skip
+        env = {
+            **os.environ,
+            "PITSTUDIO_RUN_ID": self.run_id,
+            "PITSTUDIO_STAGE": k,
+            "PITSTUDIO_SHARD": str(i),
+            "PITSTUDIO_SEED": str(seed),
+            "PITSTUDIO_NVTX_RANGE": nvtx,
+            "PITSTUDIO_CPU_SLOTS": str(min(res.get("cpu", 1), self.prof["cpu_slots"])),
+            "PITSTUDIO_HELD_LOCKS": name or "",
+            "PYTHONPATH": os.pathsep.join(x for x in (str(KIT), os.environ.get("PYTHONPATH")) if x),
+            "GPU_LOCK_DIR": str(self.lockdir),
+        }
         env.pop("PITSTUDIO_VRAM_FRACTION", None)
         env |= {"CUDA_VISIBLE_DEVICES": str(gpu_index(self.prof))} if gpu else {}
         env |= {"PITSTUDIO_VRAM_FRACTION": repr(frac)} if frac else {}
@@ -526,7 +636,7 @@ class Run:
         return a
 
     def recheck(self, st: dict, inputs: dict, first: dict) -> dict:
-        """`--rerun-check` (FR-002-38): shard 0 again into a scratch folder; bitwise digests or declared observables must agree."""
+        """`--rerun-check` (FR-002-38): shard 0 again into a scratch folder; digests or observables must agree."""
         cls = st["determinism"] if isinstance(st["determinism"], str) else st["determinism"]["class"]
         tol = {} if isinstance(st["determinism"], str) else st["determinism"].get("observables", {})
         if cls == "none":

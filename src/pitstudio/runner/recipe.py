@@ -1,7 +1,5 @@
 """Strict loading and validation of recipes, profiles and device files, the stage DAG and the plan (FR-002-01..06)."""
 
-# ruff: noqa: E501
-
 from __future__ import annotations
 
 import heapq
@@ -21,6 +19,8 @@ from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 from referencing.jsonschema import DRAFT202012
 
+from pitstudio.contracts.io import load_yaml as contract_yaml
+from pitstudio.contracts.io import parse_json_text
 from pitstudio.runner.cache import Store, cache_key, code_digest, derive_seed, lock_digest
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -35,36 +35,17 @@ class Usage(Exception):
     """A usage or validation error: one line, exit code 2."""
 
 
-class _Strict(yaml.SafeLoader):
-    def construct_mapping(self, node, deep=False):
-        keys = [self.construct_object(k, deep=True) for k, _ in node.value]
-        if len(set(keys)) != len(keys):
-            raise yaml.YAMLError("duplicate key")
-        return super().construct_mapping(node, deep)
-
-
 def one_line(text: object, limit: int = 300) -> str:
     return " ".join(str(text).split())[:limit]
 
 
-def strict_json(text: str) -> Any:
-    """JSON without NaN or Infinity and without duplicate keys (the strict loader of spec 001)."""
-
-    def const(name: str) -> None:
-        raise ValueError(f"non-finite constant {name}")
-
-    def pairs(items: list) -> dict:
-        if len({k for k, _ in items}) != len(items):
-            raise ValueError("duplicate key")
-        return dict(items)
-
-    return json.loads(text, parse_constant=const, object_pairs_hook=pairs)
+strict_json = parse_json_text  # the strict loader of spec 001: no NaN, no Infinity, no duplicate keys
 
 
 def load_yaml(path: Path, what: str = "file") -> Any:
     try:
-        return yaml.load(path.read_text(encoding="utf-8"), Loader=_Strict)
-    except (OSError, UnicodeError, yaml.YAMLError, TypeError) as e:
+        return contract_yaml(path)
+    except (ValueError, yaml.YAMLError) as e:  # ContractError; a NUL byte escapes it as a reader error
         raise Usage(f"{path.name}: cannot read {what}: {one_line(e)}") from None
 
 
@@ -161,7 +142,7 @@ def _nonfinite(o: Any, ptr: str = "") -> str | None:
 
 
 def load_device(path: Path) -> dict:
-    """A fake GPU device file (FR-002-57): schema, finite values, ascending steps, no field both scripted and unsupported."""
+    """A fake GPU device file (FR-002-57): schema, finite values, ascending steps, no field scripted and unsupported."""
     doc = load_yaml(path, "device file")
     errs = (
         [f"{bad}: non-finite value"]
@@ -216,7 +197,7 @@ def deps_of(doc: dict) -> dict[str, set[str]]:
 
 
 def select(doc: dict, want: list[str], profiling: bool = False) -> list[str]:
-    """Stage keys of a job in order: all of them, or the wanted ones plus their ancestors (the wanted one alone when profiling)."""
+    """Stage keys of a job in order: all, or the wanted ones plus their ancestors (the wanted ones when profiling)."""
     deps = deps_of(doc)
     if bad := [k for k in want if k not in deps]:
         raise Usage(f"stage {bad[0]} is not in recipe {doc['id']}")
@@ -251,8 +232,17 @@ def load_recipe(repo: Path, path: Path) -> dict:
     )
     for s in doc["stages"]:
         why = ["duplicate stage key"] * (keys.count(kstr(s)) > 1)
-        why += [f"unknown input {kstr(i)}/{i.get('output', '')}" for i in s["inputs"] if "stage" in i and (kstr(i) not in outputs or i.get("output", outputs[kstr(i)][0]) not in outputs[kstr(i)])]  # fmt: skip
-        why += [f"oom fallback key {x!r} not in params" for st in s.get("retry", {}).get("oom_fallback", []) for x in st if x not in s.get("params", {})]  # fmt: skip
+        why += [
+            f"unknown input {kstr(i)}/{i.get('output', '')}"
+            for i in s["inputs"]
+            if "stage" in i and (kstr(i) not in outputs or i.get("output", outputs[kstr(i)][0]) not in outputs[kstr(i)])
+        ]
+        why += [
+            f"oom fallback key {x!r} not in params"
+            for st in s.get("retry", {}).get("oom_fallback", [])
+            for x in st
+            if x not in s.get("params", {})
+        ]
         why += [f"unknown probe {p}" for p in s.get("requires", []) if p not in probes]
         why += [f"tool {s['tool']} is not in studio/tools.yaml"] * (s["tool"] not in reg)
         for v in (o["schema"] for o in s["outputs"]):
@@ -307,8 +297,16 @@ class Keys:
         sh, (code, lock) = st.get("shardable"), self.digests(st["env"])
         shard = {"index": i, "size": sh["shard_size"], "total": sh["total"]} if sh else None
         bins = {b["id"]: b["sha256"] for b in st.get("binaries", [])}
-        return cache_key(stage={"id": st["id"], "variant": st.get("variant")}, code=code, lock=lock, params=params,
-                         seed=self.seed(st, i), inputs=inputs, binaries=bins, shard=shard)  # fmt: skip
+        return cache_key(
+            stage={"id": st["id"], "variant": st.get("variant")},
+            code=code,
+            lock=lock,
+            params=params,
+            seed=self.seed(st, i),
+            inputs=inputs,
+            binaries=bins,
+            shard=shard,
+        )
 
 
 def input_map(st: dict, outs: dict[str, dict | None]) -> dict[str, str] | None:
@@ -346,9 +344,17 @@ def plan(repo: Path, doc: dict, prof: dict, store: Store, cap: int | None, outs_
     by, keys, outs, rows = {kstr(s): s for s in doc["stages"]}, Keys(repo, doc), {}, []
     for k in order_or_cycle(deps_of(doc)):
         st, res = by[k], by[k]["resources"]
-        row = {"key": k, "env": st["env"], "tool": st["tool"], "lock": lock_name(st, prof), "cache_key": None,
-               "status": "pending", "vram_gib_est": res.get("vram_gib_est"), "disk_gib_est": res.get("disk_gib_est"),
-               "shards": shard_count(st)}  # fmt: skip
+        row = {
+            "key": k,
+            "env": st["env"],
+            "tool": st["tool"],
+            "lock": lock_name(st, prof),
+            "cache_key": None,
+            "status": "pending",
+            "vram_gib_est": res.get("vram_gib_est"),
+            "disk_gib_est": res.get("disk_gib_est"),
+            "shards": shard_count(st),
+        }
         outs[k] = None
         if why := refusal(st, prof, cap):
             row["status"] = why

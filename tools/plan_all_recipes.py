@@ -1,11 +1,9 @@
-"""Plan every recipe of `studio/recipes/{cases,_bench}` with one profile and the committed fake GPU (FR-002-05, SC-002-01).
+"""Plan every recipe of `studio/recipes/{cases,_bench}` with one profile and the committed fake GPU (FR-002-05).
 
 Usage: python tools/plan_all_recipes.py --profile linux-gpu
-Exit 0 when every plan exits 0 and no plan leaks a machine detail (FR-002-04 patterns, this host, user and home); else 1.
-The repository is PITSTUDIO_REPO or this checkout; the GPU is the fake device below, so no GPU, driver or NVML is needed.
+Exit 0 when every plan exits 0 and none leaks a machine detail (FR-002-04 patterns, host, user, home); else 1.
+The repository is PITSTUDIO_REPO or this checkout; the GPU is the fake device below (no driver or NVML needed).
 """
-
-# ruff: noqa: E501
 
 from __future__ import annotations
 
@@ -23,7 +21,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 DEVICE = ROOT / "tests" / "fixtures" / "fake_gpu" / "linux-1x48gib.yaml"
-PATTERNS = [re.compile(p) for p in (r"(?<![A-Za-z0-9])[A-Za-z]:[\\/]", r"\\\\[A-Za-z0-9._$-]+\\", r"(^|[\s\"'=(,:])/(home|Users|root|tmp|var|mnt|media|opt|srv|private|run)/", r"\\")]  # fmt: skip
+PATTERNS = [
+    re.compile(p)
+    for p in (
+        r"(?<![A-Za-z0-9])[A-Za-z]:[\\/]",
+        r"\\\\[A-Za-z0-9._$-]+\\",
+        r"(^|[\s\"'=(,:])/(home|Users|root|tmp|var|mnt|media|opt|srv|private|run)/",
+        r"\\",
+    )
+]
 
 
 def leaks(text: str) -> list[str]:

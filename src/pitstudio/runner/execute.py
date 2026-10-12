@@ -1,6 +1,4 @@
-"""Launching one stage process, reading its result, checking its outputs, classifying failures (FR-002-24..28, 33..34, 60..65)."""
-
-# ruff: noqa: E501
+"""Launching a stage process, reading its result, checking its outputs, classifying failures (FR-002-24..34, 60..65)."""
 
 from __future__ import annotations
 
@@ -39,8 +37,14 @@ def build_command(*, launcher: str, repo: Path, env: str, entry: str, job_path: 
     ]
 
 
-def run_attempt(argv: list[str], env: dict[str, str], cwd: Path, log_path: Path, timeout: float,
-                on_tick: Callable[[Any], str | None] | None = None) -> dict[str, Any]:  # fmt: skip
+def run_attempt(
+    argv: list[str],
+    env: dict[str, str],
+    cwd: Path,
+    log_path: Path,
+    timeout: float,
+    on_tick: Callable[[Any], str | None] | None = None,
+) -> dict[str, Any]:
     """Run one stage process in its own tree; end the tree on timeout or when `on_tick` returns a reason (<= 10 s)."""
     log_path.parent.mkdir(parents=True, exist_ok=True)
     kind, t0 = None, time.monotonic()
@@ -85,7 +89,7 @@ def read_result(out: Path, code: int) -> tuple[dict | None, str | None]:
 
 
 def check_outputs(declared: list[dict], out: Path, result: dict) -> tuple[dict[str, Path], str | None]:
-    """Every declared output exists, is a regular file inside the stage folder and passes its validator (FR-002-12, 13)."""
+    """Every declared output is a regular file inside the stage folder and passes its validator (FR-002-12, 13)."""
     files, root = {}, os.path.realpath(out)
     for o in declared:
         p, v = out / o["path"], o["schema"]
