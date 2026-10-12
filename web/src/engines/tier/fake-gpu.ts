@@ -32,12 +32,21 @@ export interface FakeGpu {
   calls: { requestAdapter: number; requestDevice: number; createBuffer: number };
 }
 
-const KINDS = new Set(["ok", "none", "null-adapter", "device-rejects", "device-lost", "buffer-alloc-fails", "hang"]);
+const KINDS = new Set([
+  "ok",
+  "none",
+  "null-adapter",
+  "device-rejects",
+  "device-lost",
+  "buffer-alloc-fails",
+  "hang",
+]);
 
 function validate(script: unknown): FakeGpuScript {
   if (typeof script !== "object" || script === null) throw new TypeError("fake GPU script must be an object");
   const s = script as Record<string, unknown>;
-  if (typeof s.kind !== "string" || !KINDS.has(s.kind)) throw new TypeError(`unknown fake GPU script kind: ${String(s.kind)}`);
+  if (typeof s.kind !== "string" || !KINDS.has(s.kind))
+    throw new TypeError(`unknown fake GPU script kind: ${String(s.kind)}`);
   if (s.kind === "device-lost") {
     if (typeof s.afterMs !== "number" || !Number.isFinite(s.afterMs) || s.afterMs < 0) {
       throw new TypeError("device-lost needs a finite afterMs >= 0");
@@ -98,14 +107,22 @@ export function createFakeGpu(input: FakeGpuScript): FakeGpu | undefined {
 }
 
 /** Defines `target.gpu` (default: the global navigator); returns a LIFO-safe restore function. */
-export function installFakeGpu(script: FakeGpuScript, target: { gpu?: unknown } = navigator as { gpu?: unknown }): () => void {
+export function installFakeGpu(
+  script: FakeGpuScript,
+  target: { gpu?: unknown } = navigator as { gpu?: unknown },
+): () => void {
   const gpu = createFakeGpu(script);
   const had = Object.hasOwn(target, "gpu");
   const previous = (target as { gpu?: unknown }).gpu;
   Object.defineProperty(target, "gpu", { value: gpu, configurable: true, writable: true, enumerable: true });
   return () => {
     if (had) {
-      Object.defineProperty(target, "gpu", { value: previous, configurable: true, writable: true, enumerable: true });
+      Object.defineProperty(target, "gpu", {
+        value: previous,
+        configurable: true,
+        writable: true,
+        enumerable: true,
+      });
     } else {
       delete (target as { gpu?: unknown }).gpu;
     }
