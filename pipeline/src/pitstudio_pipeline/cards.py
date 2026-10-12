@@ -11,6 +11,7 @@ import copy
 import math
 import re
 from collections.abc import Mapping
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -219,7 +220,7 @@ _FRONT = re.compile(r"\A---\n(.*?)\n---\n\n?(.*)\Z", re.DOTALL)
 
 def split_card(text: str) -> tuple[Any, str] | None:
     """(parsed front matter, body) of a card text, or None when it has no front matter block."""
-    found = _FRONT.match(text)
+    found = _FRONT.match(text.replace(chr(13) + chr(10), chr(10)))  # CRLF line ends read the same
     if found is None:
         return None
     return yaml.safe_load(found.group(1) + "\n"), found.group(2)
@@ -233,3 +234,92 @@ def update_card_file(path: Path | str, test: str, verdict: str, metric: Mapping[
         raise ValueError(f"{target.name} has no YAML front matter")
     front, body = parts
     write_card(target, attach_verdict(front, test, verdict, metric), body)
+
+
+@dataclass(frozen=True)
+class CardProblem:
+    """One disagreement found by the card check: the card, the field, what the registry says and what the card holds."""
+
+    card: str
+    field: str
+    expected: Any
+    actual: Any
+
+    def __str__(self) -> str:
+        return f"card {self.card}: field {self.field}: expected {self.expected!r}, the card has {self.actual!r}"
+
+
+_HEADING = re.compile(r"^#{1,6}[ \t]+(.+?)[ \t]*#*[ \t]*$", re.MULTILINE)
+_FIXTURE = re.compile(r"\bfixture\b", re.IGNORECASE)
+
+
+def check_card(card_path: Path | str, entry: Mapping[str, Any]) -> list[CardProblem]:
+    """Compare one card file with its registry entry (FR-008-43, FR-008-44, FR-008-49).
+
+    The front matter must be valid against the data-card schema and agree with the entry on `id`, `spdx`,
+    `licence_class`, `redistribution` and `files_sha256`; the body must have the seven required sections as headings; a
+    fixture source's card must say "fixture". An empty list means the card passes.
+    """
+    ident = str(entry.get("id"))
+    problems: list[CardProblem] = []
+    try:
+        text = Path(card_path).read_bytes().decode("utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        return [CardProblem(ident, "card", f"a readable card file {Path(card_path).name}", type(exc).__name__)]
+    try:
+        parts = split_card(text)
+    except yaml.YAMLError:
+        parts = None
+        problems.append(CardProblem(ident, "front_matter", "YAML front matter", "not valid YAML"))
+    else:
+        if parts is None:
+            problems.append(CardProblem(ident, "front_matter", "YAML front matter between --- lines", "absent"))
+        elif not isinstance(parts[0], dict):
+            problems.append(CardProblem(ident, "front_matter", "a YAML mapping", type(parts[0]).__name__))
+            parts = None
+    body = text
+    if parts is not None:
+        front, body = parts
+        failures = schema_errors("data-card.schema.json", front)
+        if failures:
+            pointer, message = failures[0]
+            problems.append(
+                CardProblem(
+                    ident, "front_matter", "valid against data-card.schema.json", f"{pointer or '/'}: {message}"
+                )
+            )
+        else:
+            expected = {
+                "id": entry.get("id"),
+                "spdx": entry.get("spdx"),
+                "licence_class": entry.get("licence_class"),
+                "redistribution": entry.get("redistribution"),
+                "files_sha256": [f.get("sha256") for f in entry.get("files", [])],
+            }
+            problems.extend(
+                CardProblem(ident, name, value, front.get(name))
+                for name, value in expected.items()
+                if front.get(name) != value
+            )
+    headings = {m.group(1).strip() for m in _HEADING.finditer(body)}
+    problems.extend(CardProblem(ident, f"section: {s}", s, None) for s in SECTIONS if s not in headings)
+    if entry.get("fixture") and not _FIXTURE.search(text):
+        problems.append(CardProblem(ident, "fixture", 'the word "fixture"', None))
+    return problems
+
+
+def check_cards(
+    cards_dir: Path | str, registry_path: Path | str, *, schema_path: Path | str | None = None
+) -> list[CardProblem]:
+    """Check `<cards_dir>/<id>.md` for every registry entry; a missing card file is a problem (field `card`)."""
+    from pitstudio_pipeline.download.registry import load_registry
+
+    registry = load_registry(registry_path, schema_path=schema_path)
+    problems: list[CardProblem] = []
+    for entry in registry["sources"]:
+        card = Path(cards_dir) / f"{entry['id']}.md"
+        if card.is_file():
+            problems.extend(check_card(card, entry))
+        else:
+            problems.append(CardProblem(entry["id"], "card", f"data/cards/{entry['id']}.md", "missing"))
+    return problems
