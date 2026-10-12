@@ -8,6 +8,8 @@ field or, for a problem inside an object, its `prim_id`.
 from __future__ import annotations
 
 import functools
+import json
+import math
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -20,6 +22,7 @@ from pitstudio.contracts.validate import CONTRACTS_DIR
 
 SCHEMA_FILE = "frame-state.schema.json"
 MAX_REPORTED_ERRORS = 8
+QUATERNION_TOLERANCE = 1e-6
 
 
 class FrameStateInvalid(ValueError):
@@ -30,8 +33,6 @@ class FrameStateInvalid(ValueError):
 
 @functools.cache
 def _validator() -> Draft202012Validator:
-    import json
-
     registry: Registry = Registry()
     for path in sorted(CONTRACTS_DIR.glob("*.schema.json")):
         doc = json.loads(path.read_text(encoding="utf-8"))
@@ -45,10 +46,9 @@ def _where(doc: Mapping[str, Any], path: list[Any]) -> str:
     text = "/".join(str(p) for p in path) or "<document>"
     objects = doc.get("objects")
     if len(path) >= 2 and path[0] == "objects" and isinstance(path[1], int) and isinstance(objects, list):
-        if 0 <= path[1] < len(objects) and isinstance(objects[path[1]], Mapping):
-            prim = objects[path[1]].get("prim_id")
-            if isinstance(prim, str):
-                return f"{text} (object {prim})"
+        obj = objects[path[1]] if 0 <= path[1] < len(objects) else None
+        if isinstance(obj, Mapping) and isinstance(obj.get("prim_id"), str):
+            return f"{text} (object {obj['prim_id']})"
     return text
 
 
@@ -67,14 +67,40 @@ def _check_visible_px(doc: Mapping[str, Any]) -> None:
             )
 
 
+def _non_finite(node: Any, path: list[Any]) -> list[list[Any]]:
+    """Paths of every NaN or infinite number in a document (JSON Schema lets them through)."""
+    if isinstance(node, float):
+        return [] if math.isfinite(node) else [path]
+    if isinstance(node, Mapping):
+        return [q for k, v in node.items() for q in _non_finite(v, [*path, k])]
+    if isinstance(node, list):
+        return [q for i, v in enumerate(node) for q in _non_finite(v, [*path, i])]
+    return []
+
+
+def _check_quaternions(doc: Mapping[str, Any]) -> None:
+    """FR-015-49: every rotation quaternion has a norm within 1e-6 of 1 (components are finite by now)."""
+    poses = [(f"object {o['prim_id']}", o["pose"]) for o in doc["objects"]] + [("camera", doc["camera"]["pose"])]
+    for name, pose in poses:
+        norm = math.sqrt(sum(c * c for c in pose["rotation_xyzw"]))
+        if abs(norm - 1.0) > QUATERNION_TOLERANCE:
+            raise FrameStateInvalid(
+                f"{name}: rotation_xyzw has norm {norm!r}, it must be 1 within {QUATERNION_TOLERANCE}"
+            )
+
+
 def validate_frame_state(doc: Mapping[str, Any]) -> None:
     """Raise `FrameStateInvalid` unless `doc` satisfies the contract and the rules the schema cannot express."""
     if not isinstance(doc, Mapping):
         raise FrameStateInvalid("frame state: not a JSON object")
+    bad = _non_finite(doc, [])
+    if bad:
+        raise FrameStateInvalid("; ".join(f"{_where(doc, p)}: non-finite number" for p in bad[:MAX_REPORTED_ERRORS]))
     errors = _schema_errors(doc)
     if errors:
         raise FrameStateInvalid("; ".join(errors))
     _check_visible_px(doc)
+    _check_quaternions(doc)
 
 
 def load_frame_state(source: Mapping[str, Any] | str | Path, *, root: Path) -> dict[str, Any]:
