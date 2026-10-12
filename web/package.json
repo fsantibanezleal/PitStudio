@@ -16,6 +16,7 @@
     "test": "vitest run",
     "gen:types": "node scripts/gen-types.mjs",
     "gen:validators": "node scripts/gen-validators.mjs",
+    "check:budgets": "node scripts/budgets.mjs --root build/client",
     "check:locales": "node ../tools/check_locales.mjs",
     "check": "pnpm run check:locales && biome ci . && react-router typegen && tsc && vitest run",
     "test:e2e": "playwright test",

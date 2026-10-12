@@ -30,7 +30,10 @@ const TYPES = {
 function exactCase(p) {
   if (p === ROOT) return true;
   let dir = ROOT;
-  for (const seg of p.slice(ROOT.length + 1).split(sep)) {
+  for (const seg of p
+    .slice(ROOT.length + 1)
+    .split(sep)
+    .filter(Boolean)) {
     if (!readdirSync(dir).includes(seg)) return false;
     dir = join(dir, seg);
   }
