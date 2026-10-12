@@ -572,54 +572,54 @@
 | FR-009-51 | 009-perception | draft | T-009-097 | - |
 | FR-009-52 | 009-perception | draft | T-009-098 | - |
 | FR-009-53 | 009-perception | draft | T-009-099 | - |
-| FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | - |
-| FR-010-02 | 010-slope | draft | T-010-011 | - |
-| FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | - |
-| FR-010-04 | 010-slope | draft | T-010-017 | - |
-| FR-010-05 | 010-slope | draft | T-010-017 | - |
-| FR-010-06 | 010-slope | draft | T-010-016 | - |
-| FR-010-07 | 010-slope | draft | T-010-014 | - |
-| FR-010-08 | 010-slope | draft | T-010-015 | - |
-| FR-010-09 | 010-slope | draft | T-010-010 | - |
-| FR-010-10 | 010-slope | draft | T-010-017 | - |
-| FR-010-11 | 010-slope | draft | T-010-020 | - |
-| FR-010-12 | 010-slope | draft | T-010-021 | - |
-| FR-010-13 | 010-slope | draft | T-010-040 | - |
-| FR-010-14 | 010-slope | draft | T-010-040 | - |
-| FR-010-15 | 010-slope | draft | T-010-041 | - |
-| FR-010-16 | 010-slope | draft | T-010-020 | - |
-| FR-010-17 | 010-slope | draft | T-010-022 | - |
-| FR-010-18 | 010-slope | draft | T-010-023 | - |
-| FR-010-19 | 010-slope | draft | T-010-024 | - |
-| FR-010-20 | 010-slope | draft | T-010-024 | - |
-| FR-010-21 | 010-slope | draft | T-010-027 | - |
-| FR-010-22 | 010-slope | draft | T-010-026 | - |
-| FR-010-23 | 010-slope | draft | T-010-030 | - |
-| FR-010-24 | 010-slope | draft | T-010-030 | - |
-| FR-010-25 | 010-slope | draft | T-010-031 | - |
-| FR-010-26 | 010-slope | draft | T-010-042 | - |
-| FR-010-27 | 010-slope | draft | T-010-043 | - |
-| FR-010-28 | 010-slope | draft | T-010-031 | - |
-| FR-010-29 | 010-slope | draft | T-010-028 | - |
-| FR-010-30 | 010-slope | draft | T-010-032 | - |
-| FR-010-31 | 010-slope | draft | T-010-032 | - |
-| FR-010-32 | 010-slope | draft | T-010-034 | - |
-| FR-010-33 | 010-slope | draft | T-010-029 | - |
-| FR-010-34 | 010-slope | draft | T-010-050 | - |
-| FR-010-35 | 010-slope | draft | T-010-052 | - |
-| FR-010-36 | 010-slope | draft | T-010-050 | - |
-| FR-010-37 | 010-slope | draft | T-010-051 | - |
-| FR-010-38 | 010-slope | draft | T-010-053 | - |
-| FR-010-39 | 010-slope | draft | T-010-060 | - |
-| FR-010-40 | 010-slope | draft | T-010-003 | - |
-| FR-010-41 | 010-slope | draft | T-010-054 | - |
-| FR-010-42 | 010-slope | draft | T-010-055 | - |
-| FR-010-43 | 010-slope | draft | T-010-092 | - |
-| FR-010-44 | 010-slope | draft | T-010-093 | - |
-| FR-010-45 | 010-slope | draft | T-010-094 | - |
-| FR-010-46 | 010-slope | draft | T-010-095 | - |
-| FR-010-47 | 010-slope | draft | T-010-096 | - |
-| FR-010-48 | 010-slope | draft | T-010-097 | - |
+| FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/unit/test_t_010_010_lem_search.py |
+| FR-010-02 | 010-slope | draft | T-010-011 | tests/parity/test_t_010_018_geotech_goldens.py, tests/unit/test_t_010_011_hoek_brown_slices.py |
+| FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/property/test_t_010_015_pof.py |
+| FR-010-04 | 010-slope | draft | T-010-017 | web/e2e/c1-simulate.spec.ts |
+| FR-010-05 | 010-slope | draft | T-010-017 | web/e2e/c1-simulate.spec.ts |
+| FR-010-06 | 010-slope | draft | T-010-016 | tests/pipeline/test_t_010_016_sections_from_dem.py |
+| FR-010-07 | 010-slope | draft | T-010-014 | tests/unit/test_t_010_014_section_guards.py |
+| FR-010-08 | 010-slope | draft | T-010-015 | tests/property/test_t_010_015_pof.py |
+| FR-010-09 | 010-slope | draft | T-010-010 | tests/unit/test_t_010_010_lem_search.py |
+| FR-010-10 | 010-slope | draft | T-010-017 | web/e2e/c1-simulate.spec.ts |
+| FR-010-11 | 010-slope | draft | T-010-020 | tests/unit/test_t_010_020_voight_events.py |
+| FR-010-12 | 010-slope | draft | T-010-021 | tests/property/test_t_010_021_snr.py |
+| FR-010-13 | 010-slope | draft | T-010-040 | tests/pipeline/test_t_010_040_dewit_ingest.py |
+| FR-010-14 | 010-slope | draft | T-010-040 | tests/pipeline/test_t_010_040_dewit_ingest.py |
+| FR-010-15 | 010-slope | draft | T-010-041 | tests/contract/test_t_010_041_dewit_exclusion.py |
+| FR-010-16 | 010-slope | draft | T-010-020 | tests/unit/test_t_010_020_voight_events.py |
+| FR-010-17 | 010-slope | draft | T-010-022 | tests/pipeline/test_t_010_033_acceptance_report.py, tests/unit/test_t_010_022_snr_fallback.py |
+| FR-010-18 | 010-slope | draft | T-010-023 | tests/property/test_t_010_023_preprocess.py |
+| FR-010-19 | 010-slope | draft | T-010-024 | tests/unit/test_t_010_024_iv_bayes.py |
+| FR-010-20 | 010-slope | draft | T-010-024 | tests/unit/test_t_010_024_iv_bayes.py |
+| FR-010-21 | 010-slope | draft | T-010-027 | tests/pipeline/test_t_010_027_forecasters.py, tests/unit/test_t_010_027_context_forecast.py |
+| FR-010-22 | 010-slope | draft | T-010-026 | tests/property/test_t_010_026_readout.py |
+| FR-010-23 | 010-slope | draft | T-010-030 | tests/unit/test_t_010_030_ttf_metrics.py |
+| FR-010-24 | 010-slope | draft | T-010-030 | tests/unit/test_t_010_030_ttf_metrics.py |
+| FR-010-25 | 010-slope | draft | T-010-031 | tests/unit/test_t_010_031_paired_decision.py |
+| FR-010-26 | 010-slope | draft | T-010-042 | tests/unit/test_t_010_042_real_event_report.py |
+| FR-010-27 | 010-slope | draft | T-010-043 | web/e2e/c1-real-event.spec.ts |
+| FR-010-28 | 010-slope | draft | T-010-031 | tests/unit/test_t_010_031_paired_decision.py |
+| FR-010-29 | 010-slope | draft | T-010-028 | tests/pipeline/test_t_010_028_window_guards.py, web/src/cases/c1/forecastGuards.test.ts |
+| FR-010-30 | 010-slope | draft | T-010-032 | tests/pipeline/test_t_010_032_forecaster_export.py |
+| FR-010-31 | 010-slope | draft | T-010-032 | tests/pipeline/test_t_010_032_forecaster_export.py |
+| FR-010-32 | 010-slope | draft | T-010-034 | web/e2e/c1-cutoff-slider.spec.ts |
+| FR-010-33 | 010-slope | draft | T-010-029 | tests/gpu/test_t_010_029_training_smoke.py, tests/unit/test_t_010_029_training_fake_gpu.py |
+| FR-010-34 | 010-slope | draft | T-010-050 | tests/unit/test_t_010_050_radar_series.py |
+| FR-010-35 | 010-slope | draft | T-010-052 | tests/pipeline/test_t_010_052_s4b_report.py |
+| FR-010-36 | 010-slope | draft | T-010-050 | tests/unit/test_t_010_050_radar_series.py |
+| FR-010-37 | 010-slope | draft | T-010-051 | tests/unit/test_t_010_051_radar_guards.py |
+| FR-010-38 | 010-slope | draft | T-010-053 | web/e2e/c1-scene-egms.spec.ts |
+| FR-010-39 | 010-slope | draft | T-010-060 | tests/pipeline/test_t_010_060_c1_recipe_e2e.py |
+| FR-010-40 | 010-slope | draft | T-010-003 | tests/unit/test_t_010_003_c1_recipe.py |
+| FR-010-41 | 010-slope | draft | T-010-054 | tests/metamorphic/test_t_010_054_radar_phase.py |
+| FR-010-42 | 010-slope | draft | T-010-055 | tests/unit/test_t_010_055_radar_phase_guards.py |
+| FR-010-43 | 010-slope | draft | T-010-092 | tests/unit/test_t_010_092_section_cross_field.py |
+| FR-010-44 | 010-slope | draft | T-010-093 | tests/unit/test_t_010_093_series_self_consistency.py |
+| FR-010-45 | 010-slope | draft | T-010-094 | tests/unit/test_t_010_094_results_section_digest.py |
+| FR-010-46 | 010-slope | draft | T-010-095 | tests/pipeline/test_t_010_095_fixture_stages.py, tests/unit/test_t_010_095_fixture_propagation.py |
+| FR-010-47 | 010-slope | draft | T-010-096 | tests/pipeline/test_t_010_096_partial_strata.py |
+| FR-010-48 | 010-slope | draft | T-010-097 | tests/unit/test_t_010_097_input_stale.py |
 | FR-011-01 | 011-surrogates | draft | T-011-010 | - |
 | FR-011-02 | 011-surrogates | draft | T-011-011 | - |
 | FR-011-03 | 011-surrogates | draft | T-011-014 | - |
@@ -1176,12 +1176,12 @@
 | NFR-009-04 | 009-perception | draft | T-009-033 | - |
 | NFR-009-05 | 009-perception | draft | T-009-020 | - |
 | NFR-009-06 | 009-perception | draft | T-009-071 | - |
-| NFR-010-01 | 010-slope | draft | T-010-061 | - |
-| NFR-010-02 | 010-slope | draft | T-010-061 | - |
-| NFR-010-03 | 010-slope | draft | T-010-034 | - |
-| NFR-010-04 | 010-slope | draft | T-010-032 | - |
-| NFR-010-05 | 010-slope | draft | T-010-034 | - |
-| NFR-010-06 | 010-slope | draft | T-010-062 | - |
+| NFR-010-01 | 010-slope | draft | T-010-061 | web/e2e/c1-lane-gates.spec.ts |
+| NFR-010-02 | 010-slope | draft | T-010-061 | web/e2e/c1-lane-gates.spec.ts |
+| NFR-010-03 | 010-slope | draft | T-010-034 | web/e2e/c1-cutoff-slider.spec.ts |
+| NFR-010-04 | 010-slope | draft | T-010-032 | tests/pipeline/test_t_010_032_forecaster_export.py |
+| NFR-010-05 | 010-slope | draft | T-010-034 | web/e2e/c1-cutoff-slider.spec.ts |
+| NFR-010-06 | 010-slope | draft | T-010-062 | tests/unit/test_t_010_062_budget_record.py |
 | NFR-011-01 | 011-surrogates | draft | T-011-016 | - |
 | NFR-011-02 | 011-surrogates | draft | T-011-020 | - |
 | NFR-011-03 | 011-surrogates | draft | T-011-054 | - |
@@ -1361,23 +1361,23 @@
 | P-009-12 | 009-perception | draft | T-009-011, T-009-013 | - |
 | P-009-13 | 009-perception | draft | T-009-020 | - |
 | P-009-14 | 009-perception | draft | T-009-017 | - |
-| P-010-01 | 010-slope | draft | T-010-013 | - |
-| P-010-02 | 010-slope | draft | T-010-013 | - |
-| P-010-03 | 010-slope | draft | T-010-010 | - |
-| P-010-04 | 010-slope | draft | T-010-013 | - |
-| P-010-05 | 010-slope | draft | T-010-013 | - |
-| P-010-06 | 010-slope | draft | T-010-010 | - |
-| P-010-07 | 010-slope | draft | T-010-015 | - |
-| P-010-08 | 010-slope | draft | T-010-023 | - |
-| P-010-09 | 010-slope | draft | T-010-025 | - |
-| P-010-10 | 010-slope | draft | T-010-025 | - |
-| P-010-11 | 010-slope | draft | T-010-021 | - |
-| P-010-12 | 010-slope | draft | T-010-024 | - |
-| P-010-13 | 010-slope | draft | T-010-026 | - |
-| P-010-14 | 010-slope | draft | T-010-031 | - |
-| P-010-15 | 010-slope | draft | T-010-050 | - |
-| P-010-16 | 010-slope | draft | T-010-054 | - |
-| P-010-17 | 010-slope | draft | T-010-054 | - |
+| P-010-01 | 010-slope | draft | T-010-013 | tests/metamorphic/test_t_010_013_lem_relations.py |
+| P-010-02 | 010-slope | draft | T-010-013 | tests/metamorphic/test_t_010_013_lem_relations.py |
+| P-010-03 | 010-slope | draft | T-010-010 | tests/unit/test_t_010_010_lem_search.py |
+| P-010-04 | 010-slope | draft | T-010-013 | tests/metamorphic/test_t_010_013_lem_relations.py |
+| P-010-05 | 010-slope | draft | T-010-013 | tests/metamorphic/test_t_010_013_lem_relations.py |
+| P-010-06 | 010-slope | draft | T-010-010 | tests/unit/test_t_010_010_lem_search.py |
+| P-010-07 | 010-slope | draft | T-010-015 | tests/property/test_t_010_015_pof.py |
+| P-010-08 | 010-slope | draft | T-010-023 | tests/property/test_t_010_023_preprocess.py |
+| P-010-09 | 010-slope | draft | T-010-025 | tests/metamorphic/test_t_010_025_ttf_invariance.py, tests/pipeline/test_t_010_025_learned_invariance.py |
+| P-010-10 | 010-slope | draft | T-010-025 | tests/metamorphic/test_t_010_025_ttf_invariance.py, tests/pipeline/test_t_010_025_learned_invariance.py |
+| P-010-11 | 010-slope | draft | T-010-021 | tests/property/test_t_010_021_snr.py |
+| P-010-12 | 010-slope | draft | T-010-024 | tests/unit/test_t_010_024_iv_bayes.py |
+| P-010-13 | 010-slope | draft | T-010-026 | tests/property/test_t_010_026_readout.py |
+| P-010-14 | 010-slope | draft | T-010-031 | tests/unit/test_t_010_031_paired_decision.py |
+| P-010-15 | 010-slope | draft | T-010-050 | tests/unit/test_t_010_050_radar_series.py |
+| P-010-16 | 010-slope | draft | T-010-054 | tests/metamorphic/test_t_010_054_radar_phase.py |
+| P-010-17 | 010-slope | draft | T-010-054 | tests/metamorphic/test_t_010_054_radar_phase.py |
 | P-011-01 | 011-surrogates | draft | T-011-010 | - |
 | P-011-02 | 011-surrogates | draft | T-011-010 | - |
 | P-011-03 | 011-surrogates | draft | T-011-017 | - |
@@ -1623,11 +1623,11 @@
 | SC-009-05 | 009-perception | draft | T-009-034 | - |
 | SC-009-06 | 009-perception | draft | T-009-034 | - |
 | SC-009-07 | 009-perception | draft | T-009-060 | - |
-| SC-010-01 | 010-slope | draft | T-010-033 | - |
-| SC-010-02 | 010-slope | draft | T-010-031 | - |
-| SC-010-03 | 010-slope | draft | T-010-042 | - |
-| SC-010-04 | 010-slope | draft | T-010-032 | - |
-| SC-010-05 | 010-slope | draft | T-010-012 | - |
+| SC-010-01 | 010-slope | draft | T-010-033 | tests/pipeline/test_t_010_033_acceptance_report.py |
+| SC-010-02 | 010-slope | draft | T-010-031 | tests/unit/test_t_010_031_paired_decision.py |
+| SC-010-03 | 010-slope | draft | T-010-042 | tests/unit/test_t_010_042_real_event_report.py, web/e2e/c1-real-event.spec.ts |
+| SC-010-04 | 010-slope | draft | T-010-032 | tests/pipeline/test_t_010_032_forecaster_export.py |
+| SC-010-05 | 010-slope | draft | T-010-012 | tests/pipeline/test_t_010_012_pyslope_oracle.py |
 | SC-011-01 | 011-surrogates | draft | T-011-015 | - |
 | SC-011-02 | 011-surrogates | draft | T-011-035 | - |
 | SC-011-03 | 011-surrogates | draft | T-011-053 | - |
@@ -1727,7 +1727,7 @@
 | US-009-4 | 009-perception | draft | T-009-060, T-009-061 | - |
 | US-009-5 | 009-perception | draft | T-009-070, T-009-071, T-009-072 | - |
 | US-009-6 | 009-perception | draft | T-009-010, T-009-011, T-009-012, T-009-013, T-009-014, T-009-015, T-009-016, T-009-017, T-009-018, T-009-019, T-009-020, T-009-021 | - |
-| US-010-1 | 010-slope | draft | T-010-010, T-010-011, T-010-012, T-010-013, T-010-014, T-010-015, T-010-016, T-010-017, T-010-018 | - |
+| US-010-1 | 010-slope | draft | T-010-010, T-010-011, T-010-012, T-010-013, T-010-014, T-010-015, T-010-016, T-010-017, T-010-018 | web/e2e/c1-simulate.spec.ts |
 | US-010-2 | 010-slope | draft | T-010-020, T-010-021, T-010-022, T-010-023, T-010-024, T-010-025, T-010-026, T-010-027, T-010-028, T-010-029, T-010-030, T-010-031, T-010-032, T-010-033, T-010-034 | - |
 | US-010-3 | 010-slope | draft | T-010-040, T-010-041, T-010-042, T-010-043 | - |
 | US-010-4 | 010-slope | draft | T-010-050, T-010-051, T-010-052, T-010-053, T-010-054, T-010-055 | - |
