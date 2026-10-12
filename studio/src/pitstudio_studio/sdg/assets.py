@@ -7,9 +7,12 @@ export settings) or, when no valid record remains, from the procedural mannequin
 
 from __future__ import annotations
 
+import hashlib
 import posixpath
+import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Literal
 
 from pitstudio_studio.sdg._schemas import best_error
@@ -32,6 +35,42 @@ class AssetLicenceError(Exception):
     def __init__(self, paths: Sequence[str]) -> None:
         self.paths = tuple(paths)
         super().__init__(f"{self.code}: {len(self.paths)} asset path(s) refused: " + "; ".join(repr(p) for p in self.paths))
+
+
+class AssetDigestError(Exception):
+    """The SHA-256 of an exported people file differs from its record (`asset-digest-mismatch`): the file is not used."""
+
+    code = "asset-digest-mismatch"
+
+    def __init__(self, character_id: str, expected: str, actual: str) -> None:
+        self.character_id, self.expected, self.actual = character_id, expected, actual
+        super().__init__(f"{self.code}: record {character_id}: the file has SHA-256 {actual}, the record states {expected}")
+
+
+_HEX64 = re.compile(r"^[0-9a-f]{64}$")
+_DRIVE = re.compile(r"^[A-Za-z]:")
+
+
+def verify_export_digest(record: Mapping[str, Any], root: Path) -> Path:
+    """Path of the record's exported file below `root` when its SHA-256 equals `export_sha256`; else `AssetDigestError`.
+
+    The file is read in full, in blocks, and never executed or imported.
+    """
+    rel = record.get("export_path")
+    if not isinstance(rel, str) or rel == "" or rel.startswith(("/", "\\")) or "\\" in rel or _DRIVE.match(rel) or ".." in rel.split("/"):
+        raise ValueError(f"export_path {rel!r} must be a relative path without '..', a drive letter or a backslash")
+    expected = record.get("export_sha256")
+    if not isinstance(expected, str) or not _HEX64.match(expected):
+        raise ValueError(f"export_sha256 must be 64 lower-case hex characters, got {expected!r}")
+    path = Path(root) / rel
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:  # FileNotFoundError when absent
+        for block in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(block)
+    actual = digest.hexdigest()
+    if actual != expected:
+        raise AssetDigestError(str(record.get("character_id")), expected, actual)
+    return path
 
 
 def _norm(path: str) -> str:
@@ -101,11 +140,14 @@ class PeopleSelection:
     licence_text: str
 
 
-def select_people(records: Sequence[object], *, pinned_zip_sha256: str) -> PeopleSelection:
+def select_people(
+    records: Sequence[object], *, pinned_zip_sha256: str, root: Path | None = None
+) -> PeopleSelection:
     """Validate the people records and choose the source: MakeHuman if one valid record remains, else mannequins.
 
     A MakeHuman record is valid when it satisfies the DC-009-04 schema and its zip SHA-256 equals
     `pinned_zip_sha256`; one `Rejection` is made per bad record (the first schema error, else the digest mismatch).
+    With `root`, every such record's exported file must also exist and match `export_sha256` (FR-009-49).
     """
     makehuman: list[dict[str, Any]] = []
     mannequins: list[dict[str, Any]] = []
@@ -130,6 +172,15 @@ def select_people(records: Sequence[object], *, pinned_zip_sha256: str) -> Peopl
                 Rejection(character_id, "/zip_sha256", "the zip SHA-256 differs from the pinned value of the official zip")
             )
             continue
+        if root is not None:
+            try:
+                verify_export_digest(record, root)
+            except AssetDigestError as exc:
+                rejected.append(Rejection(character_id, "/export_sha256", str(exc)))
+                continue
+            except FileNotFoundError:
+                rejected.append(Rejection(character_id, "/export_sha256", f"the export file {record['export_path']} is missing"))
+                continue
         (makehuman if record["source"] == "makehuman" else mannequins).append(dict(record))
     if makehuman:
         return PeopleSelection("makehuman", tuple(makehuman), tuple(rejected), MAKEHUMAN_LICENCE_TEXT)
