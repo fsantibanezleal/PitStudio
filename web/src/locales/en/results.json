@@ -152,5 +152,116 @@
     "precision": "Precision",
     "status": "Status",
     "parity": "Parity"
+  },
+  "simToReal": {
+    "tstr": {
+      "title": "Train on synthetic, test on real",
+      "label": "Ratio of TSTR to TRTR foreground IoU",
+      "criterion": "Criterion: at least {{value}}"
+    },
+    "c2st": {
+      "title": "Realism of the synthetic data (classifier two-sample test)",
+      "tabular": "Tabular data",
+      "1-d": "One-dimensional series",
+      "images": "Images",
+      "auc": "AUC synthetic vs real: {{value}}",
+      "baseline": "AUC real vs real (baseline): {{value}}",
+      "gap": "Gap: {{value}}",
+      "criterionAuc": "Criterion: AUC at most 0.6",
+      "criterionGap": "Criterion: gap at most 0.1"
+    },
+    "sim2sim": {
+      "title": "Simulator against simulator",
+      "fee-mpm-fill": "Fill gap, FEE against MPM",
+      "il-ts-twin": "Isaac Lab against the browser twin"
+    },
+    "probes": {
+      "title": "Sim-to-real on real probes",
+      "equipment": "Equipment",
+      "people": "People",
+      "notMeasured": "not measured"
+    },
+    "synthetic": {
+      "title": "Synthetic data without a real reference",
+      "label": "calibrated synthetic — not validated against real data"
+    }
+  },
+  "parityTab": {
+    "title": "Parity of the deployed commit",
+    "engine": "Engine",
+    "class": "Class",
+    "tolerance": "Tolerance",
+    "maxError": "Maximum observed error",
+    "browsers": "Browsers",
+    "verdict": "Verdict",
+    "pass": "pass",
+    "fail": "fail",
+    "notRun": "Not yet run: {{reason}}",
+    "empty": "No parity report is published yet."
+  },
+  "cosmosTab": {
+    "attribution": "Built on NVIDIA Cosmos",
+    "type": "Question type: {{type}}",
+    "balancedAccuracy": "Balanced accuracy",
+    "interval": "{{level}} % interval [{{lo}}, {{hi}}]",
+    "mcnemar": "Cosmos Reason 2 against Qwen3-VL-2B (exact McNemar test): p = {{p}}, b = {{b}}, c = {{c}}",
+    "q8": "Q8_0 versus BF16 agreement",
+    "q8Value": "Agreement {{value}} against the threshold {{threshold}}",
+    "noHeadline": "Cosmos results are never a headline KPI."
+  },
+  "accelTab": {
+    "model": "Model",
+    "backend": "Backend",
+    "precision": "Precision",
+    "status": "Status",
+    "p50": "Latency p50",
+    "p95": "Latency p95",
+    "throughput": "Throughput",
+    "energy": "Energy per inference",
+    "delta": "Accuracy change",
+    "parity": "Parity",
+    "ms": "{{value}} ms",
+    "itemsPerS": "{{value}} items/s",
+    "joules": "{{value}} J",
+    "pp": "{{value}} pp",
+    "rejected": "rejected",
+    "reason": "Reason: {{reason}}",
+    "withheld": "measured locally, not published (licence)",
+    "conditions": "Conditions",
+    "gpu": "GPU: {{gpu}}",
+    "driver": "Driver: {{driver}}",
+    "power": "Enforced power limit: {{watts}} W",
+    "throttle": "Throttle fractions",
+    "licence": "TensorRT licence SHA-256: {{sha}}",
+    "notComparative": "our hardware, not a comparative benchmark",
+    "sw_power_cap": "software power cap",
+    "sw_thermal": "software thermal",
+    "hw_thermal": "hardware thermal",
+    "hw_slowdown": "hardware slowdown",
+    "power_brake": "power brake",
+    "noLicence": "not recorded"
+  },
+  "criteria": {
+    "title": "Pre-registered criteria of the 13 models",
+    "model": "Model",
+    "criterion": "Pre-registered criterion",
+    "status": "Status",
+    "pass": "pass",
+    "fail": "fail",
+    "rows": {
+      "dfine": "D-FINE-N and D-FINE-S",
+      "rfdetr-seg": "RF-DETR-Seg-N",
+      "unet": "U-Net fragmentation",
+      "gns": "GNS granular surrogate",
+      "fno": "FNO surrogates",
+      "dispatch": "PPO and attention dispatch",
+      "il1": "IL-1 haul-truck policy",
+      "il2": "IL-2 excavator policy",
+      "slope-forecasters": "Slope forecasters",
+      "meta-model": "Mine-to-mill meta-model",
+      "dem-calibration": "DEM calibration",
+      "cosmos": "Cosmos Reason 2",
+      "tensorrt-engines": "TensorRT engines"
+    }
   }
 }
