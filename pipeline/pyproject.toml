@@ -25,6 +25,8 @@ dependencies = [
     "tifffile>=2026.9.20",
     "pillow>=12.3.0",
     "shapely>=2.2.0",
+    "laspy>=2.7.0",
+    "lazrs>=0.8.2",
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [project.optional-dependencies]
