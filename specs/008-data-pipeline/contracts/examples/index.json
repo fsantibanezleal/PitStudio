@@ -507,6 +507,67 @@
       "rule": "FR-008-43",
       "pointer": "/redistribution",
       "keyword": "enum"
+    },
+    {
+      "file": "ingestion-report.valid-partial.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "partial report: one tile unavailable (FR-008-50)"
+    },
+    {
+      "file": "ingestion-report.valid-fixture.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "fixture report (FR-008-49)"
+    },
+    {
+      "file": "ingestion-report.hostile-conditional-partial-without-unavailable.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "conditional: partial without an unavailable file",
+      "rule": "FR-008-50",
+      "pointer": "/files",
+      "keyword": "contains"
+    },
+    {
+      "file": "ingestion-report.hostile-conditional-unavailable-not-partial.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "conditional: unavailable file in a report not marked partial",
+      "rule": "FR-008-50",
+      "pointer": "/files/1/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "ingestion-report.hostile-fixture-wrong-type.json",
+      "schema": "ingestion-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (fixture as text)",
+      "rule": "FR-008-49",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "split.valid-fixture.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "fixture split (FR-008-49)"
+    },
+    {
+      "file": "split.hostile-fixture-wrong-type.json",
+      "schema": "split.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (fixture as text)",
+      "rule": "FR-008-49",
+      "pointer": "/fixture",
+      "keyword": "type"
     }
   ],
   "not_schema_checkable": [
