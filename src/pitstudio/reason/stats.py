@@ -254,3 +254,79 @@ def score_row(
         "auroc": auc,
         "by_condition": by_condition,
     }
+
+
+# ------------------------------------------------------------------------------------------------ McNemar (FR-015-31)
+BEATS = "Cosmos beats Qwen base"
+NO_DIFFERENCE = "no significant difference"
+ALPHA = 0.05
+CHI2_MIN_DISCORDANT = 25
+POOLED = "pooled-binary"
+
+
+def mcnemar_exact(b: int, c: int) -> float:
+    """Two-sided exact binomial McNemar p: min(1, 2 P(X <= min(b, c))), X ~ Binomial(b + c, 1/2); 1 when b + c = 0."""
+    if not (_is_count(b) and _is_count(c)) or b < 0 or c < 0:
+        raise ValueError(f"b and c must be non-negative integers, got {b!r} and {c!r}")
+    n = int(b) + int(c)
+    if n == 0:
+        return 1.0
+    m = min(int(b), int(c))
+    term, tail = 1, 1  # C(n, 0), then the running sum of C(n, i) for i <= m, in exact integers
+    for i in range(m):
+        term = term * (n - i) // (i + 1)
+        tail += term
+    return min(1.0, 2 * tail / 2**n)
+
+
+def mcnemar(correct_a: Sequence[bool], correct_b: Sequence[bool]) -> dict[str, Any]:
+    """Paired comparison of arm A (Cosmos) with arm B (Qwen): b = A right and B wrong, c = the reverse."""
+    if len(correct_a) != len(correct_b):
+        raise ValueError(f"arm A has {len(correct_a)} answers, arm B has {len(correct_b)}")
+    if len(correct_a) == 0:
+        raise ValueError("n = 0: no paired answers")
+    b = sum(1 for x, y in zip(correct_a, correct_b, strict=True) if x and not y)
+    c = sum(1 for x, y in zip(correct_a, correct_b, strict=True) if y and not x)
+    p = mcnemar_exact(b, c)
+    chi2 = (abs(b - c) - 1) ** 2 / (b + c) if b + c >= CHI2_MIN_DISCORDANT else None
+    return {"b": b, "c": c, "p": p, "chi2_cc": chi2, "verdict": BEATS if b > c and p < ALPHA else NO_DIFFERENCE}
+
+
+def compare_arms(
+    cosmos: Sequence[Mapping[str, Any]], qwen: Sequence[Mapping[str, Any]], *, cosmos_arm: str = "cosmos-q8_0"
+) -> list[dict[str, Any]]:
+    """`mcnemar_row`s of the metrics contract: one per type present (ascending), then types 1, 2, 4, 5, 6 pooled.
+
+    `cosmos` and `qwen` hold `{"query_id", "type", "correct"}` records over the same query ids, in any order.
+    """
+    if cosmos_arm not in ("cosmos-q8_0", "cosmos-bf16"):
+        raise ValueError(f"unknown Cosmos arm {cosmos_arm!r}")
+    if len(cosmos) != len(qwen):
+        raise ValueError(f"Cosmos has {len(cosmos)} records, Qwen has {len(qwen)}")
+    if len(cosmos) == 0:
+        raise ValueError("n = 0: no records")
+    by_id = {r["query_id"]: r for r in qwen}
+    if len(by_id) != len(qwen) or len({r["query_id"] for r in cosmos}) != len(cosmos):
+        raise ValueError("a query id appears twice in one arm")
+    pairs: dict[int, tuple[list[bool], list[bool]]] = {}
+    for r in cosmos:
+        other = by_id.get(r["query_id"])
+        if other is None:
+            raise ValueError(f"query {r['query_id']!r} is missing from the Qwen records")
+        labels_of(r["type"])  # raises for an unknown type
+        if other["type"] != r["type"]:
+            raise ValueError(f"query {r['query_id']!r} has two different types")
+        a, q = pairs.setdefault(r["type"], ([], []))
+        a.append(bool(r["correct"]))
+        q.append(bool(other["correct"]))
+    rows = [{"type": qtype, "cosmos_arm": cosmos_arm, **mcnemar(*pairs[qtype])} for qtype in sorted(pairs)]
+    binary = [pairs[t] for t in sorted(pairs) if t != 3]
+    if binary:
+        rows.append(
+            {
+                "type": POOLED,
+                "cosmos_arm": cosmos_arm,
+                **mcnemar([x for a, _ in binary for x in a], [x for _, q in binary for x in q]),
+            }
+        )
+    return rows
