@@ -431,8 +431,9 @@ class RolloutSet(Sequence):
 class DirectorySplits:
     """`splits.rollouts(name)` over a directory of metadata files, grouped by geometry id (train | val | test)."""
 
-    def __init__(self, meta_dir: Path, *, root: Path, split: Mapping[str, Sequence[str]]) -> None:
+    def __init__(self, meta_dir: Path, *, root: Path, split: Mapping[str, Sequence[str]], cache_size: int = 4) -> None:
         self.meta_dir, self.root, self.split = Path(meta_dir), Path(root), {k: list(v) for k, v in split.items()}
+        self.cache_size = cache_size
         self.by_geometry: dict[str, list[Path]] = {}
         for path in sorted(self.meta_dir.glob("*.json")):
             meta = read_metadata(path)
@@ -442,7 +443,7 @@ class DirectorySplits:
         if name not in self.split:
             raise DatasetError(f"unknown split {name!r}; expected one of {sorted(self.split)}")
         paths = [p for gid in self.split[name] for p in self.by_geometry.get(gid, [])]
-        return RolloutSet(paths, root=self.root)
+        return RolloutSet(paths, root=self.root, cache_size=self.cache_size)
 
 
 def evaluation_geometries(
