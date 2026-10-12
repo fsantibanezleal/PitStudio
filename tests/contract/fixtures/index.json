@@ -1,0 +1,3136 @@
+{
+  "spec": "001-contracts",
+  "about": "Conformance corpus (DC-001-08). `valid` = accepted by the full pipeline (loader, schema, validate); tags: loader (rejected by load_json/load_yaml), conditional (an if/then/else rule of the schema), post-schema (rejected by validate beyond the JSON Schema), cross-file (rejected by tools/check_contracts.py only). `pointer`/`keyword` = expected error (draft examples: some error of the reference validator, nested ones included).",
+  "fixtures": [
+    {
+      "file": "capabilities/invalid/capabilities.hostile-bad-driver.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-36",
+      "pointer": "/driver",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-bad-generated.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-36",
+      "pointer": "/generated",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-control-char.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "control-char",
+      "rule": "FR-001-57",
+      "pointer": "/driver",
+      "keyword": "control-char",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-duplicate-key.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-05",
+      "pointer": "/driver",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "duplicate-key",
+      "line": 6
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-empty.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-001-35",
+      "pointer": "",
+      "keyword": "required",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-error-absolute-path.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-59",
+      "pointer": "/probes/tensorrt/error",
+      "keyword": "privacy-leak",
+      "tags": [
+        "cross-file"
+      ],
+      "error_class": "privacy-leak"
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-infinity.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-36",
+      "pointer": "/probes/warp_newton/metrics/saxpy_16M_x20_s",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 14
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-invalid-utf8.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-05",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "invalid-utf8"
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-long-error.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-35",
+      "pointer": "/probes/tensorrt/error",
+      "keyword": "maxLength",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-long-gpu.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-36",
+      "pointer": "/gpu",
+      "keyword": "maxLength",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-long-note.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-36",
+      "pointer": "/probes/isaacsim/notes/0",
+      "keyword": "maxLength",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-long-version.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-36",
+      "pointer": "/probes/warp_newton/versions/warp",
+      "keyword": "maxLength",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-metrics-wrong-constant.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-35",
+      "pointer": "/probes/ovrtx/metrics",
+      "keyword": "oneOf",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-nan.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-36",
+      "pointer": "/probes/warp_newton/metrics/saxpy_16M_x20_s",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 14
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-notes-absolute-path.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-59",
+      "pointer": "/probes/isaacsim/notes/0",
+      "keyword": "privacy-leak",
+      "tags": [
+        "cross-file"
+      ],
+      "error_class": "privacy-leak"
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-probe-name.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-36",
+      "pointer": "/probes",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-too-many-notes.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-36",
+      "pointer": "/probes/isaacsim/notes",
+      "keyword": "maxItems",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-too-many-probes.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-36",
+      "pointer": "/probes",
+      "keyword": "maxProperties",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-truncated.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-05",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "syntax",
+      "line": 27
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-unknown-field.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "unknown-field",
+      "rule": "FR-001-36",
+      "pointer": "/probes/warp_newton",
+      "keyword": "additionalProperties",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-unknown-status.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-36",
+      "pointer": "/probes/warp_newton/status",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-wrong-shape.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "wrong-shape",
+      "rule": "FR-001-36",
+      "pointer": "/probes/isaacsim/notes",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "capabilities/invalid/capabilities.hostile-wrong-type.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": false,
+      "class": "wrong-type",
+      "rule": "FR-001-36",
+      "pointer": "/probes",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "capabilities/valid/capabilities.valid.json",
+      "schema": "capabilities",
+      "target": "#",
+      "kind": "capabilities",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-absolute-path.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-04",
+      "pointer": "/stages/0/outputs/0/name",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-bad-timestamp.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-04",
+      "pointer": "/created",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-bom.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-05",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "bom",
+      "line": 1
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-casefold-duplicate.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "device-name",
+      "rule": "FR-001-56",
+      "pointer": "/artefacts/1/path",
+      "keyword": "casefold-duplicate",
+      "tags": [
+        "post-schema"
+      ],
+      "first_pointer": "/artefacts/0/path"
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-control-char.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "control-char",
+      "rule": "FR-001-57",
+      "pointer": "/profile",
+      "keyword": "control-char",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-depth-33.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-05",
+      "pointer": "/notes",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "depth",
+      "line": 299
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-device-name.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "device-name",
+      "rule": "FR-001-56",
+      "pointer": "/artefacts/1/path",
+      "keyword": "device-name",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-duplicate-artefact-id.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-54",
+      "pointer": "/artefacts/1",
+      "keyword": "duplicate-id",
+      "tags": [
+        "post-schema"
+      ],
+      "first_pointer": "/artefacts/0"
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-duplicate-key.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-05",
+      "pointer": "/run_id",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "duplicate-key",
+      "line": 6
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-empty-file.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-001-05",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "empty",
+      "line": 1
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-empty.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-001-10",
+      "pointer": "/stages",
+      "keyword": "minItems",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-encoder-duration.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-17",
+      "pointer": "/artefacts/0/encoder/duration_s",
+      "keyword": "encoder-duration",
+      "tags": [
+        "cross-file"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-encoder-on-table.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-17",
+      "pointer": "/artefacts/1",
+      "keyword": "not",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-error-class-on-success.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/error_class",
+      "keyword": "type",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-exp-overflow.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-05",
+      "pointer": "/stages/0/telemetry/power_w/mean",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 78
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-git-oversize.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-12",
+      "pointer": "/artefacts/0/bytes",
+      "keyword": "maximum",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-git-with-tag.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-12",
+      "pointer": "/artefacts/0",
+      "keyword": "not",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-infinity.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-05",
+      "pointer": "/stages/0/telemetry/power_w/mean",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 78
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-invalid-utf8.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-05",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "invalid-utf8"
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-local-only-duration.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-14",
+      "pointer": "/stages/1/attempts/0",
+      "keyword": "not",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-local-only-telemetry.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-14",
+      "pointer": "/stages/1/telemetry",
+      "keyword": "const",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-local-only-wall-s.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-14",
+      "pointer": "/stages/1",
+      "keyword": "not",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-log-tail-on-success.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/status",
+      "keyword": "const",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-malformed-digest.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-04",
+      "pointer": "/recipe/sha256",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-missing-attribution.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-11",
+      "pointer": "/artefacts/0",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-nan.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-05",
+      "pointer": "/stages/0/telemetry/power_w/mean",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 78
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-neg-infinity.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-05",
+      "pointer": "/stages/0/telemetry/power_w/mean",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 78
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-not-run-with-outputs.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-10",
+      "pointer": "/stages/2/outputs",
+      "keyword": "maxItems",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-not-run-without-reason.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-10",
+      "pointer": "/stages/2",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-out-of-range.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-10",
+      "pointer": "/gpu/index",
+      "keyword": "maximum",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-oversized.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-10",
+      "pointer": "/notes/0",
+      "keyword": "maxLength",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-path-traversal.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-04",
+      "pointer": "/artefacts/0/path",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-privacy-note.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-15",
+      "pointer": "/notes/0",
+      "keyword": "privacy-leak",
+      "tags": [
+        "cross-file"
+      ],
+      "error_class": "privacy-leak"
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-published-dirty.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-16",
+      "pointer": "/git_dirty",
+      "keyword": "const",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-published-fake-gpu.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-16",
+      "pointer": "/gpu",
+      "keyword": "anyOf",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-published-test-launcher.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-16",
+      "pointer": "/launcher",
+      "keyword": "const",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-reason-on-success.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/status",
+      "keyword": "enum",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-release-without-tag.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-12",
+      "pointer": "/artefacts/1",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-replay-without-measurements.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-13",
+      "pointer": "/artefacts/0",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-seed-negative.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-10",
+      "pointer": "/seed",
+      "keyword": "minimum",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-shards-done-over-total.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "inconsistent-counts",
+      "rule": "FR-001-55",
+      "pointer": "/stages/0/shards",
+      "keyword": "shards-done-over-total",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-static-kind-replay.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-13",
+      "pointer": "/artefacts/1/lane",
+      "keyword": "const",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-static-video.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-13",
+      "pointer": "/artefacts/0/kind",
+      "keyword": "enum",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-telemetry-null-unexplained.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/telemetry",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-telemetry-out-of-range.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/telemetry/gpu_busy_pct/mean",
+      "keyword": "maximum",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-too-many-notes.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-10",
+      "pointer": "/notes",
+      "keyword": "maxItems",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-truncated.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-05",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "syntax",
+      "line": 158
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-unknown-enum.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-11",
+      "pointer": "/artefacts/0/budget_class",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-unknown-field.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "unknown-field",
+      "rule": "FR-001-15",
+      "pointer": "/artefacts/0",
+      "keyword": "additionalProperties",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-unknown-kind.json",
+      "schema": "manifest",
+      "target": "#",
+      "kind": "run",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-10",
+      "pointer": "",
+      "keyword": "oneOf",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-video-without-encoder.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-17",
+      "pointer": "/artefacts/0",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-control-char.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "control-char",
+      "rule": "FR-001-57",
+      "pointer": "/artefacts/0/id",
+      "keyword": "control-char",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-device-name.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "device-name",
+      "rule": "FR-001-56",
+      "pointer": "/artefacts/1/path",
+      "keyword": "device-name",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-duplicate-artefact-id.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-54",
+      "pointer": "/artefacts/1",
+      "keyword": "duplicate-id",
+      "tags": [
+        "post-schema"
+      ],
+      "first_pointer": "/artefacts/0"
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-duplicate-key.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-05",
+      "pointer": "/generated",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "duplicate-key",
+      "line": 6
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-empty.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-001-10",
+      "pointer": "",
+      "keyword": "required",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-generated-timestamp.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "wrong-shape",
+      "rule": "FR-001-10",
+      "pointer": "/generated",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-lane-mismatch.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-13",
+      "pointer": "/artefacts/1",
+      "keyword": "lane-mismatch",
+      "tags": [
+        "cross-file"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-nan.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-05",
+      "pointer": "/artefacts/0/lane_measurements/interaction_ms",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 44
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-out-of-range.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-10",
+      "pointer": "/artefacts/0/bytes",
+      "keyword": "maximum",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-oversized.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-10",
+      "pointer": "/artefacts/0/attribution",
+      "keyword": "maxLength",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-release-path.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-12",
+      "pointer": "/artefacts/0/path",
+      "keyword": "pattern",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-runs-traversal.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-04",
+      "pointer": "/runs/0/manifest",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-truncated.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-05",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "syntax",
+      "line": 63
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-unknown-enum.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-10",
+      "pointer": "/artefacts/0/kind",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-unknown-field.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "unknown-field",
+      "rule": "FR-001-15",
+      "pointer": "",
+      "keyword": "additionalProperties",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-web-wrong-type.json",
+      "schema": "manifest",
+      "target": "#/$defs/web_index",
+      "kind": "web-index",
+      "valid": false,
+      "class": "wrong-type",
+      "rule": "FR-001-10",
+      "pointer": "/artefacts/0/bytes",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-wrong-shape.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "wrong-shape",
+      "rule": "FR-001-10",
+      "pointer": "/stages/0/params",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "manifest/invalid/manifest.hostile-wrong-type.json",
+      "schema": "manifest",
+      "target": "#/$defs/run",
+      "kind": "run",
+      "valid": false,
+      "class": "wrong-type",
+      "rule": "FR-001-10",
+      "pointer": "/seed",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "manifest/valid/manifest.valid-unpublished.json",
+      "schema": "manifest",
+      "target": "#",
+      "kind": "run",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "manifest/valid/manifest.valid-web-index.json",
+      "schema": "manifest",
+      "target": "#",
+      "kind": "web-index",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "manifest/valid/manifest.valid.json",
+      "schema": "manifest",
+      "target": "#",
+      "kind": "run",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-casefold-duplicate.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "device-name",
+      "rule": "FR-001-56",
+      "pointer": "/stages/0/outputs/1/path",
+      "keyword": "casefold-duplicate",
+      "tags": [
+        "post-schema"
+      ],
+      "first_pointer": "/stages/0/outputs/0/path"
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-control-char.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "control-char",
+      "rule": "FR-001-57",
+      "pointer": "/id",
+      "keyword": "control-char",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-device-name.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "device-name",
+      "rule": "FR-001-56",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "device-name",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-digest-63.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-23",
+      "pointer": "/stages/2/binaries/0/sha256",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-digest-prefix.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/inputs/0/sha256",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-empty.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-001-23",
+      "pointer": "/stages",
+      "keyword": "minItems",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-entry-flag.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "injection",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/entry",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-entry-injection.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "injection",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/entry",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-entry-slash.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/entry",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-exclusive-without-vram.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/resources",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-input-traversal.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/inputs/0/id",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-65-stages.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-24",
+      "pointer": "/stages",
+      "keyword": "maxItems",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-control-char.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "control-char",
+      "rule": "FR-001-57",
+      "pointer": "/recipe",
+      "keyword": "control-char",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-duplicate-key.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-05",
+      "pointer": "/profile",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "duplicate-key",
+      "line": 12
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-duplicate-stage.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-24",
+      "pointer": "/stages",
+      "keyword": "uniqueItems",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-empty.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-001-24",
+      "pointer": "",
+      "keyword": "required",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-entry.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "unknown-field",
+      "rule": "FR-001-24",
+      "pointer": "",
+      "keyword": "additionalProperties",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-injection.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "injection",
+      "rule": "FR-001-24",
+      "pointer": "/recipe",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-profile.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-24",
+      "pointer": "/profile",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-recipe-id.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-24",
+      "pointer": "/recipe",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-recipe-traversal.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-24",
+      "pointer": "/recipe",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-stage-params.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "unknown-field",
+      "rule": "FR-001-24",
+      "pointer": "/stages/0",
+      "keyword": "additionalProperties",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-truncated.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-05",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "syntax",
+      "line": 6
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-unknown-stage.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-24",
+      "pointer": "/stages/0/id",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-wrong-shape.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "wrong-shape",
+      "rule": "FR-001-24",
+      "pointer": "/stages",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-job-request-wrong-type.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": false,
+      "class": "wrong-type",
+      "rule": "FR-001-24",
+      "pointer": "/force",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-nan.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-05",
+      "pointer": "/stages/1/params/dt_s",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 47
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-none-no-reason.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-23",
+      "pointer": "/stages/2/determinism",
+      "keyword": "oneOf",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-none-with-vram.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/resources",
+      "keyword": "not",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-oom-fallback-5.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/retry/oom_fallback",
+      "keyword": "maxItems",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-output-absolute.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-output-backslash.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-output-dotdot.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-output-root.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-output-trailing-dot.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/outputs/0/path",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-params-bad-key.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/params",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-params-depth.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/params/deep/a/b/c",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-params-long-array.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/params/ladder",
+      "keyword": "maxItems",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-params-long-string.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/params/solver",
+      "keyword": "maxLength",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-seed-2p63.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-23",
+      "pointer": "/seed",
+      "keyword": "maximum",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-seed-bool.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "wrong-type",
+      "rule": "FR-001-23",
+      "pointer": "/seed",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-seed-float.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "wrong-type",
+      "rule": "FR-001-23",
+      "pointer": "/seed",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-seed-string.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "wrong-type",
+      "rule": "FR-001-23",
+      "pointer": "/seed",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-seed-yes.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "/seed",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-statistical-no-observables.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/determinism",
+      "keyword": "oneOf",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-timeout-over.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/timeout_s",
+      "keyword": "maximum",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-timeout-zero.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/timeout_s",
+      "keyword": "minimum",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-too-many-stages.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-23",
+      "pointer": "/stages",
+      "keyword": "maxItems",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-truncated.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "syntax",
+      "line": 85
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-unknown-case.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-23",
+      "pointer": "/case",
+      "keyword": "anyOf",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-unknown-determinism.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/determinism",
+      "keyword": "oneOf",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-unknown-env.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/env",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-unknown-field-profile.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "unknown-field",
+      "rule": "FR-001-21",
+      "pointer": "",
+      "keyword": "additionalProperties",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-unknown-gpu.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/resources/gpu",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-unknown-stage-field.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "unknown-field",
+      "rule": "FR-001-21",
+      "pointer": "/stages/0",
+      "keyword": "additionalProperties",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-unknown-stage.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-23",
+      "pointer": "/stages/0/id",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-vram-300.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/resources/vram_gib_est",
+      "keyword": "maximum",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-vram-zero.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-23",
+      "pointer": "/stages/1/resources/vram_gib_est",
+      "keyword": "exclusiveMinimum",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-wrong-binding.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-22",
+      "pointer": "/stages/2/env",
+      "keyword": "const",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-wrong-shape.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "wrong-shape",
+      "rule": "FR-001-23",
+      "pointer": "/stages",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-yaml-alias.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "alias",
+      "line": 85
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-yaml-depth-33.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-06",
+      "pointer": "/stages",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "depth",
+      "line": 1
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-yaml-duplicate-key.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-06",
+      "pointer": "/id",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "duplicate-key",
+      "line": 85
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-yaml-multi-document.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "multi-document",
+      "line": 85
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-yaml-nan.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-06",
+      "pointer": "/stages/1/params/dt_s",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 33
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-yaml-neg-inf.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-06",
+      "pointer": "/stages/1/params/dt_s",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 33
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-yaml-non-string-key.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-string-key",
+      "line": 85
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-yaml-seed-yes.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "/seed",
+      "keyword": "type",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "implicit-boolean-is-string",
+      "line": 4
+    },
+    {
+      "file": "recipe/invalid/recipe.hostile-yaml-tag.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "tag",
+      "line": 85
+    },
+    {
+      "file": "recipe/valid/recipe.valid-bench.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "recipe/valid/recipe.valid-job-request.json",
+      "schema": "recipe",
+      "target": "#/$defs/job_request",
+      "kind": "job-request",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "recipe/valid/recipe.valid.json",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "recipe/valid/recipe.valid.yaml",
+      "schema": "recipe",
+      "target": "#",
+      "kind": "recipe",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": [],
+      "json_twin": "recipe/valid/recipe.valid.json"
+    },
+    {
+      "file": "sources/invalid/sources.hostile-access-account-mismatch.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/account/needed",
+      "keyword": "const",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "sources/invalid/sources.hostile-account-without-env-var.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-32",
+      "pointer": "/sources/2/account",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "sources/invalid/sources.hostile-account-without-fallback.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-32",
+      "pointer": "/sources/2",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "sources/invalid/sources.hostile-bytes-over-64gib.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "out-of-range",
+      "rule": "FR-001-32",
+      "pointer": "/sources/0/files/0/bytes",
+      "keyword": "maximum",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-card-traversal.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-31",
+      "pointer": "/sources/0/card",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-class-not-allowed.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-32",
+      "pointer": "/sources/1",
+      "keyword": "anyOf",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "sources/invalid/sources.hostile-control-char.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "control-char",
+      "rule": "FR-001-57",
+      "pointer": "/sources/0/id",
+      "keyword": "control-char",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "sources/invalid/sources.hostile-device-name.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "device-name",
+      "rule": "FR-001-56",
+      "pointer": "/sources/0/card",
+      "keyword": "device-name",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "sources/invalid/sources.hostile-duplicate-id.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-32",
+      "pointer": "/sources/1",
+      "keyword": "duplicate-id",
+      "tags": [
+        "cross-file"
+      ],
+      "first_pointer": "/sources/0"
+    },
+    {
+      "file": "sources/invalid/sources.hostile-empty.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-001-31",
+      "pointer": "",
+      "keyword": "required",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-env-var-value.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "injection",
+      "rule": "FR-001-32",
+      "pointer": "/sources/2/account/env_var",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-extract-leading-space.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/files/1/extract/0",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-extract-non-archive.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-52",
+      "pointer": "/sources/1/files/0",
+      "keyword": "not",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "sources/invalid/sources.hostile-extract-trailing-space.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/files/1/extract/0",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-extract-traversal.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/files/1/extract/0",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-fallback-repeat.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-52",
+      "pointer": "/sources/2/fallback/sources",
+      "keyword": "uniqueItems",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "sources/invalid/sources.hostile-file-without-kind.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "missing-field",
+      "rule": "FR-001-52",
+      "pointer": "/sources/1/files/0",
+      "keyword": "required",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-http-url.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-32",
+      "pointer": "/sources/0/landing_url",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-malformed-digest.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-32",
+      "pointer": "/sources/0/files/0/sha256",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-missing-attribution.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-32",
+      "pointer": "/sources/1",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "sources/invalid/sources.hostile-nan.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "non-finite",
+      "rule": "FR-001-05",
+      "pointer": "/sources/0/files/0/bytes",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-finite",
+      "line": 14
+    },
+    {
+      "file": "sources/invalid/sources.hostile-oversized.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-31",
+      "pointer": "/sources/0/title",
+      "keyword": "maxLength",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-publisher-checksum.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/files/0/publisher_checksum",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-truncated.yaml",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "syntax",
+      "line": 72
+    },
+    {
+      "file": "sources/invalid/sources.hostile-unknown-access.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-52",
+      "pointer": "/sources/0/access",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-unknown-field.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "unknown-field",
+      "rule": "FR-001-31",
+      "pointer": "/sources/0",
+      "keyword": "additionalProperties",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-unknown-file-kind.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-52",
+      "pointer": "/sources/1/files/0/kind",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-unknown-spdx.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-32",
+      "pointer": "/sources/1/spdx",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-userinfo-url.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "injection",
+      "rule": "FR-001-32",
+      "pointer": "/sources/0/files/0/url",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-wrong-shape.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "wrong-shape",
+      "rule": "FR-001-31",
+      "pointer": "/sources/0/files",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-wrong-type.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "wrong-type",
+      "rule": "FR-001-31",
+      "pointer": "/sources/0/files/0/bytes",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "sources/invalid/sources.hostile-yaml-alias.yaml",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "alias",
+      "line": 37
+    },
+    {
+      "file": "sources/invalid/sources.hostile-yaml-duplicate-key.yaml",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-06",
+      "pointer": "/sources",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "duplicate-key",
+      "line": 72
+    },
+    {
+      "file": "sources/invalid/sources.hostile-yaml-multi-document.yaml",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "multi-document",
+      "line": 72
+    },
+    {
+      "file": "sources/invalid/sources.hostile-yaml-non-string-key.yaml",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-string-key",
+      "line": 72
+    },
+    {
+      "file": "sources/invalid/sources.hostile-yaml-tag.yaml",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "tag",
+      "line": 72
+    },
+    {
+      "file": "sources/valid/sources.valid-empty.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "sources/valid/sources.valid-spaced-member.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "sources/valid/sources.valid.json",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "sources/valid/sources.valid.yaml",
+      "schema": "sources",
+      "target": "#",
+      "kind": "sources",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": [],
+      "json_twin": "sources/valid/sources.valid.json"
+    },
+    {
+      "file": "tools/invalid/tools.hostile-control-char.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "control-char",
+      "rule": "FR-001-57",
+      "pointer": "/tools/0/id",
+      "keyword": "control-char",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "tools/invalid/tools.hostile-device-name.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "device-name",
+      "rule": "FR-001-56",
+      "pointer": "/tools/0/docs_page",
+      "keyword": "device-name",
+      "tags": [
+        "post-schema"
+      ]
+    },
+    {
+      "file": "tools/invalid/tools.hostile-docs-traversal.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "path-traversal",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/docs_page",
+      "keyword": "pattern",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-duplicate-id.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-54",
+      "pointer": "/tools/3",
+      "keyword": "duplicate-id",
+      "tags": [
+        "post-schema"
+      ],
+      "first_pointer": "/tools/0"
+    },
+    {
+      "file": "tools/invalid/tools.hostile-empty.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "empty",
+      "rule": "FR-001-25",
+      "pointer": "/tools",
+      "keyword": "minItems",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-literal-version.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "wrong-shape",
+      "rule": "FR-001-26",
+      "pointer": "/tools/0/version",
+      "keyword": "oneOf",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-not-adopted-docs-page.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "malformed-value",
+      "rule": "FR-001-53",
+      "pointer": "/tools/2/docs_page",
+      "keyword": "pattern",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "tools/invalid/tools.hostile-not-adopted-no-reason.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-53",
+      "pointer": "/tools/2",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "tools/invalid/tools.hostile-oversized.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "oversized",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/role",
+      "keyword": "maxLength",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-reason-on-adopted.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-53",
+      "pointer": "/tools/0",
+      "keyword": "not",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "tools/invalid/tools.hostile-restricted-public.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-28",
+      "pointer": "/tools/1/performance",
+      "keyword": "const",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "tools/invalid/tools.hostile-short-reason.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "licence-honesty",
+      "rule": "FR-001-53",
+      "pointer": "/tools/2/reason",
+      "keyword": "minLength",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-studio-tool-no-docs.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "conditional-rule",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0",
+      "keyword": "required",
+      "tags": [
+        "conditional"
+      ]
+    },
+    {
+      "file": "tools/invalid/tools.hostile-truncated.yaml",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "malformed-syntax",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "syntax",
+      "line": 122
+    },
+    {
+      "file": "tools/invalid/tools.hostile-unknown-env.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/envs/0",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-unknown-field.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "unknown-field",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0",
+      "keyword": "additionalProperties",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-unknown-ring.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/ring",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-unknown-spdx.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "unknown-enum",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/spdx/0",
+      "keyword": "enum",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-wrong-type.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "wrong-type",
+      "rule": "FR-001-25",
+      "pointer": "/tools/0/osi",
+      "keyword": "type",
+      "tags": []
+    },
+    {
+      "file": "tools/invalid/tools.hostile-yaml-alias.yaml",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "alias",
+      "line": 122
+    },
+    {
+      "file": "tools/invalid/tools.hostile-yaml-duplicate-key.yaml",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "duplicate",
+      "rule": "FR-001-06",
+      "pointer": "/tools",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "duplicate-key",
+      "line": 122
+    },
+    {
+      "file": "tools/invalid/tools.hostile-yaml-multi-document.yaml",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "multi-document",
+      "line": 122
+    },
+    {
+      "file": "tools/invalid/tools.hostile-yaml-non-string-key.yaml",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "non-string-key",
+      "line": 122
+    },
+    {
+      "file": "tools/invalid/tools.hostile-yaml-tag.yaml",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": false,
+      "class": "yaml-specific",
+      "rule": "FR-001-06",
+      "pointer": "",
+      "keyword": "",
+      "tags": [
+        "loader"
+      ],
+      "loader_error": "tag",
+      "line": 122
+    },
+    {
+      "file": "tools/valid/tools.valid.json",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": []
+    },
+    {
+      "file": "tools/valid/tools.valid.yaml",
+      "schema": "tools",
+      "target": "#",
+      "kind": "tools",
+      "valid": true,
+      "class": "valid",
+      "rule": null,
+      "pointer": null,
+      "keyword": null,
+      "tags": [],
+      "json_twin": "tools/valid/tools.valid.json"
+    }
+  ]
+}

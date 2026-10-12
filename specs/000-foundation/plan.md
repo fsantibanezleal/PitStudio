@@ -82,7 +82,7 @@ dependency · target: CI on GitHub Actions (no GPU), the local workstation for G
 | DC-000-04 | contract | reference implementation: `jsonschema` on `studio/tools.yaml` | pytest |
 | DC-000-05 | contract | reference implementation: `jsonschema` on `data/sources.yaml` | pytest |
 | FR-000-17 | unit (fixture repositories) | hand calculation: a fixture repository with one red test per environment; the report names the environment of each | pytest |
-| FR-000-18 | unit (fixture repositories) | hand calculation: fixtures with a syntax error at collection, an import of a missing module and a `gpu` test on a machine with device count 0 give `environment-error`; an assertion failure gives red | pytest |
+| FR-000-18 | unit (fixture repositories) | hand calculation: fixtures with a syntax error at collection, an import of a missing third-party or standard-library module and a `gpu` test on a machine with device count 0 give `environment-error`; an assertion failure and an import of a missing first-party module that the task creates give red (one fixture for each) | pytest |
 | FR-000-19 | unit (fixture repositories) | hand calculation: evidence records with a missing file, a wrong parent SHA, a changed test hash, the wrong outcome and a drive-letter path each fail; a correct record passes | pytest |
 | FR-000-20 | contract | reference implementation: `jsonschema` 2020-12 on `modules.yaml`; hand count of the modules per area from the area tables of `module-map.md` | pytest + jsonschema |
 | FR-000-21 | CI (hostile fixtures) | hand calculation: fixture files with a cycle, an unknown module, an unknown contract and a DC row with no edge each fail naming it; the committed file passes | pytest |
