@@ -160,7 +160,10 @@ def find_recipe_file(repo: Path, rid: str) -> Path | None:
 # ---- runs ------------------------------------------------------
 def run_ids(store: Path) -> list[str]:
     runs = store / "runs"
-    return sorted(d.name for d in runs.iterdir() if d.is_dir() and RUN_ID.fullmatch(d.name)) if runs.is_dir() else []
+    if not runs.is_dir():
+        return []
+    with os.scandir(runs) as it:  # the entry type comes with the listing: no stat per folder
+        return sorted(e.name for e in it if RUN_ID.fullmatch(e.name) and e.is_dir())
 
 
 @cache
@@ -178,11 +181,11 @@ def _manifest(path: str, mtime: int, size: int) -> tuple[dict | None, str]:
 def read_manifest(store: Path, run_id: str) -> tuple[dict | None, str]:
     """(manifest, "") for a valid manifest, (None, why) for a damaged one; FileNotFoundError when the run is unknown."""
     p = store / "runs" / run_id / "manifest.json"
-    if not (store / "runs" / run_id).is_dir():
-        raise FileNotFoundError(run_id)
     try:
         st = p.stat()
     except OSError:
+        if not p.parent.is_dir():
+            raise FileNotFoundError(run_id) from None
         return None, "the run has no manifest"
     return _manifest(str(p), st.st_mtime_ns, st.st_size)
 
