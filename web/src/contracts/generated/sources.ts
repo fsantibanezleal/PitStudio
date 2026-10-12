@@ -66,6 +66,10 @@ sources: []|[Slug]|[Slug, Slug]|[Slug, Slug, Slug]|[Slug, Slug, Slug, Slug]|[Slu
 text: string
 }
 optional?: boolean
+/**
+ * true = a fixture source: the entry stands for files under data/samples/ or a generated stand-in; every output derived from it is marked fixture (FR-008-49, spec 008)
+ */
+fixture?: boolean
 })
 /**
  * This interface was referenced by `PitStudioSourceRegistry`'s JSON-Schema

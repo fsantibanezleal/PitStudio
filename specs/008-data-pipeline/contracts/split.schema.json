@@ -129,6 +129,11 @@
     "membership_sha256": {
       "$ref": "#/$defs/sha256",
       "description": "SHA-256 of the RFC 8785 canonical JSON of {groups, folds}."
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "true = the split was built over a fixture source (FR-008-49)"
     }
   },
   "allOf": [

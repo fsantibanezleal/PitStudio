@@ -6407,7 +6407,9 @@
       "tasks": [
         "T-008-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_010_registry.py"
+      ]
     },
     "FR-008-02": {
       "spec": "008-data-pipeline",
@@ -6417,7 +6419,9 @@
       "tasks": [
         "T-008-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_010_registry.py"
+      ]
     },
     "FR-008-03": {
       "spec": "008-data-pipeline",
@@ -6435,7 +6439,9 @@
       "tasks": [
         "T-008-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_011_licence_classes.py"
+      ]
     },
     "FR-008-05": {
       "spec": "008-data-pipeline",
@@ -6445,7 +6451,9 @@
       "tasks": [
         "T-008-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_012_download_verify.py"
+      ]
     },
     "FR-008-06": {
       "spec": "008-data-pipeline",
@@ -6455,7 +6463,9 @@
       "tasks": [
         "T-008-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_012_download_verify.py"
+      ]
     },
     "FR-008-07": {
       "spec": "008-data-pipeline",
@@ -6465,7 +6475,9 @@
       "tasks": [
         "T-008-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_013_pin_licence.py"
+      ]
     },
     "FR-008-08": {
       "spec": "008-data-pipeline",
@@ -6475,7 +6487,9 @@
       "tasks": [
         "T-008-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_013_pin_licence.py"
+      ]
     },
     "FR-008-09": {
       "spec": "008-data-pipeline",
@@ -6493,7 +6507,9 @@
       "tasks": [
         "T-008-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_014_download_hostile.py"
+      ]
     },
     "FR-008-11": {
       "spec": "008-data-pipeline",
@@ -6503,7 +6519,9 @@
       "tasks": [
         "T-008-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_014_download_hostile.py"
+      ]
     },
     "FR-008-12": {
       "spec": "008-data-pipeline",
@@ -6513,7 +6531,9 @@
       "tasks": [
         "T-008-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_015_retry_resume.py"
+      ]
     },
     "FR-008-13": {
       "spec": "008-data-pipeline",
@@ -6523,7 +6543,9 @@
       "tasks": [
         "T-008-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_016_fallback_offline.py"
+      ]
     },
     "FR-008-14": {
       "spec": "008-data-pipeline",
@@ -6533,7 +6555,9 @@
       "tasks": [
         "T-008-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_016_fallback_offline.py"
+      ]
     },
     "FR-008-15": {
       "spec": "008-data-pipeline",
@@ -6543,7 +6567,12 @@
       "tasks": [
         "T-008-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_014_download_hostile.py",
+        "tests/pipeline/test_t_008_020_tabular_schemas.py",
+        "tests/pipeline/test_t_008_040_synthesize.py",
+        "tests/pipeline/test_t_008_050_window_features.py"
+      ]
     },
     "FR-008-16": {
       "spec": "008-data-pipeline",
@@ -6553,7 +6582,9 @@
       "tasks": [
         "T-008-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_016_fallback_offline.py"
+      ]
     },
     "FR-008-17": {
       "spec": "008-data-pipeline",
@@ -6563,7 +6594,9 @@
       "tasks": [
         "T-008-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_012_download_verify.py"
+      ]
     },
     "FR-008-18": {
       "spec": "008-data-pipeline",
@@ -6573,7 +6606,9 @@
       "tasks": [
         "T-008-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_017_archive_safety.py"
+      ]
     },
     "FR-008-19": {
       "spec": "008-data-pipeline",
@@ -6583,7 +6618,9 @@
       "tasks": [
         "T-008-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_017_archive_safety.py"
+      ]
     },
     "FR-008-20": {
       "spec": "008-data-pipeline",
@@ -6593,7 +6630,9 @@
       "tasks": [
         "T-008-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_020_tabular_schemas.py"
+      ]
     },
     "FR-008-21": {
       "spec": "008-data-pipeline",
@@ -6603,7 +6642,9 @@
       "tasks": [
         "T-008-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_020_tabular_schemas.py"
+      ]
     },
     "FR-008-22": {
       "spec": "008-data-pipeline",
@@ -6613,7 +6654,9 @@
       "tasks": [
         "T-008-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_021_outlier_policy.py"
+      ]
     },
     "FR-008-23": {
       "spec": "008-data-pipeline",
@@ -6623,7 +6666,9 @@
       "tasks": [
         "T-008-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_022_file_validators.py"
+      ]
     },
     "FR-008-24": {
       "spec": "008-data-pipeline",
@@ -6633,7 +6678,9 @@
       "tasks": [
         "T-008-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_022_file_validators.py"
+      ]
     },
     "FR-008-25": {
       "spec": "008-data-pipeline",
@@ -6643,7 +6690,9 @@
       "tasks": [
         "T-008-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_023_units.py"
+      ]
     },
     "FR-008-46": {
       "spec": "008-data-pipeline",
@@ -6653,7 +6702,9 @@
       "tasks": [
         "T-008-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_023_units.py"
+      ]
     },
     "FR-008-26": {
       "spec": "008-data-pipeline",
@@ -6663,7 +6714,9 @@
       "tasks": [
         "T-008-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_024_site_name.py"
+      ]
     },
     "FR-008-27": {
       "spec": "008-data-pipeline",
@@ -6673,7 +6726,10 @@
       "tasks": [
         "T-008-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_030_mendeley_groups.py",
+        "tests/pipeline/test_t_008_033_group_keys.py"
+      ]
     },
     "FR-008-28": {
       "spec": "008-data-pipeline",
@@ -6683,7 +6739,9 @@
       "tasks": [
         "T-008-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_030_mendeley_groups.py"
+      ]
     },
     "FR-008-29": {
       "spec": "008-data-pipeline",
@@ -6693,7 +6751,9 @@
       "tasks": [
         "T-008-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_031_mendeley_integrity.py"
+      ]
     },
     "FR-008-30": {
       "spec": "008-data-pipeline",
@@ -6703,7 +6763,9 @@
       "tasks": [
         "T-008-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_032_mendeley_folds.py"
+      ]
     },
     "FR-008-47": {
       "spec": "008-data-pipeline",
@@ -6713,7 +6775,9 @@
       "tasks": [
         "T-008-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_032_mendeley_folds.py"
+      ]
     },
     "FR-008-31": {
       "spec": "008-data-pipeline",
@@ -6723,7 +6787,9 @@
       "tasks": [
         "T-008-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_033_group_keys.py"
+      ]
     },
     "FR-008-32": {
       "spec": "008-data-pipeline",
@@ -6733,7 +6799,9 @@
       "tasks": [
         "T-008-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_040_synthesize.py"
+      ]
     },
     "FR-008-33": {
       "spec": "008-data-pipeline",
@@ -6743,7 +6811,9 @@
       "tasks": [
         "T-008-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_041_synthetic_format.py"
+      ]
     },
     "FR-008-34": {
       "spec": "008-data-pipeline",
@@ -6753,7 +6823,9 @@
       "tasks": [
         "T-008-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_041_synthetic_format.py"
+      ]
     },
     "FR-008-35": {
       "spec": "008-data-pipeline",
@@ -6763,7 +6835,9 @@
       "tasks": [
         "T-008-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_040_synthesize.py"
+      ]
     },
     "FR-008-36": {
       "spec": "008-data-pipeline",
@@ -6773,7 +6847,9 @@
       "tasks": [
         "T-008-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_042_honesty_rule.py"
+      ]
     },
     "FR-008-37": {
       "spec": "008-data-pipeline",
@@ -6783,7 +6859,9 @@
       "tasks": [
         "T-008-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_042_honesty_rule.py"
+      ]
     },
     "FR-008-38": {
       "spec": "008-data-pipeline",
@@ -6793,7 +6871,9 @@
       "tasks": [
         "T-008-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_040_synthesize.py"
+      ]
     },
     "FR-008-39": {
       "spec": "008-data-pipeline",
@@ -6803,7 +6883,9 @@
       "tasks": [
         "T-008-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_050_window_features.py"
+      ]
     },
     "FR-008-48": {
       "spec": "008-data-pipeline",
@@ -6813,7 +6895,10 @@
       "tasks": [
         "T-008-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_050_window_features.py",
+        "tests/pipeline/test_t_008_051_embeddings.py"
+      ]
     },
     "FR-008-40": {
       "spec": "008-data-pipeline",
@@ -6823,7 +6908,10 @@
       "tasks": [
         "T-008-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_008_051_embeddings_gpu.py",
+        "tests/pipeline/test_t_008_051_embeddings.py"
+      ]
     },
     "FR-008-41": {
       "spec": "008-data-pipeline",
@@ -6833,7 +6921,9 @@
       "tasks": [
         "T-008-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_051_embeddings.py"
+      ]
     },
     "FR-008-42": {
       "spec": "008-data-pipeline",
@@ -6843,7 +6933,9 @@
       "tasks": [
         "T-008-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_050_window_features.py"
+      ]
     },
     "FR-008-43": {
       "spec": "008-data-pipeline",
@@ -6853,7 +6945,9 @@
       "tasks": [
         "T-008-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_060_data_cards.py"
+      ]
     },
     "FR-008-44": {
       "spec": "008-data-pipeline",
@@ -6863,7 +6957,9 @@
       "tasks": [
         "T-008-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_060_data_cards.py"
+      ]
     },
     "FR-008-45": {
       "spec": "008-data-pipeline",
@@ -6873,7 +6969,9 @@
       "tasks": [
         "T-008-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_061_samples_hygiene.py"
+      ]
     },
     "FR-008-49": {
       "spec": "008-data-pipeline",
@@ -6883,7 +6981,10 @@
       "tasks": [
         "T-008-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_060_data_cards.py",
+        "tests/pipeline/test_t_008_092_fixture_source.py"
+      ]
     },
     "FR-008-50": {
       "spec": "008-data-pipeline",
@@ -6893,7 +6994,9 @@
       "tasks": [
         "T-008-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_093_partial_source.py"
+      ]
     },
     "P-008-01": {
       "spec": "008-data-pipeline",
@@ -6903,7 +7006,9 @@
       "tasks": [
         "T-008-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_012_download_verify.py"
+      ]
     },
     "P-008-02": {
       "spec": "008-data-pipeline",
@@ -6913,7 +7018,9 @@
       "tasks": [
         "T-008-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_015_retry_resume.py"
+      ]
     },
     "P-008-03": {
       "spec": "008-data-pipeline",
@@ -6923,7 +7030,9 @@
       "tasks": [
         "T-008-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_020_tabular_schemas.py"
+      ]
     },
     "P-008-04": {
       "spec": "008-data-pipeline",
@@ -6933,7 +7042,9 @@
       "tasks": [
         "T-008-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_021_outlier_policy.py"
+      ]
     },
     "P-008-05": {
       "spec": "008-data-pipeline",
@@ -6943,7 +7054,9 @@
       "tasks": [
         "T-008-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_017_archive_safety.py"
+      ]
     },
     "P-008-06": {
       "spec": "008-data-pipeline",
@@ -6953,7 +7066,9 @@
       "tasks": [
         "T-008-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_030_mendeley_groups.py"
+      ]
     },
     "P-008-07": {
       "spec": "008-data-pipeline",
@@ -6963,7 +7078,9 @@
       "tasks": [
         "T-008-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_032_mendeley_folds.py"
+      ]
     },
     "P-008-08": {
       "spec": "008-data-pipeline",
@@ -6973,7 +7090,9 @@
       "tasks": [
         "T-008-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_030_mendeley_groups.py"
+      ]
     },
     "P-008-09": {
       "spec": "008-data-pipeline",
@@ -6983,7 +7102,9 @@
       "tasks": [
         "T-008-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_040_synthesize.py"
+      ]
     },
     "P-008-10": {
       "spec": "008-data-pipeline",
@@ -6993,7 +7114,9 @@
       "tasks": [
         "T-008-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_050_window_features.py"
+      ]
     },
     "P-008-11": {
       "spec": "008-data-pipeline",
@@ -7003,7 +7126,9 @@
       "tasks": [
         "T-008-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_023_units.py"
+      ]
     },
     "P-008-12": {
       "spec": "008-data-pipeline",
@@ -7021,7 +7146,9 @@
       "tasks": [
         "T-008-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_018_mendeley_memory.py"
+      ]
     },
     "NFR-008-02": {
       "spec": "008-data-pipeline",
@@ -7031,7 +7158,9 @@
       "tasks": [
         "T-008-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_015_retry_resume.py"
+      ]
     },
     "NFR-008-03": {
       "spec": "008-data-pipeline",
@@ -7041,7 +7170,9 @@
       "tasks": [
         "T-008-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_061_samples_hygiene.py"
+      ]
     },
     "SC-008-01": {
       "spec": "008-data-pipeline",
@@ -7051,7 +7182,9 @@
       "tasks": [
         "T-008-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_008_031_mendeley_integrity.py"
+      ]
     },
     "DC-008-01": {
       "spec": "008-data-pipeline",

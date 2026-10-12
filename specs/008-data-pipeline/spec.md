@@ -229,6 +229,10 @@ inputs by SHA-256 and the licence class computed by spec 001 (FR-001-18).
 
 - **Unnamed instances.** 48 named instances have no pixels in their masks. These are fully overlapped polygons and are
   not a violation; instance indices may have gaps.
+- **Default data root (clarification 2026-10-11, FR-008-15).** `<repo>/data` is the default data root when neither an
+  argument nor `PITSTUDIO_DATA` names one; stage outputs then land in `data/raw/<id>`, `data/processed/<id>` and the other
+  git-ignored folders of that tree. An explicit root (argument or `PITSTUDIO_DATA`) is checked as written in FR-008-15: any
+  other path inside the working tree, `<repo>/data` itself included, is refused with `UnsafeDataRoot`.
 - **The de Wit series** is one real event. It gets no split, no C2ST and no TSTR (FR-008-31, FR-008-36).
 
 **Assumptions (pinned at specification)**

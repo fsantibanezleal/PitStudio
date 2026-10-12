@@ -1397,6 +1397,23 @@
       "rule": "FR-001-36",
       "pointer": "/generated",
       "keyword": "pattern"
+    },
+    {
+      "file": "sources.valid-fixture.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "fixture: true entry (FR-008-49)"
+    },
+    {
+      "file": "sources.hostile-fixture-wrong-type.json",
+      "schema": "sources.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type (fixture as text)",
+      "rule": "FR-008-49",
+      "pointer": "/sources/0/fixture",
+      "keyword": "type"
     }
   ],
   "not_schema_checkable": [

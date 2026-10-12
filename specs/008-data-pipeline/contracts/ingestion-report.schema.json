@@ -79,6 +79,16 @@
         }
       },
       "maxItems": 4096
+    },
+    "partial": {
+      "type": "boolean",
+      "default": false,
+      "description": "true = only some files of a multi-file source were verified; the missing ones are listed with status unavailable (FR-008-50)"
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "true = the source is a fixture (FR-008-49)"
     }
   },
   "allOf": [
@@ -119,6 +129,51 @@
         "properties": {
           "violations": {
             "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "partial": {
+            "const": true
+          }
+        },
+        "required": [
+          "partial"
+        ]
+      },
+      "then": {
+        "properties": {
+          "files": {
+            "contains": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "const": "unavailable"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "files": {
+            "items": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "accepted",
+                    "rejected"
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -172,7 +227,15 @@
           "description": "Path relative to the data root."
         },
         "sha256": {
-          "$ref": "#/$defs/sha256"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "null only for a file with status unavailable (never fetched)"
         },
         "validator": {
           "enum": [
@@ -195,7 +258,8 @@
         "status": {
           "enum": [
             "accepted",
-            "rejected"
+            "rejected",
+            "unavailable"
           ]
         },
         "records": {
@@ -210,7 +274,38 @@
             }
           ]
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "unavailable"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sha256": {
+                "type": "null"
+              },
+              "records": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              }
+            }
+          }
+        }
+      ]
     },
     "violation": {
       "type": "object",
