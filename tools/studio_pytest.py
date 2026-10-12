@@ -1,8 +1,8 @@
-"""Run the studio-environment tests of specs 004 to 006 and fail when any of them is skipped (T-004-002).
+"""Run the studio-environment tests of specs 004, 005, 006 and 013 and fail when any of them is skipped (T-004-002).
 
 Usage:  uv run --project studio --frozen python tools/studio_pytest.py [pytest arguments]
 The tests live in the root `tests/` tree and need `pxr`, `rasterio`, `laspy` and friends, which only the studio
-environment has; the root CI job skips such modules. This runner collects the test files of specs 004 to 006, runs them
+environment has; the root CI job skips such modules. This runner collects the test files of those specs, runs them
 with `-m "not gpu and not slow"` (plus any extra arguments), and exits non-zero when pytest fails or when one of
 those files reports a skipped test, so that a skip in the root job can never hide a missing run.
 Exit:    0 all passed and none skipped, 1 a test failed or was skipped, 2 no test file found.
@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SPECS = ("004", "005", "006")
+SPECS = ("004", "005", "006", "013")
 
 
 def test_files() -> list[Path]:
@@ -43,7 +43,7 @@ def main(argv: list[str]) -> int:
         marker, rest = rest[1], rest[2:]
     files = test_files()
     if not files:
-        print("no test file of specs 004 to 006 found")
+        print("no test file of specs 004, 005, 006 and 013 found")
         return 2
     with tempfile.TemporaryDirectory() as tmp:
         report = Path(tmp) / "junit.xml"
