@@ -24,3 +24,4 @@ e2044b78ebb504094d5512fd98aa8139420f35bf902518ec75cf532ffc48e6de  web/src/engine
 9c505f273b8006494cb7d3fffaf8817b3b9ab8baf1a4d76b5306c748e7caa553  web/src/engines/sensors/__fixtures__/dust-golden-3.json
 528355ef827135b90e14dedf152a387d88fee79b55a438d119f54a6f45d570c1  web/src/engines/sensors/beam-hash.test.ts
 6df124777b3a0ad055ed162646ee28c028741bb587b9606903affbbe68ca2dab  web/src/engines/sensors/dust-slider-hostile.test.ts
+873bf51c59e9111fb249385b0721008ad038622db880e8dccfdde97a90c4981e  web/e2e/sensors-dust-slider.spec.ts
