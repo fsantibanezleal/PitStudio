@@ -184,3 +184,145 @@ def fit_normaliser(x: np.ndarray, record_ids: Sequence[str], split: Mapping[str,
         raise ValueError("no row belongs to the training pool of this fold")
     train = matrix[rows]
     return Normaliser(train.mean(axis=0), train.std(axis=0, ddof=0), str(split["id"]), fold)
+
+
+# ---------------------------------------------------------------------------------------- image embeddings
+PREPROCESS_PARAMS: dict[str, Any] = {
+    "resize_shorter_side_px": 256,
+    "interpolation": "bicubic",
+    "center_crop_px": 224,
+    "rescale_factor": 1.0 / 255.0,
+    "mean": [0.485, 0.456, 0.406],
+    "std": [0.229, 0.224, 0.225],
+    "layout": "channels-first float32",
+}
+MIN_SIDE_PX = 14  # the ViT-S/14 patch size
+APACHE = "Apache-2.0"
+
+
+def verify_model_pin(weights_path: Path | str, *, pin: Mapping[str, Any], revision: str, licence: str) -> None:
+    """Refuse (`ModelPinMismatch`) unless the weights file, the revision and the licence are exactly the pinned ones."""
+    from pitstudio_pipeline.errors import ModelPinMismatch
+
+    path = Path(weights_path)
+    if not path.is_file():
+        raise ModelPinMismatch(f"the weights file {path.name!r} is missing")
+    digest = sha256_file(path)
+    if digest != pin["weights_sha256"]:
+        raise ModelPinMismatch(f"weights SHA-256 {digest} differs from the pin {pin['weights_sha256']}")
+    if revision != pin["revision"]:
+        raise ModelPinMismatch(f"revision {revision!r} differs from the pinned {pin['revision']!r}")
+    if licence != pin["licence"]:
+        raise ModelPinMismatch(f"licence {licence!r} differs from the pinned {pin['licence']!r}")
+
+
+def preprocess_image(image: np.ndarray) -> np.ndarray:
+    """The one preprocessing function for real and synthetic images: uint8 H x W x 3 to float32 C x 224 x 224.
+
+    Resize the shorter side to 256 px (bicubic), centre-crop 224 px, scale to [0, 1] and normalise by the ImageNet
+    mean and standard deviation (the DINOv2 recipe). `PREPROCESS_PARAMS` records the parameters for the manifest.
+    """
+    from PIL import Image
+
+    pil = Image.fromarray(np.ascontiguousarray(image))
+    height, width = pil.height, pil.width
+    short = PREPROCESS_PARAMS["resize_shorter_side_px"]
+    scale = short / min(height, width)
+    resized = pil.resize(
+        (max(short, round(width * scale)), max(short, round(height * scale))), Image.Resampling.BICUBIC
+    )
+    crop = PREPROCESS_PARAMS["center_crop_px"]
+    left, top = (resized.width - crop) // 2, (resized.height - crop) // 2
+    arr = np.asarray(resized.crop((left, top, left + crop, top + crop)), dtype=np.float32)
+    arr = arr * np.float32(PREPROCESS_PARAMS["rescale_factor"])
+    mean = np.asarray(PREPROCESS_PARAMS["mean"], dtype=np.float32)
+    std = np.asarray(PREPROCESS_PARAMS["std"], dtype=np.float32)
+    return np.ascontiguousarray(((arr - mean) / std).transpose(2, 0, 1), dtype=np.float32)
+
+
+def check_image(image: np.ndarray | bytes, *, name: str) -> np.ndarray:
+    """The decoded uint8 H x W x 3 array of an image, or `IngestionRejected` (FR-008-48): not decodable, a channel
+    count other than 3, or a side below 14 px. Nothing is converted to make an image fit."""
+    from io import BytesIO
+
+    from PIL import Image, UnidentifiedImageError
+
+    def reject(found: Any, rule: str, expected: str) -> IngestionRejected:
+        return IngestionRejected(
+            [violation(name, "image", rule, field_kind="property", value=found, expected=expected)]
+        )
+
+    if isinstance(image, bytes | bytearray):
+        try:
+            with Image.open(BytesIO(bytes(image))) as decoded:
+                decoded.load()
+                array = np.asarray(decoded)
+        except (UnidentifiedImageError, OSError, ValueError, SyntaxError) as exc:
+            raise reject(type(exc).__name__, "decodable image", "a decodable image") from None
+    else:
+        array = np.asarray(image)
+    if array.ndim != 3 or array.shape[2] != 3:
+        raise reject(str(array.shape), "three channels", "H x W x 3")
+    if array.dtype != np.uint8:
+        raise reject(str(array.dtype), "8-bit pixels", "uint8")
+    if min(array.shape[0], array.shape[1]) < MIN_SIDE_PX:
+        raise reject(f"{array.shape[1]}x{array.shape[0]}", "side at least 14 px", f">= {MIN_SIDE_PX} px")
+    return array
+
+
+@dataclass(frozen=True)
+class EmbeddingResult:
+    """Embeddings (one float32 row per image), the manifest block of the run and the device that computed them."""
+
+    embeddings: np.ndarray
+    manifest: dict[str, Any]
+    device: str
+
+
+def _gpu_compute_lock() -> Any:
+    """The machine-wide `gpu0.compute` lock (spec 002: a file lock in `GPU_LOCK_DIR`, default `gpu-locks` in the system
+    temporary folder); refused while `gpu0.hold` exists."""
+    import os
+    import tempfile
+
+    import filelock
+
+    folder = Path(os.environ.get("GPU_LOCK_DIR") or Path(tempfile.gettempdir()) / "gpu-locks")
+    folder.mkdir(parents=True, exist_ok=True)
+    if os.path.lexists(folder / "gpu0.hold"):
+        raise RuntimeError(f"GPU hold in {folder / 'gpu0.hold'} -- not starting")
+    return filelock.FileLock(str(folder / "gpu0.compute"), timeout=5)
+
+
+def embed_images(
+    images: Sequence[np.ndarray | bytes],
+    *,
+    model: Any,
+    weights_path: Path | str,
+    pin: Mapping[str, Any],
+    revision: str,
+    licence: str,
+    device: str = "cpu",
+) -> EmbeddingResult:
+    """Embed images with a frozen backbone (FR-008-40, FR-008-41, FR-008-48).
+
+    The pin is verified and every image is checked BEFORE the model runs; one `preprocess_image` serves every image.
+    On `cpu` the result is bitwise reproducible; on `cuda` the model call runs under the `gpu0.compute` lock, which is
+    released on every exit path.
+    """
+    import contextlib
+
+    import torch
+
+    verify_model_pin(weights_path, pin=pin, revision=revision, licence=licence)
+    decoded = [check_image(image, name=f"image-{i}") for i, image in enumerate(images)]
+    batch = (
+        torch.from_numpy(np.stack([preprocess_image(a) for a in decoded])) if decoded else torch.empty((0, 3, 224, 224))
+    )
+    with _gpu_compute_lock() if device.startswith("cuda") else contextlib.nullcontext():
+        model.eval()
+        with torch.no_grad():
+            out = model(batch.to(device))
+        embeddings = out.detach().cpu().numpy().astype(np.float32)
+    manifest = {"preprocess": PREPROCESS_PARAMS, "pin": dict(pin), "device": device}
+    return EmbeddingResult(embeddings=embeddings, manifest=manifest, device=device)
