@@ -486,7 +486,11 @@
         "T-012-003",
         "T-016-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_005_detection_eval_schema.py",
+        "tests/contract/test_t_012_003_fragmentation_eval_schema.py",
+        "tests/contract/test_t_016_003_parity_report_schema.py"
+      ]
     },
     "DC-000-02": {
       "spec": "000-foundation",
@@ -3510,7 +3514,9 @@
       "tasks": [
         "T-004-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_004_001_scene_schemas.py"
+      ]
     },
     "FR-004-41": {
       "spec": "004-scene-pipeline",
@@ -3750,7 +3756,9 @@
       "tasks": [
         "T-004-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_004_001_scene_schemas.py"
+      ]
     },
     "DC-004-02": {
       "spec": "004-scene-pipeline",
@@ -3760,7 +3768,9 @@
       "tasks": [
         "T-004-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_004_001_scene_schemas.py"
+      ]
     },
     "DC-004-03": {
       "spec": "004-scene-pipeline",
@@ -3770,7 +3780,9 @@
       "tasks": [
         "T-004-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_004_001_scene_schemas.py"
+      ]
     },
     "DC-004-04": {
       "spec": "004-scene-pipeline",
@@ -3780,7 +3792,9 @@
       "tasks": [
         "T-004-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_004_001_scene_schemas.py"
+      ]
     },
     "DC-004-05": {
       "spec": "004-scene-pipeline",
@@ -3790,7 +3804,9 @@
       "tasks": [
         "T-004-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_004_001_scene_schemas.py"
+      ]
     },
     "DC-004-06": {
       "spec": "004-scene-pipeline",
@@ -3800,7 +3816,9 @@
       "tasks": [
         "T-004-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_004_001_scene_schemas.py"
+      ]
     },
     "DC-004-07": {
       "spec": "004-scene-pipeline",
@@ -3810,7 +3828,9 @@
       "tasks": [
         "T-004-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_004_001_scene_schemas.py"
+      ]
     },
     "DC-004-08": {
       "spec": "004-scene-pipeline",
@@ -3820,7 +3840,9 @@
       "tasks": [
         "T-004-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_004_001_scene_schemas.py"
+      ]
     },
     "US-005-1": {
       "spec": "005-physics",
@@ -4846,7 +4868,9 @@
       "tasks": [
         "T-005-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_005_001_physics_schemas.py"
+      ]
     },
     "DC-005-02": {
       "spec": "005-physics",
@@ -4856,7 +4880,9 @@
       "tasks": [
         "T-005-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_005_001_physics_schemas.py"
+      ]
     },
     "DC-005-03": {
       "spec": "005-physics",
@@ -4866,7 +4892,9 @@
       "tasks": [
         "T-005-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_005_001_physics_schemas.py"
+      ]
     },
     "DC-005-04": {
       "spec": "005-physics",
@@ -4876,7 +4904,9 @@
       "tasks": [
         "T-005-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_005_001_physics_schemas.py"
+      ]
     },
     "DC-005-05": {
       "spec": "005-physics",
@@ -4886,7 +4916,9 @@
       "tasks": [
         "T-005-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_005_001_physics_schemas.py"
+      ]
     },
     "DC-005-06": {
       "spec": "005-physics",
@@ -4896,7 +4928,9 @@
       "tasks": [
         "T-005-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_005_001_physics_schemas.py"
+      ]
     },
     "US-006-1": {
       "spec": "006-media-telemetry",
@@ -5305,7 +5339,9 @@
       "tasks": [
         "T-006-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_006_001_media_schemas.py"
+      ]
     },
     "DC-006-02": {
       "spec": "006-media-telemetry",
@@ -5315,7 +5351,9 @@
       "tasks": [
         "T-006-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_006_001_media_schemas.py"
+      ]
     },
     "DC-006-03": {
       "spec": "006-media-telemetry",
@@ -5325,7 +5363,9 @@
       "tasks": [
         "T-006-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_006_001_media_schemas.py"
+      ]
     },
     "US-007-1": {
       "spec": "007-haulage-dispatch",
@@ -6195,7 +6235,9 @@
       "tasks": [
         "T-007-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_007_001_haulage_schemas.py"
+      ]
     },
     "DC-007-02": {
       "spec": "007-haulage-dispatch",
@@ -6205,7 +6247,9 @@
       "tasks": [
         "T-007-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_007_001_haulage_schemas.py"
+      ]
     },
     "DC-007-03": {
       "spec": "007-haulage-dispatch",
@@ -6215,7 +6259,9 @@
       "tasks": [
         "T-007-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_007_001_haulage_schemas.py"
+      ]
     },
     "DC-007-04": {
       "spec": "007-haulage-dispatch",
@@ -6225,7 +6271,9 @@
       "tasks": [
         "T-007-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_007_001_haulage_schemas.py"
+      ]
     },
     "DC-007-05": {
       "spec": "007-haulage-dispatch",
@@ -6235,7 +6283,9 @@
       "tasks": [
         "T-007-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_007_001_haulage_schemas.py"
+      ]
     },
     "US-008-1": {
       "spec": "008-data-pipeline",
@@ -6977,7 +7027,9 @@
       "tasks": [
         "T-008-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_001_data_schemas.py"
+      ]
     },
     "DC-008-03": {
       "spec": "008-data-pipeline",
@@ -6987,7 +7039,9 @@
       "tasks": [
         "T-008-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_001_data_schemas.py"
+      ]
     },
     "DC-008-04": {
       "spec": "008-data-pipeline",
@@ -6997,7 +7051,9 @@
       "tasks": [
         "T-008-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_001_data_schemas.py"
+      ]
     },
     "DC-008-05": {
       "spec": "008-data-pipeline",
@@ -7007,7 +7063,9 @@
       "tasks": [
         "T-008-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_008_001_data_schemas.py"
+      ]
     },
     "US-009-1": {
       "spec": "009-perception",
@@ -7900,7 +7958,9 @@
       "tasks": [
         "T-009-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_001_perception_dataset_schema.py"
+      ]
     },
     "DC-009-02": {
       "spec": "009-perception",
@@ -7910,7 +7970,9 @@
       "tasks": [
         "T-009-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_002_coco_instances_schema.py"
+      ]
     },
     "DC-009-03": {
       "spec": "009-perception",
@@ -7920,7 +7982,9 @@
       "tasks": [
         "T-009-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_003_sdg_randomisation_schema.py"
+      ]
     },
     "DC-009-04": {
       "spec": "009-perception",
@@ -7930,7 +7994,9 @@
       "tasks": [
         "T-009-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_004_people_asset_record_schema.py"
+      ]
     },
     "DC-009-05": {
       "spec": "009-perception",
@@ -7940,7 +8006,9 @@
       "tasks": [
         "T-009-005"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_005_detection_eval_schema.py"
+      ]
     },
     "US-010-1": {
       "spec": "010-slope",
@@ -8795,7 +8863,9 @@
       "tasks": [
         "T-010-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_010_001_slope_schemas.py"
+      ]
     },
     "DC-010-02": {
       "spec": "010-slope",
@@ -8805,7 +8875,9 @@
       "tasks": [
         "T-010-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_010_001_slope_schemas.py"
+      ]
     },
     "DC-010-03": {
       "spec": "010-slope",
@@ -8815,7 +8887,9 @@
       "tasks": [
         "T-010-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_010_001_slope_schemas.py"
+      ]
     },
     "DC-010-04": {
       "spec": "010-slope",
@@ -8825,7 +8899,9 @@
       "tasks": [
         "T-010-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_010_001_slope_schemas.py"
+      ]
     },
     "DC-010-05": {
       "spec": "010-slope",
@@ -9686,7 +9762,9 @@
       "tasks": [
         "T-011-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_001_surrogate_schemas.py"
+      ]
     },
     "DC-011-02": {
       "spec": "011-surrogates",
@@ -9696,7 +9774,9 @@
       "tasks": [
         "T-011-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_001_surrogate_schemas.py"
+      ]
     },
     "DC-011-03": {
       "spec": "011-surrogates",
@@ -9706,7 +9786,9 @@
       "tasks": [
         "T-011-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_001_surrogate_schemas.py"
+      ]
     },
     "DC-011-04": {
       "spec": "011-surrogates",
@@ -9716,7 +9798,9 @@
       "tasks": [
         "T-011-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_001_surrogate_schemas.py"
+      ]
     },
     "US-012-1": {
       "spec": "012-fragmentation",
@@ -10556,7 +10640,9 @@
       "tasks": [
         "T-012-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_012_001_fragment_table_schema.py"
+      ]
     },
     "DC-012-02": {
       "spec": "012-fragmentation",
@@ -10566,7 +10652,9 @@
       "tasks": [
         "T-012-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_012_002_fragment_split_schema.py"
+      ]
     },
     "DC-012-03": {
       "spec": "012-fragmentation",
@@ -10576,7 +10664,9 @@
       "tasks": [
         "T-012-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_012_003_fragmentation_eval_schema.py"
+      ]
     },
     "DC-012-04": {
       "spec": "012-fragmentation",
@@ -10586,7 +10676,9 @@
       "tasks": [
         "T-012-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_012_004_muck_pile_render_schema.py"
+      ]
     },
     "DC-012-05": {
       "spec": "012-fragmentation",
@@ -10596,7 +10688,9 @@
       "tasks": [
         "T-012-005"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_012_005_d1_design_grid_schema.py"
+      ]
     },
     "US-013-1": {
       "spec": "013-sensors",
@@ -11359,7 +11453,9 @@
       "tasks": [
         "T-013-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_013_001_sensor_schemas.py"
+      ]
     },
     "DC-013-02": {
       "spec": "013-sensors",
@@ -11369,7 +11465,9 @@
       "tasks": [
         "T-013-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_013_001_sensor_schemas.py"
+      ]
     },
     "DC-013-03": {
       "spec": "013-sensors",
@@ -11379,7 +11477,9 @@
       "tasks": [
         "T-013-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_013_001_sensor_schemas.py"
+      ]
     },
     "DC-013-04": {
       "spec": "013-sensors",
@@ -11389,7 +11489,9 @@
       "tasks": [
         "T-013-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_013_001_sensor_schemas.py"
+      ]
     },
     "DC-013-05": {
       "spec": "013-sensors",
@@ -11399,7 +11501,9 @@
       "tasks": [
         "T-013-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_013_001_sensor_schemas.py"
+      ]
     },
     "DC-013-06": {
       "spec": "013-sensors",
@@ -12324,7 +12428,9 @@
       "tasks": [
         "T-014-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_014_001_il_schemas.py"
+      ]
     },
     "DC-014-02": {
       "spec": "014-robot-learning",
@@ -12334,7 +12440,9 @@
       "tasks": [
         "T-014-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_014_001_il_schemas.py"
+      ]
     },
     "DC-014-03": {
       "spec": "014-robot-learning",
@@ -12344,7 +12452,9 @@
       "tasks": [
         "T-014-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_014_001_il_schemas.py"
+      ]
     },
     "DC-014-04": {
       "spec": "014-robot-learning",
@@ -12354,7 +12464,9 @@
       "tasks": [
         "T-014-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_014_001_il_schemas.py"
+      ]
     },
     "DC-014-05": {
       "spec": "014-robot-learning",
@@ -12364,7 +12476,9 @@
       "tasks": [
         "T-014-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_014_001_il_schemas.py"
+      ]
     },
     "DC-014-06": {
       "spec": "014-robot-learning",
@@ -13195,7 +13309,9 @@
       "tasks": [
         "T-015-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_001_reason_schemas.py"
+      ]
     },
     "DC-015-02": {
       "spec": "015-vlm",
@@ -13205,7 +13321,9 @@
       "tasks": [
         "T-015-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_001_reason_schemas.py"
+      ]
     },
     "DC-015-03": {
       "spec": "015-vlm",
@@ -13215,7 +13333,9 @@
       "tasks": [
         "T-015-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_001_reason_schemas.py"
+      ]
     },
     "DC-015-04": {
       "spec": "015-vlm",
@@ -13225,7 +13345,9 @@
       "tasks": [
         "T-015-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_001_reason_schemas.py"
+      ]
     },
     "DC-015-05": {
       "spec": "015-vlm",
@@ -13235,7 +13357,9 @@
       "tasks": [
         "T-015-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_001_reason_schemas.py"
+      ]
     },
     "DC-015-06": {
       "spec": "015-vlm",
@@ -13245,7 +13369,9 @@
       "tasks": [
         "T-015-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_015_001_reason_schemas.py"
+      ]
     },
     "DC-015-07": {
       "spec": "015-vlm",
@@ -13448,7 +13574,9 @@
       "tasks": [
         "T-016-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_016_003_parity_report_schema.py"
+      ]
     },
     "FR-016-12": {
       "spec": "016-export-acceleration",
@@ -13958,7 +14086,9 @@
       "tasks": [
         "T-016-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_016_001_bench_record_schema.py"
+      ]
     },
     "DC-016-02": {
       "spec": "016-export-acceleration",
@@ -13968,7 +14098,9 @@
       "tasks": [
         "T-016-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_016_002_release_assets_schema.py"
+      ]
     },
     "DC-016-03": {
       "spec": "016-export-acceleration",
@@ -13978,7 +14110,9 @@
       "tasks": [
         "T-016-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_016_003_parity_report_schema.py"
+      ]
     },
     "DC-016-04": {
       "spec": "016-export-acceleration",
@@ -13988,7 +14122,9 @@
       "tasks": [
         "T-016-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_016_004_export_config_schema.py"
+      ]
     },
     "DC-016-05": {
       "spec": "016-export-acceleration",
@@ -13998,7 +14134,9 @@
       "tasks": [
         "T-016-005"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_016_005_accel_table_schema.py"
+      ]
     },
     "US-017-1": {
       "spec": "017-planning-survey",
@@ -14938,7 +15076,9 @@
       "tasks": [
         "T-017-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_017_001_planning_survey_schemas.py"
+      ]
     },
     "DC-017-02": {
       "spec": "017-planning-survey",
@@ -14948,7 +15088,9 @@
       "tasks": [
         "T-017-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_017_001_planning_survey_schemas.py"
+      ]
     },
     "DC-017-03": {
       "spec": "017-planning-survey",
@@ -14958,7 +15100,9 @@
       "tasks": [
         "T-017-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_017_001_planning_survey_schemas.py"
+      ]
     },
     "DC-017-04": {
       "spec": "017-planning-survey",
@@ -14968,7 +15112,9 @@
       "tasks": [
         "T-017-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_017_001_planning_survey_schemas.py"
+      ]
     },
     "DC-017-05": {
       "spec": "017-planning-survey",
@@ -14978,7 +15124,9 @@
       "tasks": [
         "T-017-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_017_001_planning_survey_schemas.py"
+      ]
     },
     "US-018-1": {
       "spec": "018-web-cases",
@@ -15187,7 +15335,9 @@
       "tasks": [
         "T-018-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_001_cases_registry.py"
+      ]
     },
     "FR-018-11": {
       "spec": "018-web-cases",
@@ -16607,7 +16757,9 @@
       "tasks": [
         "T-018-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_001_cases_registry.py"
+      ]
     },
     "DC-018-02": {
       "spec": "018-web-cases",
@@ -16617,7 +16769,9 @@
       "tasks": [
         "T-018-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_002_engine_schemas.py"
+      ]
     },
     "DC-018-03": {
       "spec": "018-web-cases",
@@ -16627,7 +16781,9 @@
       "tasks": [
         "T-018-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_003_replay_shard_schema.py"
+      ]
     },
     "DC-018-04": {
       "spec": "018-web-cases",
@@ -16638,7 +16794,9 @@
         "T-018-004",
         "T-018-005"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_004_parity_lane_schemas.py"
+      ]
     },
     "DC-018-05": {
       "spec": "018-web-cases",
@@ -16648,7 +16806,9 @@
       "tasks": [
         "T-018-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_004_parity_lane_schemas.py"
+      ]
     },
     "DC-018-06": {
       "spec": "018-web-cases",
@@ -16659,7 +16819,9 @@
         "T-018-004",
         "T-018-081"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_004_parity_lane_schemas.py"
+      ]
     },
     "US-019-1": {
       "spec": "019-web-studio",
@@ -17113,7 +17275,9 @@
       "tasks": [
         "T-019-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_001_studio_schemas.py"
+      ]
     },
     "FR-019-39": {
       "spec": "019-web-studio",
@@ -17361,7 +17525,9 @@
       "tasks": [
         "T-019-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_001_studio_schemas.py"
+      ]
     },
     "DC-019-03": {
       "spec": "019-web-studio",
@@ -17371,7 +17537,9 @@
       "tasks": [
         "T-019-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_001_studio_schemas.py"
+      ]
     },
     "US-020-1": {
       "spec": "020-web-knowledge",
@@ -17541,7 +17709,9 @@
       "tasks": [
         "T-020-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_003_figure_registry.py"
+      ]
     },
     "FR-020-10": {
       "spec": "020-web-knowledge",
@@ -17551,7 +17721,9 @@
       "tasks": [
         "T-020-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_003_figure_registry.py"
+      ]
     },
     "FR-020-11": {
       "spec": "020-web-knowledge",
@@ -17611,7 +17783,9 @@
       "tasks": [
         "T-020-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_003_figure_registry.py"
+      ]
     },
     "FR-020-17": {
       "spec": "020-web-knowledge",
@@ -17641,7 +17815,9 @@
       "tasks": [
         "T-020-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_001_methods_registry.py"
+      ]
     },
     "FR-020-20": {
       "spec": "020-web-knowledge",
@@ -17681,7 +17857,9 @@
       "tasks": [
         "T-020-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_002_results_bundle.py"
+      ]
     },
     "FR-020-24": {
       "spec": "020-web-knowledge",
@@ -17741,7 +17919,9 @@
       "tasks": [
         "T-020-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_002_results_bundle.py"
+      ]
     },
     "FR-020-30": {
       "spec": "020-web-knowledge",
@@ -17841,7 +18021,9 @@
       "tasks": [
         "T-020-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_004_knowledge_bundle.py"
+      ]
     },
     "FR-020-40": {
       "spec": "020-web-knowledge",
@@ -17851,7 +18033,9 @@
       "tasks": [
         "T-020-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_004_knowledge_bundle.py"
+      ]
     },
     "FR-020-41": {
       "spec": "020-web-knowledge",
@@ -18305,7 +18489,9 @@
       "tasks": [
         "T-020-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_004_knowledge_bundle.py"
+      ]
     },
     "P-020-32": {
       "spec": "020-web-knowledge",
@@ -18445,7 +18631,9 @@
       "tasks": [
         "T-020-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_001_methods_registry.py"
+      ]
     },
     "DC-020-02": {
       "spec": "020-web-knowledge",
@@ -18455,7 +18643,9 @@
       "tasks": [
         "T-020-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_002_results_bundle.py"
+      ]
     },
     "DC-020-03": {
       "spec": "020-web-knowledge",
@@ -18465,7 +18655,9 @@
       "tasks": [
         "T-020-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_004_knowledge_bundle.py"
+      ]
     },
     "DC-020-04": {
       "spec": "020-web-knowledge",
@@ -18475,7 +18667,9 @@
       "tasks": [
         "T-020-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_003_figure_registry.py"
+      ]
     }
   },
   "tasks": {
