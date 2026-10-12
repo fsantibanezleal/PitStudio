@@ -40,7 +40,9 @@ import torch
 
 from pitstudio_pipeline.surrogates.gns import stages, train
 
-DEFAULT_LOCK_DIR = Path(r"C:\Users\felipe.santibanez\Data\_Temp\_locks")
+DEFAULT_LOCK_DIR = Path(
+    os.environ.get("GPU_LOCK_DIR", "gpu-locks")
+)  # the machine lock directory; pass --lock-dir on a real run
 LOCK_NAME = "gpu0.compute"
 HOLD_NAME = "gpu0.hold"
 EXIT_REFUSED, EXIT_STOPPED = 2, 5
