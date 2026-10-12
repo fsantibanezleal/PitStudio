@@ -570,10 +570,123 @@ def gen_blasting(root: Path) -> list[Path]:
     return written
 
 
+def _curve_pair(rng: np.random.Generator, n: int, top: float, zero_tail: bool) -> tuple[list[float], list[float]]:
+    """A coarse-to-fine size grid and a non-increasing passing curve on it."""
+    sizes = np.sort(np.round(top * np.exp(rng.uniform(math.log(1e-4), 0, n)), 9))[::-1]
+    sizes = np.unique(sizes)[::-1]
+    passing = np.sort(rng.uniform(0.02, 1.0, sizes.size))[::-1]
+    passing[0] = 1.0 if rng.random() < 0.5 else passing[0]
+    if zero_tail and sizes.size > 2:
+        passing[-1] = 0.0
+    return [_f(v) for v in sizes], [round(_f(v), 9) for v in passing]
+
+
+def gen_comminution(root: Path) -> list[Path]:
+    mp = minephys()
+    cm = importlib.import_module("minephys.comminution")
+    rng = np.random.default_rng(SEED + 3)
+    written: list[Path] = []
+
+    def write(function: str, fixture: str, callable_path: str, cases: list[dict[str, Any]]) -> None:
+        doc = mpf.build_fixture("comminution", function, fixture, reference(mp, callable_path), ANALYTICAL, cases)
+        written.append(mpf.write_fixture(root, doc, gzip=True))
+
+    cases: list[dict[str, Any]] = []
+    for i in range(N_VECTORS):
+        f80 = _span(rng, i, 1.2e-4, 1.0, True)
+        p80 = round(_f(min(_span(rng, i + 3, 7e-5, 1.0, True), f80 * 0.999)), 9)
+        if p80 < 7e-5:
+            p80 = 7e-5
+        a = {"work_index_j_per_kg": _span(rng, i + 5, 3.6e3, 360000, True), "f80_m": f80, "p80_m": p80}
+        w = cm.bond_energy(a["work_index_j_per_kg"], f80, p80)
+        cases.append({"name": f"v{i}", "input": a, "output": {"specific_energy_j_per_kg": _f(w)}})
+    write("bond_energy", "bond-energy", "minephys.comminution.bond_energy", cases)
+
+    cases = []
+    while len(cases) < N_VECTORS:
+        sizes, passing = _curve_pair(rng, int(rng.integers(2, 30)), _f(rng.uniform(0.01, 10)), rng.random() < 0.25)
+        if len(sizes) < 2:
+            continue
+        ascending = rng.random() < 0.3
+        sz, ps = (sizes[::-1], passing[::-1]) if ascending else (sizes, passing)
+        f = round(_f(rng.uniform(passing[-1], passing[0])), 9)
+        if not (0 < f < 1):
+            continue
+        r = cm.passing_size(np.array(sz), np.array(ps), f)
+        cases.append(
+            {
+                "name": f"v{len(cases)}",
+                "input": {"sizes_m": sz, "passing": ps, "fraction": f},
+                "output": {"size_m": _f(r)},
+            }
+        )
+    write("passing_size", "passing-size", "minephys.comminution.passing_size", cases)
+
+    cases = []
+    while len(cases) < N_VECTORS:
+        n = int(rng.integers(5, 14))
+        sizes = [round(_f(0.5 * 0.55**k), 9) for k in range(n)]
+        passing = [round(_f(v), 9) for v in np.sort(rng.uniform(0.3, 1.0, n))[::-1]]
+        passing[0] = 1.0
+        c = [round(_f(v), 6) for v in rng.uniform(0.0, 1.0, n)]
+        c[-1] = 0.0
+        for k in range(n):
+            if rng.random() < 0.2:
+                c[k] = 0.0
+        b = np.zeros((n, n))
+        for j in range(n - 1):
+            if c[j] > 0 or rng.random() < 0.5:
+                w = rng.uniform(0, 1, n - 1 - j)
+                b[j + 1 :, j] = np.round(w / w.sum(), 12)
+                b[n - 1, j] = round(1.0 - float(b[j + 1 : n - 1, j].sum()), 12)
+        target = _span(rng, len(cases), 7e-5, 0.01, True)
+        a = {
+            "sizes_m": sizes,
+            "blast_passing": passing,
+            "classification": c,
+            "breakage": [[_f(v) for v in row] for row in b],
+            "target_p80_m": target,
+            "installed_power_w": _span(rng, len(cases) + 2, 1e4, 1e8, True),
+            "energy_model": "bond",
+            "work_index_j_per_kg": _span(rng, len(cases) + 4, 3.6e3, 360000, True),
+            "fines_size_m": sizes[int(rng.integers(0, n))],
+        }
+        try:
+            r = cm.mine_to_mill_chain(
+                np.array(sizes),
+                np.array(passing),
+                np.array(c),
+                b,
+                target,
+                a["installed_power_w"],
+                "bond",
+                work_index=a["work_index_j_per_kg"],
+                fines_size=a["fines_size_m"],
+            )
+        except Exception:
+            continue
+        cases.append(
+            {
+                "name": f"v{len(cases)}",
+                "input": a,
+                "output": {
+                    "f80_m": _f(r.f80),
+                    "fines_fraction": min(1.0, _f(r.fines_fraction)),
+                    "specific_energy_j_per_kg": _f(r.specific_energy),
+                    "crusher_feed_kg_per_s": _f(r.throughput),
+                    "mill_product_kg_per_s": _f(r.throughput),
+                },
+            }
+        )
+    write("mine_to_mill_chain", "mine-to-mill-chain", "minephys.comminution.mine_to_mill_chain", cases)
+    return written
+
+
 GENERATORS: dict[str, Callable[[Path], list[Path]]] = {
     "geotech": gen_geotech,
     "plume": gen_plume,
     "blasting": gen_blasting,
+    "comminution": gen_comminution,
 }
 
 
