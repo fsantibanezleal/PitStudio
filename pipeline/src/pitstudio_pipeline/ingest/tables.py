@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import datetime as dt
+import json
 import os
-from collections.abc import Callable
+from collections.abc import Callable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +15,7 @@ import polars as pl
 
 from pitstudio_pipeline.download.hashing import sha256_file
 from pitstudio_pipeline.errors import IngestionRejected
+from pitstudio_pipeline.ingest.exclusions import apply_exclusions
 from pitstudio_pipeline.ingest.report import build_report, relative_to_root, violation
 from pitstudio_pipeline.ingest.schemas import SCHEMAS
 from pitstudio_pipeline.paths import check_data_root
@@ -133,8 +135,13 @@ def ingest_table(
     run_id: str,
     now: Callable[[], dt.datetime],
     repo_root: Path | str | None = None,
+    exclusions: Sequence[Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """Validate one Parquet file and write its output; the ingestion report (DC-008-03) says what happened."""
+    """Validate one Parquet file and write its output; the ingestion report (DC-008-03) says what happened.
+
+    `exclusions` are the declared rules of FR-008-22; they run after validation, and their removal counts are stored in
+    the output's Parquet metadata entry `exclusions` (the manifest of the run records them too).
+    """
     root = check_data_root(data_root, repo_root=repo_root)
     path = Path(path)
     name = schema_name or (schema if isinstance(schema, str) else "table")
@@ -159,7 +166,11 @@ def ingest_table(
         if found:
             entry["status"] = "rejected"
         else:
-            outputs.append(write_parquet(frame, root / "processed" / source / f"{path.stem}.parquet", root))
+            metadata: dict[str, str] = {}
+            if exclusions:
+                excluded = apply_exclusions(frame, exclusions)
+                frame, metadata = excluded.frame, {"exclusions": json.dumps(excluded.removed, sort_keys=True)}
+            outputs.append(write_parquet(frame, root / "processed" / source / f"{path.stem}.parquet", root, metadata))
     return build_report(
         source=source, stage=STAGE, run_id=run_id, now=now(), files=[entry], violations=found, outputs=outputs
     )
