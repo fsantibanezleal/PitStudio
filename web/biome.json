@@ -7,7 +7,9 @@
       "!**/.react-router",
       "!**/test-results",
       "!**/playwright-report",
-      "!**/src/contracts/generated"
+      "!**/src/contracts/generated",
+      "!**/src/contracts/validators",
+      "!**/src/engines/host/generated"
     ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 110 },
