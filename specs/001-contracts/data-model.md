@@ -78,6 +78,7 @@ ECMAScript and Rust engines do not (FR-001-57).
 | `studio/capabilities.json` | 262,144 |
 | run manifest (local or published) | 4,194,304 |
 | `web/public/assets/manifest.json` | 8,388,608 |
+| `web/public/studio/index.json` (generated studio index, DC-019-03) | 1,000,000 |
 
 Other limits: nesting depth ≤ 32 (JSON and YAML); recipe `params` depth ≤ 4, ≤ 64 keys per object, strings ≤ 1,024
 characters, arrays ≤ 1,024 items, canonical size ≤ 65,536 bytes.

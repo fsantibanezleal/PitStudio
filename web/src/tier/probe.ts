@@ -1,82 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { createFallbackChain, type FallbackChain } from "~/engines/tier/fallback";
+import { detectThreeD, resolveTier, type Tier, whenProbed } from "~/engines/tier/probe";
 
-export type Tier = "t1" | "t2" | "t0";
+export type { Tier } from "~/engines/tier/probe";
+export { detectThreeD, probeTier } from "~/engines/tier/probe";
 
-interface GpuLike {
-  requestAdapter(): Promise<{ requestDevice(): Promise<unknown> } | null>;
-}
+let chain: FallbackChain | undefined;
+let chainPromise: Promise<FallbackChain> | undefined;
 
-const PROBE_MS = 2000;
-
-function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
-  return new Promise<T>((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error("timeout")), ms);
-    promise.then(
-      (value) => {
-        clearTimeout(timer);
-        resolve(value);
-      },
-      (error) => {
-        clearTimeout(timer);
-        reject(error);
-      },
-    );
+/** The page's fallback chain, created once the capability probe has finished (FR-018-29, FR-018-30, FR-018-31). */
+export function whenChain(): Promise<FallbackChain> {
+  chainPromise ??= whenProbed().then((probed) => {
+    const search = typeof location === "undefined" ? "" : location.search;
+    chain = createFallbackChain({ probed, requested: resolveTier(probed, search) });
+    return chain;
   });
+  return chainPromise;
 }
 
-/**
- * Capability probe of FR-018-29: T1 when WebGPU gives an adapter and a device within 2 s, else T2 when WebAssembly
- * is available, else T0. It downloads nothing. (The `?tier=` override and the fallback chain belong to T-018-010/011.)
- */
-export async function probeTier(): Promise<Tier> {
-  try {
-    const gpu = (navigator as unknown as { gpu?: GpuLike }).gpu;
-    if (gpu) {
-      const adapter = await withTimeout(gpu.requestAdapter(), PROBE_MS);
-      if (adapter) {
-        await withTimeout(adapter.requestDevice(), PROBE_MS);
-        return "t1";
-      }
-    }
-  } catch {
-    // no usable WebGPU device: fall through to WebAssembly
-  }
-  try {
-    if (typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function") {
-      // The smallest valid module: magic number and version 1.
-      const module = new Uint8Array([0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00]);
-      await WebAssembly.instantiate(module);
-      return "t2";
-    }
-  } catch {
-    // no WebAssembly: baked results only
-  }
-  return "t0";
-}
-
-/** True when a 3D renderer can run: WebGPU or a WebGL 2 context (FR-018-08). null until it has been checked. */
-export function detectThreeD(): boolean {
-  try {
-    if ((navigator as unknown as { gpu?: unknown }).gpu) return true;
-    const canvas = document.createElement("canvas");
-    return canvas.getContext("webgl2") !== null;
-  } catch {
-    return false;
-  }
-}
-
-export function useTier(): Tier | null {
-  const [tier, setTier] = useState<Tier | null>(null);
+/** Runs the probe and returns the chain (null until it exists). */
+export function useChain(): FallbackChain | null {
+  const [, setReady] = useState(0);
   useEffect(() => {
     let live = true;
-    void probeTier().then((t) => {
-      if (live) setTier(t);
+    void whenChain().then(() => {
+      if (live) setReady((n) => n + 1);
     });
     return () => {
       live = false;
     };
   }, []);
-  return tier;
+  useSyncExternalStore(
+    (l) => {
+      const off = chain?.subscribe(l);
+      return () => off?.();
+    },
+    () => (chain ? `${chain.badge()}:${chain.notices().length}` : "none"),
+    () => "none",
+  );
+  return chain ?? null;
+}
+
+/** The tier the badge shows: lowest tier among the engines in use, null while the probe runs. */
+export function useTier(): Tier | null {
+  const c = useChain();
+  return c ? c.badge() : null;
 }
 
 export function useThreeD(): boolean | null {

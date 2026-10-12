@@ -584,6 +584,57 @@
       "rule": "FR-011-28",
       "pointer": "/parameters/0",
       "keyword": "not"
+    },
+    {
+      "file": "granular-rollout.valid-fixture.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "contract fixture: fixture is true (FR-011-49)"
+    },
+    {
+      "file": "granular-rollout.hostile-fixture-not-boolean.json",
+      "schema": "granular-rollout.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag is not a boolean",
+      "rule": "FR-011-49",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "field-dataset.valid-fixture.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "contract fixture: fixture is true (FR-011-49)"
+    },
+    {
+      "file": "field-dataset.hostile-fixture-not-boolean.json",
+      "schema": "field-dataset.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag is not a boolean",
+      "rule": "FR-011-49",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "calibration-result.valid-fixture.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "contract fixture: fixture is true (FR-011-49)"
+    },
+    {
+      "file": "calibration-result.hostile-fixture-not-boolean.json",
+      "schema": "calibration-result.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag is not a boolean",
+      "rule": "FR-011-49",
+      "pointer": "/fixture",
+      "keyword": "type"
     }
   ],
   "not_schema_checkable": [

@@ -1,0 +1,19 @@
+{
+  "reset": "Restablecer",
+  "showData": "Mostrar datos",
+  "hideData": "Ocultar datos",
+  "notAvailable": "no disponible",
+  "help": "Más y menos acercan, cero restablece, Mayús con una flecha desplaza, una flecha mueve la lectura una muestra, Inicio y Fin saltan a la primera y a la última muestra.",
+  "sandbox": {
+    "title": "Banco de gráficos",
+    "lead": "Gráficos interactivos usados por las pruebas del navegador.",
+    "sine": "Onda sinusoidal",
+    "kmh": "Rampa de velocidad en unidades de origen",
+    "big": "Un millón de muestras",
+    "gap": "Serie con un vacío",
+    "many": "Gráfico {{n}}",
+    "x": "tiempo",
+    "y": "valor",
+    "speed": "velocidad"
+  }
+}

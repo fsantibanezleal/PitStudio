@@ -1,0 +1,19 @@
+{
+  "reset": "Reset",
+  "showData": "Show data",
+  "hideData": "Hide data",
+  "notAvailable": "not available",
+  "help": "Plus and minus zoom, zero resets, Shift with an arrow pans, an arrow moves the read-out by one sample, Home and End jump to the first and last sample.",
+  "sandbox": {
+    "title": "Chart sandbox",
+    "lead": "Interactive charts used by the browser tests.",
+    "sine": "Sine wave",
+    "kmh": "Speed ramp in source units",
+    "big": "One million samples",
+    "gap": "Series with a gap",
+    "many": "Chart {{n}}",
+    "x": "time",
+    "y": "value",
+    "speed": "speed"
+  }
+}

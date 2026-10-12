@@ -143,7 +143,7 @@
   "verdict": {
     "better": "{{winner}} mejor que {{loser}}",
     "none": "sin diferencia significativa",
-    "single": "un solo evento real — sin prueba de significancia",
+    "single": "evento real único — sin prueba de significancia",
     "unavailable": "sin veredicto: el intervalo no es utilizable"
   },
   "accel": {

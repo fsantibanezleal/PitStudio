@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router";
 import { useHydrated } from "~/shell/useHydrated";
+import { useMotion } from "~/shell/useReducedMotion";
+import { ClockControls } from "~/sim/ClockControls";
+import { DEFAULT_DURATION_S, useSimClock } from "~/sim/useSimClock";
 import { useThreeD } from "~/tier/probe";
 import { TierBadge } from "~/tier/TierBadge";
 import { CaseRail } from "./CaseRail";
@@ -25,6 +28,7 @@ export function Stage({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
   const { t } = useTranslation("cases");
   const manifest = useWebManifest();
   const threeD = useThreeD();
+  const motion = useMotion();
   const [hidden, setHidden] = useState<ReadonlySet<LayerId>>(new Set());
   const published = publishedLayers(manifest.artefacts, caseId);
   const visible = new Set(
@@ -48,6 +52,7 @@ export function Stage({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
         className={styles.scene}
         data-testid="scene-state"
         data-visible-layers={[...visible].join(",")}
+        data-motion={motion}
         aria-labelledby="scene-title"
       >
         <div>
@@ -88,6 +93,12 @@ export function ExploreView() {
   const selected = isCaseId(requested) ? requested : null;
   const entry = selected ? caseEntry(caseRegistry, selected) : undefined;
 
+  const clock = useSimClock({
+    duration: DEFAULT_DURATION_S,
+    fps: entry?.clock_fps ?? 10,
+    seed: hydrated ? params.get("t") : null,
+  });
+
   const select = (id: CaseId) => {
     const next = new URLSearchParams(params);
     next.set("case", id);
@@ -99,6 +110,7 @@ export function ExploreView() {
       <h1>{t("app:pages.explore.title")}</h1>
       <p className={styles.unit}>{t("app:pages.explore.lead")}</p>
       <TierBadge />
+      <ClockControls clock={clock} />
       <div className={styles.explore}>
         <nav data-testid="case-rail" aria-label={t("cases:rail.title")}>
           <CaseRail registry={caseRegistry} selected={selected} onSelect={select} />
