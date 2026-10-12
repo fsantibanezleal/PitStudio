@@ -1,0 +1,60 @@
+{
+  "title": "Consola de PitStudio",
+  "intro": "Panel de control local del runner del estudio en esta máquina. Nada de esto es accesible desde el sitio público.",
+  "tabs": {
+    "label": "Secciones de la consola",
+    "recipes": "Recetas",
+    "queue": "Cola",
+    "runs": "Ejecuciones",
+    "newJob": "Nuevo trabajo"
+  },
+  "col": {
+    "id": "Id",
+    "case": "Caso",
+    "stages": "Etapas",
+    "status": "Estado",
+    "job": "Trabajo",
+    "recipe": "Receta",
+    "state": "Estado",
+    "run": "Ejecución",
+    "stage": "Etapa",
+    "shards": "Fragmentos",
+    "valid": "Válida",
+    "action": "Acción"
+  },
+  "valid": "válida",
+  "invalid": "inválida",
+  "loading": "Cargando…",
+  "empty": "Aún no hay nada que mostrar.",
+  "error": "La solicitud falló: {{message}}",
+  "recipes": {
+    "table": "Recetas",
+    "details": "Detalle de la receta",
+    "open": "Abrir la receta {{id}}"
+  },
+  "queue": { "table": "Cola", "cancel": "Cancelar", "cancelJob": "Cancelar el trabajo {{id}}" },
+  "runs": {
+    "table": "Ejecuciones",
+    "details": "Detalle de la ejecución",
+    "manifest": "Manifiesto",
+    "artefacts": "Artefactos",
+    "telemetry": "Telemetría",
+    "close": "Cerrar la ejecución",
+    "events": "Eventos recientes",
+    "noArtefacts": "Esta ejecución no lista artefactos.",
+    "open": "Abrir",
+    "chart": "Potencia de la GPU en vatios a lo largo del tiempo",
+    "points": "{{count}} puntos de telemetría"
+  },
+  "form": {
+    "name": "Formulario de ejecución",
+    "recipe": "Receta",
+    "profile": "Perfil",
+    "stages": "Etapas",
+    "force": "Forzar",
+    "rerun": "Repetir y comparar",
+    "submit": "Encolar trabajo",
+    "queued": "Trabajo encolado {{id}}",
+    "noRecipes": "No hay ninguna receta válida."
+  }
+}

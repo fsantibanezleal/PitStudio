@@ -7,7 +7,7 @@ const port = Number(process.env.PORT ?? 4173);
 
 export default defineConfig({
   testDir: "e2e",
-  testIgnore: "live/**",
+  testIgnore: ["live/**", "console/**"], // the console UI has its own config (playwright.console.config.ts)
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
