@@ -2,7 +2,8 @@
 
 The dry run asserts `torch.cuda.is_available()` and checks every input of the real run without rendering:
 Isaac Sim / Replicator importable, the recipe, the scene manifest of spec 004 and the staged CC0 texture pool.
-It exits 3 and lists the missing inputs when the real run could not start; the real run renders the frames of the parameter table with
+It exits 3 and lists the missing inputs when the real run could not start; the real run renders the
+frames of the parameter table with
 `render.render_frame` (one SimulationApp per process, frames in shards, resumable by shard) once those inputs exist.
 """
 
