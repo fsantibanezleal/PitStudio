@@ -168,7 +168,9 @@ def _buffer_descriptors(schema: Any, payload: Any, inputs: dict[str, Any] | None
     if not isinstance(schema, dict) or not isinstance(payload, dict):
         return payload
     out = dict(payload)
-    for key, prop in (schema.get("properties") or {}).items():
+    declared = schema.get("properties") or {}
+    drop: set[str] = set()  # dimension carriers the message does not declare (a descriptor holds the shape instead)
+    for key, prop in declared.items():
         if not isinstance(prop, dict):
             continue
         values = out.get(key)
@@ -192,13 +194,20 @@ def _buffer_descriptors(schema: Any, payload: Any, inputs: dict[str, Any] | None
             if "const" in spec:
                 shape[d] = int(spec["const"])
                 fixed *= shape[d]
-            elif inputs and GRID_DIMS.get(d) in inputs:
-                shape[d] = int(inputs[GRID_DIMS[d]])
+            elif inputs and (GRID_DIMS.get(d) in inputs or d in inputs):
+                source = GRID_DIMS[d] if GRID_DIMS.get(d) in inputs else d
+                shape[d] = int(inputs[source])
                 fixed *= shape[d]
+                if source not in declared:
+                    drop.add(source)
         for d in dims:
             if d not in shape:
                 shape[d] = len(values) // max(fixed, 1)
-        out[key] = {"dtype": "float64", "shape": shape, "byte_length": 8 * len(values)}
+        dtype = (prop.get("properties") or {}).get("dtype", {}).get("const", "float64")
+        size = {"float64": 8, "float32": 4, "int32": 4, "uint32": 4, "uint8": 1, "int8": 1, "int16": 2}.get(dtype, 8)
+        out[key] = {"dtype": dtype, "shape": shape, "byte_length": size * len(values)}
+    for key in drop:
+        out.pop(key, None)
     return out
 
 

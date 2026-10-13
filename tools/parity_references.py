@@ -861,6 +861,105 @@ def gen_volume(root: Path) -> list[Path]:
     return [mpf.write_fixture(root, doc, gzip=True)]
 
 
+def gen_watershed(root: Path) -> list[Path]:
+    """Golden label maps of the marker watershed and the fitted fragment sizes (spec 012 baseline).
+
+    Needs scikit-image and scipy (the reference of spec 012); the reference run is skimage.segmentation.watershed, the
+    PSD is FR-012-24 (equivalent-circle sizes, area-weighted passing) and FR-012-26 (Swebrec fit by
+    scipy.optimize.least_squares, trf).
+    """
+    import skimage
+    from scipy import ndimage, optimize
+    from skimage.segmentation import watershed
+
+    rng = np.random.default_rng(SEED + 6)
+
+    def swebrec(x: np.ndarray, x50: float, xmax: float, b: float) -> np.ndarray:
+        return 1.0 / (1.0 + (np.log(xmax / x) / np.log(xmax / x50)) ** b)
+
+    def psd(labels: np.ndarray, min_area: int, pixel: float) -> tuple[str, float | None, float | None]:
+        _, areas = np.unique(labels[labels > 0], return_counts=True)
+        keep = areas >= min_area
+        areas = areas[keep]
+        if areas.size < 3:
+            return "no-fit", None, None
+        d = 2.0 * np.sqrt(areas / math.pi)
+        sizes = np.unique(d)
+        mass = np.array([areas[d == s].sum() for s in sizes], dtype=np.float64)
+        p = np.cumsum(mass) / mass.sum()
+        x = sizes * pixel
+        if sizes.size < 3:  # a step curve: x50 and x80 are the sizes where it reaches 0.5 and 0.8
+            return "fit", float(x[np.argmax(p >= 0.5)]), float(x[np.argmax(p >= 0.8)])
+        xmax = float(x[-1])
+        median = float(x[np.argmax(p >= 0.5)])
+
+        def residual(theta: np.ndarray) -> np.ndarray:
+            return swebrec(x[:-1], theta[0], xmax, theta[1]) - p[:-1]
+
+        lo = [1e-6 * xmax, 0.05]
+        hi = [(1 - 1e-6) * xmax, 50.0]
+        start = [min(max(median, lo[0]), hi[0]), 2.0]
+        tol = 1e-12
+        fit = optimize.least_squares(residual, start, bounds=(lo, hi), method="trf", xtol=tol, ftol=tol, gtol=tol)
+        if not fit.success or not np.all(np.isfinite(fit.x)):
+            return "no-fit", None, None
+        tight = optimize.least_squares(
+            residual, fit.x, bounds=(lo, hi), method="trf", xtol=1e-15, ftol=1e-15, gtol=1e-15
+        )
+        if np.max(np.abs(tight.x - fit.x) / np.abs(tight.x)) > 2e-11:
+            return "ill-conditioned", None, None  # the reference itself is not converged to the contract tolerance
+        x50, b = float(fit.x[0]), float(fit.x[1])
+        x80 = xmax * (x50 / xmax) ** (((1 - 0.8) / 0.8) ** (1 / b))
+        return "fit", x50, float(x80)
+
+    cases: list[dict[str, Any]] = []
+    while len(cases) < 24:
+        rows, cols = int(rng.integers(16, 65)), int(rng.integers(16, 65))
+        field = ndimage.gaussian_filter(rng.normal(0, 1, (rows, cols)), sigma=float(rng.uniform(1.5, 3.5)))
+        elevation = (field + rng.uniform(0, 1e-3, (rows, cols))).astype(np.float32)
+        count = int(rng.integers(3, 16))
+        spots = rng.choice(rows * cols, count, replace=False)
+        markers = np.zeros(rows * cols, dtype=np.int32)
+        markers[spots] = np.arange(1, count + 1)
+        markers = markers.reshape(rows, cols)
+        mask = None
+        if len(cases) % 3 == 1:
+            blob = ndimage.gaussian_filter(rng.normal(0, 1, (rows, cols)), sigma=4) > -0.2
+            mask = blob.astype(np.uint8)
+            markers = np.where(mask > 0, markers, 0).astype(np.int32)
+        connectivity = 2 if len(cases) % 2 else 1
+        min_area = int(rng.choice([4, 4, 4, 6, 10]))
+        pixel = round(_f(10 ** rng.uniform(-3, 0)), 6)
+        labels = watershed(
+            elevation, markers, mask=None if mask is None else mask.astype(bool), connectivity=connectivity
+        )
+        status, x50, x80 = psd(labels, min_area, pixel)
+        if status == "ill-conditioned":
+            continue
+        args: dict[str, Any] = {
+            "elevation": [_f(v) for v in elevation.reshape(-1)],
+            "markers": [int(v) for v in markers.reshape(-1)],
+            "rows": rows,
+            "cols": cols,
+            "connectivity": connectivity,
+            "min_area_px": min_area,
+            "pixel_size_m": pixel,
+        }
+        if mask is not None:
+            args["mask"] = [int(v) for v in mask.reshape(-1)]
+        out: dict[str, Any] = {
+            "labels": [int(v) for v in labels.reshape(-1)],
+            "instance_count": int(np.unique(labels[labels > 0]).size),
+            "status": status,
+        }
+        if status == "fit":
+            out["x50_m"], out["x80_m"] = x50, x80
+        cases.append({"name": f"v{len(cases)}", "input": args, "output": out})
+    ref = {"name": "scikit-image", "version": skimage.__version__, "callable": "skimage.segmentation.watershed"}
+    doc = mpf.build_fixture("watershed", "segment", "segment", ref, {"class": "label-map-exact", "rtol": 1e-9}, cases)
+    return [mpf.write_fixture(root, doc, gzip=True)]
+
+
 GENERATORS: dict[str, Callable[[Path], list[Path]]] = {
     "geotech": gen_geotech,
     "plume": gen_plume,
@@ -868,6 +967,7 @@ GENERATORS: dict[str, Callable[[Path], list[Path]]] = {
     "comminution": gen_comminution,
     "mincut": gen_mincut,
     "volume": gen_volume,
+    "watershed": gen_watershed,
 }
 
 
