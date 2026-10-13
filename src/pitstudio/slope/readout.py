@@ -45,8 +45,8 @@ def read_out(path: Any, times: Any, cap_time: float) -> ReadOut:
         raise ValueError("the path and the times must be finite")
     if not np.all(np.diff(s) > 0.0):
         raise ValueError("the times must be strictly increasing")
-    if not (math.isfinite(cap_time) and cap_time >= s[-1] and cap_time > 0.0):
-        raise ValueError("the cap must be finite, positive and not before the last step")
+    if not (math.isfinite(cap_time) and cap_time >= s[-1]):  # absolute times may be negative
+        raise ValueError("the cap must be finite and not before the last step")
     nonpositive = np.flatnonzero(p <= 0.0)
     if nonpositive.size:
         k = int(nonpositive[0])
