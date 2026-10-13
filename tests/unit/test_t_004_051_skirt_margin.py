@@ -1,4 +1,3 @@
-# ruff: noqa: PT018
 """T-004-051 (fix): the terrain range invariant accounts for the skirts that FR-004-07 requires.
 
 Requirements: FR-004-07, FR-004-34.
