@@ -71,6 +71,42 @@ def _decimals(value: float) -> str:
     return text + "0" if text.endswith(".") else text
 
 
+_METRIC_KEYS = (
+    "balanced_accuracy",
+    "f1",
+    "auroc",
+    "unparseable_rate",
+    "error_rate",
+    "accuracy",
+    "verdict",
+    "position_bias",
+    "single_clip_auroc",
+    "detection_rate",
+    "chair_i",
+    "chair_s",
+    "recall",
+    "no_object_rate",
+    "condition_ba",
+)
+
+
+def mark_not_run(row: Mapping[str, Any], reason: str) -> dict[str, Any]:
+    """A copy of a task row (A, B or C) that was not run: status, the reason (at most 300 characters), every metric
+    None, its sample size 0 and no condition breakdown."""
+    out = copy.deepcopy(dict(row))
+    out["status"] = "not_run"
+    out["reason"] = reason[:300]
+    for key in _METRIC_KEYS:
+        if key in out:
+            out[key] = None
+    for key in ("n", "n_pairs", "n_captions"):
+        if key in out:
+            out[key] = 0
+    if "by_condition" in out:
+        out["by_condition"] = []
+    return out
+
+
 def apply_gate(rows: Sequence[Mapping[str, Any]], gate: Mapping[str, Any]) -> list[dict[str, Any]]:
     """Task rows after the gate: Q8_0 rows are rejected (gate failed) or not run (not evaluable); others unchanged."""
     status = gate["status"]
