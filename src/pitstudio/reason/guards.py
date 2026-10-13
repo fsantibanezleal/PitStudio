@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+import json
 import posixpath
 import re
 import subprocess
@@ -19,6 +20,10 @@ from dataclasses import dataclass
 from itertools import pairwise
 from pathlib import Path
 from typing import Any
+
+import yaml
+
+from pitstudio.contracts.validate import CONTRACTS_DIR
 
 WEIGHT_EXTENSIONS = frozenset({".gguf", ".safetensors", ".pt", ".pth", ".bin"})
 ARCHIVE_SUFFIXES = (".zip", ".tar", ".tar.gz", ".tgz")
@@ -151,3 +156,84 @@ def check_display_only(manifests: Sequence[Mapping[str, Any]]) -> list[Violation
                 if inp.get("sha256") in shas or inp.get("id") in names
             )
     return found
+
+
+# ------------------------------------------------------------------------------- not a headline KPI (FR-015-42)
+_METRIC_OBJECTS = ("row_a", "row_b", "row_c", "gate", "bench_path")
+_NOT_A_METRIC = frozenset(
+    {
+        "arm",
+        "reasoning",
+        "type",
+        "status",
+        "reason",
+        "n",
+        "input_mode",
+        "n_pairs",
+        "verdict",
+        "path",
+        "context_tokens",
+        "gpu",
+        "n_captions",
+        "threshold",
+        "q8_0_path",
+    }
+)
+_MEASURED = frozenset(
+    {
+        "balanced_accuracy",
+        "f1",
+        "auroc",
+        "unparseable_rate",
+        "error_rate",
+        "accuracy",
+        "position_bias",
+        "single_clip_auroc",
+        "detection_rate",
+        "chair_i",
+        "chair_s",
+        "recall",
+        "no_object_rate",
+        "condition_ba",
+        "agreement",
+        "vram_peak_bytes",
+        "prefill_tokens_per_s",
+        "decode_tokens_per_s",
+        "wall_s_per_query",
+    }
+)
+COSMOS_KPI_PREFIXES = ("cosmos_", "vlm_")
+
+
+def cosmos_metric_ids() -> frozenset[str]:
+    """The ids of the metrics the Cosmos tool produces: the measured properties of the rows, gate and bench objects of
+    `contracts/vlm-metrics.schema.json` (plus the quantities of FR-015-13, FR-015-14 and FR-015-30)."""
+    schema = json.loads((CONTRACTS_DIR / "vlm-metrics.schema.json").read_text(encoding="utf-8"))
+    names: set[str] = set()
+    for obj in _METRIC_OBJECTS:
+        names.update(schema["$defs"][obj]["properties"])
+    return frozenset(names - _NOT_A_METRIC) | _MEASURED
+
+
+def check_not_headline(registry: Any) -> list[Violation]:
+    """One violation per headline KPI of the case registry whose id is a Cosmos metric or begins `cosmos_` / `vlm_`."""
+    if not isinstance(registry, Mapping) or not isinstance(registry.get("cases"), Mapping):
+        raise ValueError("the KPI registry needs a `cases` mapping")
+    ids = cosmos_metric_ids()
+    found = []
+    for case, body in registry["cases"].items():
+        kpis = body.get("kpis", []) if isinstance(body, Mapping) else None
+        if not isinstance(kpis, list):
+            raise ValueError(f"case {case}: `kpis` must be a list")
+        for kpi in kpis:
+            if not isinstance(kpi, Mapping) or not isinstance(kpi.get("id"), str):
+                raise ValueError(f"case {case}: every KPI needs an `id`")
+            kid = kpi["id"]
+            if kpi.get("headline") is True and (kid in ids or kid.startswith(COSMOS_KPI_PREFIXES)):
+                found.append(Violation(f"{case}:{kid}", "cosmos-metric-is-headline"))
+    return found
+
+
+def check_registry_file(path: Path) -> list[Violation]:
+    """Load the YAML case registry and apply `check_not_headline`."""
+    return check_not_headline(yaml.safe_load(Path(path).read_text(encoding="utf-8")))
