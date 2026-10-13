@@ -1,6 +1,7 @@
 """Entry points of the queued perception GPU jobs: `python -m pitstudio_pipeline.perception.jobs <job> [--dry-run]`.
 
-Jobs: `train-d-fine-n`, `train-d-fine-s`, `train-rf-detr-seg-n` (s30_train on the arm S training split). A dry run runs on the CPU and stops before CUDA is used: it asserts
+Jobs: `train-d-fine-n`, `train-d-fine-s`, `train-rf-detr-seg-n` (s30_train on the arm S training split).
+A dry run runs on the CPU and stops before CUDA is used: it asserts
 `torch.cuda.is_available()`, checks the pinned checkpoint digest and the D-FINE code pin, builds the model and loads the
 pretrained weights. Environment: `PITSTUDIO_DATA` (data root; index at `<root>/processed/perception/index.jsonl`),
 `PITSTUDIO_MODELS` (output root) and the checkpoint variables of `pins`.
