@@ -107,3 +107,47 @@ def _git_ls_files(repo_root: Path) -> list[str]:
 def check_repository(repo_root: Path, *, ls_files: Callable[[Path], Sequence[str]] | None = None) -> list[Violation]:
     """`scan_tracked_files` over the tracked files of the repository (`git ls-files`, or the injected listing)."""
     return scan_tracked_files((ls_files or _git_ls_files)(Path(repo_root)))
+
+
+# ------------------------------------------------------------------------------------ display-only (FR-015-39)
+COSMOS_STAGE_PREFIX = "st59"
+_CHECKED_STAGE = re.compile(r"s(\d{2})_.+")
+CHECKED_RANGE = (5, 30)
+
+
+def _stages(manifest: Any) -> list[Mapping[str, Any]]:
+    if not isinstance(manifest, Mapping) or not isinstance(manifest.get("stages"), list):
+        raise ValueError("a run manifest needs a `stages` list")
+    stages = manifest["stages"]
+    for stage in stages:
+        key = stage.get("key") if isinstance(stage, Mapping) else None
+        if not isinstance(key, Mapping) or not isinstance(key.get("id"), str):
+            raise ValueError("every stage needs `key.id`")
+    return stages
+
+
+def check_display_only(manifests: Sequence[Mapping[str, Any]]) -> list[Violation]:
+    """One violation per input of a stage `s05_*` to `s30_*` that is an output of a Cosmos (`st59*`) stage, matched by
+    SHA-256 or by name. The producing stage and its consumer may sit in different manifests."""
+    parsed = [(m, _stages(m)) for m in manifests]
+    shas: set[str] = set()
+    names: set[str] = set()
+    for _, stages in parsed:
+        for stage in stages:
+            if stage["key"]["id"].startswith(COSMOS_STAGE_PREFIX):
+                for out in stage.get("outputs") or []:
+                    shas.update(x for x in (out.get("sha256"),) if x)
+                    names.update(x for x in (out.get("name"),) if x)
+    found = []
+    for manifest, stages in parsed:
+        for stage in stages:
+            sid = stage["key"]["id"]
+            match = _CHECKED_STAGE.fullmatch(sid)
+            if not match or not CHECKED_RANGE[0] <= int(match.group(1)) <= CHECKED_RANGE[1]:
+                continue
+            found.extend(
+                Violation(f"{manifest.get('run_id', '')}:{sid}", "cosmos-output-as-input")
+                for inp in stage.get("inputs") or []
+                if inp.get("sha256") in shas or inp.get("id") in names
+            )
+    return found
