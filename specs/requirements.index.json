@@ -11841,7 +11841,9 @@
       "tasks": [
         "T-014-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_014_002_isaaclab_lock.py"
+      ]
     },
     "FR-014-02": {
       "spec": "014-robot-learning",
@@ -11852,7 +11854,10 @@
         "T-014-010",
         "T-014-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_014_010_isaaclab_probe.py",
+        "tests/gpu/test_t_014_060_isaaclab_smoke.py"
+      ]
     },
     "FR-014-03": {
       "spec": "014-robot-learning",
@@ -11863,7 +11868,10 @@
         "T-014-011",
         "T-014-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_011_lane_gating.py",
+        "web/e2e/robot-policies.spec.ts"
+      ]
     },
     "FR-014-04": {
       "spec": "014-robot-learning",
@@ -11873,7 +11881,9 @@
       "tasks": [
         "T-014-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_014_002_isaaclab_lock.py"
+      ]
     },
     "FR-014-05": {
       "spec": "014-robot-learning",
@@ -11884,7 +11894,10 @@
         "T-014-037",
         "T-014-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_014_062_training_smoke.py",
+        "tests/unit/test_t_014_037_truck_mjcf.py"
+      ]
     },
     "FR-014-06": {
       "spec": "014-robot-learning",
@@ -11894,7 +11907,9 @@
       "tasks": [
         "T-014-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_026_excavator_mjcf.py"
+      ]
     },
     "FR-014-07": {
       "spec": "014-robot-learning",
@@ -11905,7 +11920,10 @@
         "T-014-026",
         "T-014-037"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_026_excavator_mjcf.py",
+        "tests/unit/test_t_014_037_truck_mjcf.py"
+      ]
     },
     "FR-014-08": {
       "spec": "014-robot-learning",
@@ -11915,7 +11933,9 @@
       "tasks": [
         "T-014-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_030_il1_observation.py"
+      ]
     },
     "FR-014-09": {
       "spec": "014-robot-learning",
@@ -11925,7 +11945,9 @@
       "tasks": [
         "T-014-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_031_il1_actions.py"
+      ]
     },
     "FR-014-10": {
       "spec": "014-robot-learning",
@@ -11935,7 +11957,10 @@
       "tasks": [
         "T-014-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_031_il1_actions.py",
+        "tests/unit/test_t_014_033_il1_episodes.py"
+      ]
     },
     "FR-014-11": {
       "spec": "014-robot-learning",
@@ -11945,7 +11970,9 @@
       "tasks": [
         "T-014-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_032_il1_reward.py"
+      ]
     },
     "FR-014-12": {
       "spec": "014-robot-learning",
@@ -11955,7 +11982,9 @@
       "tasks": [
         "T-014-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_033_il1_episodes.py"
+      ]
     },
     "FR-014-13": {
       "spec": "014-robot-learning",
@@ -11965,7 +11994,9 @@
       "tasks": [
         "T-014-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_014_034_il1_randomisation.py"
+      ]
     },
     "FR-014-14": {
       "spec": "014-robot-learning",
@@ -11975,7 +12006,9 @@
       "tasks": [
         "T-014-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_033_il1_episodes.py"
+      ]
     },
     "FR-014-15": {
       "spec": "014-robot-learning",
@@ -11985,7 +12018,9 @@
       "tasks": [
         "T-014-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_024_il2_obs_stall.py"
+      ]
     },
     "FR-014-16": {
       "spec": "014-robot-learning",
@@ -11995,7 +12030,9 @@
       "tasks": [
         "T-014-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_024_il2_obs_stall.py"
+      ]
     },
     "FR-014-17": {
       "spec": "014-robot-learning",
@@ -12007,7 +12044,11 @@
         "T-014-021",
         "T-014-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_014_061_task_parity.py",
+        "tests/metamorphic/test_t_014_020_fee_relations.py",
+        "tests/unit/test_t_014_021_fee_worked_examples.py"
+      ]
     },
     "FR-014-18": {
       "spec": "014-robot-learning",
@@ -12018,7 +12059,10 @@
         "T-014-023",
         "T-014-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_014_061_task_parity.py",
+        "tests/metamorphic/test_t_014_023_fill_model.py"
+      ]
     },
     "FR-014-19": {
       "spec": "014-robot-learning",
@@ -12028,7 +12072,9 @@
       "tasks": [
         "T-014-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_014_025_soil_randomisation.py"
+      ]
     },
     "FR-014-20": {
       "spec": "014-robot-learning",
@@ -12038,7 +12084,9 @@
       "tasks": [
         "T-014-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_024_il2_obs_stall.py"
+      ]
     },
     "FR-014-21": {
       "spec": "014-robot-learning",
@@ -12048,7 +12096,9 @@
       "tasks": [
         "T-014-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_022_fee_hostile.py"
+      ]
     },
     "FR-014-22": {
       "spec": "014-robot-learning",
@@ -12059,7 +12109,10 @@
         "T-014-046",
         "T-014-063"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_014_063_mpm_smoke.py",
+        "tests/unit/test_t_014_046_mpm_tier.py"
+      ]
     },
     "FR-014-23": {
       "spec": "014-robot-learning",
@@ -12069,7 +12122,10 @@
       "tasks": [
         "T-014-046"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_045_sim_to_sim_gaps.py",
+        "tests/unit/test_t_014_046_mpm_tier.py"
+      ]
     },
     "FR-014-24": {
       "spec": "014-robot-learning",
@@ -12080,7 +12136,10 @@
         "T-014-048",
         "T-014-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_048_il3_optional.py",
+        "web/e2e/robot-policies.spec.ts"
+      ]
     },
     "FR-014-25": {
       "spec": "014-robot-learning",
@@ -12091,7 +12150,10 @@
         "T-014-040",
         "T-014-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_014_062_training_smoke.py",
+        "tests/unit/test_t_014_040_training_wrapper.py"
+      ]
     },
     "FR-014-26": {
       "spec": "014-robot-learning",
@@ -12101,7 +12163,9 @@
       "tasks": [
         "T-014-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_040_training_wrapper.py"
+      ]
     },
     "FR-014-27": {
       "spec": "014-robot-learning",
@@ -12111,7 +12175,9 @@
       "tasks": [
         "T-014-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_041_policy_export.py"
+      ]
     },
     "FR-014-28": {
       "spec": "014-robot-learning",
@@ -12121,7 +12187,9 @@
       "tasks": [
         "T-014-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_041_policy_export.py"
+      ]
     },
     "FR-014-29": {
       "spec": "014-robot-learning",
@@ -12131,7 +12199,9 @@
       "tasks": [
         "T-014-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_036_pure_pursuit.py"
+      ]
     },
     "FR-014-30": {
       "spec": "014-robot-learning",
@@ -12141,7 +12211,9 @@
       "tasks": [
         "T-014-027"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_027_scripted_dig.py"
+      ]
     },
     "FR-014-31": {
       "spec": "014-robot-learning",
@@ -12151,7 +12223,9 @@
       "tasks": [
         "T-014-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_036_pure_pursuit.py"
+      ]
     },
     "FR-014-32": {
       "spec": "014-robot-learning",
@@ -12161,7 +12235,9 @@
       "tasks": [
         "T-014-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_042_il1_evaluation.py"
+      ]
     },
     "FR-014-33": {
       "spec": "014-robot-learning",
@@ -12171,7 +12247,9 @@
       "tasks": [
         "T-014-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_042_il1_evaluation.py"
+      ]
     },
     "FR-014-34": {
       "spec": "014-robot-learning",
@@ -12181,7 +12259,9 @@
       "tasks": [
         "T-014-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_035_ttc.py"
+      ]
     },
     "FR-014-35": {
       "spec": "014-robot-learning",
@@ -12191,7 +12271,9 @@
       "tasks": [
         "T-014-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_043_il2_evaluation.py"
+      ]
     },
     "FR-014-36": {
       "spec": "014-robot-learning",
@@ -12201,7 +12283,9 @@
       "tasks": [
         "T-014-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_044_verdicts.py"
+      ]
     },
     "FR-014-37": {
       "spec": "014-robot-learning",
@@ -12211,7 +12295,9 @@
       "tasks": [
         "T-014-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_045_sim_to_sim_gaps.py"
+      ]
     },
     "FR-014-38": {
       "spec": "014-robot-learning",
@@ -12221,7 +12307,9 @@
       "tasks": [
         "T-014-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_045_sim_to_sim_gaps.py"
+      ]
     },
     "FR-014-39": {
       "spec": "014-robot-learning",
@@ -12232,7 +12320,11 @@
         "T-014-042",
         "T-014-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_042_il1_evaluation.py",
+        "tests/pipeline/test_t_014_043_il2_evaluation.py",
+        "tests/pipeline/test_t_014_045_sim_to_sim_gaps.py"
+      ]
     },
     "FR-014-40": {
       "spec": "014-robot-learning",
@@ -12242,7 +12334,9 @@
       "tasks": [
         "T-014-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_050_bicycle_twin.py"
+      ]
     },
     "FR-014-41": {
       "spec": "014-robot-learning",
@@ -12252,7 +12346,9 @@
       "tasks": [
         "T-014-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_051_arm_twin.py"
+      ]
     },
     "FR-014-42": {
       "spec": "014-robot-learning",
@@ -12262,7 +12358,9 @@
       "tasks": [
         "T-014-052"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/robots/twin-parity.test.ts"
+      ]
     },
     "FR-014-43": {
       "spec": "014-robot-learning",
@@ -12272,7 +12370,9 @@
       "tasks": [
         "T-014-054"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/robot-policies.spec.ts"
+      ]
     },
     "FR-014-44": {
       "spec": "014-robot-learning",
@@ -12282,7 +12382,10 @@
       "tasks": [
         "T-014-053"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/robots/twin-hostile.test.ts",
+        "web/e2e/robot-policies.spec.ts"
+      ]
     },
     "FR-014-45": {
       "spec": "014-robot-learning",
@@ -12292,7 +12395,9 @@
       "tasks": [
         "T-014-054"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/robot-policies.spec.ts"
+      ]
     },
     "FR-014-46": {
       "spec": "014-robot-learning",
@@ -12302,7 +12407,9 @@
       "tasks": [
         "T-014-049"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_049_task_params_hostile.py"
+      ]
     },
     "FR-014-47": {
       "spec": "014-robot-learning",
@@ -12312,7 +12419,9 @@
       "tasks": [
         "T-014-038"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_038_cores_hostile.py"
+      ]
     },
     "FR-014-48": {
       "spec": "014-robot-learning",
@@ -12322,7 +12431,10 @@
       "tasks": [
         "T-014-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_092_fixture_propagation_pipeline.py",
+        "tests/unit/test_t_014_092_fixture_propagation.py"
+      ]
     },
     "FR-014-49": {
       "spec": "014-robot-learning",
@@ -12332,7 +12444,9 @@
       "tasks": [
         "T-014-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_093_input_stale.py"
+      ]
     },
     "P-014-01": {
       "spec": "014-robot-learning",
@@ -12342,7 +12456,9 @@
       "tasks": [
         "T-014-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_020_fee_relations.py"
+      ]
     },
     "P-014-02": {
       "spec": "014-robot-learning",
@@ -12352,7 +12468,9 @@
       "tasks": [
         "T-014-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_020_fee_relations.py"
+      ]
     },
     "P-014-03": {
       "spec": "014-robot-learning",
@@ -12362,7 +12480,9 @@
       "tasks": [
         "T-014-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_020_fee_relations.py"
+      ]
     },
     "P-014-04": {
       "spec": "014-robot-learning",
@@ -12372,7 +12492,9 @@
       "tasks": [
         "T-014-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_021_fee_worked_examples.py"
+      ]
     },
     "P-014-05": {
       "spec": "014-robot-learning",
@@ -12382,7 +12504,9 @@
       "tasks": [
         "T-014-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_020_fee_relations.py"
+      ]
     },
     "P-014-06": {
       "spec": "014-robot-learning",
@@ -12392,7 +12516,9 @@
       "tasks": [
         "T-014-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_021_fee_worked_examples.py"
+      ]
     },
     "P-014-07": {
       "spec": "014-robot-learning",
@@ -12402,7 +12528,9 @@
       "tasks": [
         "T-014-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_036_pure_pursuit.py"
+      ]
     },
     "P-014-08": {
       "spec": "014-robot-learning",
@@ -12412,7 +12540,9 @@
       "tasks": [
         "T-014-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_035_ttc.py"
+      ]
     },
     "P-014-09": {
       "spec": "014-robot-learning",
@@ -12422,7 +12552,9 @@
       "tasks": [
         "T-014-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_030_il1_observation.py"
+      ]
     },
     "P-014-10": {
       "spec": "014-robot-learning",
@@ -12432,7 +12564,9 @@
       "tasks": [
         "T-014-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_032_il1_reward.py"
+      ]
     },
     "P-014-11": {
       "spec": "014-robot-learning",
@@ -12442,7 +12576,9 @@
       "tasks": [
         "T-014-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_042_il1_evaluation.py"
+      ]
     },
     "P-014-12": {
       "spec": "014-robot-learning",
@@ -12452,7 +12588,9 @@
       "tasks": [
         "T-014-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_050_bicycle_twin.py"
+      ]
     },
     "P-014-13": {
       "spec": "014-robot-learning",
@@ -12462,7 +12600,9 @@
       "tasks": [
         "T-014-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_014_023_fill_model.py"
+      ]
     },
     "P-014-14": {
       "spec": "014-robot-learning",
@@ -12473,7 +12613,10 @@
         "T-014-025",
         "T-014-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_014_025_soil_randomisation.py",
+        "tests/property/test_t_014_034_il1_randomisation.py"
+      ]
     },
     "P-014-15": {
       "spec": "014-robot-learning",
@@ -12483,7 +12626,9 @@
       "tasks": [
         "T-014-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_014_061_task_parity.py"
+      ]
     },
     "NFR-014-01": {
       "spec": "014-robot-learning",
@@ -12493,7 +12638,9 @@
       "tasks": [
         "T-014-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_014_062_training_smoke.py"
+      ]
     },
     "NFR-014-02": {
       "spec": "014-robot-learning",
@@ -12503,7 +12650,9 @@
       "tasks": [
         "T-014-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_014_062_training_smoke.py"
+      ]
     },
     "NFR-014-03": {
       "spec": "014-robot-learning",
@@ -12513,7 +12662,9 @@
       "tasks": [
         "T-014-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_041_policy_export.py"
+      ]
     },
     "NFR-014-04": {
       "spec": "014-robot-learning",
@@ -12523,7 +12674,9 @@
       "tasks": [
         "T-014-054"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/robot-policies.spec.ts"
+      ]
     },
     "NFR-014-05": {
       "spec": "014-robot-learning",
@@ -12533,7 +12686,9 @@
       "tasks": [
         "T-014-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_014_012_il_provenance.py"
+      ]
     },
     "SC-014-01": {
       "spec": "014-robot-learning",
@@ -12543,7 +12698,9 @@
       "tasks": [
         "T-014-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_047_acceptance_table.py"
+      ]
     },
     "SC-014-02": {
       "spec": "014-robot-learning",
@@ -12553,7 +12710,9 @@
       "tasks": [
         "T-014-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_047_acceptance_table.py"
+      ]
     },
     "SC-014-03": {
       "spec": "014-robot-learning",
@@ -12563,7 +12722,9 @@
       "tasks": [
         "T-014-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_047_acceptance_table.py"
+      ]
     },
     "SC-014-04": {
       "spec": "014-robot-learning",
@@ -12573,7 +12734,9 @@
       "tasks": [
         "T-014-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_044_verdicts.py"
+      ]
     },
     "SC-014-05": {
       "spec": "014-robot-learning",
@@ -12583,7 +12746,9 @@
       "tasks": [
         "T-014-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_047_acceptance_table.py"
+      ]
     },
     "SC-014-06": {
       "spec": "014-robot-learning",
@@ -12593,7 +12758,9 @@
       "tasks": [
         "T-014-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_047_acceptance_table.py"
+      ]
     },
     "SC-014-07": {
       "spec": "014-robot-learning",
@@ -12603,7 +12770,9 @@
       "tasks": [
         "T-014-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_047_acceptance_table.py"
+      ]
     },
     "SC-014-08": {
       "spec": "014-robot-learning",
@@ -12613,7 +12782,9 @@
       "tasks": [
         "T-014-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_047_acceptance_table.py"
+      ]
     },
     "SC-014-09": {
       "spec": "014-robot-learning",
@@ -12623,7 +12794,9 @@
       "tasks": [
         "T-014-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_044_verdicts.py"
+      ]
     },
     "SC-014-10": {
       "spec": "014-robot-learning",
@@ -12633,7 +12806,9 @@
       "tasks": [
         "T-014-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_014_041_policy_export.py"
+      ]
     },
     "DC-014-01": {
       "spec": "014-robot-learning",

@@ -1,4 +1,4 @@
-# Traceability matrix — generated 2026-10-12 by tools/trace.py (do not edit)
+# Traceability matrix — generated 2026-10-13 by tools/trace.py (do not edit)
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
@@ -762,55 +762,55 @@
 | FR-013-41 | 013-sensors | draft | T-013-034 | - |
 | FR-013-42 | 013-sensors | draft | T-013-025, T-013-026 | - |
 | FR-013-43 | 013-sensors | draft | T-013-092 | - |
-| FR-014-01 | 014-robot-learning | draft | T-014-002 | - |
-| FR-014-02 | 014-robot-learning | draft | T-014-010, T-014-060 | - |
-| FR-014-03 | 014-robot-learning | draft | T-014-011, T-014-054 | - |
-| FR-014-04 | 014-robot-learning | draft | T-014-002 | - |
-| FR-014-05 | 014-robot-learning | draft | T-014-037, T-014-062 | - |
-| FR-014-06 | 014-robot-learning | draft | T-014-026 | - |
-| FR-014-07 | 014-robot-learning | draft | T-014-026, T-014-037 | - |
-| FR-014-08 | 014-robot-learning | draft | T-014-030 | - |
-| FR-014-09 | 014-robot-learning | draft | T-014-031 | - |
-| FR-014-10 | 014-robot-learning | draft | T-014-031 | - |
-| FR-014-11 | 014-robot-learning | draft | T-014-032 | - |
-| FR-014-12 | 014-robot-learning | draft | T-014-033 | - |
-| FR-014-13 | 014-robot-learning | draft | T-014-034 | - |
-| FR-014-14 | 014-robot-learning | draft | T-014-033 | - |
-| FR-014-15 | 014-robot-learning | draft | T-014-024 | - |
-| FR-014-16 | 014-robot-learning | draft | T-014-024 | - |
-| FR-014-17 | 014-robot-learning | draft | T-014-020, T-014-021, T-014-061 | - |
-| FR-014-18 | 014-robot-learning | draft | T-014-023, T-014-061 | - |
-| FR-014-19 | 014-robot-learning | draft | T-014-025 | - |
-| FR-014-20 | 014-robot-learning | draft | T-014-024 | - |
-| FR-014-21 | 014-robot-learning | draft | T-014-022 | - |
-| FR-014-22 | 014-robot-learning | draft | T-014-046, T-014-063 | - |
-| FR-014-23 | 014-robot-learning | draft | T-014-046 | - |
-| FR-014-24 | 014-robot-learning | draft | T-014-048, T-014-054 | - |
-| FR-014-25 | 014-robot-learning | draft | T-014-040, T-014-062 | - |
-| FR-014-26 | 014-robot-learning | draft | T-014-040 | - |
-| FR-014-27 | 014-robot-learning | draft | T-014-041 | - |
-| FR-014-28 | 014-robot-learning | draft | T-014-041 | - |
-| FR-014-29 | 014-robot-learning | draft | T-014-036 | - |
-| FR-014-30 | 014-robot-learning | draft | T-014-027 | - |
-| FR-014-31 | 014-robot-learning | draft | T-014-036 | - |
-| FR-014-32 | 014-robot-learning | draft | T-014-042 | - |
-| FR-014-33 | 014-robot-learning | draft | T-014-042 | - |
-| FR-014-34 | 014-robot-learning | draft | T-014-035 | - |
-| FR-014-35 | 014-robot-learning | draft | T-014-043 | - |
-| FR-014-36 | 014-robot-learning | draft | T-014-044 | - |
-| FR-014-37 | 014-robot-learning | draft | T-014-045 | - |
-| FR-014-38 | 014-robot-learning | draft | T-014-045 | - |
-| FR-014-39 | 014-robot-learning | draft | T-014-042, T-014-043 | - |
-| FR-014-40 | 014-robot-learning | draft | T-014-050 | - |
-| FR-014-41 | 014-robot-learning | draft | T-014-051 | - |
-| FR-014-42 | 014-robot-learning | draft | T-014-052 | - |
-| FR-014-43 | 014-robot-learning | draft | T-014-054 | - |
-| FR-014-44 | 014-robot-learning | draft | T-014-053 | - |
-| FR-014-45 | 014-robot-learning | draft | T-014-054 | - |
-| FR-014-46 | 014-robot-learning | draft | T-014-049 | - |
-| FR-014-47 | 014-robot-learning | draft | T-014-038 | - |
-| FR-014-48 | 014-robot-learning | draft | T-014-092 | - |
-| FR-014-49 | 014-robot-learning | draft | T-014-093 | - |
+| FR-014-01 | 014-robot-learning | draft | T-014-002 | tests/contract/test_t_014_002_isaaclab_lock.py |
+| FR-014-02 | 014-robot-learning | draft | T-014-010, T-014-060 | tests/contract/test_t_014_010_isaaclab_probe.py, tests/gpu/test_t_014_060_isaaclab_smoke.py |
+| FR-014-03 | 014-robot-learning | draft | T-014-011, T-014-054 | tests/unit/test_t_014_011_lane_gating.py, web/e2e/robot-policies.spec.ts |
+| FR-014-04 | 014-robot-learning | draft | T-014-002 | tests/contract/test_t_014_002_isaaclab_lock.py |
+| FR-014-05 | 014-robot-learning | draft | T-014-037, T-014-062 | tests/gpu/test_t_014_062_training_smoke.py, tests/unit/test_t_014_037_truck_mjcf.py |
+| FR-014-06 | 014-robot-learning | draft | T-014-026 | tests/unit/test_t_014_026_excavator_mjcf.py |
+| FR-014-07 | 014-robot-learning | draft | T-014-026, T-014-037 | tests/unit/test_t_014_026_excavator_mjcf.py, tests/unit/test_t_014_037_truck_mjcf.py |
+| FR-014-08 | 014-robot-learning | draft | T-014-030 | tests/metamorphic/test_t_014_030_il1_observation.py |
+| FR-014-09 | 014-robot-learning | draft | T-014-031 | tests/unit/test_t_014_031_il1_actions.py |
+| FR-014-10 | 014-robot-learning | draft | T-014-031 | tests/unit/test_t_014_031_il1_actions.py, tests/unit/test_t_014_033_il1_episodes.py |
+| FR-014-11 | 014-robot-learning | draft | T-014-032 | tests/metamorphic/test_t_014_032_il1_reward.py |
+| FR-014-12 | 014-robot-learning | draft | T-014-033 | tests/unit/test_t_014_033_il1_episodes.py |
+| FR-014-13 | 014-robot-learning | draft | T-014-034 | tests/property/test_t_014_034_il1_randomisation.py |
+| FR-014-14 | 014-robot-learning | draft | T-014-033 | tests/unit/test_t_014_033_il1_episodes.py |
+| FR-014-15 | 014-robot-learning | draft | T-014-024 | tests/unit/test_t_014_024_il2_obs_stall.py |
+| FR-014-16 | 014-robot-learning | draft | T-014-024 | tests/unit/test_t_014_024_il2_obs_stall.py |
+| FR-014-17 | 014-robot-learning | draft | T-014-020, T-014-021, T-014-061 | tests/gpu/test_t_014_061_task_parity.py, tests/metamorphic/test_t_014_020_fee_relations.py, tests/unit/test_t_014_021_fee_worked_examples.py |
+| FR-014-18 | 014-robot-learning | draft | T-014-023, T-014-061 | tests/gpu/test_t_014_061_task_parity.py, tests/metamorphic/test_t_014_023_fill_model.py |
+| FR-014-19 | 014-robot-learning | draft | T-014-025 | tests/property/test_t_014_025_soil_randomisation.py |
+| FR-014-20 | 014-robot-learning | draft | T-014-024 | tests/unit/test_t_014_024_il2_obs_stall.py |
+| FR-014-21 | 014-robot-learning | draft | T-014-022 | tests/unit/test_t_014_022_fee_hostile.py |
+| FR-014-22 | 014-robot-learning | draft | T-014-046, T-014-063 | tests/gpu/test_t_014_063_mpm_smoke.py, tests/unit/test_t_014_046_mpm_tier.py |
+| FR-014-23 | 014-robot-learning | draft | T-014-046 | tests/pipeline/test_t_014_045_sim_to_sim_gaps.py, tests/unit/test_t_014_046_mpm_tier.py |
+| FR-014-24 | 014-robot-learning | draft | T-014-048, T-014-054 | tests/unit/test_t_014_048_il3_optional.py, web/e2e/robot-policies.spec.ts |
+| FR-014-25 | 014-robot-learning | draft | T-014-040, T-014-062 | tests/gpu/test_t_014_062_training_smoke.py, tests/unit/test_t_014_040_training_wrapper.py |
+| FR-014-26 | 014-robot-learning | draft | T-014-040 | tests/unit/test_t_014_040_training_wrapper.py |
+| FR-014-27 | 014-robot-learning | draft | T-014-041 | tests/pipeline/test_t_014_041_policy_export.py |
+| FR-014-28 | 014-robot-learning | draft | T-014-041 | tests/pipeline/test_t_014_041_policy_export.py |
+| FR-014-29 | 014-robot-learning | draft | T-014-036 | tests/metamorphic/test_t_014_036_pure_pursuit.py |
+| FR-014-30 | 014-robot-learning | draft | T-014-027 | tests/unit/test_t_014_027_scripted_dig.py |
+| FR-014-31 | 014-robot-learning | draft | T-014-036 | tests/metamorphic/test_t_014_036_pure_pursuit.py |
+| FR-014-32 | 014-robot-learning | draft | T-014-042 | tests/pipeline/test_t_014_042_il1_evaluation.py |
+| FR-014-33 | 014-robot-learning | draft | T-014-042 | tests/pipeline/test_t_014_042_il1_evaluation.py |
+| FR-014-34 | 014-robot-learning | draft | T-014-035 | tests/metamorphic/test_t_014_035_ttc.py |
+| FR-014-35 | 014-robot-learning | draft | T-014-043 | tests/pipeline/test_t_014_043_il2_evaluation.py |
+| FR-014-36 | 014-robot-learning | draft | T-014-044 | tests/pipeline/test_t_014_044_verdicts.py |
+| FR-014-37 | 014-robot-learning | draft | T-014-045 | tests/pipeline/test_t_014_045_sim_to_sim_gaps.py |
+| FR-014-38 | 014-robot-learning | draft | T-014-045 | tests/pipeline/test_t_014_045_sim_to_sim_gaps.py |
+| FR-014-39 | 014-robot-learning | draft | T-014-042, T-014-043 | tests/pipeline/test_t_014_042_il1_evaluation.py, tests/pipeline/test_t_014_043_il2_evaluation.py, tests/pipeline/test_t_014_045_sim_to_sim_gaps.py |
+| FR-014-40 | 014-robot-learning | draft | T-014-050 | tests/metamorphic/test_t_014_050_bicycle_twin.py |
+| FR-014-41 | 014-robot-learning | draft | T-014-051 | tests/unit/test_t_014_051_arm_twin.py |
+| FR-014-42 | 014-robot-learning | draft | T-014-052 | web/src/engines/robots/twin-parity.test.ts |
+| FR-014-43 | 014-robot-learning | draft | T-014-054 | web/e2e/robot-policies.spec.ts |
+| FR-014-44 | 014-robot-learning | draft | T-014-053 | web/src/engines/robots/twin-hostile.test.ts, web/e2e/robot-policies.spec.ts |
+| FR-014-45 | 014-robot-learning | draft | T-014-054 | web/e2e/robot-policies.spec.ts |
+| FR-014-46 | 014-robot-learning | draft | T-014-049 | tests/unit/test_t_014_049_task_params_hostile.py |
+| FR-014-47 | 014-robot-learning | draft | T-014-038 | tests/unit/test_t_014_038_cores_hostile.py |
+| FR-014-48 | 014-robot-learning | draft | T-014-092 | tests/pipeline/test_t_014_092_fixture_propagation_pipeline.py, tests/unit/test_t_014_092_fixture_propagation.py |
+| FR-014-49 | 014-robot-learning | draft | T-014-093 | tests/unit/test_t_014_093_input_stale.py |
 | FR-015-01 | 015-vlm | draft | T-015-010 | - |
 | FR-015-02 | 015-vlm | draft | T-015-010 | - |
 | FR-015-03 | 015-vlm | draft | T-015-011 | - |
@@ -1195,11 +1195,11 @@
 | NFR-013-03 | 013-sensors | draft | T-013-034 | - |
 | NFR-013-04 | 013-sensors | draft | T-013-018 | - |
 | NFR-013-05 | 013-sensors | draft | T-013-012 | - |
-| NFR-014-01 | 014-robot-learning | draft | T-014-062 | - |
-| NFR-014-02 | 014-robot-learning | draft | T-014-062 | - |
-| NFR-014-03 | 014-robot-learning | draft | T-014-041 | - |
-| NFR-014-04 | 014-robot-learning | draft | T-014-054 | - |
-| NFR-014-05 | 014-robot-learning | draft | T-014-012 | - |
+| NFR-014-01 | 014-robot-learning | draft | T-014-062 | tests/gpu/test_t_014_062_training_smoke.py |
+| NFR-014-02 | 014-robot-learning | draft | T-014-062 | tests/gpu/test_t_014_062_training_smoke.py |
+| NFR-014-03 | 014-robot-learning | draft | T-014-041 | tests/pipeline/test_t_014_041_policy_export.py |
+| NFR-014-04 | 014-robot-learning | draft | T-014-054 | web/e2e/robot-policies.spec.ts |
+| NFR-014-05 | 014-robot-learning | draft | T-014-012 | tests/unit/test_t_014_012_il_provenance.py |
 | NFR-015-01 | 015-vlm | draft | T-015-020 | - |
 | NFR-015-02 | 015-vlm | draft | T-015-020 | - |
 | NFR-015-03 | 015-vlm | draft | T-015-060 | - |
@@ -1427,21 +1427,21 @@
 | P-013-13 | 013-sensors | draft | T-013-025 | - |
 | P-013-14 | 013-sensors | draft | T-013-043 | - |
 | P-013-15 | 013-sensors | draft | T-013-030 | - |
-| P-014-01 | 014-robot-learning | draft | T-014-020 | - |
-| P-014-02 | 014-robot-learning | draft | T-014-020 | - |
-| P-014-03 | 014-robot-learning | draft | T-014-020 | - |
-| P-014-04 | 014-robot-learning | draft | T-014-021 | - |
-| P-014-05 | 014-robot-learning | draft | T-014-020 | - |
-| P-014-06 | 014-robot-learning | draft | T-014-021 | - |
-| P-014-07 | 014-robot-learning | draft | T-014-036 | - |
-| P-014-08 | 014-robot-learning | draft | T-014-035 | - |
-| P-014-09 | 014-robot-learning | draft | T-014-030 | - |
-| P-014-10 | 014-robot-learning | draft | T-014-032 | - |
-| P-014-11 | 014-robot-learning | draft | T-014-042 | - |
-| P-014-12 | 014-robot-learning | draft | T-014-050 | - |
-| P-014-13 | 014-robot-learning | draft | T-014-023 | - |
-| P-014-14 | 014-robot-learning | draft | T-014-025, T-014-034 | - |
-| P-014-15 | 014-robot-learning | draft | T-014-061 | - |
+| P-014-01 | 014-robot-learning | draft | T-014-020 | tests/metamorphic/test_t_014_020_fee_relations.py |
+| P-014-02 | 014-robot-learning | draft | T-014-020 | tests/metamorphic/test_t_014_020_fee_relations.py |
+| P-014-03 | 014-robot-learning | draft | T-014-020 | tests/metamorphic/test_t_014_020_fee_relations.py |
+| P-014-04 | 014-robot-learning | draft | T-014-021 | tests/unit/test_t_014_021_fee_worked_examples.py |
+| P-014-05 | 014-robot-learning | draft | T-014-020 | tests/metamorphic/test_t_014_020_fee_relations.py |
+| P-014-06 | 014-robot-learning | draft | T-014-021 | tests/unit/test_t_014_021_fee_worked_examples.py |
+| P-014-07 | 014-robot-learning | draft | T-014-036 | tests/metamorphic/test_t_014_036_pure_pursuit.py |
+| P-014-08 | 014-robot-learning | draft | T-014-035 | tests/metamorphic/test_t_014_035_ttc.py |
+| P-014-09 | 014-robot-learning | draft | T-014-030 | tests/metamorphic/test_t_014_030_il1_observation.py |
+| P-014-10 | 014-robot-learning | draft | T-014-032 | tests/metamorphic/test_t_014_032_il1_reward.py |
+| P-014-11 | 014-robot-learning | draft | T-014-042 | tests/pipeline/test_t_014_042_il1_evaluation.py |
+| P-014-12 | 014-robot-learning | draft | T-014-050 | tests/metamorphic/test_t_014_050_bicycle_twin.py |
+| P-014-13 | 014-robot-learning | draft | T-014-023 | tests/metamorphic/test_t_014_023_fill_model.py |
+| P-014-14 | 014-robot-learning | draft | T-014-025, T-014-034 | tests/property/test_t_014_025_soil_randomisation.py, tests/property/test_t_014_034_il1_randomisation.py |
+| P-014-15 | 014-robot-learning | draft | T-014-061 | tests/gpu/test_t_014_061_task_parity.py |
 | P-015-01 | 015-vlm | draft | T-015-036 | - |
 | P-015-02 | 015-vlm | draft | T-015-037 | - |
 | P-015-03 | 015-vlm | draft | T-015-036 | - |
@@ -1643,16 +1643,16 @@
 | SC-013-02 | 013-sensors | draft | T-013-017 | - |
 | SC-013-03 | 013-sensors | draft | T-013-030 | - |
 | SC-013-04 | 013-sensors | draft | T-013-025 | - |
-| SC-014-01 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-02 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-03 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-04 | 014-robot-learning | draft | T-014-044 | - |
-| SC-014-05 | 014-robot-learning | draft | T-014-045 | - |
-| SC-014-06 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-07 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-08 | 014-robot-learning | draft | T-014-045 | - |
-| SC-014-09 | 014-robot-learning | draft | T-014-044 | - |
-| SC-014-10 | 014-robot-learning | draft | T-014-041 | - |
+| SC-014-01 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-02 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-03 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-04 | 014-robot-learning | draft | T-014-044 | tests/pipeline/test_t_014_044_verdicts.py |
+| SC-014-05 | 014-robot-learning | draft | T-014-045 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-06 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-07 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-08 | 014-robot-learning | draft | T-014-045 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-09 | 014-robot-learning | draft | T-014-044 | tests/pipeline/test_t_014_044_verdicts.py |
+| SC-014-10 | 014-robot-learning | draft | T-014-041 | tests/pipeline/test_t_014_041_policy_export.py |
 | SC-015-01 | 015-vlm | draft | T-015-021 | - |
 | SC-015-02 | 015-vlm | draft | T-015-036 | - |
 | SC-015-03 | 015-vlm | draft | T-015-037 | - |
