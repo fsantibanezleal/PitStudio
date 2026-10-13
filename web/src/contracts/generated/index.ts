@@ -12,7 +12,7 @@ export type { Design, Box, KnowledgeRowId, XBurdenM, XSpacingRatio, XPowderFacto
 export type { D1BlastDesignGrid, DesignInputs } from "./d1-design-grid";
 export type { DataCardFrontMatter, RealCard, HttpsUrl, SyntheticCard, ModulePath, StageId, Validation, ValidationTest } from "./data-card";
 export type { Header, LpStatus, HaulageDESEventTrace, KpiWindow, Engine, PolicyRef, Honesty, Event, CyclelogRow, Results } from "./des-trace";
-export type { HonestyLabel, ClassResult, Model, TrainingArm, ClassName, Unit, SummaryResult, Acceptance, ProbeClass, DetectionEvaluationReport, Protocol, ClusterBootstrap, FamilyStatus, Interval, CorruptionPoint, DrAblation, DifferenceInterval, SupportShortfall, RealProbe, ProbeClassResult, RejectedInput } from "./detection-eval";
+export type { DetectionEvaluationReport, HonestyLabel, ClassResult, Model, TrainingArm, ClassName, Unit, SummaryResult, Acceptance, ProbeClass, Protocol, ClusterBootstrap, FamilyStatus, Interval, CorruptionPoint, DrAblation, DifferenceInterval, SupportShortfall, RealProbe, ProbeClassResult, RejectedInput, ModelStatus, Provenance } from "./detection-eval";
 export type { Dispatcher, Comparison, PairedDispatchEvaluationTable, Ci95 } from "./dispatch-eval";
 export type { Policy, ArtefactId, DispatchPolicyInputOutputLayout, Onnx, Inputs, Output, Decision, Padding } from "./dispatch-policy-io";
 export type { DisplacementSeries, SyntheticEvent, Stratum, Snr, TimeH, DisplacementMm, UtcTimestamp, PixelId, PointM, SignConvention, PixelStatus, VoightParameters, Ar1, Sampling, RealEvent, TFDocument, RadarPixel, Radar, RadarMap, MapPixel } from "./displacement-series";
@@ -84,5 +84,5 @@ export type { ToolEnv, Package, PitStudioToolRegistry } from "./tools";
 export type { EventResult, Cutoff, RelError, SignedH, DurationH, LearnedMethod, C1TimeToFailureResults, TimeInterval, Alarm, Summary, AlarmSummary, RelInterval, BootstrapPercentile, BootstrapPaired, RealRow, S4B } from "./ttf-results";
 export type { ReasonLaneMetrics, BenchPath, Gate, TaskA, RowA, TaskB, RowB, TaskC, RowC, Notices, Estimate, TEstimate } from "./vlm-metrics";
 export type { Query, AnswerLabel, TaskAQuerySet } from "./vlm-queries";
-export type { RecordA, RecordLicenceClass, Provenance, RecordB, RecordC, ClassSet, PublishedAnswerRecords } from "./vlm-record";
+export type { RecordA, RecordLicenceClass, RecordB, RecordC, ClassSet, PublishedAnswerRecords } from "./vlm-record";
 export type { PitStudioWebPointCloudShardHeader, Classes } from "./web-cloud-shard";

@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.1",
+  "run_id": "20261012T130000Z-partial",
+  "test_data": "synthetic held-out",
+  "honesty_label": "calibrated synthetic — not validated against real data",
+  "sim_to_real": "not measured",
+  "partial": true,
+  "protocol": {
+    "implementation": "pycocotools",
+    "implementation_version": "2.0.10",
+    "iou_thresholds": "0.50:0.05:0.95",
+    "recall_points": 101,
+    "max_dets": 100,
+    "area": "all",
+    "min_support": 100
+  },
+  "bootstrap": {
+    "resamples": 2000,
+    "method": "cluster-percentile",
+    "cluster": "test-scenario-seed",
+    "level": 0.95,
+    "seed": 90210
+  },
+  "families": [
+    {
+      "family": "pit",
+      "status": "run"
+    },
+    {
+      "family": "crusher",
+      "status": "run"
+    }
+  ],
+  "per_class": [
+    {
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "training_arm": "S",
+      "family": "pit",
+      "task": "box",
+      "class": "person",
+      "support": 420,
+      "descriptive": false,
+      "honesty_label": "calibrated synthetic — not validated against real data",
+      "sim_to_real": "not measured",
+      "ap50": 0.81,
+      "ap50_95": 0.52,
+      "ap50_interval": {
+        "lower": 0.77,
+        "upper": 0.85
+      },
+      "ap50_95_interval": {
+        "lower": 0.48,
+        "upper": 0.56
+      }
+    },
+    {
+      "model": "d-fine-n",
+      "precision": "fp32",
+      "training_arm": "S",
+      "family": "crusher",
+      "task": "box",
+      "class": "boulder",
+      "support": 1530,
+      "descriptive": false,
+      "honesty_label": "calibrated synthetic — not validated against real data",
+      "sim_to_real": "not measured",
+      "ap50": 0.74,
+      "ap50_95": 0.49,
+      "ap50_interval": {
+        "lower": 0.71,
+        "upper": 0.77
+      },
+      "ap50_95_interval": {
+        "lower": 0.46,
+        "upper": 0.52
+      }
+    }
+  ],
+  "summary": [
+    {
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "training_arm": "S",
+      "family": "pit",
+      "task": "box",
+      "metric": "map50",
+      "value": 0.83,
+      "interval": {
+        "lower": 0.8,
+        "upper": 0.86
+      },
+      "classes_included": [
+        "person",
+        "boulder"
+      ],
+      "descriptive": false
+    }
+  ],
+  "corruption": [],
+  "acceptance": [
+    {
+      "criterion": "SC-009-01",
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "statistic": "map50",
+      "threshold": 0.8,
+      "verdict": "not run",
+      "reason": "partial evaluation: a named model has no evaluated checkpoint"
+    },
+    {
+      "criterion": "SC-009-02",
+      "model": "d-fine-n",
+      "precision": "fp32",
+      "statistic": "map50",
+      "threshold": 0.7,
+      "verdict": "not run",
+      "reason": "partial evaluation: a named model has no evaluated checkpoint"
+    },
+    {
+      "criterion": "SC-009-05",
+      "model": "rf-detr-seg-n",
+      "precision": "fp32",
+      "statistic": "mask_ap50",
+      "threshold": 0.7,
+      "verdict": "not run",
+      "reason": "partial evaluation: a named model has no evaluated checkpoint"
+    }
+  ],
+  "models": [
+    {
+      "model": "d-fine-s",
+      "precision": "fp32",
+      "arm": "S",
+      "status": "evaluated",
+      "provenance": {
+        "checkpoint_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "training_set_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "model": "d-fine-n",
+      "precision": "fp32",
+      "arm": "S",
+      "status": "evaluated",
+      "provenance": {
+        "checkpoint_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "training_set_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "model": "rf-detr-seg-n",
+      "precision": "fp32",
+      "arm": "S",
+      "status": "not run (absent)",
+      "provenance": {
+        "checkpoint_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
+  ]
+}
