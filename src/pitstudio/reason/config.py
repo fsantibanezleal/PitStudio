@@ -1,12 +1,14 @@
 """Committed prompts, decoding settings and lane-configuration validation (FR-015-24, FR-015-25, FR-015-44).
 
-- The ten prompts of the lane (system prompt, six task-A templates, two task-B templates, the task-C caption prompt) live
-  in `studio/reason/prompts/` and are pinned by SHA-256 in `studio/reason/pins.json`; the hashes are checked at every load.
+- The ten prompts of the lane (system prompt, six task-A templates, two task-B templates, the task-C caption
+  prompt) live in `studio/reason/prompts/` and are pinned by SHA-256 in `studio/reason/pins.json`; the hashes are
+  checked at every load.
 - No prompt may ask the model to ignore or bypass its safety behaviour.
-- Decoding is greedy (temperature 0, top-k 1) with one fixed seed, native image resolution and at most 64 new tokens with
-  reasoning off, 4,096 with reasoning on.
-- A lane configuration naming an unknown arm, task or question type, a temperature other than 0, a non-positive token limit,
-  an image side above 4,096 px or an input outside the stage's declared inputs is refused with exit code 2.
+- Decoding is greedy (temperature 0, top-k 1) with one fixed seed, native image resolution and at most 64 new
+  tokens with reasoning off, 4,096 with reasoning on.
+- A lane configuration naming an unknown arm, task or question type, a temperature other than 0, a non-positive
+  token limit, an image side above 4,096 px or an input outside the stage's declared inputs is refused with exit
+  code 2.
 """
 
 from __future__ import annotations
