@@ -41,3 +41,4 @@ e4e79ca211742172a5d30f0150753e6ac5bbe65f465b417e40ba682905c0b062  tests/pipeline
 40b32632841fed3ca262311e20407b05b316a7f1cbcc6422118b6a3b3b75559f  tests/unit/test_t_014_093_input_stale.py
 6cb032c6d8cc129f23a2c7529c52404b43367466e6eae7281c771ae8a4bd6bc6  web/src/engines/robots/twin-parity.test.ts
 4446b6c0eea1846874d030158da670952d608fa42dee653dab920c767009efa4  web/src/engines/robots/twin-hostile.test.ts
+8b1c5d97a5594edc0eac3e8b91a470f0811e7c819558e7537bc0cab7c6c456ed  web/e2e/robot-policies.spec.ts
