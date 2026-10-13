@@ -1,4 +1,4 @@
-﻿[project]
+[project]
 name = "pitstudio-studio"
 version = "0.0.0"
 description = "PitStudio open studio lane: OpenUSD scene building, GPU physics (Warp, Newton), media encoding and GPU telemetry"
