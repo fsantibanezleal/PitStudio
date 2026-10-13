@@ -38,6 +38,7 @@ def test_the_scene_spec_is_valid_and_centred_on_the_pit() -> None:
     assert spec["design"]["outline_source"] == "upstream-shell"
     assert [m["id"] for m in spec["materials"]] == ["gravel-road", "bench-rock"]
     assert all(m["spdx"] == "CC0-1.0" for m in spec["materials"])
+    assert [w["rule"] for w in spec["validation"]["waivers"]] == ["UsdAsciiPerformanceChecker"]
 
 
 def test_a_texture_pool_licence_other_than_cc0_is_carried_into_the_spec_for_the_stage_to_refuse() -> None:
