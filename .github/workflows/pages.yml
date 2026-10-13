@@ -51,6 +51,7 @@ jobs:
           fi
           uv sync --locked
           uv run python tools/check_contracts.py --release-assets "$RUNNER_TEMP/release-assets"
+      - run: python3 ../tools/check_pages_artifact.py # FR-003-24: nothing of the console may reach the public site
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with: { path: web/build/client }
 

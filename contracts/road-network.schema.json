@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/road-network.schema.json",
   "title": "Haul-road network",
-  "description": "Haul-road graph written by st20_pit_design as a closed GeoJSON FeatureCollection subset in the site frame (DC-004-06, spec 004-scene-pipeline).",
+  "description": "Haul-road graph written by st20_pit_design as a closed GeoJSON FeatureCollection subset in the site frame (DC-004-06, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -52,6 +52,11 @@
       },
       "minItems": 3,
       "maxItems": 10000
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
     }
   },
   "$defs": {

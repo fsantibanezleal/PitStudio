@@ -771,7 +771,7 @@ class Validation(BaseModel):
 
 class SceneSpecificationScenespec(BaseModel):
     """
-    Scene specification read from the recipe params of st10_terrain to st45_validate and the export stage (DC-004-01, spec 004-scene-pipeline). It is a recipe params object: keys follow param_key, nesting depth <= 4 including the root, no $schema member.
+    Scene specification read from the recipe params of st10_terrain to st45_validate and the export stage (DC-004-01, spec 004-scene-pipeline). It is a recipe params object: keys follow param_key, nesting depth <= 4 including the root, no $schema member. Version 1.1: optional `fixture` member.
     """
 
     model_config = ConfigDict(
@@ -794,3 +794,9 @@ class SceneSpecificationScenespec(BaseModel):
     labels: Labels
     variants: Variants
     validation: Validation | None = None
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
+        ),
+    ] = False
