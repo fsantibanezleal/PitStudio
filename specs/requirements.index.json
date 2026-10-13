@@ -86,7 +86,10 @@
       "tasks": [
         "T-018-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/tier/t_018_011_fallback.test.ts",
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-000-03": {
       "spec": "000-foundation",
@@ -127,7 +130,9 @@
         "T-020-030"
       ],
       "tests": [
-        "tests/pipeline/test_t_007_055_dispatch_eval.py"
+        "tests/pipeline/test_t_007_055_dispatch_eval.py",
+        "web/src/results/t_020_030_verdict.test.ts",
+        "web/src/routes/t_018_032_charts_tab.test.tsx"
       ]
     },
     "FR-000-06": {
@@ -140,7 +145,9 @@
         "T-019-022"
       ],
       "tests": [
-        "web/src/cards/t_018_034_artefact_card.test.tsx"
+        "web/src/cards/t_018_034_artefact_card.test.tsx",
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
       ]
     },
     "FR-000-07": {
@@ -151,7 +158,10 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
+      ]
     },
     "FR-000-08": {
       "spec": "000-foundation",
@@ -163,7 +173,10 @@
         "T-019-034",
         "T-020-035"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_035_acceleration.test.tsx",
+        "web/src/studio/telemetry/t_019_034_local_only.test.tsx"
+      ]
     },
     "FR-000-09": {
       "spec": "000-foundation",
@@ -176,6 +189,7 @@
       ],
       "tests": [
         "tests/contract/test_t_007_070_haulage_honesty.py",
+        "web/src/results/t_020_033_gaps_parity.test.tsx",
         "web/src/routes/t_018_033_context_tab.test.tsx"
       ]
     },
@@ -201,7 +215,9 @@
         "T-018-014",
         "T-019-035"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_035_no_loopback.spec.ts"
+      ]
     },
     "FR-000-12": {
       "spec": "000-foundation",
@@ -1611,7 +1627,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "FR-002-02": {
       "spec": "002-runner",
@@ -1621,7 +1639,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "FR-002-03": {
       "spec": "002-runner",
@@ -1631,7 +1651,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "FR-002-04": {
       "spec": "002-runner",
@@ -1641,7 +1663,10 @@
       "tasks": [
         "T-002-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_011_plan_independence.py",
+        "tests/unit/test_t_002_012_plan_all_recipes.py"
+      ]
     },
     "FR-002-05": {
       "spec": "002-runner",
@@ -1651,7 +1676,9 @@
       "tasks": [
         "T-002-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_012_plan_all_recipes.py"
+      ]
     },
     "FR-002-06": {
       "spec": "002-runner",
@@ -1661,7 +1688,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "FR-002-07": {
       "spec": "002-runner",
@@ -1671,7 +1700,9 @@
       "tasks": [
         "T-002-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_012_plan_all_recipes.py"
+      ]
     },
     "FR-002-08": {
       "spec": "002-runner",
@@ -1681,7 +1712,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "FR-002-09": {
       "spec": "002-runner",
@@ -1691,7 +1724,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "FR-002-10": {
       "spec": "002-runner",
@@ -1701,7 +1736,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-11": {
       "spec": "002-runner",
@@ -1711,7 +1748,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-12": {
       "spec": "002-runner",
@@ -1721,7 +1760,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-13": {
       "spec": "002-runner",
@@ -1731,7 +1772,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-14": {
       "spec": "002-runner",
@@ -1741,7 +1784,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "FR-002-15": {
       "spec": "002-runner",
@@ -1751,7 +1796,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-16": {
       "spec": "002-runner",
@@ -1761,7 +1808,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-17": {
       "spec": "002-runner",
@@ -1771,7 +1820,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-18": {
       "spec": "002-runner",
@@ -1781,7 +1832,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-19": {
       "spec": "002-runner",
@@ -1791,7 +1844,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "FR-002-20": {
       "spec": "002-runner",
@@ -1801,7 +1856,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "FR-002-21": {
       "spec": "002-runner",
@@ -1811,7 +1868,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "FR-002-22": {
       "spec": "002-runner",
@@ -1821,7 +1880,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "FR-002-23": {
       "spec": "002-runner",
@@ -1831,7 +1892,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "FR-002-24": {
       "spec": "002-runner",
@@ -1841,7 +1904,9 @@
       "tasks": [
         "T-002-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_040_launch.py"
+      ]
     },
     "FR-002-25": {
       "spec": "002-runner",
@@ -1851,7 +1916,9 @@
       "tasks": [
         "T-002-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_040_launch.py"
+      ]
     },
     "FR-002-26": {
       "spec": "002-runner",
@@ -1861,7 +1928,9 @@
       "tasks": [
         "T-002-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_041_stagekit.py"
+      ]
     },
     "FR-002-27": {
       "spec": "002-runner",
@@ -1871,7 +1940,9 @@
       "tasks": [
         "T-002-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_042_process_tree.py"
+      ]
     },
     "FR-002-28": {
       "spec": "002-runner",
@@ -1881,7 +1952,9 @@
       "tasks": [
         "T-002-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_042_process_tree.py"
+      ]
     },
     "FR-002-29": {
       "spec": "002-runner",
@@ -1891,7 +1964,9 @@
       "tasks": [
         "T-002-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_043_keep_awake.py"
+      ]
     },
     "FR-002-30": {
       "spec": "002-runner",
@@ -1901,7 +1976,9 @@
       "tasks": [
         "T-002-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_050_telemetry.py"
+      ]
     },
     "FR-002-31": {
       "spec": "002-runner",
@@ -1911,7 +1988,9 @@
       "tasks": [
         "T-002-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_050_telemetry.py"
+      ]
     },
     "FR-002-32": {
       "spec": "002-runner",
@@ -1921,7 +2000,9 @@
       "tasks": [
         "T-002-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_050_telemetry.py"
+      ]
     },
     "FR-002-60": {
       "spec": "002-runner",
@@ -1931,7 +2012,9 @@
       "tasks": [
         "T-002-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_047_not_run.py"
+      ]
     },
     "FR-002-61": {
       "spec": "002-runner",
@@ -1941,7 +2024,9 @@
       "tasks": [
         "T-002-047"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_047_not_run.py"
+      ]
     },
     "FR-002-62": {
       "spec": "002-runner",
@@ -1951,7 +2036,9 @@
       "tasks": [
         "T-002-048"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_048_held_locks.py"
+      ]
     },
     "FR-002-63": {
       "spec": "002-runner",
@@ -1961,7 +2048,9 @@
       "tasks": [
         "T-002-048"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_048_held_locks.py"
+      ]
     },
     "FR-002-33": {
       "spec": "002-runner",
@@ -1971,7 +2060,9 @@
       "tasks": [
         "T-002-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_044_retries.py"
+      ]
     },
     "FR-002-34": {
       "spec": "002-runner",
@@ -1981,7 +2072,9 @@
       "tasks": [
         "T-002-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_044_retries.py"
+      ]
     },
     "FR-002-35": {
       "spec": "002-runner",
@@ -1991,7 +2084,9 @@
       "tasks": [
         "T-002-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_045_resume.py"
+      ]
     },
     "FR-002-36": {
       "spec": "002-runner",
@@ -2001,7 +2096,9 @@
       "tasks": [
         "T-002-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_045_resume.py"
+      ]
     },
     "FR-002-37": {
       "spec": "002-runner",
@@ -2011,7 +2108,9 @@
       "tasks": [
         "T-002-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_045_resume.py"
+      ]
     },
     "FR-002-38": {
       "spec": "002-runner",
@@ -2021,7 +2120,9 @@
       "tasks": [
         "T-002-046"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_046_rerun_check.py"
+      ]
     },
     "FR-002-39": {
       "spec": "002-runner",
@@ -2031,7 +2132,9 @@
       "tasks": [
         "T-002-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_060_queue.py"
+      ]
     },
     "FR-002-40": {
       "spec": "002-runner",
@@ -2041,7 +2144,9 @@
       "tasks": [
         "T-002-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_060_queue.py"
+      ]
     },
     "FR-002-41": {
       "spec": "002-runner",
@@ -2051,7 +2156,9 @@
       "tasks": [
         "T-002-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_060_queue.py"
+      ]
     },
     "FR-002-42": {
       "spec": "002-runner",
@@ -2061,7 +2168,9 @@
       "tasks": [
         "T-002-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_061_cli.py"
+      ]
     },
     "FR-002-43": {
       "spec": "002-runner",
@@ -2071,7 +2180,9 @@
       "tasks": [
         "T-002-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_061_cli.py"
+      ]
     },
     "FR-002-58": {
       "spec": "002-runner",
@@ -2081,7 +2192,9 @@
       "tasks": [
         "T-002-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_060_queue.py"
+      ]
     },
     "FR-002-44": {
       "spec": "002-runner",
@@ -2091,7 +2204,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "FR-002-45": {
       "spec": "002-runner",
@@ -2101,7 +2216,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "FR-002-46": {
       "spec": "002-runner",
@@ -2111,7 +2228,9 @@
       "tasks": [
         "T-002-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_051_run_manifest.py"
+      ]
     },
     "FR-002-47": {
       "spec": "002-runner",
@@ -2121,7 +2240,9 @@
       "tasks": [
         "T-002-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_051_run_manifest.py"
+      ]
     },
     "FR-002-48": {
       "spec": "002-runner",
@@ -2131,7 +2252,9 @@
       "tasks": [
         "T-002-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_052_publish.py"
+      ]
     },
     "FR-002-49": {
       "spec": "002-runner",
@@ -2141,7 +2264,9 @@
       "tasks": [
         "T-002-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_052_publish.py"
+      ]
     },
     "FR-002-50": {
       "spec": "002-runner",
@@ -2151,7 +2276,9 @@
       "tasks": [
         "T-002-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_052_publish.py"
+      ]
     },
     "FR-002-51": {
       "spec": "002-runner",
@@ -2161,7 +2288,9 @@
       "tasks": [
         "T-002-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_070_gc.py"
+      ]
     },
     "FR-002-52": {
       "spec": "002-runner",
@@ -2171,7 +2300,9 @@
       "tasks": [
         "T-002-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_070_gc.py"
+      ]
     },
     "FR-002-53": {
       "spec": "002-runner",
@@ -2181,7 +2312,9 @@
       "tasks": [
         "T-002-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_071_bench_env.py"
+      ]
     },
     "FR-002-54": {
       "spec": "002-runner",
@@ -2191,7 +2324,9 @@
       "tasks": [
         "T-002-072"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_072_profile_cmd.py"
+      ]
     },
     "FR-002-55": {
       "spec": "002-runner",
@@ -2201,7 +2336,9 @@
       "tasks": [
         "T-002-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_032_fake_backend.py"
+      ]
     },
     "FR-002-56": {
       "spec": "002-runner",
@@ -2211,7 +2348,9 @@
       "tasks": [
         "T-002-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_032_fake_backend.py"
+      ]
     },
     "FR-002-57": {
       "spec": "002-runner",
@@ -2221,7 +2360,9 @@
       "tasks": [
         "T-002-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_032_fake_backend.py"
+      ]
     },
     "FR-002-59": {
       "spec": "002-runner",
@@ -2241,7 +2382,9 @@
       "tasks": [
         "T-002-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_092_profile_duplicate_gpu.py"
+      ]
     },
     "FR-002-65": {
       "spec": "002-runner",
@@ -2251,7 +2394,9 @@
       "tasks": [
         "T-002-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_093_result_duplicate_output_path.py"
+      ]
     },
     "FR-002-66": {
       "spec": "002-runner",
@@ -2261,7 +2406,9 @@
       "tasks": [
         "T-002-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_094_thermal_guard.py"
+      ]
     },
     "FR-002-67": {
       "spec": "002-runner",
@@ -2301,7 +2448,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "P-002-02": {
       "spec": "002-runner",
@@ -2311,7 +2460,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "P-002-03": {
       "spec": "002-runner",
@@ -2321,7 +2472,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "P-002-04": {
       "spec": "002-runner",
@@ -2331,7 +2484,9 @@
       "tasks": [
         "T-002-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_022_propagation.py"
+      ]
     },
     "P-002-05": {
       "spec": "002-runner",
@@ -2341,7 +2496,9 @@
       "tasks": [
         "T-002-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_020_cache_key.py"
+      ]
     },
     "P-002-06": {
       "spec": "002-runner",
@@ -2351,7 +2508,9 @@
       "tasks": [
         "T-002-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_021_store.py"
+      ]
     },
     "P-002-07": {
       "spec": "002-runner",
@@ -2361,7 +2520,9 @@
       "tasks": [
         "T-002-045"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_045_resume.py"
+      ]
     },
     "P-002-08": {
       "spec": "002-runner",
@@ -2371,7 +2532,9 @@
       "tasks": [
         "T-002-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_050_telemetry.py"
+      ]
     },
     "P-002-09": {
       "spec": "002-runner",
@@ -2381,7 +2544,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "P-002-10": {
       "spec": "002-runner",
@@ -2391,7 +2556,9 @@
       "tasks": [
         "T-002-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_031_guards.py"
+      ]
     },
     "P-002-11": {
       "spec": "002-runner",
@@ -2401,7 +2568,9 @@
       "tasks": [
         "T-002-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_070_gc.py"
+      ]
     },
     "P-002-12": {
       "spec": "002-runner",
@@ -2411,7 +2580,9 @@
       "tasks": [
         "T-002-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_011_plan_independence.py"
+      ]
     },
     "P-002-13": {
       "spec": "002-runner",
@@ -2421,7 +2592,9 @@
       "tasks": [
         "T-002-095"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_002_095_thermal_guard_property.py"
+      ]
     },
     "NFR-002-01": {
       "spec": "002-runner",
@@ -2431,7 +2604,9 @@
       "tasks": [
         "T-002-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_002_loc_budget.py"
+      ]
     },
     "NFR-002-02": {
       "spec": "002-runner",
@@ -2441,7 +2616,9 @@
       "tasks": [
         "T-002-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_010_plan.py"
+      ]
     },
     "NFR-002-03": {
       "spec": "002-runner",
@@ -2451,7 +2628,9 @@
       "tasks": [
         "T-002-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_040_launch.py"
+      ]
     },
     "NFR-002-04": {
       "spec": "002-runner",
@@ -2461,7 +2640,9 @@
       "tasks": [
         "T-002-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_030_locks_hold.py"
+      ]
     },
     "NFR-002-05": {
       "spec": "002-runner",
@@ -2471,7 +2652,12 @@
       "tasks": [
         "T-002-090"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_090_mutation_cache.py",
+        "tests/unit/test_t_002_090_mutation_guards.py",
+        "tests/unit/test_t_002_090_mutation_score.py",
+        "tests/unit/test_t_002_090_mutation_telemetry.py"
+      ]
     },
     "SC-002-01": {
       "spec": "002-runner",
@@ -2481,7 +2667,9 @@
       "tasks": [
         "T-002-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_002_012_plan_all_recipes.py"
+      ]
     },
     "DC-002-01": {
       "spec": "002-runner",
@@ -2491,7 +2679,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "DC-002-02": {
       "spec": "002-runner",
@@ -2501,7 +2691,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "DC-002-03": {
       "spec": "002-runner",
@@ -2511,7 +2703,9 @@
       "tasks": [
         "T-002-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_002_001_runner_contracts.py"
+      ]
     },
     "DC-002-04": {
       "spec": "002-runner",
@@ -2612,7 +2806,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-02": {
       "spec": "003-console",
@@ -2622,7 +2818,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-03": {
       "spec": "003-console",
@@ -2632,7 +2830,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-04": {
       "spec": "003-console",
@@ -2642,7 +2842,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-05": {
       "spec": "003-console",
@@ -2652,7 +2854,9 @@
       "tasks": [
         "T-003-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_010_startup.py"
+      ]
     },
     "FR-003-06": {
       "spec": "003-console",
@@ -2662,7 +2866,9 @@
       "tasks": [
         "T-003-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_011_read_endpoints.py"
+      ]
     },
     "FR-003-07": {
       "spec": "003-console",
@@ -2672,7 +2878,9 @@
       "tasks": [
         "T-003-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_011_read_endpoints.py"
+      ]
     },
     "FR-003-08": {
       "spec": "003-console",
@@ -2682,7 +2890,9 @@
       "tasks": [
         "T-003-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_011_read_endpoints.py"
+      ]
     },
     "FR-003-09": {
       "spec": "003-console",
@@ -2692,7 +2902,9 @@
       "tasks": [
         "T-003-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_012_jobs.py"
+      ]
     },
     "FR-003-10": {
       "spec": "003-console",
@@ -2702,7 +2914,9 @@
       "tasks": [
         "T-003-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_020_jobs_hostile.py"
+      ]
     },
     "FR-003-11": {
       "spec": "003-console",
@@ -2712,7 +2926,9 @@
       "tasks": [
         "T-003-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_012_jobs.py"
+      ]
     },
     "FR-003-12": {
       "spec": "003-console",
@@ -2722,7 +2938,9 @@
       "tasks": [
         "T-003-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_011_read_endpoints.py"
+      ]
     },
     "FR-003-13": {
       "spec": "003-console",
@@ -2732,7 +2950,9 @@
       "tasks": [
         "T-003-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_013_artefacts.py"
+      ]
     },
     "FR-003-14": {
       "spec": "003-console",
@@ -2742,7 +2962,9 @@
       "tasks": [
         "T-003-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_021_path_params.py"
+      ]
     },
     "FR-003-15": {
       "spec": "003-console",
@@ -2752,7 +2974,9 @@
       "tasks": [
         "T-003-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_014_event_stream.py"
+      ]
     },
     "FR-003-16": {
       "spec": "003-console",
@@ -2762,7 +2986,9 @@
       "tasks": [
         "T-003-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_014_event_stream.py"
+      ]
     },
     "FR-003-17": {
       "spec": "003-console",
@@ -2772,7 +2998,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "FR-003-18": {
       "spec": "003-console",
@@ -2782,7 +3010,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-19": {
       "spec": "003-console",
@@ -2792,7 +3022,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-20": {
       "spec": "003-console",
@@ -2802,7 +3034,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-21": {
       "spec": "003-console",
@@ -2812,7 +3046,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-22": {
       "spec": "003-console",
@@ -2822,7 +3058,9 @@
       "tasks": [
         "T-003-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_022_request_hygiene.py"
+      ]
     },
     "FR-003-23": {
       "spec": "003-console",
@@ -2832,7 +3070,9 @@
       "tasks": [
         "T-003-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_023_unavailable_store.py"
+      ]
     },
     "FR-003-24": {
       "spec": "003-console",
@@ -2842,7 +3082,9 @@
       "tasks": [
         "T-003-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_030_pages_artifact.py"
+      ]
     },
     "FR-003-25": {
       "spec": "003-console",
@@ -2852,7 +3094,9 @@
       "tasks": [
         "T-003-031"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console-optin.spec.ts"
+      ]
     },
     "FR-003-26": {
       "spec": "003-console",
@@ -2878,7 +3122,9 @@
       "tasks": [
         "T-003-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console/console-ui.spec.ts"
+      ]
     },
     "FR-003-29": {
       "spec": "003-console",
@@ -2888,7 +3134,9 @@
       "tasks": [
         "T-003-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console/console-ui.spec.ts"
+      ]
     },
     "FR-003-30": {
       "spec": "003-console",
@@ -2898,7 +3146,9 @@
       "tasks": [
         "T-003-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console/console-hostile.spec.ts"
+      ]
     },
     "FR-003-31": {
       "spec": "003-console",
@@ -2908,7 +3158,9 @@
       "tasks": [
         "T-003-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_092_job_record_shards.py"
+      ]
     },
     "FR-003-32": {
       "spec": "003-console",
@@ -2938,7 +3190,9 @@
       "tasks": [
         "T-003-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_020_jobs_hostile.py"
+      ]
     },
     "P-003-02": {
       "spec": "003-console",
@@ -2948,7 +3202,9 @@
       "tasks": [
         "T-003-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_021_path_params.py"
+      ]
     },
     "P-003-03": {
       "spec": "003-console",
@@ -2958,7 +3214,9 @@
       "tasks": [
         "T-003-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_015_latency_idempotence.py"
+      ]
     },
     "P-003-04": {
       "spec": "003-console",
@@ -2968,7 +3226,9 @@
       "tasks": [
         "T-003-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_003_014_event_stream.py"
+      ]
     },
     "NFR-003-01": {
       "spec": "003-console",
@@ -2978,7 +3238,9 @@
       "tasks": [
         "T-003-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_003_015_latency_idempotence.py"
+      ]
     },
     "NFR-003-02": {
       "spec": "003-console",
@@ -2989,7 +3251,9 @@
         "T-003-024",
         "T-003-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_024_schemathesis.py"
+      ]
     },
     "NFR-003-03": {
       "spec": "003-console",
@@ -2999,7 +3263,9 @@
       "tasks": [
         "T-003-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/console/console-ui.spec.ts"
+      ]
     },
     "SC-003-01": {
       "spec": "003-console",
@@ -3009,7 +3275,9 @@
       "tasks": [
         "T-003-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_024_schemathesis.py"
+      ]
     },
     "DC-003-01": {
       "spec": "003-console",
@@ -3019,7 +3287,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "DC-003-02": {
       "spec": "003-console",
@@ -3029,7 +3299,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "DC-003-03": {
       "spec": "003-console",
@@ -3039,7 +3311,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "DC-003-04": {
       "spec": "003-console",
@@ -3049,7 +3323,9 @@
       "tasks": [
         "T-003-001"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_003_001_console_contracts.py"
+      ]
     },
     "US-004-1": {
       "spec": "004-scene-pipeline",
@@ -3135,7 +3411,9 @@
       "tasks": [
         "T-004-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_010_terrain_crs_units.py"
+      ]
     },
     "FR-004-02": {
       "spec": "004-scene-pipeline",
@@ -3145,7 +3423,9 @@
       "tasks": [
         "T-004-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_011_site_frame.py"
+      ]
     },
     "FR-004-03": {
       "spec": "004-scene-pipeline",
@@ -3155,7 +3435,9 @@
       "tasks": [
         "T-004-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_010_terrain_crs_units.py"
+      ]
     },
     "FR-004-04": {
       "spec": "004-scene-pipeline",
@@ -3165,7 +3447,9 @@
       "tasks": [
         "T-004-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_012_ground_grid.py"
+      ]
     },
     "FR-004-05": {
       "spec": "004-scene-pipeline",
@@ -3175,7 +3459,9 @@
       "tasks": [
         "T-004-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_013_hole_fill.py"
+      ]
     },
     "FR-004-06": {
       "spec": "004-scene-pipeline",
@@ -3185,7 +3471,9 @@
       "tasks": [
         "T-004-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_014_rtin.py"
+      ]
     },
     "FR-004-07": {
       "spec": "004-scene-pipeline",
@@ -3195,7 +3483,9 @@
       "tasks": [
         "T-004-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_015_terrain_tiles.py"
+      ]
     },
     "FR-004-08": {
       "spec": "004-scene-pipeline",
@@ -3205,7 +3495,9 @@
       "tasks": [
         "T-004-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_016_terrain_usd.py"
+      ]
     },
     "FR-004-09": {
       "spec": "004-scene-pipeline",
@@ -3215,7 +3507,9 @@
       "tasks": [
         "T-004-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_018_optional_sources.py"
+      ]
     },
     "FR-004-10": {
       "spec": "004-scene-pipeline",
@@ -3225,7 +3519,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-11": {
       "spec": "004-scene-pipeline",
@@ -3235,7 +3531,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-12": {
       "spec": "004-scene-pipeline",
@@ -3245,7 +3543,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-13": {
       "spec": "004-scene-pipeline",
@@ -3255,7 +3555,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-14": {
       "spec": "004-scene-pipeline",
@@ -3265,7 +3567,9 @@
       "tasks": [
         "T-004-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_017_terrain_hostile.py"
+      ]
     },
     "FR-004-15": {
       "spec": "004-scene-pipeline",
@@ -3275,7 +3579,9 @@
       "tasks": [
         "T-004-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_019_site_name.py"
+      ]
     },
     "FR-004-16": {
       "spec": "004-scene-pipeline",
@@ -3285,7 +3591,9 @@
       "tasks": [
         "T-004-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_020_benches.py"
+      ]
     },
     "FR-004-17": {
       "spec": "004-scene-pipeline",
@@ -3295,7 +3603,9 @@
       "tasks": [
         "T-004-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_021_ramp.py"
+      ]
     },
     "FR-004-18": {
       "spec": "004-scene-pipeline",
@@ -3305,7 +3615,9 @@
       "tasks": [
         "T-004-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_022_windrows.py"
+      ]
     },
     "FR-004-19": {
       "spec": "004-scene-pipeline",
@@ -3315,7 +3627,9 @@
       "tasks": [
         "T-004-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_023_cut_fill.py"
+      ]
     },
     "FR-004-20": {
       "spec": "004-scene-pipeline",
@@ -3325,7 +3639,9 @@
       "tasks": [
         "T-004-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_024_design_provenance.py"
+      ]
     },
     "FR-004-21": {
       "spec": "004-scene-pipeline",
@@ -3335,7 +3651,9 @@
       "tasks": [
         "T-004-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_025_road_network.py"
+      ]
     },
     "FR-004-22": {
       "spec": "004-scene-pipeline",
@@ -3345,7 +3663,9 @@
       "tasks": [
         "T-004-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_026_design_hostile.py"
+      ]
     },
     "FR-004-23": {
       "spec": "004-scene-pipeline",
@@ -3355,7 +3675,9 @@
       "tasks": [
         "T-004-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_026_design_hostile.py"
+      ]
     },
     "FR-004-24": {
       "spec": "004-scene-pipeline",
@@ -3365,7 +3687,9 @@
       "tasks": [
         "T-004-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_030_assets_physics.py"
+      ]
     },
     "FR-004-25": {
       "spec": "004-scene-pipeline",
@@ -3375,7 +3699,9 @@
       "tasks": [
         "T-004-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_031_labels.py"
+      ]
     },
     "FR-004-26": {
       "spec": "004-scene-pipeline",
@@ -3385,7 +3711,9 @@
       "tasks": [
         "T-004-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_032_materials_licence.py"
+      ]
     },
     "FR-004-27": {
       "spec": "004-scene-pipeline",
@@ -3395,7 +3723,9 @@
       "tasks": [
         "T-004-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_033_assets_hostile.py"
+      ]
     },
     "FR-004-28": {
       "spec": "004-scene-pipeline",
@@ -3405,7 +3735,9 @@
       "tasks": [
         "T-004-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_034_people_route.py"
+      ]
     },
     "FR-004-29": {
       "spec": "004-scene-pipeline",
@@ -3415,7 +3747,9 @@
       "tasks": [
         "T-004-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_040_compose.py"
+      ]
     },
     "FR-004-30": {
       "spec": "004-scene-pipeline",
@@ -3425,7 +3759,9 @@
       "tasks": [
         "T-004-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_040_compose.py"
+      ]
     },
     "FR-004-31": {
       "spec": "004-scene-pipeline",
@@ -3435,7 +3771,9 @@
       "tasks": [
         "T-004-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_041_scene_digest.py"
+      ]
     },
     "FR-004-32": {
       "spec": "004-scene-pipeline",
@@ -3445,7 +3783,9 @@
       "tasks": [
         "T-004-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_042_compose_hostile.py"
+      ]
     },
     "FR-004-33": {
       "spec": "004-scene-pipeline",
@@ -3455,7 +3795,9 @@
       "tasks": [
         "T-004-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_042_compose_hostile.py"
+      ]
     },
     "FR-004-34": {
       "spec": "004-scene-pipeline",
@@ -3465,7 +3807,9 @@
       "tasks": [
         "T-004-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_050_validators.py"
+      ]
     },
     "FR-004-35": {
       "spec": "004-scene-pipeline",
@@ -3475,7 +3819,9 @@
       "tasks": [
         "T-004-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_051_invariants.py"
+      ]
     },
     "FR-004-36": {
       "spec": "004-scene-pipeline",
@@ -3485,7 +3831,9 @@
       "tasks": [
         "T-004-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_052_build_twice.py"
+      ]
     },
     "FR-004-37": {
       "spec": "004-scene-pipeline",
@@ -3495,7 +3843,9 @@
       "tasks": [
         "T-004-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_050_validators.py"
+      ]
     },
     "FR-004-38": {
       "spec": "004-scene-pipeline",
@@ -3505,7 +3855,9 @@
       "tasks": [
         "T-004-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_050_validators.py"
+      ]
     },
     "FR-004-39": {
       "spec": "004-scene-pipeline",
@@ -3515,7 +3867,9 @@
       "tasks": [
         "T-004-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_052_build_twice.py"
+      ]
     },
     "FR-004-40": {
       "spec": "004-scene-pipeline",
@@ -3526,7 +3880,8 @@
         "T-004-001"
       ],
       "tests": [
-        "tests/contract/test_t_004_001_scene_schemas.py"
+        "tests/contract/test_t_004_001_scene_schemas.py",
+        "tests/unit/test_t_004_043_scene_manifest_privacy.py"
       ]
     },
     "FR-004-41": {
@@ -3537,7 +3892,9 @@
       "tasks": [
         "T-004-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_043_scene_manifest_privacy.py"
+      ]
     },
     "FR-004-42": {
       "spec": "004-scene-pipeline",
@@ -3547,7 +3904,9 @@
       "tasks": [
         "T-004-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_092_terrain_two_laz.py"
+      ]
     },
     "FR-004-43": {
       "spec": "004-scene-pipeline",
@@ -3557,7 +3916,9 @@
       "tasks": [
         "T-004-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_093_scene_device_name_path.py"
+      ]
     },
     "FR-004-44": {
       "spec": "004-scene-pipeline",
@@ -3567,7 +3928,9 @@
       "tasks": [
         "T-004-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_094_fixture_propagation.py"
+      ]
     },
     "P-004-01": {
       "spec": "004-scene-pipeline",
@@ -3577,7 +3940,9 @@
       "tasks": [
         "T-004-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_014_rtin.py"
+      ]
     },
     "P-004-02": {
       "spec": "004-scene-pipeline",
@@ -3587,7 +3952,9 @@
       "tasks": [
         "T-004-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_015_terrain_tiles.py"
+      ]
     },
     "P-004-03": {
       "spec": "004-scene-pipeline",
@@ -3597,7 +3964,9 @@
       "tasks": [
         "T-004-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_011_site_frame.py"
+      ]
     },
     "P-004-04": {
       "spec": "004-scene-pipeline",
@@ -3607,7 +3976,9 @@
       "tasks": [
         "T-004-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_010_terrain_crs_units.py"
+      ]
     },
     "P-004-05": {
       "spec": "004-scene-pipeline",
@@ -3617,7 +3988,9 @@
       "tasks": [
         "T-004-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_012_ground_grid.py"
+      ]
     },
     "P-004-06": {
       "spec": "004-scene-pipeline",
@@ -3627,7 +4000,9 @@
       "tasks": [
         "T-004-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_013_hole_fill.py"
+      ]
     },
     "P-004-07": {
       "spec": "004-scene-pipeline",
@@ -3637,7 +4012,9 @@
       "tasks": [
         "T-004-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_023_cut_fill.py"
+      ]
     },
     "P-004-08": {
       "spec": "004-scene-pipeline",
@@ -3647,7 +4024,9 @@
       "tasks": [
         "T-004-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_020_benches.py"
+      ]
     },
     "P-004-09": {
       "spec": "004-scene-pipeline",
@@ -3657,7 +4036,9 @@
       "tasks": [
         "T-004-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_004_020_benches.py"
+      ]
     },
     "P-004-10": {
       "spec": "004-scene-pipeline",
@@ -3667,7 +4048,9 @@
       "tasks": [
         "T-004-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_021_ramp.py"
+      ]
     },
     "P-004-11": {
       "spec": "004-scene-pipeline",
@@ -3677,7 +4060,9 @@
       "tasks": [
         "T-004-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_052_build_twice.py"
+      ]
     },
     "P-004-12": {
       "spec": "004-scene-pipeline",
@@ -3687,7 +4072,9 @@
       "tasks": [
         "T-004-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_004_031_labels.py"
+      ]
     },
     "NFR-004-01": {
       "spec": "004-scene-pipeline",
@@ -3697,7 +4084,9 @@
       "tasks": [
         "T-004-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_054_bingham_scene.py"
+      ]
     },
     "NFR-004-02": {
       "spec": "004-scene-pipeline",
@@ -3717,7 +4106,9 @@
       "tasks": [
         "T-004-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_053_scene_nfr.py"
+      ]
     },
     "NFR-004-04": {
       "spec": "004-scene-pipeline",
@@ -3727,7 +4118,9 @@
       "tasks": [
         "T-004-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_053_scene_nfr.py"
+      ]
     },
     "NFR-004-05": {
       "spec": "004-scene-pipeline",
@@ -3737,7 +4130,9 @@
       "tasks": [
         "T-004-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_053_scene_nfr.py"
+      ]
     },
     "SC-004-01": {
       "spec": "004-scene-pipeline",
@@ -3747,7 +4142,9 @@
       "tasks": [
         "T-004-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_004_054_bingham_scene.py"
+      ]
     },
     "SC-004-02": {
       "spec": "004-scene-pipeline",
@@ -3757,7 +4154,9 @@
       "tasks": [
         "T-004-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_004_019_site_name.py"
+      ]
     },
     "DC-004-01": {
       "spec": "004-scene-pipeline",
@@ -7605,7 +8004,9 @@
       "tasks": [
         "T-009-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_010_classes_arms.py"
+      ]
     },
     "FR-009-02": {
       "spec": "009-perception",
@@ -7615,7 +8016,9 @@
       "tasks": [
         "T-009-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_009_016_sdg_outputs.py"
+      ]
     },
     "FR-009-03": {
       "spec": "009-perception",
@@ -7625,7 +8028,9 @@
       "tasks": [
         "T-009-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_010_classes_arms.py"
+      ]
     },
     "FR-009-04": {
       "spec": "009-perception",
@@ -7635,7 +8040,9 @@
       "tasks": [
         "T-009-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_011_sun_sampler.py"
+      ]
     },
     "FR-009-05": {
       "spec": "009-perception",
@@ -7645,7 +8052,9 @@
       "tasks": [
         "T-009-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_012_dust_wet_sampler.py"
+      ]
     },
     "FR-009-06": {
       "spec": "009-perception",
@@ -7655,7 +8064,9 @@
       "tasks": [
         "T-009-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_012_dust_wet_sampler.py"
+      ]
     },
     "FR-009-07": {
       "spec": "009-perception",
@@ -7665,7 +8076,9 @@
       "tasks": [
         "T-009-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_013_placement_unstructured.py"
+      ]
     },
     "FR-009-08": {
       "spec": "009-perception",
@@ -7675,7 +8088,9 @@
       "tasks": [
         "T-009-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_013_placement_unstructured.py"
+      ]
     },
     "FR-009-09": {
       "spec": "009-perception",
@@ -7685,7 +8100,9 @@
       "tasks": [
         "T-009-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_014_sdg_config_guards.py"
+      ]
     },
     "FR-009-10": {
       "spec": "009-perception",
@@ -7695,7 +8112,9 @@
       "tasks": [
         "T-009-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_015_asset_people_guard.py"
+      ]
     },
     "FR-009-11": {
       "spec": "009-perception",
@@ -7705,7 +8124,9 @@
       "tasks": [
         "T-009-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_015_asset_people_guard.py"
+      ]
     },
     "FR-009-12": {
       "spec": "009-perception",
@@ -7715,7 +8136,9 @@
       "tasks": [
         "T-009-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_015_asset_people_guard.py"
+      ]
     },
     "FR-009-13": {
       "spec": "009-perception",
@@ -7725,7 +8148,9 @@
       "tasks": [
         "T-009-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_017_crusher_components.py"
+      ]
     },
     "FR-009-14": {
       "spec": "009-perception",
@@ -7735,7 +8160,9 @@
       "tasks": [
         "T-009-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_019_coco_loader.py"
+      ]
     },
     "FR-009-15": {
       "spec": "009-perception",
@@ -7745,7 +8172,9 @@
       "tasks": [
         "T-009-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_019_coco_loader.py"
+      ]
     },
     "FR-009-16": {
       "spec": "009-perception",
@@ -7755,7 +8184,9 @@
       "tasks": [
         "T-009-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_020_splits.py"
+      ]
     },
     "FR-009-17": {
       "spec": "009-perception",
@@ -7765,7 +8196,9 @@
       "tasks": [
         "T-009-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_020_splits.py"
+      ]
     },
     "FR-009-18": {
       "spec": "009-perception",
@@ -7775,7 +8208,10 @@
       "tasks": [
         "T-009-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_009_030_training_smoke.py",
+        "tests/unit/test_t_009_030_training_inputs.py"
+      ]
     },
     "FR-009-19": {
       "spec": "009-perception",
@@ -7785,7 +8221,9 @@
       "tasks": [
         "T-009-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_030_training_inputs.py"
+      ]
     },
     "FR-009-20": {
       "spec": "009-perception",
@@ -7795,7 +8233,9 @@
       "tasks": [
         "T-009-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_031_oom_resume.py"
+      ]
     },
     "FR-009-21": {
       "spec": "009-perception",
@@ -7805,7 +8245,9 @@
       "tasks": [
         "T-009-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_031_oom_resume.py"
+      ]
     },
     "FR-009-22": {
       "spec": "009-perception",
@@ -7815,7 +8257,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_032_ap_eval.py"
+      ]
     },
     "FR-009-23": {
       "spec": "009-perception",
@@ -7825,7 +8269,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_032_ap_eval.py"
+      ]
     },
     "FR-009-24": {
       "spec": "009-perception",
@@ -7835,7 +8281,9 @@
       "tasks": [
         "T-009-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_033_support_determinism.py"
+      ]
     },
     "FR-009-25": {
       "spec": "009-perception",
@@ -7845,7 +8293,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_040_dust.py"
+      ]
     },
     "FR-009-26": {
       "spec": "009-perception",
@@ -7855,7 +8305,9 @@
       "tasks": [
         "T-009-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_041_night.py"
+      ]
     },
     "FR-009-27": {
       "spec": "009-perception",
@@ -7865,7 +8317,9 @@
       "tasks": [
         "T-009-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_042_rain.py"
+      ]
     },
     "FR-009-28": {
       "spec": "009-perception",
@@ -7875,7 +8329,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_040_dust.py"
+      ]
     },
     "FR-009-29": {
       "spec": "009-perception",
@@ -7885,7 +8341,9 @@
       "tasks": [
         "T-009-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_043_corruption_guards.py"
+      ]
     },
     "FR-009-30": {
       "spec": "009-perception",
@@ -7895,7 +8353,10 @@
       "tasks": [
         "T-009-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_044_corruption_acceptance.py",
+        "tests/unit/test_t_009_044_corruption_curves.py"
+      ]
     },
     "FR-009-31": {
       "spec": "009-perception",
@@ -7905,7 +8366,10 @@
       "tasks": [
         "T-009-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_050_dr_verdict.py",
+        "tests/unit/test_t_009_050_dr_ablation.py"
+      ]
     },
     "FR-009-32": {
       "spec": "009-perception",
@@ -7915,7 +8379,9 @@
       "tasks": [
         "T-009-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_060_sim_to_real_labels.py"
+      ]
     },
     "FR-009-33": {
       "spec": "009-perception",
@@ -7925,7 +8391,9 @@
       "tasks": [
         "T-009-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_061_real_probe.py"
+      ]
     },
     "FR-009-34": {
       "spec": "009-perception",
@@ -7935,7 +8403,9 @@
       "tasks": [
         "T-009-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_061_real_probe.py"
+      ]
     },
     "FR-009-35": {
       "spec": "009-perception",
@@ -7945,7 +8415,9 @@
       "tasks": [
         "T-009-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_070_onnx_signature.py"
+      ]
     },
     "FR-009-36": {
       "spec": "009-perception",
@@ -7955,7 +8427,9 @@
       "tasks": [
         "T-009-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_070_onnx_signature.py"
+      ]
     },
     "FR-009-37": {
       "spec": "009-perception",
@@ -7965,7 +8439,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "FR-009-38": {
       "spec": "009-perception",
@@ -7975,7 +8451,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "FR-009-39": {
       "spec": "009-perception",
@@ -7985,7 +8463,9 @@
       "tasks": [
         "T-009-072"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_072_variant_rejection.py"
+      ]
     },
     "FR-009-40": {
       "spec": "009-perception",
@@ -7995,7 +8475,9 @@
       "tasks": [
         "T-009-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_018_not_run_local_only.py"
+      ]
     },
     "FR-009-41": {
       "spec": "009-perception",
@@ -8005,7 +8487,9 @@
       "tasks": [
         "T-009-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_018_not_run_local_only.py"
+      ]
     },
     "FR-009-42": {
       "spec": "009-perception",
@@ -8015,7 +8499,9 @@
       "tasks": [
         "T-009-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_019_coco_loader.py"
+      ]
     },
     "FR-009-43": {
       "spec": "009-perception",
@@ -8025,7 +8511,9 @@
       "tasks": [
         "T-009-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_033_support_determinism.py"
+      ]
     },
     "FR-009-44": {
       "spec": "009-perception",
@@ -8035,7 +8523,9 @@
       "tasks": [
         "T-009-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_021_frame_state_emission.py"
+      ]
     },
     "FR-009-45": {
       "spec": "009-perception",
@@ -8045,7 +8535,9 @@
       "tasks": [
         "T-009-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_021_frame_state_hostile.py"
+      ]
     },
     "FR-009-46": {
       "spec": "009-perception",
@@ -8055,7 +8547,9 @@
       "tasks": [
         "T-009-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_092_index_duplicate_record.py"
+      ]
     },
     "FR-009-47": {
       "spec": "009-perception",
@@ -8065,7 +8559,9 @@
       "tasks": [
         "T-009-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_093_coco_polygon_consistency.py"
+      ]
     },
     "FR-009-48": {
       "spec": "009-perception",
@@ -8075,7 +8571,9 @@
       "tasks": [
         "T-009-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_094_coco_file_name_paths.py"
+      ]
     },
     "FR-009-49": {
       "spec": "009-perception",
@@ -8085,7 +8583,9 @@
       "tasks": [
         "T-009-095"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_095_asset_export_digest.py"
+      ]
     },
     "FR-009-50": {
       "spec": "009-perception",
@@ -8095,7 +8595,9 @@
       "tasks": [
         "T-009-096"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_096_report_duplicate_row.py"
+      ]
     },
     "FR-009-51": {
       "spec": "009-perception",
@@ -8105,7 +8607,9 @@
       "tasks": [
         "T-009-097"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_097_fixture_propagation.py"
+      ]
     },
     "FR-009-52": {
       "spec": "009-perception",
@@ -8115,7 +8619,9 @@
       "tasks": [
         "T-009-098"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_098_partial_models.py"
+      ]
     },
     "FR-009-53": {
       "spec": "009-perception",
@@ -8125,7 +8631,9 @@
       "tasks": [
         "T-009-099"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_099_input_stale.py"
+      ]
     },
     "P-009-01": {
       "spec": "009-perception",
@@ -8135,7 +8643,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_040_dust_metamorphic.py"
+      ]
     },
     "P-009-02": {
       "spec": "009-perception",
@@ -8145,7 +8655,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_040_dust_metamorphic.py"
+      ]
     },
     "P-009-03": {
       "spec": "009-perception",
@@ -8155,7 +8667,10 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_040_dust_metamorphic.py",
+        "tests/unit/test_t_009_041_night.py"
+      ]
     },
     "P-009-04": {
       "spec": "009-perception",
@@ -8165,7 +8680,9 @@
       "tasks": [
         "T-009-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_041_night.py"
+      ]
     },
     "P-009-05": {
       "spec": "009-perception",
@@ -8175,7 +8692,9 @@
       "tasks": [
         "T-009-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_042_rain.py"
+      ]
     },
     "P-009-06": {
       "spec": "009-perception",
@@ -8185,7 +8704,9 @@
       "tasks": [
         "T-009-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_040_dust.py"
+      ]
     },
     "P-009-07": {
       "spec": "009-perception",
@@ -8195,7 +8716,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_032_ap_metamorphic.py"
+      ]
     },
     "P-009-08": {
       "spec": "009-perception",
@@ -8205,7 +8728,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_032_ap_metamorphic.py"
+      ]
     },
     "P-009-09": {
       "spec": "009-perception",
@@ -8215,7 +8740,9 @@
       "tasks": [
         "T-009-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_009_032_ap_metamorphic.py"
+      ]
     },
     "P-009-10": {
       "spec": "009-perception",
@@ -8225,7 +8752,9 @@
       "tasks": [
         "T-009-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_044_corruption_curves.py"
+      ]
     },
     "P-009-11": {
       "spec": "009-perception",
@@ -8235,7 +8764,9 @@
       "tasks": [
         "T-009-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_050_dr_ablation.py"
+      ]
     },
     "P-009-12": {
       "spec": "009-perception",
@@ -8246,7 +8777,10 @@
         "T-009-011",
         "T-009-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_013_placement_unstructured.py",
+        "tests/unit/test_t_009_011_sun_sampler.py"
+      ]
     },
     "P-009-13": {
       "spec": "009-perception",
@@ -8256,7 +8790,9 @@
       "tasks": [
         "T-009-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_020_splits.py"
+      ]
     },
     "P-009-14": {
       "spec": "009-perception",
@@ -8266,7 +8802,9 @@
       "tasks": [
         "T-009-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_017_crusher_components.py"
+      ]
     },
     "NFR-009-01": {
       "spec": "009-perception",
@@ -8276,7 +8814,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "NFR-009-02": {
       "spec": "009-perception",
@@ -8286,7 +8826,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "NFR-009-03": {
       "spec": "009-perception",
@@ -8296,7 +8838,9 @@
       "tasks": [
         "T-009-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_031_oom_resume.py"
+      ]
     },
     "NFR-009-04": {
       "spec": "009-perception",
@@ -8306,7 +8850,9 @@
       "tasks": [
         "T-009-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_009_033_support_determinism.py"
+      ]
     },
     "NFR-009-05": {
       "spec": "009-perception",
@@ -8316,7 +8862,9 @@
       "tasks": [
         "T-009-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_009_020_splits.py"
+      ]
     },
     "NFR-009-06": {
       "spec": "009-perception",
@@ -8326,7 +8874,9 @@
       "tasks": [
         "T-009-071"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_071_live_lane.py"
+      ]
     },
     "SC-009-01": {
       "spec": "009-perception",
@@ -8336,7 +8886,9 @@
       "tasks": [
         "T-009-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_034_acceptance.py"
+      ]
     },
     "SC-009-02": {
       "spec": "009-perception",
@@ -8346,7 +8898,9 @@
       "tasks": [
         "T-009-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_034_acceptance.py"
+      ]
     },
     "SC-009-03": {
       "spec": "009-perception",
@@ -8356,7 +8910,10 @@
       "tasks": [
         "T-009-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_044_corruption_acceptance.py",
+        "tests/unit/test_t_009_044_corruption_curves.py"
+      ]
     },
     "SC-009-04": {
       "spec": "009-perception",
@@ -8366,7 +8923,9 @@
       "tasks": [
         "T-009-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_050_dr_verdict.py"
+      ]
     },
     "SC-009-05": {
       "spec": "009-perception",
@@ -8376,7 +8935,9 @@
       "tasks": [
         "T-009-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_034_acceptance.py"
+      ]
     },
     "SC-009-06": {
       "spec": "009-perception",
@@ -8386,7 +8947,9 @@
       "tasks": [
         "T-009-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_009_034_acceptance.py"
+      ]
     },
     "SC-009-07": {
       "spec": "009-perception",
@@ -8396,7 +8959,9 @@
       "tasks": [
         "T-009-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_009_060_sim_to_real_labels.py"
+      ]
     },
     "DC-009-01": {
       "spec": "009-perception",
@@ -9439,7 +10004,9 @@
       "tasks": [
         "T-011-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py"
+      ]
     },
     "FR-011-02": {
       "spec": "011-surrogates",
@@ -9449,7 +10016,10 @@
       "tasks": [
         "T-011-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_011_radius_graph.py",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "FR-011-03": {
       "spec": "011-surrogates",
@@ -9459,7 +10029,9 @@
       "tasks": [
         "T-011-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_014_gns_training.py"
+      ]
     },
     "FR-011-04": {
       "spec": "011-surrogates",
@@ -9469,7 +10041,9 @@
       "tasks": [
         "T-011-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_014_gns_training.py"
+      ]
     },
     "FR-011-05": {
       "spec": "011-surrogates",
@@ -9479,7 +10053,9 @@
       "tasks": [
         "T-011-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_013_observables.py"
+      ]
     },
     "FR-011-06": {
       "spec": "011-surrogates",
@@ -9489,7 +10065,9 @@
       "tasks": [
         "T-011-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py"
+      ]
     },
     "FR-011-07": {
       "spec": "011-surrogates",
@@ -9499,7 +10077,9 @@
       "tasks": [
         "T-011-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_012_gns_export.py"
+      ]
     },
     "FR-011-08": {
       "spec": "011-surrogates",
@@ -9509,7 +10089,9 @@
       "tasks": [
         "T-011-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_016_gns_parity.py"
+      ]
     },
     "FR-011-09": {
       "spec": "011-surrogates",
@@ -9519,7 +10101,9 @@
       "tasks": [
         "T-011-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-gns-live.spec.ts"
+      ]
     },
     "FR-011-10": {
       "spec": "011-surrogates",
@@ -9529,7 +10113,9 @@
       "tasks": [
         "T-011-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py"
+      ]
     },
     "FR-011-11": {
       "spec": "011-surrogates",
@@ -9539,7 +10125,9 @@
       "tasks": [
         "T-011-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-gns-live.spec.ts"
+      ]
     },
     "FR-011-12": {
       "spec": "011-surrogates",
@@ -9549,7 +10137,10 @@
       "tasks": [
         "T-011-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py",
+        "tests/unit/test_t_011_017_rollout_guards.py"
+      ]
     },
     "FR-011-13": {
       "spec": "011-surrogates",
@@ -9559,7 +10150,12 @@
       "tasks": [
         "T-011-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py",
+        "tests/property/test_t_011_011_radius_graph.py",
+        "tests/unit/test_t_011_017_rollout_guards.py",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "FR-011-14": {
       "spec": "011-surrogates",
@@ -9569,7 +10165,9 @@
       "tasks": [
         "T-011-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_018_rollout_ingest.py"
+      ]
     },
     "FR-011-15": {
       "spec": "011-surrogates",
@@ -9579,7 +10177,13 @@
       "tasks": [
         "T-011-019"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_019_gns_input_guards.py",
+        "tests/property/test_t_011_011_radius_graph.py",
+        "tests/unit/test_t_011_017_rollout_guards.py",
+        "web/src/engines/gns/inputGuards.test.ts",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "FR-011-16": {
       "spec": "011-surrogates",
@@ -9589,7 +10193,9 @@
       "tasks": [
         "T-011-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_021_gns_speed_report.py"
+      ]
     },
     "FR-011-17": {
       "spec": "011-surrogates",
@@ -9599,7 +10205,10 @@
       "tasks": [
         "T-011-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_034_tape_arm.py",
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-18": {
       "spec": "011-surrogates",
@@ -9609,7 +10218,9 @@
       "tasks": [
         "T-011-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_030_heap_observables.py"
+      ]
     },
     "FR-011-19": {
       "spec": "011-surrogates",
@@ -9619,7 +10230,9 @@
       "tasks": [
         "T-011-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_034_tape_arm.py"
+      ]
     },
     "FR-011-20": {
       "spec": "011-surrogates",
@@ -9629,7 +10242,9 @@
       "tasks": [
         "T-011-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_033_cmaes_arm.py"
+      ]
     },
     "FR-011-21": {
       "spec": "011-surrogates",
@@ -9639,7 +10254,10 @@
       "tasks": [
         "T-011-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_033_cmaes_arm.py",
+        "tests/unit/test_t_011_034_tape_arm.py"
+      ]
     },
     "FR-011-22": {
       "spec": "011-surrogates",
@@ -9649,7 +10267,9 @@
       "tasks": [
         "T-011-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_031_interval_coverage.py"
+      ]
     },
     "FR-011-23": {
       "spec": "011-surrogates",
@@ -9659,7 +10279,9 @@
       "tasks": [
         "T-011-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_032_gradient_gate.py"
+      ]
     },
     "FR-011-24": {
       "spec": "011-surrogates",
@@ -9669,7 +10291,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "FR-011-25": {
       "spec": "011-surrogates",
@@ -9679,7 +10303,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "FR-011-26": {
       "spec": "011-surrogates",
@@ -9689,7 +10315,10 @@
       "tasks": [
         "T-011-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_036_calibration_result.py",
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-27": {
       "spec": "011-surrogates",
@@ -9699,7 +10328,9 @@
       "tasks": [
         "T-011-037"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_037_secondary_arm.py"
+      ]
     },
     "FR-011-28": {
       "spec": "011-surrogates",
@@ -9709,7 +10340,9 @@
       "tasks": [
         "T-011-038"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_038_literature_targets.py"
+      ]
     },
     "FR-011-29": {
       "spec": "011-surrogates",
@@ -9719,7 +10352,9 @@
       "tasks": [
         "T-011-039"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-30": {
       "spec": "011-surrogates",
@@ -9729,7 +10364,9 @@
       "tasks": [
         "T-011-039"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_039_calibration_guards.py"
+      ]
     },
     "FR-011-31": {
       "spec": "011-surrogates",
@@ -9739,7 +10376,9 @@
       "tasks": [
         "T-011-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-calibration-replay.spec.ts"
+      ]
     },
     "FR-011-32": {
       "spec": "011-surrogates",
@@ -9749,7 +10388,10 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_051_fno_model.py",
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "FR-011-33": {
       "spec": "011-surrogates",
@@ -9759,7 +10401,9 @@
       "tasks": [
         "T-011-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_051_fno_model.py"
+      ]
     },
     "FR-011-34": {
       "spec": "011-surrogates",
@@ -9769,7 +10413,9 @@
       "tasks": [
         "T-011-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_052_field_ingest.py"
+      ]
     },
     "FR-011-35": {
       "spec": "011-surrogates",
@@ -9779,7 +10425,9 @@
       "tasks": [
         "T-011-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_053_fno_evaluate.py"
+      ]
     },
     "FR-011-36": {
       "spec": "011-surrogates",
@@ -9789,7 +10437,9 @@
       "tasks": [
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "FR-011-37": {
       "spec": "011-surrogates",
@@ -9799,7 +10449,9 @@
       "tasks": [
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "FR-011-38": {
       "spec": "011-surrogates",
@@ -9809,7 +10461,9 @@
       "tasks": [
         "T-011-056"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c2-c3-fno-live.spec.ts"
+      ]
     },
     "FR-011-39": {
       "spec": "011-surrogates",
@@ -9819,7 +10473,9 @@
       "tasks": [
         "T-011-056"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c2-c3-fno-live.spec.ts"
+      ]
     },
     "FR-011-40": {
       "spec": "011-surrogates",
@@ -9829,7 +10485,12 @@
       "tasks": [
         "T-011-055"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_051_fno_model.py",
+        "tests/pipeline/test_t_011_052_field_ingest.py",
+        "tests/pipeline/test_t_011_055_fno_input_guards.py",
+        "web/src/engines/fno/inputGuards.test.ts"
+      ]
     },
     "FR-011-41": {
       "spec": "011-surrogates",
@@ -9839,7 +10500,9 @@
       "tasks": [
         "T-011-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_052_field_ingest.py"
+      ]
     },
     "FR-011-42": {
       "spec": "011-surrogates",
@@ -9849,7 +10512,9 @@
       "tasks": [
         "T-011-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_053_fno_evaluate.py"
+      ]
     },
     "FR-011-43": {
       "spec": "011-surrogates",
@@ -9859,7 +10524,9 @@
       "tasks": [
         "T-011-057"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_057_neuraloperator_parity.py"
+      ]
     },
     "FR-011-44": {
       "spec": "011-surrogates",
@@ -9869,7 +10536,9 @@
       "tasks": [
         "T-011-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_060_gpu_fake.py"
+      ]
     },
     "FR-011-45": {
       "spec": "011-surrogates",
@@ -9879,7 +10548,9 @@
       "tasks": [
         "T-011-061"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_061_surrogate_manifests.py"
+      ]
     },
     "FR-011-46": {
       "spec": "011-surrogates",
@@ -9889,7 +10560,9 @@
       "tasks": [
         "T-011-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_092_surrogate_quantile_order.py"
+      ]
     },
     "FR-011-47": {
       "spec": "011-surrogates",
@@ -9899,7 +10572,9 @@
       "tasks": [
         "T-011-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_093_surrogate_unique_names.py"
+      ]
     },
     "FR-011-48": {
       "spec": "011-surrogates",
@@ -9909,7 +10584,9 @@
       "tasks": [
         "T-011-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_094_rollout_bounds.py"
+      ]
     },
     "FR-011-49": {
       "spec": "011-surrogates",
@@ -9919,7 +10596,9 @@
       "tasks": [
         "T-011-095"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_095_fixture_propagation.py"
+      ]
     },
     "FR-011-50": {
       "spec": "011-surrogates",
@@ -9929,7 +10608,9 @@
       "tasks": [
         "T-011-096"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_096_partial_cases.py"
+      ]
     },
     "FR-011-51": {
       "spec": "011-surrogates",
@@ -9939,7 +10620,9 @@
       "tasks": [
         "T-011-097"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_097_input_stale.py"
+      ]
     },
     "P-011-01": {
       "spec": "011-surrogates",
@@ -9949,7 +10632,9 @@
       "tasks": [
         "T-011-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py"
+      ]
     },
     "P-011-02": {
       "spec": "011-surrogates",
@@ -9959,7 +10644,9 @@
       "tasks": [
         "T-011-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py"
+      ]
     },
     "P-011-03": {
       "spec": "011-surrogates",
@@ -9969,7 +10656,9 @@
       "tasks": [
         "T-011-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_017_rollout_guards.py"
+      ]
     },
     "P-011-04": {
       "spec": "011-surrogates",
@@ -9979,7 +10668,10 @@
       "tasks": [
         "T-011-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_011_radius_graph.py",
+        "web/src/engines/gns/radiusGraph.test.ts"
+      ]
     },
     "P-011-05": {
       "spec": "011-surrogates",
@@ -9989,7 +10681,10 @@
       "tasks": [
         "T-011-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_010_gns_model.py",
+        "tests/pipeline/test_t_011_012_gns_export.py"
+      ]
     },
     "P-011-06": {
       "spec": "011-surrogates",
@@ -9999,7 +10694,9 @@
       "tasks": [
         "T-011-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_013_observables.py"
+      ]
     },
     "P-011-07": {
       "spec": "011-surrogates",
@@ -10009,7 +10706,9 @@
       "tasks": [
         "T-011-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_013_observables.py"
+      ]
     },
     "P-011-08": {
       "spec": "011-surrogates",
@@ -10019,7 +10718,9 @@
       "tasks": [
         "T-011-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_030_heap_observables.py"
+      ]
     },
     "P-011-09": {
       "spec": "011-surrogates",
@@ -10029,7 +10730,9 @@
       "tasks": [
         "T-011-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_031_interval_coverage.py"
+      ]
     },
     "P-011-10": {
       "spec": "011-surrogates",
@@ -10039,7 +10742,9 @@
       "tasks": [
         "T-011-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_032_gradient_gate.py"
+      ]
     },
     "P-011-11": {
       "spec": "011-surrogates",
@@ -10049,7 +10754,9 @@
       "tasks": [
         "T-011-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_034_tape_arm.py"
+      ]
     },
     "P-011-12": {
       "spec": "011-surrogates",
@@ -10059,7 +10766,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-13": {
       "spec": "011-surrogates",
@@ -10069,7 +10778,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-14": {
       "spec": "011-surrogates",
@@ -10079,7 +10790,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-15": {
       "spec": "011-surrogates",
@@ -10089,7 +10802,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "P-011-16": {
       "spec": "011-surrogates",
@@ -10099,7 +10814,9 @@
       "tasks": [
         "T-011-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_011_050_dft_spectral.py"
+      ]
     },
     "NFR-011-01": {
       "spec": "011-surrogates",
@@ -10109,7 +10826,9 @@
       "tasks": [
         "T-011-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_016_gns_parity.py"
+      ]
     },
     "NFR-011-02": {
       "spec": "011-surrogates",
@@ -10119,7 +10838,9 @@
       "tasks": [
         "T-011-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/a3-gns-live.spec.ts"
+      ]
     },
     "NFR-011-03": {
       "spec": "011-surrogates",
@@ -10129,7 +10850,9 @@
       "tasks": [
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "NFR-011-04": {
       "spec": "011-surrogates",
@@ -10139,7 +10862,9 @@
       "tasks": [
         "T-011-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_011_062_budget_record.py"
+      ]
     },
     "SC-011-01": {
       "spec": "011-surrogates",
@@ -10149,7 +10874,9 @@
       "tasks": [
         "T-011-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_015_gns_evaluate.py"
+      ]
     },
     "SC-011-02": {
       "spec": "011-surrogates",
@@ -10159,7 +10886,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "SC-011-03": {
       "spec": "011-surrogates",
@@ -10169,7 +10898,9 @@
       "tasks": [
         "T-011-053"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_053_fno_evaluate.py"
+      ]
     },
     "SC-011-04": {
       "spec": "011-surrogates",
@@ -10180,7 +10911,10 @@
         "T-011-016",
         "T-011-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_016_gns_parity.py",
+        "tests/pipeline/test_t_011_054_fno_export.py"
+      ]
     },
     "SC-011-05": {
       "spec": "011-surrogates",
@@ -10190,7 +10924,9 @@
       "tasks": [
         "T-011-035"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_011_035_coverage_study.py"
+      ]
     },
     "SC-011-06": {
       "spec": "011-surrogates",
@@ -10200,7 +10936,9 @@
       "tasks": [
         "T-011-036"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_011_036_calibration_result.py"
+      ]
     },
     "DC-011-01": {
       "spec": "011-surrogates",
@@ -11273,7 +12011,9 @@
       "tasks": [
         "T-013-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_010_sensor_backend.py"
+      ]
     },
     "FR-013-02": {
       "spec": "013-sensors",
@@ -11283,7 +12023,9 @@
       "tasks": [
         "T-013-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_010_sensor_backend.py"
+      ]
     },
     "FR-013-03": {
       "spec": "013-sensors",
@@ -11293,7 +12035,9 @@
       "tasks": [
         "T-013-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_011_runtime_isolation.py"
+      ]
     },
     "FR-013-04": {
       "spec": "013-sensors",
@@ -11303,7 +12047,9 @@
       "tasks": [
         "T-013-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_012_recipe_validation.py"
+      ]
     },
     "FR-013-05": {
       "spec": "013-sensors",
@@ -11313,7 +12059,9 @@
       "tasks": [
         "T-013-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_013_lidar_envelope.py"
+      ]
     },
     "FR-013-06": {
       "spec": "013-sensors",
@@ -11324,7 +12072,9 @@
         "T-013-013",
         "T-013-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_013_lidar_envelope.py"
+      ]
     },
     "FR-013-07": {
       "spec": "013-sensors",
@@ -11335,7 +12085,9 @@
         "T-013-014",
         "T-013-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_014_point_count_guard.py"
+      ]
     },
     "FR-013-08": {
       "spec": "013-sensors",
@@ -11346,7 +12098,9 @@
         "T-013-014",
         "T-013-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_014_point_count_guard.py"
+      ]
     },
     "FR-013-09": {
       "spec": "013-sensors",
@@ -11356,7 +12110,9 @@
       "tasks": [
         "T-013-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_015_backend_output.py"
+      ]
     },
     "FR-013-10": {
       "spec": "013-sensors",
@@ -11366,7 +12122,9 @@
       "tasks": [
         "T-013-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_014_point_count_guard.py"
+      ]
     },
     "FR-013-11": {
       "spec": "013-sensors",
@@ -11376,7 +12134,9 @@
       "tasks": [
         "T-013-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_020_dust_optical_depth.py"
+      ]
     },
     "FR-013-12": {
       "spec": "013-sensors",
@@ -11386,7 +12146,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "FR-013-13": {
       "spec": "013-sensors",
@@ -11396,7 +12158,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "FR-013-14": {
       "spec": "013-sensors",
@@ -11407,7 +12171,10 @@
         "T-013-022",
         "T-013-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_022_beam_hash.py",
+        "web/src/engines/sensors/beam-hash.test.ts"
+      ]
     },
     "FR-013-15": {
       "spec": "013-sensors",
@@ -11417,7 +12184,9 @@
       "tasks": [
         "T-013-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_023_dust_hostile.py"
+      ]
     },
     "FR-013-16": {
       "spec": "013-sensors",
@@ -11427,7 +12196,9 @@
       "tasks": [
         "T-013-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_040_haze.py"
+      ]
     },
     "FR-013-17": {
       "spec": "013-sensors",
@@ -11437,7 +12208,9 @@
       "tasks": [
         "T-013-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_041_component_boxes.py"
+      ]
     },
     "FR-013-18": {
       "spec": "013-sensors",
@@ -11447,7 +12220,9 @@
       "tasks": [
         "T-013-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_042_exposure.py"
+      ]
     },
     "FR-013-19": {
       "spec": "013-sensors",
@@ -11458,7 +12233,9 @@
         "T-013-043",
         "T-013-070"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_043_pinhole.py"
+      ]
     },
     "FR-013-20": {
       "spec": "013-sensors",
@@ -11468,7 +12245,9 @@
       "tasks": [
         "T-013-044"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_044_camera_hostile.py"
+      ]
     },
     "FR-013-21": {
       "spec": "013-sensors",
@@ -11478,7 +12257,9 @@
       "tasks": [
         "T-013-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_024_radar_lane.py"
+      ]
     },
     "FR-013-22": {
       "spec": "013-sensors",
@@ -11488,7 +12269,9 @@
       "tasks": [
         "T-013-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_024_radar_lane.py"
+      ]
     },
     "FR-013-23": {
       "spec": "013-sensors",
@@ -11509,7 +12292,10 @@
         "T-013-024",
         "T-013-034"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_024_radar_lane.py",
+        "web/e2e/sensors-widget.spec.ts"
+      ]
     },
     "FR-013-25": {
       "spec": "013-sensors",
@@ -11552,7 +12338,9 @@
         "T-013-060",
         "T-013-072"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_060_rain_arm.py"
+      ]
     },
     "FR-013-30": {
       "spec": "013-sensors",
@@ -11562,7 +12350,9 @@
       "tasks": [
         "T-013-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_060_rain_arm.py"
+      ]
     },
     "FR-013-31": {
       "spec": "013-sensors",
@@ -11572,7 +12362,9 @@
       "tasks": [
         "T-013-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_013_016_shard_writer.py"
+      ]
     },
     "FR-013-32": {
       "spec": "013-sensors",
@@ -11582,7 +12374,9 @@
       "tasks": [
         "T-013-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_013_017_manifest_local_only.py"
+      ]
     },
     "FR-013-33": {
       "spec": "013-sensors",
@@ -11592,7 +12386,9 @@
       "tasks": [
         "T-013-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_018_clean_room.py"
+      ]
     },
     "FR-013-34": {
       "spec": "013-sensors",
@@ -11603,7 +12399,9 @@
         "T-013-019",
         "T-013-073"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_019_rerun_check.py"
+      ]
     },
     "FR-013-35": {
       "spec": "013-sensors",
@@ -11613,7 +12411,9 @@
       "tasks": [
         "T-013-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_026_cloud_quantiser.py"
+      ]
     },
     "FR-013-36": {
       "spec": "013-sensors",
@@ -11623,7 +12423,9 @@
       "tasks": [
         "T-013-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py"
+      ]
     },
     "FR-013-37": {
       "spec": "013-sensors",
@@ -11633,7 +12435,9 @@
       "tasks": [
         "T-013-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py"
+      ]
     },
     "FR-013-42": {
       "spec": "013-sensors",
@@ -11644,7 +12448,10 @@
         "T-013-025",
         "T-013-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py",
+        "tests/property/test_t_013_026_cloud_quantiser.py"
+      ]
     },
     "FR-013-38": {
       "spec": "013-sensors",
@@ -11655,7 +12462,11 @@
         "T-013-030",
         "T-013-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/parity/test_t_013_030_slider_bake.py",
+        "web/src/engines/sensors/dust-slider-parity.test.ts",
+        "web/e2e/sensors-dust-slider.spec.ts"
+      ]
     },
     "FR-013-39": {
       "spec": "013-sensors",
@@ -11665,7 +12476,10 @@
       "tasks": [
         "T-013-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/sensors/dust-slider-hostile.test.ts",
+        "web/e2e/sensors-dust-slider.spec.ts"
+      ]
     },
     "FR-013-40": {
       "spec": "013-sensors",
@@ -11675,7 +12489,9 @@
       "tasks": [
         "T-013-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-widget.spec.ts"
+      ]
     },
     "FR-013-41": {
       "spec": "013-sensors",
@@ -11685,7 +12501,9 @@
       "tasks": [
         "T-013-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-widget.spec.ts"
+      ]
     },
     "FR-013-43": {
       "spec": "013-sensors",
@@ -11695,7 +12513,9 @@
       "tasks": [
         "T-013-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_092_fixture_envelope.py"
+      ]
     },
     "P-013-01": {
       "spec": "013-sensors",
@@ -11705,7 +12525,9 @@
       "tasks": [
         "T-013-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_020_dust_optical_depth.py"
+      ]
     },
     "P-013-02": {
       "spec": "013-sensors",
@@ -11715,7 +12537,9 @@
       "tasks": [
         "T-013-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_020_dust_optical_depth.py"
+      ]
     },
     "P-013-03": {
       "spec": "013-sensors",
@@ -11725,7 +12549,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "P-013-04": {
       "spec": "013-sensors",
@@ -11735,7 +12561,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "P-013-05": {
       "spec": "013-sensors",
@@ -11745,7 +12573,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "P-013-06": {
       "spec": "013-sensors",
@@ -11755,7 +12585,9 @@
       "tasks": [
         "T-013-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_021_dust_rule.py"
+      ]
     },
     "P-013-07": {
       "spec": "013-sensors",
@@ -11765,7 +12597,9 @@
       "tasks": [
         "T-013-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_040_haze.py"
+      ]
     },
     "P-013-08": {
       "spec": "013-sensors",
@@ -11775,7 +12609,9 @@
       "tasks": [
         "T-013-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_042_exposure.py"
+      ]
     },
     "P-013-09": {
       "spec": "013-sensors",
@@ -11801,7 +12637,9 @@
       "tasks": [
         "T-013-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_026_cloud_quantiser.py"
+      ]
     },
     "P-013-12": {
       "spec": "013-sensors",
@@ -11811,7 +12649,9 @@
       "tasks": [
         "T-013-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_013_022_beam_hash.py"
+      ]
     },
     "P-013-13": {
       "spec": "013-sensors",
@@ -11821,7 +12661,9 @@
       "tasks": [
         "T-013-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py"
+      ]
     },
     "P-013-14": {
       "spec": "013-sensors",
@@ -11831,7 +12673,9 @@
       "tasks": [
         "T-013-043"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_043_pinhole.py"
+      ]
     },
     "P-013-15": {
       "spec": "013-sensors",
@@ -11841,7 +12685,10 @@
       "tasks": [
         "T-013-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/parity/test_t_013_030_slider_bake.py",
+        "web/src/engines/sensors/dust-slider-parity.test.ts"
+      ]
     },
     "NFR-013-01": {
       "spec": "013-sensors",
@@ -11851,7 +12698,9 @@
       "tasks": [
         "T-013-033"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-dust-slider.spec.ts"
+      ]
     },
     "NFR-013-02": {
       "spec": "013-sensors",
@@ -11861,7 +12710,9 @@
       "tasks": [
         "T-013-033"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-dust-slider.spec.ts"
+      ]
     },
     "NFR-013-03": {
       "spec": "013-sensors",
@@ -11871,7 +12722,9 @@
       "tasks": [
         "T-013-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/sensors-widget.spec.ts"
+      ]
     },
     "NFR-013-04": {
       "spec": "013-sensors",
@@ -11881,7 +12734,9 @@
       "tasks": [
         "T-013-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_018_clean_room.py"
+      ]
     },
     "NFR-013-05": {
       "spec": "013-sensors",
@@ -11891,7 +12746,9 @@
       "tasks": [
         "T-013-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_013_012_recipe_validation.py"
+      ]
     },
     "SC-013-01": {
       "spec": "013-sensors",
@@ -11911,7 +12768,9 @@
       "tasks": [
         "T-013-017"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_013_017_manifest_local_only.py"
+      ]
     },
     "SC-013-03": {
       "spec": "013-sensors",
@@ -11931,7 +12790,9 @@
       "tasks": [
         "T-013-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_013_025_s1_metrics.py"
+      ]
     },
     "DC-013-01": {
       "spec": "013-sensors",
@@ -15191,7 +16052,8 @@
         "T-017-040"
       ],
       "tests": [
-        "tests/property/test_t_017_040_dem_difference.py"
+        "tests/property/test_t_017_040_dem_difference.py",
+        "web/src/engines/volume/t_018_072_volume.test.ts"
       ]
     },
     "FR-017-31": {
@@ -15227,7 +16089,8 @@
         "T-017-041"
       ],
       "tests": [
-        "tests/unit/test_t_017_041_volume_uncertainty.py"
+        "tests/unit/test_t_017_041_volume_uncertainty.py",
+        "web/src/engines/volume/t_018_072_volume.test.ts"
       ]
     },
     "FR-017-34": {
@@ -15400,6 +16263,7 @@
       ],
       "tests": [
         "tests/unit/test_t_017_060_polygon_guards.py",
+        "web/src/engines/volume/t_018_072_volume.test.ts",
         "web/e2e/e2-polygon-volume.spec.ts"
       ]
     },
@@ -15412,7 +16276,8 @@
         "T-017-040"
       ],
       "tests": [
-        "tests/property/test_t_017_040_dem_difference.py"
+        "tests/property/test_t_017_040_dem_difference.py",
+        "web/src/engines/volume/t_018_072_volume.test.ts"
       ]
     },
     "FR-017-49": {
@@ -15497,7 +16362,8 @@
         "T-017-021"
       ],
       "tests": [
-        "tests/property/test_t_017_021_closure.py"
+        "tests/property/test_t_017_021_closure.py",
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
       ]
     },
     "P-017-03": {
@@ -16042,7 +16908,9 @@
       "tasks": [
         "T-018-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_020_explore_pit.spec.ts"
+      ]
     },
     "FR-018-02": {
       "spec": "018-web-cases",
@@ -16102,7 +16970,9 @@
       "tasks": [
         "T-018-011"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-018-07": {
       "spec": "018-web-cases",
@@ -16112,7 +16982,9 @@
       "tasks": [
         "T-018-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_020_explore_pit.spec.ts"
+      ]
     },
     "FR-018-08": {
       "spec": "018-web-cases",
@@ -16122,7 +16994,9 @@
       "tasks": [
         "T-018-023"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_023_no_3d_fallback.spec.ts"
+      ]
     },
     "FR-018-09": {
       "spec": "018-web-cases",
@@ -16193,7 +17067,11 @@
       "tasks": [
         "T-018-031"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_050_registry.test.ts",
+        "web/src/routes/t_018_031_case_tabs.test.tsx",
+        "web/e2e/t_018_031_case_tabs.spec.ts"
+      ]
     },
     "FR-018-15": {
       "spec": "018-web-cases",
@@ -16203,7 +17081,10 @@
       "tasks": [
         "T-018-031"
       ],
-      "tests": []
+      "tests": [
+        "web/src/routes/t_018_031_case_tabs.test.tsx",
+        "web/e2e/t_018_031_case_tabs.spec.ts"
+      ]
     },
     "FR-018-16": {
       "spec": "018-web-cases",
@@ -16213,7 +17094,9 @@
       "tasks": [
         "T-018-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/routes/t_018_032_charts_tab.test.tsx"
+      ]
     },
     "FR-018-17": {
       "spec": "018-web-cases",
@@ -16272,7 +17155,10 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts",
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-22": {
       "spec": "018-web-cases",
@@ -16282,7 +17168,10 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts",
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-23": {
       "spec": "018-web-cases",
@@ -16292,7 +17181,9 @@
       "tasks": [
         "T-018-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-24": {
       "spec": "018-web-cases",
@@ -16302,7 +17193,10 @@
       "tasks": [
         "T-018-041"
       ],
-      "tests": []
+      "tests": [
+        "web/src/media/t_018_042_video_source.test.ts",
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-25": {
       "spec": "018-web-cases",
@@ -16312,7 +17206,10 @@
       "tasks": [
         "T-018-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/media/t_018_042_video_source.test.ts",
+        "web/e2e/t_018_042_video_cards.spec.ts"
+      ]
     },
     "FR-018-26": {
       "spec": "018-web-cases",
@@ -16322,7 +17219,10 @@
       "tasks": [
         "T-018-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/media/t_018_042_video_source.test.ts",
+        "web/e2e/t_018_042_video_cards.spec.ts"
+      ]
     },
     "FR-018-27": {
       "spec": "018-web-cases",
@@ -16332,7 +17232,10 @@
       "tasks": [
         "T-018-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/media/t_018_042_video_source.test.ts",
+        "web/e2e/t_018_042_video_cards.spec.ts"
+      ]
     },
     "FR-018-28": {
       "spec": "018-web-cases",
@@ -16342,7 +17245,9 @@
       "tasks": [
         "T-018-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_041_clock_sync.spec.ts"
+      ]
     },
     "FR-018-29": {
       "spec": "018-web-cases",
@@ -16352,7 +17257,12 @@
       "tasks": [
         "T-018-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts",
+        "web/src/engines/tier/t_018_006_fake_gpu.test.ts",
+        "web/src/engines/tier/t_018_010_probe.test.ts",
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-018-30": {
       "spec": "018-web-cases",
@@ -16362,7 +17272,11 @@
       "tasks": [
         "T-018-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/tier/t_018_010_probe.test.ts",
+        "web/src/engines/tier/t_018_011_fallback.test.ts",
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-018-31": {
       "spec": "018-web-cases",
@@ -16372,7 +17286,11 @@
       "tasks": [
         "T-018-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/tier/t_018_006_fake_gpu.test.ts",
+        "web/src/engines/tier/t_018_011_fallback.test.ts",
+        "web/e2e/t_018_011_tier_fallback.spec.ts"
+      ]
     },
     "FR-018-32": {
       "spec": "018-web-cases",
@@ -16382,7 +17300,10 @@
       "tasks": [
         "T-018-017"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_050_registry.test.ts",
+        "web/e2e/t_018_017_t2_replay.spec.ts"
+      ]
     },
     "FR-018-33": {
       "spec": "018-web-cases",
@@ -16392,7 +17313,9 @@
       "tasks": [
         "T-018-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_014_runtime_loading.spec.ts"
+      ]
     },
     "FR-018-34": {
       "spec": "018-web-cases",
@@ -16402,7 +17325,9 @@
       "tasks": [
         "T-018-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_014_runtime_loading.spec.ts"
+      ]
     },
     "FR-018-35": {
       "spec": "018-web-cases",
@@ -16412,7 +17337,9 @@
       "tasks": [
         "T-018-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_014_runtime_loading.spec.ts"
+      ]
     },
     "FR-018-36": {
       "spec": "018-web-cases",
@@ -16422,7 +17349,9 @@
       "tasks": [
         "T-018-015"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_015_long_tasks.spec.ts"
+      ]
     },
     "FR-018-37": {
       "spec": "018-web-cases",
@@ -16432,7 +17361,9 @@
       "tasks": [
         "T-018-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_014_runtime_loading.spec.ts"
+      ]
     },
     "FR-018-38": {
       "spec": "018-web-cases",
@@ -16442,7 +17373,9 @@
       "tasks": [
         "T-018-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts"
+      ]
     },
     "FR-018-39": {
       "spec": "018-web-cases",
@@ -16452,7 +17385,9 @@
       "tasks": [
         "T-018-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts"
+      ]
     },
     "FR-018-40": {
       "spec": "018-web-cases",
@@ -16462,7 +17397,10 @@
       "tasks": [
         "T-018-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts",
+        "web/e2e/t_018_036_hostile_inputs.spec.ts"
+      ]
     },
     "FR-018-41": {
       "spec": "018-web-cases",
@@ -16472,7 +17410,9 @@
       "tasks": [
         "T-018-036"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_036_hostile_inputs.spec.ts"
+      ]
     },
     "FR-018-42": {
       "spec": "018-web-cases",
@@ -16482,7 +17422,10 @@
       "tasks": [
         "T-018-036"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/tier/t_018_010_probe.test.ts",
+        "web/e2e/t_018_036_hostile_inputs.spec.ts"
+      ]
     },
     "FR-018-43": {
       "spec": "018-web-cases",
@@ -16492,7 +17435,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "FR-018-44": {
       "spec": "018-web-cases",
@@ -16502,7 +17447,9 @@
       "tasks": [
         "T-018-016"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_016_offline_runtimes.spec.ts"
+      ]
     },
     "FR-018-45": {
       "spec": "018-web-cases",
@@ -16512,7 +17459,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "FR-018-46": {
       "spec": "018-web-cases",
@@ -16522,7 +17471,9 @@
       "tasks": [
         "T-018-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/host/t_018_012_protocol.test.ts"
+      ]
     },
     "FR-018-47": {
       "spec": "018-web-cases",
@@ -16532,7 +17483,9 @@
       "tasks": [
         "T-018-050"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_050_registry.test.ts"
+      ]
     },
     "FR-018-48": {
       "spec": "018-web-cases",
@@ -16542,7 +17495,11 @@
       "tasks": [
         "T-018-052"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/src/engines/host/t_018_052_hosted_engines.test.ts",
+        "web/e2e/parity/t_018_052_hosted_report.spec.ts"
+      ]
     },
     "FR-018-49": {
       "spec": "018-web-cases",
@@ -16552,7 +17509,9 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts"
+      ]
     },
     "FR-018-50": {
       "spec": "018-web-cases",
@@ -16574,7 +17533,13 @@
         "T-018-070",
         "T-018-072"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts",
+        "web/src/engines/analytical/blasting/t_018_068_blasting.test.ts",
+        "web/src/engines/analytical/comminution/t_018_070_comminution.test.ts",
+        "web/src/engines/analytical/environment/t_018_066_plume.test.ts",
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "FR-018-52": {
       "spec": "018-web-cases",
@@ -16584,7 +17549,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "FR-018-53": {
       "spec": "018-web-cases",
@@ -16594,7 +17561,9 @@
       "tasks": [
         "T-018-071"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
+      ]
     },
     "FR-018-54": {
       "spec": "018-web-cases",
@@ -16604,7 +17573,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/parity/t_018_061_rapier_hash.spec.ts"
+      ]
     },
     "FR-018-55": {
       "spec": "018-web-cases",
@@ -16614,7 +17585,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/traffic/t_018_061_ttc.test.ts"
+      ]
     },
     "FR-018-56": {
       "spec": "018-web-cases",
@@ -16627,7 +17600,11 @@
         "T-018-065",
         "T-018-067"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_059_granular.spec.ts",
+        "web/e2e/gpu/t_018_065_shallow_water.spec.ts",
+        "web/e2e/gpu/t_018_067_dust_particles.spec.ts"
+      ]
     },
     "FR-018-57": {
       "spec": "018-web-cases",
@@ -16637,7 +17614,10 @@
       "tasks": [
         "T-018-060"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_060_onnx_webgpu.spec.ts",
+        "web/e2e/parity/t_018_060_onnx_wasm.spec.ts"
+      ]
     },
     "FR-018-58": {
       "spec": "018-web-cases",
@@ -16647,7 +17627,10 @@
       "tasks": [
         "T-018-063"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/ml/t_018_063_detector.test.ts",
+        "web/e2e/parity/t_018_063_detector.spec.ts"
+      ]
     },
     "FR-018-59": {
       "spec": "018-web-cases",
@@ -16657,7 +17640,9 @@
       "tasks": [
         "T-018-069"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/watershed/t_018_069_watershed.test.ts"
+      ]
     },
     "FR-018-60": {
       "spec": "018-web-cases",
@@ -16675,7 +17660,9 @@
       "tasks": [
         "T-018-073"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_073_pyodide.spec.ts"
+      ]
     },
     "FR-018-62": {
       "spec": "018-web-cases",
@@ -16685,7 +17672,9 @@
       "tasks": [
         "T-018-073"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_073_pyodide.spec.ts"
+      ]
     },
     "FR-018-63": {
       "spec": "018-web-cases",
@@ -16695,7 +17684,13 @@
       "tasks": [
         "T-018-050"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_050_registry.test.ts",
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/src/engines/host/t_018_052_hosted_engines.test.ts",
+        "web/e2e/t_018_050_parity_gate.spec.ts",
+        "web/e2e/parity/t_018_052_hosted_report.spec.ts"
+      ]
     },
     "FR-018-64": {
       "spec": "018-web-cases",
@@ -16705,7 +17700,11 @@
       "tasks": [
         "T-018-081"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/src/lane/t_018_082_check_lanes.test.ts",
+        "web/e2e/lane-gate/t_018_081_measure.spec.ts"
+      ]
     },
     "FR-018-65": {
       "spec": "018-web-cases",
@@ -16715,7 +17714,9 @@
       "tasks": [
         "T-018-080"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_080_derive_lane.test.ts"
+      ]
     },
     "FR-018-66": {
       "spec": "018-web-cases",
@@ -16725,7 +17726,9 @@
       "tasks": [
         "T-018-082"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_082_check_lanes.test.ts"
+      ]
     },
     "FR-018-67": {
       "spec": "018-web-cases",
@@ -16736,7 +17739,12 @@
         "T-018-005",
         "T-018-088"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_005_parity_fixtures.py",
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/src/lane/t_018_082_check_lanes.test.ts",
+        "web/src/engines/host/t_018_052_hosted_engines.test.ts"
+      ]
     },
     "FR-018-68": {
       "spec": "018-web-cases",
@@ -16746,7 +17754,9 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts"
+      ]
     },
     "FR-018-69": {
       "spec": "018-web-cases",
@@ -16756,7 +17766,9 @@
       "tasks": [
         "T-018-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_018_092_case_duplicate_kpi.py"
+      ]
     },
     "FR-018-70": {
       "spec": "018-web-cases",
@@ -16786,7 +17798,9 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts"
+      ]
     },
     "P-018-02": {
       "spec": "018-web-cases",
@@ -16796,7 +17810,9 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts"
+      ]
     },
     "P-018-03": {
       "spec": "018-web-cases",
@@ -16806,7 +17822,9 @@
       "tasks": [
         "T-018-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/sim/t_018_040_clock.test.ts"
+      ]
     },
     "P-018-04": {
       "spec": "018-web-cases",
@@ -16816,7 +17834,10 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts",
+        "web/e2e/parity/t_018_051_pcg64_browsers.spec.ts"
+      ]
     },
     "P-018-05": {
       "spec": "018-web-cases",
@@ -16826,7 +17847,9 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts"
+      ]
     },
     "P-018-06": {
       "spec": "018-web-cases",
@@ -16940,7 +17963,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/traffic/t_018_061_ttc.test.ts"
+      ]
     },
     "P-018-20": {
       "spec": "018-web-cases",
@@ -16950,7 +17975,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/traffic/t_018_061_ttc.test.ts"
+      ]
     },
     "P-018-21": {
       "spec": "018-web-cases",
@@ -16960,7 +17987,9 @@
       "tasks": [
         "T-018-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/traffic/t_018_061_ttc.test.ts"
+      ]
     },
     "P-018-22": {
       "spec": "018-web-cases",
@@ -17010,7 +18039,9 @@
       "tasks": [
         "T-018-063"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/ml/t_018_063_detector.test.ts"
+      ]
     },
     "P-018-28": {
       "spec": "018-web-cases",
@@ -17020,7 +18051,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-29": {
       "spec": "018-web-cases",
@@ -17030,7 +18063,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-30": {
       "spec": "018-web-cases",
@@ -17040,7 +18075,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-31": {
       "spec": "018-web-cases",
@@ -17050,7 +18087,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-32": {
       "spec": "018-web-cases",
@@ -17060,7 +18099,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-33": {
       "spec": "018-web-cases",
@@ -17070,7 +18111,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-34": {
       "spec": "018-web-cases",
@@ -17080,7 +18123,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-35": {
       "spec": "018-web-cases",
@@ -17090,7 +18135,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-36": {
       "spec": "018-web-cases",
@@ -17100,7 +18147,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "P-018-37": {
       "spec": "018-web-cases",
@@ -17110,7 +18159,9 @@
       "tasks": [
         "T-018-066"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/environment/t_018_066_plume.test.ts"
+      ]
     },
     "P-018-38": {
       "spec": "018-web-cases",
@@ -17120,7 +18171,9 @@
       "tasks": [
         "T-018-066"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/environment/t_018_066_plume.test.ts"
+      ]
     },
     "P-018-39": {
       "spec": "018-web-cases",
@@ -17130,7 +18183,9 @@
       "tasks": [
         "T-018-066"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/environment/t_018_066_plume.test.ts"
+      ]
     },
     "P-018-40": {
       "spec": "018-web-cases",
@@ -17140,7 +18195,9 @@
       "tasks": [
         "T-018-068"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/blasting/t_018_068_blasting.test.ts"
+      ]
     },
     "P-018-41": {
       "spec": "018-web-cases",
@@ -17150,7 +18207,9 @@
       "tasks": [
         "T-018-068"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/blasting/t_018_068_blasting.test.ts"
+      ]
     },
     "P-018-42": {
       "spec": "018-web-cases",
@@ -17160,7 +18219,9 @@
       "tasks": [
         "T-018-068"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/blasting/t_018_068_blasting.test.ts"
+      ]
     },
     "P-018-43": {
       "spec": "018-web-cases",
@@ -17170,7 +18231,9 @@
       "tasks": [
         "T-018-070"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/comminution/t_018_070_comminution.test.ts"
+      ]
     },
     "P-018-44": {
       "spec": "018-web-cases",
@@ -17180,7 +18243,9 @@
       "tasks": [
         "T-018-070"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/comminution/t_018_070_comminution.test.ts"
+      ]
     },
     "P-018-45": {
       "spec": "018-web-cases",
@@ -17190,7 +18255,9 @@
       "tasks": [
         "T-018-070"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/comminution/t_018_070_comminution.test.ts"
+      ]
     },
     "P-018-46": {
       "spec": "018-web-cases",
@@ -17200,7 +18267,9 @@
       "tasks": [
         "T-018-069"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/watershed/t_018_069_watershed.test.ts"
+      ]
     },
     "P-018-47": {
       "spec": "018-web-cases",
@@ -17210,7 +18279,9 @@
       "tasks": [
         "T-018-069"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/watershed/t_018_069_watershed.test.ts"
+      ]
     },
     "P-018-48": {
       "spec": "018-web-cases",
@@ -17220,7 +18291,9 @@
       "tasks": [
         "T-018-069"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/watershed/t_018_069_watershed.test.ts"
+      ]
     },
     "P-018-49": {
       "spec": "018-web-cases",
@@ -17230,7 +18303,9 @@
       "tasks": [
         "T-018-071"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
+      ]
     },
     "P-018-50": {
       "spec": "018-web-cases",
@@ -17240,7 +18315,9 @@
       "tasks": [
         "T-018-071"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
+      ]
     },
     "P-018-51": {
       "spec": "018-web-cases",
@@ -17250,7 +18327,9 @@
       "tasks": [
         "T-018-071"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/mincut/t_018_071_mincut.test.ts"
+      ]
     },
     "P-018-52": {
       "spec": "018-web-cases",
@@ -17260,7 +18339,9 @@
       "tasks": [
         "T-018-072"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "P-018-53": {
       "spec": "018-web-cases",
@@ -17270,7 +18351,9 @@
       "tasks": [
         "T-018-072"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "P-018-54": {
       "spec": "018-web-cases",
@@ -17280,7 +18363,9 @@
       "tasks": [
         "T-018-072"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/volume/t_018_072_volume.test.ts"
+      ]
     },
     "P-018-55": {
       "spec": "018-web-cases",
@@ -17322,7 +18407,9 @@
       "tasks": [
         "T-018-059"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_059_granular.spec.ts"
+      ]
     },
     "P-018-60": {
       "spec": "018-web-cases",
@@ -17332,7 +18419,9 @@
       "tasks": [
         "T-018-059"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_059_granular.spec.ts"
+      ]
     },
     "P-018-61": {
       "spec": "018-web-cases",
@@ -17342,7 +18431,9 @@
       "tasks": [
         "T-018-059"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_059_granular.spec.ts"
+      ]
     },
     "P-018-62": {
       "spec": "018-web-cases",
@@ -17352,7 +18443,9 @@
       "tasks": [
         "T-018-065"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_065_shallow_water.spec.ts"
+      ]
     },
     "P-018-63": {
       "spec": "018-web-cases",
@@ -17362,7 +18455,9 @@
       "tasks": [
         "T-018-065"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_065_shallow_water.spec.ts"
+      ]
     },
     "P-018-64": {
       "spec": "018-web-cases",
@@ -17372,7 +18467,9 @@
       "tasks": [
         "T-018-065"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_065_shallow_water.spec.ts"
+      ]
     },
     "P-018-65": {
       "spec": "018-web-cases",
@@ -17382,7 +18479,9 @@
       "tasks": [
         "T-018-067"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_067_dust_particles.spec.ts"
+      ]
     },
     "P-018-66": {
       "spec": "018-web-cases",
@@ -17392,7 +18491,9 @@
       "tasks": [
         "T-018-067"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_067_dust_particles.spec.ts"
+      ]
     },
     "P-018-67": {
       "spec": "018-web-cases",
@@ -17402,7 +18503,9 @@
       "tasks": [
         "T-018-067"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/gpu/t_018_067_dust_particles.spec.ts"
+      ]
     },
     "P-018-68": {
       "spec": "018-web-cases",
@@ -17412,7 +18515,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "P-018-69": {
       "spec": "018-web-cases",
@@ -17422,7 +18527,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "P-018-70": {
       "spec": "018-web-cases",
@@ -17432,7 +18539,9 @@
       "tasks": [
         "T-018-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/assets/t_018_013_loader_shard.test.ts"
+      ]
     },
     "P-018-71": {
       "spec": "018-web-cases",
@@ -17442,7 +18551,9 @@
       "tasks": [
         "T-018-080"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_080_derive_lane.test.ts"
+      ]
     },
     "P-018-72": {
       "spec": "018-web-cases",
@@ -17452,7 +18563,9 @@
       "tasks": [
         "T-018-080"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_080_derive_lane.test.ts"
+      ]
     },
     "P-018-73": {
       "spec": "018-web-cases",
@@ -17462,7 +18575,9 @@
       "tasks": [
         "T-018-080"
       ],
-      "tests": []
+      "tests": [
+        "web/src/lane/t_018_080_derive_lane.test.ts"
+      ]
     },
     "P-018-74": {
       "spec": "018-web-cases",
@@ -17472,7 +18587,9 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts"
+      ]
     },
     "P-018-75": {
       "spec": "018-web-cases",
@@ -17482,7 +18599,9 @@
       "tasks": [
         "T-018-051"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/random/t_018_051_pcg64.test.ts"
+      ]
     },
     "P-018-76": {
       "spec": "018-web-cases",
@@ -17492,7 +18611,9 @@
       "tasks": [
         "T-018-064"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/analytical/geotech/t_018_064_geotech.test.ts"
+      ]
     },
     "NFR-018-01": {
       "spec": "018-web-cases",
@@ -17502,7 +18623,9 @@
       "tasks": [
         "T-018-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_020_explore_pit.spec.ts"
+      ]
     },
     "NFR-018-02": {
       "spec": "018-web-cases",
@@ -17512,7 +18635,9 @@
       "tasks": [
         "T-018-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_020_explore_pit.spec.ts"
+      ]
     },
     "NFR-018-03": {
       "spec": "018-web-cases",
@@ -17522,7 +18647,9 @@
       "tasks": [
         "T-018-081"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/lane-gate/t_018_081_measure.spec.ts"
+      ]
     },
     "NFR-018-04": {
       "spec": "018-web-cases",
@@ -17532,7 +18659,9 @@
       "tasks": [
         "T-018-037"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_037_a11y_cases.spec.ts"
+      ]
     },
     "NFR-018-05": {
       "spec": "018-web-cases",
@@ -17542,7 +18671,9 @@
       "tasks": [
         "T-018-090"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_018_090_web_quality_scores.py"
+      ]
     },
     "NFR-018-06": {
       "spec": "018-web-cases",
@@ -17562,7 +18693,10 @@
       "tasks": [
         "T-018-088"
       ],
-      "tests": []
+      "tests": [
+        "web/src/engines/t_018_088_parity_report.test.ts",
+        "web/e2e/parity/t_018_051_pcg64_browsers.spec.ts"
+      ]
     },
     "SC-018-02": {
       "spec": "018-web-cases",
@@ -17572,7 +18706,9 @@
       "tasks": [
         "T-018-089"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_018_089_vertical_slice.spec.ts"
+      ]
     },
     "DC-018-01": {
       "spec": "018-web-cases",
@@ -17620,7 +18756,8 @@
         "T-018-005"
       ],
       "tests": [
-        "tests/contract/test_t_018_004_parity_lane_schemas.py"
+        "tests/contract/test_t_018_004_parity_lane_schemas.py",
+        "tests/contract/test_t_018_005_parity_fixtures.py"
       ]
     },
     "DC-018-05": {
@@ -17662,7 +18799,9 @@
         "T-019-040",
         "T-019-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_010_tool_map.spec.ts"
+      ]
     },
     "US-019-2": {
       "spec": "019-web-studio",
@@ -17719,7 +18858,10 @@
       "tasks": [
         "T-019-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_010_tool_map.test.tsx",
+        "web/e2e/t_019_010_tool_map.spec.ts"
+      ]
     },
     "FR-019-02": {
       "spec": "019-web-studio",
@@ -17729,7 +18871,10 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts",
+        "web/src/studio/t_019_010_tool_map.test.tsx"
+      ]
     },
     "FR-019-03": {
       "spec": "019-web-studio",
@@ -17739,7 +18884,9 @@
       "tasks": [
         "T-019-011"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_011_map_fallback.spec.ts"
+      ]
     },
     "FR-019-04": {
       "spec": "019-web-studio",
@@ -17749,7 +18896,10 @@
       "tasks": [
         "T-019-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_010_tool_map.test.tsx",
+        "web/e2e/t_019_011_map_fallback.spec.ts"
+      ]
     },
     "FR-019-05": {
       "spec": "019-web-studio",
@@ -17759,7 +18909,10 @@
       "tasks": [
         "T-019-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_010_tool_map.test.tsx",
+        "web/e2e/t_019_010_tool_map.spec.ts"
+      ]
     },
     "FR-019-06": {
       "spec": "019-web-studio",
@@ -17769,7 +18922,10 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts",
+        "web/src/studio/t_019_010_tool_map.test.tsx"
+      ]
     },
     "FR-019-07": {
       "spec": "019-web-studio",
@@ -17779,7 +18935,10 @@
       "tasks": [
         "T-019-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_012_loop.test.tsx",
+        "web/e2e/t_019_012_loop.spec.ts"
+      ]
     },
     "FR-019-08": {
       "spec": "019-web-studio",
@@ -17789,7 +18948,9 @@
       "tasks": [
         "T-019-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_020_tool_pages.spec.ts"
+      ]
     },
     "FR-019-09": {
       "spec": "019-web-studio",
@@ -17800,7 +18961,10 @@
         "T-019-002",
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_002_resolve_versions.py",
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-10": {
       "spec": "019-web-studio",
@@ -17810,7 +18974,9 @@
       "tasks": [
         "T-019-002"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_002_resolve_versions.py"
+      ]
     },
     "FR-019-11": {
       "spec": "019-web-studio",
@@ -17820,7 +18986,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-12": {
       "spec": "019-web-studio",
@@ -17830,7 +18998,10 @@
       "tasks": [
         "T-019-022"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
+      ]
     },
     "FR-019-13": {
       "spec": "019-web-studio",
@@ -17840,7 +19011,11 @@
       "tasks": [
         "T-019-022"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_010_tool_map.test.tsx",
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
+      ]
     },
     "FR-019-14": {
       "spec": "019-web-studio",
@@ -17850,7 +19025,10 @@
       "tasks": [
         "T-019-022"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_022_artefacts.test.tsx",
+        "web/e2e/t_019_022_not_yet_run.spec.ts"
+      ]
     },
     "FR-019-15": {
       "spec": "019-web-studio",
@@ -17860,7 +19038,10 @@
       "tasks": [
         "T-019-023"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_023_provenance.test.tsx",
+        "web/e2e/t_019_023_provenance.spec.ts"
+      ]
     },
     "FR-019-16": {
       "spec": "019-web-studio",
@@ -17870,7 +19051,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-17": {
       "spec": "019-web-studio",
@@ -17880,7 +19063,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-18": {
       "spec": "019-web-studio",
@@ -17890,7 +19075,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-19": {
       "spec": "019-web-studio",
@@ -17900,7 +19087,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-20": {
       "spec": "019-web-studio",
@@ -17910,7 +19099,9 @@
       "tasks": [
         "T-019-020"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_020_tool_pages.spec.ts"
+      ]
     },
     "FR-019-21": {
       "spec": "019-web-studio",
@@ -17920,7 +19111,10 @@
       "tasks": [
         "T-019-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_030_runs_ledger.test.tsx",
+        "web/e2e/t_019_030_runs.spec.ts"
+      ]
     },
     "FR-019-22": {
       "spec": "019-web-studio",
@@ -17930,7 +19124,9 @@
       "tasks": [
         "T-019-031"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_031_run_page.spec.ts"
+      ]
     },
     "FR-019-23": {
       "spec": "019-web-studio",
@@ -17940,7 +19136,10 @@
       "tasks": [
         "T-019-031"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_031_manifest_tree.test.tsx",
+        "web/e2e/t_019_031_run_page.spec.ts"
+      ]
     },
     "FR-019-24": {
       "spec": "019-web-studio",
@@ -17950,7 +19149,9 @@
       "tasks": [
         "T-019-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_032_dag_determinism.test.tsx"
+      ]
     },
     "FR-019-25": {
       "spec": "019-web-studio",
@@ -17960,7 +19161,9 @@
       "tasks": [
         "T-019-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_032_dag_determinism.test.tsx"
+      ]
     },
     "FR-019-26": {
       "spec": "019-web-studio",
@@ -17970,7 +19173,9 @@
       "tasks": [
         "T-019-030"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_030_runs.spec.ts"
+      ]
     },
     "FR-019-27": {
       "spec": "019-web-studio",
@@ -17980,7 +19185,10 @@
       "tasks": [
         "T-019-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_033_timelines.test.tsx",
+        "web/e2e/t_019_033_gpu_page.spec.ts"
+      ]
     },
     "FR-019-28": {
       "spec": "019-web-studio",
@@ -17990,7 +19198,10 @@
       "tasks": [
         "T-019-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_033_timelines.test.tsx",
+        "web/e2e/t_019_033_gpu_page.spec.ts"
+      ]
     },
     "FR-019-29": {
       "spec": "019-web-studio",
@@ -18000,7 +19211,10 @@
       "tasks": [
         "T-019-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_033_timelines.test.tsx",
+        "web/e2e/t_019_033_gpu_page.spec.ts"
+      ]
     },
     "FR-019-30": {
       "spec": "019-web-studio",
@@ -18010,7 +19224,9 @@
       "tasks": [
         "T-019-034"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_034_local_only.test.tsx"
+      ]
     },
     "FR-019-31": {
       "spec": "019-web-studio",
@@ -18020,7 +19236,10 @@
       "tasks": [
         "T-019-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_033_timelines.test.tsx",
+        "web/e2e/t_019_033_gpu_page.spec.ts"
+      ]
     },
     "FR-019-32": {
       "spec": "019-web-studio",
@@ -18030,7 +19249,9 @@
       "tasks": [
         "T-019-034"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/telemetry/t_019_034_local_only.test.tsx"
+      ]
     },
     "FR-019-33": {
       "spec": "019-web-studio",
@@ -18040,7 +19261,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-43": {
       "spec": "019-web-studio",
@@ -18050,7 +19273,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-34": {
       "spec": "019-web-studio",
@@ -18060,7 +19285,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-35": {
       "spec": "019-web-studio",
@@ -18070,7 +19297,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-36": {
       "spec": "019-web-studio",
@@ -18080,7 +19309,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "FR-019-37": {
       "spec": "019-web-studio",
@@ -18090,7 +19321,10 @@
       "tasks": [
         "T-019-023"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_023_provenance.test.tsx",
+        "web/e2e/t_019_023_provenance.spec.ts"
+      ]
     },
     "FR-019-38": {
       "spec": "019-web-studio",
@@ -18112,7 +19346,9 @@
       "tasks": [
         "T-019-011"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_011_map_fallback.spec.ts"
+      ]
     },
     "FR-019-40": {
       "spec": "019-web-studio",
@@ -18122,7 +19358,10 @@
       "tasks": [
         "T-019-024"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_024_hostile_strings.test.tsx",
+        "web/e2e/t_019_024_hostile_strings.spec.ts"
+      ]
     },
     "FR-019-41": {
       "spec": "019-web-studio",
@@ -18132,7 +19371,10 @@
       "tasks": [
         "T-019-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_030_runs_ledger.test.tsx",
+        "web/e2e/t_019_030_runs.spec.ts"
+      ]
     },
     "FR-019-42": {
       "spec": "019-web-studio",
@@ -18142,7 +19384,9 @@
       "tasks": [
         "T-019-021"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/blocks/t_019_021_blocks.test.tsx"
+      ]
     },
     "FR-019-44": {
       "spec": "019-web-studio",
@@ -18152,7 +19396,10 @@
       "tasks": [
         "T-019-036"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/connect.test.ts",
+        "web/e2e/t_019_036_connect.spec.ts"
+      ]
     },
     "FR-019-45": {
       "spec": "019-web-studio",
@@ -18162,7 +19409,10 @@
       "tasks": [
         "T-019-036"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/connect.test.ts",
+        "web/e2e/t_019_036_connect.spec.ts"
+      ]
     },
     "FR-019-46": {
       "spec": "019-web-studio",
@@ -18172,7 +19422,9 @@
       "tasks": [
         "T-019-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_019_092_toolmap_self_edge.py"
+      ]
     },
     "FR-019-47": {
       "spec": "019-web-studio",
@@ -18182,7 +19434,10 @@
       "tasks": [
         "T-019-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_019_093_studio_index_cap.py",
+        "web/src/studio/t_019_093_index_loader.test.ts"
+      ]
     },
     "FR-019-48": {
       "spec": "019-web-studio",
@@ -18212,7 +19467,9 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts"
+      ]
     },
     "P-019-02": {
       "spec": "019-web-studio",
@@ -18222,7 +19479,9 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts"
+      ]
     },
     "P-019-03": {
       "spec": "019-web-studio",
@@ -18232,7 +19491,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "P-019-04": {
       "spec": "019-web-studio",
@@ -18242,7 +19503,9 @@
       "tasks": [
         "T-019-004"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_004_check_showcase.py"
+      ]
     },
     "P-019-05": {
       "spec": "019-web-studio",
@@ -18252,7 +19515,9 @@
       "tasks": [
         "T-019-003"
       ],
-      "tests": []
+      "tests": [
+        "web/src/studio/t_019_003_build_index.test.ts"
+      ]
     },
     "NFR-019-01": {
       "spec": "019-web-studio",
@@ -18262,7 +19527,9 @@
       "tasks": [
         "T-019-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_040_budgets.spec.ts"
+      ]
     },
     "NFR-019-02": {
       "spec": "019-web-studio",
@@ -18272,7 +19539,9 @@
       "tasks": [
         "T-019-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_040_budgets.spec.ts"
+      ]
     },
     "NFR-019-03": {
       "spec": "019-web-studio",
@@ -18282,7 +19551,9 @@
       "tasks": [
         "T-019-040"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_040_budgets.spec.ts"
+      ]
     },
     "NFR-019-04": {
       "spec": "019-web-studio",
@@ -18292,7 +19563,9 @@
       "tasks": [
         "T-019-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_041_a11y_studio.spec.ts"
+      ]
     },
     "NFR-019-05": {
       "spec": "019-web-studio",
@@ -18302,7 +19575,9 @@
       "tasks": [
         "T-019-041"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_019_041_a11y_studio.spec.ts"
+      ]
     },
     "NFR-019-06": {
       "spec": "019-web-studio",
@@ -18312,7 +19587,9 @@
       "tasks": [
         "T-019-090"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_090_studio_quality_scores.py"
+      ]
     },
     "SC-019-01": {
       "spec": "019-web-studio",
@@ -18322,7 +19599,9 @@
       "tasks": [
         "T-019-088"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_088_showcase_gate.py"
+      ]
     },
     "SC-019-02": {
       "spec": "019-web-studio",
@@ -18332,7 +19611,9 @@
       "tasks": [
         "T-019-088"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_019_088_showcase_gate.py"
+      ]
     },
     "DC-019-01": {
       "spec": "019-web-studio",
@@ -18454,7 +19735,9 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_014_theory_pages.spec.ts"
+      ]
     },
     "FR-020-02": {
       "spec": "020-web-knowledge",
@@ -18464,7 +19747,9 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_014_theory_content.py"
+      ]
     },
     "FR-020-03": {
       "spec": "020-web-knowledge",
@@ -18474,7 +19759,9 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_014_theory_content.py"
+      ]
     },
     "FR-020-04": {
       "spec": "020-web-knowledge",
@@ -18484,7 +19771,9 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_014_theory_pages.spec.ts"
+      ]
     },
     "FR-020-05": {
       "spec": "020-web-knowledge",
@@ -18494,7 +19783,10 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_014_theory_content.py",
+        "web/e2e/t_020_014_theory_pages.spec.ts"
+      ]
     },
     "FR-020-06": {
       "spec": "020-web-knowledge",
@@ -18504,7 +19796,10 @@
       "tasks": [
         "T-020-015"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/t_020_015_figures.test.tsx",
+        "web/e2e/t_020_015_figures.spec.ts"
+      ]
     },
     "FR-020-07": {
       "spec": "020-web-knowledge",
@@ -18514,7 +19809,10 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts",
+        "web/e2e/t_020_010_chart.spec.ts"
+      ]
     },
     "FR-020-08": {
       "spec": "020-web-knowledge",
@@ -18524,7 +19822,10 @@
       "tasks": [
         "T-020-015"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/t_020_015_figures.test.tsx",
+        "web/e2e/t_020_015_figures.spec.ts"
+      ]
     },
     "FR-020-09": {
       "spec": "020-web-knowledge",
@@ -18558,7 +19859,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_010_chart.spec.ts"
+      ]
     },
     "FR-020-12": {
       "spec": "020-web-knowledge",
@@ -18568,7 +19871,10 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts",
+        "web/e2e/t_020_010_chart.spec.ts"
+      ]
     },
     "FR-020-13": {
       "spec": "020-web-knowledge",
@@ -18578,7 +19884,10 @@
       "tasks": [
         "T-020-015"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/t_020_015_figures.test.tsx",
+        "web/e2e/t_020_015_figures.spec.ts"
+      ]
     },
     "FR-020-14": {
       "spec": "020-web-knowledge",
@@ -18588,7 +19897,9 @@
       "tasks": [
         "T-020-016"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_016_hostile.spec.ts"
+      ]
     },
     "FR-020-15": {
       "spec": "020-web-knowledge",
@@ -18598,7 +19909,10 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts",
+        "web/e2e/t_020_010_chart.spec.ts"
+      ]
     },
     "FR-020-16": {
       "spec": "020-web-knowledge",
@@ -18620,7 +19934,10 @@
       "tasks": [
         "T-020-020"
       ],
-      "tests": []
+      "tests": [
+        "web/src/routes/t_020_020_methods.test.tsx",
+        "web/e2e/t_020_020_methods.spec.ts"
+      ]
     },
     "FR-020-18": {
       "spec": "020-web-knowledge",
@@ -18630,7 +19947,10 @@
       "tasks": [
         "T-020-020"
       ],
-      "tests": []
+      "tests": [
+        "web/src/routes/t_020_020_methods.test.tsx",
+        "web/e2e/t_020_020_methods.spec.ts"
+      ]
     },
     "FR-020-19": {
       "spec": "020-web-knowledge",
@@ -18677,7 +19997,10 @@
       "tasks": [
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_030_verdict.test.ts",
+        "web/src/routes/t_018_032_charts_tab.test.tsx"
+      ]
     },
     "FR-020-23": {
       "spec": "020-web-knowledge",
@@ -18699,7 +20022,10 @@
       "tasks": [
         "T-020-032"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_032_criteria.test.ts",
+        "web/e2e/t_020_088_criteria_rows.spec.ts"
+      ]
     },
     "FR-020-25": {
       "spec": "020-web-knowledge",
@@ -18709,7 +20035,9 @@
       "tasks": [
         "T-020-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_033_gaps_parity.test.tsx"
+      ]
     },
     "FR-020-26": {
       "spec": "020-web-knowledge",
@@ -18719,7 +20047,9 @@
       "tasks": [
         "T-020-033"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_033_gaps_parity.test.tsx"
+      ]
     },
     "FR-020-27": {
       "spec": "020-web-knowledge",
@@ -18729,7 +20059,10 @@
       "tasks": [
         "T-020-034"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_034_cosmos.test.tsx",
+        "web/e2e/t_020_034_cosmos_headline.spec.ts"
+      ]
     },
     "FR-020-28": {
       "spec": "020-web-knowledge",
@@ -18739,7 +20072,9 @@
       "tasks": [
         "T-020-035"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_035_acceleration.test.tsx"
+      ]
     },
     "FR-020-29": {
       "spec": "020-web-knowledge",
@@ -18761,7 +20096,9 @@
       "tasks": [
         "T-020-035"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_035_acceleration.test.tsx"
+      ]
     },
     "FR-020-31": {
       "spec": "020-web-knowledge",
@@ -18784,7 +20121,10 @@
       "tasks": [
         "T-020-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_040_sections.test.tsx",
+        "web/e2e/t_020_040_knowledge.spec.ts"
+      ]
     },
     "FR-020-33": {
       "spec": "020-web-knowledge",
@@ -18794,7 +20134,9 @@
       "tasks": [
         "T-020-041"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_041_parameters_equations.test.tsx"
+      ]
     },
     "FR-020-34": {
       "spec": "020-web-knowledge",
@@ -18804,7 +20146,9 @@
       "tasks": [
         "T-020-041"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_041_parameters_equations.test.tsx"
+      ]
     },
     "FR-020-35": {
       "spec": "020-web-knowledge",
@@ -18814,7 +20158,10 @@
       "tasks": [
         "T-020-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_042_search.test.ts",
+        "web/e2e/t_020_042_search.spec.ts"
+      ]
     },
     "FR-020-36": {
       "spec": "020-web-knowledge",
@@ -18824,7 +20171,10 @@
       "tasks": [
         "T-020-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_040_sections.test.tsx",
+        "web/e2e/t_020_040_knowledge.spec.ts"
+      ]
     },
     "FR-020-37": {
       "spec": "020-web-knowledge",
@@ -18834,7 +20184,10 @@
       "tasks": [
         "T-020-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_040_sections.test.tsx",
+        "web/e2e/t_020_040_knowledge.spec.ts"
+      ]
     },
     "FR-020-38": {
       "spec": "020-web-knowledge",
@@ -18844,7 +20197,10 @@
       "tasks": [
         "T-020-040"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_040_sections.test.tsx",
+        "web/e2e/t_020_040_knowledge.spec.ts"
+      ]
     },
     "FR-020-39": {
       "spec": "020-web-knowledge",
@@ -18878,7 +20234,10 @@
       "tasks": [
         "T-020-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_042_search.test.ts",
+        "web/e2e/t_020_042_search.spec.ts"
+      ]
     },
     "FR-020-42": {
       "spec": "020-web-knowledge",
@@ -18888,7 +20247,9 @@
       "tasks": [
         "T-020-043"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_043_unverified_headline.test.ts"
+      ]
     },
     "FR-020-43": {
       "spec": "020-web-knowledge",
@@ -18898,7 +20259,9 @@
       "tasks": [
         "T-020-050"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_050_architecture_modal.spec.ts"
+      ]
     },
     "FR-020-44": {
       "spec": "020-web-knowledge",
@@ -18908,7 +20271,9 @@
       "tasks": [
         "T-020-050"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_050_architecture_modal.spec.ts"
+      ]
     },
     "FR-020-51": {
       "spec": "020-web-knowledge",
@@ -18918,7 +20283,9 @@
       "tasks": [
         "T-020-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_051_inline_svg.py"
+      ]
     },
     "FR-020-45": {
       "spec": "020-web-knowledge",
@@ -18940,7 +20307,9 @@
       "tasks": [
         "T-020-061"
       ],
-      "tests": []
+      "tests": [
+        "web/src/shell/t_020_061_contrast.test.ts"
+      ]
     },
     "FR-020-47": {
       "spec": "020-web-knowledge",
@@ -18950,7 +20319,10 @@
       "tasks": [
         "T-020-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_014_theory_content.py",
+        "web/e2e/t_020_014_theory_pages.spec.ts"
+      ]
     },
     "FR-020-48": {
       "spec": "020-web-knowledge",
@@ -18960,7 +20332,9 @@
       "tasks": [
         "T-020-016"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_016_hostile.spec.ts"
+      ]
     },
     "FR-020-49": {
       "spec": "020-web-knowledge",
@@ -18972,7 +20346,11 @@
         "T-020-012",
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts",
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts",
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "FR-020-50": {
       "spec": "020-web-knowledge",
@@ -18984,7 +20362,11 @@
         "T-020-012",
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts",
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts",
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "FR-020-52": {
       "spec": "020-web-knowledge",
@@ -19024,7 +20406,9 @@
       "tasks": [
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_030_verdict.test.ts"
+      ]
     },
     "P-020-02": {
       "spec": "020-web-knowledge",
@@ -19034,7 +20418,9 @@
       "tasks": [
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_030_verdict.test.ts"
+      ]
     },
     "P-020-03": {
       "spec": "020-web-knowledge",
@@ -19044,7 +20430,9 @@
       "tasks": [
         "T-020-030"
       ],
-      "tests": []
+      "tests": [
+        "web/src/results/t_020_030_verdict.test.ts"
+      ]
     },
     "P-020-04": {
       "spec": "020-web-knowledge",
@@ -19054,7 +20442,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-05": {
       "spec": "020-web-knowledge",
@@ -19064,7 +20454,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-06": {
       "spec": "020-web-knowledge",
@@ -19074,7 +20466,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-07": {
       "spec": "020-web-knowledge",
@@ -19084,7 +20478,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-08": {
       "spec": "020-web-knowledge",
@@ -19094,7 +20490,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-09": {
       "spec": "020-web-knowledge",
@@ -19104,7 +20502,9 @@
       "tasks": [
         "T-020-010"
       ],
-      "tests": []
+      "tests": [
+        "web/src/charts/t_020_010_chart.test.ts"
+      ]
     },
     "P-020-10": {
       "spec": "020-web-knowledge",
@@ -19114,7 +20514,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-11": {
       "spec": "020-web-knowledge",
@@ -19124,7 +20526,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-12": {
       "spec": "020-web-knowledge",
@@ -19134,7 +20538,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-13": {
       "spec": "020-web-knowledge",
@@ -19144,7 +20550,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-14": {
       "spec": "020-web-knowledge",
@@ -19154,7 +20562,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-15": {
       "spec": "020-web-knowledge",
@@ -19164,7 +20574,9 @@
       "tasks": [
         "T-020-011"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_011_beverloo_ritter.test.ts"
+      ]
     },
     "P-020-16": {
       "spec": "020-web-knowledge",
@@ -19174,7 +20586,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-17": {
       "spec": "020-web-knowledge",
@@ -19184,7 +20598,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-18": {
       "spec": "020-web-knowledge",
@@ -19194,7 +20610,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-19": {
       "spec": "020-web-knowledge",
@@ -19204,7 +20622,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-20": {
       "spec": "020-web-knowledge",
@@ -19214,7 +20634,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-21": {
       "spec": "020-web-knowledge",
@@ -19224,7 +20646,9 @@
       "tasks": [
         "T-020-012"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_012_lidar_ppo.test.ts"
+      ]
     },
     "P-020-22": {
       "spec": "020-web-knowledge",
@@ -19234,7 +20658,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-23": {
       "spec": "020-web-knowledge",
@@ -19244,7 +20670,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-24": {
       "spec": "020-web-knowledge",
@@ -19254,7 +20682,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-25": {
       "spec": "020-web-knowledge",
@@ -19264,7 +20694,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-26": {
       "spec": "020-web-knowledge",
@@ -19274,7 +20706,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-27": {
       "spec": "020-web-knowledge",
@@ -19284,7 +20718,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-28": {
       "spec": "020-web-knowledge",
@@ -19294,7 +20730,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-29": {
       "spec": "020-web-knowledge",
@@ -19304,7 +20742,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-30": {
       "spec": "020-web-knowledge",
@@ -19314,7 +20754,9 @@
       "tasks": [
         "T-020-013"
       ],
-      "tests": []
+      "tests": [
+        "web/src/theory/fn/t_020_013_statistics.test.ts"
+      ]
     },
     "P-020-31": {
       "spec": "020-web-knowledge",
@@ -19336,7 +20778,9 @@
       "tasks": [
         "T-020-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_042_search.test.ts"
+      ]
     },
     "NFR-020-01": {
       "spec": "020-web-knowledge",
@@ -19346,7 +20790,9 @@
       "tasks": [
         "T-020-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_062_budgets.py"
+      ]
     },
     "NFR-020-02": {
       "spec": "020-web-knowledge",
@@ -19356,7 +20802,9 @@
       "tasks": [
         "T-020-063"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_063_first_view.spec.ts"
+      ]
     },
     "NFR-020-03": {
       "spec": "020-web-knowledge",
@@ -19366,7 +20814,9 @@
       "tasks": [
         "T-020-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_062_budgets.py"
+      ]
     },
     "NFR-020-04": {
       "spec": "020-web-knowledge",
@@ -19376,7 +20826,9 @@
       "tasks": [
         "T-020-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_062_budgets.py"
+      ]
     },
     "NFR-020-05": {
       "spec": "020-web-knowledge",
@@ -19386,7 +20838,9 @@
       "tasks": [
         "T-020-064"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_064_a11y_matrix.spec.ts"
+      ]
     },
     "NFR-020-06": {
       "spec": "020-web-knowledge",
@@ -19396,7 +20850,9 @@
       "tasks": [
         "T-020-064"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_064_a11y_matrix.spec.ts"
+      ]
     },
     "NFR-020-07": {
       "spec": "020-web-knowledge",
@@ -19406,7 +20862,9 @@
       "tasks": [
         "T-020-063"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_063_first_view.spec.ts"
+      ]
     },
     "NFR-020-08": {
       "spec": "020-web-knowledge",
@@ -19416,7 +20874,9 @@
       "tasks": [
         "T-020-042"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_042_search.test.ts"
+      ]
     },
     "NFR-020-09": {
       "spec": "020-web-knowledge",
@@ -19426,7 +20886,9 @@
       "tasks": [
         "T-020-090"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_020_090_web_quality_scores.py"
+      ]
     },
     "SC-020-01": {
       "spec": "020-web-knowledge",
@@ -19446,7 +20908,9 @@
       "tasks": [
         "T-020-088"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/t_020_088_criteria_rows.spec.ts"
+      ]
     },
     "SC-020-03": {
       "spec": "020-web-knowledge",
@@ -19456,7 +20920,9 @@
       "tasks": [
         "T-020-043"
       ],
-      "tests": []
+      "tests": [
+        "web/src/knowledge/t_020_043_unverified_headline.test.ts"
+      ]
     },
     "DC-020-01": {
       "spec": "020-web-knowledge",
