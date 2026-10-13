@@ -35,6 +35,7 @@ PROBES: dict[str, tuple[str, list[str]]] = {
     "warp_newton": ("studio", []),
     "torch_ort": ("pipeline", ["--extra", "cu130"]),
     "tensorrt": ("pipeline/accel", []),
+    "llamacpp": ("pipeline", ["--extra", "cu130"]),
     "nvenc": ("studio", []),
     "ovrtx": ("studio/rtx", []),
     "isaacsim": ("studio/isaac", []),
