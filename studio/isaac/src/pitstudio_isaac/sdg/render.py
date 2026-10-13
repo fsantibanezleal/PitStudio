@@ -1,4 +1,4 @@
-﻿"""`st55_sdg` frame renderer (FR-009-02): one frame to RGB, semantic mask, depth, COCO and the index record.
+"""`st55_sdg` frame renderer (FR-009-02): one frame to RGB, semantic mask, depth, COCO and the index record.
 
 Runs in the Isaac Sim environment (Python 3.12) under Replicator; it is local-only and never part of CI (FR-009-41).
 The sampling
