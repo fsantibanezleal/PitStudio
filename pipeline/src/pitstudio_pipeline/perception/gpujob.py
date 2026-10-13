@@ -18,9 +18,6 @@ from pathlib import Path
 from typing import Any
 
 LOCK_ENV = "PITSTUDIO_GPU_LOCK"
-DEFAULT_LOCK = (
-    r"C:\Users\felipe.santibanez\Data\_Temp\_locks\gpu0.compute"  # this machine; other machines set the env var
-)
 
 
 def assert_cuda() -> None:
@@ -52,5 +49,5 @@ def gpu_session() -> Iterator[Any]:
         raise RuntimeError(f"GPU at {temp} C, above the start limit {gg.START_MAX_C} C")
     from filelock import FileLock
 
-    with FileLock(os.environ.get(LOCK_ENV, DEFAULT_LOCK)):
+    with FileLock(os.environ[LOCK_ENV]):  # the machine lock gpu0.compute, set by the job script
         yield guard
