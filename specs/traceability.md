@@ -1,4 +1,4 @@
-# Traceability matrix — generated 2026-10-12 by tools/trace.py (do not edit)
+# Traceability matrix — generated 2026-10-13 by tools/trace.py (do not edit)
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
@@ -331,7 +331,7 @@
 | FR-004-31 | 004-scene-pipeline | draft | T-004-041 | tests/unit/test_t_004_041_scene_digest.py |
 | FR-004-32 | 004-scene-pipeline | draft | T-004-042 | tests/unit/test_t_004_042_compose_hostile.py |
 | FR-004-33 | 004-scene-pipeline | draft | T-004-042 | tests/unit/test_t_004_042_compose_hostile.py |
-| FR-004-34 | 004-scene-pipeline | draft | T-004-050 | tests/unit/test_t_004_050_validators.py |
+| FR-004-34 | 004-scene-pipeline | draft | T-004-050 | tests/unit/test_t_004_050_stage_mesh_normals.py, tests/unit/test_t_004_050_validators.py |
 | FR-004-35 | 004-scene-pipeline | draft | T-004-051 | tests/unit/test_t_004_051_invariants.py |
 | FR-004-36 | 004-scene-pipeline | draft | T-004-052 | tests/property/test_t_004_052_build_twice.py |
 | FR-004-37 | 004-scene-pipeline | draft | T-004-050 | tests/unit/test_t_004_050_validators.py |
@@ -520,15 +520,15 @@
 | FR-008-49 | 008-data-pipeline | draft | T-008-092 | tests/contract/test_t_008_060_data_cards.py, tests/pipeline/test_t_008_092_fixture_source.py |
 | FR-008-50 | 008-data-pipeline | draft | T-008-093 | tests/pipeline/test_t_008_093_partial_source.py |
 | FR-009-01 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py |
-| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py |
+| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-03 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py |
 | FR-009-04 | 009-perception | draft | T-009-011 | tests/unit/test_t_009_011_sun_sampler.py |
 | FR-009-05 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py |
 | FR-009-06 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py |
 | FR-009-07 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py |
 | FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py |
-| FR-009-09 | 009-perception | draft | T-009-014 | tests/unit/test_t_009_014_sdg_config_guards.py |
-| FR-009-10 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py |
+| FR-009-09 | 009-perception | draft | T-009-014 | tests/unit/test_t_009_014_sdg_config_guards.py, tests/unit/test_t_009_016_run_job_inputs.py |
+| FR-009-10 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-11 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py |
 | FR-009-12 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py |
 | FR-009-13 | 009-perception | draft | T-009-017 | tests/unit/test_t_009_017_crusher_components.py |

@@ -3806,6 +3806,7 @@
         "T-004-050"
       ],
       "tests": [
+        "tests/unit/test_t_004_050_stage_mesh_normals.py",
         "tests/unit/test_t_004_050_validators.py"
       ]
     },
@@ -7745,7 +7746,8 @@
         "T-009-016"
       ],
       "tests": [
-        "tests/gpu/test_t_009_016_sdg_outputs.py"
+        "tests/gpu/test_t_009_016_sdg_outputs.py",
+        "tests/unit/test_t_009_016_run_job_inputs.py"
       ]
     },
     "FR-009-03": {
@@ -7829,7 +7831,8 @@
         "T-009-014"
       ],
       "tests": [
-        "tests/unit/test_t_009_014_sdg_config_guards.py"
+        "tests/unit/test_t_009_014_sdg_config_guards.py",
+        "tests/unit/test_t_009_016_run_job_inputs.py"
       ]
     },
     "FR-009-10": {
@@ -7841,7 +7844,8 @@
         "T-009-015"
       ],
       "tests": [
-        "tests/unit/test_t_009_015_asset_people_guard.py"
+        "tests/unit/test_t_009_015_asset_people_guard.py",
+        "tests/unit/test_t_009_016_run_job_inputs.py"
       ]
     },
     "FR-009-11": {
