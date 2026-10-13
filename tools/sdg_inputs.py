@@ -55,8 +55,8 @@ FLOOR_Z_M = -540.0
 WAIVERS = (
     {
         "rule": "UsdAsciiPerformanceChecker",
-        "reason": "the design layer is .usda by contract (NFR-004-05: small layers up to 10 MB, diffable); at 3.9 MB it "
-        "is inside the limit and the checker only advises crate storage for large arrays",
+        "reason": "the design layer is .usda by contract (NFR-004-05: small layers up to 10 MB, diffable); at 3.9 MB "
+        "it is inside the limit and the checker only advises crate storage for large arrays",
     },
 )  # the one waived rule of the reference scene, recorded in the validation report (FR-004-37)
 OPENING_RADII_M = (100.0, 150.0, 200.0, 300.0, 400.0)  # tried in order until the design stage accepts the outline
