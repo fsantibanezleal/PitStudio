@@ -9,6 +9,7 @@ import numpy as np
 
 from pitstudio_studio.scene import common
 from pitstudio_studio.scene.common import DESIGN_LABEL
+from pitstudio_studio.scene.normals import author_normals
 
 PROVENANCE = "design-code"
 ROAD_WIDTH_M = 8.0
@@ -152,6 +153,7 @@ def write_design_layer(path: Path | str, result: Any, *, rel_path: str = "layers
             mesh.CreateFaceVertexCountsAttr(Vt.IntArray.FromNumpy(np.full(len(indices) // 3, 3, dtype=np.int32)))
             mesh.CreateFaceVertexIndicesAttr(Vt.IntArray.FromNumpy(indices))
             mesh.CreateSubdivisionSchemeAttr("none")
+            author_normals(mesh, points, np.full(len(indices) // 3, 3), indices)
             mesh.CreateExtentAttr(
                 [Gf.Vec3f(*map(float, points.min(axis=0))), Gf.Vec3f(*map(float, points.max(axis=0)))]
             )
