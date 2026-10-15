@@ -23,7 +23,20 @@ CHECKS = {
     "machine path": re.compile(r"\b[A-Za-z]:[\\/]Users[\\/]|/[a-z]/Users/|/home/[a-z][a-z0-9_-]*/"),
     "template residue": re.compile(r"\{\{[A-Z0-9_]{3,}\}\}"),
 }
+# Account names that are placeholders in hostile-input fixtures (a path rule under test, never a real machine path).
+PLACEHOLDER_ACCOUNTS = frozenset({"user", "alice", "bob", "u"})
+ACCOUNT = re.compile(r"(?:\b[A-Za-z]:[\\/]Users[\\/]|/[a-z]/Users/|/home/)([A-Za-z0-9_.-]+)")
 SELF = Path(__file__).resolve()
+
+
+def hits(name: str, rx: re.Pattern[str], line: str) -> bool:
+    """True when the line trips the check; a machine path whose account is a placeholder name does not."""
+    if not rx.search(line):
+        return False
+    if name != "machine path":
+        return True
+    accounts = [m.group(1).lower() for m in ACCOUNT.finditer(line)]
+    return not accounts or any(a not in PLACEHOLDER_ACCOUNTS for a in accounts)
 
 
 def main() -> int:
@@ -44,7 +57,7 @@ def main() -> int:
             continue
         for n, line in enumerate(raw.decode("utf-8", errors="replace").splitlines(), start=1):
             for name, rx in CHECKS.items():
-                if rx.search(line):
+                if hits(name, rx, line):
                     errs.append(f"{name}: {rel}:{n}")
     if errs:
         print(f"REPO CHECK FAIL ({len(errs)}):")
