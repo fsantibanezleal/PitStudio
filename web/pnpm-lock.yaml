@@ -11,6 +11,9 @@ importers:
       '@base-ui/react':
         specifier: ^1.8.0
         version: 1.8.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@fasl-work/caos-app-shell':
+        specifier: ^0.14.2
+        version: 0.14.2(katex@0.16.47)(lucide-react@1.51.0(@types/react@19.3.0)(react@19.3.0))(playwright@1.63.0)(react-dom@19.3.0(react@19.3.0))(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(zustand@5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0)))
       '@fontsource-variable/inter':
         specifier: ^5.3.0
         version: 5.3.0
@@ -26,6 +29,9 @@ importers:
       isbot:
         specifier: ^5.2.2
         version: 5.2.2
+      katex:
+        specifier: ^0.16.47
+        version: 0.16.47
       lucide-react:
         specifier: ^1.51.0
         version: 1.51.0(@types/react@19.3.0)(react@19.3.0)
@@ -41,6 +47,9 @@ importers:
       react-router:
         specifier: ^8.4.0
         version: 8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      zustand:
+        specifier: ^5.0.15
+        version: 5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0))
     devDependencies:
       '@axe-core/playwright':
         specifier: ^4.13.0
@@ -335,6 +344,24 @@ packages:
       '@noble/hashes': ^1.8.0 || ^2.0.0
     peerDependenciesMeta:
       '@noble/hashes':
+        optional: true
+
+  '@fasl-work/caos-app-shell@0.14.2':
+    resolution: {integrity: sha512-mF3IoxoGPjDcoKjFA4mWvyPetORxRaQmHKoLUE6AJLSceHZLFKDHP6vOW58J2PIKgYEfCYId+ZkxjiHrYE592A==}
+    hasBin: true
+    peerDependencies:
+      katex: ^0.16.0
+      lucide-react: '>=0.400.0'
+      playwright: '>=1.40'
+      react: ^18 || ^19
+      react-dom: ^18 || ^19
+      react-router: ^6 || ^7 || ^8
+      uplot: ^1.6.30
+      zustand: ^4 || ^5
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      uplot:
         optional: true
 
   '@floating-ui/core@1.8.0':
@@ -764,6 +791,10 @@ packages:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
     engines: {node: '>= 20.19.0'}
 
+  commander@8.3.0:
+    resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
+    engines: {node: '>= 12'}
+
   confbox@0.3.1:
     resolution: {integrity: sha512-cKUSoKa8YxFZZSmraVi7onONx3amu77ngK3kGpsYHDH7drPwCRkQE1RYMPlLRrMtnciRj274XNRxcHxnKmDSnA==}
 
@@ -929,6 +960,10 @@ packages:
   json5@2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
+    hasBin: true
+
+  katex@0.16.47:
+    resolution: {integrity: sha512-Eeo8Ys1doU1z+x8AZsPpQu+p/QcZBI5PeOo7QGQdy2x2m0MU/hYagBbGOmXwr5KVbEfVuWv9LpnQWeehogurjg==}
     hasBin: true
 
   lightningcss-android-arm64@1.33.0:
@@ -1361,6 +1396,24 @@ packages:
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
 
+  zustand@5.0.15:
+    resolution: {integrity: sha512-MpSEjRiBkA9crSYeOUH32rJC7SVqAbm0Fqcqge/bUi2PPoLcBWKOsG+C8mevmpr8TwXHBVkChbbJiyvkE+i/3A==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
+
 snapshots:
 
   '@apidevtools/json-schema-ref-parser@11.9.3':
@@ -1591,6 +1644,17 @@ snapshots:
   '@csstools/css-tokenizer@4.0.2': {}
 
   '@exodus/bytes@1.16.0': {}
+
+  '@fasl-work/caos-app-shell@0.14.2(katex@0.16.47)(lucide-react@1.51.0(@types/react@19.3.0)(react@19.3.0))(playwright@1.63.0)(react-dom@19.3.0(react@19.3.0))(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(zustand@5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0)))':
+    dependencies:
+      katex: 0.16.47
+      lucide-react: 1.51.0(@types/react@19.3.0)(react@19.3.0)
+      react: 19.3.0
+      react-dom: 19.3.0(react@19.3.0)
+      react-router: 8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      zustand: 5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0))
+    optionalDependencies:
+      playwright: 1.63.0
 
   '@floating-ui/core@1.8.0':
     dependencies:
@@ -1906,6 +1970,8 @@ snapshots:
     dependencies:
       readdirp: 5.1.1
 
+  commander@8.3.0: {}
+
   confbox@0.3.1: {}
 
   convert-source-map@2.0.0: {}
@@ -2042,6 +2108,10 @@ snapshots:
   json-schema-traverse@1.0.0: {}
 
   json5@2.2.3: {}
+
+  katex@0.16.47:
+    dependencies:
+      commander: 8.3.0
 
   lightningcss-android-arm64@1.33.0:
     optional: true
@@ -2365,3 +2435,9 @@ snapshots:
   xmlchars@2.2.0: {}
 
   yallist@3.1.1: {}
+
+  zustand@5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0)):
+    optionalDependencies:
+      '@types/react': 19.3.0
+      react: 19.3.0
+      use-sync-external-store: 1.7.0(react@19.3.0)
