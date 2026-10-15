@@ -1,0 +1,472 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/il-episodes.schema.json",
+  "title": "PitStudio IL episode table",
+  "description": "JSON sidecar of an IL episode table, with the IL-1 and IL-2 / IL-3 row column sets as $defs (DC-014-04, spec 014-robot-learning).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "policy",
+    "arm",
+    "run_id",
+    "controller",
+    "deterministic_actions",
+    "seed_set_sha256",
+    "column_set",
+    "table"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "policy": {
+      "$ref": "il-task.schema.json#/$defs/policy_id"
+    },
+    "arm": {
+      "description": "Arm of the paired comparison.",
+      "enum": [
+        "policy",
+        "baseline",
+        "twin",
+        "mpm"
+      ]
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "controller": {
+      "description": "Controller that produced the episodes.",
+      "type": "object",
+      "required": [
+        "kind",
+        "sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "policy",
+            "pure-pursuit-pid",
+            "scripted-dig"
+          ]
+        },
+        "sha256": {
+          "description": "Checkpoint digest, or digest of the frozen baseline parameters.",
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "deterministic_actions": {
+      "description": "Mean action, no sampling.",
+      "const": true
+    },
+    "seed_set_sha256": {
+      "description": "SHA-256 of the sorted seed list (pairing check).",
+      "$ref": "#/$defs/sha256"
+    },
+    "column_set": {
+      "enum": [
+        "il1-episode",
+        "dig-episode"
+      ]
+    },
+    "table": {
+      "description": "Parquet episode table.",
+      "type": "object",
+      "required": [
+        "path",
+        "bytes",
+        "sha256",
+        "rows"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "rows": {
+          "description": "Episodes in the table.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "policy": {
+            "const": "IL-1"
+          }
+        },
+        "required": [
+          "policy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "arm": {
+            "enum": [
+              "policy",
+              "baseline",
+              "twin"
+            ]
+          },
+          "column_set": {
+            "const": "il1-episode"
+          },
+          "controller": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "policy",
+                  "pure-pursuit-pid"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "policy": {
+            "const": "IL-2"
+          }
+        },
+        "required": [
+          "policy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "arm": {
+            "enum": [
+              "policy",
+              "baseline",
+              "mpm"
+            ]
+          },
+          "column_set": {
+            "const": "dig-episode"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "policy": {
+            "const": "IL-3"
+          }
+        },
+        "required": [
+          "policy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "arm": {
+            "enum": [
+              "policy",
+              "baseline"
+            ]
+          },
+          "column_set": {
+            "const": "dig-episode"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "policy": {
+            "enum": [
+              "IL-2",
+              "IL-3"
+            ]
+          }
+        },
+        "required": [
+          "policy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "controller": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "policy",
+                  "scripted-dig"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "arm": {
+            "const": "baseline"
+          }
+        },
+        "required": [
+          "arm"
+        ]
+      },
+      "then": {
+        "properties": {
+          "controller": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "pure-pursuit-pid",
+                  "scripted-dig"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "arm": {
+            "enum": [
+              "policy",
+              "twin",
+              "mpm"
+            ]
+          }
+        },
+        "required": [
+          "arm"
+        ]
+      },
+      "then": {
+        "properties": {
+          "controller": {
+            "properties": {
+              "kind": {
+                "const": "policy"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "arm": {
+            "const": "mpm"
+          }
+        },
+        "required": [
+          "arm"
+        ]
+      },
+      "then": {
+        "properties": {
+          "table": {
+            "properties": {
+              "rows": {
+                "minimum": 16,
+                "maximum": 64
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "schema_version": {
+      "description": "Contract version (major 1).",
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "il1_episode": {
+      "description": "One row of an IL-1 episode table (Parquet).",
+      "type": "object",
+      "required": [
+        "seed",
+        "light_vehicles",
+        "termination",
+        "success",
+        "collision",
+        "steps",
+        "sum_sq_lateral_error_m2",
+        "rms_lateral_error_m",
+        "max_lateral_error_m",
+        "min_ttc_s",
+        "energy_kwh_per_t_km",
+        "frac_within_v_lim"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "seed": {
+          "description": "Episode seed.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "light_vehicles": {
+          "description": "Light vehicles in the scenario.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "termination": {
+          "enum": [
+            "success",
+            "collision",
+            "lateral_error",
+            "time_limit",
+            "invalid_value"
+          ]
+        },
+        "success": {
+          "description": "Reached L_route - 2 m without collision.",
+          "type": "boolean"
+        },
+        "collision": {
+          "type": "boolean"
+        },
+        "steps": {
+          "description": "Control steps.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "sum_sq_lateral_error_m2": {
+          "description": "Sum of squared lateral errors over the steps (m2).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000
+        },
+        "rms_lateral_error_m": {
+          "description": "Per-episode RMS lateral error (m).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "max_lateral_error_m": {
+          "description": "Per-episode maximum lateral error (m).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "min_ttc_s": {
+          "description": "Minimum TTC (s); +inf (Parquet) when never closing.",
+          "type": "number",
+          "minimum": 0
+        },
+        "energy_kwh_per_t_km": {
+          "description": "Traction energy per gross tonne-kilometre (kWh/(t km)).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "frac_within_v_lim": {
+          "description": "Fraction of steps within v_lim.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "dig_episode": {
+      "description": "One row of an IL-2 / IL-3 episode table (Parquet).",
+      "type": "object",
+      "required": [
+        "seed",
+        "termination",
+        "fill_factor",
+        "cycle_time_s",
+        "productivity_per_s",
+        "stalled",
+        "lift_off"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "seed": {
+          "description": "Episode seed.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "termination": {
+          "enum": [
+            "completed",
+            "time_limit",
+            "invalid_value"
+          ]
+        },
+        "fill_factor": {
+          "description": "Fill factor k_f at dig completion or at the time limit (-).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "cycle_time_s": {
+          "description": "Cycle time t_c (s); 30 if not completed.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 30
+        },
+        "productivity_per_s": {
+          "description": "Productivity P = k_f / t_c (1/s).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "stalled": {
+          "description": "At least one stall event.",
+          "type": "boolean"
+        },
+        "lift_off": {
+          "description": "Bucket lifted >= 0.5 m above the local terrain after cutting.",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

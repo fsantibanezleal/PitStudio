@@ -1,0 +1,468 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/figures.schema.json",
+  "title": "Figure registry",
+  "description": "Interactive figures and registered photographs of web/src/theory/figures.yaml (DC-020-04, spec 020-web-knowledge).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "figures"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 200
+    },
+    "figures": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/chart"
+          },
+          {
+            "$ref": "#/$defs/photo"
+          }
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 128
+    }
+  },
+  "$defs": {
+    "chart": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "topic",
+        "title",
+        "engine",
+        "plot",
+        "controls",
+        "features",
+        "colormap"
+      ],
+      "properties": {
+        "kind": {
+          "const": "chart"
+        },
+        "id": {
+          "$ref": "#/$defs/figure_id"
+        },
+        "topic": {
+          "$ref": "#/$defs/topic"
+        },
+        "title": {
+          "$ref": "#/$defs/name_en_es"
+        },
+        "engine": {
+          "$ref": "#/$defs/engine"
+        },
+        "plot": {
+          "enum": [
+            "xy",
+            "field",
+            "section",
+            "3d"
+          ]
+        },
+        "controls": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/range_control"
+              },
+              {
+                "$ref": "#/$defs/choice_control"
+              }
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 16
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/param_key"
+              },
+              "label": {
+                "$ref": "#/$defs/name_en_es"
+              },
+              "unit": {
+                "$ref": "#/$defs/unit"
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 8
+        },
+        "colormap": {
+          "enum": [
+            "viridis",
+            "cividis",
+            "inferno",
+            "magma",
+            null
+          ]
+        },
+        "justification3d": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "third_variable",
+            "unit",
+            "reason"
+          ],
+          "properties": {
+            "third_variable": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            "unit": {
+              "$ref": "#/$defs/unit"
+            },
+            "reason": {
+              "$ref": "#/$defs/text_en_es"
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "plot": {
+                "const": "3d"
+              }
+            },
+            "required": [
+              "plot"
+            ]
+          },
+          "then": {
+            "required": [
+              "justification3d"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "justification3d"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "plot": {
+                "const": "field"
+              }
+            },
+            "required": [
+              "plot"
+            ]
+          },
+          "then": {
+            "properties": {
+              "colormap": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "choice_control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "label",
+        "options",
+        "default"
+      ],
+      "properties": {
+        "kind": {
+          "const": "choice"
+        },
+        "id": {
+          "$ref": "#/$defs/param_key"
+        },
+        "label": {
+          "$ref": "#/$defs/name_en_es"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/slug"
+              },
+              "label": {
+                "$ref": "#/$defs/name_en_es"
+              }
+            }
+          },
+          "minItems": 2,
+          "maxItems": 16
+        },
+        "default": {
+          "$ref": "#/$defs/slug"
+        },
+        "default_row": {
+          "$ref": "#/$defs/knowledge_row_id"
+        }
+      }
+    },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "engine",
+            "teaching"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "maxLength": 32,
+          "pattern": "^[a-z][A-Za-z0-9-]{1,31}$"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "engine"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "id": {
+                "pattern": "^[a-z][a-z0-9-]{1,31}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "teaching"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "id": {
+                "pattern": "^[a-z][A-Za-z0-9]{1,31}$"
+              }
+            }
+          }
+        }
+      ],
+      "description": "Browser engine of specs 007, 013, 014 or 018, or a teaching function of web/src/theory/fn/."
+    },
+    "figure_id": {
+      "type": "string",
+      "maxLength": 48,
+      "pattern": "^[a-z][a-z0-9-]{1,47}$"
+    },
+    "knowledge_row_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z][a-z0-9_]{0,95}$"
+    },
+    "name_en_es": {
+      "$ref": "methods.schema.json#/$defs/name_en_es"
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "photo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "file",
+        "alt",
+        "licence"
+      ],
+      "properties": {
+        "kind": {
+          "const": "photo"
+        },
+        "id": {
+          "$ref": "#/$defs/figure_id"
+        },
+        "file": {
+          "$ref": "#/$defs/relpath"
+        },
+        "alt": {
+          "$ref": "#/$defs/text_en_es"
+        },
+        "licence": {
+          "$ref": "#/$defs/spdx_id"
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "description": "A registered raster photograph (FR-020-16); charts are never raster images."
+    },
+    "range_control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "label",
+        "unit",
+        "min",
+        "max",
+        "step",
+        "default"
+      ],
+      "properties": {
+        "kind": {
+          "const": "range"
+        },
+        "id": {
+          "$ref": "#/$defs/param_key"
+        },
+        "label": {
+          "$ref": "#/$defs/name_en_es"
+        },
+        "unit": {
+          "$ref": "#/$defs/unit"
+        },
+        "min": {
+          "type": "number",
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "max": {
+          "type": "number",
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "step": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000000000000.0
+        },
+        "default": {
+          "type": "number",
+          "minimum": -1000000000000000.0,
+          "maximum": 1000000000000000.0
+        },
+        "default_row": {
+          "$ref": "#/$defs/knowledge_row_id"
+        },
+        "digest_exempt": {
+          "type": "boolean"
+        }
+      }
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "spdx_id": {
+      "enum": [
+        "LicenseRef-USGov-PD",
+        "CC0-1.0",
+        "DL-DE-ZERO-2.0",
+        "CC-BY-4.0",
+        "LicenseRef-Copernicus-CLMS",
+        "CC-BY-SA-3.0",
+        "CC-BY-SA-4.0",
+        "Apache-2.0",
+        "MIT",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "MPL-2.0",
+        "LGPL-2.1-or-later",
+        "LicenseRef-TOST-1.0",
+        "LicenseRef-NVIDIA-Open-Model",
+        "LicenseRef-NVIDIA-SLA",
+        "LicenseRef-NvidiaProprietary",
+        "LicenseRef-NVIDIA-Omniverse",
+        "LicenseRef-TensorRT-SLA",
+        "LicenseRef-TensorRT-RTX-SLA"
+      ]
+    },
+    "text_en_es": {
+      "$ref": "methods.schema.json#/$defs/text_en_es"
+    },
+    "topic": {
+      "enum": [
+        "haulage",
+        "loading-and-terramechanics",
+        "drill-and-blast",
+        "slopes-and-monitoring",
+        "bulk-flow-dem-mpm",
+        "comminution",
+        "dust",
+        "tailings",
+        "planning",
+        "rtx-sensor-physics",
+        "robot-learning",
+        "vision-language-reasoning",
+        "sim-to-real"
+      ]
+    },
+    "unit": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    }
+  }
+}

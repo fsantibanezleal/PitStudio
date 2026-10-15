@@ -1,0 +1,9 @@
+{
+  "kind": "output",
+  "engine": "haulage",
+  "engine_version": "0.1.0",
+  "function": "match_factor",
+  "result": {
+    "match_factor": 0.6
+  }
+}

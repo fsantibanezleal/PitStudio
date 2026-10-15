@@ -1,0 +1,415 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/traffic.schema.json",
+  "title": "Engine traffic: input and output messages",
+  "description": "Input and output messages of the browser engine `traffic` (cases B1): the Rapier traffic world with rule-based agents, TTC and near misses (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `traffic`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "traffic",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "simulate",
+            "ttc"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "simulate"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/simulate_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "ttc"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/ttc_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `traffic`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "traffic",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "simulate",
+            "ttc"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "simulate"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/simulate_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "ttc"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/ttc_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "simulate_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vehicles",
+        "speed_limit_m_per_s",
+        "collision_radius_m",
+        "steps",
+        "step_s",
+        "ttc_threshold_s"
+      ],
+      "properties": {
+        "vehicles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "vehicle_class",
+              "position_m",
+              "heading_rad",
+              "speed_m_per_s"
+            ],
+            "properties": {
+              "vehicle_class": {
+                "enum": [
+                  "haul-truck",
+                  "light-vehicle"
+                ]
+              },
+              "position_m": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": -100000.0,
+                  "maximum": 100000.0
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "Initial position (x, y) in the scene frame, binary64 as written in the fixture."
+              },
+              "heading_rad": {
+                "type": "number",
+                "minimum": -3.141592653589793,
+                "maximum": 3.141592653589793,
+                "description": "Initial heading."
+              },
+              "speed_m_per_s": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 30,
+                "description": "Initial speed."
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 40,
+          "description": "Vehicles (at most 40, spec 018 section 7.1)."
+        },
+        "speed_limit_m_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 30,
+          "description": "Speed limit of the rule-based agents."
+        },
+        "collision_radius_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "description": "Radius R of the TTC envelope (FR-018-55)."
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 36000,
+          "description": "Steps at 60 Hz (at most 10 min)."
+        },
+        "step_s": {
+          "const": 0.016666666666666666,
+          "description": "Fixed step 1/60 s."
+        },
+        "ttc_threshold_s": {
+          "const": 3,
+          "description": "Near-miss threshold tau* = 3 s (FR-018-55)."
+        }
+      }
+    },
+    "simulate_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "steps",
+        "snapshot_sha256",
+        "exposure_s",
+        "encounters",
+        "near_misses",
+        "near_miss_rate_per_s"
+      ],
+      "properties": {
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 36000
+        },
+        "snapshot_sha256": {
+          "$ref": "#/$defs/sha256",
+          "description": "SHA-256 of the Rapier snapshot after the last step (FR-018-54)."
+        },
+        "exposure_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Vehicle exposure time."
+        },
+        "encounters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "vehicles",
+              "min_ttc_s"
+            ],
+            "properties": {
+              "vehicles": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 39
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "min_ttc_s": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "description": "Closing encounters with their minimum TTC."
+        },
+        "near_misses": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000,
+          "description": "Encounters with minimum TTC below tau*."
+        },
+        "near_miss_rate_per_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Near misses per second of exposure (per 1,000 h in the UI)."
+        }
+      }
+    },
+    "ttc_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "relative_position_m",
+        "relative_velocity_m_per_s",
+        "radius_m"
+      ],
+      "properties": {
+        "relative_position_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -100000.0,
+            "maximum": 100000.0
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "p = position of b minus position of a."
+        },
+        "relative_velocity_m_per_s": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -60,
+            "maximum": 60
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "w = velocity of b minus velocity of a."
+        },
+        "radius_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "description": "Envelope radius R."
+        }
+      }
+    },
+    "ttc_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "closing",
+            "not-closing",
+            "overlapping"
+          ],
+          "description": "Not closing means TTC is infinite."
+        },
+        "ttc_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Smallest positive root of |p + w tau| = R; 0 when overlapping."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not-closing"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "ttc_s"
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "ttc_s"
+            ]
+          }
+        }
+      ]
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "generated": "2026-10-07T10:15:00Z",
+  "versions": {
+    "ovrtx": "0.5.0.377615",
+    "ovstage": "0.2.0.377349"
+  },
+  "probe_scene": {
+    "cube_edge_m": 2,
+    "cube_range_m": 20
+  },
+  "configurations": [
+    {
+      "scan_type": "rotary",
+      "elevation_fan_deg": [
+        -22.5,
+        60
+      ],
+      "azimuth_fan_deg": [
+        -180,
+        180
+      ],
+      "mount_rotation_deg": [
+        0,
+        0,
+        0
+      ],
+      "status": "pass",
+      "valid_points": 15872
+    },
+    {
+      "scan_type": "solid-state",
+      "elevation_fan_deg": [
+        -15,
+        15
+      ],
+      "azimuth_fan_deg": [
+        -60,
+        60
+      ],
+      "mount_rotation_deg": [
+        0,
+        5,
+        0
+      ],
+      "status": "pass",
+      "valid_points": 9204
+    },
+    {
+      "scan_type": "rotary",
+      "elevation_fan_deg": [
+        -45,
+        45
+      ],
+      "azimuth_fan_deg": [
+        -180,
+        180
+      ],
+      "mount_rotation_deg": [
+        90,
+        0,
+        -90
+      ],
+      "status": "fail",
+      "valid_points": 0
+    }
+  ]
+}

@@ -65,7 +65,7 @@ imported in the same process as Kit or Isaac Sim**, because each carries an RTX 
 ```text
 PITSTUDIO_STORE/                 (outside the repository; default a short path such as C:\ps)
   cas/sha256/ab/…                content-addressed outputs
-  runs/<run_id>/                 manifest.json, events.jsonl, telemetry.parquet, logs/, nsys/
+  runs/<run_id>/                 manifest.json, events.jsonl, telemetry.jsonl, logs/, nsys/
   views/<recipe>/<stage>/        human-readable hardlinks into cas/
   queue.db                       the worker's queue (SQLite, WAL)
   locks/                         gpu0.compute, gpu0.nvenc

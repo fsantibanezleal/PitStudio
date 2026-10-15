@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "git_sha": "3f2a9c1d4e5b6a7980c1d2e3f4a5b6c7d8e9f012",
+  "generated": "2026-10-07T12:30:00Z",
+  "runner": {
+    "os_image": "ubuntu-24.04",
+    "cpu_model": "AMD EPYC 7763 64-Core Processor",
+    "logical_cpus": 4,
+    "memory_bytes": 16772599808,
+    "browser": "chromium",
+    "browser_version": "141.0.7390.37",
+    "headless": true,
+    "playwright_version": "1.63.0",
+    "node_version": "24.9.0",
+    "forced_tier": "T2",
+    "interactions": 50,
+    "runs": 5
+  },
+  "entries": [
+    {
+      "engine": "des",
+      "measurements": {
+        "web_drivable": true,
+        "max_asset_bytes": 1840000,
+        "interaction_ms": 4.2,
+        "run_ms_t2": 620.0,
+        "trace_bytes": 2350000,
+        "measured": {
+          "tier": "T1",
+          "date": "2026-10-07",
+          "browser": "chromium 141.0.7390.37"
+        }
+      }
+    },
+    {
+      "engine": "geotech",
+      "measurements": {
+        "web_drivable": true,
+        "max_asset_bytes": 210000,
+        "interaction_ms": 3.1,
+        "run_ms_t2": 48.0,
+        "trace_bytes": null,
+        "measured": {
+          "tier": "T2",
+          "date": "2026-10-07",
+          "browser": "chromium 141.0.7390.37"
+        }
+      }
+    },
+    {
+      "engine": "granular",
+      "measurements": {
+        "web_drivable": false,
+        "max_asset_bytes": 6000000,
+        "interaction_ms": null,
+        "run_ms_t2": null,
+        "trace_bytes": 6000000,
+        "measured": {
+          "tier": "T2",
+          "date": "2026-10-07",
+          "browser": "chromium 141.0.7390.37"
+        }
+      }
+    },
+    {
+      "engine": "gns",
+      "measurements": {
+        "web_drivable": true,
+        "max_asset_bytes": 18500000,
+        "interaction_ms": 41.0,
+        "run_ms_t2": 980.0,
+        "trace_bytes": null,
+        "measured": {
+          "tier": "T2",
+          "date": "2026-10-07",
+          "browser": "chromium 141.0.7390.37"
+        }
+      }
+    },
+    {
+      "artefact": "a3-granular-replay",
+      "measurements": {
+        "web_drivable": true,
+        "max_asset_bytes": 6000000,
+        "interaction_ms": 2.0,
+        "run_ms_t2": null,
+        "trace_bytes": 6000000,
+        "measured": {
+          "tier": "T2",
+          "date": "2026-10-07",
+          "browser": "chromium 141.0.7390.37"
+        }
+      }
+    }
+  ]
+}

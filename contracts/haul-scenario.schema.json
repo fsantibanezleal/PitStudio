@@ -1,0 +1,1185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/haul-scenario.schema.json",
+  "title": "Haulage scenario bundle",
+  "description": "Scenario bundle read by the haulage adapter, the TypeScript twin and the vectorised environment (DC-007-01, spec 007-haulage-dispatch).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "live",
+    "mode",
+    "horizon_s",
+    "kpi_window",
+    "network",
+    "equipment",
+    "fleet",
+    "loaders",
+    "dumps",
+    "dispatcher",
+    "variate_profile",
+    "quantile_tables",
+    "engine_constants",
+    "failures"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "id": {
+      "$ref": "#/$defs/slug"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "live": {
+      "type": "boolean",
+      "description": "Bundle offered to the live lane (fleet <= 40 trucks)."
+    },
+    "mode": {
+      "enum": [
+        "fast",
+        "traffic"
+      ]
+    },
+    "horizon_s": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 604800
+    },
+    "kpi_window": {
+      "$ref": "#/$defs/kpi_window"
+    },
+    "network": {
+      "$ref": "#/$defs/network"
+    },
+    "equipment": {
+      "$ref": "#/$defs/equipment"
+    },
+    "fleet": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/truck"
+      },
+      "minItems": 1,
+      "maxItems": 400
+    },
+    "loaders": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/loader"
+      },
+      "minItems": 1,
+      "maxItems": 64
+    },
+    "dumps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/node_id"
+      },
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "description": "Dump node ids; the first is the default."
+    },
+    "dispatcher": {
+      "$ref": "#/$defs/dispatcher"
+    },
+    "variate_profile": {
+      "$ref": "#/$defs/variate_profile"
+    },
+    "quantile_tables": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/quantile_table"
+      },
+      "maxItems": 32
+    },
+    "engine_constants": {
+      "$ref": "#/$defs/engine_constants"
+    },
+    "failures": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/failures"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "cost_rates": {
+      "$ref": "#/$defs/cost_rates"
+    },
+    "reference_only": {
+      "$ref": "#/$defs/reference_only"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "live": {
+            "const": true
+          }
+        },
+        "required": [
+          "live"
+        ]
+      },
+      "then": {
+        "properties": {
+          "fleet": {
+            "maxItems": 40
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]{1,4}$"
+    },
+    "node_id": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647,
+      "description": "Node id of the road network."
+    },
+    "point3_m": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": -10000000.0,
+        "maximum": 10000000.0
+      },
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "World position (x, y, z) in metres."
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "pos_m"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/node_id"
+        },
+        "kind": {
+          "enum": [
+            "face",
+            "dump",
+            "crusher",
+            "junction",
+            "portal",
+            "bay",
+            "chute",
+            "bin",
+            "waypoint"
+          ]
+        },
+        "pos_m": {
+          "$ref": "#/$defs/point3_m"
+        }
+      }
+    },
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "a",
+        "b",
+        "polyline_m",
+        "length_m",
+        "grade_pct",
+        "width_class",
+        "one_way",
+        "speed_limit_kmh",
+        "rolling_resistance_pct",
+        "zone_id",
+        "single_lane_op"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "a": {
+          "$ref": "#/$defs/node_id"
+        },
+        "b": {
+          "$ref": "#/$defs/node_id"
+        },
+        "polyline_m": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point3_m"
+          },
+          "minItems": 2,
+          "maxItems": 512
+        },
+        "length_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "grade_pct": {
+          "type": "number",
+          "exclusiveMinimum": -100,
+          "exclusiveMaximum": 100,
+          "description": "Signed grade in the a -> b direction (%)."
+        },
+        "width_class": {
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "one_way": {
+          "type": "boolean"
+        },
+        "speed_limit_kmh": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 120
+        },
+        "rolling_resistance_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 30
+        },
+        "zone_id": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "single_lane_op": {
+          "type": "boolean"
+        }
+      }
+    },
+    "zone": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "segment_ids",
+        "policy",
+        "max_in_zone",
+        "batch_k",
+        "max_hold_s"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "segment_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          },
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true
+        },
+        "policy": {
+          "enum": [
+            "lockout",
+            "loaded_priority",
+            "group_batching"
+          ]
+        },
+        "max_in_zone": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "batch_k": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "max_hold_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 86400
+        }
+      }
+    },
+    "junction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node",
+        "capacity",
+        "cross_s"
+      ],
+      "properties": {
+        "node": {
+          "$ref": "#/$defs/node_id"
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "cross_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nodes",
+        "segments",
+        "zones",
+        "junctions"
+      ],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          },
+          "minItems": 2,
+          "maxItems": 10000
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/segment"
+          },
+          "minItems": 1,
+          "maxItems": 10000
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/zone"
+          },
+          "maxItems": 256
+        },
+        "junctions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/junction"
+          },
+          "maxItems": 1024
+        }
+      }
+    },
+    "truck_class_name": {
+      "enum": [
+        "CAT_777G",
+        "CAT_785D",
+        "CAT_793F",
+        "UG_TRUCK_50",
+        "UG_TRUCK_63"
+      ],
+      "description": "Truck class of the pinned reference-engine catalog."
+    },
+    "loader_class_name": {
+      "enum": [
+        "SHOVEL_25",
+        "SHOVEL_45",
+        "WHEEL_LOADER_18",
+        "CHUTE",
+        "LHD_14_LOADING",
+        "LHD_18_LOADING"
+      ],
+      "description": "Loader class of the pinned reference-engine catalog."
+    },
+    "curve_point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "speed_kmh",
+        "force_kn"
+      ],
+      "properties": {
+        "speed_kmh": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 120
+        },
+        "force_kn": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000
+        }
+      }
+    },
+    "truck_class": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "kind",
+        "payload_mean_t",
+        "payload_sd_t",
+        "empty_t",
+        "width_class",
+        "power_kw",
+        "max_speed_kmh",
+        "rimpull_kn",
+        "retarder_kn"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/truck_class_name"
+        },
+        "kind": {
+          "enum": [
+            "rigid",
+            "articulated-ug"
+          ]
+        },
+        "payload_mean_t": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 500
+        },
+        "payload_sd_t": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "empty_t": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "width_class": {
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "power_kw": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000
+        },
+        "max_speed_kmh": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 120
+        },
+        "rimpull_kn": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/curve_point"
+          },
+          "minItems": 2,
+          "maxItems": 32
+        },
+        "retarder_kn": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/curve_point"
+          },
+          "minItems": 2,
+          "maxItems": 32
+        }
+      }
+    },
+    "loader_class": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "pass_t",
+        "pass_time_s",
+        "time_cv",
+        "spot_time_s"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/loader_class_name"
+        },
+        "pass_t": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 200
+        },
+        "pass_time_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 3600
+        },
+        "time_cv": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "spot_time_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        }
+      }
+    },
+    "equipment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "truck_classes",
+        "loader_classes"
+      ],
+      "properties": {
+        "truck_classes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/truck_class"
+          },
+          "minItems": 1,
+          "maxItems": 8
+        },
+        "loader_classes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/loader_class"
+          },
+          "minItems": 1,
+          "maxItems": 8
+        }
+      }
+    },
+    "truck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "truck_class",
+        "start_loader"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "truck_class": {
+          "$ref": "#/$defs/truck_class_name"
+        },
+        "start_loader": {
+          "$ref": "#/$defs/node_id"
+        }
+      }
+    },
+    "loader": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node",
+        "loader_class",
+        "n_spots"
+      ],
+      "properties": {
+        "node": {
+          "$ref": "#/$defs/node_id"
+        },
+        "loader_class": {
+          "$ref": "#/$defs/loader_class_name"
+        },
+        "n_spots": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "destination_dump": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647,
+          "description": "Declared destination dump; absent = the first dump."
+        }
+      }
+    },
+    "dispatcher_id": {
+      "enum": [
+        "fixed",
+        "nearest",
+        "sptf",
+        "sq",
+        "random",
+        "min-idle",
+        "lp",
+        "ppo",
+        "attention"
+      ]
+    },
+    "variate_profile": {
+      "enum": [
+        "engine",
+        "exponential",
+        "deterministic"
+      ]
+    },
+    "blend_floor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "terms",
+        "min"
+      ],
+      "properties": {
+        "terms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "loader",
+              "coef"
+            ],
+            "properties": {
+              "loader": {
+                "$ref": "#/$defs/node_id"
+              },
+              "coef": {
+                "type": "number",
+                "minimum": -1000000.0,
+                "maximum": 1000000.0
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "min": {
+          "type": "number",
+          "minimum": -1000000000.0,
+          "maximum": 1000000000.0
+        }
+      }
+    },
+    "lp_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blend_floors"
+      ],
+      "properties": {
+        "blend_floors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/blend_floor"
+          },
+          "maxItems": 16
+        }
+      }
+    },
+    "policy_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artefact_id",
+        "onnx_sha256",
+        "layout_version"
+      ],
+      "properties": {
+        "artefact_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "onnx_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "layout_version": {
+          "const": 1
+        }
+      }
+    },
+    "dispatcher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/dispatcher_id"
+        },
+        "lp": {
+          "$ref": "#/$defs/lp_config"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy_ref"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "const": "lp"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "lp"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "ppo",
+                  "attention"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "required": [
+              "policy"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "policy"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "quantile_table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family",
+        "bins",
+        "encoding",
+        "knots_f64le_b64",
+        "knots_sha256"
+      ],
+      "properties": {
+        "family": {
+          "enum": [
+            "uniform",
+            "normal",
+            "exponential",
+            "lognormal-unit-mean"
+          ]
+        },
+        "sigma": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 1
+        },
+        "bins": {
+          "const": 4096
+        },
+        "encoding": {
+          "const": "float64-le-base64"
+        },
+        "knots_f64le_b64": {
+          "type": "string",
+          "minLength": 43704,
+          "maxLength": 43704,
+          "pattern": "^[A-Za-z0-9+/]*={0,2}$",
+          "description": "4097 knots (float64, little-endian), base64."
+        },
+        "knots_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "family": {
+                "const": "lognormal-unit-mean"
+              }
+            },
+            "required": [
+              "family"
+            ]
+          },
+          "then": {
+            "required": [
+              "sigma"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "sigma"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "engine_constants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stagger_window_s",
+        "dump_mean_s",
+        "dump_cv",
+        "closure_retry_s",
+        "headway_m",
+        "headway_s",
+        "payload_min_frac_of_mean",
+        "payload_max_t"
+      ],
+      "properties": {
+        "stagger_window_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "dump_mean_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 3600
+        },
+        "dump_cv": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "closure_retry_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 86400
+        },
+        "headway_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "headway_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 600
+        },
+        "payload_min_frac_of_mean": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "payload_max_t": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        }
+      }
+    },
+    "closure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_s",
+        "duration_s",
+        "segment_ids"
+      ],
+      "properties": {
+        "start_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 604800
+        },
+        "duration_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 604800
+        },
+        "segment_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          },
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true
+        }
+      }
+    },
+    "failures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "truck_mtbf_h",
+        "truck_repair_mean_s",
+        "truck_repair_cv",
+        "loader_mtbf_h",
+        "loader_repair_mean_s",
+        "loader_repair_cv",
+        "closures"
+      ],
+      "properties": {
+        "truck_mtbf_h": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "truck_repair_mean_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 604800
+        },
+        "truck_repair_cv": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "loader_mtbf_h": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "loader_repair_mean_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 604800
+        },
+        "loader_repair_cv": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "closures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/closure"
+          },
+          "maxItems": 256
+        }
+      }
+    },
+    "kpi_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "warmup_s"
+      ],
+      "properties": {
+        "warmup_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 604800
+        }
+      }
+    },
+    "cost_rates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "truck_per_h",
+        "loader_per_h",
+        "currency"
+      ],
+      "properties": {
+        "truck_per_h": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000.0
+        },
+        "loader_per_h": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000.0
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 3,
+          "pattern": "^[A-Z]{3}$"
+        }
+      }
+    },
+    "reference_only": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "lhds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "lhd_class",
+              "drawpoints",
+              "tip_node",
+              "pass_id"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "lhd_class": {
+                "enum": [
+                  "LHD_14",
+                  "LHD_18"
+                ]
+              },
+              "drawpoints": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/node_id"
+                },
+                "minItems": 1,
+                "maxItems": 16,
+                "uniqueItems": true
+              },
+              "tip_node": {
+                "$ref": "#/$defs/node_id"
+              },
+              "pass_id": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "maxItems": 64
+        },
+        "ore_passes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "chute_node",
+              "capacity_t"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "chute_node": {
+                "$ref": "#/$defs/node_id"
+              },
+              "capacity_t": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1000000.0
+              }
+            }
+          },
+          "maxItems": 16
+        },
+        "shaft_bin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "node",
+            "capacity_t",
+            "hoist_t_per_h"
+          ],
+          "properties": {
+            "node": {
+              "$ref": "#/$defs/node_id"
+            },
+            "capacity_t": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1000000.0
+            },
+            "hoist_t_per_h": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 100000.0
+            }
+          }
+        },
+        "planning_overlay": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "$ref": "#/$defs/relpath"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        "zone_penalty_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3600
+        }
+      },
+      "minProperties": 1,
+      "description": "Reference-engine features outside the twin's feature set (FR-007-12)."
+    }
+  }
+}

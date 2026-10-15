@@ -1,0 +1,197 @@
+{
+  "schema_version": "1.0",
+  "case": "A1",
+  "seed": 20261007,
+  "site": {
+    "name": "Bingham Canyon",
+    "origin": {
+      "epsg": 26912,
+      "easting_m": 406500.0,
+      "northing_m": 4484500.0,
+      "z0_m": 1800.0
+    },
+    "polygon_sources": [
+      "tang-werner-footprint"
+    ]
+  },
+  "terrain": {
+    "sources": [
+      {
+        "id": "usgs-3dep-bingham",
+        "kind": "dem",
+        "project": "UT Central QL2 2018",
+        "epoch": 2018,
+        "optional": false
+      }
+    ],
+    "cell_size_m": 1.0,
+    "max_fill_cells": 16,
+    "max_nodata_frac": 0.05,
+    "max_cells": 100000000,
+    "aoi_xy_m": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        10.0,
+        0.0
+      ]
+    ],
+    "lods": [
+      {
+        "lod": 0,
+        "max_error_m": 0.25,
+        "skirt_depth_m": 0.5
+      },
+      {
+        "lod": 1,
+        "max_error_m": 1.0,
+        "skirt_depth_m": 2.0
+      },
+      {
+        "lod": 2,
+        "max_error_m": 4.0,
+        "skirt_depth_m": 8.0
+      }
+    ]
+  },
+  "design": {
+    "outline_source": "rim-contour",
+    "rim_z_m": 0.0,
+    "floor_z_m": -150.0,
+    "bench_height_m": {
+      "value": 15.0,
+      "code_min": 12.0,
+      "code_max": 15.0,
+      "citation": "Secondary source on large open pits: bench height 12-15 m",
+      "verification": "unverified"
+    },
+    "face_angle_deg": {
+      "value": 70.0,
+      "code_min": 60.0,
+      "code_max": 75.0,
+      "citation": "Recipe design-code range for competent rock faces",
+      "verification": "unverified"
+    },
+    "berm_width_m": {
+      "value": 10.0,
+      "code_min": 8.0,
+      "code_max": 40.0,
+      "citation": "Secondary source on large open pits: bench width 20-40 m",
+      "verification": "unverified"
+    },
+    "ramp_grade_pct": {
+      "value": 8.0,
+      "code_min": 8.0,
+      "code_max": 10.0,
+      "citation": "USBM IC 8758 (Kaufman and Ault 1977): customary ramp grade 8-10 %",
+      "verification": "unverified"
+    },
+    "ramp_width_m": {
+      "value": 30.0,
+      "code_min": 25.0,
+      "code_max": 35.0,
+      "citation": "USBM IC 8758: two-way ramp width about 3-3.5 truck widths",
+      "verification": "unverified"
+    },
+    "windrow_height_m": {
+      "value": 2.5,
+      "code_min": 2.0,
+      "code_max": 5.0,
+      "citation": "30 CFR 56.9300(b): at least mid-axle height of the largest haul unit",
+      "verification": "verified"
+    }
+  },
+  "assets": [
+    {
+      "id": "haul-truck-220t",
+      "class_label": "haul_truck",
+      "length_m": 12.8,
+      "width_m": 7.3,
+      "height_m": 6.6,
+      "mass_kg": 162000.0,
+      "mid_axle_height_m": 1.6,
+      "dimensions_citation": "Public specification sheet of a 220 t class rigid haul truck",
+      "mass_citation": "Public specification sheet of a 220 t class rigid haul truck (empty mass)"
+    }
+  ],
+  "parts": [
+    {
+      "asset": "haul-truck-220t",
+      "id": "chassis",
+      "part": "chassis",
+      "parent": null,
+      "mass_kg": 112000.0,
+      "length_m": 12.8,
+      "width_m": 7.3,
+      "height_m": 4.5,
+      "citation": "Mass split estimated from the specification sheet"
+    },
+    {
+      "asset": "haul-truck-220t",
+      "id": "dump-body",
+      "part": "dump_body",
+      "parent": "chassis",
+      "joint": "revolute",
+      "axis": "Y",
+      "lower_deg": 0.0,
+      "upper_deg": 50.0,
+      "mass_kg": 50000.0,
+      "length_m": 9.5,
+      "width_m": 7.0,
+      "height_m": 2.8,
+      "citation": "Mass split estimated from the specification sheet"
+    }
+  ],
+  "fleet": [
+    {
+      "asset": "haul-truck-220t",
+      "count": 3
+    }
+  ],
+  "people_count": 2,
+  "materials": [
+    {
+      "id": "gravel-road",
+      "source": "polyhaven",
+      "spdx": "CC0-1.0"
+    }
+  ],
+  "labels": {
+    "classes": [
+      "terrain",
+      "bench",
+      "berm",
+      "ramp",
+      "windrow",
+      "haul_road",
+      "haul_truck",
+      "person"
+    ],
+    "parts": [
+      "chassis",
+      "dump_body",
+      "wheel"
+    ]
+  },
+  "variants": {
+    "pushback": [
+      "pb0"
+    ],
+    "scenario": [
+      "baseline"
+    ],
+    "time_of_day": [
+      "noon"
+    ],
+    "weather": [
+      "clear"
+    ],
+    "lod": [
+      "lod0",
+      "lod1",
+      "lod2"
+    ]
+  }
+}

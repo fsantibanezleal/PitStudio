@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/policies.schema.json",
+  "title": "Engine policies: input and output messages",
+  "description": "Input and output messages of the browser engine `policies` (cases A1): logits of a learned dispatch policy evaluated with ORT-web inside the DES worker (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `policies`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "policies",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "logits"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "logits"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/logits_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `policies`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "policies",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "logits"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "logits"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/logits_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "logits_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Policy inputs of one dispatch decision (batch dimension 1 dropped).",
+      "required": [
+        "model",
+        "layout_version",
+        "truck_features",
+        "target_features",
+        "truck_mask",
+        "target_mask"
+      ],
+      "properties": {
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX dispatch policy, smaller than 2 MB (NFR-007-03).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1999999,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "layout_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000,
+          "description": "Layout version of DC-007-04; the host rejects any other (FR-007-44)."
+        },
+        "truck_features": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000000.0,
+              "maximum": 1000000000.0,
+              "description": "Feature value in the units and normalisation of DC-007-04."
+            },
+            "minItems": 12,
+            "maxItems": 12
+          },
+          "minItems": 40,
+          "maxItems": 40,
+          "description": "Truck tokens [40, 12] (FR-007-31), padded with the mask."
+        },
+        "target_features": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000000.0,
+              "maximum": 1000000000.0,
+              "description": "Feature value in the units and normalisation of DC-007-04."
+            },
+            "minItems": 9,
+            "maxItems": 9
+          },
+          "minItems": 16,
+          "maxItems": 16,
+          "description": "Target tokens [16, 9] (FR-007-31)."
+        },
+        "truck_mask": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "minItems": 40,
+          "maxItems": 40,
+          "description": "Valid truck slots [40]."
+        },
+        "target_mask": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "minItems": 16,
+          "maxItems": 16,
+          "description": "Serviceable target slots [16]."
+        }
+      }
+    },
+    "logits_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "logits",
+        "status"
+      ],
+      "properties": {
+        "logits": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000000.0,
+            "maximum": 1000000000.0
+          },
+          "minItems": 16,
+          "maxItems": 16,
+          "description": "One logit per target slot (FR-007-31)."
+        },
+        "status": {
+          "enum": [
+            "dispatched",
+            "no-serviceable-loader"
+          ],
+          "description": "No-serviceable-loader when every target is masked (FR-007-33)."
+        },
+        "target": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15,
+          "description": "Argmax over the unmasked targets, ties to the lowest index (FR-007-31)."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "dispatched"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "target"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "target"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

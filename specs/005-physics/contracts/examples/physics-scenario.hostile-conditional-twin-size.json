@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "scenario": "golden-dust-release",
+  "kind": "parity-golden",
+  "solver": "dust",
+  "device": "cpu",
+  "seed": 7,
+  "deterministic": true,
+  "twin": "dust-release",
+  "geometry": {
+    "shape": "open-field",
+    "domain_min_m": [
+      -500.0,
+      -500.0,
+      0.0
+    ],
+    "domain_max_m": [
+      1500.0,
+      500.0,
+      300.0
+    ]
+  },
+  "counts": {
+    "particles": 20001
+  },
+  "time_step": {
+    "dt_s": 0.5,
+    "steps": 1200
+  },
+  "output": {
+    "every_steps": 20,
+    "fields": true,
+    "replay": true,
+    "replay_fps": 30,
+    "shard_bytes_max": 10000000
+  },
+  "materials": [
+    {
+      "id": "silica-5um",
+      "model": "dust-particle",
+      "density_kg_m3": {
+        "value": 2650,
+        "status": "assumed",
+        "note": "value of the FR-005-34 example"
+      },
+      "particle_radius_m": {
+        "value": 5e-06,
+        "status": "assumed",
+        "note": "value of the FR-005-34 example"
+      }
+    },
+    {
+      "id": "air-20c",
+      "model": "air",
+      "density_kg_m3": {
+        "value": 1.2,
+        "status": "assumed",
+        "note": "value of the FR-005-34 example"
+      },
+      "dynamic_viscosity_pa_s": {
+        "value": 1.8e-05,
+        "status": "assumed",
+        "note": "value of the FR-005-34 example"
+      }
+    }
+  ],
+  "dust": {
+    "particle_material": "silica-5um",
+    "air_material": "air-20c",
+    "diffusivity_m2_s": 5.0,
+    "settling": true,
+    "ground": "reflecting",
+    "wind": "uniform",
+    "wind_m_s": [
+      3.0,
+      0.0,
+      0.0
+    ],
+    "sources": [
+      {
+        "mode": "instantaneous",
+        "x_m": 0.0,
+        "y_m": 0.0,
+        "z_m": 10.0,
+        "mass_kg": 1.0,
+        "start_s": 0.0
+      }
+    ]
+  }
+}

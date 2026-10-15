@@ -1,0 +1,53 @@
+{
+  "id": "muck-pile-renders",
+  "kind": "synthetic",
+  "title": "Exact-PSD muck-pile renders",
+  "spdx": "CC-BY-4.0",
+  "licence_class": "own",
+  "redistribution": "redistributable",
+  "files_sha256": [],
+  "synthetic": true,
+  "generator": {
+    "module": "pitstudio_pipeline.synthesize.muck_piles",
+    "stage": "st55_sdg",
+    "version": "0.1.0",
+    "git_sha": "2574f49ba848c5522724c9a753bb246dc5daf4c2"
+  },
+  "config_sha256": "04325806a986be99c6e682cf988ab62ef7b3bb9e37e17a71d999934755f7711f",
+  "seeds": [
+    7,
+    8,
+    9
+  ],
+  "priors": [
+    {
+      "name": "Swebrec size distribution",
+      "citation": "Ouchterlony (2005), Fragblast 9(3):151-163",
+      "page": "153"
+    }
+  ],
+  "assets": [
+    {
+      "name": "rock ground albedo texture",
+      "spdx": "CC0-1.0",
+      "licence_class": "open-no-attribution",
+      "sha256": "e8d663fdbe3175a40e0b993b55e0c1e17282c2c92b44380f71ecd8754c3d5125"
+    }
+  ],
+  "validation": {
+    "class": "validated-against-real",
+    "real_reference": "mendeley-78ht3pjsr4",
+    "tests": [
+      {
+        "test": "c2st",
+        "verdict": "pending",
+        "metric": null
+      },
+      {
+        "test": "tstr",
+        "verdict": "pending",
+        "metric": null
+      }
+    ]
+  }
+}

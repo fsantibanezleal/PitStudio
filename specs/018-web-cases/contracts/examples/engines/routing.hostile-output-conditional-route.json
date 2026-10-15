@@ -1,0 +1,11 @@
+{
+  "kind": "output",
+  "engine": "routing",
+  "engine_version": "0.1.0",
+  "function": "route",
+  "result": {
+    "status": "route",
+    "cost_j": 4200000000.0,
+    "length_m": 4250.0
+  }
+}

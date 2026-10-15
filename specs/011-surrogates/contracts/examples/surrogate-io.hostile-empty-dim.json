@@ -1,0 +1,161 @@
+{
+  "model_id": "gns-a3",
+  "engine": "gns",
+  "cases": [
+    "A3"
+  ],
+  "description": "2-D GNS step, padded neighbour layout, live graph",
+  "onnx": {
+    "path": "web/public/models/gns-a3-fp16.onnx",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bytes": 3145728
+  },
+  "opset": 17,
+  "ir_version": 10,
+  "precision": "fp16",
+  "delivery": "live",
+  "aggregation": "padded-gather",
+  "symbolic_dims": {
+    "N": {
+      "min": 0,
+      "max": 5000
+    }
+  },
+  "constants": {
+    "particle_diameter_m": 0.004,
+    "connectivity_radius_m": 0.01,
+    "max_neighbours": 32,
+    "velocity_history": 5,
+    "frame_interval_s": 0.01
+  },
+  "inputs": [
+    {
+      "name": "positions",
+      "dtype": "float32",
+      "shape": [
+        "N",
+        2
+      ],
+      "unit": "m"
+    },
+    {
+      "name": "velocities",
+      "dtype": "float32",
+      "shape": [
+        "N",
+        5,
+        2
+      ],
+      "unit": "m/s",
+      "normalisation": {
+        "rule": "standardise",
+        "applied_in_graph": true,
+        "mean": [
+          0.0,
+          -0.02
+        ],
+        "std": [
+          0.08,
+          0.09
+        ]
+      }
+    },
+    {
+      "name": "particle_type",
+      "dtype": "int64",
+      "shape": [
+        "N"
+      ],
+      "unit": "1",
+      "categories": [
+        "grain"
+      ]
+    },
+    {
+      "name": "bounds",
+      "dtype": "float32",
+      "shape": [
+        4
+      ],
+      "unit": "m"
+    },
+    {
+      "name": "neighbour_index",
+      "dtype": "int64",
+      "shape": [
+        "N",
+        32
+      ],
+      "unit": "1"
+    },
+    {
+      "name": "neighbour_mask",
+      "dtype": "bool",
+      "shape": [
+        "N",
+        32
+      ],
+      "unit": "1"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "acceleration",
+      "dtype": "float32",
+      "shape": [
+        "N",
+        2
+      ],
+      "unit": "m/s^2",
+      "normalisation": {
+        "rule": "standardise",
+        "applied_in_graph": true,
+        "mean": [
+          0.0,
+          -1.2
+        ],
+        "std": [
+          3.1,
+          4.2
+        ]
+      }
+    }
+  ],
+  "training_envelope": {
+    "column_aspect_ratio": {
+      "min": 0.5,
+      "max": 4,
+      "unit": "1"
+    },
+    "column_width": {
+      "min": 0.1,
+      "max": 0.4,
+      "unit": "m"
+    },
+    "pour_height": {
+      "min": 0.2,
+      "max": 0.6,
+      "unit": "m"
+    },
+    "pour_rate": {
+      "min": 0.002,
+      "max": 0.01,
+      "unit": "m^2/s"
+    },
+    "crest_height": {
+      "min": 0.1,
+      "max": 0.4,
+      "unit": "m"
+    },
+    "dump_rate": {
+      "min": 0.002,
+      "max": 0.01,
+      "unit": "m^2/s"
+    },
+    "particle_diameter": {
+      "min": 0.004,
+      "max": 0.004,
+      "unit": "m"
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "name": "Fake GPU 48GB",
+  "driver": "580.95.05",
+  "vram_total_bytes": 51539607552,
+  "init_error": false,
+  "unsupported": [
+    "nvenc_util_pct"
+  ],
+  "series": {
+    "free_bytes": [
+      [
+        0,
+        49392123904
+      ],
+      [
+        10,
+        30064771072
+      ]
+    ],
+    "temp_c": [
+      [
+        0,
+        45
+      ],
+      [
+        60,
+        72
+      ],
+      [
+        120,
+        83
+      ]
+    ],
+    "power_w": [
+      [
+        0,
+        30
+      ],
+      [
+        10,
+        210
+      ]
+    ],
+    "power_limit_w": 300,
+    "util_pct": [
+      [
+        0,
+        0
+      ],
+      [
+        10,
+        97
+      ]
+    ],
+    "sm_clock_mhz": 1980,
+    "clocks_event_mask": [
+      [
+        0,
+        1
+      ],
+      [
+        10,
+        0
+      ],
+      [
+        100,
+        4
+      ]
+    ],
+    "energy_mj_per_s": [
+      [
+        0,
+        30000
+      ],
+      [
+        10,
+        210000
+      ]
+    ],
+    "pcie_replays": 0,
+    "fan_pct": 40
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "kind": "output",
+  "engine": "lp",
+  "engine_version": "0.1.0",
+  "function": "solve",
+  "result": {
+    "status": "optimal",
+    "objective": 0.008,
+    "duals": {
+      "loader": [
+        1.0,
+        1.0
+      ],
+      "dump": [
+        0.0
+      ],
+      "fleet": 0.0,
+      "blend": []
+    }
+  }
+}

@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/muck-pile-render.schema.json",
+  "title": "Muck-pile render index",
+  "description": "Render-index record of one view of a settled synthetic muck pile written by st55_sdg (DC-012-04, spec 012-fragmentation).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "synthetic",
+    "stage",
+    "pile_seed",
+    "view",
+    "image",
+    "render",
+    "instance_mask",
+    "depth",
+    "intrinsics",
+    "tiles",
+    "instance_to_fragment",
+    "fragment_table",
+    "licence"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "stage": {
+      "const": "st55_sdg"
+    },
+    "pile_seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "view": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 63
+    },
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width_px",
+        "height_px",
+        "colour_space"
+      ],
+      "properties": {
+        "width_px": {
+          "const": 1024
+        },
+        "height_px": {
+          "const": 1024
+        },
+        "colour_space": {
+          "const": "sRGB"
+        }
+      }
+    },
+    "render": {
+      "$ref": "#/$defs/file"
+    },
+    "instance_mask": {
+      "type": "object",
+      "description": "instance ids equal fragment ids; 0 = background",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "dtype"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "dtype": {
+          "enum": [
+            "uint16",
+            "uint32"
+          ]
+        }
+      }
+    },
+    "depth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "dtype",
+        "unit"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "dtype": {
+          "const": "float32"
+        },
+        "unit": {
+          "const": "m"
+        }
+      }
+    },
+    "intrinsics": {
+      "type": "object",
+      "description": "pinhole intrinsics of the 1,024 x 1,024 view",
+      "additionalProperties": false,
+      "required": [
+        "focal_length_px",
+        "cx_px",
+        "cy_px"
+      ],
+      "properties": {
+        "focal_length_px": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "cx_px": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1024
+        },
+        "cy_px": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1024
+        }
+      }
+    },
+    "tiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tile"
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "instance_to_fragment": {
+      "type": "object",
+      "description": "visible instance id -> fragment id (at most one instance per 4 px of the view)",
+      "propertyNames": {
+        "maxLength": 7,
+        "pattern": "^[1-9][0-9]{0,6}$"
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 1000000
+      },
+      "maxProperties": 262144
+    },
+    "fragment_table": {
+      "$ref": "#/$defs/file"
+    },
+    "licence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spdx",
+        "licence_class"
+      ],
+      "properties": {
+        "spdx": {
+          "$ref": "#/$defs/spdx_id"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/licence_class"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "licence_class": {
+      "enum": [
+        "public-domain",
+        "open-no-attribution",
+        "own",
+        "attribution",
+        "share-alike",
+        "display-only",
+        "reference-only"
+      ]
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "spdx_id": {
+      "enum": [
+        "LicenseRef-USGov-PD",
+        "CC0-1.0",
+        "DL-DE-ZERO-2.0",
+        "CC-BY-4.0",
+        "LicenseRef-Copernicus-CLMS",
+        "CC-BY-SA-3.0",
+        "CC-BY-SA-4.0",
+        "Apache-2.0",
+        "MIT",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "MPL-2.0",
+        "LGPL-2.1-or-later",
+        "LicenseRef-TOST-1.0",
+        "LicenseRef-NVIDIA-Open-Model",
+        "LicenseRef-NVIDIA-SLA",
+        "LicenseRef-NvidiaProprietary",
+        "LicenseRef-NVIDIA-Omniverse",
+        "LicenseRef-TensorRT-SLA",
+        "LicenseRef-TensorRT-RTX-SLA"
+      ]
+    },
+    "tile": {
+      "type": "object",
+      "description": "one non-overlapping 512 x 512 tile of the view",
+      "additionalProperties": false,
+      "required": [
+        "tile",
+        "x0_px",
+        "y0_px",
+        "size_px",
+        "render",
+        "instance_mask",
+        "depth"
+      ],
+      "properties": {
+        "tile": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "x0_px": {
+          "enum": [
+            0,
+            512
+          ]
+        },
+        "y0_px": {
+          "enum": [
+            0,
+            512
+          ]
+        },
+        "size_px": {
+          "const": 512
+        },
+        "render": {
+          "$ref": "#/$defs/file"
+        },
+        "instance_mask": {
+          "$ref": "#/$defs/file"
+        },
+        "depth": {
+          "$ref": "#/$defs/file"
+        }
+      }
+    }
+  }
+}

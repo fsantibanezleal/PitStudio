@@ -1,0 +1,24 @@
+{
+  "image": 0,
+  "sensor": "survey-cam",
+  "file": "sensors/s2/survey-cam/ldr-00000.png",
+  "width_px": 1920,
+  "height_px": 1080,
+  "fx_px": 2200.0,
+  "fy_px": 2200.0,
+  "cx_px": 960.0,
+  "cy_px": 540.0,
+  "world_from_camera": [
+    1,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    1
+  ],
+  "gsd_m": 0.04545,
+  "h_agl_m": 100
+}

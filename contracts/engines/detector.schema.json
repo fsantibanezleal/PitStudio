@@ -1,0 +1,396 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/detector.schema.json",
+  "title": "Engine detector: input and output messages",
+  "description": "Input and output messages of the browser engine `detector` (cases B2): D-FINE detection on shipped sample frames with ORT-web (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `detector`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "detector",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "detect"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "detect"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/detect_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `detector`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "detector",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "detect"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "detect"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/detect_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "detect_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One frame through the exported graph (post-processor and top-300 inside, no NMS, FR-009-35).",
+      "required": [
+        "model",
+        "variant",
+        "frame",
+        "score_threshold"
+      ],
+      "properties": {
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX model of at most 25,000,000 bytes (spec 018 section 7.1).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "variant": {
+          "enum": [
+            "d-fine-n-fp16",
+            "d-fine-s-int8"
+          ],
+          "description": "Live detector file (FR-009-37)."
+        },
+        "frame": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Shipped letterboxed RGB frame; the worker converts it to float32 in [0, 1] (FR-018-58).",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "uint8",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "cols",
+                "channels"
+              ],
+              "properties": {
+                "rows": {
+                  "const": 640
+                },
+                "cols": {
+                  "const": 640
+                },
+                "channels": {
+                  "const": 3
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1228800,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "score_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Display threshold; rows with a score above it are shown (P-018-27)."
+        }
+      }
+    },
+    "detect_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boxes_px",
+        "labels",
+        "scores",
+        "detections"
+      ],
+      "properties": {
+        "boxes_px": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Graph output boxes (xyxy, px).",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows",
+                "components"
+              ],
+              "properties": {
+                "rows": {
+                  "const": 300
+                },
+                "components": {
+                  "const": 4
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4800,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Graph output labels.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "int64",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows"
+              ],
+              "properties": {
+                "rows": {
+                  "const": 300
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2400,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "scores": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Graph output scores.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "rows"
+              ],
+              "properties": {
+                "rows": {
+                  "const": 300
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1200,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "detections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "label",
+              "score",
+              "box_xyxy_px"
+            ],
+            "properties": {
+              "label": {
+                "enum": [
+                  "haul_truck",
+                  "shovel",
+                  "light_vehicle",
+                  "person",
+                  "boulder"
+                ],
+                "description": "Class of FR-009-01."
+              },
+              "score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "box_xyxy_px": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 640
+                },
+                "minItems": 4,
+                "maxItems": 4,
+                "description": "Box corners (x_min, y_min, x_max, y_max) on the 640 x 640 frame."
+              }
+            }
+          },
+          "minItems": 0,
+          "maxItems": 300,
+          "description": "Rows above the threshold, in graph order."
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

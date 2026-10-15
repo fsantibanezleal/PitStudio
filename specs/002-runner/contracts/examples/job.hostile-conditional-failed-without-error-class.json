@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "status": "failed",
+  "error_class": null,
+  "message": "CUDA out of memory while allocating 2.00 GiB",
+  "outputs": [],
+  "checkpoint": true
+}

@@ -1,0 +1,271 @@
+{
+  "$schema": "https://fsantibanezleal.github.io/PitStudio/contracts/terrain-tiles.schema.json",
+  "schema_version": "1.0",
+  "kind": "terrain-tiles",
+  "frame": "site-enu",
+  "tile_samples": 257,
+  "grid_elevation_sha256": "7b961cd56183d759c6597ecf1f2c989cdc97f8292d6f676a590bb138e4ca356a",
+  "layer_path": "layers/terrain.usdc",
+  "lods": [
+    {
+      "lod": 0,
+      "max_error_m": 0.25,
+      "skirt_depth_m": 0.5,
+      "tile_count": 4
+    },
+    {
+      "lod": 1,
+      "max_error_m": 1.0,
+      "skirt_depth_m": 2.0,
+      "tile_count": 4
+    },
+    {
+      "lod": 2,
+      "max_error_m": 4.0,
+      "skirt_depth_m": 8.0,
+      "tile_count": 4
+    }
+  ],
+  "tiles": [
+    {
+      "id": "0-1-0-0",
+      "lod": 0,
+      "level": 1,
+      "x": 0,
+      "y": 0,
+      "prim": "/World/Terrain/Lod0/Tile_0_1_0_0",
+      "bbox": {
+        "x_min_m": -256.0,
+        "y_min_m": -256.0,
+        "z_min_m": -61.0,
+        "x_max_m": 0.0,
+        "y_max_m": 0.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 0.25,
+      "vertices": 21450,
+      "triangles": 42100,
+      "sha256": "6ea4c7eac8073a0c250a4ce622f37335984aa51f1cd982c8a32b2cb4eb25bca3"
+    },
+    {
+      "id": "0-1-0-1",
+      "lod": 0,
+      "level": 1,
+      "x": 0,
+      "y": 1,
+      "prim": "/World/Terrain/Lod0/Tile_0_1_0_1",
+      "bbox": {
+        "x_min_m": -256.0,
+        "y_min_m": 0.0,
+        "z_min_m": -61.0,
+        "x_max_m": 0.0,
+        "y_max_m": 256.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 0.25,
+      "vertices": 21453,
+      "triangles": 42105,
+      "sha256": "fc62b2cb2a1a879299410f13fd64c545a26af22162a35dff002528410f12fa9e"
+    },
+    {
+      "id": "0-1-1-0",
+      "lod": 0,
+      "level": 1,
+      "x": 1,
+      "y": 0,
+      "prim": "/World/Terrain/Lod0/Tile_0_1_1_0",
+      "bbox": {
+        "x_min_m": 0.0,
+        "y_min_m": -256.0,
+        "z_min_m": -61.0,
+        "x_max_m": 256.0,
+        "y_max_m": 0.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 0.25,
+      "vertices": 21457,
+      "triangles": 42111,
+      "sha256": "53a87cf398b5e624d4847abc67edf1c80d229556f49c2c6896716c56c9178f70"
+    },
+    {
+      "id": "0-1-1-1",
+      "lod": 0,
+      "level": 1,
+      "x": 1,
+      "y": 1,
+      "prim": "World/Terrain/../Tile",
+      "bbox": {
+        "x_min_m": 0.0,
+        "y_min_m": 0.0,
+        "z_min_m": -61.0,
+        "x_max_m": 256.0,
+        "y_max_m": 256.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 0.25,
+      "vertices": 21460,
+      "triangles": 42116,
+      "sha256": "d161096f7a19ade554e3679f3499cbf15a4abe49aa71a8e95aa3e752348b4e7b"
+    },
+    {
+      "id": "1-1-0-0",
+      "lod": 1,
+      "level": 1,
+      "x": 0,
+      "y": 0,
+      "prim": "/World/Terrain/Lod1/Tile_1_1_0_0",
+      "bbox": {
+        "x_min_m": -256.0,
+        "y_min_m": -256.0,
+        "z_min_m": -62.5,
+        "x_max_m": 0.0,
+        "y_max_m": 0.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 1.0,
+      "vertices": 6120,
+      "triangles": 11900,
+      "sha256": "2e444fe4608b0fcd72970e621ccf57af56b1266d32cfaa088ecf9121efdf97a1"
+    },
+    {
+      "id": "1-1-0-1",
+      "lod": 1,
+      "level": 1,
+      "x": 0,
+      "y": 1,
+      "prim": "/World/Terrain/Lod1/Tile_1_1_0_1",
+      "bbox": {
+        "x_min_m": -256.0,
+        "y_min_m": 0.0,
+        "z_min_m": -62.5,
+        "x_max_m": 0.0,
+        "y_max_m": 256.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 1.0,
+      "vertices": 6123,
+      "triangles": 11905,
+      "sha256": "b00cefac633d285893b76692774e9a65cb03965a22d0b0c74f827f983a28bcbf"
+    },
+    {
+      "id": "1-1-1-0",
+      "lod": 1,
+      "level": 1,
+      "x": 1,
+      "y": 0,
+      "prim": "/World/Terrain/Lod1/Tile_1_1_1_0",
+      "bbox": {
+        "x_min_m": 0.0,
+        "y_min_m": -256.0,
+        "z_min_m": -62.5,
+        "x_max_m": 256.0,
+        "y_max_m": 0.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 1.0,
+      "vertices": 6127,
+      "triangles": 11911,
+      "sha256": "29e09e02a33e4591310b135aa0e085ac191e23730a264fc1c8aae7ea8336c0cc"
+    },
+    {
+      "id": "1-1-1-1",
+      "lod": 1,
+      "level": 1,
+      "x": 1,
+      "y": 1,
+      "prim": "/World/Terrain/Lod1/Tile_1_1_1_1",
+      "bbox": {
+        "x_min_m": 0.0,
+        "y_min_m": 0.0,
+        "z_min_m": -62.5,
+        "x_max_m": 256.0,
+        "y_max_m": 256.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 1.0,
+      "vertices": 6130,
+      "triangles": 11916,
+      "sha256": "7171f1b30621a0c17d45fce78650bdf5ae8c309ec23133abad5ec4bdedba993d"
+    },
+    {
+      "id": "2-1-0-0",
+      "lod": 2,
+      "level": 1,
+      "x": 0,
+      "y": 0,
+      "prim": "/World/Terrain/Lod2/Tile_2_1_0_0",
+      "bbox": {
+        "x_min_m": -256.0,
+        "y_min_m": -256.0,
+        "z_min_m": -68.5,
+        "x_max_m": 0.0,
+        "y_max_m": 0.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 4.0,
+      "vertices": 1530,
+      "triangles": 2890,
+      "sha256": "a3bf3f5ece4ffe6c2460ec93be56cfe742cda464b4feaaa80b531dd6e5fadbd9"
+    },
+    {
+      "id": "2-1-0-1",
+      "lod": 2,
+      "level": 1,
+      "x": 0,
+      "y": 1,
+      "prim": "/World/Terrain/Lod2/Tile_2_1_0_1",
+      "bbox": {
+        "x_min_m": -256.0,
+        "y_min_m": 0.0,
+        "z_min_m": -68.5,
+        "x_max_m": 0.0,
+        "y_max_m": 256.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 4.0,
+      "vertices": 1533,
+      "triangles": 2895,
+      "sha256": "956bb2fff8a05179529590035e2324a72855097a49bf18f006cfea8cc53b0e51"
+    },
+    {
+      "id": "2-1-1-0",
+      "lod": 2,
+      "level": 1,
+      "x": 1,
+      "y": 0,
+      "prim": "/World/Terrain/Lod2/Tile_2_1_1_0",
+      "bbox": {
+        "x_min_m": 0.0,
+        "y_min_m": -256.0,
+        "z_min_m": -68.5,
+        "x_max_m": 256.0,
+        "y_max_m": 0.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 4.0,
+      "vertices": 1537,
+      "triangles": 2901,
+      "sha256": "fc28659089a8bc17ceff14c7153ee960189df969ddcffecc3e5daeb76f524d07"
+    },
+    {
+      "id": "2-1-1-1",
+      "lod": 2,
+      "level": 1,
+      "x": 1,
+      "y": 1,
+      "prim": "/World/Terrain/Lod2/Tile_2_1_1_1",
+      "bbox": {
+        "x_min_m": 0.0,
+        "y_min_m": 0.0,
+        "z_min_m": -68.5,
+        "x_max_m": 256.0,
+        "y_max_m": 256.0,
+        "z_max_m": 42.25
+      },
+      "max_error_m": 4.0,
+      "vertices": 1540,
+      "triangles": 2906,
+      "sha256": "1921a2f117c7ff112b54d815a84195a1145f414fd54a4b41b5682042b86ecc16"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "kind": "output",
+  "engine": "watershed",
+  "engine_version": "0.1.0",
+  "function": "segment",
+  "result": {
+    "labels": {
+      "dtype": "int32",
+      "shape": {
+        "rows": 512,
+        "cols": 512
+      },
+      "byte_length": 1048576
+    },
+    "instance_count": 412,
+    "status": "fit",
+    "x50_m": 0.082,
+    "x80_m": 0.14
+  }
+}

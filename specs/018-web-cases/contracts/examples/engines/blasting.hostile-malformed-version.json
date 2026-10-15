@@ -1,0 +1,12 @@
+{
+  "kind": "input",
+  "engine": "blasting",
+  "engine_version": "v1",
+  "function": "kuznetsov_x50",
+  "args": {
+    "rock_factor": 9.0,
+    "powder_factor_kg_per_m3": 0.55,
+    "charge_kg": 480.0,
+    "rws": 100.0
+  }
+}

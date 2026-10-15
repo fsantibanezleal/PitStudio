@@ -1,0 +1,36 @@
+{
+  "kind": "output",
+  "engine": "gns",
+  "engine_version": "0.1.0",
+  "function": "step",
+  "result": {
+    "acceleration_m_per_s2": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "components": 2
+      },
+      "byte_length": 16000
+    },
+    "positions_m": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "components": 2
+      },
+      "byte_length": 16000
+    },
+    "velocities_m_per_s": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "components": 2
+      },
+      "byte_length": 16000
+    },
+    "particle_count": 2000,
+    "overflow_count": 0,
+    "status": "ok",
+    "extrapolation": false
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "kind": "output",
+  "engine": "haulage",
+  "engine_version": "0.1.0",
+  "function": "route_energy",
+  "result": {
+    "drivetrain": "diesel",
+    "wheel_energy_j": 510000000.0,
+    "source_energy_j": 1300000000.0,
+    "regenerated_energy_j": 0.0,
+    "energy_j_per_payload_kg": 5900.0,
+    "co2e_kg_per_payload_kg": 0.0004
+  }
+}

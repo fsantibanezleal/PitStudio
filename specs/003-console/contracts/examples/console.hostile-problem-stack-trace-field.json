@@ -1,0 +1,14 @@
+{
+  "type": "about:blank",
+  "title": "Unprocessable Content",
+  "status": 422,
+  "detail": "request body does not match job_request",
+  "errors": [
+    {
+      "pointer": "/stages/0/id",
+      "keyword": "enum",
+      "message": "'st99_magic' is not a known stage id"
+    }
+  ],
+  "traceback": "Traceback (most recent call last)"
+}

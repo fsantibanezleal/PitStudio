@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/export-config.schema.json",
+  "title": "Export config",
+  "description": "Per-model export config read by s60_export and s62_accel: opset and reason, output roles, gemm_heavy, web, domain allow-list, task metric, golden-set id and live flag (DC-016-04, spec 016-export-acceleration).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "model": {
+      "$ref": "#/$defs/slug"
+    },
+    "opset": {
+      "enum": [
+        17,
+        18,
+        19
+      ]
+    },
+    "opset_reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "ir_version": {
+      "const": 10
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/output"
+      },
+      "maxItems": 16,
+      "minItems": 1
+    },
+    "post_processor_in_graph": {
+      "type": "boolean"
+    },
+    "gemm_heavy": {
+      "type": "boolean"
+    },
+    "web": {
+      "type": "boolean"
+    },
+    "live": {
+      "type": "boolean"
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "ai.onnx",
+          "ai.onnx.ml",
+          "com.microsoft"
+        ]
+      },
+      "maxItems": 3,
+      "minItems": 1,
+      "uniqueItems": true,
+      "contains": {
+        "const": "ai.onnx"
+      }
+    },
+    "precisions": {
+      "type": "array",
+      "items": {
+        "$ref": "bench-record.schema.json#/$defs/precision"
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "uniqueItems": true,
+      "contains": {
+        "const": "fp32"
+      }
+    },
+    "task_metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/param_key"
+        },
+        "unit": {
+          "const": "pct"
+        },
+        "orientation": {
+          "enum": [
+            "higher-is-better",
+            "lower-is-better"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "unit",
+        "orientation"
+      ]
+    },
+    "golden_set_id": {
+      "$ref": "#/$defs/slug"
+    }
+  },
+  "required": [
+    "schema_version",
+    "model",
+    "opset",
+    "opset_reason",
+    "ir_version",
+    "outputs",
+    "post_processor_in_graph",
+    "gemm_heavy",
+    "web",
+    "live",
+    "domains",
+    "precisions",
+    "task_metric",
+    "golden_set_id"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "precisions": {
+            "contains": {
+              "const": "fp8"
+            }
+          }
+        },
+        "required": [
+          "precisions"
+        ]
+      },
+      "then": {
+        "properties": {
+          "opset": {
+            "const": 19
+          },
+          "gemm_heavy": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "live": {
+            "const": true
+          }
+        },
+        "required": [
+          "live"
+        ]
+      },
+      "then": {
+        "properties": {
+          "web": {
+            "const": true
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$"
+        },
+        "role": {
+          "enum": [
+            "class_scores",
+            "boxes",
+            "labels",
+            "scores",
+            "masks",
+            "regression",
+            "field",
+            "action_logits",
+            "value"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "role"
+      ]
+    }
+  }
+}

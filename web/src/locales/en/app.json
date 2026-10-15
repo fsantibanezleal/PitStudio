@@ -62,5 +62,21 @@
       "title": "Tools",
       "body": "Open tools are used and cited; proprietary SDKs are installed by the user from their official sources and never redistributed by this repository. Performance figures of licence-restricted tools are not published."
     }
+  },
+  "introduction": {
+    "title": "Introduction",
+    "lead": "Why this work matters in executive terms, framed as an industry problem first, and then how the work explores it.",
+    "tabs": {
+      "label": "Introduction views",
+      "executive": "Executive view",
+      "technical": "Technical view"
+    },
+    "technical": {
+      "heading": "How the work explores this problem",
+      "lead": "The work explores one part of the problem: testing decisions on a physics-faithful model of an open pit before they reach the field. These pages hold the method and the product.",
+      "app": "Open the App",
+      "pages": "The pages of the work"
+    },
+    "loading": "Loading the executive view"
   }
 }

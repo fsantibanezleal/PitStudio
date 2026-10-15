@@ -1,0 +1,759 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/il-task.schema.json",
+  "title": "PitStudio IL task parameters",
+  "description": "The params block of an st60_il_train or st61_il_mpm_eval stage (DC-014-01, spec 014-robot-learning).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/haul_truck_task"
+    },
+    {
+      "$ref": "#/$defs/dig_task"
+    }
+  ],
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "policy_id": {
+      "description": "Policy id.",
+      "enum": [
+        "IL-1",
+        "IL-2",
+        "IL-3"
+      ]
+    },
+    "task_id": {
+      "description": "Isaac Lab task id.",
+      "enum": [
+        "Pit-HaulTruck-Ramp",
+        "Pit-Excavator-Dig-FEE",
+        "Pit-Loader-Dig-FEE"
+      ]
+    },
+    "seeds": {
+      "description": "Seed ranges [start, start + count); pairwise disjointness is a checker rule.",
+      "type": "object",
+      "required": [
+        "train",
+        "eval"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "train": {
+          "description": "Training seed range.",
+          "type": "object",
+          "required": [
+            "start",
+            "count"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "description": "Seed (unsigned 32-bit).",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            }
+          }
+        },
+        "tune": {
+          "description": "Baseline tuning seeds (20).",
+          "type": "object",
+          "required": [
+            "start",
+            "count"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "description": "Seed (unsigned 32-bit).",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "count": {
+              "const": 20
+            }
+          }
+        },
+        "eval": {
+          "description": "Evaluation seeds (100).",
+          "type": "object",
+          "required": [
+            "start",
+            "count"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "description": "Seed (unsigned 32-bit).",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "count": {
+              "const": 100
+            }
+          }
+        }
+      }
+    },
+    "training": {
+      "description": "rsl_rl PPO settings (FR-014-25).",
+      "type": "object",
+      "required": [
+        "num_envs",
+        "iterations",
+        "checkpoint_every",
+        "hidden_units",
+        "gamma",
+        "gae_lambda",
+        "clip_ratio",
+        "steps_per_env"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "num_envs": {
+          "description": "Parallel environments (from the bench measurement within the VRAM budget).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16384
+        },
+        "iterations": {
+          "description": "PPO iterations.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "checkpoint_every": {
+          "description": "Checkpoint cadence (iterations).",
+          "const": 100
+        },
+        "hidden_units": {
+          "description": "Actor and critic MLP hidden layers.",
+          "const": [
+            256,
+            256
+          ]
+        },
+        "gamma": {
+          "const": 0.99
+        },
+        "gae_lambda": {
+          "const": 0.95
+        },
+        "clip_ratio": {
+          "const": 0.2
+        },
+        "steps_per_env": {
+          "description": "Steps per environment per update.",
+          "const": 24
+        }
+      }
+    },
+    "mpm": {
+      "description": "IL-2b MPM evaluation tier (FR-014-22).",
+      "type": "object",
+      "required": [
+        "episodes",
+        "envs",
+        "material"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "episodes": {
+          "description": "Paired MPM episodes n.",
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 64
+        },
+        "envs": {
+          "description": "MPM environments.",
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 64
+        },
+        "material": {
+          "description": "Dry-sand material of the DEM calibration artefact (spec 011).",
+          "$ref": "#/$defs/artefact_id"
+        }
+      }
+    },
+    "haul_truck_task": {
+      "description": "IL-1 haul truck task parameters.",
+      "type": "object",
+      "required": [
+        "policy",
+        "task",
+        "stage",
+        "observation_size",
+        "action_size",
+        "control_hz",
+        "observation_layout",
+        "reward_weights",
+        "randomisation",
+        "seeds",
+        "training",
+        "budget",
+        "evaluation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "policy": {
+          "const": "IL-1"
+        },
+        "task": {
+          "const": "Pit-HaulTruck-Ramp"
+        },
+        "stage": {
+          "description": "IL-1 has no MPM tier.",
+          "const": "st60_il_train"
+        },
+        "observation_size": {
+          "const": 63
+        },
+        "action_size": {
+          "const": 2
+        },
+        "control_hz": {
+          "const": 20
+        },
+        "observation_layout": {
+          "description": "Observation layout in order; sizes sum to observation_size (checker rule).",
+          "type": "array",
+          "items": {
+            "description": "One observation segment.",
+            "type": "object",
+            "required": [
+              "segment",
+              "size"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "segment": {
+                "enum": [
+                  "speed_yaw_rate_pitch",
+                  "lateral_heading_error",
+                  "path_points",
+                  "payload_fraction",
+                  "ray_ranges",
+                  "lv_relative_position",
+                  "lv_relative_velocity",
+                  "lv_ttc"
+                ]
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 63
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 16
+        },
+        "reward_weights": {
+          "description": "Reward-term weights (terms are already signed).",
+          "type": "object",
+          "propertyNames": {
+            "maxLength": 32,
+            "pattern": "^(progress|lateral_error|heading_error|overspeed|jerk|collision|ttc|energy)$"
+          },
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "maxProperties": 8,
+          "minProperties": 1
+        },
+        "site_speed_limit_km_h": {
+          "description": "Site speed limit (km/h), default 40.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 60
+        },
+        "randomisation": {
+          "description": "IL-1 domain randomisation within the FR-014-13 limits.",
+          "type": "object",
+          "required": [
+            "payload_fraction",
+            "rolling_resistance_pct",
+            "friction_dry",
+            "friction_wet",
+            "wet_probability",
+            "actuator_delay_steps",
+            "ray_noise_base_m",
+            "ray_noise_per_range",
+            "speed_noise_sd_m_per_s",
+            "heading_noise_sd_deg"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "payload_fraction": {
+              "description": "Payload fraction of rated [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "rolling_resistance_pct": {
+              "description": "Rolling resistance (%) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 2,
+                "maximum": 8
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "friction_dry": {
+              "description": "Dry tyre-road friction (-) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0.55,
+                "maximum": 0.75
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "friction_wet": {
+              "description": "Wet tyre-road friction (-) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0.25,
+                "maximum": 0.45
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "wet_probability": {
+              "const": 0.5
+            },
+            "actuator_delay_steps": {
+              "description": "Actuator delay (control steps) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "ray_noise_base_m": {
+              "description": "Ray noise sigma constant term (m), at most 0.02.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.02
+            },
+            "ray_noise_per_range": {
+              "description": "Ray noise sigma per metre of range (-), at most 0.01.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.01
+            },
+            "speed_noise_sd_m_per_s": {
+              "description": "Speed noise sigma (m/s), at most 0.1.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.1
+            },
+            "heading_noise_sd_deg": {
+              "description": "Heading noise sigma (deg), at most 0.5.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.5
+            }
+          }
+        },
+        "seeds": {
+          "$ref": "#/$defs/seeds"
+        },
+        "training": {
+          "$ref": "#/$defs/training"
+        },
+        "budget": {
+          "description": "Budgets (NFR-014-01, NFR-014-02).",
+          "type": "object",
+          "required": [
+            "vram_gb",
+            "gpu_hours"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "vram_gb": {
+              "description": "Device-peak VRAM budget (GB), at most 5.",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 5
+            },
+            "gpu_hours": {
+              "description": "GPU-time stop limit (h), at most 8 (2 x the upper estimate).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 8
+            }
+          }
+        },
+        "evaluation": {
+          "description": "IL-1 evaluation protocol (FR-014-14, FR-014-32).",
+          "type": "object",
+          "required": [
+            "episodes",
+            "deterministic_actions",
+            "light_vehicle_mix"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "episodes": {
+              "const": 100
+            },
+            "deterministic_actions": {
+              "const": true
+            },
+            "light_vehicle_mix": {
+              "description": "Episodes with 0, 1, 2 and 3 light vehicles.",
+              "const": [
+                25,
+                25,
+                25,
+                25
+              ]
+            }
+          }
+        }
+      }
+    },
+    "dig_task": {
+      "description": "IL-2 excavator / IL-3 loader dig task parameters.",
+      "type": "object",
+      "required": [
+        "policy",
+        "task",
+        "stage",
+        "observation_size",
+        "action_size",
+        "control_hz",
+        "observation_layout",
+        "reward_weights",
+        "randomisation",
+        "seeds",
+        "budget",
+        "evaluation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "policy": {
+          "enum": [
+            "IL-2",
+            "IL-3"
+          ]
+        },
+        "task": {
+          "enum": [
+            "Pit-Excavator-Dig-FEE",
+            "Pit-Loader-Dig-FEE"
+          ]
+        },
+        "stage": {
+          "enum": [
+            "st60_il_train",
+            "st61_il_mpm_eval"
+          ]
+        },
+        "observation_size": {
+          "const": 46
+        },
+        "action_size": {
+          "const": 4
+        },
+        "control_hz": {
+          "description": "Policy rate (Hz).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "observation_layout": {
+          "description": "Observation layout in order; sizes sum to observation_size (checker rule).",
+          "type": "array",
+          "items": {
+            "description": "One observation segment.",
+            "type": "object",
+            "required": [
+              "segment",
+              "size"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "segment": {
+                "enum": [
+                  "joint_positions",
+                  "joint_velocities",
+                  "joint_torques",
+                  "bucket_tip_pose",
+                  "terrain_heights",
+                  "fill_estimate"
+                ]
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 46
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 16
+        },
+        "reward_weights": {
+          "description": "Reward-term weights (terms are already signed).",
+          "type": "object",
+          "propertyNames": {
+            "maxLength": 32,
+            "pattern": "^(fill_gain|target_fill|stall|lift_off|joint_limit|action_rate|cycle_time)$"
+          },
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "maxProperties": 7,
+          "minProperties": 1
+        },
+        "randomisation": {
+          "description": "IL-2 / IL-3 soil randomisation within the FR-014-19 limits.",
+          "type": "object",
+          "required": [
+            "bulk_density_kg_m3",
+            "cohesion_kpa",
+            "adhesion_ratio",
+            "friction_angle_deg",
+            "soil_tool_friction_deg",
+            "surcharge_kpa",
+            "face_height_noise_m"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "bulk_density_kg_m3": {
+              "description": "Bulk density (kg/m3) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 1500,
+                "maximum": 2100
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "cohesion_kpa": {
+              "description": "Cohesion (kPa) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 20
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "adhesion_ratio": {
+              "description": "Adhesion c_a as a fraction of c (-) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 0.5
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "friction_angle_deg": {
+              "description": "Friction angle (deg) [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 25,
+                "maximum": 40
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "soil_tool_friction_deg": {
+              "description": "Soil-tool friction (deg); upper <= friction-angle lower is a checker rule [low, high]; low <= high is a checker rule.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 10,
+                "maximum": 25
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "surcharge_kpa": {
+              "const": 0
+            },
+            "face_height_noise_m": {
+              "description": "Initial face height noise amplitude (m), at most 0.3.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.3
+            }
+          }
+        },
+        "seeds": {
+          "$ref": "#/$defs/seeds"
+        },
+        "training": {
+          "$ref": "#/$defs/training"
+        },
+        "budget": {
+          "description": "Budgets (NFR-014-01, NFR-014-02).",
+          "type": "object",
+          "required": [
+            "vram_gb",
+            "gpu_hours"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "vram_gb": {
+              "description": "Device-peak VRAM budget (GB), at most 6.",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 6
+            },
+            "gpu_hours": {
+              "description": "GPU-time stop limit (h), at most 16 (2 x the upper estimate).",
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 16
+            }
+          }
+        },
+        "evaluation": {
+          "description": "IL-2 / IL-3 evaluation protocol (FR-014-32, FR-014-35).",
+          "type": "object",
+          "required": [
+            "episodes",
+            "deterministic_actions",
+            "time_limit_s"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "episodes": {
+              "const": 100
+            },
+            "deterministic_actions": {
+              "const": true
+            },
+            "time_limit_s": {
+              "const": 30
+            }
+          }
+        },
+        "mpm": {
+          "$ref": "#/$defs/mpm"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "policy": {
+                "const": "IL-2"
+              }
+            },
+            "required": [
+              "policy"
+            ]
+          },
+          "then": {
+            "properties": {
+              "task": {
+                "const": "Pit-Excavator-Dig-FEE"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "policy": {
+                "const": "IL-3"
+              }
+            },
+            "required": [
+              "policy"
+            ]
+          },
+          "then": {
+            "properties": {
+              "task": {
+                "const": "Pit-Loader-Dig-FEE"
+              },
+              "stage": {
+                "const": "st60_il_train"
+              },
+              "budget": {
+                "properties": {
+                  "gpu_hours": {
+                    "maximum": 6
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "const": "st60_il_train"
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "required": [
+              "training"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "const": "st61_il_mpm_eval"
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "required": [
+              "mpm"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

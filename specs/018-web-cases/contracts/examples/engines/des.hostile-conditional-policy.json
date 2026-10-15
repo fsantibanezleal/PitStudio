@@ -1,0 +1,16 @@
+{
+  "kind": "input",
+  "engine": "des",
+  "engine_version": "0.1.0",
+  "function": "run_shift",
+  "args": {
+    "bundle": {
+      "artefact": "a1-bundle-fleet-12",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 184320
+    },
+    "seed": 20261007,
+    "dispatcher": "attention",
+    "profile": "engine"
+  }
+}

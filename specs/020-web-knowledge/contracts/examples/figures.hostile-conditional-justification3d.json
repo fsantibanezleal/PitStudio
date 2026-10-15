@@ -1,0 +1,57 @@
+{
+  "figures": [
+    {
+      "kind": "chart",
+      "id": "pit-shell-surface",
+      "topic": "planning",
+      "title": {
+        "en": "Nested pit shells in 3-D",
+        "es": "Pits anidados en 3-D"
+      },
+      "engine": {
+        "kind": "engine",
+        "id": "mincut"
+      },
+      "plot": "3d",
+      "controls": [
+        {
+          "kind": "range",
+          "id": "revenue_factor",
+          "label": {
+            "en": "revenue factor",
+            "es": "factor de ingreso"
+          },
+          "unit": "–",
+          "min": 0.025,
+          "max": 1.0,
+          "step": 0.025,
+          "default": 1.0
+        },
+        {
+          "kind": "range",
+          "id": "slope_angle",
+          "label": {
+            "en": "slope angle",
+            "es": "ángulo de talud"
+          },
+          "unit": "°",
+          "min": 30.0,
+          "max": 60.0,
+          "step": 1.0,
+          "default": 45.0
+        }
+      ],
+      "features": [
+        {
+          "id": "pit_value",
+          "label": {
+            "en": "pit value",
+            "es": "valor del pit"
+          },
+          "unit": "USD"
+        }
+      ],
+      "colormap": "cividis"
+    }
+  ]
+}

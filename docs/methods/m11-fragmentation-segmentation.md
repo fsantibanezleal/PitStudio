@@ -87,18 +87,18 @@ The real reference is the Mendeley "Rock fragment image segmentation" dataset (C
 
 | Fact | Value |
 |---|---|
-| Images | 960 RGB at 512 × 512 = **240 originals × 4** (original, horizontal flip, vertical flip, 180° rotation) |
+| Images | 960 RGB at 512 × 512 = **80 photographs × 3 crops × 4** (original, horizontal flip, vertical flip, 180° rotation; 72 source groups) |
 | Labels | indexed instance masks, **one class** (rock) |
 | Instances | 63,144 in the 960 masks (mean 65.8, median 58 per image) → **15,786 unique** |
 | Size spread | equivalent diameter p10 / p50 / p90 = 11 / 32 / 82 px |
-| Independence | no pixel-level overlap among the originals; 9 visually similar pairs merged conservatively → **231 source groups** |
+| Independence | files *k*, *k* + 80, *k* + 160 are three crops of one photograph (DINOv2 scan); 9 visually similar pairs merged conservatively → **72 source groups** |
 | Physical scale | **none** (no mm per px) |
 
 Consequences, fixed before the comparison is run:
 
 1. **Split by source group, never by file** — a per-file split would put flipped copies of test tiles into training
    and inflate TRTR.
-2. **Evaluate on originals only** (the effective real set is 240 tiles, not 960).
+2. **Evaluate on originals only** (the effective independent real set is 80 scenes, not 960).
 3. **Grouped k-fold** (for example 5 folds) instead of one 80/20 split, reporting the TSTR/TRTR ratio with its fold
    spread.
 4. **Sizes in pixels** on real data; real-world sizes need a stated scale assumption (D1 card).
@@ -143,7 +143,7 @@ precomputed outputs.
 
 - 2-D surface images see only the visible face of the pile; hidden fines are exactly what synthetic ground truth
   quantifies, but real images cannot show them.
-- The real set has one class, no scale, and 231 independent source groups — a small test set, hence the grouped
+- The real set has one class, no scale, and 72 independent source groups — a small test set, hence the grouped
   folds.
 - The synthetic renderer and material are calibrated, not photographs: the TSTR/TRTR ratio *is* the measured gap.
 - Educational, not a blasting-QA product.

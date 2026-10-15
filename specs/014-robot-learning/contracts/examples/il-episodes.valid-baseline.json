@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "policy": "IL-1",
+  "arm": "baseline",
+  "run_id": "20261007T120000Z-a2-il1",
+  "controller": {
+    "kind": "pure-pursuit-pid",
+    "sha256": "f09312368852ea71b13122f1b98ecdeb8103bd264e6c56b145391d9f778fec80"
+  },
+  "deterministic_actions": true,
+  "seed_set_sha256": "f912ca9614753868c561147f5e4cde083ceb8a952079e603a3d4614a7b66ee49",
+  "column_set": "il1-episode",
+  "table": {
+    "path": "il/il1/episodes-policy.parquet",
+    "bytes": 48213,
+    "sha256": "c65baf60a6d1b5d6715db72be2aba7e75eb76a7630d1e9e53a238d2ee1e3b35f",
+    "rows": 100
+  }
+}

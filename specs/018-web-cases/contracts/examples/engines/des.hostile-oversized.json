@@ -1,0 +1,21 @@
+{
+  "kind": "input",
+  "engine": "des",
+  "engine_version": "0.1.0",
+  "function": "run_shift",
+  "args": {
+    "bundle": {
+      "artefact": "a1-bundle-fleet-12",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 184320
+    },
+    "seed": 7,
+    "dispatcher": "ppo",
+    "profile": "engine",
+    "policy": {
+      "artefact": "a1-policy-ppo",
+      "sha256": "9d8c7b6a5f4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c",
+      "bytes": 2000000
+    }
+  }
+}

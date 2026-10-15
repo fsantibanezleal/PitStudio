@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/parity-report.schema.json",
+  "title": "PitStudio web engine parity report",
+  "description": "Web engine parity report assets/parity-report.json of the built Pages artifact, written by the parity suite in CI (DC-018-05, spec 018-web-cases).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "git_sha",
+    "generated",
+    "engines"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "git_sha": {
+      "$ref": "#/$defs/git_sha",
+      "description": "the built commit"
+    },
+    "generated": {
+      "$ref": "#/$defs/utc_timestamp"
+    },
+    "engines": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "git_sha": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?Z$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "max_error": {
+      "type": "object",
+      "description": "largest observed error over all vectors and browsers, in the metric of the class",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "abs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "rel": {
+          "type": "number",
+          "minimum": 0
+        },
+        "abs_px": {
+          "type": "number",
+          "minimum": 0
+        },
+        "objective_rel": {
+          "type": "number",
+          "minimum": 0
+        },
+        "z": {
+          "type": "number",
+          "minimum": 0,
+          "description": "binomial deviation in standard errors"
+        },
+        "mismatches": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "differing counts, labels, set members, words or hashes"
+        },
+        "top1_agreement": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "lowest observed agreement"
+        },
+        "observables": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "repose_deg": {
+              "type": "number",
+              "minimum": 0
+            },
+            "runout_rel": {
+              "type": "number",
+              "minimum": 0
+            },
+            "discharge_rel": {
+              "type": "number",
+              "minimum": 0
+            },
+            "mass_drift_rel": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "engine",
+        "engine_version",
+        "tolerance",
+        "fixtures",
+        "browsers",
+        "verdict"
+      ],
+      "properties": {
+        "engine": {
+          "$ref": "cases.schema.json#/$defs/engine_id"
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver"
+        },
+        "tolerance": {
+          "$ref": "parity-fixture.schema.json#/$defs/tolerance"
+        },
+        "fixtures": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "files",
+            "vectors"
+          ],
+          "properties": {
+            "files": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "vectors": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000000
+            }
+          }
+        },
+        "max_error": {
+          "$ref": "#/$defs/max_error"
+        },
+        "browsers": {
+          "type": "array",
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "chromium",
+              "firefox",
+              "webkit"
+            ]
+          }
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "verdict": {
+                "const": "pass"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          },
+          "then": {
+            "required": [
+              "max_error"
+            ],
+            "properties": {
+              "browsers": {
+                "minItems": 1
+              },
+              "fixtures": {
+                "properties": {
+                  "files": {
+                    "minimum": 1
+                  },
+                  "vectors": {
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verdict": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "required": [
+                "max_error"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

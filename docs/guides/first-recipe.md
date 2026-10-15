@@ -86,7 +86,7 @@ machine-wide lock `gpu0.compute` (and `gpu0.nvenc` for encoding) and refuses to 
      manifest.json        # contracts/manifest.schema.json: inputs + SHA-256, tool versions from the locks, seeds,
                           # determinism class, telemetry summary, retries, exit status, licence class, lane
      events.jsonl         # stage events, streamed to the console over SSE
-     telemetry.parquet    # 1–4 Hz NVML samples: VRAM, utilisation, power, temperature, SM clock, throttle reasons
+     telemetry.jsonl      # 1–4 Hz NVML samples: VRAM, utilisation, power, temperature, SM clock, throttle reasons
      logs/
    ```
 

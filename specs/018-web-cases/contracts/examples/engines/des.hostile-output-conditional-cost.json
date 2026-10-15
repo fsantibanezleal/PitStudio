@@ -1,0 +1,43 @@
+{
+  "kind": "output",
+  "engine": "des",
+  "engine_version": "0.1.0",
+  "function": "run_shift",
+  "result": {
+    "executed_events": 10412,
+    "kpis": {
+      "production_kg_per_s": 1250.0,
+      "cycles_per_s": 0.0062,
+      "loader_queue_mean_s": 95.0,
+      "loader_queue_p90_s": 240.0,
+      "dump_queue_mean_s": 12.0,
+      "dump_queue_p90_s": 45.0,
+      "loader_utilisation": 0.82,
+      "match_factor": 0.94,
+      "truck_time_s_per_kg": 0.0081,
+      "loader_time_s_per_kg": 0.0016,
+      "cost_status": "computed"
+    },
+    "loaders": [
+      {
+        "production_kg_per_s": 625.0,
+        "queue_mean_s": 90.0,
+        "queue_p90_s": 230.0,
+        "utilisation": 0.8
+      },
+      {
+        "production_kg_per_s": 625.0,
+        "queue_mean_s": 100.0,
+        "queue_p90_s": 250.0,
+        "utilisation": 0.84
+      }
+    ],
+    "trace": {
+      "dtype": "uint8",
+      "shape": {
+        "bytes": 2400000
+      },
+      "byte_length": 2400000
+    }
+  }
+}

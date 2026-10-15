@@ -1,0 +1,815 @@
+{
+  "spec": "017-planning-survey",
+  "examples": [
+    {
+      "file": "comminution-sweep.valid.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "10 configurations x 8 blast designs, Bond energy model, all bounds linked to knowledge rows"
+    },
+    {
+      "file": "comminution-sweep.hostile-unknown-field.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown input name",
+      "rule": "FR-017-10",
+      "pointer": "/design/box",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "comminution-sweep.hostile-out-of-range-points.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 4,096 points per configuration",
+      "rule": "FR-017-10",
+      "pointer": "/design/points_per_configuration",
+      "keyword": "maximum"
+    },
+    {
+      "file": "comminution-sweep.hostile-out-of-range-configurations.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fewer than 10 configurations",
+      "rule": "FR-017-10",
+      "pointer": "/design/n_configurations",
+      "keyword": "minimum"
+    },
+    {
+      "file": "comminution-sweep.hostile-missing-required.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "bound without verification status",
+      "rule": "FR-017-02",
+      "pointer": "/design/box/burden_m",
+      "keyword": "required"
+    },
+    {
+      "file": "comminution-sweep.hostile-unknown-enum.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown split",
+      "rule": "DC-017-01",
+      "pointer": "/configurations/0/split",
+      "keyword": "enum"
+    },
+    {
+      "file": "comminution-sweep.hostile-conditional-energy-model.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "energy model without its index bound",
+      "rule": "FR-017-02",
+      "pointer": "/design/box",
+      "keyword": "required"
+    },
+    {
+      "file": "comminution-sweep.hostile-wrong-unit.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong unit (burden in ft)",
+      "rule": "DC-017-01",
+      "pointer": "/configurations/0/points/0",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "comminution-sweep.hostile-out-of-range.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "non-positive burden bound",
+      "rule": "FR-017-10",
+      "pointer": "/design/box/burden_m/min",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "comminution-sweep.hostile-conditional-honesty-label.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "synthetic sweep not labelled synthetic",
+      "rule": "FR-017-51",
+      "pointer": "/synthetic",
+      "keyword": "const"
+    },
+    {
+      "file": "comminution-sweep.hostile-empty.json",
+      "schema": "comminution-sweep.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty configuration list",
+      "rule": "DC-017-01",
+      "pointer": "/configurations",
+      "keyword": "minItems"
+    },
+    {
+      "file": "block-model.valid.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "four-block worked example: own grid, destination values, own precedence arcs"
+    },
+    {
+      "file": "block-model.valid-oreblocks.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "oreblocks deposit: BEV components, generated 1:5 precedence, stamped optimum"
+    },
+    {
+      "file": "block-model.valid-minelib.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "MineLib-derived layer: share-alike licence with attribution, pinned file digests"
+    },
+    {
+      "file": "block-model.hostile-out-of-range-tonnage.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative tonnage",
+      "rule": "FR-017-27",
+      "pointer": "/blocks/1/tonnage_t",
+      "keyword": "minimum"
+    },
+    {
+      "file": "block-model.hostile-out-of-range-grade.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "grade outside [0, 1]",
+      "rule": "FR-017-27",
+      "pointer": "/blocks/0/grade",
+      "keyword": "maximum"
+    },
+    {
+      "file": "block-model.hostile-unknown-destination.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown destination",
+      "rule": "FR-017-27",
+      "pointer": "/blocks/0/values_usd",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "block-model.hostile-path-traversal.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "file path with ..",
+      "rule": "FR-017-27",
+      "pointer": "/source/files/0/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "block-model.hostile-absolute-path.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute file path",
+      "rule": "FR-017-27",
+      "pointer": "/source/files/1/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "block-model.hostile-malformed-digest.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "uppercase SHA-256",
+      "rule": "FR-017-24",
+      "pointer": "/source/files/2/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "block-model.hostile-conditional-minelib-licence.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "MineLib-derived layer not licensed CC BY-SA 3.0",
+      "rule": "FR-017-23",
+      "pointer": "/licence/spdx",
+      "keyword": "const"
+    },
+    {
+      "file": "block-model.hostile-wrong-type.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "block id as a string",
+      "rule": "DC-017-02",
+      "pointer": "/blocks/0/id",
+      "keyword": "type"
+    },
+    {
+      "file": "block-model.hostile-conditional-components.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "BEV components without a grade",
+      "rule": "FR-017-12",
+      "pointer": "/blocks/2",
+      "keyword": "required"
+    },
+    {
+      "file": "block-model.hostile-conditional-generated-precedence.json",
+      "schema": "block-model.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "generated precedence without its slope angle",
+      "rule": "FR-017-13",
+      "pointer": "/precedence",
+      "keyword": "required"
+    },
+    {
+      "file": "pit-shells.valid.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "four-block example: two shells, one pushback, two bench-phase units, optimal 2-period schedule"
+    },
+    {
+      "file": "pit-shells.valid-infeasible.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "infeasible MILP reported with its solver status and no NPV"
+    },
+    {
+      "file": "pit-shells.hostile-empty.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "empty revenue-factor grid",
+      "rule": "FR-017-28",
+      "pointer": "/config/lambdas",
+      "keyword": "minItems"
+    },
+    {
+      "file": "pit-shells.hostile-out-of-range-lambda.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "revenue factor outside (0, 2]",
+      "rule": "FR-017-28",
+      "pointer": "/config/lambdas/1",
+      "keyword": "maximum"
+    },
+    {
+      "file": "pit-shells.hostile-out-of-range-tmin.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "T_min <= 0",
+      "rule": "FR-017-28",
+      "pointer": "/config/t_min_t",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "pit-shells.hostile-out-of-range-periods.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "period count outside [1, 50]",
+      "rule": "FR-017-28",
+      "pointer": "/config/periods",
+      "keyword": "maximum"
+    },
+    {
+      "file": "pit-shells.hostile-out-of-range-capacity.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "capacity <= 0",
+      "rule": "FR-017-28",
+      "pointer": "/config/mining_capacity_t/0",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "pit-shells.hostile-out-of-range-discount.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "discount rate outside [0, 1)",
+      "rule": "FR-017-28",
+      "pointer": "/config/discount_rate",
+      "keyword": "exclusiveMaximum"
+    },
+    {
+      "file": "pit-shells.hostile-oversized-binaries.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more than 2 x 10^5 binary variables",
+      "rule": "FR-017-28",
+      "pointer": "/schedule/binaries",
+      "keyword": "maximum"
+    },
+    {
+      "file": "pit-shells.hostile-bad-pattern.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed bit-packed block set",
+      "rule": "FR-017-22",
+      "pointer": "/shells/1/blocks",
+      "keyword": "pattern"
+    },
+    {
+      "file": "pit-shells.hostile-unknown-enum.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown solver status",
+      "rule": "FR-017-18",
+      "pointer": "/schedule/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "pit-shells.hostile-conditional-infeasible-npv.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "infeasible schedule with an NPV",
+      "rule": "FR-017-18",
+      "pointer": "/schedule/npv_usd",
+      "keyword": "const"
+    },
+    {
+      "file": "pit-shells.hostile-conditional-optimal-gap.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "optimal status with a gap above 1e-4",
+      "rule": "FR-017-18",
+      "pointer": "/schedule/gap",
+      "keyword": "maximum"
+    },
+    {
+      "file": "pit-shells.hostile-conditional-strip-ratio.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "strip ratio of a shell without ore",
+      "rule": "FR-017-16",
+      "pointer": "/shells/0/strip_ratio",
+      "keyword": "const"
+    },
+    {
+      "file": "survey-volume.valid.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "real 2018 -> 2023 DEM difference, one synthetic photogrammetric volume, one splat not run"
+    },
+    {
+      "file": "survey-volume.hostile-empty-polygon.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "polygon with fewer than 3 vertices",
+      "rule": "FR-017-47",
+      "pointer": "/volumes/0/polygon/vertices",
+      "keyword": "minItems"
+    },
+    {
+      "file": "survey-volume.hostile-wrong-shape.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "vertex with one coordinate",
+      "rule": "FR-017-47",
+      "pointer": "/volumes/1/polygon/vertices/0",
+      "keyword": "minItems"
+    },
+    {
+      "file": "survey-volume.hostile-out-of-range-cell.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "cell size <= 0",
+      "rule": "FR-017-48",
+      "pointer": "/volumes/0/grid/cell_m",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "survey-volume.hostile-conditional-not-run-reason.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-run result without a reason",
+      "rule": "FR-017-43",
+      "pointer": "/volumes/2",
+      "keyword": "required"
+    },
+    {
+      "file": "survey-volume.hostile-conditional-not-run-volume.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "not-run result carrying a volume",
+      "rule": "FR-017-45",
+      "pointer": "/volumes/2",
+      "keyword": "not"
+    },
+    {
+      "file": "survey-volume.hostile-conditional-real-label.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "real volume without 'measurement, not validation'",
+      "rule": "FR-017-34",
+      "pointer": "/volumes/0",
+      "keyword": "required"
+    },
+    {
+      "file": "survey-volume.hostile-out-of-range-nodata.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "no-data fraction above 1",
+      "rule": "FR-017-30",
+      "pointer": "/volumes/0/cells/nodata_fraction",
+      "keyword": "maximum"
+    },
+    {
+      "file": "survey-volume.hostile-malformed-digest.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "digest with a sha256: prefix",
+      "rule": "FR-017-31",
+      "pointer": "/volumes/0/surfaces/before/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "survey-volume.hostile-path-traversal.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "surface path with ..",
+      "rule": "DC-017-04",
+      "pointer": "/volumes/0/surfaces/after/path",
+      "keyword": "pattern"
+    },
+    {
+      "file": "survey-volume.hostile-unknown-field.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pass flag on a reported-only error",
+      "rule": "SC-017-06",
+      "pointer": "/volumes/1/errors",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "survey-volume.hostile-conditional-vertical-offset.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "declared constant vertical transform without its offset",
+      "rule": "FR-017-32",
+      "pointer": "/volumes/0/vertical_transform",
+      "keyword": "required"
+    },
+    {
+      "file": "survey-volume.hostile-oversized.json",
+      "schema": "survey-volume.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "reason longer than 300 characters",
+      "rule": "DC-017-04",
+      "pointer": "/volumes/2/reason",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "survey-flight.valid.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "flight f01 (2 cm/px, 80 % overlap, sun 60 deg), seed 0, nadir and +/-30 deg images"
+    },
+    {
+      "file": "survey-flight.hostile-unknown-enum-gsd.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "GSD outside the design set",
+      "rule": "FR-017-36",
+      "pointer": "/design/gsd_cm_per_px",
+      "keyword": "enum"
+    },
+    {
+      "file": "survey-flight.hostile-unknown-enum-overlap.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "overlap outside the design set",
+      "rule": "FR-017-36",
+      "pointer": "/design/overlap_pct",
+      "keyword": "enum"
+    },
+    {
+      "file": "survey-flight.hostile-unknown-enum-tilt.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "oblique angle outside {0, +/-30} deg",
+      "rule": "FR-017-36",
+      "pointer": "/images/1/tilt_deg",
+      "keyword": "enum"
+    },
+    {
+      "file": "survey-flight.hostile-missing-required.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "image without SHA-256",
+      "rule": "FR-017-36",
+      "pointer": "/images/0",
+      "keyword": "required"
+    },
+    {
+      "file": "survey-flight.hostile-malformed-digest.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "63-hex digest",
+      "rule": "FR-017-36",
+      "pointer": "/images/0/depth/sha256",
+      "keyword": "pattern"
+    },
+    {
+      "file": "survey-flight.hostile-path-traversal.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "image path with ..",
+      "rule": "DC-017-05",
+      "pointer": "/images/2/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "survey-flight.hostile-absolute-path.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absolute scene path",
+      "rule": "DC-017-05",
+      "pointer": "/scene/usd/name",
+      "keyword": "pattern"
+    },
+    {
+      "file": "survey-flight.hostile-conditional-distortion.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "lens distortion declared",
+      "rule": "FR-017-36",
+      "pointer": "/camera/distortion",
+      "keyword": "const"
+    },
+    {
+      "file": "survey-flight.hostile-wrong-shape.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "camera position with 2 components",
+      "rule": "FR-017-36",
+      "pointer": "/images/0/pose/position_m",
+      "keyword": "minItems"
+    },
+    {
+      "file": "survey-flight.hostile-out-of-range.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "exact volume <= 0",
+      "rule": "FR-017-35",
+      "pointer": "/scene/stockpile/volume_m3",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "survey-flight.hostile-conditional-honesty.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "rendered flight not labelled synthetic",
+      "rule": "FR-017-51",
+      "pointer": "/synthetic",
+      "keyword": "const"
+    },
+    {
+      "file": "survey-flight.hostile-empty.json",
+      "schema": "survey-flight.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "flight without images",
+      "rule": "DC-017-05",
+      "pointer": "/images",
+      "keyword": "minItems"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "comminution-sweep.schema.json",
+      "class": "non-finite bound or value (NaN, Infinity)",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "comminution-sweep.schema.json",
+      "class": "inverted bound (min > max)",
+      "by": "checker",
+      "rule": "FR-017-10"
+    },
+    {
+      "schema": "comminution-sweep.schema.json",
+      "class": "target P80 >= the smallest feed F80 of the box",
+      "by": "checker",
+      "rule": "FR-017-10"
+    },
+    {
+      "schema": "comminution-sweep.schema.json",
+      "class": "overlapping split seeds (one seed in two splits)",
+      "by": "checker",
+      "rule": "FR-017-10"
+    },
+    {
+      "schema": "comminution-sweep.schema.json",
+      "class": "configuration and point counts differ from design.n_configurations, design.split and design.points_per_configuration",
+      "by": "checker",
+      "rule": "FR-017-02"
+    },
+    {
+      "schema": "comminution-sweep.schema.json",
+      "class": "configuration energy index differs from design.energy_model; values outside the box",
+      "by": "checker",
+      "rule": "FR-017-02"
+    },
+    {
+      "schema": "comminution-sweep.schema.json",
+      "class": "unverified_rows differs from the bounds flagged UNVERIFIED, or a row id is not in the pinned minephys tables",
+      "by": "checker",
+      "rule": "FR-017-02"
+    },
+    {
+      "schema": "comminution-sweep.schema.json",
+      "class": "duplicate configuration id",
+      "by": "checker",
+      "rule": "DC-017-01"
+    },
+    {
+      "schema": "block-model.schema.json",
+      "class": "non-finite value (NaN, Infinity)",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "block-model.schema.json",
+      "class": "duplicate block id",
+      "by": "checker",
+      "rule": "FR-017-27"
+    },
+    {
+      "schema": "block-model.schema.json",
+      "class": "precedence naming an unknown block, or a block preceding itself",
+      "by": "checker",
+      "rule": "FR-017-27"
+    },
+    {
+      "schema": "block-model.schema.json",
+      "class": "sum of |v| in cents >= 2^62 (>= 2^53 for the web engine)",
+      "by": "checker",
+      "rule": "FR-017-27"
+    },
+    {
+      "schema": "block-model.schema.json",
+      "class": "grid index outside grid.shape, or centre inconsistent with the grid",
+      "by": "checker",
+      "rule": "DC-017-02"
+    },
+    {
+      "schema": "block-model.schema.json",
+      "class": "MineLib file digest differs from the pinned SHA-256",
+      "by": "checker",
+      "rule": "FR-017-24"
+    },
+    {
+      "schema": "pit-shells.schema.json",
+      "class": "non-finite number",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "pit-shells.schema.json",
+      "class": "revenue-factor grid not strictly increasing",
+      "by": "checker",
+      "rule": "FR-017-28"
+    },
+    {
+      "schema": "pit-shells.schema.json",
+      "class": "binaries differ from units x periods; more than 2 x 10^5 binaries in the configuration",
+      "by": "checker",
+      "rule": "FR-017-28"
+    },
+    {
+      "schema": "pit-shells.schema.json",
+      "class": "bit set length differs from ceil(n_blocks / 8) or padding bits set",
+      "by": "checker",
+      "rule": "FR-017-22"
+    },
+    {
+      "schema": "pit-shells.schema.json",
+      "class": "shells not nested, pushbacks not a partition, block counts or tonnages inconsistent with the sets",
+      "by": "checker",
+      "rule": "FR-017-17"
+    },
+    {
+      "schema": "pit-shells.schema.json",
+      "class": "schedule violates a precedence or capacity, or its NPV differs from the recomputed value",
+      "by": "checker",
+      "rule": "FR-017-19"
+    },
+    {
+      "schema": "pit-shells.schema.json",
+      "class": "capacity arrays shorter than config.periods; block_model digest differs from the block-model file",
+      "by": "checker",
+      "rule": "DC-017-03"
+    },
+    {
+      "schema": "survey-volume.schema.json",
+      "class": "non-finite coordinate, surface value or volume",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "survey-volume.schema.json",
+      "class": "self-intersecting polygon, or polygon entirely outside the grid",
+      "by": "checker",
+      "rule": "FR-017-47"
+    },
+    {
+      "schema": "survey-volume.schema.json",
+      "class": "surfaces differing in shape, origin or cell size without a declared resampling; no valid cell in the polygon",
+      "by": "checker",
+      "rule": "FR-017-48"
+    },
+    {
+      "schema": "survey-volume.schema.json",
+      "class": "vertical datums of the two surfaces differ without a declared vertical transform",
+      "by": "checker",
+      "rule": "FR-017-32"
+    },
+    {
+      "schema": "survey-volume.schema.json",
+      "class": "v_net_m3 differs from v_fill_m3 - v_cut_m3; nodata_fraction differs from the cell counts",
+      "by": "checker",
+      "rule": "FR-017-30"
+    },
+    {
+      "schema": "survey-volume.schema.json",
+      "class": "uncertainty bounds differ from A_c sqrt(N) sqrt(s0^2 + s1^2) and A_c N sqrt(s0^2 + s1^2)",
+      "by": "checker",
+      "rule": "FR-017-33"
+    },
+    {
+      "schema": "survey-volume.schema.json",
+      "class": "surface digests differ from the files",
+      "by": "checker",
+      "rule": "FR-017-31"
+    },
+    {
+      "schema": "survey-flight.schema.json",
+      "class": "non-finite intrinsic, pose or volume",
+      "by": "loader",
+      "rule": "FR-001-05"
+    },
+    {
+      "schema": "survey-flight.schema.json",
+      "class": "rotation quaternion not of unit norm",
+      "by": "checker",
+      "rule": "FR-017-36"
+    },
+    {
+      "schema": "survey-flight.schema.json",
+      "class": "image or depth digest differs from the file; duplicate image name",
+      "by": "checker",
+      "rule": "FR-017-36"
+    },
+    {
+      "schema": "survey-flight.schema.json",
+      "class": "exact volumes differ from the frustum and trapezoidal-prism closed forms of the stated geometry",
+      "by": "checker",
+      "rule": "FR-017-35"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "document": "replay-shard-header",
+  "schema_version": "1.0",
+  "kind": "particle",
+  "encoding": "raw16",
+  "code_type": "int16",
+  "code_range": {
+    "min": -32768,
+    "max": 32767
+  },
+  "fps": 10,
+  "frames": {
+    "start": 0,
+    "count": 50
+  },
+  "items": 20000,
+  "channels": [
+    {
+      "name": "x",
+      "unit": "ft",
+      "min": -1650.0,
+      "max": 1650.0
+    },
+    {
+      "name": "y",
+      "unit": "m",
+      "min": -1650.0,
+      "max": 1650.0
+    },
+    {
+      "name": "z",
+      "unit": "m",
+      "min": 1500.0,
+      "max": 2400.0
+    }
+  ],
+  "bbox_m": {
+    "min": [
+      -1650.0,
+      -1650.0,
+      1500.0
+    ],
+    "max": [
+      1650.0,
+      1650.0,
+      2400.0
+    ]
+  },
+  "payload": {
+    "path": "shard-000.bin",
+    "bytes": 6000000,
+    "sha256": "d3160d174c7e403e4d2f4e86adf34dcb560ace1580ece8a636108eb3fa78dd4d"
+  }
+}

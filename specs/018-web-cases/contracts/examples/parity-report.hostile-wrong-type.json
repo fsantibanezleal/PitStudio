@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0",
+  "git_sha": "3f2a9c1d4e5b6a7980c1d2e3f4a5b6c7d8e9f012",
+  "generated": "2026-10-07T12:00:00Z",
+  "engines": [
+    {
+      "engine": "blasting",
+      "engine_version": "0.1.0",
+      "tolerance": {
+        "class": "analytical-closed-form",
+        "rtol": 1e-09,
+        "atol_scale": 1e-12
+      },
+      "fixtures": {
+        "files": 6,
+        "vectors": "1200"
+      },
+      "max_error": {
+        "rel": 4.4e-15
+      },
+      "browsers": [
+        "chromium",
+        "firefox",
+        "webkit"
+      ],
+      "verdict": "pass"
+    },
+    {
+      "engine": "geotech",
+      "engine_version": "0.1.0",
+      "tolerance": {
+        "class": "monte-carlo-count"
+      },
+      "fixtures": {
+        "files": 1,
+        "vectors": 20
+      },
+      "max_error": {
+        "mismatches": 0
+      },
+      "browsers": [
+        "chromium",
+        "firefox",
+        "webkit"
+      ],
+      "verdict": "pass"
+    },
+    {
+      "engine": "mincut",
+      "engine_version": "0.1.0",
+      "tolerance": {
+        "class": "min-cut",
+        "objective_rtol": 1e-10
+      },
+      "fixtures": {
+        "files": 3,
+        "vectors": 12
+      },
+      "max_error": {
+        "mismatches": 0,
+        "objective_rel": 2.2e-14
+      },
+      "browsers": [
+        "chromium",
+        "firefox",
+        "webkit"
+      ],
+      "verdict": "pass"
+    },
+    {
+      "engine": "swe",
+      "engine_version": "0.1.0",
+      "tolerance": {
+        "class": "wgsl-kernel",
+        "max_abs": 0.001
+      },
+      "fixtures": {
+        "files": 4,
+        "vectors": 4
+      },
+      "browsers": [],
+      "verdict": "not_run",
+      "reason": "no WebGPU adapter on the CI runner; runs in the webgpu project only"
+    },
+    {
+      "engine": "des",
+      "engine_version": "0.1.0",
+      "tolerance": {
+        "class": "hosted",
+        "defined_by": "FR-007-10"
+      },
+      "fixtures": {
+        "files": 5,
+        "vectors": 5
+      },
+      "max_error": {
+        "mismatches": 0
+      },
+      "browsers": [
+        "chromium",
+        "firefox",
+        "webkit"
+      ],
+      "verdict": "pass"
+    },
+    {
+      "engine": "gns",
+      "engine_version": "0.1.0",
+      "tolerance": {
+        "class": "ml-wasm-fp32",
+        "max_abs": 0.0001
+      },
+      "fixtures": {
+        "files": 1,
+        "vectors": 200
+      },
+      "max_error": {
+        "abs": 3.1e-05
+      },
+      "browsers": [
+        "chromium",
+        "firefox",
+        "webkit"
+      ],
+      "verdict": "pass"
+    },
+    {
+      "engine": "detector",
+      "engine_version": "0.1.0",
+      "tolerance": {
+        "class": "detector-wasm",
+        "max_abs_px": 0.5,
+        "top1_agreement_min": 0.995
+      },
+      "fixtures": {
+        "files": 1,
+        "vectors": 24
+      },
+      "max_error": {
+        "abs_px": 0.71,
+        "top1_agreement": 0.998
+      },
+      "browsers": [
+        "chromium",
+        "firefox",
+        "webkit"
+      ],
+      "verdict": "fail"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "kind": "physics-observables",
+  "schema_version": "1.0",
+  "scenario": "bench-swe-ritter-400",
+  "solver": "swe",
+  "solver_version": "1.17.0",
+  "warp_version": "1.17.0",
+  "seed": 0,
+  "device": "cpu",
+  "dt_mode": "cfl",
+  "dt_s": 0.0011,
+  "dt_max_s": 0.0031,
+  "budget": "mass",
+  "rows": 13,
+  "columns": [
+    {
+      "name": "time_s",
+      "unit": "s",
+      "dtype": "float64",
+      "role": "time"
+    },
+    {
+      "name": "volume_m3",
+      "unit": "m3",
+      "dtype": "float64",
+      "role": "budget"
+    },
+    {
+      "name": "outflow_volume_m3",
+      "unit": "m3",
+      "dtype": "float64",
+      "role": "budget"
+    },
+    {
+      "name": "front_x_m",
+      "unit": "m",
+      "dtype": "float64",
+      "role": "observable"
+    }
+  ],
+  "stamp": {
+    "report_id": "bench-swe-warp-1-17-0",
+    "report_sha256": "9494e39bcdc57d8e6eb695452f2a1299e20952ddccd71f86b68f5e743ec10e38",
+    "verdict": "pass"
+  }
+}

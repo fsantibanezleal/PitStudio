@@ -1,0 +1,15 @@
+{
+  "id": "c2-slope",
+  "case": "C2",
+  "path": "studio/recipes/cases/c2-slope.yaml",
+  "sha256": "a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+  "stages": 6,
+  "valid": true,
+  "errors": [
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    }
+  ]
+}

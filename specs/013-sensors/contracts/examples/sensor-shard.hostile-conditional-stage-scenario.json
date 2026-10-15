@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261007T120000Z-b1-sensors",
+  "stage": "st57_rain_lidar",
+  "scenario": "S1",
+  "backend": "ovrtx",
+  "frames": [
+    {
+      "sensor": "rotary-64",
+      "frame": 0,
+      "beams_emitted": 115200,
+      "valid_points": 98012,
+      "file": "sensors/s1/rotary-64/returns-00000.parquet"
+    },
+    {
+      "sensor": "rotary-64",
+      "frame": 1,
+      "beams_emitted": 115200,
+      "valid_points": 97760,
+      "file": "sensors/s1/rotary-64/returns-00000.parquet"
+    },
+    {
+      "sensor": "solid-state-120",
+      "frame": 0,
+      "beams_emitted": 61440,
+      "valid_points": 55102,
+      "file": "sensors/s1/solid-state-120/returns-00000.parquet"
+    }
+  ],
+  "files": [
+    {
+      "path": "sensors/s1/rotary-64/returns-00000.parquet",
+      "bytes": 6315220,
+      "sha256": "7ec879c8c860699e23145733661074c562767d6f860ed0de439e5c2724bc4b18",
+      "format": "parquet",
+      "content": "lidar-returns",
+      "rows": 195772
+    },
+    {
+      "path": "sensors/s1/solid-state-120/returns-00000.parquet",
+      "bytes": 1788410,
+      "sha256": "a31fe9656fc8d3a459e623dc8204e6d0268f8df56d734dac3ca3262edb5db883",
+      "format": "parquet",
+      "content": "lidar-returns",
+      "rows": 55102
+    }
+  ]
+}

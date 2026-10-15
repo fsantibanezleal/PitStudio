@@ -1,0 +1,193 @@
+"""Generate the Pydantic models of every contract schema, and check that the committed ones are not stale.
+
+Usage:  python tools/gen_types.py [--check] [--contracts DIR] [--out DIR]
+        (defaults: ``contracts`` and ``src/pitstudio/contracts/_generated`` of this repository)
+One module ``<stem>.py`` per ``<stem>.schema.json`` (``-`` becomes ``_``) plus ``__init__.py``, produced with
+datamodel-code-generator and the pinned options of data-model 7.1, then formatted with ``ruff format``. Everything is
+generated into a temporary folder first: a failed run changes no file.
+Exit:   0 ok (or no drift), 1 drift (``--check``), 2 usage error, 3 a schema cannot be generated.
+"""
+
+from __future__ import annotations
+
+import argparse
+import os
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+from typing import Any
+
+REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "src"))
+
+from jsonschema import Draft202012Validator  # noqa: E402
+from jsonschema.exceptions import SchemaError  # noqa: E402
+
+from pitstudio.contracts import ContractError, load_json  # noqa: E402
+
+DEFAULT_CONTRACTS = REPO / "contracts"
+DEFAULT_OUT = REPO / "src/pitstudio/contracts/_generated"
+HEADER = "# Generated from contracts/{file} by tools/gen_types.py. Do not edit."
+OPTIONS = [
+    "--input-file-type", "jsonschema",
+    "--schema-version", "2020-12",
+    "--output-model-type", "pydantic_v2.BaseModel",
+    "--target-python-version", "3.12",
+    "--use-annotated",
+    "--use-standard-collections",
+    "--use-union-operator",
+    "--field-constraints",
+    "--extra-fields", "forbid",
+    "--enum-field-as-literal", "all",
+    "--use-schema-description",
+    "--disable-timestamp",
+    "--formatters", "builtin",
+]  # fmt: skip
+UNSUPPORTED_KEYS = ("prefixItems", "$dynamicRef", "$dynamicAnchor", "$recursiveRef")
+
+
+class GenerationError(Exception):
+    """A schema is invalid or uses a construct the generators do not support."""
+
+
+def stem_of(schema_file: Path) -> str:
+    return schema_file.name.removesuffix(".schema.json")
+
+
+def walk(node: Any, path: str = "") -> Any:
+    """Every (JSON pointer, key, value) of a schema document."""
+    if isinstance(node, dict):
+        for key, value in node.items():
+            yield f"{path}/{key}", key, value
+            yield from walk(value, f"{path}/{key}")
+    elif isinstance(node, list):
+        for index, value in enumerate(node):
+            yield from walk(value, f"{path}/{index}")
+
+
+def vet(schema_file: Path) -> None:
+    """Strict load, meta-schema check and the unsupported constructs of FR-001-46."""
+    try:
+        schema = load_json(schema_file)
+    except ContractError as exc:
+        raise GenerationError(f"{schema_file.name}: {exc.reason}") from None
+    if not isinstance(schema, dict):
+        raise GenerationError(f"{schema_file.name}: a schema must be a JSON object")
+    try:
+        Draft202012Validator.check_schema(schema)
+    except SchemaError as exc:
+        raise GenerationError(f"{schema_file.name}: not a valid 2020-12 schema ({exc.message[:120]})") from None
+    own = str(schema.get("$id", "")).rsplit("/", 1)[0] + "/"
+    for pointer, key, value in walk(schema):
+        if key in UNSUPPORTED_KEYS:
+            raise GenerationError(f"{schema_file.name}: unsupported construct {key} at {pointer}")
+        if key == "$ref" and isinstance(value, str) and "://" in value and not value.startswith(own):
+            raise GenerationError(f"{schema_file.name}: remote $ref {value[:80]} at {pointer}")
+
+
+def run(cmd: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
+    env = {**os.environ, "PYTHONHASHSEED": "0", "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1", "NO_COLOR": "1"}
+    return subprocess.run(cmd, cwd=cwd, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
+
+
+def generate_module(schema_file: Path, target: Path) -> None:
+    cmd = [
+        sys.executable, "-m", "datamodel_code_generator",
+        "--input", schema_file.name,
+        *OPTIONS,
+        "--custom-file-header", HEADER.format(file=schema_file.name),
+        "--output", str(target),
+    ]  # fmt: skip
+    done = run(cmd, schema_file.parent)
+    if done.returncode != 0 or not target.is_file():
+        reason = (done.stderr.strip().splitlines() or ["generator failed"])[-1][:200]
+        raise GenerationError(f"{schema_file.name}: {reason}")
+
+
+def format_with_ruff(files: list[Path]) -> None:
+    if not files:
+        return
+    cmd = [sys.executable, "-m", "ruff", "format", "--config", str(REPO / "pyproject.toml"), *map(str, files)]
+    done = run(cmd, files[0].parent)
+    if done.returncode != 0:
+        raise GenerationError(f"ruff format failed: {(done.stderr.strip() or done.stdout.strip())[:200]}")
+
+
+def init_text(stems: list[str]) -> str:
+    modules = [stem.replace("-", "_") for stem in stems]
+    lines = [
+        "# Generated by tools/gen_types.py from the schemas in contracts/. Do not edit.",
+        '"""Pydantic models of every contract schema (one module per schema)."""',
+        "",
+        f"from . import {', '.join(modules)}",
+        "",
+        f"__all__ = [{', '.join(repr(m) for m in modules)}]",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def generate(contracts: Path, workdir: Path) -> dict[str, bytes]:
+    """The expected content of every generated file, by file name. Raises ``GenerationError``."""
+    schemas = sorted(contracts.glob("*.schema.json"))
+    for schema_file in schemas:
+        vet(schema_file)
+    stems = [stem_of(s) for s in schemas]
+    out = workdir / "generated"
+    out.mkdir()
+    produced = []
+    for schema_file in schemas:
+        target = out / f"{stem_of(schema_file).replace('-', '_')}.py"
+        generate_module(schema_file, target)
+        produced.append(target)
+    init = out / "__init__.py"
+    init.write_text(init_text(stems), encoding="utf-8", newline="\n")
+    format_with_ruff([*produced, init])
+    return {p.name: p.read_bytes().replace(b"\r\n", b"\n") for p in sorted(out.glob("*.py"))}
+
+
+def existing(out: Path) -> dict[str, bytes]:
+    if not out.is_dir():
+        return {}
+    return {p.name: p.read_bytes().replace(b"\r\n", b"\n") for p in sorted(out.glob("*.py"))}
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Generate or check the Pydantic models of the contract schemas.")
+    parser.add_argument("--check", action="store_true", help="exit 1 listing every file that differs; write nothing")
+    parser.add_argument("--contracts", type=Path, default=DEFAULT_CONTRACTS, help="folder with the *.schema.json files")
+    parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="folder of the generated modules")
+    args = parser.parse_args(argv)
+    if not args.contracts.is_dir():
+        print(f"usage error: {args.contracts.name} is not a directory", file=sys.stderr)
+        return 2
+    with tempfile.TemporaryDirectory(dir=os.environ.get("PITSTUDIO_TMP") or None) as tmp:
+        try:
+            expected = generate(args.contracts, Path(tmp))
+        except GenerationError as exc:
+            print(f"generation failed: {exc}", file=sys.stderr)
+            return 3
+    current = existing(args.out)
+    problems = [f"missing: {name}" for name in sorted(expected) if name not in current]
+    problems += [f"differs: {name}" for name in sorted(expected) if name in current and current[name] != expected[name]]
+    problems += [f"orphan: {name}" for name in sorted(current) if name not in expected]
+    if args.check:
+        if problems:
+            print("generated types are stale (run: uv run python tools/gen_types.py):")
+            print("\n".join(f"  {p}" for p in problems))
+            return 1
+        print("generated types are current")
+        return 0
+    args.out.mkdir(parents=True, exist_ok=True)
+    for name, data in expected.items():
+        if current.get(name) != data:
+            (args.out / name).write_bytes(data)
+    for name in sorted(set(current) - set(expected)):
+        (args.out / name).unlink()
+    print(f"generated {len(expected)} modules in {args.out.name}" + (f" ({len(problems)} changed)" if problems else ""))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

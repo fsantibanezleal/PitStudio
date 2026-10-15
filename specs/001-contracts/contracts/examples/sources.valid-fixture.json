@@ -1,0 +1,43 @@
+{
+  "$schema": "../sources.schema.json",
+  "sources": [
+    {
+      "id": "example-fixture-tiles",
+      "kind": "real",
+      "title": "Example public-domain lidar tiles of an open-pit mine",
+      "landing_url": "https://example.org/data/lidar-tiles",
+      "access": "direct",
+      "files": [
+        {
+          "url": "https://example.org/data/lidar-tiles/tile-001.laz",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bytes": 734003200,
+          "kind": "point-cloud",
+          "publisher_checksum": "md5:0123456789abcdef0123456789abcdef"
+        },
+        {
+          "url": "https://example.org/data/lidar-tiles/archive.zip",
+          "sha256": null,
+          "bytes": null,
+          "name": "lidar-tiles.zip",
+          "kind": "archive",
+          "uncompressed_bytes": 2147483648,
+          "extract": [
+            "tiles/*.laz",
+            "metadata/tile-??.xml"
+          ]
+        }
+      ],
+      "spdx": "LicenseRef-USGov-PD",
+      "licence_url": "https://example.org/data/lidar-tiles/licence",
+      "licence_class": "public-domain",
+      "redistribution": "redistributable",
+      "citation": "Example agency (2024). Lidar tiles. https://example.org/data/lidar-tiles",
+      "card": "data/cards/example-fixture-tiles.md",
+      "account": {
+        "needed": false
+      },
+      "fixture": true
+    }
+  ]
+}

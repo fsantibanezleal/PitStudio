@@ -1,0 +1,46 @@
+{
+  "kind": "input",
+  "engine": "geotech",
+  "engine_version": "0.1.0",
+  "function": "pof_monte_carlo",
+  "args": {
+    "surfaces": [
+      [
+        {
+          "width_m": 2.0,
+          "weight_n_per_m": 400000.0,
+          "base_angle_rad": 0.6,
+          "pore_pressure_pa": 20000.0
+        },
+        {
+          "width_m": 2.0,
+          "weight_n_per_m": 650000.0,
+          "base_angle_rad": 0.35,
+          "pore_pressure_pa": 30000.0
+        },
+        {
+          "width_m": 2.0,
+          "weight_n_per_m": 500000.0,
+          "base_angle_rad": 0.1,
+          "pore_pressure_pa": 25000.0
+        }
+      ]
+    ],
+    "method": "bishop",
+    "n_samples": 100001,
+    "seed": 20261007,
+    "cohesion_pa": {
+      "distribution": "normal",
+      "mean": 15000.0,
+      "sd": 3000.0,
+      "lower": 0.0
+    },
+    "friction_angle_rad": {
+      "distribution": "normal",
+      "mean": 0.5235987755982988,
+      "sd": 0.05235987755982988,
+      "lower": 0.08726646259971647,
+      "upper": 1.0471975511965976
+    }
+  }
+}

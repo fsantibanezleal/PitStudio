@@ -298,8 +298,8 @@ $$
 
 with a pointwise linear map $W$, learnable spectral weights $R_\phi$ applied to the lowest $k_{\max}$ Fourier modes,
 and a nonlinearity $\sigma$. Li et al. report speed-ups of up to three orders of magnitude over classical solvers [11].
-PitStudio implements the truncated transform as DFT matrix multiplications, so the exported ONNX graph contains only
-MatMul/Einsum operators. Accuracy is the relative L2 error on held-out terrains:
+PitStudio implements the truncated transform as DFT matrix multiplications, so the spectral layers export as `MatMul`
+only; the export checks the graph against an operator whitelist that excludes `DFT`, `Einsum` and complex tensors. Accuracy is the relative L2 error on held-out terrains:
 
 $$
 \varepsilon_{L2} = \frac{\lVert \hat h_{\max} - h_{\max} \rVert_2}{\lVert h_{\max} \rVert_2}

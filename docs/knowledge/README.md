@@ -81,7 +81,8 @@ The starting status of some values that the cases use, as the research left them
 | Diesel ≈ 2.70 kg CO₂/L (from 10.21 kg CO₂ per US gallon) | EPA GHG Emission Factors Hub (2025), Table 2 Mobile Combustion CO2, p. 2 [5] | verified (primary PDF) |
 | Swebrec fits with $r^2 > 0.995$ over 2–3 orders of magnitude of size | Ouchterlony 2005 [6] | **UNVERIFIED — pinned at specification** (search excerpt) |
 | Hoek–Brown disturbance $D \approx 1.0$ for large production blasting | Hoek, Carranza-Torres and Corkum 2002 [7] | **UNVERIFIED — pinned at specification** |
-| Kuz-Ram rock-factor constant 0.06 and Cunningham uniformity-index form | Cunningham 2005 [8] | **UNVERIFIED — pinned at specification** |
+| Kuz-Ram rock factor $A = 0.06\,(RMD + RDI + HF)$ (joint factor inside $RMD$) | Cunningham 2005, eq. 4, p. 204 [8] | verified (primary PDF) |
+| Cunningham uniformity-index form | Cunningham 2005 [8] | **UNVERIFIED — pinned at specification** |
 
 Values that remain unverified after the specification phase stay out of every headline result.
 
@@ -115,4 +116,4 @@ conversions are tested.
 5. US EPA, "GHG Emission Factors Hub" (2025). https://www.epa.gov/system/files/documents/2025-01/ghg-emission-factors-hub-2025.pdf
 6. Ouchterlony, F. (2005), "The Swebrec function: linking fragmentation by blasting and crushing", Mining Technology 114(1). https://doi.org/10.1179/037178405X44539
 7. Hoek, E., Carranza-Torres, C. and Corkum, B. (2002), "Hoek–Brown failure criterion — 2002 edition", NARMS-TAC (bibliographic). https://www.semanticscholar.org/paper/HOEK-BROWN-FAILURE-CRITERION-2002-EDITION-Hoek-Carranza-Torres/e44829e6d2c1484d25efe6be2db830e16c8f9d89
-8. Cunningham, C. V. B. (2005), "The Kuz-Ram fragmentation model — 20 years on", EFEE Brighton (bibliographic). https://www.scirp.org/reference/referencespapers?referenceid=4120306
+8. Cunningham, C. V. B. (2005), "The Kuz-Ram fragmentation model — 20 years on", EFEE Brighton (bibliographic). https://www.scirp.org/reference/referencespapers?referenceid=4120306; full text: https://www.smctesting.com/documents/mine-to-mill/The%20kuz%20ram%20fragmentation%20model%2020%20years%20on.pdf

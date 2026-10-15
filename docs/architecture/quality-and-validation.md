@@ -60,7 +60,7 @@ GPU physics is validated against laboratory laws and benchmark experiments, not 
 
 | Benchmark | Law or data | Used for | Tolerance |
 |---|---|---|---|
-| Silo discharge | Beverloo law: mass flow $W = C\,\rho_b\sqrt{g}\,(D - k d)^{5/2}$, with discharge coefficient $C$ (–), bulk density $\rho_b$ (kg/m³), orifice diameter $D$ (m), grain diameter $d$ (m) and shape constant $k$ (–) [1]; a recent DEM validation with Hertz–Mindlin contacts reports $C = 0.56$ and the 5/2 exponent [2] | Warp DEM, Newton MPM | discharge ±5 % |
+| Silo discharge | Beverloo law: mass flow $W = C\,\rho_b\sqrt{g}\,(D - k d)^{5/2}$, with discharge coefficient $C$ (–), bulk density $\rho_b$ (kg/m³), orifice diameter $D$ (m), grain diameter $d$ (m) and shape constant $k$ (–) [1]; a recent DEM validation with Hertz–Mindlin contacts reports $C = 0.56$ and the 5/2 exponent, with $C$ fitted on the particle density (3,000 kg/m³), not $\rho_b$ [2] | Warp DEM, Newton MPM | discharge ±5 % |
 | Angle of repose | Calibration targets from the literature [3] | DEM calibration (M09) | ±1.5° |
 | Granular column collapse | Run-out scaling with the aspect ratio [4] [5] [6] | DEM, MPM, GNS surrogate | run-out ±5 % |
 | Dam break | Martin and Moyce's liquid-column collapse [7]; the SPHERIC 3-D dam-break data [8] [9] | GPU shallow water (M15) | specified per test |
@@ -126,8 +126,9 @@ calibrated in `thresholds.yaml` during specification.
 - **Embedding C2ST** on DINOv2 features for fragment images; duplicate scans; an injected-shift check that must be
   detected (AUC ≥ 0.80).
 - **TSTR ≥ 0.90 × TRTR only where a real labelled training set exists:** fragmentation. The real fragment set is split by
-  source group (240 originals; 231 groups after conservatively merging 9 visually similar pairs), never by file, because its 960 images
-  include three flipped or rotated copies of each original.
+  source group (80 photographs × 3 crops × 4 dihedral copies; 72 groups after conservatively merging 9 visually similar pairs),
+  never by file, because its 960 images include three other crops of each photograph and three flipped or rotated
+  copies of each crop.
 - **Honesty rule:** a data type with no real reference is labelled "calibrated synthetic — not validated against real
   data" and receives no C2ST or TSTR claim.
 

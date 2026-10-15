@@ -1,0 +1,28 @@
+{
+  "document": "replay-manifest",
+  "schema_version": "1.0",
+  "kind": "particle",
+  "units": "m",
+  "bbox_m": {
+    "min": [
+      -1650.0,
+      -1650.0,
+      1500.0
+    ],
+    "max": [
+      1650.0,
+      1650.0,
+      2400.0
+    ]
+  },
+  "fps": 10,
+  "frames": 200,
+  "items": 20000,
+  "code_type": "int16",
+  "solver": {
+    "name": "warp-dem",
+    "version": "1.10.0"
+  },
+  "seed": 20261007,
+  "shards": []
+}

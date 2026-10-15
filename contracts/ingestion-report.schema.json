@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/ingestion-report.schema.json",
+  "title": "Ingestion report",
+  "description": "Accepted or rejected inputs with every violation, written by s10_preprocess and s20_feature_extraction (DC-008-03, spec 008-data-pipeline).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source",
+    "stage",
+    "run_id",
+    "created",
+    "status",
+    "files",
+    "violations",
+    "outputs"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "source": {
+      "$ref": "#/$defs/slug"
+    },
+    "stage": {
+      "enum": [
+        "s10_preprocess",
+        "s20_feature_extraction"
+      ]
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "created": {
+      "$ref": "#/$defs/utc_timestamp"
+    },
+    "status": {
+      "enum": [
+        "accepted",
+        "rejected"
+      ]
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/checked_file"
+      },
+      "minItems": 1,
+      "maxItems": 100000
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/violation"
+      },
+      "maxItems": 1000000
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "$ref": "#/$defs/relpath"
+          },
+          "sha256": {
+            "$ref": "#/$defs/sha256"
+          }
+        }
+      },
+      "maxItems": 4096
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "rejected"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "violations": {
+            "minItems": 1
+          },
+          "outputs": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "accepted"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "violations": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?Z$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]{1,4}$"
+    },
+    "checked_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "validator",
+        "schema_name",
+        "status",
+        "records"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath",
+          "description": "Path relative to the data root."
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "validator": {
+          "enum": [
+            "tabular",
+            "raster",
+            "point-cloud",
+            "vector",
+            "image-mask",
+            "image",
+            "series",
+            "dataset-structure"
+          ]
+        },
+        "schema_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9_]{0,63}$"
+        },
+        "status": {
+          "enum": [
+            "accepted",
+            "rejected"
+          ]
+        },
+        "records": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "violation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "row",
+        "pixel",
+        "field",
+        "field_kind",
+        "value",
+        "expected",
+        "rule",
+        "unit"
+      ],
+      "properties": {
+        "file": {
+          "$ref": "#/$defs/relpath"
+        },
+        "row": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Table row or series index."
+        },
+        "pixel": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y"
+              ],
+              "properties": {
+                "x": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000
+                },
+                "y": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "field": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "field_kind": {
+          "enum": [
+            "column",
+            "property"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ],
+          "maxLength": 200,
+          "description": "Found value; non-finite values are written as text."
+        },
+        "expected": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

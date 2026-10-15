@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/capabilities.schema.json",
+  "title": "PitStudio capability report",
+  "description": "Committed output of `studio/bench/run_bench.py`: which GPU tools run on the reference machine, their versions, and the metrics their licences allow publishing (DC-001-05, spec 001-contracts).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "generated",
+    "gpu",
+    "driver",
+    "probes"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "generated": {
+      "$ref": "#/$defs/date"
+    },
+    "gpu": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "driver": {
+      "$ref": "#/$defs/driver"
+    },
+    "probes": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_]{0,31}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/probe_result"
+      },
+      "maxProperties": 64
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "maxLength": 10,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
+    },
+    "driver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+(\\.[0-9]+)+$"
+    },
+    "local_only": {
+      "const": "measured locally, not published (licence)"
+    },
+    "probe_result": {
+      "type": "object",
+      "description": "one probe of the capability bench",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "versions"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "skip"
+          ]
+        },
+        "versions": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "maxProperties": 32
+        },
+        "metrics": {
+          "oneOf": [
+            {
+              "type": "object",
+              "propertyNames": {
+                "pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$"
+              },
+              "additionalProperties": {
+                "type": [
+                  "number",
+                  "string"
+                ],
+                "maxLength": 200
+              },
+              "maxProperties": 64
+            },
+            {
+              "$ref": "#/$defs/local_only"
+            }
+          ]
+        },
+        "telemetry": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "additionalProperties": {
+            "type": "number"
+          },
+          "maxProperties": 32
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "maxItems": 20
+        },
+        "error": {
+          "type": "string",
+          "maxLength": 300
+        }
+      }
+    }
+  }
+}

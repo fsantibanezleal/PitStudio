@@ -1,0 +1,69 @@
+{
+  "model": "dust",
+  "patch_id": "p07",
+  "scenario_id": "p07-d004",
+  "source_dem": {
+    "source_id": "bingham-3dep",
+    "sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "cell_size_m": 8,
+  "grid": {
+    "nx": 64,
+    "ny": 64
+  },
+  "resolution_transfer": false,
+  "channels": [
+    {
+      "name": "bed_elevation",
+      "role": "input",
+      "unit": "m"
+    },
+    {
+      "name": "source_strength",
+      "role": "input",
+      "unit": "kg/m^2/s"
+    },
+    {
+      "name": "wind_speed",
+      "role": "input",
+      "unit": "m/s"
+    },
+    {
+      "name": "wind_dir_cos",
+      "role": "input",
+      "unit": "1"
+    },
+    {
+      "name": "wind_dir_sin",
+      "role": "input",
+      "unit": "1"
+    },
+    {
+      "name": "concentration_mean",
+      "role": "output",
+      "unit": "ug/m^3"
+    }
+  ],
+  "scenario": {
+    "source_row_start": 20,
+    "source_col_start": 10,
+    "source_row_end": 20,
+    "source_col_end": 30,
+    "source_strength_kg_per_m2_s": 2e-06,
+    "wind_speed_m_per_s": 6.5,
+    "wind_direction_deg": 225
+  },
+  "t_end_s": 3600.0,
+  "averaging_window_s": [
+    0,
+    3600.0
+  ],
+  "solver": "warp-dust",
+  "solver_version": "1.17.0",
+  "store": {
+    "format": "zarr",
+    "path": "data/interim/fno/dust/p07-d004.zarr",
+    "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+  },
+  "label": "calibrated synthetic — not validated against real data"
+}

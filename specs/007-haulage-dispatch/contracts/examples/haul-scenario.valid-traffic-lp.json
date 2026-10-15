@@ -1,0 +1,438 @@
+{
+  "schema_version": "1.0",
+  "id": "a1-traffic-lp-failures",
+  "description": "Traffic mode, LP with a blend floor, a direction zone, breakdowns and a closure window.",
+  "live": false,
+  "mode": "traffic",
+  "horizon_s": 28800.0,
+  "kpi_window": {
+    "warmup_s": 3600.0
+  },
+  "network": {
+    "nodes": [
+      {
+        "id": 1,
+        "kind": "face",
+        "pos_m": [
+          0.0,
+          0.0,
+          1500.0
+        ]
+      },
+      {
+        "id": 2,
+        "kind": "face",
+        "pos_m": [
+          0.0,
+          800.0,
+          1500.0
+        ]
+      },
+      {
+        "id": 3,
+        "kind": "junction",
+        "pos_m": [
+          1000.0,
+          400.0,
+          1580.0
+        ]
+      },
+      {
+        "id": 4,
+        "kind": "dump",
+        "pos_m": [
+          2000.0,
+          400.0,
+          1600.0
+        ]
+      },
+      {
+        "id": 5,
+        "kind": "crusher",
+        "pos_m": [
+          2000.0,
+          1200.0,
+          1600.0
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "id": 1,
+        "a": 1,
+        "b": 3,
+        "polyline_m": [
+          [
+            0.0,
+            0.0,
+            1500.0
+          ],
+          [
+            1000.0,
+            400.0,
+            1580.0
+          ]
+        ],
+        "length_m": 1080.0,
+        "grade_pct": 7.428,
+        "width_class": 2,
+        "one_way": false,
+        "speed_limit_kmh": 30.0,
+        "rolling_resistance_pct": 2.5,
+        "zone_id": null,
+        "single_lane_op": false
+      },
+      {
+        "id": 2,
+        "a": 2,
+        "b": 3,
+        "polyline_m": [
+          [
+            0.0,
+            800.0,
+            1500.0
+          ],
+          [
+            1000.0,
+            400.0,
+            1580.0
+          ]
+        ],
+        "length_m": 1080.0,
+        "grade_pct": 7.428,
+        "width_class": 2,
+        "one_way": false,
+        "speed_limit_kmh": 30.0,
+        "rolling_resistance_pct": 2.5,
+        "zone_id": null,
+        "single_lane_op": false
+      },
+      {
+        "id": 3,
+        "a": 3,
+        "b": 4,
+        "polyline_m": [
+          [
+            1000.0,
+            400.0,
+            1580.0
+          ],
+          [
+            2000.0,
+            400.0,
+            1600.0
+          ]
+        ],
+        "length_m": 1000.2,
+        "grade_pct": 2.0,
+        "width_class": 2,
+        "one_way": false,
+        "speed_limit_kmh": 50.0,
+        "rolling_resistance_pct": 2.0,
+        "zone_id": 1,
+        "single_lane_op": true
+      },
+      {
+        "id": 4,
+        "a": 3,
+        "b": 5,
+        "polyline_m": [
+          [
+            1000.0,
+            400.0,
+            1580.0
+          ],
+          [
+            2000.0,
+            1200.0,
+            1600.0
+          ]
+        ],
+        "length_m": 1280.781,
+        "grade_pct": 1.562,
+        "width_class": 2,
+        "one_way": false,
+        "speed_limit_kmh": 50.0,
+        "rolling_resistance_pct": 2.0,
+        "zone_id": null,
+        "single_lane_op": false
+      }
+    ],
+    "zones": [
+      {
+        "id": 1,
+        "segment_ids": [
+          3
+        ],
+        "policy": "loaded_priority",
+        "max_in_zone": 4,
+        "batch_k": 4,
+        "max_hold_s": 480.0
+      }
+    ],
+    "junctions": [
+      {
+        "node": 3,
+        "capacity": 1,
+        "cross_s": 12.0
+      }
+    ]
+  },
+  "equipment": {
+    "truck_classes": [
+      {
+        "name": "CAT_793F",
+        "kind": "rigid",
+        "payload_mean_t": 227.0,
+        "payload_sd_t": 11.0,
+        "empty_t": 165.0,
+        "width_class": 2,
+        "power_kw": 1976.0,
+        "max_speed_kmh": 60.0,
+        "rimpull_kn": [
+          {
+            "speed_kmh": 2.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 3.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 4.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 6.0,
+            "force_kn": 1007.8
+          },
+          {
+            "speed_kmh": 8.0,
+            "force_kn": 755.8
+          },
+          {
+            "speed_kmh": 11.0,
+            "force_kn": 549.7
+          },
+          {
+            "speed_kmh": 15.0,
+            "force_kn": 403.1
+          },
+          {
+            "speed_kmh": 20.0,
+            "force_kn": 302.3
+          },
+          {
+            "speed_kmh": 27.0,
+            "force_kn": 223.9
+          },
+          {
+            "speed_kmh": 35.0,
+            "force_kn": 172.8
+          },
+          {
+            "speed_kmh": 45.0,
+            "force_kn": 134.4
+          },
+          {
+            "speed_kmh": 55.0,
+            "force_kn": 109.9
+          }
+        ],
+        "retarder_kn": [
+          {
+            "speed_kmh": 2.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 3.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 4.0,
+            "force_kn": 1268.6
+          },
+          {
+            "speed_kmh": 6.0,
+            "force_kn": 856.6
+          },
+          {
+            "speed_kmh": 8.0,
+            "force_kn": 642.4
+          },
+          {
+            "speed_kmh": 11.0,
+            "force_kn": 467.2
+          },
+          {
+            "speed_kmh": 15.0,
+            "force_kn": 342.6
+          },
+          {
+            "speed_kmh": 20.0,
+            "force_kn": 257.0
+          },
+          {
+            "speed_kmh": 27.0,
+            "force_kn": 190.4
+          },
+          {
+            "speed_kmh": 35.0,
+            "force_kn": 146.8
+          },
+          {
+            "speed_kmh": 45.0,
+            "force_kn": 114.2
+          },
+          {
+            "speed_kmh": 55.0,
+            "force_kn": 93.4
+          }
+        ]
+      }
+    ],
+    "loader_classes": [
+      {
+        "name": "SHOVEL_45",
+        "pass_t": 45.0,
+        "pass_time_s": 38.0,
+        "time_cv": 0.18,
+        "spot_time_s": 30.0
+      }
+    ]
+  },
+  "fleet": [
+    {
+      "id": 1,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    },
+    {
+      "id": 2,
+      "truck_class": "CAT_793F",
+      "start_loader": 2
+    },
+    {
+      "id": 3,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    },
+    {
+      "id": 4,
+      "truck_class": "CAT_793F",
+      "start_loader": 2
+    },
+    {
+      "id": 5,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    },
+    {
+      "id": 6,
+      "truck_class": "CAT_793F",
+      "start_loader": 2
+    },
+    {
+      "id": 7,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    },
+    {
+      "id": 8,
+      "truck_class": "CAT_793F",
+      "start_loader": 2
+    },
+    {
+      "id": 9,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    },
+    {
+      "id": 10,
+      "truck_class": "CAT_793F",
+      "start_loader": 2
+    },
+    {
+      "id": 11,
+      "truck_class": "CAT_793F",
+      "start_loader": 1
+    },
+    {
+      "id": 12,
+      "truck_class": "CAT_793F",
+      "start_loader": 2
+    }
+  ],
+  "loaders": [
+    {
+      "node": 1,
+      "loader_class": "SHOVEL_45",
+      "n_spots": 1,
+      "destination_dump": 4
+    },
+    {
+      "node": 2,
+      "loader_class": "SHOVEL_45",
+      "n_spots": 1,
+      "destination_dump": 5
+    }
+  ],
+  "dumps": [
+    4,
+    5
+  ],
+  "dispatcher": {
+    "id": "lp",
+    "lp": {
+      "blend_floors": [
+        {
+          "terms": [
+            {
+              "loader": 1,
+              "coef": 0.15
+            },
+            {
+              "loader": 2,
+              "coef": -0.25
+            }
+          ],
+          "min": 0.0
+        }
+      ]
+    }
+  },
+  "variate_profile": "deterministic",
+  "quantile_tables": [],
+  "engine_constants": {
+    "stagger_window_s": 60.0,
+    "dump_mean_s": 55.0,
+    "dump_cv": 0.15,
+    "closure_retry_s": 300.0,
+    "headway_m": 80.0,
+    "headway_s": 8.0,
+    "payload_min_frac_of_mean": 0.5,
+    "payload_max_t": 400.0
+  },
+  "failures": {
+    "truck_mtbf_h": 40.0,
+    "truck_repair_mean_s": 2700.0,
+    "truck_repair_cv": 0.6,
+    "loader_mtbf_h": 60.0,
+    "loader_repair_mean_s": 1800.0,
+    "loader_repair_cv": 0.5,
+    "closures": [
+      {
+        "start_s": 7200.0,
+        "duration_s": 1800.0,
+        "segment_ids": [
+          4
+        ]
+      }
+    ]
+  },
+  "cost_rates": {
+    "truck_per_h": 450.0,
+    "loader_per_h": 900.0,
+    "currency": "USD"
+  }
+}

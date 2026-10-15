@@ -1,0 +1,47 @@
+{
+  "source": "makehuman",
+  "character_id": "mh-worker-007",
+  "application": "MakeHuman",
+  "application_version": "1.3.0",
+  "build": "patched",
+  "zip_sha256": "1a2b3c4d5e6f70818796a5b4c3d2e1f00f1e2d3c4b5a697828394a5b6c7d8e9f",
+  "assets": [
+    {
+      "kind": "skin",
+      "name": "default",
+      "origin": "system"
+    },
+    {
+      "kind": "clothes",
+      "name": "male casualsuit01",
+      "origin": "system"
+    },
+    {
+      "kind": "hair",
+      "name": "short02",
+      "origin": "system"
+    },
+    {
+      "kind": "eyebrows",
+      "name": "eyebrow001",
+      "origin": "system"
+    }
+  ],
+  "export_settings": {
+    "format": "fbx",
+    "scale_unit": "m",
+    "skeleton": "game_engine",
+    "pose": "standing02",
+    "feet_on_ground": true,
+    "subdivide": false,
+    "hide_faces_under_clothes": true
+  },
+  "seed": 7,
+  "export_path": "people/makehuman/mh-worker-007/mh-worker-007.fbx",
+  "export_sha256": "92a3b4c5d6e7f809a0b1c2d3e4f5061728394a5b6c7d8e9f0f1e2d3c4b5a6978",
+  "exported_utc": "2026-10-06T09:14:00Z",
+  "licence": {
+    "spdx": "CC0-1.0",
+    "licence_class": "open-no-attribution"
+  }
+}

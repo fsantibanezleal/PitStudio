@@ -1,0 +1,71 @@
+{
+  "kind": "physics-observables",
+  "schema_version": "1.0",
+  "scenario": "bench-dem-repose-gravel",
+  "run_id": "20261007T090000Z-bench-physics-dem",
+  "solver": "dem",
+  "solver_version": "1.17.0",
+  "warp_version": "1.17.0",
+  "seed": 20261007,
+  "device": "cuda",
+  "dt_mode": "fixed",
+  "dt_s": 2e-05,
+  "rayleigh_dt_s": 0.0001971,
+  "rayleigh_fraction": 0.2,
+  "youngs_modulus": {
+    "used_pa": 50000000.0,
+    "real_pa": 50000000000.0
+  },
+  "budget": "mass",
+  "rows": 51,
+  "columns": [
+    {
+      "name": "time_s",
+      "unit": "s",
+      "dtype": "float64",
+      "role": "time"
+    },
+    {
+      "name": "step",
+      "unit": "1",
+      "dtype": "int64",
+      "role": "step"
+    },
+    {
+      "name": "particles_inside",
+      "unit": "1",
+      "dtype": "int64",
+      "role": "budget"
+    },
+    {
+      "name": "particles_out",
+      "unit": "1",
+      "dtype": "int64",
+      "role": "budget"
+    },
+    {
+      "name": "mass_inside_kg",
+      "unit": "kg",
+      "dtype": "float64",
+      "role": "budget"
+    },
+    {
+      "name": "kinetic_energy_j",
+      "unit": "J",
+      "dtype": "float64",
+      "role": "observable"
+    },
+    {
+      "name": "repose_angle_deg",
+      "unit": "deg",
+      "dtype": "float64",
+      "role": "observable"
+    }
+  ],
+  "stamp": {
+    "report_id": "bench-dem-warp-1-17-0-gravel-10mm",
+    "report_sha256": "d0b76cbd98eadcb87449d5e32e06837ef8be8d455355e2a1c74bc53cda095d4c",
+    "verdict": "pass"
+  },
+  "render_time_s": 1.0
+}

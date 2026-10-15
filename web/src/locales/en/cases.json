@@ -1,0 +1,177 @@
+{
+  "notYetRun": "Not yet run",
+  "rail": {
+    "title": "Cases",
+    "open": "Open the page of case {{id}}",
+    "page": "Page"
+  },
+  "kpi": {
+    "name": "KPI",
+    "value": "Value",
+    "provenance": "Provenance",
+    "panelTitle": "Headline KPIs",
+    "openCase": "Open the case page"
+  },
+  "lane": {
+    "live": "LIVE",
+    "replay": "REPLAY",
+    "static": "STATIC"
+  },
+  "layers": {
+    "title": "Layers",
+    "terrain-2018": "Terrain 2018",
+    "terrain-2023": "Terrain 2023",
+    "roads": "Roads",
+    "pit-shells": "Pit shells",
+    "fleet": "Fleet",
+    "fields": "Fields",
+    "sensors": "Sensors"
+  },
+  "explore": {
+    "pick": "Select a case in the rail to see its layers and headline KPIs. Nothing plays until you start it."
+  },
+  "scene": {
+    "title": "Scene",
+    "terrain": "Bingham Canyon terrain tiles",
+    "noThreeD": "3D view needs WebGL 2 or WebGPU",
+    "summary": "Visible layers: {{layers}}",
+    "noLayers": "none"
+  },
+  "tier": {
+    "label": "Compute tier",
+    "detecting": "Detecting",
+    "t1": "T1 · WebGPU",
+    "t2": "T2 · WebAssembly",
+    "t0": "T0 · baked"
+  },
+  "catalogue": {
+    "title": "Case catalogue",
+    "case": "Case",
+    "name": "Title",
+    "category": "Category",
+    "kpis": "KPIs",
+    "real": "Real data",
+    "synthetic": "Synthetic data",
+    "none": "none"
+  },
+  "coverage": {
+    "title": "Method coverage matrix",
+    "legend": "● the case exercises the method. Every method M1 to M23 appears in at least one case.",
+    "method": "Method"
+  },
+  "tools": {
+    "title": "Studio tool matrix",
+    "legend": "● the tool is named in the case. ○ the tool has a supporting role.",
+    "tool": "Tool"
+  },
+  "matrix": {
+    "named": "named",
+    "supporting": "supporting"
+  },
+  "context": {
+    "question": "Question",
+    "sources": "Real data sources",
+    "noSources": "This case uses no real data source.",
+    "kind": { "real": "real", "synthetic": "synthetic" },
+    "licence": "Licence",
+    "unregistered": "Not yet in the data source registry",
+    "card": "Dataset card",
+    "landing": "Publisher page",
+    "synthetic": "Synthetic data",
+    "unvalidated": "calibrated synthetic — not validated against real data",
+    "validated": "validated against a real reference",
+    "descriptive": "descriptive comparison only",
+    "validity": "Validity range",
+    "links": "Theory and methods",
+    "theory": "Theory"
+  },
+  "card": {
+    "sources": "Data sources",
+    "precomputed": "Precomputed on {{gpu}} on {{date}}"
+  },
+  "reproduce": {
+    "title": "Reproduce this",
+    "recipe": "Recipe",
+    "needsGpu": "This recipe needs an NVIDIA RTX GPU.",
+    "needsNvenc": "This recipe needs an NVIDIA GPU with a hardware video encoder.",
+    "noGpu": "This recipe needs no GPU.",
+    "copy": "Copy the commands",
+    "copied": "Copied",
+    "planned": "Not yet run — recipe planned"
+  },
+  "engine": {
+    "state": {
+      "idle": "ready",
+      "loading": "loading",
+      "running": "running",
+      "done": "done",
+      "error": "error",
+      "replay": "precomputed"
+    },
+    "range": "Enter a number from {{min}} to {{max}} {{unit}}. The last valid value was kept.",
+    "capNote": "Clamped to the size cap of {{cap}} {{unit}}.",
+    "notice": {
+      "parity": "parity not confirmed — showing precomputed results",
+      "needsWebGpu": "needs WebGPU to compute live",
+      "noBackend": "this engine is not available in the browser yet — showing precomputed results",
+      "runtime": "{{runtime}} could not load — showing precomputed results",
+      "failed": "{{runtime}} failed — continuing on {{tier}}",
+      "tier": "{{runtime}} stopped working: this engine now runs on {{tier}}"
+    },
+    "control": {},
+    "progress": {
+      "label": "Downloading {{runtime}}",
+      "abort": "Abort"
+    },
+    "python": {
+      "run": "Run in Python",
+      "pass": "Python reference agrees with the browser result",
+      "fail": "Python reference differs from the browser result",
+      "unavailable": "Python reference could not load"
+    }
+  },
+  "clock": {
+    "label": "Simulation clock",
+    "play": "Play",
+    "pause": "Pause",
+    "stepBack": "Step back",
+    "stepForward": "Step forward",
+    "time": "Time",
+    "seconds": "{{t}} s"
+  },
+  "video": {
+    "title": "Replay video",
+    "unavailable": "Video not available in this browser",
+    "integrity": "integrity check failed",
+    "state": {
+      "idle": "not loaded",
+      "loading": "loading",
+      "playing": "playing",
+      "unavailable": "unavailable",
+      "integrity-failed": "blocked"
+    }
+  },
+  "charts": {
+    "chartTitle": "Chart of {{name}}",
+    "interval": "interval of the difference",
+    "values": "baseline and challenger",
+    "discordant": "discordant pairs",
+    "estimate": "estimate with its interval",
+    "position": "position",
+    "noData": "no data"
+  },
+  "case": {
+    "back": "All cases",
+    "tabs": "Case views",
+    "tab": {
+      "scene": "Scene",
+      "simulate": "Simulate (live)",
+      "replay": "Studio replay",
+      "charts": "Charts",
+      "context": "Context"
+    },
+    "simulatePending": "The in-browser engines of this case ({{engines}}) are not published yet, so nothing is computed here.",
+    "replayPending": "No precomputed run of this case has been published yet.",
+    "chartsPending": "No result of this case has been published yet, so there is nothing to chart."
+  }
+}

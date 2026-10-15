@@ -1,0 +1,213 @@
+{
+  "kind": "encode-report",
+  "schema_version": "1.0",
+  "run_id": "20261007T133000Z-c2-replay",
+  "stage": {
+    "id": "st50_physics"
+  },
+  "vmaf_model": "vmaf_v0.6.1",
+  "targets": {
+    "vmaf_mean_min": 93,
+    "vmaf_p5_min": 85,
+    "relaxed_vmaf_mean_floor": 80,
+    "pair_bytes_max": 25000000,
+    "poster_bytes_max": 150000
+  },
+  "clips": [
+    {
+      "clip": "c2-breach-replay",
+      "source_frames_sha256": "53acb42d840511b876b00493ba67d140d3a9c021e41ef17a7e3889180213883a",
+      "frames": 300,
+      "fps": 30,
+      "variants": {
+        "av1": {
+          "file": "c2-breach-replay.av1.mp4",
+          "bytes": 9100000,
+          "sha256": "5d03b223a3dc65f599057a052ba56297ed16594db3b1dcdfff47019540c71287",
+          "cq_range": {
+            "min": 20,
+            "max": 50
+          },
+          "trials": [
+            {
+              "cq": 35,
+              "vmaf_mean": 92.4,
+              "vmaf_p5": 85.9,
+              "bytes": 8600000
+            },
+            {
+              "cq": 27,
+              "vmaf_mean": 95.8,
+              "vmaf_p5": 90.4,
+              "bytes": 14000000
+            },
+            {
+              "cq": 31,
+              "vmaf_mean": 94.5,
+              "vmaf_p5": 88.6,
+              "bytes": 11000000
+            },
+            {
+              "cq": 33,
+              "vmaf_mean": 93.7,
+              "vmaf_p5": 87.6,
+              "bytes": 9800000
+            },
+            {
+              "cq": 34,
+              "vmaf_mean": 93.1,
+              "vmaf_p5": 86.9,
+              "bytes": 9100000
+            }
+          ],
+          "chosen_cq": 34,
+          "record": {
+            "codec": "av1",
+            "profile": "main",
+            "pix_fmt": "yuv420p",
+            "width": 1920,
+            "height": 1080,
+            "fps": 30,
+            "frames": 300,
+            "duration_s": 10.0,
+            "bitrate_kbps": 7280.0,
+            "vmaf": {
+              "mean": 93.1,
+              "p5": 86.9,
+              "model": "vmaf_v0.6.1"
+            },
+            "source_frames_sha256": "53acb42d840511b876b00493ba67d140d3a9c021e41ef17a7e3889180213883a",
+            "encoder": {
+              "ffmpeg_version": "n8.1",
+              "build_sha256": "52196cdacdd6bccee18dc3fe8f15606a7503ff8818bfeacb9abdfecf4b6654e2",
+              "nvenc_api": "13.0",
+              "args": [
+                "-hide_banner",
+                "-framerate",
+                "30",
+                "-start_number",
+                "0",
+                "-i",
+                "frame_%05d.png",
+                "-c:v",
+                "av1_nvenc",
+                "-preset",
+                "p5",
+                "-rc",
+                "vbr",
+                "-cq",
+                "34",
+                "-b:v",
+                "0",
+                "-g",
+                "60",
+                "-pix_fmt",
+                "yuv420p",
+                "-movflags",
+                "+faststart",
+                "c2-breach-replay.av1.mp4"
+              ]
+            },
+            "encode_fps": 210.0
+          }
+        },
+        "h264": {
+          "file": "c2-breach-replay.h264.mp4",
+          "bytes": 5600000,
+          "sha256": "72a6c9135f1b59693330c8ae39e10e2c1fcc87a6c40865ca66b59d24dadacf60",
+          "cq_range": {
+            "min": 15,
+            "max": 40
+          },
+          "trials": [
+            {
+              "cq": 28,
+              "vmaf_mean": 92.6,
+              "vmaf_p5": 85.5,
+              "bytes": 5200000
+            },
+            {
+              "cq": 21,
+              "vmaf_mean": 96.0,
+              "vmaf_p5": 91.0,
+              "bytes": 9000000
+            },
+            {
+              "cq": 25,
+              "vmaf_mean": 94.2,
+              "vmaf_p5": 88.0,
+              "bytes": 6600000
+            },
+            {
+              "cq": 27,
+              "vmaf_mean": 93.2,
+              "vmaf_p5": 86.4,
+              "bytes": 5600000
+            }
+          ],
+          "chosen_cq": 27,
+          "record": {
+            "codec": "h264",
+            "profile": "high",
+            "pix_fmt": "yuv420p",
+            "width": 1280,
+            "height": 720,
+            "fps": 30,
+            "frames": 300,
+            "duration_s": 10.0,
+            "bitrate_kbps": 4480.0,
+            "vmaf": {
+              "mean": 93.2,
+              "p5": 86.4,
+              "model": "vmaf_v0.6.1"
+            },
+            "source_frames_sha256": "53acb42d840511b876b00493ba67d140d3a9c021e41ef17a7e3889180213883a",
+            "encoder": {
+              "ffmpeg_version": "n8.1",
+              "build_sha256": "52196cdacdd6bccee18dc3fe8f15606a7503ff8818bfeacb9abdfecf4b6654e2",
+              "nvenc_api": "13.0",
+              "args": [
+                "-hide_banner",
+                "-framerate",
+                "30",
+                "-start_number",
+                "0",
+                "-i",
+                "frame_%05d.png",
+                "-c:v",
+                "h264_nvenc",
+                "-preset",
+                "p5",
+                "-rc",
+                "vbr",
+                "-cq",
+                "27",
+                "-b:v",
+                "0",
+                "-g",
+                "60",
+                "-pix_fmt",
+                "yuv420p",
+                "-movflags",
+                "+faststart",
+                "c2-breach-replay.h264.mp4"
+              ]
+            },
+            "encode_fps": 340.0
+          }
+        }
+      },
+      "pair_bytes": 14700000,
+      "poster": {
+        "file": "c2-breach-replay.webp",
+        "sha256": "293b9207228b7854bc3ccb2959ebea1583e066d41983124a5b381d6fdf6575f8",
+        "bytes": 98000,
+        "quality": 80,
+        "width": 1280,
+        "height": 720,
+        "frame": 0
+      },
+      "relaxation": null
+    }
+  ]
+}

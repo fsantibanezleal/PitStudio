@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "block_model": {
+    "id": "four-block-example",
+    "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "n_blocks": 4
+  },
+  "licence": {
+    "spdx": "CC-BY-4.0",
+    "licence_class": "own"
+  },
+  "block_set_encoding": "bitset-lsb0-base64",
+  "config": {
+    "lambdas": [
+      0.5,
+      1.0
+    ],
+    "t_min_t": 1000.0,
+    "periods": 2,
+    "mining_capacity_t": [
+      3000.0,
+      3000.0
+    ],
+    "processing_capacity_t": [
+      1000.0,
+      1000.0
+    ],
+    "discount_rate": 0.1,
+    "time_limit_s": 600.0,
+    "mip_rel_gap": 0.0001
+  },
+  "shells": [
+    {
+      "lambda": 0.5,
+      "blocks": "AA==",
+      "block_count": 0,
+      "ore_t": 0.0,
+      "waste_t": 0.0,
+      "value_cents": 0,
+      "strip_ratio": null
+    },
+    {
+      "lambda": 1.0,
+      "blocks": "Dw==",
+      "block_count": 4,
+      "ore_t": 1000.0,
+      "waste_t": 3000.0,
+      "value_cents": 200,
+      "strip_ratio": 3.0
+    }
+  ],
+  "ultimate_pit": {
+    "shell": 1,
+    "value_cents": 200,
+    "strip_ratio": 3.0
+  },
+  "pushbacks": [
+    {
+      "shell": 1,
+      "blocks": "Dw==",
+      "ore_t": 1000.0,
+      "waste_t": 3000.0,
+      "strip_ratio_incremental": 3.0,
+      "strip_ratio_cumulative": 3.0
+    }
+  ],
+  "units": [
+    {
+      "id": 0,
+      "pushback": 0,
+      "bench": 1,
+      "ore_t": 0.0,
+      "waste_t": 3000.0,
+      "value_cents": -300
+    },
+    {
+      "id": 1,
+      "pushback": 0,
+      "bench": 0,
+      "ore_t": 1000.0,
+      "waste_t": 0.0,
+      "value_cents": 500
+    }
+  ],
+  "schedule": {
+    "solver": {
+      "name": "highs",
+      "version": "1.15.1"
+    },
+    "status": "optimal",
+    "binaries": 4,
+    "gap": 0.0,
+    "npv_usd": 1.404959,
+    "periods": [
+      {
+        "t": 1,
+        "units": [
+          0
+        ],
+        "mined_t": 3000.0,
+        "ore_t": 0.0,
+        "cash_flow_usd": -3.0,
+        "strip_ratio": null
+      },
+      {
+        "t": 2,
+        "units": [
+          1
+        ],
+        "mined_t": 1000.0,
+        "ore_t": 1000.0,
+        "cash_flow_usd": 5.0,
+        "strip_ratio": 0.0
+      }
+    ]
+  }
+}

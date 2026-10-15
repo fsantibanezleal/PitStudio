@@ -43,7 +43,7 @@ project's CUDA 13 workloads [11][12].
 between 1/6 s and 1 s depending on the product [13]. Each sample stores time, utilisation, memory used, power, enforced
 power limit, SM clock, temperature, encoder utilisation and the clocks-event-reasons bitmask. Energy per stage is the
 difference of two readings of the total-energy counter (millijoules since driver load) [14]. Results go to
-`telemetry.parquet` and a summary in the manifest; the web gets a 1 Hz downsample of ≤ 200 KB per run.
+`telemetry.jsonl` (one sample per line) and a summary in the manifest; the web gets a 1 Hz downsample of ≤ 200 KB per run.
 
 **Reading utilisation honestly.** NVML utilisation is the "percent of time over the past sample period during which one
 or more kernels was executing" [13] — a time-busy fraction, not SM occupancy: one tiny kernel can read 100 %. So the

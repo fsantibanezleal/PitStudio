@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "case": "B2",
+  "generated": "2026-10-15",
+  "git_sha": "01e2b86d09a37a1a3d9b5aaaedfc7028fd41e137",
+  "notices": {
+    "cosmos": "Built on NVIDIA Cosmos",
+    "honesty": "Zero-shot 2B VLM; not a safety system."
+  },
+  "sample": {
+    "method": "stratified-random",
+    "strata": [
+      "task",
+      "type",
+      "condition"
+    ],
+    "seed": 20261015,
+    "n_full": 6480,
+    "n_published": 3,
+    "selection_uses_correctness": false
+  },
+  "records": [
+    {
+      "task": "A",
+      "record_id": "rec-a-00733",
+      "query_id": "a-q00733",
+      "arm": "cosmos-bf16",
+      "frames": [
+        "b2-pit-s0011-f0002"
+      ],
+      "question_type": 3,
+      "condition": "night",
+      "question": "How many haul trucks are visible?",
+      "output": "<think>Two trucks near the bench.</think><answer>2</answer>",
+      "parsed": "2",
+      "truth": "2",
+      "correct": true,
+      "licence_class": "display-only",
+      "provenance": {
+        "model": "nvidia/Cosmos-Reason2-2B",
+        "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+        "quantisation": "bf16",
+        "gguf_sha256": null,
+        "llamacpp_build": null,
+        "llamacpp_archive_sha256": null,
+        "transformers_version": "5.6.0",
+        "sampling": {
+          "temperature": 0,
+          "top_k": 1,
+          "seed": 1234,
+          "max_new_tokens": 4096,
+          "reasoning": true
+        },
+        "date": "2026-10-14",
+        "gpu": {
+          "name": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+          "driver": "581.42"
+        }
+      }
+    },
+    {
+      "task": "A",
+      "record_id": "rec-a-00734",
+      "query_id": "a-q00734",
+      "arm": "qwen-base",
+      "frames": [
+        "b2-pit-s0011-f0002"
+      ],
+      "question_type": 3,
+      "condition": "night",
+      "question": "How many haul trucks are visible?",
+      "output": "I see some trucks.",
+      "parsed": "unparseable",
+      "truth": "2",
+      "correct": false,
+      "licence_class": "own",
+      "provenance": {
+        "model": "Qwen/Qwen3-VL-2B-Instruct",
+        "revision": "89644892e4d85e24eaac8bacfd4f463576704203",
+        "quantisation": "q8_0",
+        "gguf_sha256": "347a8209c28c1b44c73fa5266b9ce9d6bfe64d989d4f1ef4f12309b3d74e5614",
+        "llamacpp_build": "b11381",
+        "llamacpp_archive_sha256": "8e3dca4fc1cdd11f3e3ebc770b159483bd8fd7dfeceff396fbb31997495d0b2e",
+        "transformers_version": null,
+        "sampling": {
+          "temperature": 0,
+          "top_k": 1,
+          "seed": 1234,
+          "max_new_tokens": 64,
+          "reasoning": false
+        },
+        "date": "2026-10-14",
+        "gpu": {
+          "name": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+          "driver": "581.42"
+        }
+      }
+    }
+  ]
+}

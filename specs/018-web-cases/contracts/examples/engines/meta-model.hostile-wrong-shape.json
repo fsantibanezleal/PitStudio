@@ -1,0 +1,33 @@
+{
+  "kind": "input",
+  "engine": "meta-model",
+  "engine_version": "0.1.0",
+  "function": "predict",
+  "args": {
+    "model": {
+      "artefact": "d2-meta-model",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 420000
+    },
+    "rows": [
+      {
+        "burden_m": 7.0,
+        "spacing_ratio": 1.15,
+        "powder_factor_kg_per_m3": 0.55,
+        "hole_diameter_m": 0.311,
+        "bench_height_m": 15.0,
+        "rock_factor": 9.0,
+        "work_index_j_per_kg": 50400.0,
+        "crusher_css_m": 0.15,
+        "target_p80_m": 0.00015,
+        "mill_power_w": 22000000.0,
+        "efficiency": 0.9,
+        "energy_cap_j_per_kg": 61200.0,
+        "explosive_cost_usd_per_kg": 0.9,
+        "energy_cost_usd_per_j": 2.5e-08,
+        "consumables_cost_usd_per_kg": 0.0015,
+        "stemming_m": 4.0
+      }
+    ]
+  }
+}

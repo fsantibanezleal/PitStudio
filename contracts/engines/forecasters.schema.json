@@ -1,0 +1,319 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/forecasters.schema.json",
+  "title": "Engine forecasters: input and output messages",
+  "description": "Input and output messages of the browser engine `forecasters` (cases C1): learned slope-displacement forecasters run with ORT-web (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `forecasters`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "forecasters",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "forecast"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "forecast"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/forecast_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `forecasters`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "forecasters",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "forecast"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "forecast"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/forecast_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "forecast_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "architecture",
+        "context_s_per_m",
+        "block_step_s",
+        "feedback_blocks"
+      ],
+      "properties": {
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX model of at most 25,000,000 bytes (spec 018 section 7.1).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "architecture": {
+          "enum": [
+            "tcn",
+            "patchtst",
+            "chronos-bolt-tiny"
+          ],
+          "description": "Live forecaster (FR-010-30)."
+        },
+        "context_s_per_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000000.0
+          },
+          "minItems": 128,
+          "maxItems": 128,
+          "description": "128 block means of y = 1/v, masked values forward-filled (FR-010-21)."
+        },
+        "mask": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "minItems": 128,
+          "maxItems": 128,
+          "description": "Mask channel of TCN and PatchTST (FR-010-21)."
+        },
+        "block_step_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000000.0,
+          "description": "Block step 4 delta."
+        },
+        "feedback_blocks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "description": "Blocks of 64 steps, the median fed back between blocks (FR-010-21)."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "architecture": {
+                "enum": [
+                  "tcn",
+                  "patchtst"
+                ]
+              }
+            },
+            "required": [
+              "architecture"
+            ]
+          },
+          "then": {
+            "required": [
+              "mask"
+            ],
+            "properties": {
+              "model": {
+                "properties": {
+                  "bytes": {
+                    "maximum": 3999999
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "forecast_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "quantiles_s_per_m",
+        "status"
+      ],
+      "properties": {
+        "quantiles_s_per_m": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 64,
+            "maxItems": 256
+          },
+          "minItems": 9,
+          "maxItems": 9,
+          "description": "Paths of the quantiles 0.1, 0.2, ..., 0.9 (FR-010-21)."
+        },
+        "status": {
+          "enum": [
+            "failure-predicted",
+            "no-failure-predicted"
+          ],
+          "description": "Read-out of FR-010-22."
+        },
+        "failure_time_after_cutoff_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Predicted failure time after the cut-off."
+        },
+        "interval_after_cutoff_s": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "80 % interval from the 0.1 and 0.9 paths."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "failure-predicted"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "failure_time_after_cutoff_s"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "failure_time_after_cutoff_s"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

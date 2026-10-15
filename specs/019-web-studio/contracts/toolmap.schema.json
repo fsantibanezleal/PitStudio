@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/toolmap.schema.json",
+  "title": "Studio tool map source",
+  "description": "Band order, tool order within each band and declared handoff edges of studio/toolmap.yaml (DC-019-02, spec 019-web-studio).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bands",
+    "edges"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 200
+    },
+    "bands": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/band"
+      },
+      "minItems": 7,
+      "maxItems": 7,
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "id": {
+                "const": "scene"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "id": {
+                "const": "physics"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "id": {
+                "const": "sensors-synthetic-data"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "id": {
+                "const": "training"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "id": {
+                "const": "acceleration"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "id": {
+                "const": "encoding"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "id": {
+                "const": "web"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      ]
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/edge"
+      },
+      "minItems": 0,
+      "maxItems": 128,
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "artefact_kind": {
+      "enum": [
+        "video",
+        "image",
+        "figure",
+        "point-cloud",
+        "mesh",
+        "tiles",
+        "splat",
+        "onnx",
+        "table",
+        "trace",
+        "shard",
+        "field",
+        "text",
+        "model-card",
+        "telemetry",
+        "usd"
+      ]
+    },
+    "band": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "tools"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/band_id"
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tool_id"
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        }
+      },
+      "description": "One band of the map; tools are listed in drawing order."
+    },
+    "band_id": {
+      "enum": [
+        "scene",
+        "physics",
+        "sensors-synthetic-data",
+        "training",
+        "acceleration",
+        "encoding",
+        "web"
+      ]
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "to",
+        "kind"
+      ],
+      "properties": {
+        "from": {
+          "$ref": "#/$defs/tool_id"
+        },
+        "to": {
+          "$ref": "#/$defs/tool_id"
+        },
+        "kind": {
+          "$ref": "#/$defs/artefact_kind"
+        }
+      },
+      "description": "A declared file handoff from one tool to another, labelled with the artefact kind it carries."
+    },
+    "tool_id": {
+      "type": "string",
+      "maxLength": 48,
+      "pattern": "^[a-z][a-z0-9-]{1,47}$"
+    }
+  }
+}

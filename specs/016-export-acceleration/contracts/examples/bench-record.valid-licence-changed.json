@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261020T010000Z-b2",
+  "git_sha": "01e2b86d09a37a1a3d9b5aaaedfc7028fd41e137",
+  "date": "2026-10-20",
+  "model": "d-fine-n",
+  "backend": "tensorrt",
+  "precision": "fp16",
+  "tensorrt_version": "11.3.0.99",
+  "status": "pass",
+  "performance": "local-only",
+  "latency": "measured locally, not published (licence)",
+  "throughput": "measured locally, not published (licence)",
+  "joules_per_inference": "measured locally, not published (licence)",
+  "energy_window_s": "measured locally, not published (licence)",
+  "vram_peak_bytes": "measured locally, not published (licence)",
+  "thermal_slowdown": "measured locally, not published (licence)",
+  "telemetry_hz": 10,
+  "camera_streams": "measured locally, not published (licence)",
+  "parity": {
+    "verdict": "pass",
+    "reference": "pytorch-fp32-golden",
+    "rtol": null,
+    "atol": null,
+    "max_abs_error": 0.0123,
+    "mismatch_fraction": null,
+    "metric_delta_pp": -0.4,
+    "mask_iou": null,
+    "tf32_cleared": true
+  },
+  "fingerprint": {
+    "gpu_name": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+    "driver": "581.42",
+    "ort_version": "1.30.0",
+    "torch_version": "2.14.1+cu130",
+    "onnx_sha256": "67d877d443588c34db1df09016cf770497d613061859d64dc162b8a2b6650c32",
+    "engine_sha256": "350895668320c23c09e6b3f242dd0b7a7d4941edd0b1c0ed5daceeed0e16054c",
+    "power_limit_enforced_w": 110.0,
+    "power_source": "ac",
+    "os_power_mode": "best-performance",
+    "tensorrt_licence_sha256": "d67e2e944994496c8d8ec76eed0cf9f09679448d584b532bebf941852a37f5ed"
+  },
+  "notes": [
+    "TensorRT licence text changed since review"
+  ]
+}

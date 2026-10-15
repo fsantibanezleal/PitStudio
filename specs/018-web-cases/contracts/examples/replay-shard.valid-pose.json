@@ -1,0 +1,60 @@
+{
+  "document": "replay-shard-header",
+  "schema_version": "1.0",
+  "kind": "pose",
+  "encoding": "raw16",
+  "code_type": "uint16",
+  "code_range": {
+    "min": 0,
+    "max": 65535
+  },
+  "fps": 10,
+  "frames": {
+    "start": 0,
+    "count": 6000
+  },
+  "items": 40,
+  "channels": [
+    {
+      "name": "x",
+      "unit": "m",
+      "min": -1650.0,
+      "max": 1650.0
+    },
+    {
+      "name": "y",
+      "unit": "m",
+      "min": -1650.0,
+      "max": 1650.0
+    },
+    {
+      "name": "z",
+      "unit": "m",
+      "min": 1500.0,
+      "max": 2400.0
+    },
+    {
+      "name": "yaw",
+      "unit": "rad",
+      "min": -3.141592653589793,
+      "max": 3.141592653589793
+    }
+  ],
+  "bbox_m": {
+    "min": [
+      -1650.0,
+      -1650.0,
+      1500.0
+    ],
+    "max": [
+      1650.0,
+      1650.0,
+      2400.0
+    ]
+  },
+  "payload": {
+    "path": "fleet-000.bin",
+    "bytes": 1920000,
+    "sha256": "1e393b6d7d39af0fecaf66ed648ec8dc4665f3cf2675c6a0f50fa1d96b748bbd"
+  }
+}

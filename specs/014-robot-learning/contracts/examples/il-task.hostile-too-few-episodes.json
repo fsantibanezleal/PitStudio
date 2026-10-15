@@ -1,0 +1,117 @@
+{
+  "policy": "IL-1",
+  "task": "Pit-HaulTruck-Ramp",
+  "stage": "st60_il_train",
+  "observation_size": 63,
+  "action_size": 2,
+  "control_hz": 20,
+  "observation_layout": [
+    {
+      "segment": "speed_yaw_rate_pitch",
+      "size": 3
+    },
+    {
+      "segment": "lateral_heading_error",
+      "size": 2
+    },
+    {
+      "segment": "path_points",
+      "size": 20
+    },
+    {
+      "segment": "payload_fraction",
+      "size": 1
+    },
+    {
+      "segment": "ray_ranges",
+      "size": 32
+    },
+    {
+      "segment": "lv_relative_position",
+      "size": 2
+    },
+    {
+      "segment": "lv_relative_velocity",
+      "size": 2
+    },
+    {
+      "segment": "lv_ttc",
+      "size": 1
+    }
+  ],
+  "reward_weights": {
+    "progress": 1.0,
+    "lateral_error": 0.5,
+    "heading_error": 0.2,
+    "overspeed": 1.0,
+    "jerk": 0.01,
+    "collision": 100.0,
+    "ttc": 5.0,
+    "energy": 0.001
+  },
+  "site_speed_limit_km_h": 40,
+  "randomisation": {
+    "payload_fraction": [
+      0,
+      1
+    ],
+    "rolling_resistance_pct": [
+      2,
+      8
+    ],
+    "friction_dry": [
+      0.55,
+      0.75
+    ],
+    "friction_wet": [
+      0.25,
+      0.45
+    ],
+    "wet_probability": 0.5,
+    "actuator_delay_steps": [
+      0,
+      3
+    ],
+    "ray_noise_base_m": 0.02,
+    "ray_noise_per_range": 0.01,
+    "speed_noise_sd_m_per_s": 0.1,
+    "heading_noise_sd_deg": 0.5
+  },
+  "seeds": {
+    "train": {
+      "start": 0,
+      "count": 4096
+    },
+    "eval": {
+      "start": 1000000,
+      "count": 100
+    }
+  },
+  "training": {
+    "num_envs": 2048,
+    "iterations": 1500,
+    "checkpoint_every": 100,
+    "hidden_units": [
+      256,
+      256
+    ],
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_ratio": 0.2,
+    "steps_per_env": 24
+  },
+  "budget": {
+    "vram_gb": 5,
+    "gpu_hours": 8
+  },
+  "evaluation": {
+    "episodes": 50,
+    "deterministic_actions": true,
+    "light_vehicle_mix": [
+      25,
+      25,
+      25,
+      25
+    ]
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "model_id": "fno-c2-tailings",
+  "engine": "fno",
+  "cases": [
+    "C2"
+  ],
+  "onnx": {
+    "path": "web/public/models/fno-c2-tailings-fp16.onnx",
+    "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "bytes": 5100000
+  },
+  "opset": 19,
+  "ir_version": 10,
+  "precision": "fp16",
+  "delivery": "live",
+  "inputs": [
+    {
+      "name": "fields",
+      "dtype": "float32",
+      "shape": [
+        1,
+        5,
+        64,
+        64
+      ],
+      "unit": "per-channel",
+      "channels": [
+        {
+          "name": "bed_elevation",
+          "unit": "m",
+          "normalisation": {
+            "rule": "patch-relief",
+            "applied_in_graph": false
+          }
+        },
+        {
+          "name": "release_depth",
+          "unit": "m",
+          "normalisation": {
+            "rule": "standardise",
+            "applied_in_graph": false,
+            "mean": [
+              0.42
+            ],
+            "std": [
+              1.1
+            ]
+          }
+        },
+        {
+          "name": "yield_stress",
+          "unit": "Pa",
+          "normalisation": {
+            "rule": "standardise",
+            "applied_in_graph": false,
+            "mean": [
+              105.0
+            ],
+            "std": [
+              55.0
+            ]
+          }
+        },
+        {
+          "name": "plastic_viscosity",
+          "unit": "Pa.s",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": false,
+            "mean": [
+              -1.5
+            ],
+            "std": [
+              0.8
+            ]
+          }
+        },
+        {
+          "name": "density",
+          "unit": "kg/m^3",
+          "normalisation": {
+            "rule": "standardise",
+            "applied_in_graph": false,
+            "mean": [
+              1800.0
+            ],
+            "std": [
+              115.0
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "depth",
+      "dtype": "float32",
+      "shape": [
+        1,
+        9,
+        64,
+        64
+      ],
+      "unit": "per-channel",
+      "channel_axis": 1,
+      "channels": [
+        {
+          "name": "depth_t1",
+          "unit": "m"
+        },
+        {
+          "name": "depth_t2",
+          "unit": "m"
+        },
+        {
+          "name": "depth_t3",
+          "unit": "m"
+        },
+        {
+          "name": "depth_t4",
+          "unit": "m"
+        },
+        {
+          "name": "depth_t5",
+          "unit": "m"
+        },
+        {
+          "name": "depth_t6",
+          "unit": "m"
+        },
+        {
+          "name": "depth_t7",
+          "unit": "m"
+        },
+        {
+          "name": "depth_t8",
+          "unit": "m"
+        },
+        {
+          "name": "depth_max",
+          "unit": "m"
+        }
+      ]
+    }
+  ],
+  "training_envelope": {
+    "yield_stress": {
+      "min": 10,
+      "max": 200,
+      "unit": "Pa"
+    },
+    "plastic_viscosity": {
+      "min": 0.05,
+      "max": 1.0,
+      "unit": "Pa.s"
+    },
+    "release_volume": {
+      "min": 10000,
+      "max": 200000,
+      "unit": "m^3"
+    },
+    "density": {
+      "min": 1600,
+      "max": 2000,
+      "unit": "kg/m^3"
+    },
+    "breach_row": {
+      "min": 0,
+      "max": 63,
+      "unit": "1"
+    },
+    "breach_col": {
+      "min": 0,
+      "max": 63,
+      "unit": "1"
+    }
+  }
+}

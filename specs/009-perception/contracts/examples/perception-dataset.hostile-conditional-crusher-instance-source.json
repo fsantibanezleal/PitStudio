@@ -1,0 +1,75 @@
+{
+  "record_id": "crusher-s-000731",
+  "synthetic": true,
+  "family": "crusher",
+  "arm": "structured",
+  "split": "validation",
+  "scenario_seed": 8802,
+  "layout_id": "crusher-pocket-01",
+  "image": {
+    "path": "sensors/s3-crusher/shard-0001/rgb/000731.png",
+    "sha256": "0f1e2d3c4b5a69781a2b3c4d5e6f7081a0b1c2d3e4f506170f1e2d3c4b5a6978",
+    "size_bytes": 2950112,
+    "width_px": 1920,
+    "height_px": 1080,
+    "format": "png",
+    "colour_space": "srgb"
+  },
+  "coco": {
+    "path": "sensors/s3-crusher/shard-0001/coco_instances.json",
+    "sha256": "1a2b3c4d5e6f708128394a5b6c7d8e9f1a2b3c4d5e6f708128394a5b6c7d8e9f",
+    "size_bytes": 5120333
+  },
+  "coco_image_id": 731,
+  "semantic_mask": {
+    "path": "sensors/s3-crusher/shard-0001/semantic/000731.png",
+    "sha256": "8796a5b4c3d2e1f0a0b1c2d3e4f506178796a5b4c3d2e1f0a0b1c2d3e4f50617",
+    "size_bytes": 30211,
+    "width_px": 1920,
+    "height_px": 1080,
+    "format": "png"
+  },
+  "depth": {
+    "path": "sensors/s3-crusher/shard-0001/depth/000731.npy",
+    "sha256": "1a2b3c4d5e6f70810f1e2d3c4b5a6978a0b1c2d3e4f506171a2b3c4d5e6f7081",
+    "size_bytes": 8294528,
+    "width_px": 1920,
+    "height_px": 1080,
+    "format": "npy",
+    "dtype": "float32",
+    "unit": "m",
+    "quantity": "distance-to-camera"
+  },
+  "intrinsics": {
+    "model": "pinhole",
+    "fx_px": 1662.8,
+    "fy_px": 1662.8,
+    "cx_px": 960.0,
+    "cy_px": 540.0
+  },
+  "instance_source": "replicator",
+  "dr": {
+    "sun_utc": "2025-03-14T18:42:07Z",
+    "sun_elevation_deg": 41.7,
+    "sun_azimuth_deg": 203.4,
+    "dust_extinction_per_km": 0.82,
+    "wet_segments": [],
+    "rock_texture_ids": [
+      "rock-quartz-monzonite-01",
+      "rock-gravel-02"
+    ],
+    "placements": [
+      {
+        "class": "boulder",
+        "x_m": 2.4,
+        "y_m": 0.8,
+        "z_m": -3.1,
+        "yaw_deg": 33.0
+      }
+    ]
+  },
+  "licence": {
+    "spdx": "CC-BY-4.0",
+    "licence_class": "own"
+  }
+}
