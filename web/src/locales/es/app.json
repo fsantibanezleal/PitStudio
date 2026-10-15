@@ -62,5 +62,20 @@
       "title": "Herramientas",
       "body": "Las herramientas abiertas se usan y se citan; los SDK propietarios los instala el usuario desde sus fuentes oficiales y este repositorio nunca los redistribuye. No se publican cifras de rendimiento de herramientas con restricciones de licencia."
     }
+  },
+  "introduction": {
+    "title": "Introducción",
+    "lead": "Por qué importa este trabajo en términos ejecutivos, planteado primero como un problema de la industria y luego cómo lo explora el trabajo.",
+    "tabs": {
+      "label": "Vistas de la introducción",
+      "executive": "Vista ejecutiva",
+      "technical": "Vista técnica"
+    },
+    "technical": {
+      "heading": "Cómo explora el trabajo este problema",
+      "lead": "El trabajo explora una parte del problema: probar decisiones en un modelo de un rajo abierto fiel a la física antes de que lleguen al terreno. Estas páginas contienen el método y el producto.",
+      "app": "Abrir la App",
+      "pages": "Las páginas del trabajo"
+    }
   }
 }

@@ -1,7 +1,9 @@
 import { index, type RouteConfig, route } from "@react-router/dev/routes";
 
 export default [
-  index("routes/explore.tsx"),
+  // The root is the Introduction (executive view first); the App (the explorer) lives at /app, where the shared shell sends it.
+  index("routes/introduction.tsx"),
+  route("app", "routes/explore.tsx"),
   route("cases", "routes/cases.tsx"),
   route("cases/:id", "routes/case.tsx"),
   route("studio", "routes/studio.tsx"),
