@@ -2,6 +2,32 @@
 
 const VERSION = /^[0-9]+\.[0-9]+\.[0-9]+$/;
 const DEFAULT_TIMEOUT_MS = 3000;
+/** A health answer is a few dozen bytes; anything beyond this is not a console and is never read to its end. */
+const MAX_BODY_BYTES = 16_384;
+
+async function readCapped(response: Response, cap: number): Promise<string> {
+  if (!response.body) return await response.text();
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > cap) {
+      void reader.cancel();
+      throw new RangeError("the answer is larger than a health answer can be");
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(total);
+  let at = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, at);
+    at += chunk.byteLength;
+  }
+  return new TextDecoder().decode(bytes);
+}
 
 /** The port when `text` is exactly 1 to 5 ASCII digits denoting 1024..65535, else null. Never throws, whatever the length. */
 export function validatePort(text: string): number | null {
@@ -41,7 +67,7 @@ export async function connectLocal(
         signal: controller.signal,
       });
       if (!response.ok) return NOT_CONNECTED;
-      const body: unknown = JSON.parse(await response.text());
+      const body: unknown = JSON.parse(await readCapped(response, MAX_BODY_BYTES));
       if (typeof body !== "object" || body === null || Array.isArray(body)) return NOT_CONNECTED;
       const { status, console_version: version } = body as Record<string, unknown>;
       if (status !== "ok" || typeof version !== "string" || version.length > 64 || !VERSION.test(version))

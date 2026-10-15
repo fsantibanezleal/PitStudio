@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { ArtefactCard } from "~/cards/ArtefactCard";
 import { NotFound } from "~/shell/NotFound";
 import shell from "~/shell/shell.module.css";
+import { ConnectSection } from "./ConnectSection";
 import { DeterminismBlock } from "./DeterminismBlock";
 import { isPublishedRun, RUN_ID, useRunBundles, useStudioManifest } from "./data";
 import { clip, gib, num, utcDate } from "./format";
@@ -59,6 +60,8 @@ function PublishedRun({ runId }: { runId: string }) {
         {card.stale ? ` · ${t("stale")}` : ""}
         {card.fixture ? ` · ${t("fixture")}` : ""}
       </p>
+
+      <ConnectSection />
 
       <section className={styles.block} aria-labelledby="r-manifest">
         <h2 id="r-manifest">{t("runPage.manifest")}</h2>

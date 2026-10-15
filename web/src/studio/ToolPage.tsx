@@ -9,6 +9,7 @@ import { ProvenanceBlock } from "./blocks/ProvenanceBlock";
 import { ReproduceBlock } from "./blocks/Reproduce";
 import { RoleBlock } from "./blocks/Role";
 import { WhereRanBlock } from "./blocks/WhereRan";
+import { ConnectSection } from "./ConnectSection";
 import {
   caseRegistry,
   studioIndex,
@@ -48,6 +49,7 @@ function KnownToolPage({ toolId }: { toolId: string }) {
     <article className={shell.page}>
       <h1>{clip(tool.name)}</h1>
       <p className={shell.lead}>{t("toolPage.lead")}</p>
+      <ConnectSection />
       <IdentityBlock tool={tool} info={info} />
       <RoleBlock tool={tool} cases={caseRegistry} />
       <ArtefactsBlock tool={tool} artefacts={mine} runs={cards} cards={cards} />
