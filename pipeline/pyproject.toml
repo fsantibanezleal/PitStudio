@@ -33,6 +33,8 @@ dependencies = [
     "faster-coco-eval>=1.8.0",
     "calflops>=0.3.2",
     "tensorboard>=2.21.0",
+    "chronos-forecasting>=2.3.2",
+    "onnxscript>=0.7.2",
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [project.optional-dependencies]

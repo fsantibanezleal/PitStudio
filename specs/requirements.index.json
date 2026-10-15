@@ -9039,7 +9039,9 @@
         "T-010-017",
         "T-010-018"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-simulate.spec.ts"
+      ]
     },
     "US-010-2": {
       "spec": "010-slope",
@@ -9115,7 +9117,10 @@
         "T-010-010",
         "T-010-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/parity/test_t_010_018_geotech_goldens.py",
+        "tests/unit/test_t_010_010_lem_search.py"
+      ]
     },
     "FR-010-02": {
       "spec": "010-slope",
@@ -9125,7 +9130,10 @@
       "tasks": [
         "T-010-011"
       ],
-      "tests": []
+      "tests": [
+        "tests/parity/test_t_010_018_geotech_goldens.py",
+        "tests/unit/test_t_010_011_hoek_brown_slices.py"
+      ]
     },
     "FR-010-03": {
       "spec": "010-slope",
@@ -9136,7 +9144,10 @@
         "T-010-015",
         "T-010-018"
       ],
-      "tests": []
+      "tests": [
+        "tests/parity/test_t_010_018_geotech_goldens.py",
+        "tests/property/test_t_010_015_pof.py"
+      ]
     },
     "FR-010-04": {
       "spec": "010-slope",
@@ -9146,7 +9157,9 @@
       "tasks": [
         "T-010-017"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-simulate.spec.ts"
+      ]
     },
     "FR-010-05": {
       "spec": "010-slope",
@@ -9156,7 +9169,9 @@
       "tasks": [
         "T-010-017"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-simulate.spec.ts"
+      ]
     },
     "FR-010-06": {
       "spec": "010-slope",
@@ -9166,7 +9181,9 @@
       "tasks": [
         "T-010-016"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_016_sections_from_dem.py"
+      ]
     },
     "FR-010-07": {
       "spec": "010-slope",
@@ -9176,7 +9193,9 @@
       "tasks": [
         "T-010-014"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_014_section_guards.py"
+      ]
     },
     "FR-010-08": {
       "spec": "010-slope",
@@ -9186,7 +9205,9 @@
       "tasks": [
         "T-010-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_010_015_pof.py"
+      ]
     },
     "FR-010-09": {
       "spec": "010-slope",
@@ -9196,7 +9217,9 @@
       "tasks": [
         "T-010-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_010_lem_search.py"
+      ]
     },
     "FR-010-10": {
       "spec": "010-slope",
@@ -9206,7 +9229,9 @@
       "tasks": [
         "T-010-017"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-simulate.spec.ts"
+      ]
     },
     "FR-010-11": {
       "spec": "010-slope",
@@ -9216,7 +9241,9 @@
       "tasks": [
         "T-010-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_020_voight_events.py"
+      ]
     },
     "FR-010-12": {
       "spec": "010-slope",
@@ -9226,7 +9253,9 @@
       "tasks": [
         "T-010-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_010_021_snr.py"
+      ]
     },
     "FR-010-13": {
       "spec": "010-slope",
@@ -9236,7 +9265,9 @@
       "tasks": [
         "T-010-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_040_dewit_ingest.py"
+      ]
     },
     "FR-010-14": {
       "spec": "010-slope",
@@ -9246,7 +9277,9 @@
       "tasks": [
         "T-010-040"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_040_dewit_ingest.py"
+      ]
     },
     "FR-010-15": {
       "spec": "010-slope",
@@ -9256,7 +9289,9 @@
       "tasks": [
         "T-010-041"
       ],
-      "tests": []
+      "tests": [
+        "tests/contract/test_t_010_041_dewit_exclusion.py"
+      ]
     },
     "FR-010-16": {
       "spec": "010-slope",
@@ -9266,7 +9301,9 @@
       "tasks": [
         "T-010-020"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_020_voight_events.py"
+      ]
     },
     "FR-010-17": {
       "spec": "010-slope",
@@ -9276,7 +9313,10 @@
       "tasks": [
         "T-010-022"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_033_acceptance_report.py",
+        "tests/unit/test_t_010_022_snr_fallback.py"
+      ]
     },
     "FR-010-18": {
       "spec": "010-slope",
@@ -9286,7 +9326,9 @@
       "tasks": [
         "T-010-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_010_023_preprocess.py"
+      ]
     },
     "FR-010-19": {
       "spec": "010-slope",
@@ -9296,7 +9338,9 @@
       "tasks": [
         "T-010-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_024_iv_bayes.py"
+      ]
     },
     "FR-010-20": {
       "spec": "010-slope",
@@ -9306,7 +9350,9 @@
       "tasks": [
         "T-010-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_024_iv_bayes.py"
+      ]
     },
     "FR-010-21": {
       "spec": "010-slope",
@@ -9316,7 +9362,10 @@
       "tasks": [
         "T-010-027"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_027_forecasters.py",
+        "tests/unit/test_t_010_027_context_forecast.py"
+      ]
     },
     "FR-010-22": {
       "spec": "010-slope",
@@ -9326,7 +9375,9 @@
       "tasks": [
         "T-010-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_010_026_readout.py"
+      ]
     },
     "FR-010-23": {
       "spec": "010-slope",
@@ -9336,7 +9387,9 @@
       "tasks": [
         "T-010-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_030_ttf_metrics.py"
+      ]
     },
     "FR-010-24": {
       "spec": "010-slope",
@@ -9346,7 +9399,9 @@
       "tasks": [
         "T-010-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_030_ttf_metrics.py"
+      ]
     },
     "FR-010-25": {
       "spec": "010-slope",
@@ -9356,7 +9411,9 @@
       "tasks": [
         "T-010-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_031_paired_decision.py"
+      ]
     },
     "FR-010-26": {
       "spec": "010-slope",
@@ -9366,7 +9423,9 @@
       "tasks": [
         "T-010-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_042_real_event_report.py"
+      ]
     },
     "FR-010-27": {
       "spec": "010-slope",
@@ -9376,7 +9435,9 @@
       "tasks": [
         "T-010-043"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-real-event.spec.ts"
+      ]
     },
     "FR-010-28": {
       "spec": "010-slope",
@@ -9386,7 +9447,9 @@
       "tasks": [
         "T-010-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_031_paired_decision.py"
+      ]
     },
     "FR-010-29": {
       "spec": "010-slope",
@@ -9396,7 +9459,10 @@
       "tasks": [
         "T-010-028"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_028_window_guards.py",
+        "web/src/cases/c1/forecastGuards.test.ts"
+      ]
     },
     "FR-010-30": {
       "spec": "010-slope",
@@ -9406,7 +9472,9 @@
       "tasks": [
         "T-010-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_032_forecaster_export.py"
+      ]
     },
     "FR-010-31": {
       "spec": "010-slope",
@@ -9416,7 +9484,9 @@
       "tasks": [
         "T-010-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_032_forecaster_export.py"
+      ]
     },
     "FR-010-32": {
       "spec": "010-slope",
@@ -9426,7 +9496,9 @@
       "tasks": [
         "T-010-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-cutoff-slider.spec.ts"
+      ]
     },
     "FR-010-33": {
       "spec": "010-slope",
@@ -9436,7 +9508,10 @@
       "tasks": [
         "T-010-029"
       ],
-      "tests": []
+      "tests": [
+        "tests/gpu/test_t_010_029_training_smoke.py",
+        "tests/unit/test_t_010_029_training_fake_gpu.py"
+      ]
     },
     "FR-010-34": {
       "spec": "010-slope",
@@ -9446,7 +9521,9 @@
       "tasks": [
         "T-010-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_050_radar_series.py"
+      ]
     },
     "FR-010-35": {
       "spec": "010-slope",
@@ -9456,7 +9533,9 @@
       "tasks": [
         "T-010-052"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_052_s4b_report.py"
+      ]
     },
     "FR-010-36": {
       "spec": "010-slope",
@@ -9466,7 +9545,9 @@
       "tasks": [
         "T-010-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_050_radar_series.py"
+      ]
     },
     "FR-010-37": {
       "spec": "010-slope",
@@ -9476,7 +9557,9 @@
       "tasks": [
         "T-010-051"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_051_radar_guards.py"
+      ]
     },
     "FR-010-41": {
       "spec": "010-slope",
@@ -9486,7 +9569,9 @@
       "tasks": [
         "T-010-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_010_054_radar_phase.py"
+      ]
     },
     "FR-010-42": {
       "spec": "010-slope",
@@ -9496,7 +9581,9 @@
       "tasks": [
         "T-010-055"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_055_radar_phase_guards.py"
+      ]
     },
     "FR-010-38": {
       "spec": "010-slope",
@@ -9506,7 +9593,9 @@
       "tasks": [
         "T-010-053"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-scene-egms.spec.ts"
+      ]
     },
     "FR-010-39": {
       "spec": "010-slope",
@@ -9516,7 +9605,9 @@
       "tasks": [
         "T-010-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_060_c1_recipe_e2e.py"
+      ]
     },
     "FR-010-40": {
       "spec": "010-slope",
@@ -9526,7 +9617,9 @@
       "tasks": [
         "T-010-003"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_003_c1_recipe.py"
+      ]
     },
     "FR-010-43": {
       "spec": "010-slope",
@@ -9536,7 +9629,9 @@
       "tasks": [
         "T-010-092"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_092_section_cross_field.py"
+      ]
     },
     "FR-010-44": {
       "spec": "010-slope",
@@ -9546,7 +9641,9 @@
       "tasks": [
         "T-010-093"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_093_series_self_consistency.py"
+      ]
     },
     "FR-010-45": {
       "spec": "010-slope",
@@ -9556,7 +9653,9 @@
       "tasks": [
         "T-010-094"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_094_results_section_digest.py"
+      ]
     },
     "FR-010-46": {
       "spec": "010-slope",
@@ -9566,7 +9665,10 @@
       "tasks": [
         "T-010-095"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_095_fixture_stages.py",
+        "tests/unit/test_t_010_095_fixture_propagation.py"
+      ]
     },
     "FR-010-47": {
       "spec": "010-slope",
@@ -9576,7 +9678,9 @@
       "tasks": [
         "T-010-096"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_096_partial_strata.py"
+      ]
     },
     "FR-010-48": {
       "spec": "010-slope",
@@ -9586,7 +9690,9 @@
       "tasks": [
         "T-010-097"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_097_input_stale.py"
+      ]
     },
     "P-010-01": {
       "spec": "010-slope",
@@ -9596,7 +9702,9 @@
       "tasks": [
         "T-010-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_010_013_lem_relations.py"
+      ]
     },
     "P-010-02": {
       "spec": "010-slope",
@@ -9606,7 +9714,9 @@
       "tasks": [
         "T-010-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_010_013_lem_relations.py"
+      ]
     },
     "P-010-03": {
       "spec": "010-slope",
@@ -9616,7 +9726,9 @@
       "tasks": [
         "T-010-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_010_lem_search.py"
+      ]
     },
     "P-010-04": {
       "spec": "010-slope",
@@ -9626,7 +9738,9 @@
       "tasks": [
         "T-010-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_010_013_lem_relations.py"
+      ]
     },
     "P-010-05": {
       "spec": "010-slope",
@@ -9636,7 +9750,9 @@
       "tasks": [
         "T-010-013"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_010_013_lem_relations.py"
+      ]
     },
     "P-010-06": {
       "spec": "010-slope",
@@ -9646,7 +9762,9 @@
       "tasks": [
         "T-010-010"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_010_lem_search.py"
+      ]
     },
     "P-010-07": {
       "spec": "010-slope",
@@ -9656,7 +9774,9 @@
       "tasks": [
         "T-010-015"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_010_015_pof.py"
+      ]
     },
     "P-010-08": {
       "spec": "010-slope",
@@ -9666,7 +9786,9 @@
       "tasks": [
         "T-010-023"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_010_023_preprocess.py"
+      ]
     },
     "P-010-09": {
       "spec": "010-slope",
@@ -9676,7 +9798,10 @@
       "tasks": [
         "T-010-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_010_025_ttf_invariance.py",
+        "tests/pipeline/test_t_010_025_learned_invariance.py"
+      ]
     },
     "P-010-10": {
       "spec": "010-slope",
@@ -9686,7 +9811,10 @@
       "tasks": [
         "T-010-025"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_010_025_ttf_invariance.py",
+        "tests/pipeline/test_t_010_025_learned_invariance.py"
+      ]
     },
     "P-010-11": {
       "spec": "010-slope",
@@ -9696,7 +9824,9 @@
       "tasks": [
         "T-010-021"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_010_021_snr.py"
+      ]
     },
     "P-010-12": {
       "spec": "010-slope",
@@ -9706,7 +9836,9 @@
       "tasks": [
         "T-010-024"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_024_iv_bayes.py"
+      ]
     },
     "P-010-13": {
       "spec": "010-slope",
@@ -9716,7 +9848,9 @@
       "tasks": [
         "T-010-026"
       ],
-      "tests": []
+      "tests": [
+        "tests/property/test_t_010_026_readout.py"
+      ]
     },
     "P-010-14": {
       "spec": "010-slope",
@@ -9726,7 +9860,9 @@
       "tasks": [
         "T-010-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_031_paired_decision.py"
+      ]
     },
     "P-010-15": {
       "spec": "010-slope",
@@ -9736,7 +9872,9 @@
       "tasks": [
         "T-010-050"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_050_radar_series.py"
+      ]
     },
     "P-010-16": {
       "spec": "010-slope",
@@ -9746,7 +9884,9 @@
       "tasks": [
         "T-010-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_010_054_radar_phase.py"
+      ]
     },
     "P-010-17": {
       "spec": "010-slope",
@@ -9756,7 +9896,9 @@
       "tasks": [
         "T-010-054"
       ],
-      "tests": []
+      "tests": [
+        "tests/metamorphic/test_t_010_054_radar_phase.py"
+      ]
     },
     "NFR-010-01": {
       "spec": "010-slope",
@@ -9766,7 +9908,9 @@
       "tasks": [
         "T-010-061"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-lane-gates.spec.ts"
+      ]
     },
     "NFR-010-02": {
       "spec": "010-slope",
@@ -9776,7 +9920,9 @@
       "tasks": [
         "T-010-061"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-lane-gates.spec.ts"
+      ]
     },
     "NFR-010-03": {
       "spec": "010-slope",
@@ -9786,7 +9932,9 @@
       "tasks": [
         "T-010-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-cutoff-slider.spec.ts"
+      ]
     },
     "NFR-010-04": {
       "spec": "010-slope",
@@ -9796,7 +9944,9 @@
       "tasks": [
         "T-010-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_032_forecaster_export.py"
+      ]
     },
     "NFR-010-05": {
       "spec": "010-slope",
@@ -9806,7 +9956,9 @@
       "tasks": [
         "T-010-034"
       ],
-      "tests": []
+      "tests": [
+        "web/e2e/c1-cutoff-slider.spec.ts"
+      ]
     },
     "NFR-010-06": {
       "spec": "010-slope",
@@ -9816,7 +9968,9 @@
       "tasks": [
         "T-010-062"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_062_budget_record.py"
+      ]
     },
     "SC-010-01": {
       "spec": "010-slope",
@@ -9826,7 +9980,9 @@
       "tasks": [
         "T-010-033"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_033_acceptance_report.py"
+      ]
     },
     "SC-010-02": {
       "spec": "010-slope",
@@ -9836,7 +9992,9 @@
       "tasks": [
         "T-010-031"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_031_paired_decision.py"
+      ]
     },
     "SC-010-03": {
       "spec": "010-slope",
@@ -9846,7 +10004,10 @@
       "tasks": [
         "T-010-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_010_042_real_event_report.py",
+        "web/e2e/c1-real-event.spec.ts"
+      ]
     },
     "SC-010-04": {
       "spec": "010-slope",
@@ -9856,7 +10017,9 @@
       "tasks": [
         "T-010-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_032_forecaster_export.py"
+      ]
     },
     "SC-010-05": {
       "spec": "010-slope",
@@ -9866,7 +10029,9 @@
       "tasks": [
         "T-010-012"
       ],
-      "tests": []
+      "tests": [
+        "tests/pipeline/test_t_010_012_pyslope_oracle.py"
+      ]
     },
     "DC-010-01": {
       "spec": "010-slope",

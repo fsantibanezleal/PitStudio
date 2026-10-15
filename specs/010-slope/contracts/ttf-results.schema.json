@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/ttf-results.schema.json",
+  "$comment": "revision 2: optional `fixture` (FR-010-46), `status` and `missing_strata` (FR-010-47) added to the top level; contract change under ADR-0039 section 4; the $id carries no version segment in this repository",
   "title": "C1 time-to-failure results",
   "description": "Time-to-failure results of s50_evaluate for case C1 (per event, method and cut-off; summaries; SC-010-01 statements; paired comparisons with inverse velocity; the descriptive real-event block without intervals; the S4b block) (DC-010-03, spec 010-slope).",
   "type": "object",
@@ -117,6 +118,36 @@
       "items": {
         "$ref": "#/$defs/s4b"
       }
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "true while the results were computed from a contract-fixture series or section: the stages run against it, write fixture: true on every artefact and publish no lead-time claim or other result computed from it (FR-010-46)"
+    },
+    "status": {
+      "enum": [
+        "complete",
+        "partial"
+      ],
+      "description": "partial when a stratum or the real event that the comparison names is absent: each existing stratum is reported, no pooled claim or SC-010 verdict is computed over the incomplete set (FR-010-47)"
+    },
+    "missing_strata": {
+      "type": "array",
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "snr_obs",
+          "half_snr_obs",
+          "double_snr_obs",
+          "snr_obs_atmospheric",
+          "nominal_10",
+          "nominal_30",
+          "nominal_100",
+          "real_event"
+        ]
+      },
+      "description": "each stratum (or the real event) that is `not run (absent)`, in the order the comparison names them (FR-010-47)"
     }
   },
   "if": {
