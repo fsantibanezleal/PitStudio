@@ -73,7 +73,7 @@ def waived(ledger: set[tuple[str, int]], sha: str, rule: int) -> bool:
 
 def lock_at(rev: str) -> dict[str, str]:
     out: dict[str, str] = {}
-    files = git("ls-tree", "-r", "--name-only", rev, check=False).splitlines()
+    files = git("ls-tree", "-r", "--name-only", rev, "specs", check=False).splitlines()
     for f in files:
         if f.startswith("specs/") and f.endswith("tests.lock"):
             for line in git("show", f"{rev}:{f}", check=False).splitlines():
@@ -81,6 +81,21 @@ def lock_at(rev: str) -> dict[str, str]:
                 if len(parts) == 2 and not line.startswith("#"):
                     out[parts[1].strip()] = parts[0].strip()
     return out
+
+
+def lock_for(sha: str, parent: str | None, cache: dict[str, dict[str, str]]) -> dict[str, str]:
+    """Locked hashes at a commit. A commit that changes no tests.lock file relative to its first parent reuses the
+    parent's table: reading every lock at every commit costs hundreds of git calls and made a full history run take
+    hours."""
+    if sha in cache:
+        return cache[sha]
+    if parent and parent in cache:
+        moved = git("diff", "--name-only", parent, sha, "--", "specs", check=False).splitlines()
+        if not any(f.endswith("tests.lock") for f in moved):
+            cache[sha] = cache[parent]
+            return cache[sha]
+    cache[sha] = lock_at(sha)
+    return cache[sha]
 
 
 def main(argv: list[str]) -> int:
@@ -92,6 +107,7 @@ def main(argv: list[str]) -> int:
     ledger = load_approvals(ROOT)
     log = git("log", "--reverse", "--format=%H%x1f%P%x1f%s%x1f%B%x1e", a.rev_range, check=False)
     commits = [c.strip("\n").split("\x1f") for c in log.split("\x1e") if c.strip()]
+    lock_cache: dict[str, dict[str, str]] = {}
     red_seen: dict[str, str] = {}
     red_commits: list[tuple[str, list[str]]] = []
     for sha, parents, subject, body in commits:
@@ -117,12 +133,13 @@ def main(argv: list[str]) -> int:
             elif tid not in red_seen and not ok(1):
                 errs.append(f"{short}: [green] for {tid} has no earlier [red] commit")
             if parent:
-                locked_before = lock_at(parent)
+                locked_before = lock_for(parent, None, lock_cache)
                 touched = sorted(set(changed) & set(locked_before))
                 if touched and not approved and not ok(2):
                     errs.append(f"{short}: [green] modifies locked tests {touched} without '{APPROVED}'")
         if parent:
-            before, after = lock_at(parent), lock_at(sha)
+            before = lock_for(parent, None, lock_cache)
+            after = lock_for(sha, parent, lock_cache)
             for path, h in before.items():
                 if path not in after:
                     if not approved and not ok(3):

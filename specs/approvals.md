@@ -10,6 +10,7 @@ rewritten. A new commit that changes a locked test carries the trailer instead a
 | Commit | Rule | Decision | Note |
 |---|---|---|---|
 | de12c88 | 4 | owner 2026-10-12 (all listed test-change requests approved, most robust variant) | Two `pytest.skip` calls in an environment smoke test of T-011-002; removed in 0e20c20, so no skip marker remains at HEAD |
+| 44230d1 | 4 | owner 2026-10-12 (all listed test-change requests approved, most robust variant) | The ledger commit itself: the fixture text of its unit test for rule 4 spelled the marker literally in a string; spelled in two parts since the next commit |
 
 ## Recorded trailers
 
