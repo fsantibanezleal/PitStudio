@@ -20,7 +20,7 @@ test.describe("tier badge (FR-018-06)", () => {
     page,
   }) => {
     await injectGpu(page, "ok");
-    await open(page, "");
+    await open(page, "app/");
     const badge = page.getByTestId("tier-badge");
     await expect(badge).toHaveAttribute("data-tier", "t1");
     await expect(badge).toHaveText("T1 · WebGPU");
@@ -34,7 +34,7 @@ test.describe("tier badge (FR-018-06)", () => {
   for (const script of ["none", "null-adapter", "device-rejects"] as const) {
     test(`FR-018-29 · GPU script '${script}' shows 'T2 · WebAssembly'`, async ({ page }) => {
       await injectGpu(page, script);
-      await open(page, "");
+      await open(page, "app/");
       await expect(page.getByTestId("tier-badge")).toHaveAttribute("data-tier", "t2");
       await expect(page.getByTestId("tier-badge")).toHaveText("T2 · WebAssembly");
     });

@@ -152,5 +152,231 @@
     "precision": "Precision",
     "status": "Status",
     "parity": "Parity"
+  },
+  "simToReal": {
+    "tstr": {
+      "title": "Train on synthetic, test on real",
+      "label": "Ratio of TSTR to TRTR foreground IoU",
+      "criterion": "Criterion: at least {{value}}"
+    },
+    "c2st": {
+      "title": "Realism of the synthetic data (classifier two-sample test)",
+      "tabular": "Tabular data",
+      "1-d": "One-dimensional series",
+      "images": "Images",
+      "auc": "AUC synthetic vs real: {{value}}",
+      "baseline": "AUC real vs real (baseline): {{value}}",
+      "gap": "Gap: {{value}}",
+      "criterionAuc": "Criterion: AUC at most 0.6",
+      "criterionGap": "Criterion: gap at most 0.1"
+    },
+    "sim2sim": {
+      "title": "Simulator against simulator",
+      "fee-mpm-fill": "Fill gap, FEE against MPM",
+      "il-ts-twin": "Isaac Lab against the browser twin"
+    },
+    "probes": {
+      "title": "Sim-to-real on real probes",
+      "equipment": "Equipment",
+      "people": "People",
+      "notMeasured": "not measured"
+    },
+    "synthetic": {
+      "title": "Synthetic data without a real reference",
+      "label": "calibrated synthetic — not validated against real data"
+    }
+  },
+  "parityTab": {
+    "title": "Parity of the deployed commit",
+    "engine": "Engine",
+    "class": "Class",
+    "tolerance": "Tolerance",
+    "maxError": "Maximum observed error",
+    "browsers": "Browsers",
+    "verdict": "Verdict",
+    "pass": "pass",
+    "fail": "fail",
+    "notRun": "Not yet run: {{reason}}",
+    "empty": "No parity report is published yet."
+  },
+  "cosmosTab": {
+    "attribution": "Built on NVIDIA Cosmos",
+    "type": "Question type: {{type}}",
+    "balancedAccuracy": "Balanced accuracy",
+    "interval": "{{level}} % interval [{{lo}}, {{hi}}]",
+    "mcnemar": "Cosmos Reason 2 against Qwen3-VL-2B (exact McNemar test): p = {{p}}, b = {{b}}, c = {{c}}",
+    "q8": "Q8_0 versus BF16 agreement",
+    "q8Value": "Agreement {{value}} against the threshold {{threshold}}",
+    "noHeadline": "Cosmos results are never a headline KPI."
+  },
+  "accelTab": {
+    "model": "Model",
+    "backend": "Backend",
+    "precision": "Precision",
+    "status": "Status",
+    "p50": "Latency p50",
+    "p95": "Latency p95",
+    "throughput": "Throughput",
+    "energy": "Energy per inference",
+    "delta": "Accuracy change",
+    "parity": "Parity",
+    "ms": "{{value}} ms",
+    "itemsPerS": "{{value}} items/s",
+    "joules": "{{value}} J",
+    "pp": "{{value}} pp",
+    "rejected": "rejected",
+    "reason": "Reason: {{reason}}",
+    "withheld": "measured locally, not published (licence)",
+    "conditions": "Conditions",
+    "gpu": "GPU: {{gpu}}",
+    "driver": "Driver: {{driver}}",
+    "power": "Enforced power limit: {{watts}} W",
+    "throttle": "Throttle fractions",
+    "licence": "TensorRT licence SHA-256: {{sha}}",
+    "notComparative": "our hardware, not a comparative benchmark",
+    "sw_power_cap": "software power cap",
+    "sw_thermal": "software thermal",
+    "hw_thermal": "hardware thermal",
+    "hw_slowdown": "hardware slowdown",
+    "power_brake": "power brake",
+    "noLicence": "not recorded"
+  },
+  "criteria": {
+    "title": "Pre-registered criteria of the 13 models",
+    "model": "Model",
+    "criterion": "Pre-registered criterion",
+    "status": "Status",
+    "pass": "pass",
+    "fail": "fail",
+    "rows": {
+      "dfine": "D-FINE-N and D-FINE-S",
+      "rfdetr-seg": "RF-DETR-Seg-N",
+      "unet": "U-Net fragmentation",
+      "gns": "GNS granular surrogate",
+      "fno": "FNO surrogates",
+      "dispatch": "PPO and attention dispatch",
+      "il1": "IL-1 haul-truck policy",
+      "il2": "IL-2 excavator policy",
+      "slope-forecasters": "Slope forecasters",
+      "meta-model": "Mine-to-mill meta-model",
+      "dem-calibration": "DEM calibration",
+      "cosmos": "Cosmos Reason 2",
+      "tensorrt-engines": "TensorRT engines"
+    },
+    "fallback": {
+      "rfdetr-seg": "RF-DETR-Seg-N (fp32) on pit-family held-out images: mask AP50 of at least 0.70 (SC-009-05)",
+      "il2": "IL-2 fill factor of at least 0.8 in at least 80 % of FEE episodes (SC-014-06)",
+      "dem-calibration": "The 95 % interval of the recovered parameter covers the synthetic truth in at least 90 % of trials, at least 45 of 50, for each arm (SC-011-02)",
+      "tensorrt-engines": "Per-engine parity on every TensorRT version and execution provider: fp32 rtol 1e-3 and atol 1e-5; reduced precision within 1 percentage point; failing variants reported as rejected, none dropped (SC-016-01)"
+    }
+  },
+  "methodsPage": {
+    "title": "Methods",
+    "lead": "The ladder of methods M1 to M23 from the method registry: what each computes, how it is compared and where it runs.",
+    "table": {
+      "id": "Id",
+      "name": "Method",
+      "tiers": "Tier",
+      "implementation": "Implementation",
+      "spdx": "Licence (SPDX)",
+      "lanes": "Lane",
+      "cases": "Cases",
+      "learned": "Kind",
+      "status": "Status"
+    },
+    "learned": "learned",
+    "classical": "classical",
+    "computes": "What it computes",
+    "design": "Baseline and comparison design",
+    "baseline": "Baseline: {{baseline}}",
+    "metric": "Metric: {{metric}} ({{unit}}), {{orientation}}",
+    "pairing": "Pairing unit: {{unit}}, n = {{n}}",
+    "criterion": "Pre-registered acceptance criterion",
+    "criterionRef": "{{requirement}} of {{spec}}",
+    "lane": "Lane",
+    "laneList": "Lanes: {{lanes}}",
+    "estimate": "estimate",
+    "measured": "Measured gate values: interaction {{interaction}} ms, run at T2 {{run}} ms, largest asset {{bytes}} bytes; measured on {{tier}} on {{date}} in {{browser}}",
+    "simulate": "Runs live in the Simulate tab of",
+    "docs": "Documentation page",
+    "status": "Status",
+    "pass": "pass",
+    "fail": "fail"
+  },
+  "knowledge": {
+    "title": "Knowledge base",
+    "lead": "Glossary, equations, parameters, datasets, frameworks and bibliography, generated at build time from the pinned minephys tables.",
+    "navLabel": "Knowledge sections",
+    "nav": {
+      "glossary": "Glossary",
+      "equations": "Equations",
+      "parameters": "Parameters",
+      "datasets": "Datasets",
+      "frameworks": "Frameworks",
+      "bibliography": "Bibliography"
+    },
+    "provenance": "Generated from minephys {{version}} at commit {{commit}}",
+    "unverified": "UNVERIFIED — pinned at specification",
+    "verified": "verified",
+    "search": "Search",
+    "noTerms": "No matching terms",
+    "noParameters": "No matching parameters",
+    "filter": {
+      "module": "Module",
+      "status": "Status",
+      "all": "All"
+    },
+    "glossary": {
+      "termEn": "English term",
+      "termEs": "Spanish term",
+      "source": "Source: {{key}}"
+    },
+    "param": {
+      "id": "ID",
+      "module": "Module",
+      "value": "Value",
+      "units": "Units",
+      "si": "SI value",
+      "citation": "Citation",
+      "page": "Page or table",
+      "verification": "Verification",
+      "symbols": "Code symbols"
+    },
+    "eq": {
+      "symbols": "Symbols",
+      "symbol": "Symbol",
+      "meaning": "Meaning",
+      "units": "Units",
+      "source": "Source: {{key}}, {{page}}",
+      "function": "Implemented by",
+      "theory": "Theory page",
+      "tryIt": "Try it",
+      "result": "{{value}} {{unit}}",
+      "failed": "The engine could not evaluate this equation.",
+      "noEngine": "No browser engine is available in this build."
+    },
+    "datasets": {
+      "id": "Id",
+      "kind": "Kind",
+      "real": "real",
+      "synthetic": "synthetic",
+      "spdx": "Licence (SPDX)",
+      "redistribution": "Redistribution",
+      "landing": "Landing page",
+      "card": "Dataset card",
+      "provenance": "fetched by the pipeline, never redistributed"
+    },
+    "frameworks": {
+      "notYetRun": "Not yet run",
+      "evaluatedNotAdopted": "Evaluated, not adopted",
+      "done": "Done",
+      "licence": "Licence class: {{value}}"
+    },
+    "bib": {
+      "doi": "DOI",
+      "link": "Link",
+      "citedParameters": "Cited by parameters",
+      "citedEquations": "Cited by equations"
+    }
   }
 }

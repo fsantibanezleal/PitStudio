@@ -153,7 +153,7 @@ class Windrows(BaseModel):
 
 class PitDesignReport(BaseModel):
     """
-    Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline).
+    Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
     """
 
     model_config = ConfigDict(
@@ -177,3 +177,9 @@ class PitDesignReport(BaseModel):
         Field(description="windrow height and the mid-axle height of the largest haul unit (FR-004-18)"),
     ]
     volumes: Volumes
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
+        ),
+    ] = False

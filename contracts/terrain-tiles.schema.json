@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/terrain-tiles.schema.json",
   "title": "Terrain tile index",
-  "description": "Quadtree tile index of the terrain meshes per level of detail, written by st10_terrain (DC-004-04, spec 004-scene-pipeline).",
+  "description": "Quadtree tile index of the terrain meshes per level of detail, written by st10_terrain (DC-004-04, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -56,6 +56,11 @@
       },
       "minItems": 1,
       "maxItems": 4096
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
     }
   },
   "$defs": {

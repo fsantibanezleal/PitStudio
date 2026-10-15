@@ -7,32 +7,40 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "react-router dev",
-    "build": "react-router build && node scripts/postbuild.mjs",
+    "dev": "node scripts/build-studio-index.mjs && react-router dev",
+    "build": "node scripts/stage-results.mjs && node scripts/build-studio-index.mjs && react-router build && node scripts/postbuild.mjs",
     "serve": "node scripts/serve-static.mjs",
-    "typecheck": "react-router typegen && tsc",
+    "typecheck": "node scripts/build-studio-index.mjs && react-router typegen && node scripts/tsc-selected.mjs",
     "lint": "biome ci .",
     "format": "biome check --write .",
     "test": "vitest run",
     "gen:types": "node scripts/gen-types.mjs",
     "gen:validators": "node scripts/gen-validators.mjs",
+    "check:budgets": "node scripts/budgets.mjs --root build/client",
     "check:locales": "node ../tools/check_locales.mjs",
-    "check": "pnpm run check:locales && biome ci . && react-router typegen && tsc && vitest run",
+    "build:console": "vite build -c vite.console.config.ts",
+    "build:studio-index": "node scripts/build-studio-index.mjs",
+    "check": "pnpm run check:locales && biome ci . && node scripts/build-studio-index.mjs && react-router typegen && node scripts/tsc-selected.mjs && vitest run",
     "test:e2e": "playwright test",
+    "test:e2e:console": "playwright test -c playwright.console.config.ts",
     "test:live": "playwright test -c playwright.live.config.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
+    "@fasl-work/caos-app-shell": "^0.14.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@react-router/node": "^8.4.0",
+    "@xyflow/react": "^12.12.0",
     "i18next": "^26.4.2",
     "isbot": "^5.2.2",
+    "katex": "^0.16.47",
     "lucide-react": "^1.51.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-i18next": "^17.0.15",
-    "react-router": "^8.4.0"
+    "react-router": "^8.4.0",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
@@ -52,6 +60,7 @@
     "json-schema-to-typescript": "^16.0.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.2",
-    "vitest": "^5.0.3"
+    "vitest": "^5.0.3",
+    "yaml": "^2.9.1"
   }
 }

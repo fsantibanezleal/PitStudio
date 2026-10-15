@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: Apache-2.0
+# The SimReady content checked for a composed PitStudio scene (spec 004, FR-004-34). The tier profiles of simready-validate
+# describe single assets (packaging, robots, props); a scene is checked for the one feature that concerns scenes, the
+# semantic labels of its geometry (FR-004-25).
+[PitStudio-Scene]
+"1.0.0" = {features = [
+    {"FET_011_STANDARD" = {version = "0.2.0"}}, # "Semantic Labels"
+]}

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/terrain-grid.schema.json",
   "title": "Site-local terrain grid attributes",
-  "description": "Attributes of the root group of the site-local terrain grid Zarr store written by st10_terrain (DC-004-03, spec 004-scene-pipeline); the arrays are elevation (float32), valid_mask and fill_mask.",
+  "description": "Attributes of the root group of the site-local terrain grid Zarr store written by st10_terrain (DC-004-03, spec 004-scene-pipeline); the arrays are elevation (float32), valid_mask and fill_mask. Version 1.1: optional `fixture` member.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -366,6 +366,11 @@
         }
       },
       "description": "source elevations of valid samples after unit conversion (FR-004-12 hard range)"
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
     }
   },
   "allOf": [

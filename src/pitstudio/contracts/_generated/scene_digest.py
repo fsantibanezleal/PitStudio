@@ -817,7 +817,7 @@ class LodDigest(BaseModel):
 
 class SceneDigest(BaseModel):
     """
-    Geometry prims of the flattened stage per lod variant, written by st40_compose for the export parity test (DC-004-08, spec 004-scene-pipeline).
+    Geometry prims of the flattened stage per lod variant, written by st40_compose for the export parity test (DC-004-08, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
     """
 
     model_config = ConfigDict(
@@ -833,3 +833,9 @@ class SceneDigest(BaseModel):
     meters_per_unit: float
     kilograms_per_unit: float
     lods: Annotated[list[LodDigest], Field(max_length=3, min_length=1)]
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
+        ),
+    ] = False

@@ -1,4 +1,4 @@
-# CI — authoritative checks for every push and PR. Every action is pinned to a full commit SHA (release tag in the
+# CI â€” authoritative checks for every push and PR. Every action is pinned to a full commit SHA (release tag in the
 # comment; resolve with `gh api repos/<owner>/<action>/commits/<tag> --jq .sha`). Dependabot keeps them current.
 name: CI
 on:
@@ -23,9 +23,11 @@ jobs:
           fetch-depth: 0 # full history for tools/check_tdd.py
           persist-credentials: false
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-      - run: uv sync --all-groups --locked
+      - run: uv sync --all-groups --extra runner --extra api --locked
       - run: uv run ruff check . && uv run ruff format --check .
       - run: uv run mypy src
+      # tests of tasks without a [green] commit are not collected (specs/pending-red.txt, generated from the git history); the list must be current
+      - run: python tools/pending_red.py --check
       # tests of the pipeline and studio environments are ignored here (tests/envs.yaml) and run in their own jobs below
       - run: uv run pytest -m "not gpu" --cov=src --cov-branch
       - run: uv run python tools/trace.py --check
@@ -60,6 +62,57 @@ jobs:
         env: { PITSTUDIO_TEST_ENV: studio }
         run: uv sync --all-groups --locked && uv run pytest -c pyproject.toml --rootdir . -m "not gpu" ../tests
 
+  runner-plan:
+    # FR-002-05, SC-002-01: every committed recipe plans for Linux against the fake GPU, with no leak (no GPU anywhere).
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - run: uv sync --all-groups --extra runner --extra api --locked
+      - run: uv run python tools/plan_all_recipes.py --profile linux-gpu
+
+  runner-container:
+    # FR-002-07: the runner and contract tests that need no GPU, inside the pinned open-source image.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - run: docker build -f studio/containers/Dockerfile.open -t pitstudio-runner .
+      - run: docker run --rm pitstudio-runner pytest -m "not gpu" tests/unit tests/contract tests/property -p no:cacheprovider
+
+  runner-windows:
+    # FR-002-27, FR-002-29: job objects, keep-awake and lock release are Windows behaviour; the reference machine is Windows.
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # the mutation-record test looks up a recorded commit
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - run: uv sync --all-groups --extra runner --extra api --locked
+      - run: uv run pytest -m "not gpu" tests/unit tests/contract tests/property -k "t_002 or t_003" -p no:cacheprovider
+
+  studio-scenes:
+    # The studio environment (OpenUSD, rasterio, laspy) runs the scene tests of specs 004 to 006 on CPU only; tools/studio_pytest.py
+    # fails the job when one of those tests is skipped. Never a GPU runner (NFR-004-03).
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with: { package_json_file: web/package.json }
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with: { node-version-file: web/.nvmrc, cache: pnpm, cache-dependency-path: web/pnpm-lock.yaml }
+      - run: pnpm install --frozen-lockfile # the generated-type tests run tsc from web/node_modules
+        working-directory: web
+      - run: uv run --project studio --frozen python tools/studio_pytest.py --marker "not gpu and not slow"
+
   web:
     runs-on: ubuntu-24.04
     defaults: { run: { working-directory: web } }
@@ -70,7 +123,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
-      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0 — reads "packageManager"
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0 â€” reads "packageManager"
         with: { package_json_file: web/package.json }
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with: { node-version-file: web/.nvmrc, cache: pnpm, cache-dependency-path: web/pnpm-lock.yaml }
@@ -78,8 +131,9 @@ jobs:
       - run: pnpm gen:types --check # generated TypeScript types equal a fresh generation (spec 001)
       - run: pnpm run check # biome ci + typegen + tsc + vitest
       - run: pnpm run build # includes the Pages layout step and the initial-JS budget
+      - run: python3 ../tools/check_pages_artifact.py # FR-003-24: no console code, marker or Python file in the public artifact
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm run test:e2e # served like Pages at BASE_PATH: deep links, 404, gate, theme, language, ⓘ, axe
+      - run: pnpm run test:e2e # served like Pages at BASE_PATH: deep links, 404, gate, theme, language, â“˜, axe
       - if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with: { name: playwright-report, path: web/playwright-report, retention-days: 7 }

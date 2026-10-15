@@ -125,7 +125,8 @@ describe("Bond metamorphic relations (P-018-43, P-018-44)", () => {
         fc.double({ min: 1, max: 40, noNaN: true }),
         fc.double({ min: 0.1, max: 8, noNaN: true }),
         fc.double({ min: 5e-4, max: 1, noNaN: true }),
-        (wiKwh, k, f80) => {
+        (wiKwh, kRaw, f80) => {
+          const k = Math.min(kRaw, 99 / wiKwh); // k * Wi stays inside the E_RANGE cap of 100 kWh/t (360,000 J/kg)
           const p80 = Math.max(7e-5, f80 / 10);
           return close(bond(k * wiKwh * KWH, f80, p80), k * bond(wiKwh * KWH, f80, p80), 1e-12);
         },

@@ -1066,7 +1066,7 @@ class Input(BaseModel):
 
 class SceneManifest(BaseModel):
     """
-    scene.manifest.json written by st40_compose and updated by st45_validate (DC-004-02, spec 004-scene-pipeline): layers, sources, inputs and their CRS, variants, site origin and validation status.
+    scene.manifest.json written by st40_compose and updated by st45_validate (DC-004-02, spec 004-scene-pipeline): layers, sources, inputs and their CRS, variants, site origin and validation status. Version 1.1: optional `fixture` member.
     """
 
     model_config = ConfigDict(
@@ -1092,3 +1092,9 @@ class SceneManifest(BaseModel):
     people_route: Annotated[Literal["makehuman", "procedural-mannequin"], Field(description="FR-004-28")]
     variants: Variants
     validation: Validation
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
+        ),
+    ] = False
