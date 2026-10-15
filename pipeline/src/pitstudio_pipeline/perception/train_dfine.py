@@ -168,16 +168,13 @@ def train_dfine(
         targets = [{k: v.to(device) for k, v in s[1].items()} for s in samples]
         for g, base in zip(optimiser.param_groups, base_lrs, strict=True):
             g["lr"] = base * mb.lr / top_lr
-        with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
-            outputs = model(x, targets=targets)
-        with torch.autocast(device_type="cuda", enabled=False):
-            metas = {
-                "epoch": mb.epoch,
-                "step": mb.optimiser_step,
-                "global_step": mb.optimiser_step,
-                "epoch_step": loop_cfg.steps_per_epoch,
-            }
-            loss_dict = criterion(outputs, targets, **metas)
+        metas = {
+            "epoch": mb.epoch,
+            "step": mb.optimiser_step,
+            "global_step": mb.optimiser_step,
+            "epoch_step": loop_cfg.steps_per_epoch,
+        }
+        loss_dict = forward_loss(model, criterion, x, targets, metas, "cuda")
         loss = sum(loss_dict.values()) / mb.accum_steps
         loss.backward()
         pending.append(float(loss.detach()) * mb.accum_steps)
@@ -209,6 +206,52 @@ def train_dfine(
     if store.last is None:
         raise RuntimeError("no checkpoint was written")
     return store.last, losses
+
+
+def forward_loss(
+    model: Any, criterion: Any, x: Any, targets: list[dict[str, Any]], metas: dict[str, int], device_type: str
+) -> Any:
+    """Loss terms of one micro-batch: bf16 autocast for the model forward, float32 for the criterion (as upstream)."""
+    import torch
+
+    with torch.autocast(device_type=device_type, dtype=torch.bfloat16):
+        outputs = model(x, targets=targets)
+    with torch.autocast(device_type=device_type, enabled=False):
+        return criterion(outputs, targets, **metas)
+
+
+def smoke_step(
+    model_name: str,
+    base_checkpoint: Path,
+    records: Sequence[Mapping[str, Any]],
+    root: Path,
+    seed: int,
+    device: str = "cpu",
+) -> float:
+    """One real optimiser step on `device` over the first records (the dry-run of the training path); the loss."""
+    import torch
+
+    cfg = dfine.make_config(model_name, num_classes=NUM_CLASSES)
+    model, criterion = cfg.model, cfg.criterion
+    dfine.load_matched(model, dfine.read_state(base_checkpoint))
+    model.to(device).train()
+    criterion.to(device).train()
+    optimiser = cfg.optimizer
+    data = RecordDataset(records, Path(root), seed)
+    items = [data.get(i, 0) for i in range(min(2, len(data)))]
+    x = torch.stack([i[0] for i in items]).to(device)
+    targets = [{k: v.to(device) for k, v in i[1].items()} for i in items]
+    loss_dict = forward_loss(
+        model, criterion, x, targets, {"epoch": 0, "step": 0, "global_step": 0, "epoch_step": 1}, device
+    )
+    loss = sum(loss_dict.values())
+    loss.backward()
+    torch.nn.utils.clip_grad_norm_(model.parameters(), MAX_NORM)
+    optimiser.step()
+    value = float(loss.detach())
+    if not math.isfinite(value):
+        raise FloatingPointError(f"non-finite loss {value} in the smoke step")
+    return value
 
 
 class _StopAfterSteps(Exception):

@@ -199,6 +199,7 @@ def run_training(
     max_steps: int | None = None,
     guard: Any = None,
     batch_size: int = 16,
+    arm: str = "S",
 ) -> TrainResult:
     """Fine-tune `cfg.model` from its pinned checkpoint on the arm S training records (needs CUDA, bf16, no FP8).
 
@@ -209,7 +210,7 @@ def run_training(
     check_training_inputs(
         [{"id": r["record_id"], "licence_class": r["licence"]["licence_class"], "source": "synthetic"} for r in records]
     )
-    selected = select_training_records(records, arm="S")
+    selected = select_training_records(records, arm=arm)
     if cfg.model == "rf-detr-seg-n":
         selected = [r for r in selected if r["family"] == "pit"]  # exact instance masks: the pit family only
     set_digest = training_set_digest(selected)
