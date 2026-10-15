@@ -149,7 +149,7 @@ def vignette_cos4(width_px: int, height_px: int, fx_px: float, fy_px: float, cx_
 _M64 = np.uint64(0xFFFFFFFFFFFFFFFF)
 
 
-def _splitmix(x: np.ndarray) -> np.ndarray:
+def _splitmix(x: Any) -> Any:
     with np.errstate(over="ignore"):
         x = x + np.uint64(0x9E3779B97F4A7C15)
         x = (x ^ (x >> np.uint64(30))) * np.uint64(0xBF58476D1CE4E5B9)
