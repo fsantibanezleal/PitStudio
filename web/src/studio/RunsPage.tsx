@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import shell from "~/shell/shell.module.css";
+import { ConnectSection } from "./ConnectSection";
 import { caseIds, studioTools, useRunSummaries } from "./data";
 import { RunsLedger } from "./RunsLedger";
 
@@ -11,6 +12,7 @@ export function RunsPage() {
     <article className={shell.page}>
       <h1>{t("runs.title")}</h1>
       <p className={shell.lead}>{t("runs.lead")}</p>
+      <ConnectSection />
       {runs.status === "ready" ? (
         <RunsLedger runs={runs.value} cases={caseIds} tools={studioTools.map((x) => x.id)} />
       ) : (

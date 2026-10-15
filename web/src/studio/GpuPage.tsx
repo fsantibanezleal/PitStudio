@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import shell from "~/shell/shell.module.css";
+import { ConnectSection } from "./ConnectSection";
 import { publishedRunIds, useRunBundles, useStudioManifest } from "./data";
 import { clip } from "./format";
 import styles from "./studio.module.css";
@@ -17,6 +18,7 @@ export function GpuPage() {
     <article className={shell.page}>
       <h1>{t("gpuPage.title")}</h1>
       <p className={shell.lead}>{t("gpuPage.lead")}</p>
+      <ConnectSection />
       {bundles.status === "ready" && runs.length === 0 && <p data-testid="no-runs">{t("runs.none")}</p>}
       {runs.map(({ card, telemetry }) => (
         <section key={card.run_id} className={styles.block} data-run-block={card.run_id}>

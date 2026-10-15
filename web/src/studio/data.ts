@@ -1,4 +1,4 @@
-﻿// The data of the studio pages: the registry entries and the studio index written at build time by
+// The data of the studio pages: the registry entries and the studio index written at build time by
 // `web/scripts/build-studio-index.mjs` (DC-019-03), and the hooks that read the published runs in the browser.
 // A file that is missing, failing or malformed is "nothing published" (ADR-0040): it never breaks a page and never shows a result.
 import { useEffect, useState } from "react";
