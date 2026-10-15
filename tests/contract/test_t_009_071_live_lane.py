@@ -248,13 +248,13 @@ def test_a_timing_record_that_fails_validation_is_not_trusted() -> None:
         hooks.decide_detector_lane(size_bytes=9_000_000, timing=_timing(images=10))
 
 
-def _variants(**over) -> list[dict]:
+def _variants(over: dict | None = None) -> list[dict]:
     base = {
         (m, p): {"model": m, "precision": p, "size_bytes": 9_000_000, "timing": _timing()}
         for m in MODELS
         for p in PRECISIONS
     }
-    for (m, p), patch in over.items():
+    for (m, p), patch in (over or {}).items():
         base[(m, p)] = {**base[(m, p)], **patch}
     return list(base.values())
 
@@ -280,7 +280,7 @@ def test_with_both_live_candidates_inside_their_limits_two_onnx_files_ship_and_e
     ],
 )
 def test_a_live_candidate_over_a_limit_falls_back_to_precompute_with_its_reason(patch: dict, word: str) -> None:
-    plan = hooks.shipping_plan(_variants(**{("d-fine-s", "int8"): patch}))
+    plan = hooks.shipping_plan(_variants({("d-fine-s", "int8"): patch}))
     assert plan["onnx_files"] == ["d-fine-n-fp16.onnx"]
     assert "d-fine-s-int8" in plan["baked_only"]
     assert any(word in r for r in plan["reasons"]["d-fine-s-int8"])
@@ -290,7 +290,7 @@ def test_a_live_candidate_over_a_limit_falls_back_to_precompute_with_its_reason(
 @pytest.mark.req("FR-009-37")
 def test_a_fast_small_variant_that_is_not_in_the_live_set_is_still_baked_only() -> None:
     plan = hooks.shipping_plan(
-        _variants(**{("rf-detr-seg-n", "fp16"): {"size_bytes": 1_000_000, "timing": _timing(median=5.0, run_s=0.01)}})
+        _variants({("rf-detr-seg-n", "fp16"): {"size_bytes": 1_000_000, "timing": _timing(median=5.0, run_s=0.01)}})
     )
     assert plan["onnx_files"] == list(LIVE)
     assert "rf-detr-seg-n-fp16" in plan["baked_only"]
