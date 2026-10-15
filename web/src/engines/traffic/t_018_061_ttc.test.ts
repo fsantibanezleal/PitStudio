@@ -139,7 +139,14 @@ describe("metamorphic relations (P-018-19, P-018-20, P-018-21)", () => {
       w: fc.tuple(vel, vel),
       R: fc.double({ min: 0.5, max: 50, noNaN: true }),
     })
-    .filter(({ p, w, R }) => typeof hand(p, w, R) === "number" && (hand(p, w, R) as number) > 1e-6);
+    .filter(
+      // a TTC between 1 microsecond and 1e6 s (11.6 days): a closing speed of denormal scale (w = 1e-162 m/s, a TTC of 1e162 s) is
+      // outside any traffic horizon and loses the 1e-12 relative accuracy of the relation to underflow, not to a defect
+      ({ p, w, R }) => {
+        const ttc = hand(p, w, R);
+        return typeof ttc === "number" && ttc > 1e-6 && ttc < 1e6;
+      },
+    );
 
   it("P-018-19 · TTC(p, k w) = TTC(p, w) / k for closing pairs and k in [0.1, 10] (rtol 1e-12)", () => {
     fc.assert(
