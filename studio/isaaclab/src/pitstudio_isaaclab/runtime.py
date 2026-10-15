@@ -80,6 +80,11 @@ def _guard_module() -> Any:
     return gpu_guard
 
 
+def check_guard_import() -> str:
+    """Import gpu_guard with this interpreter (a dry run catches syntax newer than the lane's Python) and return its limit."""
+    return f"start<={_guard_module().START_MAX_C}C"
+
+
 @contextmanager
 def gpu_session(wait_cool_s: float = 1800.0) -> Iterator[Any]:
     """Wait until the GPU is at most 80 C, take the machine lock, yield a ``Guard``; release the lock on exit."""

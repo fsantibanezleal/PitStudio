@@ -47,6 +47,7 @@ def _work_dir() -> Path:
 
 def dry_run() -> dict[str, Any]:
     device = runtime.require_cuda()
+    guard_limit = runtime.check_guard_import()
     work = _work_dir()
     os.environ["ISAACSIM_ASSET_ROOT"] = str(runtime.local_asset_root(work))
     from isaaclab_rl.entrypoints.backends import train_rsl_rl  # noqa: F401  (the import is the check)
@@ -54,7 +55,7 @@ def dry_run() -> dict[str, Any]:
 
     return {
         "status": "dry-run-ok", "task": TASK, "physics": PHYSICS, "device": device, "versions": runtime.lock_versions(),
-        "kit_modules": runtime.kit_modules(), "asset_root": "mirrored",
+        "kit_modules": runtime.kit_modules(), "asset_root": "mirrored", "guard": guard_limit,
     }  # fmt: skip
 
 

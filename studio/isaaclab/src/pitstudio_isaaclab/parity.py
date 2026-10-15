@@ -78,6 +78,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.dry_run:
         device_name = runtime.require_cuda()
+        runtime.check_guard_import()
         s = _dry_states()
         worst = _check_against_numpy(s, compute(s, "cpu"))
         ok = worst < 1e-5
