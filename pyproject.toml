@@ -70,7 +70,8 @@ select = ["E", "F", "W", "I", "B", "UP", "SIM", "NPY", "PERF", "PT", "RUF"]
 "tests/**/test_t_013_*.py" = ["I001"]
 # locked tests of every spec: ruff classifies `pitstudio.<module>` as first party only once that module exists, so the import
 # block of a test locked before its module existed changes class when the module lands; a locked file cannot be re-sorted
-"tests/**/test_t_*.py" = ["I001", "E501"]  # E501: a locked test keeps its line lengths
+"tests/**/test_t_*.py" = ["I001"]
+"tests/pipeline/test_t_010_060_c1_recipe_e2e.py" = ["E501"]  # a locked test keeps its line lengths
 
 [[tool.mypy.overrides]]
 # optional GPU and profiling libraries the runner imports lazily on machines that have them; the root environment has none of
