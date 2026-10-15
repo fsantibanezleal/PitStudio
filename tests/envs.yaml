@@ -12,6 +12,8 @@ studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/unit/test_t_009_011_*.py
   - tests/property/test_t_009_013_*.py
   - tests/pipeline/test_t_004_053_*.py
+  - tests/property/test_t_006_030_*.py   # the real nvtx package (spec 006, FR-006-17)
+  - tests/unit/test_t_006_033_*.py       # a Warp CPU workload with the real nvtx package (NFR-006-02)
 pipeline:   # torch, onnx, onnxruntime, polars, scipy ... (pipeline/pyproject.toml)
   - tests/pipeline/**
   - tests/unit/test_t_012_*.py
