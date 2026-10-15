@@ -88,7 +88,7 @@ def test_every_artefact_record_validates_and_names_producer_lane_and_licence_cla
     for a in arts:
         assert lem_ref.schema_errors(a, "manifest", "artefact") == [], a["id"]
         assert a["producer"]["tool"]
-        assert a["producer"]["stage"] in [*STAGES, "s00_download"]
+        assert a["producer"]["stage"]["id"] in [*STAGES, "s00_download"]
         assert a["lane"]
         assert a["licence_class"]
     assert len({a["id"] for a in arts}) == len(arts)
