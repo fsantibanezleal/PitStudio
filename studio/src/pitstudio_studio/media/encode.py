@@ -208,6 +208,7 @@ def run(
         raise ValueError(f"encoder_mode must be ffmpeg or pynvvideocodec, got {mode!r}")
     if mode == "pynvvideocodec" and params.get("publish") is True:
         raise NotPublishable("PyNvVideoCodec outputs are local previews and cannot be published")
+    job_fixture = _flag(params.get("fixture"), "the job's")
     require_lock("nvenc", 0)
     if mode == "pynvvideocodec":
         raise NotRun(
@@ -232,7 +233,7 @@ def run(
     if _sha256(manifest_path) != entry["sha256"]:
         raise FramesInvalid("the frame manifest differs from its recorded SHA-256")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    fixture = False
+    fixture = job_fixture or _flag(manifest.get("fixture"), "the frame manifest's")
     validate_clip_name(params.get("clip", manifest.get("clip")))
     seq = validate_sequence(manifest, manifest_path.parent)
     if params.get("clip", manifest["clip"]) != manifest["clip"]:
