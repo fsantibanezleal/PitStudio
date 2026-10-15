@@ -44,7 +44,7 @@ function send(res, status, file) {
   res.end(readFileSync(file));
 }
 
-createServer((req, res) => {
+createServer({ maxHeaderSize: 262144 }, (req, res) => {
   const url = new URL(req.url ?? "/", "http://localhost");
   const notFound = () => send(res, 404, join(ROOT, "404.html"));
   if (!url.pathname.startsWith(BASE) && `${url.pathname}/` !== BASE) return notFound();

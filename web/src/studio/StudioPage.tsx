@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import shell from "~/shell/shell.module.css";
-import { ConnectControl } from "./ConnectControl";
+import { ConnectSection } from "./ConnectSection";
 import { studioIndex, studioTools, useRunSummaries } from "./data";
 import { Loop } from "./Loop";
 import { StudioMap } from "./StudioMap";
@@ -24,11 +24,7 @@ export function StudioPage() {
           {ts("nav.gpu")}
         </Link>
       </nav>
-      <section aria-labelledby="s-connect" className={styles.block}>
-        <h2 id="s-connect">{ts("connect.title")}</h2>
-        <p>{ts("connect.lead")}</p>
-        <ConnectControl />
-      </section>
+      <ConnectSection id="s-connect" />
       <StudioMap tools={studioTools} index={studioIndex} />
       <section aria-labelledby="s-loop" className={styles.block}>
         <h2 id="s-loop">{ts("loop.title")}</h2>

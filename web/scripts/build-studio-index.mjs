@@ -382,7 +382,7 @@ function honestyChecks(py) {
     console.error(`build-studio-index: check_showcase could not run: ${run.stdout}${run.stderr}`);
     process.exit(2);
   }
-  const lines = run.stdout.split("\n").filter(Boolean);
+  const lines = run.stdout.split(/\r?\n/).filter(Boolean);
   return CHECKS.map((id) => {
     const mine = lines.filter((l) => l.startsWith(`${id}:`));
     const violations = mine.map((line) => {
@@ -478,7 +478,7 @@ function main() {
   }));
   writeFileSync(
     join(generated, "studio-data.json"),
-    `${JSON.stringify({ tools: registry, index, run_ids: runs.map((r) => r.run_id) })}\n`,
+    `${JSON.stringify({ tools: registry, index, run_ids: runs.map((r) => r.run_id), runs: runs.map(slim) })}\n`,
   );
   console.log(
     `build-studio-index: ${tools.length} tools, ${index.edges.length} edges, ${runs.length} published run(s), ${text.length} bytes` +
