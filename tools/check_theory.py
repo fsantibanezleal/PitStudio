@@ -5,7 +5,8 @@ Usage:  python tools/check_theory.py [--root DIR]
 The reviewed source of every equation is `docs/theory/<id>.md`; the web pages are
 `web/src/content/theory/{en,es}/<id>.mdx`. MDX conventions: a display equation is a `$$` block whose closing line
 carries its label, `$$ {#eq-<label>}`; a figure is `<Figure id="<figure id>" />`; a reference is
-`<Cite key="<key>" />`; an unverified transcription is `<Unverified />`, once per occurrence of the word UNVERIFIED in the docs page.
+`<Cite key="<key>" />`; an unverified transcription is `<Unverified />`, once per occurrence of the word
+UNVERIFIED in the docs page.
 
 Findings (`<check>: <page>: <detail>`, one line each; exit 1 when there is any, 0 when clean, 2 on a usage error or a
 missing docs/theory directory):
