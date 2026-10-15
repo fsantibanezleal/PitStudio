@@ -10,7 +10,9 @@
       "!**/src/contracts/generated",
       "!**/src/contracts/validators",
       "!**/src/engines/host/generated",
-      "!**/src/engines/analytical/rows.ts"
+      "!**/src/engines/analytical/rows.ts",
+      "!**/src/studio/generated",
+      "!**/public/studio"
     ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 110 },

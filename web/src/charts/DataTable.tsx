@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import styles from "./chart.module.css";
 
 export interface TableColumn {
+  /** Series id, carried by the header cell as `data-series`. */
+  id?: string;
   /** Header text with its unit, e.g. "speed (m/s)". */
   header: string;
   values: ArrayLike<number>;
@@ -23,14 +25,24 @@ function cell(value: number, missing: string): string {
  * as such. A series longer than 5,000 rows is shown through a scrolling window that renders only the rows in view, so the
  * table of a million samples stays usable; `data-rows` always carries the number of rows of the full data.
  */
-export function DataTable({ x, columns, label }: { x: TableColumn; columns: TableColumn[]; label: string }) {
+export function DataTable({
+  x,
+  columns,
+  label,
+  missingText,
+}: {
+  x: TableColumn;
+  columns: TableColumn[];
+  label: string;
+  missingText?: string;
+}) {
   const { t } = useTranslation("charts");
   const rows = x.values.length;
   const [top, setTop] = useState(0);
   const windowed = rows > ALL_ROWS_LIMIT;
   const first = windowed ? Math.max(0, Math.min(rows - WINDOW_ROWS, top)) : 0;
   const last = windowed ? Math.min(rows, first + WINDOW_ROWS) : rows;
-  const missing = t("notAvailable");
+  const missing = missingText ?? t("notAvailable");
   const all = [x, ...columns];
 
   const body = [];
@@ -51,7 +63,7 @@ export function DataTable({ x, columns, label }: { x: TableColumn; columns: Tabl
       <thead>
         <tr>
           {all.map((c) => (
-            <th key={c.header} scope="col">
+            <th key={c.header} scope="col" data-series={c.id}>
               {c.header}
             </th>
           ))}
