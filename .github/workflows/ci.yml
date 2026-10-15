@@ -26,6 +26,8 @@ jobs:
       - run: uv sync --all-groups --extra runner --extra api --locked
       - run: uv run ruff check . && uv run ruff format --check .
       - run: uv run mypy src
+      # tests of tasks without a [green] commit are not collected (specs/pending-red.txt, generated from the git history); the list must be current
+      - run: python tools/pending_red.py --check
       # tests of the pipeline and studio environments are ignored here (tests/envs.yaml) and run in their own jobs below
       - run: uv run pytest -m "not gpu" --cov=src --cov-branch
       - run: uv run python tools/trace.py --check
@@ -89,7 +91,7 @@ jobs:
       - run: uv sync --all-groups --extra runner --extra api --locked
       - run: uv run pytest -m "not gpu" tests/unit tests/contract tests/property -k "t_002 or t_003" -p no:cacheprovider
 
-  studio:
+  studio-scenes:
     # The studio environment (OpenUSD, rasterio, laspy) runs the scene tests of specs 004 to 006 on CPU only; tools/studio_pytest.py
     # fails the job when one of those tests is skipped. Never a GPU runner (NFR-004-03).
     strategy:

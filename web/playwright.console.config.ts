@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { pendingAbsolute } from "./pending-red.ts";
 
 // Browser tests of the console UI (web/console/) against a real console on a fixture store: the web server is
 // tests/support/console_fixture_server.py (needs `pnpm build:console` first). The public site's tests use playwright.config.ts.
@@ -7,6 +8,7 @@ const python = process.env.CONSOLE_E2E_PYTHON ?? "uv run --extra api python";
 
 export default defineConfig({
   testDir: "e2e/console",
+  testIgnore: pendingAbsolute("playwright"), // tasks without a green commit (pending-red)
   fullyParallel: false,
   workers: 1,
   forbidOnly: !!process.env.CI,

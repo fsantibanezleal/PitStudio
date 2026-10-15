@@ -7,6 +7,7 @@ pipeline:   # torch, onnx, onnxruntime, polars, scipy ... (pipeline/pyproject.to
   - tests/unit/test_t_012_*.py
   - tests/property/test_t_012_*.py
   - tests/property/test_t_011_050_*.py
+  - tests/unit/test_t_009_017_*.py
 studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/unit/test_t_005_*.py
   - tests/metamorphic/test_t_005_*.py
@@ -14,3 +15,5 @@ studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/unit/test_t_011_060_*.py
   - tests/unit/test_t_011_heap_simulator_smoke.py
   - tests/contract/test_t_011_036_*.py
+  - tests/unit/test_t_009_011_*.py
+  - tests/property/test_t_009_013_*.py
