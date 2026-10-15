@@ -1,4 +1,4 @@
-// The Cosmos Reason 2 panel of the cases B1 and B2 and the tool card of the Studio page (spec 015, FR-015-41, -07, -43).
+// The Cosmos Reason 2 panel of the cases B1 and B2 (the Studio page lists the tool itself, from the tool map) (spec 015, FR-015-41, -07, -43).
 //
 // The baked records `<base>reason/<case>/records.json` and the SHA-256 in `records.sha256` are read at run time and
 // verified in the browser (`./records`). Three outcomes, each in `data-reason-state`: `not-run` (nothing published, the
@@ -9,12 +9,9 @@ import { useEffect, useState } from "react";
 import styles from "~/cases/cases.module.css";
 import { panelText, type RecordsResult, UNAVAILABLE_TEXT, verifyRecordFile } from "./records";
 
-export const COSMOS_NOTICE = "Built on NVIDIA Cosmos";
-export const HONESTY_NOTICE = "Zero-shot 2B VLM; not a safety system.";
 export const NOT_RUN_TEXT = "not run";
 // Fixed English strings: the notices are mandated verbatim by FR-015-41 and the rest names the tool and its state.
 const HEADING = "Cosmos Reason 2 · zero-shot 2B vision-language model";
-const TOOL_NAME = "Cosmos Reason 2";
 const CORRECT = "correct";
 const INCORRECT = "incorrect";
 
@@ -81,18 +78,6 @@ export function ReasonPanel({ caseId }: { caseId: string }) {
           ))}
         </>
       )}
-    </section>
-  );
-}
-
-/** The Cosmos tool on the Studio page: "not run" while no Cosmos run is published (the gated terms are not accepted). */
-export function CosmosToolCard() {
-  return (
-    <section data-tool="cosmos-reason-2" aria-label="Cosmos Reason 2">
-      <h2>{TOOL_NAME}</h2>
-      <p>{`Zero-shot 2B vision-language reasoning scored against exact scene truth: ${NOT_RUN_TEXT} (no Cosmos run is published).`}</p>
-      <p>{COSMOS_NOTICE}</p>
-      <p>{HONESTY_NOTICE}</p>
     </section>
   );
 }

@@ -166,7 +166,7 @@
             "$ref": "#/$defs/contract_version"
           },
           "minProperties": 1,
-          "maxProperties": 16
+          "maxProperties": 128
         }
       }
     },

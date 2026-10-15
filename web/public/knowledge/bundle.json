@@ -186,7 +186,1152 @@
       "status": "not-yet-run"
     }
   ],
-  "glossary": [],
+  "glossary": [
+    {
+      "definition_en": "The site's demo passphrase screen; not a security boundary",
+      "definition_es": "The site's demo passphrase screen; not a security boundary",
+      "id": "access-gate",
+      "origin": "docs",
+      "term_en": "Access gate",
+      "term_es": "Puerta de acceso"
+    },
+    {
+      "definition_en": "Steepest stable slope of a loose granular pile; the standard bulk test used to calibrate DEM parameters [16]",
+      "definition_es": "Steepest stable slope of a loose granular pile; the standard bulk test used to calibrate DEM parameters [16]",
+      "id": "angle-of-repose",
+      "origin": "docs",
+      "term_en": "Angle of repose",
+      "term_es": "Ángulo de reposo"
+    },
+    {
+      "definition_en": "US EPA compilation of air-emission factors; section 13.2.2 gives dust emitted per vehicle distance on unpaved roads [23]",
+      "definition_es": "US EPA compilation of air-emission factors; section 13.2.2 gives dust emitted per vehicle distance on unpaved roads [23]",
+      "id": "ap-42",
+      "origin": "docs",
+      "term_en": "AP-42",
+      "term_es": "AP-42"
+    },
+    {
+      "definition_en": "Any published output (figure, video, model, table) with a manifest entry",
+      "definition_es": "Any published output (figure, video, model, table) with a manifest entry",
+      "id": "artefact",
+      "origin": "docs",
+      "term_en": "Artefact",
+      "term_es": "Artefacto"
+    },
+    {
+      "definition_en": "Density of rock or soil in place, before it is broken",
+      "definition_es": "Density of rock or soil in place, before it is broken",
+      "id": "bank-density",
+      "origin": "docs",
+      "term_en": "Bank density",
+      "term_es": "Densidad in situ (en banco)"
+    },
+    {
+      "definition_en": "Haul truck driven by electric motors from an on-board battery, possibly charged from trolley lines [25]",
+      "definition_es": "Haul truck driven by electric motors from an on-board battery, possibly charged from trolley lines [25]",
+      "id": "battery-electric-truck-bev",
+      "origin": "docs",
+      "term_en": "Battery-electric truck (BEV)",
+      "term_es": "Camión eléctrico a batería"
+    },
+    {
+      "definition_en": "Exponential attenuation of light through an absorbing or scattering medium; PitStudio's dust-in-lidar model",
+      "definition_es": "Exponential attenuation of light through an absorbing or scattering medium; PitStudio's dust-in-lidar model",
+      "id": "beer-lambert-law",
+      "origin": "docs",
+      "term_en": "Beer–Lambert law",
+      "term_es": "Ley de Beer–Lambert"
+    },
+    {
+      "definition_en": "Horizontal step of a pit wall between a crest and a toe, on which equipment works",
+      "definition_es": "Horizontal step of a pit wall between a crest and a toe, on which equipment works",
+      "id": "bench",
+      "origin": "docs",
+      "term_en": "Bench",
+      "term_es": "Banco"
+    },
+    {
+      "definition_en": "Ledge or windrow on a bench or road edge that catches rockfall or stops vehicles",
+      "definition_es": "Ledge or windrow on a bench or road edge that catches rockfall or stops vehicles",
+      "id": "berm",
+      "origin": "docs",
+      "term_en": "Berm",
+      "term_es": "Berma"
+    },
+    {
+      "definition_en": "Material that flows only above a yield stress; a rheology for tailings run-out",
+      "definition_es": "Material that flows only above a yield stress; a rheology for tailings run-out",
+      "id": "bingham-fluid",
+      "origin": "docs",
+      "term_en": "Bingham fluid",
+      "term_es": "Fluido de Bingham"
+    },
+    {
+      "definition_en": "Hole diameter, burden, spacing, charge and timing of a blast",
+      "definition_es": "Hole diameter, burden, spacing, charge and timing of a blast",
+      "id": "blast-design",
+      "origin": "docs",
+      "term_en": "Blast design",
+      "term_es": "Diseño de tronadura (voladura)"
+    },
+    {
+      "definition_en": "3D grid of blocks carrying grade, density and value; the input to pit optimisation",
+      "definition_es": "3D grid of blocks carrying grade, density and value; the input to pit optimisation",
+      "id": "block-model",
+      "origin": "docs",
+      "term_en": "Block model",
+      "term_es": "Modelo de bloques"
+    },
+    {
+      "definition_en": "Distance from a blast hole to the free face, or between rows of holes",
+      "definition_es": "Distance from a blast hole to the free face, or between rows of holes",
+      "id": "burden",
+      "origin": "docs",
+      "term_en": "Burden",
+      "term_es": "Burden (piedra)"
+    },
+    {
+      "definition_en": "Train a classifier to tell real from synthetic; AUC near 0.5 means indistinguishable [31]",
+      "definition_es": "Train a classifier to tell real from synthetic; AUC near 0.5 means indistinguishable [31]",
+      "id": "c2st",
+      "origin": "docs",
+      "term_en": "C2ST",
+      "term_es": "Prueba de dos muestras con clasificador (C2ST)"
+    },
+    {
+      "definition_en": "`studio/bench/run_bench.py`: records which GPU tools run on a machine",
+      "definition_es": "`studio/bench/run_bench.py`: records which GPU tools run on a machine",
+      "id": "capability-probe",
+      "origin": "docs",
+      "term_en": "Capability probe",
+      "term_es": "Sonda de capacidades"
+    },
+    {
+      "definition_en": "Size reduction of ore by crushing and grinding; its energy follows Bond's or Morrell's laws [17]",
+      "definition_es": "Size reduction of ore by crushing and grinding; its energy follows Bond's or Morrell's laws [17]",
+      "id": "comminution",
+      "origin": "docs",
+      "term_en": "Comminution",
+      "term_es": "Conminución"
+    },
+    {
+      "definition_en": "NVIDIA's tool that checks a machine against Isaac Sim's requirements",
+      "definition_es": "NVIDIA's tool that checks a machine against Isaac Sim's requirements",
+      "id": "compatibility-checker",
+      "origin": "docs",
+      "term_en": "Compatibility Checker",
+      "term_es": "Verificador de compatibilidad"
+    },
+    {
+      "definition_en": "Store keyed by the hash of everything that determines an output",
+      "definition_es": "Store keyed by the hash of everything that determines an output",
+      "id": "content-addressed-cache",
+      "origin": "docs",
+      "term_en": "Content-addressed cache",
+      "term_es": "Caché direccionada por contenido"
+    },
+    {
+      "definition_en": "Performance under controlled image corruptions (noise, blur, weather) at graded severities [32]",
+      "definition_es": "Performance under controlled image corruptions (noise, blur, weather) at graded severities [32]",
+      "id": "corruption-robustness",
+      "origin": "docs",
+      "term_en": "Corruption robustness",
+      "term_es": "Robustez ante corrupciones"
+    },
+    {
+      "definition_en": "NVIDIA's vision-language reasoning model (2B), a post-trained Qwen3-VL; open weights under the NVIDIA Open Model License",
+      "definition_es": "NVIDIA's vision-language reasoning model (2B), a post-trained Qwen3-VL; open weights under the NVIDIA Open Model License",
+      "id": "cosmos-reason-2",
+      "origin": "docs",
+      "term_en": "Cosmos Reason 2",
+      "term_es": "Cosmos Reason 2"
+    },
+    {
+      "definition_en": "Coarse size reduction in crushers",
+      "definition_es": "Coarse size reduction in crushers",
+      "id": "crushing",
+      "origin": "docs",
+      "term_en": "Crushing",
+      "term_es": "Chancado (trituración)"
+    },
+    {
+      "definition_en": "Grade that separates ore from waste; Lane's theory balances mine, mill and market capacity [21]",
+      "definition_es": "Grade that separates ore from waste; Lane's theory balances mine, mill and market capacity [21]",
+      "id": "cut-off-grade",
+      "origin": "docs",
+      "term_en": "Cut-off grade",
+      "term_es": "Ley de corte"
+    },
+    {
+      "definition_en": "One truck round trip: spot, load, haul, dump, return, plus queueing at the loader and the dump",
+      "definition_es": "One truck round trip: spot, load, haul, dump, return, plus queueing at the loader and the dump",
+      "id": "cycle-time",
+      "origin": "docs",
+      "term_en": "Cycle time",
+      "term_es": "Tiempo de ciclo"
+    },
+    {
+      "definition_en": "\"Better\" only when the paired 95 % confidence interval of the difference excludes 0",
+      "definition_es": "\"Better\" only when the paired 95 % confidence interval of the difference excludes 0",
+      "id": "decision-rule-pre-registered",
+      "origin": "docs",
+      "term_en": "Decision rule (pre-registered)",
+      "term_es": "Regla de decisión (pre-registrada)"
+    },
+    {
+      "definition_en": "Raster of terrain heights; the context tells it apart from the discrete element method",
+      "definition_es": "Raster of terrain heights; the context tells it apart from the discrete element method",
+      "id": "dem-digital-elevation-model",
+      "origin": "docs",
+      "term_en": "DEM (digital elevation model)",
+      "term_es": "Modelo digital de elevación (MDE)"
+    },
+    {
+      "definition_en": "Contact-by-contact simulation of particles [15]",
+      "definition_es": "Contact-by-contact simulation of particles [15]",
+      "id": "dem-discrete-element-method",
+      "origin": "docs",
+      "term_en": "DEM (discrete element method)",
+      "term_es": "Método de elementos discretos (MED/DEM)"
+    },
+    {
+      "definition_en": "PitStudio's per-stage label: `bitwise`, `statistical` or `none`",
+      "definition_es": "PitStudio's per-stage label: `bitwise`, `statistical` or `none`",
+      "id": "determinism-class",
+      "origin": "docs",
+      "term_en": "Determinism class",
+      "term_es": "Clase de determinismo"
+    },
+    {
+      "definition_en": "Simulation whose outputs have gradients with respect to its parameters, used for calibration",
+      "definition_es": "Simulation whose outputs have gradients with respect to its parameters, used for calibration",
+      "id": "differentiable-simulation",
+      "origin": "docs",
+      "term_en": "Differentiable simulation",
+      "term_es": "Simulación diferenciable"
+    },
+    {
+      "definition_en": "A virtual counterpart linked to a physical system across its life cycle",
+      "definition_es": "A virtual counterpart linked to a physical system across its life cycle",
+      "id": "digital-twin",
+      "origin": "docs",
+      "term_en": "Digital twin",
+      "term_es": "Gemelo digital"
+    },
+    {
+      "definition_en": "Simulation that jumps between events (arrive, load, dump); the industry check for haulage",
+      "definition_es": "Simulation that jumps between events (arrive, load, dump); the industry check for haulage",
+      "id": "discrete-event-simulation-des",
+      "origin": "docs",
+      "term_en": "Discrete-event simulation (DES)",
+      "term_es": "Simulación de eventos discretos (SED)"
+    },
+    {
+      "definition_en": "Real-time assignment of trucks to loaders and dumps",
+      "definition_es": "Real-time assignment of trucks to loaders and dumps",
+      "id": "dispatch",
+      "origin": "docs",
+      "term_en": "Dispatch",
+      "term_es": "Despacho"
+    },
+    {
+      "definition_en": "Randomise textures, lights and poses so widely that reality looks like one more variation [29]",
+      "definition_es": "Randomise textures, lights and poses so widely that reality looks like one more variation [29]",
+      "id": "domain-randomisation-dr",
+      "origin": "docs",
+      "term_en": "Domain randomisation (DR)",
+      "term_es": "Aleatorización de dominio"
+    },
+    {
+      "definition_en": "Available shear strength over mobilised shear stress along a slip surface, minimised over surfaces",
+      "definition_es": "Available shear strength over mobilised shear stress along a slip surface, minimised over surfaces",
+      "id": "factor-of-safety-fos",
+      "origin": "docs",
+      "term_en": "Factor of safety (FoS)",
+      "term_es": "Factor de seguridad (FS)"
+    },
+    {
+      "definition_en": "Payload volume over the rated heaped bucket volume; the main link between blasting and loading",
+      "definition_es": "Payload volume over the rated heaped bucket volume; the main link between blasting and loading",
+      "id": "fill-factor",
+      "origin": "docs",
+      "term_en": "Fill factor",
+      "term_es": "Factor de llenado"
+    },
+    {
+      "definition_en": "Choosing the number of trucks and loaders for a production target",
+      "definition_es": "Choosing the number of trucks and loaders for a production target",
+      "id": "fleet-sizing",
+      "origin": "docs",
+      "term_en": "Fleet sizing",
+      "term_es": "Dimensionamiento de flota"
+    },
+    {
+      "definition_en": "Separation of valuable minerals by attachment to air bubbles; first-order and Klimpel kinetics describe recovery over time [26]",
+      "definition_es": "Separation of valuable minerals by attachment to air bubbles; first-order and Klimpel kinetics describe recovery over time [26]",
+      "id": "flotation",
+      "origin": "docs",
+      "term_en": "Flotation",
+      "term_es": "Flotación"
+    },
+    {
+      "definition_en": "Rock thrown beyond the blast area; best predicted by ballistic flight with drag from the launch velocity [6]",
+      "definition_es": "Rock thrown beyond the blast area; best predicted by ballistic flight with drag from the launch velocity [6]",
+      "id": "flyrock",
+      "origin": "docs",
+      "term_en": "Flyrock",
+      "term_es": "Proyección de rocas"
+    },
+    {
+      "definition_en": "Learned operator that maps fields to fields through truncated Fourier modes",
+      "definition_es": "Learned operator that maps fields to fields through truncated Fourier modes",
+      "id": "fourier-neural-operator-fno",
+      "origin": "docs",
+      "term_en": "Fourier neural operator (FNO)",
+      "term_es": "Operador neuronal de Fourier (FNO)"
+    },
+    {
+      "definition_en": "Size distribution of blasted rock",
+      "definition_es": "Size distribution of blasted rock",
+      "id": "fragmentation",
+      "origin": "docs",
+      "term_en": "Fragmentation",
+      "term_es": "Fragmentación"
+    },
+    {
+      "definition_en": "Quasi-static soil-cutting force on a tool from soil weight, cohesion, adhesion and surcharge [18]",
+      "definition_es": "Quasi-static soil-cutting force on a tool from soil weight, cohesion, adhesion and surcharge [18]",
+      "id": "fundamental-earthmoving-equation-fee",
+      "origin": "docs",
+      "term_en": "Fundamental Earthmoving Equation (FEE)",
+      "term_es": "Ecuación fundamental del movimiento de tierras"
+    },
+    {
+      "definition_en": "Closed-form concentration downwind of a continuous source; Pasquill stability classes A–F set the spread [22]",
+      "definition_es": "Closed-form concentration downwind of a continuous source; Pasquill stability classes A–F set the spread [22]",
+      "id": "gaussian-plume",
+      "origin": "docs",
+      "term_en": "Gaussian plume",
+      "term_es": "Pluma gaussiana"
+    },
+    {
+      "definition_en": "Ground-based interferometric radar that measures line-of-sight displacement of a slope",
+      "definition_es": "Ground-based interferometric radar that measures line-of-sight displacement of a slope",
+      "id": "gb-insar",
+      "origin": "docs",
+      "term_en": "GB-InSAR",
+      "term_es": "GB-InSAR (interferometría radar terrestre)"
+    },
+    {
+      "definition_en": "Rating of rock-mass structure and surface condition used by the Hoek–Brown criterion [11]",
+      "definition_es": "Rating of rock-mass structure and surface condition used by the Hoek–Brown criterion [11]",
+      "id": "geological-strength-index-gsi",
+      "origin": "docs",
+      "term_en": "Geological Strength Index (GSI)",
+      "term_es": "Índice de resistencia geológica (GSI)"
+    },
+    {
+      "definition_en": "llama.cpp's single-file model format, used for quantised weights",
+      "definition_es": "llama.cpp's single-file model format, used for quantised weights",
+      "id": "gguf",
+      "origin": "docs",
+      "term_en": "GGUF",
+      "term_es": "GGUF"
+    },
+    {
+      "definition_en": "The `gpu0.hold` file that stops all GPU work on a machine",
+      "definition_es": "The `gpu0.hold` file that stops all GPU work on a machine",
+      "id": "gpu-hold",
+      "origin": "docs",
+      "term_en": "GPU hold",
+      "term_es": "Retención de GPU (hold)"
+    },
+    {
+      "definition_en": "Part of a truck's total resistance due to road slope, ≈ 100·sin θ percent of gross vehicle weight [1]",
+      "definition_es": "Part of a truck's total resistance due to road slope, ≈ 100·sin θ percent of gross vehicle weight [1]",
+      "id": "grade-resistance",
+      "origin": "docs",
+      "term_en": "Grade resistance",
+      "term_es": "Resistencia por pendiente"
+    },
+    {
+      "definition_en": "Learned particle simulator based on message passing over a particle graph",
+      "definition_es": "Learned particle simulator based on message passing over a particle graph",
+      "id": "graph-network-simulator-gns",
+      "origin": "docs",
+      "term_en": "Graph Network Simulator (GNS)",
+      "term_es": "Simulador de redes de grafos (GNS)"
+    },
+    {
+      "definition_en": "Fine size reduction in mills (SAG, ball)",
+      "definition_es": "Fine size reduction in mills (SAG, ball)",
+      "id": "grinding",
+      "origin": "docs",
+      "term_en": "Grinding",
+      "term_es": "Molienda"
+    },
+    {
+      "definition_en": "Cross-validation in which near-duplicates share a group, so they never span train and test",
+      "definition_es": "Cross-validation in which near-duplicates share a group, so they never span train and test",
+      "id": "grouped-k-fold",
+      "origin": "docs",
+      "term_en": "Grouped k-fold",
+      "term_es": "Validación cruzada agrupada"
+    },
+    {
+      "definition_en": "A model output that mentions something absent from the input",
+      "definition_es": "A model output that mentions something absent from the input",
+      "id": "hallucination",
+      "origin": "docs",
+      "term_en": "Hallucination",
+      "term_es": "Alucinación"
+    },
+    {
+      "definition_en": "Road on which trucks carry material out of the pit",
+      "definition_es": "Road on which trucks carry material out of the pit",
+      "id": "haul-road",
+      "origin": "docs",
+      "term_en": "Haul road",
+      "term_es": "Camino de acarreo (rampa)"
+    },
+    {
+      "definition_en": "Off-highway truck that carries rock from loaders to dumps or the crusher",
+      "definition_es": "Off-highway truck that carries rock from loaders to dumps or the crusher",
+      "id": "haul-truck",
+      "origin": "docs",
+      "term_en": "Haul truck",
+      "term_es": "Camión de extracción (CAEX)"
+    },
+    {
+      "definition_en": "Data never used for training or tuning, used only for the final evaluation",
+      "definition_es": "Data never used for training or tuning, used only for the final evaluation",
+      "id": "held-out-set",
+      "origin": "docs",
+      "term_en": "Held-out set",
+      "term_es": "Conjunto reservado"
+    },
+    {
+      "definition_en": "Standard soft-sphere DEM contact law: Hertz normal force, Mindlin–Deresiewicz tangential force",
+      "definition_es": "Standard soft-sphere DEM contact law: Hertz normal force, Mindlin–Deresiewicz tangential force",
+      "id": "hertz-mindlin-contact",
+      "origin": "docs",
+      "term_en": "Hertz–Mindlin contact",
+      "term_es": "Contacto Hertz–Mindlin"
+    },
+    {
+      "definition_en": "Non-linear rock-mass strength with parameters from GSI and the disturbance factor $D$ [11]",
+      "definition_es": "Non-linear rock-mass strength with parameters from GSI and the disturbance factor $D$ [11]",
+      "id": "hoek-brown-criterion",
+      "origin": "docs",
+      "term_en": "Hoek–Brown criterion",
+      "term_es": "Criterio de Hoek–Brown"
+    },
+    {
+      "definition_en": "Satellite radar interferometry / the European Ground Motion Service's deformation products",
+      "definition_es": "Satellite radar interferometry / the European Ground Motion Service's deformation products",
+      "id": "insar-egms",
+      "origin": "docs",
+      "term_en": "InSAR / EGMS",
+      "term_es": "InSAR / EGMS"
+    },
+    {
+      "definition_en": "$1/v$ plotted against time; its linear extrapolation to zero estimates the time of failure [12]",
+      "definition_es": "$1/v$ plotted against time; its linear extrapolation to zero estimates the time of failure [12]",
+      "id": "inverse-velocity",
+      "origin": "docs",
+      "term_en": "Inverse velocity",
+      "term_es": "Velocidad inversa"
+    },
+    {
+      "definition_en": "Overlap of predicted and true masks or boxes over their union",
+      "definition_es": "Overlap of predicted and true masks or boxes over their union",
+      "id": "iou",
+      "origin": "docs",
+      "term_en": "IoU",
+      "term_es": "Intersección sobre unión (IoU)"
+    },
+    {
+      "definition_en": "BSD-3 robot-learning framework; version 3.0 runs \"kit-less\" on Newton",
+      "definition_es": "BSD-3 robot-learning framework; version 3.0 runs \"kit-less\" on Newton",
+      "id": "isaac-lab",
+      "origin": "docs",
+      "term_en": "Isaac Lab",
+      "term_es": "Isaac Lab"
+    },
+    {
+      "definition_en": "NVIDIA's robotics simulator on Kit: RTX rendering, PhysX, sensors; proprietary, reference-only in PitStudio",
+      "definition_es": "NVIDIA's robotics simulator on Kit: RTX rendering, PhysX, sensors; proprietary, reference-only in PitStudio",
+      "id": "isaac-sim",
+      "origin": "docs",
+      "term_en": "Isaac Sim",
+      "term_es": "Isaac Sim"
+    },
+    {
+      "definition_en": "Kuznetsov–Cunningham–Ouchterlony: Kuznetsov's mean fragment size with a Swebrec size distribution [5]",
+      "definition_es": "Kuznetsov–Cunningham–Ouchterlony: Kuznetsov's mean fragment size with a Swebrec size distribution [5]",
+      "id": "kco-model",
+      "origin": "docs",
+      "term_en": "KCO model",
+      "term_es": "Modelo KCO"
+    },
+    {
+      "definition_en": "NVIDIA Omniverse's application framework; USD Composer and USD Explorer are Kit apps generated from kit-app-template",
+      "definition_es": "NVIDIA Omniverse's application framework; USD Composer and USD Explorer are Kit apps generated from kit-app-template",
+      "id": "kit",
+      "origin": "docs",
+      "term_en": "Kit",
+      "term_es": "Kit"
+    },
+    {
+      "definition_en": "Running a library (Isaac Lab, ovrtx, ovphysx) without starting a Kit application",
+      "definition_es": "Running a library (Isaac Lab, ovrtx, ovphysx) without starting a Kit application",
+      "id": "kit-less",
+      "origin": "docs",
+      "term_en": "Kit-less",
+      "term_es": "Sin Kit"
+    },
+    {
+      "definition_en": "Kuznetsov's mean fragment size with a Rosin–Rammler distribution and Cunningham's uniformity index [4]",
+      "definition_es": "Kuznetsov's mean fragment size with a Rosin–Rammler distribution and Cunningham's uniformity index [4]",
+      "id": "kuz-ram-model",
+      "origin": "docs",
+      "term_en": "Kuz-Ram model",
+      "term_es": "Modelo Kuz-Ram"
+    },
+    {
+      "definition_en": "Where a result is produced: live (browser), precompute (studio), replay (committed outputs)",
+      "definition_es": "Where a result is produced: live (browser), precompute (studio), replay (committed outputs)",
+      "id": "lane",
+      "origin": "docs",
+      "term_en": "Lane",
+      "term_es": "Carril"
+    },
+    {
+      "definition_en": "Laser ranging sensor that returns a point cloud",
+      "definition_es": "Laser ranging sensor that returns a point cloud",
+      "id": "lidar",
+      "origin": "docs",
+      "term_en": "Lidar",
+      "term_es": "Lidar"
+    },
+    {
+      "definition_en": "The planned production period of a mine",
+      "definition_es": "The planned production period of a mine",
+      "id": "life-of-mine-lom",
+      "origin": "docs",
+      "term_en": "Life of mine (LOM)",
+      "term_es": "Vida de la mina"
+    },
+    {
+      "definition_en": "Slope stability by slices: Bishop (moment equilibrium), Janbu (force), Spencer (both) [9][10]",
+      "definition_es": "Slope stability by slices: Bishop (moment equilibrium), Janbu (force), Spencer (both) [9][10]",
+      "id": "limit-equilibrium-method-lem",
+      "origin": "docs",
+      "term_en": "Limit equilibrium method (LEM)",
+      "term_es": "Método de equilibrio límite"
+    },
+    {
+      "definition_en": "JSON record of a run or artefact: inputs, versions, seeds, telemetry, licence, lane",
+      "definition_es": "JSON record of a run or artefact: inputs, versions, seeds, telemetry, licence, lane",
+      "id": "manifest",
+      "origin": "docs",
+      "term_en": "Manifest",
+      "term_es": "Manifiesto"
+    },
+    {
+      "definition_en": "Mean average precision at an IoU threshold of 0.5",
+      "definition_es": "Mean average precision at an IoU threshold of 0.5",
+      "id": "map50",
+      "origin": "docs",
+      "term_en": "mAP50",
+      "term_es": "mAP50"
+    },
+    {
+      "definition_en": "Truck arrival rate over loader service rate, $MF = N_T t_L / (N_L T_c)$; below 1 loaders wait, above 1 trucks queue [2]",
+      "definition_es": "Truck arrival rate over loader service rate, $MF = N_T t_L / (N_L T_c)$; below 1 loaders wait, above 1 trucks queue [2]",
+      "id": "match-factor",
+      "origin": "docs",
+      "term_en": "Match factor",
+      "term_es": "Factor de acoplamiento (match factor)"
+    },
+    {
+      "definition_en": "Particles carry the material state while a background grid solves momentum; suited to large deformation and tool–material contact [27]",
+      "definition_es": "Particles carry the material state while a background grid solves momentum; suited to large deformation and tool–material contact [27]",
+      "id": "material-point-method-mpm",
+      "origin": "docs",
+      "term_en": "Material point method (MPM)",
+      "term_es": "Método del punto material (MPM)"
+    },
+    {
+      "definition_en": "Paired test for two classifiers' disagreements on the same items",
+      "definition_es": "Paired test for two classifiers' disagreements on the same items",
+      "id": "mcnemar-s-test",
+      "origin": "docs",
+      "term_en": "McNemar's test",
+      "term_es": "Prueba de McNemar"
+    },
+    {
+      "definition_en": "Exact recursion for throughput and waiting in closed queueing networks",
+      "definition_es": "Exact recursion for throughput and waiting in closed queueing networks",
+      "id": "mean-value-analysis-mva",
+      "origin": "docs",
+      "term_en": "Mean value analysis (MVA)",
+      "term_es": "Análisis de valor medio"
+    },
+    {
+      "definition_en": "Designing blasts with downstream crushing and grinding energy and throughput in view",
+      "definition_es": "Designing blasts with downstream crushing and grinding energy and throughput in view",
+      "id": "mine-to-mill",
+      "origin": "docs",
+      "term_en": "Mine-to-mill",
+      "term_es": "Mina-planta (mine-to-mill)"
+    },
+    {
+      "definition_en": "Broken rock left by a blast, ready to load",
+      "definition_es": "Broken rock left by a blast, ready to load",
+      "id": "muck-pile",
+      "origin": "docs",
+      "term_en": "Muck pile",
+      "term_es": "Pila de material tronado (marina)"
+    },
+    {
+      "definition_en": "GPU port of the MuJoCo physics engine on Warp, used through Newton",
+      "definition_es": "GPU port of the MuJoCo physics engine on Warp, used through Newton",
+      "id": "mujoco-warp",
+      "origin": "docs",
+      "term_en": "MuJoCo-Warp",
+      "term_es": "MuJoCo-Warp"
+    },
+    {
+      "definition_en": "Event that could have caused harm but did not",
+      "definition_es": "Event that could have caused harm but did not",
+      "id": "near-miss",
+      "origin": "docs",
+      "term_en": "Near miss",
+      "term_es": "Cuasi accidente"
+    },
+    {
+      "definition_en": "Apache-2.0 GPU physics engine on Warp (rigid, articulated, MPM granular)",
+      "definition_es": "Apache-2.0 GPU physics engine on Warp (rigid, articulated, MPM granular)",
+      "id": "newton",
+      "origin": "docs",
+      "term_en": "Newton",
+      "term_es": "Newton"
+    },
+    {
+      "definition_en": "NVIDIA's system-wide profiler; captures kernels and NVTX ranges",
+      "definition_es": "NVIDIA's system-wide profiler; captures kernels and NVTX ranges",
+      "id": "nsight-systems",
+      "origin": "docs",
+      "term_en": "Nsight Systems",
+      "term_es": "Nsight Systems"
+    },
+    {
+      "definition_en": "The GPU's hardware video encoder",
+      "definition_es": "The GPU's hardware video encoder",
+      "id": "nvenc",
+      "origin": "docs",
+      "term_en": "NVENC",
+      "term_es": "Codificador NVENC"
+    },
+    {
+      "definition_en": "NVIDIA Management Library: GPU telemetry (memory, power, clocks, throttle reasons)",
+      "definition_es": "NVIDIA Management Library: GPU telemetry (memory, power, clocks, throttle reasons)",
+      "id": "nvml",
+      "origin": "docs",
+      "term_en": "NVML",
+      "term_es": "NVML"
+    },
+    {
+      "definition_en": "Annotations that mark code ranges on profiler timelines",
+      "definition_es": "Annotations that mark code ranges on profiler timelines",
+      "id": "nvtx",
+      "origin": "docs",
+      "term_en": "NVTX",
+      "term_es": "NVTX"
+    },
+    {
+      "definition_en": "Open model-exchange format; *opset* versions the operators, *IR version* the file format",
+      "definition_es": "Open model-exchange format; *opset* versions the operators, *IR version* the file format",
+      "id": "onnx",
+      "origin": "docs",
+      "term_en": "ONNX",
+      "term_es": "ONNX"
+    },
+    {
+      "definition_en": "Universal Scene Description: a *stage* composed of *layers* of *prims*, with *variant sets* for alternatives",
+      "definition_es": "Universal Scene Description: a *stage* composed of *layers* of *prims*, with *variant sets* for alternatives",
+      "id": "openusd",
+      "origin": "docs",
+      "term_en": "OpenUSD",
+      "term_es": "OpenUSD"
+    },
+    {
+      "definition_en": "Material processed at a profit / material mined but not processed",
+      "definition_es": "Material processed at a profit / material mined but not processed",
+      "id": "ore-waste",
+      "origin": "docs",
+      "term_en": "Ore / waste",
+      "term_es": "Mineral / estéril (lastre)"
+    },
+    {
+      "definition_en": "NVIDIA's PhysX SDK (BSD-3) and its kit-less Python packaging",
+      "definition_es": "NVIDIA's PhysX SDK (BSD-3) and its kit-less Python packaging",
+      "id": "ovphysx-physx",
+      "origin": "docs",
+      "term_en": "ovphysx / PhysX",
+      "term_es": "ovphysx / PhysX"
+    },
+    {
+      "definition_en": "NVIDIA's kit-less RTX sensor and rendering library (camera, lidar, radar)",
+      "definition_es": "NVIDIA's kit-less RTX sensor and rendering library (camera, lidar, radar)",
+      "id": "ovrtx",
+      "origin": "docs",
+      "term_en": "ovrtx",
+      "term_es": "ovrtx"
+    },
+    {
+      "definition_en": "Size through which 80 % / 50 % of the mass passes",
+      "definition_es": "Size through which 80 % / 50 % of the mass passes",
+      "id": "p80-x50",
+      "origin": "docs",
+      "term_en": "P80, x50",
+      "term_es": "P80, x50"
+    },
+    {
+      "definition_en": "Agreement of two implementations of one model within a stated tolerance",
+      "definition_es": "Agreement of two implementations of one model within a stated tolerance",
+      "id": "parity",
+      "origin": "docs",
+      "term_en": "Parity",
+      "term_es": "Paridad"
+    },
+    {
+      "definition_en": "Mass carried in one truck load",
+      "definition_es": "Mass carried in one truck load",
+      "id": "payload",
+      "origin": "docs",
+      "term_en": "Payload",
+      "term_es": "Carga útil"
+    },
+    {
+      "definition_en": "Peak ground-vibration velocity from blasting; US surface-mining limits are 1.25, 1.00 and 0.75 in/s by distance band [8]",
+      "definition_es": "Peak ground-vibration velocity from blasting; US surface-mining limits are 1.25, 1.00 and 0.75 in/s by distance band [8]",
+      "id": "peak-particle-velocity-ppv",
+      "origin": "docs",
+      "term_en": "Peak particle velocity (PPV)",
+      "term_es": "Velocidad peak de partícula (VPP)"
+    },
+    {
+      "definition_en": "Systems that perceive, reason and act in the physical world, trained with simulation and synthetic data",
+      "definition_es": "Systems that perceive, reason and act in the physical world, trained with simulation and synthetic data",
+      "id": "physical-ai",
+      "origin": "docs",
+      "term_en": "Physical AI",
+      "term_es": "IA física"
+    },
+    {
+      "definition_en": "Particulate matter with aerodynamic diameter ≤ 10 µm",
+      "definition_es": "Particulate matter with aerodynamic diameter ≤ 10 µm",
+      "id": "pm10",
+      "origin": "docs",
+      "term_en": "PM10",
+      "term_es": "MP10"
+    },
+    {
+      "definition_en": "The mapping from observations to actions learned by reinforcement learning",
+      "definition_es": "The mapping from observations to actions learned by reinforcement learning",
+      "id": "policy",
+      "origin": "docs",
+      "term_en": "Policy",
+      "term_es": "Política"
+    },
+    {
+      "definition_en": "Grinding as a rate process over size classes [28]",
+      "definition_es": "Grinding as a rate process over size classes [28]",
+      "id": "population-balance-model-pbm",
+      "origin": "docs",
+      "term_en": "Population balance model (PBM)",
+      "term_es": "Modelo de balance poblacional"
+    },
+    {
+      "definition_en": "Explosive mass per volume of rock blasted, kg/m³",
+      "definition_es": "Explosive mass per volume of rock blasted, kg/m³",
+      "id": "powder-factor",
+      "origin": "docs",
+      "term_en": "Powder factor",
+      "term_es": "Factor de carga"
+    },
+    {
+      "definition_en": "Policy-gradient RL algorithm with a clipped update",
+      "definition_es": "Policy-gradient RL algorithm with a clipped update",
+      "id": "ppo",
+      "origin": "docs",
+      "term_en": "PPO",
+      "term_es": "Optimización de política proximal (PPO)"
+    },
+    {
+      "definition_en": "Share of Monte-Carlo realisations with FoS < 1",
+      "definition_es": "Share of Monte-Carlo realisations with FoS < 1",
+      "id": "probability-of-failure-pof",
+      "origin": "docs",
+      "term_en": "Probability of failure (PoF)",
+      "term_es": "Probabilidad de falla"
+    },
+    {
+      "definition_en": "Planned enlargement stage of the pit",
+      "definition_es": "Planned enlargement stage of the pit",
+      "id": "pushback",
+      "origin": "docs",
+      "term_en": "Pushback",
+      "term_es": "Fase (expansión)"
+    },
+    {
+      "definition_en": "CPython compiled to WebAssembly; runs `minephys` in the browser",
+      "definition_es": "CPython compiled to WebAssembly; runs `minephys` in the browser",
+      "id": "pyodide",
+      "origin": "docs",
+      "term_en": "Pyodide",
+      "term_es": "Pyodide"
+    },
+    {
+      "definition_en": "Lower-precision weights and activations (fp16, int8, fp8, Q8_0) for speed and size",
+      "definition_es": "Lower-precision weights and activations (fp16, int8, fp8, Q8_0) for speed and size",
+      "id": "quantisation",
+      "origin": "docs",
+      "term_en": "Quantisation",
+      "term_es": "Cuantización"
+    },
+    {
+      "definition_en": "Analytical waiting models; truck–shovel systems are finite-source (closed) queues [3]",
+      "definition_es": "Analytical waiting models; truck–shovel systems are finite-source (closed) queues [3]",
+      "id": "queueing-m-m-c-finite-source",
+      "origin": "docs",
+      "term_en": "Queueing (M/M/c, finite-source)",
+      "term_es": "Teoría de colas"
+    },
+    {
+      "definition_en": "YAML DAG of stages for one case, with parameters and a master seed",
+      "definition_es": "YAML DAG of stages for one case, with parameters and a master seed",
+      "id": "recipe",
+      "origin": "docs",
+      "term_en": "Recipe",
+      "term_es": "Receta"
+    },
+    {
+      "definition_en": "Comparing planned with surveyed volumes or tonnes",
+      "definition_es": "Comparing planned with surveyed volumes or tonnes",
+      "id": "reconciliation",
+      "origin": "docs",
+      "term_en": "Reconciliation",
+      "term_es": "Conciliación"
+    },
+    {
+      "definition_en": "Fraction of the valuable metal in the feed that reports to the concentrate",
+      "definition_es": "Fraction of the valuable metal in the feed that reports to the concentrate",
+      "id": "recovery",
+      "origin": "docs",
+      "term_en": "Recovery",
+      "term_es": "Recuperación"
+    },
+    {
+      "definition_en": "Learning a policy from rewards by interacting with an environment",
+      "definition_es": "Learning a policy from rewards by interacting with an environment",
+      "id": "reinforcement-learning-rl",
+      "origin": "docs",
+      "term_en": "Reinforcement learning (RL)",
+      "term_es": "Aprendizaje por refuerzo"
+    },
+    {
+      "definition_en": "File attached to a GitHub release; PitStudio's home for files over 10 MB",
+      "definition_es": "File attached to a GitHub release; PitStudio's home for files over 10 MB",
+      "id": "release-asset",
+      "origin": "docs",
+      "term_en": "Release asset",
+      "term_es": "Recurso de versión (release asset)"
+    },
+    {
+      "definition_en": "Isaac Sim's synthetic-data framework: randomisers, annotators, writers",
+      "definition_es": "Isaac Sim's synthetic-data framework: randomisers, annotators, writers",
+      "id": "replicator",
+      "origin": "docs",
+      "term_en": "Replicator",
+      "term_es": "Replicator"
+    },
+    {
+      "definition_en": "Brake that holds a loaded truck's speed on a downgrade; on electric trucks its energy can be recovered [24]",
+      "definition_es": "Brake that holds a loaded truck's speed on a downgrade; on electric trucks its energy can be recovered [24]",
+      "id": "retarder",
+      "origin": "docs",
+      "term_en": "Retarder",
+      "term_es": "Retardador"
+    },
+    {
+      "definition_en": "Tractive force available at the driven wheels",
+      "definition_es": "Tractive force available at the driven wheels",
+      "id": "rimpull",
+      "origin": "docs",
+      "term_en": "Rimpull",
+      "term_es": "Fuerza en llanta (rimpull)"
+    },
+    {
+      "definition_en": "Resistance from tyre and road deformation, expressed as a percentage of gross vehicle weight [1]",
+      "definition_es": "Resistance from tyre and road deformation, expressed as a percentage of gross vehicle weight [1]",
+      "id": "rolling-resistance",
+      "origin": "docs",
+      "term_en": "Rolling resistance",
+      "term_es": "Resistencia a la rodadura"
+    },
+    {
+      "definition_en": "PitStudio's small job runner: DAG, cache, locks, guards, telemetry, manifests",
+      "definition_es": "PitStudio's small job runner: DAG, cache, locks, guards, telemetry, manifests",
+      "id": "runner",
+      "origin": "docs",
+      "term_en": "Runner",
+      "term_es": "Ejecutor (runner)"
+    },
+    {
+      "definition_en": "Semi-autogenous grinding mill, in which the ore itself is part of the grinding media",
+      "definition_es": "Semi-autogenous grinding mill, in which the ore itself is part of the grinding media",
+      "id": "sag-mill",
+      "origin": "docs",
+      "term_en": "SAG mill",
+      "term_es": "Molino SAG"
+    },
+    {
+      "definition_en": "Depth-averaged free-surface flow equations, used for dam-break and run-out",
+      "definition_es": "Depth-averaged free-surface flow equations, used for dam-break and run-out",
+      "id": "shallow-water-equations",
+      "origin": "docs",
+      "term_en": "Shallow-water equations",
+      "term_es": "Ecuaciones de aguas someras"
+    },
+    {
+      "definition_en": "Performance difference between a model evaluated in simulation and on real data",
+      "definition_es": "Performance difference between a model evaluated in simulation and on real data",
+      "id": "sim-to-real-gap",
+      "origin": "docs",
+      "term_en": "Sim-to-real gap",
+      "term_es": "Brecha simulación-realidad"
+    },
+    {
+      "definition_en": "Performance difference of the same policy or model across two simulators",
+      "definition_es": "Performance difference of the same policy or model across two simulators",
+      "id": "sim-to-sim-gap",
+      "origin": "docs",
+      "term_en": "Sim-to-sim gap",
+      "term_es": "Brecha entre simuladores"
+    },
+    {
+      "definition_en": "PitStudio's term for a twin built from public data and models, not synchronised with a live operation",
+      "definition_es": "PitStudio's term for a twin built from public data and models, not synchronised with a live operation",
+      "id": "simulation-grade-twin",
+      "origin": "docs",
+      "term_en": "Simulation-grade twin",
+      "term_es": "Gemelo de grado simulación"
+    },
+    {
+      "definition_en": "Ground-based radar that tracks wall movement for early warning and time-of-failure analysis [13]",
+      "definition_es": "Ground-based radar that tracks wall movement for early warning and time-of-failure analysis [13]",
+      "id": "slope-radar",
+      "origin": "docs",
+      "term_en": "Slope radar",
+      "term_es": "Radar de monitoreo de taludes"
+    },
+    {
+      "definition_en": "Distance between adjacent holes in a row",
+      "definition_es": "Distance between adjacent holes in a row",
+      "id": "spacing",
+      "origin": "docs",
+      "term_en": "Spacing",
+      "term_es": "Espaciamiento"
+    },
+    {
+      "definition_en": "Tonnes of waste mined per tonne of ore",
+      "definition_es": "Tonnes of waste mined per tonne of ore",
+      "id": "strip-ratio",
+      "origin": "docs",
+      "term_en": "Strip ratio",
+      "term_es": "Razón estéril/mineral (REM)"
+    },
+    {
+      "definition_en": "Randomisation drawn from the scene's own context [30]",
+      "definition_es": "Randomisation drawn from the scene's own context [30]",
+      "id": "structured-domain-randomisation",
+      "origin": "docs",
+      "term_en": "Structured domain randomisation",
+      "term_es": "Aleatorización de dominio estructurada"
+    },
+    {
+      "definition_en": "A fast learned model that approximates a slow simulator",
+      "definition_es": "A fast learned model that approximates a slow simulator",
+      "id": "surrogate-model",
+      "origin": "docs",
+      "term_en": "Surrogate model",
+      "term_es": "Modelo sustituto"
+    },
+    {
+      "definition_en": "Three-parameter fragment-size distribution ($x_{50}$, $x_{\\max}$, $b$) that links blasting and crushing [7]",
+      "definition_es": "Three-parameter fragment-size distribution ($x_{50}$, $x_{\\max}$, $b$) that links blasting and crushing [7]",
+      "id": "swebrec-function",
+      "origin": "docs",
+      "term_en": "Swebrec function",
+      "term_es": "Función Swebrec"
+    },
+    {
+      "definition_en": "Volume increase when rock is broken; $\\rho_{\\text{loose}} = \\rho_{\\text{bank}}/(1+s_w)$",
+      "definition_es": "Volume increase when rock is broken; $\\rho_{\\text{loose}} = \\rho_{\\text{bank}}/(1+s_w)$",
+      "id": "swell",
+      "origin": "docs",
+      "term_en": "Swell",
+      "term_es": "Esponjamiento"
+    },
+    {
+      "definition_en": "Labelled data rendered or simulated rather than collected",
+      "definition_es": "Labelled data rendered or simulated rather than collected",
+      "id": "synthetic-data-sdg",
+      "origin": "docs",
+      "term_en": "Synthetic data / SDG",
+      "term_es": "Datos sintéticos / generación de datos sintéticos"
+    },
+    {
+      "definition_en": "Fine waste from mineral processing, stored behind a tailings dam",
+      "definition_es": "Fine waste from mineral processing, stored behind a tailings dam",
+      "id": "tailings",
+      "origin": "docs",
+      "term_en": "Tailings",
+      "term_es": "Relaves (colas)"
+    },
+    {
+      "definition_en": "Failure of a tailings dam and the run-out of the released tailings",
+      "definition_es": "Failure of a tailings dam and the run-out of the released tailings",
+      "id": "tailings-dam-breach",
+      "origin": "docs",
+      "term_en": "Tailings dam breach",
+      "term_es": "Rotura de tranque de relaves"
+    },
+    {
+      "definition_en": "NVIDIA's inference optimiser; an *engine* is a model compiled for one GPU and TensorRT version",
+      "definition_es": "NVIDIA's inference optimiser; an *engine* is a model compiled for one GPU and TensorRT version",
+      "id": "tensorrt-engine",
+      "origin": "docs",
+      "term_en": "TensorRT / engine",
+      "term_es": "TensorRT / motor"
+    },
+    {
+      "definition_en": "A separate TensorRT variant whose licence forbids publishing benchmark data without permission",
+      "definition_es": "A separate TensorRT variant whose licence forbids publishing benchmark data without permission",
+      "id": "tensorrt-for-rtx",
+      "origin": "docs",
+      "term_en": "TensorRT for RTX",
+      "term_es": "TensorRT for RTX"
+    },
+    {
+      "definition_en": "NVML bitmask of why clocks are reduced: power cap, thermal slowdown, idle",
+      "definition_es": "NVML bitmask of why clocks are reduced: power cap, thermal slowdown, idle",
+      "id": "throttle-reasons",
+      "origin": "docs",
+      "term_en": "Throttle reasons",
+      "term_es": "Motivos de reducción de reloj"
+    },
+    {
+      "definition_en": "What the visitor's browser offers: T1 WebGPU, T2 WebAssembly, T0 baked",
+      "definition_es": "What the visitor's browser offers: T1 WebGPU, T2 WebAssembly, T0 baked",
+      "id": "tier",
+      "origin": "docs",
+      "term_en": "Tier",
+      "term_es": "Nivel (tier)"
+    },
+    {
+      "definition_en": "Time until two vehicles collide if both keep their current velocities",
+      "definition_es": "Time until two vehicles collide if both keep their current velocities",
+      "id": "time-to-collision-ttc",
+      "origin": "docs",
+      "term_en": "Time to collision (TTC)",
+      "term_es": "Tiempo a colisión (TTC)"
+    },
+    {
+      "definition_en": "Forecast time at which an accelerating slope fails",
+      "definition_es": "Forecast time at which an accelerating slope fails",
+      "id": "time-to-failure-ttf",
+      "origin": "docs",
+      "term_en": "Time to failure (TTF)",
+      "term_es": "Tiempo a la falla"
+    },
+    {
+      "definition_en": "Overhead power lines that drive electric-drive trucks uphill; one model of a copper mine found 85 % fuel saving per up–down cycle [24]",
+      "definition_es": "Overhead power lines that drive electric-drive trucks uphill; one model of a copper mine found 85 % fuel saving per up–down cycle [24]",
+      "id": "trolley-assist",
+      "origin": "docs",
+      "term_en": "Trolley assist",
+      "term_es": "Asistencia trolley"
+    },
+    {
+      "definition_en": "Train-on-synthetic-test-on-real against the train-on-real baseline [33]",
+      "definition_es": "Train-on-synthetic-test-on-real against the train-on-real baseline [33]",
+      "id": "tstr-trtr",
+      "origin": "docs",
+      "term_en": "TSTR / TRTR",
+      "term_es": "Entrenar en sintético, evaluar en real / entrenar y evaluar en real"
+    },
+    {
+      "definition_en": "Pit limit of maximum total value; the maximum closure of the block-precedence graph, solvable as a minimum cut [19][20]",
+      "definition_es": "Pit limit of maximum total value; the maximum closure of the block-precedence graph, solvable as a minimum cut [19][20]",
+      "id": "ultimate-pit",
+      "origin": "docs",
+      "term_en": "Ultimate pit",
+      "term_es": "Pit final"
+    },
+    {
+      "definition_en": "Model that answers text questions about images or video",
+      "definition_es": "Model that answers text questions about images or video",
+      "id": "vision-language-model-vlm",
+      "origin": "docs",
+      "term_en": "Vision-language model (VLM)",
+      "term_es": "Modelo de visión y lenguaje"
+    },
+    {
+      "definition_en": "Accelerating-creep law $\\ddot\\Omega = A\\dot\\Omega^{\\alpha}$ for the last stage before failure [14]",
+      "definition_es": "Accelerating-creep law $\\ddot\\Omega = A\\dot\\Omega^{\\alpha}$ for the last stage before failure [14]",
+      "id": "voight-relation",
+      "origin": "docs",
+      "term_en": "Voight relation",
+      "term_es": "Relación de Voight"
+    },
+    {
+      "definition_en": "NVIDIA's Apache-2.0 Python framework for GPU kernels, with automatic differentiation",
+      "definition_es": "NVIDIA's Apache-2.0 Python framework for GPU kernels, with automatic differentiation",
+      "id": "warp",
+      "origin": "docs",
+      "term_en": "Warp",
+      "term_es": "Warp"
+    },
+    {
+      "definition_en": "Windows' display driver model; under it, per-process GPU memory is not reported",
+      "definition_es": "Windows' display driver model; under it, per-process GPU memory is not reported",
+      "id": "wddm",
+      "origin": "docs",
+      "term_en": "WDDM",
+      "term_es": "WDDM"
+    },
+    {
+      "definition_en": "The browser GPU API / its shading language, used for compute kernels",
+      "definition_es": "The browser GPU API / its shading language, used for compute kernels",
+      "id": "webgpu-wgsl",
+      "origin": "docs",
+      "term_en": "WebGPU / WGSL",
+      "term_es": "WebGPU / WGSL"
+    },
+    {
+      "definition_en": "Material constant of Bond's law of comminution energy, in kWh/t [17]",
+      "definition_es": "Material constant of Bond's law of comminution energy, in kWh/t [17]",
+      "id": "work-index-bond",
+      "origin": "docs",
+      "term_en": "Work index (Bond)",
+      "term_es": "Índice de trabajo de Bond"
+    }
+  ],
   "parameters": [],
   "schema_version": "1.0",
   "source": {
@@ -194,6 +1339,10 @@
       {
         "path": "data/sources.yaml",
         "sha256": "5eddeef37b731cded7b398c86b959a01aa5c5e29cbc39f41af18481f217fafa9"
+      },
+      {
+        "path": "docs/reference/glossary.md",
+        "sha256": "2833ce17bd21525b9d9a978d37303b0cdf0ea8ffe812244b0b2afdd8420a3b81"
       },
       {
         "path": "studio/tools.yaml",

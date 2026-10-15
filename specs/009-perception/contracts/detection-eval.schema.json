@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/detection-eval.schema.json",
   "title": "Detection evaluation report",
-  "description": "Perception evaluation report of s50_evaluate (per model, precision, family and class AP with intervals and support; corruption curves; DR ablation; sim-to-real status, honesty label and verdicts) (DC-009-05, spec 009-perception).",
+  "description": "Perception evaluation report of s50_evaluate (per model, precision, family and class AP with intervals and support; corruption curves; DR ablation; sim-to-real status, honesty label and verdicts) (DC-009-05, spec 009-perception). A fixture report (fixture true) comes from a contract-fixture SDG index and publishes no metric: its rows may omit every metric. A partial report (partial true) lists the models it names but did not evaluate as not run (absent) and carries no pooled row, no DR ablation and no pass or fail verdict.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -17,7 +17,6 @@
     "per_class",
     "summary",
     "corruption",
-    "dr_ablation",
     "acceptance"
   ],
   "properties": {
@@ -99,40 +98,20 @@
       "items": {
         "$ref": "#/$defs/rejected_input"
       }
-    }
-  },
-  "if": {
-    "properties": {
-      "sim_to_real": {
-        "const": "not measured"
-      }
     },
-    "required": [
-      "sim_to_real"
-    ]
-  },
-  "then": {
-    "not": {
-      "required": [
-        "real_probe"
-      ]
+    "fixture": {
+      "type": "boolean"
     },
-    "properties": {
-      "per_class": {
-        "items": {
-          "properties": {
-            "sim_to_real": {
-              "const": "not measured"
-            }
-          }
-        }
+    "partial": {
+      "type": "boolean"
+    },
+    "models": {
+      "type": "array",
+      "maxItems": 60,
+      "items": {
+        "$ref": "#/$defs/model_status"
       }
     }
-  },
-  "else": {
-    "required": [
-      "real_probe"
-    ]
   },
   "$defs": {
     "run_id": {
@@ -427,52 +406,6 @@
         {
           "if": {
             "properties": {
-              "support": {
-                "const": 0
-              }
-            },
-            "required": [
-              "support"
-            ]
-          },
-          "then": {
-            "not": {
-              "anyOf": [
-                {
-                  "required": [
-                    "ap50"
-                  ]
-                },
-                {
-                  "required": [
-                    "ap50_95"
-                  ]
-                },
-                {
-                  "required": [
-                    "ap50_interval"
-                  ]
-                },
-                {
-                  "required": [
-                    "ap50_95_interval"
-                  ]
-                }
-              ]
-            }
-          },
-          "else": {
-            "required": [
-              "ap50",
-              "ap50_95",
-              "ap50_interval",
-              "ap50_95_interval"
-            ]
-          }
-        },
-        {
-          "if": {
-            "properties": {
               "task": {
                 "const": "mask"
               }
@@ -578,40 +511,6 @@
         {
           "if": {
             "properties": {
-              "classes_included": {
-                "maxItems": 0
-              }
-            },
-            "required": [
-              "classes_included"
-            ]
-          },
-          "then": {
-            "not": {
-              "anyOf": [
-                {
-                  "required": [
-                    "value"
-                  ]
-                },
-                {
-                  "required": [
-                    "interval"
-                  ]
-                }
-              ]
-            }
-          },
-          "else": {
-            "required": [
-              "value",
-              "interval"
-            ]
-          }
-        },
-        {
-          "if": {
-            "properties": {
               "task": {
                 "const": "mask"
               }
@@ -650,9 +549,6 @@
         "metric",
         "corruption",
         "severity",
-        "m_clean",
-        "m_corrupted",
-        "delta_rel_pct",
         "descriptive"
       ],
       "properties": {
@@ -741,10 +637,7 @@
         "family",
         "arm_a",
         "arm_b",
-        "difference",
-        "interval",
         "bootstrap",
-        "verdict",
         "training_runs_per_arm",
         "test_seeds",
         "test_images"
@@ -1332,6 +1225,321 @@
           "$ref": "#/$defs/reason"
         }
       }
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "training_set_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "base_checkpoint_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "seed": {
+          "$ref": "#/$defs/seed"
+        },
+        "epochs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        }
+      }
+    },
+    "model_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "precision",
+        "arm",
+        "status"
+      ],
+      "properties": {
+        "model": {
+          "$ref": "#/$defs/model"
+        },
+        "precision": {
+          "$ref": "#/$defs/precision"
+        },
+        "arm": {
+          "$ref": "#/$defs/training_arm"
+        },
+        "status": {
+          "enum": [
+            "evaluated",
+            "not run (absent)"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "evaluated"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "provenance"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "provenance"
+          ]
+        }
+      }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "sim_to_real": {
+            "const": "not measured"
+          }
+        },
+        "required": [
+          "sim_to_real"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "real_probe"
+          ]
+        },
+        "properties": {
+          "per_class": {
+            "items": {
+              "properties": {
+                "sim_to_real": {
+                  "const": "not measured"
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "real_probe"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "partial": {
+            "const": true
+          }
+        },
+        "required": [
+          "partial"
+        ]
+      },
+      "then": {
+        "required": [
+          "models"
+        ],
+        "not": {
+          "required": [
+            "dr_ablation"
+          ]
+        },
+        "properties": {
+          "per_class": {
+            "items": {
+              "properties": {
+                "family": {
+                  "enum": [
+                    "pit",
+                    "crusher"
+                  ]
+                }
+              }
+            }
+          },
+          "summary": {
+            "items": {
+              "properties": {
+                "family": {
+                  "enum": [
+                    "pit",
+                    "crusher"
+                  ]
+                }
+              }
+            }
+          },
+          "acceptance": {
+            "items": {
+              "properties": {
+                "verdict": {
+                  "const": "not run"
+                }
+              }
+            }
+          },
+          "models": {
+            "contains": {
+              "properties": {
+                "status": {
+                  "const": "not run (absent)"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "models": {
+            "items": {
+              "properties": {
+                "status": {
+                  "const": "evaluated"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "fixture": {
+            "const": true
+          }
+        },
+        "required": [
+          "fixture"
+        ]
+      },
+      "else": {
+        "properties": {
+          "per_class": {
+            "items": {
+              "if": {
+                "properties": {
+                  "support": {
+                    "const": 0
+                  }
+                },
+                "required": [
+                  "support"
+                ]
+              },
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "ap50"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "ap50_95"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "ap50_interval"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "ap50_95_interval"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "else": {
+                "required": [
+                  "ap50",
+                  "ap50_95",
+                  "ap50_interval",
+                  "ap50_95_interval"
+                ]
+              }
+            }
+          },
+          "summary": {
+            "items": {
+              "if": {
+                "properties": {
+                  "classes_included": {
+                    "maxItems": 0
+                  }
+                },
+                "required": [
+                  "classes_included"
+                ]
+              },
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "interval"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "else": {
+                "required": [
+                  "value",
+                  "interval"
+                ]
+              }
+            }
+          },
+          "corruption": {
+            "items": {
+              "required": [
+                "m_clean",
+                "m_corrupted",
+                "delta_rel_pct"
+              ]
+            }
+          },
+          "dr_ablation": {
+            "required": [
+              "difference",
+              "interval",
+              "verdict"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }

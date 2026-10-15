@@ -1,7 +1,7 @@
 /* Generated from contracts/scene-validation-report.schema.json by web/scripts/gen-types.mjs. Do not edit. */
 
 /**
- * Validator results, scene invariants, waivers and the build-twice hashes written by st45_validate (DC-004-07, spec 004-scene-pipeline).
+ * Validator results, scene invariants, waivers and the build-twice hashes written by st45_validate (DC-004-07, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
  */
 export type SceneValidationReport = {
 $schema?: string
@@ -60,6 +60,10 @@ identical: boolean
  */
 stage_hash: string
 }
+/**
+ * True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false.
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `undefined`'s JSON-Schema

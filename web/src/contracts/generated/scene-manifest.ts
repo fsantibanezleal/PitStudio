@@ -133,7 +133,7 @@ report?: FileRef
 }
 
 /**
- * scene.manifest.json written by st40_compose and updated by st45_validate (DC-004-02, spec 004-scene-pipeline): layers, sources, inputs and their CRS, variants, site origin and validation status.
+ * scene.manifest.json written by st40_compose and updated by st45_validate (DC-004-02, spec 004-scene-pipeline): layers, sources, inputs and their CRS, variants, site origin and validation status. Version 1.1: optional `fixture` member.
  */
 export interface SceneManifest {
 $schema?: string
@@ -230,6 +230,10 @@ default: ("lod0" | "lod1" | "lod2")
 }
 }
 validation: Validation
+/**
+ * True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false.
+ */
+fixture?: boolean
 }
 /**
  * site origin of the site-local frame (FR-004-02)

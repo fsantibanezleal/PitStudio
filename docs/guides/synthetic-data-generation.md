@@ -79,6 +79,25 @@ trains on both and calls one "better" only by the pre-registered decision rule
 5. **Train and evaluate** the detectors (D-FINE-N/S, RF-DETR-Seg-N) and the U-Net — see
    [training recipes](../models/training-recipes.md).
 
+## The data-phase job (pit family)
+
+On the maintainer's machine the pit-family images are produced by one queued job that chains six steps, each in its own
+environment: the sampler plan (`studio`, Python 3.14), the seed-grouped splits (`pipeline`), the parameter table
+(`studio`), the render (`studio/isaac`, Python 3.12, under the GPU lock and the in-run guard), the frame states and the
+index (`studio`), and the check of the index through the dataset loader (`pipeline`).
+
+- The table holds every randomisation value per image; the render only consumes it. The camera sits on a road of the
+  pit design looking along it, the layout id is the road edge, and splits are made over whole layouts.
+- Structured values: solar position at the site centroid, dust extinction from AP-42 haul-road plumes
+  (`minephys.environment`), wet roads from a watering schedule, placement on the road polygons within 0.05 m of the
+  design surface, rock textures by lithology from the CC0 pool. Unstructured values follow the ranges of FR-009-08.
+- The render is resumable frame by frame (a sidecar is written last), takes the machine lock in blocks, and its first
+  frames (two structured, one unstructured) are a probe: a flat image, empty depth or no annotation stops the job.
+- The job's dry run asserts CUDA, checks the inputs, edits the real scene with OpenUSD (objects, labels, materials,
+  camera) and runs the whole chain on a 24-image table with a CPU renderer into a scratch folder.
+- Not produced by this job: the crusher family (the ovrtx S3 handoff of spec 013) and any boulder instance. The dust
+  fog density is not verified against the renderer's units, and the texture look is not verified until the first render.
+
 ## Expected output
 
 - Per shard: images (PNG), COCO JSON, instance masks, depth, and a shard manifest with the seed and the scene hash.

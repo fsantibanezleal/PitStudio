@@ -27,7 +27,7 @@ export type Position = [number, number, number]
 export type EdgeId = string
 
 /**
- * Haul-road graph written by st20_pit_design as a closed GeoJSON FeatureCollection subset in the site frame (DC-004-06, spec 004-scene-pipeline).
+ * Haul-road graph written by st20_pit_design as a closed GeoJSON FeatureCollection subset in the site frame (DC-004-06, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
  */
 export interface HaulRoadNetwork {
 $schema?: string
@@ -45,6 +45,10 @@ exit_node: NodeId
  * @maxItems 10000
  */
 features: [(Node | Edge), (Node | Edge), (Node | Edge), ...((Node | Edge))[]]
+/**
+ * True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false.
+ */
+fixture?: boolean
 }
 /**
  * site origin of the site-local frame (FR-004-02)

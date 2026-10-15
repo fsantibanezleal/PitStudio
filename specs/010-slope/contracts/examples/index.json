@@ -598,6 +598,40 @@
       "note": "observed SNR unavailable: nominal strata, SC-010-01 not run, real event not run"
     },
     {
+      "file": "ttf-results.valid-fixture.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "results computed from a contract fixture carry fixture: true (FR-010-46)"
+    },
+    {
+      "file": "ttf-results.valid-partial.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "partial result: a stratum and the real event are absent, no pooled claim (FR-010-47)"
+    },
+    {
+      "file": "ttf-results.hostile-fixture-not-boolean.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag that is not a boolean",
+      "rule": "FR-010-46",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "ttf-results.hostile-status-unknown.json",
+      "schema": "ttf-results.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "completeness label outside complete and partial",
+      "rule": "FR-010-47",
+      "pointer": "/status",
+      "keyword": "enum"
+    },
+    {
       "file": "ttf-results.hostile-real-event-interval.json",
       "schema": "ttf-results.schema.json",
       "target": "#",

@@ -1,4 +1,4 @@
-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { type ReactNode, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useTranslation } from "react-i18next";
 import styles from "./chart.module.css";
@@ -35,6 +35,16 @@ export interface ChartProps {
   yScale?: Scale;
   /** Plot height in CSS pixels. */
   height?: number;
+  /** Extra data attributes for the chart element (used by the pages that embed a chart, e.g. the GPU evidence page). */
+  attrs?: Record<string, string | number | undefined>;
+  /** Content shown inside the chart element after the plot (labels, reference values, popovers). */
+  children?: ReactNode;
+  /** Text of a missing reading in the data table, instead of the generic one. */
+  missingText?: string;
+  /** Horizontal reference lines at `y` (in the unit of the first series), drawn dashed with their label. */
+  references?: Array<{ id: string; y: number; label: string }>;
+  /** Draw the series as bands stacked on each other (the values in the table stay the plain series values). */
+  stacked?: boolean;
 }
 
 interface ChartData {
@@ -69,6 +79,16 @@ function extent(values: ArrayLike<number>, positiveOnly: boolean): [number, numb
 }
 
 /** The initial visible range: the data extent, padded by 5 % (a log axis pads in log space); a flat series gets a unit span. */
+/** Running totals over the series, so that each band sits on the previous one; a missing reading leaves a gap in every total above it. */
+function cumulative(ys: Float64Array[]): Float64Array[] {
+  const out: Float64Array[] = [];
+  for (const [k, y] of ys.entries()) {
+    const below = out[k - 1];
+    out.push(Float64Array.from(y, (v, i) => v + (below ? (below[i] as number) : 0)));
+  }
+  return out;
+}
+
 function paddedRange(lo: number, hi: number, scale: Scale, pad: number): [number, number] {
   if (scale === "log") {
     const a = Math.log(lo);
@@ -80,9 +100,17 @@ function paddedRange(lo: number, hi: number, scale: Scale, pad: number): [number
   return hi > lo ? [lo - pad * span, hi + pad * span] : [lo - span / 2, hi + span / 2];
 }
 
-function initialRanges(x: Series | null, ys: Float64Array[], xScale: Scale, yScale: Scale): Ranges {
+function initialRanges(
+  x: Series | null,
+  ys: Float64Array[],
+  xScale: Scale,
+  yScale: Scale,
+  refs: readonly number[] = [],
+): Ranges {
   const xe = x ? extent(x.x, xScale === "log") : null;
-  const ye = ys.map((y) => extent(y, yScale === "log")).filter((e): e is [number, number] => e !== null);
+  const ye = [...ys, Float64Array.from(refs)]
+    .map((y) => extent(y, yScale === "log"))
+    .filter((e): e is [number, number] => e !== null);
   const yLo = ye.length ? Math.min(...ye.map((e) => e[0])) : yScale === "log" ? 1 : 0;
   const yHi = ye.length ? Math.max(...ye.map((e) => e[1])) : yScale === "log" ? 10 : 1;
   const [x0, x1] = xe
@@ -172,17 +200,26 @@ export function Chart(props: ChartProps) {
       value = { x: null, ys: [], n: 0 };
     } else {
       const first = makeSeries(props.x, inputs[0]?.y ?? props.x);
-      value = {
-        x: first,
-        ys: inputs.map((s, k) => (k === 0 ? first.y : makeSeries(props.x, s.y).y)),
-        n: first.n,
-      };
+      const plain = inputs.map((s, k) => (k === 0 ? first.y : makeSeries(props.x, s.y).y));
+      value = { x: first, ys: props.stacked ? cumulative(plain) : plain, n: first.n };
     }
     cache.current = { x: props.x, ys: inputs.map((s) => s.y), value };
   }
   const data = cache.current.value;
 
-  const initial = useMemo(() => initialRanges(data.x, data.ys, xScale, yScale), [data, xScale, yScale]);
+  const refValues = (props.references ?? []).map((r) => r.y).join(",");
+  // biome-ignore lint/correctness/useExhaustiveDependencies: refValues is the stable text of the reference values
+  const initial = useMemo(
+    () =>
+      initialRanges(
+        data.x,
+        data.ys,
+        xScale,
+        yScale,
+        (props.references ?? []).map((r) => r.y),
+      ),
+    [data, xScale, yScale, refValues],
+  );
   const [ranges, setRanges] = useState<Ranges>(initial);
   const [size, setSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
   const [cursor, setCursor] = useState<number | null>(null);
@@ -350,6 +387,37 @@ export function Chart(props: ChartProps) {
         const y = data.ys[s] as Float64Array;
         if (!list || list.length === 0) continue;
         g.strokeStyle = colors.series[s % SERIES_COLORS.length] || colors.axis;
+        if (props.stacked) {
+          const below = s > 0 ? (data.ys[s - 1] as Float64Array) : null;
+          g.fillStyle = g.strokeStyle;
+          g.globalAlpha = 0.35;
+          g.beginPath();
+          const up: Array<[number, number]> = [];
+          for (const k of list) {
+            const idx = k + drawn.i0;
+            const yv = y[idx] as number;
+            if (!Number.isFinite(yv)) continue;
+            up.push([data.x.x[idx] as number, yv]);
+          }
+          if (up.length > 0) {
+            const first0 = toScreen(view, (up[0] as [number, number])[0], (up[0] as [number, number])[1]);
+            g.moveTo(first0.px, first0.py);
+            for (const [xv, yv] of up) {
+              const { px, py } = toScreen(view, xv, yv);
+              g.lineTo(px, py);
+            }
+            for (let u = up.length - 1; u >= 0; u--) {
+              const [xv] = up[u] as [number, number];
+              const idx = lowerBound(data.x.x, xv);
+              const base = below ? (below[idx] as number) : 0;
+              const { px, py } = toScreen(view, xv, Number.isFinite(base) ? base : ranges.y0);
+              g.lineTo(px, py);
+            }
+            g.closePath();
+            g.fill();
+          }
+          g.globalAlpha = 1;
+        }
         g.lineWidth = 1.5;
         g.beginPath();
         let open = false;
@@ -376,6 +444,24 @@ export function Chart(props: ChartProps) {
             g.fillRect(px - 2, py - 2, 4, 4);
           }
         }
+      }
+      // reference lines
+      for (const ref of props.references ?? []) {
+        if (!Number.isFinite(ref.y) || (yScale === "log" && ref.y <= 0)) continue;
+        const { py } = toScreen(view, ranges.x0, ref.y);
+        g.save();
+        g.setLineDash([6, 4]);
+        g.strokeStyle = colors.text;
+        g.lineWidth = 1;
+        g.beginPath();
+        g.moveTo(0, py + 0.5);
+        g.lineTo(view.width, py + 0.5);
+        g.stroke();
+        g.restore();
+        g.fillStyle = colors.text;
+        g.textAlign = "right";
+        g.textBaseline = "bottom";
+        g.fillText(ref.label, view.width - 4, py - 2);
       }
       // crosshair
       const c = live.current.cursor;
@@ -556,7 +642,7 @@ export function Chart(props: ChartProps) {
     return { x, y, text: `${xName} ${xText} · ${first.name} ${yText}` };
   })();
 
-  const tableColumns = inputs.map((s) => ({ header: `${s.name} (${s.unit})`, values: s.y }));
+  const tableColumns = inputs.map((s) => ({ id: s.id, header: `${s.name} (${s.unit})`, values: s.y }));
   const tableId = `${uid}-table`;
 
   return (
@@ -575,6 +661,7 @@ export function Chart(props: ChartProps) {
       data-view-y1={String(ranges.y1)}
       data-series-color={colors?.series[0] || TOKEN_COLORS.series[0]}
       data-axis-color={colors?.axis || TOKEN_COLORS.axis}
+      {...props.attrs}
       role="application"
       aria-label={title}
       aria-describedby={`${uid}-help`}
@@ -645,9 +732,11 @@ export function Chart(props: ChartProps) {
             label={title}
             x={{ header: `${xName} (${xUnit})`, values: props.x }}
             columns={tableColumns}
+            missingText={props.missingText}
           />
         )}
       </div>
+      {props.children}
     </div>
   );
 }

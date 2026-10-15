@@ -423,6 +423,12 @@ class File(BaseModel):
         Field(description="Column set or array held by the file."),
     ]
     rows: Annotated[int | None, Field(description="Rows of a Parquet file.", ge=0, le=10000000)] = None
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="True while the shard comes from a contract fixture (ADR-0040, FR-013-43): produced on the fake backend only and never published. Absent means false."
+        ),
+    ] = False
 
 
 class LidarReturn(BaseModel):
@@ -575,7 +581,7 @@ class LidarFrame(BaseModel):
 
 class PitstudioSensorShardIndex(BaseModel):
     """
-    Shard index of st53_sensors and st57_rain_lidar, with the lidar-return, radar-detection and image-index column sets as $defs (DC-013-03, spec 013-sensors).
+    Shard index of st53_sensors and st57_rain_lidar, with the lidar-return, radar-detection and image-index column sets as $defs (DC-013-03, spec 013-sensors). Version 1.1: optional `fixture` member.
     """
 
     model_config = ConfigDict(
@@ -603,3 +609,9 @@ class PitstudioSensorShardIndex(BaseModel):
             min_length=1,
         ),
     ]
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="True while the shard comes from a contract fixture (ADR-0040, FR-013-43): produced on the fake backend only and never published. Absent means false."
+        ),
+    ] = False

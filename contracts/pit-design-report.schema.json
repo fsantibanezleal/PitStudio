@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/pit-design-report.schema.json",
   "title": "Pit design report",
-  "description": "Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline).",
+  "description": "Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -264,6 +264,11 @@
           "minimum": 0
         }
       }
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
     }
   },
   "$defs": {

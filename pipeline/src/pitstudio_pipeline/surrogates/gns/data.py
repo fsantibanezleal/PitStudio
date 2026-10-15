@@ -34,9 +34,9 @@ from pitstudio_pipeline.surrogates.errors import DatasetError, RolloutFileError
 FAMILIES = ("column-collapse", "pile-formation", "dump-over-crest")
 # the training envelope of DC-011-02: parameter -> (min, max), per family
 FAMILY_RANGES: dict[str, dict[str, tuple[float, float]]] = {
-    "column-collapse": {"aspect_ratio": (0.5, 4.0), "column_width_m": (0.1, 0.4)},
-    "pile-formation": {"pour_height_m": (0.2, 0.6), "pour_rate_m2_per_s": (0.002, 0.01)},
-    "dump-over-crest": {"crest_height_m": (0.1, 0.4), "dump_rate_m2_per_s": (0.002, 0.01)},
+    "column-collapse": {"aspect_ratio": (0.5, 4.0), "column_width_m": (0.32, 0.70)},
+    "pile-formation": {"pour_height_m": (0.05, 0.40), "pour_rate_m2_per_s": (0.79, 1.45)},
+    "dump-over-crest": {"crest_height_m": (0.09, 0.22), "dump_rate_m2_per_s": (0.76, 1.23)},
 }
 TEST_QUOTA = {"column-collapse": 8, "pile-formation": 6, "dump-over-crest": 6}
 N_GEOMETRIES, N_TRAIN, N_VAL, N_TEST = 100, 70, 10, 20
@@ -452,6 +452,20 @@ class RolloutSet(Sequence):
                 self._cache.popitem(last=False)
         self._cache.move_to_end(i)
         return self._cache[i]
+
+    def preload(self, workers: int = 8) -> None:
+        """Decode and digest-check every rollout once, in parallel (hashing and zarr reads release the GIL)."""
+        if len(self) > self._cache_size:
+            return  # the cache cannot hold them all: stay lazy
+        from concurrent.futures import ThreadPoolExecutor
+
+        missing = [i for i in range(len(self)) if i not in self._cache]
+        with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+            loaded = list(
+                pool.map(lambda i: to_training_rollout(s10_preprocess(self.meta_paths[i], root=self.root)), missing)
+            )
+        for i, rollout in zip(missing, loaded, strict=True):
+            self._cache[i] = rollout
 
     def __iter__(self) -> Iterator[dict[str, Any]]:
         for i in range(len(self)):

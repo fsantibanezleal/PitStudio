@@ -28,7 +28,7 @@ export function ArchitectureModal() {
           </div>
           <Dialog.Description className={styles.muted}>{t("arch.description")}</Dialog.Description>
           <Tabs.Root defaultValue={first} className={styles.tabs}>
-            <Tabs.List className={styles.tabList} aria-label={t("arch.tabs")}>
+            <Tabs.List className={styles.tabList} aria-label={t("arch.tabs")} activateOnFocus>
               {architectureTabs.map((tab) => (
                 <Tabs.Tab key={tab.id} value={tab.id} className={styles.tab}>
                   {tApp(tab.titleKey)}

@@ -18,6 +18,8 @@ from __future__ import annotations
 
 import copy
 import math
+import queue
+import threading
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -28,9 +30,11 @@ import torch
 from pitstudio.granular.graph import K_MAX, build_radius_graph
 from pitstudio_pipeline.surrogates.errors import DatasetError
 from pitstudio_pipeline.surrogates.fixture import is_fixture, stamp
+from pitstudio_pipeline.surrogates.gns.graph_torch import build_radius_graph_torch
 from pitstudio_pipeline.surrogates.gns.model import HISTORY, GnsStep
 
 STD_FLOOR = 1e-8
+DEVICE_GRAPH = True  # build the radius graph with torch on the training device (run_train self-checks it)
 
 
 @dataclass
@@ -107,8 +111,13 @@ def make_sample(
     noise_scale: float = 0.0,
     velocity_std: Sequence[float] = (1.0, 1.0),
     seed: int = 0,
-) -> dict[str, np.ndarray]:
-    """Network inputs and the target acceleration of frame `t` (needs frames t - 5 ... t + 1)."""
+    device: torch.device | None = None,
+) -> dict[str, Any]:
+    """Network inputs and the target acceleration of frame `t` (needs frames t - 5 ... t + 1).
+
+    With `device` the radius graph is built there with torch (`graph_torch`, equal to the CPU oracle) and the graph
+    arrays are device tensors; without it the CPU oracle builds them as numpy arrays.
+    """
     pos = rollout["positions"]
     dt = float(rollout["dt"])
     window = np.asarray(pos[t - HISTORY : t + 2], dtype=np.float64)
@@ -121,41 +130,77 @@ def make_sample(
     target = (forward - history[:, -1, :]) / dt
     current = np.asarray(pos[t], dtype=np.float32)
     radius = radius if radius is not None else 2.5 * float(rollout["d"])
-    graph = build_radius_graph(current, radius, K_MAX)
+    if device is not None and DEVICE_GRAPH:
+        index, mask, _ = build_radius_graph_torch(torch.as_tensor(current, device=device), radius, K_MAX)
+    else:
+        graph = build_radius_graph(current, radius, K_MAX)
+        index, mask = graph.neighbour_index, graph.neighbour_mask
     return {
         "positions": current,
         "velocities": history.astype(np.float32),
         "particle_type": np.asarray(rollout["particle_types"], dtype=np.int64),
         "bounds": np.asarray(rollout["bounds"], dtype=np.float32),
-        "neighbour_index": graph.neighbour_index,
-        "neighbour_mask": graph.neighbour_mask,
+        "neighbour_index": index,
+        "neighbour_mask": mask,
         "target_acceleration": target.astype(np.float32),
     }
 
 
-def collate(samples: Sequence[Mapping[str, np.ndarray]], device: torch.device) -> dict[str, torch.Tensor]:
+def collate(samples: Sequence[Mapping[str, Any]], device: torch.device) -> dict[str, torch.Tensor]:
     """One big graph from several samples: neighbour indices offset, bounds repeated per particle."""
     offset = 0
-    parts: dict[str, list[np.ndarray]] = {
-        k: []
-        for k in (
-            "positions",
-            "velocities",
-            "particle_type",
-            "neighbour_index",
-            "neighbour_mask",
-            "target_acceleration",
-            "bounds",
-        )
-    }
+    keys = ("positions", "velocities", "particle_type", "neighbour_index", "neighbour_mask", "target_acceleration")
+    parts: dict[str, list[torch.Tensor]] = {k: [] for k in (*keys, "bounds")}
     for s in samples:
-        n = s["positions"].shape[0]
+        t = {k: torch.as_tensor(s[k], device=device) for k in (*keys, "bounds")}
+        n = t["positions"].shape[0]
         for k in ("positions", "velocities", "particle_type", "neighbour_mask", "target_acceleration"):
-            parts[k].append(s[k])
-        parts["neighbour_index"].append(s["neighbour_index"] + offset)
-        parts["bounds"].append(np.broadcast_to(s["bounds"], (n, 4)))
+            parts[k].append(t[k])
+        parts["neighbour_index"].append(t["neighbour_index"] + offset)
+        parts["bounds"].append(t["bounds"].expand(n, 4))
         offset += n
-    return {k: torch.as_tensor(np.concatenate(v, axis=0), device=device) for k, v in parts.items()}
+    return {k: torch.cat(v, dim=0) for k, v in parts.items()}
+
+
+class _Prefetch:
+    """Builds the next batches in a worker thread while the current optimiser step runs (queue of `depth`)."""
+
+    def __init__(self, make_batches: Callable[[], Any], depth: int = 2) -> None:
+        self._queue: queue.Queue[Any] = queue.Queue(maxsize=depth)
+        self._stop = threading.Event()
+        self._thread = threading.Thread(target=self._work, args=(make_batches,), daemon=True)
+        self._thread.start()
+
+    def _put(self, item: Any) -> bool:
+        while not self._stop.is_set():
+            try:
+                self._queue.put(item, timeout=0.1)
+                return True
+            except queue.Full:
+                continue
+        return False
+
+    def _work(self, make_batches: Callable[[], Any]) -> None:
+        try:
+            for item in make_batches():
+                if not self._put(("item", item)):
+                    return
+            self._put(("end", None))
+        except BaseException as exc:
+            self._put(("error", exc))
+
+    def __iter__(self):
+        while True:
+            kind, payload = self._queue.get()
+            if kind == "end":
+                return
+            if kind == "error":
+                raise payload
+            yield payload
+
+    def close(self) -> None:
+        self._stop.set()
+        self._thread.join(timeout=30)
 
 
 # ------------------------------------------------------------------ configuration
@@ -249,6 +294,7 @@ class _Run:
         pick = np.random.default_rng(seed + 2).permutation(len(self.val_index))[: cfg["val_samples"]]
         self.val_pick = [self.val_index[i] for i in sorted(pick)]
         self.noise_counter = 0
+        self.on_log: Callable[[int, int, float, int], None] | None = None
 
     def val_loss(self) -> float:
         self.model.eval()
@@ -257,7 +303,11 @@ class _Run:
             for lo in range(0, len(self.val_pick), self.cfg["batch_size"]):
                 chunk = self.val_pick[lo : lo + self.cfg["batch_size"]]
                 batch = collate(
-                    [make_sample(self.val[r], t, radius=self.cfg["connectivity_radius"]) for r, t in chunk], self.device
+                    [
+                        make_sample(self.val[r], t, radius=self.cfg["connectivity_radius"], device=self.device)
+                        for r, t in chunk
+                    ],
+                    self.device,
                 )
                 weight = batch["positions"].shape[0]
                 total += float(one_step_loss(self.model, batch, stats=self.stats)) * weight
@@ -279,32 +329,45 @@ class _Run:
         order = order[:limit]
         size = self.cfg["batch_size"]
         total, count = partial
-        for chunk_no, lo in enumerate(range(0, len(order), size)):
-            if chunk_no < start_chunk:
-                continue
-            chunk = [self.train_index[i] for i in order[lo : lo + size]]
-            samples = [
-                make_sample(
-                    self.train[r],
-                    t,
-                    radius=self.cfg["connectivity_radius"],
-                    noise_scale=noise_scale,
-                    velocity_std=self.stats["velocities"]["std"],
-                    seed=self.seed * 1_000_003 + epoch_index * 1_000_000 + lo + k,
-                )
-                for k, (r, t) in enumerate(chunk)
-            ]
-            batch = collate(samples, self.device)
-            self.optimiser.zero_grad(set_to_none=True)
-            loss = one_step_loss(self.model, batch, stats=self.stats)
-            loss.backward()
-            self.optimiser.step()
-            self.scheduler.step()
-            weight = batch["positions"].shape[0]
-            total += float(loss.detach()) * weight
-            count += weight
-            if on_step:
-                on_step(chunk_no + 1, total, count)
+        radius = self.cfg["connectivity_radius"]
+
+        def batches():
+            for chunk_no, lo in enumerate(range(0, len(order), size)):
+                if chunk_no < start_chunk:
+                    continue
+                chunk = [self.train_index[i] for i in order[lo : lo + size]]
+                samples = [
+                    make_sample(
+                        self.train[r],
+                        t,
+                        radius=radius,
+                        noise_scale=noise_scale,
+                        velocity_std=self.stats["velocities"]["std"],
+                        seed=self.seed * 1_000_003 + epoch_index * 1_000_000 + lo + k,
+                        device=self.device,
+                    )
+                    for k, (r, t) in enumerate(chunk)
+                ]
+                yield chunk_no, collate(samples, self.device)
+
+        feed = _Prefetch(batches)
+        try:
+            for chunk_no, batch in feed:
+                self.optimiser.zero_grad(set_to_none=True)
+                loss = one_step_loss(self.model, batch, stats=self.stats)
+                loss.backward()
+                self.optimiser.step()
+                self.scheduler.step()
+                weight = batch["positions"].shape[0]
+                step_loss = float(loss.detach())
+                total += step_loss * weight
+                count += weight
+                if on_step:
+                    on_step(chunk_no + 1, total, count)
+                if self.on_log:
+                    self.on_log(epoch_index, chunk_no + 1, step_loss, weight)
+        finally:
+            feed.close()
         return total / count
 
     def state(self) -> dict[str, Any]:
@@ -336,6 +399,12 @@ class TrainHooks:
     def on_epoch(self, snapshot: Callable[[], dict[str, Any]]) -> None:  # pragma: no cover - default does nothing
         return None
 
+    def on_log(
+        self, epoch_index: int, chunk: int, loss: float, batch_size: int
+    ) -> None:  # pragma: no cover - default does nothing
+        """After every optimiser step of the final training: epoch, step within it, step loss, samples in it."""
+        return None
+
 
 def train_gns(
     splits: Any,
@@ -362,6 +431,9 @@ def train_gns(
         raise DatasetError("the training split is empty")
     if len(val_rollouts) == 0:
         raise DatasetError("the validation split is empty")
+    for rollouts in (train_rollouts, val_rollouts):
+        if hasattr(rollouts, "preload"):
+            rollouts.preload()  # decode each payload once, in parallel, and keep it in memory
     stats = compute_stats(train_rollouts)  # training split alone
     n_types = 1 + max(int(np.max(r["particle_types"])) for r in train_rollouts)
     dt = float(np.mean([r["dt"] for r in train_rollouts]))
@@ -391,6 +463,7 @@ def train_gns(
         chosen = min(candidates, key=lambda c: c["val_loss"])["scale"]
 
     run = _Run(cfg, train_rollouts, val_rollouts, stats, n_types, dt, seed, cfg["epochs"] * steps_per_epoch)
+    run.on_log = hooks.on_log
     epochs_log: list[dict[str, Any]] = []
     best_loss, best_epoch, best_state = math.inf, 0, None
     start_epoch, start_chunk, partial = 0, 0, (0.0, 0)

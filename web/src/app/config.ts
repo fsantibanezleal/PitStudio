@@ -11,7 +11,9 @@ export const shellConfig: ShellConfig = {
   ...__BUILD_INFO__,
   repoUrl: "https://github.com/fsantibanezleal/PitStudio",
   routes: [
-    { path: "/", labelKey: "nav.explore", end: true },
+    // The App stays the leftmost entry and the landing never moves it (problem-context-first, 2026-10-13).
+    { path: "/app", labelKey: "nav.explore" },
+    { path: "/", labelKey: "nav.introduction", end: true },
     { path: "/cases", labelKey: "nav.cases" },
     { path: "/studio", labelKey: "nav.studio" },
     { path: "/theory", labelKey: "nav.theory" },

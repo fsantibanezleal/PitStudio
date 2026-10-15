@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/scene-manifest.schema.json",
   "title": "Scene manifest",
-  "description": "scene.manifest.json written by st40_compose and updated by st45_validate (DC-004-02, spec 004-scene-pipeline): layers, sources, inputs and their CRS, variants, site origin and validation status.",
+  "description": "scene.manifest.json written by st40_compose and updated by st45_validate (DC-004-02, spec 004-scene-pipeline): layers, sources, inputs and their CRS, variants, site origin and validation status. Version 1.1: optional `fixture` member.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -221,6 +221,11 @@
     },
     "validation": {
       "$ref": "#/$defs/validation"
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
     }
   },
   "$defs": {

@@ -112,7 +112,7 @@ const NON_NUMERIC = [
   "'; DROP TABLE x;--",
   "9".repeat(400),
   "\u0000",
-  "‮12",
+  "\u202e12",
 ];
 
 async function waitDone(panel: Locator): Promise<void> {

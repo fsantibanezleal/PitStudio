@@ -934,7 +934,7 @@ class Arrays(BaseModel):
 
 class SiteLocalTerrainGridAttributes(BaseModel):
     """
-    Attributes of the root group of the site-local terrain grid Zarr store written by st10_terrain (DC-004-03, spec 004-scene-pipeline); the arrays are elevation (float32), valid_mask and fill_mask.
+    Attributes of the root group of the site-local terrain grid Zarr store written by st10_terrain (DC-004-03, spec 004-scene-pipeline); the arrays are elevation (float32), valid_mask and fill_mask. Version 1.1: optional `fixture` member.
     """
 
     model_config = ConfigDict(
@@ -1003,3 +1003,9 @@ class SiteLocalTerrainGridAttributes(BaseModel):
         SourceElevationRangeM,
         Field(description="source elevations of valid samples after unit conversion (FR-004-12 hard range)"),
     ]
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
+        ),
+    ] = False

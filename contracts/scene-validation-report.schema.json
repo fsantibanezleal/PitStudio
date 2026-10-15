@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/scene-validation-report.schema.json",
   "title": "Scene validation report",
-  "description": "Validator results, scene invariants, waivers and the build-twice hashes written by st45_validate (DC-004-07, spec 004-scene-pipeline).",
+  "description": "Validator results, scene invariants, waivers and the build-twice hashes written by st45_validate (DC-004-07, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -166,6 +166,11 @@
           "description": "SHA-256 of the sorted (role, sha256) list (FR-004-36)"
         }
       }
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
     }
   },
   "allOf": [

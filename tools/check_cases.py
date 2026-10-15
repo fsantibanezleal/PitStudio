@@ -4,6 +4,8 @@ Usage:  python tools/check_cases.py [--root DIR]
 Checks, each finding on one line that names the offending id:
   1. the registry is strict YAML (a repeated case id is a duplicate key) and valid against contracts/cases.schema.json
      (categories A-E only, every case in its own category, the 12 case ids);
+  1b. a KPI id repeated within one case is the finding `case-duplicate-kpi` naming the case and the id (FR-018-69; ids
+     are scoped to their case);
   2. every method M1-M23 appears in at least one case and every studio tool in at least one case;
   3. every method, tool, data source and engine a case names exists: methods in studio/methods.yaml (M1-M23 when the
      file is absent), tools in studio/tools.yaml (the ids of data-model 001 section 4.3 when it is absent), sources in
@@ -113,6 +115,15 @@ def check(root: Path) -> list[str]:
                 findings.append(f"case {cid}: unknown tool {t}")
         findings += [f"case {cid}: unknown data source {s}" for s in case.get("sources") or [] if s not in sources]
         findings += [f"case {cid}: unknown engine {e}" for e in case.get("engines") or [] if e not in engines]
+        seen: set[str] = set()
+        repeated: list[str] = []
+        for kpi in case.get("kpis") or []:
+            kid = kpi.get("id") if isinstance(kpi, dict) else None
+            if isinstance(kid, str):
+                if kid in seen and kid not in repeated:
+                    repeated.append(kid)
+                seen.add(kid)
+        findings += [f"case {cid}: case-duplicate-kpi: KPI id {kid} is declared more than once" for kid in repeated]
         category = case.get("category")
         if category not in {"A", "B", "C", "D", "E"}:
             findings.append(f"case {cid}: category {category!r} is outside A-E")

@@ -154,12 +154,21 @@ class JobHooks(train.TrainHooks):
     """Saves `state.pt` atomically on a schedule, before stops and cool-downs; resumes from it."""
 
     def __init__(
-        self, out: Path, session: GpuSession, *, digest: str, inputs: Sequence[Mapping[str, str]], save_every: int
+        self,
+        out: Path,
+        session: GpuSession,
+        *,
+        digest: str,
+        inputs: Sequence[Mapping[str, str]],
+        save_every: int,
+        log_every: int = 20,
     ) -> None:
         self.out, self.session, self.digest, self.save_every = out, session, digest, save_every
         self.inputs = [dict(i) for i in inputs]
         self.steps = 0
+        self.log_every = log_every
         self.elapsed_before_s = 0.0
+        self._win_t, self._win_loss, self._win_samples, self._win_steps = time.time(), 0.0, 0, 0
         self.resume = None
         state_path = out / "state.pt"
         if state_path.is_file():
@@ -193,6 +202,53 @@ class JobHooks(train.TrainHooks):
     def on_epoch(self, snapshot: Callable[[], dict[str, Any]]) -> None:
         self._save(snapshot)
 
+    def on_log(self, epoch_index: int, chunk: int, loss: float, batch_size: int) -> None:
+        """One flushed line per `log_every` steps: step, mean loss, samples/s, GPU temperature."""
+        self._win_loss += loss
+        self._win_samples += batch_size
+        self._win_steps += 1
+        if self.log_every <= 0 or self._win_steps < self.log_every:
+            return
+        now = time.time()
+        guard = self.session.guard if self.session.cuda else None
+        try:
+            temp = f"{guard.read_temp():.0f}" if guard is not None else "na"
+        except Exception:
+            temp = "na"
+        line = (
+            f"[train] step={self.steps} epoch={epoch_index + 1} chunk={chunk} "
+            f"loss={self._win_loss / self._win_steps:.6g} "
+            f"samples_per_s={self._win_samples / max(now - self._win_t, 1e-9):.2f} gpu_temp_c={temp}"
+        )
+        print(line, flush=True)
+        with (self.out / "train_log.txt").open("a", encoding="utf-8") as handle:
+            handle.write(line + "\n")
+            handle.flush()
+        self._win_t, self._win_loss, self._win_samples, self._win_steps = now, 0.0, 0, 0
+
+
+def graph_self_check(device: str, *, log: Callable[[str], None] = lambda m: print(m, flush=True)) -> bool:
+    """True when the torch radius graph on `device` equals the CPU oracle on random packings (else use the CPU one)."""
+    import numpy as np
+
+    from pitstudio.granular.graph import K_MAX, build_radius_graph
+    from pitstudio_pipeline.surrogates.gns.graph_torch import build_radius_graph_torch
+
+    rng = np.random.default_rng(20261012)
+    for n, radius in ((700, 0.06), (1500, 0.025)):
+        pos = rng.uniform(0.0, 0.4, size=(n, 2)).astype(np.float32)
+        want = build_radius_graph(pos, radius, K_MAX)
+        index, mask, overflow = build_radius_graph_torch(torch.as_tensor(pos, device=device), radius, K_MAX)
+        if not (
+            np.array_equal(index.cpu().numpy(), want.neighbour_index)
+            and np.array_equal(mask.cpu().numpy(), want.neighbour_mask)
+            and overflow == want.overflow_count
+        ):
+            log(f"[job] the {device} radius graph differs from the CPU oracle (n={n}): using the CPU builder")
+            return False
+    log(f"[job] the {device} radius graph equals the CPU oracle on the self-check packings")
+    return True
+
 
 def run_job(
     data_dir: Path,
@@ -213,6 +269,7 @@ def run_job(
         session = GpuSession(
             lock_dir, cuda=cuda, lock_wait_h=lock_wait_h, guard_module=find_guard_module() if cuda else None
         )
+    train.DEVICE_GRAPH = graph_self_check(device)
     dataset = stages.Dataset(data_dir)
     cfg = {**stages.DEFAULT_CONFIG, **config}
     inputs = dataset.inputs(["train", "val"])

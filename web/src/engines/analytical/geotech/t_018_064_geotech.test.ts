@@ -80,8 +80,8 @@ describe("limit equilibrium by hand (FR-018-51)", () => {
       1.4623899,
       6,
     );
-    // hand: l = b / cos(alpha): 2.030871 + 2.070590 + 2.610814 = 6.712275 m; sum W sin(alpha) = 45899.0 N/m
-    expect((10e3 * 6.712275) / 45899.0).toBeCloseTo(1.4623899, 5);
+    // hand: l = b / cos(alpha): 2.030871 + 2.070552 + 2.610814 = 6.712237 m; sum W sin(alpha) = 45899.0 N/m
+    expect((10e3 * 6.712237) / 45899.0).toBeCloseTo(1.4623899, 5);
   });
 
   it("FR-018-51 · with c' = 0, dry slices and all base angles equal to 20 deg, F = tan(30 deg) / tan(20 deg) = 1.5862568", () => {

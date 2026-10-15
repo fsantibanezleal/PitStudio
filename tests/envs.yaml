@@ -1,0 +1,20 @@
+# Which Python environment owns a test file (FR-000-17: tests pass in the environment that owns the code).
+# The root environment (`uv sync` at the repository root) owns every file not matched here. A file owned by another environment is not
+# collected by a run in this one: it is ignored, never skipped (tests/conftest.py). The running environment is named by the variable
+# PITSTUDIO_TEST_ENV (root, pipeline, studio); the default is root. First matching owner wins; globs are relative to the repository root.
+studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
+  - tests/unit/test_t_005_*.py
+  - tests/metamorphic/test_t_005_*.py
+  - tests/unit/test_t_011_03[3-9]_*.py
+  - tests/unit/test_t_011_060_*.py
+  - tests/unit/test_t_011_heap_simulator_smoke.py
+  - tests/contract/test_t_011_036_*.py
+  - tests/unit/test_t_009_011_*.py
+  - tests/property/test_t_009_013_*.py
+  - tests/pipeline/test_t_004_053_*.py
+pipeline:   # torch, onnx, onnxruntime, polars, scipy ... (pipeline/pyproject.toml)
+  - tests/pipeline/**
+  - tests/unit/test_t_012_*.py
+  - tests/property/test_t_012_*.py
+  - tests/property/test_t_011_050_*.py
+  - tests/unit/test_t_009_017_*.py

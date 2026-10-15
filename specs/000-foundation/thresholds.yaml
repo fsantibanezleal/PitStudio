@@ -90,6 +90,11 @@ runner:
   log_tail_chars_max: 4000                # FR-002-34
   plan_s_max: 5                           # FR-002-01, NFR-002-02 — 64-stage plan latency
   overhead_s_max: 1.0                     # NFR-002-03 — per-execution runner overhead
+  run_pause_temp_c: 83                    # FR-002-66 — pause the stage at or above this GPU temperature (= gpu_guard PAUSE_C)
+  run_resume_temp_c: 75                   # FR-002-66 — resume once at or below it (= gpu_guard RESUME_C)
+  run_stop_temp_c: 87                     # FR-002-66 — stop with `thermal` at or above it (= gpu_guard STOP_C)
+  gpu_block_minutes: 45                   # FR-002-66 — continuous GPU time per block (= gpu_guard BLOCK_MIN)
+  gpu_cooldown_minutes: 10                # FR-002-66 — idle time after a block (= gpu_guard COOLDOWN_MIN)
 contracts:
   git_file_bytes_max: 10485760            # FR-001-12, NFR-000-05 — = tools/check_repo.py (10 MiB); SEE FLAG 1
   error_message_chars_max: 300            # FR-001-08, FR-001-51 — bounded validator messages

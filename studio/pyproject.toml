@@ -5,11 +5,29 @@ description = "PitStudio open studio lane: OpenUSD scene building, GPU physics (
 requires-python = "==3.14.*"
 dependencies = [
     "pitstudio",
-    "usd-core", "warp-lang", "newton[sim]", "usd-validation-nvidia", "simready-validate",
-    "numpy", "pyyaml", "pydantic", "zarr", "pyarrow",
-    "laspy[lazrs]", "rasterio", "pyproj", "shapely", "trimesh", "ortools",
-    "pynvvideocodec", "nvidia-ml-py", "nvtx",
+    "usd-core",
+    "warp-lang",
+    "newton[sim]",
+    "usd-validation-nvidia",
+    "simready-validate",
+    "numpy",
+    "pyyaml",
+    "pydantic",
+    "zarr",
+    "pyarrow",
+    "laspy[lazrs]",
+    "rasterio",
+    "pyproj",
+    "shapely",
+    "trimesh",
+    "ortools",
+    "pynvvideocodec",
+    "nvidia-ml-py",
+    "nvtx",
     "cma>=4.5.0",
+    "simready-foundation-tier-core>=2026.8.0",  # the tier content that simready-validate checks scenes against (FR-004-34)
+    "pvlib>=0.16.1",
+    "scipy>=1.18.1",
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [dependency-groups]
@@ -21,6 +39,9 @@ dev = [
 
 [tool.uv]
 package = false
+# minephys.environment (FR-009-05) exists only on the minephys branch task/p6-modules-b (not released): this lane installs
+# that exact revision until a minephys release carries it; the root project and the other lanes keep the default branch.
+override-dependencies = ["minephys @ git+https://github.com/fsantibanezleal/minephys@fc08213422e546e8aa1cbf3aca66bc33a3c843b8"]
 
 [tool.uv.sources]
 pitstudio = { path = "..", editable = true }

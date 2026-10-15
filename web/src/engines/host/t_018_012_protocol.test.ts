@@ -208,7 +208,7 @@ describe("non-finite numbers and malformed envelopes (FR-018-39)", () => {
   }
 
   it("FR-018-39 · unicode and control characters in an enum field are rejected, not echoed unescaped", () => {
-    const doc = { ...base.doc, function: "bishop\u0000‮<script>" };
+    const doc = { ...base.doc, function: "bishop\u0000\u202e<script>" };
     const out = validateRequest(doc, { loaded: LOADED });
     expect(out.ok).toBe(false);
     if (!out.ok) expect(out.error.message).not.toContain("<script>");

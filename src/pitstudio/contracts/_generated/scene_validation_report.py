@@ -1362,7 +1362,7 @@ class Determinism(BaseModel):
 
 class SceneValidationReport(BaseModel):
     """
-    Validator results, scene invariants, waivers and the build-twice hashes written by st45_validate (DC-004-07, spec 004-scene-pipeline).
+    Validator results, scene invariants, waivers and the build-twice hashes written by st45_validate (DC-004-07, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
     """
 
     model_config = ConfigDict(
@@ -1391,6 +1391,12 @@ class SceneValidationReport(BaseModel):
     invariants: Invariants
     waivers: Annotated[list[Waiver], Field(max_length=32)]
     determinism: Determinism
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
+        ),
+    ] = False
 
 
 class Input(BaseModel):

@@ -280,6 +280,12 @@ class Entry7(BaseModel):
         Field(description="substitute sources in order of preference; [] = no substitute data"),
     ] = None
     optional: bool | None = False
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true = a fixture source: the entry stands for files under data/samples/ or a generated stand-in; every output derived from it is marked fixture (FR-008-49, spec 008)"
+        ),
+    ] = False
 
 
 class Entry8(Entry1, Entry7):
@@ -312,6 +318,12 @@ class Entry8(Entry1, Entry7):
         Field(description="substitute sources in order of preference; [] = no substitute data"),
     ] = None
     optional: bool | None = False
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true = a fixture source: the entry stands for files under data/samples/ or a generated stand-in; every output derived from it is marked fixture (FR-008-49, spec 008)"
+        ),
+    ] = False
 
 
 class Entry9(Entry2, Entry7):
@@ -344,6 +356,12 @@ class Entry9(Entry2, Entry7):
         Field(description="substitute sources in order of preference; [] = no substitute data"),
     ] = None
     optional: bool | None = False
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true = a fixture source: the entry stands for files under data/samples/ or a generated stand-in; every output derived from it is marked fixture (FR-008-49, spec 008)"
+        ),
+    ] = False
 
 
 class Entry10(Entry3, Entry7):
@@ -376,6 +394,12 @@ class Entry10(Entry3, Entry7):
         Field(description="substitute sources in order of preference; [] = no substitute data"),
     ] = None
     optional: bool | None = False
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true = a fixture source: the entry stands for files under data/samples/ or a generated stand-in; every output derived from it is marked fixture (FR-008-49, spec 008)"
+        ),
+    ] = False
 
 
 class Entry11(Entry4, Entry7):
@@ -408,6 +432,12 @@ class Entry11(Entry4, Entry7):
         Field(description="substitute sources in order of preference; [] = no substitute data"),
     ] = None
     optional: bool | None = False
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true = a fixture source: the entry stands for files under data/samples/ or a generated stand-in; every output derived from it is marked fixture (FR-008-49, spec 008)"
+        ),
+    ] = False
 
 
 class Entry12(Entry5, Entry7):
@@ -440,6 +470,12 @@ class Entry12(Entry5, Entry7):
         Field(description="substitute sources in order of preference; [] = no substitute data"),
     ] = None
     optional: bool | None = False
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true = a fixture source: the entry stands for files under data/samples/ or a generated stand-in; every output derived from it is marked fixture (FR-008-49, spec 008)"
+        ),
+    ] = False
 
 
 class Entry13(Entry6, Entry7):
@@ -472,6 +508,12 @@ class Entry13(Entry6, Entry7):
         Field(description="substitute sources in order of preference; [] = no substitute data"),
     ] = None
     optional: bool | None = False
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true = a fixture source: the entry stands for files under data/samples/ or a generated stand-in; every output derived from it is marked fixture (FR-008-49, spec 008)"
+        ),
+    ] = False
 
 
 class Entry(RootModel[Entry8 | Entry9 | Entry10 | Entry11 | Entry12 | Entry13]):

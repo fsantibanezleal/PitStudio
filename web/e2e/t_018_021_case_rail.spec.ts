@@ -1,4 +1,4 @@
-// T-018-021 [red] · FR-018-02, FR-018-03 (E2E half) on the production build, route `/` (Explore).
+// T-018-021 [red] · FR-018-02, FR-018-03 (E2E half) on the production build, route `/app/` (Explore); the root `/` lands on the Introduction (SHF-011).
 //
 // Observation hooks the green commit must provide on `/` (the unit test t_018_021_case_rail.test.tsx fixes the rail DOM):
 //   [data-testid="case-rail"]        the rail container (a `nav` or `aside`), holding the `role="group"` / `li[data-case-id]` structure
@@ -14,10 +14,16 @@ const registry = loadCaseRegistry();
 const BASE = process.env.BASE_PATH ?? "/";
 
 test.describe("case rail (FR-018-02)", () => {
-  test("FR-018-02 · `/` shows 12 cases in 5 labelled groups in the order A, B, C, D, E with titles and links", async ({
+  test("SHF-011 · the root lands on the Introduction with its executive view, not on Explore", async ({ page }) => {
+    await open(page, "");
+    await expect(page.locator("[data-exec-tabs]")).toBeVisible();
+    await expect(page.getByTestId("case-rail")).toHaveCount(0);
+  });
+
+  test("FR-018-02 · `/app/` shows 12 cases in 5 labelled groups in the order A, B, C, D, E with titles and links", async ({
     page,
   }) => {
-    await open(page, "");
+    await open(page, "app/");
     const rail = page.getByTestId("case-rail");
     await expect(rail).toBeVisible();
     const groups = rail.getByRole("group");
@@ -57,7 +63,7 @@ test.describe("case selection (FR-018-03)", () => {
   test("FR-018-03 · selecting a case highlights it and shows its headline KPIs and a link to its page within 200 ms, without playing anything", async ({
     page,
   }) => {
-    await open(page, "");
+    await open(page, "app/");
     const elapsedMs = await page.evaluate(async () => {
       const button = document.querySelector<HTMLButtonElement>(
         '[data-testid="case-rail"] li[data-case-id="C1"] button',

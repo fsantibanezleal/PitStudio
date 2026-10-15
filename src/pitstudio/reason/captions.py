@@ -154,8 +154,8 @@ def score_captions(records: Sequence[Mapping[str, Any]], vocab: Vocabulary, *, a
         raise ValueError("n = 0: no captions to score")
     mentions = hallucinated = sentences = hallucinated_sentences = no_object = 0
     recalled = recall_total = 0
-    truth = {c: [] for c in CONDITION_NAMES}
-    pred = {c: [] for c in CONDITION_NAMES}
+    truth: dict[str, list[Any]] = {c: [] for c in CONDITION_NAMES}
+    pred: dict[str, list[Any]] = {c: [] for c in CONDITION_NAMES}
     for r in records:
         caption = r["caption"]
         if not isinstance(caption, str):

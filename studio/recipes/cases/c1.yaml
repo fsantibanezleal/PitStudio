@@ -1,0 +1,217 @@
+# Case C1: slope stability (FoS, PoF) and time to failure (spec 010-slope). Parameters are the pre-registered table of
+# section 7; `studio plan` rejects a recipe that names an unknown method, model or stratum, a cut-off outside (0, 1),
+# duplicate cut-offs or test seeds that overlap the training seeds (FR-010-40). Open lane only: no NVIDIA proprietary runtime.
+id: c1-slope
+case: C1
+seed: 20261007
+description: C1 slope sections, FoS and PoF, seeded Voight events, TCN / PatchTST / Chronos-Bolt against inverse velocity, ONNX export.
+stages:
+  - id: s00_download
+    env: pipeline
+    tool: pitstudio
+    entry: pitstudio_pipeline.slope.dewit
+    inputs: []
+    params:
+      source_id: dewit-slope-failure
+      expected_bytes: 8943265
+      expected_md5: 3adeb6c853d2e87249b7d3549a2a00ca
+    resources:
+      gpu: none
+    determinism: bitwise
+    timeout_s: 900
+    outputs:
+      - path: slope/dewit/archive-check.json
+        schema: contract-ingestion-report
+  - id: s10_preprocess
+    variant: sections
+    env: pipeline
+    tool: pitstudio
+    entry: pitstudio_pipeline.slope.sections
+    inputs: []
+    params:
+      sections_per_site: 3
+      sample_spacing_m: 1
+      simplify_tolerance_m: 0.25
+      dem_sources: [usgs-3dep-bingham, hambach-dgm1]
+    resources:
+      gpu: none
+    determinism: bitwise
+    timeout_s: 1800
+    outputs:
+      - path: slope/sections.json
+        schema: contract-slope-section
+  - id: s10_preprocess
+    variant: dewit
+    env: pipeline
+    tool: pitstudio
+    entry: pitstudio_pipeline.slope.dewit
+    inputs:
+      - stage: s00_download
+    params:
+      extraction: series-as-delivered-or-top-5pct-median
+    resources:
+      gpu: none
+    determinism: bitwise
+    timeout_s: 900
+    outputs:
+      - path: slope/dewit/dewit-series.json
+        schema: contract-displacement-series
+  - id: s05_synthesize
+    env: pipeline
+    tool: pitstudio
+    entry: pitstudio_pipeline.slope.synth
+    inputs:
+      - stage: s10_preprocess
+        variant: dewit
+    params:
+      alpha: [1.7, 2.3]
+      terminal_duration_h: [24, 720]
+      onset_velocity_mm_per_day: [0.1, 10]
+      steady_phase_fraction: [0.1, 0.5]
+      regressive_probability: 0.2
+      regressive_velocity_reduction: [0.3, 0.7]
+      regressive_duration_fraction: [0.05, 0.15]
+      psi_deg: [0, 60]
+      n_samples: 2000
+      ar1_rho: 0.9
+      strata: [snr_obs, half_snr_obs, double_snr_obs, snr_obs_atmospheric]
+      splits:
+        train: {start: 0, count: 20000}
+        validation: {start: 20000, count: 1000}
+        test: {start: 21000, count_per_stratum: 500}
+    resources:
+      gpu: none
+    determinism: bitwise
+    timeout_s: 7200
+    outputs:
+      - path: slope/events/event-set.json
+        schema: contract-displacement-series
+  - id: s20_feature_extraction
+    variant: geotech
+    env: pipeline
+    tool: minephys
+    entry: pitstudio_pipeline.slope.stability
+    inputs:
+      - stage: s10_preprocess
+        variant: sections
+    params:
+      mode: baked
+      slices: 200
+      search_entry_points: 40
+      search_exit_points: 40
+      search_radius_ratios: 8
+      pof_samples: 20000
+      pof_candidates: 1024
+      pof_seed: 20261007
+    resources:
+      gpu: none
+    determinism: bitwise
+    timeout_s: 7200
+    outputs:
+      - path: slope/slope-results.json
+        schema: contract-slope-results
+        publish: true
+  - id: s30_train
+    env: pipeline
+    tool: pytorch
+    entry: pitstudio_pipeline.slope.train
+    inputs:
+      - stage: s05_synthesize
+    params:
+      context_length: 128
+      block_mean_width: 4
+      horizon_steps: 64
+      max_blocks: 4
+      quantiles: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+      models: [tcn, patchtst, chronos_bolt_zero_shot, chronos_bolt_fine_tuned]
+      loss: pinball
+      batch_size: 16
+      budget_gpu_hours: 2
+    resources:
+      gpu: exclusive
+      vram_gib_est: 8
+    determinism:
+      class: statistical
+      observables:
+        validation_pinball: {rtol: 0.05, atol: 0.001}
+    retry:
+      oom_fallback:
+        - {batch_size: 8}
+        - {batch_size: 4}
+    timeout_s: 14400
+    outputs:
+      - path: slope/models/training-report.json
+        schema: contract-ingestion-report
+  - id: s40_infer
+    env: pipeline
+    tool: pytorch
+    entry: pitstudio_pipeline.slope.infer
+    inputs:
+      - stage: s30_train
+      - stage: s05_synthesize
+    params:
+      resample_points: 512
+      velocity_window: 9
+      iv_last_fraction: 0.25
+      iv_min_points: 10
+      bayes_draws: 4000
+      horizon_cap_steps: 1024
+      methods: [inverse_velocity, bayesian_ttf, tcn, patchtst, chronos_bolt_zero_shot, chronos_bolt_fine_tuned]
+    resources:
+      gpu: none
+    determinism:
+      class: statistical
+      observables:
+        median_rel_error: {rtol: 0.001, atol: 0.0001}
+    timeout_s: 14400
+    outputs:
+      - path: slope/forecasts/predictions.json
+        schema: contract-ttf-results
+  - id: s50_evaluate
+    env: pipeline
+    tool: pitstudio
+    entry: pitstudio_pipeline.slope.s50
+    inputs:
+      - stage: s40_infer
+    params:
+      cutoffs: [0.5, 0.8]
+      alarm_grid: {start: 0.30, stop: 0.99, step: 0.01}
+      t_alarm_h: 24
+      bootstrap_resamples: 10000
+      strata: [snr_obs, half_snr_obs, double_snr_obs, snr_obs_atmospheric]
+      methods: [inverse_velocity, bayesian_ttf, tcn, patchtst, chronos_bolt_zero_shot, chronos_bolt_fine_tuned]
+      models: [tcn, patchtst, chronos_bolt_zero_shot, chronos_bolt_fine_tuned]
+      radar_psi_deg: [0, 45, 70]
+      scan_interval_min: 6
+    resources:
+      gpu: none
+    determinism: bitwise
+    timeout_s: 3600
+    outputs:
+      - path: slope/ttf-results.json
+        schema: contract-ttf-results
+        publish: true
+  - id: s60_export
+    env: pipeline
+    tool: onnx-runtime
+    entry: pitstudio_pipeline.slope.export
+    inputs:
+      - stage: s30_train
+      - stage: s50_evaluate
+    params:
+      opset: 17
+      ir_version: 10
+      parity_contexts: 200
+      parity_rtol: 0.001
+      parity_atol: 0.00001
+    resources:
+      gpu: none
+    determinism:
+      class: statistical
+      observables:
+        parity_max_abs: {rtol: 0.1, atol: 0.0001}
+    timeout_s: 3600
+    outputs:
+      - path: slope/models/forecaster-io.json
+        schema: contract-surrogate-io
+        publish: true

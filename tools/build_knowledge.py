@@ -165,6 +165,50 @@ def _datasets(root: Path) -> list[dict[str, Any]]:
     return out
 
 
+GLOSSARY_REL = Path("docs") / "reference" / "glossary.md"
+GLOSSARY_ROW = re.compile(r"^\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*(.+?)\s*\|$")
+
+
+def _slug(term: str, taken: set[str]) -> str:
+    base = re.sub(r"[^a-z0-9]+", "-", term.lower()).strip("-") or "term"
+    if not base[0].isalpha():
+        base = f"t-{base}"
+    base = base[:90]
+    out, n = base, 2
+    while out in taken:
+        out, n = f"{base}-{n}", n + 1
+    taken.add(out)
+    return out
+
+
+def _docs_glossary(root: Path) -> list[dict[str, Any]]:
+    """The glossary rows of docs/reference/glossary.md (EN term | ES term | definition), origin `docs`.
+
+    The page holds one definition per term (English); it is used for both languages until a Spanish definition exists.
+    """
+    f = root / GLOSSARY_REL
+    if not f.is_file():
+        return []
+    taken: set[str] = set()
+    out: list[dict[str, Any]] = []
+    for line in f.read_text(encoding="utf-8").splitlines():
+        m = GLOSSARY_ROW.match(line)
+        if not m or m.group(1) == "EN term" or set(m.group(1)) <= set("-: "):
+            continue
+        en, es, definition = (g.strip() for g in m.groups())
+        out.append(
+            {
+                "id": _slug(en, taken),
+                "origin": "docs",
+                "term_en": en,
+                "term_es": es,
+                "definition_en": definition,
+                "definition_es": definition,
+            }
+        )
+    return out
+
+
 def _frameworks(root: Path) -> list[dict[str, Any]]:
     f = root / "studio" / "tools.yaml"
     doc = reg.load_yaml(f) if f.is_file() else {}
@@ -192,6 +236,9 @@ def build(root: Path, tables: Path | None) -> tuple[dict[str, Any], list[str]]:
             inputs.append(tables / "references.bib")
     else:
         rows = {"parameters": [], "equations": [], "glossary": []}
+    glossary_md = root / GLOSSARY_REL
+    if not rows["glossary"]:
+        rows["glossary"] = _docs_glossary(root)
     findings = row_findings(rows, bib)
     cited: dict[str, dict[str, list[str]]] = {}
     for section in ("parameters", "equations"):
@@ -199,6 +246,8 @@ def build(root: Path, tables: Path | None) -> tuple[dict[str, Any], list[str]]:
             cited.setdefault(str(r.get("citation")), {}).setdefault(section, []).append(str(r["id"]))
     version, commit = minephys_pin(root)
     extra = [p for p in (root / "data" / "sources.yaml", root / "studio" / "tools.yaml") if p.is_file()]
+    if rows["glossary"] and rows["glossary"][0].get("origin") == "docs" and glossary_md.is_file():
+        extra.append(glossary_md)
     bundle: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "source": {

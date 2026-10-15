@@ -1,0 +1,141 @@
+{
+  "spec": "004-scene-pipeline",
+  "examples": [
+    {
+      "file": "scene-spec.valid-fixture.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with `fixture: true` (FR-004-44)"
+    },
+    {
+      "file": "scene-spec.hostile-fixture-not-boolean.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-004-44",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "terrain-grid.valid-fixture.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with `fixture: true` (FR-004-44)"
+    },
+    {
+      "file": "terrain-grid.hostile-fixture-not-boolean.json",
+      "schema": "terrain-grid.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-004-44",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "terrain-tiles.valid-fixture.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with `fixture: true` (FR-004-44)"
+    },
+    {
+      "file": "terrain-tiles.hostile-fixture-not-boolean.json",
+      "schema": "terrain-tiles.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-004-44",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "pit-design-report.valid-fixture.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with `fixture: true` (FR-004-44)"
+    },
+    {
+      "file": "pit-design-report.hostile-fixture-not-boolean.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-004-44",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "road-network.valid-fixture.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with `fixture: true` (FR-004-44)"
+    },
+    {
+      "file": "road-network.hostile-fixture-not-boolean.json",
+      "schema": "road-network.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-004-44",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "scene-manifest.valid-fixture.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with `fixture: true` (FR-004-44)"
+    },
+    {
+      "file": "scene-manifest.hostile-fixture-not-boolean.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-004-44",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "scene-digest.valid-fixture.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with `fixture: true` (FR-004-44)"
+    },
+    {
+      "file": "scene-digest.hostile-fixture-not-boolean.json",
+      "schema": "scene-digest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-004-44",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "scene-validation-report.valid-fixture.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with `fixture: true` (FR-004-44)"
+    },
+    {
+      "file": "scene-validation-report.hostile-fixture-not-boolean.json",
+      "schema": "scene-validation-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-004-44",
+      "pointer": "/fixture",
+      "keyword": "type"
+    }
+  ]
+}

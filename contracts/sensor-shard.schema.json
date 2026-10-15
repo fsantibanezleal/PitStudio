@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/sensor-shard.schema.json",
   "title": "PitStudio sensor shard index",
-  "description": "Shard index of st53_sensors and st57_rain_lidar, with the lidar-return, radar-detection and image-index column sets as $defs (DC-013-03, spec 013-sensors).",
+  "description": "Shard index of st53_sensors and st57_rain_lidar, with the lidar-return, radar-detection and image-index column sets as $defs (DC-013-03, spec 013-sensors). Version 1.1: optional `fixture` member.",
   "type": "object",
   "required": [
     "schema_version",
@@ -65,6 +65,11 @@
       },
       "minItems": 1,
       "maxItems": 10000
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "True while the shard comes from a contract fixture (ADR-0040, FR-013-43): produced on the fake backend only and never published. Absent means false."
     }
   },
   "allOf": [
@@ -273,6 +278,11 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 10000000
+        },
+        "fixture": {
+          "type": "boolean",
+          "default": false,
+          "description": "True while the shard comes from a contract fixture (ADR-0040, FR-013-43): produced on the fake backend only and never published. Absent means false."
         }
       },
       "allOf": [

@@ -1,7 +1,7 @@
 /* Generated from contracts/sensor-shard.schema.json by web/scripts/gen-types.mjs. Do not edit. */
 
 /**
- * Shard index of st53_sensors and st57_rain_lidar, with the lidar-return, radar-detection and image-index column sets as $defs (DC-013-03, spec 013-sensors).
+ * Shard index of st53_sensors and st57_rain_lidar, with the lidar-return, radar-detection and image-index column sets as $defs (DC-013-03, spec 013-sensors). Version 1.1: optional `fixture` member.
  */
 export type PitStudioSensorShardIndex = {
 $schema?: string
@@ -27,6 +27,10 @@ frames: LidarFrame[]
  * @maxItems 10000
  */
 files: [File, ...(File)[]]
+/**
+ * True while the shard comes from a contract fixture (ADR-0040, FR-013-43): produced on the fake backend only and never published. Absent means false.
+ */
+fixture?: boolean
 }
 /**
  * Contract version (major 1).
@@ -65,6 +69,10 @@ content: ("lidar-returns" | "radar-detections" | "image-index" | "hdr-color" | "
  * Rows of a Parquet file.
  */
 rows?: number
+/**
+ * True while the shard comes from a contract fixture (ADR-0040, FR-013-43): produced on the fake backend only and never published. Absent means false.
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `undefined`'s JSON-Schema

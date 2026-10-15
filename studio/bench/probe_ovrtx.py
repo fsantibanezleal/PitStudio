@@ -7,7 +7,11 @@ Licence: NVIDIA SDK, so the metrics stay local-only.
 
 from __future__ import annotations
 
+import json
 import time
+import tomllib
+from collections.abc import Iterable, Mapping, Sequence
+from datetime import UTC, datetime
 from importlib import metadata
 from pathlib import Path
 from typing import Any
@@ -105,6 +109,57 @@ def _version(dist: str) -> str:
         return metadata.version(dist)
     except metadata.PackageNotFoundError:
         return "unknown"
+
+
+CONFIG_KEYS = ("scan_type", "elevation_fan_deg", "azimuth_fan_deg", "mount_rotation_deg")
+ENVELOPE_PACKAGES = ("ovrtx", "ovstage")
+
+
+def referenced_configurations(recipes: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """The distinct lidar configurations of the given sensor-recipe blocks, in order of first appearance (FR-013-06)."""
+    found: list[dict[str, Any]] = []
+    for recipe in recipes:
+        for sensor in recipe["sensors"]:
+            if sensor["kind"] != "lidar":
+                continue
+            config = {key: sensor[key] for key in CONFIG_KEYS}
+            if config not in found:
+                found.append(config)
+    return found
+
+
+def build_envelope(
+    results: Sequence[Mapping[str, Any]], *, lock_path: str | Path, generated: str | None = None
+) -> dict[str, Any]:
+    """The DC-013-02 lidar envelope from probe results; versions come from the lock file, not the running process.
+
+    `results` hold the configuration keys and `valid_points`; `status` is `pass` exactly when `valid_points > 0`. The
+    document carries counts only: no timing, throughput or memory field (FR-013-32).
+    """
+    packages = tomllib.loads(Path(lock_path).read_text(encoding="utf-8"))["package"]
+    versions = {p["name"]: p["version"] for p in packages if p["name"] in ENVELOPE_PACKAGES}
+    missing = [name for name in ENVELOPE_PACKAGES if name not in versions]
+    if missing:
+        raise ValueError(f"{lock_path} does not pin {', '.join(missing)}")
+    return {
+        "schema_version": "1.0",
+        "generated": generated or datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "versions": {name: versions[name] for name in ENVELOPE_PACKAGES},
+        "probe_scene": {"cube_edge_m": 2, "cube_range_m": 20},
+        "configurations": [
+            {
+                **{key: r[key] for key in CONFIG_KEYS},
+                "status": "pass" if r["valid_points"] > 0 else "fail",
+                "valid_points": int(r["valid_points"]),
+            }
+            for r in results
+        ],
+    }
+
+
+def write_envelope(doc: Mapping[str, Any], path: str | Path) -> None:
+    """Write the envelope as JSON with a trailing newline."""
+    Path(path).write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
 def _grab(products: Any, np: Any) -> dict[str, Any]:

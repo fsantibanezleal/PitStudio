@@ -1,0 +1,22 @@
+{
+  "spec": "013-sensors",
+  "examples": [
+    {
+      "file": "sensor-shard.valid-fixture.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with `fixture: true` (FR-013-43)"
+    },
+    {
+      "file": "sensor-shard.hostile-fixture-not-boolean.json",
+      "schema": "sensor-shard.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "wrong type",
+      "rule": "FR-013-43",
+      "pointer": "/fixture",
+      "keyword": "type"
+    }
+  ]
+}
