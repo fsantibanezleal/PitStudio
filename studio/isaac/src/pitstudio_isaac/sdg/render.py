@@ -130,7 +130,7 @@ def render_frame(
             annotations.append(
                 {
                     "id": k + 1,
-                    "image_id": 0,
+                    "image_id": 1,
                     "category_id": CATEGORY_IDS[name],
                     "bbox": [x0, y0, w, h],
                     "segmentation": [_box_polygon(x0, y0, w, h)],
@@ -139,7 +139,7 @@ def render_frame(
                 }
             )
         coco = {
-            "images": [{"id": 0, "file_name": "rgb/000000.png", "width": width, "height": height}],
+            "images": [{"id": 1, "file_name": "rgb/000000.png", "width": width, "height": height}],
             "annotations": annotations,
             "categories": CATEGORIES,
         }
@@ -155,7 +155,7 @@ def render_frame(
             "layout_id": layout_id,
             "image": _entry(out, "rgb/000000.png", **size, format="png", colour_space="srgb"),
             "coco": _entry(out, "coco_instances.json"),
-            "coco_image_id": 0,
+            "coco_image_id": 1,
             "semantic_mask": _entry(out, "semantic/000000.png", **size, format="png"),
             "depth": _entry(
                 out,
