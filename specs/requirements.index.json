@@ -3484,7 +3484,8 @@
         "T-004-015"
       ],
       "tests": [
-        "tests/property/test_t_004_015_terrain_tiles.py"
+        "tests/property/test_t_004_015_terrain_tiles.py",
+        "tests/unit/test_t_004_051_skirt_margin.py"
       ]
     },
     "FR-004-08": {
@@ -3809,7 +3810,8 @@
       ],
       "tests": [
         "tests/unit/test_t_004_050_stage_mesh_normals.py",
-        "tests/unit/test_t_004_050_validators.py"
+        "tests/unit/test_t_004_050_validators.py",
+        "tests/unit/test_t_004_051_skirt_margin.py"
       ]
     },
     "FR-004-35": {
