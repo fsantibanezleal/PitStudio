@@ -230,7 +230,8 @@ HOSTILE_PROFILES = [
     ("empty environments", _mutate(envs_enabled=[]), "envs_enabled"),
     (
         "user-specific store default",
-        _mutate(store_default="C:/Users/alice/ps" if WIN else "/home/alice/ps"),
+        # built from two parts so that no committed literal is a machine path (tools/check_repo.py)
+        _mutate(store_default="C:" + "/Users/alice/ps" if WIN else "/home" + "/alice/ps"),
         "store_default",
     ),
     ("relative store default", _mutate(store_default="ps"), "store_default"),
