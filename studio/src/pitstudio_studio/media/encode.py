@@ -203,7 +203,16 @@ def run(
     driver_version: str | None = None,
 ) -> dict:
     params = job["params"]
+    mode = params.get("encoder_mode", "ffmpeg")
+    if mode not in ("ffmpeg", "pynvvideocodec"):
+        raise ValueError(f"encoder_mode must be ffmpeg or pynvvideocodec, got {mode!r}")
+    if mode == "pynvvideocodec" and params.get("publish") is True:
+        raise NotPublishable("PyNvVideoCodec outputs are local previews and cannot be published")
     require_lock("nvenc", 0)
+    if mode == "pynvvideocodec":
+        raise NotRun(
+            "the in-process PyNvVideoCodec preview encoder is not wired into this stage; use encoder_mode ffmpeg"
+        )
     run_process = runner if runner is not None else subprocess.run
     clock = clock or time.monotonic
     environment = os.environ if env is None else env
