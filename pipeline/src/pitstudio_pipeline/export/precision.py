@@ -176,7 +176,7 @@ def layer2_gate(
     reasons: list[str] = []
     if not (math.isfinite(metric_fp32) and math.isfinite(metric_variant)):
         reasons.append("task metric is not finite")
-    elif abs(delta) > METRIC_DELTA_MAX_PP + 1e-9:
+    elif abs(delta) > METRIC_DELTA_MAX_PP:
         reasons.append(f"task metric changed by {delta:+.3g} pp, more than {METRIC_DELTA_MAX_PP} pp")
     if requires_mask_iou:
         if mask_iou is None or not math.isfinite(mask_iou):
