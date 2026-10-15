@@ -68,6 +68,7 @@ def cut_step(
     width: float,
     v_heaped: float,
     cutting: bool = True,
+    fill_cap: float = FILL_CAP,
 ) -> CutStep:
     """One fill step; returns the new volume and a new height profile (the input is not modified)."""
     v0 = non_negative("v_fill", v_fill)
@@ -78,9 +79,10 @@ def cut_step(
     s = non_negative("ds", ds)
     w = positive("width", width)
     vh = positive("v_heaped", v_heaped)
+    cap_factor = positive("fill_cap", fill_cap)
     if not cutting:
         return CutStep(v0, h)
-    cap = FILL_CAP * vh
+    cap = cap_factor * vh
     gain = w * d * s
     v_new = min(v0 + gain, cap)
     applied = max(v_new - v0, 0.0)
