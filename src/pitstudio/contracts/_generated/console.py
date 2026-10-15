@@ -109,7 +109,7 @@ class Health(BaseModel):
     runner_version: Semver
     contracts: Annotated[
         dict[constr(pattern=r"^[a-z][a-z0-9-]{0,31}$", max_length=32), ContractVersion],
-        Field(description="schema stem -> contract version", max_length=16, min_length=1),
+        Field(description="schema stem -> contract version", max_length=128, min_length=1),
     ]
 
 
