@@ -1,0 +1,53 @@
+{
+  "lane": { "live": "LIVE", "replay": "REPLAY" },
+  "extrapolation": "extrapolation — no accuracy claim",
+  "notTrained": "Model not yet trained: {{engine}} publishes no ONNX file in this build, so nothing is computed and no result is shown.",
+  "runtimeMissing": "ONNX Runtime is not wired into this build: the published model is not run and no result is shown.",
+  "checking": "Checking for a published model",
+  "gns": {
+    "region": "GNS granular flow",
+    "family": "Geometry family",
+    "families": {
+      "column-collapse": "Column collapse",
+      "pile-formation": "Pile formation",
+      "dump-over-crest": "Dump over crest"
+    },
+    "params": {
+      "column_aspect_ratio": "Aspect ratio",
+      "column_width": "Column width (m)",
+      "pour_height": "Pour height (m)",
+      "pour_rate": "Pour rate (m²/s)",
+      "crest_height": "Crest height (m)",
+      "dump_rate": "Dump rate (m²/s)"
+    },
+    "count": "Particle count",
+    "start": "Start",
+    "stop": "Stop",
+    "live": "Live rollout",
+    "reference": "Solver reference",
+    "stepTime": "Step time",
+    "cap": "T2 particle cap",
+    "msValue": "{{value}} ms",
+    "particles": "{{value}} particles"
+  },
+  "fno": {
+    "regionC2": "FNO tailings flow",
+    "regionC3": "FNO dust plume",
+    "params": {
+      "breach_row": "Breach row",
+      "breach_col": "Breach column",
+      "release_volume": "Release volume (m³)",
+      "yield_stress": "Yield stress τ_y (Pa)",
+      "plastic_viscosity": "Plastic viscosity μ_B (Pa·s)",
+      "wind_speed": "Wind speed (m/s)",
+      "wind_direction": "Wind direction (°)"
+    },
+    "live": "Live field",
+    "reference": "Solver reference",
+    "evaluation": "Evaluation time"
+  },
+  "calibration": {
+    "region": "Calibration replay",
+    "notPublished": "Not yet run: the calibration study has not been run on the GPU, so no curve, path, coverage or profile is published in this build."
+  }
+}

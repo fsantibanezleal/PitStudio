@@ -1,0 +1,53 @@
+{
+  "lane": { "live": "LIVE", "replay": "REPLAY" },
+  "extrapolation": "extrapolation — no accuracy claim",
+  "notTrained": "Modelo aún no entrenado: {{engine}} no publica ningún archivo ONNX en esta versión, por lo que no se calcula nada y no se muestra ningún resultado.",
+  "runtimeMissing": "ONNX Runtime no está integrado en esta versión: el modelo publicado no se ejecuta y no se muestra ningún resultado.",
+  "checking": "Buscando un modelo publicado",
+  "gns": {
+    "region": "GNS granular flow",
+    "family": "Familia de geometría",
+    "families": {
+      "column-collapse": "Colapso de columna",
+      "pile-formation": "Formación de pila",
+      "dump-over-crest": "Descarga sobre cresta"
+    },
+    "params": {
+      "column_aspect_ratio": "Relación de aspecto",
+      "column_width": "Ancho de la columna (m)",
+      "pour_height": "Altura de vertido (m)",
+      "pour_rate": "Tasa de vertido (m²/s)",
+      "crest_height": "Altura de la cresta (m)",
+      "dump_rate": "Tasa de descarga (m²/s)"
+    },
+    "count": "Número de partículas",
+    "start": "Iniciar",
+    "stop": "Detener",
+    "live": "Simulación en vivo",
+    "reference": "Referencia del solver",
+    "stepTime": "Tiempo por paso",
+    "cap": "Límite de partículas en T2",
+    "msValue": "{{value}} ms",
+    "particles": "{{value}} partículas"
+  },
+  "fno": {
+    "regionC2": "FNO tailings flow",
+    "regionC3": "FNO dust plume",
+    "params": {
+      "breach_row": "Fila de la brecha",
+      "breach_col": "Columna de la brecha",
+      "release_volume": "Volumen liberado (m³)",
+      "yield_stress": "Esfuerzo de fluencia τ_y (Pa)",
+      "plastic_viscosity": "Viscosidad plástica μ_B (Pa·s)",
+      "wind_speed": "Velocidad del viento (m/s)",
+      "wind_direction": "Dirección del viento (°)"
+    },
+    "live": "Campo en vivo",
+    "reference": "Referencia del solver",
+    "evaluation": "Tiempo de evaluación"
+  },
+  "calibration": {
+    "region": "Calibration replay",
+    "notPublished": "Aún no ejecutado: el estudio de calibración no se ha ejecutado en la GPU, por lo que esta versión no publica ninguna curva, trayectoria, cobertura ni perfil."
+  }
+}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { engineMode, NEEDS_WEBGPU, PARITY_NOT_CONFIRMED } from "~/engines/registry";
+import { FnoScene } from "~/surrogates/FnoScene";
+import { GnsScene } from "~/surrogates/GnsScene";
 import { useChain } from "~/tier/probe";
 import styles from "./cases.module.css";
 import { EnginePanel, type EngineState, type PanelTier } from "./EnginePanel";
@@ -57,9 +59,13 @@ export function SimulateTab({ caseId, registry }: { caseId: string; registry: Ca
             requests={0}
             tier={tier}
             notice={notice(decision.notice) ?? t("engine.notice.noBackend")}
-          />
+          >
+            {engine === "gns" && <GnsScene tier={tier} />}
+            {engine === "fno" && <FnoScene variant="C2" tier={tier} />}
+          </EnginePanel>
         );
       })}
+      {caseId === "C3" && <FnoScene variant="C3" tier={chain ? chain.tierOf("fno") : "t0"} />}
       <section
         className={styles.panel}
         data-testid="kpi-panel"
