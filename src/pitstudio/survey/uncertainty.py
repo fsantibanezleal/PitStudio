@@ -25,6 +25,5 @@ def volume_uncertainty(n_valid: int, cell_size_m: float, sigma0_m: float, sigma1
     cell = _non_negative(cell_size_m, "cell_size_m", positive=True)
     s0 = _non_negative(sigma0_m, "sigma0_m")
     s1 = _non_negative(sigma1_m, "sigma1_m")
-    combined = math.hypot(s0, s1)
-    area = cell * cell
-    return UncertaintyBounds(area * math.sqrt(n_valid) * combined, area * n_valid * combined)
+    base = cell**2 * math.hypot(s0, s1)  # hypot avoids the underflow of s^2 for tiny RMSEz
+    return UncertaintyBounds(base * math.sqrt(n_valid), base * n_valid)
