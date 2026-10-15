@@ -13,11 +13,13 @@ from typing import Any
 
 from pitstudio_studio.scene import common
 from pitstudio_studio.scene.common import SceneStageError, StageContext, StageRun
+from pitstudio_studio.scene.normals import author_normals
 
 CC0_SOURCES = {"polyhaven", "ambientcg"}
 OWN_SPDX = "CC-BY-4.0"
 PROVENANCE_MANNEQUIN = "procedural-mannequin"
 PROVENANCE_MAKEHUMAN = "makehuman-export"
+BOX_FACES = [0, 2, 3, 1, 4, 5, 7, 6, 0, 1, 5, 4, 2, 6, 7, 3, 0, 4, 6, 2, 1, 3, 7, 5]  # counter-clockwise from outside
 FLEET_SPACING_M = 20.0
 PEOPLE_SPACING_M = 3.0
 
@@ -128,8 +130,9 @@ def _box_mesh(stage: Any, path: str, size: tuple[float, float, float], centre: t
     mesh = UsdGeom.Mesh.Define(stage, path)
     mesh.CreatePointsAttr([Gf.Vec3f(cx + x, cy + y, cz + z) for x, y, z in corners])
     mesh.CreateFaceVertexCountsAttr([4] * 6)
-    mesh.CreateFaceVertexIndicesAttr([0, 2, 3, 1, 4, 5, 7, 6, 0, 1, 5, 4, 2, 6, 7, 3, 0, 4, 6, 2, 1, 3, 7, 5])
+    mesh.CreateFaceVertexIndicesAttr(BOX_FACES)
     mesh.CreateSubdivisionSchemeAttr("none")
+    author_normals(mesh, [(cx + x, cy + y, cz + z) for x, y, z in corners], [4] * 6, BOX_FACES, interpolation="uniform")
     mesh.CreateExtentAttr([Gf.Vec3f(cx - hx, cy - hy, cz - hz), Gf.Vec3f(cx + hx, cy + hy, cz + hz)])
     return mesh
 
@@ -242,6 +245,7 @@ def _person_makehuman(stage: Any, base: str, obj: Path) -> None:
     mesh.CreateFaceVertexCountsAttr([len(f) for f in faces])
     mesh.CreateFaceVertexIndicesAttr([i for f in faces for i in f])
     mesh.CreateSubdivisionSchemeAttr("none")
+    author_normals(mesh, vertices, [len(f) for f in faces], [i for f in faces for i in f])
     _label(mesh.GetPrim(), "class", "person")
 
 

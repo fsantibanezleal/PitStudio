@@ -91,7 +91,11 @@ def _label_stats(root: Path, lods: list[str]) -> tuple[int, int, int]:
 
 
 def _terrain_excess(scene: Path, manifest: Mapping[str, Any], z0: float) -> float:
-    """Largest excess (m) of a terrain mesh point's elevation over the source range widened by the tile error."""
+    """Largest excess (m) of a terrain mesh point's elevation over the source range widened by the tile error.
+
+    A skirt hangs `skirt_depth_m` below the boundary vertices (FR-004-07), so the lower bound is widened by the skirt
+    depth of the tile's LOD as well; the upper bound is the source maximum plus the tile error.
+    """
     from pxr import Usd, UsdGeom
 
     grid_attrs = json.loads((scene / manifest["terrain"]["grid"]["path"]).read_text(encoding="utf-8"))["attributes"]
@@ -99,6 +103,7 @@ def _terrain_excess(scene: Path, manifest: Mapping[str, Any], z0: float) -> floa
     lo, hi = grid_attrs["source_elevation_range_m"]["min"], grid_attrs["source_elevation_range_m"]["max"]
     by_prim = {t["prim"]: t["max_error_m"] for t in tiles["tiles"]}
     by_lod = {lod["lod"]: lod["max_error_m"] for lod in tiles["lods"]}
+    skirt_of_lod = {lod["lod"]: float(lod.get("skirt_depth_m", 0.0)) for lod in tiles["lods"]}
     stage = Usd.Stage.Open(str(scene / "layers" / "terrain.usdc"))
     terrain = stage.GetPrimAtPath("/World/Terrain")
     vset = terrain.GetVariantSet("lod")
@@ -110,10 +115,11 @@ def _terrain_excess(scene: Path, manifest: Mapping[str, Any], z0: float) -> floa
             if not prim.IsA(UsdGeom.Mesh):
                 continue
             margin = by_prim.get(str(prim.GetPath()), by_lod.get(lod, 0.0))
+            skirt = skirt_of_lod.get(lod, 0.0)
             points = UsdGeom.Mesh(prim).GetPointsAttr().Get() or []
             for p in points:
                 z = float(p[2]) + z0
-                worst = max(worst, z - (hi + margin), (lo - margin) - z)
+                worst = max(worst, z - (hi + margin), (lo - margin - skirt) - z)
     return max(worst, 0.0)
 
 
