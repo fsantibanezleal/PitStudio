@@ -1,10 +1,11 @@
-"""Queue entry of the `st55_sdg` GPU job: `python -m pitstudio_isaac.sdg.run_job [--dry-run]`.
+"""Queue entry of the `st55_sdg` GPU job (render step): `python -m pitstudio_isaac.sdg.run_job [--dry-run ...]`.
 
-The dry run asserts `torch.cuda.is_available()` and checks every input of the real run without rendering:
-Isaac Sim / Replicator importable, the recipe, the scene manifest of spec 004 and the staged CC0 texture pool.
-It exits 3 and lists the missing inputs when the real run could not start; the real run renders the
-frames of the parameter table with
-`render.render_frame` (one SimulationApp per process, frames in shards, resumable by shard) once those inputs exist.
+It asserts `torch.cuda.is_available()`, checks every input of the real run (Isaac Sim importable, the recipe, the
+validated scene of spec 004, the staged CC0 texture pool; exit 3 lists what is missing) and renders the rows of the
+parameter table (`pitstudio_studio.sdg.table`) with `driver.run`: one Isaac Sim application per GPU block, frames
+resumable one by one, under the machine lock and the guard. With `--dry-run` the same driver renders a tiny table
+into a scratch root with the CPU renderer (the job script runs the whole chain around it), so the driver path is
+exercised without the GPU and without writing the real dataset.
 """
 
 from __future__ import annotations
@@ -74,23 +75,89 @@ def missing_inputs() -> list[str]:
     return out
 
 
+def _real_textures(data: Path) -> dict[str, Path]:
+    from pitstudio_isaac.sdg.scene_render import texture_files
+
+    pool = data / "raw" / "textures"
+    return texture_files(pool, _read_json(pool / "manifest.json"))  # type: ignore[arg-type]
+
+
+def resolve_paths(data: Path, *, dry_run: bool, table_dir: str | None, out_root: str | None) -> tuple[Path, Path]:
+    """Table folder and dataset root of a run. A dry run needs both given and never uses the real dataset root."""
+    real_root = data / "processed" / "perception"
+    if dry_run and (not table_dir or not out_root):
+        raise ValueError("--dry-run needs --table-dir and --out-root of a scratch folder")
+    root = Path(out_root) if out_root else real_root
+    if dry_run and root.resolve() == real_root.resolve():
+        raise ValueError("a dry run never writes the real dataset root")
+    return (Path(table_dir) if table_dir else real_root / "param_table"), root
+
+
 def main(argv: list[str] | None = None) -> int:
+    """`--dry-run` asserts CUDA, checks the inputs and renders the tiny table of `--table-dir` with the CPU renderer."""
+    from pitstudio_isaac.sdg import driver
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument(
+        "--table-dir", help="folder of the parameter table (default: <data>/processed/perception/param_table)"
+    )
+    ap.add_argument("--out-root", help="dataset root (default: <data>/processed/perception); required with --dry-run")
+    ap.add_argument("--limit", type=int, default=None, help="render at most this many new frames")
     args = ap.parse_args(argv)
     import torch
 
     assert torch.cuda.is_available(), "torch.cuda.is_available() is False: sync with the CUDA torch"
-    print("[dry-run] CUDA available", flush=True)
+    print("[sdg] CUDA available", flush=True)
     missing = missing_inputs()
     for m in missing:
         print(f"[blocked] {m}")
     if missing:
         return BLOCKED
+    data = Path(os.environ["PITSTUDIO_DATA"])
+    try:
+        table_dir, out_root = resolve_paths(
+            data, dry_run=args.dry_run, table_dir=args.table_dir, out_root=args.out_root
+        )
+    except ValueError as exc:
+        print(f"[error] {exc}", file=sys.stderr)
+        return 2
+    rows = driver.read_rows(table_dir)
     if args.dry_run:
-        print("[dry-run] inputs present, stopping before rendering")
-        return 0
-    raise NotImplementedError("the shard driver needs the scene manifest format of spec 004")
+        from pitstudio_isaac.sdg.cpu_renderer import CpuRenderer
+        from pitstudio_isaac.sdg.scene_render import stage_selfcheck
+
+        scene = (
+            data
+            / "processed"
+            / "scene"
+            / os.environ.get("PITSTUDIO_SDG_SCENE", DEFAULT_SCENE)
+            / "st45_validate"
+            / "scene"
+        )
+        print(f"[dry-run] stage self-check on the real scene: {stage_selfcheck(scene, _real_textures(data), rows)}")
+
+        result = driver.run(
+            rows=rows, root=out_root, renderer_factory=CpuRenderer, session=driver.no_gpu_session, limit=args.limit
+        )
+        print(f"[dry-run] CPU renderer, driver path done: {result}")
+        return 0 if result["remaining"] == 0 else 1
+    from pitstudio_isaac.sdg.scene_render import SdgRenderer
+
+    scene_dir = (
+        data / "processed" / "scene" / os.environ.get("PITSTUDIO_SDG_SCENE", DEFAULT_SCENE) / "st45_validate" / "scene"
+    )
+    textures = _real_textures(data)
+    session = driver.gpu_session_factory(os.environ["PITSTUDIO_GPU_LOCK"])
+    result = driver.run(
+        rows=rows,
+        root=out_root,
+        renderer_factory=lambda: SdgRenderer(scene_dir, textures),
+        session=session,
+        limit=args.limit,
+    )
+    print(f"[sdg] rendered {result}")
+    return 0 if result["remaining"] == 0 or args.limit is not None else 1
 
 
 if __name__ == "__main__":

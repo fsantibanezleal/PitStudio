@@ -8021,7 +8021,10 @@
       ],
       "tests": [
         "tests/gpu/test_t_009_016_sdg_outputs.py",
-        "tests/unit/test_t_009_016_run_job_inputs.py"
+        "tests/pipeline/test_t_009_016_sdg_verify.py",
+        "tests/unit/test_t_009_016_param_table.py",
+        "tests/unit/test_t_009_016_run_job_inputs.py",
+        "tests/unit/test_t_009_016_shard_driver.py"
       ]
     },
     "FR-009-03": {
@@ -8033,7 +8036,8 @@
         "T-009-010"
       ],
       "tests": [
-        "tests/contract/test_t_009_010_classes_arms.py"
+        "tests/contract/test_t_009_010_classes_arms.py",
+        "tests/unit/test_t_009_016_param_table.py"
       ]
     },
     "FR-009-04": {
@@ -8045,7 +8049,9 @@
         "T-009-011"
       ],
       "tests": [
-        "tests/unit/test_t_009_011_sun_sampler.py"
+        "tests/unit/test_t_009_011_sun_sampler.py",
+        "tests/unit/test_t_009_016_param_table.py",
+        "tests/unit/test_t_009_016_shard_driver.py"
       ]
     },
     "FR-009-05": {
@@ -8057,7 +8063,8 @@
         "T-009-012"
       ],
       "tests": [
-        "tests/unit/test_t_009_012_dust_wet_sampler.py"
+        "tests/unit/test_t_009_012_dust_wet_sampler.py",
+        "tests/unit/test_t_009_016_param_table.py"
       ]
     },
     "FR-009-06": {
@@ -8069,7 +8076,8 @@
         "T-009-012"
       ],
       "tests": [
-        "tests/unit/test_t_009_012_dust_wet_sampler.py"
+        "tests/unit/test_t_009_012_dust_wet_sampler.py",
+        "tests/unit/test_t_009_016_param_table.py"
       ]
     },
     "FR-009-07": {
@@ -8081,7 +8089,8 @@
         "T-009-013"
       ],
       "tests": [
-        "tests/property/test_t_009_013_placement_unstructured.py"
+        "tests/property/test_t_009_013_placement_unstructured.py",
+        "tests/unit/test_t_009_016_param_table.py"
       ]
     },
     "FR-009-08": {
@@ -8093,7 +8102,9 @@
         "T-009-013"
       ],
       "tests": [
-        "tests/property/test_t_009_013_placement_unstructured.py"
+        "tests/property/test_t_009_013_placement_unstructured.py",
+        "tests/unit/test_t_009_016_param_table.py",
+        "tests/unit/test_t_009_016_shard_driver.py"
       ]
     },
     "FR-009-09": {
@@ -8191,6 +8202,7 @@
         "T-009-020"
       ],
       "tests": [
+        "tests/pipeline/test_t_009_016_sdg_verify.py",
         "tests/property/test_t_009_020_splits.py"
       ]
     },
@@ -8203,6 +8215,7 @@
         "T-009-020"
       ],
       "tests": [
+        "tests/pipeline/test_t_009_016_sdg_verify.py",
         "tests/property/test_t_009_020_splits.py"
       ]
     },
@@ -8530,7 +8543,9 @@
         "T-009-021"
       ],
       "tests": [
-        "tests/contract/test_t_009_021_frame_state_emission.py"
+        "tests/contract/test_t_009_021_frame_state_emission.py",
+        "tests/unit/test_t_009_016_param_table.py",
+        "tests/unit/test_t_009_016_shard_driver.py"
       ]
     },
     "FR-009-45": {
@@ -8845,6 +8860,7 @@
         "T-009-031"
       ],
       "tests": [
+        "tests/unit/test_t_009_016_shard_driver.py",
         "tests/unit/test_t_009_031_oom_resume.py"
       ]
     },
@@ -8869,6 +8885,7 @@
         "T-009-020"
       ],
       "tests": [
+        "tests/pipeline/test_t_009_016_sdg_verify.py",
         "tests/property/test_t_009_020_splits.py"
       ]
     },

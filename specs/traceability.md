@@ -520,13 +520,13 @@
 | FR-008-49 | 008-data-pipeline | draft | T-008-092 | tests/contract/test_t_008_060_data_cards.py, tests/pipeline/test_t_008_092_fixture_source.py |
 | FR-008-50 | 008-data-pipeline | draft | T-008-093 | tests/pipeline/test_t_008_093_partial_source.py |
 | FR-009-01 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py |
-| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py, tests/unit/test_t_009_016_run_job_inputs.py |
-| FR-009-03 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py |
-| FR-009-04 | 009-perception | draft | T-009-011 | tests/unit/test_t_009_011_sun_sampler.py |
-| FR-009-05 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py |
-| FR-009-06 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py |
-| FR-009-07 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py |
-| FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py |
+| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py, tests/pipeline/test_t_009_016_sdg_verify.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_run_job_inputs.py, tests/unit/test_t_009_016_shard_driver.py |
+| FR-009-03 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py, tests/unit/test_t_009_016_param_table.py |
+| FR-009-04 | 009-perception | draft | T-009-011 | tests/unit/test_t_009_011_sun_sampler.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py |
+| FR-009-05 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_param_table.py |
+| FR-009-06 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_param_table.py |
+| FR-009-07 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_param_table.py |
+| FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py |
 | FR-009-09 | 009-perception | draft | T-009-014 | tests/unit/test_t_009_014_sdg_config_guards.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-10 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-11 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py |
@@ -534,8 +534,8 @@
 | FR-009-13 | 009-perception | draft | T-009-017 | tests/unit/test_t_009_017_crusher_components.py |
 | FR-009-14 | 009-perception | draft | T-009-019 | tests/unit/test_t_009_019_coco_loader.py |
 | FR-009-15 | 009-perception | draft | T-009-019 | tests/unit/test_t_009_019_coco_loader.py |
-| FR-009-16 | 009-perception | draft | T-009-020 | tests/property/test_t_009_020_splits.py |
-| FR-009-17 | 009-perception | draft | T-009-020 | tests/property/test_t_009_020_splits.py |
+| FR-009-16 | 009-perception | draft | T-009-020 | tests/pipeline/test_t_009_016_sdg_verify.py, tests/property/test_t_009_020_splits.py |
+| FR-009-17 | 009-perception | draft | T-009-020 | tests/pipeline/test_t_009_016_sdg_verify.py, tests/property/test_t_009_020_splits.py |
 | FR-009-18 | 009-perception | draft | T-009-030 | tests/gpu/test_t_009_030_training_smoke.py, tests/unit/test_t_009_030_training_inputs.py |
 | FR-009-19 | 009-perception | draft | T-009-030 | tests/unit/test_t_009_030_training_inputs.py |
 | FR-009-20 | 009-perception | draft | T-009-031 | tests/unit/test_t_009_031_oom_resume.py |
@@ -562,7 +562,7 @@
 | FR-009-41 | 009-perception | draft | T-009-018 | tests/unit/test_t_009_018_not_run_local_only.py |
 | FR-009-42 | 009-perception | draft | T-009-019 | tests/unit/test_t_009_019_coco_loader.py |
 | FR-009-43 | 009-perception | draft | T-009-033 | tests/unit/test_t_009_033_support_determinism.py |
-| FR-009-44 | 009-perception | draft | T-009-021 | tests/contract/test_t_009_021_frame_state_emission.py |
+| FR-009-44 | 009-perception | draft | T-009-021 | tests/contract/test_t_009_021_frame_state_emission.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py |
 | FR-009-45 | 009-perception | draft | T-009-021 | tests/unit/test_t_009_021_frame_state_hostile.py |
 | FR-009-46 | 009-perception | draft | T-009-092 | tests/unit/test_t_009_092_index_duplicate_record.py |
 | FR-009-47 | 009-perception | draft | T-009-093 | tests/unit/test_t_009_093_coco_polygon_consistency.py |
@@ -1172,9 +1172,9 @@
 | NFR-008-03 | 008-data-pipeline | draft | T-008-061 | tests/contract/test_t_008_061_samples_hygiene.py |
 | NFR-009-01 | 009-perception | draft | T-009-071 | tests/contract/test_t_009_071_live_lane.py |
 | NFR-009-02 | 009-perception | draft | T-009-071 | tests/contract/test_t_009_071_live_lane.py |
-| NFR-009-03 | 009-perception | draft | T-009-031 | tests/unit/test_t_009_031_oom_resume.py |
+| NFR-009-03 | 009-perception | draft | T-009-031 | tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_031_oom_resume.py |
 | NFR-009-04 | 009-perception | draft | T-009-033 | tests/unit/test_t_009_033_support_determinism.py |
-| NFR-009-05 | 009-perception | draft | T-009-020 | tests/property/test_t_009_020_splits.py |
+| NFR-009-05 | 009-perception | draft | T-009-020 | tests/pipeline/test_t_009_016_sdg_verify.py, tests/property/test_t_009_020_splits.py |
 | NFR-009-06 | 009-perception | draft | T-009-071 | tests/contract/test_t_009_071_live_lane.py |
 | NFR-010-01 | 010-slope | draft | T-010-061 | web/e2e/c1-lane-gates.spec.ts |
 | NFR-010-02 | 010-slope | draft | T-010-061 | web/e2e/c1-lane-gates.spec.ts |
