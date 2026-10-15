@@ -1,4 +1,4 @@
-// Build the studio index (DC-019-03, spec 019): the join of the tool registry, the tool map, the locks, the capability
+﻿// Build the studio index (DC-019-03, spec 019): the join of the tool registry, the tool map, the locks, the capability
 // report, the web manifest and the published run cards, written as
 //   web/public/studio/index.json            the studio index (checked against its byte cap, FR-019-47)
 //   web/public/studio/runs.json             one slim card per published run (ledger, loop); the full cards stay under assets/runs/
@@ -478,7 +478,7 @@ function main() {
   }));
   writeFileSync(
     join(generated, "studio-data.json"),
-    `${JSON.stringify({ tools: registry, index, run_ids: runs.map((r) => r.run_id) })}\n`,
+    `${JSON.stringify({ tools: registry, index, run_ids: runs.map((r) => r.run_id), runs: runs.map(slim) })}\n`,
   );
   console.log(
     `build-studio-index: ${tools.length} tools, ${index.edges.length} edges, ${runs.length} published run(s), ${text.length} bytes` +

@@ -1,4 +1,4 @@
-// The data of the studio pages: the registry entries and the studio index written at build time by
+﻿// The data of the studio pages: the registry entries and the studio index written at build time by
 // `web/scripts/build-studio-index.mjs` (DC-019-03), and the hooks that read the published runs in the browser.
 // A file that is missing, failing or malformed is "nothing published" (ADR-0040): it never breaks a page and never shows a result.
 import { useEffect, useState } from "react";
@@ -47,24 +47,13 @@ export interface Loaded<T> {
   value: T;
 }
 
-const acceptRuns = (raw: unknown): RunCard[] =>
-  Array.isArray(raw)
-    ? (raw.filter((r) => typeof r === "object" && r !== null && typeof r.run_id === "string") as RunCard[])
-    : [];
+/** The slim cards of the runs published with this build, part of the prerendered page data: the ledger and the loop read these. */
+export const studioRuns: RunCard[] = (data as unknown as { runs?: RunCard[] }).runs ?? [];
+const READY: Loaded<RunCard[]> = { status: "ready", value: studioRuns };
 
-/** The slim cards of the runs published with this build (`studio/runs.json`): the ledger and the loop read these. */
 export function useRunSummaries(): Loaded<RunCard[]> {
-  const [state, setState] = useState<Loaded<RunCard[]>>({ status: "loading", value: [] });
-  useEffect(() => {
-    const controller = new AbortController();
-    void getJson("studio/runs.json", controller.signal).then((raw) => {
-      if (!controller.signal.aborted) setState({ status: "ready", value: acceptRuns(raw) });
-    });
-    return () => controller.abort();
-  }, []);
-  return state;
+  return READY;
 }
-
 export interface StudioManifest {
   artefacts: ArtefactRecord[];
   /** Run ids the web manifest lists as published (`runs[].run_id`). */
