@@ -53,7 +53,7 @@ def build_scope(
     method: str, target: str, port: int, headers: list[tuple[str, str]], host: str | None
 ) -> dict[str, Any]:
     raw_path, _, query = target.partition("?")
-    hdrs = [(k.lower().encode("latin-1"), v.encode("latin-1")) for k, v in headers]
+    hdrs = [(k.lower().encode("latin-1"), v.encode("utf-8")) for k, v in headers]
     if not any(k == b"host" for k, _ in hdrs) and host != "":
         hdrs.insert(0, (b"host", (host if host is not None else f"127.0.0.1:{port}").encode("latin-1")))
     return {
