@@ -1,0 +1,402 @@
+"""Scoring statistics of the reason lane (FR-015-30 to FR-015-32): written from their definitions, NumPy only.
+
+- balanced accuracy (mean per-class recall, exact `Fraction`), F1 ("yes" for binary types, macro for type 3);
+- stratified percentile bootstrap of both (10,000 resamples within each true class, fixed seed);
+- the first-token answer score s = log p(yes) - log p(no) and its AUROC (pair counting with ties at 1/2);
+- the Wilson score interval of a proportion;
+- `score_row`, one `row_a` of `contracts/vlm-metrics.schema.json`.
+
+Every function raises `ValueError` for unequal lengths, n = 0, a label outside the type's classes, a count k > n or
+k < 0, or a non-finite score (FR-015-32). A prediction may also be "unparseable": it is always wrong.
+"""
+
+from __future__ import annotations
+
+import math
+from collections.abc import Mapping, Sequence
+from fractions import Fraction
+from itertools import pairwise
+from typing import Any
+
+import numpy as np
+
+UNPARSEABLE = "unparseable"
+Z975 = 1.959963984540054  # the 0.975 quantile of the standard normal distribution
+BINARY = ("yes", "no")
+TYPE3 = ("0", "1", "2", "3+")
+CONDITIONS = ("day", "night", "dust", "rain")
+AUROC_ARMS = ("cosmos-q8_0", "qwen-base")
+ARMS = ("cosmos-q8_0", "cosmos-bf16", "qwen-base", "detector-rule", "constant")
+DEFAULT_RESAMPLES = 10_000
+
+
+def labels_of(qtype: int) -> tuple[str, ...]:
+    """The answer classes of a question type (1 to 6)."""
+    if isinstance(qtype, bool) or qtype not in (1, 2, 3, 4, 5, 6):
+        raise ValueError(f"unknown question type {qtype!r}")
+    return TYPE3 if qtype == 3 else BINARY
+
+
+def _check_pairs(truth: Sequence[str], pred: Sequence[str], labels: Sequence[str]) -> None:
+    if len(truth) != len(pred):
+        raise ValueError(f"truth has {len(truth)} entries, pred has {len(pred)}")
+    if len(truth) == 0:
+        raise ValueError("n = 0: nothing to score")
+    allowed = set(labels)
+    for t in truth:
+        if t not in allowed:
+            raise ValueError(f"truth label {t!r} is not one of {tuple(labels)}")
+    for p in pred:
+        if p not in allowed and p != UNPARSEABLE:
+            raise ValueError(f"predicted label {p!r} is not one of {tuple(labels)} or {UNPARSEABLE!r}")
+
+
+def balanced_accuracy(truth: Sequence[str], pred: Sequence[str], labels: Sequence[str]) -> Fraction:
+    """Mean over the classes present in `truth` of the recall, as an exact fraction."""
+    _check_pairs(truth, pred, labels)
+    hits: dict[str, int] = {}
+    total: dict[str, int] = {}
+    for t, p in zip(truth, pred, strict=True):
+        total[t] = total.get(t, 0) + 1
+        hits[t] = hits.get(t, 0) + (1 if p == t else 0)
+    return sum((Fraction(hits[c], total[c]) for c in total), Fraction(0)) / len(total)
+
+
+def _f1_from_counts(tp: float, fp: float, fn: float) -> float:
+    denom = 2 * tp + fp + fn
+    return 0.0 if denom == 0 else 2 * tp / denom
+
+
+def f1_score(truth: Sequence[str], pred: Sequence[str], labels: Sequence[str]) -> float:
+    """F1 of the class "yes" when `labels == ("yes", "no")`, macro-F1 over `labels` otherwise."""
+    _check_pairs(truth, pred, labels)
+    classes = ["yes"] if tuple(labels) == BINARY else list(labels)
+    scores = []
+    for c in classes:
+        tp = sum(1 for t, p in zip(truth, pred, strict=True) if t == c and p == c)
+        fp = sum(1 for t, p in zip(truth, pred, strict=True) if t != c and p == c)
+        fn = sum(1 for t, p in zip(truth, pred, strict=True) if t == c and p != c)
+        scores.append(_f1_from_counts(tp, fp, fn))
+    return sum(scores) / len(scores)
+
+
+def bootstrap_ci(
+    truth: Sequence[str],
+    pred: Sequence[str],
+    labels: Sequence[str],
+    *,
+    metric: str,
+    n_resamples: int = DEFAULT_RESAMPLES,
+    seed: int = 0,
+    level: float = 0.95,
+) -> tuple[float, float]:
+    """Stratified percentile bootstrap interval of "balanced_accuracy" or "f1".
+
+    Each resample draws, within every true class, as many queries as the class holds. A metric of confusion counts
+    only depends on how many of the drawn queries carry each predicted label, and that count vector is multinomial
+    with the class's observed proportions, so the draw is made directly in that form.
+    """
+    _check_pairs(truth, pred, labels)
+    if metric not in ("balanced_accuracy", "f1"):
+        raise ValueError(f"unknown metric {metric!r}")
+    if n_resamples < 1 or not 0.0 < level < 1.0:
+        raise ValueError("n_resamples must be at least 1 and level inside (0, 1)")
+    rng = np.random.default_rng(seed)
+    cols = [*labels, UNPARSEABLE]
+    present = [c for c in labels if c in set(truth)]
+    conf = np.zeros((n_resamples, len(labels), len(cols)))
+    for ci, c in enumerate(labels):
+        if c not in present:
+            continue
+        counts = np.array([sum(1 for t, p in zip(truth, pred, strict=True) if t == c and p == k) for k in cols])
+        conf[:, ci, :] = rng.multinomial(int(counts.sum()), counts / counts.sum(), size=n_resamples)
+    n_true = conf.sum(axis=2)
+    if metric == "balanced_accuracy":
+        recalls = [conf[:, i, i] / n_true[:, i] for i, c in enumerate(labels) if c in present]
+        values = np.mean(recalls, axis=0)
+    else:
+        classes = [list(labels).index("yes")] if tuple(labels) == BINARY else list(range(len(labels)))
+        per_class = []
+        for i in classes:
+            tp = conf[:, i, i]
+            fp = conf[:, :, i].sum(axis=1) - tp
+            fn = n_true[:, i] - tp
+            denom = 2 * tp + fp + fn
+            per_class.append(np.divide(2 * tp, denom, out=np.zeros_like(tp), where=denom > 0))
+        values = np.mean(per_class, axis=0)
+    lo, hi = np.percentile(values, [50 * (1 - level), 50 * (1 + level)])
+    return float(lo), float(hi)
+
+
+def answer_score(top_logprobs: Mapping[str, float]) -> float:
+    """s = log p("yes") - log p("no") at the first answer token, from the top-20 log-probability table.
+
+    A token that is absent from the table takes the smallest log-probability of the table (the 20th). Spelling
+    variants of a word ("Yes", " yes") are summed as probabilities.
+    """
+    if not top_logprobs:
+        raise ValueError("the top log-probability table is empty")
+    values = list(top_logprobs.values())
+    if not all(isinstance(v, int | float) and math.isfinite(v) for v in values):
+        raise ValueError("the top log-probability table holds a non-finite value")
+    floor = min(values)
+
+    def logp(word: str) -> float:
+        found = [v for k, v in top_logprobs.items() if k.strip().casefold() == word]
+        if not found:
+            return floor
+        top = max(found)
+        return top + math.log(sum(math.exp(v - top) for v in found))
+
+    return logp("yes") - logp("no")
+
+
+def auroc(scores: Sequence[float], positive: Sequence[bool]) -> float:
+    """P(s_pos > s_neg) + 0.5 P(s_pos = s_neg) over all positive and negative pairs (Mann-Whitney U / (n_pos n_neg))."""
+    if len(scores) != len(positive):
+        raise ValueError(f"{len(scores)} scores for {len(positive)} labels")
+    if len(scores) == 0:
+        raise ValueError("n = 0: nothing to score")
+    s = np.asarray(scores, dtype=float)
+    if not np.isfinite(s).all():
+        raise ValueError("a score is not finite")
+    y = np.asarray(positive, dtype=bool)
+    n_pos = int(y.sum())
+    n_neg = len(y) - n_pos
+    if n_pos == 0 or n_neg == 0:
+        raise ValueError("AUROC needs at least one positive and one negative query")
+    order = np.argsort(s, kind="stable")
+    ss = s[order]
+    # doubled average ranks (integers): a block of ties from position i to j shares the rank (i + j + 2) / 2
+    boundaries = np.flatnonzero(np.r_[True, ss[1:] != ss[:-1], True])
+    ranks2 = np.empty(len(ss), dtype=np.int64)
+    for a, b in pairwise(boundaries):
+        ranks2[a:b] = a + b + 1  # 2 * mean(rank) = (a + 1) + b
+    rank_sum2 = int(ranks2[np.argsort(order, kind="stable")][y].sum())
+    return (rank_sum2 - n_pos * (n_pos + 1)) / (2 * n_pos * n_neg)
+
+
+def wilson_interval(k: int, n: int, z: float = Z975) -> tuple[float, float]:
+    """Wilson score interval of k successes in n trials (Wilson 1927), clipped to [0, 1]."""
+    if not _is_count(n) or n <= 0:
+        raise ValueError(f"n must be a positive integer, got {n!r}")
+    if not _is_count(k) or k < 0 or k > n:
+        raise ValueError(f"k must be an integer with 0 <= k <= n, got {k!r} for n = {n}")
+    p = k / n
+    d = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / d
+    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+    return max(0.0, centre - half), min(1.0, centre + half)
+
+
+def _is_count(x: Any) -> bool:
+    return isinstance(x, int | np.integer) and not isinstance(x, bool)
+
+
+def _estimate(value: float, lo: float, hi: float) -> dict[str, float]:
+    return {"value": value, "lo": min(lo, value), "hi": max(hi, value)}
+
+
+def score_row(
+    records: Sequence[Mapping[str, Any]],
+    *,
+    arm: str,
+    qtype: int,
+    reasoning: bool = False,
+    seed: int = 0,
+    n_resamples: int = DEFAULT_RESAMPLES,
+) -> dict[str, Any]:
+    """One measured `row_a` of the metrics contract from the records of one arm and one question type.
+
+    A record holds `truth`, `parsed`, `condition`, optionally `score` and `status` ("ok" or "error"; an errored query
+    is excluded from every score and counted in `error_rate`).
+    """
+    if arm not in ARMS:
+        raise ValueError(f"unknown arm {arm!r}")
+    labels = labels_of(qtype)
+    if len(records) == 0:
+        raise ValueError("n = 0: no records to score")
+    ok = [r for r in records if r.get("status", "ok") == "ok"]
+    if len(ok) == 0:
+        raise ValueError("every record is an errored query: nothing to score")
+    truth = [r["truth"] for r in ok]
+    pred = [r["parsed"] for r in ok]
+    _check_pairs(truth, pred, labels)
+    for r in ok:
+        if r["condition"] not in CONDITIONS:
+            raise ValueError(f"unknown condition {r['condition']!r}")
+        if "score" in r and not (isinstance(r["score"], int | float) and math.isfinite(r["score"])):
+            raise ValueError("a score is not finite")
+    ba = float(balanced_accuracy(truth, pred, labels))
+    f1 = f1_score(truth, pred, labels)
+    ba_lo, ba_hi = bootstrap_ci(truth, pred, labels, metric="balanced_accuracy", n_resamples=n_resamples, seed=seed)
+    f1_lo, f1_hi = bootstrap_ci(truth, pred, labels, metric="f1", n_resamples=n_resamples, seed=seed)
+    auc = None
+    positives = [t == "yes" for t in truth]
+    if arm in AUROC_ARMS and qtype != 3 and all("score" in r for r in ok) and 0 < sum(positives) < len(positives):
+        auc = auroc([r["score"] for r in ok], positives)
+    by_condition = []
+    for cond in CONDITIONS:
+        sub = [r for r in ok if r["condition"] == cond]
+        if sub:
+            sub_ba = float(balanced_accuracy([r["truth"] for r in sub], [r["parsed"] for r in sub], labels))
+            by_condition.append({"condition": cond, "n": len(sub), "balanced_accuracy": sub_ba})
+    return {
+        "arm": arm,
+        "reasoning": bool(reasoning),
+        "type": qtype,
+        "status": "measured",
+        "n": len(ok),
+        "balanced_accuracy": _estimate(ba, ba_lo, ba_hi),
+        "f1": _estimate(f1, f1_lo, f1_hi),
+        "unparseable_rate": sum(1 for p in pred if p == UNPARSEABLE) / len(ok),
+        "error_rate": (len(records) - len(ok)) / len(records),
+        "auroc": auc,
+        "by_condition": by_condition,
+    }
+
+
+# ------------------------------------------------------------------------------------------------ McNemar (FR-015-31)
+BEATS = "Cosmos beats Qwen base"
+NO_DIFFERENCE = "no significant difference"
+ALPHA = 0.05
+CHI2_MIN_DISCORDANT = 25
+POOLED = "pooled-binary"
+
+
+def mcnemar_exact(b: int, c: int) -> float:
+    """Two-sided exact binomial McNemar p: min(1, 2 P(X <= min(b, c))), X ~ Binomial(b + c, 1/2); 1 when b + c = 0."""
+    if not (_is_count(b) and _is_count(c)) or b < 0 or c < 0:
+        raise ValueError(f"b and c must be non-negative integers, got {b!r} and {c!r}")
+    n = int(b) + int(c)
+    if n == 0:
+        return 1.0
+    m = min(int(b), int(c))
+    term, tail = 1, 1  # C(n, 0), then the running sum of C(n, i) for i <= m, in exact integers
+    for i in range(m):
+        term = term * (n - i) // (i + 1)
+        tail += term
+    return min(1.0, 2 * tail / 2**n)
+
+
+def mcnemar(correct_a: Sequence[bool], correct_b: Sequence[bool]) -> dict[str, Any]:
+    """Paired comparison of arm A (Cosmos) with arm B (Qwen): b = A right and B wrong, c = the reverse."""
+    if len(correct_a) != len(correct_b):
+        raise ValueError(f"arm A has {len(correct_a)} answers, arm B has {len(correct_b)}")
+    if len(correct_a) == 0:
+        raise ValueError("n = 0: no paired answers")
+    b = sum(1 for x, y in zip(correct_a, correct_b, strict=True) if x and not y)
+    c = sum(1 for x, y in zip(correct_a, correct_b, strict=True) if y and not x)
+    p = mcnemar_exact(b, c)
+    chi2 = (abs(b - c) - 1) ** 2 / (b + c) if b + c >= CHI2_MIN_DISCORDANT else None
+    return {"b": b, "c": c, "p": p, "chi2_cc": chi2, "verdict": BEATS if b > c and p < ALPHA else NO_DIFFERENCE}
+
+
+def compare_arms(
+    cosmos: Sequence[Mapping[str, Any]], qwen: Sequence[Mapping[str, Any]], *, cosmos_arm: str = "cosmos-q8_0"
+) -> list[dict[str, Any]]:
+    """`mcnemar_row`s of the metrics contract: one per type present (ascending), then types 1, 2, 4, 5, 6 pooled.
+
+    `cosmos` and `qwen` hold `{"query_id", "type", "correct"}` records over the same query ids, in any order.
+    """
+    if cosmos_arm not in ("cosmos-q8_0", "cosmos-bf16"):
+        raise ValueError(f"unknown Cosmos arm {cosmos_arm!r}")
+    if len(cosmos) != len(qwen):
+        raise ValueError(f"Cosmos has {len(cosmos)} records, Qwen has {len(qwen)}")
+    if len(cosmos) == 0:
+        raise ValueError("n = 0: no records")
+    by_id = {r["query_id"]: r for r in qwen}
+    if len(by_id) != len(qwen) or len({r["query_id"] for r in cosmos}) != len(cosmos):
+        raise ValueError("a query id appears twice in one arm")
+    pairs: dict[int, tuple[list[bool], list[bool]]] = {}
+    for r in cosmos:
+        other = by_id.get(r["query_id"])
+        if other is None:
+            raise ValueError(f"query {r['query_id']!r} is missing from the Qwen records")
+        labels_of(r["type"])  # raises for an unknown type
+        if other["type"] != r["type"]:
+            raise ValueError(f"query {r['query_id']!r} has two different types")
+        a, q = pairs.setdefault(r["type"], ([], []))
+        a.append(bool(r["correct"]))
+        q.append(bool(other["correct"]))
+    rows = [{"type": qtype, "cosmos_arm": cosmos_arm, **mcnemar(*pairs[qtype])} for qtype in sorted(pairs)]
+    binary = [pairs[t] for t in sorted(pairs) if t != 3]
+    if binary:
+        rows.append(
+            {
+                "type": POOLED,
+                "cosmos_arm": cosmos_arm,
+                **mcnemar([x for a, _ in binary for x in a], [x for _, q in binary for x in q]),
+            }
+        )
+    return rows
+
+
+# ---------------------------------------------------------------------------------------------- Student t quantile
+def _betacf(a: float, b: float, x: float) -> float:
+    """Continued fraction of the regularised incomplete beta function (modified Lentz, Numerical Recipes 6.4)."""
+    tiny = 1e-300
+    qab, qap, qam = a + b, a + 1.0, a - 1.0
+    c, d = 1.0, 1.0 - qab * x / qap
+    d = 1.0 / (d if abs(d) > tiny else tiny)
+    h = d
+    for m in range(1, 1000):
+        m2 = 2 * m
+        aa = m * (b - m) * x / ((qam + m2) * (a + m2))
+        d = 1.0 + aa * d
+        d = 1.0 / (d if abs(d) > tiny else tiny)
+        c = 1.0 + aa / c
+        c = c if abs(c) > tiny else tiny
+        h *= d * c
+        aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2))
+        d = 1.0 + aa * d
+        d = 1.0 / (d if abs(d) > tiny else tiny)
+        c = 1.0 + aa / c
+        c = c if abs(c) > tiny else tiny
+        delta = d * c
+        h *= delta
+        if abs(delta - 1.0) < 1e-16:
+            break
+    return h
+
+
+def betainc(a: float, b: float, x: float) -> float:
+    """Regularised incomplete beta function I_x(a, b) for a, b > 0 and 0 <= x <= 1."""
+    if not (a > 0 and b > 0 and 0.0 <= x <= 1.0):
+        raise ValueError("betainc needs a, b > 0 and x in [0, 1]")
+    if x in (0.0, 1.0):
+        return x
+    front = math.exp(math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log1p(-x))
+    if x < (a + 1.0) / (a + b + 2.0):
+        return front * _betacf(a, b, x) / a
+    return 1.0 - front * _betacf(b, a, 1.0 - x) / b
+
+
+def t_cdf(t: float, df: float) -> float:
+    """Cumulative distribution function of Student's t with `df` degrees of freedom."""
+    if not df > 0:
+        raise ValueError("degrees of freedom must be positive")
+    tail = 0.5 * betainc(df / 2.0, 0.5, df / (df + t * t))
+    return 1.0 - tail if t > 0 else tail
+
+
+def t_quantile(p: float, df: float) -> float:
+    """The p-quantile of Student's t with `df` degrees of freedom (bisection on `t_cdf`, to machine precision)."""
+    if not 0.0 < p < 1.0 or not df > 0:
+        raise ValueError("t_quantile needs 0 < p < 1 and df > 0")
+    if p == 0.5:
+        return 0.0
+    if p < 0.5:
+        return -t_quantile(1.0 - p, df)
+    lo, hi = 0.0, 1.0
+    while t_cdf(hi, df) < p:
+        hi *= 2.0
+        if hi > 1e12:
+            raise ValueError("quantile out of range")
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        if t_cdf(mid, df) < p:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)

@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "llamacpp": {
+    "build": "b11381",
+    "archives": {
+      "binaries": {
+        "name": "llama-b11381-bin-win-cuda-13.4-x64.zip",
+        "url": "https://github.com/ggml-org/llama.cpp/releases/download/b11381/llama-b11381-bin-win-cuda-13.4-x64.zip",
+        "bytes": 153005337,
+        "sha256": "8e3dca4fc1cdd11f3e3ebc770b159483bd8fd7dfeceff396fbb31997495d0b2e"
+      },
+      "cudart": {
+        "name": "cudart-llama-bin-win-cuda-13.4-x64.zip",
+        "url": "https://github.com/ggml-org/llama.cpp/releases/download/b11381/cudart-llama-bin-win-cuda-13.4-x64.zip",
+        "bytes": 423535356,
+        "sha256": "738f8c251ac22b70c3ae6f83a10cf222725df0395246a2cf58f32bdb85fbe668"
+      }
+    },
+    "executables": {
+      "llama-server.exe": "5c4b560344b396d97ed93933be19a2c1a5600b916de5f6eee557903a8a6f313e",
+      "llama-quantize.exe": "739313c59a6db08b694a006b64eaed91dfc25c70f0a074f7a01c62763d935f43"
+    },
+    "converter": {
+      "source_tag": "b11381",
+      "path": "convert_hf_to_gguf.py",
+      "sha256": "e9a1da876330bbce9687541ab31736542a01b4ac43c6686126514a50f122fb7f"
+    }
+  },
+  "models": {
+    "cosmos": {
+      "repository": "nvidia/Cosmos-Reason2-2B",
+      "revision": "9ce19a195e423419c349abfc86fd07178b230561",
+      "files": {
+        "model.safetensors": {
+          "sha256": "****************************************************************",
+          "bytes": 4877470304
+        }
+      }
+    },
+    "qwen": {
+      "repository": "Qwen/Qwen3-VL-2B-Instruct",
+      "revision": "89644892e4d85e24eaac8bacfd4f463576704203",
+      "files": {
+        "chat_template.json": {
+          "sha256": "6f8a6a55027e3da5160105556cda5dd69f6423f1c32645f6730d32de7773d0c4",
+          "bytes": 5502
+        },
+        "config.json": {
+          "sha256": "bec4b3d446efa05807365c9e1cec03ac590836879d02f3a6da879971154bdd3b",
+          "bytes": 1505
+        },
+        "generation_config.json": {
+          "sha256": "1e241830b48b397cb0900101421df5450baddc7adf01e5fc86b5615865f3bae4",
+          "bytes": 269
+        },
+        "merges.txt": {
+          "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+          "bytes": 1671839
+        },
+        "model.safetensors": {
+          "sha256": "7de1838c87a5349b016c26a1c3f7d2bc400a3d485f95ef39a7059ffd734977a0",
+          "bytes": 4255140312
+        },
+        "preprocessor_config.json": {
+          "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+          "bytes": 390
+        },
+        "tokenizer.json": {
+          "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+          "bytes": 7032403
+        },
+        "tokenizer_config.json": {
+          "sha256": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+          "bytes": 10868
+        },
+        "video_preprocessor_config.json": {
+          "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+          "bytes": 385
+        },
+        "vocab.json": {
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "bytes": 2776833
+        }
+      }
+    }
+  },
+  "prompts": {
+    "system": {
+      "path": "studio/reason/prompts/system.txt",
+      "sha256": "92d106e0637e600e20b94116ca26bdb32afe121dfbdaa31accb77e6180c8b7ad"
+    },
+    "task_a_type_1": {
+      "path": "studio/reason/prompts/task_a_type_1.txt",
+      "sha256": "894b7a878ff0fb212d0b34aebcac9ada1c3ac6c44fad4c8cee8ea58ab8e5930e"
+    },
+    "task_a_type_2": {
+      "path": "studio/reason/prompts/task_a_type_2.txt",
+      "sha256": "13bcdc4592351f6c27afd2285bff606b988426cbb5b0535b75882073d62d70ad"
+    },
+    "task_a_type_3": {
+      "path": "studio/reason/prompts/task_a_type_3.txt",
+      "sha256": "73b1cab0968f11e9dac6b051627fa5b6a99f0793fd611734c6d64529a46ed086"
+    },
+    "task_a_type_4": {
+      "path": "studio/reason/prompts/task_a_type_4.txt",
+      "sha256": "e8155905d8aaef25f4feb3c07b2c1977bafa0b1d0560e6c50300e5bdc540f3cd"
+    },
+    "task_a_type_5": {
+      "path": "studio/reason/prompts/task_a_type_5.txt",
+      "sha256": "5d0426b9a559901cbc4a35396834d3828855c97b7e900fd64b09286a4a1941a0"
+    },
+    "task_a_type_6": {
+      "path": "studio/reason/prompts/task_a_type_6.txt",
+      "sha256": "c49fc1e619a7a7e141194c9d5c9cc539518cdfbb2485f21321b9a02a88d4bc0d"
+    },
+    "task_b_pair": {
+      "path": "studio/reason/prompts/task_b_pair.txt",
+      "sha256": "6a2351af14f0efde7409c480e76b5f07171a235518b526fc12df0396453ee535"
+    },
+    "task_b_single": {
+      "path": "studio/reason/prompts/task_b_single.txt",
+      "sha256": "934ef1b8b3dc73c75a30aad59d494cfe5b2d76a007432565fb7e9218f3800b0c"
+    },
+    "task_c_caption": {
+      "path": "studio/reason/prompts/task_c_caption.txt",
+      "sha256": "2f2e25dc965ff773d83f35fd624b462f528da3cf377cd7e4539f7f8dcdb2ad8a"
+    }
+  }
+}
