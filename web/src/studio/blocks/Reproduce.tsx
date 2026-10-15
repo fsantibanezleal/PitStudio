@@ -23,12 +23,13 @@ export function ReproduceBlock({ tool, runs }: { tool: StudioTool; runs: RunCard
       {mine.map((run) => {
         const recipe = relativeToken(run.recipe?.path);
         const profile = relativeToken(run.profile);
+        const command = `uv run studio run ${recipe}${profile ? ` --profile ${profile}` : ""}`; // a shell command, not prose
         return (
           <div key={run.run_id} data-run={run.run_id}>
             <p>{clip(run.run_id)}</p>
             {recipe && (
               <code data-command className={styles.command}>
-                {`uv run studio run ${recipe}${profile ? ` --profile ${profile}` : ""}`}
+                {command}
               </code>
             )}
           </div>

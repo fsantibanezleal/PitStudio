@@ -43,6 +43,7 @@ export function StageDag({ run }: { run: RunCard }) {
           const hit = stage.cache === "hit";
           const Icon = hit ? CircleCheck : CircleDashed;
           const wall = stage.performance === "local-only" ? null : num(stage.wall_s);
+          const wallText = wall === null ? "" : `${wall} s`; // seconds: a unit symbol, the same in every language
           const retries = Math.max((stage.attempts?.length ?? 1) - 1, 0);
           return (
             <li
@@ -66,7 +67,7 @@ export function StageDag({ run }: { run: RunCard }) {
                 <span> · {t("dag.exit", { code: stage.exit_code })}</span>
               )}
               <span data-field="retries"> · {t("dag.retries", { n: retries })}</span>
-              {wall !== null && <span data-field="wall"> · {`${wall} s`}</span>}
+              {wall !== null && <span data-field="wall"> · {wallText}</span>}
             </li>
           );
         })}
