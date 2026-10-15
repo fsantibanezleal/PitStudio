@@ -2,9 +2,9 @@
 
 Runs Isaac Lab's own rsl_rl training entrypoint (isaaclab_rl.entrypoints.backends.train_rsl_rl) for a few PPO
 iterations on the `newton_mjwarp` physics preset, with no Isaac Sim / Kit module loaded, and passes only when every
-loss is finite. Versions are read from the installed distributions of this environment.
-Publishing: "public" only when the environment lock holds no NVIDIA-licensed package (isaacsim*, omni*, ovrtx,
+loss is finite. Publishing: "public" only when the environment lock holds no NVIDIA-licensed package (isaacsim*, omni*, ovrtx,
 ovstage, ovphysx); otherwise "local-only".
+Versions are read from studio/isaaclab/uv.lock (the single source of every manifest), not from what happens to be installed.
 """
 
 from __future__ import annotations
@@ -14,8 +14,9 @@ import os
 import re
 import sys
 import time
+import tomllib
 import urllib.request
-from importlib import metadata
+from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
@@ -47,18 +48,54 @@ CARTPOLE_ASSETS = (  # the files the stock Cartpole direct task loads (articulat
 KIT_PREFIXES = ("isaacsim", "omni", "carb", "ovrtx", "ovstage", "ovphysx")
 
 
-def _version(dist: str) -> str:
-    try:
-        return metadata.version(dist)
-    except metadata.PackageNotFoundError:
-        return "missing"
+LOCK = Path(__file__).resolve().parents[1] / "isaaclab" / "uv.lock"
+
+
+def _lock_packages() -> dict[str, str]:
+    """Package name to version of studio/isaaclab/uv.lock (the first entry of a name listed twice)."""
+    out: dict[str, str] = {}
+    for entry in tomllib.loads(LOCK.read_text(encoding="utf-8"))["package"]:
+        out.setdefault(entry["name"], entry["version"])
+    return out
+
+
+def lock_versions() -> dict[str, str]:
+    """Versions of DISTS read from the lock, keyed with "-" written as "_"."""
+    packages = _lock_packages()
+    missing = [d for d in DISTS if d not in packages]
+    if missing:
+        raise RuntimeError(f"packages missing from {LOCK.name}: {missing}")
+    return {d.replace("-", "_"): packages[d] for d in DISTS}
 
 
 def lock_restricted() -> list[str]:
     """Packages of studio/isaaclab/uv.lock covered by the NVIDIA licence terms (empty means publishable)."""
-    lock = Path(__file__).resolve().parents[1] / "isaaclab" / "uv.lock"
-    names = re.findall(r'^name = "([^"]+)"', lock.read_text(encoding="utf-8"), flags=re.M)
-    return sorted(n for n in names if RESTRICTED.match(n.lower()))
+    return sorted(n for n in _lock_packages() if RESTRICTED.match(n.lower()))
+
+
+def publish_marker() -> str:
+    """"local-only" when the lock holds a package covered by SLA 8.9, else "public"."""
+    return "local-only" if lock_restricted() else "public"
+
+
+def kit_modules(module_names: Iterable[str]) -> list[str]:
+    """The sorted Isaac Sim and Kit modules among module_names (first dotted component in KIT_PREFIXES)."""
+    return sorted(m for m in module_names if m.split(".")[0] in KIT_PREFIXES)
+
+
+def evaluate_losses(losses: Sequence[Mapping[str, float]], iterations_requested: int) -> tuple[str, str | None]:
+    """("pass", None) only with at least ITERATIONS completed PPO iterations whose every loss value is finite."""
+    if iterations_requested < ITERATIONS:
+        return "fail", f"{iterations_requested} iterations requested, the requirement demands at least {ITERATIONS}"
+    if len(losses) < iterations_requested:
+        return "fail", f"only {len(losses)} of {iterations_requested} PPO iterations completed"
+    for i, record in enumerate(losses):
+        if not record:
+            return "fail", f"no loss values were recorded at iteration {i}"
+        for key, value in record.items():
+            if not math.isfinite(value):
+                return "fail", f"non-finite loss at iteration {i}: {key} = {value}"
+    return "pass", None
 
 
 def local_asset_root() -> Path:
@@ -87,7 +124,7 @@ def local_asset_root() -> Path:
 def body(r: dict[str, Any]) -> None:
     import torch
 
-    r["versions"].update({d.replace("-", "_"): _version(d) for d in DISTS})
+    r["versions"].update(lock_versions())
     r["versions"]["cuda"] = torch.version.cuda or "none"
     if not torch.cuda.is_available():
         raise RuntimeError("torch sees no CUDA device")
@@ -125,17 +162,15 @@ def body(r: dict[str, Any]) -> None:
     r["metrics"].update(task=TASK, physics_preset=PHYSICS, num_envs=NUM_ENVS, iterations_requested=ITERATIONS)
     r["metrics"]["iterations_completed"] = len(losses)
     r["metrics"]["train_wall_s"] = round(wall, 2)
-    if len(losses) < ITERATIONS:
-        raise AssertionError(f"only {len(losses)} of {ITERATIONS} PPO iterations completed")
-    bad = [i for i, d in enumerate(losses) if not all(math.isfinite(v) for v in d.values())]
-    if bad:
-        raise AssertionError(f"non-finite losses at iterations {bad}: {losses[bad[0]]}")
+    status, error = evaluate_losses(losses, ITERATIONS)
+    if status != "pass":
+        raise AssertionError(error)
     r["metrics"]["final_losses"] = {k: round(v, 5) for k, v in losses[-1].items()}
-    kit = sorted(m for m in sys.modules if m.split(".")[0] in KIT_PREFIXES)
+    kit = kit_modules(sys.modules)
     r["metrics"]["kit_modules_loaded"] = kit[:5]
     if kit:
         raise AssertionError(f"Isaac Sim / Kit modules were imported: {kit[:5]}")
 
 
 if __name__ == "__main__":
-    run_probe("isaaclab", "local-only" if lock_restricted() else "public", body)
+    run_probe("isaaclab", publish_marker(), body)
