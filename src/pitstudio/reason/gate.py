@@ -74,9 +74,9 @@ def _decimals(value: float) -> str:
 def apply_gate(rows: Sequence[Mapping[str, Any]], gate: Mapping[str, Any]) -> list[dict[str, Any]]:
     """Task rows after the gate: Q8_0 rows are rejected (gate failed) or not run (not evaluable); others unchanged."""
     status = gate["status"]
-    out = []
-    for row in rows:
-        row = copy.deepcopy(dict(row))
+    out: list[dict[str, Any]] = []
+    for source in rows:
+        row = copy.deepcopy(dict(source))
         if row["arm"] == Q8_ARM and status in ("fail", "not_run"):
             if status == "fail":
                 row["status"] = "rejected"

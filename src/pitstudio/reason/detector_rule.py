@@ -72,11 +72,11 @@ def backproject(camera: Mapping[str, Any], uv: Sequence[float], *, ground_z: flo
     return float(hit[0]), float(hit[1])
 
 
-def _valid_detections(detections: Any, image_size: Sequence[int]) -> list[Mapping[str, Any]]:
+def _valid_detections(detections: Any, image_size: Sequence[int]) -> list[dict[str, Any]]:
     if not isinstance(detections, Sequence) or isinstance(detections, str | bytes):
         raise BadDetectorInput("detections are missing")
     width, height = image_size
-    out = []
+    out: list[dict[str, Any]] = []
     for det in detections:
         try:
             cls, score, box = det["class"], det["score"], list(det["box"])
