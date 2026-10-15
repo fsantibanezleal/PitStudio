@@ -42,7 +42,9 @@ def _check_calibration(
     inputs: Sequence[np.ndarray] | None, golden: Collection[str], evaluation: Collection[str]
 ) -> list[np.ndarray]:
     if inputs is None or len(inputs) != CALIBRATION_N:
-        raise PrecisionError(f"calibration needs exactly {CALIBRATION_N} inputs, got {None if inputs is None else len(inputs)}")
+        raise PrecisionError(
+            f"calibration needs exactly {CALIBRATION_N} inputs, got {None if inputs is None else len(inputs)}"
+        )
     banned = set(golden) | set(evaluation)
     for i, array in enumerate(inputs):
         if _digest(np.asarray(array)) in banned:

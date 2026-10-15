@@ -60,7 +60,7 @@ def find_local_only_records(root: Path, *, local_dir: Path) -> list[Path]:
             continue
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
+        except OSError, ValueError:
             continue
         if _holds_local_only(data):
             found.append(path)
@@ -91,7 +91,9 @@ def check_ci_workflows(workflows_dir: Path) -> list[str]:
                 run = str(step.get("run", "")) if isinstance(step, dict) else ""
                 if "pytest" in run and "not gpu" not in run:
                     problems.append(f"{file.name} job {job}: pytest without the `not gpu` selection")
-                for stage in ("s62_accel", "s64_bench"):
-                    if stage in run and "fake" not in run:
-                        problems.append(f"{file.name} job {job}: {stage} without the fake GPU backend")
+                problems.extend(
+                    f"{file.name} job {job}: {stage} without the fake GPU backend"
+                    for stage in ("s62_accel", "s64_bench")
+                    if stage in run and "fake" not in run
+                )
     return problems

@@ -51,7 +51,9 @@ def joules_per_inference(
     return EnergyResult((e_end_mj - e_start_mj) / 1000.0 / (iterations * batch), None, window_s)
 
 
-def measure_energy(backend: Backend, clock: Clock, run: Callable[[], Any], *, iterations: int, batch: int) -> EnergyResult:
+def measure_energy(
+    backend: Backend, clock: Clock, run: Callable[[], Any], *, iterations: int, batch: int
+) -> EnergyResult:
     """Read the counter around `iterations` calls of `run`; the window is the clock span of the calls."""
     start_time = clock.monotonic()
     try:
@@ -73,7 +75,7 @@ def measure_energy(backend: Backend, clock: Clock, run: Callable[[], Any], *, it
 
 def sample_telemetry(backend: Backend, clock: Clock, *, duration_s: float, hz: float = 10.0) -> list[dict[str, Any]]:
     """Power, clocks, temperature and clocks-event reasons every 1/hz seconds; an unreadable field is None."""
-    count = int(math.floor(duration_s * hz + 1e-9))
+    count = math.floor(duration_s * hz + 1e-9)
     start = clock.monotonic()
     samples: list[dict[str, Any]] = []
     for i in range(count):

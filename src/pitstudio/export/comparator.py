@@ -105,5 +105,7 @@ def compare(
     if not (max_err <= max_abs) or math.isnan(max_err):
         return _fail(f"max_abs error {max_err:.3g} exceeds {max_abs:.3g}", **common)
     if agreement != 1.0:
-        return _fail(f"argmax agreement {agreement:.4f} below 1.0 on rows with a top-2 gap above {argmax_gap}", **common)
+        return _fail(
+            f"argmax agreement {agreement:.4f} below 1.0 on rows with a top-2 gap above {argmax_gap}", **common
+        )
     return ComparisonResult("pass", None, **common)

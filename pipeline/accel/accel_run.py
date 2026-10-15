@@ -6,9 +6,11 @@
 Both subcommands take the machine GPU lock, refuse to start above 80 C and call `Guard.check()` between GPU steps. A
 `--dry-run` runs every CPU part for real (ONNX guard, variants, ONNX Runtime CPU references, the timing protocol on the
 CPU), asserts that a CUDA GPU is visible and that TensorRT imports, and stops before the first CUDA context or build.
-Engines, variants and benchmark cells are written only under `<PITSTUDIO_MODELS>/accel/<run>/`, which is git-ignored local
-storage: engines are never committed (FR-016-22) and TensorRT-for-RTX or licence-changed results are written to
-`local/` only (FR-016-23, FR-016-33). A model without an ONNX file, an engine that failed to build or a precision without
+Engines, variants and benchmark cells are written only under `<PITSTUDIO_MODELS>/accel/<run>/`, which is local
+storage outside the repository: engines are never committed (FR-016-22) and TensorRT-for-RTX or licence-changed
+results are written to
+`local/` only (FR-016-23, FR-016-33). A model without an ONNX file, an engine that failed to build or a precision
+without
 calibration data is recorded as a "not available" cell with its reason, never as a number.
 """
 
@@ -58,8 +60,9 @@ def resolve(root_env: str, rel: str) -> Path:
 
 
 def use_cuda13_runtime_wheel() -> list[Path]:
-    """CUDA_PATH and the DLL search path at the CUDA 13 runtime wheel (FR-016-20); cuDNN for the ONNX Runtime CUDA EP."""
+    """CUDA_PATH and the DLL search path at the CUDA 13 runtime wheel (FR-016-20); cuDNN for the ORT CUDA EP."""
     import nvidia
+
     from pitstudio.accel.engines import configure_cuda_env
 
     runtime = None
@@ -102,7 +105,10 @@ def assert_cuda_visible() -> dict[str, Any]:
     name = pynvml.nvmlDeviceGetName(handle)
     for dll in ("cudart64_13.dll",):
         ctypes.WinDLL(dll)
-    return {"gpu_name": name if isinstance(name, str) else name.decode(), "driver": _decode(pynvml.nvmlSystemGetDriverVersion())}
+    return {
+        "gpu_name": name if isinstance(name, str) else name.decode(),
+        "driver": _decode(pynvml.nvmlSystemGetDriverVersion()),
+    }
 
 
 def _decode(value: Any) -> str:
@@ -281,17 +287,30 @@ def stage_a(run: Path, models: list[dict[str, Any]]) -> dict[str, Any]:
             path16 = make_variant(onnx_path, vdir / "fp16.onnx", "fp16", config=config)
             entry["variants"]["fp16"] = {"onnx": str(path16), "onnx_sha256": sha256_file(path16)}
         except Exception as exc:  # recorded; the other variants still run
-            entry["variants"]["fp16"] = {"state": "not available", "reason": f"fp16 conversion failed: {type(exc).__name__}: {exc}"[:300]}
-        digests = {hashlib.sha256(np.ascontiguousarray(inputs[i : i + 1]).tobytes()).hexdigest() for i in range(len(inputs))}
+            entry["variants"]["fp16"] = {
+                "state": "not available",
+                "reason": f"fp16 conversion failed: {type(exc).__name__}: {exc}"[:300],
+            }
+        digests = {
+            hashlib.sha256(np.ascontiguousarray(inputs[i : i + 1]).tobytes()).hexdigest() for i in range(len(inputs))
+        }
         calib = calibration_inputs(spec, digests)
         if calib is None:
-            entry["variants"]["int8"] = {"state": "not available", "reason": "no calibration set of 500 training inputs is wired for this model"}
+            entry["variants"]["int8"] = {
+                "state": "not available",
+                "reason": "no calibration set of 500 training inputs is wired for this model",
+            }
         else:
             try:
-                path8 = make_variant(onnx_path, vdir / "int8.onnx", "int8", config=config, calibration_inputs=calib, eval_digests=digests)
+                path8 = make_variant(
+                    onnx_path, vdir / "int8.onnx", "int8", config=config, calibration_inputs=calib, eval_digests=digests
+                )
                 entry["variants"]["int8"] = {"onnx": str(path8), "onnx_sha256": sha256_file(path8)}
             except Exception as exc:
-                entry["variants"]["int8"] = {"state": "not available", "reason": f"int8 quantisation failed: {type(exc).__name__}: {exc}"[:300]}
+                entry["variants"]["int8"] = {
+                    "state": "not available",
+                    "reason": f"int8 quantisation failed: {type(exc).__name__}: {exc}"[:300],
+                }
     (run / "variants.json").write_text(json.dumps(manifest, indent=1), encoding="utf-8")
     return manifest
 
@@ -321,9 +340,12 @@ class PolygraphyBackend:
 
 
 def run_build(args: argparse.Namespace) -> int:
-    from pitstudio.accel.engines import build_engines
-    from pitstudio.export.variant_rules import check_variant_request  # noqa: F401  (refusals happen inside build_engines)
     from pitstudio_pipeline.export.onnx_guard import check_onnx_file
+
+    from pitstudio.accel.engines import build_engines
+    from pitstudio.export.variant_rules import (
+        check_variant_request,  # noqa: F401  (refusals happen inside build_engines)
+    )
 
     run = folder("PITSTUDIO_MODELS", "models/local") / "accel" / os.environ.get("PITSTUDIO_ACCEL_RUN", "run-001")
     run.mkdir(parents=True, exist_ok=True)
@@ -333,14 +355,23 @@ def run_build(args: argparse.Namespace) -> int:
     fingerprint = assert_cuda_visible()
     manifest = stage_a(run, models)
     licence = tensorrt_licence_check()
-    print(f"[build] stage A done; TensorRT {trt.__version__}; GPU {fingerprint['gpu_name']}; licence ok={licence.ok}", flush=True)
+    print(
+        f"[build] stage A done; TensorRT {trt.__version__}; GPU {fingerprint['gpu_name']}; licence ok={licence.ok}",
+        flush=True,
+    )
     variants = []
     for model_id, entry in manifest["models"].items():
         for precision, variant in entry.get("variants", {}).items():
             if "onnx" in variant:
                 batch = (1,)  # the exported graphs have a fixed batch of 1: one profile point
                 variants.append(
-                    {"model": model_id, "precision": precision, "onnx": Path(variant["onnx"]), "config": {"opset": 17, "gemm_heavy": False}, "batch_sizes": batch}
+                    {
+                        "model": model_id,
+                        "precision": precision,
+                        "onnx": Path(variant["onnx"]),
+                        "config": {"opset": 17, "gemm_heavy": False},
+                        "batch_sizes": batch,
+                    }
                 )
     if args.dry_run:
         for v in variants:
@@ -349,13 +380,17 @@ def run_build(args: argparse.Namespace) -> int:
         from gpu_guard import Guard
 
         assert Guard(read_temp=lambda: 60, whea=lambda s: 0).check() == "ok"
-        print(f"[build] DRY RUN OK: {len(variants)} variants ready; stopped before the first TensorRT build", flush=True)
+        print(
+            f"[build] DRY RUN OK: {len(variants)} variants ready; stopped before the first TensorRT build", flush=True
+        )
         return 0
 
     lock = acquire_lock()
     try:
         guard = start_guard()
-        records = build_engines(variants, PolygraphyBackend(trt, guard), run_dir=run, clock=RealClock, onnx_guard=check_onnx_file)
+        records = build_engines(
+            variants, PolygraphyBackend(trt, guard), run_dir=run, clock=RealClock, onnx_guard=check_onnx_file
+        )
     finally:
         lock.release()
     out = [
@@ -372,7 +407,13 @@ def run_build(args: argparse.Namespace) -> int:
         }
         for r in records
     ]
-    (run / "build-manifest.json").write_text(json.dumps({"tensorrt": trt.__version__, "licence": {"ok": licence.ok, "sha256": licence.sha256}, "engines": out}, indent=1), encoding="utf-8")
+    (run / "build-manifest.json").write_text(
+        json.dumps(
+            {"tensorrt": trt.__version__, "licence": {"ok": licence.ok, "sha256": licence.sha256}, "engines": out},
+            indent=1,
+        ),
+        encoding="utf-8",
+    )
     failed = [r for r in out if r["status"] != "built"]
     print(f"[build] {len(out) - len(failed)} engines built, {len(failed)} build-failed", flush=True)
     return 0
@@ -408,13 +449,24 @@ def measure_cell(call, *, backend: NvmlBackend | None, kind: str, dry: bool) -> 
                 cell["rejected"] = result.reason
                 return cell
             cell["latency"].append(
-                {"regime": regime, "scope": scope, "gap_ms": result.gap_ms, "warmup_s": round(result.warmup_s, 3), "iterations": result.iterations, "timed_s": round(result.timed_s, 3), **{q: result.stats[q] for q in ("p50", "p90", "p95", "p99")}, "bootstrap": result.stats["bootstrap"]}
+                {
+                    "regime": regime,
+                    "scope": scope,
+                    "gap_ms": result.gap_ms,
+                    "warmup_s": round(result.warmup_s, 3),
+                    "iterations": result.iterations,
+                    "timed_s": round(result.timed_s, 3),
+                    **{q: result.stats[q] for q in ("p50", "p90", "p95", "p99")},
+                    "bootstrap": result.stats["bootstrap"],
+                }
             )
     through = run_throughput(lambda size: call(), clock=clock, sizes=(1,), iterations=200 if not dry else 20)
     cell["throughput"] = through.entries if through.status == "ok" else None
     if backend is not None:
         energy = measure_energy(backend, clock, call, iterations=1000, batch=1)
-        cell.update(joules_per_inference=energy.joules, energy_window_s=round(energy.window_s, 3), energy_reason=energy.reason)
+        cell.update(
+            joules_per_inference=energy.joules, energy_window_s=round(energy.window_s, 3), energy_reason=energy.reason
+        )
         samples: list[dict[str, Any]] = []
         sampler = threading.Thread(target=lambda: samples.extend(sample_telemetry(backend, clock, duration_s=4.0)))
         sampler.start()
@@ -430,12 +482,15 @@ def measure_cell(call, *, backend: NvmlBackend | None, kind: str, dry: bool) -> 
 
 def run_bench(args: argparse.Namespace) -> int:
     import onnxruntime as ort
+
     from pitstudio.accel.licence import apply_licence_policy
     from pitstudio.accel.records import check_cell_key, make_bench_record
     from pitstudio.export.comparator import compare
 
     root = folder("PITSTUDIO_MODELS", "models/local") / "accel" / os.environ.get("PITSTUDIO_ACCEL_RUN", "run-001")
-    manifest = json.loads((root / "variants.json").read_text(encoding="utf-8")) if (root / "variants.json").is_file() else None
+    manifest = (
+        json.loads((root / "variants.json").read_text(encoding="utf-8")) if (root / "variants.json").is_file() else None
+    )
     built = {}
     if (root / "build-manifest.json").is_file():
         for e in json.loads((root / "build-manifest.json").read_text(encoding="utf-8"))["engines"]:
@@ -453,7 +508,13 @@ def run_bench(args: argparse.Namespace) -> int:
     out = root / "bench"
     for sub in ("public", "local", "cells"):
         (out / sub).mkdir(parents=True, exist_ok=True)
-    plan = [(mid, p, b) for mid, e in manifest["models"].items() if e.get("state") == "available" for p in ("fp32", "fp16", "int8") for b in ("ort-cpu", "ort-cuda", "tensorrt")]
+    plan = [
+        (mid, p, b)
+        for mid, e in manifest["models"].items()
+        if e.get("state") == "available"
+        for p in ("fp32", "fp16", "int8")
+        for b in ("ort-cpu", "ort-cuda", "tensorrt")
+    ]
     if args.dry_run:
         plan = [("slope-tcn", "fp32", "ort-cpu")]
     nvml = None if args.dry_run else NvmlBackend()
@@ -468,14 +529,25 @@ def run_bench(args: argparse.Namespace) -> int:
             spec = models[model_id]
             check_cell_key(backend, precision)
             variant = entry["variants"].get(precision, {})
-            base = {"model": model_id, "backend": backend, "precision": precision, "tensorrt_version": trt.__version__ if backend == "tensorrt" else None}
+            base = {
+                "model": model_id,
+                "backend": backend,
+                "precision": precision,
+                "tensorrt_version": trt.__version__ if backend == "tensorrt" else None,
+            }
             if backend == "ort-cpu" and precision != "fp32":
                 continue  # the CPU provider is the reference of the output comparison, measured for fp32 only
             if "onnx" not in variant:
                 cells.append({**base, "status": "not_run", "reason": variant.get("reason", "variant not available")})
                 continue
             if backend == "tensorrt" and (built.get((model_id, precision)) or {}).get("status") != "built":
-                cells.append({**base, "status": "not_run", "reason": (built.get((model_id, precision)) or {}).get("error") or "engine not built by job 70"})
+                cells.append(
+                    {
+                        **base,
+                        "status": "not_run",
+                        "reason": (built.get((model_id, precision)) or {}).get("error") or "engine not built by job 70",
+                    }
+                )
                 continue
             if guard is not None:
                 guard_step(guard)
@@ -485,7 +557,9 @@ def run_bench(args: argparse.Namespace) -> int:
             try:
                 call, produce = make_call(backend, entry, variant, built.get((model_id, precision)), inputs, name, ort)
                 outputs = produce()
-                parity = compare([r[: len(outputs[0])] for r in refs], outputs, rtol=1e-3, atol=1e-5, max_abs=float("inf"))
+                parity = compare(
+                    [r[: len(outputs[0])] for r in refs], outputs, rtol=1e-3, atol=1e-5, max_abs=float("inf")
+                )
                 measured = measure_cell(call, backend=nvml, kind=spec["kind"], dry=args.dry_run)
             except Exception as exc:  # a failed cell is kept with its reason
                 cells.append({**base, "status": "not_run", "reason": f"cell failed: {type(exc).__name__}: {exc}"[:300]})
@@ -493,40 +567,102 @@ def run_bench(args: argparse.Namespace) -> int:
             if measured["rejected"]:
                 cells.append({**base, "status": "rejected", "reason": measured["rejected"]})
                 continue
-            cells.append({**base, "status": "measured", "measured": measured, "output_difference": {"max_abs_error": parity.max_abs_error, "mismatch_fraction": parity.mismatch_fraction, "fp32_tolerance_verdict": parity.verdict, "mask_iou": fg_iou(refs[0][: len(outputs[0])], outputs[0]) if spec.get("mask_iou") else None}})
-            (out / "cells" / f"{model_id}-{backend}-{precision}.json").write_text(json.dumps(cells[-1], indent=1, default=float), encoding="utf-8")
+            cells.append(
+                {
+                    **base,
+                    "status": "measured",
+                    "measured": measured,
+                    "output_difference": {
+                        "max_abs_error": parity.max_abs_error,
+                        "mismatch_fraction": parity.mismatch_fraction,
+                        "fp32_tolerance_verdict": parity.verdict,
+                        "mask_iou": fg_iou(refs[0][: len(outputs[0])], outputs[0]) if spec.get("mask_iou") else None,
+                    },
+                }
+            )
+            (out / "cells" / f"{model_id}-{backend}-{precision}.json").write_text(
+                json.dumps(cells[-1], indent=1, default=float), encoding="utf-8"
+            )
     finally:
         if lock is not None:
             lock.release()
 
-    fp = {**(nvml.fingerprint() if nvml else {"gpu_name": fingerprint["gpu_name"], "driver": fingerprint["driver"], "power_limit_enforced_w": None, "power_source": "ac", "os_power_mode": "best-performance"}), "ort_version": ort.__version__, "torch_version": "none"}
-    run_meta = {"run_id": time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()) + "-accel", "git_sha": os.environ.get("PITSTUDIO_GIT_SHA", "0" * 40), "date": time.strftime("%Y-%m-%d", time.gmtime())}
+    fp = {
+        **(
+            nvml.fingerprint()
+            if nvml
+            else {
+                "gpu_name": fingerprint["gpu_name"],
+                "driver": fingerprint["driver"],
+                "power_limit_enforced_w": None,
+                "power_source": "ac",
+                "os_power_mode": "best-performance",
+            }
+        ),
+        "ort_version": ort.__version__,
+        "torch_version": "none",
+    }
+    run_meta = {
+        "run_id": time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()) + "-accel",
+        "git_sha": os.environ.get("PITSTUDIO_GIT_SHA", "0" * 40),
+        "date": time.strftime("%Y-%m-%d", time.gmtime()),
+    }
     records = []
     for c in cells:
         entry = manifest["models"][c["model"]]
         built_e = built.get((c["model"], c["precision"])) or {}
-        fingerprint_c = {**fp, "onnx_sha256": entry["variants"].get(c["precision"], {}).get("onnx_sha256") or entry["onnx_sha256"], "engine_sha256": built_e.get("engine_sha256") if c["backend"] == "tensorrt" else None, "tensorrt_licence_sha256": licence.sha256 if c["backend"] == "tensorrt" else None}
+        fingerprint_c = {
+            **fp,
+            "onnx_sha256": entry["variants"].get(c["precision"], {}).get("onnx_sha256") or entry["onnx_sha256"],
+            "engine_sha256": built_e.get("engine_sha256") if c["backend"] == "tensorrt" else None,
+            "tensorrt_licence_sha256": licence.sha256 if c["backend"] == "tensorrt" else None,
+        }
         if c["status"] != "measured":
-            cell = {k: c[k] for k in ("model", "backend", "precision", "tensorrt_version")} | {"status": c["status"], "reason": c["reason"], "latency": None, "throughput": None, "joules_per_inference": None, "energy_window_s": None, "vram_peak_bytes": None, "thermal_slowdown": None, "telemetry_hz": 10, "camera_streams": None, "parity": None}
+            cell = {k: c[k] for k in ("model", "backend", "precision", "tensorrt_version")} | {
+                "status": c["status"],
+                "reason": c["reason"],
+                "latency": None,
+                "throughput": None,
+                "joules_per_inference": None,
+                "energy_window_s": None,
+                "vram_peak_bytes": None,
+                "thermal_slowdown": None,
+                "telemetry_hz": 10,
+                "camera_streams": None,
+                "parity": None,
+            }
         else:
             # the numbers stay in the local cells folder: the bench record needs the PyTorch fp32 golden parity and, for
             # reduced precision, the evaluation-set task metric (layer-2 gate), neither of which this job measures
             cell = {k: c[k] for k in ("model", "backend", "precision", "tensorrt_version")} | {
                 "status": "not_run",
-                "reason": "golden-set parity and task-metric gate not evaluated by this job; measured numbers are in the local cells folder",
-                "latency": None, "throughput": None, "joules_per_inference": None, "energy_window_s": None, "vram_peak_bytes": None, "thermal_slowdown": None, "telemetry_hz": 10, "camera_streams": None, "parity": None,
+                "reason": "golden-set parity and task-metric gate not evaluated here; numbers are in the cells folder",
+                "latency": None,
+                "throughput": None,
+                "joules_per_inference": None,
+                "energy_window_s": None,
+                "vram_peak_bytes": None,
+                "thermal_slowdown": None,
+                "telemetry_hz": 10,
+                "camera_streams": None,
+                "parity": None,
             }
         records.append(make_bench_record(cell, run=run_meta, fingerprint=fingerprint_c))
     records = apply_licence_policy(records, licence)
     for r in records:
         target = "public" if r["performance"] == "public" else "local"
-        (out / target / f"{r['model']}-{r['backend']}-{r['precision']}.json").write_text(json.dumps(r, indent=1), encoding="utf-8")
+        (out / target / f"{r['model']}-{r['backend']}-{r['precision']}.json").write_text(
+            json.dumps(r, indent=1), encoding="utf-8"
+        )
     from pitstudio.accel.guards import find_local_only_records
 
     leaks = find_local_only_records(out / "public", local_dir=out / "local")
     if leaks:
         raise SystemExit(f"local-only records found in the public folder: {leaks}")
-    print(f"[bench] {len(cells)} cells ({sum(1 for c in cells if c['status'] == 'measured')} measured); records in {out}", flush=True)
+    print(
+        f"[bench] {len(cells)} cells ({sum(1 for c in cells if c['status'] == 'measured')} measured); records in {out}",
+        flush=True,
+    )
     return 0
 
 

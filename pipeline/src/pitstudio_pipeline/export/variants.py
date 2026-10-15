@@ -31,6 +31,8 @@ def export_variants(
     if not config["post_processor_in_graph"]:
         return {"deployed": export_model(backbone, example_inputs, config, out_dir / f"{name}.onnx"), "parity": None}
     return {
-        "deployed": export_model(_chain(backbone, postprocessor), example_inputs, config, out_dir / f"{name}-deployed.onnx"),
+        "deployed": export_model(
+            _chain(backbone, postprocessor), example_inputs, config, out_dir / f"{name}-deployed.onnx"
+        ),
         "parity": export_model(backbone, example_inputs, config, out_dir / f"{name}-parity.onnx"),
     }

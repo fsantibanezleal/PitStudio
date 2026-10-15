@@ -13,7 +13,13 @@ class UncertaintyBounds:
 
 
 def _non_negative(value: float, name: str, *, positive: bool = False) -> float:
-    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0 or (positive and value == 0):
+    if (
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        or value < 0
+        or (positive and value == 0)
+    ):
         raise ValueError(f"{name} must be a finite number {'> 0' if positive else '>= 0'}, got {value!r}")
     return float(value)
 

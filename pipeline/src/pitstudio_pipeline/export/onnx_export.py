@@ -68,14 +68,18 @@ def check_graph(model: Any, config: Mapping[str, Any]) -> None:
             raise ExportError(f"node {node.name or node.op_type} uses domain {node.domain!r} outside the allow-list")
     if config.get("web"):
         opset = _default_opset(model)
-        if opset is not None and any(n.op_type == "GridSample" and n.domain in DEFAULT_DOMAINS for n in model.graph.node):
+        if opset is not None and any(
+            n.op_type == "GridSample" and n.domain in DEFAULT_DOMAINS for n in model.graph.node
+        ):
             since = onnx.defs.get_schema("GridSample", opset).since_version
             if since > GRIDSAMPLE_WEB_MAX_SINCE:
-                raise ExportError(f"GridSample resolves to since-version {since} at opset {opset}; the web runtime stops at 19")
+                raise ExportError(
+                    f"GridSample resolves to since-version {since} at opset {opset}; the web runtime stops at 19"
+                )
 
 
 def _strip_opset18_attributes(model: Any) -> Any:
-    """The ONNX converter keeps `noop_with_empty_axes` (opset 18) on reductions it moves to opset 17; drop the default."""
+    """The ONNX converter keeps `noop_with_empty_axes` (opset 18) on reductions moved to opset 17; drop the default."""
     for node in model.graph.node:
         for attr in list(node.attribute):
             if attr.name == "noop_with_empty_axes":
@@ -102,7 +106,7 @@ def export_model(
     *,
     known_models: Collection[str] | None = None,
 ) -> ExportResult:
-    """Export `model` at `config["opset"]`, clean, pin IR 10, check and write `out_path` (or raise and write nothing)."""
+    """Export `model` at `config["opset"]`, clean, pin IR 10, check and write `out_path` (or raise, writing nothing)."""
     import onnx
     import onnxruntime as ort
     import onnxslim

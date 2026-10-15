@@ -56,7 +56,9 @@ def prepare_ort_trt_cell(model_path: Path, precision: str) -> dict[str, Any]:
         raise ValueError(f"precision {precision!r} is not one of {', '.join(PRECISIONS)}")
     kind = graph_kind(Path(model_path))
     if kind == "fp16-precast":
-        raise OrtTrtRefused(f"{Path(model_path).name} has float tensors pre-cast to fp16; give the provider the fp32 graph")
+        raise OrtTrtRefused(
+            f"{Path(model_path).name} has float tensors pre-cast to fp16; give the provider the fp32 graph"
+        )
     if precision in ("fp32", "fp16"):
         if kind == "qdq":
             raise ValueError(f"{precision} cells take the fp32 graph, not a QDQ graph")

@@ -30,7 +30,12 @@ def level_cone_precedence(
     _positive_float(dx, "dx")
     _positive_float(dy, "dy")
     _positive_float(dz, "dz")
-    if isinstance(slope_deg, bool) or not isinstance(slope_deg, (int, float)) or not math.isfinite(slope_deg) or not 0 < slope_deg < 90:
+    if (
+        isinstance(slope_deg, bool)
+        or not isinstance(slope_deg, (int, float))
+        or not math.isfinite(slope_deg)
+        or not 0 < slope_deg < 90
+    ):
         raise ValueError(f"slope_deg must lie in (0, 90), got {slope_deg!r}")
     _positive_int(m, "m")
     tan = math.tan(math.radians(slope_deg))

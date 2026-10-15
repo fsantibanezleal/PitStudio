@@ -48,7 +48,9 @@ def _cents(values: list[float], engine: str) -> np.ndarray:
     except ValueError as exc:
         raise BlockModelError(f"sum of absolute values: {exc}") from exc
     if sum(abs(int(c)) for c in cents) >= BOUNDS[engine]:
-        raise BlockModelError(f"sum of absolute values in cents reaches the {engine} bound 2^{BOUNDS[engine].bit_length() - 1}")
+        raise BlockModelError(
+            f"sum of absolute values in cents reaches the {engine} bound 2^{BOUNDS[engine].bit_length() - 1}"
+        )
     return cents
 
 
@@ -159,7 +161,9 @@ def load_minelib(root: Path, blocks: str, prec: str, upit: str) -> LoadedModel:
         if block not in index:
             raise BlockModelError(f"unknown block {block} in the .prec file")
         if len(parts) != 2 + count:
-            raise BlockModelError(f"parse error in .prec: row of block {block} lists {len(parts) - 2} of {count} predecessors")
+            raise BlockModelError(
+                f"parse error in .prec: row of block {block} lists {len(parts) - 2} of {count} predecessors"
+            )
         for token in parts[2:]:
             required = _int_token(token, ".prec")
             if required not in index:
@@ -184,4 +188,6 @@ def load_minelib(root: Path, blocks: str, prec: str, upit: str) -> LoadedModel:
         values[index[block]] = _float_token(parts[1], ".upit")
     if expected is not None and expected != len(ids):
         raise BlockModelError(f"the .blocks file has {len(ids)} rows but NBLOCKS is {expected} (blocks count)")
-    return LoadedModel(ids, _cents(values, "python"), np.asarray(arcs, dtype=np.int64).reshape(-1, 2), np.asarray(tonnage))
+    return LoadedModel(
+        ids, _cents(values, "python"), np.asarray(arcs, dtype=np.int64).reshape(-1, 2), np.asarray(tonnage)
+    )

@@ -38,7 +38,8 @@ class MatrixTime:
 
 
 def _name(record: Mapping[str, Any]) -> str:
-    return f"{record.get('model')} / {record.get('backend')} / {record.get('precision')} / {record.get('tensorrt_version')}"
+    keys = (record.get("model"), record.get("backend"), record.get("precision"), record.get("tensorrt_version"))
+    return " / ".join(str(k) for k in keys)
 
 
 def _pass_problems(record: Mapping[str, Any]) -> list[str]:
@@ -49,7 +50,9 @@ def _pass_problems(record: Mapping[str, Any]) -> list[str]:
     problems = []
     if record.get("precision") == "fp32":
         if parity.get("rtol") != RTOL or parity.get("atol") != ATOL:
-            problems.append(f"{name}: parity tolerances {parity.get('rtol')} / {parity.get('atol')} are not 1e-3 / 1e-5")
+            problems.append(
+                f"{name}: parity tolerances {parity.get('rtol')} / {parity.get('atol')} are not 1e-3 / 1e-5"
+            )
         if parity.get("mismatch_fraction") != 0:
             problems.append(f"{name}: parity mismatch fraction {parity.get('mismatch_fraction')} is not 0")
         if parity.get("max_abs_error") is None:
@@ -74,9 +77,11 @@ def engine_acceptance(
     """No cell dropped, every `pass` backed by its numbers, every other status explained by a reason."""
     by_cell = {(r.get("model"), r.get("backend"), r.get("precision"), r.get("tensorrt_version")): r for r in records}
     problems: list[str] = []
-    for cell in expected_cells:
-        if cell not in by_cell:
-            problems.append(f"{cell[0]} / {cell[1]} / {cell[2]} / {cell[3]}: cell missing from the records")
+    problems.extend(
+        f"{' / '.join(str(k) for k in cell)}: cell missing from the records"
+        for cell in expected_cells
+        if cell not in by_cell
+    )
     for record in records:
         status = record.get("status")
         if status == "pass":

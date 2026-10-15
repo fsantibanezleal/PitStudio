@@ -42,7 +42,7 @@ FINGERPRINT_FIELDS = (
 def make_bench_record(
     cell: Mapping[str, Any], *, run: Mapping[str, Any], fingerprint: Mapping[str, Any], fixture: bool = False
 ) -> dict[str, Any]:
-    """A DC-016-01 record: schema version, run, measured cell, `performance` and the fingerprint (all fields present)."""
+    """A DC-016-01 record: schema version, run, measured cell, `performance` and the complete fingerprint."""
     missing = [f for f in FINGERPRINT_FIELDS if f not in fingerprint]
     if missing:
         raise InvalidRecord(f"fingerprint is missing {', '.join(missing)}")

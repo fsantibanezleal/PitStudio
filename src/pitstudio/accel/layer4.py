@@ -38,7 +38,7 @@ def check_cell(
     requires_robustness: bool = False,
     robustness_ok: bool | None = None,
 ) -> CellParity:
-    """fp32: elementwise rtol 1e-3 / atol 1e-5; fp16, int8 and fp8: task metric within 1 pp (and mask IoU, robustness)."""
+    """fp32: elementwise rtol 1e-3 / atol 1e-5; fp16, int8, fp8: task metric within 1 pp (and mask IoU, robustness)."""
     if precision == "fp32":
         if not tf32_cleared:
             return CellParity("rejected", "TF32 was not cleared on the engine build or the reference run")
@@ -112,7 +112,13 @@ def make_parity_report(
         "argmax": None,
         "metric": None
         if metric is None
-        else {"id": metric["id"], "unit": "pct", "fp32": metric["fp32"], "variant": metric["variant"], "delta_pp": cell.metric_delta_pp},
+        else {
+            "id": metric["id"],
+            "unit": "pct",
+            "fp32": metric["fp32"],
+            "variant": metric["variant"],
+            "delta_pp": cell.metric_delta_pp,
+        },
         "mask_iou": cell.mask_iou,
         "verdict": cell.verdict,
     }

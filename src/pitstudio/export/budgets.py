@@ -1,4 +1,4 @@
-"""Class budgets and size caps of the web bake (FR-016-17, FR-016-18, NFR-016-04, NFR-016-05; spec section 7 Table B)."""
+"""Class budgets and size caps of the web bake (FR-016-17, FR-016-18, NFR-016-04, NFR-016-05; spec 7 Table B)."""
 
 from __future__ import annotations
 

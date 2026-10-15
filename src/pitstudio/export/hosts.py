@@ -19,7 +19,9 @@ class HostPlan:
 
 def assign_hosts(files: Sequence[Mapping[str, Any]]) -> HostPlan:
     """Host of every file: large files are release assets; whole classes move, largest total first, until git fits."""
-    rows = [{k: v for k, v in f.items() if k not in ("host", "archive")} for f in sorted(files, key=lambda f: f["path"])]
+    rows = [
+        {k: v for k, v in f.items() if k not in ("host", "archive")} for f in sorted(files, key=lambda f: f["path"])
+    ]
     for row in rows:
         row["host"] = "release" if row["bytes"] >= GIT_FILE_BYTES_MAX else "git"
         row["archive"] = None

@@ -74,13 +74,13 @@ def _layer2_problems(report: Mapping[str, Any]) -> list[str]:
     metric = report.get("metric") or {}
     try:
         delta = metric["variant"] - metric["fp32"]
-    except (KeyError, TypeError):
+    except KeyError, TypeError:
         problems.append(f"{name}: delta cannot be computed, metric numbers missing")
     else:
         if not abs(delta) <= METRIC_DELTA_MAX_PP:
             problems.append(f"{name}: delta {delta:+.4g} pp is beyond {METRIC_DELTA_MAX_PP} pp")
     iou = report.get("mask_iou")
-    # the spec example (valid-layer2) carries mask_iou_min 0.99 with a null mask_iou and passes: only a measured IoU is checked
+    # the spec example (valid-layer2) has mask_iou_min 0.99 and a null mask_iou and passes: only a measured IoU counts
     if iou is not None and not iou >= MASK_IOU_MIN:
         problems.append(f"{name}: mask IoU {iou} is below {MASK_IOU_MIN}")
     if report.get("verdict") != "pass":
@@ -93,9 +93,7 @@ def layer2_acceptance(published: Sequence[tuple[str, str]], reports: Sequence[Ma
     problems: list[str] = []
     for model, precision in published:
         own = [
-            r
-            for r in reports
-            if r.get("layer") == 2 and r.get("model") == model and r.get("precision") == precision
+            r for r in reports if r.get("layer") == 2 and r.get("model") == model and r.get("precision") == precision
         ]
         if not own:
             problems.append(f"{model} {precision}: layer-2 parity report missing")

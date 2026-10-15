@@ -47,7 +47,12 @@ def camera_streams(
     """floor(R / (n_tiles x f)) streams per GPU."""
     if not isinstance(fps, (int, float)) or isinstance(fps, bool) or not math.isfinite(fps) or fps <= 0:
         raise ValueError(f"fps must be a positive finite number, got {fps!r}")
-    if not isinstance(tiles_per_s, (int, float)) or isinstance(tiles_per_s, bool) or not math.isfinite(tiles_per_s) or tiles_per_s < 0:
+    if (
+        not isinstance(tiles_per_s, (int, float))
+        or isinstance(tiles_per_s, bool)
+        or not math.isfinite(tiles_per_s)
+        or tiles_per_s < 0
+    ):
         raise ValueError(f"tiles_per_s must be a finite number >= 0, got {tiles_per_s!r}")
     tiles = n_tiles(width, height, tile=tile, overlap=overlap)
     return math.floor(tiles_per_s / (tiles * fps))

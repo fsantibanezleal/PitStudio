@@ -40,7 +40,7 @@ def _escapes(location: str, folder: Path) -> bool:
 
 
 def check_onnx_file(path: Path, *, size_bytes: int | None = None) -> OnnxFileInfo:
-    """Return the facts of an acceptable file; raise OnnxFileRejected otherwise. `size_bytes` overrides the file size."""
+    """The facts of an acceptable file, or OnnxFileRejected. `size_bytes` overrides the size read from the file."""
     import onnx
 
     path = Path(path)
