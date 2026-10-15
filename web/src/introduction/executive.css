@@ -1,0 +1,36 @@
+/*
+ * The shared shell's stylesheet carries the ExecutiveView (sub-tabs, flip cards, sources, figures). It is loaded in its own
+ * cascade layer, so every unlayered rule of the product (tokens.css, the CSS modules) outranks it and the shell's reset,
+ * links and headings cannot restyle the rest of the site.
+ */
+@import "@fasl-work/caos-app-shell/styles.css" layer(caos-shell);
+
+/*
+ * The shell reads its colours from --color-*; the illustrations are coloured with the same tokens. They are mapped here
+ * onto the product's own palette, so the view and its drawings follow the product theme in light and dark.
+ */
+:root {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-fg-subtle: var(--fg-muted);
+  --color-fg-faint: var(--fg-subtle);
+  --color-accent: var(--link);
+  --color-accent-fg: var(--primary-fg);
+  --color-accent-soft: var(--primary-soft);
+  --color-accent-2: var(--chart-2);
+  --color-magenta: var(--chart-5);
+  --color-good: var(--success);
+  --color-warn: var(--warning);
+  --color-bad: var(--danger);
+}
+
+/*
+ * The shell's reset removes the underline from every link; the product's pages keep links distinguishable inside text
+ * without relying on colour alone (axe link-in-text-block), so the browser default is restored for the whole site.
+ */
+a {
+  text-decoration: revert;
+}
