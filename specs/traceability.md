@@ -1,4 +1,4 @@
-# Traceability matrix — generated 2026-10-12 by tools/trace.py (do not edit)
+# Traceability matrix — generated 2026-10-13 by tools/trace.py (do not edit)
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
@@ -94,7 +94,7 @@
 | DC-015-05 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
 | DC-015-06 | 015-vlm | draft | T-015-001 | tests/contract/test_t_015_001_reason_schemas.py |
 | DC-015-07 | 015-vlm | draft | T-015-020 | - |
-| DC-015-08 | 015-vlm | draft | T-015-020 | tests/contract/test_t_015_020_reason_bench.py |
+| DC-015-08 | 015-vlm | draft | T-015-020 | - |
 | DC-016-01 | 016-export-acceleration | draft | T-016-001 | tests/contract/test_t_016_001_bench_record_schema.py |
 | DC-016-02 | 016-export-acceleration | draft | T-016-002 | tests/contract/test_t_016_002_release_assets_schema.py |
 | DC-016-03 | 016-export-acceleration | draft | T-016-003 | tests/contract/test_t_016_003_parity_report_schema.py |
@@ -572,54 +572,54 @@
 | FR-009-51 | 009-perception | draft | T-009-097 | - |
 | FR-009-52 | 009-perception | draft | T-009-098 | - |
 | FR-009-53 | 009-perception | draft | T-009-099 | - |
-| FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/unit/test_t_010_010_lem_search.py |
-| FR-010-02 | 010-slope | draft | T-010-011 | tests/parity/test_t_010_018_geotech_goldens.py, tests/unit/test_t_010_011_hoek_brown_slices.py |
-| FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/property/test_t_010_015_pof.py |
-| FR-010-04 | 010-slope | draft | T-010-017 | web/e2e/c1-simulate.spec.ts |
-| FR-010-05 | 010-slope | draft | T-010-017 | web/e2e/c1-simulate.spec.ts |
-| FR-010-06 | 010-slope | draft | T-010-016 | tests/pipeline/test_t_010_016_sections_from_dem.py |
-| FR-010-07 | 010-slope | draft | T-010-014 | tests/unit/test_t_010_014_section_guards.py |
-| FR-010-08 | 010-slope | draft | T-010-015 | tests/property/test_t_010_015_pof.py |
-| FR-010-09 | 010-slope | draft | T-010-010 | tests/unit/test_t_010_010_lem_search.py |
-| FR-010-10 | 010-slope | draft | T-010-017 | web/e2e/c1-simulate.spec.ts |
-| FR-010-11 | 010-slope | draft | T-010-020 | tests/unit/test_t_010_020_voight_events.py |
-| FR-010-12 | 010-slope | draft | T-010-021 | tests/property/test_t_010_021_snr.py |
-| FR-010-13 | 010-slope | draft | T-010-040 | tests/pipeline/test_t_010_040_dewit_ingest.py |
-| FR-010-14 | 010-slope | draft | T-010-040 | tests/pipeline/test_t_010_040_dewit_ingest.py |
-| FR-010-15 | 010-slope | draft | T-010-041 | tests/contract/test_t_010_041_dewit_exclusion.py |
-| FR-010-16 | 010-slope | draft | T-010-020 | tests/unit/test_t_010_020_voight_events.py |
-| FR-010-17 | 010-slope | draft | T-010-022 | tests/pipeline/test_t_010_033_acceptance_report.py, tests/unit/test_t_010_022_snr_fallback.py |
-| FR-010-18 | 010-slope | draft | T-010-023 | tests/property/test_t_010_023_preprocess.py |
-| FR-010-19 | 010-slope | draft | T-010-024 | tests/unit/test_t_010_024_iv_bayes.py |
-| FR-010-20 | 010-slope | draft | T-010-024 | tests/unit/test_t_010_024_iv_bayes.py |
-| FR-010-21 | 010-slope | draft | T-010-027 | tests/pipeline/test_t_010_027_forecasters.py, tests/unit/test_t_010_027_context_forecast.py |
-| FR-010-22 | 010-slope | draft | T-010-026 | tests/property/test_t_010_026_readout.py |
-| FR-010-23 | 010-slope | draft | T-010-030 | tests/unit/test_t_010_030_ttf_metrics.py |
-| FR-010-24 | 010-slope | draft | T-010-030 | tests/unit/test_t_010_030_ttf_metrics.py |
-| FR-010-25 | 010-slope | draft | T-010-031 | tests/unit/test_t_010_031_paired_decision.py |
-| FR-010-26 | 010-slope | draft | T-010-042 | tests/unit/test_t_010_042_real_event_report.py |
-| FR-010-27 | 010-slope | draft | T-010-043 | web/e2e/c1-real-event.spec.ts |
-| FR-010-28 | 010-slope | draft | T-010-031 | tests/unit/test_t_010_031_paired_decision.py |
-| FR-010-29 | 010-slope | draft | T-010-028 | tests/pipeline/test_t_010_028_window_guards.py, web/src/cases/c1/forecastGuards.test.ts |
-| FR-010-30 | 010-slope | draft | T-010-032 | tests/pipeline/test_t_010_032_forecaster_export.py |
-| FR-010-31 | 010-slope | draft | T-010-032 | tests/pipeline/test_t_010_032_forecaster_export.py |
-| FR-010-32 | 010-slope | draft | T-010-034 | web/e2e/c1-cutoff-slider.spec.ts |
-| FR-010-33 | 010-slope | draft | T-010-029 | tests/gpu/test_t_010_029_training_smoke.py, tests/unit/test_t_010_029_training_fake_gpu.py |
-| FR-010-34 | 010-slope | draft | T-010-050 | tests/unit/test_t_010_050_radar_series.py |
-| FR-010-35 | 010-slope | draft | T-010-052 | tests/pipeline/test_t_010_052_s4b_report.py |
-| FR-010-36 | 010-slope | draft | T-010-050 | tests/unit/test_t_010_050_radar_series.py |
-| FR-010-37 | 010-slope | draft | T-010-051 | tests/unit/test_t_010_051_radar_guards.py |
-| FR-010-38 | 010-slope | draft | T-010-053 | web/e2e/c1-scene-egms.spec.ts |
-| FR-010-39 | 010-slope | draft | T-010-060 | tests/pipeline/test_t_010_060_c1_recipe_e2e.py |
-| FR-010-40 | 010-slope | draft | T-010-003 | tests/unit/test_t_010_003_c1_recipe.py |
-| FR-010-41 | 010-slope | draft | T-010-054 | tests/metamorphic/test_t_010_054_radar_phase.py |
-| FR-010-42 | 010-slope | draft | T-010-055 | tests/unit/test_t_010_055_radar_phase_guards.py |
-| FR-010-43 | 010-slope | draft | T-010-092 | tests/unit/test_t_010_092_section_cross_field.py |
-| FR-010-44 | 010-slope | draft | T-010-093 | tests/unit/test_t_010_093_series_self_consistency.py |
-| FR-010-45 | 010-slope | draft | T-010-094 | tests/unit/test_t_010_094_results_section_digest.py |
-| FR-010-46 | 010-slope | draft | T-010-095 | tests/pipeline/test_t_010_095_fixture_stages.py, tests/unit/test_t_010_095_fixture_propagation.py |
-| FR-010-47 | 010-slope | draft | T-010-096 | tests/pipeline/test_t_010_096_partial_strata.py |
-| FR-010-48 | 010-slope | draft | T-010-097 | tests/unit/test_t_010_097_input_stale.py |
+| FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | - |
+| FR-010-02 | 010-slope | draft | T-010-011 | - |
+| FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | - |
+| FR-010-04 | 010-slope | draft | T-010-017 | - |
+| FR-010-05 | 010-slope | draft | T-010-017 | - |
+| FR-010-06 | 010-slope | draft | T-010-016 | - |
+| FR-010-07 | 010-slope | draft | T-010-014 | - |
+| FR-010-08 | 010-slope | draft | T-010-015 | - |
+| FR-010-09 | 010-slope | draft | T-010-010 | - |
+| FR-010-10 | 010-slope | draft | T-010-017 | - |
+| FR-010-11 | 010-slope | draft | T-010-020 | - |
+| FR-010-12 | 010-slope | draft | T-010-021 | - |
+| FR-010-13 | 010-slope | draft | T-010-040 | - |
+| FR-010-14 | 010-slope | draft | T-010-040 | - |
+| FR-010-15 | 010-slope | draft | T-010-041 | - |
+| FR-010-16 | 010-slope | draft | T-010-020 | - |
+| FR-010-17 | 010-slope | draft | T-010-022 | - |
+| FR-010-18 | 010-slope | draft | T-010-023 | - |
+| FR-010-19 | 010-slope | draft | T-010-024 | - |
+| FR-010-20 | 010-slope | draft | T-010-024 | - |
+| FR-010-21 | 010-slope | draft | T-010-027 | - |
+| FR-010-22 | 010-slope | draft | T-010-026 | - |
+| FR-010-23 | 010-slope | draft | T-010-030 | - |
+| FR-010-24 | 010-slope | draft | T-010-030 | - |
+| FR-010-25 | 010-slope | draft | T-010-031 | - |
+| FR-010-26 | 010-slope | draft | T-010-042 | - |
+| FR-010-27 | 010-slope | draft | T-010-043 | - |
+| FR-010-28 | 010-slope | draft | T-010-031 | - |
+| FR-010-29 | 010-slope | draft | T-010-028 | - |
+| FR-010-30 | 010-slope | draft | T-010-032 | - |
+| FR-010-31 | 010-slope | draft | T-010-032 | - |
+| FR-010-32 | 010-slope | draft | T-010-034 | - |
+| FR-010-33 | 010-slope | draft | T-010-029 | - |
+| FR-010-34 | 010-slope | draft | T-010-050 | - |
+| FR-010-35 | 010-slope | draft | T-010-052 | - |
+| FR-010-36 | 010-slope | draft | T-010-050 | - |
+| FR-010-37 | 010-slope | draft | T-010-051 | - |
+| FR-010-38 | 010-slope | draft | T-010-053 | - |
+| FR-010-39 | 010-slope | draft | T-010-060 | - |
+| FR-010-40 | 010-slope | draft | T-010-003 | - |
+| FR-010-41 | 010-slope | draft | T-010-054 | - |
+| FR-010-42 | 010-slope | draft | T-010-055 | - |
+| FR-010-43 | 010-slope | draft | T-010-092 | - |
+| FR-010-44 | 010-slope | draft | T-010-093 | - |
+| FR-010-45 | 010-slope | draft | T-010-094 | - |
+| FR-010-46 | 010-slope | draft | T-010-095 | - |
+| FR-010-47 | 010-slope | draft | T-010-096 | - |
+| FR-010-48 | 010-slope | draft | T-010-097 | - |
 | FR-011-01 | 011-surrogates | draft | T-011-010 | - |
 | FR-011-02 | 011-surrogates | draft | T-011-011 | - |
 | FR-011-03 | 011-surrogates | draft | T-011-014 | - |
@@ -762,105 +762,105 @@
 | FR-013-41 | 013-sensors | draft | T-013-034 | - |
 | FR-013-42 | 013-sensors | draft | T-013-025, T-013-026 | - |
 | FR-013-43 | 013-sensors | draft | T-013-092 | - |
-| FR-014-01 | 014-robot-learning | draft | T-014-002 | - |
-| FR-014-02 | 014-robot-learning | draft | T-014-010, T-014-060 | - |
-| FR-014-03 | 014-robot-learning | draft | T-014-011, T-014-054 | - |
-| FR-014-04 | 014-robot-learning | draft | T-014-002 | - |
-| FR-014-05 | 014-robot-learning | draft | T-014-037, T-014-062 | - |
-| FR-014-06 | 014-robot-learning | draft | T-014-026 | - |
-| FR-014-07 | 014-robot-learning | draft | T-014-026, T-014-037 | - |
-| FR-014-08 | 014-robot-learning | draft | T-014-030 | - |
-| FR-014-09 | 014-robot-learning | draft | T-014-031 | - |
-| FR-014-10 | 014-robot-learning | draft | T-014-031 | - |
-| FR-014-11 | 014-robot-learning | draft | T-014-032 | - |
-| FR-014-12 | 014-robot-learning | draft | T-014-033 | - |
-| FR-014-13 | 014-robot-learning | draft | T-014-034 | - |
-| FR-014-14 | 014-robot-learning | draft | T-014-033 | - |
-| FR-014-15 | 014-robot-learning | draft | T-014-024 | - |
-| FR-014-16 | 014-robot-learning | draft | T-014-024 | - |
-| FR-014-17 | 014-robot-learning | draft | T-014-020, T-014-021, T-014-061 | - |
-| FR-014-18 | 014-robot-learning | draft | T-014-023, T-014-061 | - |
-| FR-014-19 | 014-robot-learning | draft | T-014-025 | - |
-| FR-014-20 | 014-robot-learning | draft | T-014-024 | - |
-| FR-014-21 | 014-robot-learning | draft | T-014-022 | - |
-| FR-014-22 | 014-robot-learning | draft | T-014-046, T-014-063 | - |
-| FR-014-23 | 014-robot-learning | draft | T-014-046 | - |
-| FR-014-24 | 014-robot-learning | draft | T-014-048, T-014-054 | - |
-| FR-014-25 | 014-robot-learning | draft | T-014-040, T-014-062 | - |
-| FR-014-26 | 014-robot-learning | draft | T-014-040 | - |
-| FR-014-27 | 014-robot-learning | draft | T-014-041 | - |
-| FR-014-28 | 014-robot-learning | draft | T-014-041 | - |
-| FR-014-29 | 014-robot-learning | draft | T-014-036 | - |
-| FR-014-30 | 014-robot-learning | draft | T-014-027 | - |
-| FR-014-31 | 014-robot-learning | draft | T-014-036 | - |
-| FR-014-32 | 014-robot-learning | draft | T-014-042 | - |
-| FR-014-33 | 014-robot-learning | draft | T-014-042 | - |
-| FR-014-34 | 014-robot-learning | draft | T-014-035 | - |
-| FR-014-35 | 014-robot-learning | draft | T-014-043 | - |
-| FR-014-36 | 014-robot-learning | draft | T-014-044 | - |
-| FR-014-37 | 014-robot-learning | draft | T-014-045 | - |
-| FR-014-38 | 014-robot-learning | draft | T-014-045 | - |
-| FR-014-39 | 014-robot-learning | draft | T-014-042, T-014-043 | - |
-| FR-014-40 | 014-robot-learning | draft | T-014-050 | - |
-| FR-014-41 | 014-robot-learning | draft | T-014-051 | - |
-| FR-014-42 | 014-robot-learning | draft | T-014-052 | - |
-| FR-014-43 | 014-robot-learning | draft | T-014-054 | - |
-| FR-014-44 | 014-robot-learning | draft | T-014-053 | - |
-| FR-014-45 | 014-robot-learning | draft | T-014-054 | - |
-| FR-014-46 | 014-robot-learning | draft | T-014-049 | - |
-| FR-014-47 | 014-robot-learning | draft | T-014-038 | - |
-| FR-014-48 | 014-robot-learning | draft | T-014-092 | - |
-| FR-014-49 | 014-robot-learning | draft | T-014-093 | - |
-| FR-015-01 | 015-vlm | draft | T-015-010 | tests/pipeline/test_t_015_010_runtime_pins.py |
-| FR-015-02 | 015-vlm | draft | T-015-010 | tests/pipeline/test_t_015_010_runtime_pins.py |
-| FR-015-03 | 015-vlm | draft | T-015-011 | tests/pipeline/test_t_015_011_weights_provenance.py |
-| FR-015-04 | 015-vlm | draft | T-015-011 | tests/pipeline/test_t_015_011_weights_provenance.py |
-| FR-015-05 | 015-vlm | draft | T-015-012, T-015-070 | tests/gpu/test_t_015_070_reason_local.py, tests/pipeline/test_t_015_012_gguf_conversion.py |
-| FR-015-06 | 015-vlm | draft | T-015-013 | tests/pipeline/test_t_015_012_gguf_conversion.py, tests/unit/test_t_015_013_no_weights_published.py |
-| FR-015-07 | 015-vlm | draft | T-015-014, T-015-063 | tests/pipeline/test_t_015_014_gated_terms_token.py, web/e2e/reason-panels.spec.ts |
-| FR-015-08 | 015-vlm | draft | T-015-014 | tests/pipeline/test_t_015_014_gated_terms_token.py |
-| FR-015-09 | 015-vlm | draft | T-015-015, T-015-070 | tests/gpu/test_t_015_070_reason_local.py, tests/pipeline/test_t_015_015_bf16_reference.py |
-| FR-015-10 | 015-vlm | draft | T-015-015 | tests/pipeline/test_t_015_015_bf16_reference.py |
-| FR-015-11 | 015-vlm | draft | T-015-016 | tests/pipeline/test_t_015_016_server_driver.py |
-| FR-015-12 | 015-vlm | draft | T-015-016 | tests/pipeline/test_t_015_016_server_driver.py |
-| FR-015-13 | 015-vlm | draft | T-015-020, T-015-070 | tests/contract/test_t_015_020_reason_bench.py, tests/gpu/test_t_015_070_reason_local.py |
-| FR-015-14 | 015-vlm | draft | T-015-021, T-015-071 | tests/gpu/test_t_015_071_agreement_real.py, tests/unit/test_t_015_021_agreement_gate.py |
-| FR-015-15 | 015-vlm | draft | T-015-021 | tests/unit/test_t_015_021_agreement_gate.py |
-| FR-015-16 | 015-vlm | draft | T-015-030 | tests/unit/test_t_015_030_query_builder.py |
-| FR-015-17 | 015-vlm | draft | T-015-031 | tests/metamorphic/test_t_015_031_truth_types_1_3.py |
-| FR-015-18 | 015-vlm | draft | T-015-031 | tests/metamorphic/test_t_015_031_truth_types_1_3.py |
-| FR-015-19 | 015-vlm | draft | T-015-031 | tests/metamorphic/test_t_015_031_truth_types_1_3.py |
-| FR-015-20 | 015-vlm | draft | T-015-032 | tests/metamorphic/test_t_015_032_truth_types_4_6.py |
-| FR-015-21 | 015-vlm | draft | T-015-032 | tests/metamorphic/test_t_015_032_truth_types_4_6.py |
-| FR-015-22 | 015-vlm | draft | T-015-032 | tests/metamorphic/test_t_015_032_truth_types_4_6.py |
-| FR-015-23 | 015-vlm | draft | T-015-033 | tests/unit/test_t_015_033_frame_state_hostile.py |
-| FR-015-24 | 015-vlm | draft | T-015-017 | tests/unit/test_t_015_017_prompts_config.py |
-| FR-015-25 | 015-vlm | draft | T-015-017 | tests/unit/test_t_015_017_prompts_config.py |
-| FR-015-26 | 015-vlm | draft | T-015-034 | tests/property/test_t_015_034_answer_parser.py |
-| FR-015-27 | 015-vlm | draft | T-015-034 | tests/property/test_t_015_034_answer_parser.py |
-| FR-015-28 | 015-vlm | draft | T-015-035 | tests/unit/test_t_015_035_arms_detector_rule.py |
-| FR-015-29 | 015-vlm | draft | T-015-035 | tests/unit/test_t_015_035_arms_detector_rule.py |
-| FR-015-30 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/pipeline/test_t_015_036_reference_parity.py |
-| FR-015-31 | 015-vlm | draft | T-015-037 | tests/metamorphic/test_t_015_037_mcnemar.py |
-| FR-015-32 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/metamorphic/test_t_015_037_mcnemar.py |
-| FR-015-33 | 015-vlm | draft | T-015-040 | tests/unit/test_t_015_040_plausibility_pairs.py |
-| FR-015-34 | 015-vlm | draft | T-015-040 | tests/unit/test_t_015_040_plausibility_pairs.py |
-| FR-015-35 | 015-vlm | draft | T-015-040 | tests/unit/test_t_015_040_plausibility_pairs.py |
-| FR-015-36 | 015-vlm | draft | T-015-041 | tests/metamorphic/test_t_015_041_task_b_scoring.py |
-| FR-015-37 | 015-vlm | draft | T-015-041 | tests/metamorphic/test_t_015_041_task_b_scoring.py, tests/pipeline/test_t_015_041_reference_parity.py |
-| FR-015-38 | 015-vlm | draft | T-015-050 | tests/metamorphic/test_t_015_050_caption_scoring.py |
-| FR-015-39 | 015-vlm | draft | T-015-051 | tests/contract/test_t_015_051_captions_display_only.py |
-| FR-015-40 | 015-vlm | draft | T-015-060 | tests/contract/test_t_015_060_records.py |
-| FR-015-41 | 015-vlm | draft | T-015-063 | web/e2e/reason-panels.spec.ts |
-| FR-015-42 | 015-vlm | draft | T-015-061, T-015-063 | tests/contract/test_t_015_061_not_headline.py, web/e2e/reason-panels.spec.ts |
-| FR-015-43 | 015-vlm | draft | T-015-062 | web/src/features/reason/records-hostile.test.ts, web/e2e/reason-panels.spec.ts |
-| FR-015-44 | 015-vlm | draft | T-015-017 | tests/unit/test_t_015_017_prompts_config.py |
-| FR-015-45 | 015-vlm | draft | T-015-060 | tests/contract/test_t_015_060_records.py, tests/pipeline/test_t_015_060_kappa_parity.py |
-| FR-015-46 | 015-vlm | draft | T-015-050 | tests/metamorphic/test_t_015_050_caption_scoring.py |
-| FR-015-47 | 015-vlm | draft | T-015-035 | tests/unit/test_t_015_035_arms_detector_rule.py |
-| FR-015-48 | 015-vlm | draft | T-015-092 | tests/unit/test_t_015_092_frame_state_visible_px.py |
-| FR-015-49 | 015-vlm | draft | T-015-093 | tests/unit/test_t_015_093_frame_state_quaternion.py |
-| FR-015-50 | 015-vlm | draft | T-015-094 | tests/unit/test_t_015_094_fixture_propagation.py |
+| FR-014-01 | 014-robot-learning | draft | T-014-002 | tests/contract/test_t_014_002_isaaclab_lock.py |
+| FR-014-02 | 014-robot-learning | draft | T-014-010, T-014-060 | tests/contract/test_t_014_010_isaaclab_probe.py, tests/gpu/test_t_014_060_isaaclab_smoke.py |
+| FR-014-03 | 014-robot-learning | draft | T-014-011, T-014-054 | tests/unit/test_t_014_011_lane_gating.py, web/e2e/robot-policies.spec.ts |
+| FR-014-04 | 014-robot-learning | draft | T-014-002 | tests/contract/test_t_014_002_isaaclab_lock.py |
+| FR-014-05 | 014-robot-learning | draft | T-014-037, T-014-062 | tests/gpu/test_t_014_062_training_smoke.py, tests/unit/test_t_014_037_truck_mjcf.py |
+| FR-014-06 | 014-robot-learning | draft | T-014-026 | tests/unit/test_t_014_026_excavator_mjcf.py |
+| FR-014-07 | 014-robot-learning | draft | T-014-026, T-014-037 | tests/unit/test_t_014_026_excavator_mjcf.py, tests/unit/test_t_014_037_truck_mjcf.py |
+| FR-014-08 | 014-robot-learning | draft | T-014-030 | tests/metamorphic/test_t_014_030_il1_observation.py |
+| FR-014-09 | 014-robot-learning | draft | T-014-031 | tests/unit/test_t_014_031_il1_actions.py |
+| FR-014-10 | 014-robot-learning | draft | T-014-031 | tests/unit/test_t_014_031_il1_actions.py, tests/unit/test_t_014_033_il1_episodes.py |
+| FR-014-11 | 014-robot-learning | draft | T-014-032 | tests/metamorphic/test_t_014_032_il1_reward.py |
+| FR-014-12 | 014-robot-learning | draft | T-014-033 | tests/unit/test_t_014_033_il1_episodes.py |
+| FR-014-13 | 014-robot-learning | draft | T-014-034 | tests/property/test_t_014_034_il1_randomisation.py |
+| FR-014-14 | 014-robot-learning | draft | T-014-033 | tests/unit/test_t_014_033_il1_episodes.py |
+| FR-014-15 | 014-robot-learning | draft | T-014-024 | tests/unit/test_t_014_024_il2_obs_stall.py |
+| FR-014-16 | 014-robot-learning | draft | T-014-024 | tests/unit/test_t_014_024_il2_obs_stall.py |
+| FR-014-17 | 014-robot-learning | draft | T-014-020, T-014-021, T-014-061 | tests/gpu/test_t_014_061_task_parity.py, tests/metamorphic/test_t_014_020_fee_relations.py, tests/unit/test_t_014_021_fee_worked_examples.py |
+| FR-014-18 | 014-robot-learning | draft | T-014-023, T-014-061 | tests/gpu/test_t_014_061_task_parity.py, tests/metamorphic/test_t_014_023_fill_model.py |
+| FR-014-19 | 014-robot-learning | draft | T-014-025 | tests/property/test_t_014_025_soil_randomisation.py |
+| FR-014-20 | 014-robot-learning | draft | T-014-024 | tests/unit/test_t_014_024_il2_obs_stall.py |
+| FR-014-21 | 014-robot-learning | draft | T-014-022 | tests/unit/test_t_014_022_fee_hostile.py |
+| FR-014-22 | 014-robot-learning | draft | T-014-046, T-014-063 | tests/gpu/test_t_014_063_mpm_smoke.py, tests/unit/test_t_014_046_mpm_tier.py |
+| FR-014-23 | 014-robot-learning | draft | T-014-046 | tests/pipeline/test_t_014_045_sim_to_sim_gaps.py, tests/unit/test_t_014_046_mpm_tier.py |
+| FR-014-24 | 014-robot-learning | draft | T-014-048, T-014-054 | tests/unit/test_t_014_048_il3_optional.py, web/e2e/robot-policies.spec.ts |
+| FR-014-25 | 014-robot-learning | draft | T-014-040, T-014-062 | tests/gpu/test_t_014_062_training_smoke.py, tests/unit/test_t_014_040_training_wrapper.py |
+| FR-014-26 | 014-robot-learning | draft | T-014-040 | tests/unit/test_t_014_040_training_wrapper.py |
+| FR-014-27 | 014-robot-learning | draft | T-014-041 | tests/pipeline/test_t_014_041_policy_export.py |
+| FR-014-28 | 014-robot-learning | draft | T-014-041 | tests/pipeline/test_t_014_041_policy_export.py |
+| FR-014-29 | 014-robot-learning | draft | T-014-036 | tests/metamorphic/test_t_014_036_pure_pursuit.py |
+| FR-014-30 | 014-robot-learning | draft | T-014-027 | tests/unit/test_t_014_027_scripted_dig.py |
+| FR-014-31 | 014-robot-learning | draft | T-014-036 | tests/metamorphic/test_t_014_036_pure_pursuit.py |
+| FR-014-32 | 014-robot-learning | draft | T-014-042 | tests/pipeline/test_t_014_042_il1_evaluation.py |
+| FR-014-33 | 014-robot-learning | draft | T-014-042 | tests/pipeline/test_t_014_042_il1_evaluation.py |
+| FR-014-34 | 014-robot-learning | draft | T-014-035 | tests/metamorphic/test_t_014_035_ttc.py |
+| FR-014-35 | 014-robot-learning | draft | T-014-043 | tests/pipeline/test_t_014_043_il2_evaluation.py |
+| FR-014-36 | 014-robot-learning | draft | T-014-044 | tests/pipeline/test_t_014_044_verdicts.py |
+| FR-014-37 | 014-robot-learning | draft | T-014-045 | tests/pipeline/test_t_014_045_sim_to_sim_gaps.py |
+| FR-014-38 | 014-robot-learning | draft | T-014-045 | tests/pipeline/test_t_014_045_sim_to_sim_gaps.py |
+| FR-014-39 | 014-robot-learning | draft | T-014-042, T-014-043 | tests/pipeline/test_t_014_042_il1_evaluation.py, tests/pipeline/test_t_014_043_il2_evaluation.py, tests/pipeline/test_t_014_045_sim_to_sim_gaps.py |
+| FR-014-40 | 014-robot-learning | draft | T-014-050 | tests/metamorphic/test_t_014_050_bicycle_twin.py |
+| FR-014-41 | 014-robot-learning | draft | T-014-051 | tests/unit/test_t_014_051_arm_twin.py |
+| FR-014-42 | 014-robot-learning | draft | T-014-052 | web/src/engines/robots/twin-parity.test.ts |
+| FR-014-43 | 014-robot-learning | draft | T-014-054 | web/e2e/robot-policies.spec.ts |
+| FR-014-44 | 014-robot-learning | draft | T-014-053 | web/src/engines/robots/twin-hostile.test.ts, web/e2e/robot-policies.spec.ts |
+| FR-014-45 | 014-robot-learning | draft | T-014-054 | web/e2e/robot-policies.spec.ts |
+| FR-014-46 | 014-robot-learning | draft | T-014-049 | tests/unit/test_t_014_049_task_params_hostile.py |
+| FR-014-47 | 014-robot-learning | draft | T-014-038 | tests/unit/test_t_014_038_cores_hostile.py |
+| FR-014-48 | 014-robot-learning | draft | T-014-092 | tests/pipeline/test_t_014_092_fixture_propagation_pipeline.py, tests/unit/test_t_014_092_fixture_propagation.py |
+| FR-014-49 | 014-robot-learning | draft | T-014-093 | tests/unit/test_t_014_093_input_stale.py |
+| FR-015-01 | 015-vlm | draft | T-015-010 | - |
+| FR-015-02 | 015-vlm | draft | T-015-010 | - |
+| FR-015-03 | 015-vlm | draft | T-015-011 | - |
+| FR-015-04 | 015-vlm | draft | T-015-011 | - |
+| FR-015-05 | 015-vlm | draft | T-015-012, T-015-070 | - |
+| FR-015-06 | 015-vlm | draft | T-015-013 | - |
+| FR-015-07 | 015-vlm | draft | T-015-014, T-015-063 | - |
+| FR-015-08 | 015-vlm | draft | T-015-014 | - |
+| FR-015-09 | 015-vlm | draft | T-015-015, T-015-070 | - |
+| FR-015-10 | 015-vlm | draft | T-015-015 | - |
+| FR-015-11 | 015-vlm | draft | T-015-016 | - |
+| FR-015-12 | 015-vlm | draft | T-015-016 | - |
+| FR-015-13 | 015-vlm | draft | T-015-020, T-015-070 | - |
+| FR-015-14 | 015-vlm | draft | T-015-021, T-015-071 | - |
+| FR-015-15 | 015-vlm | draft | T-015-021 | - |
+| FR-015-16 | 015-vlm | draft | T-015-030 | - |
+| FR-015-17 | 015-vlm | draft | T-015-031 | - |
+| FR-015-18 | 015-vlm | draft | T-015-031 | - |
+| FR-015-19 | 015-vlm | draft | T-015-031 | - |
+| FR-015-20 | 015-vlm | draft | T-015-032 | - |
+| FR-015-21 | 015-vlm | draft | T-015-032 | - |
+| FR-015-22 | 015-vlm | draft | T-015-032 | - |
+| FR-015-23 | 015-vlm | draft | T-015-033 | - |
+| FR-015-24 | 015-vlm | draft | T-015-017 | - |
+| FR-015-25 | 015-vlm | draft | T-015-017 | - |
+| FR-015-26 | 015-vlm | draft | T-015-034 | - |
+| FR-015-27 | 015-vlm | draft | T-015-034 | - |
+| FR-015-28 | 015-vlm | draft | T-015-035 | - |
+| FR-015-29 | 015-vlm | draft | T-015-035 | - |
+| FR-015-30 | 015-vlm | draft | T-015-036 | - |
+| FR-015-31 | 015-vlm | draft | T-015-037 | - |
+| FR-015-32 | 015-vlm | draft | T-015-036 | - |
+| FR-015-33 | 015-vlm | draft | T-015-040 | - |
+| FR-015-34 | 015-vlm | draft | T-015-040 | - |
+| FR-015-35 | 015-vlm | draft | T-015-040 | - |
+| FR-015-36 | 015-vlm | draft | T-015-041 | - |
+| FR-015-37 | 015-vlm | draft | T-015-041 | - |
+| FR-015-38 | 015-vlm | draft | T-015-050 | - |
+| FR-015-39 | 015-vlm | draft | T-015-051 | - |
+| FR-015-40 | 015-vlm | draft | T-015-060 | - |
+| FR-015-41 | 015-vlm | draft | T-015-063 | - |
+| FR-015-42 | 015-vlm | draft | T-015-061, T-015-063 | - |
+| FR-015-43 | 015-vlm | draft | T-015-062 | - |
+| FR-015-44 | 015-vlm | draft | T-015-017 | - |
+| FR-015-45 | 015-vlm | draft | T-015-060 | - |
+| FR-015-46 | 015-vlm | draft | T-015-050 | - |
+| FR-015-47 | 015-vlm | draft | T-015-035 | - |
+| FR-015-48 | 015-vlm | draft | T-015-092 | - |
+| FR-015-49 | 015-vlm | draft | T-015-093 | - |
+| FR-015-50 | 015-vlm | draft | T-015-094 | - |
 | FR-016-01 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-02 | 016-export-acceleration | draft | T-016-010 | - |
 | FR-016-03 | 016-export-acceleration | draft | T-016-011 | - |
@@ -1176,12 +1176,12 @@
 | NFR-009-04 | 009-perception | draft | T-009-033 | - |
 | NFR-009-05 | 009-perception | draft | T-009-020 | - |
 | NFR-009-06 | 009-perception | draft | T-009-071 | - |
-| NFR-010-01 | 010-slope | draft | T-010-061 | web/e2e/c1-lane-gates.spec.ts |
-| NFR-010-02 | 010-slope | draft | T-010-061 | web/e2e/c1-lane-gates.spec.ts |
-| NFR-010-03 | 010-slope | draft | T-010-034 | web/e2e/c1-cutoff-slider.spec.ts |
-| NFR-010-04 | 010-slope | draft | T-010-032 | tests/pipeline/test_t_010_032_forecaster_export.py |
-| NFR-010-05 | 010-slope | draft | T-010-034 | web/e2e/c1-cutoff-slider.spec.ts |
-| NFR-010-06 | 010-slope | draft | T-010-062 | tests/unit/test_t_010_062_budget_record.py |
+| NFR-010-01 | 010-slope | draft | T-010-061 | - |
+| NFR-010-02 | 010-slope | draft | T-010-061 | - |
+| NFR-010-03 | 010-slope | draft | T-010-034 | - |
+| NFR-010-04 | 010-slope | draft | T-010-032 | - |
+| NFR-010-05 | 010-slope | draft | T-010-034 | - |
+| NFR-010-06 | 010-slope | draft | T-010-062 | - |
 | NFR-011-01 | 011-surrogates | draft | T-011-016 | - |
 | NFR-011-02 | 011-surrogates | draft | T-011-020 | - |
 | NFR-011-03 | 011-surrogates | draft | T-011-054 | - |
@@ -1195,15 +1195,15 @@
 | NFR-013-03 | 013-sensors | draft | T-013-034 | - |
 | NFR-013-04 | 013-sensors | draft | T-013-018 | - |
 | NFR-013-05 | 013-sensors | draft | T-013-012 | - |
-| NFR-014-01 | 014-robot-learning | draft | T-014-062 | - |
-| NFR-014-02 | 014-robot-learning | draft | T-014-062 | - |
-| NFR-014-03 | 014-robot-learning | draft | T-014-041 | - |
-| NFR-014-04 | 014-robot-learning | draft | T-014-054 | - |
-| NFR-014-05 | 014-robot-learning | draft | T-014-012 | - |
-| NFR-015-01 | 015-vlm | draft | T-015-020 | tests/contract/test_t_015_020_reason_bench.py, tests/gpu/test_t_015_070_reason_local.py |
-| NFR-015-02 | 015-vlm | draft | T-015-020 | tests/contract/test_t_015_020_reason_bench.py |
-| NFR-015-03 | 015-vlm | draft | T-015-060 | tests/contract/test_t_015_060_records.py |
-| NFR-015-04 | 015-vlm | draft | T-015-016 | tests/pipeline/test_t_015_016_server_driver.py |
+| NFR-014-01 | 014-robot-learning | draft | T-014-062 | tests/gpu/test_t_014_062_training_smoke.py |
+| NFR-014-02 | 014-robot-learning | draft | T-014-062 | tests/gpu/test_t_014_062_training_smoke.py |
+| NFR-014-03 | 014-robot-learning | draft | T-014-041 | tests/pipeline/test_t_014_041_policy_export.py |
+| NFR-014-04 | 014-robot-learning | draft | T-014-054 | web/e2e/robot-policies.spec.ts |
+| NFR-014-05 | 014-robot-learning | draft | T-014-012 | tests/unit/test_t_014_012_il_provenance.py |
+| NFR-015-01 | 015-vlm | draft | T-015-020 | - |
+| NFR-015-02 | 015-vlm | draft | T-015-020 | - |
+| NFR-015-03 | 015-vlm | draft | T-015-060 | - |
+| NFR-015-04 | 015-vlm | draft | T-015-016 | - |
 | NFR-016-01 | 016-export-acceleration | draft | T-016-050 | - |
 | NFR-016-02 | 016-export-acceleration | draft | T-016-045 | - |
 | NFR-016-03 | 016-export-acceleration | draft | T-016-010 | - |
@@ -1361,23 +1361,23 @@
 | P-009-12 | 009-perception | draft | T-009-011, T-009-013 | - |
 | P-009-13 | 009-perception | draft | T-009-020 | - |
 | P-009-14 | 009-perception | draft | T-009-017 | - |
-| P-010-01 | 010-slope | draft | T-010-013 | tests/metamorphic/test_t_010_013_lem_relations.py |
-| P-010-02 | 010-slope | draft | T-010-013 | tests/metamorphic/test_t_010_013_lem_relations.py |
-| P-010-03 | 010-slope | draft | T-010-010 | tests/unit/test_t_010_010_lem_search.py |
-| P-010-04 | 010-slope | draft | T-010-013 | tests/metamorphic/test_t_010_013_lem_relations.py |
-| P-010-05 | 010-slope | draft | T-010-013 | tests/metamorphic/test_t_010_013_lem_relations.py |
-| P-010-06 | 010-slope | draft | T-010-010 | tests/unit/test_t_010_010_lem_search.py |
-| P-010-07 | 010-slope | draft | T-010-015 | tests/property/test_t_010_015_pof.py |
-| P-010-08 | 010-slope | draft | T-010-023 | tests/property/test_t_010_023_preprocess.py |
-| P-010-09 | 010-slope | draft | T-010-025 | tests/metamorphic/test_t_010_025_ttf_invariance.py, tests/pipeline/test_t_010_025_learned_invariance.py |
-| P-010-10 | 010-slope | draft | T-010-025 | tests/metamorphic/test_t_010_025_ttf_invariance.py, tests/pipeline/test_t_010_025_learned_invariance.py |
-| P-010-11 | 010-slope | draft | T-010-021 | tests/property/test_t_010_021_snr.py |
-| P-010-12 | 010-slope | draft | T-010-024 | tests/unit/test_t_010_024_iv_bayes.py |
-| P-010-13 | 010-slope | draft | T-010-026 | tests/property/test_t_010_026_readout.py |
-| P-010-14 | 010-slope | draft | T-010-031 | tests/unit/test_t_010_031_paired_decision.py |
-| P-010-15 | 010-slope | draft | T-010-050 | tests/unit/test_t_010_050_radar_series.py |
-| P-010-16 | 010-slope | draft | T-010-054 | tests/metamorphic/test_t_010_054_radar_phase.py |
-| P-010-17 | 010-slope | draft | T-010-054 | tests/metamorphic/test_t_010_054_radar_phase.py |
+| P-010-01 | 010-slope | draft | T-010-013 | - |
+| P-010-02 | 010-slope | draft | T-010-013 | - |
+| P-010-03 | 010-slope | draft | T-010-010 | - |
+| P-010-04 | 010-slope | draft | T-010-013 | - |
+| P-010-05 | 010-slope | draft | T-010-013 | - |
+| P-010-06 | 010-slope | draft | T-010-010 | - |
+| P-010-07 | 010-slope | draft | T-010-015 | - |
+| P-010-08 | 010-slope | draft | T-010-023 | - |
+| P-010-09 | 010-slope | draft | T-010-025 | - |
+| P-010-10 | 010-slope | draft | T-010-025 | - |
+| P-010-11 | 010-slope | draft | T-010-021 | - |
+| P-010-12 | 010-slope | draft | T-010-024 | - |
+| P-010-13 | 010-slope | draft | T-010-026 | - |
+| P-010-14 | 010-slope | draft | T-010-031 | - |
+| P-010-15 | 010-slope | draft | T-010-050 | - |
+| P-010-16 | 010-slope | draft | T-010-054 | - |
+| P-010-17 | 010-slope | draft | T-010-054 | - |
 | P-011-01 | 011-surrogates | draft | T-011-010 | - |
 | P-011-02 | 011-surrogates | draft | T-011-010 | - |
 | P-011-03 | 011-surrogates | draft | T-011-017 | - |
@@ -1427,33 +1427,33 @@
 | P-013-13 | 013-sensors | draft | T-013-025 | - |
 | P-013-14 | 013-sensors | draft | T-013-043 | - |
 | P-013-15 | 013-sensors | draft | T-013-030 | - |
-| P-014-01 | 014-robot-learning | draft | T-014-020 | - |
-| P-014-02 | 014-robot-learning | draft | T-014-020 | - |
-| P-014-03 | 014-robot-learning | draft | T-014-020 | - |
-| P-014-04 | 014-robot-learning | draft | T-014-021 | - |
-| P-014-05 | 014-robot-learning | draft | T-014-020 | - |
-| P-014-06 | 014-robot-learning | draft | T-014-021 | - |
-| P-014-07 | 014-robot-learning | draft | T-014-036 | - |
-| P-014-08 | 014-robot-learning | draft | T-014-035 | - |
-| P-014-09 | 014-robot-learning | draft | T-014-030 | - |
-| P-014-10 | 014-robot-learning | draft | T-014-032 | - |
-| P-014-11 | 014-robot-learning | draft | T-014-042 | - |
-| P-014-12 | 014-robot-learning | draft | T-014-050 | - |
-| P-014-13 | 014-robot-learning | draft | T-014-023 | - |
-| P-014-14 | 014-robot-learning | draft | T-014-025, T-014-034 | - |
-| P-014-15 | 014-robot-learning | draft | T-014-061 | - |
-| P-015-01 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/pipeline/test_t_015_036_reference_parity.py |
-| P-015-02 | 015-vlm | draft | T-015-037 | tests/metamorphic/test_t_015_037_mcnemar.py, tests/pipeline/test_t_015_037_mcnemar_parity.py |
-| P-015-03 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/pipeline/test_t_015_036_reference_parity.py |
-| P-015-04 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py, tests/pipeline/test_t_015_036_reference_parity.py |
-| P-015-05 | 015-vlm | draft | T-015-021 | tests/unit/test_t_015_021_agreement_gate.py |
-| P-015-06 | 015-vlm | draft | T-015-041 | tests/metamorphic/test_t_015_041_task_b_scoring.py |
-| P-015-07 | 015-vlm | draft | T-015-050 | tests/metamorphic/test_t_015_050_caption_scoring.py |
-| P-015-08 | 015-vlm | draft | T-015-031, T-015-032 | tests/metamorphic/test_t_015_031_truth_types_1_3.py, tests/metamorphic/test_t_015_032_truth_types_4_6.py |
-| P-015-09 | 015-vlm | draft | T-015-035 | tests/unit/test_t_015_035_arms_detector_rule.py |
-| P-015-10 | 015-vlm | draft | T-015-040 | tests/unit/test_t_015_040_plausibility_pairs.py |
-| P-015-11 | 015-vlm | draft | T-015-034 | tests/property/test_t_015_034_answer_parser.py |
-| P-015-12 | 015-vlm | draft | T-015-012, T-015-070 | tests/gpu/test_t_015_070_reason_local.py, tests/pipeline/test_t_015_012_gguf_conversion.py |
+| P-014-01 | 014-robot-learning | draft | T-014-020 | tests/metamorphic/test_t_014_020_fee_relations.py |
+| P-014-02 | 014-robot-learning | draft | T-014-020 | tests/metamorphic/test_t_014_020_fee_relations.py |
+| P-014-03 | 014-robot-learning | draft | T-014-020 | tests/metamorphic/test_t_014_020_fee_relations.py |
+| P-014-04 | 014-robot-learning | draft | T-014-021 | tests/unit/test_t_014_021_fee_worked_examples.py |
+| P-014-05 | 014-robot-learning | draft | T-014-020 | tests/metamorphic/test_t_014_020_fee_relations.py |
+| P-014-06 | 014-robot-learning | draft | T-014-021 | tests/unit/test_t_014_021_fee_worked_examples.py |
+| P-014-07 | 014-robot-learning | draft | T-014-036 | tests/metamorphic/test_t_014_036_pure_pursuit.py |
+| P-014-08 | 014-robot-learning | draft | T-014-035 | tests/metamorphic/test_t_014_035_ttc.py |
+| P-014-09 | 014-robot-learning | draft | T-014-030 | tests/metamorphic/test_t_014_030_il1_observation.py |
+| P-014-10 | 014-robot-learning | draft | T-014-032 | tests/metamorphic/test_t_014_032_il1_reward.py |
+| P-014-11 | 014-robot-learning | draft | T-014-042 | tests/pipeline/test_t_014_042_il1_evaluation.py |
+| P-014-12 | 014-robot-learning | draft | T-014-050 | tests/metamorphic/test_t_014_050_bicycle_twin.py |
+| P-014-13 | 014-robot-learning | draft | T-014-023 | tests/metamorphic/test_t_014_023_fill_model.py |
+| P-014-14 | 014-robot-learning | draft | T-014-025, T-014-034 | tests/property/test_t_014_025_soil_randomisation.py, tests/property/test_t_014_034_il1_randomisation.py |
+| P-014-15 | 014-robot-learning | draft | T-014-061 | tests/gpu/test_t_014_061_task_parity.py |
+| P-015-01 | 015-vlm | draft | T-015-036 | - |
+| P-015-02 | 015-vlm | draft | T-015-037 | - |
+| P-015-03 | 015-vlm | draft | T-015-036 | - |
+| P-015-04 | 015-vlm | draft | T-015-036 | - |
+| P-015-05 | 015-vlm | draft | T-015-021 | - |
+| P-015-06 | 015-vlm | draft | T-015-041 | - |
+| P-015-07 | 015-vlm | draft | T-015-050 | - |
+| P-015-08 | 015-vlm | draft | T-015-031, T-015-032 | - |
+| P-015-09 | 015-vlm | draft | T-015-035 | - |
+| P-015-10 | 015-vlm | draft | T-015-040 | - |
+| P-015-11 | 015-vlm | draft | T-015-034 | - |
+| P-015-12 | 015-vlm | draft | T-015-012, T-015-070 | - |
 | P-016-01 | 016-export-acceleration | draft | T-016-012 | - |
 | P-016-02 | 016-export-acceleration | draft | T-016-012 | - |
 | P-016-03 | 016-export-acceleration | draft | T-016-012 | - |
@@ -1623,11 +1623,11 @@
 | SC-009-05 | 009-perception | draft | T-009-034 | - |
 | SC-009-06 | 009-perception | draft | T-009-034 | - |
 | SC-009-07 | 009-perception | draft | T-009-060 | - |
-| SC-010-01 | 010-slope | draft | T-010-033 | tests/pipeline/test_t_010_033_acceptance_report.py |
-| SC-010-02 | 010-slope | draft | T-010-031 | tests/unit/test_t_010_031_paired_decision.py |
-| SC-010-03 | 010-slope | draft | T-010-042 | tests/unit/test_t_010_042_real_event_report.py, web/e2e/c1-real-event.spec.ts |
-| SC-010-04 | 010-slope | draft | T-010-032 | tests/pipeline/test_t_010_032_forecaster_export.py |
-| SC-010-05 | 010-slope | draft | T-010-012 | tests/pipeline/test_t_010_012_pyslope_oracle.py |
+| SC-010-01 | 010-slope | draft | T-010-033 | - |
+| SC-010-02 | 010-slope | draft | T-010-031 | - |
+| SC-010-03 | 010-slope | draft | T-010-042 | - |
+| SC-010-04 | 010-slope | draft | T-010-032 | - |
+| SC-010-05 | 010-slope | draft | T-010-012 | - |
 | SC-011-01 | 011-surrogates | draft | T-011-015 | - |
 | SC-011-02 | 011-surrogates | draft | T-011-035 | - |
 | SC-011-03 | 011-surrogates | draft | T-011-053 | - |
@@ -1643,22 +1643,22 @@
 | SC-013-02 | 013-sensors | draft | T-013-017 | - |
 | SC-013-03 | 013-sensors | draft | T-013-030 | - |
 | SC-013-04 | 013-sensors | draft | T-013-025 | - |
-| SC-014-01 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-02 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-03 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-04 | 014-robot-learning | draft | T-014-044 | - |
-| SC-014-05 | 014-robot-learning | draft | T-014-045 | - |
-| SC-014-06 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-07 | 014-robot-learning | draft | T-014-047 | - |
-| SC-014-08 | 014-robot-learning | draft | T-014-045 | - |
-| SC-014-09 | 014-robot-learning | draft | T-014-044 | - |
-| SC-014-10 | 014-robot-learning | draft | T-014-041 | - |
-| SC-015-01 | 015-vlm | draft | T-015-021 | tests/gpu/test_t_015_071_agreement_real.py, tests/unit/test_t_015_021_agreement_gate.py |
-| SC-015-02 | 015-vlm | draft | T-015-036 | tests/metamorphic/test_t_015_036_task_a_metrics.py |
-| SC-015-03 | 015-vlm | draft | T-015-037 | tests/metamorphic/test_t_015_037_mcnemar.py |
-| SC-015-04 | 015-vlm | draft | T-015-061 | tests/contract/test_t_015_061_not_headline.py |
-| SC-015-05 | 015-vlm | draft | T-015-041 | tests/metamorphic/test_t_015_041_task_b_scoring.py |
-| SC-015-06 | 015-vlm | draft | T-015-050 | tests/metamorphic/test_t_015_050_caption_scoring.py |
+| SC-014-01 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-02 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-03 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-04 | 014-robot-learning | draft | T-014-044 | tests/pipeline/test_t_014_044_verdicts.py |
+| SC-014-05 | 014-robot-learning | draft | T-014-045 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-06 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-07 | 014-robot-learning | draft | T-014-047 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-08 | 014-robot-learning | draft | T-014-045 | tests/pipeline/test_t_014_047_acceptance_table.py |
+| SC-014-09 | 014-robot-learning | draft | T-014-044 | tests/pipeline/test_t_014_044_verdicts.py |
+| SC-014-10 | 014-robot-learning | draft | T-014-041 | tests/pipeline/test_t_014_041_policy_export.py |
+| SC-015-01 | 015-vlm | draft | T-015-021 | - |
+| SC-015-02 | 015-vlm | draft | T-015-036 | - |
+| SC-015-03 | 015-vlm | draft | T-015-037 | - |
+| SC-015-04 | 015-vlm | draft | T-015-061 | - |
+| SC-015-05 | 015-vlm | draft | T-015-041 | - |
+| SC-015-06 | 015-vlm | draft | T-015-050 | - |
 | SC-016-01 | 016-export-acceleration | draft | T-016-045 | - |
 | SC-016-02 | 016-export-acceleration | draft | T-016-014 | - |
 | SC-016-03 | 016-export-acceleration | draft | T-016-021 | - |
@@ -1727,7 +1727,7 @@
 | US-009-4 | 009-perception | draft | T-009-060, T-009-061 | - |
 | US-009-5 | 009-perception | draft | T-009-070, T-009-071, T-009-072 | - |
 | US-009-6 | 009-perception | draft | T-009-010, T-009-011, T-009-012, T-009-013, T-009-014, T-009-015, T-009-016, T-009-017, T-009-018, T-009-019, T-009-020, T-009-021 | - |
-| US-010-1 | 010-slope | draft | T-010-010, T-010-011, T-010-012, T-010-013, T-010-014, T-010-015, T-010-016, T-010-017, T-010-018 | web/e2e/c1-simulate.spec.ts |
+| US-010-1 | 010-slope | draft | T-010-010, T-010-011, T-010-012, T-010-013, T-010-014, T-010-015, T-010-016, T-010-017, T-010-018 | - |
 | US-010-2 | 010-slope | draft | T-010-020, T-010-021, T-010-022, T-010-023, T-010-024, T-010-025, T-010-026, T-010-027, T-010-028, T-010-029, T-010-030, T-010-031, T-010-032, T-010-033, T-010-034 | - |
 | US-010-3 | 010-slope | draft | T-010-040, T-010-041, T-010-042, T-010-043 | - |
 | US-010-4 | 010-slope | draft | T-010-050, T-010-051, T-010-052, T-010-053, T-010-054, T-010-055 | - |
