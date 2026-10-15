@@ -684,6 +684,48 @@
       "rule": "DC-016-05",
       "pointer": "/rows",
       "keyword": "minItems"
+    },
+    {
+      "file": "bench-record.valid-fixture.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "contract fixture: the optional fixture flag set on a record (FR-016-40)"
+    },
+    {
+      "file": "bench-record.hostile-fixture-wrong-type.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "note": "fixture must be a boolean"
+    },
+    {
+      "file": "export-parity-report.valid-fixture.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "layer-1 report derived from a fixture golden set carries fixture true (FR-016-40)"
+    },
+    {
+      "file": "export-parity-report.hostile-fixture-wrong-type.json",
+      "schema": "export-parity-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "note": "fixture must be a boolean"
+    },
+    {
+      "file": "accel-table.valid-fixture-row.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "a table row may carry fixture true; the publication filter drops such rows (FR-016-40)"
+    },
+    {
+      "file": "accel-table.hostile-fixture-wrong-type.json",
+      "schema": "accel-table.schema.json",
+      "target": "#",
+      "valid": false,
+      "note": "row fixture must be a boolean"
     }
   ],
   "not_schema_checkable": [

@@ -267,3 +267,4 @@ class ExportParityReport(BaseModel):
     mask_iou: Fraction | None
     verdict: Literal["pass", "rejected"]
     reason: Annotated[str | None, Field(max_length=300, min_length=1)] = None
+    fixture: bool | None = None

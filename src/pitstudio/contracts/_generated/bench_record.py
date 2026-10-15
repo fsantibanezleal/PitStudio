@@ -240,3 +240,4 @@ class BenchRecord(BaseModel):
     parity: Parity | None
     fingerprint: Fingerprint
     notes: Annotated[list[Note] | None, Field(max_length=8)] = None
+    fixture: bool | None = None
