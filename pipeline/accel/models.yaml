@@ -1,0 +1,36 @@
+# Models of the s62_accel / s64_bench matrix that already have an ONNX export. Paths are relative to a root named by an
+# environment variable (PITSTUDIO_MODELS or PITSTUDIO_TMP), never absolute, so this file carries no machine path.
+# A model whose file is missing is skipped with a recorded "not available" state, never a fake number.
+models:
+  - id: unet-fragmentation
+    kind: vision
+    root: PITSTUDIO_TMP
+    onnx: gpu-jobs/10-unet-export-trt/model.onnx
+    input_name: x
+    inputs: {file: gpu-jobs/10-unet-export-trt/inputs.npy, root: PITSTUDIO_TMP}
+    mask_iou: true
+    calibration: null            # the training tiles are not wired here: int8 is "not available" for this model
+  - id: slope-tcn
+    kind: series
+    root: PITSTUDIO_MODELS
+    onnx: slope/run-001/onnx/tcn-c1.onnx
+    input_name: context
+    inputs: {file: slope/run-001/pairs.npz, root: PITSTUDIO_MODELS, golden_key: va_c, n_inputs: 64}
+    mask_iou: false
+    calibration: {file: slope/run-001/pairs.npz, root: PITSTUDIO_MODELS, key: tr_c}
+  - id: slope-patchtst
+    kind: series
+    root: PITSTUDIO_MODELS
+    onnx: slope/run-001/onnx/patchtst-c1.onnx
+    input_name: context
+    inputs: {file: slope/run-001/pairs.npz, root: PITSTUDIO_MODELS, golden_key: va_c, n_inputs: 64}
+    mask_iou: false
+    calibration: {file: slope/run-001/pairs.npz, root: PITSTUDIO_MODELS, key: tr_c}
+  - id: slope-chronos-bolt
+    kind: series
+    root: PITSTUDIO_MODELS
+    onnx: slope/run-001/onnx/chronos_bolt_fine_tuned-c1.onnx
+    input_name: context
+    inputs: {file: slope/run-001/pairs.npz, root: PITSTUDIO_MODELS, golden_key: va_c, n_inputs: 64}
+    mask_iou: false
+    calibration: {file: slope/run-001/pairs.npz, root: PITSTUDIO_MODELS, key: tr_c}
