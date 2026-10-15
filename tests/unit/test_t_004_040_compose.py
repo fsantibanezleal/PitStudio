@@ -117,7 +117,7 @@ def test_variant_sets_carry_the_spec_names_with_the_first_selected(scene) -> Non
     assert sorted(sets.GetNames()) == ["lod", "pushback", "scenario", "time_of_day", "weather"]
     for name, variants in spec["variants"].items():
         vs = sets.GetVariantSet(name)
-        assert vs.GetVariantNames() == variants
+        assert sorted(vs.GetVariantNames()) == sorted(variants)  # USD returns the names sorted, not in spec order
         assert vs.GetVariantSelection() == variants[0]
 
 
