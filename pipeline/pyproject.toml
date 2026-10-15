@@ -27,6 +27,10 @@ dependencies = [
     "shapely>=2.2.0",
     "laspy>=2.7.0",
     "lazrs>=0.8.2",
+    "onnxscript>=0.7.2",
+    "skl2onnx>=1.20.0",
+    "highspy>=1.15.1",
+    "networkx>=3.7",
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [project.optional-dependencies]
