@@ -42,7 +42,12 @@ const ROOT = resolve(WEB, "..");
 const GENERATED = join(HERE, "generated");
 const FIXTURES = join(ROOT, "tests", "contract", "fixtures");
 const CONTRACTS = join(ROOT, "contracts");
-const STEMS = ["manifest", "recipe", "tools", "sources", "capabilities"] as const;
+// every promoted contract of the catalogue (the schemas the generator reads), not a fixed list: each one must have a
+// generated module and nothing else may be generated
+const STEMS = readdirSync(CONTRACTS)
+  .filter((name) => name.endsWith(".schema.json"))
+  .map((name) => name.replace(".schema.json", ""))
+  .sort();
 const WORK = mkdtempSync(join(process.env.PITSTUDIO_TMP ?? tmpdir(), "gen-types-test-"));
 const SLOW = 180_000;
 const DRAFT_2020_12 = "https://json-schema.org/draft/2020-12/schema";
