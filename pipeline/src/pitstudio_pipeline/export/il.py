@@ -24,6 +24,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 import numpy as np
+from pitstudio.robots.fixture import is_fixture
 
 from pitstudio_pipeline._contracts import _validator
 
@@ -70,6 +71,7 @@ class ExportResult:
     parity: dict[str, Any]
     input_name: str = "obs"
     output_name: str = "action"
+    fixture: bool = False
 
 
 def _pointer(path: Any) -> str:
@@ -228,8 +230,20 @@ def _reference(layers: list[tuple[np.ndarray, np.ndarray]], mean: np.ndarray, va
         return net(torch.tensor(z, dtype=torch.float32)).numpy()
 
 
-def export_il_policy(handoff: Any, *, root: Path | str, out_dir: Path | str) -> ExportResult:
-    """Validate the handoff, export the actor as ONNX, check parity on the goldens, then write the file."""
+def export_il_policy(
+    handoff: Any,
+    *,
+    root: Path | str,
+    out_dir: Path | str,
+    fixture: bool | None = None,
+    handoff_path: Path | str | None = None,
+) -> ExportResult:
+    """Validate the handoff, export the actor as ONNX, check parity on the goldens, then write the file.
+
+    The export runs the same way for a contract fixture; the result carries ``fixture`` (FR-014-48): the explicit flag, or
+    the location of ``handoff_path`` under ``contracts/examples`` or ``data/samples``.
+    """
+    marked = is_fixture(handoff_path, flag=fixture)
     doc = _load_handoff(handoff)
     problems = _schema_problems(doc)
     if problems:
@@ -275,4 +289,4 @@ def export_il_policy(handoff: Any, *, root: Path | str, out_dir: Path | str) -> 
     tmp = target.with_suffix(".onnx.tmp")
     tmp.write_bytes(blob)
     tmp.replace(target)
-    return ExportResult(target, hashlib.sha256(blob).hexdigest(), len(blob), parity)
+    return ExportResult(target, hashlib.sha256(blob).hexdigest(), len(blob), parity, fixture=marked)
