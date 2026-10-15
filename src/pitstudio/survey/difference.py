@@ -41,23 +41,25 @@ def _valid_mask(surface: Surface) -> np.ndarray:
     return ok
 
 
-def _inside(points: np.ndarray, polygon: np.ndarray) -> np.ndarray:
-    """Strictly inside a simple polygon (even-odd rule; points on the boundary are outside)."""
-    x, y = points[:, 0], points[:, 1]
-    inside = np.zeros(len(points), dtype=bool)
-    on_edge = np.zeros(len(points), dtype=bool)
-    n = len(polygon)
-    for k in range(n):
-        x1, y1 = polygon[k]
-        x2, y2 = polygon[(k + 1) % n]
-        cross = (x2 - x1) * (y - y1) - (y2 - y1) * (x - x1)
-        within = (np.minimum(x1, x2) <= x) & (x <= np.maximum(x1, x2)) & (np.minimum(y1, y2) <= y) & (y <= np.maximum(y1, y2))
-        on_edge |= (cross == 0) & within
-        crosses = (y1 > y) != (y2 > y)
-        with np.errstate(divide="ignore", invalid="ignore"):
-            x_at = x1 + (y - y1) * (x2 - x1) / (y2 - y1)
-        inside ^= crosses & (x < x_at)
-    return inside & ~on_edge
+def _inside_grid(polygon: np.ndarray, x0: float, y0: float, cell: float, nx: int, ny: int) -> np.ndarray:
+    """Cells (ny, nx) whose centre lies strictly inside the polygon: a scanline per row, even-odd rule."""
+    x1, y1 = polygon[:, 0], polygon[:, 1]
+    x2, y2 = np.roll(x1, -1), np.roll(y1, -1)
+    xc = x0 + (np.arange(nx) + 0.5) * cell
+    inside = np.zeros((ny, nx), dtype=bool)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        for row in range(ny):
+            y = y0 + (row + 0.5) * cell
+            crossing = (y1 > y) != (y2 > y)
+            if not crossing.any():
+                continue
+            xs = np.sort(
+                x1[crossing] + (y - y1[crossing]) * (x2[crossing] - x1[crossing]) / (y2[crossing] - y1[crossing])
+            )
+            right = len(xs) - np.searchsorted(xs, xc, side="right")  # crossings strictly to the right of each centre
+            on_edge = np.searchsorted(xs, xc, side="left") != np.searchsorted(xs, xc, side="right")
+            inside[row] = (right % 2 == 1) & ~on_edge
+    return inside
 
 
 def difference(before: Surface, after: Surface, *, polygon: np.ndarray | None = None) -> VolumeResult:
@@ -76,17 +78,13 @@ def difference(before: Surface, after: Surface, *, polygon: np.ndarray | None = 
         raise InvalidSurfaceError("cell size differs, no resampling declared")
     ny, nx = before.z.shape
     c = float(before.cell_size_m)
-    cols, rows = np.meshgrid(np.arange(nx), np.arange(ny))
-    centres = np.stack(
-        [before.origin_xy[0] + (cols.ravel() + 0.5) * c, before.origin_xy[1] + (rows.ravel() + 0.5) * c], axis=1
-    )
     if polygon is None:
         in_area = np.ones(ny * nx, dtype=bool)
     else:
         poly = np.asarray(polygon, dtype=np.float64)
         if poly.ndim != 2 or poly.shape[1] != 2 or len(poly) < 3 or not np.isfinite(poly).all():
             raise InvalidSurfaceError("polygon must be a (k, 2) array of at least 3 finite vertices")
-        in_area = _inside(centres, poly)
+        in_area = _inside_grid(poly, before.origin_xy[0], before.origin_xy[1], c, nx, ny).ravel()
     valid = (_valid_mask(before) & _valid_mask(after)).ravel()
     n_in_area = int(in_area.sum())
     n_valid = int((in_area & valid).sum())
