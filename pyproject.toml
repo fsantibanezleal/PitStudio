@@ -42,7 +42,7 @@ dev = [
 package = true
 
 [tool.uv.sources]
-minephys = { git = "https://github.com/fsantibanezleal/minephys" }
+minephys = { git = "https://github.com/fsantibanezleal/minephys", rev = "98d5b2525a81d9ea3de6d24dc7536450f458aee3" }
 
 [tool.ruff]
 line-length = 120
