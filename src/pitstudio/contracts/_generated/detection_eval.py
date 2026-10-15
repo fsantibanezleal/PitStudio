@@ -159,9 +159,9 @@ class CorruptionPoint(BaseModel):
     metric: Literal["map50", "mask_ap50"]
     corruption: Literal["dust", "night", "rain"]
     severity: Annotated[int, Field(ge=1, le=5)]
-    m_clean: Annotated[float, Field(gt=0.0, le=1.0)]
-    m_corrupted: Unit
-    delta_rel_pct: Annotated[float, Field(ge=-100000.0, le=100.0)]
+    m_clean: Annotated[float | None, Field(gt=0.0, le=1.0)] = None
+    m_corrupted: Unit | None = None
+    delta_rel_pct: Annotated[float | None, Field(ge=-100000.0, le=100.0)] = None
     descriptive: bool
 
 
@@ -187,10 +187,10 @@ class DrAblation(BaseModel):
     family: Literal["pit"]
     arm_a: Literal["S"]
     arm_b: Literal["U"]
-    difference: Annotated[float, Field(ge=-1.0, le=1.0)]
-    interval: DifferenceInterval
+    difference: Annotated[float | None, Field(ge=-1.0, le=1.0)] = None
+    interval: DifferenceInterval | None = None
     bootstrap: Bootstrap
-    verdict: Literal["better", "worse", "no significant difference"]
+    verdict: Literal["better", "worse", "no significant difference"] | None = None
     training_runs_per_arm: Annotated[int, Field(ge=1, le=100)]
     test_seeds: Annotated[int, Field(ge=2, le=100000)]
     test_images: Annotated[int, Field(ge=1, le=1000000)]
@@ -282,9 +282,35 @@ class RejectedInput(BaseModel):
     reason: Reason
 
 
+class Sha256(RootModel[str]):
+    root: Annotated[str, Field(max_length=64, pattern="^[0-9a-f]{64}$")]
+
+
+class Provenance(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    checkpoint_sha256: Sha256 | None = None
+    training_set_sha256: Sha256 | None = None
+    base_checkpoint_sha256: Sha256 | None = None
+    seed: Seed | None = None
+    epochs: Annotated[int | None, Field(ge=1, le=100000)] = None
+
+
+class ModelStatus(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    model: Model
+    precision: Precision
+    arm: TrainingArm
+    status: Literal["evaluated", "not run (absent)"]
+    provenance: Provenance | None = None
+
+
 class DetectionEvaluationReport(BaseModel):
     """
-    Perception evaluation report of s50_evaluate (per model, precision, family and class AP with intervals and support; corruption curves; DR ablation; sim-to-real status, honesty label and verdicts) (DC-009-05, spec 009-perception).
+    Perception evaluation report of s50_evaluate (per model, precision, family and class AP with intervals and support; corruption curves; DR ablation; sim-to-real status, honesty label and verdicts) (DC-009-05, spec 009-perception). A fixture report (fixture true) comes from a contract-fixture SDG index and publishes no metric: its rows may omit every metric. A partial report (partial true) lists the models it names but did not evaluate as not run (absent) and carries no pooled row, no DR ablation and no pass or fail verdict.
     """
 
     model_config = ConfigDict(
@@ -302,7 +328,10 @@ class DetectionEvaluationReport(BaseModel):
     per_class: Annotated[list[ClassResult], Field(max_length=1000)]
     summary: Annotated[list[SummaryResult], Field(max_length=200)]
     corruption: Annotated[list[CorruptionPoint], Field(max_length=2000)]
-    dr_ablation: DrAblation
+    dr_ablation: DrAblation | None = None
     acceptance: Annotated[list[Acceptance], Field(max_length=200)]
     real_probe: RealProbe | None = None
     rejected_inputs: Annotated[list[RejectedInput] | None, Field(max_length=100)] = None
+    fixture: bool | None = None
+    partial: bool | None = None
+    models: Annotated[list[ModelStatus] | None, Field(max_length=60)] = None

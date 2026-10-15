@@ -1,0 +1,234 @@
+{
+  "notYetRun": "Aún sin ejecutar",
+  "safe": {
+    "showFull": "Mostrar el texto completo",
+    "showLess": "Mostrar menos"
+  },
+  "connect": {
+    "port": "Puerto de mi estudio local",
+    "button": "Conectar con mi estudio local",
+    "invalid": "Escribe un número de puerto entero de 1024 a 65535.",
+    "connected": "conectado — consola {{version}}",
+    "notConnected": "no conectado",
+    "title": "Conectar con mi estudio local",
+    "lead": "Opcional. Esta página nunca contacta un servicio local por su cuenta: al pulsar el botón envía una consulta de estado a tu propia máquina y nada más."
+  },
+  "stale": "obsoleto",
+  "probe": {
+    "pass": "aprobada",
+    "fail": "la prueba falló",
+    "skip": "prueba omitida",
+    "notProbed": "sin probar",
+    "on": "{{date}} · {{gpu}} · controlador {{driver}}"
+  },
+  "cosmos": {
+    "built": "Construido sobre NVIDIA Cosmos",
+    "displayOnly": "solo visualización"
+  },
+  "throttle": {
+    "sw_power_cap": "límite de potencia por software",
+    "sw_thermal": "límite térmico por software",
+    "hw_thermal": "límite térmico por hardware",
+    "hw_slowdown": "ralentización por hardware",
+    "power_brake": "freno de potencia"
+  },
+  "prov": {
+    "run": "ejecución",
+    "recipe": "receta",
+    "git": "commit",
+    "gpu": "GPU",
+    "driver": "controlador",
+    "wall": "tiempo de pared",
+    "vram": "VRAM máxima",
+    "energy": "energía",
+    "localOnly": "rendimiento"
+  },
+  "blocks": {
+    "identity": {
+      "title": "Identidad",
+      "version": "Versión",
+      "released": "Publicada",
+      "licence": "Licencia",
+      "licenceClass": "Clase de licencia",
+      "ring": "Anillo",
+      "env": "Entorno",
+      "probe": "Prueba de capacidad",
+      "nvidia": "Sin afiliación ni respaldo de NVIDIA."
+    },
+    "role": {
+      "title": "Papel en minería",
+      "cases": "Casos que la usan",
+      "none": "Ningún caso lista aún esta herramienta."
+    },
+    "artefacts": {
+      "title": "Artefactos que produjo",
+      "notAdopted": "Evaluada, no adoptada",
+      "evidence": "Leer la página de evidencia",
+      "noCase": "Sin caso"
+    },
+    "provenance": {
+      "title": "Procedencia",
+      "lead": "Cada tarjeta de artefacto lleva su ejecución, receta, commit, GPU, controlador, tiempos y porcentajes de limitación. Licencia y fuentes de datos:",
+      "none": "Aún no hay artefactos, por lo que no hay procedencia que mostrar.",
+      "from": "hecho a partir de"
+    },
+    "whereRan": {
+      "title": "Dónde se ejecutó",
+      "live": "En vivo en tu navegador",
+      "precomputed": "Precalculado en {{gpu}} ({{gb}} GB, límite de potencia {{w}} W) el {{date}}",
+      "noLimit": "Precalculado en {{gpu}} ({{gb}} GB) el {{date}}",
+      "unknown": "Precalculado (el registro de la ejecución no está disponible)"
+    },
+    "limits": {
+      "title": "Límites y fallos",
+      "run": "ejecución",
+      "failed": "falló",
+      "exit": "salida {{code}}",
+      "attempt": "intento {{n}}",
+      "ok": "correcto",
+      "none": "Ningún límite ni variante fallida registrados."
+    },
+    "reproduce": {
+      "title": "Reproducir",
+      "noRuns": "Aún no hay una ejecución publicada de esta herramienta.",
+      "needsNvidia": "requiere una GPU NVIDIA RTX y la aceptación de los términos de NVIDIA"
+    },
+    "alternatives": {
+      "title": "Alternativas descartadas",
+      "none": "Ninguna registrada."
+    }
+  },
+  "lane": {
+    "live": "en vivo",
+    "replay": "repetición",
+    "local-only": "solo local"
+  },
+  "status": {
+    "done": "Hecha",
+    "notYetRun": "Aún sin ejecutar",
+    "notAdopted": "Evaluada, no adoptada"
+  },
+  "map": {
+    "alt": "Mapa de las herramientas del estudio: los nodos son herramientas y las aristas son traspasos de archivos.",
+    "observed": "observado en la ejecución {{run}}",
+    "planned": "planificado",
+    "notAdopted": "Evaluada, no adoptada",
+    "tableCaption": "El mismo grafo como tabla",
+    "unavailable": "Mapa interactivo no disponible",
+    "col": {
+      "tool": "Herramienta",
+      "env": "Entorno",
+      "lane": "Carril",
+      "ring": "Anillo",
+      "licence": "Clase de licencia",
+      "status": "Estado",
+      "inbound": "Traspasos de entrada",
+      "outbound": "Traspasos de salida"
+    }
+  },
+  "loop": {
+    "label": "El ciclo de IA física",
+    "title": "El ciclo de IA física",
+    "lead": "Cada paso enlaza con las ejecuciones publicadas cuyas etapas lo realizan.",
+    "scene": "Escena",
+    "sensors": "Sensores y datos sintéticos",
+    "labels": "Etiquetas",
+    "training": "Entrenamiento",
+    "validation": "Validación",
+    "acceleration": "Aceleración",
+    "encoding": "Codificación",
+    "web": "Web"
+  },
+  "fixture": "dato de prueba",
+  "tree": {
+    "label": "Ficha de la ejecución",
+    "copy": "Copiar",
+    "copySha": "Copiar SHA-256"
+  },
+  "runs": {
+    "title": "Ejecuciones publicadas",
+    "lead": "Ejecuciones publicadas con el estudio, las más recientes primero. Cada artefacto del sitio lleva de vuelta a una de ellas.",
+    "none": "Aún no hay ejecuciones publicadas",
+    "unknownFilter": "filtro desconocido ignorado",
+    "col": {
+      "run": "Ejecución",
+      "cases": "Casos",
+      "tools": "Herramientas productoras",
+      "date": "Fecha (UTC)",
+      "determinism": "Determinismo",
+      "artefacts": "Artefactos"
+    }
+  },
+  "dag": {
+    "title": "DAG de etapas",
+    "hit": "caché acertada",
+    "miss": "caché fallida",
+    "exit": "salida {{code}}",
+    "retries": "reintentos {{n}}",
+    "edges": "Traspasos entre etapas",
+    "feeds": "alimenta a"
+  },
+  "det": {
+    "title": "Determinismo",
+    "pending": "pendiente",
+    "notApplicable": "no aplica",
+    "equal": "iguales",
+    "different": "distintos",
+    "tolerance": "rtol {{rtol}}, atol {{atol}}"
+  },
+  "gpu": {
+    "notAvailable": "no disponible en esta GPU",
+    "busyLabel": "fracción de tiempo ocupada, no ocupación de SM",
+    "powerAtLimit": "Potencia en el límite",
+    "localOnly": "Rendimiento medido localmente, no publicado (licencia: NVIDIA SLA §8.9 / TensorRT for RTX SLA §2.13)",
+    "chart": {
+      "busy": "GPU ocupada",
+      "memory": "Memoria usada",
+      "power": "Potencia de la placa",
+      "smClock": "Reloj de SM",
+      "throttle": "Motivos de limitación de reloj",
+      "time": "tiempo"
+    },
+    "ref": {
+      "vram_total": "Memoria de la GPU",
+      "power_limit": "Límite de potencia aplicado"
+    },
+    "how": {
+      "button": "Cómo se midió",
+      "rate": "Muestreado a {{hz}} Hz.",
+      "noRate": "Frecuencia de muestreo: {{na}}.",
+      "utilisation": "La utilización es la fracción del periodo de muestreo en que corría al menos un kernel (tiempo ocupado); no dice cuántos SM se usaron.",
+      "power": "Promedio de potencia: la potencia de la placa según NVML, promediada en su propia ventana y muestreada a la frecuencia indicada.",
+      "energy": "La energía es la diferencia del contador de energía total entre el inicio y el fin de la etapa.",
+      "linkQueries": "Consultas de dispositivo de NVML",
+      "linkClocks": "Motivos de eventos de reloj de NVML"
+    },
+    "conditions": {
+      "gpu": "GPU",
+      "driver": "controlador",
+      "limit": "límite de potencia aplicado",
+      "notBenchmark": "nuestro hardware, no una comparación de rendimiento"
+    }
+  },
+  "nav": {
+    "label": "Páginas del estudio",
+    "runs": "Ejecuciones publicadas",
+    "gpu": "Evidencia de GPU"
+  },
+  "toolPage": {
+    "lead": "Qué produjo esta herramienta en el estudio local, dónde se ejecutó y cuánto costó."
+  },
+  "runPage": {
+    "title": "Ejecución",
+    "loading": "Cargando",
+    "manifest": "Manifiesto",
+    "telemetry": "Telemetría de las etapas de runtime abierto",
+    "noTelemetry": "No hay telemetría publicada para esta ejecución.",
+    "artefacts": "Artefactos de esta ejecución",
+    "noArtefacts": "Esta ejecución no publicó artefactos."
+  },
+  "gpuPage": {
+    "title": "Evidencia de GPU",
+    "lead": "Líneas de tiempo de las etapas de runtime abierto de cada ejecución publicada, medidas en nuestro hardware. Las etapas de herramientas propietarias aparecen solo como una nota de licencia con enlaces a sus salidas."
+  }
+}

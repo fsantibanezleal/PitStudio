@@ -863,6 +863,140 @@
       "rule": "FR-009-33",
       "pointer": "/real_probe/aggregate_only",
       "keyword": "const"
+    },
+    {
+      "file": "detection-eval.valid-fixture.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "fixture report as published: no metric, verdicts not run (FR-009-51)"
+    },
+    {
+      "file": "detection-eval.valid-partial.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "partial report: two of three models evaluated, the third not run (absent) (FR-009-52)"
+    },
+    {
+      "file": "detection-eval.hostile-fixture-wrong-type.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag not a boolean",
+      "rule": "FR-009-51",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "detection-eval.hostile-partial-wrong-type.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "partial flag not a boolean",
+      "rule": "FR-009-52",
+      "pointer": "/partial",
+      "keyword": "type"
+    },
+    {
+      "file": "detection-eval.hostile-models-status.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown model status",
+      "rule": "FR-009-52",
+      "pointer": "/models/2/status",
+      "keyword": "enum"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-partial-without-absent-model.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "partial report that lists no absent model",
+      "rule": "FR-009-52",
+      "pointer": "/models",
+      "keyword": "contains"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-partial-pooled-row.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pooled row in a partial report",
+      "rule": "FR-009-52",
+      "pointer": "/per_class/0/family",
+      "keyword": "enum"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-partial-verdict.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "pass verdict in a partial report",
+      "rule": "FR-009-52",
+      "pointer": "/acceptance/0/verdict",
+      "keyword": "const"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-partial-ablation.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "DR ablation in a partial report",
+      "rule": "FR-009-52",
+      "pointer": "",
+      "keyword": "not"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-models-absent-with-provenance.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "provenance on a model that was not run",
+      "rule": "FR-009-52",
+      "pointer": "/models/2",
+      "keyword": "not"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-models-evaluated-without-provenance.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "evaluated model without provenance",
+      "rule": "FR-009-52",
+      "pointer": "/models/0",
+      "keyword": "required"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-complete-with-absent-model.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "absent model in a report that is not partial",
+      "rule": "FR-009-52",
+      "pointer": "/models/0/status",
+      "keyword": "const"
+    },
+    {
+      "file": "detection-eval.hostile-conditional-metric-missing-without-fixture.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "class row without AP outside a fixture report",
+      "rule": "FR-009-22",
+      "pointer": "/per_class/0",
+      "keyword": "required"
+    },
+    {
+      "file": "detection-eval.hostile-fixture-metric-out-of-range.json",
+      "schema": "detection-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture report metric out of range",
+      "rule": "FR-009-51",
+      "pointer": "/per_class/0/ap50",
+      "keyword": "maximum"
     }
   ],
   "not_schema_checkable": [

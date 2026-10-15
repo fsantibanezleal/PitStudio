@@ -861,7 +861,7 @@ class Edge(BaseModel):
 
 class HaulRoadNetwork(BaseModel):
     """
-    Haul-road graph written by st20_pit_design as a closed GeoJSON FeatureCollection subset in the site frame (DC-004-06, spec 004-scene-pipeline).
+    Haul-road graph written by st20_pit_design as a closed GeoJSON FeatureCollection subset in the site frame (DC-004-06, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
     """
 
     model_config = ConfigDict(
@@ -878,3 +878,9 @@ class HaulRoadNetwork(BaseModel):
     provenance: Literal["design-code"]
     exit_node: NodeId
     features: Annotated[list[Node | Edge], Field(max_length=10000, min_length=3)]
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
+        ),
+    ] = False

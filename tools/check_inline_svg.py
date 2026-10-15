@@ -2,17 +2,18 @@
 
 Usage:  python tools/check_inline_svg.py [--root DIR] [--all]
 
-A diagram that the information modal (`web/src/app/architecture.tsx`, imports of
-`docs/assets/diagrams/<name>.svg?raw`) or a theory page (`web/src/content/theory/{en,es}/*.mdx`,
-`<Diagram name="<name>" />`) inlines must be a well-formed SVG document and must hold no hex colour literal outside the
-custom-property declarations of a `<style>` element (the diagrams use theme tokens only), no script element, no
-event-handler attribute and no `href` / `xlink:href` that is not a `#fragment`.
+A diagram that the information modal (`web/src/app/architecture.tsx`, imports of `docs/assets/diagrams/<name>.svg?raw`)
+or a theory page (`web/src/content/theory/{en,es}/*.mdx`, `<Diagram name="<name>" />`) inlines must be a well-formed
+SVG document and must hold no hex colour literal outside the custom-property declarations of a `<style>` element (the
+diagrams use theme tokens only), no script element, no event-handler attribute and no `href` / `xlink:href` that is not
+a `#fragment`.
 
 The file is parsed as XML, never matched as text, so the text content of a diagram is never examined. A DOCTYPE that
 declares entities is malformed (no entity expansion, no external entity).
 
-Output: one line `<check>: <path>: <detail>` per finding. Exit 0 = clean, 1 = findings, 2 = usage error or unreadable
-root. `--all` checks every file of docs/assets/diagrams instead of the referenced ones.
+Output: one line `<check>: <path>: <detail>` per finding.
+Exit 0 = clean, 1 = findings, 2 = usage error or unreadable root.
+`--all` checks every file of docs/assets/diagrams instead of the referenced ones.
 """
 
 from __future__ import annotations
@@ -75,7 +76,7 @@ def check_svg(path: Path, root: Path | None = None) -> list[Finding]:
         tree = ET.fromstring(raw)
     except ET.ParseError as exc:
         return [Finding("malformed-svg", subject, f"not well-formed XML: {exc}")]
-    if tree.tag != f"{{{SVG_NS}}}svg":
+    if tree.tag != "{" + SVG_NS + "}svg":
         return [Finding("malformed-svg", subject, "the root is not an svg element in the SVG namespace")]
     found: list[Finding] = []
     for el in tree.iter():

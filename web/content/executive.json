@@ -1,0 +1,949 @@
+{
+  "title": {
+    "en": "Decisions in open-pit mines that cannot be tested before they are made",
+    "es": "Decisiones en minas a rajo abierto que no se pueden probar antes de tomarlas"
+  },
+  "key_statement": {
+    "en": "Haulage, rock breakage and pit walls drive most of the harm, cost and energy of an open pit, yet each decision on them reaches the field untested. Testing them first on a faithful model of the pit changes that.",
+    "es": "El transporte, la fragmentación de roca y los taludes concentran el daño, el costo y la energía de un rajo, y cada decisión sobre ellos llega al terreno sin probar. Probarlas antes en un modelo fiel del rajo cambia eso."
+  },
+  "headline_figures": [
+    {
+      "heading": {
+        "en": "Deaths in haulage",
+        "es": "Muertes en transporte"
+      },
+      "value": {
+        "en": "39",
+        "es": "39"
+      },
+      "unit": {
+        "en": "percent of United States mining deaths in 2025 involved powered haulage",
+        "es": "por ciento de las muertes en minería de Estados Unidos en 2025 involucró transporte motorizado"
+      },
+      "source": "powered-haulage"
+    },
+    {
+      "heading": {
+        "en": "Energy to break rock",
+        "es": "Energía para romper roca"
+      },
+      "value": {
+        "en": "36",
+        "es": "36"
+      },
+      "unit": {
+        "en": "percent of available site energy went to crushing and grinding in sampled mines",
+        "es": "por ciento de la energía disponible se fue a chancado y molienda en las minas estudiadas"
+      },
+      "source": "comminution"
+    },
+    {
+      "heading": {
+        "en": "Driverless trucks",
+        "es": "Camiones sin conductor"
+      },
+      "value": {
+        "en": "84",
+        "es": "84"
+      },
+      "unit": {
+        "en": "percent more autonomous haul trucks in one year, to 3,832 in July 2025",
+        "es": "por ciento más camiones autónomos en un año, hasta 3.832 en julio de 2025"
+      },
+      "source": "autonomous-count"
+    }
+  ],
+  "pain": {
+    "key_message": {
+      "en": "Haul trucks, blasted rock and pit walls cause most of the deaths, the cost and the energy use of an open pit.",
+      "es": "Los camiones, la roca tronada y los taludes causan la mayoría de las muertes, el costo y el consumo de energía de un rajo."
+    },
+    "paragraphs": [
+      {
+        "en": "An open pit moves rock with large trucks, breaks it with explosives and mills, and works under walls hundreds of metres high. Each of these three systems carries most of the risk and most of the spending.",
+        "es": "Un rajo mueve roca con camiones de gran tamaño, la rompe con explosivos y molinos, y trabaja bajo taludes de cientos de metros. Cada uno de estos tres sistemas concentra la mayor parte del riesgo y del gasto."
+      },
+      {
+        "en": "Decisions on these systems are made with rules of thumb, live dispatch and monitoring alarms. None of them lets a planner or a dispatcher try a decision on the real pit before committing people, trucks or tonnes to it.",
+        "es": "Las decisiones sobre estos sistemas se toman con reglas prácticas, despacho en tiempo real y alarmas de monitoreo. Ninguna permite a un planificador o a un despachador probar una decisión en el rajo real antes de comprometer personas, camiones o toneladas."
+      },
+      {
+        "en": "The result is a steady toll. People are struck by moving equipment, trucks wait in queues, and rock arrives too coarse for the mill. Wall failures are caught late or with false alarms.",
+        "es": "El resultado es un costo constante. Hay personas golpeadas por equipos en movimiento, camiones esperando en colas y roca que llega demasiado gruesa al molino. Las fallas de talud se detectan tarde o con falsas alarmas."
+      }
+    ],
+    "bearers": [
+      {
+        "who": {
+          "en": "Workers near mobile equipment",
+          "es": "Trabajadores cerca de equipos móviles"
+        },
+        "cost": {
+          "en": "Death and serious injury when people and trucks meet",
+          "es": "Muerte y lesiones graves cuando personas y camiones se cruzan"
+        },
+        "measure": {
+          "en": "Deaths and injuries per year by cause",
+          "es": "Muertes y lesiones por año según causa"
+        }
+      },
+      {
+        "who": {
+          "en": "Operations and dispatch managers",
+          "es": "Gerentes de operaciones y despacho"
+        },
+        "cost": {
+          "en": "Trucks idle in queues and lost tonnes per shift",
+          "es": "Camiones detenidos en colas y toneladas perdidas por turno"
+        },
+        "measure": {
+          "en": "Queue time, cycle time and tonnes moved per hour",
+          "es": "Tiempo en cola, tiempo de ciclo y toneladas movidas por hora"
+        }
+      },
+      {
+        "who": {
+          "en": "Geotechnical engineers",
+          "es": "Ingenieros geotécnicos"
+        },
+        "cost": {
+          "en": "The duty to call an evacuation in time without crying wolf",
+          "es": "El deber de ordenar una evacuación a tiempo sin dar falsas alarmas"
+        },
+        "measure": {
+          "en": "Warning lead time and the share of false alarms",
+          "es": "Anticipación de la alerta y proporción de falsas alarmas"
+        }
+      },
+      {
+        "who": {
+          "en": "Processing managers",
+          "es": "Gerentes de procesamiento"
+        },
+        "cost": {
+          "en": "Mill throughput lost to coarse or uneven rock",
+          "es": "Capacidad de molienda perdida por roca gruesa o irregular"
+        },
+        "measure": {
+          "en": "Tonnes per hour and energy per tonne milled",
+          "es": "Toneladas por hora y energía por tonelada molida"
+        }
+      },
+      {
+        "who": {
+          "en": "Sustainability and finance leads",
+          "es": "Líderes de sostenibilidad y finanzas"
+        },
+        "cost": {
+          "en": "Diesel spending and emissions against public commitments",
+          "es": "Gasto en diésel y emisiones frente a compromisos públicos"
+        },
+        "measure": {
+          "en": "Litres of diesel and emissions per tonne moved",
+          "es": "Litros de diésel y emisiones por tonelada movida"
+        }
+      }
+    ],
+    "figures": [
+      {
+        "heading": {
+          "en": "Mobile equipment",
+          "es": "Equipos móviles"
+        },
+        "value": {
+          "en": "26",
+          "es": "26"
+        },
+        "unit": {
+          "en": "percent of fatalities at large mining companies from 2021 to 2024",
+          "es": "por ciento de las muertes en grandes mineras entre 2021 y 2024"
+        },
+        "source": "safety-insights"
+      },
+      {
+        "heading": {
+          "en": "Controls not applied",
+          "es": "Controles no aplicados"
+        },
+        "value": {
+          "en": "67",
+          "es": "67"
+        },
+        "unit": {
+          "en": "percent of those fatalities were linked to critical controls not carried out well",
+          "es": "por ciento de esas muertes se vinculó a controles críticos mal ejecutados"
+        },
+        "source": "safety-insights"
+      },
+      {
+        "heading": {
+          "en": "Cost of hauling",
+          "es": "Costo del transporte"
+        },
+        "value": {
+          "en": "60",
+          "es": "60"
+        },
+        "unit": {
+          "en": "percent of operating cost can go to haulage in some open pits",
+          "es": "por ciento del costo de operación puede ir al transporte en algunos rajos"
+        },
+        "source": "haulage-cost"
+      },
+      {
+        "heading": {
+          "en": "Mill gain left on the table",
+          "es": "Capacidad de molienda no aprovechada"
+        },
+        "value": {
+          "en": "5 to 20",
+          "es": "5 a 20"
+        },
+        "unit": {
+          "en": "percent more mill throughput when blasting and milling are planned together",
+          "es": "por ciento más de molienda cuando tronadura y molienda se planifican juntas"
+        },
+        "source": "mine-to-mill"
+      }
+    ],
+    "causes": [
+      {
+        "cause": {
+          "en": "People and heavy equipment share the same roads and benches",
+          "es": "Personas y equipos pesados comparten los mismos caminos y bancos"
+        },
+        "weight": 30
+      },
+      {
+        "cause": {
+          "en": "Critical controls and warnings are applied late or unevenly",
+          "es": "Los controles críticos y las alertas se aplican tarde o de forma dispareja"
+        },
+        "weight": 20
+      },
+      {
+        "cause": {
+          "en": "Truck fleets queue and wait because dispatch rules cannot see ahead",
+          "es": "Las flotas hacen cola y esperan porque las reglas de despacho no anticipan"
+        },
+        "weight": 20
+      },
+      {
+        "cause": {
+          "en": "Blasting is planned apart from the mill that receives the rock",
+          "es": "La tronadura se planifica aparte del molino que recibe la roca"
+        },
+        "weight": 20
+      },
+      {
+        "cause": {
+          "en": "Haul fleets depend on diesel on long uphill routes",
+          "es": "Las flotas de transporte dependen del diésel en largas rutas en subida"
+        },
+        "weight": 10
+      }
+    ]
+  },
+  "context": {
+    "key_message": {
+      "en": "Stricter safety, tailings and climate commitments are raising the cost of an untested decision, while site data stays split between systems.",
+      "es": "Compromisos más estrictos de seguridad, relaves y clima elevan el costo de una decisión no probada, mientras los datos del sitio siguen divididos entre sistemas."
+    },
+    "paragraphs": [
+      {
+        "en": "Large open pits run fleets of ultra-class trucks, shovels, crushers and mills on remote sites with shift labour. Fleet logs, wall radar, drone surveys and process control each sit in a separate system.",
+        "es": "Los grandes rajos operan flotas de camiones de extracción, palas, chancadores y molinos en sitios remotos con trabajo por turnos. Los registros de flota, el radar de taludes, los levantamientos con drones y el control de procesos viven cada uno en un sistema distinto."
+      },
+      {
+        "en": "Regulators and industry bodies keep raising the bar on safety, tailings and emissions. Each new rule makes a wrong decision more expensive, but the tools to test a decision have not kept pace.",
+        "es": "Los reguladores y los organismos de la industria siguen subiendo la exigencia en seguridad, relaves y emisiones. Cada nueva regla encarece una decisión equivocada, pero las herramientas para probar una decisión no han avanzado al mismo ritmo."
+      }
+    ],
+    "setting": {
+      "en": "Large open-pit metal and coal mines with truck and shovel fleets, explosive blasting, crushing and milling, under public safety and climate commitments.",
+      "es": "Grandes minas a rajo abierto de metales y carbón con flotas de camiones y palas, tronadura con explosivos, chancado y molienda, bajo compromisos públicos de seguridad y clima."
+    },
+    "forces": [
+      {
+        "force": {
+          "en": "Safety expectations for mobile equipment keep tightening",
+          "es": "Las exigencias de seguridad para equipos móviles siguen endureciéndose"
+        },
+        "direction": "rising"
+      },
+      {
+        "force": {
+          "en": "Tailings and wall stability now need auditable evidence",
+          "es": "La estabilidad de relaves y taludes ahora requiere evidencia auditable"
+        },
+        "direction": "rising"
+      },
+      {
+        "force": {
+          "en": "Emission commitments put the diesel fleet under pressure",
+          "es": "Los compromisos de emisiones presionan a la flota diésel"
+        },
+        "direction": "rising"
+      },
+      {
+        "force": {
+          "en": "Site data remains split across fleet, radar, survey and plant systems",
+          "es": "Los datos del sitio siguen divididos entre flota, radar, topografía y planta"
+        },
+        "direction": "steady"
+      }
+    ],
+    "evidence": [
+      {
+        "statement": {
+          "en": "A global tailings standard with 77 auditable requirements set conformance deadlines of August 2023 and August 2025.",
+          "es": "Un estándar global de relaves con 77 requisitos auditables fijó plazos de conformidad en agosto de 2023 y agosto de 2025."
+        },
+        "source": "tailings-standard"
+      },
+      {
+        "statement": {
+          "en": "Companies holding about one third of the global mining industry committed to net zero operational emissions by 2050 or sooner.",
+          "es": "Empresas que suman cerca de un tercio de la minería mundial se comprometieron a emisiones operacionales netas cero al 2050 o antes."
+        },
+        "source": "net-zero"
+      }
+    ]
+  },
+  "situation": {
+    "key_message": {
+      "en": "Five roles each manage one part of the pit with their own tool, and none can test a joint decision before it reaches the field.",
+      "es": "Cinco roles gestionan cada uno una parte del rajo con su propia herramienta, y ninguno puede probar una decisión conjunta antes de que llegue al terreno."
+    },
+    "roles": [
+      {
+        "role": {
+          "en": "Mine planners",
+          "es": "Planificadores mineros"
+        },
+        "decides": {
+          "en": "Pit design, blast patterns, schedule and fleet size",
+          "es": "Diseño del rajo, mallas de tronadura, programa y tamaño de flota"
+        },
+        "needs": {
+          "en": "A credible forecast of what each plan will do downstream",
+          "es": "Un pronóstico creíble de lo que cada plan provocará aguas abajo"
+        }
+      },
+      {
+        "role": {
+          "en": "Operations and dispatch",
+          "es": "Operaciones y despacho"
+        },
+        "decides": {
+          "en": "Which truck goes where, minute by minute, and when to stop",
+          "es": "Qué camión va a dónde, minuto a minuto, y cuándo detenerse"
+        },
+        "needs": {
+          "en": "Live fleet state and a way to try a rule change safely",
+          "es": "El estado de la flota en vivo y una forma segura de probar un cambio de regla"
+        }
+      },
+      {
+        "role": {
+          "en": "Geotechnical engineers",
+          "es": "Ingenieros geotécnicos"
+        },
+        "decides": {
+          "en": "Alarm thresholds, exclusion zones and evacuations",
+          "es": "Umbrales de alarma, zonas de exclusión y evacuaciones"
+        },
+        "needs": {
+          "en": "Wall movement data and time-to-failure forecasts",
+          "es": "Datos de movimiento del talud y pronósticos del tiempo a la falla"
+        }
+      },
+      {
+        "role": {
+          "en": "Processing managers",
+          "es": "Gerentes de procesamiento"
+        },
+        "decides": {
+          "en": "Mill feed targets and throughput",
+          "es": "Metas de alimentación y capacidad del molino"
+        },
+        "needs": {
+          "en": "Rock of a consistent size from the pit",
+          "es": "Roca de tamaño parejo desde el rajo"
+        }
+      },
+      {
+        "role": {
+          "en": "Safety and sustainability leads",
+          "es": "Líderes de seguridad y sostenibilidad"
+        },
+        "decides": {
+          "en": "Critical controls, audits and the emissions pathway",
+          "es": "Controles críticos, auditorías y la ruta de emisiones"
+        },
+        "needs": {
+          "en": "Incident, energy and exposure data they can trust",
+          "es": "Datos confiables de incidentes, energía y exposición"
+        }
+      }
+    ],
+    "interaction": {
+      "en": "Planning sets the target, operations executes it, geotechnical engineering can stop it, processing judges the result, and safety and sustainability bound all of them.",
+      "es": "Planificación fija la meta, operaciones la ejecuta, geotecnia puede detenerla, procesamiento juzga el resultado, y seguridad y sostenibilidad ponen límites a todos."
+    },
+    "state_of_the_art": [
+      {
+        "approach": {
+          "en": "Handbook rules for blast design and haul roads",
+          "es": "Reglas de manual para tronadura y caminos de transporte"
+        },
+        "achieves": {
+          "en": "Fast, familiar decisions that crews trust",
+          "es": "Decisiones rápidas y conocidas en las que confían los equipos"
+        },
+        "falls_short": {
+          "en": "They miss site-specific rock and leave throughput gains unused",
+          "es": "Ignoran la roca propia de cada sitio y dejan sin usar ganancias de capacidad"
+        },
+        "source": "mine-to-mill"
+      },
+      {
+        "approach": {
+          "en": "Fleet and rock simulation studies",
+          "es": "Estudios de simulación de flota y de roca"
+        },
+        "achieves": {
+          "en": "What-if tests of fleet size and dispatch rules",
+          "es": "Pruebas de escenarios de tamaño de flota y reglas de despacho"
+        },
+        "falls_short": {
+          "en": "They are slow to build and rarely fed with live site data",
+          "es": "Son lentos de construir y rara vez se alimentan con datos vivos del sitio"
+        },
+        "source": "dispatch-benchmark"
+      },
+      {
+        "approach": {
+          "en": "Fleet management and dispatch systems",
+          "es": "Sistemas de gestión de flota y despacho"
+        },
+        "achieves": {
+          "en": "Real-time truck assignment and complete logs",
+          "es": "Asignación de camiones en tiempo real y registros completos"
+        },
+        "falls_short": {
+          "en": "Fixed rules lag behind changing conditions, so queues persist",
+          "es": "Las reglas fijas quedan atrás cuando cambian las condiciones, y las colas persisten"
+        },
+        "source": "dispatch-benchmark"
+      },
+      {
+        "approach": {
+          "en": "Autonomous haulage",
+          "es": "Transporte autónomo"
+        },
+        "achieves": {
+          "en": "Consistent driving and fewer people in harm's way",
+          "es": "Conducción constante y menos personas expuestas al riesgo"
+        },
+        "falls_short": {
+          "en": "Mixed fleets, dust and night still challenge perception",
+          "es": "Las flotas mixtas, el polvo y la noche siguen desafiando la percepción"
+        },
+        "source": "autonomous-count"
+      },
+      {
+        "approach": {
+          "en": "Slope radar and survey monitoring",
+          "es": "Monitoreo de taludes con radar y topografía"
+        },
+        "achieves": {
+          "en": "Early warning that has saved lives in large wall failures",
+          "es": "Alerta temprana que ha salvado vidas en grandes fallas de talud"
+        },
+        "falls_short": {
+          "en": "Thresholds rest on little site history, and some alerts are false",
+          "es": "Los umbrales se basan en poca historia del sitio, y algunas alertas son falsas"
+        },
+        "source": "slope-radar"
+      }
+    ],
+    "status": {
+      "heading": {
+        "en": "Autonomous haul trucks in operation",
+        "es": "Camiones autónomos en operación"
+      },
+      "value": {
+        "en": "3,832",
+        "es": "3.832"
+      },
+      "unit": {
+        "en": "trucks worldwide",
+        "es": "camiones en el mundo"
+      },
+      "date": {
+        "en": "July 2025",
+        "es": "julio de 2025"
+      },
+      "source": "autonomous-count"
+    }
+  },
+  "trends": {
+    "key_message": {
+      "en": "Driverless fleets, decarbonisation and stricter wall and tailings rules are arriving now, and dispatch and geotechnical teams feel them first.",
+      "es": "Las flotas sin conductor, la descarbonización y reglas más estrictas para taludes y relaves están llegando ahora, y despacho y geotecnia las sienten primero."
+    },
+    "items": [
+      {
+        "trend": {
+          "en": "Autonomous haulage scales across large pits",
+          "es": "El transporte autónomo crece en los grandes rajos"
+        },
+        "kind": "technological",
+        "direction": "rising",
+        "horizon": "now",
+        "signal": {
+          "statement": {
+            "en": "Autonomous haul trucks rose from 2,080 to 3,832 in one year, with close to 5,000 expected by the end of 2030.",
+            "es": "Los camiones autónomos pasaron de 2.080 a 3.832 en un año, y se esperan cerca de 5.000 a fines de 2030."
+          },
+          "source": "autonomous-count"
+        },
+        "effect": {
+          "en": "Operations and dispatch must run mixed fleets, and safety must prove how people and driverless trucks interact.",
+          "es": "Operaciones y despacho deben manejar flotas mixtas, y seguridad debe demostrar cómo interactúan las personas con camiones sin conductor."
+        },
+        "confidence": "high"
+      },
+      {
+        "trend": {
+          "en": "Haulage moves towards electrification",
+          "es": "El transporte avanza hacia la electrificación"
+        },
+        "kind": "practice",
+        "direction": "rising",
+        "horizon": "ten_years",
+        "signal": {
+          "statement": {
+            "en": "Trolley assist on a 700 metre ramp saved 830,000 litres of diesel a year at one mine.",
+            "es": "La asistencia por trolley en una rampa de 700 metros ahorró 830.000 litros de diésel al año en una mina."
+          },
+          "source": "trolley"
+        },
+        "effect": {
+          "en": "Planners must redesign roads and power supply, and dispatch must schedule around electric segments.",
+          "es": "Los planificadores deben rediseñar caminos y suministro eléctrico, y despacho debe programar en torno a tramos eléctricos."
+        },
+        "confidence": "medium"
+      },
+      {
+        "trend": {
+          "en": "Stricter accountability for walls and tailings",
+          "es": "Mayor rendición de cuentas sobre taludes y relaves"
+        },
+        "kind": "regulatory",
+        "direction": "rising",
+        "horizon": "now",
+        "signal": {
+          "statement": {
+            "en": "Every tailings facility had to conform to the global standard by August 2025.",
+            "es": "Toda instalación de relaves debía cumplir el estándar global a agosto de 2025."
+          },
+          "source": "tailings-standard"
+        },
+        "effect": {
+          "en": "Geotechnical engineers carry a heavier duty of evidence for every threshold and design.",
+          "es": "Los ingenieros geotécnicos cargan con una mayor exigencia de evidencia para cada umbral y diseño."
+        },
+        "confidence": "high"
+      },
+      {
+        "trend": {
+          "en": "Simulation and synthetic data enter daily operations",
+          "es": "La simulación y los datos sintéticos entran a la operación diaria"
+        },
+        "kind": "technological",
+        "direction": "rising",
+        "horizon": "two_years",
+        "signal": {
+          "statement": {
+            "en": "Technology suppliers now publish workflows that rebuild a site in simulation to train detection of oversize rock.",
+            "es": "Los proveedores de tecnología ya publican flujos que reconstruyen un sitio en simulación para entrenar la detección de roca sobredimensionada."
+          },
+          "source": "synthetic-data"
+        },
+        "effect": {
+          "en": "Safety and processing can test perception and policies before field use, if results are checked on real data.",
+          "es": "Seguridad y procesamiento pueden probar percepción y políticas antes de usarlas en terreno, si los resultados se verifican con datos reales."
+        },
+        "confidence": "low"
+      }
+    ]
+  },
+  "proposal": {
+    "key_message": {
+      "en": "Test decisions on a physics-faithful model of the pit before the field, starting with dispatch trials owned by operations.",
+      "es": "Probar las decisiones en un modelo del rajo fiel a la física antes del terreno, comenzando con pruebas de despacho a cargo de operaciones."
+    },
+    "paragraphs": [
+      {
+        "en": "The approach builds a shared, physics-based model of the pit: its walls, its rock, its roads and its fleet. Each role tests a decision on that model first, and only proven changes reach the field.",
+        "es": "El enfoque construye un modelo compartido del rajo basado en la física: sus taludes, su roca, sus caminos y su flota. Cada rol prueba primero una decisión en ese modelo, y solo los cambios probados llegan al terreno."
+      },
+      {
+        "en": "It answers the five causes of the pain. People and machines interact more safely, warnings come earlier and calibrated, and dispatch runs smoother. Blasting is planned with the mill, and haul routes are compared for energy before capital is spent.",
+        "es": "Responde a las cinco causas del problema. Personas y máquinas interactúan con más seguridad, las alertas llegan antes y calibradas, y el despacho fluye mejor. La tronadura se planifica con el molino, y las rutas se comparan por energía antes de invertir."
+      }
+    ],
+    "four_cs": [
+      {
+        "c": {
+          "en": "Choice",
+          "es": "Elección"
+        },
+        "applies": {
+          "en": "Open physics engines and proprietary simulation platforms can both feed the model, chosen per problem.",
+          "es": "Motores de física abiertos y plataformas de simulación propietarias pueden alimentar el modelo, según cada problema."
+        }
+      },
+      {
+        "c": {
+          "en": "Context",
+          "es": "Contexto"
+        },
+        "applies": {
+          "en": "Every result is tied to the site's own rock, roads and fleet, so it reads as tonnes, minutes and risk.",
+          "es": "Cada resultado se ata a la roca, los caminos y la flota del propio sitio, de modo que se lee en toneladas, minutos y riesgo."
+        }
+      },
+      {
+        "c": {
+          "en": "Cost",
+          "es": "Costo"
+        },
+        "applies": {
+          "en": "Each simulation and training run reports the computing time it used, so leaders see what every answer cost.",
+          "es": "Cada simulación y entrenamiento informa el tiempo de cómputo que usó, de modo que la dirección ve cuánto costó cada respuesta."
+        }
+      },
+      {
+        "c": {
+          "en": "Control",
+          "es": "Control"
+        },
+        "applies": {
+          "en": "One set of rules governs the site data, the simulation models and any agent that proposes a decision.",
+          "es": "Un solo conjunto de reglas gobierna los datos del sitio, los modelos de simulación y cualquier agente que proponga una decisión."
+        }
+      }
+    ],
+    "actions": [
+      {
+        "action": {
+          "en": "Build a fleet model that reproduces the site's logged cycle times and queues.",
+          "es": "Construir un modelo de flota que reproduzca los tiempos de ciclo y las colas registrados en el sitio."
+        },
+        "owner": {
+          "en": "Operations and dispatch",
+          "es": "Operaciones y despacho"
+        },
+        "horizon": {
+          "en": "Within six to twelve months",
+          "es": "Dentro de seis a doce meses"
+        },
+        "check": {
+          "en": "Simulated queues and cycle times fall within an agreed band of the logs.",
+          "es": "Las colas y tiempos de ciclo simulados quedan dentro de una banda acordada de los registros."
+        }
+      },
+      {
+        "action": {
+          "en": "Trial new dispatch rules on that model before any field change.",
+          "es": "Probar nuevas reglas de despacho en ese modelo antes de cualquier cambio en terreno."
+        },
+        "owner": {
+          "en": "Operations and dispatch",
+          "es": "Operaciones y despacho"
+        },
+        "horizon": {
+          "en": "Within twelve months",
+          "es": "Dentro de doce meses"
+        },
+        "check": {
+          "en": "Trips completed rise and queues shorten across many scenarios, then in a bounded pilot.",
+          "es": "Los viajes completados suben y las colas se acortan en muchos escenarios, y luego en un piloto acotado."
+        }
+      },
+      {
+        "action": {
+          "en": "Train detection of oversize rock, people and vehicles on synthetic images, tested only on real frames.",
+          "es": "Entrenar la detección de roca sobredimensionada, personas y vehículos con imágenes sintéticas, evaluada solo con imágenes reales."
+        },
+        "owner": {
+          "en": "Safety and sustainability leads",
+          "es": "Líderes de seguridad y sostenibilidad"
+        },
+        "horizon": {
+          "en": "Within twelve months",
+          "es": "Dentro de doce meses"
+        },
+        "check": {
+          "en": "Detection holds on real held-out frames, including dust and night.",
+          "es": "La detección se mantiene en imágenes reales reservadas, incluido polvo y noche."
+        }
+      },
+      {
+        "action": {
+          "en": "Stress-test wall alarm thresholds against simulated and past failure histories.",
+          "es": "Someter los umbrales de alarma de taludes a historias de falla simuladas y pasadas."
+        },
+        "owner": {
+          "en": "Geotechnical engineers",
+          "es": "Ingenieros geotécnicos"
+        },
+        "horizon": {
+          "en": "Within one to two years",
+          "es": "Dentro de uno a dos años"
+        },
+        "check": {
+          "en": "Warning lead time rises and false alarms fall on past events.",
+          "es": "La anticipación de la alerta sube y las falsas alarmas bajan en eventos pasados."
+        }
+      },
+      {
+        "action": {
+          "en": "Link blast designs to mill throughput in one shared model.",
+          "es": "Vincular los diseños de tronadura con la capacidad del molino en un modelo compartido."
+        },
+        "owner": {
+          "en": "Mine planners",
+          "es": "Planificadores mineros"
+        },
+        "horizon": {
+          "en": "Within one to two years",
+          "es": "Dentro de uno a dos años"
+        },
+        "check": {
+          "en": "Predicted rock size and mill throughput match measured trial blasts.",
+          "es": "El tamaño de roca y la capacidad de molienda pronosticados coinciden con tronaduras de prueba medidas."
+        }
+      },
+      {
+        "action": {
+          "en": "Compare haul routes and electrification options on energy before committing capital.",
+          "es": "Comparar rutas de transporte y opciones de electrificación por energía antes de comprometer inversión."
+        },
+        "owner": {
+          "en": "Safety and sustainability leads",
+          "es": "Líderes de seguridad y sostenibilidad"
+        },
+        "horizon": {
+          "en": "Within two years",
+          "es": "Dentro de dos años"
+        },
+        "check": {
+          "en": "Predicted diesel and emissions per cycle match a measured pilot segment.",
+          "es": "El diésel y las emisiones por ciclo pronosticados coinciden con un tramo piloto medido."
+        }
+      }
+    ],
+    "risks": [
+      {
+        "en": "Models trained in simulation can fail on real data unless every result is checked on real frames and logs.",
+        "es": "Los modelos entrenados en simulación pueden fallar con datos reales si cada resultado no se verifica con imágenes y registros reales."
+      },
+      {
+        "en": "Gains shown in simulation are not field gains until a bounded pilot confirms them.",
+        "es": "Las ganancias mostradas en simulación no son ganancias de terreno hasta que un piloto acotado las confirme."
+      },
+      {
+        "en": "Fleet logs and radar data sit with each operator, so models may lack the data to be calibrated.",
+        "es": "Los registros de flota y los datos de radar quedan en manos de cada operador, por lo que los modelos pueden carecer de datos para calibrarse."
+      }
+    ],
+    "unknowns": [
+      {
+        "en": "How far simulated granular flow matches real blasted rock at full mine scale is not yet measured.",
+        "es": "Aún no se mide cuánto se parece el flujo granular simulado a la roca tronada real a escala de mina completa."
+      },
+      {
+        "en": "Several of the strongest public figures come from equipment makers and suppliers, not independent studies.",
+        "es": "Varias de las cifras públicas más fuertes provienen de fabricantes y proveedores, no de estudios independientes."
+      }
+    ],
+    "handoff": {
+      "en": "The technical view shows how the work explores this problem: the simulations, the models and their measured limits.",
+      "es": "La vista técnica muestra cómo el trabajo explora este problema: las simulaciones, los modelos y sus límites medidos."
+    }
+  },
+  "illustrations": {
+    "pain": {
+      "file": "executive/pain.svg",
+      "caption": {
+        "en": "Today each failure point of the pit is met only when it happens in the field.",
+        "es": "Hoy cada punto de falla del rajo se enfrenta solo cuando ocurre en terreno."
+      }
+    },
+    "situation": {
+      "file": "executive/situation.svg",
+      "caption": {
+        "en": "Five roles each hold one tool and one part of the picture, with gaps between them.",
+        "es": "Cinco roles tienen cada uno una herramienta y una parte del cuadro, con vacíos entre ellos."
+      }
+    },
+    "proposal": {
+      "file": "executive/proposal.svg",
+      "caption": {
+        "en": "With a shared model of the pit, each decision is tested before it changes the field.",
+        "es": "Con un modelo compartido del rajo, cada decisión se prueba antes de cambiar el terreno."
+      }
+    }
+  },
+  "sources": [
+    {
+      "id": "powered-haulage",
+      "title": {
+        "en": "United States mine safety regulator: powered haulage safety",
+        "es": "Regulador de seguridad minera de Estados Unidos: seguridad en transporte motorizado"
+      },
+      "url": "https://www.msha.gov/safety-and-health/safety-and-health-initiatives/powered-haulage-safety",
+      "note": {
+        "en": "2025 data: 13 of 33 deaths and 426 of 4,792 non-fatal injuries.",
+        "es": "Datos 2025: 13 de 33 muertes y 426 de 4.792 lesiones no fatales."
+      }
+    },
+    {
+      "id": "safety-insights",
+      "title": {
+        "en": "International mining and metals council: insights from 2020 to 2024 safety data",
+        "es": "Consejo internacional de minería y metales: lecciones de los datos de seguridad 2020 a 2024"
+      },
+      "url": "https://www.icmm.com/en-gb/research/health-safety/2025/insights-2020-2024-safety-data",
+      "note": {
+        "en": "Member companies only; mobile equipment 26 percent of fatalities 2021 to 2024.",
+        "es": "Solo empresas socias; equipos móviles 26 por ciento de las muertes 2021 a 2024."
+      }
+    },
+    {
+      "id": "haulage-cost",
+      "title": {
+        "en": "Applications of queuing theory for open-pit truck and shovel haulage systems (thesis, 2013)",
+        "es": "Aplicaciones de teoría de colas a sistemas de transporte con camiones y palas en rajo (tesis, 2013)"
+      },
+      "url": "https://vtechworks.lib.vt.edu/handle/10919/19218",
+      "note": {
+        "en": "An upper bound stated for some open pits.",
+        "es": "Una cota superior indicada para algunos rajos."
+      }
+    },
+    {
+      "id": "comminution",
+      "title": {
+        "en": "Proportion of energy attributable to comminution (mill operators conference, 2012)",
+        "es": "Proporción de la energía atribuible a la conminución (conferencia de operadores de molienda, 2012)"
+      },
+      "url": "https://www.ausimm.com/publications/conference-proceedings/11th-ausimm-mill-operators-conference-2012/proportion-of-energy-attributable-to-comminution/",
+      "note": {
+        "en": "Average over sampled gold and copper mines.",
+        "es": "Promedio sobre minas de oro y cobre estudiadas."
+      }
+    },
+    {
+      "id": "mine-to-mill",
+      "title": {
+        "en": "Integration and optimisation of blasting and comminution processes (2007)",
+        "es": "Integración y optimización de los procesos de tronadura y conminución (2007)"
+      },
+      "url": "https://ausimm.com/publications/conference-proceedings/explo-2007/integration-and-optimisation-of-blasting-and-comminution-processes",
+      "note": {
+        "en": "Typical concentrator throughput gains of 5 to 20 percent.",
+        "es": "Ganancias típicas de capacidad del concentrador de 5 a 20 por ciento."
+      }
+    },
+    {
+      "id": "autonomous-count",
+      "title": {
+        "en": "Analyst comment: autonomous surface mining trucks worldwide (August 2025)",
+        "es": "Comentario de analista: camiones mineros autónomos de superficie en el mundo (agosto de 2025)"
+      },
+      "url": "https://www.mining-technology.com/analyst-comment/china-global-leader-autonomous-surface-mining-trucks/",
+      "note": {
+        "en": "2,080 in July 2024 and 3,832 in July 2025; close to 5,000 forecast by 2030.",
+        "es": "2.080 en julio de 2024 y 3.832 en julio de 2025; cerca de 5.000 pronosticados al 2030."
+      }
+    },
+    {
+      "id": "dispatch-benchmark",
+      "title": {
+        "en": "An open benchmark for open-pit truck dispatch (preprint, 2025)",
+        "es": "Un banco de pruebas abierto para el despacho de camiones en rajo (preprint, 2025)"
+      },
+      "url": "https://arxiv.org/html/2503.19195v2",
+      "note": {
+        "en": "Simulation results only; idle time dominates operating cost.",
+        "es": "Solo resultados de simulación; el tiempo ocioso domina el costo de operación."
+      }
+    },
+    {
+      "id": "slope-radar",
+      "title": {
+        "en": "Efficiency of radar monitoring of pit slope stability in coal open pits",
+        "es": "Eficiencia del monitoreo con radar de la estabilidad de taludes en rajos de carbón"
+      },
+      "url": "https://mining-media.ru/en/articles/original-paper/20235-1assessing-the-efficiency-of-radar-monitoring-of-pit-slope-stability-in-kuzbass-coal-mines",
+      "note": {
+        "en": "19 of 23 radar accelerations were followed by slope events, with 67 hours of average lead time.",
+        "es": "19 de 23 aceleraciones de radar fueron seguidas de eventos de talud, con 67 horas de anticipación media."
+      }
+    },
+    {
+      "id": "tailings-standard",
+      "title": {
+        "en": "Global industry standard on tailings management",
+        "es": "Estándar global de la industria para la gestión de relaves"
+      },
+      "url": "https://www.icmm.com/en-gb/our-principles/tailings/global-industry-standard-on-tailings-management",
+      "note": {
+        "en": "15 principles and 77 auditable requirements; deadlines 2023 and 2025.",
+        "es": "15 principios y 77 requisitos auditables; plazos 2023 y 2025."
+      }
+    },
+    {
+      "id": "net-zero",
+      "title": {
+        "en": "Mining industry net zero commitment (October 2021)",
+        "es": "Compromiso de cero neto de la industria minera (octubre de 2021)"
+      },
+      "url": "https://www.icmm.com/en-gb/our-work/decarbonisation/net-zero-commitment",
+      "note": {
+        "en": "Scope 1 and 2 emissions, by 2050 or sooner.",
+        "es": "Emisiones de alcance 1 y 2, al 2050 o antes."
+      }
+    },
+    {
+      "id": "trolley",
+      "title": {
+        "en": "All in on trolley assist (mining industry magazine)",
+        "es": "Apuesta total por la asistencia trolley (revista de la industria minera)"
+      },
+      "url": "https://magazine.cim.org/en/net-zero-challenge/all-in-on-trolley-assist-en/",
+      "note": {
+        "en": "830,000 litres of diesel saved a year on a 700 metre stretch at one mine.",
+        "es": "830.000 litros de diésel ahorrados al año en un tramo de 700 metros en una mina."
+      }
+    },
+    {
+      "id": "synthetic-data",
+      "title": {
+        "en": "Scaling physical AI with simulation and synthetic data (supplier blog, October 2025)",
+        "es": "Escalar la inteligencia artificial física con simulación y datos sintéticos (blog de proveedor, octubre de 2025)"
+      },
+      "url": "https://blogs.nvidia.com/blog/scaling-physical-ai-omniverse/",
+      "note": {
+        "en": "A supplier's description, not an independent study.",
+        "es": "Una descripción de proveedor, no un estudio independiente."
+      }
+    }
+  ]
+}

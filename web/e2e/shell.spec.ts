@@ -38,7 +38,7 @@ test.describe("access gate", () => {
 
     await input.fill(PASSPHRASE);
     await page.getByRole("button", { name: "Enter" }).click();
-    await expect(page.locator("main h1")).toHaveText("Explore an open pit");
+    await expect(page.locator("main h1")).toHaveText("Introduction");
 
     await page.goto("theory/");
     await expect(page.locator("main h1")).toHaveText("Theory");

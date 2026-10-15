@@ -1,11 +1,13 @@
 // Serves build/client the way GitHub Pages does, under BASE_PATH: files as-is, `dir/` → `dir/index.html`,
 // `dir` → 301 to `dir/`, `name` → `name.html`, anything else → 404.html with status 404.
 // Used by the E2E tests; no dependencies.
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { readFileSync, realpathSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize, resolve, sep } from "node:path";
 
-const ROOT = resolve("build/client");
+// The real path, with the case the file system holds: a Windows file system is case-insensitive, GitHub Pages is not, so a
+// path is served only when it matches that case exactly (`/studio/tools/Warp/` is a 404 here as it is there).
+const ROOT = realpathSync.native(resolve("build/client"));
 const BASE = process.env.BASE_PATH ?? "/";
 const PORT = Number(process.env.PORT ?? 4173);
 const TYPES = {
@@ -26,21 +28,16 @@ const TYPES = {
   ".webm": "video/webm",
 };
 
-// GitHub Pages is case-sensitive; Windows and macOS file systems are not. Every segment must match the real name exactly.
-function exactCase(p) {
-  if (p === ROOT) return true;
-  let dir = ROOT;
-  for (const seg of p
-    .slice(ROOT.length + 1)
-    .split(sep)
-    .filter(Boolean)) {
-    if (!readdirSync(dir).includes(seg)) return false;
-    dir = join(dir, seg);
+/** Exists with exactly this spelling: the real path of an existing path differs from it when only the case differs. */
+function exact(p) {
+  try {
+    const plain = p.length > ROOT.length && p.endsWith(sep) ? p.slice(0, -1) : p;
+    return realpathSync.native(plain) === plain;
+  } catch {
+    return false;
   }
-  return true;
 }
-const exists = (p) => existsSync(p) && exactCase(p);
-const isFile = (p) => exists(p) && statSync(p).isFile();
+const isFile = (p) => exact(p) && statSync(p).isFile();
 
 function send(res, status, file) {
   res.writeHead(status, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" });
@@ -60,7 +57,7 @@ createServer((req, res) => {
   const target = normalize(join(ROOT, rel));
   if (target !== ROOT && !target.startsWith(ROOT + sep)) return notFound();
   if (isFile(target)) return send(res, 200, target);
-  if (exists(target) && statSync(target).isDirectory()) {
+  if (exact(target) && statSync(target).isDirectory()) {
     if (!url.pathname.endsWith("/")) {
       res.writeHead(301, { location: `${url.pathname}/${url.search}` });
       return res.end();

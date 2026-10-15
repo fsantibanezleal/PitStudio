@@ -29,7 +29,7 @@ export type Sha256 = string
 export type PrimPath = string
 
 /**
- * Geometry prims of the flattened stage per lod variant, written by st40_compose for the export parity test (DC-004-08, spec 004-scene-pipeline).
+ * Geometry prims of the flattened stage per lod variant, written by st40_compose for the export parity test (DC-004-08, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
  */
 export interface SceneDigest {
 $schema?: string
@@ -46,6 +46,10 @@ kilograms_per_unit: 1
  * @maxItems 3
  */
 lods: [LodDigest]|[LodDigest, LodDigest]|[LodDigest, LodDigest, LodDigest]
+/**
+ * True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false.
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `SceneDigest`'s JSON-Schema
