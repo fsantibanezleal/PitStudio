@@ -77,6 +77,8 @@ testpaths = [
     "../tests/gpu",
     "../tests/contract/test_t_008_010_registry.py",
     "../tests/contract/test_t_008_060_data_cards.py",
+    "../tests/unit/test_t_014_048_il3_optional.py",
+    "../tests/unit/test_t_014_093_input_stale.py",
 ]
 addopts = ["-ra", "--strict-markers"]
 markers = ["req(id): links a test to a requirement ID", "gpu: needs CUDA", "slow: long-running"]

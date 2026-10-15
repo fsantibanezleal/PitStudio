@@ -69,6 +69,8 @@ addopts = [
     "--ignore=tests/gpu",
     "--ignore=tests/contract/test_t_008_010_registry.py",
     "--ignore=tests/contract/test_t_008_060_data_cards.py",
+    "--ignore=tests/unit/test_t_014_048_il3_optional.py",
+    "--ignore=tests/unit/test_t_014_093_input_stale.py",
 ]
 testpaths = ["tests"]
 markers = ["req(id): links a test to a requirement ID", "gpu: needs CUDA", "slow: long-running"]
