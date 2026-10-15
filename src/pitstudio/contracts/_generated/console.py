@@ -46,30 +46,10 @@ class JobId(RootModel[str]):
 
 
 class JobState(
-    RootModel[
-        Literal[
-            "queued",
-            "running",
-            "succeeded",
-            "failed",
-            "cancelled",
-            "blocked",
-            "held",
-            "interrupted",
-        ]
-    ]
+    RootModel[Literal["queued", "running", "succeeded", "failed", "cancelled", "blocked", "held", "interrupted"]]
 ):
     root: Annotated[
-        Literal[
-            "queued",
-            "running",
-            "succeeded",
-            "failed",
-            "cancelled",
-            "blocked",
-            "held",
-            "interrupted",
-        ],
+        Literal["queued", "running", "succeeded", "failed", "cancelled", "blocked", "held", "interrupted"],
         Field(description="runner job states (spec 002 plan.md D3)"),
     ]
 
@@ -258,13 +238,7 @@ class LicenceClass(
     ]
 ):
     root: Literal[
-        "public-domain",
-        "open-no-attribution",
-        "own",
-        "attribution",
-        "share-alike",
-        "display-only",
-        "reference-only",
+        "public-domain", "open-no-attribution", "own", "attribution", "share-alike", "display-only", "reference-only"
     ]
 
 
@@ -437,31 +411,9 @@ class LocalOnly(RootModel[Literal["measured locally, not published (licence)"]])
 
 
 class Environment(
-    RootModel[
-        Literal[
-            "studio",
-            "isaac",
-            "rtx",
-            "isaaclab",
-            "kit",
-            "reason",
-            "pipeline",
-            "accel",
-            "external",
-        ]
-    ]
+    RootModel[Literal["studio", "isaac", "rtx", "isaaclab", "kit", "reason", "pipeline", "accel", "external"]]
 ):
-    root: Literal[
-        "studio",
-        "isaac",
-        "rtx",
-        "isaaclab",
-        "kit",
-        "reason",
-        "pipeline",
-        "accel",
-        "external",
-    ]
+    root: Literal["studio", "isaac", "rtx", "isaaclab", "kit", "reason", "pipeline", "accel", "external"]
 
 
 class SchemaVersion(RootModel[str]):
@@ -489,7 +441,10 @@ class ParamValue1(
     RootModel[
         ParamValue0
         | ParamValue11
-        | dict[constr(pattern=r"^[a-z][a-z0-9_]{0,63}$", max_length=64), ParamValue0 | None]
+        | dict[
+            constr(pattern=r"^[a-z][a-z0-9_]{0,63}$", max_length=64),
+            ParamValue0 | None,
+        ]
         | None
     ]
 ):
@@ -604,10 +559,7 @@ class EnvRecord(BaseModel):
     python: PythonVersion | None
     lock_sha256: Sha256
     versions: Annotated[
-        dict[
-            constr(pattern=r"^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$", max_length=100),
-            Version,
-        ],
+        dict[constr(pattern=r"^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$", max_length=100), Version],
         Field(description="package -> version as read from the lock", max_length=64),
     ]
 
@@ -1009,7 +961,10 @@ class ParamValue12(
     RootModel[
         ParamValue0
         | ParamValue13
-        | dict[constr(pattern=r"^[a-z][a-z0-9_]{0,63}$", max_length=64), ParamValue0 | None]
+        | dict[
+            constr(pattern=r"^[a-z][a-z0-9_]{0,63}$", max_length=64),
+            ParamValue0 | None,
+        ]
         | None
     ]
 ):
@@ -1297,15 +1252,7 @@ class Stage(BaseModel):
     cache_key: Sha256
     cache: Literal["hit", "miss"]
     status: Literal[
-        "succeeded",
-        "failed",
-        "skipped",
-        "cancelled",
-        "blocked",
-        "held",
-        "interrupted",
-        "env-disabled",
-        "not_run",
+        "succeeded", "failed", "skipped", "cancelled", "blocked", "held", "interrupted", "env-disabled", "not_run"
     ]
     reason: Annotated[str | None, Field(max_length=300, min_length=1)] = None
     exit_code: ExitCode1 | None
@@ -1360,14 +1307,7 @@ class Artefact(BaseModel):
     asset_host: Literal["git", "release"]
     release_tag: ReleaseTag | None = None
     budget_class: Literal[
-        "videos",
-        "tiles-glb",
-        "shards-clouds",
-        "splats",
-        "onnx",
-        "runtimes",
-        "own-code",
-        "studio-showcase",
+        "videos", "tiles-glb", "shards-clouds", "splats", "onnx", "runtimes", "own-code", "studio-showcase"
     ]
     encoder: Encoder | None = None
 
