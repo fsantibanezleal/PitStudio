@@ -21,7 +21,7 @@ stages:
     timeout_s: 900
     outputs:
       - path: slope/dewit/archive-check.json
-        schema: ingestion-report
+        schema: contract-ingestion-report
   - id: s10_preprocess
     variant: sections
     env: pipeline
@@ -39,7 +39,7 @@ stages:
     timeout_s: 1800
     outputs:
       - path: slope/sections.json
-        schema: slope-section
+        schema: contract-slope-section
   - id: s10_preprocess
     variant: dewit
     env: pipeline
@@ -55,7 +55,7 @@ stages:
     timeout_s: 900
     outputs:
       - path: slope/dewit/dewit-series.json
-        schema: displacement-series
+        schema: contract-displacement-series
   - id: s05_synthesize
     env: pipeline
     tool: pitstudio
@@ -85,7 +85,7 @@ stages:
     timeout_s: 7200
     outputs:
       - path: slope/events/event-set.json
-        schema: displacement-series
+        schema: contract-displacement-series
   - id: s20_feature_extraction
     variant: geotech
     env: pipeline
@@ -109,7 +109,7 @@ stages:
     timeout_s: 7200
     outputs:
       - path: slope/slope-results.json
-        schema: slope-results
+        schema: contract-slope-results
         publish: true
   - id: s30_train
     env: pipeline
@@ -141,7 +141,7 @@ stages:
     timeout_s: 14400
     outputs:
       - path: slope/models/training-report.json
-        schema: ingestion-report
+        schema: contract-ingestion-report
   - id: s40_infer
     env: pipeline
     tool: pytorch
@@ -166,7 +166,7 @@ stages:
     timeout_s: 14400
     outputs:
       - path: slope/forecasts/predictions.json
-        schema: ttf-results
+        schema: contract-ttf-results
   - id: s50_evaluate
     env: pipeline
     tool: pitstudio
@@ -189,7 +189,7 @@ stages:
     timeout_s: 3600
     outputs:
       - path: slope/ttf-results.json
-        schema: ttf-results
+        schema: contract-ttf-results
         publish: true
   - id: s60_export
     env: pipeline
@@ -213,5 +213,5 @@ stages:
     timeout_s: 3600
     outputs:
       - path: slope/models/forecaster-io.json
-        schema: surrogate-io
+        schema: contract-surrogate-io
         publish: true
