@@ -92,7 +92,10 @@ def test_a_partial_report_still_reports_each_evaluated_model_per_family() -> Non
             rows = k50.find_rows(rep, model=model, family=family, task="box")
             assert len(rows) == 5
             assert all(r["support"] == 100 for r in rows)
-            assert all(r["ap50"] == pytest.approx(1.0, abs=1e-9) for r in rows)
+            # the fixture detects images 1..180 of 200, so every pit image (1..100) is found and 80 of the 100
+            # crusher images (101..180) are: AP50 = 81/101 for the crusher family
+            expected = 1.0 if family == "pit" else 81 / 101
+            assert all(r["ap50"] == pytest.approx(expected, abs=1e-9) for r in rows), (model, family)
         assert any(s["model"] == model and s["family"] == "pit" for s in rep["summary"])
     assert not k50.find_rows(rep, model="rf-detr-seg-n")
 
