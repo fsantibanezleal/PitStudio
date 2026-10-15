@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """JSON Schema checks with JSON-pointer messages for the spec 014 contracts (FR-014-07, FR-014-46).
 
 ``pitstudio.contracts.validate`` takes only unhyphenated schema stems, and the spec 014 schemas are one-of documents

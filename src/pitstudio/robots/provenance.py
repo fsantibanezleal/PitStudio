@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """Provenance scan of the robot-learning task code (NFR-014-05).
 
 Rules: every task-code file carries the Apache-2.0 SPDX header in its first 10 lines; no file holds an Isaac Lab licence

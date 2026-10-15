@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """MJCF generators for the haul truck and the excavator (FR-014-05, FR-014-06, FR-014-07).
 
 The machine parameter file (``contracts/machine-params.schema.json``) is validated first: any violation raises
@@ -77,8 +78,7 @@ def validate_machine(doc: Any, kind: str) -> None:
         for error in sorted(_validator(kind).iter_errors(dict(doc)), key=lambda e: [str(p) for p in e.absolute_path]):
             base = _pointer(error.absolute_path)
             if error.validator in ("required", "additionalProperties"):
-                for name in _QUOTED.findall(error.message):
-                    problems.append(f"{base}/{name}: {error.message}")
+                problems.extend(f"{base}/{name}: {error.message}" for name in _QUOTED.findall(error.message))
             else:
                 problems.append(f"{base or '/'}: {error.message}")
     if not problems:
@@ -152,9 +152,11 @@ def truck_mjcf(params: Mapping[str, Any]) -> str:
     meshes = p.get("meshes") or {}
     assets = ""
     if meshes:
-        assets = "  <asset>\n" + "".join(
-            f'    <mesh name="{part}" file={_attr(str(meshes[part]))}/>\n' for part in sorted(meshes)
-        ) + "  </asset>\n"
+        assets = (
+            "  <asset>\n"
+            + "".join(f'    <mesh name="{part}" file={_attr(str(meshes[part]))}/>\n' for part in sorted(meshes))
+            + "  </asset>\n"
+        )
     motors = "".join(
         f'    <motor name="drive_{w}" joint="{w}_spin" gear="{_f(float(p["max_rimpull_n"]) * r / 4.0)}" ctrlrange="-1 1"/>\n'
         for w in _WHEELS_REAR
@@ -292,7 +294,16 @@ def excavator_mjcf(params: Mapping[str, Any]) -> str:
 # ------------------------------------------------------------------------------------------------- mesh assets
 def _box_obj(sx: float, sy: float, sz: float) -> str:
     hx, hy, hz = sx / 2.0, sy / 2.0, sz / 2.0
-    verts = [(-hx, -hy, -hz), (hx, -hy, -hz), (hx, hy, -hz), (-hx, hy, -hz), (-hx, -hy, hz), (hx, -hy, hz), (hx, hy, hz), (-hx, hy, hz)]
+    verts = [
+        (-hx, -hy, -hz),
+        (hx, -hy, -hz),
+        (hx, hy, -hz),
+        (-hx, hy, -hz),
+        (-hx, -hy, hz),
+        (hx, -hy, hz),
+        (hx, hy, hz),
+        (-hx, hy, hz),
+    ]
     faces = [
         (1, 3, 2), (1, 4, 3),  # bottom (-z)
         (5, 6, 7), (5, 7, 8),  # top (+z)

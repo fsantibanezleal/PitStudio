@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """IL-1 reward terms and the speed limit from the haulage envelopes (FR-014-11, P-014-10)."""
 
 from __future__ import annotations

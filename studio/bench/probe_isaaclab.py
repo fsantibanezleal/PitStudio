@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Probe (studio/isaaclab env): Isaac Lab trains its stock Cartpole direct task kit-less on Newton (MuJoCo-Warp).
 
 Runs Isaac Lab's own rsl_rl training entrypoint (isaaclab_rl.entrypoints.backends.train_rsl_rl) for a few PPO
@@ -74,7 +75,7 @@ def lock_restricted() -> list[str]:
 
 
 def publish_marker() -> str:
-    """"local-only" when the lock holds a package covered by SLA 8.9, else "public"."""
+    """ "local-only" when the lock holds a package covered by SLA 8.9, else "public"."""
     return "local-only" if lock_restricted() else "public"
 
 

@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """Shared runtime of the Isaac Lab lane entry points: lock versions, GPU lock and guard, Kit-module scan, JSON output.
 
 Every entry point of this package prints one JSON object as the last line of stdout. A GPU run takes the machine lock

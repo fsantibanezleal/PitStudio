@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """Kit-less smoke of Isaac Lab's stock Cartpole direct task on the Newton MuJoCo-Warp backend (T-014-060, FR-014-02).
 
 ``python -m pitstudio_isaaclab.smoke --iterations 10 --num-envs 64`` trains the stock task for the requested PPO

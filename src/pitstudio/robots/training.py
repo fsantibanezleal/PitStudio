@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """Training-stage wrapper (FR-014-25, FR-014-26, FR-014-46): PPO configuration, checkpoint cadence, resume, OOM fallback.
 
 The wrapper is torch-free: it drives any trainer with ``train_iteration(i)``, ``save(path)`` and ``load(path)``. The Isaac
@@ -86,7 +87,7 @@ def _sidecar(checkpoint: Path, expected_hash: str) -> tuple[int | None, str | No
     try:
         data = json.loads(side.read_text(encoding="utf-8"))
         recorded, iteration = data["task_config_sha256"], int(data["iteration"])
-    except (OSError, ValueError, KeyError, TypeError):
+    except OSError, ValueError, KeyError, TypeError:
         return None, f"checkpoint {checkpoint.name}: the sidecar is unreadable"
     if recorded != expected_hash:
         return None, (

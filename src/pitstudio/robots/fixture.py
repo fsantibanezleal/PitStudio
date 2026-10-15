@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """Contract-fixture status of the IL stage inputs (FR-014-48, FR-000-23).
 
 An IL task file, a machine parameter file or a policy handoff that is a contract fixture is run against, but every policy,

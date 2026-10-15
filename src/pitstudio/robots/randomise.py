@@ -168,7 +168,9 @@ def sample_il1(seed: int, episode: int, randomisation: Mapping[str, Any] | None 
     )
 
 
-def ray_noise(ranges: np.ndarray, rng: np.random.Generator, *, base_m: float = 0.02, per_range: float = 0.01) -> np.ndarray:
+def ray_noise(
+    ranges: np.ndarray, rng: np.random.Generator, *, base_m: float = 0.02, per_range: float = 0.01
+) -> np.ndarray:
     """Independent N(0, (base_m + per_range r)^2) draws for the array of ranges r (m)."""
     r = np.asarray(ranges, dtype=np.float64)
     if not np.all(np.isfinite(r)) or np.any(r < 0.0):

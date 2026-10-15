@@ -191,10 +191,8 @@ def il1_observation(
     pts = np.array([_route_point(route, cum, s0 + PATH_SPACING * k) for k in range(1, N_PATH_POINTS + 1)])
     path_body = (pts - pos) @ to_body.T
 
-    segments = [walls]
     lvs = list(light_vehicles)
-    for lv in lvs:
-        segments.append(_rect_edges(lv))
+    segments = [walls, *(_rect_edges(lv) for lv in lvs)]
     rays = _ray_ranges(pos, psi, np.concatenate(segments, axis=0))
 
     if lvs:

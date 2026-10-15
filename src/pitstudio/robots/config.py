@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """IL task parameter validation and the configuration hash (FR-014-46).
 
 An invalid task document raises ``TaskParamsError`` (exit code 2) naming the JSON pointer of the first offending member.
@@ -73,7 +74,9 @@ def _rules(params: Mapping[str, Any], policy: str) -> None:
     if total != _SUM[policy]:
         raise TaskParamsError("/observation_layout", f"segment sizes sum to {total}, expected {_SUM[policy]}")
     ranges = {
-        name: (blk["start"], blk["start"] + blk["count"]) for name, blk in params["seeds"].items() if isinstance(blk, Mapping)
+        name: (blk["start"], blk["start"] + blk["count"])
+        for name, blk in params["seeds"].items()
+        if isinstance(blk, Mapping)
     }
     names = list(ranges)
     for i, a in enumerate(names):

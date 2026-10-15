@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """MPM evaluation tier of the IL-2 policy (FR-014-22, FR-014-23).
 
 The tier logic is torch-free: it pairs the first n FEE evaluation episodes (same seeds, same initial profiles), runs them in

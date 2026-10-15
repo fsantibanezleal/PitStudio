@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """s50_evaluate for the IL policies (FR-014-32 to FR-014-39, FR-014-24, FR-014-48, SC-014-01 to SC-014-09).
 
 Episode tables are documents ``{"meta": <il-episodes sidecar>, "rows": [<episode rows>]}`` (``contracts/il-episodes.schema.json``).
@@ -24,9 +25,9 @@ from typing import Any
 
 import numpy as np
 from jsonschema import Draft202012Validator
+
 from pitstudio.robots.fixture import is_publishable
 from pitstudio.robots.stall import is_stalled
-
 from pitstudio_pipeline._contracts import _registry, schema_path
 
 __all__ = [
@@ -549,7 +550,13 @@ def _rate_row(rid: str, metric: str, k: int, n: int, comparison: str) -> dict[st
 def _gap_row(rid: str, metric: str, gap: Mapping[str, Any] | None, interval: Any) -> dict[str, Any]:
     state = "missing" if gap is None else str(gap["status"])
     reported = gap is not None and gap["status"] == "complete"
-    return {"id": rid, "metric": metric, "reported": reported, "state": state, "interval": interval if reported else None}
+    return {
+        "id": rid,
+        "metric": metric,
+        "reported": reported,
+        "state": state,
+        "interval": interval if reported else None,
+    }
 
 
 def _require_policy(table: Mapping[str, Any], allowed: tuple[str, ...]) -> None:
@@ -618,7 +625,9 @@ def load_table(sidecar_path: Path | str, root: Path | str) -> dict[str, Any]:
     errors = list(_validator(None).iter_errors(meta)) if isinstance(meta, dict) else None
     if errors is None or errors:
         pointer = "".join(f"/{p}" for p in errors[0].absolute_path) if errors else "/"
-        raise ValueError(f"sidecar {sidecar.name} is not a valid episode sidecar at {pointer or '/'} (table path or schema)")
+        raise ValueError(
+            f"sidecar {sidecar.name} is not a valid episode sidecar at {pointer or '/'} (table path or schema)"
+        )
     spec = meta["table"]
     base = Path(root).resolve()
     path = (base / PurePosixPath(spec["path"])).resolve()

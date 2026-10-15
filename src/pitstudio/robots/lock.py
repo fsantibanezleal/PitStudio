@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """Lock check of ``studio/isaaclab/uv.lock`` and the performance marker derived from it (FR-014-01, FR-014-04).
 
 Standard library only. The lock is the single source of the versions every IL stage manifest reports, and the marker
@@ -125,7 +126,9 @@ def check_isaaclab_lock(lock: LockInfo) -> list[dict[str, str]]:
     commits: dict[str, str] = {}
     for name, entries in lock.packages.items():
         if name.lower().startswith("isaacsim"):
-            problems.append(_problem("FR-014-04", name, "an isaacsim package is in the lock: Isaac Sim is not installed"))
+            problems.append(
+                _problem("FR-014-04", name, "an isaacsim package is in the lock: Isaac Sim is not installed")
+            )
         if not name.startswith("isaaclab"):
             continue
         for entry in entries:
@@ -138,14 +141,20 @@ def check_isaaclab_lock(lock: LockInfo) -> list[dict[str, str]]:
             if tag != TAG:
                 problems.append(_problem("FR-014-01", name, f"{name} is at tag {tag!r}, expected {TAG}"))
             elif not parts.fragment.startswith(COMMIT_PREFIX):
-                problems.append(_problem("FR-014-01", name, f"{name} is at commit {parts.fragment[:12]!r}, expected {COMMIT_PREFIX}*"))
+                problems.append(
+                    _problem(
+                        "FR-014-01", name, f"{name} is at commit {parts.fragment[:12]!r}, expected {COMMIT_PREFIX}*"
+                    )
+                )
             else:
                 commits[name] = parts.fragment
     if len(set(commits.values())) > 1:
         common = max(set(commits.values()), key=list(commits.values()).count)
         for name, commit in commits.items():
             if commit != common:
-                problems.append(_problem("FR-014-01", name, f"{name} is at commit {commit[:12]}, the others at {common[:12]}"))
+                problems.append(
+                    _problem("FR-014-01", name, f"{name} is at commit {commit[:12]}, the others at {common[:12]}")
+                )
     for name, exact, prefix, index_suffix in _PINS:
         entries = lock.packages.get(name)
         if not entries:
@@ -160,7 +169,9 @@ def check_isaaclab_lock(lock: LockInfo) -> list[dict[str, str]]:
             if index_suffix is not None:
                 registry = entry["source"].get("registry")
                 if not isinstance(registry, str) or not registry.rstrip("/").endswith(index_suffix):
-                    problems.append(_problem("FR-014-01", name, f"{name} must come from an index ending in {index_suffix}"))
+                    problems.append(
+                        _problem("FR-014-01", name, f"{name} must come from an index ending in {index_suffix}")
+                    )
     return sorted(problems, key=lambda p: (p["package"], p["rule"], p["message"]))
 
 

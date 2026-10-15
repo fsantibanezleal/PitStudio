@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """MuJoCo compile check of a generated machine model (T-014-062, FR-014-05); CPU only.
 
 ``python -m pitstudio_isaaclab.mjcf_check --model model.xml`` prints one JSON object: whether MuJoCo's own compiler accepts

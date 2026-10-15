@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """Task-reference parity of the torch cores (T-014-061, P-014-15).
 
 ``python -m pitstudio_isaaclab.parity --input states.npz --output out.npz --device cuda`` reads the arrays alpha, delta, phi,
@@ -63,8 +64,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--make-states", type=Path, help="write the 10^4 admissible states of the T-014-061 test and exit")
-    parser.add_argument("--check", action="store_true", help="also compare with the NumPy float64 reference (adds the error)")
+    parser.add_argument(
+        "--make-states", type=Path, help="write the 10^4 admissible states of the T-014-061 test and exit"
+    )
+    parser.add_argument(
+        "--check", action="store_true", help="also compare with the NumPy float64 reference (adds the error)"
+    )
     args = parser.parse_args(argv)
     if args.make_states is not None:
         args.make_states.parent.mkdir(parents=True, exist_ok=True)
@@ -76,7 +81,9 @@ def main(argv: list[str] | None = None) -> int:
         s = _dry_states()
         worst = _check_against_numpy(s, compute(s, "cpu"))
         ok = worst < 1e-5
-        runtime.emit({"status": "dry-run-ok" if ok else "fail", "n": 256, "device": device_name, "worst_rel_error_cpu": worst})
+        runtime.emit(
+            {"status": "dry-run-ok" if ok else "fail", "n": 256, "device": device_name, "worst_rel_error_cpu": worst}
+        )
         return 0 if ok else 1
     if args.input is None or args.output is None:
         parser.error("--input and --output are required")
@@ -87,7 +94,7 @@ def main(argv: list[str] | None = None) -> int:
         out = compute(arrays, args.device)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     np.savez(args.output, **out)
-    result = {"status": "pass", "n": int(len(arrays["alpha"])), "device": args.device}
+    result = {"status": "pass", "n": len(arrays["alpha"]), "device": args.device}
     if args.check:
         worst = _check_against_numpy(arrays, out)
         result.update(worst_rel_error=worst, status="pass" if worst < 1e-5 else "fail")

@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """Fundamental earthmoving equation (FEE) wedge reference (FR-014-17, FR-014-21).
 
 The 2-D wedge of ``docs/theory/loading-and-terramechanics.md`` section 3, in NumPy-free float64 arithmetic:
@@ -21,8 +22,8 @@ RAKE_MAX = math.radians(90.0)
 ALPHA_FLOOR = 1e-9  # rad; cot(alpha) overflows below ~1e-308, and every real rake is clamped to >= 5 deg
 
 __all__ = [
-    "G",
     "FeeSolution",
+    "G",
     "beta_upper",
     "clamp_rake",
     "cutting_force",
@@ -133,7 +134,9 @@ def _minimiser(alpha: float, delta: float, phi: float, a_w: float, b_c: float, c
     def f_val(u: float) -> float:
         d_term = math.cos(alpha + delta) + math.sin(alpha + delta) * _cot(u + phi)
         n_val = (
-            a_w * (_cot(alpha) + _cot(u)) + b_c * (1.0 + _cot(u) * _cot(u + phi)) + c_ca * (1.0 - _cot(alpha) * _cot(u + phi))
+            a_w * (_cot(alpha) + _cot(u))
+            + b_c * (1.0 + _cot(u) * _cot(u + phi))
+            + c_ca * (1.0 - _cot(alpha) * _cot(u + phi))
         )
         return n_val / d_term
 

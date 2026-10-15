@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """ONNX export of the trained IL policies (FR-014-27, FR-014-28, FR-014-49, NFR-014-03, SC-014-10).
 
 ``export_il_policy`` reads a policy handoff (``contracts/il-policy-handoff.schema.json``), checks it, and writes the actor
@@ -24,8 +25,8 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 import numpy as np
-from pitstudio.robots.fixture import is_fixture
 
+from pitstudio.robots.fixture import is_fixture
 from pitstudio_pipeline._contracts import _validator
 
 __all__ = ["ExportRejected", "ExportResult", "StaleInput", "export_il_policy"]

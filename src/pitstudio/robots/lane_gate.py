@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: E501
 """Lane gate of the Isaac Lab robot-learning lane (FR-014-03).
 
 The lane is optional. Unless the ``isaaclab`` probe of ``studio/capabilities.json`` says ``pass``, the planner skips the two
@@ -70,16 +71,24 @@ def evaluate_lane(capabilities: Mapping[str, Any] | str | bytes | None) -> LaneS
     """The lane state from the parsed capability report, its JSON text, or None when the file is absent."""
     doc, problem = _load(capabilities)
     if problem == "missing":
-        return _not_adopted("missing", "Isaac Lab probe missing: studio/capabilities.json is absent, the lane is not adopted")
+        return _not_adopted(
+            "missing", "Isaac Lab probe missing: studio/capabilities.json is absent, the lane is not adopted"
+        )
     if problem is not None:
         return _not_adopted("invalid", f"Isaac Lab probe invalid: {problem}; the lane is not adopted")
     errors = validate(doc, "capabilities") if isinstance(doc, Mapping) else None
     if errors is None or errors:
-        detail = "the capability report is not an object" if errors is None else f"{errors[0].pointer or '/'}: {errors[0].message}"
+        detail = (
+            "the capability report is not an object"
+            if errors is None
+            else f"{errors[0].pointer or '/'}: {errors[0].message}"
+        )
         return _not_adopted("invalid", f"Isaac Lab probe invalid: {detail[:300]}; the lane is not adopted")
     record = doc["probes"].get(PROBE)
     if record is None:
-        return _not_adopted("missing", "Isaac Lab probe missing: no isaaclab entry in the capability report, the lane is not adopted")
+        return _not_adopted(
+            "missing", "Isaac Lab probe missing: no isaaclab entry in the capability report, the lane is not adopted"
+        )
     status = record["status"]
     if status == "pass":
         return LaneState(True, "pass", None, {}, True, "available")

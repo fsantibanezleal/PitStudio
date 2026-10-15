@@ -86,9 +86,6 @@ def cut_step(
     gain = w * d * s
     v_new = min(v0 + gain, cap)
     applied = max(v_new - v0, 0.0)
-    if gain > 0.0 and applied < gain:
-        # the step crosses the cap: only the volume that fits leaves the terrain
-        area = applied / w
-    else:
-        area = d * s
+    # a step that crosses the cap removes from the terrain only the volume that fits
+    area = applied / w if gain > 0.0 and applied < gain else d * s
     return CutStep(v_new, _lower(h, dx_, x, s, area))
