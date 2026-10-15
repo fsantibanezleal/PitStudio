@@ -106,7 +106,8 @@ export function BibliographySection({ bibliography }: { bibliography: Bibliograp
         return (
           <article key={b.key} data-bib={b.key} id={b.key} className={styles.card}>
             <p>
-              {cite}<strong>{b.title}</strong>
+              {cite}
+              <strong>{b.title}</strong>
             </p>
             {href && (
               <p>
