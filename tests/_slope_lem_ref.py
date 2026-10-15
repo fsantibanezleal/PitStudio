@@ -29,6 +29,13 @@ import numpy as np
 REPO = Path(__file__).resolve().parents[1]
 
 
+def _registry():  # every contract schema by `$id`, so a cross-file `$ref` (cases.schema.json#/...) resolves
+    from referencing import Registry, Resource
+
+    schemas = (json.loads(p.read_text(encoding="utf-8")) for p in sorted((REPO / "contracts").glob("*.schema.json")))
+    return Registry().with_resources([(s["$id"], Resource.from_contents(s)) for s in schemas])
+
+
 def schema_errors(document: object, stem: str, definition: str | None = None) -> list[str]:
     """Violations of `contracts/<stem>.schema.json` (or of one of its `$defs`) by a document (jsonschema, 2020-12)."""
     from jsonschema import Draft202012Validator
@@ -38,7 +45,7 @@ def schema_errors(document: object, stem: str, definition: str | None = None) ->
         schema = {"$schema": schema["$schema"], "$ref": f"#/$defs/{definition}", "$defs": schema["$defs"]}
     return [
         f"{'/'.join(map(str, e.absolute_path))}: {e.message}"
-        for e in Draft202012Validator(schema).iter_errors(document)
+        for e in Draft202012Validator(schema, registry=_registry()).iter_errors(document)
     ]
 
 
