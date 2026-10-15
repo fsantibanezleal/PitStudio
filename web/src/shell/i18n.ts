@@ -5,15 +5,15 @@ import casesEn from "~/locales/en/cases.json";
 import chartsEn from "~/locales/en/charts.json";
 import resultsEn from "~/locales/en/results.json";
 import shellEn from "~/locales/en/shell.json";
-import surrogatesEn from "~/locales/en/surrogates.json";
 import studioEn from "~/locales/en/studio.json";
+import surrogatesEn from "~/locales/en/surrogates.json";
 import appEs from "~/locales/es/app.json";
 import casesEs from "~/locales/es/cases.json";
 import chartsEs from "~/locales/es/charts.json";
 import resultsEs from "~/locales/es/results.json";
 import shellEs from "~/locales/es/shell.json";
-import surrogatesEs from "~/locales/es/surrogates.json";
 import studioEs from "~/locales/es/studio.json";
+import surrogatesEs from "~/locales/es/surrogates.json";
 import { DEFAULT_LANGUAGE, LANGUAGES } from "./prefs";
 
 // Resources are bundled (both languages are small). Prerendered HTML is always English; the stored or ?lang=
@@ -24,7 +24,7 @@ void i18n.use(initReactI18next).init({
   lng: DEFAULT_LANGUAGE,
   fallbackLng: DEFAULT_LANGUAGE,
   supportedLngs: [...LANGUAGES],
-ns: ["shell", "app", "cases", "results", "charts", "studio", "surrogates"],
+  ns: ["shell", "app", "cases", "results", "charts", "studio", "surrogates"],
   defaultNS: "app",
   resources: {
     en: {

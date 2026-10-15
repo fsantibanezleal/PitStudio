@@ -2,13 +2,26 @@
 // are real, nothing is computed or drawn while the model is not published.
 import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { fetchAvailability, isDescriptorOf } from "~/engines/surrogates/availability";
+import { fetchAvailability, isDescriptorOf, readEvaluation } from "~/engines/surrogates/availability";
 import { renderApp } from "~/test-support/render";
 import { CalibrationReplay } from "./CalibrationReplay";
 import { FnoScene } from "./FnoScene";
 import { GnsScene } from "./GnsScene";
 
 const EXTRAPOLATION = "extrapolation — no accuracy claim";
+
+function stubDocs(docs: { descriptor?: boolean; evaluation?: unknown }) {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url: string) => {
+      if (url.endsWith(".surrogate-io.json") && docs.descriptor)
+        return new Response(JSON.stringify({ model_id: "gns-a3" }), { status: 200 });
+      if (url.endsWith(".evaluation.json") && docs.evaluation !== undefined)
+        return new Response(JSON.stringify(docs.evaluation), { status: 200 });
+      return new Response("not found", { status: 404 });
+    }),
+  );
+}
 
 beforeEach(() => {
   vi.stubGlobal(
@@ -71,11 +84,30 @@ describe("A3 GNS scene", () => {
     expect(within(region).getByRole("spinbutton", { name: "Pour height (m)" })).toBeTruthy();
   });
 
-  it("a published descriptor without the ONNX runtime says so and still shows nothing computed", async () => {
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async () => new Response(JSON.stringify({ model_id: "gns-a3" }), { status: 200 })),
+  it("a model published without an evaluation report is not offered", async () => {
+    stubDocs({ descriptor: true });
+    await renderApp(<GnsScene tier="t2" />);
+    await waitFor(() =>
+      expect(screen.getByRole("status").textContent).toContain("without an evaluation report"),
     );
+    expect(screen.queryByRole("img", { name: "Live GNS rollout" })).toBeNull();
+  });
+
+  it("a model whose evaluation failed says so with the counts and offers no rollout", async () => {
+    stubDocs({
+      descriptor: true,
+      evaluation: { sc_011_01: "fail", geometries: [{ pass: true }, { pass: false }, { pass: false }] },
+    });
+    await renderApp(<GnsScene tier="t2" />);
+    await waitFor(() =>
+      expect(screen.getByRole("status").textContent).toContain("Evaluation failed: 1 of 3"),
+    );
+    expect(screen.queryByRole("img", { name: "Live GNS rollout" })).toBeNull();
+    expect(screen.queryByText("LIVE")).toBeNull();
+  });
+
+  it("a passing evaluation still shows nothing computed while ONNX Runtime is not wired in", async () => {
+    stubDocs({ descriptor: true, evaluation: { sc_011_01: "pass", geometries: [{ pass: true }] } });
     await renderApp(<GnsScene tier="t2" />);
     await waitFor(() => expect(screen.getByRole("status").textContent).toContain("ONNX Runtime"));
     expect(screen.queryByRole("img", { name: "Live GNS rollout" })).toBeNull();
@@ -129,57 +161,78 @@ describe("C2 and C3 FNO scenes", () => {
 });
 
 describe("A3 calibration replay", () => {
-  it("is a REPLAY region with the declared 'Not yet run' state, no LIVE badge and no chart", async () => {
+  it("is a REPLAY region with the declared not-run state, no LIVE badge and no chart", async () => {
     await renderApp(<CalibrationReplay />);
     const region = screen.getByRole("region", { name: "Calibration replay" });
     expect(within(region).getByText("REPLAY")).toBeTruthy();
     expect(within(region).queryByText("LIVE")).toBeNull();
-    expect(region.textContent).toContain("Not yet run");
+    expect(region.textContent).toContain("has not been run on the GPU");
     expect(within(region).queryByRole("img")).toBeNull();
     expect(within(region).queryByRole("table")).toBeNull();
   });
 });
 
 describe("model availability", () => {
-  it("is published only for a descriptor of that model", async () => {
+  it("a descriptor belongs to its model only", () => {
     expect(isDescriptorOf({ model_id: "gns-a3" }, "gns-a3")).toBe(true);
     for (const doc of [{ model_id: "other" }, {}, null, [], "gns-a3", 5])
       expect(isDescriptorOf(doc, "gns-a3")).toBe(false);
   });
 
-  it("a 404, an HTML fallback page and a network error are not published", async () => {
-    const make = (impl: () => Promise<Response>) => vi.fn(impl) as unknown as typeof fetch;
+  it("the evaluation verdict needs sc_011_01 pass and every geometry passing", () => {
+    expect(readEvaluation({ sc_011_01: "pass", geometries: [{ pass: true }, { pass: true }] })).toEqual({
+      pass: true,
+      passed: 2,
+      total: 2,
+    });
+    expect(readEvaluation({ sc_011_01: "pass", geometries: [{ pass: true }, { pass: false }] })?.pass).toBe(
+      false,
+    );
+    expect(readEvaluation({ sc_011_01: "fail", geometries: [{ pass: true }] })?.pass).toBe(false);
+    for (const doc of [null, [], {}, { sc_011_01: "pass" }, { geometries: [] }])
+      expect(readEvaluation(doc)).toBeNull();
+  });
+
+  it("a 404, an HTML page and a network error publish nothing; the states follow the documents", async () => {
+    const make = (impl: (url: string) => Promise<Response>) => vi.fn(impl) as unknown as typeof fetch;
+    const res = (body: string, status = 200) => Promise.resolve(new Response(body, { status }));
     expect(
-      await fetchAvailability(
-        "/",
-        "gns-a3",
-        undefined,
-        make(async () => new Response("", { status: 404 })),
-      ),
+      (
+        await fetchAvailability(
+          "/",
+          "gns-a3",
+          undefined,
+          make(() => res("", 404)),
+        )
+      ).state,
     ).toBe("not-published");
     expect(
-      await fetchAvailability(
-        "/",
-        "gns-a3",
-        undefined,
-        make(async () => new Response("<html>", { status: 200 })),
-      ),
+      (
+        await fetchAvailability(
+          "/",
+          "gns-a3",
+          undefined,
+          make(() => res("<html>")),
+        )
+      ).state,
     ).toBe("not-published");
     expect(
-      await fetchAvailability(
-        "/",
-        "gns-a3",
-        undefined,
-        make(async () => Promise.reject(new Error("offline"))),
-      ),
+      (
+        await fetchAvailability(
+          "/",
+          "gns-a3",
+          undefined,
+          make(() => Promise.reject(new Error("offline"))),
+        )
+      ).state,
     ).toBe("not-published");
-    expect(
-      await fetchAvailability(
-        "/",
-        "gns-a3",
-        undefined,
-        make(async () => new Response('{"model_id":"gns-a3"}', { status: 200 })),
-      ),
-    ).toBe("published");
+    const doc = (url: string) =>
+      url.endsWith("surrogate-io.json") ? res('{"model_id":"gns-a3"}') : res("", 404);
+    expect((await fetchAvailability("/", "gns-a3", undefined, make(doc))).state).toBe("unevaluated");
+    const ok = (url: string) =>
+      url.endsWith("surrogate-io.json")
+        ? res('{"model_id":"gns-a3"}')
+        : res('{"sc_011_01":"pass","geometries":[{"pass":true}]}');
+    expect((await fetchAvailability("/", "gns-a3", undefined, make(ok))).state).toBe("ready");
   });
 });

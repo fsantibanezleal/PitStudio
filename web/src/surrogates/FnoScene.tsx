@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useModelAvailability } from "~/engines/surrogates/availability";
+import { noticeKey, useModelAvailability } from "~/engines/surrogates/availability";
 import { FNO_ENVELOPE, fnoIsExtrapolation } from "~/engines/surrogates/envelope";
 import { NumberControl } from "./NumberControl";
 import styles from "./surrogates.module.css";
@@ -38,8 +38,7 @@ export function FnoScene({ variant, tier }: { variant: FnoVariant; tier: "t0" | 
   );
   const names = CONTROLS[variant].map((c) => c.name);
   const extrapolation = fnoIsExtrapolation(names, values);
-  const notice =
-    availability === "checking" ? null : availability === "published" ? "runtimeMissing" : "notTrained";
+  const notice = noticeKey(availability.state);
   return (
     <section
       className={styles.scene}
@@ -47,7 +46,7 @@ export function FnoScene({ variant, tier }: { variant: FnoVariant; tier: "t0" | 
       data-testid="fno-scene"
       data-variant={variant}
       data-tier={tier}
-      data-availability={availability}
+      data-availability={availability.state}
     >
       <div className={styles.controls}>
         {CONTROLS[variant].map((control) => (
@@ -68,10 +67,10 @@ export function FnoScene({ variant, tier }: { variant: FnoVariant; tier: "t0" | 
       )}
       {notice && (
         <p className={styles.note} role="status" data-testid="surrogate-notice">
-          {t(notice, { engine: "fno" })}
+          {t(notice, { engine: "fno", passed: availability.passed, total: availability.total })}
         </p>
       )}
-      {availability === "checking" && <p className={styles.note}>{t("checking")}</p>}
+      {availability.state === "checking" && <p className={styles.note}>{t("checking")}</p>}
     </section>
   );
 }

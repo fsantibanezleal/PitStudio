@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useModelAvailability } from "~/engines/surrogates/availability";
+import { noticeKey, useModelAvailability } from "~/engines/surrogates/availability";
 import {
   GNS_ENVELOPE,
   GNS_FAMILIES,
@@ -45,15 +45,14 @@ export function GnsScene({ tier }: { tier: "t0" | "t1" | "t2" }) {
   const [count, setCount] = useState(GNS_PARTICLE_DEFAULT);
   const [started, setStarted] = useState(false);
   const extrapolation = gnsIsExtrapolation(family, values);
-  const notice =
-    availability === "checking" ? null : availability === "published" ? "runtimeMissing" : "notTrained";
+  const notice = noticeKey(availability.state);
   return (
     <section
       className={styles.scene}
       aria-label={t("gns.region")}
       data-testid="gns-scene"
       data-tier={tier}
-      data-availability={availability}
+      data-availability={availability.state}
     >
       <div className={styles.controls}>
         <div className={styles.control}>
@@ -101,10 +100,10 @@ export function GnsScene({ tier }: { tier: "t0" | "t1" | "t2" }) {
       )}
       {notice && (
         <p className={styles.note} role="status" data-testid="surrogate-notice" data-started={started}>
-          {t(notice, { engine: "gns" })}
+          {t(notice, { engine: "gns", passed: availability.passed, total: availability.total })}
         </p>
       )}
-      {availability === "checking" && <p className={styles.note}>{t("checking")}</p>}
+      {availability.state === "checking" && <p className={styles.note}>{t("checking")}</p>}
     </section>
   );
 }

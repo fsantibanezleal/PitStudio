@@ -1,6 +1,9 @@
 {
-  "lane": { "live": "LIVE", "replay": "REPLAY" },
-  "extrapolation": "extrapolation — no accuracy claim",
+  "lane": {
+    "live": "LIVE",
+    "replay": "REPLAY"
+  },
+  "extrapolation": "extrapolation \u2014 no accuracy claim",
   "notTrained": "Model not yet trained: {{engine}} publishes no ONNX file in this build, so nothing is computed and no result is shown.",
   "runtimeMissing": "ONNX Runtime is not wired into this build: the published model is not run and no result is shown.",
   "checking": "Checking for a published model",
@@ -16,9 +19,9 @@
       "column_aspect_ratio": "Aspect ratio",
       "column_width": "Column width (m)",
       "pour_height": "Pour height (m)",
-      "pour_rate": "Pour rate (m²/s)",
+      "pour_rate": "Pour rate (m\u00b2/s)",
       "crest_height": "Crest height (m)",
-      "dump_rate": "Dump rate (m²/s)"
+      "dump_rate": "Dump rate (m\u00b2/s)"
     },
     "count": "Particle count",
     "start": "Start",
@@ -36,11 +39,11 @@
     "params": {
       "breach_row": "Breach row",
       "breach_col": "Breach column",
-      "release_volume": "Release volume (m³)",
-      "yield_stress": "Yield stress τ_y (Pa)",
-      "plastic_viscosity": "Plastic viscosity μ_B (Pa·s)",
+      "release_volume": "Release volume (m\u00b3)",
+      "yield_stress": "Yield stress \u03c4_y (Pa)",
+      "plastic_viscosity": "Plastic viscosity \u03bc_B (Pa\u00b7s)",
       "wind_speed": "Wind speed (m/s)",
-      "wind_direction": "Wind direction (°)"
+      "wind_direction": "Wind direction (\u00b0)"
     },
     "live": "Live field",
     "reference": "Solver reference",
@@ -48,6 +51,8 @@
   },
   "calibration": {
     "region": "Calibration replay",
-    "notPublished": "Not yet run: the calibration study has not been run on the GPU, so no curve, path, coverage or profile is published in this build."
-  }
+    "notPublished": "The calibration study has not been run on the GPU, so no curve, path, coverage or profile is published in this build."
+  },
+  "evaluationFailed": "Evaluation failed: {{passed}} of {{total}} test geometries pass the acceptance limits, so the {{engine}} model is not offered as a live result and nothing is drawn.",
+  "notEvaluated": "The {{engine}} model is published without an evaluation report, so it is not offered as a live result and nothing is drawn."
 }

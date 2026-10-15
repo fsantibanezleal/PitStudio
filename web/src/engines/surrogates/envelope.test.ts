@@ -26,7 +26,8 @@ describe("the envelopes are those of the contract examples (DC-011-02)", () => {
   it("every GNS family parameter has the range of surrogate-io.valid.json", () => {
     const doc = load("surrogate-io.valid.json");
     for (const family of Object.values(GNS_ENVELOPE))
-      for (const [name, range] of Object.entries(family)) expect(range).toEqual({ min: (doc[name] as Range).min, max: (doc[name] as Range).max });
+      for (const [name, range] of Object.entries(family))
+        expect(range).toEqual({ min: (doc[name] as Range).min, max: (doc[name] as Range).max });
   });
 
   it("every C2 parameter has the range of surrogate-io.valid-fno.json", () => {

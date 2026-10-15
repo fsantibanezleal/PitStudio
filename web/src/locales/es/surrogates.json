@@ -1,34 +1,37 @@
 {
-  "lane": { "live": "LIVE", "replay": "REPLAY" },
-  "extrapolation": "extrapolation — no accuracy claim",
-  "notTrained": "Modelo aún no entrenado: {{engine}} no publica ningún archivo ONNX en esta versión, por lo que no se calcula nada y no se muestra ningún resultado.",
-  "runtimeMissing": "ONNX Runtime no está integrado en esta versión: el modelo publicado no se ejecuta y no se muestra ningún resultado.",
+  "lane": {
+    "live": "LIVE",
+    "replay": "REPLAY"
+  },
+  "extrapolation": "extrapolation \u2014 no accuracy claim",
+  "notTrained": "Modelo a\u00fan no entrenado: {{engine}} no publica ning\u00fan archivo ONNX en esta versi\u00f3n, por lo que no se calcula nada y no se muestra ning\u00fan resultado.",
+  "runtimeMissing": "ONNX Runtime no est\u00e1 integrado en esta versi\u00f3n: el modelo publicado no se ejecuta y no se muestra ning\u00fan resultado.",
   "checking": "Buscando un modelo publicado",
   "gns": {
     "region": "GNS granular flow",
-    "family": "Familia de geometría",
+    "family": "Familia de geometr\u00eda",
     "families": {
       "column-collapse": "Colapso de columna",
-      "pile-formation": "Formación de pila",
+      "pile-formation": "Formaci\u00f3n de pila",
       "dump-over-crest": "Descarga sobre cresta"
     },
     "params": {
-      "column_aspect_ratio": "Relación de aspecto",
+      "column_aspect_ratio": "Relaci\u00f3n de aspecto",
       "column_width": "Ancho de la columna (m)",
       "pour_height": "Altura de vertido (m)",
-      "pour_rate": "Tasa de vertido (m²/s)",
+      "pour_rate": "Tasa de vertido (m\u00b2/s)",
       "crest_height": "Altura de la cresta (m)",
-      "dump_rate": "Tasa de descarga (m²/s)"
+      "dump_rate": "Tasa de descarga (m\u00b2/s)"
     },
-    "count": "Número de partículas",
+    "count": "N\u00famero de part\u00edculas",
     "start": "Iniciar",
     "stop": "Detener",
-    "live": "Simulación en vivo",
+    "live": "Simulaci\u00f3n en vivo",
     "reference": "Referencia del solver",
     "stepTime": "Tiempo por paso",
-    "cap": "Límite de partículas en T2",
+    "cap": "L\u00edmite de part\u00edculas en T2",
     "msValue": "{{value}} ms",
-    "particles": "{{value}} partículas"
+    "particles": "{{value}} part\u00edculas"
   },
   "fno": {
     "regionC2": "FNO tailings flow",
@@ -36,18 +39,20 @@
     "params": {
       "breach_row": "Fila de la brecha",
       "breach_col": "Columna de la brecha",
-      "release_volume": "Volumen liberado (m³)",
-      "yield_stress": "Esfuerzo de fluencia τ_y (Pa)",
-      "plastic_viscosity": "Viscosidad plástica μ_B (Pa·s)",
+      "release_volume": "Volumen liberado (m\u00b3)",
+      "yield_stress": "Esfuerzo de fluencia \u03c4_y (Pa)",
+      "plastic_viscosity": "Viscosidad pl\u00e1stica \u03bc_B (Pa\u00b7s)",
       "wind_speed": "Velocidad del viento (m/s)",
-      "wind_direction": "Dirección del viento (°)"
+      "wind_direction": "Direcci\u00f3n del viento (\u00b0)"
     },
     "live": "Campo en vivo",
     "reference": "Referencia del solver",
-    "evaluation": "Tiempo de evaluación"
+    "evaluation": "Tiempo de evaluaci\u00f3n"
   },
   "calibration": {
     "region": "Calibration replay",
-    "notPublished": "Aún no ejecutado: el estudio de calibración no se ha ejecutado en la GPU, por lo que esta versión no publica ninguna curva, trayectoria, cobertura ni perfil."
-  }
+    "notPublished": "El estudio de calibraci\u00f3n no se ha ejecutado en la GPU, por lo que esta versi\u00f3n no publica ninguna curva, trayectoria, cobertura ni perfil."
+  },
+  "evaluationFailed": "Evaluaci\u00f3n fallida: {{passed}} de {{total}} geometr\u00edas de prueba cumplen los l\u00edmites de aceptaci\u00f3n, por lo que el modelo {{engine}} no se ofrece como resultado en vivo y no se dibuja nada.",
+  "notEvaluated": "El modelo {{engine}} est\u00e1 publicado sin informe de evaluaci\u00f3n, por lo que no se ofrece como resultado en vivo y no se dibuja nada."
 }
