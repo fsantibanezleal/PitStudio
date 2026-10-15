@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Chart, type ChartSeries } from "~/charts/Chart";
+import { ReasonPanel } from "~/features/reason/ReasonPanel";
 import type { ComparisonRow, DiffInterval } from "~/results/ComparisonRows";
 import { mcnemarVerdict, pairedVerdict, singleEventVerdict, type Verdict } from "~/results/verdict";
 import { verdictText } from "~/results/verdictText";
@@ -151,6 +152,7 @@ export function ChartsTab({
       {entry.kpis.map((kpi) => (
         <KpiChart key={kpi.id} kpi={kpi} row={rows.find((r) => r.metric?.id === kpi.id)} lang={lang} />
       ))}
+      {(caseId === "B1" || caseId === "B2") && <ReasonPanel caseId={caseId} />}
     </>
   );
 }
