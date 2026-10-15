@@ -49,13 +49,15 @@ def rows_from_records(records: Sequence[Mapping[str, Any]]) -> list[dict[str, An
         row["power_source"] = fp.get("power_source")
         # the licence hash only travels with a record in which a TensorRT library took part
         row["tensorrt_licence_sha256"] = fp.get("tensorrt_licence_sha256") if record.get("tensorrt_version") else None
+        if record.get("fixture") is True:
+            row["fixture"] = True
         rows.append(row)
     return rows
 
 
 def publishable(records: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
-    """The records marked `performance == "public"`, in input order."""
-    return [dict(r) for r in records if r.get("performance") == "public"]
+    """The `performance == "public"` records that are not contract fixtures, in input order."""
+    return [dict(r) for r in records if r.get("performance") == "public" and r.get("fixture") is not True]
 
 
 def _single(records: Sequence[Mapping[str, Any]], name: str, get: Any) -> Any:
@@ -70,6 +72,8 @@ def bake_table(records: Sequence[Mapping[str, Any]], *, generated: str) -> dict[
     if not records:
         raise ValueError("no records to bake")
     for r in records:
+        if r.get("fixture") is True:
+            raise ValueError(f"record {r.get('model')}/{r.get('backend')} is a contract fixture and is never baked")
         if r.get("performance") != "public":
             raise ValueError(f"record {r.get('model')}/{r.get('backend')} is {r.get('performance')}, not public")
     date = _single(records, "date", lambda r: r["date"])

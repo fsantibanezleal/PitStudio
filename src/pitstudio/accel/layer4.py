@@ -83,6 +83,7 @@ def make_parity_report(
     golden_set: Mapping[str, Any],
     metric: Mapping[str, Any] | None = None,
     variant: str = "deployed",
+    fixture: bool = False,
 ) -> dict[str, Any]:
     """The DC-016-03 document of layer 4 with the constant tolerances of the precision."""
     fp32 = precision == "fp32"
@@ -117,4 +118,6 @@ def make_parity_report(
     }
     if cell.reason:
         report["reason"] = cell.reason[:300]
+    if fixture:
+        report["fixture"] = True
     return report
