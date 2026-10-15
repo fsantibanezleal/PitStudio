@@ -146,6 +146,7 @@ test.describe("the illustrations follow the theme", () => {
 
   test("the labels of the drawing show in Spanish with the language switched", async ({ page }) => {
     await start(page, "es", "?section=pain");
+    await expect(page.locator('[data-exec-illustration="pain"] svg')).toBeVisible();
     const labels = page.locator('[data-exec-illustration="pain"] text:visible');
     expect(await labels.count()).toBeGreaterThanOrEqual(6);
     await expect(labels.first()).toBeVisible();

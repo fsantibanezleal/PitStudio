@@ -12,8 +12,8 @@ importers:
         specifier: ^1.8.0
         version: 1.8.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@fasl-work/caos-app-shell':
-        specifier: ^0.14.2
-        version: 0.14.2(katex@0.16.47)(lucide-react@1.51.0(@types/react@19.3.0)(react@19.3.0))(playwright@1.63.0)(react-dom@19.3.0(react@19.3.0))(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(zustand@5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0)))
+        specifier: ^0.14.0
+        version: 0.14.0(katex@0.16.47)(lucide-react@1.51.0(@types/react@19.3.0)(react@19.3.0))(playwright@1.63.0)(react-dom@19.3.0(react@19.3.0))(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(zustand@5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0)))
       '@fontsource-variable/inter':
         specifier: ^5.3.0
         version: 5.3.0
@@ -346,8 +346,8 @@ packages:
       '@noble/hashes':
         optional: true
 
-  '@fasl-work/caos-app-shell@0.14.2':
-    resolution: {integrity: sha512-mF3IoxoGPjDcoKjFA4mWvyPetORxRaQmHKoLUE6AJLSceHZLFKDHP6vOW58J2PIKgYEfCYId+ZkxjiHrYE592A==}
+  '@fasl-work/caos-app-shell@0.14.0':
+    resolution: {integrity: sha512-0iVJlkdBnP41eMkBbiqnRoBeQQFAGCOrJf5GuR804PMYh3t18rJM1oTLybcLnS19avE9xxIWqfzWWaCg8c7PjQ==}
     hasBin: true
     peerDependencies:
       katex: ^0.16.0
@@ -1645,7 +1645,7 @@ snapshots:
 
   '@exodus/bytes@1.16.0': {}
 
-  '@fasl-work/caos-app-shell@0.14.2(katex@0.16.47)(lucide-react@1.51.0(@types/react@19.3.0)(react@19.3.0))(playwright@1.63.0)(react-dom@19.3.0(react@19.3.0))(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(zustand@5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0)))':
+  '@fasl-work/caos-app-shell@0.14.0(katex@0.16.47)(lucide-react@1.51.0(@types/react@19.3.0)(react@19.3.0))(playwright@1.63.0)(react-dom@19.3.0(react@19.3.0))(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(zustand@5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0)))':
     dependencies:
       katex: 0.16.47
       lucide-react: 1.51.0(@types/react@19.3.0)(react@19.3.0)

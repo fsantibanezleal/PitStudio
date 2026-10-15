@@ -26,3 +26,11 @@
   --color-warn: var(--warning);
   --color-bad: var(--danger);
 }
+
+/*
+ * The shell's reset removes the underline from every link; the product's pages keep links distinguishable inside text
+ * without relying on colour alone (axe link-in-text-block), so the browser default is restored for the whole site.
+ */
+a {
+  text-decoration: revert;
+}
