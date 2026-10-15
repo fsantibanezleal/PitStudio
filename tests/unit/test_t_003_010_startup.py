@@ -102,9 +102,13 @@ class Server:
 
 
 def listening(pid: int) -> list[tuple[str, int]]:
+    # on Windows the Popen pid of a venv interpreter is its launcher stub, which holds no socket: the listening
+    # interpreter is its child, so the process and its descendants are inspected
+    proc = psutil.Process(pid)
     return [
         (c.laddr.ip, c.laddr.port)
-        for c in psutil.Process(pid).net_connections(kind="inet")
+        for p in (proc, *proc.children(recursive=True))
+        for c in p.net_connections(kind="inet")
         if c.status == psutil.CONN_LISTEN
     ]
 
