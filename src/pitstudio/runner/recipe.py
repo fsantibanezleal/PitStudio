@@ -51,7 +51,8 @@ def load_yaml(path: Path, what: str = "file") -> Any:
 
 @cache
 def _schemas() -> tuple[Registry, dict[str, dict]]:
-    reg, docs = Registry(), {}
+    reg = Registry()
+    docs: dict[str, dict] = {}
     for d in (
         ROOT / "contracts",
         *(ROOT / "specs" / s / "contracts" for s in ("001-contracts", "002-runner", "003-console")),
@@ -164,7 +165,10 @@ def load_device(path: Path) -> dict:
 
 def load_module(f: Path, name: str):
     """Import a repository file by path (its folder is importable while it loads)."""
-    mod = importlib.util.module_from_spec(spec := importlib.util.spec_from_file_location(name, f))
+    spec = importlib.util.spec_from_file_location(name, f)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"{f} cannot be imported")
+    mod = importlib.util.module_from_spec(spec)
     sys.path.insert(0, str(f.parent))
     try:
         spec.loader.exec_module(mod)
@@ -207,7 +211,7 @@ def select(doc: dict, want: list[str], profiling: bool = False) -> list[str]:
     return [k for k in order_or_cycle(deps) if not want or k in need]
 
 
-def capacity(prof: dict, backend: object | None) -> int | None:
+def capacity(prof: dict, backend: Any | None) -> int | None:
     """The largest device VRAM known to the plan: the backend (live or fake), else the profile (FR-002-06)."""
     return backend.vram_total_bytes if backend else max((g["vram_bytes"] for g in prof["gpus"]), default=None)
 
@@ -274,8 +278,9 @@ def order_or_cycle(deps: dict[str, set[str]], bad: dict[str, list[str]] | None =
     stuck = {k for k in left if k not in out}
     while sink := {k for k in stuck if not any(k in left[o] for o in stuck)}:  # drop what only hangs below a cycle
         stuck -= sink
-    for k in sorted(stuck) if bad is not None else ():
-        bad.setdefault(k, []).append("dependency cycle")
+    if bad is not None:
+        for k in sorted(stuck):
+            bad.setdefault(k, []).append("dependency cycle")
     return out
 
 
@@ -283,7 +288,8 @@ class Keys:
     """Cache keys of the executions of one recipe (FR-002-08, FR-002-09); digests are read once per environment."""
 
     def __init__(self, repo: Path, doc: dict) -> None:
-        self.repo, self.seed0, self._d = repo, doc["seed"], {}
+        self.repo, self.seed0 = repo, doc["seed"]
+        self._d: dict[Any, Any] = {}
 
     def digests(self, env: str) -> tuple[str, str]:
         if env not in self._d:
@@ -341,7 +347,8 @@ def refusal(st: dict, prof: dict, cap: int | None) -> str | None:
 
 
 def plan(repo: Path, doc: dict, prof: dict, store: Store, cap: int | None, outs_only: bool = False) -> dict:
-    by, keys, outs, rows = {kstr(s): s for s in doc["stages"]}, Keys(repo, doc), {}, []
+    by, keys, rows = {kstr(s): s for s in doc["stages"]}, Keys(repo, doc), []
+    outs: dict[str, dict[str, str] | None] = {}
     for k in order_or_cycle(deps_of(doc)):
         st, res = by[k], by[k]["resources"]
         row = {
@@ -362,6 +369,7 @@ def plan(repo: Path, doc: dict, prof: dict, store: Store, cap: int | None, outs_
             ks = [keys.key(st, st.get("params", {}), i, inputs) for i in range(row["shards"])]
             ents = [store.lookup(x, repair=False) for x in ks]
             row["cache_key"], row["status"] = ks[0], "hit" if all(ents) else "miss"
-            outs[k] = {o["name"]: o["sha256"] for o in ents[0]["outputs"]} if all(ents) else None
+            first = ents[0]
+            outs[k] = {o["name"]: o["sha256"] for o in first["outputs"]} if first and all(ents) else None
         rows.append(row)
     return outs if outs_only else {"recipe": doc["id"], "profile": prof["id"], "stages": rows}

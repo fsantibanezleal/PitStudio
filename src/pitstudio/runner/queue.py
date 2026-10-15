@@ -60,7 +60,10 @@ def job(job_id: str) -> dict | None:
 
 
 def request_of(job_id: str) -> dict:
-    return json.loads(_one("SELECT request FROM jobs WHERE job_id = ?", job_id)["request"])
+    row = _one("SELECT request FROM jobs WHERE job_id = ?", job_id)
+    if row is None:
+        raise KeyError(job_id)
+    return json.loads(row["request"])
 
 
 def update(job_id: str, **cols: Any) -> None:
@@ -71,7 +74,10 @@ def update(job_id: str, **cols: Any) -> None:
 
 
 def cancel_requested(job_id: str) -> bool:
-    return bool(_one("SELECT cancel FROM jobs WHERE job_id = ?", job_id)["cancel"])
+    row = _one("SELECT cancel FROM jobs WHERE job_id = ?", job_id)
+    if row is None:
+        raise KeyError(job_id)
+    return bool(row["cancel"])
 
 
 def cancel(job_id: str) -> str:

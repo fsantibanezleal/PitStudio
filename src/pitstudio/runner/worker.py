@@ -94,7 +94,10 @@ class Run:
         self.spec = backend_spec(req.get("gpu_backend"))
         self.launcher = "test" if self.spec.startswith("fake") else "uv"
         self.backend: Any = None
-        self.recs, self.done, self.outs, self.tele = [], {}, {}, {}  # stage records, by stage key; outputs; samples
+        self.recs: list[dict[str, Any]] = []  # stage records, by stage key; outputs; samples
+        self.done: dict[str, Any] = {}
+        self.outs: dict[str, Any] = {}
+        self.tele: dict[str, Any] = {}
         self.stop: tuple[str, int, str] | None = None
         self.seq, self.whea_at, self.started = 0, 0.0, time.strftime("%Y-%m-%dT%H:%M:%S.000Z", time.gmtime())
         self.header: dict[str, Any] = {}
@@ -620,12 +623,12 @@ class Run:
             a["ec"] = (
                 "oom" if oom else "nonzero-exit" if problem == "no result.json" and r["code"] != 0 else "invalid-result"
             )
-        elif res["status"] == "not_run":
+        elif res is not None and res["status"] == "not_run":
             a |= {"status": "not_run", "reason": res["reason"], "result": res}
-        elif res["status"] == "failed":
+        elif res is not None and res["status"] == "failed":
             a |= {"ec": res["error_class"], "problem": res.get("message"), "result": res}
         else:
-            files, bad = execute.check_outputs(st["outputs"], out, res)
+            files, bad = execute.check_outputs(st["outputs"], out, res or {})
             a |= {
                 "result": res,
                 "files": files,
@@ -691,7 +694,7 @@ def drain(until: str | None = None) -> int | None:
         while job := queue.claim():
             keep = False
             with contextlib.suppress(Usage):
-                keep = load_profile(repo_root(), queue.request_of(job["job_id"])["profile"]).get("keep_awake")
+                keep = bool(load_profile(repo_root(), queue.request_of(job["job_id"])["profile"]).get("keep_awake"))
             if keep and sys.platform == "win32" and not awake:
                 oswin.set_thread_execution_state(KEEP)
                 awake = True

@@ -17,7 +17,7 @@ WIN = sys.platform == "win32"
 
 def set_thread_execution_state(flags: int) -> int:
     """kernel32 SetThreadExecutionState; a no-op (returns 0) off Windows."""
-    return int(ctypes.windll.kernel32.SetThreadExecutionState(ctypes.c_uint(flags))) if WIN else 0
+    return int(ctypes.windll.kernel32.SetThreadExecutionState(ctypes.c_uint(flags))) if WIN else 0  # type: ignore[attr-defined,unused-ignore]  # Windows-only API: the root job type-checks on Linux
 
 
 class Tree:
@@ -33,10 +33,10 @@ class Tree:
         }
         self.job = None
         if WIN:
-            kw["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.CREATE_NO_WINDOW
+            kw["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.CREATE_NO_WINDOW  # type: ignore[attr-defined,unused-ignore]  # Windows-only API: the root job type-checks on Linux
         self.proc = subprocess.Popen(argv, **kw)
         if WIN:
-            k32, void = ctypes.windll.kernel32, ctypes.c_void_p
+            k32, void = ctypes.windll.kernel32, ctypes.c_void_p  # type: ignore[attr-defined,unused-ignore]  # Windows-only API: the root job type-checks on Linux
             k32.CreateJobObjectW.restype = k32.OpenProcess.restype = void
             self.job = k32.CreateJobObjectW(None, None)
             info = ctypes.create_string_buffer(
@@ -69,9 +69,9 @@ class Tree:
         """Whatever the stage left running goes with it (kill-on-close on Windows, the process group on Linux)."""
         if WIN and self.job:
             if not wait:
-                ctypes.windll.kernel32.TerminateJobObject(ctypes.c_void_p(self.job), 1)
-            ctypes.windll.kernel32.CloseHandle(ctypes.c_void_p(self.job))
+                ctypes.windll.kernel32.TerminateJobObject(ctypes.c_void_p(self.job), 1)  # type: ignore[attr-defined,unused-ignore]  # Windows-only API: the root job type-checks on Linux
+            ctypes.windll.kernel32.CloseHandle(ctypes.c_void_p(self.job))  # type: ignore[attr-defined,unused-ignore]  # Windows-only API: the root job type-checks on Linux
             self.job = None
         elif not WIN:
             with contextlib.suppress(OSError):
-                os.killpg(self.proc.pid, signal.SIGKILL)
+                os.killpg(self.proc.pid, signal.SIGKILL)  # type: ignore[attr-defined,unused-ignore]  # Windows-only API: the root job type-checks on Linux
