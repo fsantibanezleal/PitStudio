@@ -12,6 +12,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 from .errors import OverBudget, VmafUnreachable
+from .vmaf import aggregate_vmaf as aggregate_vmaf  # re-exported: the search and its aggregation are one API
+from .vmaf import parse_vmaf_log as parse_vmaf_log
 
 VMAF_MEAN_MIN = 93.0
 VMAF_P5_MIN = 85.0
