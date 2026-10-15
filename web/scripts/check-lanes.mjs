@@ -70,13 +70,17 @@ export function main(argv) {
   const opt = {};
   for (let i = 0; i < argv.length; i += 2) {
     if (!argv[i]?.startsWith("--") || argv[i + 1] === undefined) {
-      console.error("usage: check-lanes.mjs --manifest <web manifest> --measurements <lane measurements> [--engines a,b] [--live-engines a,b]");
+      console.error(
+        "usage: check-lanes.mjs --manifest <web manifest> --measurements <lane measurements> [--engines a,b] [--live-engines a,b]",
+      );
       return 2;
     }
     opt[argv[i].slice(2)] = argv[i + 1];
   }
   if (!opt.manifest || !opt.measurements) {
-    console.error("usage: check-lanes.mjs --manifest <web manifest> --measurements <lane measurements> [--engines a,b] [--live-engines a,b]");
+    console.error(
+      "usage: check-lanes.mjs --manifest <web manifest> --measurements <lane measurements> [--engines a,b] [--live-engines a,b]",
+    );
     return 2;
   }
   try {
@@ -101,4 +105,5 @@ export function main(argv) {
   }
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) process.exitCode = main(process.argv.slice(2));
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href)
+  process.exitCode = main(process.argv.slice(2));

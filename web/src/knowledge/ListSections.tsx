@@ -102,10 +102,11 @@ export function BibliographySection({ bibliography }: { bibliography: Bibliograp
     <section data-testid="bibliography" aria-label={t("knowledge.nav.bibliography")}>
       {bibliography.map((b) => {
         const href = b.doi ? `https://doi.org/${encodeURI(String(b.doi))}` : httpsUrl(b.url);
+        const cite = `${b.authors} (${String(b.year ?? "")}). `;
         return (
           <article key={b.key} data-bib={b.key} id={b.key} className={styles.card}>
             <p>
-              {b.authors} ({String(b.year ?? "")}). <strong>{b.title}</strong>
+              {cite}<strong>{b.title}</strong>
             </p>
             {href && (
               <p>
