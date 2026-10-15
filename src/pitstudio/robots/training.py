@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from pitstudio.robots.config import TaskParamsError, config_hash, validate_task_params
+from pitstudio.robots.fixture import is_fixture
 
 __all__ = ["PpoConfig", "StageResult", "is_oom", "latest_checkpoint", "ppo_config", "run_stage"]
 
@@ -101,8 +102,11 @@ def run_stage(
     out_dir: Path | str,
     *,
     resume: Path | str | None = None,
+    fixture: bool | None = None,
+    params_path: Path | str | None = None,
 ) -> StageResult:
     """Validate, then train iterations 1 .. N with checkpoints, optional resume and one OOM fallback."""
+    is_fix = is_fixture(params_path, flag=fixture)
     try:
         validate_task_params(params)
     except TaskParamsError as err:
@@ -128,6 +132,7 @@ def run_stage(
         "oom_fallback": None,
         "ppo": asdict(ppo),
         "failed": None,
+        "fixture": is_fix,
     }
     written: list[Path] = []
 
@@ -136,7 +141,9 @@ def run_stage(
         directory.mkdir(parents=True, exist_ok=True)
         path = directory / f"model_{iteration}.pt"
         trainer.save(path)
-        side = {"iteration": iteration, "task_config_sha256": digest, "num_envs": envs}
+        side: dict[str, Any] = {"iteration": iteration, "task_config_sha256": digest, "num_envs": envs}
+        if is_fix:
+            side["fixture"] = True
         path.with_suffix(".json").write_text(json.dumps(side, sort_keys=True), encoding="utf-8")
         if path not in written:
             written.append(path)
