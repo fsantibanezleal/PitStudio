@@ -203,6 +203,7 @@ def run(
     driver_version: str | None = None,
 ) -> dict:
     params = job["params"]
+    require_lock("nvenc", 0)
     run_process = runner if runner is not None else subprocess.run
     clock = clock or time.monotonic
     environment = os.environ if env is None else env
