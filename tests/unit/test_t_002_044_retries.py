@@ -20,8 +20,12 @@ formula of FR-002-08 recomputed with hashlib (tests/support/refimpl.py), hand-bu
 
 from __future__ import annotations
 
+import math
 import re
+import statistics
+import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +37,21 @@ import runner_world as rw
 from runner_world import recipe, stage, up
 
 SEED0 = 20261004
+
+
+def startup_timeout_s() -> int:
+    """A stage timeout that is machine independent: 5 x the measured start-up of the stage interpreter, at least 5 s.
+
+    The runner counts a timeout from process creation, so a bound below the start-up of the interpreter kills the
+    stage before it writes its `start` ledger row (0.85 to 1.2 s on the development machine). The 60 s sleep of the
+    stages stays far beyond the bound, so the timeout still fires.
+    """
+    runs = []
+    for _ in range(3):
+        t0 = time.perf_counter()
+        subprocess.run([sys.executable, "-S", "-c", "pass"], check=True, capture_output=True)
+        runs.append(time.perf_counter() - t0)
+    return max(5, math.ceil(5 * statistics.median(runs)))
 
 
 @pytest.fixture
@@ -202,7 +221,13 @@ def test_fr_002_33_a_first_attempt_timeout_in_isaac_rtx_or_kit_is_retried_once_w
 
 @pytest.mark.req("FR-002-33")
 def test_fr_002_33_a_second_timeout_in_a_warmup_stage_fails_after_exactly_two_attempts(world) -> None:
-    st = stage("st52_rtx_render", gpu="exclusive", vram=2.0, timeout_s=1, params={"mode": "sleep", "sleep_s": 60})
+    st = stage(
+        "st52_rtx_render",
+        gpu="exclusive",
+        vram=2.0,
+        timeout_s=startup_timeout_s(),
+        params={"mode": "sleep", "sleep_s": 60},
+    )
     world.write_recipe(recipe("warm2", [st], seed=SEED0))
     assert world.run("warm2").code == 1
     rec = world.stage_record("st52_rtx_render")
@@ -215,7 +240,15 @@ def test_fr_002_33_timeouts_in_other_environments_are_not_retried(world) -> None
     world.write_recipe(
         recipe(
             "nowarm",
-            [stage("st50_physics", gpu="exclusive", vram=2.0, timeout_s=1, params={"mode": "sleep", "sleep_s": 60})],
+            [
+                stage(
+                    "st50_physics",
+                    gpu="exclusive",
+                    vram=2.0,
+                    timeout_s=startup_timeout_s(),
+                    params={"mode": "sleep", "sleep_s": 60},
+                )
+            ],
             seed=SEED0,
         )
     )
