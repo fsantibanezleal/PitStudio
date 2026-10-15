@@ -137,6 +137,23 @@ def missing_inputs(stage: str, p: Paths, pins: Mapping[str, Any]) -> list[str]:
     return missing
 
 
+def dry_run_path(stage: str, p: Paths) -> list[str]:
+    """The CPU part of the real path, run by the dry run when every input is present: frame states are loaded and
+    validated and (task A) the query set is built, so a data problem shows up before the GPU is taken."""
+    lines: list[str] = []
+    if stage in ("st59a_vqa", "st59c_captions", "st59_reason_bench"):
+        frames = load_frames(p)
+        lines.append(f"{len(frames)} frame states validated")
+        if stage != "st59c_captions":
+            build = queries.build_queries(frames, root=p.image_root, seed=SEED)
+            lines.append(f"query set: {len(build.queries)} queries, shortfall per type {build.shortfall}")
+            lines.append(f"rejected frames: {len(build.rejected)}")
+    if stage == "st59b_plausibility":
+        pairs = json.loads(p.pairs.read_text(encoding="utf-8"))["pairs"]
+        lines.append(f"{len(pairs)} pairs in the index")
+    return lines
+
+
 def assert_cuda() -> str:
     """Name of CUDA device 0; SystemExit(4) when torch has no CUDA."""
     try:
@@ -474,6 +491,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  - {line}", file=sys.stderr)
         return EXIT_BLOCKED
     if args.dry_run:
+        for line in dry_run_path(args.stage, p):
+            print(f"{args.stage}: {line}")
         print(f"{args.stage}: dry run ok, every input is present")
         return 0
     from filelock import FileLock, Timeout
