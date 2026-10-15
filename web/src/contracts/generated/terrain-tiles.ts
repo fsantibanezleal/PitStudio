@@ -17,7 +17,7 @@ export type Sha256 = string
 export type Relpath = string
 
 /**
- * Quadtree tile index of the terrain meshes per level of detail, written by st10_terrain (DC-004-04, spec 004-scene-pipeline).
+ * Quadtree tile index of the terrain meshes per level of detail, written by st10_terrain (DC-004-04, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
  */
 export interface TerrainTileIndex {
 $schema?: string
@@ -46,6 +46,10 @@ lods: [Lod]|[Lod, Lod]|[Lod, Lod, Lod]
  * @maxItems 4096
  */
 tiles: [Tile, ...(Tile)[]]
+/**
+ * True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false.
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `TerrainTileIndex`'s JSON-Schema

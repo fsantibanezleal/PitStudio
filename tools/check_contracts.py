@@ -169,7 +169,13 @@ class Checker:
         contracts = self.root / "contracts"
         if contracts.is_dir():
             for entry in sorted(contracts.iterdir()):
-                if not (entry.name.endswith(".schema.json") or entry.name == "README.md"):
+                if (
+                    entry.is_dir() and entry.name == "engines"
+                ):  # engine schemas promoted from the drafts of specs 004-020
+                    for inner in sorted(entry.iterdir()):
+                        if not inner.name.endswith(".schema.json"):
+                            self.add(self.rel(inner), LOAD_RULE, "", UNKNOWN_FILE)
+                elif not (entry.name.endswith(".schema.json") or entry.name == "README.md"):
                     self.add(self.rel(entry), LOAD_RULE, "", UNKNOWN_FILE)
         recipes = self.root / "studio/recipes"
         if recipes.is_dir():

@@ -17,7 +17,7 @@ export type Sha256 = string
 export type Slug = string
 
 /**
- * Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline).
+ * Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
  */
 export interface PitDesignReport {
 $schema?: string
@@ -91,6 +91,10 @@ cell_area_m2: number
  */
 identity_residual_rel: number
 }
+/**
+ * True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false.
+ */
+fixture?: boolean
 }
 /**
  * measured geometry of one bench (FR-004-19); tolerance checks belong to FR-004-35

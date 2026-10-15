@@ -143,7 +143,9 @@ describe("metamorphic relations (P-018-19, P-018-20, P-018-21)", () => {
 
   it("P-018-19 · TTC(p, k w) = TTC(p, w) / k for closing pairs and k in [0.1, 10] (rtol 1e-12)", () => {
     fc.assert(
-      fc.property(closing, fc.double({ min: 0.1, max: 10, noNaN: true }), ({ p, w, R }, k) => {
+      fc.property(closing, fc.double({ min: 0.1, max: 10, noNaN: true }), ({ p, w, R }, kRaw) => {
+        const k = Math.min(kRaw, 59 / Math.max(Math.abs(w[0]), Math.abs(w[1]))); // k * w stays inside the +-60 m/s E_RANGE cap
+        fc.pre(k >= 0.1);
         const base = run(p, w, R).ttc_s as number;
         const scaled = run(p, [k * w[0], k * w[1]], R);
         return (

@@ -10,8 +10,13 @@
       "!**/src/contracts/generated",
       "!**/src/contracts/validators",
       "!**/src/engines/host/generated",
+      "!**/src/engines/analytical/rows.ts",
       "!**/src/studio/generated",
-      "!**/public/studio"
+      "!**/public/studio",
+      "!**/e2e/lane-gate/t_018_081_measure.spec.ts",
+      "!**/e2e/t_018_073_pyodide.spec.ts",
+      "!**/e2e/t_019_020_tool_pages.spec.ts",
+      "!**/src/engines/t_018_088_parity_report.test.ts"
     ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 110 },
@@ -33,6 +38,10 @@
     {
       "includes": ["**/*.test.tsx", "**/*.spec.tsx", "src/test-support/**"],
       "linter": { "rules": { "style": { "noJsxLiterals": "off" } } }
+    },
+    {
+      "includes": ["src/engines/random/**"],
+      "plugins": ["./lint/no-math.grit"]
     },
     {
       "includes": ["src/shell/tokens.css"],

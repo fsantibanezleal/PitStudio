@@ -1,0 +1,69 @@
+# A1 scene pipeline: the five CPU-only scene stages of spec 004 (st10_terrain to st45_validate), bitwise deterministic.
+# st10_terrain reads its DEM and lidar tiles through the data root (data/sources.yaml registers them with spec 008); the
+# scene specification (DC-004-01) is the stage `params` supplied with the case.
+id: a1-scene
+case: A1
+seed: 20261007
+description: "A1 scene: terrain, pit design, assets, composition and validation of the default Bingham scene."
+stages:
+  - id: st10_terrain
+    env: studio
+    tool: openusd
+    entry: pitstudio_studio.scene.terrain
+    inputs: []
+    resources: {gpu: none, disk_gib_est: 2.0, cpu: 2}
+    determinism: bitwise
+    timeout_s: 2400
+    outputs:
+      - {path: terrain/grid.zarr/zarr.json, schema: contract-terrain-grid, publish: false}
+      - {path: terrain/tiles.json, schema: contract-terrain-tiles, publish: false}
+      - {path: layers/terrain.usdc, schema: stage-usd-layer, publish: false}
+  - id: st20_pit_design
+    env: studio
+    tool: openusd
+    entry: pitstudio_studio.scene.design
+    inputs:
+      - {stage: st10_terrain, output: terrain/grid.zarr/zarr.json}
+    resources: {gpu: none, disk_gib_est: 1.0, cpu: 2}
+    determinism: bitwise
+    timeout_s: 1800
+    outputs:
+      - {path: design/pit-design-report.json, schema: contract-pit-design-report, publish: false}
+      - {path: design/road-network.geojson, schema: contract-road-network, publish: false}
+      - {path: layers/design.usda, schema: stage-usd-layer, publish: false}
+  - id: st30_assets
+    env: studio
+    tool: openusd
+    entry: pitstudio_studio.scene.assets
+    inputs: []
+    resources: {gpu: none, disk_gib_est: 0.5, cpu: 1}
+    determinism: bitwise
+    timeout_s: 900
+    outputs:
+      - {path: layers/fleet.usda, schema: stage-usd-layer, publish: false}
+      - {path: assets/records.json, schema: stage-asset-records, publish: false}
+  - id: st40_compose
+    env: studio
+    tool: openusd
+    entry: pitstudio_studio.scene.compose
+    inputs:
+      - {stage: st10_terrain, output: terrain/tiles.json}
+      - {stage: st20_pit_design, output: design/pit-design-report.json}
+      - {stage: st30_assets, output: assets/records.json}
+    resources: {gpu: none, disk_gib_est: 1.0, cpu: 2}
+    determinism: bitwise
+    timeout_s: 900
+    outputs:
+      - {path: scene/scene.manifest.json, schema: contract-scene-manifest, publish: false}
+      - {path: scene/root.usda, schema: stage-usd-layer, publish: false}
+  - id: st45_validate
+    env: studio
+    tool: openusd
+    entry: pitstudio_studio.scene.validate
+    inputs:
+      - {stage: st40_compose, output: scene/scene.manifest.json}
+    resources: {gpu: none, disk_gib_est: 2.0, cpu: 2}
+    determinism: bitwise
+    timeout_s: 1800
+    outputs:
+      - {path: scene/validation/scene-validation-report.json, schema: contract-scene-validation-report, publish: true}

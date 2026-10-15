@@ -1,0 +1,43 @@
+.technical h2 {
+  margin-top: 0;
+}
+
+.technical .pages {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.technical .pages li {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.technical .pages a {
+  font-weight: 600;
+}
+
+.technical .pages p {
+  margin: 0.375rem 0 0;
+  color: var(--fg-muted);
+  font-size: 0.9375rem;
+}
+
+.open {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: var(--primary-fg);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.open:hover {
+  background: var(--primary-hover);
+}

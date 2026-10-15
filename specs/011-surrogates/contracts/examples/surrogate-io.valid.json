@@ -128,28 +128,28 @@
       "unit": "1"
     },
     "column_width": {
-      "min": 0.1,
-      "max": 0.4,
+      "min": 0.32,
+      "max": 0.7,
       "unit": "m"
     },
     "pour_height": {
-      "min": 0.2,
-      "max": 0.6,
-      "unit": "m"
-    },
-    "pour_rate": {
-      "min": 0.002,
-      "max": 0.01,
-      "unit": "m^2/s"
-    },
-    "crest_height": {
-      "min": 0.1,
+      "min": 0.05,
       "max": 0.4,
       "unit": "m"
     },
+    "pour_rate": {
+      "min": 0.79,
+      "max": 1.45,
+      "unit": "m^2/s"
+    },
+    "crest_height": {
+      "min": 0.09,
+      "max": 0.22,
+      "unit": "m"
+    },
     "dump_rate": {
-      "min": 0.002,
-      "max": 0.01,
+      "min": 0.76,
+      "max": 1.23,
       "unit": "m^2/s"
     },
     "particle_diameter": {
