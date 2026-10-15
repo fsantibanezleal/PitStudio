@@ -2,6 +2,9 @@ import { readFileSync } from "node:fs";
 import type { Config } from "@react-router/dev/config";
 import { CASE_IDS } from "./src/cases/types";
 
+// The 23 method pages, `/methods/m01/` to `/methods/m23/` (FR-020-17).
+const METHOD_SLUGS = Array.from({ length: 23 }, (_, i) => `m${String(i + 1).padStart(2, "0")}`);
+
 // GitHub Pages serves the site under /<repo>/. CI passes it as BASE_PATH (from actions/configure-pages);
 // local builds default to "/".
 const basename = process.env.BASE_PATH ?? "/";
@@ -35,6 +38,7 @@ export default {
     ...getStaticPaths(),
     ...CASE_IDS.map((id) => `/cases/${id}`),
     ...studioPaths(),
+    ...METHOD_SLUGS.map((slug) => `/methods/${slug}`),
   ],
   basename,
 } satisfies Config;

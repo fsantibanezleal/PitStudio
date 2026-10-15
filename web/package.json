@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "node scripts/build-studio-index.mjs && react-router dev",
-    "build": "node scripts/build-studio-index.mjs && react-router build && node scripts/postbuild.mjs",
+    "build": "node scripts/stage-results.mjs && node scripts/build-studio-index.mjs && react-router build && node scripts/postbuild.mjs",
     "serve": "node scripts/serve-static.mjs",
     "typecheck": "node scripts/build-studio-index.mjs && react-router typegen && tsc",
     "lint": "biome ci .",
@@ -16,6 +16,7 @@
     "test": "vitest run",
     "gen:types": "node scripts/gen-types.mjs",
     "gen:validators": "node scripts/gen-validators.mjs",
+    "check:budgets": "node scripts/budgets.mjs --root build/client",
     "check:locales": "node ../tools/check_locales.mjs",
     "build:console": "vite build -c vite.console.config.ts",
     "build:studio-index": "node scripts/build-studio-index.mjs",
