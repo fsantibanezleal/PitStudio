@@ -264,25 +264,56 @@ def _load_checkpoint(run: Path) -> dict[str, Any]:
     return torch.load(run / "checkpoint.pt", map_location="cpu", weights_only=False)
 
 
-def s50_evaluate(dataset: Dataset, run: Path, *, device: str, env: Mapping[str, str]) -> dict[str, Any]:
-    """Roll the trained GNS out on the held-out geometries and write the report (a fixture report is not published)."""
+def s50_evaluate(
+    dataset: Dataset, run: Path, *, device: str, env: Mapping[str, str], split: str = "test"
+) -> dict[str, Any]:
+    """Roll the trained GNS out on the held-out geometries and write the report (a fixture report is not published).
+
+    `split="val"` (GNS v2) rolls the validation geometries out for the whole reference length instead and writes
+    `evaluation.validation.json` with, per geometry, whether the rollout diverged before the reference reached
+    rest; it never
+    reads the test geometries and never touches `evaluation.json` / `evaluation.published.json`.
+    """
+    if split not in ("test", "val"):
+        raise ValueError(f"split must be 'test' or 'val', got {split!r}")
     _gpu_guard(device, env)
     checkpoint = _load_checkpoint(run)
     model = train.load_model(checkpoint).to(device).eval()
+    ids = _state_ids(dataset, split)
     expected = [
         {"geometry_id": r["geometry_id"], "family": r["family"]}
         for r in dataset.records
-        if r["geometry_id"] in set(_state_ids(dataset, "test"))
+        if r["geometry_id"] in set(ids)
     ]
-    manifest = {"inputs": dataset.inputs(["test"])}
+    manifest = {"inputs": dataset.inputs([split])}
+    steps_to_rest: dict[str, int] = {}
 
     def work() -> dict[str, Any]:
-        geometries = data.evaluation_geometries(dataset.meta_dir, root=dataset.root, geometry_ids=dataset.split["test"])
+        geometries = data.evaluation_geometries(dataset.meta_dir, root=dataset.root, geometry_ids=dataset.split[split])
+        for g in geometries:  # every reference is at rest at its last frame: the shortest one is the strictest horizon
+            steps_to_rest[g["geometry_id"]] = min(int(ref["positions"].shape[0]) - 1 for ref in g["references"])
         surrogate = infer.make_surrogate(infer.torch_advance(model))
         return evaluate.evaluate_held_out(geometries, surrogate, expected=expected, dataset_manifest=dataset.manifest)
 
     report = run_stage("s50_evaluate", manifest, root=dataset.root, work=work)
     report["label"] = LABEL
+    if split == "val":
+        report["split"] = "val"
+        report["validation_rollouts"] = [
+            {
+                "geometry_id": rec["geometry_id"],
+                "family": rec["family"],
+                "diverged": bool(rec["diverged"]),
+                "diverged_at_step": rec["diverged_at_step"],
+                "reference_steps_to_rest": steps_to_rest[rec["geometry_id"]],
+                "diverged_before_rest": bool(
+                    rec["diverged"] and rec["diverged_at_step"] <= steps_to_rest[rec["geometry_id"]]
+                ),
+            }
+            for rec in report["geometries"]
+        ]
+        _write_json(run / "evaluation.validation.json", report)
+        return report
     _write_json(run / "evaluation.json", report)
     published = publishable(report)
     if published is not None:
@@ -467,6 +498,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             p.add_argument("--run", required=True, type=Path, help="the --out directory of the train stage")
         if name == "export":
             p.add_argument("--ort-provider", default="cpu", choices=["cpu", "cuda"])
+        if name == "evaluate":
+            p.add_argument(
+                "--split", default="test", choices=["test", "val"], help="val: full-length validation rollouts"
+            )
     args = parser.parse_args(argv)
     dataset = Dataset(args.data)
     env = os.environ
@@ -474,7 +509,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         config = json.loads(args.config.read_text(encoding="utf-8")) if args.config else {}
         s30_train(dataset, args.out, config, seed=args.seed, device=args.device, env=env)
     elif args.stage == "evaluate":
-        report = s50_evaluate(dataset, args.run, device=args.device, env=env)
+        report = s50_evaluate(dataset, args.run, device=args.device, env=env, split=args.split)
         print(json.dumps({k: report[k] for k in ("status", "n_geometries", "sc_011_01")}))
     elif args.stage == "export":
         card = s60_export(dataset, args.run, ort_provider=args.ort_provider)

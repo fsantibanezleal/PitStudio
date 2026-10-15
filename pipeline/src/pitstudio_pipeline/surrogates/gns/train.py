@@ -12,6 +12,19 @@ at t; the target acceleration is a = ((x_{t+1} - x_t) / dt - v_t) / dt, so that 
 reproduces
 x_{t+1} (FR-011-01). With noise, v_t carries the noise and the target is corrected by it (the noise-correcting target of
 Sanchez-Gonzalez et al. 2020). Noise scales are fractions of the training velocity standard deviation.
+
+Noise selection (`noise_selection` in the config): "val_loss" (default) takes the candidate with the lowest one-step
+validation loss; "rollout" (GNS v2) rolls every pilot model out for `rollout_steps` steps from frame 0 of
+`rollout_geometries` validation geometries and takes the candidate that completes the largest fraction of those steps,
+then the smaller mean position error, then the smaller scale (`rollout_probe`, `choose_by_rollout`). The one-step loss
+sees no error accumulation; run-002 chose by it and 19 of 20 held-out rollouts diverged. No multi-step or
+push-forward loss
+term is implemented: the loss stays the one-step normalised-acceleration MSE.
+
+Sample weighting (`sample_weighting`): "frames" (default) draws the epoch's samples uniformly over all (rollout,
+frame) pairs;
+"rollout" weights every rollout equally (GNS v2: the steady-pour piles have ten times the frames of the collapses).
+The training statistics are still computed over all frames of the training split.
 """
 
 from __future__ import annotations
@@ -203,6 +216,87 @@ class _Prefetch:
         self._thread.join(timeout=30)
 
 
+def _positive_int(value: Any, name: str) -> int:
+    if not isinstance(value, int | np.integer) or isinstance(value, bool) or value < 1:
+        raise ValueError(f"{name} must be a positive integer, got {value!r}")
+    return int(value)
+
+
+def rollout_probe(advance: Callable[..., Any], rollouts: Sequence[Mapping[str, Any]], *, steps: int) -> dict[str, Any]:
+    """Roll `advance` out from frame 0 of each rollout (zero velocity history, as the evaluation does) for `steps`
+    steps.
+
+    Returns `steps_requested` (capped by the shortest rollout), per rollout `divergence_steps` (None when it did not
+    diverge) and `steps_completed`, the mean `completed_fraction`, and `position_error_d`: the mean over the completed
+    steps and over the rollouts of the mean particle distance to the reference frame, in particle diameters (inf when no
+    step of any rollout completed).
+    """
+    from pitstudio.granular.rollout import N_HISTORY, run_rollout
+
+    steps = _positive_int(steps, "steps")
+    if len(rollouts) == 0:
+        raise ValueError("rollout_probe needs at least one rollout")
+    requested = min([steps, *(int(r["positions"].shape[0]) - 1 for r in rollouts)])
+    if requested < 1:
+        raise ValueError("a probe rollout needs at least two frames")
+    divergence: list[int | None] = []
+    completed: list[int] = []
+    errors: list[float] = []
+    for rollout in rollouts:
+        reference = np.asarray(rollout["positions"])
+        n = reference.shape[1]
+        d = float(rollout["d"])
+        result = run_rollout(
+            advance,
+            reference[0],
+            np.zeros((n, N_HISTORY, 2), dtype=np.float32),
+            np.asarray(rollout["particle_types"]),
+            bounds=np.asarray(rollout["bounds"], dtype=np.float32),
+            radius=2.5 * d,
+            n_steps=requested,
+        )
+        divergence.append(result.diverged_at_step)
+        completed.append(result.steps_completed)
+        for s in range(1, result.steps_completed + 1):
+            gap = np.linalg.norm(result.positions[s].astype(np.float64) - reference[s].astype(np.float64), axis=1)
+            errors.append(float(gap.mean()) / d)
+    return {
+        "steps_requested": requested,
+        "divergence_steps": divergence,
+        "steps_completed": completed,
+        "completed_fraction": float(np.mean([c / requested for c in completed])),
+        "position_error_d": float(np.mean(errors)) if errors else math.inf,
+    }
+
+
+def choose_by_rollout(candidates: Sequence[Mapping[str, Any]]) -> float:
+    """The scale of the candidate with the largest completed fraction, then the smaller error, then the smaller
+    scale."""
+    if len(candidates) == 0:
+        raise ValueError("no noise candidate to choose from")
+    for c in candidates:
+        if not isinstance(c.get("rollout"), Mapping):
+            raise ValueError(
+                f"candidate {c.get('scale')!r} has no rollout record: run the pilots with noise_selection='rollout'"
+            )
+    best = min(
+        candidates,
+        key=lambda c: (-c["rollout"]["completed_fraction"], c["rollout"]["position_error_d"], c["scale"]),
+    )
+    return float(best["scale"])
+
+
+def _probe_rollouts(val_rollouts: Sequence[Mapping[str, Any]], count: int) -> list[Mapping[str, Any]]:
+    """The first rollout of `count` validation geometries spread evenly over the geometry ids (all of them when
+    fewer)."""
+    first: dict[Any, int] = {}
+    for i in range(len(val_rollouts)):
+        first.setdefault(val_rollouts[i].get("geometry_id", i), i)
+    ids = sorted(first, key=str)
+    picks = sorted({round(x) for x in np.linspace(0, len(ids) - 1, min(count, len(ids)))})
+    return [val_rollouts[first[ids[i]]] for i in picks]
+
+
 # ------------------------------------------------------------------ configuration
 
 
@@ -230,6 +324,16 @@ def validate_config(config: Mapping[str, Any]) -> dict[str, Any]:
     cfg.setdefault("val_samples", 64)
     cfg.setdefault("lr_final_ratio", 1.0)
     cfg.setdefault("pilot_epochs", None)
+    cfg.setdefault("noise_selection", "val_loss")
+    cfg.setdefault("sample_weighting", "frames")
+    if cfg["sample_weighting"] not in ("frames", "rollout"):
+        raise ValueError(f"sample_weighting must be 'frames' or 'rollout', got {cfg['sample_weighting']!r}")
+    cfg.setdefault("rollout_steps", 60)
+    cfg.setdefault("rollout_geometries", 3)
+    if cfg["noise_selection"] not in ("val_loss", "rollout"):
+        raise ValueError(f"noise_selection must be 'val_loss' or 'rollout', got {cfg['noise_selection']!r}")
+    cfg["rollout_steps"] = _positive_int(cfg["rollout_steps"], "rollout_steps")
+    cfg["rollout_geometries"] = _positive_int(cfg["rollout_geometries"], "rollout_geometries")
     for key in ("samples_per_epoch", "pilot_epochs"):
         if cfg[key] is not None and (not isinstance(cfg[key], int) or cfg[key] < 1):
             raise ValueError(f"{key} must be a positive integer or None, got {cfg[key]!r}")
@@ -249,6 +353,27 @@ def _sample_index(rollouts: Sequence[Mapping[str, Any]]) -> list[tuple[int, int]
         frames = rollout["positions"].shape[0]
         index.extend((r, t) for t in range(HISTORY, frames - 1))
     return index
+
+
+def sample_order(
+    index: Sequence[tuple[int, int]],
+    rollouts: Sequence[Mapping[str, Any]],
+    limit: int,
+    rng: np.random.Generator,
+    *,
+    weighting: str = "frames",
+) -> np.ndarray:
+    """The first `limit` positions of a draw over `index` without replacement.
+
+    "frames": the uniform permutation (every (rollout, frame) pair equally likely, as before). "rollout": every rollout
+    equally likely (a pair is drawn with probability proportional to 1 / frames of its rollout), so that a long steady
+    pour does not take most of the samples of the short collapses.
+    """
+    if weighting == "frames":
+        return rng.permutation(len(index))[:limit]
+    frames = np.array([rollouts[r]["positions"].shape[0] - HISTORY - 1 for r, _ in index], dtype=np.float64)
+    weight = 1.0 / frames
+    return rng.choice(len(index), size=min(limit, len(index)), replace=False, p=weight / weight.sum())
 
 
 class _Run:
@@ -291,7 +416,13 @@ class _Run:
         self.val_index = _sample_index(val_rollouts)
         if not self.train_index or not self.val_index:
             raise DatasetError("the training and validation rollouts need frames t - 5 ... t + 1: too few frames")
-        pick = np.random.default_rng(seed + 2).permutation(len(self.val_index))[: cfg["val_samples"]]
+        pick = sample_order(
+            self.val_index,
+            val_rollouts,
+            cfg["val_samples"],
+            np.random.default_rng(seed + 2),
+            weighting=cfg["sample_weighting"],
+        )
         self.val_pick = [self.val_index[i] for i in sorted(pick)]
         self.noise_counter = 0
         self.on_log: Callable[[int, int, float, int], None] | None = None
@@ -324,9 +455,14 @@ class _Run:
     ) -> float:
         """One epoch in a data order fixed by (seed, epoch_index), resumable from `start_chunk`."""
         self.model.train()
-        order = np.random.default_rng([self.seed + 1, epoch_index]).permutation(len(self.train_index))
-        limit = self.cfg["samples_per_epoch"] or len(order)
-        order = order[:limit]
+        limit = self.cfg["samples_per_epoch"] or len(self.train_index)
+        order = sample_order(
+            self.train_index,
+            self.train,
+            limit,
+            np.random.default_rng([self.seed + 1, epoch_index]),
+            weighting=self.cfg["sample_weighting"],
+        )
         size = self.cfg["batch_size"]
         total, count = partial
         radius = self.cfg["connectivity_radius"]
@@ -458,9 +594,22 @@ def train_gns(
             for e in range(pilot_epochs):
                 pilot.epoch(scale, e)
                 best = min(best, pilot.val_loss())
-            candidates.append({"scale": scale, "val_loss": best})
+            candidate: dict[str, Any] = {"scale": scale, "val_loss": best}
+            if cfg["noise_selection"] == "rollout":
+                from pitstudio_pipeline.surrogates.gns.infer import torch_advance
+
+                pilot.model.eval()
+                candidate["rollout"] = rollout_probe(
+                    torch_advance(pilot.model),
+                    _probe_rollouts(val_rollouts, cfg["rollout_geometries"]),
+                    steps=cfg["rollout_steps"],
+                )
+            candidates.append(candidate)
             hooks.on_epoch(lambda: {"candidates": list(candidates), "chosen": None})
-        chosen = min(candidates, key=lambda c: c["val_loss"])["scale"]
+        if cfg["noise_selection"] == "rollout":
+            chosen = choose_by_rollout(candidates)
+        else:
+            chosen = min(candidates, key=lambda c: c["val_loss"])["scale"]
 
     run = _Run(cfg, train_rollouts, val_rollouts, stats, n_types, dt, seed, cfg["epochs"] * steps_per_epoch)
     run.on_log = hooks.on_log
@@ -534,6 +683,7 @@ def train_gns(
             "best_epoch": best_epoch,
             "initial_val_loss": initial,
             "selection_split": "validation",
+            "noise_selection": cfg["noise_selection"],
         },
         dataset_manifest,
     )
