@@ -15,9 +15,9 @@ stages:
     determinism: bitwise
     timeout_s: 2400
     outputs:
-      - {path: terrain/grid.zarr/zarr.json, schema: terrain-grid, publish: false}
-      - {path: terrain/tiles.json, schema: terrain-tiles, publish: false}
-      - {path: layers/terrain.usdc, schema: usd-layer, publish: false}
+      - {path: terrain/grid.zarr/zarr.json, schema: contract-terrain-grid, publish: false}
+      - {path: terrain/tiles.json, schema: contract-terrain-tiles, publish: false}
+      - {path: layers/terrain.usdc, schema: stage-usd-layer, publish: false}
   - id: st20_pit_design
     env: studio
     tool: openusd
@@ -28,9 +28,9 @@ stages:
     determinism: bitwise
     timeout_s: 1800
     outputs:
-      - {path: design/pit-design-report.json, schema: pit-design-report, publish: false}
-      - {path: design/road-network.geojson, schema: road-network, publish: false}
-      - {path: layers/design.usda, schema: usd-layer, publish: false}
+      - {path: design/pit-design-report.json, schema: contract-pit-design-report, publish: false}
+      - {path: design/road-network.geojson, schema: contract-road-network, publish: false}
+      - {path: layers/design.usda, schema: stage-usd-layer, publish: false}
   - id: st30_assets
     env: studio
     tool: openusd
@@ -40,8 +40,8 @@ stages:
     determinism: bitwise
     timeout_s: 900
     outputs:
-      - {path: layers/fleet.usda, schema: usd-layer, publish: false}
-      - {path: assets/records.json, schema: asset-records, publish: false}
+      - {path: layers/fleet.usda, schema: stage-usd-layer, publish: false}
+      - {path: assets/records.json, schema: stage-asset-records, publish: false}
   - id: st40_compose
     env: studio
     tool: openusd
@@ -54,8 +54,8 @@ stages:
     determinism: bitwise
     timeout_s: 900
     outputs:
-      - {path: scene/scene.manifest.json, schema: scene-manifest, publish: false}
-      - {path: scene/root.usda, schema: usd-layer, publish: false}
+      - {path: scene/scene.manifest.json, schema: contract-scene-manifest, publish: false}
+      - {path: scene/root.usda, schema: stage-usd-layer, publish: false}
   - id: st45_validate
     env: studio
     tool: openusd
@@ -66,4 +66,4 @@ stages:
     determinism: bitwise
     timeout_s: 1800
     outputs:
-      - {path: scene/validation/scene-validation-report.json, schema: scene-validation-report, publish: true}
+      - {path: scene/validation/scene-validation-report.json, schema: contract-scene-validation-report, publish: true}

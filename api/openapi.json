@@ -788,7 +788,7 @@
               "maxLength": 32
             },
             "type": "object",
-            "maxProperties": 16,
+            "maxProperties": 128,
             "minProperties": 1,
             "title": "Contracts",
             "description": "schema stem -> contract version"

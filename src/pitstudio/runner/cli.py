@@ -8,6 +8,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from typing import Any, NoReturn, cast
 
 from pitstudio.runner import gc, locks, publish, queue, worker
 from pitstudio.runner.cache import Store, jcs
@@ -32,8 +33,9 @@ from pitstudio.runner.recipe import (
 
 STAGE_KEY = re.compile(r"[a-z][a-z0-9_]{1,31}(@[a-z0-9][a-z0-9-]{0,31})?")
 JOB_ID = re.compile(r"[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}")
-FLAG, GPU = {"action": "store_true"}, ("--gpu-backend", {})
-SPEC = {
+FLAG: dict[str, Any] = {"action": "store_true"}
+GPU: tuple[str, dict[str, Any]] = ("--gpu-backend", {})
+SPEC: dict[str, list[tuple[str, dict[str, Any]]]] = {
     "plan": [("recipe", {}), ("--profile", {"required": True}), ("--json", FLAG), GPU],
     "run": [
         ("recipe", {"nargs": "?"}),
@@ -59,7 +61,7 @@ SPEC = {
 
 
 class Parser(argparse.ArgumentParser):
-    def error(self, message: str) -> None:
+    def error(self, message: str) -> NoReturn:
         raise Usage(message)
 
 
@@ -141,7 +143,7 @@ def submit(ns: argparse.Namespace) -> int:
     prof = load_profile(repo, ns.profile) if ns.profile else None
     store_dir = store_root(prof)
     path, prof_id = resume_info(repo, store_dir, resume) if resume else (recipe_path(repo, ns.recipe), None)
-    prof, doc = prof or load_profile(repo, prof_id), load_recipe(repo, path)
+    prof, doc = prof or load_profile(repo, cast(str, prof_id)), load_recipe(repo, path)
     if path.stem != doc["id"]:
         raise Usage(f"{path.name}: the recipe id {doc['id']} must equal the file name")
     chosen = select(doc, want, profiling)
@@ -171,7 +173,9 @@ def submit(ns: argparse.Namespace) -> int:
         return 0
     if (
         profiling
-        and (note := store_dir / "runs" / (queue.job(job_id)["run_id"] or "-") / "profile" / "command.txt").is_file()
+        and (
+            note := store_dir / "runs" / ((queue.job(job_id) or {}).get("run_id") or "-") / "profile" / "command.txt"
+        ).is_file()
     ):
         print(note.read_text(encoding="utf-8").strip())
     return code

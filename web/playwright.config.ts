@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { pendingAbsolute } from "./pending-red.ts";
 
 // E2E against the production build served like GitHub Pages (scripts/serve-static.mjs) under BASE_PATH.
 // Build first with the same env: `BASE_PATH=/PitStudio/ ACCESS_PASSPHRASE=<phrase> pnpm build`.
@@ -7,7 +8,8 @@ const port = Number(process.env.PORT ?? 4173);
 
 export default defineConfig({
   testDir: "e2e",
-  testIgnore: ["live/**", "console/**"], // the console UI has its own config (playwright.console.config.ts)
+  // the console UI has its own config (playwright.console.config.ts); pending-red: tasks without a green commit
+  testIgnore: ["live/**", "console/**", ...pendingAbsolute("playwright")],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

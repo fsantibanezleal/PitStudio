@@ -21,7 +21,8 @@ export function murmur3x86_32(data: Uint8Array, seed = 0): number {
   const blocks = data.length >>> 2;
   for (let i = 0; i < blocks; i++) {
     const o = 4 * i;
-    const k = (data[o] | (data[o + 1] << 8) | (data[o + 2] << 16) | (data[o + 3] << 24)) >>> 0;
+    const byte = (i: number): number => data[i] as number;
+    const k = (byte(o) | (byte(o + 1) << 8) | (byte(o + 2) << 16) | (byte(o + 3) << 24)) >>> 0;
     h = (h ^ mixKey(k)) >>> 0;
     h = rotl(h, 13);
     h = (Math.imul(h, 5) + 0xe6546b64) >>> 0;
@@ -30,9 +31,9 @@ export function murmur3x86_32(data: Uint8Array, seed = 0): number {
   if (tail > 0) {
     const o = 4 * blocks;
     let k = 0;
-    if (tail >= 3) k ^= data[o + 2] << 16;
-    if (tail >= 2) k ^= data[o + 1] << 8;
-    k ^= data[o];
+    if (tail >= 3) k ^= (data[o + 2] as number) << 16;
+    if (tail >= 2) k ^= (data[o + 1] as number) << 8;
+    k ^= data[o] as number;
     h = (h ^ mixKey(k >>> 0)) >>> 0;
   }
   h = (h ^ data.length) >>> 0;

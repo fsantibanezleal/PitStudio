@@ -33,9 +33,9 @@ import scene_kit as kit  # noqa: E402
 from pitstudio_studio.scene import common, compose  # noqa: E402
 
 
-def _replace(up: dict, role: str, **stage_kwargs) -> None:
+def _replace(upstream: dict, role: str, **stage_kwargs) -> None:
     """Rewrite the upstream layer `role` with the given unit settings and re-record its digest (an upstream defect)."""
-    path = Path(up["layers"][role])
+    path = Path(upstream["layers"][role])
     path.unlink()
     st = kit.new_usd_stage(path, **stage_kwargs)
     from pxr import UsdGeom
@@ -48,7 +48,7 @@ def _replace(up: dict, role: str, **stage_kwargs) -> None:
         "bench" if role == "design" else "haul_truck",
     )
     st.GetRootLayer().Save()
-    up["layer_sha256"][role] = kit.sha256_file(path)
+    upstream["layer_sha256"][role] = kit.sha256_file(path)
 
 
 def _expect(tmp_path: Path, up: dict, error_class: str, *names: str, spec: dict | None = None) -> None:

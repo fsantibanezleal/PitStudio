@@ -99,31 +99,9 @@ class StageId(
 
 
 class Environment(
-    RootModel[
-        Literal[
-            "studio",
-            "isaac",
-            "rtx",
-            "isaaclab",
-            "kit",
-            "reason",
-            "pipeline",
-            "accel",
-            "external",
-        ]
-    ]
+    RootModel[Literal["studio", "isaac", "rtx", "isaaclab", "kit", "reason", "pipeline", "accel", "external"]]
 ):
-    root: Literal[
-        "studio",
-        "isaac",
-        "rtx",
-        "isaaclab",
-        "kit",
-        "reason",
-        "pipeline",
-        "accel",
-        "external",
-    ]
+    root: Literal["studio", "isaac", "rtx", "isaaclab", "kit", "reason", "pipeline", "accel", "external"]
 
 
 class StoreDefault(RootModel[str]):

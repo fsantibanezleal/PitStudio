@@ -155,7 +155,7 @@ def main(argv: list[str] | None = None) -> int:
     ):  # a profiled run leaves profiler output next to the job (both folders)
         for d in (out, Path(job["scratch_dir"])):
             d.mkdir(parents=True, exist_ok=True)
-            (d / "profiler.txt").write_text("profile data\n", encoding="utf-8")
+            (d / "profiler.txt").write_bytes(b"profile data\n")
 
     def finish(code: int = 0) -> int:
         _ledger("end", job, {"exit_code": code})

@@ -6,6 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
+from pitstudio_studio.scene.normals import author_normals
 from pitstudio_studio.scene.terrain.tiles import TileSet
 
 
@@ -52,6 +53,7 @@ def write_terrain_layer(
                 mesh.CreateFaceVertexCountsAttr(Vt.IntArray.FromNumpy(np.full(len(indices) // 3, 3, dtype=np.int32)))
                 mesh.CreateFaceVertexIndicesAttr(Vt.IntArray.FromNumpy(indices.astype(np.int32)))
                 mesh.CreateSubdivisionSchemeAttr("none")
+                author_normals(mesh, positions, np.full(len(indices) // 3, 3), indices)
                 lo, hi = positions.min(axis=0), positions.max(axis=0)
                 mesh.CreateExtentAttr([Gf.Vec3f(*map(float, lo)), Gf.Vec3f(*map(float, hi))])
                 UsdSemantics.LabelsAPI.Apply(mesh.GetPrim(), "class").CreateLabelsAttr(["terrain"])

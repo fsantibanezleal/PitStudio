@@ -26,6 +26,9 @@ jobs:
       - run: uv sync --all-groups --extra runner --extra api --locked
       - run: uv run ruff check . && uv run ruff format --check .
       - run: uv run mypy src
+      # tests of tasks without a [green] commit are not collected (specs/pending-red.txt, generated from the git history); the list must be current
+      - run: python tools/pending_red.py --check
+      # tests of the pipeline and studio environments are ignored here (tests/envs.yaml) and run in their own jobs below
       - run: uv run pytest -m "not gpu" --cov=src --cov-branch
       - run: uv run python tools/trace.py --check
       - run: uv run python tools/check_tdd.py --replay
@@ -34,12 +37,19 @@ jobs:
       - run: uv run python tools/check_repo.py
       - run: uv run python tools/check_data.py # samples carry cards, no Mendeley pixels, nothing tracked under the data roots (spec 008)
       - run: uv run python tools/check_docs.py
-      - name: Pipeline smoke (CPU, samples only)
+
+  pipeline:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - name: Pipeline environment (CPU torch, ONNX Runtime, neuraloperator) runs the pipeline-owned tests
         working-directory: pipeline
-        run: uv sync --extra cpu --all-groups --locked && uv run pytest -m "not gpu and not slow"
-      - name: Surrogate tests of spec 011 (torch, ONNX Runtime; the root job skips them)
-        working-directory: pipeline
-        run: uv run pytest -m "not gpu and not slow" ../tests/pipeline/test_t_011_* ../tests/property/test_t_011_05*
+        env: { PITSTUDIO_TEST_ENV: pipeline }
+        run: >-
+          uv sync --extra cpu --extra neuralop --all-groups --locked &&
+          uv run pytest -c pyproject.toml --rootdir . -m "not gpu and not slow" tests ../tests
 
   studio:
     runs-on: ubuntu-24.04
@@ -47,9 +57,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-      - name: Studio CPU job (Warp CPU device, cma, OR-Tools; spec 011 calibration)
+      - name: Studio environment (Warp CPU device, cma, OR-Tools) runs the studio-owned tests
         working-directory: studio
-        run: uv sync --all-groups --locked && uv run pytest -m "not gpu" ../tests/unit/test_t_011_03* ../tests/unit/test_t_011_060_gpu_fake.py
+        env: { PITSTUDIO_TEST_ENV: studio }
+        run: uv sync --all-groups --locked && uv run pytest -c pyproject.toml --rootdir . -m "not gpu" ../tests
 
   runner-plan:
     # FR-002-05, SC-002-01: every committed recipe plans for Linux against the fake GPU, with no leak (no GPU anywhere).
@@ -75,12 +86,14 @@ jobs:
     runs-on: windows-2025
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: { persist-credentials: false }
+        with:
+          fetch-depth: 0 # the mutation-record test looks up a recorded commit
+          persist-credentials: false
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       - run: uv sync --all-groups --extra runner --extra api --locked
       - run: uv run pytest -m "not gpu" tests/unit tests/contract tests/property -k "t_002 or t_003" -p no:cacheprovider
 
-  studio:
+  studio-scenes:
     # The studio environment (OpenUSD, rasterio, laspy) runs the scene tests of specs 004 to 006 on CPU only; tools/studio_pytest.py
     # fails the job when one of those tests is skipped. Never a GPU runner (NFR-004-03).
     strategy:
@@ -92,6 +105,12 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with: { package_json_file: web/package.json }
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with: { node-version-file: web/.nvmrc, cache: pnpm, cache-dependency-path: web/pnpm-lock.yaml }
+      - run: pnpm install --frozen-lockfile # the generated-type tests run tsc from web/node_modules
+        working-directory: web
       - run: uv run --project studio --frozen python tools/studio_pytest.py --marker "not gpu and not slow"
 
   web:

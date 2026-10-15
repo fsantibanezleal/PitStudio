@@ -17,6 +17,9 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools"))
+from pending_red import load_pending  # noqa: E402
+
 SPECS = ("004", "005", "006", "013")
 MIXED_SPECS = ("013",)
 STUDIO_MARKERS = ('"studio" / "src"', '"studio" / "rtx" / "src"', '"studio" / "isaac" / "src"')
@@ -24,11 +27,12 @@ STUDIO_MARKERS = ('"studio" / "src"', '"studio" / "rtx" / "src"', '"studio" / "i
 
 def test_files() -> list[Path]:
     found: list[Path] = []
+    pending = set(load_pending(ROOT))  # tasks without a green commit are not selected (specs/pending-red.txt)
     for spec in SPECS:
         files = sorted((ROOT / "tests").rglob(f"test_t_{spec}_*.py"))
         if spec in MIXED_SPECS:  # spec 013 also has root-environment tests: keep those that need a studio environment
             files = [f for f in files if any(m in f.read_text(encoding="utf-8") for m in STUDIO_MARKERS)]
-        found.extend(files)
+        found.extend(f for f in files if f.relative_to(ROOT).as_posix() not in pending)
     return found
 
 

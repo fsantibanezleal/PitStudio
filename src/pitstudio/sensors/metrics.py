@@ -32,7 +32,7 @@ def _t_quantile(df: int) -> float:
 
 
 def _finite_positive(value: Any) -> bool:
-    return isinstance(value, (int, float, np.integer, np.floating)) and math.isfinite(value) and value > 0
+    return bool(isinstance(value, (int, float, np.integer, np.floating)) and math.isfinite(value) and value > 0)
 
 
 def _check_options(k_min: Any, levels: Sequence[Any], range_bin_m: Any, speeds: Sequence[Any]) -> None:
@@ -113,8 +113,8 @@ def s1_metrics(
     seen: dict[tuple[str, Any], list[dict[str, Any]]] = defaultdict(list)
     for row in bins:
         seen[(row["target"], row["level"])].append(row)
-    for (target, level), rows in seen.items():
-        good = [r["bin_lo_m"] for r in rows if r["p_d"] >= PD_THRESHOLD]
+    for (target, level), level_rows in seen.items():
+        good = [r["bin_lo_m"] for r in level_rows if r["p_d"] >= PD_THRESHOLD]
         r_det = max(good) if good else None
         detection.append(
             {

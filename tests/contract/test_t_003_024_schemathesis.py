@@ -65,6 +65,18 @@ def test_nfr_003_02_schemathesis_finds_no_failure_with_the_eight_checks_and_200_
 
     schema = schemathesis.openapi.from_asgi("/openapi.json", cons.app, headers={"Host": HOST})
     schema.config.checks.update(included_check_names=CHECKS, max_response_time=limit_s)
+    # FR-003-10: an unknown recipe, stage or profile is a 422, so a schema-valid body that names none is not a 2xx
+    schema.config.checks.positive_data_acceptance.expected_statuses = [
+        "2xx",
+        "3xx",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "429",
+        "5xx",
+    ]
     operations = [r.ok() for r in schema.get_all_operations()]
     assert len(operations) >= 11, f"the document must describe every endpoint, found {len(operations)} operations"
     ran = {GenerationMode.POSITIVE: 0, GenerationMode.NEGATIVE: 0}

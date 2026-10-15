@@ -106,13 +106,13 @@ def test_ramp_and_one_bench_road_by_hand() -> None:
 
 @pytest.mark.req("FR-004-21")
 def test_a_bench_road_in_mid_ramp_splits_the_ramp_at_a_junction() -> None:
-    """Junction at x = 40: ramp edges sqrt(40^2 + 3.2^2) = 40.1277 m and sqrt(60^2 + 4.8^2) = 60.1917 m, both -8 %."""
+    """Junction at x = 40: ramp edges sqrt(40^2 + 3.2^2) = 40.1278 m and sqrt(60^2 + 4.8^2) = 60.1917 m, both -8 %."""
     net = design.roads.build_road_network(
         _line([(0, 0, 0), (100, 0, -8)]), [_line([(40, 0, -3.2), (40, 30, -3.2)])], origin=ORIGIN
     )
     nodes, edges = _check_structure(net)
     ramp = sorted((e["properties"] for e in edges if e["properties"]["class"] == "ramp"), key=lambda p: p["length_m"])
-    assert [round(p["length_m"], 4) for p in ramp] == [40.1277, 60.1917]
+    assert [round(p["length_m"], 4) for p in ramp] == [40.1278, 60.1917]
     assert all(p["grade_mean_pct"] == pytest.approx(-8.0, abs=1e-9) for p in ramp)
     roles = sorted(n["properties"]["role"] for n in nodes.values())
     assert roles == ["end", "end", "exit", "junction"]

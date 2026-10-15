@@ -9,7 +9,7 @@ import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 
 const OUT = "build/client";
-const BUDGET_GZ = 200 * 1024; // NFR-000-01: ≤ 200 KB gzip for the scripts the start page loads
+const BUDGET_GZ = 200_000; // NFR-000-01, NFR-020-01: at most 200,000 bytes gzip of the scripts a page loads
 const base = process.env.BASE_PATH ?? "/";
 const nested = join(OUT, base.replace(/^\/|\/$/g, ""));
 

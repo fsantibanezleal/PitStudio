@@ -74,7 +74,8 @@ def test_exactly_one_articulation_root_per_machine(built) -> None:
 
     _, build = built
     for aid, path in build.machines.items():
-        roots = [p for p in Usd.PrimRange(_stage(path).GetPseudoRoot()) if p.HasAPI(UsdPhysics.ArticulationRootAPI)]
+        stage = _stage(path)  # keep the stage alive while its prims are iterated
+        roots = [p for p in Usd.PrimRange(stage.GetPseudoRoot()) if p.HasAPI(UsdPhysics.ArticulationRootAPI)]
         assert len(roots) == 1, (aid, [str(r.GetPath()) for r in roots])
 
 

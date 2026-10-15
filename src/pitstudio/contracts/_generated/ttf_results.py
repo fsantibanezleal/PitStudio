@@ -295,3 +295,34 @@ class C1TimeToFailureResults(BaseModel):
     multiplicity: Multiplicity
     real_event: RealEvent
     s4b: Annotated[list[S4b] | None, Field(max_length=500)] = None
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true while the results were computed from a contract-fixture series or section: the stages run against it, write fixture: true on every artefact and publish no lead-time claim or other result computed from it (FR-010-46)"
+        ),
+    ] = False
+    status: Annotated[
+        Literal["complete", "partial"] | None,
+        Field(
+            description="partial when a stratum or the real event that the comparison names is absent: each existing stratum is reported, no pooled claim or SC-010 verdict is computed over the incomplete set (FR-010-47)"
+        ),
+    ] = None
+    missing_strata: Annotated[
+        list[
+            Literal[
+                "snr_obs",
+                "half_snr_obs",
+                "double_snr_obs",
+                "snr_obs_atmospheric",
+                "nominal_10",
+                "nominal_30",
+                "nominal_100",
+                "real_event",
+            ]
+        ]
+        | None,
+        Field(
+            description="each stratum (or the real event) that is `not run (absent)`, in the order the comparison names them (FR-010-47)",
+            max_length=8,
+        ),
+    ] = None

@@ -28,11 +28,15 @@ def kept_runs(runs: Path, repo: Path, ids: list[str], keep_last: int) -> set[str
     """Pinned runs, runs of the web index and model cards, runs of queued or running jobs, the newest N per recipe."""
     keep = {r for r in ids if (runs / r / "PINNED").exists()}
     keep |= {
-        x.get("run_id")
+        x["run_id"]
         for x in _doc(repo / "web" / "public" / "assets" / "manifest.json").get("runs", [])
-        if isinstance(x, dict)
+        if isinstance(x, dict) and isinstance(x.get("run_id"), str)
     }
-    keep |= {_doc(c).get("run_id") for c in (repo / "models" / "cards").glob("*/manifest.json")}
+    keep |= {
+        doc["run_id"]
+        for c in (repo / "models" / "cards").glob("*/manifest.json")
+        if isinstance((doc := _doc(c)).get("run_id"), str)
+    }
     keep |= {j["run_id"] for j in queue.jobs() if j["state"] in ("queued", "running")}
     seen: collections.Counter[str] = collections.Counter()
     for r in ids:  # newest first, so the first N of each recipe are the newest

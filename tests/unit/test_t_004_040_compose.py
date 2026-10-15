@@ -117,7 +117,7 @@ def test_variant_sets_carry_the_spec_names_with_the_first_selected(scene) -> Non
     assert sorted(sets.GetNames()) == ["lod", "pushback", "scenario", "time_of_day", "weather"]
     for name, variants in spec["variants"].items():
         vs = sets.GetVariantSet(name)
-        assert vs.GetVariantNames() == variants
+        assert sorted(vs.GetVariantNames()) == sorted(variants)  # USD returns the names sorted, not in spec order
         assert vs.GetVariantSelection() == variants[0]
 
 
@@ -131,7 +131,7 @@ def test_physics_scene_has_gravity_down_at_9_81(scene) -> None:
     assert len(scenes) == 1
     phys = UsdPhysics.Scene(scenes[0])
     assert tuple(phys.GetGravityDirectionAttr().Get()) == (0.0, 0.0, -1.0)
-    assert phys.GetGravityMagnitudeAttr().Get() == pytest.approx(9.81, abs=1e-12)
+    assert phys.GetGravityMagnitudeAttr().Get() == pytest.approx(9.81, rel=1e-6)  # stored as float32
 
 
 def _check_sorted(spec_obj) -> None:
