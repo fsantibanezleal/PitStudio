@@ -382,7 +382,7 @@ function honestyChecks(py) {
     console.error(`build-studio-index: check_showcase could not run: ${run.stdout}${run.stderr}`);
     process.exit(2);
   }
-  const lines = run.stdout.split("\n").filter(Boolean);
+  const lines = run.stdout.split(/\r?\n/).filter(Boolean);
   return CHECKS.map((id) => {
     const mine = lines.filter((l) => l.startsWith(`${id}:`));
     const violations = mine.map((line) => {
