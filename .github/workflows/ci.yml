@@ -86,7 +86,9 @@ jobs:
     runs-on: windows-2025
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: { persist-credentials: false }
+        with:
+          fetch-depth: 0 # the mutation-record test looks up a recorded commit
+          persist-credentials: false
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       - run: uv sync --all-groups --extra runner --extra api --locked
       - run: uv run pytest -m "not gpu" tests/unit tests/contract tests/property -k "t_002 or t_003" -p no:cacheprovider

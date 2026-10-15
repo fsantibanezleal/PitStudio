@@ -15,7 +15,8 @@
       "!**/public/studio",
       "!**/e2e/lane-gate/t_018_081_measure.spec.ts",
       "!**/e2e/t_018_073_pyodide.spec.ts",
-      "!**/e2e/t_019_020_tool_pages.spec.ts"
+      "!**/e2e/t_019_020_tool_pages.spec.ts",
+      "!**/src/engines/t_018_088_parity_report.test.ts"
     ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 110 },
