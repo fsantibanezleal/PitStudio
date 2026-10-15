@@ -132,7 +132,7 @@ def test_every_input_digest_is_the_digest_of_the_artefact_or_sample_file_it_name
             checked += 1
     assert checked > 0
     consumers = [
-        a for a in arts.values() if a["producer"]["stage"] in {"s30_train", "s40_infer", "s50_evaluate", "s60_export"}
+        a for a in arts.values() if a["producer"]["stage"]["id"] in {"s30_train", "s40_infer", "s50_evaluate", "s60_export"}
     ]
     assert all(a["inputs"] for a in consumers)  # downstream stages always list their inputs
 
