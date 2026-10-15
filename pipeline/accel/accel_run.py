@@ -708,7 +708,8 @@ def make_call(backend, entry, variant, built_entry, inputs, name, ort):
     call.gpu = gpu  # type: ignore[attr-defined]
 
     def produce():
-        rows = [runner.infer({name: inputs[i : i + 1]}) for i in range(n)]
+        # the runner reuses its output buffers: copy every output before the next call
+        rows = [{k: np.array(v) for k, v in runner.infer({name: inputs[i : i + 1]}).items()} for i in range(n)]
         keys = list(rows[0])
         return [np.concatenate([np.array(r[k]) for r in rows]).astype(np.float32) for k in keys]
 
