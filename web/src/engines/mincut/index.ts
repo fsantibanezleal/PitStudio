@@ -107,8 +107,10 @@ function closure(values: ArrayLike<number>, arcs: { from: Int32Array; to: Int32A
   // half-edges 0..e-1 forward, e..2e-1 reverse, laid out by tail node (CSR)
   const start = new Int32Array(nodes + 1);
   for (let h = 0; h < e; h++) {
-    start[(tails[h] as number) + 1]++;
-    start[(heads[h] as number) + 1]++;
+    const a = (tails[h] as number) + 1;
+    const b = (heads[h] as number) + 1;
+    start[a] = (start[a] as number) + 1;
+    start[b] = (start[b] as number) + 1;
   }
   for (let u = 0; u < nodes; u++) start[u + 1] = (start[u + 1] as number) + (start[u] as number);
   const fill = start.slice(0, nodes);
@@ -116,13 +118,17 @@ function closure(values: ArrayLike<number>, arcs: { from: Int32Array; to: Int32A
   const head = new Int32Array(2 * e);
   const cap = new Float64Array(2 * e);
   for (let h = 0; h < e; h++) {
-    const f = fill[tails[h] as number]++ as number;
+    const tail = tails[h] as number;
+    const f = fill[tail] as number;
+    fill[tail] = f + 1;
     slot[h] = f;
     head[f] = heads[h] as number;
     cap[f] = caps[h] as number;
   }
   for (let h = 0; h < e; h++) {
-    const f = fill[heads[h] as number]++ as number;
+    const hd = heads[h] as number;
+    const f = fill[hd] as number;
+    fill[hd] = f + 1;
     slot[e + h] = f;
     head[f] = tails[h] as number;
     cap[f] = 0;

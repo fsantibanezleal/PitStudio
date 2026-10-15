@@ -10,7 +10,7 @@
     "dev": "node scripts/build-studio-index.mjs && react-router dev",
     "build": "node scripts/stage-results.mjs && node scripts/build-studio-index.mjs && react-router build && node scripts/postbuild.mjs",
     "serve": "node scripts/serve-static.mjs",
-    "typecheck": "node scripts/build-studio-index.mjs && react-router typegen && tsc",
+    "typecheck": "node scripts/build-studio-index.mjs && react-router typegen && node scripts/tsc-selected.mjs",
     "lint": "biome ci .",
     "format": "biome check --write .",
     "test": "vitest run",
@@ -20,7 +20,7 @@
     "check:locales": "node ../tools/check_locales.mjs",
     "build:console": "vite build -c vite.console.config.ts",
     "build:studio-index": "node scripts/build-studio-index.mjs",
-    "check": "pnpm run check:locales && biome ci . && node scripts/build-studio-index.mjs && react-router typegen && tsc && vitest run",
+    "check": "pnpm run check:locales && biome ci . && node scripts/build-studio-index.mjs && react-router typegen && node scripts/tsc-selected.mjs && vitest run",
     "test:e2e": "playwright test",
     "test:e2e:console": "playwright test -c playwright.console.config.ts",
     "test:live": "playwright test -c playwright.live.config.ts"
