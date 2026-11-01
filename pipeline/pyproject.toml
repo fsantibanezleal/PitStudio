@@ -15,7 +15,7 @@ cu130 = ["torch", "torchvision", "onnxruntime-gpu"]      # driver >= 580 (this l
 
 [dependency-groups]
 dev = [
-    "pytest>=9.1.1",
+    "pytest>=9.2.0",
 ]
 
 [tool.uv]
