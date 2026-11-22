@@ -345,6 +345,8 @@
 | FR-004-45 | 004-scene-pipeline | draft | T-004-095 | tests/unit/test_t_004_095_scene_look.py |
 | FR-004-46 | 004-scene-pipeline | draft | T-004-095 | tests/unit/test_t_004_095_scene_look.py, tests/unit/test_t_004_095_scene_look_order.py, tests/unit/test_t_004_095_scene_look_primvar.py |
 | FR-004-47 | 004-scene-pipeline | draft | T-004-096 | tests/unit/test_t_004_096_grounded_fleet.py |
+| FR-004-48 | 004-scene-pipeline | draft | T-004-097 | tests/unit/test_t_004_097_orthophoto_albedo.py |
+| FR-004-49 | 004-scene-pipeline | draft | T-004-098 | tests/unit/test_t_004_098_terrain_ortho_material.py |
 | FR-005-01 | 005-physics | draft | T-005-010 | tests/unit/test_t_005_010_dem_contact_law.py |
 | FR-005-02 | 005-physics | draft | T-005-011 | tests/unit/test_t_005_011_dem_impact.py |
 | FR-005-03 | 005-physics | draft | T-005-011 | tests/unit/test_t_005_011_dem_impact.py |
@@ -410,7 +412,7 @@
 | FR-006-06 | 006-media-telemetry | draft | T-006-013 | tests/contract/test_t_006_013_encoder_record.py |
 | FR-006-07 | 006-media-telemetry | draft | T-006-014 | tests/unit/test_t_006_014_nvenc_lock.py |
 | FR-006-08 | 006-media-telemetry | retired | - | - |
-| FR-006-09 | 006-media-telemetry | draft | T-006-020 | tests/unit/test_t_006_020_ffmpeg_gates.py |
+| FR-006-09 | 006-media-telemetry | draft | T-006-020 | tests/unit/test_t_006_020_ffmpeg_filter_columns.py, tests/unit/test_t_006_020_ffmpeg_gates.py |
 | FR-006-10 | 006-media-telemetry | draft | T-006-020 | tests/unit/test_t_006_020_ffmpeg_gates.py |
 | FR-006-11 | 006-media-telemetry | draft | T-006-020 | tests/unit/test_t_006_020_ffmpeg_gates.py |
 | FR-006-12 | 006-media-telemetry | draft | T-006-021 | tests/unit/test_t_006_021_frames_hostile.py |
@@ -523,10 +525,10 @@
 | FR-008-49 | 008-data-pipeline | draft | T-008-092 | tests/contract/test_t_008_060_data_cards.py, tests/pipeline/test_t_008_092_fixture_source.py |
 | FR-008-50 | 008-data-pipeline | draft | T-008-093 | tests/pipeline/test_t_008_093_partial_source.py |
 | FR-009-01 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py |
-| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py, tests/pipeline/test_t_009_016_sdg_verify.py, tests/unit/test_t_009_016_annotator_readiness.py, tests/unit/test_t_009_016_driver_failure_report.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_run_job_inputs.py, tests/unit/test_t_009_016_shard_driver.py |
+| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py, tests/pipeline/test_t_009_016_sdg_verify.py, tests/unit/test_t_009_016_annotator_readiness.py, tests/unit/test_t_009_016_driver_failure_report.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_resume_quality.py, tests/unit/test_t_009_016_run_job_inputs.py, tests/unit/test_t_009_016_shard_driver.py |
 | FR-009-03 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-04 | 009-perception | draft | T-009-011 | tests/unit/test_t_009_011_sun_sampler.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py |
-| FR-009-05 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_param_table.py |
+| FR-009-05 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-06 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-07 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py |
@@ -1030,6 +1032,11 @@
 | FR-018-71 | 018-web-cases | draft | T-018-094 | - |
 | FR-018-72 | 018-web-cases | draft | T-018-095 | - |
 | FR-018-73 | 018-web-cases | draft | T-018-096 | - |
+| FR-018-74 | 018-web-cases | draft | T-018-097 | web/src/cases/t_018_097_kpi_published.test.tsx |
+| FR-018-75 | 018-web-cases | draft | T-018-098 | web/src/shell/t_018_098_footer_provenance.test.tsx, web/e2e/t_018_101_consistent_pages.spec.ts |
+| FR-018-76 | 018-web-cases | draft | T-018-099 | web/src/cases/t_018_099_vendor_registry.test.tsx, web/e2e/t_018_101_consistent_pages.spec.ts |
+| FR-018-77 | 018-web-cases | draft | T-018-100 | web/src/cases/t_018_100_reproduce_imported.test.tsx |
+| FR-018-78 | 018-web-cases | draft | T-018-101 | web/e2e/t_018_101_consistent_pages.spec.ts |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_010_tool_map.spec.ts |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts, web/src/studio/t_019_010_tool_map.test.tsx |
 | FR-019-03 | 019-web-studio | draft | T-019-011 | web/e2e/t_019_011_map_fallback.spec.ts |
@@ -1177,7 +1184,7 @@
 | NFR-008-03 | 008-data-pipeline | draft | T-008-061 | tests/contract/test_t_008_061_samples_hygiene.py |
 | NFR-009-01 | 009-perception | draft | T-009-071 | tests/contract/test_t_009_071_live_lane.py |
 | NFR-009-02 | 009-perception | draft | T-009-071 | tests/contract/test_t_009_071_live_lane.py |
-| NFR-009-03 | 009-perception | draft | T-009-031 | tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_031_oom_resume.py |
+| NFR-009-03 | 009-perception | draft | T-009-031 | tests/unit/test_t_009_016_resume_quality.py, tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_031_oom_resume.py |
 | NFR-009-04 | 009-perception | draft | T-009-033 | tests/unit/test_t_009_033_support_determinism.py |
 | NFR-009-05 | 009-perception | draft | T-009-020 | tests/pipeline/test_t_009_016_sdg_verify.py, tests/property/test_t_009_020_splits.py |
 | NFR-009-06 | 009-perception | draft | T-009-071 | tests/contract/test_t_009_071_live_lane.py |
@@ -1780,7 +1787,7 @@
 | US-018-4 | 018-web-cases | draft | T-018-010, T-018-011, T-018-012, T-018-013, T-018-014, T-018-015, T-018-016, T-018-017, T-018-036 | - |
 | US-018-5 | 018-web-cases | draft | T-018-040, T-018-041, T-018-042 | - |
 | US-018-6 | 018-web-cases | draft | T-018-035 | - |
-| US-018-7 | 018-web-cases | draft | T-018-025, T-018-095, T-018-096 | - |
+| US-018-7 | 018-web-cases | draft | T-018-025, T-018-095, T-018-096, T-018-097, T-018-098, T-018-099, T-018-100, T-018-101 | - |
 | US-019-1 | 019-web-studio | draft | T-019-010, T-019-011, T-019-012, T-019-035, T-019-036, T-019-040, T-019-041 | web/e2e/t_019_010_tool_map.spec.ts |
 | US-019-2 | 019-web-studio | draft | T-019-020, T-019-021, T-019-022, T-019-023, T-019-024 | - |
 | US-019-3 | 019-web-studio | draft | T-019-030, T-019-031, T-019-032 | - |

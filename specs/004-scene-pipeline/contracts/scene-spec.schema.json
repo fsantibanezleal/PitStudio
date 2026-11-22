@@ -200,6 +200,7 @@
       "description": "data/sources.yaml ids a scene may use (closed list, FR-004-40)",
       "enum": [
         "usgs-3dep-bingham",
+        "usda-naip-bingham",
         "ot-mckinley-2023",
         "nrw-hambach-dgm1",
         "tang-werner-footprint",
@@ -380,6 +381,32 @@
         }
       }
     },
+    "imagery_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "optional"
+      ],
+      "description": "an orthophoto source of the terrain albedo (FR-004-48)",
+      "properties": {
+        "id": {
+          "enum": [
+            "usda-naip-bingham"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "orthophoto"
+          ]
+        },
+        "optional": {
+          "type": "boolean",
+          "description": "FR-004-48: an optional source without data is not run"
+        }
+      }
+    },
     "lod_spec": {
       "type": "object",
       "additionalProperties": false,
@@ -510,6 +537,14 @@
             "$ref": "#/$defs/transformation"
           },
           "maxItems": 8
+        },
+        "imagery": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/imagery_source"
+          },
+          "maxItems": 2,
+          "description": "orthophoto sources whose image becomes the terrain albedo (FR-004-48, FR-004-49)"
         }
       }
     },

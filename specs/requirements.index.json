@@ -3974,6 +3974,30 @@
         "tests/unit/test_t_004_096_grounded_fleet.py"
       ]
     },
+    "FR-004-48": {
+      "spec": "004-scene-pipeline",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-004-097"
+      ],
+      "tests": [
+        "tests/unit/test_t_004_097_orthophoto_albedo.py"
+      ]
+    },
+    "FR-004-49": {
+      "spec": "004-scene-pipeline",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-004-098"
+      ],
+      "tests": [
+        "tests/unit/test_t_004_098_terrain_ortho_material.py"
+      ]
+    },
     "P-004-01": {
       "spec": "004-scene-pipeline",
       "retired": false,
@@ -5573,6 +5597,7 @@
         "T-006-020"
       ],
       "tests": [
+        "tests/unit/test_t_006_020_ffmpeg_filter_columns.py",
         "tests/unit/test_t_006_020_ffmpeg_gates.py"
       ]
     },
@@ -8063,7 +8088,9 @@
         "tests/pipeline/test_t_009_016_sdg_verify.py",
         "tests/unit/test_t_009_016_annotator_readiness.py",
         "tests/unit/test_t_009_016_driver_failure_report.py",
+        "tests/unit/test_t_009_016_exposure_qa.py",
         "tests/unit/test_t_009_016_param_table.py",
+        "tests/unit/test_t_009_016_resume_quality.py",
         "tests/unit/test_t_009_016_run_job_inputs.py",
         "tests/unit/test_t_009_016_shard_driver.py"
       ]
@@ -8105,6 +8132,7 @@
       ],
       "tests": [
         "tests/unit/test_t_009_012_dust_wet_sampler.py",
+        "tests/unit/test_t_009_016_exposure_qa.py",
         "tests/unit/test_t_009_016_param_table.py"
       ]
     },
@@ -8901,6 +8929,7 @@
         "T-009-031"
       ],
       "tests": [
+        "tests/unit/test_t_009_016_resume_quality.py",
         "tests/unit/test_t_009_016_shard_driver.py",
         "tests/unit/test_t_009_031_oom_resume.py"
       ]
@@ -17471,7 +17500,12 @@
       "tasks": [
         "T-018-025",
         "T-018-095",
-        "T-018-096"
+        "T-018-096",
+        "T-018-097",
+        "T-018-098",
+        "T-018-099",
+        "T-018-100",
+        "T-018-101"
       ],
       "tests": []
     },
@@ -18384,6 +18418,68 @@
         "T-018-096"
       ],
       "tests": []
+    },
+    "FR-018-74": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-097"
+      ],
+      "tests": [
+        "web/src/cases/t_018_097_kpi_published.test.tsx"
+      ]
+    },
+    "FR-018-75": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-098"
+      ],
+      "tests": [
+        "web/src/shell/t_018_098_footer_provenance.test.tsx",
+        "web/e2e/t_018_101_consistent_pages.spec.ts"
+      ]
+    },
+    "FR-018-76": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-099"
+      ],
+      "tests": [
+        "web/src/cases/t_018_099_vendor_registry.test.tsx",
+        "web/e2e/t_018_101_consistent_pages.spec.ts"
+      ]
+    },
+    "FR-018-77": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-100"
+      ],
+      "tests": [
+        "web/src/cases/t_018_100_reproduce_imported.test.tsx"
+      ]
+    },
+    "FR-018-78": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-101"
+      ],
+      "tests": [
+        "web/e2e/t_018_101_consistent_pages.spec.ts"
+      ]
     },
     "P-018-01": {
       "spec": "018-web-cases",
@@ -22299,6 +22395,12 @@
     "T-004-096": [
       "FR-004-47"
     ],
+    "T-004-097": [
+      "FR-004-48"
+    ],
+    "T-004-098": [
+      "FR-004-49"
+    ],
     "T-004-090": [],
     "T-004-091": [],
     "T-005-001": [
@@ -25004,6 +25106,26 @@
     "T-018-096": [
       "US-018-7",
       "FR-018-73"
+    ],
+    "T-018-097": [
+      "US-018-7",
+      "FR-018-74"
+    ],
+    "T-018-098": [
+      "US-018-7",
+      "FR-018-75"
+    ],
+    "T-018-099": [
+      "US-018-7",
+      "FR-018-76"
+    ],
+    "T-018-100": [
+      "US-018-7",
+      "FR-018-77"
+    ],
+    "T-018-101": [
+      "US-018-7",
+      "FR-018-78"
     ],
     "T-018-088": [
       "US-018-3",

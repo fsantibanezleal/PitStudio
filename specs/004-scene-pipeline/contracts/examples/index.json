@@ -1404,6 +1404,40 @@
       "rule": "FR-004-31",
       "pointer": "/lods/0/prims/0",
       "keyword": "additionalProperties"
+    },
+    {
+      "file": "scene-spec.valid-imagery.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "the valid example with an optional NAIP orthophoto source under terrain.imagery (FR-004-48)"
+    },
+    {
+      "file": "scene-spec.hostile-imagery-source.json",
+      "schema": "scene-spec.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown enum (imagery source id)",
+      "rule": "FR-004-48",
+      "pointer": "/terrain/imagery/0/id",
+      "keyword": "enum"
+    },
+    {
+      "file": "scene-manifest.valid-imagery.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "an imagery source with its year and the terrain albedo records (FR-004-48)"
+    },
+    {
+      "file": "scene-manifest.hostile-albedo-digest.json",
+      "schema": "scene-manifest.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "malformed digest (uppercase) of an albedo image",
+      "rule": "FR-004-48",
+      "pointer": "/terrain/albedo/images/0/sha256",
+      "keyword": "pattern"
     }
   ],
   "not_schema_checkable": [

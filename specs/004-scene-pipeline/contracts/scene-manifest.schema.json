@@ -419,6 +419,7 @@
           "enum": [
             "terrain",
             "mine-polygon",
+            "imagery",
             "texture",
             "people"
           ]
@@ -576,9 +577,61 @@
           "type": "number",
           "minimum": 0,
           "maximum": 0.05
+        },
+        "albedo": {
+          "$ref": "#/$defs/albedo"
         }
       },
       "description": "terrain outputs and the holes left as nodata (FR-004-05, FR-004-12)"
+    },
+    "albedo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "year",
+        "dem_year",
+        "ground_resolution_m",
+        "images",
+        "inputs"
+      ],
+      "description": "the orthophoto written as the terrain albedo: its year, the year of the DEM, the ground resolution and the SHA-256 of every image and input file (FR-004-48)",
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/slug"
+        },
+        "year": {
+          "type": "integer",
+          "minimum": 1990,
+          "maximum": 2100
+        },
+        "dem_year": {
+          "type": "integer",
+          "minimum": 1990,
+          "maximum": 2100
+        },
+        "ground_resolution_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "images": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/file_ref"
+          }
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/file_ref"
+          }
+        }
+      }
     },
     "design": {
       "type": "object",
