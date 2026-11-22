@@ -1,0 +1,112 @@
+# RTX render of the Bingham Canyon USD scene (case A1), version 3: the terrain carries its real ground colours (the USDA
+# NAIP orthophoto of 2018, registered to the DEM, FR-004-48 and FR-004-49) and the relief of an arid CC0 rock normal map
+# at a world-scale repeat. Same views, flyover, exposure and checks as bingham-flyover.yaml (version 1 and 2); the scene
+# is the rebuilt `a1-bingham-v3` (stages st10_terrain to st45_validate), so the scene the Isaac Sim and SDG jobs read
+# (`a1-bingham`) is untouched. Run by `python -m pitstudio_rtx.render` as a GPU queue job (brief rtx-render-v3-2026-11-22).
+#
+# Coordinates are the scene's site-enu frame in metres, +Z up (terrain AOI x -1500..1400, y -1400..1400; design rim z 0,
+# floor z -540; terrain elevation range -536..575). The scene is found under
+# $PITSTUDIO_DATA/processed/scene/<scene.id>/<scene.stage>/ (no machine path is stored here).
+# Every eye keeps at least 30 m of clearance above the terrain grid (tests/test_render_clearance.py checks it).
+id: bingham-flyover-v3
+kind: render
+seed: 20261122
+label: "Rendered with NVIDIA Omniverse RTX (ovrtx)"
+
+scene:
+  id: a1-bingham-v3
+  stage: st45_validate
+  root: scene/root.usda
+  # layer roles the camera needs; a missing one is rendered without and listed in the manifest (never invented)
+  required_layers: [terrain, design, lights, fleet, materials]  # materials: the rock set; terrain_ortho is authored in root.usda
+  variants: {}   # empty: the scene's own variant selection (lod0, noon, clear)
+  # prims made invisible in the render only (the scene is unchanged): the design layer's floor (-540 m) disagrees with the
+  # DEM (about -373 m at the design end node), 85 to 96 percent of its vertices lie below the terrain surface and the rest
+  # cut through it as striped artefacts; the DEM itself carries the real benches
+  hidden_prims: [/World/Design]
+
+camera:
+  resolution: [1920, 1080]
+  focal_length_mm: 24.0
+  horizontal_aperture_mm: 36.0
+  exposure_stops: 0.0
+  clipping_range_m: [1.0, 20000.0]
+  # how the camera is moved between poses: `ovstage` writes into an attached ovstage (not deprecated); a refused or
+  # ignored write switches to `reload` (the layer is re-authored per pose), recorded in the manifest
+  update: ovstage
+
+# every still and flyover frame must have a mean linear luminance (Rec. 709, sRGB decoded, after tone mapping) inside the
+# band; outside it the run scales the sun and sky intensity towards the target (at most max_gain times, `tries` renders)
+# and refuses the image when it cannot reach the band
+exposure: {band: [0.12, 0.45], target: 0.25, max_gain: 32.0, tries: 3}
+
+# two stills are different views when their mean absolute difference (grey levels, 0 to 255) exceeds
+# max(min_threshold, floor_factor x the noise floor); the floor is measured by the run on its first pose
+distinct: {min_threshold: 2.0, floor_factor: 10.0}
+
+# the scene's own sun (straight down, no sky) is replaced by this one; direction toward the sun, compass azimuth
+# clockwise from north (+Y), elevation above the horizon
+sun: {azimuth_deg: 135.0, elevation_deg: 55.0, intensity: 3000.0, angle_deg: 0.53}
+sky: {intensity: 600.0, color: [0.55, 0.70, 0.95]}
+
+# renderer steps per pose: the first frame after a camera cut needs several steps for temporal effects to settle
+steps: {warmup: 24, still: 16, frame: 2}
+
+stills:
+  - id: pit-overview-north
+    description: Pit overview from the north rim looking south over the benches.
+    eye: [-100.0, 1300.0, 420.0]
+    target: [-80.0, 80.0, -300.0]
+  - id: haul-road-ramp
+    description: The haul road on the west bench with the fleet standing on it (trucks and people placed by the scene compose stage on the flattest stations of the design ramp), seen from above and behind the lead truck.
+    # lead truck (stage output of st40_compose): x -284.6, y 188.4, z -338.0 (DEM), heading -116.7 degrees
+    eye: [-215.0, 235.0, -300.0]
+    target: [-285.0, 188.0, -336.0]
+  - id: east-wall-c1
+    description: The east wall sector monitored in case C1, seen from the pit floor.
+    eye: [200.0, 100.0, -440.0]
+    target: [1050.0, 100.0, -90.0]
+  - id: pit-floor-loading
+    description: The pit floor at the lowest point of the pit.
+    eye: [150.0, -80.0, -470.0]
+    target: [320.0, 70.0, -530.0]
+  - id: sunrise-oblique
+    description: Low oblique from the south rim at sunrise, sun low in the east.
+    eye: [50.0, -1100.0, 140.0]
+    target: [250.0, 150.0, -250.0]
+    sun: {azimuth_deg: 95.0, elevation_deg: 6.0}
+  - id: plan-view
+    description: Plan view straight down, north up.
+    eye: [-80.0, 80.0, 1900.0]
+    target: [-80.0, 80.0, -300.0]
+    up: [0.0, 1.0, 0.0]
+    focal_length_mm: 16.0
+
+# Catmull-Rom spline through the control points (eye and look-at target together), constant speed along the eye
+# path: an orbit of the rim 450 to 650 m above the terrain, then a wide descending turn into the pit ending on the east wall
+flyover:
+  duration_s: 20.0
+  fps: 30
+  control_points:
+    - {eye: [-100.0, 1300.0, 650.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [700.0, 1150.0, 620.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [1250.0, 500.0, 600.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [1300.0, -300.0, 580.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [800.0, -1000.0, 540.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [-100.0, -1250.0, 520.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [-900.0, -950.0, 480.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [-1350.0, -150.0, 520.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [-1100.0, 600.0, 520.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [-850.0, 950.0, 480.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [-350.0, 1100.0, 400.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [200.0, 1150.0, 350.0], target: [-80.0, 80.0, -300.0]}
+    - {eye: [650.0, 950.0, 200.0], target: [500.0, 100.0, -250.0]}
+    - {eye: [750.0, 550.0, -30.0], target: [1050.0, 100.0, -100.0]}
+    - {eye: [660.0, 340.0, -190.0], target: [1050.0, 100.0, -100.0]}
+    - {eye: [460.0, 200.0, -320.0], target: [1050.0, 100.0, -100.0]}
+    - {eye: [250.0, 120.0, -410.0], target: [1050.0, 100.0, -100.0]}
+
+output:
+  clip: flyover.mp4
+  encoder: {codec: h264, name: h264_nvenc, preset: p5, cq: 23, gop_frames: 60, pix_fmt: yuv420p}
+  disk_limit_gib: 10
