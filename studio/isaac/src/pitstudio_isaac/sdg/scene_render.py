@@ -94,6 +94,34 @@ def light_for_row(row: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def instance_paths(
+    id_to_path: Mapping[int, str],
+    id_to_semantics: Mapping[Any, Mapping[str, str]],
+    classes: set[str],
+    present: set[int] | None = None,
+) -> dict[int, str]:
+    """Instance id to the prim path of the object it belongs to (`annotate` matches objects by prim path).
+
+    Isaac Sim 6.1 returns an empty path in `idToLabels` for the object instances after the first frame, while
+    `idToSemantics` stays right, so an instance of an object class is mapped through its `obj` label (the object's prim
+    name, set on the object root and inherited by its parts). An object instance without that label raises
+    `EmptyAnnotatorData` instead of dropping its annotation; `present` limits that check to the ids in the mask.
+    """
+    out = {int(i): p for i, p in id_to_path.items()}
+    missing: list[int] = []
+    for key, sem in id_to_semantics.items():
+        i = int(key)
+        if sem.get("class") not in classes or (present is not None and i not in present):
+            continue
+        if sem.get("obj"):
+            out[i] = f"{OBJECT_ROOT}/{sem['obj']}"
+        else:
+            missing.append(i)
+    if missing:
+        raise EmptyAnnotatorData(f"instances {sorted(missing)} carry an object class but no `obj` label")
+    return out
+
+
 def box_corners(centre_xy: Sequence[float], z_base: float, yaw_deg: float, length: float, width: float, height: float):
     """The eight corners (x, y, z) of an object's oriented bounding box (base at `z_base`)."""
     c, s = math.cos(math.radians(yaw_deg)), math.sin(math.radians(yaw_deg))
@@ -362,10 +390,10 @@ class SdgRenderer:
 
         self._texture_inputs[slot].Set(Sdf.AssetPath(self.textures[texture_id].as_posix()))
 
-    def _label(self, prim: Any, label: str) -> None:
+    def _label(self, prim: Any, label: str, taxonomy: str = "class") -> None:
         from pxr import UsdSemantics
 
-        UsdSemantics.LabelsAPI.Apply(prim, "class").CreateLabelsAttr().Set([label])
+        UsdSemantics.LabelsAPI.Apply(prim, taxonomy).CreateLabelsAttr().Set([label])
 
     def _box(self, path: str, size: Sequence[float], centre: Sequence[float], colour: Sequence[float]) -> Any:
         """A box mesh (size x, y, z; `centre` in the parent frame) with a display colour."""
@@ -386,6 +414,7 @@ class SdgRenderer:
 
         path = obj["prim_id"]
         root = UsdGeom.Xform.Define(self._stage, path)
+        self._label(root.GetPrim(), obj["prim_id"].rsplit("/", 1)[1], "obj")  # which object an instance belongs to
         api = UsdGeom.XformCommonAPI(root)
         api.SetTranslate(Gf.Vec3d(placement["x_m"], placement["y_m"], placement["z_m"]))
         api.SetRotate(Gf.Vec3f(0.0, 0.0, float(placement["yaw_deg"])), UsdGeom.XformCommonAPI.RotationOrderXYZ)
@@ -506,7 +535,10 @@ class SdgRenderer:
             ),
         )
         rgb = rgb[..., :3].astype(np.uint8)
-        id_to_path = {int(k): v for k, v in seg["info"]["idToLabels"].items()}
+        present = {int(i) for i in np.unique(np.asarray(seg["data"]))}
+        id_to_path = instance_paths(
+            seg["info"]["idToLabels"], seg["info"].get("idToSemantics", {}), set(CATEGORY_IDS), present
+        )
         return write_frame(row, Path(out_dir), rgb, depth.reshape(height, width), np.asarray(seg["data"]), id_to_path)
 
 
@@ -538,6 +570,10 @@ def stage_selfcheck(scene_dir: Path, textures: Mapping[str, Path], rows: Sequenc
             ]
             if not labelled:
                 raise RuntimeError(f"{row['record_id']}: {obj['prim_id']} has no `{obj['class']}` class label")
+            if not prim.HasAPI(UsdSemantics.LabelsAPI, "obj") or list(
+                UsdSemantics.LabelsAPI(prim, "obj").GetLabelsAttr().Get()
+            ) != [obj["prim_id"].rsplit("/", 1)[1]]:
+                raise RuntimeError(f"{row['record_id']}: {obj['prim_id']} has no `obj` label of its own name")
             counts["objects"] += 1
         for d in row["distractors"]:
             if not UsdShade.MaterialBindingAPI(stage.GetPrimAtPath(d["prim_id"])).ComputeBoundMaterial()[0]:
