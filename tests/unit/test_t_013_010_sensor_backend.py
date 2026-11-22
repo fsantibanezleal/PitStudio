@@ -51,6 +51,8 @@ BACKEND_FILES = {
     RTX / "backends" / "ovrtx_backend.py",
     ISAAC / "sensor_backend.py",
     ISAAC / "sdg" / "render.py",  # the spec 009 Isaac Sim renderer imports isaacsim and omni by design
+    ISAAC / "sdg" / "scene_render.py",  # the spec 009 SDG scene renderer imports isaacsim, omni and carb by design
+    RTX / "render" / "backend.py",  # the ovrtx scene-render backend imports ovrtx and ovstage by design
 }
 
 
