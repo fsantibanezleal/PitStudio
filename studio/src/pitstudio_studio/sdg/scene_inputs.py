@@ -5,10 +5,12 @@
 road edges (centre line with the design height of every vertex, polygon = centre line buffered by half the ramp
 width), the site centroid in WGS 84 and the design-surface height function.
 
-The design surface height at a point is the height of the nearest road centre line at its projection: the haul road
-is built with a flat cross-section, so inside a road polygon this is the design surface to within the discretisation of
-the centre line (1 m vertices). Placement is therefore limited to the roads: the design layer carries benches as
-meshes without 2-D footprints, and the source terrain grid is not the carved surface.
+The surface height at a point is the carved surface of `st20_pit_design` (FR-004-50, `design/carved-grid.zarr` in the
+`st20_pit_design` folder next to `st45_validate`, tied to the validated scene by the SHA-256 of the pit design report):
+the design inside the pit outline and the source terrain outside it, the surface the renderer shows. A scene built
+before FR-004-50 has no carved grid and keeps the old definition, the height of the nearest road centre line at its
+projection (the haul road is built with a flat cross-section); `require_carved=True` refuses such a scene. Placement is
+limited to the roads: the design layer carries benches as meshes without 2-D footprints.
 """
 
 from __future__ import annotations
@@ -28,7 +30,11 @@ from pyproj import Transformer
 from shapely.geometry import LineString, Polygon
 from shapely.strtree import STRtree
 
+from pitstudio_studio.sdg.carved_surface import CarvedSurface, CarvedSurfaceError, load_carved_surface
+
 MANIFEST = "scene.manifest.json"
+CARVED_STAGE = "st20_pit_design"
+CARVED_GRID = "design/carved-grid.zarr"
 _EDGE_ID = re.compile(r"[^a-z0-9_-]")
 
 
@@ -59,6 +65,7 @@ class SceneInputs:
     ramp_width_m: float
     edges: tuple[RoadEdge, ...]
     terrain_tiles: Path
+    carved: CarvedSurface | None = None  # FR-004-50; None for a scene built before it
 
     def __post_init__(self) -> None:
         self._union: shapely.geometry.base.BaseGeometry | None = None
@@ -79,7 +86,9 @@ class SceneInputs:
         return self._union
 
     def height_at(self, x_m: float, y_m: float) -> float:
-        """Design surface height (stage z, m) at a point: that of the nearest road centre line at its projection."""
+        """Surface height (stage z, m) at a point: the carved surface, or without one the nearest road centre line's."""
+        if self.carved is not None:
+            return float(self.carved.height(float(x_m), float(y_m)))
         point = shapely.Point(float(x_m), float(y_m))
         k = int(self._tree.nearest(point))
         s = self._lines[k].project(point)
@@ -122,8 +131,43 @@ def _verified(scene: Path, ref: dict[str, Any], label: str) -> Path:
     return path
 
 
-def load_scene_inputs(scene_dir: Path) -> SceneInputs:
-    """Read the validated scene below `scene_dir` (the `st45_validate/scene` folder); `SceneInputsError` otherwise."""
+def _load_carved(scene: Path, manifest: dict[str, Any], *, required: bool) -> CarvedSurface | None:
+    """The carved surface of the `st20_pit_design` folder that sits next to `st45_validate`, or None when it has none.
+
+    The compose stage does not copy it into the scene folder, so the tie to the validated scene is the SHA-256 of
+    the pit design report: the stage folder must hold the very report the manifest records.
+    """
+    stage = scene.parent.parent / CARVED_STAGE
+    grid = stage / CARVED_GRID
+    if not (grid / "zarr.json").is_file():
+        if required:
+            raise SceneInputsError(
+                f"the carved surface {CARVED_STAGE}/{CARVED_GRID} is absent: rebuild the scene stages"
+            )
+        return None
+    report = stage / "design" / "pit-design-report.json"
+    if not report.is_file() or _sha256(report) != manifest["design"]["report"]["sha256"]:
+        raise SceneInputsError(
+            f"the carved surface in {CARVED_STAGE} belongs to another build of the pit design than the scene manifest"
+        )
+    try:
+        surface = load_carved_surface(grid)
+    except CarvedSurfaceError as error:
+        raise SceneInputsError(f"carved surface: {error} (digest check)") from error
+    block = json.loads(report.read_text(encoding="utf-8")).get("carved_surface")
+    if block is not None:
+        digest = hashlib.sha256(np.ascontiguousarray(surface.elevation, dtype="<f4").tobytes()).hexdigest()
+        if block["grid_sha256"] != digest:
+            raise SceneInputsError("carved surface: the digest in the pit design report differs from the grid")
+    return surface
+
+
+def load_scene_inputs(scene_dir: Path, *, require_carved: bool = False) -> SceneInputs:
+    """Read the validated scene below `scene_dir` (the `st45_validate/scene` folder); `SceneInputsError` otherwise.
+
+    With `require_carved` a scene without a carved surface (FR-004-50) is refused: the parameter table of the real run
+    never falls back to the road centre line height.
+    """
     scene = Path(scene_dir)
     manifest_path = scene / MANIFEST
     if not manifest_path.is_file():
@@ -164,6 +208,7 @@ def load_scene_inputs(scene_dir: Path) -> SceneInputs:
         ramp_width_m=ramp_width,
         edges=tuple(edges),
         terrain_tiles=tiles,
+        carved=_load_carved(scene, manifest, required=require_carved),
     )
 
 

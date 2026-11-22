@@ -15,6 +15,7 @@ import numpy as np
 from pitstudio_studio.scene import common
 from pitstudio_studio.scene.common import DESIGN_LABEL, SceneStageError, StageContext, StageRun
 from pitstudio_studio.scene.design import benches as benches_mod
+from pitstudio_studio.scene.design import carved as carved_mod
 from pitstudio_studio.scene.design import ramp as ramp_mod
 from pitstudio_studio.scene.design import roads
 from pitstudio_studio.scene.design import windrows as windrow_mod
@@ -37,6 +38,11 @@ class DesignResult:
     road_network: dict[str, Any] | None
     bench_roads: list[np.ndarray] = field(default_factory=list)
     outline: Any = None
+    z_carved: np.ndarray | None = (
+        None  # FR-004-50: the design inside the outline (windrows included), the terrain outside
+    )
+    inside: np.ndarray | None = None  # cells whose centre lies inside the pit outline
+    road_mask: np.ndarray | None = None  # cells on the ramp or on a berm road
 
 
 def _mask(geometry: Any, shape: tuple[int, int], x_min: float, y_max: float, cell: float) -> np.ndarray:
@@ -110,6 +116,31 @@ def _windrow_mask(
         ok = (col >= 0) & (col < shape[1]) & (row >= 0) & (row < shape[0])
         mask[row[ok], col[ok]] = True
     return mask
+
+
+def _road_mask(
+    ramp: ramp_mod.Ramp | None,
+    bench_roads: Sequence[np.ndarray],
+    shape: tuple[int, int],
+    x_min: float,
+    y_max: float,
+    cell: float,
+) -> np.ndarray:
+    """Cells whose centre lies on the ramp strip or on a berm road: the faces of the carved layer that are gravel."""
+    import shapely
+    from shapely.geometry import LineString
+
+    from pitstudio_studio.scene.design import usd as design_usd
+
+    geometries = []
+    if ramp is not None:
+        geometries.append(LineString(ramp.centreline[:, :2]).buffer(float(ramp.width_m.min()) / 2.0, cap_style="flat"))
+    geometries += [
+        LineString(road[:, :2]).buffer(design_usd.ROAD_WIDTH_M / 2.0, cap_style="flat") for road in bench_roads
+    ]
+    if not geometries:
+        return np.zeros(shape, dtype=bool)
+    return _mask(shapely.union_all(geometries), shape, x_min, y_max, cell)
 
 
 def _measure(
@@ -239,6 +270,7 @@ def build_design(
         else []
     )
     terrain = np.asarray(grid.elevation)
+    bench_roads_xyz = _bench_roads(bench_list, ramp, values["berm_width_m"]) if ramp is not None else []
     rows, cols = terrain.shape
     cell = float(grid.cell_size_m)
     x_min, y_max = float(grid.x_min_m), float(grid.y_max_m)
@@ -268,6 +300,8 @@ def build_design(
         float(np.maximum(-d, 0).sum() * area),
         float(d.sum() * area),
     )
+    z_carved = carved_mod.carve(z_design, windrow_mask, values["windrow_height_m"], zt, inside)
+    road_mask = _road_mask(ramp, bench_roads_xyz, shape, x_min, y_max, cell)
     ring_mask = _mask(poly.buffer(3.0 * cell), shape, x_min, y_max, cell) & ~inside
     measured = _measure(bench_list, z_bench, masks, ring_mask, zt, values["face_angle_deg"], cell)
     widened = set(ramp.widened_bench_indices) if ramp is not None else set()
@@ -308,8 +342,13 @@ def build_design(
         },
         "fixture": fixture,
     }
+    report["carved_surface"] = {
+        "grid_sha256": carved_mod.array_sha256(z_carved),
+        "cells_inside": int(inside.sum()),
+        "outline_step_m": carved_mod.outline_step(z_carved, inside),
+    }
     network = None
-    bench_roads: list[np.ndarray] = []
+    bench_roads: list[np.ndarray] = bench_roads_xyz
     if ramp is not None:
         centre = ramp.centreline
         steps = np.hypot(np.diff(centre[:, 0]), np.diff(centre[:, 1]))
@@ -321,7 +360,6 @@ def build_design(
             "sample_spacing_m": ramp.sample_spacing_m,
             "connected": bool(steps.max() <= ramp.sample_spacing_m + 1e-9),
         }
-        bench_roads = _bench_roads(bench_list, ramp, values["berm_width_m"])
         network = roads.build_road_network(centre, bench_roads, origin=spec["site"]["origin"])
         network["fixture"] = fixture
     return DesignResult(
@@ -335,6 +373,9 @@ def build_design(
         road_network=network,
         bench_roads=bench_roads,
         outline=poly,
+        z_carved=z_carved,
+        inside=inside,
+        road_mask=road_mask,
     )
 
 
@@ -365,6 +406,9 @@ class _ZarrGrid:
         self.x_min_m = float(attrs["x_min_m"])
         self.y_max_m = float(attrs["y_max_m"])
         self.fixture = bool(attrs.get("fixture", False))
+        self.attrs = attrs
+        self.valid_mask = np.asarray(group["valid_mask"][:], dtype=bool)
+        self.fill_mask = np.asarray(group["fill_mask"][:], dtype=bool)
 
 
 def _body(ctx: StageContext) -> str:
@@ -402,6 +446,23 @@ def _body(ctx: StageContext) -> str:
     (ctx.work / "layers").mkdir(parents=True, exist_ok=True)
     (ctx.work / "design").mkdir(parents=True, exist_ok=True)
     design_usd.write_design_layer(ctx.work / "layers" / "design.usda", result, rel_path="layers/design.usda")
+    carved_mod.write_carved_grid(
+        ctx.work / carved_mod.CARVED_GRID,
+        result.z_carved,
+        grid.attrs,
+        grid.valid_mask,
+        grid.fill_mask,
+        result.inside,
+    )
+    carved_mod.write_carved_layer(
+        ctx.work / carved_mod.CARVED_LAYER,
+        result.z_carved,
+        lods=spec["terrain"]["lods"],
+        x_min_m=grid.x_min_m,
+        y_max_m=grid.y_max_m,
+        cell_size_m=grid.cell_size_m,
+        road_mask=result.road_mask,
+    )
     (ctx.work / "design" / "pit-design-report.json").write_text(
         json.dumps(result.report, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
     )

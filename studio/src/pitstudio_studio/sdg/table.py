@@ -7,6 +7,13 @@ unstructured draws (FR-009-08) from their own streams. The unstructured arm reus
 structured pit training split: image `i` takes training seed `i mod n_train`, so its camera is the structured camera of
 that seed and only the randomisation differs. The crusher family is not rendered by this stage (its frames are the
 ovrtx S3 handoff of spec 013) and is reported as skipped in the table manifest.
+
+Every height comes from the carved surface of `st20_pit_design` (FR-004-50), the surface the renderer shows
+(FR-009-54): a camera pose is accepted only when the ray along its optical axis meets the surface farther than
+`VIEW_NEAR_M` or not at all, and an object is visible only when the camera sees its footprint centroid at mid-height
+and its top centre. An object that is not visible is drawn again within the placement tries and then recorded with
+`visible: false` in the row. A scene without a carved surface (built before FR-004-50) keeps the road-centre-line height
+and every object is visible.
 """
 
 from __future__ import annotations
@@ -39,6 +46,7 @@ CAMERA_HEIGHT_M = (2.5, 6.0)  # above the design surface: cab to gantry height
 CAMERA_PITCH_DEG = (2.0, 8.0)  # looking down
 CAMERA_HFOV_DEG = (60.0, 90.0)
 VIEW_NEAR_M, VIEW_FAR_M = 10.0, 250.0
+VIEW_MAX_RANGE_M = 4000.0  # the camera's far clipping distance in the renderer
 MIN_VISIBLE_M2 = 100.0
 _COUNTS = {"haul_truck": (1, 3), "shovel": (0, 1), "light_vehicle": (0, 2), "person": (0, 3)}  # inclusive ranges
 _DISTRACTORS = ("cube", "sphere", "cylinder")
@@ -50,6 +58,26 @@ def scenario_seed(recipe_seed: int, index: int) -> int:
     """Scenario seed `index` of a recipe: a 63-bit value that depends only on the recipe seed and the index."""
     state = np.random.SeedSequence([int(recipe_seed), 7, int(index)]).generate_state(1, dtype=np.uint64)
     return int(state[0]) >> 1
+
+
+def camera_clear(scene: SceneInputs, camera: dict[str, Any]) -> bool:
+    """FR-009-54: the optical axis meets the carved surface farther than `VIEW_NEAR_M` or not at all."""
+    if scene.carved is None:
+        return True
+    hit = scene.carved.first_hit(camera["position_m"], camera["forward"], VIEW_MAX_RANGE_M)
+    return hit is None or hit > VIEW_NEAR_M
+
+
+def object_visible(scene: SceneInputs, camera: dict[str, Any], placement: dict[str, Any], dims: dict[str, Any]) -> bool:
+    """FR-009-54: the segments from the camera centre to the footprint centroid at mid-height and to the top centre meet
+    the carved surface nowhere."""
+    if scene.carved is None:
+        return True
+    x, y, z, height = placement["x_m"], placement["y_m"], placement["z_m"], dims["height_m"]
+    eye = camera["position_m"]
+    return scene.carved.segment_clear(eye, (x, y, z + height / 2.0)) and scene.carved.segment_clear(
+        eye, (x, y, z + height)
+    )
 
 
 def _stream(recipe_seed: int, seed: int, *tag: int) -> np.random.Generator:
@@ -68,7 +96,8 @@ def scenario_geometry(scene: SceneInputs, recipe_seed: int, seed: int) -> dict[s
         heading += float(rng.normal(0.0, 10.0))
         hfov = float(rng.uniform(*CAMERA_HFOV_DEG))
         pitch = float(rng.uniform(*CAMERA_PITCH_DEG))
-        cam_z = z + float(rng.uniform(*CAMERA_HEIGHT_M))
+        ground = scene.height_at(x, y) if scene.carved is not None else z
+        cam_z = ground + float(rng.uniform(*CAMERA_HEIGHT_M))
         visible = scene.road_union().intersection(wedge((x, y), heading, hfov / 2.0, VIEW_NEAR_M, VIEW_FAR_M))
         areas = [g for g in getattr(visible, "geoms", [visible]) if g.geom_type == "Polygon" and g.area > 1.0]
         if sum(a.area for a in areas) < MIN_VISIBLE_M2:
@@ -87,6 +116,8 @@ def scenario_geometry(scene: SceneInputs, recipe_seed: int, seed: int) -> dict[s
             "cx_px": IMAGE_W / 2.0,
             "cy_px": IMAGE_H / 2.0,
         }
+        if not camera_clear(scene, camera):
+            continue
         return {"layout_id": edge.edge_id, "camera": camera, "areas": areas, "heading_deg": heading, "hfov_deg": hfov}
     raise ValueError(f"no camera site with a visible road found for seed {seed}")
 
@@ -110,11 +141,11 @@ def _non_overlapping(placements: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return kept
 
 
-def _object_records(placements: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+def _object_records(placements: Sequence[dict[str, Any]], visible: Sequence[bool]) -> list[dict[str, Any]]:
     out = []
-    for i, p in enumerate(placements):
+    for i, (p, seen) in enumerate(zip(placements, visible, strict=True)):
         dims = dimensions(p["class"])
-        out.append({"prim_id": f"/World/Sdg/Obj_{i:02d}", "class": p["class"], **dims})
+        out.append({"prim_id": f"/World/Sdg/Obj_{i:02d}", "class": p["class"], **dims, "visible": bool(seen)})
     return out
 
 
@@ -170,17 +201,26 @@ def structured_row(scene: SceneInputs, recipe: dict[str, Any], seed: int, geomet
         classes = ["haul_truck"]
     areas = geometry["areas"]
     kept: list[dict[str, Any]] = []
-    for _ in range(_PLACEMENT_TRIES):
-        drawn = placement.sample_structured_placements(
-            rng,
-            areas=areas,
-            terrain_height=scene.height_at,
-            object_classes=classes,
-            max_base_offset_m=spec["placement"]["max_base_offset_m"],
-        )
-        kept = _non_overlapping(drawn)
-        if len(kept) == len(drawn):
-            break
+    flags: list[bool] = []
+    for cls in classes:
+        chosen: tuple[dict[str, Any], bool] | None = None
+        for _ in range(_PLACEMENT_TRIES):
+            drawn = placement.sample_structured_placements(
+                rng,
+                areas=areas,
+                terrain_height=scene.height_at,
+                object_classes=[cls],
+                max_base_offset_m=spec["placement"]["max_base_offset_m"],
+            )[0]
+            seen = object_visible(scene, geometry["camera"], drawn, dimensions(cls))
+            if len(_non_overlapping([*kept, drawn])) == len(kept):
+                continue  # its footprint overlaps an object already placed: draw again
+            chosen = (drawn, seen)
+            if seen:
+                break
+        if chosen is not None:
+            kept.append(chosen[0])
+            flags.append(chosen[1])
     dr = {
         "sun_utc": _utc(sample.utc),
         "sun_elevation_deg": sample.elevation_deg,
@@ -192,7 +232,7 @@ def structured_row(scene: SceneInputs, recipe: dict[str, Any], seed: int, geomet
     }
     return {
         "dr": dr,
-        "objects": _object_records(kept),
+        "objects": _object_records(kept, flags),
         "distractors": [],
         "condition": "dust" if sigma >= DUST_CONDITION_PER_KM else "day",
         "dust_scenario": scenario.as_dict() | {"lithology": litho},
@@ -225,6 +265,7 @@ def unstructured_row(
     rng = _stream(recipe["seed"], seed, 2, repeat)
     region = shapely.union_all(geometry["areas"])
     classes = _class_list(rng) or ["haul_truck"]
+    flags: list[bool] = []
     light, temperature = spec["light_intensity_factor"], spec["colour_temperature_k"]
     drawn = placement.sample_unstructured(
         rng,
@@ -235,11 +276,14 @@ def unstructured_row(
         light_range=(light["min"], light["max"]),
         colour_temperature_range_k=(temperature["min"], temperature["max"]),
         max_distractors=spec["distractors"]["max"],
+        visible=lambda p: object_visible(scene, geometry["camera"], p, dimensions(p["class"])),
+        visibility_out=flags,
+        tries=_PLACEMENT_TRIES,
     )
     dr = {k: v for k, v in drawn.items()}
     return {
         "dr": dr,
-        "objects": _object_records(drawn["placements"]),
+        "objects": _object_records(drawn["placements"], flags),
         "distractors": _distractors(rng, dr["distractor_count"], region, scene.height_at),
         "condition": "day",
         "dust_scenario": None,
@@ -341,7 +385,7 @@ def cmd_plan(args: argparse.Namespace) -> int:
     data = Path(args.data)
     scene_dir, recipe_path = _paths(data, args.scene_id)
     recipe = load_config(recipe_path)
-    scene = load_scene_inputs(scene_dir)
+    scene = load_scene_inputs(scene_dir, require_carved=True)
     counts, skipped = _arm_counts(recipe, args.images)
     scenarios = plan_scenarios(scene, recipe, counts["structured"])
     _write_json(
@@ -355,7 +399,7 @@ def cmd_build(args: argparse.Namespace) -> int:
     data = Path(args.data)
     scene_dir, recipe_path = _paths(data, args.scene_id)
     recipe = load_config(recipe_path)
-    scene = load_scene_inputs(scene_dir)
+    scene = load_scene_inputs(scene_dir, require_carved=True)
     plan = json.loads(Path(args.plan).read_text(encoding="utf-8"))
     splits = json.loads(Path(args.splits).read_text(encoding="utf-8"))
     out = Path(args.out_dir)
@@ -389,7 +433,8 @@ def cmd_build(args: argparse.Namespace) -> int:
                 "dust": "AP-42 unpaved haul road emission on every edge, ISC3 finite line sources, Pasquill-Gifford "
                 "sigmas; scenario draws within the AP-42 Table 13.2.2-3 ranges (design assumptions)",
                 "watering": "a pass every 1.5 to 5 h on every edge from a random phase (design assumption)",
-                "placement": "road polygons only; design surface height from the road centre line",
+                "placement": "road polygons only; every height from the carved surface of st20_pit_design (FR-004-50), "
+                "cameras with clear ground ahead and objects in line of sight (FR-009-54)",
                 "dust_condition_threshold_per_km": DUST_CONDITION_PER_KM,
             },
         },
