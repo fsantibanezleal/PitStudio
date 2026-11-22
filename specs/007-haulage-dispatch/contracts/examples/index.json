@@ -656,6 +656,91 @@
       "rule": "FR-007-45",
       "pointer": "/routes/0/dp_tolerance_m",
       "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "haul-scenario.valid-fixture.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "a contract fixture carries fixture: true (FR-007-46)"
+    },
+    {
+      "file": "haul-scenario.hostile-fixture-not-boolean.json",
+      "schema": "haul-scenario.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag that is not a boolean",
+      "rule": "FR-007-46",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "des-trace.valid-fixture.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "a contract fixture carries fixture: true (FR-007-46)"
+    },
+    {
+      "file": "des-trace.hostile-fixture-not-boolean.json",
+      "schema": "des-trace.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag that is not a boolean",
+      "rule": "FR-007-46",
+      "pointer": "/header/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "dispatch-eval.valid-fixture.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "a contract fixture carries fixture: true (FR-007-46)"
+    },
+    {
+      "file": "dispatch-eval.hostile-fixture-not-boolean.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag that is not a boolean",
+      "rule": "FR-007-46",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "dispatch-policy-io.valid-fixture.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "a contract fixture carries fixture: true (FR-007-46)"
+    },
+    {
+      "file": "dispatch-policy-io.hostile-fixture-not-boolean.json",
+      "schema": "dispatch-policy-io.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag that is not a boolean",
+      "rule": "FR-007-46",
+      "pointer": "/fixture",
+      "keyword": "type"
+    },
+    {
+      "file": "dispatch-eval.valid-partial.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "fewer than 30 paired seeds: status partial, counts present and missing, no interval verdict (FR-007-47)"
+    },
+    {
+      "file": "dispatch-eval.hostile-status-unknown.json",
+      "schema": "dispatch-eval.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "completeness label outside complete and partial",
+      "rule": "FR-007-47",
+      "pointer": "/comparisons/0/status",
+      "keyword": "enum"
     }
   ],
   "not_schema_checkable": [

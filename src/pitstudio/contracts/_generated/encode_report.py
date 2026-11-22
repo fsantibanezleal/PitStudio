@@ -1140,6 +1140,12 @@ class Clip(BaseModel):
     ]
     poster: Poster
     relaxation: Relaxation | None
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true while the frames that st56_encode read are a contract fixture: the clip pair is encoded for tests, marked fixture: true and written to no published location (FR-006-23)"
+        ),
+    ] = False
 
 
 class Stage(StageKey):
@@ -1165,3 +1171,9 @@ class EncodeReport(BaseModel):
     vmaf_model: Literal["vmaf_v0.6.1"]
     targets: Annotated[Targets, Field(description="targets of FR-006-02 and budgets of FR-006-03")]
     clips: Annotated[list[Clip], Field(max_length=32, min_length=1)]
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true while the frames that st56_encode read are a contract fixture: the clip pair is encoded for tests, marked fixture: true and written to no published location (FR-006-23)"
+        ),
+    ] = False

@@ -568,6 +568,28 @@ class Comparison(BaseModel):
     ci95: Ci95 | None
     verdict: Literal["learned-better", "baseline-better", "no-significant-difference", "insufficient-evidence"]
     reason: Literal["fewer-than-30-pairs", "seed-sets-differ", "non-finite-difference"] | None = None
+    status: Annotated[
+        Literal["complete", "partial"] | None,
+        Field(
+            description="partial while fewer than 30 paired seeds exist: the counts are reported and no interval verdict (FR-007-47)"
+        ),
+    ] = None
+    seeds_present: Annotated[
+        int | None,
+        Field(
+            description="paired seeds that both arms report with a finite value (FR-007-47)",
+            ge=0,
+            le=1000,
+        ),
+    ] = None
+    seeds_missing: Annotated[
+        int | None,
+        Field(
+            description="30 minus seeds_present, never negative (FR-007-47)",
+            ge=0,
+            le=30,
+        ),
+    ] = None
 
 
 class Scenario(BaseModel):
@@ -606,6 +628,12 @@ class Header(BaseModel):
     policy: PolicyRef | None = None
     synthetic: Literal[True]
     honesty: Honesty
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true while the document is, or was computed from, a contract fixture: the dispatch stages run against it, write fixture: true on every artefact and publish no dispatch comparison computed from it (FR-007-46)"
+        ),
+    ] = False
 
 
 class PairedDispatchEvaluationTable(BaseModel):
@@ -632,3 +660,9 @@ class PairedDispatchEvaluationTable(BaseModel):
     rows: Annotated[list[Row], Field(max_length=20000, min_length=1)]
     comparisons: Annotated[list[Comparison], Field(max_length=512)]
     honesty: Honesty
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true while the document is, or was computed from, a contract fixture: the dispatch stages run against it, write fixture: true on every artefact and publish no dispatch comparison computed from it (FR-007-46)"
+        ),
+    ] = False

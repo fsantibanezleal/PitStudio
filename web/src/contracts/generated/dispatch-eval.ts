@@ -47,6 +47,18 @@ t_crit: (number | null)
 ci95: (Ci95 | null)
 verdict: ("learned-better" | "baseline-better" | "no-significant-difference" | "insufficient-evidence")
 reason?: ("fewer-than-30-pairs" | "seed-sets-differ" | "non-finite-difference")
+/**
+ * partial while fewer than 30 paired seeds exist: the counts are reported and no interval verdict (FR-007-47)
+ */
+status?: ("complete" | "partial")
+/**
+ * paired seeds that both arms report with a finite value (FR-007-47)
+ */
+seeds_present?: number
+/**
+ * 30 minus seeds_present, never negative (FR-007-47)
+ */
+seeds_missing?: number
 }
 
 /**
@@ -90,6 +102,10 @@ rows: [Row, ...(Row)[]]
  */
 comparisons: Comparison[]
 honesty: Honesty
+/**
+ * true while the document is, or was computed from, a contract fixture: the dispatch stages run against it, write fixture: true on every artefact and publish no dispatch comparison computed from it (FR-007-46)
+ */
+fixture?: boolean
 }
 export interface Engine {
 package: "minehaulsim"

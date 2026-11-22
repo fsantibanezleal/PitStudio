@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/haul-scenario.schema.json",
+  "$comment": "revision 2: optional `fixture` on the bundle (FR-007-46); contract change under ADR-0039 section 4; the $id carries no version segment in this repository",
   "title": "Haulage scenario bundle",
   "description": "Scenario bundle read by the haulage adapter, the TypeScript twin and the vectorised environment (DC-007-01, spec 007-haulage-dispatch).",
   "type": "object",
@@ -120,6 +121,11 @@
     },
     "reference_only": {
       "$ref": "#/$defs/reference_only"
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "true while the document is, or was computed from, a contract fixture: the dispatch stages run against it, write fixture: true on every artefact and publish no dispatch comparison computed from it (FR-007-46)"
     }
   },
   "allOf": [

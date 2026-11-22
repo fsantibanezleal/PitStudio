@@ -26,6 +26,10 @@ variants: Variants
 pair_bytes: number
 poster: Poster
 relaxation: (Relaxation | null)
+/**
+ * true while the frames that st56_encode read are a contract fixture: the clip pair is encoded for tests, marked fixture: true and written to no published location (FR-006-23)
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `EncodeReport`'s JSON-Schema
@@ -82,6 +86,10 @@ poster_bytes_max: 150000
  * @maxItems 32
  */
 clips: [Clip, ...(Clip)[]]
+/**
+ * true while the frames that st56_encode read are a contract fixture: the clip pair is encoded for tests, marked fixture: true and written to no published location (FR-006-23)
+ */
+fixture?: boolean
 }
 /**
  * stage id plus optional variant

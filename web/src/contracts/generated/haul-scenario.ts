@@ -44,6 +44,10 @@ engine_constants: EngineConstants
 failures: (Failures | null)
 cost_rates?: CostRates
 reference_only?: ReferenceOnly
+/**
+ * true while the document is, or was computed from, a contract fixture: the dispatch stages run against it, write fixture: true on every artefact and publish no dispatch comparison computed from it (FR-007-46)
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `undefined`'s JSON-Schema

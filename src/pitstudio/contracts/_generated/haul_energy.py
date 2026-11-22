@@ -620,3 +620,9 @@ class Header(BaseModel):
     policy: PolicyRef | None = None
     synthetic: Literal[True]
     honesty: Honesty
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true while the document is, or was computed from, a contract fixture: the dispatch stages run against it, write fixture: true on every artefact and publish no dispatch comparison computed from it (FR-007-46)"
+        ),
+    ] = False
