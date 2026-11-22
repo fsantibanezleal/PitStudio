@@ -66,22 +66,35 @@ def author_looks(stage: Any, scene: Path) -> list[str]:
     holder = stage.DefinePrim(MATERIALS_PATH, "Scope")
     holder.GetReferences().AddReference("assets/materials.usda", "/Materials")
     missing: list[str] = []
-    for material in holder.GetChildren():
-        for shader_prim in material.GetChildren():
-            shader = UsdShade.Shader(shader_prim)
-            if shader.GetIdAttr().Get() != "UsdUVTexture":
+    for material in sorted(holder.GetChildren(), key=lambda p: p.GetName()):
+        shaders = {p.GetName(): UsdShade.Shader(p) for p in material.GetChildren()}
+        kinds = {name: s.GetIdAttr().Get() for name, s in shaders.items()}
+        for name in sorted(shaders):  # sorted name order: Surface, Texture, UV
+            shader = shaders[name]
+            if kinds[name] == "UsdUVTexture":
+                asset = shader.GetInput("file").Get()
+                file = asset.path if asset is not None else ""
+                if file and not (Path(scene) / "assets" / file).is_file():
+                    missing.append(Path(file).name)
+            if name == "Surface":
+                continue  # authored below once the texture of this material is known
+        absent = any(Path(m).stem == material.GetName() for m in missing)
+        for name in sorted(shaders):
+            prim = stage.OverridePrim(shaders[name].GetPath()) if kinds[name] != "UsdPreviewSurface" or absent else None
+            if prim is None:
                 continue
-            texture = UsdShade.Shader(stage.OverridePrim(shader_prim.GetPath()))
-            for wrap in ("wrapS", "wrapT"):
-                texture.CreateInput(wrap, Sdf.ValueTypeNames.Token).Set("repeat")
-            asset = shader.GetInput("file").Get()
-            name = asset.path if asset is not None else ""
-            if name and not (Path(scene) / "assets" / name).is_file():
-                missing.append(Path(name).name)
-                surface = UsdShade.Shader(stage.OverridePrim(material.GetPath().AppendChild("Surface")))
-                colour = surface.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f)
+            shader = UsdShade.Shader(prim)
+            if kinds[name] == "UsdPreviewSurface":
+                colour = shader.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f)
                 colour.GetAttr().SetConnections([])
                 colour.Set(FALLBACK_ALBEDO)
+            elif kinds[name] == "UsdUVTexture":
+                for wrap in ("wrapS", "wrapT"):
+                    shader.CreateInput(wrap, Sdf.ValueTypeNames.Token).Set("repeat")
+            elif kinds[name] == "UsdPrimvarReader_float2":  # the Sdr type of `varname` is string
+                value = str(shaders[name].GetInput("varname").Get())
+                spec = Sdf.CreatePrimInLayer(stage.GetEditTarget().GetLayer(), prim.GetPath())
+                Sdf.AttributeSpec(spec, "inputs:varname", Sdf.ValueTypeNames.String).default = value
     return missing
 
 
