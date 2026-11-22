@@ -80,6 +80,11 @@ start with the requirement ID followed by " · " (for example `it("FR-018-39 · 
 - [ ] T-018-094 (FR-018-71) partial coverage: numerator and denominator, no aggregate claim — test: web/e2e/t-018-094-partial-coverage.spec.ts
 - [ ] T-018-095 [US-018-7] (FR-018-72) Built with section on every case page and the catalogue, and the producer attribution on every visual frame of a case page — test: web/src/cases/t_018_095_built_with.test.ts and web/e2e/t_018_095_built_with.spec.ts
 - [ ] T-018-096 [US-018-7] (FR-018-73) rendered scene section on every case page: poster and stills at once, video only after a click, attribution in place, render tools in Built with, a newer run replaces the older — test: web/src/cases/t_018_096_scene_render.test.tsx and web/e2e/t_018_096_scene_render.spec.ts
+- [ ] T-018-097 [US-018-7] (FR-018-74) KPI table from the published summaries with provenance chips, explicit `kpi` field in the summary headline - test: web/src/cases/t_018_097_kpi_published.test.tsx and tests/unit/test_import_summaries_kpi.py
+- [ ] T-018-098 [US-018-7] (FR-018-75) footer provenance counts the published runs, English and Spanish - test: web/src/shell/t_018_098_footer_provenance.test.tsx
+- [ ] T-018-099 [US-018-7] (FR-018-76) one vendor prefix per tool, Omniverse and NVIDIA group from the registries per case - test: web/src/cases/t_018_099_vendor_registry.test.ts
+- [ ] T-018-100 [US-018-7] (FR-018-77) Reproduce block of a case with a published imported run - test: web/src/cases/t_018_100_reproduce_imported.test.tsx
+- [ ] T-018-101 [US-018-7] (FR-018-78) consistent case pages, all 12 against the published run manifests - test: web/e2e/t_018_101_consistent_pages.spec.ts
 
 ## Phase 9 — Gates, polish and independent review
 - [ ] T-018-088 [US-018-3] (SC-018-01, FR-018-67) parity-report completeness: every engine of §7.1 passes or is shown in T0; invalid report or measurement files fail the build — test: web/src/engines/t_018_088_parity_report.test.ts
