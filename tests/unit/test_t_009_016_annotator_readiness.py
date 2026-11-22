@@ -273,37 +273,60 @@ def test_a_guard_block_end_with_frames_left_is_partial_and_a_full_run_is_complet
 
 
 # ---------------------------------------------------------------------------------------------------------------
-# a fresh prim path per frame (the renderer keeps no path for a prim re-created at a path it removed)
+# which object an instance belongs to: the `obj` semantic label, not the prim path
 # ---------------------------------------------------------------------------------------------------------------
-@pytest.mark.req("FR-009-02")
-def test_every_frame_authors_its_objects_below_a_path_no_earlier_frame_used() -> None:
-    first = scene_render.frame_prim_path("/World/Sdg/Obj_00", 0)
-    second = scene_render.frame_prim_path("/World/Sdg/Obj_00", 1)
-    assert first == "/World/Sdg/F000000/Obj_00"
-    assert second == "/World/Sdg/F000001/Obj_00"
-    assert scene_render.frame_prim_path("/World/Sdg/Obj_03/Body", 12) == "/World/Sdg/F000012/Obj_03/Body"
+# On Isaac Sim 6.1 `idToLabels` holds an empty path for every object instance after the first frame (a probe of
+# 2026-11-22: instances 318 and 319 had the semantics {class: haul_truck, part: chassis} and the path ""), whereas
+# `idToSemantics` is always right. Each object root carries the label `obj` = its prim name, children inherit it.
+CLASSES = {"haul_truck", "shovel", "light_vehicle", "person", "boulder"}
 
 
 @pytest.mark.req("FR-009-02")
-def test_the_frame_prefix_is_stripped_from_the_instance_paths_before_annotating() -> None:
-    labels = {
-        7: "/World/Terrain/Lod0/Tile_0_4_4_1",
-        314: "/World/Sdg/F000012/Obj_01/chassis",
-        315: "/World/Sdg/F000012/Obj_01",
-        316: "",
+def test_an_instance_is_owned_by_the_object_its_obj_label_names_whatever_the_path_says() -> None:
+    labels = {7: "/World/Terrain/Lod0/Tile_0_4_4_1", 314: "", 315: "", 316: "/World/Sdg/Obj_03/Body"}
+    semantics = {
+        7: {"class": "terrain"},
+        314: {"class": "haul_truck", "part": "chassis", "obj": "Obj_01"},
+        315: {"class": "haul_truck", "part": "dump_body", "obj": "Obj_01"},
+        316: {"class": "light_vehicle", "obj": "Obj_03"},
     }
-    got = scene_render.strip_frame_prefix(labels, 12)
-    assert got[7] == "/World/Terrain/Lod0/Tile_0_4_4_1"
-    assert got[314] == "/World/Sdg/Obj_01/chassis"
-    assert got[315] == "/World/Sdg/Obj_01"
-    assert got[316] == ""
+    got = scene_render.instance_paths(labels, semantics, CLASSES, present={7, 314, 315, 316})
+    assert got[7] == "/World/Terrain/Lod0/Tile_0_4_4_1"  # not an object: the path stands
+    assert got[314] == got[315] == "/World/Sdg/Obj_01"
+    assert got[316] == "/World/Sdg/Obj_03"
 
 
 @pytest.mark.req("FR-009-02")
-def test_an_object_instance_without_a_path_is_an_error_not_a_missing_object() -> None:
-    """An instance the renderer labelled with a class but no path would silently drop its annotation."""
+def test_an_object_instance_without_an_obj_label_is_an_error_not_a_missing_object() -> None:
     semantics = {314: {"class": "haul_truck", "part": "chassis"}, 7: {"class": "terrain"}}
-    labels = {314: "", 7: "/World/Terrain/Lod0/Tile_0_4_4_1"}
     with pytest.raises(scene_render.EmptyAnnotatorData, match="314"):
-        scene_render.require_instance_paths(labels, semantics, classes={"haul_truck", "person"})
-    scene_render.require_instance_paths({314: "/World/Sdg/Obj_01/chassis"}, semantics, classes={"haul_truck"})
+        scene_render.instance_paths({314: "", 7: "/t"}, semantics, CLASSES, present={7, 314})
+
+
+@pytest.mark.req("FR-009-02")
+def test_an_instance_that_is_not_in_the_mask_is_not_checked() -> None:
+    semantics = {314: {"class": "haul_truck"}, 7: {"class": "terrain"}}
+    got = scene_render.instance_paths({314: "", 7: "/t"}, semantics, CLASSES, present={7})
+    assert got == {7: "/t", 314: ""}
+
+
+@pytest.mark.req("FR-009-02")
+def test_annotate_counts_the_pixels_of_each_object_through_the_obj_paths() -> None:
+    ids = np.zeros((20, 40), np.uint32)
+    ids[2:12, 3:23] = 314  # one truck: chassis
+    ids[2:6, 3:23] = 315  # its dump body on top (a second instance of the same object)
+    ids[14:18, 30:38] = 400  # a second truck
+    labels = {314: "", 315: "", 400: ""}
+    semantics = {
+        314: {"class": "haul_truck", "obj": "Obj_00"},
+        315: {"class": "haul_truck", "obj": "Obj_00"},
+        400: {"class": "haul_truck", "obj": "Obj_01"},
+    }
+    paths = scene_render.instance_paths(labels, semantics, CLASSES, present={314, 315, 400})
+    objects = [
+        {"prim_id": "/World/Sdg/Obj_00", "class": "haul_truck"},
+        {"prim_id": "/World/Sdg/Obj_01", "class": "haul_truck"},
+    ]
+    _, annotations, visible = scene_render.annotate(ids, paths, objects)
+    assert visible == {"/World/Sdg/Obj_00": 10 * 20 - 0, "/World/Sdg/Obj_01": 4 * 8}
+    assert [a["bbox"] for a in annotations] == [[3.0, 2.0, 20.0, 10.0], [30.0, 14.0, 8.0, 4.0]]
