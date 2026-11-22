@@ -10,6 +10,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { RunCard } from "../studio/types";
 import { makeArtefact } from "./fixtures";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -233,7 +234,7 @@ export interface RunCardJson {
   stages: Array<
     Record<string, unknown> & { key: { id: string; variant?: string }; tool: string; performance: string }
   >;
-  artefacts: Array<Record<string, unknown>>;
+  artefacts: RunCard["artefacts"];
   notes?: string[];
   [k: string]: unknown;
 }
