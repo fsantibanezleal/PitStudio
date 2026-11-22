@@ -104,6 +104,7 @@ def test_mask_iou_at_least_099_is_required_for_mask_outputs(iou: float, ok: bool
 @pytest.mark.req("SC-016-03")
 def test_a_mask_report_without_a_measured_iou_is_a_problem() -> None:
     report = _valid()
+    report["metric"]["id"] = "mask_ap50"  # a mask metric: the example's detection metric (map50) carries no mask IoU
     report["tolerances"]["mask_iou_min"] = 0.99
     report["mask_iou"] = None
     assert any("mask" in p for p in _problems(PUBLISHED, [report]))
