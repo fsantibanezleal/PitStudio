@@ -20,10 +20,11 @@ def test_every_glob_of_the_map_matches_at_least_one_file() -> None:
 
 
 def test_a_file_is_owned_by_at_most_one_environment() -> None:
+    """Specific globs never overlap; a directory-wide `/**` glob is the default that a specific glob listed before it overrides."""
     owners = c.load_owners()
     for path in sorted((ROOT / "tests").rglob("test_*.py")):
         rel = path.relative_to(ROOT).as_posix()
-        hits = {owner for glob, owner in owners if c.matches(rel, glob)}
+        hits = {owner for glob, owner in owners if c.matches(rel, glob) and not glob.endswith("/**")}
         assert len(hits) <= 1, f"{rel} is owned by {sorted(hits)}"
 
 
@@ -34,6 +35,8 @@ def test_a_file_is_owned_by_at_most_one_environment() -> None:
         ("tests/unit/test_t_012_015_unet_loss.py", "pipeline"),
         ("tests/property/test_t_011_050_dft_spectral.py", "pipeline"),
         ("tests/unit/test_t_005_010_dem_contact_law.py", "studio"),
+        ("tests/pipeline/test_t_004_053_scene_nfr.py", "studio"),  # a specific glob beats the wide `tests/pipeline/**`
+        ("tests/pipeline/test_t_009_044_corruption_acceptance.py", "pipeline"),
         ("tests/unit/test_t_011_034_tape_arm.py", "studio"),
         ("tests/contract/test_t_011_036_calibration_result.py", "studio"),
         ("tests/unit/test_t_011_017_rollout_guards.py", "root"),
