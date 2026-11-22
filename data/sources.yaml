@@ -1,24 +1,24 @@
 # Data source registry — every real or synthetic source used by the pipeline (schema: contracts/sources.schema.json).
 # Licences are traced to the ORIGINAL publisher (not a mirror's label). Third-party data is downloaded by the
 # pipeline's download stage and never committed. redistribution: redistributable | derived-only | no-redistribution
-sources: []
-# Example entry:
-# - id: example-dataset
-#   kind: real                      # real | synthetic
-#   title: "Example dataset"
-#   landing_url: "https://doi.org/10.xxxx/xxxxx"
-#   access: direct                  # direct | api | account | manual
-#   files:
-#     - url: "https://example.org/file.zip"
-#       sha256: "<64 hex>"          # null until pinned
-#       bytes: 123456               # null until known
-#       kind: archive               # raster | point-cloud | vector | image-set | table | document | archive
-#   spdx: CC-BY-4.0                 # SPDX id from the allowlist
-#   licence_url: "https://example.org/licence"
-#   licence_class: attribution      # allowed for the (spdx, kind) pair
-#   redistribution: derived-only
-#   attribution: "Author et al. (2024), Example dataset, DOI ..."
-#   citation: "Author et al. (2024). Example dataset."
-#   card: data/cards/example-dataset.md
-#   account:
-#     needed: false
+sources:
+  - id: usda-naip-bingham
+    kind: real
+    title: "USDA NAIP orthophoto of the Bingham Canyon area, Utah (2018, 0.6 m, four bands: red, green, blue, near-infrared)"
+    landing_url: "https://planetarycomputer.microsoft.com/dataset/naip"
+    access: api                      # Microsoft Planetary Computer STAC collection `naip`, anonymous signed access
+    files:
+      - url: "https://naipeuwest.blob.core.windows.net/naip/v002/ut/2018/ut_060cm_2018/40112/m_4011231_se_12_060_20180909.tif"
+        sha256: "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc"
+        bytes: 373773194
+        kind: raster
+        name: "m_4011231_se_12_060_20180909.tif"
+    spdx: LicenseRef-USGov-PD
+    licence_url: "https://www.fsa.usda.gov/help/policies-and-links/"
+    licence_class: public-domain
+    redistribution: redistributable
+    attribution: "Imagery: U.S. Department of Agriculture, Farm Service Agency, National Agriculture Imagery Program (NAIP), 2018."
+    citation: "U.S. Department of Agriculture, Farm Service Agency, Aerial Field Photography Office. National Agriculture Imagery Program (NAIP), Utah 2018, 60 cm, quarter quad m_4011231_se, acquired 2018-09-09. Accessed through the Microsoft Planetary Computer STAC API, 2026-11-22."
+    card: data/cards/usda-naip-bingham.md
+    account:
+      needed: false

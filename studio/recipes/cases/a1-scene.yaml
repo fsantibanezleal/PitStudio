@@ -1,6 +1,8 @@
 # A1 scene pipeline: the five CPU-only scene stages of spec 004 (st10_terrain to st45_validate), bitwise deterministic.
 # st10_terrain reads its DEM and lidar tiles through the data root (data/sources.yaml registers them with spec 008); the
-# scene specification (DC-004-01) is the stage `params` supplied with the case.
+# scene specification (DC-004-01) is the stage `params` supplied with the case. Its `terrain.imagery` lists the NAIP
+# orthophoto source `usda-naip-bingham` (FR-004-48): the stage takes the acquisition year nearest the DEM year and writes
+# `terrain/albedo/`, which st40_compose binds as the terrain material `terrain_ortho` (FR-004-49).
 id: a1-scene
 case: A1
 seed: 20261007
@@ -10,7 +12,8 @@ stages:
     env: studio
     tool: openusd
     entry: pitstudio_studio.scene.terrain
-    inputs: []
+    inputs:
+      - {id: usda-naip-bingham, sha256: c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc}  # NAIP 2018, 60 cm
     resources: {gpu: none, disk_gib_est: 2.0, cpu: 2}
     determinism: bitwise
     timeout_s: 2400
