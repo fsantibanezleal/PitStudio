@@ -12,6 +12,7 @@ from typing import Any
 PRE_REGISTERED_LAYER1 = {"rtol": 1.0e-3, "atol": 1.0e-5, "max_abs": 1.0e-4}
 METRIC_DELTA_MAX_PP = 1.0
 MASK_IOU_MIN = 0.99
+MASK_METRIC_PREFIX = "mask_"
 
 
 @dataclass(frozen=True)
@@ -80,8 +81,12 @@ def _layer2_problems(report: Mapping[str, Any]) -> list[str]:
         if not abs(delta) <= METRIC_DELTA_MAX_PP:
             problems.append(f"{name}: delta {delta:+.4g} pp is beyond {METRIC_DELTA_MAX_PP} pp")
     iou = report.get("mask_iou")
-    # the spec example (valid-layer2) has mask_iou_min 0.99 and a null mask_iou and passes: only a measured IoU counts
-    if iou is not None and not iou >= MASK_IOU_MIN:
+    # a detection-metric report (valid-layer2: map50) carries a null mask_iou and the bound does not apply; a mask-metric
+    # report (id `mask_ap50` of spec 009, any `mask_` id) must measure it (SC-016-03)
+    if iou is None:
+        if str(metric.get("id", "")).startswith(MASK_METRIC_PREFIX):
+            problems.append(f"{name}: mask metric {metric.get('id')} without a measured mask IoU")
+    elif not iou >= MASK_IOU_MIN:
         problems.append(f"{name}: mask IoU {iou} is below {MASK_IOU_MIN}")
     if report.get("verdict") != "pass":
         problems.append(f"{name}: verdict is {report.get('verdict')!r}")

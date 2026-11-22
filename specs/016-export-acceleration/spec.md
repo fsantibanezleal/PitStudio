@@ -151,6 +151,8 @@ Story index (for traceability):
 | SC-016-02 | Every published ONNX model | passes layer 1 (rtol 1e-3, atol 1e-5, max abs 1e-4, argmax 100 % on rows with a top-2 gap > 2e-4) | parity reports |
 | SC-016-03 | Every published reduced-precision variant | passes layer 2 (\|Δ task metric\| ≤ 1 percentage point; mask IoU ≥ 0.99) | parity reports |
 
+The mask IoU bound applies to variants whose task metric is a mask metric; a detection-metric report carries a null `mask_iou`, and a mask-metric report with a null `mask_iou` fails layer 2.
+
 ## 6. Data contracts
 
 | ID | Artifact | Schema | Producer → Consumer |
