@@ -10230,6 +10230,8 @@
         "T-011-014"
       ],
       "tests": [
+        "tests/pipeline/test_011_gns_v2_rollout_noise.py",
+        "tests/pipeline/test_011_gns_v2_validation_rollouts.py",
         "tests/pipeline/test_t_011_014_gns_training.py"
       ]
     },
@@ -10242,6 +10244,7 @@
         "T-011-013"
       ],
       "tests": [
+        "tests/pipeline/test_011_gns_v2_repose.py",
         "tests/property/test_t_011_013_observables.py"
       ]
     },

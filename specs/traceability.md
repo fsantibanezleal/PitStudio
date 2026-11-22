@@ -1,4 +1,4 @@
-# Traceability matrix — generated 2026-10-15 by tools/trace.py (do not edit)
+# Traceability matrix — generated 2026-11-22 by tools/trace.py (do not edit)
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
@@ -623,8 +623,8 @@
 | FR-011-01 | 011-surrogates | draft | T-011-010 | tests/pipeline/test_t_011_010_gns_model.py |
 | FR-011-02 | 011-surrogates | draft | T-011-011 | tests/property/test_t_011_011_radius_graph.py, web/src/engines/gns/radiusGraph.test.ts |
 | FR-011-03 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_t_011_014_gns_training.py |
-| FR-011-04 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_t_011_014_gns_training.py |
-| FR-011-05 | 011-surrogates | draft | T-011-013 | tests/property/test_t_011_013_observables.py |
+| FR-011-04 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_011_gns_v2_rollout_noise.py, tests/pipeline/test_011_gns_v2_validation_rollouts.py, tests/pipeline/test_t_011_014_gns_training.py |
+| FR-011-05 | 011-surrogates | draft | T-011-013 | tests/pipeline/test_011_gns_v2_repose.py, tests/property/test_t_011_013_observables.py |
 | FR-011-06 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py |
 | FR-011-07 | 011-surrogates | draft | T-011-012 | tests/pipeline/test_t_011_012_gns_export.py |
 | FR-011-08 | 011-surrogates | draft | T-011-016 | tests/pipeline/test_t_011_016_gns_parity.py |
