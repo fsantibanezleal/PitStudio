@@ -21,12 +21,12 @@ from typing import Any
 
 import numpy as np
 
-from pitstudio_isaac.sdg import exposure
+from pitstudio_isaac.sdg import render_settings
 from pitstudio_isaac.sdg.masks import external_polygons
 from pitstudio_isaac.sdg.render import CATEGORIES, CATEGORY_IDS, _entry, _start_isaac
 
 NOMINAL_SUN_INTENSITY = 3000.0  # the sun of the scene's lights layer
-NOMINAL_DOME_INTENSITY = 800.0 * exposure.DOME_FILL_GAIN  # the scene's dome (800) with the measured fill gain
+NOMINAL_DOME_INTENSITY = 800.0 * render_settings.DOME_FILL_GAIN  # the scene's dome (800) with the measured fill gain
 STRUCTURED_SUN_TEMPERATURE_K = 5800.0
 DUST_COLOUR = (0.55, 0.49, 0.40)
 MIN_INSTANCE_PX = 16  # smaller instances are counted in the frame state but get no annotation
@@ -592,7 +592,7 @@ class SdgRenderer:
         """Set the RTX exposure and fog settings of a row (a function of the row only); returns what was set."""
         if self._carb is None:
             return {}  # the stage self-check has no renderer settings
-        values = dict((self.settings_fn or exposure.render_settings)(row))
+        values = dict((self.settings_fn or render_settings.render_settings)(row))
         settings = self._carb.settings.get_settings()
         for path, value in values.items():
             settings.set(path, value)

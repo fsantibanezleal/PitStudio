@@ -1,4 +1,6 @@
-"""Exposure and fog of the `st55_sdg` renderer: RTX settings as pure functions of a table row (FR-009-02, FR-009-05).
+"""Render settings (film ISO, dome fill gain, fog) of the `st55_sdg` renderer (FR-009-02, FR-009-05).
+
+RTX settings as pure functions of a table row.
 
 Measured on Isaac Sim 6.1 (probes of 2026-11-22, report sdg-exposure-2026-11-22):
 
