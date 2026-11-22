@@ -1,6 +1,9 @@
 // FR-018-75: the footer provenance line, from the runs the web manifest lists.
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import { isCaseId } from "~/cases/types";
 import type { ProvenanceItem } from "~/shell/config";
+import { publishedRunIds } from "~/studio/data";
 
 /** Items of the footer line for a published-run count: null while the manifest is being read. */
 export function provenanceItems(runs: number | null): ProvenanceItem[] {
@@ -24,10 +27,18 @@ export function countRuns(index: unknown): number {
   return ids.size;
 }
 
-/** The footer line of the app: reads `assets/manifest.json` once; a missing or unreadable file is "none published". */
+/**
+ * The footer line of the app. It starts from the runs published when the site was built (so the prerendered page is right) and
+ * then reads `assets/manifest.json` once; a missing or unreadable file is "none published". The not-found page requests no
+ * asset (FR-018-13), so there the build-time count stays.
+ */
 export function usePublishedProvenance(): ProvenanceItem[] {
-  const [runs, setRuns] = useState<number | null>(null);
+  const [runs, setRuns] = useState<number | null>(publishedRunIds.length);
+  const { pathname } = useLocation();
+  const id = /^\/cases\/([^/]+)/.exec(pathname)?.[1];
+  const notFound = id !== undefined && !isCaseId(id);
   useEffect(() => {
+    if (notFound || document.querySelector("[data-not-found]")) return;
     const controller = new AbortController();
     fetch(`${import.meta.env.BASE_URL}assets/manifest.json`, { signal: controller.signal })
       .then((res) => (res.ok ? res.json() : null))
@@ -36,6 +47,6 @@ export function usePublishedProvenance(): ProvenanceItem[] {
         if (!controller.signal.aborted) setRuns(0);
       });
     return () => controller.abort();
-  }, []);
+  }, [notFound]);
   return provenanceItems(runs);
 }
