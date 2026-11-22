@@ -263,3 +263,17 @@ def test_import_run_is_listed_in_usage(world: World) -> None:
     with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
         code = cli.main([])
     assert code == 2 and "import-run" in err.getvalue()
+
+
+def test_import_run_publish_starts_the_web_index_when_the_repository_has_none(world: World) -> None:
+    from pitstudio.runner import publish
+
+    (world.repo / "web" / "public" / "assets" / "manifest.json").unlink()
+    git(world.repo, "add", "-A")
+    git(world.repo, "commit", "-q", "-m", "no index")
+    assert world.run()[0] == 0
+    run_id = world.runs()[0].name
+    publish.publish(world.store, world.repo, run_id, None)
+    idx = json.loads((world.repo / "web/public/assets/manifest.json").read_text(encoding="utf-8"))
+    assert idx["kind"] == "web-index"
+    assert [r["run_id"] for r in idx["runs"]] == [run_id]

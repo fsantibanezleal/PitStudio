@@ -276,7 +276,16 @@ def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[s
     if any(p.search(t) for _, t in iter_strings(pub) for p in PRIVATE):
         raise Usage("the published manifest holds an absolute path (privacy rule)")
     idx_path = repo / "web" / "public" / "assets" / "manifest.json"
-    idx, body = json.loads(idx_path.read_text(encoding="utf-8")), json.dumps(pub, indent=1) + "\n"
+    start = {
+        "kind": "web-index",
+        "schema_version": "1.0",
+        "generated": m["created"][:10],
+        "git_sha": m["git_sha"],
+        "runs": [],
+        "artefacts": [],
+    }  # the first publish of a repository starts the index
+    idx = json.loads(idx_path.read_text(encoding="utf-8")) if idx_path.is_file() else start
+    body = json.dumps(pub, indent=1) + "\n"
     idx["runs"] = [r for r in idx["runs"] if r["run_id"] != run_id] + [
         {"run_id": run_id, "manifest": f"{run_id}/manifest.json", "sha256": sha(body.encode())}
     ]
