@@ -7,7 +7,7 @@
   "path": "cases/c1.yaml",
   "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
  },
- "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+ "git_sha": "90131431ee164e2d4e3c9d500b10fc488caa652d",
  "git_dirty": false,
  "runner_version": "0.1.0",
  "created": "2026-10-13T17:18:09Z",
@@ -28,7 +28,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "c83cfb5d76746fd582f076405e88c1057562b4d1c0ed0c08565fda6e78c237cb",
+   "cache_key": "ab3daa580c28c51ddbe7fa7abaf5e04973e2f59110081a76556e985af3880f80",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -70,7 +70,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "3166b6103487dfaf0f0cf494b10232ead29ee077a0dd1be077613d019e5790af",
+   "cache_key": "53cb0bd6b1f7567ffce17300b8747de27011612b44ead1aaec625d6a7d2efcc0",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -101,8 +101,8 @@
     },
     {
      "name": "results-summary.json",
-     "sha256": "5a71a5f2be936e3fc8bb7c09630f2c8c41270a25d471d3071b3e2cfe81346d8f",
-     "bytes": 1740
+     "sha256": "9b4de3b33b8b9c6164c44e1a248abaf04563de300bb4cc63c1586085b1ab0381",
+     "bytes": 1768
     }
    ]
   },
@@ -117,7 +117,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "13bccc0c4a663df9253ce54d01e6b34c541dd4395a55de030156374c117beb94",
+   "cache_key": "b6f33a963f9adebf8866c6ceac6ebb5e93157c55e6244de84f9d789f88f104c4",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -163,10 +163,10 @@
   {
    "id": "c1-slope-forecasters-results",
    "run_id": "20261013T171809Z-c1-slope-forecasters",
-   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+   "git_sha": "90131431ee164e2d4e3c9d500b10fc488caa652d",
    "path": "assets/20261013T171809Z-c1-slope-forecasters/results-summary.json",
-   "bytes": 1740,
-   "sha256": "5a71a5f2be936e3fc8bb7c09630f2c8c41270a25d471d3071b3e2cfe81346d8f",
+   "bytes": 1768,
+   "sha256": "9b4de3b33b8b9c6164c44e1a248abaf04563de300bb4cc63c1586085b1ab0381",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",

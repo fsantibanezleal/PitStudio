@@ -15,11 +15,6 @@
    "sha256": "6701e3d1ae648d958dd70440a90762e3b1e9620437d6ad27d46db778bb71b7bd"
   },
   {
-   "run_id": "20261013T171809Z-c1-slope-forecasters",
-   "manifest": "20261013T171809Z-c1-slope-forecasters/manifest.json",
-   "sha256": "c2dd6f6bd7ca22bed99c9aef6995831f57f3aefb426ec0938d7a04a8c25a4567"
-  },
-  {
    "run_id": "20261014T000302Z-a3-gns-v1-failed",
    "manifest": "20261014T000302Z-a3-gns-v1-failed/manifest.json",
    "sha256": "bfc2adc3f8aba60f855dc3a7d03a70b4591dfa1b149ac29853ab93b21481a647"
@@ -33,6 +28,11 @@
    "run_id": "20261122T063525Z-bingham-flyover",
    "manifest": "20261122T063525Z-bingham-flyover/manifest.json",
    "sha256": "0bb81b68604f6dbb06e368d5d42ce5e8a164542f8d745f5547044d9201706e94"
+  },
+  {
+   "run_id": "20261013T171809Z-c1-slope-forecasters",
+   "manifest": "20261013T171809Z-c1-slope-forecasters/manifest.json",
+   "sha256": "dc928cc0f35f19a2e263a2f56006e9c521a17fcbfe6cee516f568f4a6735d25a"
   }
  ],
  "artefacts": [
@@ -84,31 +84,6 @@
    "asset_host": "git",
    "cases": [
     "A3"
-   ],
-   "media_type": "application/json"
-  },
-  {
-   "id": "c1-slope-forecasters-results",
-   "run_id": "20261013T171809Z-c1-slope-forecasters",
-   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
-   "path": "assets/20261013T171809Z-c1-slope-forecasters/results-summary.json",
-   "bytes": 1740,
-   "sha256": "5a71a5f2be936e3fc8bb7c09630f2c8c41270a25d471d3071b3e2cfe81346d8f",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "C1"
    ],
    "media_type": "application/json"
   },
@@ -464,6 +439,31 @@
    "licence_class": "own",
    "spdx": "CC-BY-4.0",
    "asset_host": "git",
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-slope-forecasters-results",
+   "run_id": "20261013T171809Z-c1-slope-forecasters",
+   "git_sha": "90131431ee164e2d4e3c9d500b10fc488caa652d",
+   "path": "assets/20261013T171809Z-c1-slope-forecasters/results-summary.json",
+   "bytes": 1768,
+   "sha256": "9b4de3b33b8b9c6164c44e1a248abaf04563de300bb4cc63c1586085b1ab0381",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
    "media_type": "application/json"
   }
  ]

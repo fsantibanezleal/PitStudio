@@ -15,6 +15,7 @@
  },
  "headline": [
   {
+   "kpi": "forecast_error",
    "name": "Mean absolute forecast error, TCN",
    "note": "best of the six methods",
    "unit": "h",
