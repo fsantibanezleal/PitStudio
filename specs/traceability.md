@@ -327,7 +327,7 @@
 | FR-004-27 | 004-scene-pipeline | draft | T-004-033 | tests/unit/test_t_004_033_assets_hostile.py |
 | FR-004-28 | 004-scene-pipeline | draft | T-004-034 | tests/unit/test_t_004_034_people_route.py |
 | FR-004-29 | 004-scene-pipeline | draft | T-004-040 | tests/unit/test_t_004_040_compose.py |
-| FR-004-30 | 004-scene-pipeline | draft | T-004-040 | tests/unit/test_t_004_040_compose.py |
+| FR-004-30 | 004-scene-pipeline | draft | T-004-040 | tests/unit/test_t_004_040_compose.py, tests/unit/test_t_004_095_scene_look_order.py |
 | FR-004-31 | 004-scene-pipeline | draft | T-004-041 | tests/unit/test_t_004_041_scene_digest.py |
 | FR-004-32 | 004-scene-pipeline | draft | T-004-042 | tests/unit/test_t_004_042_compose_hostile.py |
 | FR-004-33 | 004-scene-pipeline | draft | T-004-042 | tests/unit/test_t_004_042_compose_hostile.py |
@@ -343,7 +343,7 @@
 | FR-004-43 | 004-scene-pipeline | draft | T-004-093 | tests/unit/test_t_004_093_scene_device_name_path.py |
 | FR-004-44 | 004-scene-pipeline | draft | T-004-094 | tests/unit/test_t_004_094_fixture_propagation.py |
 | FR-004-45 | 004-scene-pipeline | draft | T-004-095 | tests/unit/test_t_004_095_scene_look.py |
-| FR-004-46 | 004-scene-pipeline | draft | T-004-095 | tests/unit/test_t_004_095_scene_look.py, tests/unit/test_t_004_095_scene_look_primvar.py |
+| FR-004-46 | 004-scene-pipeline | draft | T-004-095 | tests/unit/test_t_004_095_scene_look.py, tests/unit/test_t_004_095_scene_look_order.py, tests/unit/test_t_004_095_scene_look_primvar.py |
 | FR-004-47 | 004-scene-pipeline | draft | T-004-096 | tests/unit/test_t_004_096_grounded_fleet.py |
 | FR-005-01 | 005-physics | draft | T-005-010 | tests/unit/test_t_005_010_dem_contact_law.py |
 | FR-005-02 | 005-physics | draft | T-005-011 | tests/unit/test_t_005_011_dem_impact.py |

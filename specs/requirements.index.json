@@ -3761,7 +3761,8 @@
         "T-004-040"
       ],
       "tests": [
-        "tests/unit/test_t_004_040_compose.py"
+        "tests/unit/test_t_004_040_compose.py",
+        "tests/unit/test_t_004_095_scene_look_order.py"
       ]
     },
     "FR-004-31": {
@@ -3957,6 +3958,7 @@
       ],
       "tests": [
         "tests/unit/test_t_004_095_scene_look.py",
+        "tests/unit/test_t_004_095_scene_look_order.py",
         "tests/unit/test_t_004_095_scene_look_primvar.py"
       ]
     },
