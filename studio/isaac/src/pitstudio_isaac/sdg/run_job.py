@@ -60,6 +60,16 @@ def missing_inputs() -> list[str]:
         status = ((_read_json(scene_path) or {}).get("validation") or {}).get("status")  # type: ignore[union-attr]
         if status != "complete":
             out.append(f"scene {scene_id}: the validation status is {status!r}, expected 'complete'")
+        else:
+            from pitstudio_isaac.sdg.scene_render import carved_layer
+
+            try:
+                if carved_layer(scene_path.parent) is None:
+                    out.append(
+                        f"carved surface (FR-004-50): scene {scene_id} has no st20_pit_design/layers/design-carved.usdc"
+                    )
+            except RuntimeError as error:
+                out.append(f"carved surface (FR-004-50): {error}")
     if not pool_path.is_file():
         out.append(f"CC0 texture pool (ambientCG / Poly Haven): {pool_path} is absent")
     elif recipe is not None:

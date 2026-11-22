@@ -1,15 +1,18 @@
 """`st55_sdg` renderer of the spec 004 scene: one Isaac Sim application for the whole job, one frame per table row.
 
-`SdgRenderer` opens the composed scene (`root.usda` of `st45_validate/scene`: terrain, pit design, lights), deactivates
-the fixture fleet and people of the scene, and for every parameter-table row (see `pitstudio_studio.sdg.table`) sets the
-sun, the dome, the dust fog, the rock textures, the objects, the distractors and the camera, then renders RGB, depth
-(distance to the image plane) and instance segmentation. Semantic mask, tight boxes, polygons and visible pixels are
-derived from the one instance mask, so they cannot disagree. Everything that needs Isaac Sim is imported inside the
-methods; the pure helpers (`light_for_row`, `frustum_flags`, `annotate`) run on the CPU and are tested there.
+`SdgRenderer` opens the composed scene (`root.usda` of `st45_validate/scene`: terrain, pit design, lights), replaces
+the source terrain and the design surface meshes by the carved surface of `st20_pit_design` (FR-004-50, the surface
+the parameter table takes every height from), deactivates the fixture fleet and people of the scene, and for every
+parameter-table row (see `pitstudio_studio.sdg.table`) sets the sun, the dome, the dust fog, the rock textures, the
+objects, the distractors and the camera, then renders RGB, depth (distance to the image plane) and instance
+segmentation. Semantic mask, tight boxes, polygons and visible pixels are derived from the one instance mask, so they
+cannot disagree. Everything that needs Isaac Sim is imported inside the methods; the pure helpers (`light_for_row`,
+`frustum_flags`, `annotate`) run on the CPU and are tested there.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 from collections.abc import Callable, Mapping, Sequence
@@ -31,13 +34,16 @@ APERTURE_MM = 20.955
 OBJECT_ROOT = "/World/Sdg"
 CAMERA_PATH = "/World/SdgCamera"
 MATERIAL_SCOPE = "/World/SdgMaterials"
+CARVED_PRIM = "/World/Carved"  # the carved layer's root (FR-004-50): the source terrain and the design meshes are off
 DEACTIVATE = ("/World/Fleet", "/World/People")
+CARVED_DEACTIVATE = ("/World/Terrain", "/World/Design")  # replaced by the carved layer
+ROAD_SUBSET = "road"  # GeomSubset of the carved tiles whose faces lie on the ramp or on a berm road
 TEXTURE_SCALE = 1.0 / 8.0  # triplanar world-space mapping: one texture tile per 8 m
 # The composed scene binds no material (its materials layer is not in the layer stack), so the job binds two
-# triplanar textured materials: `rock` on the terrain, benches and berms, `gravel` on the roads, ramp and windrows.
+# triplanar textured materials: `rock` on the carved surface, `gravel` on its `road` face subsets.
 RT_SUBFRAMES = 64  # path-tracing subframes per capture: 16 left up to 22 levels of history dependence (probes)
 CAPTURE_ATTEMPTS = 8  # steps tried per frame before the annotators count as empty (the first step after start is empty)
-BINDINGS = {
+BINDINGS = {  # a scene without a carved layer (built before FR-004-50) keeps the source terrain and the design meshes
     "rock": ("/World/Terrain", "/World/Design/Benches", "/World/Design/Berms"),
     "gravel": ("/World/Design/HaulRoads", "/World/Design/Ramp", "/World/Design/Windrows"),
 }
@@ -46,6 +52,54 @@ BINDINGS = {
 # ----------------------------------------------------------------------------------------------------------------
 # pure helpers
 # ----------------------------------------------------------------------------------------------------------------
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def carved_layer(scene_dir: Path) -> Path | None:
+    """The carved layer of the `st20_pit_design` folder next to the `st45_validate` folder of `scene_dir` (FR-004-50).
+
+    The compose stage does not copy it into the scene folder, so the layer is tied to the scene the way the parameter
+    table ties the carved grid: its SHA-256 is the one `digests.json` of the stage records, and the stage's pit design
+    report is the one the scene manifest records (`RuntimeError` when they differ). None when the stage has no carved
+    layer: the real renderer refuses such a scene (`SdgRenderer._start`), the stage self-check accepts it.
+    """
+    scene = Path(scene_dir)
+    stage = scene.parent.parent / "st20_pit_design"
+    layer = stage / "layers" / "design-carved.usdc"
+    if not layer.is_file():
+        return None
+    digests = json.loads((stage / "digests.json").read_text(encoding="utf-8"))
+    if digests.get("layers/design-carved.usdc") != _sha256(layer):
+        raise RuntimeError("the carved layer differs from the SHA-256 its stage recorded")
+    manifest = json.loads((scene / "scene.manifest.json").read_text(encoding="utf-8"))
+    report = stage / "design" / "pit-design-report.json"
+    if _sha256(report) != manifest["design"]["report"]["sha256"]:
+        raise RuntimeError("the carved layer belongs to another build of the pit design than the scene manifest")
+    return layer
+
+
+def material_targets(stage: Any, slot: str) -> list[str]:
+    """Prim paths a slot's material is bound to: the carved surface for `rock`, its `road` subsets for `gravel`."""
+    from pxr import Usd, UsdGeom
+
+    root = stage.GetPrimAtPath(CARVED_PRIM)
+    if not root.IsValid():
+        return list(BINDINGS[slot])
+    if slot != "gravel":
+        return [CARVED_PRIM]
+    found = [
+        p.GetPath().pathString for p in Usd.PrimRange(root) if p.IsA(UsdGeom.Subset) and p.GetName() == ROAD_SUBSET
+    ]
+    if not found:
+        raise RuntimeError(f"the carved surface {CARVED_PRIM} has no `{ROAD_SUBSET}` face subset to bind gravel to")
+    return found
+
+
 class EmptyAnnotatorData(RuntimeError):
     """An annotator still returned an empty array after the bounded number of steps: no frame is written."""
 
@@ -307,6 +361,11 @@ class SdgRenderer:
 
     # -- start-up ------------------------------------------------------------------------------------------------
     def _start(self) -> None:
+        if carved_layer(self.scene_dir) is None:
+            raise RuntimeError(
+                f"the scene {self.scene_dir} has no carved layer (st20_pit_design/layers/design-carved.usdc): "
+                "rebuild the scene stages (FR-004-50); the renderer never shows the source terrain"
+            )
         self._app = _start_isaac()
         import carb
         import isaacsim.core.experimental.utils.stage as stage_utils
@@ -346,7 +405,10 @@ class SdgRenderer:
         from pxr import Gf, UsdGeom, UsdLux, UsdShade
 
         self._stage = stage
-        for path in DEACTIVATE:
+        carved = carved_layer(self.scene_dir)
+        if carved is not None:
+            stage.GetSessionLayer().subLayerPaths.append(carved.as_posix())
+        for path in (*DEACTIVATE, *(CARVED_DEACTIVATE if carved is not None else ())):
             prim = stage.GetPrimAtPath(path)
             if prim.IsValid():
                 prim.SetActive(False)
@@ -363,10 +425,10 @@ class SdgRenderer:
         self._camera = cam
         self._camera_op = UsdGeom.Xformable(cam.GetPrim()).AddTransformOp()
         self._texture_inputs: dict[str, Any] = {}
-        for slot, targets in BINDINGS.items():
+        for slot in BINDINGS:
             material, shader = self._pbr_material(f"{MATERIAL_SCOPE}/{slot}", None)
             self._texture_inputs[slot] = shader.GetInput("diffuse_texture")
-            for target in targets:
+            for target in material_targets(stage, slot):
                 prim = stage.GetPrimAtPath(target)
                 if not prim.IsValid():
                     raise RuntimeError(f"the scene has no {target} to bind the {slot} material to")
@@ -607,8 +669,8 @@ def stage_selfcheck(scene_dir: Path, textures: Mapping[str, Path], rows: Sequenc
             if not UsdShade.MaterialBindingAPI(stage.GetPrimAtPath(d["prim_id"])).ComputeBoundMaterial()[0]:
                 raise RuntimeError(f"{row['record_id']}: distractor {d['prim_id']} has no material")
             counts["distractors"] += 1
-        for slot, targets in BINDINGS.items():
-            for target in targets:
+        for slot in BINDINGS:
+            for target in material_targets(stage, slot):
                 bound = UsdShade.MaterialBindingAPI(stage.GetPrimAtPath(target)).ComputeBoundMaterial()[0]
                 if not bound or bound.GetPath().pathString != f"{MATERIAL_SCOPE}/{slot}":
                     raise RuntimeError(f"{target} is not bound to the {slot} material")
