@@ -84,12 +84,26 @@ def place_windrows(benches: Sequence[Any], ramp: Any, *, height_m: float, ramp_w
         norm = np.maximum(np.hypot(tangent[:, 0], tangent[:, 1]), 1e-12)
         left = np.column_stack([-tangent[:, 1] / norm, tangent[:, 0] / norm])
         centre_line = LineString(xy)
-        offset = ramp_width_m / 2.0
-        for _ in range(8):  # a drifting spiral brings later samples closer: widen until no sample is nearer than W/2
-            edge_xy = xy + offset * left
-            nearest = float(shapely.distance(shapely.points(edge_xy), centre_line).min())
-            if nearest >= ramp_width_m / 2.0:
+        half = ramp_width_m / 2.0
+        # per sample: the smallest offset from W/2 on at which the point is clear of every lap of the spiral (a later
+        # lap can run closer than W/2); samples with no clear offset are dropped and the line is split there
+        offset = np.full(len(xy), np.nan)
+        for step in range(40):
+            todo = np.flatnonzero(np.isnan(offset))
+            if todo.size == 0:
                 break
-            offset += ramp_width_m / 2.0 - nearest + 0.01
-        windrows.append(Windrow("ramp", None, LineString(edge_xy), float(height_m)))
+            trial = half + 0.5 * step
+            pts = xy[todo] + trial * left[todo]
+            clear = shapely.distance(shapely.points(pts), centre_line) >= half + 1e-6
+            offset[todo[clear]] = trial
+        edge_xy = xy + np.nan_to_num(offset)[:, None] * left
+        ok = ~np.isnan(offset)
+        jump = np.r_[False, np.abs(np.diff(np.nan_to_num(offset))) > 2.0]
+        start = 0
+        for i in range(1, len(xy) + 1):
+            if i == len(xy) or not ok[i] or jump[i]:
+                run = [j for j in range(start, i) if ok[j]]
+                if len(run) >= 2:
+                    windrows.append(Windrow("ramp", None, LineString(edge_xy[run]), float(height_m)))
+                start = i
     return windrows
