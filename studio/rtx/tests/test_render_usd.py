@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: PT018  (compound assertions read as one fact in these tests)
 """The session layer that adds camera, render product and lights over the scene."""
 
 from __future__ import annotations
@@ -73,3 +74,16 @@ def test_pose_changes_the_transform_lines():
     la, lb = session_layer("r.usda", recipe, a), session_layer("r.usda", recipe, b)
     assert la != lb
     assert la.count("xformOp:transform =") == lb.count("xformOp:transform =") == 2  # camera and sun
+
+
+def test_hidden_prims_are_made_invisible_in_the_session_layer_only():
+    recipe = load_recipe(RECIPE_PATH)
+    layer = session_layer("r.usda", recipe, plan(recipe)[0])
+    assert recipe.data["scene"]["hidden_prims"] == ["/World/Design"]
+    assert 'over "Design"' in layer and 'token visibility = "invisible"' in layer
+
+
+def test_gain_scales_sun_and_sky_intensity():
+    recipe = load_recipe(RECIPE_PATH)
+    layer = session_layer("r.usda", recipe, plan(recipe)[0], gain=2.0)
+    assert "float inputs:intensity = 6000.0" in layer and "float inputs:intensity = 1200.0" in layer

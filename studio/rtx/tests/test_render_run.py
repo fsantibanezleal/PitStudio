@@ -149,7 +149,7 @@ def test_missing_scene_is_refused_and_nothing_is_written(small_recipe, tmp_path)
 def test_resume_skips_written_frames(small_recipe, data_root, tmp_path):
     out = tmp_path / "out"
     with pytest.raises(RuntimeError, match="boom"):
-        go(small_recipe, out, data_root, FakeBackend(fail_at_apply=8))
+        go(small_recipe, out, data_root, FakeBackend(fail_at_apply=9))  # the first apply is the noise-floor calibration
     done = {p.relative_to(out).as_posix(): p.read_bytes() for p in out.rglob("*.png")}
     assert len(done) == 8
     assert not (out / "manifest.json").exists()  # an interrupted run publishes nothing
@@ -178,7 +178,7 @@ def test_resume_false_renders_everything(small_recipe, data_root, tmp_path):
     out = tmp_path / "out"
     go(small_recipe, out, data_root)
     result, backend = go(small_recipe, out, data_root, resume=False)
-    assert len(backend.applied) == 12 and result.skipped == 0
+    assert len(backend.applied) == 12 + 1 and result.skipped == 0  # plus the noise-floor calibration
 
 
 def test_resume_refuses_a_changed_recipe(small_recipe, data_root, tmp_path):
@@ -216,35 +216,65 @@ def test_guard_tick_before_every_renderer_step(small_recipe, data_root, tmp_path
     _, backend = go(small_recipe, tmp_path / "out", data_root, tick=lambda: ticks.append(1))
     assert len(ticks) == backend.steps > 0
     recipe_steps = sum(p.steps for p in __import__("pitstudio_rtx.render.plan", fromlist=["plan"]).plan(small_recipe))
-    assert backend.steps == recipe_steps
+    first = __import__("pitstudio_rtx.render.plan", fromlist=["plan"]).plan(small_recipe)[0]
+    assert backend.steps == recipe_steps + first.steps + 1  # the calibration: the first pose and one more step
 
 
-def test_ignored_camera_writes_fall_back_to_reload(small_recipe, data_root, tmp_path):
-    backend = FakeBackend(ignore_writes=True)
+def test_ignored_ovstage_camera_falls_back_to_reload_and_records_it(small_recipe, data_root, tmp_path):
+    backend = FakeBackend(ignore_ovstage=True)
     go(small_recipe, tmp_path / "out", data_root, backend)
     assert backend.mode == "reload"
     m = json.loads((tmp_path / "out" / "manifest.json").read_text(encoding="utf-8"))
     assert m["camera_update"] == "reload" and any("reload" in n for n in m["notes"])
 
 
-def test_camera_write_mode_is_recorded_when_it_works(small_recipe, data_root, tmp_path):
+def test_ovstage_camera_mode_is_recorded_when_it_works(small_recipe, data_root, tmp_path):
     go(small_recipe, tmp_path / "out", data_root)
     m = json.loads((tmp_path / "out" / "manifest.json").read_text(encoding="utf-8"))
-    assert m["camera_update"] == "write"
+    assert m["camera_update"] == "ovstage"
 
 
-def test_identical_frames_for_different_poses_fail_after_reload(small_recipe, data_root, tmp_path):
-    import numpy as np
+def test_a_camera_that_never_moves_stops_the_run_before_the_clashing_still_is_written(
+    small_recipe, data_root, tmp_path
+):
+    out = tmp_path / "out"
+    with pytest.raises(RenderError, match="distinct"):
+        go(small_recipe, out, data_root, FakeBackend(ignore_all=True))
+    written = sorted(p.name for p in (out / "stills").glob("*.png"))
+    assert written == [f"{small_recipe.data['stills'][0]['id']}.png"]  # only the first still: it clashes with nobody
 
-    # a busy (not flat) image that does not depend on the pose
-    noise = np.random.default_rng(3).integers(0, 256, (18, 32, 3), dtype=np.uint8)
 
-    class Frozen(FakeBackend):
-        def grab(self):
-            return noise.copy()
+def test_the_distinct_threshold_comes_from_the_measured_noise_floor_and_is_recorded(small_recipe, data_root, tmp_path):
+    go(small_recipe, tmp_path / "out", data_root)
+    state = json.loads((tmp_path / "out" / ".render-state.json").read_text(encoding="utf-8"))
+    d = state["distinct"]
+    assert 0.0 < d["noise_floor"] < 2.0  # the double wobbles by one level between step counts
+    assert d["threshold"] == pytest.approx(max(small_recipe.data["distinct"]["min_threshold"], 10 * d["noise_floor"]))
+    assert d["min_still_difference"] > d["threshold"]
+    m = json.loads((tmp_path / "out" / "manifest.json").read_text(encoding="utf-8"))
+    assert any("distinct" in n and "noise floor" in n for n in m["notes"])
 
-    with pytest.raises(RenderError, match="camera"):
-        go(small_recipe, tmp_path / "out", data_root, Frozen())
+
+def test_a_dark_scene_is_lit_until_every_image_is_inside_the_exposure_band(small_recipe, data_root, tmp_path):
+    from pitstudio_rtx.render.checks import luminance
+    from pitstudio_rtx.render.imageio import read_png
+
+    out = tmp_path / "out"
+    backend = FakeBackend(brightness=0.2)
+    go(small_recipe, out, data_root, backend)
+    lo, hi = small_recipe.data["exposure"]["band"]
+    for png in [*(out / "stills").glob("*.png"), *(out / "flyover").glob("*.png")]:
+        assert lo <= luminance(read_png(png)) <= hi, png.name
+    assert max(backend.gains) > 2.0  # the lights were raised to get there
+    state = json.loads((out / ".render-state.json").read_text(encoding="utf-8"))
+    assert all(lo <= v["luminance"] <= hi for v in state["images"].values())
+
+
+def test_an_image_that_light_cannot_bring_into_the_band_is_refused_and_not_written(small_recipe, data_root, tmp_path):
+    out = tmp_path / "out"
+    with pytest.raises(RenderError, match="exposure"):
+        go(small_recipe, out, data_root, FakeBackend(brightness=0.2, ignore_gain=True))
+    assert not list((out / "stills").glob("*.png"))
 
 
 def test_flat_image_is_refused(small_recipe, data_root, tmp_path):

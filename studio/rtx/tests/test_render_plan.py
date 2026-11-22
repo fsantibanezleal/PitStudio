@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: PT018  (compound assertions read as one fact in these tests)
 """Pose plan, spline and camera/sun matrices of `pitstudio_rtx.render.plan`."""
 
 from __future__ import annotations
@@ -132,3 +133,11 @@ def test_sun_matrix_shines_away_from_the_sun(az, el):
     m = sun_matrix(az, el)
     assert m[:3, :3] @ np.array([0.0, 0.0, -1.0]) == pytest.approx(-toward_sun, abs=1e-9)
     assert m[:3, :3].T @ m[:3, :3] == pytest.approx(np.eye(3))
+
+
+def test_plan_view_looks_straight_down_with_north_up():
+    recipe = load_recipe(RECIPE_PATH)
+    pose = next(p for p in plan(recipe) if p.id == "plan-view")
+    view = np.subtract(pose.target, pose.eye)
+    view = view / np.linalg.norm(view)
+    assert view[2] == pytest.approx(-1.0, abs=1e-9) and tuple(pose.up) == (0.0, 1.0, 0.0)

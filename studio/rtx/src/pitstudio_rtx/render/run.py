@@ -24,9 +24,10 @@ import numpy as np
 
 from pitstudio_rtx.backend import check_runtime_isolation
 from pitstudio_rtx.render.backend import RenderBackend
+from pitstudio_rtx.render.checks import distinct_threshold, first_clash, gain_for, luminance, mean_abs_diff
 from pitstudio_rtx.render.encode import EncodeInfo, encode_clip, find_ffmpeg, pick_encoder
 from pitstudio_rtx.render.gpu import CudaDevice, assert_cuda_visible
-from pitstudio_rtx.render.imageio import is_complete_png, write_png
+from pitstudio_rtx.render.imageio import is_complete_png, read_png, write_png
 from pitstudio_rtx.render.manifest import (
     DIGESTS_FILE,
     MANIFEST_FILE,
@@ -46,7 +47,12 @@ FLAT_STD = 1.0  # an 8-bit image with a standard deviation below this is flat: t
 DRY_RESOLUTION = (320, 180)
 DRY_STILLS = 2
 DRY_FRAMES = 3
-NO_EFFECT = "{}: the camera pose has no effect on the image, even with the layer re-authored per pose"
+NO_DISTINCT = "{}: not a distinct view: it differs from {} by {:.2f} grey levels, below the threshold of {:.2f}"
+NO_MOVE = (
+    "{}: the camera does not move the image (a difference of {:.2f} grey levels to the last probe, threshold {:.2f})"
+)
+NO_EXPOSURE = "{}: exposure {:.3f} is outside the band {:.2f} to {:.2f} after {} tries (light gain {:.2f})"
+PROBE_EVERY = 30  # flyover frames between two camera-motion probes (one second at 30 fps)
 SUN_NOTE = "the scene's own sun is replaced by the recipe sun and sky (the scene has no sky and a sun straight down)"
 
 
@@ -115,10 +121,6 @@ def _plan_digest(recipe: Recipe, poses: list[Pose]) -> str:
     return hashlib.sha256(payload.encode()).hexdigest()
 
 
-def _pose_key(pose: Pose) -> tuple[Any, ...]:
-    return (pose.eye, pose.target, pose.up, pose.focal_length_mm, pose.sun_azimuth_deg, pose.sun_elevation_deg)
-
-
 def _load_state(out: Path, resume: bool, recipe: Recipe, scene: Scene, plan_sha: str, now: str) -> dict[str, Any]:
     path = out / STATE_FILE
     if resume and path.is_file():
@@ -141,13 +143,13 @@ def _load_state(out: Path, resume: bool, recipe: Recipe, scene: Scene, plan_sha:
         "scene_sha256": scene.sha256,
         "plan_sha256": plan_sha,
         "created": now,
-        "camera_update": "write",
+        "camera_update": "ovstage",
         "encode": None,
     }
 
 
-def _render_pose(backend: RenderBackend, pose: Pose, tick: Callable[[], None]) -> np.ndarray:
-    backend.apply(pose)
+def _render_pose(backend: RenderBackend, pose: Pose, tick: Callable[[], None], gain: float = 1.0) -> np.ndarray:
+    backend.apply(pose, gain)
     for _ in range(pose.steps):
         tick()
         backend.step()
@@ -234,8 +236,9 @@ def run(
         )
     if state["camera_update"] == "reload":
         notes.append(
-            "camera update mode: reload (write_attribute was unusable or had no effect; layer re-authored per pose)"
+            "camera update mode: reload (the ovstage camera path was refused or ignored; layer re-authored per pose)"
         )
+    notes.extend(_check_notes(out, recipe, poses, state))
     if state["encode"]["fallback"]:
         wanted = recipe.data["output"]["encoder"]["name"]
         notes.append(f"{state['encode']['name']} used because NVENC ({wanted}) is missing in this FFmpeg build")
@@ -259,6 +262,32 @@ def run(
     return RunResult(manifest_path=out / MANIFEST_FILE, manifest=manifest, rendered=len(todo), skipped=skipped)
 
 
+def _calibrate(
+    backend: RenderBackend, pose: Pose, tick: Callable[[], None], gain: float, dis: dict[str, Any]
+) -> dict[str, float]:
+    """Measure the noise floor: render a pose, step once more without moving anything, compare the two images."""
+    first = _render_pose(backend, pose, tick, gain)
+    tick()
+    backend.step()
+    floor = mean_abs_diff(first, backend.grab())
+    threshold = distinct_threshold(floor, minimum=dis["min_threshold"], factor=dis["floor_factor"])
+    return {"noise_floor": round(floor, 4), "threshold": round(threshold, 4)}
+
+
+def _lit(
+    backend: RenderBackend, pose: Pose, tick: Callable[[], None], gain: float, exp: dict[str, Any]
+) -> tuple[np.ndarray, float, float]:
+    """Render `pose`, raising or lowering the light until the mean luminance is inside the band; (image, lum, gain)."""
+    lo, hi = exp["band"]
+    for _ in range(exp["tries"]):
+        image = _render_pose(backend, pose, tick, gain)
+        lum = luminance(image)
+        if lo <= lum <= hi:
+            return image, lum, gain
+        gain = gain_for(lum, exp["target"], gain, limit=exp["max_gain"])
+    raise RenderError(NO_EXPOSURE.format(pose.out, lum, lo, hi, exp["tries"], gain))
+
+
 def _render_all(
     backend: RenderBackend,
     recipe: Recipe,
@@ -274,27 +303,79 @@ def _render_all(
     started, completed = now(), False
     backend.open(scene.root.as_posix(), recipe)
     state["producer"] = backend.describe()
+    exp, dis = recipe.data["exposure"], recipe.data["distinct"]
+    images = state.setdefault("images", {})
+    gain = float(state.get("gain", 1.0))
     try:
-        previous: tuple[tuple[Any, ...], str] | None = None
+        if "distinct" not in state:
+            state["distinct"] = _calibrate(backend, todo[0], tick, gain, dis)
+        threshold = state["distinct"]["threshold"]
+        pending = {p.out for p in todo}
+        stills = {  # the stills a resumed run kept take part in the distinct check
+            p.id: read_png(out / p.out)
+            for p in plan(recipe)
+            if p.kind == "still" and p.out not in pending and is_complete_png(out / p.out)
+        }
+        probe: np.ndarray | None = None
         for pose in todo:
-            image = _render_pose(backend, pose, tick)
-            digest = hashlib.sha256(image.tobytes()).hexdigest()
-            if previous and _pose_key(pose) != previous[0] and digest == previous[1]:
-                if backend.mode != "write":
-                    raise RenderError(NO_EFFECT.format(pose.out))
-                backend.set_mode("reload")  # the attribute writes are ignored: re-author the layer per pose
-                image = _render_pose(backend, pose, tick)
-                digest = hashlib.sha256(image.tobytes()).hexdigest()
-                if digest == previous[1]:
-                    raise RenderError(NO_EFFECT.format(pose.out))
-            previous = (_pose_key(pose), digest)
+            image, lum, gain = _lit(backend, pose, tick, gain, exp)
+            if pose.kind == "still":
+                clash = first_clash(image, stills, threshold)
+                if clash and backend.mode != "reload":
+                    backend.set_mode("reload")  # the ovstage path accepted the pose but did not move the camera
+                    image, lum, gain = _lit(backend, pose, tick, gain, exp)
+                    clash = first_clash(image, stills, threshold)
+                if clash:
+                    raise RenderError(NO_DISTINCT.format(pose.out, *clash, threshold))
+                stills[pose.id] = image
+            elif pose.index % PROBE_EVERY == 0:
+                diff = mean_abs_diff(image, probe) if probe is not None else None
+                if diff is not None and diff < threshold:
+                    if backend.mode == "reload":
+                        raise RenderError(NO_MOVE.format(pose.out, diff, threshold))
+                    backend.set_mode("reload")
+                    image, lum, gain = _lit(backend, pose, tick, gain, exp)
+                    diff = mean_abs_diff(image, probe)
+                    if diff < threshold:
+                        raise RenderError(NO_MOVE.format(pose.out, diff, threshold))
+                probe = image
             write_png(out / pose.out, image)
+            images[pose.out] = {"luminance": round(lum, 4), "gain": round(gain, 4)}
+            if pose.kind == "still" or pose.index % PROBE_EVERY == 0:
+                state["gain"], state["camera_update"] = gain, backend.mode
+                dump_json(out / STATE_FILE, state)  # a killed run keeps the luminance record of what it wrote
         completed = True
     finally:
         state["camera_update"] = backend.mode
+        state["gain"] = gain
         dump_json(out / STATE_FILE, state)
         backend.close()
         _local_record(local_path, started, now(), gpu_seconds(), completed)
+
+
+def _check_notes(out: Path, recipe: Recipe, poses: list[Pose], state: dict[str, Any]) -> list[str]:
+    """Audit the written stills against the distinct rule and the images against the exposure band; return the notes."""
+    dis, lo_hi = state["distinct"], recipe.data["exposure"]["band"]
+    stills = {p.id: read_png(out / p.out) for p in poses if p.kind == "still"}
+    names = sorted(stills)
+    closest = min(
+        (mean_abs_diff(stills[a], stills[b]) for i, a in enumerate(names) for b in names[i + 1 :]), default=None
+    )
+    if closest is not None and closest < dis["threshold"]:
+        raise RenderError(
+            f"two stills differ by only {closest:.2f} grey levels, below the threshold of {dis['threshold']}"
+        )
+    dis["min_still_difference"] = round(closest, 2) if closest is not None else None
+    lums = [v["luminance"] for v in state["images"].values()]
+    gains = [v["gain"] for v in state["images"].values()]
+    if not lums or min(lums) < lo_hi[0] or max(lums) > lo_hi[1]:
+        raise RenderError(f"an image is outside the exposure band {lo_hi[0]} to {lo_hi[1]}")
+    return [
+        f"distinct stills: the closest pair differs by {dis['min_still_difference']} grey levels; noise floor "
+        f"{dis['noise_floor']}, threshold {dis['threshold']}",
+        f"exposure: mean linear luminance of every image between {min(lums):.3f} and {max(lums):.3f} "
+        f"(band {lo_hi[0]} to {lo_hi[1]}); light gain between {min(gains):.2f} and {max(gains):.2f}",
+    ]
 
 
 def _ovrtx_version() -> str | None:
@@ -344,6 +425,12 @@ def dry_run(
     print(f"CUDA device: {device.name} (driver {device.driver}, {device.temperature_c} C)")
     print(f"encoder: {encoder}" + (" (fallback: NVENC is missing)" if fell_back else ""))
     print(f"planned frames: {DRY_STILLS} stills + {DRY_FRAMES} flyover frames at {w}x{h}")
+    dis, exp = recipe.data["distinct"], recipe.data["exposure"]
+    print(
+        f"checks: distinct threshold at least {dis['min_threshold']} grey levels ({dis['floor_factor']} x the measured "
+        f"noise floor), exposure band {exp['band'][0]} to {exp['band'][1]} mean linear luminance, "
+        f"camera update {recipe.data['camera']['update']}"
+    )
     print(f"full run: {n_still} stills + {n_fly} flyover frames at {fw}x{fh}, estimated output {gib:.1f} GiB")
     return DryRunReport(
         reduced_poses={"stills": DRY_STILLS, "flyover": DRY_FRAMES, "resolution": DRY_RESOLUTION},

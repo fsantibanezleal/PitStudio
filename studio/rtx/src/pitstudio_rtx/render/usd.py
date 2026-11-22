@@ -41,8 +41,12 @@ def _variants(recipe: Recipe) -> str:
     return f"    variants = {{\n{body}\n    }}\n"
 
 
-def session_layer(scene_root: str, recipe: Recipe, pose: Pose) -> str:
-    """USDA text of the session layer for `pose` over the scene root layer `scene_root`."""
+def session_layer(scene_root: str, recipe: Recipe, pose: Pose, gain: float = 1.0) -> str:
+    """USDA text of the session layer for `pose` over the scene root layer `scene_root`.
+
+    `gain` multiplies the sun and sky intensity (the run raises or lowers the light to reach the exposure band). The
+    prims the recipe lists in `scene.hidden_prims` are made invisible here, in the render only: the scene is unchanged.
+    """
     camera, sun, sky = recipe.data["camera"], recipe.data["sun"], recipe.data["sky"]
     width, height = camera["resolution"]
     aperture = camera["horizontal_aperture_mm"]
@@ -50,6 +54,16 @@ def session_layer(scene_root: str, recipe: Recipe, pose: Pose) -> str:
     color = ", ".join(_f(v) for v in sky["color"])
     variants = _variants(recipe)
     world_head = 'over "World"' + (f"\n(\n{variants})" if variants else "")
+    hidden = [
+        line
+        for prim in recipe.data["scene"].get("hidden_prims", [])
+        for line in (
+            f'    over "{prim.rsplit("/", 1)[-1]}"',
+            "    {",
+            '        token visibility = "invisible"',
+            "    }",
+        )
+    ]
     lines = [
         "#usda 1.0",
         "(",
@@ -68,6 +82,7 @@ def session_layer(scene_root: str, recipe: Recipe, pose: Pose) -> str:
         "        {",
         "        }",
         "    }",
+        *hidden,
         "}",
         "",
         'def Scope "Render"',
@@ -84,14 +99,14 @@ def session_layer(scene_root: str, recipe: Recipe, pose: Pose) -> str:
         "    }",
         '    def DistantLight "Sun"',
         "    {",
-        f"        float inputs:intensity = {_f(sun['intensity'])}",
+        f"        float inputs:intensity = {_f(sun['intensity'] * gain)}",
         f"        float inputs:angle = {_f(sun['angle_deg'])}",
         f"        matrix4d xformOp:transform = {matrix_rows(sun_matrix(pose.sun_azimuth_deg, pose.sun_elevation_deg))}",
         '        uniform token[] xformOpOrder = ["xformOp:transform"]',
         "    }",
         '    def DomeLight "Sky"',
         "    {",
-        f"        float inputs:intensity = {_f(sky['intensity'])}",
+        f"        float inputs:intensity = {_f(sky['intensity'] * gain)}",
         f"        color3f inputs:color = ({color})",
         "    }",
         '    def RenderProduct "Product"',

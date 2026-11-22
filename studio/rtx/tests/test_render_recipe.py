@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# ruff: noqa: PT018  (compound assertions read as one fact in these tests)
 """Recipe loading, validation, scene resolution and the missing-layer behavior."""
 
 from __future__ import annotations
@@ -96,3 +97,37 @@ def test_missing_layers_are_listed_not_invented(tmp_path):
     make_scene(root, layers=("lights", "design", "terrain"), materials=False)
     scene = resolve_scene(load_recipe(RECIPE_PATH), root)
     assert scene.missing_layers == ("fleet", "materials")
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda d: d.pop("exposure"), "/exposure"),
+        (lambda d: d["exposure"].update(band=[0.5, 0.2]), "/exposure/band"),
+        (lambda d: d["exposure"].update(target=0.9), "/exposure/target"),
+        (lambda d: d.pop("distinct"), "/distinct"),
+        (lambda d: d["distinct"].update(min_threshold=0), "/distinct/min_threshold"),
+        (lambda d: d["scene"].update(hidden_prims=["/Design"]), "/scene/hidden_prims"),
+        (lambda d: d["camera"].update(update="write"), "/camera/update"),
+    ],
+)
+def test_exposure_distinct_hidden_prims_and_camera_update_are_validated(tmp_path, mutate, message):
+    with pytest.raises(RenderRecipeError, match=message):
+        load_recipe(_write(tmp_path, mutate))
+
+
+def test_the_real_recipe_states_its_exposure_band_and_distinct_rule():
+    r = load_recipe(RECIPE_PATH)
+    lo, hi = r.data["exposure"]["band"]
+    assert 0.0 < lo < r.data["exposure"]["target"] < hi < 1.0
+    assert r.data["distinct"]["floor_factor"] > 1.0 and r.data["camera"]["update"] == "ovstage"
+
+
+def test_a_missing_texture_file_is_listed_in_missing_layers(tmp_path):
+    root = tmp_path / "d"
+    scene = make_scene(root)
+    text = "asset inputs:file = @textures/bench_rock.jpg@\nasset inputs:file = @textures/gravel_road.jpg@\n"
+    (scene / "assets" / "materials.usda").write_text(text, encoding="utf-8")
+    (scene / "assets" / "textures").mkdir()
+    (scene / "assets" / "textures" / "bench_rock.jpg").write_bytes(b"jpg")
+    assert resolve_scene(load_recipe(RECIPE_PATH), root).missing_layers == ("texture:gravel_road.jpg",)

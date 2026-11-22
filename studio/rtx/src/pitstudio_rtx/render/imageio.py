@@ -45,3 +45,26 @@ def is_complete_png(path: str | Path) -> bool:
     except OSError:
         return False
     return data.startswith(PNG_SIGNATURE) and data.endswith(IEND)
+
+
+def read_png(path: str | Path) -> np.ndarray:
+    """Read back an 8-bit RGB, non-interlaced PNG as written by `write_png` (filter 0 or any standard filter)."""
+    data = Path(path).read_bytes()
+    if not data.startswith(PNG_SIGNATURE):
+        raise ValueError(f"{path}: not a PNG file")
+    pos, idat, header = len(PNG_SIGNATURE), b"", None
+    while pos < len(data):
+        (length,) = struct.unpack(">I", data[pos : pos + 4])
+        kind, body = data[pos + 4 : pos + 8], data[pos + 8 : pos + 8 + length]
+        if kind == b"IHDR":
+            header = struct.unpack(">IIBBBBB", body)
+        elif kind == b"IDAT":
+            idat += body
+        pos += 12 + length
+    if header is None or header[2:] != (8, 2, 0, 0, 0):
+        raise ValueError(f"{path}: only 8-bit RGB non-interlaced PNG files are supported")
+    width, height = header[0], header[1]
+    raw = np.frombuffer(zlib.decompress(idat), dtype=np.uint8).reshape(height, 1 + 3 * width)
+    if raw[:, 0].any():
+        raise ValueError(f"{path}: filtered scanlines are not supported (this module writes filter 0)")
+    return np.ascontiguousarray(raw[:, 1:].reshape(height, width, 3))

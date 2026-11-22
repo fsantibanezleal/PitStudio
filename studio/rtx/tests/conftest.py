@@ -51,16 +51,34 @@ def make_scene(
 
 
 class FakeBackend:
-    """Deterministic render backend double: the image is a function of the applied pose (and mode)."""
+    """Deterministic render backend double: the image is a function of the applied pose, the light gain and the mode.
 
-    def __init__(self, *, ignore_writes: bool = False, fail_at_apply: int | None = None, flat: bool = False) -> None:
-        self.ignore_writes, self.fail_at_apply, self.flat = ignore_writes, fail_at_apply, flat
-        self.mode = "write"
+    `ignore_ovstage`: the ovstage camera path has no effect (the first pose stays on screen) until the mode is
+    "reload"; `ignore_all`: the camera never moves; `brightness`: scene exposure before the light gain; `ignore_gain`:
+    the light gain has no effect; `flat`: the image is constant.
+    """
+
+    def __init__(
+        self,
+        *,
+        ignore_ovstage: bool = False,
+        ignore_all: bool = False,
+        ignore_gain: bool = False,
+        fail_at_apply: int | None = None,
+        flat: bool = False,
+        brightness: float = 1.0,
+    ) -> None:
+        self.ignore_ovstage, self.ignore_all, self.ignore_gain = ignore_ovstage, ignore_all, ignore_gain
+        self.fail_at_apply, self.flat, self.brightness = fail_at_apply, flat, brightness
+        self.mode = "ovstage"
         self.applied: list[Any] = []
+        self.gains: list[float] = []
         self.steps = 0
         self.opened = 0
         self.closed = 0
         self._shown: Any = None
+        self._gain = 1.0
+        self._steps_since_apply = 0
         self.size = (18, 32)
 
     def describe(self) -> dict[str, str]:
@@ -74,22 +92,31 @@ class FakeBackend:
     def set_mode(self, mode: str) -> None:
         self.mode = mode
 
-    def apply(self, pose: Any) -> None:
+    def apply(self, pose: Any, gain: float = 1.0) -> None:
         if self.fail_at_apply is not None and len(self.applied) >= self.fail_at_apply:
             raise RuntimeError("boom")
         self.applied.append(pose)
-        if self._shown is None or not self.ignore_writes or self.mode == "reload":
+        self.gains.append(gain)
+        self._steps_since_apply = 0
+        moves = not self.ignore_all and not (self.ignore_ovstage and self.mode == "ovstage")
+        if self._shown is None or moves:
             self._shown = pose
+        if not self.ignore_gain:
+            self._gain = gain
 
     def step(self) -> None:
         self.steps += 1
+        self._steps_since_apply += 1
 
     def grab(self) -> np.ndarray:
         if self.flat:
             return np.full((*self.size, 3), 7, dtype=np.uint8)
         key = repr((self._shown.eye, self._shown.target, self._shown.sun_azimuth_deg))
         seed = sum((i + 1) * ord(c) for i, c in enumerate(key)) % (2**32)
-        return np.random.default_rng(seed).integers(0, 256, (*self.size, 3), dtype=np.uint8)
+        base = np.random.default_rng(seed).integers(40, 216, (*self.size, 3)).astype(np.float64)
+        shade = (self.brightness * self._gain) ** 0.45
+        wobble = (self._steps_since_apply % 3) - 1  # one level of renderer noise between step counts
+        return np.clip(base * shade + wobble, 0, 255).astype(np.uint8)
 
     def close(self) -> None:
         self.closed += 1

@@ -20,6 +20,8 @@ import yaml
 SLUG = re.compile(r"[a-z0-9][a-z0-9-]{0,47}")
 MIN_STILLS = 6
 MIN_CONTROL_POINTS = 4
+UPDATE_MODES = ("ovstage", "reload")
+TEXTURE_REF = re.compile(r"@(textures/[^@]+)@")
 
 
 class RenderRecipeError(ValueError):
@@ -80,7 +82,20 @@ def _positive(value: Any, pointer: str) -> None:
 def _validate(data: Any) -> None:
     if not isinstance(data, dict):
         raise RenderRecipeError("/: the recipe must be a mapping")
-    for key in ("id", "scene", "camera", "sun", "sky", "steps", "stills", "flyover", "output", "label"):
+    for key in (
+        "id",
+        "scene",
+        "camera",
+        "sun",
+        "sky",
+        "steps",
+        "stills",
+        "flyover",
+        "output",
+        "label",
+        "exposure",
+        "distinct",
+    ):
         if key not in data:
             raise _fail(f"/{key}", "is required")
     if not SLUG.fullmatch(str(data["id"])):
@@ -95,6 +110,26 @@ def _validate(data: Any) -> None:
         raise _fail("/camera/resolution", "must be [width, height] integers between 16 and 8192")
     for key in ("focal_length_mm", "horizontal_aperture_mm"):
         _positive(camera.get(key), f"/camera/{key}")
+    if camera.get("update") not in UPDATE_MODES:
+        raise _fail(
+            "/camera/update", f"must be one of {', '.join(UPDATE_MODES)} (the write-attribute path had no effect)"
+        )
+    for prim in scene.get("hidden_prims", []):
+        if not (isinstance(prim, str) and re.fullmatch(r"/World/[A-Za-z_][A-Za-z0-9_]*", prim)):
+            raise _fail("/scene/hidden_prims", "must be a list of /World/<name> prim paths")
+    exposure = data["exposure"]
+    band = exposure.get("band")
+    if not (isinstance(band, list) and len(band) == 2 and 0 < band[0] < band[1] < 1):
+        raise _fail("/exposure/band", "must be [low, high] mean linear luminances with 0 < low < high < 1")
+    target = exposure.get("target")
+    if not (isinstance(target, (int, float)) and band[0] < target < band[1]):
+        raise _fail("/exposure/target", "must lie inside the band")
+    _positive(exposure.get("max_gain"), "/exposure/max_gain")
+    if not (isinstance(exposure.get("tries"), int) and exposure["tries"] >= 1):
+        raise _fail("/exposure/tries", "must be an integer of at least 1")
+    distinct = data["distinct"]
+    _positive(distinct.get("min_threshold"), "/distinct/min_threshold")
+    _positive(distinct.get("floor_factor"), "/distinct/floor_factor")
     stills = data["stills"]
     if not isinstance(stills, list) or len(stills) < MIN_STILLS:
         raise _fail("/stills", f"needs at least {MIN_STILLS} stills")
@@ -181,6 +216,10 @@ def resolve_scene(recipe: Recipe, data_root: str | Path) -> Scene:
     layers = tuple((name, _sha256_file(p)) for name, p in sorted(files.items()))
     combined = hashlib.sha256("\n".join(f"{n}:{d}" for n, d in layers).encode()).hexdigest()
     missing = tuple(sorted(r for r in spec["required_layers"] if _layer_file(root.parent, r) is None))
+    materials = root.parent / "assets" / "materials.usda"
+    if materials.is_file():  # a texture file the materials name but the scene folder lacks is listed, never invented
+        names = sorted(set(TEXTURE_REF.findall(materials.read_text(encoding="utf-8", errors="replace"))))
+        missing += tuple(f"texture:{Path(n).name}" for n in names if not (materials.parent / n).is_file())
     found = re.search(r'string manifest_id = "([^"]+)"', root.read_text(encoding="utf-8", errors="replace")[:4096])
     return Scene(
         id=spec["id"],

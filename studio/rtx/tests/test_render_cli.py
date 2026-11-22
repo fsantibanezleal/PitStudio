@@ -53,6 +53,7 @@ def test_dry_run_reports_plan_cuda_and_encoder(tmp_path, capsys):
     assert "CUDA device: NVIDIA RTX 5000 Ada Generation Laptop GPU" in text
     assert "encoder: h264_nvenc" in text
     assert "ovrtx 0.5.0.377615" in text
+    assert "checks: distinct threshold at least" in text and "exposure band" in text
     assert not out.exists()  # a dry run writes nothing into the output folder
 
 

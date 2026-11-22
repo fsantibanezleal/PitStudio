@@ -18,6 +18,10 @@ scene:
   # layer roles the camera needs; a missing one is rendered without and listed in the manifest (never invented)
   required_layers: [terrain, design, lights, fleet, materials]
   variants: {}   # empty: the scene's own variant selection (lod0, noon, clear)
+  # prims made invisible in the render only (the scene is unchanged): the design layer's floor (-540 m) disagrees with the
+  # DEM (about -373 m at the design end node), 85 to 96 percent of its vertices lie below the terrain surface and the rest
+  # cut through it as striped artefacts; the DEM itself carries the real benches
+  hidden_prims: [/World/Design]
 
 camera:
   resolution: [1920, 1080]
@@ -25,6 +29,18 @@ camera:
   horizontal_aperture_mm: 36.0
   exposure_stops: 0.0
   clipping_range_m: [1.0, 20000.0]
+  # how the camera is moved between poses: `ovstage` writes into an attached ovstage (not deprecated); a refused or
+  # ignored write switches to `reload` (the layer is re-authored per pose), recorded in the manifest
+  update: ovstage
+
+# every still and flyover frame must have a mean linear luminance (Rec. 709, sRGB decoded, after tone mapping) inside the
+# band; outside it the run scales the sun and sky intensity towards the target (at most max_gain times, `tries` renders)
+# and refuses the image when it cannot reach the band
+exposure: {band: [0.12, 0.45], target: 0.25, max_gain: 32.0, tries: 3}
+
+# two stills are different views when their mean absolute difference (grey levels, 0 to 255) exceeds
+# max(min_threshold, floor_factor x the noise floor); the floor is measured by the run on its first pose
+distinct: {min_threshold: 2.0, floor_factor: 10.0}
 
 # the scene's own sun (straight down, no sky) is replaced by this one; direction toward the sun, compass azimuth
 # clockwise from north (+Y), elevation above the horizon
@@ -40,15 +56,16 @@ stills:
     eye: [-100.0, 1300.0, 420.0]
     target: [-80.0, 80.0, -300.0]
   - id: haul-road-ramp
-    description: The haul-road ramp on the south-west side, looking east along the descending road.
-    eye: [-1000.0, -760.0, -10.0]
-    target: [-500.0, -840.0, -110.0]
+    description: The haul road on the west bench with the fleet standing on it (trucks and people placed by the scene compose stage on the flattest stations of the design ramp), seen from above and behind the lead truck.
+    # lead truck (stage output of st40_compose): x -284.6, y 188.4, z -338.0 (DEM), heading -116.7 degrees
+    eye: [-215.0, 235.0, -300.0]
+    target: [-285.0, 188.0, -336.0]
   - id: east-wall-c1
     description: The east wall sector monitored in case C1, seen from the pit floor.
     eye: [200.0, 100.0, -440.0]
     target: [1050.0, 100.0, -90.0]
   - id: pit-floor-loading
-    description: The pit floor loading area at the lowest point of the pit.
+    description: The pit floor at the lowest point of the pit.
     eye: [150.0, -80.0, -470.0]
     target: [320.0, 70.0, -530.0]
   - id: sunrise-oblique
