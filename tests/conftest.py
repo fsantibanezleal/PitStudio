@@ -16,6 +16,13 @@ import yaml
 REPO = Path(__file__).resolve().parents[1]
 ENVS = ("root", "pipeline", "studio")
 
+# the temporary repositories the tests create (and then run `git` in) can sit in a folder that another account owns, for
+# example a TMP under a machine data root whose folders belong to Administrators: git then refuses them as "dubious
+# ownership" (exit 128). The variables reach every `git` a test starts, and no other repository.
+os.environ.setdefault("GIT_CONFIG_COUNT", "1")
+os.environ.setdefault("GIT_CONFIG_KEY_0", "safe.directory")
+os.environ.setdefault("GIT_CONFIG_VALUE_0", "*")
+
 
 def load_owners() -> list[tuple[str, str]]:
     """(glob, owner) pairs of tests/envs.yaml in file order."""
