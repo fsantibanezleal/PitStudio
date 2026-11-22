@@ -2,7 +2,8 @@
 finished job (never from memory). A builder reads the job's `--from` folder and returns a JSON document; a source it
 needs but cannot find raises `Missing`, which the import reports as a usage error naming the file.
 
-A summary has one shape, read by the case page ("Published results"): `title`, `label` (the data label), `verdict`
+A summary has one shape, read by the case page ("Published results"): `title`, `label` (the data label), `methods`
+(registry method ids the result used), `verdict`
 (`ok`, `partial` or `failed`), `headline` (named values with unit) and `rows` (small tables). A results bundle follows
 contracts/results.schema.json (DC-020-02) and is written to web/public/results/ by `studio publish`.
 """
@@ -61,6 +62,7 @@ def c1_summary(src: Path, run_id: str) -> dict:
     best = min(rows, key=lambda r: r["mean_abs_error_h"])
     arms = {a["arm"]: a for a in train["arms"]}
     return {
+        "methods": ["M14"],
         "title": "Slope time-to-failure forecasters: TCN, PatchTST and Chronos-Bolt against inverse velocity",
         "label": SYNTH + "; nominal signal-to-noise strata, no observed SNR; one real event not run",
         "verdict": "ok",
@@ -151,6 +153,7 @@ def d1_summary(src: Path, run_id: str) -> dict:
     s = _json(src, "summary.json")
     folds = [_json(src, f"fold{i}/result.json") for i in range(len(s["folds"]))]
     return {
+        "methods": ["M11"],
         "title": "Fragmentation U-Net, trained and tested on real images, five scene-grouped folds",
         "label": "real images (Mendeley Data 78ht3pjsr4, CC BY 4.0); metrics only, no image is published",
         "verdict": "ok",
@@ -219,6 +222,7 @@ def a3_summary(src: Path, run_id: str) -> dict:
     r = _json(src, "results.json")
     sm = r["summary"]
     return {
+        "methods": ["M7"],
         "title": "Granular repose angle of the discrete element model at 20,000 particles, five seeds",
         "label": SYNTH,
         "verdict": "ok" if r.get("complete") else "partial",
@@ -244,6 +248,7 @@ def gns_summary(src: Path, run_id: str) -> dict:
     passed, diverged = sum(1 for x in g if x["pass"]), sum(1 for x in g if x.get("diverged"))
     card = _json(src, "export_card.json")
     return {
+        "methods": ["M8"],
         "title": "Graph network simulator v1 against the discrete element reference: FAILED acceptance SC-011-01",
         "label": SYNTH,
         "verdict": "failed",
@@ -281,6 +286,7 @@ def scene_summary(src: Path, run_id: str) -> dict:
     }
     dem = next(i for i in manifest["inputs"] if i["kind"] == "dem")
     return {
+        "methods": [],
         "title": "Bingham Canyon pit terrain, real elevation model baked to a quadtree of terrain tiles",
         "label": "real USGS 3DEP terrain (QL2 elevation model, 2018 acquisition), public domain",
         "verdict": "ok" if report["passed"] else "failed",
