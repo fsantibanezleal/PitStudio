@@ -3,6 +3,7 @@ import { ArtefactCard } from "~/cards/ArtefactCard";
 import { VideoCard } from "~/media/VideoCard";
 import { ClockControls } from "~/sim/ClockControls";
 import type { SimClock } from "~/sim/clock";
+import { CalibrationReplay } from "~/surrogates/CalibrationReplay";
 import styles from "./cases.module.css";
 import { replayVideosOf } from "./replayVideos";
 import type { ArtefactRecord, RunSummary } from "./types";
@@ -32,13 +33,17 @@ export function ReplayTab({
   const assets = `${import.meta.env.BASE_URL}assets/`;
   if (own.length === 0) {
     return (
-      <p className={styles.panel}>
-        <span className={styles.pending}>{t("notYetRun")}</span> · {t("case.replayPending")}
-      </p>
+      <>
+        {caseId === "A3" && <CalibrationReplay />}
+        <p className={styles.panel}>
+          <span className={styles.pending}>{t("notYetRun")}</span> · {t("case.replayPending")}
+        </p>
+      </>
     );
   }
   return (
     <>
+      {caseId === "A3" && <CalibrationReplay />}
       {clock &&
         videos.map((video, index) => (
           <VideoCard

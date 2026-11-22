@@ -1,0 +1,58 @@
+{
+  "lane": {
+    "live": "LIVE",
+    "replay": "REPLAY"
+  },
+  "extrapolation": "extrapolation \u2014 no accuracy claim",
+  "notTrained": "Modelo a\u00fan no entrenado: {{engine}} no publica ning\u00fan archivo ONNX en esta versi\u00f3n, por lo que no se calcula nada y no se muestra ning\u00fan resultado.",
+  "runtimeMissing": "ONNX Runtime no est\u00e1 integrado en esta versi\u00f3n: el modelo publicado no se ejecuta y no se muestra ning\u00fan resultado.",
+  "checking": "Buscando un modelo publicado",
+  "gns": {
+    "region": "GNS granular flow",
+    "family": "Familia de geometr\u00eda",
+    "families": {
+      "column-collapse": "Colapso de columna",
+      "pile-formation": "Formaci\u00f3n de pila",
+      "dump-over-crest": "Descarga sobre cresta"
+    },
+    "params": {
+      "column_aspect_ratio": "Relaci\u00f3n de aspecto",
+      "column_width": "Ancho de la columna (m)",
+      "pour_height": "Altura de vertido (m)",
+      "pour_rate": "Tasa de vertido (m\u00b2/s)",
+      "crest_height": "Altura de la cresta (m)",
+      "dump_rate": "Tasa de descarga (m\u00b2/s)"
+    },
+    "count": "N\u00famero de part\u00edculas",
+    "start": "Iniciar",
+    "stop": "Detener",
+    "live": "Simulaci\u00f3n en vivo",
+    "reference": "Referencia del solver",
+    "stepTime": "Tiempo por paso",
+    "cap": "L\u00edmite de part\u00edculas en T2",
+    "msValue": "{{value}} ms",
+    "particles": "{{value}} part\u00edculas"
+  },
+  "fno": {
+    "regionC2": "FNO tailings flow",
+    "regionC3": "FNO dust plume",
+    "params": {
+      "breach_row": "Fila de la brecha",
+      "breach_col": "Columna de la brecha",
+      "release_volume": "Volumen liberado (m\u00b3)",
+      "yield_stress": "Esfuerzo de fluencia \u03c4_y (Pa)",
+      "plastic_viscosity": "Viscosidad pl\u00e1stica \u03bc_B (Pa\u00b7s)",
+      "wind_speed": "Velocidad del viento (m/s)",
+      "wind_direction": "Direcci\u00f3n del viento (\u00b0)"
+    },
+    "live": "Campo en vivo",
+    "reference": "Referencia del solver",
+    "evaluation": "Tiempo de evaluaci\u00f3n"
+  },
+  "calibration": {
+    "region": "Calibration replay",
+    "notPublished": "El estudio de calibraci\u00f3n no se ha ejecutado en la GPU, por lo que esta versi\u00f3n no publica ninguna curva, trayectoria, cobertura ni perfil."
+  },
+  "evaluationFailed": "Evaluaci\u00f3n fallida: {{passed}} de {{total}} geometr\u00edas de prueba cumplen los l\u00edmites de aceptaci\u00f3n, por lo que el modelo {{engine}} no se ofrece como resultado en vivo y no se dibuja nada.",
+  "notEvaluated": "El modelo {{engine}} est\u00e1 publicado sin informe de evaluaci\u00f3n, por lo que no se ofrece como resultado en vivo y no se dibuja nada."
+}
