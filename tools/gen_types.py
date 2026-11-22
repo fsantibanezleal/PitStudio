@@ -15,6 +15,7 @@ import os
 import subprocess
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
 
@@ -44,6 +45,7 @@ OPTIONS = [
     "--disable-timestamp",
     "--formatters", "builtin",
 ]  # fmt: skip
+WORKERS = max(1, min(16, os.cpu_count() or 1))
 UNSUPPORTED_KEYS = ("prefixItems", "$dynamicRef", "$dynamicAnchor", "$recursiveRef")
 
 
@@ -136,11 +138,11 @@ def generate(contracts: Path, workdir: Path) -> dict[str, bytes]:
     stems = [stem_of(s) for s in schemas]
     out = workdir / "generated"
     out.mkdir()
-    produced = []
-    for schema_file in schemas:
-        target = out / f"{stem_of(schema_file).replace('-', '_')}.py"
-        generate_module(schema_file, target)
-        produced.append(target)
+    produced = [out / f"{stem_of(s).replace('-', '_')}.py" for s in schemas]
+    # one generator process per schema (about 2 s of start-up each on Windows): run them side by side; map keeps the
+    # schema order, so the first failure reported is the same as in a serial run
+    with ThreadPoolExecutor(max_workers=min(WORKERS, max(len(schemas), 1))) as pool:
+        list(pool.map(generate_module, schemas, produced))
     init = out / "__init__.py"
     init.write_text(init_text(stems), encoding="utf-8", newline="\n")
     format_with_ruff([*produced, init])
