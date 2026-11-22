@@ -4,10 +4,10 @@ Pure NumPy, no Isaac Sim. The exposure thresholds are those of `exposure_qa.eval
 rgb std quantiles, haze-limited frames listed apart); the annotated share rises to 85 percent because the table now
 constructs visibility (FR-009-54); two geometry checks are added:
 
-- no frame has a median finite depth below `MIN_MEDIAN_DEPTH_M` (the table's `VIEW_NEAR_M`); a frame with no finite depth
-  counts as too near, it shows no ground;
-- at least `AGREEMENT_SHARE` of the objects the table marks visible have at least `MIN_INSTANCE_PX` visible pixels in the
-  render (renderer and table agree on what is seen).
+- no frame has a median finite depth below `MIN_MEDIAN_DEPTH_M` (the table's `VIEW_NEAR_M`); a frame with no
+  finite depth counts as too near, it shows no ground;
+- at least `AGREEMENT_SHARE` of the objects the table marks visible have at least `MIN_INSTANCE_PX` visible
+  pixels in the render (renderer and table agree on what is seen).
 """
 
 from __future__ import annotations
@@ -25,7 +25,8 @@ AGREEMENT_SHARE = 0.90
 
 
 def evaluate_gate(frames: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
-    """Every threshold of the gate on frame measures (`exposure_qa.evaluate_gate` keys plus `median_depth_m`, `objects`)."""
+    """Every threshold of the gate on frame measures (`exposure_qa.evaluate_gate` keys plus `median_depth_m`,
+    `objects`)."""
     base = exposure_qa.evaluate_gate(frames)
     thresholds = dict(base["thresholds"])
     n = len(frames)
