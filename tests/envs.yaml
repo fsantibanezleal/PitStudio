@@ -18,9 +18,37 @@ studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/pipeline/test_t_004_053_*.py
   - tests/property/test_t_006_030_*.py   # the real nvtx package (spec 006, FR-006-17)
   - tests/unit/test_t_006_033_*.py       # a Warp CPU workload with the real nvtx package (NFR-006-02)
+  # imports proven by the root run of 2026-11-22 (ModuleNotFoundError in the root environment, green in this one)
+  - tests/metamorphic/test_t_004_011_*.py   # pyproj, pitstudio_studio.scene
+  - tests/metamorphic/test_t_004_020_*.py   # shapely, pitstudio_studio.scene.design
+  - tests/property/test_t_004_0[12][13]_*.py   # rasterio, shapely (hole fill, ramp, cut and fill)
+  - tests/property/test_t_004_031_*.py      # pxr
+  - tests/property/test_t_004_052_*.py      # pxr
+  - tests/unit/test_sdg_inputs_tool.py      # shapely, the SDG input builder of the studio lane
+  - tests/unit/test_t_004_0[0-4]*_*.py      # pxr, pyproj, shapely, laspy through pitstudio_studio.scene (spec 004 scene pipeline)
+  - tests/unit/test_t_004_05*_*.py
+  - tests/unit/test_t_004_09[24-8]_*.py
+  - tests/unit/test_t_013_01[345]_*.py      # pyarrow and pitstudio_rtx (studio/rtx): the sensor lane
+  - tests/unit/test_t_013_024_*.py
+  - tests/unit/test_t_013_060_*.py
+  - tests/unit/test_t_013_092_*.py
+  - tests/contract/test_t_013_017_*.py
 pipeline:   # torch, onnx, onnxruntime, polars, scipy ... (pipeline/pyproject.toml)
   - tests/pipeline/**
   - tests/unit/test_t_012_*.py
   - tests/property/test_t_012_*.py
   - tests/property/test_t_011_050_*.py
   - tests/unit/test_t_009_017_*.py
+  # imports proven by the root run of 2026-11-22 (pitstudio_pipeline, onnx, pycocotools, imagehash: absent from the root environment)
+  - tests/contract/test_t_009_060_*.py
+  - tests/contract/test_t_009_070_*.py
+  - tests/metamorphic/test_t_009_032_*.py
+  - tests/property/test_t_009_020_*.py
+  - tests/unit/test_t_009_019_*.py
+  - tests/unit/test_t_009_03[23]_*.py
+  - tests/unit/test_t_009_050_*.py
+  - tests/unit/test_t_009_061_*.py
+  - tests/unit/test_t_009_09[78]_*.py
+  - tests/unit/test_t_016_01[013]_*.py
+  - tests/unit/test_t_016_020_*.py
+  - tests/unit/test_t_016_041_*.py
