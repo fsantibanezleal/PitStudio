@@ -8749,6 +8749,8 @@
         "T-009-100"
       ],
       "tests": [
+        "tests/unit/test_t_009_016_carved_scene.py",
+        "tests/unit/test_t_009_016_geometry_gate.py",
         "tests/unit/test_t_009_100_line_of_sight.py"
       ]
     },
@@ -10316,7 +10318,10 @@
         "T-011-014"
       ],
       "tests": [
+        "tests/pipeline/test_011_gns_v3_dataset_contract.py",
         "tests/pipeline/test_t_011_014_gns_training.py",
+        "tests/unit/test_t_011_014_planar_engine.py",
+        "tests/unit/test_t_011_014_planar_generate.py",
         "tests/unit/test_t_011_014_planar_space.py"
       ]
     },
@@ -10406,6 +10411,7 @@
       ],
       "tests": [
         "tests/pipeline/test_t_011_015_gns_evaluate.py",
+        "tests/unit/test_t_011_014_planar_engine.py",
         "tests/unit/test_t_011_014_planar_space.py"
       ]
     },
@@ -10458,6 +10464,7 @@
         "T-011-018"
       ],
       "tests": [
+        "tests/pipeline/test_011_gns_v3_dataset_contract.py",
         "tests/pipeline/test_t_011_018_rollout_ingest.py"
       ]
     },

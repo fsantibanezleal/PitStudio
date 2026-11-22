@@ -578,7 +578,7 @@
 | FR-009-51 | 009-perception | draft | T-009-097 | tests/unit/test_t_009_097_fixture_propagation.py |
 | FR-009-52 | 009-perception | draft | T-009-098 | tests/unit/test_t_009_098_partial_models.py |
 | FR-009-53 | 009-perception | draft | T-009-099 | tests/unit/test_t_009_099_input_stale.py |
-| FR-009-54 | 009-perception | draft | T-009-100 | tests/unit/test_t_009_100_line_of_sight.py |
+| FR-009-54 | 009-perception | draft | T-009-100 | tests/unit/test_t_009_016_carved_scene.py, tests/unit/test_t_009_016_geometry_gate.py, tests/unit/test_t_009_100_line_of_sight.py |
 | FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/unit/test_t_010_010_lem_search.py |
 | FR-010-02 | 010-slope | draft | T-010-011 | tests/parity/test_t_010_018_geotech_goldens.py, tests/unit/test_t_010_011_hoek_brown_slices.py |
 | FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/property/test_t_010_015_pof.py |
@@ -629,18 +629,18 @@
 | FR-010-48 | 010-slope | draft | T-010-097 | tests/unit/test_t_010_097_input_stale.py |
 | FR-011-01 | 011-surrogates | draft | T-011-010 | tests/pipeline/test_t_011_010_gns_model.py |
 | FR-011-02 | 011-surrogates | draft | T-011-011 | tests/property/test_t_011_011_radius_graph.py, web/src/engines/gns/radiusGraph.test.ts |
-| FR-011-03 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_t_011_014_gns_training.py, tests/unit/test_t_011_014_planar_space.py |
+| FR-011-03 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_011_gns_v3_dataset_contract.py, tests/pipeline/test_t_011_014_gns_training.py, tests/unit/test_t_011_014_planar_engine.py, tests/unit/test_t_011_014_planar_generate.py, tests/unit/test_t_011_014_planar_space.py |
 | FR-011-04 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_011_gns_v2_rollout_noise.py, tests/pipeline/test_011_gns_v2_validation_rollouts.py, tests/pipeline/test_t_011_014_gns_training.py |
 | FR-011-05 | 011-surrogates | draft | T-011-013 | tests/pipeline/test_011_gns_v2_repose.py, tests/property/test_t_011_013_observables.py, tests/unit/test_t_011_014_planar_space.py |
 | FR-011-06 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py |
 | FR-011-07 | 011-surrogates | draft | T-011-012 | tests/pipeline/test_t_011_012_gns_export.py |
 | FR-011-08 | 011-surrogates | draft | T-011-016 | tests/pipeline/test_t_011_016_gns_parity.py |
 | FR-011-09 | 011-surrogates | draft | T-011-020 | web/e2e/a3-gns-live.spec.ts |
-| FR-011-10 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py, tests/unit/test_t_011_014_planar_space.py |
+| FR-011-10 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py, tests/unit/test_t_011_014_planar_engine.py, tests/unit/test_t_011_014_planar_space.py |
 | FR-011-11 | 011-surrogates | draft | T-011-020 | web/e2e/a3-gns-live.spec.ts |
 | FR-011-12 | 011-surrogates | draft | T-011-017 | tests/pipeline/test_t_011_015_gns_evaluate.py, tests/unit/test_t_011_017_rollout_guards.py |
 | FR-011-13 | 011-surrogates | draft | T-011-011 | tests/pipeline/test_t_011_015_gns_evaluate.py, tests/property/test_t_011_011_radius_graph.py, tests/unit/test_t_011_017_rollout_guards.py, web/src/engines/gns/radiusGraph.test.ts |
-| FR-011-14 | 011-surrogates | draft | T-011-018 | tests/pipeline/test_t_011_018_rollout_ingest.py |
+| FR-011-14 | 011-surrogates | draft | T-011-018 | tests/pipeline/test_011_gns_v3_dataset_contract.py, tests/pipeline/test_t_011_018_rollout_ingest.py |
 | FR-011-15 | 011-surrogates | draft | T-011-019 | tests/pipeline/test_t_011_019_gns_input_guards.py, tests/property/test_t_011_011_radius_graph.py, tests/unit/test_t_011_017_rollout_guards.py, web/src/engines/gns/inputGuards.test.ts, web/src/engines/gns/radiusGraph.test.ts |
 | FR-011-16 | 011-surrogates | draft | T-011-021 | tests/pipeline/test_t_011_021_gns_speed_report.py |
 | FR-011-17 | 011-surrogates | draft | T-011-034 | tests/unit/test_t_011_034_tape_arm.py, tests/unit/test_t_011_039_calibration_guards.py |
