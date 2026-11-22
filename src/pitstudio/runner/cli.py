@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 from typing import Any, NoReturn, cast
 
-from pitstudio.runner import gc, locks, publish, queue, worker
+from pitstudio.runner import gc, importer, locks, publish, queue, worker
 from pitstudio.runner.cache import Store, jcs
 from pitstudio.runner.gpu import BackendInitError, backend_spec, load_backend
 from pitstudio.runner.recipe import (
@@ -50,6 +50,7 @@ SPEC: dict[str, list[tuple[str, dict[str, Any]]]] = {
     "worker": [GPU],
     "status": [("--json", FLAG)],
     "publish": [("run_id", {}), ("--release-tag", {})],
+    "import-run": [("job", {}), ("--from", {"required": True, "dest": "src"}), ("--spec", {})],
     "gc": [
         ("--keep-last", {"type": int, "default": 3}),
         ("--keep-pinned", FLAG),
@@ -270,6 +271,9 @@ COMMANDS = {
     "queue": do_queue,
     "status": do_status,
     "gc": do_gc,
+    "import-run": lambda ns: (
+        print("\n".join(importer.import_run(store_root(), repo_root(), ns.job, Path(ns.src), ns.spec))) or 0
+    ),
     "publish": lambda ns: print("\n".join(publish.publish(store_root(), repo_root(), ns.run_id, ns.release_tag))) or 0,
 }
 
@@ -281,7 +285,7 @@ def main(argv: list[str] | None = None) -> int:
             return bench(args[1:])
         ns = build().parse_args(args)
         if ns.cmd is None:
-            raise Usage("no command given: plan, run, worker, queue, status, gc, publish, bench, profile")
+            raise Usage("no command given: plan, run, worker, queue, status, gc, publish, import-run, bench, profile")
         return COMMANDS[ns.cmd](ns)
     except Usage as e:
         print(f"studio: {one_line(e)}", file=sys.stderr)

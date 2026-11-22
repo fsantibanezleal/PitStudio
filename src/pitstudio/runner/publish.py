@@ -11,6 +11,7 @@ from pathlib import Path
 from pitstudio.contracts.lane import lane_of
 from pitstudio.contracts.licence import licence_class_of, rank_of
 from pitstudio.contracts.privacy import iter_strings
+from pitstudio.runner import importer
 from pitstudio.runner.cache import Store, file_sha, sha, write_atomic
 from pitstudio.runner.recipe import RUN_ID, Usage, first_errors, kstr, load_yaml, one_line
 
@@ -124,23 +125,17 @@ def _refuse_unfit(m: dict, events: list[dict]) -> None:
         raise Usage(f"run was made with {' and '.join(bad)}: it cannot be published")
 
 
-def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[str]:
-    """Write the published files of a run; every refusal is a `Usage` raised before the first write."""
-    if not RUN_ID.fullmatch(run_id):
-        raise Usage(f"{one_line(run_id, 60)!r} is not a run id")
-    run, store = store_dir / "runs" / run_id, Store(store_dir)
-    try:
-        m = json.loads((run / "manifest.json").read_text(encoding="utf-8"))
-        events = [json.loads(x) for x in (run / "events.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
-    except OSError, ValueError:
-        raise Usage(f"unknown run {run_id}") from None
-    _refuse_unfit(m, events)
+def _recipe_artefacts(
+    store_dir: Path, repo: Path, run: Path, run_id: str, m: dict, tag: str | None, by: dict[str, dict]
+) -> tuple[list[dict], list[tuple[Path, Path]]]:
+    """Artefact records and file copies of a run the worker made: the published outputs of its recipe."""
+    store = Store(store_dir)
     rpath = repo / "studio" / "recipes" / m["recipe"]["path"]
     if not rpath.is_file() or file_sha(rpath) != m["recipe"]["sha256"]:
         raise Usage("the recipe changed since the run (sha256 differs)")
     recipe, sf = load_yaml(rpath, "recipe"), repo / "data" / "sources.yaml"
     sources = {s["id"]: s for s in (load_yaml(sf, "sources") or {}).get("sources", [])} if sf.is_file() else {}
-    by, arts, copies = {kstr(s["key"]): s for s in m["stages"]}, [], []
+    arts, copies = [], []
     for st in recipe["stages"]:
         wanted, rec = [o for o in st["outputs"] if o.get("publish")], by.get(kstr(st))
         if not wanted:
@@ -200,6 +195,72 @@ def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[s
                     repo / "web" / "public" / path if host == "git" else store_dir / "publish" / str(tag) / path,
                 )
             )
+    return arts, copies
+
+
+PUBLISHABLE_KINDS = ("image", "figure", "table", "text", "model-card", "usd")
+
+
+def _imported_artefacts(
+    store_dir: Path, repo: Path, run_id: str, m: dict, imp: dict
+) -> tuple[list[dict], list[tuple[Path, Path]]]:
+    """Artefact records of an imported run: its outputs marked `publish` and not `local_only` (never anything else)."""
+    store, arts, copies = Store(store_dir), [], []
+    for o in imp["outputs"]:
+        if not o.get("publish") or o.get("local_only"):
+            continue
+        if o["kind"] not in PUBLISHABLE_KINDS or o["bytes"] >= 10 * 2**20:
+            raise Usage(f"imported output {o['name']} cannot be published as a small static file (kind or size)")
+        src = store.obj(o["sha256"])
+        if not src.is_file() or file_sha(src) != o["sha256"]:
+            raise Usage(f"imported output {o['name']}: the stored object does not match its digest")
+        text = src.read_text(encoding="utf-8", errors="ignore")
+        if any(p.search(text) for p in PRIVATE):
+            raise Usage(f"imported output {o['name']} holds an absolute path (privacy rule)")
+        key = {"id": o["stage"], **({"variant": o["variant"]} if o.get("variant") else {})}
+        tool = next(s["tool"] for s in m["stages"] if s["key"] == key)
+        a = {
+            "id": o.get("id")
+            or re.sub(r"[^a-z0-9_-]+", "-", f"{m['recipe']['id']}-{o['stage']}-{o['name']}".lower())[:96],
+            "run_id": run_id,
+            "git_sha": m["git_sha"],
+            "path": f"assets/{run_id}/{o['name']}",
+            "bytes": o["bytes"],
+            "sha256": o["sha256"],
+            "kind": o["kind"],
+            "producer": {"tool": tool, "stage": key},
+            "inputs": [],
+            "cases": [imp["case"]],
+            "lane": "static",
+            "budget_class": o["budget_class"],
+            "licence_class": o["licence_class"],
+            "spdx": o["spdx"],
+            "asset_host": "git",
+            **{k: o[k] for k in ("media_type", "attribution") if k in o},
+        }
+        arts.append(a)
+        copies.append((src, repo / "web" / "public" / a["path"]))
+    return arts, copies
+
+
+def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[str]:
+    """Write the published files of a run; every refusal is a `Usage` raised before the first write."""
+    if not RUN_ID.fullmatch(run_id):
+        raise Usage(f"{one_line(run_id, 60)!r} is not a run id")
+    run = store_dir / "runs" / run_id
+    try:
+        m = json.loads((run / "manifest.json").read_text(encoding="utf-8"))
+        events = [json.loads(x) for x in (run / "events.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    except OSError, ValueError:
+        raise Usage(f"unknown run {run_id}") from None
+    _refuse_unfit(m, events)
+    by = {kstr(s["key"]): s for s in m["stages"]}
+    imp = importer.imported(run)
+    arts, copies = (
+        _recipe_artefacts(store_dir, repo, run, run_id, m, tag, by)
+        if imp is None
+        else _imported_artefacts(store_dir, repo, run_id, m, imp)
+    )
     pub = {**m, "published": True, "artefacts": arts, "stages": []}
     for s in m["stages"]:
         s = {k: v for k, v in s.items() if k != "log_tail"}
@@ -235,6 +296,11 @@ def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[s
         "events", tele, "#/$defs/published_telemetry", n=1
     ):
         raise Usage(f"a published file would be invalid: {errs[0]}")
+    bundles = (imp or {}).get("bundles", {})
+    if any(p.search(json.dumps(b)) for b in bundles.values() for p in PRIVATE):
+        raise Usage("a results bundle holds an absolute path (privacy rule)")
+    for bid, doc in bundles.items():
+        write_atomic(repo / "web" / "public" / "results" / f"{bid}.json", json.dumps(doc, indent=1) + "\n")
     for src, dst in copies:
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, dst)

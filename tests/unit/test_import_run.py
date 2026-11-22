@@ -1,3 +1,4 @@
+# ruff: noqa: PT018
 """`studio import-run`: a finished GPU-queue job recorded as a run with honest provenance (decision of the main session,
 2026-11-22, delegation brief publish-cases-2026-11-22). Oracles: the run manifest contract, the digests of the files
 the test wrote, the label the brief fixes. The publish path of spec 002 is then applied to the imported run.
@@ -12,6 +13,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 import uuid
 from collections.abc import Iterator
@@ -72,7 +74,7 @@ class World:
         (self.queue / "done" / f"{JOB}.sh").write_text(SCRIPT, encoding="utf-8", newline="\n")
         log = self.queue / f"{JOB}.log"
         log.write_text(LOG, encoding="utf-8", newline="\n")
-        os.utime(log, (1_795_000_000, 1_795_000_000))  # 2026-11-18T10:26:40Z
+        os.utime(log, (1_795_000_000, 1_795_000_000))  # 2026-11-18T11:06:40Z
         (self.queue / "queue.log").write_text(
             f"[queue 09:00:00] start {JOB}\n[queue 10:26:40] done {JOB}\n", encoding="utf-8", newline="\n"
         )
@@ -140,11 +142,22 @@ class World:
         return sorted((self.store / "runs").glob("*")) if (self.store / "runs").is_dir() else []
 
 
+def short(p: Path) -> Path:
+    """The 8.3 form of a Windows path: the store root may not exceed 64 characters and a scratch folder can."""
+    if sys.platform != "win32":
+        return p
+    import ctypes
+
+    buf = ctypes.create_unicode_buffer(512)
+    return Path(buf.value) if ctypes.windll.kernel32.GetShortPathNameW(str(p), buf, 512) else p
+
+
 @pytest.fixture
 def world(monkeypatch: pytest.MonkeyPatch) -> Iterator[World]:
     # a plain folder, not tmp_path or mkdtemp: git cannot enter the owner-only folders those make on Windows
-    tmp = Path(tempfile.gettempdir()) / f"import-run-{uuid.uuid4().hex[:8]}"
+    tmp = Path(tempfile.gettempdir()) / f"ir-{uuid.uuid4().hex[:6]}"
     tmp.mkdir()
+    tmp = short(tmp)
     try:
         for k, v in (("GIT_CONFIG_COUNT", "1"), ("GIT_CONFIG_KEY_0", "safe.directory"), ("GIT_CONFIG_VALUE_0", "*")):
             monkeypatch.setenv(k, v)  # the folder may be owned by the elevated account that made it
@@ -163,7 +176,7 @@ def test_import_run_complete_job_records_a_valid_run_with_provenance(world: Worl
     assert code == 0, err
     m = manifest_of(world)
     assert first_errors("manifest", m, "#/$defs/run", n=3) == []
-    assert m["run_id"].startswith("20261118T102640Z-c1-demo")
+    assert m["run_id"].startswith("20261118T110640Z-c1-demo")
     assert m["published"] is False and m["git_dirty"] is False
     notes = " | ".join(m["notes"])
     assert LABEL in notes
