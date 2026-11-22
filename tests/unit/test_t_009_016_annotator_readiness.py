@@ -270,3 +270,40 @@ def test_a_guard_block_end_with_frames_left_is_partial_and_a_full_run_is_complet
     driver.run(rows=rows, root=tmp_path, renderer_factory=CpuRenderer, session=_no_session, log=lambda m: None)
     assert json.loads((tmp_path / driver.RESULT_FILE).read_text(encoding="utf-8"))["status"] == "complete"
     assert driver.result_exit_code(tmp_path) == 0
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# a fresh prim path per frame (the renderer keeps no path for a prim re-created at a path it removed)
+# ---------------------------------------------------------------------------------------------------------------
+@pytest.mark.req("FR-009-02")
+def test_every_frame_authors_its_objects_below_a_path_no_earlier_frame_used() -> None:
+    first = scene_render.frame_prim_path("/World/Sdg/Obj_00", 0)
+    second = scene_render.frame_prim_path("/World/Sdg/Obj_00", 1)
+    assert first == "/World/Sdg/F000000/Obj_00"
+    assert second == "/World/Sdg/F000001/Obj_00"
+    assert scene_render.frame_prim_path("/World/Sdg/Obj_03/Body", 12) == "/World/Sdg/F000012/Obj_03/Body"
+
+
+@pytest.mark.req("FR-009-02")
+def test_the_frame_prefix_is_stripped_from_the_instance_paths_before_annotating() -> None:
+    labels = {
+        7: "/World/Terrain/Lod0/Tile_0_4_4_1",
+        314: "/World/Sdg/F000012/Obj_01/chassis",
+        315: "/World/Sdg/F000012/Obj_01",
+        316: "",
+    }
+    got = scene_render.strip_frame_prefix(labels, 12)
+    assert got[7] == "/World/Terrain/Lod0/Tile_0_4_4_1"
+    assert got[314] == "/World/Sdg/Obj_01/chassis"
+    assert got[315] == "/World/Sdg/Obj_01"
+    assert got[316] == ""
+
+
+@pytest.mark.req("FR-009-02")
+def test_an_object_instance_without_a_path_is_an_error_not_a_missing_object() -> None:
+    """An instance the renderer labelled with a class but no path would silently drop its annotation."""
+    semantics = {314: {"class": "haul_truck", "part": "chassis"}, 7: {"class": "terrain"}}
+    labels = {314: "", 7: "/World/Terrain/Lod0/Tile_0_4_4_1"}
+    with pytest.raises(scene_render.EmptyAnnotatorData, match="314"):
+        scene_render.require_instance_paths(labels, semantics, classes={"haul_truck", "person"})
+    scene_render.require_instance_paths({314: "/World/Sdg/Obj_01/chassis"}, semantics, classes={"haul_truck"})
