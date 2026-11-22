@@ -94,42 +94,6 @@ def light_for_row(row: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def frame_prim_path(prim_id: str, frame_no: int) -> str:
-    """The prim path an object of frame `frame_no` is authored at: `/World/Sdg/F<nnnnnn>/...`.
-
-    Isaac Sim 6.1 returns an empty prim path in `idToLabels` for a prim re-created at a path it removed before (the
-    instance keeps its semantic labels), so no frame reuses the path of an earlier one.
-    """
-    assert prim_id.startswith(OBJECT_ROOT + "/"), prim_id
-    return f"{OBJECT_ROOT}/F{frame_no:06d}/{prim_id[len(OBJECT_ROOT) + 1 :]}"
-
-
-def strip_frame_prefix(id_to_path: Mapping[int, str], frame_no: int) -> dict[int, str]:
-    """Instance id to prim path with the frame folder of `frame_prim_path` removed (the table's own prim ids)."""
-    prefix = f"{OBJECT_ROOT}/F{frame_no:06d}/"
-    return {i: (OBJECT_ROOT + "/" + p[len(prefix) :] if p.startswith(prefix) else p) for i, p in id_to_path.items()}
-
-
-def require_instance_paths(
-    id_to_path: Mapping[int, str],
-    id_to_semantics: Mapping[Any, Mapping[str, str]],
-    classes: set[str],
-    present: set[int] | None = None,
-) -> None:
-    """Raise when an instance of an object class has no prim path: its annotation would be dropped without a trace.
-
-    `present` limits the check to the instance ids that occur in the mask (all of them when None)."""
-    bad = sorted(
-        int(i)
-        for i, sem in id_to_semantics.items()
-        if sem.get("class") in classes
-        and (present is None or int(i) in present)
-        and not id_to_path.get(int(i), id_to_path.get(i))
-    )
-    if bad:
-        raise EmptyAnnotatorData(f"instances {bad} carry an object class but no prim path in idToLabels")
-
-
 def box_corners(centre_xy: Sequence[float], z_base: float, yaw_deg: float, length: float, width: float, height: float):
     """The eight corners (x, y, z) of an object's oriented bounding box (base at `z_base`)."""
     c, s = math.cos(math.radians(yaw_deg)), math.sin(math.radians(yaw_deg))
@@ -292,8 +256,6 @@ class SdgRenderer:
     dry run can check the whole stage logic against the real scene without starting Isaac Sim (`stage_selfcheck`).
     """
 
-    _frame_no: int | None = None  # the frame being composed; None = the table's own prim ids (the stage self-check)
-
     def __init__(self, scene_dir: Path, textures: Mapping[str, Path]) -> None:
         self.scene_dir = Path(scene_dir)
         self.textures = dict(textures)
@@ -301,7 +263,6 @@ class SdgRenderer:
         self._carb: Any = None
         self._rep: Any = None
         self._annotators: dict[str, Any] = {}
-        self._frames = 0
         self._start()
 
     # -- start-up ------------------------------------------------------------------------------------------------
@@ -423,7 +384,7 @@ class SdgRenderer:
     def _build_object(self, obj: Mapping[str, Any], placement: Mapping[str, Any]) -> None:
         from pxr import Gf, UsdGeom
 
-        path = self._path(obj["prim_id"])
+        path = obj["prim_id"]
         root = UsdGeom.Xform.Define(self._stage, path)
         api = UsdGeom.XformCommonAPI(root)
         api.SetTranslate(Gf.Vec3d(placement["x_m"], placement["y_m"], placement["z_m"]))
@@ -463,9 +424,6 @@ class SdgRenderer:
         for name, size, centre, colour in parts:
             self._label(self._box(f"{path}/{name}", size, centre, colour).GetPrim(), cls)
 
-    def _path(self, prim_id: str) -> str:
-        return prim_id if self._frame_no is None else frame_prim_path(prim_id, self._frame_no)
-
     def _clear_frame(self) -> None:
         from pxr import UsdGeom
 
@@ -483,7 +441,7 @@ class SdgRenderer:
         for k, d in enumerate(row["distractors"]):
             texture = texture_ids[(2 + k) % len(texture_ids)]
             material, _ = self._pbr_material(f"{MATERIAL_SCOPE}/Distractor_{k:02d}", texture)
-            mesh = self._box(self._path(d["prim_id"]), [d["size_m"]] * 3, d["centre_m"], d["colour_rgb"])
+            mesh = self._box(d["prim_id"], [d["size_m"]] * 3, d["centre_m"], d["colour_rgb"])
             UsdShade.MaterialBindingAPI.Apply(mesh.GetPrim()).Bind(material)
 
     def _apply_light(self, light: Mapping[str, Any]) -> None:
@@ -536,7 +494,6 @@ class SdgRenderer:
 
     def render_row(self, row: Mapping[str, Any], out_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
         """Render one row below `out_dir`: its DC-009-01 record (paths relative to `out_dir`) and what was measured."""
-        self._frame_no, self._frames = self._frames, self._frames + 1
         self._compose_frame(row)
         height = int(row["camera"]["height_px"])
         width = int(row["camera"]["width_px"])
@@ -550,9 +507,6 @@ class SdgRenderer:
         )
         rgb = rgb[..., :3].astype(np.uint8)
         id_to_path = {int(k): v for k, v in seg["info"]["idToLabels"].items()}
-        present = {int(i) for i in np.unique(np.asarray(seg["data"]))}
-        require_instance_paths(id_to_path, seg["info"].get("idToSemantics", {}), set(CATEGORY_IDS), present)
-        id_to_path = strip_frame_prefix(id_to_path, self._frame_no)
         return write_frame(row, Path(out_dir), rgb, depth.reshape(height, width), np.asarray(seg["data"]), id_to_path)
 
 
