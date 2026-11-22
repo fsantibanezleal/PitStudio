@@ -30,6 +30,8 @@ PROBE_FRAMES = 3
 _UNREADABLE = (OSError, ValueError, KeyError)  # an unreadable or incomplete sidecar means the frame is not done
 SIDECAR = "frame.json"
 RUN_FILE = "run.json"
+RESULT_FILE = "run_result.json"  # written before the renderer closes: the Isaac fast shutdown ends the process with 0
+EXIT_BLOCK_OVER = 75  # the guard ended the block with frames left: the job runs the driver again after the cool-down
 
 
 class Renderer(Protocol):
@@ -101,6 +103,35 @@ def check_probe(measured: Sequence[Mapping[str, Any]]) -> None:
         raise ProbeFailed(f"no annotation in the first {len(measured)} frames: the labelled objects are not visible")
 
 
+def write_result(root: Path, status: str, rendered: int, remaining: int, error: str | None = None) -> None:
+    """Atomically write the outcome of this run: `complete`, `limited`, `partial` (block over) or `failed`."""
+    doc: dict[str, Any] = {"status": status, "rendered": rendered, "remaining": remaining}
+    if error is not None:
+        doc["error"] = error
+    target = Path(root) / RESULT_FILE
+    tmp = target.with_name(RESULT_FILE + ".tmp")
+    tmp.write_text(json.dumps(doc), encoding="utf-8")
+    os.replace(tmp, target)
+
+
+def result_exit_code(root: Path) -> int:
+    """Exit status the job takes from the result file: 0 complete or limited, 75 block over, 1 failed or unreadable.
+
+    A missing or unreadable file means the process ended before it wrote one (a crash), which is a failure; a
+    `complete` result that still lists remaining frames contradicts itself and fails too.
+    """
+    try:
+        doc = json.loads((Path(root) / RESULT_FILE).read_text(encoding="utf-8"))
+        status, remaining = doc["status"], int(doc["remaining"])
+    except _UNREADABLE:
+        return 1
+    if status == "complete":
+        return 0 if remaining == 0 else 1
+    if status == "limited":
+        return 0
+    return EXIT_BLOCK_OVER if status == "partial" else 1
+
+
 def preflight(root: Path, pending: int) -> None:
     """Refuse to start when the data drive cannot hold the pending frames plus a margin."""
     Path(root).mkdir(parents=True, exist_ok=True)
@@ -151,6 +182,7 @@ def run(
     pending = _pending(root, rows)
     preflight(root, len(pending))
     _run_file(root)
+    (root / RESULT_FILE).unlink(missing_ok=True)  # a result of an earlier run never stands for this one
     rendered = 0
     probed = False
     probe: list[Mapping[str, Any]] = []
@@ -161,10 +193,12 @@ def run(
         with session() as guard:
             try:
                 renderer = renderer_factory()
-            except BaseException:
+            except BaseException as exc:
                 log(f"[sdg] the renderer failed to start\n{traceback.format_exc()}")
+                write_result(root, "failed", rendered, len(pending), f"{type(exc).__name__}: {exc}")
                 raise
             current: str | None = None
+            outcome: tuple[str, str | None] = ("failed", "the block ended without an outcome")
             try:
                 for row in pending:
                     if limit is not None and rendered >= limit:
@@ -189,11 +223,16 @@ def run(
                         log(f"[sdg] {rendered} frames this run, {rate:.2f} frames/s, {len(pending) - rendered} to go")
                     if guard is not None and guard.check() == "cooldown":
                         break
-            except BaseException:
+                left = len(_pending(root, rows))
+                done = limit is not None and rendered >= limit
+                outcome = ("complete" if left == 0 else "limited" if done else "partial", None)
+            except BaseException as exc:
                 # The Isaac renderer closes with a fast shutdown that ends the process: report before closing.
                 log(f"[sdg] render block failed at {current} after {rendered} frames\n{traceback.format_exc()}")
+                outcome = ("failed", f"{type(exc).__name__}: {exc}")
                 raise
             finally:
+                write_result(root, outcome[0], rendered, len(_pending(root, rows)), outcome[1])
                 renderer.close()
         pending = _pending(root, rows)
         if pending and (limit is None or rendered < limit) and guard is not None:

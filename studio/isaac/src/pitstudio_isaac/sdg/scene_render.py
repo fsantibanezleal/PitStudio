@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import json
 import math
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
@@ -34,6 +34,7 @@ DEACTIVATE = ("/World/Fleet", "/World/People")
 TEXTURE_SCALE = 1.0 / 8.0  # triplanar world-space mapping: one texture tile per 8 m
 # The composed scene binds no material (its materials layer is not in the layer stack), so the job binds two
 # triplanar textured materials: `rock` on the terrain, benches and berms, `gravel` on the roads, ramp and windrows.
+CAPTURE_ATTEMPTS = 8  # steps tried per frame before the annotators count as empty (the first step after start is empty)
 BINDINGS = {
     "rock": ("/World/Terrain", "/World/Design/Benches", "/World/Design/Berms"),
     "gravel": ("/World/Design/HaulRoads", "/World/Design/Ramp", "/World/Design/Windrows"),
@@ -43,6 +44,33 @@ BINDINGS = {
 # ----------------------------------------------------------------------------------------------------------------
 # pure helpers
 # ----------------------------------------------------------------------------------------------------------------
+class EmptyAnnotatorData(RuntimeError):
+    """An annotator still returned an empty array after the bounded number of steps: no frame is written."""
+
+
+def capture_until_ready(
+    step: Callable[[], None], read: Callable[[], tuple[Any, Any, Any]], max_attempts: int = CAPTURE_ATTEMPTS
+) -> tuple[Any, Any, Any]:
+    """Step the renderer until rgb, depth and the segmentation all hold data; (rgb, depth, segmentation).
+
+    Isaac Sim 6.1 returns empty arrays until the first captured frame has been rendered (and for good while the timeline
+    is stopped). At most `max_attempts` steps are taken; then `EmptyAnnotatorData` names the annotators that are empty.
+    """
+    empty: list[str] = []
+    for _ in range(max_attempts):
+        step()
+        rgb, depth, seg = read()
+        seg_data = seg["data"] if isinstance(seg, Mapping) else seg
+        sizes = {"rgb": np.size(rgb), "depth": np.size(depth), "segmentation": np.size(seg_data)}
+        empty = [name for name, size in sizes.items() if size == 0]
+        if not empty:
+            return rgb, depth, seg
+    raise EmptyAnnotatorData(
+        f"{', '.join(empty)} still empty after {max_attempts} steps (Isaac Sim returns no frame while the timeline is "
+        "stopped or the renderer has produced none)"
+    )
+
+
 def light_for_row(row: Mapping[str, Any]) -> dict[str, Any]:
     """Sun direction (toward the sun), intensities, colour temperature and fog extinction (1/m) of a row."""
     dr = row["dr"]
@@ -265,6 +293,13 @@ class SdgRenderer:
             )
             annotator.attach([self._product])
             self._annotators[name] = annotator
+        # Isaac Sim 6.1 renders nothing for the annotators while the timeline is stopped (bisection of 2026-11-22: empty
+        # arrays for 30 steps; after `play()` and two updates the second step returns the image).
+        import omni.timeline
+
+        omni.timeline.get_timeline_interface().play()
+        for _ in range(2):
+            self._app.update()
 
     def _prepare_stage(self, stage: Any) -> None:
         """Deactivate the fixture fleet and people; take the sun; add the dome, camera and textured materials."""
@@ -460,12 +495,17 @@ class SdgRenderer:
     def render_row(self, row: Mapping[str, Any], out_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
         """Render one row below `out_dir`: its DC-009-01 record (paths relative to `out_dir`) and what was measured."""
         self._compose_frame(row)
-        self._rep.orchestrator.step(delta_time=0.0, rt_subframes=16)
         height = int(row["camera"]["height_px"])
         width = int(row["camera"]["width_px"])
-        rgb = np.asarray(self._annotators["rgb"].get_data())[..., :3].astype(np.uint8)
-        depth = np.asarray(self._annotators["distance_to_image_plane"].get_data(), dtype=np.float32)
-        seg = self._annotators["instance_segmentation"].get_data()
+        rgb, depth, seg = capture_until_ready(
+            lambda: self._rep.orchestrator.step(delta_time=0.0, rt_subframes=16, pause_timeline=False),
+            lambda: (
+                np.asarray(self._annotators["rgb"].get_data()),
+                np.asarray(self._annotators["distance_to_image_plane"].get_data(), dtype=np.float32),
+                self._annotators["instance_segmentation"].get_data(),
+            ),
+        )
+        rgb = rgb[..., :3].astype(np.uint8)
         id_to_path = {int(k): v for k, v in seg["info"]["idToLabels"].items()}
         return write_frame(row, Path(out_dir), rgb, depth.reshape(height, width), np.asarray(seg["data"]), id_to_path)
 

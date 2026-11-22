@@ -103,8 +103,19 @@ def main(argv: list[str] | None = None) -> int:
         "--table-dir", help="folder of the parameter table (default: <data>/processed/perception/param_table)"
     )
     ap.add_argument("--out-root", help="dataset root (default: <data>/processed/perception); required with --dry-run")
+    ap.add_argument(
+        "--check-result",
+        action="store_true",
+        help="exit 0 when the last run completed, 75 when its block ended with frames left, 1 otherwise (job script)",
+    )
     ap.add_argument("--limit", type=int, default=None, help="render at most this many new frames")
     args = ap.parse_args(argv)
+    if args.check_result:
+        root = Path(args.out_root) if args.out_root else Path(os.environ["PITSTUDIO_DATA"]) / "processed" / "perception"
+        code = driver.result_exit_code(root)
+        shown = (root / driver.RESULT_FILE).read_text("utf-8") if (root / driver.RESULT_FILE).is_file() else "absent"
+        print(f"[sdg] result file {shown}: exit {code}", flush=True)
+        return code
     import torch
 
     assert torch.cuda.is_available(), "torch.cuda.is_available() is False: sync with the CUDA torch"

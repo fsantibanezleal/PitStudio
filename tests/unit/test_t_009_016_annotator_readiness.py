@@ -1,4 +1,5 @@
-"""T-009-016 (fix): the Isaac renderer starts rendering before it reads annotators, and a failed run cannot pass (FR-009-02).
+# ruff: noqa: PT018
+"""T-009-016 (fix): the Isaac renderer plays the timeline and a failed run cannot pass (FR-009-02).
 
 Requirements: FR-009-02, NFR-009-03.
 
@@ -61,7 +62,7 @@ def test_capture_steps_until_every_annotator_has_data(ready_after: int) -> None:
 @pytest.mark.req("FR-009-02")
 def test_capture_raises_a_clear_error_after_a_bounded_number_of_steps() -> None:
     calls, step, read = _stepper(99)
-    with pytest.raises(scene_render.EmptyAnnotatorData, match=r"3 steps.*rgb.*depth.*segmentation"):
+    with pytest.raises(scene_render.EmptyAnnotatorData, match=r"rgb, depth, segmentation.*3 steps"):
         scene_render.capture_until_ready(step, read, max_attempts=3)
     assert calls["steps"] == 3
 
@@ -115,8 +116,8 @@ def _fake_kit(monkeypatch: pytest.MonkeyPatch, events: list[str]):
         create=types.SimpleNamespace(render_product=lambda cam, res: events.append("render_product") or object()),
         AnnotatorRegistry=_Registry,
     )
-    mod("omni", replicator=types.SimpleNamespace(core=rep))
-    mod("omni.timeline", get_timeline_interface=lambda: _Timeline())
+    timeline = mod("omni.timeline", get_timeline_interface=lambda: _Timeline())
+    mod("omni", replicator=types.SimpleNamespace(core=rep), timeline=timeline)
     mod("carb")
     stage_mod = mod(
         "isaacsim.core.experimental.utils.stage",
