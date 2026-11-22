@@ -168,7 +168,7 @@ def create_app(*, port: int, allow_origins: list[str] | None = None) -> FastAPI:
                         resp["content"] = {"application/problem+json": resp["content"]["application/json"]}
             schema = JobRequest.model_json_schema(
                 ref_template="#/components/schemas/{model}"
-            )  # the POST /jobs body, from the contract
+            )  # the POST /jobs body from the contract: documentation only, no data is parsed with it, none to validate
             for name, sub in schema.pop("$defs", {}).items():
                 doc["components"]["schemas"].setdefault(name, sub)
             doc["components"]["schemas"]["JobRequest"] = schema
