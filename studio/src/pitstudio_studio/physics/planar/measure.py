@@ -7,6 +7,7 @@ Pure NumPy, total on every input a run can produce: a jammed hopper or an empty 
 
 from __future__ import annotations
 
+import bisect
 import dataclasses
 import math
 from collections.abc import Mapping
@@ -123,23 +124,33 @@ class RestJudge:
     """Rest test of one rollout: static for `n_rest` frames, but only after the feed has run.
 
     update() returns "run", "rest" or "jammed". A feed (`discharged_min` set) declares rest only when the maximum grain
-    speed is below `thr` for `n_rest` consecutive frames AND the discharged fraction exceeds `discharged_min`;
-    static with
-    less discharged is a jam (the flow stopped for good: a quasi-static feed cannot restart), reported as "jammed"
-    at once
-    instead of after the whole time cap. Nothing is judged before `t_min` (a hopper at rest at t = 0 has not started).
+    speed is below `thr` for `n_rest` consecutive frames AND the discharged fraction exceeds `discharged_min`. Static
+    with less discharged is a jam (a quasi-static feed cannot restart), reported at once instead of after the whole
+    time cap; so is a feed whose discharged fraction gained less than `stall_gain` over the last `stall_s` seconds while
+    still below the minimum (a creeping arch never goes static). Nothing is judged before `t_min` (a hopper at rest at
+    t = 0 has not started).
     """
 
     thr: float
     n_rest: int = space.REST_FRAMES
     discharged_min: float | None = None
     t_min: float = 0.3
+    stall_s: float | None = None
+    stall_gain: float = 0.02
     static: int = 0
+    _times: list[float] = dataclasses.field(default_factory=list)
+    _values: list[float] = dataclasses.field(default_factory=list)
 
     def update(self, t: float, vmax: float, discharged: float = 1.0) -> str:
         self.static = self.static + 1 if (t >= self.t_min and vmax < self.thr) else 0
-        if self.static < self.n_rest:
-            return "run"
-        if self.discharged_min is not None and not discharged > self.discharged_min:
-            return "jammed"
-        return "rest"
+        if self.static >= self.n_rest:
+            if self.discharged_min is not None and not discharged > self.discharged_min:
+                return "jammed"
+            return "rest"
+        if self.stall_s is not None and self.discharged_min is not None:
+            self._times.append(t)
+            self._values.append(discharged)
+            k = bisect.bisect_right(self._times, t - self.stall_s) - 1
+            if k >= 0 and discharged <= self.discharged_min and discharged - self._values[k] < self.stall_gain:
+                return "jammed"
+        return "run"

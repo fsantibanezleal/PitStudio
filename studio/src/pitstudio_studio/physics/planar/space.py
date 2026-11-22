@@ -51,7 +51,7 @@ SPLIT_COUNTS = {
 SEEDS_PER_GEOMETRY = 3
 MAX_GEOM_ATTEMPTS = 12
 MAX_SEED_ATTEMPTS = 8
-T_CAP = {"column-collapse": 12.0, "pile-formation": 40.0, "dump-over-crest": 40.0}  # s of simulated time
+T_CAP = {"column-collapse": 12.0, "pile-formation": 30.0, "dump-over-crest": 30.0}  # s of simulated time
 MIN_DISTANCE = 0.05  # FR-011-03: test geometries at least this far from every training geometry (contract metric)
 
 # Collapse: measured lower envelope of final height / L0 against a (2-D calibration of gns-v2, 20 collapses).
@@ -138,7 +138,8 @@ def draw_geometry(
     if family == "column-collapse":
         for _ in range(1000):
             a = u("a", 0.5, 4.0)
-            lo = max(18.0, 32.5 / float(np.interp(a, RATIO_A, RATIO_F)))  # measured Hf / L0 (30 d floor)
+            # measured Hf / L0 gives the 30 d floor; 32 d is the declared lower end of column_width_m (0.32 m)
+            lo = max(32.0, 32.5 / float(np.interp(a, RATIO_A, RATIO_F)))
             hi = min(70.0, math.sqrt(N_MAX_COLLAPSE * CELL_AREA / a))
             if envelope is not None and "L0_D" in envelope:
                 lo, hi = max(lo, envelope["L0_D"][0]), min(hi, envelope["L0_D"][1])

@@ -27,9 +27,10 @@ from pitstudio_studio.physics.dem.step import DemSimulation, Plane
 from . import measure, packing, space
 from .space import BOX_HALF, GAP_D, REST_FRAC, STEPS_PER_FRAME, D, G, SimConfig
 
-DISCHARGED_MIN = (
-    0.9  # a feed is at rest only after this fraction of its grains has left the orifice (brief: above 0.75)
-)
+# a feed is at rest only after this fraction of its grains has left the orifice (brief: above 0.75)
+DISCHARGED_MIN = 0.9
+# a feed that gained under 2 percent of discharge in this many seconds is a jam, not a slow run
+STALL_S = 6.0
 
 
 class NoPacer:
@@ -386,7 +387,7 @@ def simulate_feed(
     ps = PlanarSim(pos, rad, frz, feed_walls(family, insts), cfg, device=device)
     sim = ps.sim
     fr, ft = [[] for _ in insts], [[] for _ in insts]
-    judges = [measure.RestJudge(thr, discharged_min=DISCHARGED_MIN) for _ in insts]
+    judges = [measure.RestJudge(thr, discharged_min=DISCHARGED_MIN, stall_s=STALL_S) for _ in insts]
     last_v, frac_now = [0.0] * len(insts), [0.0] * len(insts)
     cap_t = space.T_CAP[family] if t_cap is None else t_cap
 
