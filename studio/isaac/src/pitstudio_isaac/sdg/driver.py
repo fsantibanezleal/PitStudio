@@ -27,6 +27,9 @@ ARMS = ("pit-structured.jsonl", "pit-unstructured.jsonl")
 BYTES_PER_FRAME = 6_000_000  # RGB PNG, float32 depth, mask, COCO (measured on the first frames; a planning figure)
 FREE_MARGIN_BYTES = 20 * 1024**3
 PROBE_FRAMES = 3
+WINDOW_FRAMES = 50  # rolling quality window: frames rendered by this process
+WINDOW_MAX_FLAT = 5  # more flat frames than this in a window stop the run
+FLAT_STD = 1.0  # a frame is flat below this rgb standard deviation (8-bit levels over all pixels and channels)
 _UNREADABLE = (OSError, ValueError, KeyError)  # an unreadable or incomplete sidecar means the frame is not done
 SIDECAR = "frame.json"
 RUN_FILE = "run.json"
@@ -42,6 +45,51 @@ class Renderer(Protocol):
 
 class ProbeFailed(RuntimeError):
     """The first frames are not usable (empty depth, flat image or no annotation at all): the run stops early."""
+
+
+class QualityDrift(RuntimeError):
+    """Too many flat frames in a rolling window: the renderer has regressed, the run stops (the frames stay on disk)."""
+
+
+class QualityWindow:
+    """Rolling quality guard over the frames rendered by one process (it replaces the first-frames probe on a resume).
+
+    Over each window of `size` consecutive frames more than `max_flat` flat frames (rgb std below `FLAT_STD`) raise
+    `QualityDrift` at the frame that completes the window, so a regression stops a run within `size` frames while one
+    legitimate flat frame never does. `finish()` applies the same ratio pro rata to the shorter window at the end of a
+    GPU block (more than `max_flat / size` of its frames, with a floor of one frame, so a single flat frame never stops
+    a run); it then starts the next window. `stats` keeps one entry per closed window for the job log.
+    """
+
+    def __init__(self, size: int = WINDOW_FRAMES, max_flat: int = WINDOW_MAX_FLAT) -> None:
+        self.size, self.max_flat = size, max_flat
+        self._stds: list[float] = []
+        self.stats: list[dict[str, Any]] = []
+
+    def allowed(self, frames: int) -> int:
+        """Flat frames a window of `frames` frames may hold."""
+        return self.max_flat if frames >= self.size else max(1, frames * self.max_flat // self.size)
+
+    def add(self, measured: Mapping[str, Any]) -> dict[str, Any] | None:
+        """Count a frame; returns the window's statistics when it closes, raises `QualityDrift` when it is bad."""
+        self._stds.append(float(measured["rgb_std"]))
+        return self._close() if len(self._stds) >= self.size else None
+
+    def finish(self) -> dict[str, Any] | None:
+        """Close the trailing window of a block (pro rata); None when it holds no frame."""
+        return self._close() if self._stds else None
+
+    def _close(self) -> dict[str, Any]:
+        stds, self._stds = sorted(self._stds), []
+        flat = sum(1 for v in stds if v < FLAT_STD)
+        entry = {"frames": len(stds), "flat": flat, "std_min": stds[0], "std_median": stds[len(stds) // 2]}
+        self.stats.append(entry)
+        if flat > self.allowed(len(stds)):
+            raise QualityDrift(
+                f"{flat} flat frames in the last {len(stds)} (rgb std below {FLAT_STD:g}; at most "
+                f"{self.allowed(len(stds))} allowed): the renderer has regressed"
+            )
+        return entry
 
 
 def read_rows(table_dir: Path) -> list[dict[str, Any]]:
@@ -147,10 +195,13 @@ def _run_file(root: Path) -> None:
         path.write_text(json.dumps({"started_utc": datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")}), encoding="utf-8")
 
 
-def _pending(root: Path, rows: Sequence[Mapping[str, Any]]) -> list[Mapping[str, Any]]:
-    """The rows without a valid sidecar, the probe rows first: two structured frames and one unstructured frame, so
-    that a defect of either arm stops the job in its first minutes instead of hours in."""
+def _pending(root: Path, rows: Sequence[Mapping[str, Any]], probe_first: bool = True) -> list[Mapping[str, Any]]:
+    """The rows without a valid sidecar. With `probe_first` (an empty dataset) the probe rows come first: two
+    structured frames and one unstructured frame, so that a defect of either arm stops the job in its first minutes
+    instead of hours in. A resume keeps the table order, starting at the first frame without a valid sidecar."""
     todo = [r for r in rows if not is_done(root, r)]
+    if not probe_first:
+        return todo
     probe: list[Mapping[str, Any]] = []
     for arm, n in (("structured", PROBE_FRAMES - 1), ("unstructured", 1)):
         probe.extend([r for r in todo if r["arm"] == arm][:n])
@@ -179,12 +230,16 @@ def run(
     probe propagates after the frames written so far are safe on disk.
     """
     root = Path(root)
-    pending = _pending(root, rows)
+    pending = _pending(root, rows, probe_first=False)
+    # The first-frames probe runs only when the dataset holds no valid frame yet: on a resume the rolling window guards.
+    probed = len(pending) < len(rows)
+    if not probed:
+        pending = _pending(root, rows)
+    window = QualityWindow()
     preflight(root, len(pending))
     _run_file(root)
     (root / RESULT_FILE).unlink(missing_ok=True)  # a result of an earlier run never stands for this one
     rendered = 0
-    probed = False
     probe: list[Mapping[str, Any]] = []
     probe_rows: list[Mapping[str, Any]] = []
     started = time.monotonic()
@@ -208,6 +263,12 @@ def run(
                     record, measured = renderer.render_row(row, out)
                     write_sidecar(root, row, record, measured)
                     rendered += 1
+                    closed = window.add(measured)
+                    if closed is not None:
+                        log(
+                            f"[sdg] quality window: {closed['flat']} flat of {closed['frames']} frames, rgb std min "
+                            f"{closed['std_min']:.1f} median {closed['std_median']:.1f}"
+                        )
                     if len(probe) < PROBE_FRAMES and not probed:
                         probe.append(measured)
                         probe_rows.append(row)
@@ -223,7 +284,13 @@ def run(
                         log(f"[sdg] {rendered} frames this run, {rate:.2f} frames/s, {len(pending) - rendered} to go")
                     if guard is not None and guard.check() == "cooldown":
                         break
-                left = len(_pending(root, rows))
+                closed = window.finish()
+                if closed is not None:
+                    log(
+                        f"[sdg] block end window: {closed['flat']} flat of {closed['frames']} frames, rgb std min "
+                        f"{closed['std_min']:.1f} median {closed['std_median']:.1f}"
+                    )
+                left = len(_pending(root, rows, probe_first=False))
                 done = limit is not None and rendered >= limit
                 outcome = ("complete" if left == 0 else "limited" if done else "partial", None)
             except BaseException as exc:
@@ -232,12 +299,12 @@ def run(
                 outcome = ("failed", f"{type(exc).__name__}: {exc}")
                 raise
             finally:
-                write_result(root, outcome[0], rendered, len(_pending(root, rows)), outcome[1])
+                write_result(root, outcome[0], rendered, len(_pending(root, rows, probe_first=False)), outcome[1])
                 renderer.close()
-        pending = _pending(root, rows)
+        pending = _pending(root, rows, probe_first=False)
         if pending and (limit is None or rendered < limit) and guard is not None:
             guard.cool_down()
-    return {"rendered": rendered, "remaining": len(_pending(root, rows))}
+    return {"rendered": rendered, "remaining": len(_pending(root, rows, probe_first=False))}
 
 
 def gpu_session_factory(lock_path: str) -> Callable[[], contextlib.AbstractContextManager[Any]]:

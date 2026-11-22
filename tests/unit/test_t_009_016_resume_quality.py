@@ -1,4 +1,5 @@
-"""T-009-016 (fix): the first-frames probe runs on an empty dataset only, a rolling quality window guards every run (FR-009-02).
+# ruff: noqa: PT018
+"""T-009-016 (fix): the first-frames probe runs on an empty dataset only; a rolling window guards every run (FR-009-02).
 
 Requirements: FR-009-02, NFR-009-03.
 
