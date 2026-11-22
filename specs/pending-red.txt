@@ -8,7 +8,6 @@ tests/contract/test_t_003_013_artefacts.py
 tests/contract/test_t_003_020_jobs_hostile.py
 tests/contract/test_t_003_022_request_hygiene.py
 tests/contract/test_t_003_024_schemathesis.py
-tests/contract/test_t_006_013_encoder_record.py
 tests/contract/test_t_007_070_haulage_honesty.py
 tests/contract/test_t_009_071_live_lane.py
 tests/contract/test_t_014_002_isaaclab_lock.py
@@ -37,7 +36,6 @@ tests/gpu/test_t_015_070_reason_local.py
 tests/gpu/test_t_015_071_agreement_real.py
 tests/gpu/test_t_016_040_engine_probe_graph.py
 tests/gpu/test_t_017_046_reconstruction_smoke.py
-tests/metamorphic/test_t_006_011_vmaf_aggregation.py
 tests/metamorphic/test_t_013_043_pinhole.py
 tests/metamorphic/test_t_014_020_fee_relations.py
 tests/metamorphic/test_t_014_023_fill_model.py
@@ -119,9 +117,6 @@ tests/property/test_t_002_070_gc.py
 tests/property/test_t_002_095_thermal_guard_property.py
 tests/property/test_t_003_014_event_stream.py
 tests/property/test_t_003_021_path_params.py
-tests/property/test_t_006_010_vmaf_search.py
-tests/property/test_t_006_015_frame_digest.py
-tests/property/test_t_006_030_nvtx_ranges.py
 tests/property/test_t_007_060_astar.py
 tests/property/test_t_007_063_network_builder.py
 tests/property/test_t_009_042_rain.py
@@ -160,15 +155,6 @@ tests/unit/test_t_003_015_latency_idempotence.py
 tests/unit/test_t_003_023_unavailable_store.py
 tests/unit/test_t_003_030_pages_artifact.py
 tests/unit/test_t_003_092_job_record_shards.py
-tests/unit/test_t_006_012_output_verification.py
-tests/unit/test_t_006_014_nvenc_lock.py
-tests/unit/test_t_006_020_ffmpeg_gates.py
-tests/unit/test_t_006_021_frames_hostile.py
-tests/unit/test_t_006_022_preview_encoder.py
-tests/unit/test_t_006_031_throughput.py
-tests/unit/test_t_006_032_profile_outputs.py
-tests/unit/test_t_006_033_evidence_overhead.py
-tests/unit/test_t_006_092_fixture_clip.py
 tests/unit/test_t_007_061_astar_hostile.py
 tests/unit/test_t_007_062_route_energy.py
 tests/unit/test_t_009_041_night.py
