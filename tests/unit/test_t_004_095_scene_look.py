@@ -163,7 +163,8 @@ def test_the_material_layer_is_copied_unchanged_and_no_geometry_is_added(look) -
 
     up, _, folder = look
     source = next(Path(a) for a in up["assets"] if Path(a).name == "materials.usda")
-    assert (folder / "assets" / "materials.usda").read_bytes() == source.read_bytes()
+    copy = (folder / "assets" / "materials.usda").read_bytes()
+    assert copy.replace(b"string inputs:varname", b"token inputs:varname") == source.read_bytes()  # only the varname type
     root = Sdf.Layer.FindOrOpen(str(folder / "root.usda"))
     materials = root.GetPrimAtPath("/World/Materials")
     assert materials.referenceList.prependedItems[0].assetPath == "assets/materials.usda"

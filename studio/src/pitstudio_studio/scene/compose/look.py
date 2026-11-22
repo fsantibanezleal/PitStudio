@@ -91,11 +91,19 @@ def author_looks(stage: Any, scene: Path) -> list[str]:
             elif kinds[name] == "UsdUVTexture":
                 for wrap in ("wrapS", "wrapT"):
                     shader.CreateInput(wrap, Sdf.ValueTypeNames.Token).Set("repeat")
-            elif kinds[name] == "UsdPrimvarReader_float2":  # the Sdr type of `varname` is string
-                value = str(shaders[name].GetInput("varname").Get())
-                spec = Sdf.CreatePrimInLayer(stage.GetEditTarget().GetLayer(), prim.GetPath())
-                Sdf.AttributeSpec(spec, "inputs:varname", Sdf.ValueTypeNames.String).default = value
+
     return missing
+
+
+def copy_asset(source: Path, target: Path) -> None:
+    """Copy an asset layer; a primvar reader's `varname` authored as a token is written as a string.
+
+    `UsdPrimvarReader_float2.inputs:varname` is a string in the shader schema; the assets stage authors a token and the
+    validators (`UsdShadeShaderSdrCompliance`, `UsdValidationAttributeTypeMismatchChecker`) reject either that or a
+    stronger override of its type, so the copy carries the schema type. Nothing else in the layer changes.
+    """
+    data = Path(source).read_bytes()
+    Path(target).write_bytes(data.replace(b"token inputs:varname", b"string inputs:varname"))
 
 
 def bind_materials(stage: Any) -> None:

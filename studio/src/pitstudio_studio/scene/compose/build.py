@@ -320,7 +320,7 @@ def compose_scene(spec: Mapping[str, Any], upstream: Mapping[str, Any], scene_di
     asset_rels: list[str] = []
     for asset in sorted(upstream.get("assets", []), key=lambda p: Path(p).name):
         (scene / "assets").mkdir(exist_ok=True)
-        shutil.copyfile(asset, scene / "assets" / Path(asset).name)
+        look.copy_asset(Path(asset), scene / "assets" / Path(asset).name)
         asset_rels.append(f"assets/{Path(asset).name}")
         textures = Path(asset).parent / "textures"
         if textures.is_dir():
