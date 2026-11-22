@@ -318,3 +318,330 @@ def test_import_run_publish_writes_the_results_bundle_of_the_import_spec(
     publish.publish(world.store, world.repo, run_id, None)
     doc = json.loads((world.repo / "web" / "public" / "results" / "demo-bundle.json").read_text(encoding="utf-8"))
     assert doc["run_ids"] == [run_id]
+
+
+# --- kind "render": the RTX flyover of publish-render-2026-11-22 (ovrtx frames, NVENC pair, WebP poster and stills) ---
+
+RENDER_JOB = "40-demo-render"
+RENDER_LABEL = "Rendered with NVIDIA Omniverse RTX (ovrtx)"
+PAIR = ("av1", "h264")
+FRAME_BYTES = [bytes([i]) * 64 for i in range(3)]
+LOCAL_ONLY_KEYS = {"wall_s", "throughput", "gpu_hours", "render_ms", "frame_ms"}
+
+
+def frames_digest(frames: list[bytes]) -> str:
+    return sha(b"".join(bytes.fromhex(sha(f)) for f in frames))
+
+
+def render_files(w: World, *, report_digest: str | None = None, label: str | None = RENDER_LABEL) -> None:
+    """The --from folder of the render job: the ovrtx manifest, the encode report, the pair, the poster and the stills."""
+    manifest = {
+        "kind": "render",
+        "schema_version": "1.0",
+        "run_id": "20261122T060455Z-demo-flyover",
+        "producer": {"tool": "ovrtx", "version": "0.5.0.377615", "runtime": "ovrtx"},
+        "scene": {"id": "a1-bingham", "sha256": "1" * 64},
+        "resolution": [1920, 1080],
+        "frames": {"stills": 6, "flyover": 3, "playback_fps": 30, "duration_s": 0.1},
+        "gpu": {"name": "NVIDIA RTX 5000 Ada Generation Laptop GPU", "driver": "595.95"},
+        "performance": "local-only",
+        "artefacts": [
+            {"id": f"frame-{i:05d}", "path": f"flyover/frame_{i:05d}.png", "sha256": sha(b), "kind": "image"}
+            for i, b in enumerate(FRAME_BYTES)
+        ],
+    }
+    if label is not None:
+        manifest["label"] = label
+    (w.src / "render.manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    variants = {}
+    for codec in PAIR:
+        data = f"mp4-{codec}".encode() * 50
+        (w.src / f"demo-flyover.{codec}.mp4").write_bytes(data)
+        variants[codec] = {
+            "file": f"demo-flyover.{codec}.mp4",
+            "sha256": sha(data),
+            "record": {
+                "codec": codec,
+                "profile": "main" if codec == "av1" else "high",
+                "pix_fmt": "yuv420p",
+                "width": 1920 if codec == "av1" else 1280,
+                "height": 1080 if codec == "av1" else 720,
+                "fps": 30,
+                "frames": 3,
+                "duration_s": 0.1,
+                "bitrate_kbps": 1000.0,
+                "vmaf": {"mean": 94.5, "p5": 90.1, "model": "vmaf_v0.6.1"},
+                "source_frames_sha256": report_digest or frames_digest(FRAME_BYTES),
+                "encoder": {
+                    "ffmpeg_version": "n8.1.3",
+                    "build_sha256": "2" * 64,
+                    "nvenc_api": "13.0",
+                    "args": ["-i", "C:\\Users\\someone\\_Temp\\frames\\frame_%05d.png", "-c:v", f"{codec}_nvenc"],
+                },
+                "encode_fps": 311.5,
+            },
+        }
+    report = {"kind": "encode-report", "clips": [{"clip": "demo-flyover", "frames": 3, "variants": variants}]}
+    (w.src / "encode-report.json").write_text(json.dumps(report), encoding="utf-8")
+    for name in ("demo-flyover.webp", "still-0s.webp", "still-5s.webp"):
+        (w.src / name).write_bytes(b"RIFFwebp" + name.encode())
+
+
+def render_spec() -> dict:
+    own = {"licence_class": "own", "spdx": "CC-BY-4.0"}
+    video = {"kind": "video", "media_type": "video/mp4", "budget_class": "videos", "publish": True, **own}
+    image = {"kind": "image", "media_type": "image/webp", "publish": True, **own}
+    return {
+        "job": RENDER_JOB,
+        "kind": "render",
+        "case": "A1",
+        "all_cases": True,
+        "recipe": "render/demo.yaml",
+        "slug": "demo-flyover",
+        "seed": 3,
+        "label": "real USGS 3DEP terrain with a procedural fleet, rendered with ovrtx",
+        "render": {
+            "manifest": "render.manifest.json",
+            "report": "encode-report.json",
+            "built_with": ["openusd", "ovrtx", "nvenc-ffmpeg"],
+            "title": {"en": "Flyover of the demo pit", "es": "Sobrevuelo del pit de prueba"},
+        },
+        "stages": [
+            {
+                "id": "rtx_render",
+                "tool": "ovrtx",
+                "outputs": [
+                    {
+                        "name": "render.manifest.json",
+                        "from": "render.manifest.json",
+                        "kind": "table",
+                        "budget_class": "studio-showcase",
+                        "publish": False,
+                        **own,
+                    }
+                ],
+            },
+            {
+                "id": "st56_encode",
+                "tool": "nvenc-ffmpeg",
+                "outputs": [
+                    {
+                        "name": "demo-flyover.av1.mp4",
+                        "from": "demo-flyover.av1.mp4",
+                        "id": "demo-flyover-av1",
+                        "encoder_from": {"codec": "av1"},
+                        **video,
+                    },
+                    {
+                        "name": "demo-flyover.h264.mp4",
+                        "from": "demo-flyover.h264.mp4",
+                        "id": "demo-flyover-h264",
+                        "encoder_from": {"codec": "h264"},
+                        **video,
+                    },
+                    {
+                        "name": "demo-flyover.webp",
+                        "from": "demo-flyover.webp",
+                        "id": "demo-flyover-poster",
+                        "budget_class": "videos",
+                        "role": "poster",
+                        **image,
+                    },
+                    {
+                        "name": "flyover-0s.webp",
+                        "from": "still-0s.webp",
+                        "id": "demo-flyover-still-0s",
+                        "budget_class": "studio-showcase",
+                        "role": "still",
+                        "t_s": 0,
+                        **image,
+                    },
+                    {
+                        "name": "flyover-5s.webp",
+                        "from": "still-5s.webp",
+                        "id": "demo-flyover-still-5s",
+                        "budget_class": "studio-showcase",
+                        "role": "still",
+                        "t_s": 5,
+                        **image,
+                    },
+                    {
+                        "name": "render.json",
+                        "derive": "render-summary",
+                        "id": "demo-flyover-render",
+                        "kind": "table",
+                        "media_type": "application/json",
+                        "budget_class": "studio-showcase",
+                        "publish": True,
+                        **own,
+                    },
+                ],
+            },
+        ],
+    }
+
+
+def render_world(w: World, **kw: object) -> dict:
+    (w.repo / "studio" / "recipes" / "render").mkdir(parents=True)
+    (w.repo / "studio" / "recipes" / "render" / "demo.yaml").write_text("id: demo-flyover\n", encoding="utf-8")
+    git(w.repo, "add", ".")
+    git(w.repo, "commit", "-q", "-m", "recipe")
+    (w.queue / "done" / f"{RENDER_JOB}.sh").write_text(SCRIPT, encoding="utf-8", newline="\n")
+    log = w.queue / f"{RENDER_JOB}.log"
+    log.write_text("rendered 3 images\n[job] done\n", encoding="utf-8", newline="\n")
+    os.utime(log, (1_795_000_000, 1_795_000_000))
+    (w.queue / "queue.log").write_text(
+        f"[queue 03:04:50] start {RENDER_JOB}\n[queue 03:35:30] done {RENDER_JOB}\n", encoding="utf-8", newline="\n"
+    )
+    render_files(w, **kw)
+    return render_spec()
+
+
+def run_job(w: World, job: str, spec: dict) -> tuple[int, str]:
+    p = w.tmp / "spec.json"
+    p.write_text(json.dumps(spec), encoding="utf-8")
+    out, err = io.StringIO(), io.StringIO()
+    with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+        code = cli.main(["import-run", job, "--from", str(w.src), "--spec", str(p)])
+    return code, err.getvalue()
+
+
+def published_render(w: World) -> tuple[str, dict, Path]:
+    from pitstudio.runner import publish
+
+    assert run_job(w, RENDER_JOB, render_spec())[0] == 0
+    run_id = w.runs()[0].name
+    publish.publish(w.store, w.repo, run_id, None)
+    web = w.repo / "web" / "public"
+    return run_id, json.loads((web / "assets" / "runs" / run_id / "manifest.json").read_text(encoding="utf-8")), web
+
+
+def test_import_run_render_records_a_valid_run_with_the_render_label_and_no_timing(world: World) -> None:
+    spec = render_world(world)
+    code, err = run_job(world, RENDER_JOB, spec)
+    assert code == 0, err
+    m = manifest_of(world)
+    assert first_errors("manifest", m, "#/$defs/run", n=3) == []
+    assert [s["tool"] for s in m["stages"]] == ["ovrtx", "nvenc-ffmpeg"]
+    notes = " | ".join(m["notes"])
+    assert RENDER_LABEL in notes and LABEL in notes and "a1-bingham" in notes
+    assert "started" not in notes and "ended" not in notes and "GPU-hours" not in notes.replace("withheld", "")
+    assert all(s["wall_s"] == 0.0 and s["attempts"][0]["duration_s"] == 0.0 for s in m["stages"])
+    imp = json.loads((world.runs()[0] / "import.json").read_text(encoding="utf-8"))
+    assert imp["all_cases"] is True and imp["partial"] is False
+
+
+def test_import_run_render_publishes_the_pair_poster_stills_and_summary_with_matching_digests(world: World) -> None:
+    render_world(world)
+    run_id, pub, web = published_render(world)
+    by = {a["id"]: a for a in pub["artefacts"]}
+    assert sorted(by) == [
+        "demo-flyover-av1",
+        "demo-flyover-h264",
+        "demo-flyover-poster",
+        "demo-flyover-render",
+        "demo-flyover-still-0s",
+        "demo-flyover-still-5s",
+    ]
+    for a in by.values():
+        assert sha((web / a["path"]).read_bytes()) == a["sha256"] and "cases" not in a
+        assert a["asset_host"] == "git" and a["path"].startswith(f"assets/{run_id}/")
+    for codec in PAIR:
+        a = by[f"demo-flyover-{codec}"]
+        assert a["kind"] == "video" and a["lane"] == "replay" and a["encoder"]["codec"] == codec
+        assert a["lane_measurements"]["web_drivable"] is False and a["media_type"] == "video/mp4"
+        assert a["encoder"]["vmaf"]["mean"] == 94.5
+    assert by["demo-flyover-poster"]["lane"] == "static" and by["demo-flyover-poster"]["kind"] == "image"
+    summary = json.loads((web / by["demo-flyover-render"]["path"]).read_text(encoding="utf-8"))
+    assert summary["run_id"] == run_id and summary["label"] == RENDER_LABEL
+    assert summary["producer"] == {"tool": "ovrtx", "version": "0.5.0.377615"}
+    assert summary["built_with"] == ["openusd", "ovrtx", "nvenc-ffmpeg"]
+    assert summary["video"] == {
+        "id": "demo-flyover",
+        "files": ["demo-flyover-av1", "demo-flyover-h264"],
+        "poster": "demo-flyover-poster",
+    }
+    assert [(s["artefact"], s["t_s"]) for s in summary["stills"]] == [
+        ("demo-flyover-still-0s", 0),
+        ("demo-flyover-still-5s", 5),
+    ]
+    assert summary["title"] == {"en": "Flyover of the demo pit", "es": "Sobrevuelo del pit de prueba"}
+
+
+def test_import_run_render_publishes_no_performance_number_and_no_machine_path(world: World) -> None:
+    render_world(world)
+    run_id, pub, web = published_render(world)
+    files = [web / "assets" / "runs" / run_id / "manifest.json", *(web / "assets" / run_id).glob("*.json")]
+    assert len(files) == 2
+    for f in files:
+        text = f.read_text(encoding="utf-8")
+        assert "C:\\" not in text and "Users" not in text and "someone" not in text, f.name
+        assert "5000 Ada" not in text and "595.95" not in text, f.name  # the GPU of the local manifest stays local
+        walk = [json.loads(text)]
+        while walk:
+            node = walk.pop()
+            for k, v in node.items() if isinstance(node, dict) else enumerate(node):
+                assert k not in LOCAL_ONLY_KEYS, (f.name, k)
+                if k == "encode_fps":
+                    assert v is None
+                if isinstance(v, dict | list):
+                    walk.append(v)
+    notes = " ".join(pub["notes"])
+    assert "started" not in notes and "03:" not in notes
+    video = next(a for a in pub["artefacts"] if a["id"] == "demo-flyover-av1")
+    assert video["encoder"]["encoder"]["args"] == ["-i", "frame_%05d.png", "-c:v", "av1_nvenc"]
+
+
+def test_import_run_render_refuses_a_wrong_manifest_kind_a_missing_label_and_a_frame_digest_mismatch(
+    world: World,
+) -> None:
+    spec = render_world(world, label=None)
+    code, err = run_job(world, RENDER_JOB, spec)
+    assert code == 2 and "label" in err and world.runs() == []
+    render_files(world)
+    doc = json.loads((world.src / "render.manifest.json").read_text(encoding="utf-8"))
+    doc["kind"] = "run"
+    (world.src / "render.manifest.json").write_text(json.dumps(doc), encoding="utf-8")
+    code, err = run_job(world, RENDER_JOB, spec)
+    assert code == 2 and "kind" in err and world.runs() == []
+    render_files(world, report_digest="9" * 64)
+    code, err = run_job(world, RENDER_JOB, spec)
+    assert code == 2 and "source frames" in err
+    assert world.runs() == [] and not (world.store / "cas").exists()
+
+
+def test_import_run_render_refuses_a_video_without_an_encoder_record_and_an_oversized_git_file(world: World) -> None:
+    from pitstudio.runner import publish
+    from pitstudio.runner.recipe import Usage
+
+    spec = render_world(world)
+    del spec["stages"][1]["outputs"][0]["encoder_from"]
+    code, err = run_job(world, RENDER_JOB, spec)
+    assert code == 2 and "encoder" in err and world.runs() == []
+    spec = render_spec()
+    big = b"x" * (10 * 2**20)
+    (world.src / "demo-flyover.av1.mp4").write_bytes(big)
+    code, err = run_job(world, RENDER_JOB, spec)
+    assert code == 2 and "digest" in err and world.runs() == []  # the encode report pins another digest
+    report = json.loads((world.src / "encode-report.json").read_text(encoding="utf-8"))
+    report["clips"][0]["variants"]["av1"]["sha256"] = sha(big)
+    (world.src / "encode-report.json").write_text(json.dumps(report), encoding="utf-8")
+    assert run_job(world, RENDER_JOB, spec)[0] == 0
+    with pytest.raises(Usage, match="small static file"):
+        publish.publish(world.store, world.repo, world.runs()[0].name, None)
+
+
+def test_import_run_render_a_newer_run_is_listed_after_the_older_one_in_the_web_index(world: World) -> None:
+    from pitstudio.runner import publish
+
+    render_world(world)
+    run_id, _, web = published_render(world)
+    log = world.queue / f"{RENDER_JOB}.log"
+    os.utime(log, (1_795_090_000, 1_795_090_000))  # one day later: a second render of the same recipe
+    assert run_job(world, RENDER_JOB, render_spec())[0] == 0
+    newer = world.runs()[-1].name
+    assert newer > run_id
+    publish.publish(world.store, world.repo, newer, None)
+    idx = json.loads((web / "assets" / "manifest.json").read_text(encoding="utf-8"))
+    assert [r["run_id"] for r in idx["runs"]] == [run_id, newer]
+    assert {a["run_id"] for a in idx["artefacts"] if a["id"] == "demo-flyover-render"} == {run_id, newer}
