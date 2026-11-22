@@ -207,7 +207,7 @@ def test_every_shard_is_at_most_10_million_bytes() -> None:
 
 @pytest.mark.req("NFR-016-05")
 def test_every_git_hosted_file_is_below_10485760_bytes() -> None:
-    assert budget_report([_f("a.bin", 10_485_759, "own-code", host="git")]).failures == []
+    assert budget_report([_f("a.bin", 10_485_759, "videos", host="git")]).failures == []
     bad = budget_report([_f("a.bin", 10_485_760, "videos", host="git")])
     assert [(f["scope"], f["name"], f["total"]) for f in bad.failures if f["scope"] == "git-file"] == [
         ("git-file", "a.bin", 10_485_760)
@@ -218,7 +218,8 @@ def test_every_git_hosted_file_is_below_10485760_bytes() -> None:
 
 @pytest.mark.req("NFR-016-05")
 def test_the_in_git_baked_total_is_at_most_100_million_bytes() -> None:
-    files = [_f(f"g{i}.bin", 5_000_000, "onnx", host="git") for i in range(20)]  # exactly 100,000,000
+    # 10 files of 5 MB in videos (cap 150 MB) and 10 in tiles-glb (cap 95 MB): exactly 100,000,000, no class over its cap
+    files = [_f(f"g{i}.bin", 5_000_000, "videos" if i < 10 else "tiles-glb", host="git") for i in range(20)]
     report = budget_report(files)
     assert report.git_total == 100_000_000
     assert report.failures == []
