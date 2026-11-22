@@ -277,8 +277,10 @@ def test_a_guard_block_end_with_frames_left_is_partial_and_a_full_run_is_complet
 # ---------------------------------------------------------------------------------------------------------------
 # On Isaac Sim 6.1 `idToLabels` holds an empty path for every object instance after the first frame (a probe of
 # 2026-11-22: instances 318 and 319 had the semantics {class: haul_truck, part: chassis} and the path ""), whereas
-# `idToSemantics` is always right. Each object root carries the label `obj` = its prim name, children inherit it.
+# `idToSemantics` is always right. Each object root carries the label `obj` = its prim name (the renderer lowercases it)
+# children inherit it.
 CLASSES = {"haul_truck", "shovel", "light_vehicle", "person", "boulder"}
+OBJECTS = [{"prim_id": f"/World/Sdg/Obj_{n:02d}", "class": "haul_truck"} for n in range(4)]
 
 
 @pytest.mark.req("FR-009-02")
@@ -286,11 +288,11 @@ def test_an_instance_is_owned_by_the_object_its_obj_label_names_whatever_the_pat
     labels = {7: "/World/Terrain/Lod0/Tile_0_4_4_1", 314: "", 315: "", 316: "/World/Sdg/Obj_03/Body"}
     semantics = {
         7: {"class": "terrain"},
-        314: {"class": "haul_truck", "part": "chassis", "obj": "Obj_01"},
-        315: {"class": "haul_truck", "part": "dump_body", "obj": "Obj_01"},
-        316: {"class": "light_vehicle", "obj": "Obj_03"},
+        314: {"class": "haul_truck", "part": "chassis", "obj": "obj_01"},
+        315: {"class": "haul_truck", "part": "dump_body", "obj": "obj_01"},
+        316: {"class": "light_vehicle", "obj": "obj_03"},
     }
-    got = scene_render.instance_paths(labels, semantics, CLASSES, present={7, 314, 315, 316})
+    got = scene_render.instance_paths(labels, semantics, CLASSES, present={7, 314, 315, 316}, objects=OBJECTS)
     assert got[7] == "/World/Terrain/Lod0/Tile_0_4_4_1"  # not an object: the path stands
     assert got[314] == got[315] == "/World/Sdg/Obj_01"
     assert got[316] == "/World/Sdg/Obj_03"
@@ -300,13 +302,13 @@ def test_an_instance_is_owned_by_the_object_its_obj_label_names_whatever_the_pat
 def test_an_object_instance_without_an_obj_label_is_an_error_not_a_missing_object() -> None:
     semantics = {314: {"class": "haul_truck", "part": "chassis"}, 7: {"class": "terrain"}}
     with pytest.raises(scene_render.EmptyAnnotatorData, match="314"):
-        scene_render.instance_paths({314: "", 7: "/t"}, semantics, CLASSES, present={7, 314})
+        scene_render.instance_paths({314: "", 7: "/t"}, semantics, CLASSES, present={7, 314}, objects=OBJECTS)
 
 
 @pytest.mark.req("FR-009-02")
 def test_an_instance_that_is_not_in_the_mask_is_not_checked() -> None:
     semantics = {314: {"class": "haul_truck"}, 7: {"class": "terrain"}}
-    got = scene_render.instance_paths({314: "", 7: "/t"}, semantics, CLASSES, present={7})
+    got = scene_render.instance_paths({314: "", 7: "/t"}, semantics, CLASSES, present={7}, objects=OBJECTS)
     assert got == {7: "/t", 314: ""}
 
 
@@ -318,15 +320,15 @@ def test_annotate_counts_the_pixels_of_each_object_through_the_obj_paths() -> No
     ids[14:18, 30:38] = 400  # a second truck
     labels = {314: "", 315: "", 400: ""}
     semantics = {
-        314: {"class": "haul_truck", "obj": "Obj_00"},
-        315: {"class": "haul_truck", "obj": "Obj_00"},
-        400: {"class": "haul_truck", "obj": "Obj_01"},
+        314: {"class": "haul_truck", "obj": "obj_00"},
+        315: {"class": "haul_truck", "obj": "obj_00"},
+        400: {"class": "haul_truck", "obj": "obj_01"},
     }
-    paths = scene_render.instance_paths(labels, semantics, CLASSES, present={314, 315, 400})
     objects = [
         {"prim_id": "/World/Sdg/Obj_00", "class": "haul_truck"},
         {"prim_id": "/World/Sdg/Obj_01", "class": "haul_truck"},
     ]
+    paths = scene_render.instance_paths(labels, semantics, CLASSES, present={314, 315, 400}, objects=objects)
     _, annotations, visible = scene_render.annotate(ids, paths, objects)
     assert visible == {"/World/Sdg/Obj_00": 10 * 20 - 0, "/World/Sdg/Obj_01": 4 * 8}
     assert [a["bbox"] for a in annotations] == [[3.0, 2.0, 20.0, 10.0], [30.0, 14.0, 8.0, 4.0]]

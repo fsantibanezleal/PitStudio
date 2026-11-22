@@ -99,26 +99,32 @@ def instance_paths(
     id_to_semantics: Mapping[Any, Mapping[str, str]],
     classes: set[str],
     present: set[int] | None = None,
+    objects: Sequence[Mapping[str, Any]] = (),
 ) -> dict[int, str]:
     """Instance id to the prim path of the object it belongs to (`annotate` matches objects by prim path).
 
     Isaac Sim 6.1 returns an empty path in `idToLabels` for the object instances after the first frame, while
     `idToSemantics` stays right, so an instance of an object class is mapped through its `obj` label (the object's prim
-    name, set on the object root and inherited by its parts). An object instance without that label raises
+    name, set on the object root and inherited by its parts; the renderer lowercases it, so `objects` (the row's
+    objects) resolves it back to the table's prim id). An object instance without the label of a known object raises
     `EmptyAnnotatorData` instead of dropping its annotation; `present` limits that check to the ids in the mask.
     """
+    by_name = {o["prim_id"].rsplit("/", 1)[1].lower(): o["prim_id"] for o in objects}
     out = {int(i): p for i, p in id_to_path.items()}
     missing: list[int] = []
     for key, sem in id_to_semantics.items():
         i = int(key)
         if sem.get("class") not in classes or (present is not None and i not in present):
             continue
-        if sem.get("obj"):
-            out[i] = f"{OBJECT_ROOT}/{sem['obj']}"
+        prim = by_name.get(str(sem.get("obj", "")).lower())
+        if prim is not None:
+            out[i] = prim
         else:
             missing.append(i)
     if missing:
-        raise EmptyAnnotatorData(f"instances {sorted(missing)} carry an object class but no `obj` label")
+        raise EmptyAnnotatorData(
+            f"instances {sorted(missing)} carry an object class but no `obj` label of a row object"
+        )
     return out
 
 
@@ -537,7 +543,7 @@ class SdgRenderer:
         rgb = rgb[..., :3].astype(np.uint8)
         present = {int(i) for i in np.unique(np.asarray(seg["data"]))}
         id_to_path = instance_paths(
-            seg["info"]["idToLabels"], seg["info"].get("idToSemantics", {}), set(CATEGORY_IDS), present
+            seg["info"]["idToLabels"], seg["info"].get("idToSemantics", {}), set(CATEGORY_IDS), present, row["objects"]
         )
         return write_frame(row, Path(out_dir), rgb, depth.reshape(height, width), np.asarray(seg["data"]), id_to_path)
 
