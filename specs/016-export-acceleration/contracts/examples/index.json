@@ -726,6 +726,20 @@
       "target": "#",
       "valid": false,
       "note": "row fixture must be a boolean"
+    },
+    {
+      "file": "bench-record.valid-ort-reference.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "parity measured against the ONNX Runtime CPU fp32 outputs of the exported graph (FR-016-04 reference)"
+    },
+    {
+      "file": "bench-record.hostile-unknown-reference.json",
+      "schema": "bench-record.schema.json",
+      "target": "#",
+      "valid": false,
+      "note": "parity reference outside its enum"
     }
   ],
   "not_schema_checkable": [

@@ -1095,7 +1095,10 @@
           ]
         },
         "reference": {
-          "const": "pytorch-fp32-golden"
+          "enum": [
+            "pytorch-fp32-golden",
+            "onnx-ort-cpu-fp32"
+          ]
         },
         "rtol": {
           "anyOf": [

@@ -169,7 +169,7 @@ recall_iou_min: 0.5
  */
 export interface Parity {
 verdict: ("pass" | "rejected")
-reference: "pytorch-fp32-golden"
+reference: ("pytorch-fp32-golden" | "onnx-ort-cpu-fp32")
 rtol: (number | null)
 atol: (number | null)
 max_abs_error: (number | null)
