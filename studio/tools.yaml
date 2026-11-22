@@ -215,7 +215,7 @@ tools:
   licence_class: attribution
   ring: Assess
   lane: replay
-  performance: public
+  performance: local-only  # derived from studio/isaaclab/uv.lock (ovstage, NVIDIA SLA 8.9); registry id isaac-lab, probe and environment id isaaclab
   role: Haul-truck ramp driving and excavator digging policies.
   cases:
   - A2
