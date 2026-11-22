@@ -174,6 +174,7 @@ class SceneSourceId(
     RootModel[
         Literal[
             "usgs-3dep-bingham",
+            "usda-naip-bingham",
             "ot-mckinley-2023",
             "nrw-hambach-dgm1",
             "tang-werner-footprint",
@@ -187,6 +188,7 @@ class SceneSourceId(
     root: Annotated[
         Literal[
             "usgs-3dep-bingham",
+            "usda-naip-bingham",
             "ot-mckinley-2023",
             "nrw-hambach-dgm1",
             "tang-werner-footprint",
@@ -348,6 +350,19 @@ class TerrainSource(BaseModel):
     optional: Annotated[bool, Field(description="FR-004-09: optional sources may end 'not run'")]
 
 
+class ImagerySource(BaseModel):
+    """
+    an orthophoto source of the terrain albedo (FR-004-48)
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    id: Literal["usda-naip-bingham"]
+    kind: Literal["orthophoto"]
+    optional: Annotated[bool, Field(description="FR-004-48: an optional source without data is not run")]
+
+
 class LodSpec(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -438,6 +453,13 @@ class Terrain(BaseModel):
     ]
     lods: Annotated[list[LodSpec], Field(max_length=3, min_length=1)]
     transformations: Annotated[list[Transformation] | None, Field(max_length=8)] = None
+    imagery: Annotated[
+        list[ImagerySource] | None,
+        Field(
+            description="orthophoto sources whose image becomes the terrain albedo (FR-004-48, FR-004-49)",
+            max_length=2,
+        ),
+    ] = None
 
 
 class BenchHeightM(BaseModel):
@@ -899,7 +921,7 @@ class Source(BaseModel):
         extra="forbid",
     )
     id: Slug
-    role: Literal["terrain", "mine-polygon", "texture", "people"]
+    role: Literal["terrain", "mine-polygon", "imagery", "texture", "people"]
     spdx: SpdxId
     licence_class: LicenceClass
     redistribution: Literal["redistributable", "derived-only", "no-redistribution"]
@@ -958,20 +980,20 @@ class FileRef(BaseModel):
     sha256: Sha256
 
 
-class Terrain1(BaseModel):
+class Albedo(BaseModel):
     """
-    terrain outputs and the holes left as nodata (FR-004-05, FR-004-12)
+    the orthophoto written as the terrain albedo: its year, the year of the DEM, the ground resolution and the SHA-256 of every image and input file (FR-004-48)
     """
 
     model_config = ConfigDict(
         extra="forbid",
     )
-    grid: FileRef
-    tiles: FileRef
-    cell_size_m: Annotated[float, Field(ge=0.25, le=10.0)]
-    unfilled_holes: Annotated[int, Field(ge=0, le=100000000)]
-    unfilled_cells: Annotated[int, Field(ge=0, le=100000000)]
-    nodata_frac: Annotated[float, Field(ge=0.0, le=0.05)]
+    source: Slug
+    year: Annotated[int, Field(ge=1990, le=2100)]
+    dem_year: Annotated[int, Field(ge=1990, le=2100)]
+    ground_resolution_m: Annotated[float, Field(gt=0.0, le=10.0)]
+    images: Annotated[list[FileRef], Field(max_length=1024, min_length=1)]
+    inputs: Annotated[list[FileRef], Field(max_length=64, min_length=1)]
 
 
 class Design1(BaseModel):
@@ -1345,6 +1367,23 @@ class CrsRecord(BaseModel):
     vertical: CrsRef
     horizontal_unit: LinearUnit
     vertical_unit: LinearUnit
+
+
+class Terrain1(BaseModel):
+    """
+    terrain outputs and the holes left as nodata (FR-004-05, FR-004-12)
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    grid: FileRef
+    tiles: FileRef
+    cell_size_m: Annotated[float, Field(ge=0.25, le=10.0)]
+    unfilled_holes: Annotated[int, Field(ge=0, le=100000000)]
+    unfilled_cells: Annotated[int, Field(ge=0, le=100000000)]
+    nodata_frac: Annotated[float, Field(ge=0.0, le=0.05)]
+    albedo: Albedo | None = None
 
 
 class Determinism(BaseModel):

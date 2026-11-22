@@ -67,8 +67,8 @@ export type { PitStudioReplayShardHeaderAndReplayManifest, ShardHeader, CodeType
 export type { ResultsBundle, CriterionStatus, PairedRow, Label, DiffInterval, McnemarRow, AccelRow, ComparisonBundle, SingleEventRow, EstimateRow, EstimateInterval, AccelerationBundle, Conditions, Latency } from "./results";
 export type { Position, EdgeId, HaulRoadNetwork, Edge } from "./road-network";
 export type { PrimPath, SceneDigest, LodDigest, Prim } from "./scene-digest";
-export type { Site, LayerRole, Texture, SceneManifest, Terrain } from "./scene-manifest";
-export type { LodIndex, MachineClass, Part, PartLabel, Material, ClassLabel, VariantName, TimeOfDay, Weather, LodName, RuleId, SceneSourceId, SceneSpecificationSceneSpec, TerrainSource, LodSpec, Transformation, FleetEntry, Labels, Waiver } from "./scene-spec";
+export type { Site, LayerRole, Texture, SceneManifest, Terrain, Albedo } from "./scene-manifest";
+export type { LodIndex, MachineClass, Part, PartLabel, Material, ClassLabel, VariantName, TimeOfDay, Weather, LodName, RuleId, SceneSourceId, SceneSpecificationSceneSpec, TerrainSource, LodSpec, Transformation, ImagerySource, FleetEntry, Labels, Waiver } from "./scene-spec";
 export type { SceneValidationReport, ValidatorRun, InvLayerUnitsAxis, InvClassLabelCoverage, InvTimeSampledLabels, InvArticulationRoots, InvCyclicJointGraphs, InvNonPositiveMasses, InvBenchHeightDeviation, InvFaceAngleDeviation, InvWindrowMargin, InvTerrainRangeExcess, InvCutFillIdentityResidual, InvForbiddenPaths, InvLayerSizeMax, DeterminismLayer, Result, Selection, InvRampGradeMax } from "./scene-validation-report";
 export type { SDGRandomisationConfig, Arm, Structured, Unstructured, FactorRange, KelvinRange, CountRange } from "./sdg-randomisation";
 export type { PitStudioSensorRecipeBlock, SensorId, ScanType, MountPositionM, Lidar, Dust, Metrics, Exposure, Haze } from "./sensor-recipe";

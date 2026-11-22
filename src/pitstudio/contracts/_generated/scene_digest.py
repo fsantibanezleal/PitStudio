@@ -193,6 +193,7 @@ class SceneSourceId(
     RootModel[
         Literal[
             "usgs-3dep-bingham",
+            "usda-naip-bingham",
             "ot-mckinley-2023",
             "nrw-hambach-dgm1",
             "tang-werner-footprint",
@@ -206,6 +207,7 @@ class SceneSourceId(
     root: Annotated[
         Literal[
             "usgs-3dep-bingham",
+            "usda-naip-bingham",
             "ot-mckinley-2023",
             "nrw-hambach-dgm1",
             "tang-werner-footprint",
@@ -367,6 +369,19 @@ class TerrainSource(BaseModel):
     optional: Annotated[bool, Field(description="FR-004-09: optional sources may end 'not run'")]
 
 
+class ImagerySource(BaseModel):
+    """
+    an orthophoto source of the terrain albedo (FR-004-48)
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    id: Literal["usda-naip-bingham"]
+    kind: Literal["orthophoto"]
+    optional: Annotated[bool, Field(description="FR-004-48: an optional source without data is not run")]
+
+
 class LodSpec(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -457,6 +472,13 @@ class Terrain(BaseModel):
     ]
     lods: Annotated[list[LodSpec], Field(max_length=3, min_length=1)]
     transformations: Annotated[list[Transformation] | None, Field(max_length=8)] = None
+    imagery: Annotated[
+        list[ImagerySource] | None,
+        Field(
+            description="orthophoto sources whose image becomes the terrain albedo (FR-004-48, FR-004-49)",
+            max_length=2,
+        ),
+    ] = None
 
 
 class BenchHeightM(BaseModel):

@@ -40,7 +40,7 @@ origin: SiteOrigin
  */
 export type Source = {
 id: Slug
-role: ("terrain" | "mine-polygon" | "texture" | "people")
+role: ("terrain" | "mine-polygon" | "imagery" | "texture" | "people")
 spdx: SpdxId
 licence_class: LicenceClass
 redistribution: ("redistributable" | "derived-only" | "no-redistribution")
@@ -285,6 +285,7 @@ cell_size_m: number
 unfilled_holes: number
 unfilled_cells: number
 nodata_frac: number
+albedo?: Albedo
 }
 /**
  * This interface was referenced by `SceneManifest`'s JSON-Schema
@@ -293,6 +294,28 @@ nodata_frac: number
 export interface FileRef {
 path: Relpath
 sha256: Sha256
+}
+/**
+ * the orthophoto written as the terrain albedo: its year, the year of the DEM, the ground resolution and the SHA-256 of every image and input file (FR-004-48)
+ * 
+ * This interface was referenced by `SceneManifest`'s JSON-Schema
+ * via the `definition` "albedo".
+ */
+export interface Albedo {
+source: Slug
+year: number
+dem_year: number
+ground_resolution_m: number
+/**
+ * @minItems 1
+ * @maxItems 1024
+ */
+images: [FileRef, ...(FileRef)[]]
+/**
+ * @minItems 1
+ * @maxItems 64
+ */
+inputs: [FileRef, ...(FileRef)[]]
 }
 /**
  * This interface was referenced by `SceneManifest`'s JSON-Schema

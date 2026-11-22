@@ -248,7 +248,7 @@ export type SpdxId = ("LicenseRef-USGov-PD" | "CC0-1.0" | "DL-DE-ZERO-2.0" | "CC
  * This interface was referenced by `SceneSpecificationSceneSpec`'s JSON-Schema
  * via the `definition` "scene_source_id".
  */
-export type SceneSourceId = ("usgs-3dep-bingham" | "ot-mckinley-2023" | "nrw-hambach-dgm1" | "tang-werner-footprint" | "maus-v2" | "polyhaven" | "ambientcg" | "makehuman-exports")
+export type SceneSourceId = ("usgs-3dep-bingham" | "usda-naip-bingham" | "ot-mckinley-2023" | "nrw-hambach-dgm1" | "tang-werner-footprint" | "maus-v2" | "polyhaven" | "ambientcg" | "makehuman-exports")
 
 /**
  * Scene specification read from the recipe params of st10_terrain to st45_validate and the export stage (DC-004-01, spec 004-scene-pipeline). It is a recipe params object: keys follow param_key, nesting depth <= 4 including the root, no $schema member. Version 1.1: optional `fixture` member.
@@ -363,6 +363,12 @@ lods: [LodSpec]|[LodSpec, LodSpec]|[LodSpec, LodSpec, LodSpec]
  * @maxItems 8
  */
 transformations?: []|[Transformation]|[Transformation, Transformation]|[Transformation, Transformation, Transformation]|[Transformation, Transformation, Transformation, Transformation]|[Transformation, Transformation, Transformation, Transformation, Transformation]|[Transformation, Transformation, Transformation, Transformation, Transformation, Transformation]|[Transformation, Transformation, Transformation, Transformation, Transformation, Transformation, Transformation]|[Transformation, Transformation, Transformation, Transformation, Transformation, Transformation, Transformation, Transformation]
+/**
+ * orthophoto sources whose image becomes the terrain albedo (FR-004-48, FR-004-49)
+ * 
+ * @maxItems 2
+ */
+imagery?: []|[ImagerySource]|[ImagerySource, ImagerySource]
 }
 /**
  * This interface was referenced by `SceneSpecificationSceneSpec`'s JSON-Schema
@@ -409,6 +415,20 @@ export interface Transformation {
 component: ("horizontal" | "vertical")
 from_epsg: number
 to_epsg: number
+}
+/**
+ * an orthophoto source of the terrain albedo (FR-004-48)
+ * 
+ * This interface was referenced by `SceneSpecificationSceneSpec`'s JSON-Schema
+ * via the `definition` "imagery_source".
+ */
+export interface ImagerySource {
+id: "usda-naip-bingham"
+kind: "orthophoto"
+/**
+ * FR-004-48: an optional source without data is not run
+ */
+optional: boolean
 }
 /**
  * This interface was referenced by `SceneSpecificationSceneSpec`'s JSON-Schema
