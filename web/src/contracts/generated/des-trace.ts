@@ -28,6 +28,10 @@ lp?: LpStatus
 policy?: PolicyRef
 synthetic: true
 honesty: Honesty
+/**
+ * true while the document is, or was computed from, a contract fixture: the dispatch stages run against it, write fixture: true on every artefact and publish no dispatch comparison computed from it (FR-007-46)
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `HaulageDESEventTrace`'s JSON-Schema

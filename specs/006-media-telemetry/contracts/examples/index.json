@@ -412,6 +412,23 @@
       "rule": "FR-006-21",
       "pointer": "/truncated",
       "keyword": "type"
+    },
+    {
+      "file": "encode-report.valid-fixture.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "frames that are a contract fixture: report and clips carry fixture: true (FR-006-23)"
+    },
+    {
+      "file": "encode-report.hostile-fixture-not-boolean.json",
+      "schema": "encode-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "fixture flag that is not a boolean",
+      "rule": "FR-006-23",
+      "pointer": "/fixture",
+      "keyword": "type"
     }
   ],
   "not_schema_checkable": [

@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/encode-report.schema.json",
+  "$comment": "revision 2: optional `fixture` on the report (FR-006-23); contract change under ADR-0039 section 4; the $id carries no version segment in this repository",
   "title": "Encode report",
   "description": "Per-clip VMAF search trace, chosen settings, budgets and relaxation written by st56_encode (DC-006-02, spec 006-media-telemetry).",
   "type": "object",
@@ -75,6 +76,11 @@
       "items": {
         "$ref": "#/$defs/clip"
       }
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "true while the frames that st56_encode read are a contract fixture: the clip pair is encoded for tests, marked fixture: true and written to no published location (FR-006-23)"
     }
   },
   "$defs": {
@@ -431,6 +437,11 @@
               "type": "null"
             }
           ]
+        },
+        "fixture": {
+          "type": "boolean",
+          "default": false,
+          "description": "true while the frames that st56_encode read are a contract fixture: the clip pair is encoded for tests, marked fixture: true and written to no published location (FR-006-23)"
         }
       },
       "allOf": [

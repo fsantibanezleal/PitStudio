@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/dispatch-eval.schema.json",
+  "$comment": "revision 2: optional `fixture` on the table (FR-007-46); `status`, `seeds_present` and `seeds_missing` on a comparison (FR-007-47); contract change under ADR-0039 section 4; the $id carries no version segment in this repository",
   "title": "Paired dispatch evaluation table",
   "description": "Per-seed dispatcher KPIs and paired learned-versus-baseline verdicts written by s50_evaluate (DC-007-03, spec 007-haulage-dispatch).",
   "type": "object",
@@ -106,6 +107,11 @@
     },
     "honesty": {
       "$ref": "des-trace.schema.json#/$defs/honesty"
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "true while the document is, or was computed from, a contract fixture: the dispatch stages run against it, write fixture: true on every artefact and publish no dispatch comparison computed from it (FR-007-46)"
     }
   },
   "$defs": {
@@ -342,6 +348,25 @@
             "seed-sets-differ",
             "non-finite-difference"
           ]
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "partial"
+          ],
+          "description": "partial while fewer than 30 paired seeds exist: the counts are reported and no interval verdict (FR-007-47)"
+        },
+        "seeds_present": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "paired seeds that both arms report with a finite value (FR-007-47)"
+        },
+        "seeds_missing": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 30,
+          "description": "30 minus seeds_present, never negative (FR-007-47)"
         }
       },
       "allOf": [
