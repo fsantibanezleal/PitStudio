@@ -99,12 +99,12 @@ def dem_job(
     monkeypatch.setenv("PITSTUDIO_STORE", str(store))
     monkeypatch.setenv("PITSTUDIO_DATA", str(data))
     z = kit.Z0 + np.zeros((height, width), dtype=np.float64)
-    dem = kit.write_dem(
-        data / "dem.tif", z, x_min=E0, y_max=N0 + height, cell=1.0, wkt=kit.crs_wkt("utm12-m")
-    )
+    dem = kit.write_dem(data / "dem.tif", z, x_min=E0, y_max=N0 + height, cell=1.0, wkt=kit.crs_wkt("utm12-m"))
     spec = kit.with_aoi(kit.scene_spec(), 0.0, 0.0, float(width), float(height))
     spec["terrain"]["sources"][0]["epoch"] = epoch
-    spec["terrain"]["imagery"] = imagery if imagery is not None else [{"id": IMG, "kind": "orthophoto", "optional": False}]
+    spec["terrain"]["imagery"] = (
+        imagery if imagery is not None else [{"id": IMG, "kind": "orthophoto", "optional": False}]
+    )
     for path in images:
         if Path(path).parent != data:
             (data / Path(path).name).write_bytes(Path(path).read_bytes())

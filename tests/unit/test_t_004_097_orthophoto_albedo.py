@@ -121,9 +121,7 @@ def test_two_tiles_are_mosaicked_without_a_seam(tmp_path: Path) -> None:
 def test_a_cell_no_image_covers_fails_and_is_never_filled(tmp_path: Path) -> None:
     half = _cover(tmp_path, ok.naip_name(2018), cols=22)  # covers x -5 .. 6 only
     with pytest.raises(SceneStageError) as caught:
-        imagery.resample_orthophoto(
-            [half], rows=12, cols=12, x_min_m=0.0, y_max_m=12.0, cell_size_m=1.0, origin=ORIGIN
-        )
+        imagery.resample_orthophoto([half], rows=12, cols=12, x_min_m=0.0, y_max_m=12.0, cell_size_m=1.0, origin=ORIGIN)
     assert caught.value.error_class == "input-corrupt" and "uncovered" in caught.value.detail
     assert "72" in caught.value.detail  # 6 of 12 columns, 12 rows: 72 cells
 
@@ -165,7 +163,9 @@ def test_the_stage_mosaics_only_the_files_of_the_chosen_year(tmp_path: Path, mon
 
 
 @pytest.mark.req("FR-004-48")
-def test_the_albedo_is_an_8_bit_rgb_jpeg_with_one_pixel_per_cell_and_the_ramp(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_the_albedo_is_an_8_bit_rgb_jpeg_with_one_pixel_per_cell_and_the_ramp(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     run, out = _run(ok.dem_job(tmp_path, monkeypatch, [_cover(tmp_path, ok.naip_name(2018))]))
     assert run.result["status"] == "succeeded", run.result["message"]
     path = out / "terrain" / "albedo" / "ortho.jpg"
@@ -177,7 +177,9 @@ def test_the_albedo_is_an_8_bit_rgb_jpeg_with_one_pixel_per_cell_and_the_ramp(tm
 
 
 @pytest.mark.req("FR-004-48")
-def test_the_manifest_records_the_imagery_source_its_year_resolution_and_every_digest(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_the_manifest_records_the_imagery_source_its_year_resolution_and_every_digest(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     src = _cover(tmp_path, ok.naip_name(2018))
     job = ok.dem_job(tmp_path, monkeypatch, [src])
     run, out = _run(job)
@@ -197,7 +199,7 @@ def test_the_manifest_records_the_imagery_source_its_year_resolution_and_every_d
     assert albedo["inputs"] == [
         {"path": f"{ok.IMG}/{src.name}", "sha256": hashlib.sha256(src.read_bytes()).hexdigest()}
     ]
-    assert [s["id"] for s in records["sources"]][0] == ok.SRC  # the DEM source stays first (primary grid)
+    assert records["sources"][0]["id"] == ok.SRC  # the DEM source stays first (primary grid)
     assert not kit.has_absolute_path_text(json.dumps(records))
     validator = kit.validator("scene-manifest.schema.json")
     for name, doc in (("albedo", albedo), ("source", source)):
@@ -206,7 +208,9 @@ def test_the_manifest_records_the_imagery_source_its_year_resolution_and_every_d
 
 
 @pytest.mark.req("FR-004-48")
-def test_an_optional_source_without_data_is_not_run_with_a_reason_and_a_required_one_fails(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_an_optional_source_without_data_is_not_run_with_a_reason_and_a_required_one_fails(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     optional = [{"id": ok.IMG, "kind": "orthophoto", "optional": True}]
     run, out = _run(ok.dem_job(tmp_path, monkeypatch, [], imagery=optional))
     assert run.result["status"] == "succeeded", run.result["message"]
@@ -216,7 +220,9 @@ def test_an_optional_source_without_data_is_not_run_with_a_reason_and_a_required
     assert "albedo" not in _records(out)["terrain"] and not (out / "terrain" / "albedo").exists()
     required = tmp_path / "req"
     required.mkdir()
-    run2, _ = _run(ok.dem_job(required, monkeypatch, [], imagery=[{"id": ok.IMG, "kind": "orthophoto", "optional": False}]))
+    run2, _ = _run(
+        ok.dem_job(required, monkeypatch, [], imagery=[{"id": ok.IMG, "kind": "orthophoto", "optional": False}])
+    )
     assert run2.result["status"] == "failed" and run2.result["message"].startswith("input-corrupt:")
 
 
@@ -261,7 +267,10 @@ def test_a_larger_extent_is_written_as_one_image_per_lod0_tile(tmp_path: Path, m
     run, out = _run(ok.dem_job(tmp_path, monkeypatch, [src], width=300, height=20))
     assert run.result["status"] == "succeeded", run.result["message"]
     folder = out / "terrain" / "albedo"
-    assert sorted(p.name for p in folder.iterdir()) == ["0-1-0-0.jpg", "0-1-1-0.jpg"] and not (folder / "ortho.jpg").exists()
+    assert (
+        sorted(p.name for p in folder.iterdir()) == ["0-1-0-0.jpg", "0-1-1-0.jpg"]
+        and not (folder / "ortho.jpg").exists()
+    )
     first, second = _jpeg(folder / "0-1-0-0.jpg"), _jpeg(folder / "0-1-1-0.jpg")
     assert first.shape == (20, 257, 3) and second.shape == (20, 44, 3)  # tile 1 starts at column 256 of 300
     assert abs(first[5, 100, 0] - (20.0 + 0.5 * 100.5)) <= 3.0

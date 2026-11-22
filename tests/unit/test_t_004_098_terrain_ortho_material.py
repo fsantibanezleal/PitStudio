@@ -44,7 +44,13 @@ IMG = "usda-naip-bingham"
 
 def _spec() -> dict:
     spec = kit.scene_spec()
-    spec["variants"] = {"pushback": ["pb0"], "scenario": ["baseline"], "time_of_day": ["noon"], "weather": ["clear"], "lod": ["lod0", "lod1", "lod2"]}
+    spec["variants"] = {
+        "pushback": ["pb0"],
+        "scenario": ["baseline"],
+        "time_of_day": ["noon"],
+        "weather": ["clear"],
+        "lod": ["lod0", "lod1", "lod2"],
+    }
     return spec
 
 
@@ -148,7 +154,9 @@ def test_every_tile_mesh_of_every_lod_carries_st_ortho(ortho) -> None:
         assert len(meshes) == 2
         for prim in meshes:
             primvar = UsdGeom.PrimvarsAPI(prim).GetPrimvar("st_ortho")
-            assert primvar and str(primvar.GetTypeName()) == "texCoord2f[]" and primvar.GetInterpolation() == "vertex", prim.GetPath()
+            assert (
+                primvar and str(primvar.GetTypeName()) == "texCoord2f[]" and primvar.GetInterpolation() == "vertex"
+            ), prim.GetPath()
             points = np.array(UsdGeom.Mesh(prim).GetPointsAttr().Get(), dtype=np.float64)
             st = np.array(primvar.Get(), dtype=np.float64)
             assert st.shape == (len(points), 2)
@@ -181,7 +189,12 @@ def test_terrain_ortho_reads_the_orthophoto_through_st_ortho_and_the_rock_normal
     assert (folder / "assets" / "textures" / "bench_rock_normal.jpg").is_file()
     assert shader.GetInput("wrapS").Get() == "repeat" and shader.GetInput("wrapT").Get() == "repeat"
     assert shader.GetInput("sourceColorSpace").Get() == "raw"
-    assert tuple(shader.GetInput("scale").Get()) == (2.0, 2.0, 2.0, 1.0) and tuple(shader.GetInput("bias").Get()) == (-1.0, -1.0, -1.0, 0.0)
+    assert tuple(shader.GetInput("scale").Get()) == (2.0, 2.0, 2.0, 1.0) and tuple(shader.GetInput("bias").Get()) == (
+        -1.0,
+        -1.0,
+        -1.0,
+        0.0,
+    )
     transform = _source_of(stage, str(normal_tex.GetPath()), "st")
     assert transform.GetAttribute("info:id").Get() == "UsdTransform2d"
     scale = tuple(UsdShade.Shader(transform).GetInput("scale").Get())
@@ -220,7 +233,9 @@ def test_without_the_orthophoto_bench_rock_stays_bound_and_no_st_ortho_is_author
     stage = _open(folder)
     assert not stage.GetPrimAtPath("/World/Materials/terrain_ortho")
     for prim in _terrain_meshes(stage, "lod0"):
-        assert str(UsdShade.MaterialBindingAPI(prim).ComputeBoundMaterial()[0].GetPath()) == "/World/Materials/bench_rock"
+        assert (
+            str(UsdShade.MaterialBindingAPI(prim).ComputeBoundMaterial()[0].GetPath()) == "/World/Materials/bench_rock"
+        )
         assert not UsdGeom.PrimvarsAPI(prim).GetPrimvar("st_ortho")
 
 
@@ -307,24 +322,44 @@ def test_the_rock_material_gets_a_normal_texture_and_a_world_scale_repeat(tmp_pa
     build = assets.build_assets(spec, out, textures=tex)
     assert [t["id"] for t in build.textures] == ["gravel-road", "bench-rock", "bench-rock-normal"]
     normal = build.textures[2]
-    assert normal == {"id": "bench-rock-normal", "source": "polyhaven", "spdx": "CC0-1.0", "sha256": kit.sha256_file(tex["bench-rock-normal"])}
+    assert normal == {
+        "id": "bench-rock-normal",
+        "source": "polyhaven",
+        "spdx": "CC0-1.0",
+        "sha256": kit.sha256_file(tex["bench-rock-normal"]),
+    }
     assert kit.sha256_file(out / "assets" / "textures" / "bench_rock_normal.png") == normal["sha256"]
     stage = Usd.Stage.Open(str(build.materials_layer))
     base = "/Materials/bench_rock"
     surface = UsdShade.Shader(stage.GetPrimAtPath(f"{base}/Surface"))
-    assert surface.GetInput("normal").GetConnectedSource()[0].GetPrim().GetPath() == stage.GetPrimAtPath(f"{base}/NormalTexture").GetPath()
+    assert (
+        surface.GetInput("normal").GetConnectedSource()[0].GetPrim().GetPath()
+        == stage.GetPrimAtPath(f"{base}/NormalTexture").GetPath()
+    )
     ntex = UsdShade.Shader(stage.GetPrimAtPath(f"{base}/NormalTexture"))
     assert ntex.GetShaderId() == "UsdUVTexture" and ntex.GetInput("file").Get().path == "textures/bench_rock_normal.png"
     assert ntex.GetInput("sourceColorSpace").Get() == "raw"
-    assert tuple(ntex.GetInput("scale").Get()) == (2.0, 2.0, 2.0, 1.0) and tuple(ntex.GetInput("bias").Get()) == (-1.0, -1.0, -1.0, 0.0)
+    assert tuple(ntex.GetInput("scale").Get()) == (2.0, 2.0, 2.0, 1.0) and tuple(ntex.GetInput("bias").Get()) == (
+        -1.0,
+        -1.0,
+        -1.0,
+        0.0,
+    )
     repeat = UsdShade.Shader(stage.GetPrimAtPath(f"{base}/Repeat"))
     assert repeat.GetShaderId() == "UsdTransform2d"
     assert tuple(repeat.GetInput("scale").Get()) == pytest.approx((assets.ST_PERIOD_M / assets.ROCK_REPEAT_M,) * 2)
-    assert repeat.GetInput("in").GetConnectedSource()[0].GetPrim().GetPath() == stage.GetPrimAtPath(f"{base}/UV").GetPath()
+    assert (
+        repeat.GetInput("in").GetConnectedSource()[0].GetPrim().GetPath() == stage.GetPrimAtPath(f"{base}/UV").GetPath()
+    )
     for name in ("Texture", "NormalTexture"):
         src = UsdShade.Shader(stage.GetPrimAtPath(f"{base}/{name}")).GetInput("st").GetConnectedSource()[0].GetPrim()
         assert str(src.GetPath()) == f"{base}/Repeat", name
-    gravel = UsdShade.Shader(stage.GetPrimAtPath("/Materials/gravel_road/Texture")).GetInput("st").GetConnectedSource()[0].GetPrim()
+    gravel = (
+        UsdShade.Shader(stage.GetPrimAtPath("/Materials/gravel_road/Texture"))
+        .GetInput("st")
+        .GetConnectedSource()[0]
+        .GetPrim()
+    )
     assert str(gravel.GetPath()) == "/Materials/gravel_road/UV"  # the road keeps its own coordinates
     assert not stage.GetPrimAtPath("/Materials/gravel_road/NormalTexture")
 
@@ -338,4 +373,6 @@ def test_a_scene_without_a_rock_normal_input_has_the_materials_layer_as_before(t
     build = assets.build_assets(spec, tmp_path / "out", textures=tex)
     assert [t["id"] for t in build.textures] == ["gravel-road", "bench-rock"]
     stage = Usd.Stage.Open(str(build.materials_layer))
-    assert not stage.GetPrimAtPath("/Materials/bench_rock/NormalTexture") and not stage.GetPrimAtPath("/Materials/bench_rock/Repeat")
+    assert not stage.GetPrimAtPath("/Materials/bench_rock/NormalTexture") and not stage.GetPrimAtPath(
+        "/Materials/bench_rock/Repeat"
+    )
