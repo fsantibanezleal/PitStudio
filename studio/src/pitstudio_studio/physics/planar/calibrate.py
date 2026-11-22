@@ -44,20 +44,37 @@ def measure_collapse(res: dict, p: dict) -> dict[str, Any]:
         return row
     fin = np.asarray(res["frames"][-1], dtype=np.float64)
     rep = measure.heap_repose(fin, family="column-collapse", geometry=REFERENCE_GEOMETRY["column-collapse"](p))
-    row.update(n=res["n"], pile_height_d=res["pile_height_D"], frames=len(res["frame_times"]), rest_time_s=float(res["frame_times"][-1]), wall_s=res["wall_s"])
+    row.update(
+        n=res["n"],
+        pile_height_d=res["pile_height_D"],
+        frames=len(res["frame_times"]),
+        rest_time_s=float(res["frame_times"][-1]),
+        wall_s=res["wall_s"],
+    )
     if rep:
         row.update(rep)
     return row
 
 
 def measure_feed(family: str, res: dict, p: dict) -> dict[str, Any]:
-    """One feed result as a calibration row; a jammed or partly discharged feed keeps its status and discharged fraction."""
-    row: dict[str, Any] = {"status": res["status"], "w_o_D": p["w_o_D"], "discharged_fraction": res.get("discharged_fraction"), "wall_s": res["wall_s"]}
+    """One feed result as a calibration row; a jammed or partly discharged feed keeps its status and discharged
+    fraction."""
+    row: dict[str, Any] = {
+        "status": res["status"],
+        "w_o_D": p["w_o_D"],
+        "discharged_fraction": res.get("discharged_fraction"),
+        "wall_s": res["wall_s"],
+    }
     if res["status"] != "rest":
         return row
     fin = np.asarray(res["frames"][-1], dtype=np.float64)
     rep = measure.heap_repose(fin, family=family, geometry=REFERENCE_GEOMETRY[family](p), z_orifice=res["z_orifice_m"])
-    row.update(rate=res["rate"], pile_height_d=res["pile_height_D"], frames=len(res["frame_times"]), rest_time_s=float(res["frame_times"][-1]))
+    row.update(
+        rate=res["rate"],
+        pile_height_d=res["pile_height_D"],
+        frames=len(res["frame_times"]),
+        rest_time_s=float(res["frame_times"][-1]),
+    )
     if rep:
         row.update(rep)
     return row
@@ -87,7 +104,16 @@ def _save(path: Path, data: dict) -> None:
     os.replace(tmp, path)
 
 
-def collapse_repro(out: Path, pacer: Any, *, mu_r: float = 1.0, mu_s: float = 0.8, seeds: int = 4, reference: Path | None = None, device: str = "cuda:0") -> dict:
+def collapse_repro(
+    out: Path,
+    pacer: Any,
+    *,
+    mu_r: float = 1.0,
+    mu_s: float = 0.8,
+    seeds: int = 4,
+    reference: Path | None = None,
+    device: str = "cuda:0",
+) -> dict:
     """Gns-v2 cell 12 from this package: column collapse a = 1.5, L0 = 33 d, seeds 7 ... 10 (geom seed 99)."""
     from . import engine
 
@@ -95,11 +121,23 @@ def collapse_repro(out: Path, pacer: Any, *, mu_r: float = 1.0, mu_s: float = 0.
     tasks = [{"p": COLLAPSE_TASK, "seed": 7 + k, "geom_seed": 99} for k in range(seeds)]
     t0 = time.perf_counter()
     rows = [measure_collapse(r, COLLAPSE_TASK) for r in engine.simulate_collapse(tasks, pacer, cfg, device)]
-    rec = {"cell": [mu_r, mu_s, cfg.poly], "family": "column-collapse", "rollouts": rows, **summarise(rows), "gpu_s": time.perf_counter() - t0, "target_deg": TARGET_DEG, "tol_deg": TOL_DEG}
+    rec = {
+        "cell": [mu_r, mu_s, cfg.poly],
+        "family": "column-collapse",
+        "rollouts": rows,
+        **summarise(rows),
+        "gpu_s": time.perf_counter() - t0,
+        "target_deg": TARGET_DEG,
+        "tol_deg": TOL_DEG,
+    }
     if reference and Path(reference).exists():  # the gns-v2 table: cell 12, column collapse, 4 seeds
         ref = json.loads(Path(reference).read_text(encoding="utf-8"))
         old = next(c for c in ref["cells"] if c["cell"] == 12)["families"]["column-collapse"]
-        rec["gns_v2_cell12"] = {"repose_mean_deg": old["repose_mean_deg"], "repose_sd_deg": old["repose_sd_deg"], "per_seed": [r.get("repose_deg") for r in old["rollouts"]]}
+        rec["gns_v2_cell12"] = {
+            "repose_mean_deg": old["repose_mean_deg"],
+            "repose_sd_deg": old["repose_sd_deg"],
+            "per_seed": [r.get("repose_deg") for r in old["rollouts"]],
+        }
         if rec["repose_mean_deg"] is not None:
             rec["difference_to_gns_v2_deg"] = rec["repose_mean_deg"] - old["repose_mean_deg"]
     _save(out / "collapse-repro.json", rec)
@@ -107,7 +145,15 @@ def collapse_repro(out: Path, pacer: Any, *, mu_r: float = 1.0, mu_s: float = 0.
 
 
 def feed_sweep(
-    out: Path, pacer: Any, cells: Sequence[tuple[float, float]], widths: Sequence[float], *, seeds: int = 2, collapse_seeds: int = 4, device: str = "cuda:0", log=print
+    out: Path,
+    pacer: Any,
+    cells: Sequence[tuple[float, float]],
+    widths: Sequence[float],
+    *,
+    seeds: int = 2,
+    collapse_seeds: int = 4,
+    device: str = "cuda:0",
+    log=print,
 ) -> dict:
     """Per contact cell: the column collapse and both feeds at every width. Checkpoint after every cell."""
     from . import engine
@@ -128,11 +174,23 @@ def feed_sweep(
         for family in ("pile-formation", "dump-over-crest"):
             ps = [{**FEED_TASKS[family], "w_o_D": float(w)} for w in widths for _ in range(seeds)]
             tasks = [{"p": p, "seed": 7 + (i % seeds), "geom_seed": 900 + i} for i, p in enumerate(ps)]
-            rows = [measure_feed(family, r, p) for r, p in zip(engine.simulate_feed(family, tasks, pacer, cfg, device), ps)]
+            rows = [
+                measure_feed(family, r, p)
+                for r, p in zip(engine.simulate_feed(family, tasks, pacer, cfg, device), ps, strict=True)
+            ]
             by_w = {}
             for w in widths:
                 sel = [r for r in rows if r["w_o_D"] == float(w)]
-                by_w[str(w)] = {**summarise(sel), "statuses": [r["status"] for r in sel], "rate_mean": float(np.mean([r["rate"] for r in sel if r.get("rate") is not None and math.isfinite(r["rate"])] or [float("nan")]))}
+                by_w[str(w)] = {
+                    **summarise(sel),
+                    "statuses": [r["status"] for r in sel],
+                    "rate_mean": float(
+                        np.mean(
+                            [r["rate"] for r in sel if r.get("rate") is not None and math.isfinite(r["rate"])]
+                            or [float("nan")]
+                        )
+                    ),
+                }
             rec["families"][family] = {"rollouts": rows, "by_width": by_w, **summarise(rows)}
             log(f"[sweep] cell {cell} {family}: {json.dumps(by_w)}")
         rec["gpu_s"] = time.perf_counter() - t0

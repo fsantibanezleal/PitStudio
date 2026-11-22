@@ -1,7 +1,9 @@
 """GPU job plumbing of the planar generator: machine lock `gpu0.compute`, start temperature and the in-run guard.
 
-A GPU stage of the reference-data generator is a queue job (spec 002 queue protocol): it refuses to start above 80 C, waits
-for the machine lock, and calls `Guard.check()` between frames (pause when hot, stop when too hot or on a hardware error,
+A GPU stage of the reference-data generator is a queue job (spec 002 queue protocol): it refuses to start above 80 C,
+waits
+for the machine lock, and calls `Guard.check()` between frames (pause when hot, stop when too hot or on a hardware
+error,
 and a cool-down between GPU blocks). `Pacer` bundles those calls; the batch functions of `engine` only see `check`,
 `idle_s` and `max_temp`.
 
@@ -34,7 +36,8 @@ def import_filelock() -> Any:
         site = os.environ.get(FILELOCK_SITE_ENV)
         if not site or not Path(site).is_dir():
             raise RuntimeError(
-                f"filelock is not installed in this environment; set {FILELOCK_SITE_ENV} to a site-packages folder that has it"
+                "filelock is not installed in this environment; "
+                f"set {FILELOCK_SITE_ENV} to a site-packages folder that has it"
             ) from None
         if site not in sys.path:
             sys.path.append(site)
@@ -84,7 +87,7 @@ def acquire(lock: Any, tries: int = LOCK_TRIES) -> None:
         try:
             lock.acquire(timeout=600)
             return
-        except Exception:  # noqa: BLE001 - filelock.Timeout: keep waiting, the number of tries is bounded
+        except Exception:
             continue
     raise SystemExit("GPU lock not obtained within the bounded wait")
 
@@ -97,7 +100,8 @@ def lock_path() -> Path:
 
 
 def start_session() -> tuple[Any, Any, Pacer]:
-    """Wait for <= 80 C, take the machine lock, start a fresh guard: (guard, lock, pacer). The caller releases the lock."""
+    """Wait for <= 80 C, take the machine lock, start a fresh guard: (guard, lock, pacer). The caller releases the
+    lock."""
     gg = load_guard_module()
     guard = gg.Guard()
     for _ in range(START_WAIT_TRIES):

@@ -1,7 +1,8 @@
 """Verification and card of the generated GNS reference dataset (spec 011, FR-011-03, FR-011-10, FR-011-14).
 
 Every rule is recomputed from the files on disk, not trusted from the generator's state: schema and Zarr digest of every
-rollout, 100 geometries with 3 seeds and the 70 / 10 / 20 split by geometry, pile at least 30 d, rest on the last frames,
+rollout, 100 geometries with 3 seeds and the 70 / 10 / 20 split by geometry, pile at least 30 d, rest on the last
+frames,
 radius-graph overflow under 1 percent at rest, the test geometries inside the training envelope and at least 0.05 from
 every training geometry under the contract metric, every contract parameter inside the declared envelope, and the repose
 angle per family against the 3-D DEM target. Writes `index.json` and `DATASET_CARD.md` beside the data.
@@ -17,7 +18,7 @@ from typing import Any
 import numpy as np
 
 from . import generate, space
-from .space import D, FAMILIES
+from .space import FAMILIES, D
 
 TARGET_DEG, TOL_DEG = 27.2, 1.5
 OVERFLOW_MAX = 0.01
@@ -35,6 +36,7 @@ def _reference(family: str, geometry: dict) -> dict:
 def check_rollout(root: Path, meta: dict, params: dict) -> dict[str, Any]:
     """The per-rollout checks of one meta file; returns the row (values and a `problems` list)."""
     import zarr
+
     from pitstudio.granular import observables as obs
     from pitstudio.granular.graph import build_radius_graph
     from pitstudio.granular.loader import validate_rollout_metadata
@@ -46,11 +48,11 @@ def check_rollout(root: Path, meta: dict, params: dict) -> dict[str, Any]:
     try:
         generate.validate_meta(meta)
         validate_rollout_metadata(meta)
-    except Exception as exc:  # noqa: BLE001 - a schema failure is a finding, not a crash
+    except Exception as exc:
         problems.append(f"schema: {exc}")
     store = root / meta["store"]["path"]
     if not store.exists():
-        return {"id": store.stem, "family": family, "problems": problems + ["payload missing"]}
+        return {"id": store.stem, "family": family, "problems": [*problems, "payload missing"]}
     if generate.store_digest(store) != meta["store"]["sha256"]:
         problems.append("digest mismatch")
     g = zarr.open_group(str(store), mode="r")
@@ -85,9 +87,20 @@ def check_rollout(root: Path, meta: dict, params: dict) -> dict[str, Any]:
     except ValueError as exc:
         problems.append(f"extractor: {exc}")
         repose = run_out = float("nan")
-    return {"id": meta["geometry_id"] + "-s" + str(meta["packing_seed"]), "geometry_id": meta["geometry_id"], "family": family, "repose_deg": repose, "run_out_m": run_out,
-            "pile_height_d": top, "overflow_fraction": overflow, "rest_speed_m_per_s": speed, "left_in_feed_fraction": left_in_feed, "frames": int(n_frames),
-            "particles": int(len(fin)), "problems": problems}
+    return {
+        "id": meta["geometry_id"] + "-s" + str(meta["packing_seed"]),
+        "geometry_id": meta["geometry_id"],
+        "family": family,
+        "repose_deg": repose,
+        "run_out_m": run_out,
+        "pile_height_d": top,
+        "overflow_fraction": overflow,
+        "rest_speed_m_per_s": speed,
+        "left_in_feed_fraction": left_in_feed,
+        "frames": int(n_frames),
+        "particles": len(fin),
+        "problems": problems,
+    }
 
 
 def verify(out: Path) -> dict[str, Any]:
@@ -127,7 +140,8 @@ def verify(out: Path) -> dict[str, Any]:
     split_counts = {s: len({r["geometry_id"] for r in rows if r["split"] == s}) for s in ("train", "val", "test")}
     if split_counts != {"train": 70, "val": 10, "test": 20}:
         problems.append(f"split by geometry {split_counts}, expected 70 / 10 / 20")
-    # contract metric: envelope of the declared ranges, test inside the training envelope and >= 0.05 from every training geometry
+    # contract metric: envelope of the declared ranges, test inside the training envelope and >= 0.05 from every
+    # training geometry
     record = {gid: ms[0]["geometry"] for gid, ms in by_geom.items()}
     fam_of = {gid: ms[0]["family"] for gid, ms in by_geom.items()}
     envelope: dict[str, dict[str, list[float]]] = {}
@@ -136,64 +150,99 @@ def verify(out: Path) -> dict[str, Any]:
             vals = [record[g][key] for g in record if fam_of[g] == fam]
             envelope.setdefault(fam, {})[key] = [min(vals), max(vals)] if vals else [math.nan, math.nan]
             if vals and (min(vals) < lo - 1e-9 or max(vals) > hi + 1e-9):
-                problems.append(f"{fam}: {key} spans {min(vals):.4g} to {max(vals):.4g}, outside the declared range {lo} to {hi}")
+                problems.append(
+                    f"{fam}: {key} spans {min(vals):.4g} to {max(vals):.4g}, outside the declared range {lo} to {hi}"
+                )
     test_rows = []
     for gid, slot in slots.items():
         if slot["split"] != "test" or gid not in record:
             continue
         fam = slot["family"]
         train = [record[g] for g in record if slots[g]["split"] == "train" and fam_of[g] == fam]
-        ok, dist = space.test_geometry_ok(fam, record[gid], train)
+        ok, dist = space.split_rule_ok(fam, record[gid], train)
         test_rows.append({"geometry_id": gid, "family": fam, "distance": dist, "ok": ok})
         if not ok:
             problems.append(f"{gid}: test geometry fails the envelope or the 0.05 distance rule (nearest {dist:.4f})")
     summary: dict[str, Any] = {}
     for fam in FAMILIES:
         v = [r["repose_deg"] for r in rows if r["family"] == fam and math.isfinite(r["repose_deg"])]
-        summary[fam] = {"n": len(v), "repose_mean_deg": float(np.mean(v)) if v else None, "repose_sd_deg": float(np.std(v, ddof=1)) if len(v) > 1 else None,
-                        "repose_min_deg": float(min(v)) if v else None, "repose_max_deg": float(max(v)) if v else None,
-                        "within_target": bool(v) and abs(float(np.mean(v)) - TARGET_DEG) <= TOL_DEG,
-                        "pile_height_d_min": float(min(r["pile_height_d"] for r in rows if r["family"] == fam)) if v else None,
-                        "max_left_in_feed_fraction": float(max(r["left_in_feed_fraction"] for r in rows if r["family"] == fam)) if v else None,
-                        "max_overflow_fraction": float(max(r["overflow_fraction"] for r in rows if r["family"] == fam)) if v else None}
-    report = {"ok": not problems, "problems": problems, "geometries": counts, "split": split_counts, "target_deg": TARGET_DEG, "tol_deg": TOL_DEG,
-              "family": summary, "envelope": envelope, "test_geometries": test_rows, "rows": rows, "contact": st.get("contact"), "solver_version": st.get("solver_version"),
-              "gpu_s_total": st.get("gpu_s_total"), "generator_files_sha256": st.get("generator_files_sha256")}
+        summary[fam] = {
+            "n": len(v),
+            "repose_mean_deg": float(np.mean(v)) if v else None,
+            "repose_sd_deg": float(np.std(v, ddof=1)) if len(v) > 1 else None,
+            "repose_min_deg": float(min(v)) if v else None,
+            "repose_max_deg": float(max(v)) if v else None,
+            "within_target": bool(v) and abs(float(np.mean(v)) - TARGET_DEG) <= TOL_DEG,
+            "pile_height_d_min": float(min(r["pile_height_d"] for r in rows if r["family"] == fam)) if v else None,
+            "max_left_in_feed_fraction": float(max(r["left_in_feed_fraction"] for r in rows if r["family"] == fam))
+            if v
+            else None,
+            "max_overflow_fraction": float(max(r["overflow_fraction"] for r in rows if r["family"] == fam))
+            if v
+            else None,
+        }
+    report = {
+        "ok": not problems,
+        "problems": problems,
+        "geometries": counts,
+        "split": split_counts,
+        "target_deg": TARGET_DEG,
+        "tol_deg": TOL_DEG,
+        "family": summary,
+        "envelope": envelope,
+        "test_geometries": test_rows,
+        "rows": rows,
+        "contact": st.get("contact"),
+        "solver_version": st.get("solver_version"),
+        "gpu_s_total": st.get("gpu_s_total"),
+        "generator_files_sha256": st.get("generator_files_sha256"),
+    }
     (out / "index.json").write_text(json.dumps(report, indent=1, default=float), encoding="utf-8")
     (out / "DATASET_CARD.md").write_text(card(report), encoding="utf-8")
     return report
 
 
+def _fmt(x: float | None) -> str:
+    return "n/a" if x is None else f"{x:.1f}"
+
+
 def card(r: dict[str, Any]) -> str:
     c = r["contact"] or {}
+    state = "all checks pass" if r["ok"] else "PROBLEMS FOUND"
     lines = [
         "# GNS reference rollouts (planar DEM)",
         "",
         "Producing tool: `pitstudio_studio.physics.planar` (`generate`, `verify`), Warp DEM of spec 005, "
-        f"solver `{r['solver_version']}`. Planar monolayer: spheres held in the x-z plane, d = 0.01 m, size spread +-20 percent.",
-        f"Contact law: sliding friction {c.get('friction_static')}, rolling resistance {c.get('friction_rolling')} (a planar effective value, "
-        "not a material property; spec 005 slot card otherwise). Label: calibrated synthetic, not validated against real data.",
+        f"solver `{r['solver_version']}`. Planar monolayer: spheres held in the x-z plane, d = 0.01 m, "
+        "size spread +-20 percent.",
+        f"Contact law: sliding friction {c.get('friction_static')}, rolling resistance {c.get('friction_rolling')} "
+        "(a planar effective value, not a material property; spec 005 slot card otherwise). "
+        "Label: calibrated synthetic, not validated against real data.",
         "",
-        f"Geometries: {r['geometries']}; split by geometry {r['split']}; 3 packing seeds each. Verified: {'all checks pass' if r['ok'] else 'PROBLEMS FOUND'}.",
+        f"Geometries: {r['geometries']}; split by geometry {r['split']}; 3 packing seeds each. Verified: {state}.",
         "",
-        f"## Repose per family (target {r['target_deg']} +- {r['tol_deg']} degrees, 3-D DEM of the same material, job 21)",
+        f"## Repose per family (target {r['target_deg']} +- {r['tol_deg']} degrees, "
+        "3-D DEM of the same material, job 21)",
         "",
         "| family | rollouts | mean | sd | min | max | within target | smallest pile (d) |",
         "|---|---|---|---|---|---|---|---|",
     ]
     for fam, s in r["family"].items():
-        f = lambda x: "n/a" if x is None else f"{x:.1f}"  # noqa: E731
-        lines.append(f"| {fam} | {s['n']} | {f(s['repose_mean_deg'])} | {f(s['repose_sd_deg'])} | {f(s['repose_min_deg'])} | {f(s['repose_max_deg'])} | {'yes' if s['within_target'] else 'no'} | {f(s['pile_height_d_min'])} |")
+        within = "yes" if s["within_target"] else "no"
+        lines.append(
+            f"| {fam} | {s['n']} | {_fmt(s['repose_mean_deg'])} | {_fmt(s['repose_sd_deg'])} | "
+            f"{_fmt(s['repose_min_deg'])} | {_fmt(s['repose_max_deg'])} | {within} | {_fmt(s['pile_height_d_min'])} |"
+        )
     lines += ["", "## Design envelope recorded by the dataset", ""]
     for fam, params in r["envelope"].items():
         lines.append(f"- {fam}: " + ", ".join(f"{k} {lo:.4g} to {hi:.4g}" for k, (lo, hi) in params.items()))
     lines += [
         "",
-        "Pile and dump are built by a quasi-static funnel-hopper feed (frozen wall spheres of the generator, not recorded); "
-        "the recorded rate is the measured discharge rate. Hopper leftovers on the funnel plates are reported per family in `index.json` "
-        "(`max_left_in_feed_fraction`).",
+        "Pile and dump are built by a quasi-static funnel-hopper feed (frozen wall spheres of the generator, "
+        "not recorded); the recorded rate is the measured discharge rate. Hopper leftovers on the funnel plates are "
+        "reported per family in `index.json` (`max_left_in_feed_fraction`).",
         "",
     ]
     if r["problems"]:
-        lines += ["## Problems", ""] + [f"- {p}" for p in r["problems"][:50]]
+        lines += ["## Problems", "", *[f"- {p}" for p in r["problems"][:50]]]
     return "\n".join(lines) + "\n"

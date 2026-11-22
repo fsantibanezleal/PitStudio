@@ -1,15 +1,19 @@
-"""Generator of the GNS reference rollouts (spec 011, FR-011-03, DC-011-01): 100 geometries x 3 packing seeds, planar DEM.
+"""Generator of the GNS reference rollouts (spec 011, FR-011-03, DC-011-01): 100 geometries x 3 packing seeds, planar
+DEM.
 
 The plan lives in `<out>/_state.json` (atomic writes, resumable: a killed run continues from the last finished batch).
-Geometries are drawn deterministically from (slot, attempt); a geometry is replaced when a feed jams, a pile is lower than
+Geometries are drawn deterministically from (slot, attempt); a geometry is replaced when a feed jams, a pile is lower
+than
 30 d, a rest is not reached, or (test set) its MEASURED contract parameters are inside the training envelope but closer
 than 0.05 to a training geometry. Test geometries are drawn only after every training geometry is final.
 """
 
 from __future__ import annotations
 
+import contextlib
 import dataclasses
 import hashlib
+import itertools
 import json
 import math
 import os
@@ -23,7 +27,7 @@ from typing import Any
 import numpy as np
 
 from . import space
-from .space import D, FAMILIES, MIN_HEIGHT_D, SimConfig
+from .space import FAMILIES, MIN_HEIGHT_D, D, SimConfig
 
 REPO = Path(__file__).resolve().parents[5]
 SCHEMA = REPO / "specs" / "011-surrogates" / "contracts" / "granular-rollout.schema.json"
@@ -77,7 +81,8 @@ def family_slots(st: dict, family: str) -> list[dict]:
 
 
 def draw_slot(st: dict, slot: dict) -> None:
-    """Deterministic draw for (slot, attempt); test geometries stay inside the training envelope, far from it under the contract metric."""
+    """Deterministic draw for (slot, attempt); test geometries stay inside the training envelope, far from it under
+    the contract metric."""
     fam = slot["family"]
     if slot["split"] != "test":
         rng = np.random.default_rng([space.MASTER_SEED, slot["idx"], slot["attempt"]])
@@ -89,31 +94,45 @@ def draw_slot(st: dict, slot: dict) -> None:
         recs = [space.geometry_record(fam, s["params"]) for s in train]
         tv = np.array([space.contract_vec(fam, r) for r in recs])
         lo, hi = tv.min(axis=0), tv.max(axis=0)
-        taken = [space.contract_vec(fam, space.geometry_record(fam, s["params"])) for s in family_slots(st, fam) if s["split"] == "test" and s["params"] and s is not slot]
+        taken = [
+            space.contract_vec(fam, space.geometry_record(fam, s["params"]))
+            for s in family_slots(st, fam)
+            if s["split"] == "test" and s["params"] and s is not slot
+        ]
         for cand in range(20000):
             rng = np.random.default_rng([space.MASTER_SEED, 9000 + slot["idx"], slot["attempt"], cand])
             p = space.draw_geometry(fam, rng, env)
             v = space.contract_vec(fam, space.geometry_record(fam, p))
             if ((v < lo) | (v > hi)).any():
                 continue
-            if float(np.linalg.norm(tv - v, axis=1).min()) >= space.MIN_DISTANCE and all(float(np.linalg.norm(t - v)) > 1e-9 for t in taken):
+            if float(np.linalg.norm(tv - v, axis=1).min()) >= space.MIN_DISTANCE and all(
+                float(np.linalg.norm(t - v)) > 1e-9 for t in taken
+            ):
                 slot["params"] = p
                 return
         raise RuntimeError(f"no test geometry found for {slot['id']}")
     # feed families: the rate is measured, so the draw is the candidate farthest (contract metric) from the training
     # geometries and the other test geometries at the mean training rate; the measured rate decides afterwards.
     w_lo, w_hi = env["w_o_D"]
-    env = dict(env, w_o_D=(w_lo + 0.1 * (w_hi - w_lo), w_hi - 0.1 * (w_hi - w_lo)))  # keep the 3-seed mean rate inside the training range
-    rate_ref = float(np.mean([s["record"][space.CONTRACT_RANGES[fam][1][0]] for s in train])) if train else RATE_REF_FALLBACK
+    env = dict(
+        env, w_o_D=(w_lo + 0.1 * (w_hi - w_lo), w_hi - 0.1 * (w_hi - w_lo))
+    )  # keep the 3-seed mean rate inside the training range
+    rate_ref = (
+        float(np.mean([s["record"][space.CONTRACT_RANGES[fam][1][0]] for s in train])) if train else RATE_REF_FALLBACK
+    )
     others = [s["record"] for s in train] + [
-        space.geometry_record(fam, s["params"], rate_ref) for s in family_slots(st, fam) if s["split"] == "test" and s["params"] and s is not slot
+        space.geometry_record(fam, s["params"], rate_ref)
+        for s in family_slots(st, fam)
+        if s["split"] == "test" and s["params"] and s is not slot
     ]
     ov = np.array([space.contract_vec(fam, r) for r in others])
     rng = np.random.default_rng([space.MASTER_SEED, 9000 + slot["idx"], slot["attempt"]])
     best, best_d = None, -1.0
     for _ in range(400):
         cand = space.draw_geometry(fam, rng, env)
-        dist = float(np.linalg.norm(ov - space.contract_vec(fam, space.geometry_record(fam, cand, rate_ref)), axis=1).min())
+        dist = float(
+            np.linalg.norm(ov - space.contract_vec(fam, space.geometry_record(fam, cand, rate_ref)), axis=1).min()
+        )
         if dist > best_d:
             best, best_d = cand, dist
     slot["params"] = best
@@ -145,11 +164,25 @@ def make_batch(st: dict, family: str, splits: Sequence[str], n_geometries: int) 
 
 # ----------------------------------------------------------------------------------------------- payload and metadata
 def store_digest(path: Path) -> str:
-    lines = [f"{f.relative_to(path).as_posix()} {hashlib.sha256(f.read_bytes()).hexdigest()}\n" for f in sorted(p for p in path.rglob("*") if p.is_file())]
+    lines = [
+        f"{f.relative_to(path).as_posix()} {hashlib.sha256(f.read_bytes()).hexdigest()}\n"
+        for f in sorted(p for p in path.rglob("*") if p.is_file())
+    ]
     return hashlib.sha256("".join(lines).encode()).hexdigest()
 
 
-def write_rollout(root: Path, rid: str, family: str, gid: str, p: dict, record: dict, seed: int, res: dict, cfg: SimConfig, version: str) -> dict:
+def write_rollout(
+    root: Path,
+    rid: str,
+    family: str,
+    gid: str,
+    p: dict,
+    record: dict,
+    seed: int,
+    res: dict,
+    cfg: SimConfig,
+    version: str,
+) -> dict:
     """Write payload/<rid>.zarr and return the DC-011-01 metadata (not yet written to meta/)."""
     import zarr
 
@@ -200,20 +233,41 @@ def validate_meta(meta: dict) -> None:
     schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
     jsonschema.Draft202012Validator(schema, format_checker=jsonschema.FormatChecker()).validate(meta)
     t = meta["frame_times_s"]
-    if not all(b > a for a, b in zip(t, t[1:])):
+    if not all(b > a for a, b in itertools.pairwise(t)):
         raise ValueError("frame times are not strictly increasing")
 
 
 # ----------------------------------------------------------------------------------------------- processing of results
 def _entry(rid: str, seed: int, res: dict) -> dict:
-    keys = ("pile_height_D", "final_vmax", "wall_s", "x99_m", "x01_m", "min_z_over_r", "mass_ok", "max_contacts", "y_abs_max_m", "rate", "discharged_fraction", "h0_real_D")
-    e = {"seed": seed, "id": rid, "particles": res["n"], "frames": len(res["frame_times"]), "rest_time_s": float(res["frame_times"][-1])}
+    keys = (
+        "pile_height_D",
+        "final_vmax",
+        "wall_s",
+        "x99_m",
+        "x01_m",
+        "min_z_over_r",
+        "mass_ok",
+        "max_contacts",
+        "y_abs_max_m",
+        "rate",
+        "discharged_fraction",
+        "h0_real_D",
+    )
+    e = {
+        "seed": seed,
+        "id": rid,
+        "particles": res["n"],
+        "frames": len(res["frame_times"]),
+        "rest_time_s": float(res["frame_times"][-1]),
+    }
     e.update({k: res[k] for k in keys if k in res and res[k] is not None})
     return e
 
 
 def replace_geometry(out: Path, slot: dict, reason: str, detail: dict | None = None) -> None:
-    slot["failed_geometries"].append({"attempt": slot["attempt"], "params": slot["params"], "reason": reason, **(detail or {})})
+    slot["failed_geometries"].append(
+        {"attempt": slot["attempt"], "params": slot["params"], "reason": reason, **(detail or {})}
+    )
     for s in slot["seeds"]:
         shutil.rmtree(Path(out) / "payload" / f"{s['id']}.zarr", ignore_errors=True)
         (Path(out) / "meta" / f"{s['id']}.json").unlink(missing_ok=True)
@@ -229,7 +283,15 @@ def _commit_meta(out: Path, rid: str, meta: dict) -> None:
     os.replace(tmp, Path(out) / "meta" / f"{rid}.json")
 
 
-def process_collapse(out: Path, st: dict, slot: dict, rs: list[tuple[dict, dict]], cfg: SimConfig, version: str, log: Callable[[str], None]) -> None:
+def process_collapse(
+    out: Path,
+    st: dict,
+    slot: dict,
+    rs: list[tuple[dict, dict]],
+    cfg: SimConfig,
+    version: str,
+    log: Callable[[str], None],
+) -> None:
     for task, res in rs:
         seed, rid = task["seed"], f"{slot['id']}-s{task['seed']}"
         if res["status"] != "rest":
@@ -244,18 +306,34 @@ def process_collapse(out: Path, st: dict, slot: dict, rs: list[tuple[dict, dict]
             replace_geometry(out, slot, "pile-below-30d", {"pile_height_d": res["pile_height_D"], "seed": seed})
             return
         record = space.geometry_record("column-collapse", slot["params"])
-        _commit_meta(out, rid, write_rollout(out, rid, "column-collapse", slot["id"], slot["params"], record, seed, res, cfg, version))
+        _commit_meta(
+            out,
+            rid,
+            write_rollout(out, rid, "column-collapse", slot["id"], slot["params"], record, seed, res, cfg, version),
+        )
         slot["seeds"].append(_entry(rid, seed, res))
         log(f"{rid} column-collapse particles={res['n']} frames={len(res['frame_times'])} wall={res['wall_s']:.0f}s")
     slot["record"] = space.geometry_record("column-collapse", slot["params"])
     slot["done"] = len(slot["seeds"]) >= space.SEEDS_PER_GEOMETRY
 
 
-def process_feed(out: Path, st: dict, slot: dict, rs: list[tuple[dict, dict]], cfg: SimConfig, version: str, log: Callable[[str], None]) -> None:
-    """All seeds of a feed geometry at once: any rejected seed replaces the geometry (a jam is a property of the geometry)."""
+def process_feed(
+    out: Path,
+    st: dict,
+    slot: dict,
+    rs: list[tuple[dict, dict]],
+    cfg: SimConfig,
+    version: str,
+    log: Callable[[str], None],
+) -> None:
+    """All seeds of a feed geometry at once: any rejected seed replaces the geometry (a jam is a property of the
+    geometry)."""
     fam = slot["family"]
-    bad = [(r["status"], round(r.get("pile_height_D", 0.0), 1), round(r.get("discharged_fraction", 0.0), 3)) for _, r in rs
-           if r["status"] != "rest" or r["pile_height_D"] < MIN_HEIGHT_D or not math.isfinite(r["rate"])]
+    bad = [
+        (r["status"], round(r.get("pile_height_D", 0.0), 1), round(r.get("discharged_fraction", 0.0), 3))
+        for _, r in rs
+        if r["status"] != "rest" or r["pile_height_D"] < MIN_HEIGHT_D or not math.isfinite(r["rate"])
+    ]
     if bad:
         log(f"{slot['id']} {fam} FAILED {bad} (geometry replaced) w_o={slot['params']['w_o_D']:.2f}")
         replace_geometry(out, slot, f"jammed / no-rest / pile < 30 d / no rate {bad}")
@@ -264,17 +342,24 @@ def process_feed(out: Path, st: dict, slot: dict, rs: list[tuple[dict, dict]], c
     record = space.geometry_record(fam, slot["params"], rate)
     if slot["split"] == "test":
         train = [s["record"] for s in family_slots(st, fam) if s["split"] == "train" and s["done"]]
-        ok, dist = space.test_geometry_ok(fam, record, train)
+        ok, dist = space.split_rule_ok(fam, record, train)
         if not ok:
             log(f"{slot['id']} {fam} FAILED(test distance {dist:.3f} / envelope: geometry replaced)")
             replace_geometry(out, slot, "test-distance-or-envelope", {"distance": dist, "rate": rate})
             return
     for task, res in rs:
         rid = f"{slot['id']}-s{task['seed']}"
-        _commit_meta(out, rid, write_rollout(out, rid, fam, slot["id"], slot["params"], record, task["seed"], res, cfg, version))
+        _commit_meta(
+            out, rid, write_rollout(out, rid, fam, slot["id"], slot["params"], record, task["seed"], res, cfg, version)
+        )
         slot["seeds"].append(_entry(rid, task["seed"], res))
     slot["record"], slot["rate"], slot["done"] = record, rate, True
-    log(f"{slot['id']} {fam} {slot['split']} rate={rate:.5f} m2/s w_o={slot['params']['w_o_D']:.2f} d pile={min(e['pile_height_D'] for e in slot['seeds']):.1f}-{max(e['pile_height_D'] for e in slot['seeds']):.1f} d")
+    lo = min(e["pile_height_D"] for e in slot["seeds"])
+    hi = max(e["pile_height_D"] for e in slot["seeds"])
+    log(
+        f"{slot['id']} {fam} {slot['split']} rate={rate:.5f} m2/s w_o={slot['params']['w_o_D']:.2f} d "
+        f"pile={lo:.1f}-{hi:.1f} d"
+    )
 
 
 # ----------------------------------------------------------------------------------------------- run
@@ -291,8 +376,14 @@ class RunArgs:
     device: str = "cuda:0"
 
 
-def run(args: RunArgs, *, session: Callable[[], tuple[Any, Any, Any]] | None = None, log: Callable[[str], None] | None = None) -> int:
-    """Generate the dataset; `session` returns (guard, lock, pacer) (tests pass a stand-in). 0 on a finished or limited run, 4 on a guard stop."""
+def run(
+    args: RunArgs,
+    *,
+    session: Callable[[], tuple[Any, Any, Any]] | None = None,
+    log: Callable[[str], None] | None = None,
+) -> int:
+    """Generate the dataset; `session` returns (guard, lock, pacer) (tests pass a stand-in). 0 on a finished or
+    limited run, 4 on a guard stop."""
     from . import engine, gpujob
 
     out = Path(args.out)
@@ -309,14 +400,31 @@ def run(args: RunArgs, *, session: Callable[[], tuple[Any, Any, Any]] | None = N
     log = log or default_log
     st = load_state(out) or new_state(cfg)
     if st["contact"] != {"friction_rolling": cfg.mu_r, "friction_static": cfg.mu_s, "poly": cfg.poly}:
-        raise SystemExit(f"the state in {out} was generated with another contact law {st['contact']}; start a new output folder")
-    st.update(generator_files_sha256=generator_digest(), solver_version=version, dt_s=cfg.dt, frame_interval_s=cfg.frame_dt,
-              steps_per_frame=space.STEPS_PER_FRAME, n_feed=space.N_FEED, feed_ranges=space.FEED_RANGES, discharged_min=engine.DISCHARGED_MIN)
+        raise SystemExit(
+            f"the state in {out} was generated with another contact law {st['contact']}; start a new output folder"
+        )
+    st.update(
+        generator_files_sha256=generator_digest(),
+        solver_version=version,
+        dt_s=cfg.dt,
+        frame_interval_s=cfg.frame_dt,
+        steps_per_frame=space.STEPS_PER_FRAME,
+        n_feed=space.N_FEED,
+        feed_ranges=space.FEED_RANGES,
+        discharged_min=engine.DISCHARGED_MIN,
+    )
     save_state(out, st)
     guard, lock, pacer = (session or gpujob.start_session)()
     whea_since = getattr(guard, "since", None)
     gg = gpujob.load_guard_module() if session is None else None
-    st["runs"].append({"start": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "whea_since": whea_since, "k_collapse": args.k_collapse, "k_feed": args.k_feed})
+    st["runs"].append(
+        {
+            "start": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "whea_since": whea_since,
+            "k_collapse": args.k_collapse,
+            "k_feed": args.k_feed,
+        }
+    )
     t_job, n_batches, stop_reason = time.perf_counter(), 0, None
     phases = [("val",), ("train",)] + ([] if args.phase == "trainval" else [("test",)])
     try:
@@ -335,8 +443,12 @@ def run(args: RunArgs, *, session: Callable[[], tuple[Any, Any, Any]] | None = N
                     tb = time.perf_counter()
                     tasks = [t for _, t in pairs]
                     try:
-                        results = engine.simulate_collapse(tasks, pacer, cfg, args.device) if family == "column-collapse" else engine.simulate_feed(family, tasks, pacer, cfg, args.device)
-                    except Exception as exc:  # noqa: BLE001 - a solver halt is counted as failed seeds, never hidden
+                        results = (
+                            engine.simulate_collapse(tasks, pacer, cfg, args.device)
+                            if family == "column-collapse"
+                            else engine.simulate_feed(family, tasks, pacer, cfg, args.device)
+                        )
+                    except Exception as exc:
                         if type(exc).__name__ == "GuardStop":
                             raise
                         results = [{"status": f"error:{type(exc).__name__}:{exc}", "wall_s": 0.0} for _ in pairs]
@@ -344,26 +456,48 @@ def run(args: RunArgs, *, session: Callable[[], tuple[Any, Any, Any]] | None = N
                     bw = sum(r["wall_s"] for r in results)
                     st["wall_s"][family] = st["wall_s"].get(family, 0.0) + bw
                     st["gpu_s_total"] += bw
-                    st.setdefault("batch_log", []).append({"family": family, "k": len(pairs), "ok": sum(r["status"] == "rest" for r in results), "gpu_s": bw, "real_s": time.perf_counter() - tb, "maxC": pacer.max_temp, "splits": list(splits)})
-                    print(f"batch {n_batches} {family} k={len(pairs)} ok={st['batch_log'][-1]['ok']} gpu_wall={bw:.0f}s real={time.perf_counter() - tb:.0f}s maxC={pacer.max_temp}", flush=True)
+                    st.setdefault("batch_log", []).append(
+                        {
+                            "family": family,
+                            "k": len(pairs),
+                            "ok": sum(r["status"] == "rest" for r in results),
+                            "gpu_s": bw,
+                            "real_s": time.perf_counter() - tb,
+                            "maxC": pacer.max_temp,
+                            "splits": list(splits),
+                        }
+                    )
+                    ok = st["batch_log"][-1]["ok"]
+                    print(
+                        f"batch {n_batches} {family} k={len(pairs)} ok={ok} gpu_wall={bw:.0f}s "
+                        f"real={time.perf_counter() - tb:.0f}s maxC={pacer.max_temp}",
+                        flush=True,
+                    )
+
                     for slot in {id(s): s for s, _ in pairs}.values():
-                        rs = [(t, r) for (s, t), r in zip(pairs, results) if s is slot]
-                        (process_collapse if family == "column-collapse" else process_feed)(out, st, slot, rs, cfg, version, log)
+                        rs = [(t, r) for (s, t), r in zip(pairs, results, strict=True) if s is slot]
+                        (process_collapse if family == "column-collapse" else process_feed)(
+                            out, st, slot, rs, cfg, version, log
+                        )
                     save_state(out, st)
     except KeyboardInterrupt:
         stop_reason = "batch limit"
-    except BaseException as exc:  # noqa: BLE001
+    except BaseException as exc:
         if type(exc).__name__ != "GuardStop":
             raise
         stop_reason = f"GuardStop {exc}"
         print(stop_reason, flush=True)
     finally:
         wh = gg.whea_count(whea_since) if gg is not None else None
-        st["runs"][-1].update(end=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), whea_new=wh, stop=stop_reason,
-                              wall_s=time.perf_counter() - t_job, guard_pause_s=getattr(guard, "paused_s", 0.0), batches=n_batches)
+        st["runs"][-1].update(
+            end=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            whea_new=wh,
+            stop=stop_reason,
+            wall_s=time.perf_counter() - t_job,
+            guard_pause_s=getattr(guard, "paused_s", 0.0),
+            batches=n_batches,
+        )
         save_state(out, st)
-        try:
+        with contextlib.suppress(Exception):
             lock.release()
-        except Exception:  # noqa: BLE001
-            pass
     return 0 if stop_reason in (None, "batch limit") else 4

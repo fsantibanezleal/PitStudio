@@ -1,4 +1,5 @@
-"""Parameter space, geometry records, split plan and the contract metric of the planar reference data (spec 011, FR-011-03).
+"""Parameter space, geometry records, split plan and the contract metric of the planar reference data (spec 011,
+FR-011-03).
 
 Pure Python and NumPy: nothing here imports Warp, so the plan can be checked on any machine. Lengths inside a parameter
 set are in particle diameters (`*_D`), the metadata of DC-011-01 is in metres. Three families:
@@ -10,7 +11,8 @@ set are in particle diameters (`*_D`), the metadata of DC-011-01 is in metres. T
   the platform, the grains run over the crest and build the flank below it.
 
 The feed rate is MEASURED (slope of the cumulative solid area that crossed the orifice level) and recorded as the
-contract's `pour_rate_m2_per_s` / `dump_rate_m2_per_s`; the hopper walls are generator-side obstacles and are not part of
+contract's `pour_rate_m2_per_s` / `dump_rate_m2_per_s`; the hopper walls are generator-side obstacles and are not part
+of
 the recorded particle set.
 """
 
@@ -123,7 +125,9 @@ class SimConfig:
 
 
 # ----------------------------------------------------------------------------------------------- parameter draws
-def draw_geometry(family: str, rng: np.random.Generator, envelope: Mapping[str, tuple[float, float]] | None = None) -> dict:
+def draw_geometry(
+    family: str, rng: np.random.Generator, envelope: Mapping[str, tuple[float, float]] | None = None
+) -> dict:
     """One geometry (parameters in D units plus the derived particle count); `envelope` bounds each draw (test set)."""
 
     def u(key: str, lo: float, hi: float) -> float:
@@ -140,11 +144,16 @@ def draw_geometry(family: str, rng: np.random.Generator, envelope: Mapping[str, 
                 lo, hi = max(lo, envelope["L0_D"][0]), min(hi, envelope["L0_D"][1])
             if hi > lo:
                 width = float(rng.uniform(lo, hi))
-                return {"a": a, "L0_D": width, "n": int(round(a * width * width / CELL_AREA))}
+                return {"a": a, "L0_D": width, "n": round(a * width * width / CELL_AREA)}
         raise ValueError("the envelope leaves no column collapse geometry")
     if family == "pile-formation":
         r = FEED_RANGES[family]
-        return {"x_p_D": u("x_p_D", *r["x_p_D"]), "z_o_D": u("z_o_D", *r["z_o_D"]), "w_o_D": u("w_o_D", *r["w_o_D"]), "n": N_FEED}
+        return {
+            "x_p_D": u("x_p_D", *r["x_p_D"]),
+            "z_o_D": u("z_o_D", *r["z_o_D"]),
+            "w_o_D": u("w_o_D", *r["w_o_D"]),
+            "n": N_FEED,
+        }
     if family == "dump-over-crest":
         r = FEED_RANGES[family]
         return {
@@ -180,12 +189,16 @@ def geometry_record(family: str, p: Mapping[str, Any], rate: float | None = None
 
 
 def contract_vec(family: str, record: Mapping[str, float]) -> np.ndarray:
-    """The reader's metric: contract parameters normalised by the DC-011-02 ranges (pitstudio_pipeline data.FAMILY_RANGES)."""
+    """The reader's metric: contract parameters normalised by the DC-011-02 ranges (pitstudio_pipeline
+    data.FAMILY_RANGES)."""
     return np.array([(record[k] - lo) / (hi - lo) for k, lo, hi in CONTRACT_RANGES[family]])
 
 
-def test_geometry_ok(
-    family: str, record: Mapping[str, float], train_records: Sequence[Mapping[str, float]], min_distance: float = MIN_DISTANCE
+def split_rule_ok(
+    family: str,
+    record: Mapping[str, float],
+    train_records: Sequence[Mapping[str, float]],
+    min_distance: float = MIN_DISTANCE,
 ) -> tuple[bool, float]:
     """FR-011-03 on a measured test geometry: inside the training min/max of each contract parameter and at least
     `min_distance` from every training geometry under the contract metric. Returns (ok, nearest distance)."""
@@ -194,9 +207,6 @@ def test_geometry_ok(
     inside = bool(((v >= tv.min(axis=0) - 1e-12) & (v <= tv.max(axis=0) + 1e-12)).all())
     dist = float(np.linalg.norm(tv - v, axis=1).min())
     return inside and dist >= min_distance, dist
-
-
-test_geometry_ok.__test__ = False  # not a pytest test, whatever name pytest sees when it is imported into a test module
 
 
 def split_plan() -> list[dict[str, Any]]:

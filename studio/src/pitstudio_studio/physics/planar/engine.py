@@ -1,6 +1,7 @@
 """Planar DEM batches on the Warp solver of spec 005 (spec 011, FR-011-03): true 2-D granular rollouts.
 
-Spheres are held in the x-z plane: after every step a Warp kernel inside the CUDA graph zeroes y position and velocity and
+Spheres are held in the x-z plane: after every step a Warp kernel inside the CUDA graph zeroes y position and velocity
+and
 the x and z spin (the y spin stays, so the rolling spring of the contact law stays active); the solver is untouched.
 FROZEN spheres (the funnel walls of a feed) are reset to their start position with zero velocity by the same kernel, so
 they are static obstacles. K independent rollouts run side by side in ONE particle system, separated along x by GAP_D
@@ -24,9 +25,11 @@ from pitstudio_studio.physics.dem.grid import CTL_HALT, CTL_STEP
 from pitstudio_studio.physics.dem.step import DemSimulation, Plane
 
 from . import measure, packing, space
-from .space import BOX_HALF, D, G, GAP_D, REST_FRAC, STEPS_PER_FRAME, SimConfig
+from .space import BOX_HALF, GAP_D, REST_FRAC, STEPS_PER_FRAME, D, G, SimConfig
 
-DISCHARGED_MIN = 0.9  # a feed is at rest only after this fraction of its grains has left the orifice (brief: above 0.75)
+DISCHARGED_MIN = (
+    0.9  # a feed is at rest only after this fraction of its grains has left the orifice (brief: above 0.75)
+)
 
 
 class NoPacer:
@@ -62,7 +65,8 @@ def _planar_frozen(
 
 
 class PlanarSim:
-    """DemSimulation advanced in CUDA-graph batches (plain stepping on the CPU) with the planar and frozen constraints."""
+    """DemSimulation advanced in CUDA-graph batches (plain stepping on the CPU) with the planar and frozen
+    constraints."""
 
     def __init__(
         self,
@@ -106,9 +110,15 @@ class PlanarSim:
                     sim.hash_grid.build(sim._local, cell)
                     for x in c[1:]:
                         x.launch()
-                    wp.launch(_planar_frozen, dim=sim.n, inputs=[sim._pos, sim._vel, sim._ang, self._frozen, self._pos0], device=device)
+                    wp.launch(
+                        _planar_frozen,
+                        dim=sim.n,
+                        inputs=[sim._pos, sim._vel, sim._ang, self._frozen, self._pos0],
+                        device=device,
+                    )
                     cur = 1 - cur
-            assert cur == sim._current and k % 2 == 0
+            assert cur == sim._current
+            assert k % 2 == 0
             self.graph = cap.graph
 
     def _constrain(self) -> None:
@@ -147,9 +157,16 @@ def collapse_walls(insts: list[dict], released: bool) -> list[Plane]:
 
 
 def simulate_collapse(
-    tasks: list[dict], pacer: Any, cfg: SimConfig, device: str = "cuda:0", *, t_cap: float | None = None, settle_cap: float = 4.0
+    tasks: list[dict],
+    pacer: Any,
+    cfg: SimConfig,
+    device: str = "cuda:0",
+    *,
+    t_cap: float | None = None,
+    settle_cap: float = 4.0,
 ) -> list[dict]:
-    """Column collapses: settle each packing against its retaining wall (not recorded), trim to a L0, release, record to rest."""
+    """Column collapses: settle each packing against its retaining wall (not recorded), trim to a L0, release,
+    record to rest."""
     t0 = time.perf_counter()
     idle0 = pacer.idle_s
     thr = REST_FRAC * math.sqrt(G * D)
@@ -164,12 +181,23 @@ def simulate_collapse(
         pos, rad = packing.column_state(p, rng, cfg.poly)
         pos = pos.copy()
         pos[:, 0] += shift
-        insts.append({"p": p, "shift": shift, "X0": lx0 + shift, "X1": lx1 + shift, "lx0": lx0, "lx1": lx1, "status": "run", "h0_real": None})
+        insts.append(
+            {
+                "p": p,
+                "shift": shift,
+                "X0": lx0 + shift,
+                "X1": lx1 + shift,
+                "lx0": lx0,
+                "lx1": lx1,
+                "status": "run",
+                "h0_real": None,
+            }
+        )
         pos_l.append(pos)
         rad_l.append(rad)
     pos, rad = np.concatenate(pos_l), np.concatenate(rad_l)
     counts = [len(r) for r in rad_l]
-    sl = np.cumsum([0] + counts)
+    sl = np.cumsum([0, *counts])
     ps = PlanarSim(pos, rad, np.zeros(len(pos), dtype=np.int32), collapse_walls(insts, False), cfg, device=device)
     sim = ps.sim
     quiet = np.zeros(len(insts), dtype=int)
@@ -201,9 +229,18 @@ def simulate_collapse(
     pos, vel, ang, rad = pos3[idx], vel[idx], ang[idx], rad[idx]
     counts = new_counts
     del ps, sim
-    ps = PlanarSim(pos, rad, np.zeros(len(pos), dtype=np.int32), collapse_walls(insts, True), cfg, velocities=vel, angular_velocities=ang, device=device)
+    ps = PlanarSim(
+        pos,
+        rad,
+        np.zeros(len(pos), dtype=np.int32),
+        collapse_walls(insts, True),
+        cfg,
+        velocities=vel,
+        angular_velocities=ang,
+        device=device,
+    )
     sim = ps.sim
-    sl = np.cumsum([0] + counts)
+    sl = np.cumsum([0, *counts])
     fr, ft = [[] for _ in insts], [[] for _ in insts]
     judges = [measure.RestJudge(thr) for _ in insts]
     last_v = [0.0] * len(insts)
@@ -278,7 +315,8 @@ def simulate_collapse(
 
 # ----------------------------------------------------------------------------------------------- hopper feeds
 def feed_geometry(family: str, p: dict) -> dict[str, float]:
-    """Frame of a feed instance (metres): hopper centre, orifice height, domain x limits and the crest data of a dump."""
+    """Frame of a feed instance (metres): hopper centre, orifice height, domain x limits and the crest data of a
+    dump."""
     if family == "pile-formation":
         xc = p["x_p_D"] * D
         return {"x_center": xc, "z_orifice": p["z_o_D"] * D, "lx0": xc - BOX_HALF * D, "lx1": xc + BOX_HALF * D}
@@ -328,7 +366,16 @@ def simulate_feed(
         pos = h.positions.copy()
         pos[:, 0] += shift
         insts.append(
-            {"p": p, "geo": geo, "shift": shift, "X0": geo["lx0"] + shift, "X1": geo["lx1"] + shift, "status": "run", "hopper": h, "n": len(pos)}
+            {
+                "p": p,
+                "geo": geo,
+                "shift": shift,
+                "X0": geo["lx0"] + shift,
+                "X1": geo["lx1"] + shift,
+                "status": "run",
+                "hopper": h,
+                "n": len(pos),
+            }
         )
         pos_l.append(pos)
         rad_l.append(h.radii)
@@ -402,7 +449,7 @@ def simulate_feed(
                 "pile_height_D": height,
                 "rate": rate,
                 "discharged_fraction": frac,
-                "n": int(len(r)),
+                "n": len(r),
                 "bounds": [it["geo"]["lx0"], 0.0, it["geo"]["lx1"], zt * 1.05],
                 "max_contacts": int(cc[grain_idx[k]].max()),
                 "y_abs_max_m": y_max,
