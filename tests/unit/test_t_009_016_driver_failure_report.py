@@ -67,7 +67,8 @@ def test_a_render_failure_is_logged_with_its_traceback_before_the_renderer_close
         )
     at_close = "\n".join(renderers[0].at_close or [])
     assert "pit-s-00000" in at_close  # the row that failed is named
-    assert "KeyError" in at_close and "rgb annotator returned no data" in at_close
+    assert "KeyError" in at_close
+    assert "rgb annotator returned no data" in at_close
     assert "Traceback (most recent call last)" in at_close
     assert "render_row" in at_close  # the frame that raised is in the traceback
 
@@ -80,6 +81,9 @@ def test_a_failure_while_starting_the_renderer_is_logged_too(tmp_path: Path) -> 
         raise RuntimeError("the scene has no /World/Lights/Sun")
 
     with pytest.raises(RuntimeError, match="no /World/Lights/Sun"):
-        driver.run(rows=[_row("pit-s-00000")], root=tmp_path, renderer_factory=factory, session=_no_session, log=logged.append)
+        driver.run(
+            rows=[_row("pit-s-00000")], root=tmp_path, renderer_factory=factory, session=_no_session, log=logged.append
+        )
     text = "\n".join(logged)
-    assert "RuntimeError" in text and "Traceback (most recent call last)" in text
+    assert "RuntimeError" in text
+    assert "Traceback (most recent call last)" in text
