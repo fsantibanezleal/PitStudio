@@ -229,6 +229,7 @@ class Row(BaseModel):
     power_limit_enforced_w: PowerLimitEnforcedW | None
     power_source: Literal["ac", "battery"]
     tensorrt_licence_sha256: Sha256 | None
+    fixture: bool | None = None
 
 
 class AccelerationWebTable(BaseModel):

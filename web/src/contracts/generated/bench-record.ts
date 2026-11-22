@@ -31,6 +31,7 @@ fingerprint: Fingerprint
  * @maxItems 8
  */
 notes?: []|[string]|[string, string]|[string, string, string]|[string, string, string, string]|[string, string, string, string, string]|[string, string, string, string, string, string]|[string, string, string, string, string, string, string]|[string, string, string, string, string, string, string, string]
+fixture?: boolean
 }
 /**
  * This interface was referenced by `undefined`'s JSON-Schema

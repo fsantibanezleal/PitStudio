@@ -42,6 +42,7 @@ parity: (Parity | null)
 power_limit_enforced_w: (number | null)
 power_source: ("ac" | "battery")
 tensorrt_licence_sha256: (Sha256 | null)
+fixture?: boolean
 }
 /**
  * This interface was referenced by `AccelerationWebTable`'s JSON-Schema

@@ -187,6 +187,9 @@
         "maxLength": 300
       },
       "maxItems": 8
+    },
+    "fixture": {
+      "type": "boolean"
     }
   },
   "required": [

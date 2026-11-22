@@ -246,6 +246,9 @@
               "type": "null"
             }
           ]
+        },
+        "fixture": {
+          "type": "boolean"
         }
       },
       "required": [

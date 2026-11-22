@@ -31,6 +31,7 @@ metric: (Metric | null)
 mask_iou: (Fraction | null)
 verdict: ("pass" | "rejected")
 reason?: string
+fixture?: boolean
 }
 /**
  * This interface was referenced by `undefined`'s JSON-Schema
