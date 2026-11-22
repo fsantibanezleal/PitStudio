@@ -20,8 +20,13 @@ formula of FR-002-08 recomputed with hashlib (tests/support/refimpl.py), hand-bu
 
 from __future__ import annotations
 
+import math
+import os
 import re
+import statistics
+import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +38,32 @@ import runner_world as rw
 from runner_world import recipe, stage, up
 
 SEED0 = 20261004
+
+
+def _startup_timeout_s() -> int:
+    """A stage timeout that is independent of the machine: 3 x the measured start-up of a stage process plus 1 s, at least 2 s.
+
+    The baseline is the launch the fake launcher performs (`sys.executable -m ps_fake_stages.generic`, with the support
+    folder on PYTHONPATH; the stage imports only the standard library) stopped at `--help`, so it includes the interpreter,
+    the site setup of the environment and the module import, and nothing else.
+
+    The runner counts a timeout from process creation, so a fixed 1 s fails on a machine whose process start-up is
+    longer (the stage would be killed before it writes its `start` ledger row). The stages still sleep 60 s, far beyond
+    any value this returns on a healthy machine.
+    """
+    support = str(Path(__file__).resolve().parents[1] / "support")
+    env = {**os.environ, "PYTHONPATH": os.pathsep.join(filter(None, [support, os.environ.get("PYTHONPATH", "")]))}
+    samples = []
+    for _ in range(3):
+        t0 = time.perf_counter()
+        subprocess.run(
+            [sys.executable, "-m", "ps_fake_stages.generic", "--help"], check=True, capture_output=True, env=env
+        )
+        samples.append(time.perf_counter() - t0)
+    return max(2, math.ceil(3 * statistics.median(samples) + 1))
+
+
+TIMEOUT_S = _startup_timeout_s()
 
 
 @pytest.fixture
@@ -187,8 +218,8 @@ def test_fr_002_33_a_first_attempt_timeout_in_isaac_rtx_or_kit_is_retried_once_w
         stage_id,
         gpu="exclusive",
         vram=2.0,
-        timeout_s=2,
-        params={"mode": "slow_first", "marker": str(marker), "sleep_s": 60},
+        timeout_s=TIMEOUT_S,
+        params={"mode": "slow_first", "marker": str(marker), "sleep_s": TIMEOUT_S + 60},
     )
     world.write_recipe(recipe("warm", [st], seed=SEED0))
     r = world.run("warm")
@@ -202,7 +233,13 @@ def test_fr_002_33_a_first_attempt_timeout_in_isaac_rtx_or_kit_is_retried_once_w
 
 @pytest.mark.req("FR-002-33")
 def test_fr_002_33_a_second_timeout_in_a_warmup_stage_fails_after_exactly_two_attempts(world) -> None:
-    st = stage("st52_rtx_render", gpu="exclusive", vram=2.0, timeout_s=1, params={"mode": "sleep", "sleep_s": 60})
+    st = stage(
+        "st52_rtx_render",
+        gpu="exclusive",
+        vram=2.0,
+        timeout_s=TIMEOUT_S,
+        params={"mode": "sleep", "sleep_s": TIMEOUT_S + 60},
+    )
     world.write_recipe(recipe("warm2", [st], seed=SEED0))
     assert world.run("warm2").code == 1
     rec = world.stage_record("st52_rtx_render")
@@ -215,7 +252,15 @@ def test_fr_002_33_timeouts_in_other_environments_are_not_retried(world) -> None
     world.write_recipe(
         recipe(
             "nowarm",
-            [stage("st50_physics", gpu="exclusive", vram=2.0, timeout_s=1, params={"mode": "sleep", "sleep_s": 60})],
+            [
+                stage(
+                    "st50_physics",
+                    gpu="exclusive",
+                    vram=2.0,
+                    timeout_s=TIMEOUT_S,
+                    params={"mode": "sleep", "sleep_s": TIMEOUT_S + 60},
+                )
+            ],
             seed=SEED0,
         )
     )

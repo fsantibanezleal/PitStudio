@@ -37,7 +37,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import contract_support as cs
 
 GENERATED = cs.ROOT / "src" / "pitstudio" / "contracts" / "_generated"
-STEMS = list(cs.SCHEMA_STEMS)
+STEMS = list(cs.SCHEMA_STEMS)  # the five seed schemas: the copies the tests below edit and regenerate
+# every promoted contract: one `<stem>.schema.json` per contract in contracts/ (what the generator must cover)
+ALL_STEMS = sorted(p.name.removesuffix(".schema.json") for p in cs.CONTRACTS.glob("*.schema.json"))
+
+
+def module_of(stem: str) -> str:
+    """The module name of a contract: a dash in the schema stem becomes an underscore (FR-001-40)."""
+    return stem.replace("-", "_")
+
+
 HEADER = "# Generated from contracts/{file} by tools/gen_types.py. Do not edit."
 
 
@@ -88,9 +97,10 @@ def contracts_copy(tmp: Path) -> Path:
 @pytest.mark.req("DC-001-06")
 def test_fr_001_40_one_module_per_contract_plus_an_init_with_the_pinned_header_and_no_noise(tmp_path: Path) -> None:
     out = fresh(tmp_path)
-    assert sorted(p.name for p in out.iterdir()) == sorted([*(f"{s}.py" for s in STEMS), "__init__.py"])
-    for stem in STEMS:
-        text = (out / f"{stem}.py").read_bytes().decode("utf-8")
+    assert len(ALL_STEMS) >= len(STEMS), "the contract index must hold at least the five seed schemas"
+    assert sorted(p.name for p in out.iterdir()) == sorted([*(f"{module_of(s)}.py" for s in ALL_STEMS), "__init__.py"])
+    for stem in ALL_STEMS:
+        text = (out / f"{module_of(stem)}.py").read_bytes().decode("utf-8")
         assert text.split("\n", 1)[0] == HEADER.format(file=f"{stem}.schema.json")
         assert "\r" not in text
         assert text.endswith("\n")
@@ -103,7 +113,7 @@ def test_fr_001_40_one_module_per_contract_plus_an_init_with_the_pinned_header_a
         assert "BaseModel" in text
         assert 'extra="forbid"' in text  # ruff-formatted double quotes; --extra-fields forbid
     init = (out / "__init__.py").read_text(encoding="utf-8")
-    assert all(stem in init for stem in STEMS)
+    assert all(module_of(stem) in init for stem in ALL_STEMS)
     assert "\r" not in init
 
 
@@ -186,7 +196,7 @@ def test_fr_001_40_dependency_versions_are_the_pinned_ones() -> None:
     versions = {p["name"]: p["version"] for p in lock["package"]}
     assert versions["datamodel-code-generator"] == "0.83.0"
     assert GENERATED.is_dir()
-    assert {p.stem for p in GENERATED.glob("*.py")} >= {*STEMS, "__init__"}
+    assert {p.stem for p in GENERATED.glob("*.py")} >= {*map(module_of, ALL_STEMS), "__init__"}
 
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -283,7 +293,7 @@ def test_fr_001_42_an_empty_or_missing_output_folder_is_drift_not_a_crash(tmp_pa
     empty.mkdir()
     proc = gen("--check", "--out", str(empty))
     assert proc.returncode == 1
-    assert all(f"{s}.py" in proc.stdout + proc.stderr for s in STEMS)
+    assert all(f"{module_of(s)}.py" in proc.stdout + proc.stderr for s in ALL_STEMS)
 
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -445,7 +455,7 @@ def test_fr_001_43_generated_modules_import_on_python_3_12_with_the_locked_pydan
 
 @pytest.mark.req("FR-001-43")
 def test_fr_001_43_committed_generated_files_are_ruff_formatted_and_mypy_clean() -> None:
-    assert {p.stem for p in GENERATED.glob("*.py")} >= {*STEMS, "__init__"}
+    assert {p.stem for p in GENERATED.glob("*.py")} >= {*map(module_of, ALL_STEMS), "__init__"}
     fmt = subprocess.run(
         [sys.executable, "-m", "ruff", "format", "--check", str(GENERATED)], capture_output=True, text=True, cwd=cs.ROOT
     )

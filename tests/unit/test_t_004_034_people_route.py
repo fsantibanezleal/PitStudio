@@ -61,10 +61,14 @@ def _spec(people: int) -> dict:
     return spec
 
 
+_OPEN_STAGES: list = []  # a prim is valid only while its stage lives: keep every opened stage until the process ends
+
+
 def _people(build) -> list:
     from pxr import Usd
 
     stage = Usd.Stage.Open(str(build.fleet_layer))
+    _OPEN_STAGES.append(stage)
     root = stage.GetPrimAtPath("/World/People")
     return [c for c in root.GetChildren()] if root.IsValid() else []
 

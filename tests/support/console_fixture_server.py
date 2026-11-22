@@ -63,6 +63,7 @@ def main() -> int:
     (w.repo / "studio" / "recipes" / "cases" / "broken-one.yaml").write_text(
         f"id: broken-one\ncase: A2\nseed: {MARKUP[1]!r}\nstages: nope\n", encoding="utf-8"
     )
+    (w.repo / "studio" / "recipes" / "_bench" / "not-yaml.yaml").write_text("id: [unclosed\n", encoding="utf-8")
     seeded = cw.seed_run(w)
     manifest = seeded["manifest"]
     manifest["notes"] = list(MARKUP)

@@ -103,7 +103,7 @@ def seed(world: rw.World, runs: list[SeedRun], repo_sha: str) -> None:
     cards = world.repo / "models" / "cards"
     for r in runs:
         if r.in_models:
-            c = cards / f"card-{r.run_id[-6:]}-{r.recipe}"
+            c = cards / f"card-{r.run_id}"
             c.mkdir(parents=True, exist_ok=True)
             (c / "manifest.json").write_text(json.dumps(manifest_for(r, repo_sha, published=True)), encoding="utf-8")
 

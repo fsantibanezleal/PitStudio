@@ -103,6 +103,7 @@ def test_fr_003_07_recipe_list_covers_cases_and_bench_with_digests_counts_and_va
     assert set(rows) == {
         "studio/recipes/cases/a2-haulage.yaml",
         "studio/recipes/cases/broken-one.yaml",
+        "studio/recipes/cases/pub-case.yaml",
         "studio/recipes/_bench/bench-one.yaml",
         "studio/recipes/_bench/not-yaml.yaml",
     }

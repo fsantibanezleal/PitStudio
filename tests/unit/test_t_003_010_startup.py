@@ -102,9 +102,13 @@ class Server:
 
 
 def listening(pid: int) -> list[tuple[str, int]]:
+    """Listening sockets of the process and of its descendants: on Windows the pid of a venv `python.exe` is the launcher
+    stub, which holds no socket; the real interpreter is its child."""
+    root = psutil.Process(pid)
     return [
         (c.laddr.ip, c.laddr.port)
-        for c in psutil.Process(pid).net_connections(kind="inet")
+        for p in (root, *root.children(recursive=True))
+        for c in p.net_connections(kind="inet")
         if c.status == psutil.CONN_LISTEN
     ]
 

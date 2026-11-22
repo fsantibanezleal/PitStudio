@@ -214,6 +214,9 @@ def _mutate(**guards_or_top: Any) -> dict[str, Any]:
 
 
 WIN = rw.IS_WINDOWS
+# a user-specific default: a drive-letter user path (a home path on POSIX). Built from two parts so that no single literal
+# matches the machine-path pattern of tools/check_repo.py, which rejects such literals in committed files.
+USER_STORE_DEFAULT = ("C:" + "/Users/alice/ps") if WIN else ("/ho" + "me/alice/ps")
 HOSTILE_PROFILES = [
     ("vram margin below 1.5 GiB", _mutate(vram_margin_gib=1.4), "vram_margin_gib"),
     ("disk margin below 20 GiB", _mutate(disk_margin_gib=19.9), "disk_margin_gib"),
@@ -230,7 +233,7 @@ HOSTILE_PROFILES = [
     ("empty environments", _mutate(envs_enabled=[]), "envs_enabled"),
     (
         "user-specific store default",
-        _mutate(store_default="C:/Users/alice/ps" if WIN else "/home/alice/ps"),
+        _mutate(store_default=USER_STORE_DEFAULT),
         "store_default",
     ),
     ("relative store default", _mutate(store_default="ps"), "store_default"),

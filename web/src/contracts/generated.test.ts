@@ -42,7 +42,13 @@ const ROOT = resolve(WEB, "..");
 const GENERATED = join(HERE, "generated");
 const FIXTURES = join(ROOT, "tests", "contract", "fixtures");
 const CONTRACTS = join(ROOT, "contracts");
-const STEMS = ["manifest", "recipe", "tools", "sources", "capabilities"] as const;
+// the five seed schemas: the copies the generator tests below edit and regenerate
+const SEEDS = ["manifest", "recipe", "tools", "sources", "capabilities"] as const;
+// every promoted contract: one `<stem>.schema.json` per contract in contracts/ (what the generator must cover)
+const STEMS = readdirSync(CONTRACTS)
+  .filter((name) => name.endsWith(".schema.json"))
+  .map((name) => name.slice(0, -".schema.json".length))
+  .sort();
 const WORK = mkdtempSync(join(process.env.PITSTUDIO_TMP ?? tmpdir(), "gen-types-test-"));
 const SLOW = 180_000;
 const DRAFT_2020_12 = "https://json-schema.org/draft/2020-12/schema";
@@ -93,7 +99,7 @@ function freshInto(name: string): string {
 function contractsCopy(name: string): string {
   const dir = join(WORK, name);
   mkdirSync(dir, { recursive: true });
-  for (const stem of STEMS) cpSync(join(CONTRACTS, `${stem}.schema.json`), join(dir, `${stem}.schema.json`));
+  for (const stem of SEEDS) cpSync(join(CONTRACTS, `${stem}.schema.json`), join(dir, `${stem}.schema.json`));
   return dir;
 }
 

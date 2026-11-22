@@ -247,6 +247,8 @@ test.describe("what the console shows", () => {
     await form.getByLabel("Recipe").selectOption("bench-one");
     await form.getByLabel("Profile").fill("test-profile");
     await form.getByRole("button", { name: "Queue job" }).click();
+    // the status line is written when POST /jobs answers: wait for the job id to appear instead of reading it at once
+    await expect(page.getByRole("status")).toContainText(/\d{8}T\d{6}Z-[0-9a-f]{8}/);
     const jobId = /\d{8}T\d{6}Z-[0-9a-f]{8}/.exec(await page.getByRole("status").innerText())?.[0] ?? "";
     expect(jobId).not.toBe("");
     await openPanel(page, "Queue");

@@ -282,6 +282,7 @@ class HookClock(FakeClock):
 @pytest.mark.req("FR-002-18")
 def test_fr_002_18_waiting_polls_at_most_every_5_seconds_then_times_out(world) -> None:
     from filelock import FileLock
+
     from pitstudio.runner import locks
 
     holder = FileLock(world.lock_dir / "gpu0.compute")
@@ -302,6 +303,7 @@ def test_fr_002_18_waiting_polls_at_most_every_5_seconds_then_times_out(world) -
 @pytest.mark.req("FR-002-18")
 def test_fr_002_18_a_lock_released_while_waiting_is_taken_at_the_next_poll(world) -> None:
     from filelock import FileLock, Timeout
+
     from pitstudio.runner import locks
 
     holder = FileLock(world.lock_dir / "gpu0.compute")
@@ -325,6 +327,7 @@ def test_fr_002_18_a_lock_released_while_waiting_is_taken_at_the_next_poll(world
 @pytest.mark.req("FR-002-16")
 def test_fr_002_18_a_hold_appearing_while_waiting_is_noticed_at_the_next_poll(world) -> None:
     from filelock import FileLock
+
     from pitstudio.runner import locks
 
     holder = FileLock(world.lock_dir / "gpu0.compute")

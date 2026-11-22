@@ -148,6 +148,7 @@ def test_fr_002_39_concurrent_enqueues_from_several_processes_make_distinct_jobs
 @pytest.mark.req("FR-002-39")
 def test_fr_002_39_one_worker_per_store_a_second_worker_exits_3(world) -> None:
     from filelock import FileLock
+
     from pitstudio.runner import queue
 
     queue.enqueue(request())
@@ -190,6 +191,7 @@ def test_fr_002_40_detach_only_enqueues_and_a_later_worker_runs_the_job(world) -
 @pytest.mark.req("FR-002-40")
 def test_fr_002_40_when_another_worker_holds_the_lock_run_enqueues_and_returns_without_running(world) -> None:
     from filelock import FileLock
+
     from pitstudio.runner import queue
 
     (world.store / "locks").mkdir(exist_ok=True)
@@ -326,6 +328,7 @@ def test_fr_002_58_shard_progress_and_current_stage_of_a_running_job_are_visible
 @pytest.mark.req("FR-002-58")
 def test_fr_002_58_listing_does_not_take_the_worker_lock_and_status_shows_locks_and_hold(world) -> None:
     from filelock import FileLock
+
     from pitstudio.runner import queue
 
     queue.enqueue(request("one"))
