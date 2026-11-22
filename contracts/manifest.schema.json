@@ -1957,7 +1957,7 @@
                   "$ref": "#/$defs/relpath"
                 },
                 {
-                  "pattern": "^(cases|_bench)/[^/]+\\.yaml$"
+                  "pattern": "^(cases|_bench|render)/[^/]+\\.yaml$"
                 }
               ],
               "description": "relative to studio/recipes/"

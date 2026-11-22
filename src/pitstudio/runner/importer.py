@@ -8,6 +8,12 @@ every input and output file, and the label "produced by the GPU queue, outside t
 guess: a missing script, log, time, GPU-hour figure or output field is named in the notes and the run is labelled
 partial. A digest that differs from the one the import spec pins is refused before the first write.
 
+A spec with `"kind": "render"` imports an RTX render (publish-render-2026-11-22): the ovrtx render manifest is checked
+(kind, label, producer, frame digests against the encode report), every video output takes its encoder record from the
+encode report of the NVENC stage (digest of the file, digest of the source frames, no throughput, no path), the summary
+`render.json` is derived from both, and no timing or GPU time of the job is recorded or published (ovrtx performance is
+local-only, ADR-0037).
+
 The import spec of a job is `imports/<job>.json` next to this module (or `--spec FILE`): the case, the recipe path,
 the stages with their tool and outputs, and per output the file inside the `--from` folder, the artefact facts the
 published manifest needs, `local_only` (kept in the store, never published) and `required_fields`.
@@ -80,6 +86,96 @@ def queue_facts(job: str) -> tuple[dict[str, Any], list[str]]:
     return facts, missing
 
 
+def _scrub(arg: str) -> str:
+    """A path argument of an encoder command reduced to its file name; every other argument is kept."""
+    return re.split(r"[\\/]", arg)[-1] if re.search(r"[\\/]", arg) else arg
+
+
+def _frames_digest(manifest: dict) -> str:
+    """Digest of the flyover frames as the NVENC stage defines it: sha256 of the raw per-frame digests, in order."""
+    rows = sorted(
+        (a["path"], a["sha256"])
+        for a in manifest.get("artefacts", [])
+        if isinstance(a, dict) and re.fullmatch(r"flyover/frame_\d+\.png", str(a.get("path")))
+    )
+    if not rows:
+        raise Usage("the render manifest lists no flyover frames")
+    return sha(b"".join(bytes.fromhex(d) for _, d in rows))
+
+
+def load_render(src: Path, spec: dict, tools: dict[str, dict]) -> tuple[dict, dict]:
+    """The checked ovrtx render manifest and encode report of a render spec; a refusal is a `Usage`."""
+    r = spec.get("render") or {}
+    docs = []
+    for key in ("manifest", "report"):
+        try:
+            docs.append(json.loads((src / r[key]).read_text(encoding="utf-8")))
+        except OSError, ValueError, KeyError, TypeError:
+            raise Usage(f"the render spec needs a readable render.{key} in the --from folder") from None
+    manifest, report = docs
+    if not isinstance(manifest, dict) or manifest.get("kind") != "render":
+        raise Usage("the render manifest has the wrong kind (it must be kind render)")
+    label = manifest.get("label")
+    if not isinstance(label, str) or not 1 <= len(label) <= 200:
+        raise Usage("the render manifest has no label")
+    producer = manifest.get("producer") or {}
+    if producer.get("tool") not in tools or not isinstance(producer.get("version"), str):
+        raise Usage(
+            f"the render manifest names an unknown producer tool {one_line(producer.get('tool'), 40)} or no version"
+        )
+    if bad := [t for t in r.get("built_with", []) if t not in tools]:
+        raise Usage(f"render.built_with names unknown tool {one_line(bad[0], 40)}")
+    return manifest, report
+
+
+def _encoder_record(report: dict, codec: str, digest: str, frames: str, name: str) -> dict:
+    """The encoder record of an encode report variant, checked against the file and the source frames, publishable."""
+    try:
+        variant = report["clips"][0]["variants"][codec]
+        record = dict(variant["record"])
+    except KeyError, IndexError, TypeError:
+        raise Usage(f"output {one_line(name, 80)}: the encode report has no {codec} variant") from None
+    if variant.get("sha256") != digest:
+        raise Usage(f"output {one_line(name, 80)}: digest differs from the encode report (refused)")
+    if record.get("source_frames_sha256") != frames:
+        raise Usage(f"output {one_line(name, 80)}: the source frames digest differs from the render manifest frames")
+    record["encode_fps"] = None  # a throughput is a local-only metric (ADR-0037)
+    if isinstance(record.get("encoder"), dict):
+        record["encoder"] = {**record["encoder"], "args": [_scrub(str(a)) for a in record["encoder"].get("args", [])]}
+    if errs := first_errors("manifest", record, "#/$defs/encoder", n=2):
+        raise Usage(f"output {one_line(name, 80)}: the encoder record is invalid: {'; '.join(errs)}")
+    return record
+
+
+def _render_summary(spec: dict, manifest: dict, rid: str) -> bytes:
+    """`render.json`: what the case page needs to show the render, from the render manifest and the spec (published)."""
+    outs = [o for st in spec["stages"] for o in st["outputs"]]
+    frames = manifest.get("frames") or {}
+    doc = {
+        "schema_version": "1.0",
+        "kind": "render-summary",
+        "run_id": rid,
+        "label": manifest["label"],
+        "title": spec["render"].get("title") or {"en": spec["slug"], "es": spec["slug"]},
+        "producer": {"tool": manifest["producer"]["tool"], "version": manifest["producer"]["version"]},
+        "scene": {"id": (manifest.get("scene") or {}).get("id")},
+        "built_with": list(spec["render"].get("built_with", [])),
+        "resolution": manifest.get("resolution"),
+        "fps": frames.get("playback_fps"),
+        "duration_s": frames.get("duration_s"),
+        "video": {
+            "id": spec["slug"],
+            "files": [o["id"] for o in outs if o.get("encoder_from")],
+            "poster": next((o["id"] for o in outs if o.get("role") == "poster"), None),
+        },
+        "stills": [
+            {"artefact": o["id"], "t_s": o["t_s"]}
+            for o in sorted((o for o in outs if o.get("role") == "still"), key=lambda o: o["t_s"])
+        ],
+    }
+    return (json.dumps(doc, indent=1) + "\n").encode()
+
+
 def _dig(doc: Any, path: list[str]) -> Any:
     for k in path:
         doc = doc.get(k) if isinstance(doc, dict) else None
@@ -115,17 +211,20 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
     tools = {t["id"]: t for t in load_yaml(repo / "studio" / "tools.yaml", "tool registry")["tools"]}
     notes: list[str] = []
     partial: list[str] = []
+    render = spec.get("kind") == "render"
+    rmanifest, rreport = load_render(src, spec, tools) if render else ({}, {})
+    rframes = _frames_digest(rmanifest) if render else ""
     facts, qmiss = queue_facts(job)
-    partial += qmiss
+    partial += [x for x in qmiss if not (render and x == "start time missing")]
     partial += spec.get("partial_reasons", [])
-    hours = _gpu_hours(spec.get("gpu_hours"), src)
-    if hours is None and (m := re.search(r"GPU hours ([0-9.]+)", facts.get("log_text", ""))):
+    hours = None if render else _gpu_hours(spec.get("gpu_hours"), src)
+    if not render and hours is None and (m := re.search(r"GPU hours ([0-9.]+)", facts.get("log_text", ""))):
         hours = float(m[1])
-    if not isinstance(hours, int | float):
+    if not render and not isinstance(hours, int | float):
         hours = None
         partial.append("GPU-hours missing")
     end = facts["end"] or datetime.now(UTC).replace(microsecond=0)
-    dur = facts["duration_s"] or 0
+    dur = 0 if render else facts["duration_s"] or 0  # a render records no timing: ovrtx performance is local-only
     begin = end - timedelta(seconds=dur)
     git_sha, dirty = git_state(repo)
     rid = f"{end.strftime('%Y%m%dT%H%M%SZ')}-{spec['slug']}"
@@ -140,7 +239,12 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
         for o in st["outputs"]:
             if o["name"] in outs:
                 raise Usage(f"output {one_line(o['name'], 80)} is listed twice")
-            if "derive" in o:
+            if render and o.get("kind") == "video" and not (o.get("encoder_from") or {}).get("codec"):
+                raise Usage(f"output {one_line(o['name'], 80)}: a video needs an encoder record (encoder_from)")
+            if render and o.get("derive") == "render-summary":
+                derived[o["name"]] = _render_summary(spec, rmanifest, rid)
+                data, path = derived[o["name"]], None
+            elif "derive" in o:
                 try:
                     derived[o["name"]] = import_summaries.build(o["derive"], src, rid)
                 except import_summaries.Missing as e:
@@ -167,7 +271,12 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
                     for f in o["required_fields"]
                     if not isinstance(doc, dict) or f not in doc
                 )
-            outs[o["name"]] = {**o, "stage": st["id"], "variant": st.get("variant"), "sha256": digest}
+            enc = (
+                {"encoder": _encoder_record(rreport, o["encoder_from"]["codec"], digest, rframes, o["name"])}
+                if render and o.get("encoder_from")
+                else {}
+            )
+            outs[o["name"]] = {**o, **enc, "stage": st["id"], "variant": st.get("variant"), "sha256": digest}
             if path is not None:
                 files[o["name"]] = path
     bundles = {b["id"]: json.loads(import_summaries.build(b["derive"], src, rid)) for b in spec.get("bundles", [])}
@@ -181,13 +290,28 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
             "id": str((load_yaml(recipe_path, "recipe") or {}).get("id", spec["slug"])),
             "sha256": file_sha(recipe_path),
         }
+        rsha = (rmanifest.get("recipe") or {}).get("sha256")
+        if render and rsha and rsha != recipe["sha256"]:
+            partial.append(f"recipe {spec['recipe']} changed since the render (sha256 differs)")
     else:
         partial.append(f"recipe {spec['recipe']} is not written yet: its sha256 is recorded as zeros")
 
     notes += [
         LABEL,
         f"job {job}; script sha256 {facts['script'] or 'missing'}; log sha256 {facts['log'] or 'missing'}",
-        f"started {_stamp(begin)}; ended {_stamp(end)}; GPU-hours {hours if hours is not None else 'missing'}",
+        (
+            "timings and GPU time of the render are local-only and are not recorded"
+            if render
+            else f"started {_stamp(begin)}; ended {_stamp(end)}; GPU-hours {hours if hours is not None else 'missing'}"
+        ),
+        *(
+            [
+                f"{rmanifest['label']}; scene {(rmanifest.get('scene') or {}).get('id')}, producer "
+                f"{rmanifest['producer']['tool']} {rmanifest['producer']['version']}"
+            ]
+            if render
+            else []
+        ),
         spec["label"],
         "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the "
         "contract, the stages were not launched by the runner",
@@ -221,7 +345,7 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
                 "params": {},
                 "seed": int(spec.get("seed", 0)),
                 "determinism": {"class": "none", "rerun_check": "not-applicable"},
-                "performance": tools[st["tool"]]["performance"],
+                "performance": "local-only" if render else tools[st["tool"]]["performance"],
                 "wall_s": float(dur),
                 "telemetry": None,
                 "thermal_flag": False,

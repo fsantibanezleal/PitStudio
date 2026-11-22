@@ -198,7 +198,9 @@ def _recipe_artefacts(
     return arts, copies
 
 
-PUBLISHABLE_KINDS = ("image", "figure", "table", "text", "model-card", "usd")
+PUBLISHABLE_KINDS = ("image", "figure", "table", "text", "model-card", "usd", "video")
+# kinds scanned for a machine path: media is binary and a scan of it would only misfire
+TEXT_KINDS = ("figure", "table", "text", "model-card")
 
 
 def _imported_artefacts(
@@ -214,7 +216,7 @@ def _imported_artefacts(
         src = store.obj(o["sha256"])
         if not src.is_file() or file_sha(src) != o["sha256"]:
             raise Usage(f"imported output {o['name']}: the stored object does not match its digest")
-        text = src.read_text(encoding="utf-8", errors="ignore")
+        text = src.read_text(encoding="utf-8", errors="ignore") if o["kind"] in TEXT_KINDS else ""
         if any(p.search(text) for p in PRIVATE):
             raise Usage(f"imported output {o['name']} holds an absolute path (privacy rule)")
         key = {"id": o["stage"], **({"variant": o["variant"]} if o.get("variant") else {})}
@@ -230,7 +232,7 @@ def _imported_artefacts(
             "kind": o["kind"],
             "producer": {"tool": tool, "stage": key},
             "inputs": [],
-            "lane": "static",
+            "lane": "replay" if o["kind"] == "video" else "static",
             "budget_class": o["budget_class"],
             "licence_class": o["licence_class"],
             "spdx": o["spdx"],
@@ -238,6 +240,20 @@ def _imported_artefacts(
             **({} if imp.get("all_cases") else {"cases": [imp["case"]]}),
             **{k: o[k] for k in ("media_type", "attribution") if k in o},
         }
+        if o["kind"] == "video" and "encoder" not in o:
+            raise Usage(f"imported video {o['name']} has no encoder record")
+        if (
+            o["kind"] == "video"
+        ):  # a pre-rendered clip, never drivable from the page; its encoder record is its provenance
+            a["encoder"] = o["encoder"]
+            a["lane_measurements"] = {
+                "web_drivable": False,
+                "max_asset_bytes": o["bytes"],
+                "interaction_ms": None,
+                "run_ms_t2": None,
+                "trace_bytes": None,
+                "measured": {"tier": "T2", "date": m["created"][:10], "browser": "none: pre-rendered video"},
+            }
         arts.append(a)
         copies.append((src, repo / "web" / "public" / a["path"]))
     return arts, copies

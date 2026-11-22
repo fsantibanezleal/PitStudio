@@ -334,7 +334,7 @@ def frames_digest(frames: list[bytes]) -> str:
 
 
 def render_files(w: World, *, report_digest: str | None = None, label: str | None = RENDER_LABEL) -> None:
-    """The --from folder of the render job: the ovrtx manifest, the encode report, the pair, the poster and the stills."""
+    """The --from folder of the render job: ovrtx manifest, encode report, the pair, the poster and the stills."""
     manifest = {
         "kind": "render",
         "schema_version": "1.0",
@@ -408,7 +408,7 @@ def render_spec() -> dict:
         },
         "stages": [
             {
-                "id": "rtx_render",
+                "id": "st52_rtx_render",
                 "tool": "ovrtx",
                 "outputs": [
                     {
@@ -525,7 +525,7 @@ def test_import_run_render_records_a_valid_run_with_the_render_label_and_no_timi
     assert [s["tool"] for s in m["stages"]] == ["ovrtx", "nvenc-ffmpeg"]
     notes = " | ".join(m["notes"])
     assert RENDER_LABEL in notes and LABEL in notes and "a1-bingham" in notes
-    assert "started" not in notes and "ended" not in notes and "GPU-hours" not in notes.replace("withheld", "")
+    assert "started" not in notes and "ended" not in notes and "GPU-hours" not in notes
     assert all(s["wall_s"] == 0.0 and s["attempts"][0]["duration_s"] == 0.0 for s in m["stages"])
     imp = json.loads((world.runs()[0] / "import.json").read_text(encoding="utf-8"))
     assert imp["all_cases"] is True and imp["partial"] is False
@@ -636,6 +636,8 @@ def test_import_run_render_a_newer_run_is_listed_after_the_older_one_in_the_web_
 
     render_world(world)
     run_id, _, web = published_render(world)
+    git(world.repo, "add", "-A")
+    git(world.repo, "commit", "-q", "-m", "first render published")  # a run is only published from a clean tree
     log = world.queue / f"{RENDER_JOB}.log"
     os.utime(log, (1_795_090_000, 1_795_090_000))  # one day later: a second render of the same recipe
     assert run_job(world, RENDER_JOB, render_spec())[0] == 0
@@ -645,3 +647,33 @@ def test_import_run_render_a_newer_run_is_listed_after_the_older_one_in_the_web_
     idx = json.loads((web / "assets" / "manifest.json").read_text(encoding="utf-8"))
     assert [r["run_id"] for r in idx["runs"]] == [run_id, newer]
     assert {a["run_id"] for a in idx["artefacts"] if a["id"] == "demo-flyover-render"} == {run_id, newer}
+
+
+def test_manifest_contract_accepts_a_render_recipe_and_nothing_wider() -> None:
+    """Contract change of publish-render-2026-11-22 (ADR-0039): a run recipe may live under studio/recipes/render/."""
+    ok = {"id": "bingham-flyover", "path": "render/bingham-flyover.yaml", "sha256": "a" * 64}
+    ref = "#/$defs/run/properties/recipe"
+    assert first_errors("manifest", ok, ref, n=1) == []
+    for path in ("cases/a1-scene.yaml", "_bench/b.yaml"):
+        assert first_errors("manifest", {**ok, "path": path}, ref, n=1) == []
+    for path in (
+        "other/x.yaml",
+        "render/../x.yaml",
+        "render/a/b.yaml",
+        "render/x.txt",
+        "/render/x.yaml",
+        "renders/x.yaml",
+    ):
+        assert first_errors("manifest", {**ok, "path": path}, ref, n=1), path
+    spec_copy = ROOT / "specs" / "001-contracts" / "contracts" / "manifest.schema.json"
+    assert spec_copy.read_bytes() == (ROOT / "contracts" / "manifest.schema.json").read_bytes()
+
+
+def test_import_run_render_labels_the_run_partial_when_the_recipe_changed_since_the_render(world: World) -> None:
+    spec = render_world(world)
+    doc = json.loads((world.src / "render.manifest.json").read_text(encoding="utf-8"))
+    doc["recipe"] = {"id": "demo-flyover", "path": "render/demo.yaml", "sha256": "f" * 64}
+    (world.src / "render.manifest.json").write_text(json.dumps(doc), encoding="utf-8")
+    assert run_job(world, RENDER_JOB, spec)[0] == 0
+    notes = " | ".join(manifest_of(world)["notes"])
+    assert "partial" in notes and "recipe render/demo.yaml changed since the render" in notes
