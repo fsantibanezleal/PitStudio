@@ -150,7 +150,8 @@ def test_small_layers_are_usda_text_with_prims_in_sorted_path_order(scene) -> No
         path = folder / rel
         assert path.read_bytes().startswith(b"#usda 1.0"), rel  # text layer, not crate
         assert path.stat().st_size <= 10_000_000
-        _check_sorted(Sdf.Layer.FindOrOpen(str(path)).pseudoRoot)
+        layer = Sdf.Layer.FindOrOpen(str(path))  # keep a reference: the pseudo root goes dormant when the layer is released
+        _check_sorted(layer.pseudoRoot)
 
 
 @pytest.mark.req("FR-004-30")
