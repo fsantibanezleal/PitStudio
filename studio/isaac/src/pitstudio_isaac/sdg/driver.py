@@ -17,6 +17,7 @@ import json
 import os
 import shutil
 import time
+import traceback
 from collections.abc import Callable, Iterator, Mapping, Sequence
 from datetime import UTC, datetime
 from pathlib import Path
@@ -158,11 +159,17 @@ def run(
     log(f"[sdg] {len(rows)} rows, {len(rows) - len(pending)} done, {len(pending)} pending")
     while pending and (limit is None or rendered < limit):
         with session() as guard:
-            renderer = renderer_factory()
+            try:
+                renderer = renderer_factory()
+            except BaseException:
+                log(f"[sdg] the renderer failed to start\n{traceback.format_exc()}")
+                raise
+            current: str | None = None
             try:
                 for row in pending:
                     if limit is not None and rendered >= limit:
                         break
+                    current = row["record_id"]
                     out = frame_dir(root, row["record_id"])
                     record, measured = renderer.render_row(row, out)
                     write_sidecar(root, row, record, measured)
@@ -182,6 +189,10 @@ def run(
                         log(f"[sdg] {rendered} frames this run, {rate:.2f} frames/s, {len(pending) - rendered} to go")
                     if guard is not None and guard.check() == "cooldown":
                         break
+            except BaseException:
+                # The Isaac renderer closes with a fast shutdown that ends the process: report before closing.
+                log(f"[sdg] render block failed at {current} after {rendered} frames\n{traceback.format_exc()}")
+                raise
             finally:
                 renderer.close()
         pending = _pending(root, rows)
