@@ -95,7 +95,7 @@ def resolve_paths(data: Path, *, dry_run: bool, table_dir: str | None, out_root:
 
 def main(argv: list[str] | None = None) -> int:
     """`--dry-run` asserts CUDA, checks the inputs and renders the tiny table of `--table-dir` with the CPU renderer."""
-    from pitstudio_isaac.sdg import driver
+    from pitstudio_isaac.sdg import driver, exposure
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
@@ -166,6 +166,7 @@ def main(argv: list[str] | None = None) -> int:
         renderer_factory=lambda: SdgRenderer(scene_dir, textures),
         session=session,
         limit=args.limit,
+        run_info={"render_settings": exposure.describe()},
     )
     print(f"[sdg] rendered {result}")
     return 0 if result["remaining"] == 0 or args.limit is not None else 1

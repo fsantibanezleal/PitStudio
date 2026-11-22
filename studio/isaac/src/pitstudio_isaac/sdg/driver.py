@@ -189,10 +189,17 @@ def preflight(root: Path, pending: int) -> None:
         raise OSError(f"{free / 1e9:.0f} GB free below {root}, need {need / 1e9:.0f} GB for {pending} frames")
 
 
-def _run_file(root: Path) -> None:
+def _run_file(root: Path, info: Mapping[str, Any] | None = None) -> None:
+    """Create `run.json` on the first run; every run records `info` (the render-settings model) in it."""
     path = Path(root) / RUN_FILE
-    if not path.is_file():
-        path.write_text(json.dumps({"started_utc": datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")}), encoding="utf-8")
+    doc: dict[str, Any] = {}
+    if path.is_file():
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    else:
+        doc = {"started_utc": datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")}
+    if not path.is_file() or (info and any(doc.get(k) != v for k, v in info.items())):
+        doc.update(info or {})
+        path.write_text(json.dumps(doc), encoding="utf-8")
 
 
 def _pending(root: Path, rows: Sequence[Mapping[str, Any]], probe_first: bool = True) -> list[Mapping[str, Any]]:
@@ -223,6 +230,7 @@ def run(
     session: Callable[[], contextlib.AbstractContextManager[Any]],
     log: Callable[[str], None] = lambda m: print(m, flush=True),
     limit: int | None = None,
+    run_info: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Render the pending rows in guarded blocks; returns the counts. `session()` yields the guard under the GPU lock.
 
@@ -237,7 +245,7 @@ def run(
         pending = _pending(root, rows)
     window = QualityWindow()
     preflight(root, len(pending))
-    _run_file(root)
+    _run_file(root, run_info)
     (root / RESULT_FILE).unlink(missing_ok=True)  # a result of an earlier run never stands for this one
     rendered = 0
     probe: list[Mapping[str, Any]] = []

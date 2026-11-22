@@ -18,11 +18,12 @@ from typing import Any
 
 import numpy as np
 
+from pitstudio_isaac.sdg import exposure
 from pitstudio_isaac.sdg.masks import external_polygons
 from pitstudio_isaac.sdg.render import CATEGORIES, CATEGORY_IDS, _entry, _start_isaac
 
 NOMINAL_SUN_INTENSITY = 3000.0  # the sun of the scene's lights layer
-NOMINAL_DOME_INTENSITY = 800.0
+NOMINAL_DOME_INTENSITY = 800.0 * exposure.DOME_FILL_GAIN  # the scene's dome (800) with the measured fill gain
 STRUCTURED_SUN_TEMPERATURE_K = 5800.0
 DUST_COLOUR = (0.55, 0.49, 0.40)
 MIN_INSTANCE_PX = 16  # smaller instances are counted in the frame state but get no annotation
@@ -34,6 +35,7 @@ DEACTIVATE = ("/World/Fleet", "/World/People")
 TEXTURE_SCALE = 1.0 / 8.0  # triplanar world-space mapping: one texture tile per 8 m
 # The composed scene binds no material (its materials layer is not in the layer stack), so the job binds two
 # triplanar textured materials: `rock` on the terrain, benches and berms, `gravel` on the roads, ramp and windrows.
+RT_SUBFRAMES = 64  # path-tracing subframes per capture: 16 left up to 22 levels of history dependence (probes)
 CAPTURE_ATTEMPTS = 8  # steps tried per frame before the annotators count as empty (the first step after start is empty)
 BINDINGS = {
     "rock": ("/World/Terrain", "/World/Design/Benches", "/World/Design/Berms"),
@@ -297,6 +299,10 @@ class SdgRenderer:
         self._carb: Any = None
         self._rep: Any = None
         self._annotators: dict[str, Any] = {}
+        self.settings_fn: Callable[[Mapping[str, Any]], Mapping[str, Any]] | None = None  # row -> RTX settings (probes)
+        self.settle_updates = 0  # extra `app.update()` calls after the scene edits of a row (probes)
+        self.rt_subframes = RT_SUBFRAMES
+        self.warmup_steps = 0  # extra renderer steps per row before the capture (probes)
         self._start()
 
     # -- start-up ------------------------------------------------------------------------------------------------
@@ -491,14 +497,6 @@ class SdgRenderer:
         self._dome.GetIntensityAttr().Set(float(light["dome_intensity"]))
         self._dome.GetEnableColorTemperatureAttr().Set(True)
         self._dome.GetColorTemperatureAttr().Set(float(light["temperature_k"]))
-        if self._carb is None:
-            return  # the stage self-check has no renderer settings
-        settings = self._carb.settings.get_settings()
-        fog = float(light["fog_per_m"])
-        settings.set("/rtx/fog/enabled", fog > 0.0)
-        if fog > 0.0:
-            settings.set("/rtx/fog/fogDensity", fog)
-            settings.set("/rtx/fog/color", DUST_COLOUR)
 
     def _apply_camera(self, camera: Mapping[str, Any]) -> None:
         from pxr import Gf
@@ -526,14 +524,30 @@ class SdgRenderer:
             self._place_distractors(row)
         self._apply_light(light_for_row(row))
         self._apply_camera(row["camera"])
+        self._apply_render_settings(row)
+
+    def _apply_render_settings(self, row: Mapping[str, Any]) -> dict[str, Any]:
+        """Set the RTX exposure and fog settings of a row (a function of the row only); returns what was set."""
+        if self._carb is None:
+            return {}  # the stage self-check has no renderer settings
+        values = dict((self.settings_fn or exposure.render_settings)(row))
+        settings = self._carb.settings.get_settings()
+        for path, value in values.items():
+            settings.set(path, value)
+        self.last_settings = values
+        return values
 
     def render_row(self, row: Mapping[str, Any], out_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
         """Render one row below `out_dir`: its DC-009-01 record (paths relative to `out_dir`) and what was measured."""
         self._compose_frame(row)
+        for _ in range(self.settle_updates):
+            self._app.update()
+        for _ in range(self.warmup_steps):
+            self._rep.orchestrator.step(delta_time=0.0, rt_subframes=self.rt_subframes, pause_timeline=False)
         height = int(row["camera"]["height_px"])
         width = int(row["camera"]["width_px"])
         rgb, depth, seg = capture_until_ready(
-            lambda: self._rep.orchestrator.step(delta_time=0.0, rt_subframes=16, pause_timeline=False),
+            lambda: self._rep.orchestrator.step(delta_time=0.0, rt_subframes=self.rt_subframes, pause_timeline=False),
             lambda: (
                 np.asarray(self._annotators["rgb"].get_data()),
                 np.asarray(self._annotators["distance_to_image_plane"].get_data(), dtype=np.float32),
@@ -545,7 +559,15 @@ class SdgRenderer:
         id_to_path = instance_paths(
             seg["info"]["idToLabels"], seg["info"].get("idToSemantics", {}), set(CATEGORY_IDS), present, row["objects"]
         )
-        return write_frame(row, Path(out_dir), rgb, depth.reshape(height, width), np.asarray(seg["data"]), id_to_path)
+        record, measured = write_frame(
+            row, Path(out_dir), rgb, depth.reshape(height, width), np.asarray(seg["data"]), id_to_path
+        )
+        used = self.last_settings
+        measured["render_settings"] = {  # in the measured block of the sidecar, never in the DC-009-01 record
+            "film_iso": used.get("/rtx/post/tonemap/filmIso"),
+            "fog_density_per_km": used.get("/rtx/fog/fogDistanceDensity", 0.0),
+        }
+        return record, measured
 
 
 def stage_selfcheck(scene_dir: Path, textures: Mapping[str, Path], rows: Sequence[Mapping[str, Any]]) -> dict[str, int]:
