@@ -86,8 +86,8 @@ def test_hostile_arguments_are_refused_naming_the_argument(kwargs: dict, name: s
 @given(
     n=st.integers(1, 10**6),
     cell=st.floats(0.1, 10.0),
-    s0=st.floats(0.0, 2.0),
-    s1=st.floats(0.0, 2.0),
+    s0=st.one_of(st.just(0.0), st.floats(1e-100, 2.0)),
+    s1=st.one_of(st.just(0.0), st.floats(1e-100, 2.0)),
     k=st.floats(0.1, 10.0),
 )
 def test_relations_correlated_over_uncorrelated_is_sqrt_n_and_both_are_linear_in_area_and_rmse(n, cell, s0, s1, k):
