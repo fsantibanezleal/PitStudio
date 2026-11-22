@@ -54,6 +54,8 @@ export interface BuiltWithInput {
   usedTools: ReadonlySet<string>;
   /** Method ids a published result of this case used. */
   usedMethods: ReadonlySet<string>;
+  /** Tool ids of the published render shown on every case page (FR-018-73): used by the page, whatever the case lists. */
+  renderTools?: readonly string[];
   lang: Lang;
   caseId?: string;
 }
@@ -62,7 +64,9 @@ export function deriveBuiltWith(i: BuiltWithInput): BuiltGroups {
   const byId = new Map(i.tools.map((t) => [t.id, t]));
   const nvidia = new Set(NVIDIA_TOOL_IDS);
   const groups: BuiltGroups = { omniverse: [], frameworks: [], methods: [], data: [] };
-  for (const id of Object.keys(i.entry.tools)) {
+  const render = new Set(i.renderTools ?? []);
+  const toolIds = [...Object.keys(i.entry.tools), ...[...render].filter((id) => !(id in i.entry.tools))];
+  for (const id of toolIds) {
     const t = byId.get(id);
     if (!t) continue;
     const item: BuiltItem = {
@@ -72,7 +76,7 @@ export function deriveBuiltWith(i: BuiltWithInput): BuiltGroups {
       licence: t.licence,
       href: `/studio/tools/${id}/`,
       nvidia: nvidia.has(id),
-      status: i.usedTools.has(id) ? "used" : "planned",
+      status: i.usedTools.has(id) || render.has(id) ? "used" : "planned",
     };
     groups[item.nvidia ? "omniverse" : "frameworks"].push(item);
   }

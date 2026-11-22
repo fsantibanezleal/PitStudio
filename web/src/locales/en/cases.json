@@ -37,6 +37,30 @@
     "summary": "Visible layers: {{layers}}",
     "noLayers": "none"
   },
+  "render": {
+    "title": "Rendered scene",
+    "pending": "No RTX render is published yet.",
+    "play": "Play the flyover",
+    "posterAlt": "Poster frame of the rendered flyover",
+    "stills": "Frames of the flyover",
+    "stillAt": "Flyover, {{t}}",
+    "stillAlt": "Frame of the rendered flyover at {{t}}",
+    "unavailable": "Video not available in this browser. The poster and the stills are the published frames.",
+    "failed": "The video could not be loaded. The poster and the stills are the published frames.",
+    "state": {
+      "idle": "loads when you play",
+      "loading": "loading",
+      "playing": "playing",
+      "unavailable": "unavailable",
+      "failed": "not loaded",
+      "integrity": "blocked"
+    },
+    "role": {
+      "openusd": "composed scene (spec 004)",
+      "ovrtx": "RTX path tracing",
+      "nvenc-ffmpeg": "AV1 and H.264 encoding"
+    }
+  },
   "tier": {
     "label": "Compute tier",
     "detecting": "Detecting",

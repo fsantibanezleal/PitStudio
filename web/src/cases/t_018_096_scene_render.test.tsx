@@ -9,7 +9,7 @@ import { describe, expect, it, vi } from "vitest";
 import { loadCaseRegistry } from "~/test-support/fixtures";
 import { renderApp } from "~/test-support/render";
 import { deriveBuiltWith, type ToolInfo } from "./builtWith";
-import { type RenderModel, readRender, renderCandidates } from "./sceneRender";
+import { type RenderModel, readRender, renderCandidates } from "./renderSummary";
 import { SceneRender } from "./SceneRender";
 import type { ArtefactRecord, CaseEntry } from "./types";
 
@@ -49,11 +49,11 @@ function video(id: string, run: string, codec: "av1" | "h264", bytes: number, sh
   });
 }
 
-function published(run: string, bytes = new Uint8Array([1, 2, 3, 4])): ArtefactRecord[] {
+function published(run: string, size = 4): ArtefactRecord[] {
   return [
     art("bingham-flyover-render", run, { kind: "table", path: `assets/${run}/render.json` }),
-    video("bingham-flyover-av1", run, "av1", bytes.length, SHA("a")),
-    video("bingham-flyover-h264", run, "h264", bytes.length, SHA("b")),
+    video("bingham-flyover-av1", run, "av1", size, SHA("a")),
+    video("bingham-flyover-h264", run, "h264", size, SHA("b")),
     art("bingham-flyover-poster", run, { path: `assets/${run}/bingham-flyover.webp` }),
     art("bingham-flyover-still-0s", run, { path: `assets/${run}/flyover-0s.webp` }),
     art("bingham-flyover-still-10s", run, { path: `assets/${run}/flyover-10s.webp` }),
@@ -67,7 +67,10 @@ function summary(run: string, over: Record<string, unknown> = {}): Record<string
     kind: "render-summary",
     run_id: run,
     label: LABEL,
-    title: { en: "Bingham Canyon flyover, rendered with NVIDIA Omniverse RTX", es: "Sobrevuelo de Bingham Canyon" },
+    title: {
+      en: "Bingham Canyon flyover, rendered with NVIDIA Omniverse RTX",
+      es: "Sobrevuelo de Bingham Canyon",
+    },
     producer: { tool: "ovrtx", version: "0.5.0.377615" },
     scene: { id: "a1-bingham" },
     built_with: ["openusd", "ovrtx", "nvenc-ffmpeg"],
@@ -94,8 +97,8 @@ const tools: ToolInfo[] = [
   { id: "nvenc-ffmpeg", name: "NVENC / FFmpeg", version: "8.1.3", licence: "LGPL-2.1-or-later" },
 ];
 
-function model(run = RUN, bytes?: Uint8Array): RenderModel {
-  const arts = published(run, bytes);
+function model(run = RUN, size?: number): RenderModel {
+  const arts = published(run, size);
   const m = readRender(summary(run), arts, arts[0] as ArtefactRecord);
   expect(m).not.toBeNull();
   return m as RenderModel;
@@ -131,7 +134,7 @@ describe("FR-018-73 reading a published render summary", () => {
       ["av1", 1080],
       ["h264", 720],
     ]);
-    expect(m.video?.poster?.path).toBe(`assets/${RUN}/bingham-flyover.webp`);
+    expect(m.poster?.path).toBe(`assets/${RUN}/bingham-flyover.webp`);
     expect(m.stills.map((s) => s.tS)).toEqual([0, 10, 20]);
     expect(m.stills.map((s) => s.artefact.path)).toEqual([
       `assets/${RUN}/flyover-0s.webp`,
@@ -144,6 +147,7 @@ describe("FR-018-73 reading a published render summary", () => {
     const arts = published(RUN).filter((a) => a.kind !== "video");
     const m = readRender(summary(RUN), arts, arts[0] as ArtefactRecord);
     expect(m?.video).toBeNull();
+    expect(m?.poster?.id).toBe("bingham-flyover-poster");
     expect(m?.stills).toHaveLength(3);
   });
 
@@ -179,7 +183,9 @@ const no = { supported: false, smooth: false, powerEfficient: false };
 
 function caps(av1: unknown, h264: unknown) {
   return {
-    decodingInfo: vi.fn(async (c: { video: { contentType: string } }) => (c.video.contentType.includes("av01") ? av1 : h264)),
+    decodingInfo: vi.fn(async (c: { video: { contentType: string } }) =>
+      c.video.contentType.includes("av01") ? av1 : h264,
+    ),
   };
 }
 
@@ -190,9 +196,12 @@ async function sha256(bytes: Uint8Array): Promise<string> {
 
 async function serving(bytes: Uint8Array) {
   const sha = await sha256(bytes);
-  const m = model(RUN, bytes);
-  for (const f of m.video?.files ?? []) m.video!.sha256ByPath[f.path] = sha;
-  const fetchImpl = vi.fn(async () => new Response(bytes as BodyInit, { status: 200 }));
+  const m = model(RUN, bytes.length);
+  const { video } = m;
+  for (const f of video?.files ?? []) if (video) video.sha256ByPath[f.path] = sha;
+  const fetchImpl = vi.fn(
+    async (_input: RequestInfo | URL) => new Response(bytes as BodyInit, { status: 200 }),
+  );
   return { m, fetchImpl: fetchImpl as unknown as typeof fetch, calls: fetchImpl };
 }
 
@@ -207,7 +216,14 @@ function stubMedia() {
 describe("FR-018-73 the section on a case page", () => {
   it("shows the poster and the stills at once, the label in place and the tools, and loads no video before a click", async () => {
     const { m, fetchImpl, calls } = await serving(new Uint8Array([9, 9, 9]));
-    await renderApp(<SceneRender state={{ status: "ready", model: m }} tools={tools} fetchImpl={fetchImpl} mediaCapabilities={caps(yes, yes)} />);
+    await renderApp(
+      <SceneRender
+        state={{ status: "ready", model: m }}
+        tools={tools}
+        fetchImpl={fetchImpl}
+        mediaCapabilities={caps(yes, yes)}
+      />,
+    );
     const section = screen.getByTestId("scene-render");
     const el = section.querySelector("video") as HTMLVideoElement;
     expect(el.getAttribute("preload")).toBe("none");
@@ -217,10 +233,12 @@ describe("FR-018-73 the section on a case page", () => {
     expect(within(section).getAllByRole("img")).toHaveLength(3);
     expect(section.querySelector("[data-producer='render']")?.textContent).toContain(LABEL);
     expect(section.querySelector("[data-producer='render']")?.textContent).toContain("0.5.0.377615");
-    for (const fig of section.querySelectorAll("figure[data-still]")) expect(fig.textContent).toContain(LABEL);
+    for (const fig of section.querySelectorAll("figure[data-still]"))
+      expect(fig.textContent).toContain(LABEL);
     expect(["0 s", "10 s", "20 s"].every((t) => section.textContent?.includes(t))).toBe(true);
     const built = within(section).getByTestId("render-built-with");
-    for (const id of ["openusd", "ovrtx", "nvenc-ffmpeg"]) expect(built.querySelector(`[data-chip='${id}']`)).not.toBeNull();
+    for (const id of ["openusd", "ovrtx", "nvenc-ffmpeg"])
+      expect(built.querySelector(`[data-chip='${id}']`)).not.toBeNull();
     expect(built.querySelector("[data-chip='ovrtx']")?.getAttribute("data-nvidia")).toBe("true");
     expect(calls).not.toHaveBeenCalled();
   });
@@ -228,20 +246,34 @@ describe("FR-018-73 the section on a case page", () => {
   it("loads the AV1 file after a click when the browser decodes it efficiently, and plays it without autoplay before", async () => {
     const play = stubMedia();
     const { m, fetchImpl, calls } = await serving(new Uint8Array([1, 2, 3]));
-    await renderApp(<SceneRender state={{ status: "ready", model: m }} tools={tools} fetchImpl={fetchImpl} mediaCapabilities={caps(yes, yes)} />);
+    await renderApp(
+      <SceneRender
+        state={{ status: "ready", model: m }}
+        tools={tools}
+        fetchImpl={fetchImpl}
+        mediaCapabilities={caps(yes, yes)}
+      />,
+    );
     expect(play).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole("button", { name: /play/i }));
     await waitFor(() => expect(calls).toHaveBeenCalledTimes(1));
     expect(String(calls.mock.calls[0]?.[0])).toMatch(/bingham-flyover-av1\.mp4$/);
     await waitFor(() => expect(play).toHaveBeenCalled());
-    expect(screen.getByTestId("scene-render").querySelector("video")?.getAttribute("src")).toBe("blob:render");
+    expect(screen.getByTestId("scene-render").querySelector("video")?.getAttribute("src")).toBe(
+      "blob:render",
+    );
   });
 
   it("falls back to the H.264 file when AV1 is not power efficient", async () => {
     stubMedia();
     const { m, fetchImpl, calls } = await serving(new Uint8Array([1, 2, 3]));
     await renderApp(
-      <SceneRender state={{ status: "ready", model: m }} tools={tools} fetchImpl={fetchImpl} mediaCapabilities={caps({ ...yes, powerEfficient: false }, yes)} />,
+      <SceneRender
+        state={{ status: "ready", model: m }}
+        tools={tools}
+        fetchImpl={fetchImpl}
+        mediaCapabilities={caps({ ...yes, powerEfficient: false }, yes)}
+      />,
     );
     fireEvent.click(screen.getByRole("button", { name: /play/i }));
     await waitFor(() => expect(calls).toHaveBeenCalledTimes(1));
@@ -251,7 +283,14 @@ describe("FR-018-73 the section on a case page", () => {
   it("says so, with the poster and the stills intact, when the browser decodes neither file or the download fails", async () => {
     stubMedia();
     const { m, fetchImpl, calls } = await serving(new Uint8Array([1]));
-    const first = await renderApp(<SceneRender state={{ status: "ready", model: m }} tools={tools} fetchImpl={fetchImpl} mediaCapabilities={caps(no, no)} />);
+    const first = await renderApp(
+      <SceneRender
+        state={{ status: "ready", model: m }}
+        tools={tools}
+        fetchImpl={fetchImpl}
+        mediaCapabilities={caps(no, no)}
+      />,
+    );
     fireEvent.click(screen.getByRole("button", { name: /play/i }));
     expect((await screen.findByRole("status")).textContent).toMatch(/not available in this browser/i);
     expect(calls).not.toHaveBeenCalled();
@@ -259,7 +298,14 @@ describe("FR-018-73 the section on a case page", () => {
     const failing = vi.fn(async () => {
       throw new Error("offline");
     }) as unknown as typeof fetch;
-    await renderApp(<SceneRender state={{ status: "ready", model: m }} tools={tools} fetchImpl={failing} mediaCapabilities={caps(yes, yes)} />);
+    await renderApp(
+      <SceneRender
+        state={{ status: "ready", model: m }}
+        tools={tools}
+        fetchImpl={failing}
+        mediaCapabilities={caps(yes, yes)}
+      />,
+    );
     fireEvent.click(screen.getByRole("button", { name: /play/i }));
     expect((await screen.findByRole("status")).textContent).toMatch(/could not be loaded/i);
     const section = screen.getByTestId("scene-render");
@@ -270,8 +316,16 @@ describe("FR-018-73 the section on a case page", () => {
   it("refuses a file whose SHA-256 differs from the manifest", async () => {
     stubMedia();
     const { m, fetchImpl } = await serving(new Uint8Array([1, 2, 3]));
-    for (const f of m.video?.files ?? []) (m.video as NonNullable<RenderModel["video"]>).sha256ByPath[f.path] = SHA("0");
-    await renderApp(<SceneRender state={{ status: "ready", model: m }} tools={tools} fetchImpl={fetchImpl} mediaCapabilities={caps(yes, yes)} />);
+    for (const f of m.video?.files ?? [])
+      (m.video as NonNullable<RenderModel["video"]>).sha256ByPath[f.path] = SHA("0");
+    await renderApp(
+      <SceneRender
+        state={{ status: "ready", model: m }}
+        tools={tools}
+        fetchImpl={fetchImpl}
+        mediaCapabilities={caps(yes, yes)}
+      />,
+    );
     fireEvent.click(screen.getByRole("button", { name: /play/i }));
     expect((await screen.findByRole("status")).textContent).toMatch(/integrity check failed/i);
     expect(screen.getByTestId("scene-render").querySelector("video")?.hasAttribute("src")).toBe(false);
@@ -283,7 +337,9 @@ describe("FR-018-73 the section on a case page", () => {
     const section = screen.getByTestId("scene-render");
     expect(within(section).queryByRole("button", { name: /play/i })).toBeNull();
     expect(section.querySelector("video")).toBeNull();
-    expect(within(section).getAllByRole("img").length).toBe(3);
+    const imgs = within(section).getAllByRole("img");
+    expect(imgs).toHaveLength(4); // the poster and the three stills
+    expect(imgs[0]?.getAttribute("src")).toMatch(/bingham-flyover\.webp$/);
     expect(section.querySelector("[data-producer='render']")?.textContent).toContain(LABEL);
   });
 
@@ -296,7 +352,9 @@ describe("FR-018-73 the section on a case page", () => {
   });
 
   it("is translated: the Spanish section has its own title and no English control label", async () => {
-    await renderApp(<SceneRender state={{ status: "ready", model: model() }} tools={tools} />, { lang: "es" });
+    await renderApp(<SceneRender state={{ status: "ready", model: model() }} tools={tools} />, {
+      lang: "es",
+    });
     const section = screen.getByTestId("scene-render");
     expect(section.querySelector("h2")?.textContent).not.toMatch(/rendered scene/i);
     expect(within(section).getByRole("button").textContent).not.toMatch(/play the flyover/i);
@@ -318,7 +376,8 @@ describe("FR-018-72 and FR-018-73 the render tools in Built with", () => {
       lang: "en",
       renderTools: ["openusd", "ovrtx", "nvenc-ffmpeg", "not-a-tool"],
     });
-    const used = (list: { id: string; status: string }[], id: string) => list.find((i) => i.id === id)?.status;
+    const used = (list: { id: string; status: string }[], id: string) =>
+      list.find((i) => i.id === id)?.status;
     expect(used(g.omniverse, "ovrtx")).toBe("used");
     expect(used(g.omniverse, "openusd")).toBe("used");
     expect(used(g.frameworks, "nvenc-ffmpeg")).toBe("used");
@@ -327,11 +386,21 @@ describe("FR-018-72 and FR-018-73 the render tools in Built with", () => {
   });
 
   it("lists a tool once when the case already names it, and without render tools nothing changes", () => {
-    const base = { entry, tools, methods, usedTools: new Set<string>(), usedMethods: new Set<string>(), lang: "en" as const };
+    const named = Object.keys(entry.tools)[0] as string;
+    const all = [...tools, { id: named, name: "Named", version: null, licence: null }];
+    const base = {
+      entry,
+      tools: all,
+      methods,
+      usedTools: new Set<string>(),
+      usedMethods: new Set<string>(),
+      lang: "en" as const,
+    };
     const plain = deriveBuiltWith(base);
     const same = deriveBuiltWith({ ...base, renderTools: [] });
     expect(same).toEqual(plain);
     const first = [...plain.omniverse, ...plain.frameworks][0]?.id as string;
+    expect(first).toBe(named);
     const again = deriveBuiltWith({ ...base, renderTools: [first] });
     expect([...again.omniverse, ...again.frameworks].filter((i) => i.id === first)).toHaveLength(1);
   });

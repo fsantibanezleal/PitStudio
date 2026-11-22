@@ -37,6 +37,30 @@
     "summary": "Capas visibles: {{layers}}",
     "noLayers": "ninguna"
   },
+  "render": {
+    "title": "Escena renderizada",
+    "pending": "Aún no hay un render RTX publicado.",
+    "play": "Reproducir el sobrevuelo",
+    "posterAlt": "Fotograma de portada del sobrevuelo renderizado",
+    "stills": "Fotogramas del sobrevuelo",
+    "stillAt": "Sobrevuelo, {{t}}",
+    "stillAlt": "Fotograma del sobrevuelo renderizado a los {{t}}",
+    "unavailable": "Video no disponible en este navegador. La portada y los fotogramas son los publicados.",
+    "failed": "No se pudo cargar el video. La portada y los fotogramas son los publicados.",
+    "state": {
+      "idle": "se carga al reproducir",
+      "loading": "cargando",
+      "playing": "reproduciendo",
+      "unavailable": "no disponible",
+      "failed": "sin cargar",
+      "integrity": "bloqueado"
+    },
+    "role": {
+      "openusd": "escena compuesta (spec 004)",
+      "ovrtx": "trazado de rayos RTX",
+      "nvenc-ffmpeg": "codificación AV1 y H.264"
+    }
+  },
   "tier": {
     "label": "Nivel de cómputo",
     "detecting": "Detectando",

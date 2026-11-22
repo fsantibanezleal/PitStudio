@@ -15,6 +15,8 @@ import {
 } from "./builtWith";
 import styles from "./cases.module.css";
 import { type PublishedCase, type PublishedResult, usePublishedResults } from "./publishedResults";
+import { useRenderSummary } from "./renderSummary";
+import { SceneRender } from "./SceneRender";
 import type { ArtefactRecord, CaseEntry, Lang } from "./types";
 import { pick } from "./types";
 
@@ -165,6 +167,8 @@ export function CaseStory({
   const { t, i18n } = useTranslation("cases");
   const lang: Lang = i18n.resolvedLanguage === "es" ? "es" : "en";
   const published: PublishedCase = usePublishedResults(caseId, artefacts, ready);
+  const render = useRenderSummary(caseId, artefacts, ready);
+  const renderTools = render.model?.builtWith;
   const groups = useMemo(
     () =>
       deriveBuiltWith({
@@ -173,10 +177,11 @@ export function CaseStory({
         methods: methodInfos,
         usedTools: published.usedTools,
         usedMethods: published.usedMethods,
+        renderTools,
         lang,
         caseId,
       }),
-    [entry, published, lang, caseId],
+    [entry, published, renderTools, lang, caseId],
   );
   const value = useMemo<Attribution>(() => {
     const words = { used: t("builtWith.usedSentence"), planned: t("builtWith.plannedSentence") };
@@ -208,6 +213,7 @@ export function CaseStory({
           ))}
         </section>
       )}
+      <SceneRender state={render} tools={toolInfos} />
       {children}
     </AttributionContext.Provider>
   );

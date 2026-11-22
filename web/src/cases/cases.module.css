@@ -482,3 +482,27 @@
   margin: 0.125rem 0;
   font-size: 0.8125rem;
 }
+
+.renderFigure {
+  margin: 0;
+}
+
+.stills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stills figure {
+  margin: 0;
+}
+
+.stills img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--surface-2);
+}
