@@ -86,6 +86,24 @@ def _dig(doc: Any, path: list[str]) -> Any:
     return doc
 
 
+def _gpu_hours(g: dict | None, src: Path) -> float | None:
+    """GPU-hours from the job's own files: the value at `path` of `file` (or summed over `files`), over `divide`."""
+    if not g:
+        return None
+    try:
+        vals = [
+            _dig(json.loads((src / f).read_text(encoding="utf-8")), g["path"]) for f in g.get("files", [g.get("file")])
+        ]
+    except OSError, ValueError, TypeError:
+        return None
+    if g.get("each"):
+        vals = [sum(x[g["each"]] for x in v) if isinstance(v, list) else None for v in vals]
+    vals = [v.get("gpu_hours") if isinstance(v, dict) else v for v in vals]
+    if not vals or not all(isinstance(v, int | float) for v in vals):
+        return None
+    return round(sum(vals) / g.get("divide", 1), 4)
+
+
 def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str | None = None) -> list[str]:
     """Write the run of a queue job into the store; every refusal is a `Usage` raised before the first write."""
     spec = load_spec(job, spec_file)
@@ -97,6 +115,22 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
     tools = {t["id"]: t for t in load_yaml(repo / "studio" / "tools.yaml", "tool registry")["tools"]}
     notes: list[str] = []
     partial: list[str] = []
+    facts, qmiss = queue_facts(job)
+    partial += qmiss
+    partial += spec.get("partial_reasons", [])
+    hours = _gpu_hours(spec.get("gpu_hours"), src)
+    if hours is None and (m := re.search(r"GPU hours ([0-9.]+)", facts.get("log_text", ""))):
+        hours = float(m[1])
+    if not isinstance(hours, int | float):
+        hours = None
+        partial.append("GPU-hours missing")
+    end = facts["end"] or datetime.now(UTC).replace(microsecond=0)
+    dur = facts["duration_s"] or 0
+    begin = end - timedelta(seconds=dur)
+    git_sha, dirty = git_state(repo)
+    rid = f"{end.strftime('%Y%m%dT%H%M%SZ')}-{spec['slug']}"
+    if (store_dir / "runs" / rid).exists():
+        raise Usage(f"run {rid} is already in the store")
     files: dict[str, Path] = {}
     derived: dict[str, bytes] = {}
     outs: dict[str, dict] = {}
@@ -108,7 +142,7 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
                 raise Usage(f"output {one_line(o['name'], 80)} is listed twice")
             if "derive" in o:
                 try:
-                    derived[o["name"]] = import_summaries.build(o["derive"], src)
+                    derived[o["name"]] = import_summaries.build(o["derive"], src, rid)
                 except import_summaries.Missing as e:
                     raise Usage(f"{o['name']}: {one_line(e)}") from None
                 data, path = derived[o["name"]], None
@@ -136,31 +170,11 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
             outs[o["name"]] = {**o, "stage": st["id"], "variant": st.get("variant"), "sha256": digest}
             if path is not None:
                 files[o["name"]] = path
-    bundles = {b["id"]: json.loads(import_summaries.build(b["derive"], src)) for b in spec.get("bundles", [])}
+    bundles = {b["id"]: json.loads(import_summaries.build(b["derive"], src, rid)) for b in spec.get("bundles", [])}
     for bid, doc in bundles.items():
         if errs := first_errors("results", doc, n=2):
             raise Usage(f"bundle {bid} is invalid: {'; '.join(errs)}")
 
-    facts, qmiss = queue_facts(job)
-    partial += qmiss
-    hours = None
-    if g := spec.get("gpu_hours"):
-        try:
-            hours = _dig(json.loads((src / g["file"]).read_text(encoding="utf-8")), g["path"])
-        except OSError, ValueError:
-            hours = None
-    if hours is None and (m := re.search(r"GPU hours ([0-9.]+)", facts.get("log_text", ""))):
-        hours = float(m[1])
-    if not isinstance(hours, int | float):
-        hours = None
-        partial.append("GPU-hours missing")
-    end = facts["end"] or datetime.now(UTC).replace(microsecond=0)
-    dur = facts["duration_s"] or 0
-    begin = end - timedelta(seconds=dur)
-    git_sha, dirty = git_state(repo)
-    rid = f"{end.strftime('%Y%m%dT%H%M%SZ')}-{spec['slug']}"
-    if (store_dir / "runs" / rid).exists():
-        raise Usage(f"run {rid} is already in the store")
     recipe = {"id": spec["slug"], "path": spec["recipe"], "sha256": ZERO}
     if recipe_path.is_file():
         recipe |= {
@@ -179,6 +193,12 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
         "contract, the stages were not launched by the runner",
         *spec.get("notes", []),
     ]
+    for other in spec.get("also_jobs", []):
+        of, om = queue_facts(other)
+        notes.append(
+            f"also job {other}; script sha256 {of['script'] or 'missing'}; log sha256 {of['log'] or 'missing'}"
+        )
+        partial += [f"job {other}: {x}" for x in om if "queue folder" not in x]
     if partial:
         notes.append(one_line("partial: " + "; ".join(partial), 300))
     store = Store(store_dir)

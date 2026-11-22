@@ -1,0 +1,139 @@
+{
+ "job": "11-unet-export-trt",
+ "case": "D1",
+ "recipe": "cases/d1.yaml",
+ "slug": "d1-unet-trtr-v2",
+ "seed": 20261004,
+ "label": "real images (Mendeley Data 78ht3pjsr4, CC BY 4.0); metrics only, no image is published",
+ "gpu_hours": {
+  "files": [
+   "fold0/result.json",
+   "fold1/result.json",
+   "fold2/result.json",
+   "fold3/result.json",
+   "fold4/result.json"
+  ],
+  "path": [
+   "train_s"
+  ],
+  "divide": 3600
+ },
+ "partial_reasons": [
+  "the five-fold training was not a queue job: job 11 is the export of fold 0 and supplies the script and log hashes"
+ ],
+ "notes": [
+  "TensorRT engines and latencies of job 11 stay local-only (licence); this run publishes the training metrics only."
+ ],
+ "stages": [
+  {
+   "id": "s30_train",
+   "variant": "unet-trtr",
+   "tool": "pytorch",
+   "outputs": [
+    {
+     "name": "summary.json",
+     "from": "summary.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "folds",
+      "mean",
+      "std"
+     ]
+    },
+    {
+     "name": "fold0-result.json",
+     "from": "fold0/result.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "test_fg_iou_mean",
+      "n_train"
+     ]
+    },
+    {
+     "name": "fold1-result.json",
+     "from": "fold1/result.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "test_fg_iou_mean",
+      "n_train"
+     ]
+    },
+    {
+     "name": "fold2-result.json",
+     "from": "fold2/result.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "test_fg_iou_mean",
+      "n_train"
+     ]
+    },
+    {
+     "name": "fold3-result.json",
+     "from": "fold3/result.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "test_fg_iou_mean",
+      "n_train"
+     ]
+    },
+    {
+     "name": "fold4-result.json",
+     "from": "fold4/result.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "test_fg_iou_mean",
+      "n_train"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s50_evaluate",
+   "tool": "pitstudio",
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "derive": "d1-summary",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "media_type": "application/json",
+     "licence_class": "attribution",
+     "spdx": "CC-BY-4.0",
+     "id": "d1-unet-trtr-results",
+     "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+    }
+   ]
+  }
+ ],
+ "bundles": [
+  {
+   "id": "d1-unet-trtr-iou",
+   "derive": "d1-bundle"
+  }
+ ]
+}

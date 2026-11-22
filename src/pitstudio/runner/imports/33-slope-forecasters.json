@@ -1,0 +1,109 @@
+{
+ "job": "33-slope-forecasters",
+ "case": "C1",
+ "recipe": "cases/c1.yaml",
+ "slug": "c1-slope-forecasters",
+ "seed": 20261012,
+ "label": "calibrated synthetic, not validated against real data: Voight-synthesised events at nominal signal-to-noise, no observed SNR",
+ "gpu_hours": {
+  "file": "training-manifest.json",
+  "path": [
+   "budget",
+   "total_gpu_hours"
+  ]
+ },
+ "notes": [
+  "Job 33 trained TCN, PatchTST and fine-tuned Chronos-Bolt and exported them to ONNX; the evaluation file ttf-results.json is its output."
+ ],
+ "stages": [
+  {
+   "id": "s30_train",
+   "tool": "pytorch",
+   "outputs": [
+    {
+     "name": "training-manifest.json",
+     "from": "training-manifest.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "arms",
+      "budget"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s50_evaluate",
+   "tool": "pitstudio",
+   "outputs": [
+    {
+     "name": "ttf-results.json",
+     "from": "ttf-results.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "events",
+      "summary",
+      "acceptance"
+     ]
+    },
+    {
+     "name": "results-summary.json",
+     "derive": "c1-summary",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "id": "c1-slope-forecasters-results"
+    }
+   ]
+  },
+  {
+   "id": "s60_export",
+   "tool": "onnx-runtime",
+   "outputs": [
+    {
+     "name": "tcn-c1.onnx",
+     "from": "onnx/tcn-c1.onnx",
+     "kind": "onnx",
+     "budget_class": "onnx",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "Apache-2.0"
+    },
+    {
+     "name": "patchtst-c1.onnx",
+     "from": "onnx/patchtst-c1.onnx",
+     "kind": "onnx",
+     "budget_class": "onnx",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "Apache-2.0"
+    },
+    {
+     "name": "chronos-bolt-fine-tuned-c1.onnx",
+     "from": "onnx/chronos_bolt_fine_tuned-c1.onnx",
+     "kind": "onnx",
+     "budget_class": "onnx",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "Apache-2.0"
+    }
+   ]
+  }
+ ],
+ "bundles": [
+  {
+   "id": "c1-slope-forecasters",
+   "derive": "c1-bundle"
+  }
+ ]
+}
