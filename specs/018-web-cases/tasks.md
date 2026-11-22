@@ -79,6 +79,7 @@ start with the requirement ID followed by " · " (for example `it("FR-018-39 · 
 - [ ] T-018-093 (FR-018-70) fixture artefacts: label in development builds, excluded from release builds — test: web/e2e/t-018-093-fixture-artefact.spec.ts
 - [ ] T-018-094 (FR-018-71) partial coverage: numerator and denominator, no aggregate claim — test: web/e2e/t-018-094-partial-coverage.spec.ts
 - [ ] T-018-095 [US-018-7] (FR-018-72) Built with section on every case page and the catalogue, and the producer attribution on every visual frame of a case page — test: web/src/cases/t_018_095_built_with.test.ts and web/e2e/t_018_095_built_with.spec.ts
+- [ ] T-018-096 [US-018-7] (FR-018-73) rendered scene section on every case page: poster and stills at once, video only after a click, attribution in place, render tools in Built with, a newer run replaces the older — test: web/src/cases/t_018_096_scene_render.test.tsx and web/e2e/t_018_096_scene_render.spec.ts
 
 ## Phase 9 — Gates, polish and independent review
 - [ ] T-018-088 [US-018-3] (SC-018-01, FR-018-67) parity-report completeness: every engine of §7.1 passes or is shown in T0; invalid report or measurement files fail the build — test: web/src/engines/t_018_088_parity_report.test.ts
