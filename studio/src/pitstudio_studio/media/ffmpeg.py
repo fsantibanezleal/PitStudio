@@ -153,7 +153,9 @@ def discover(
     filters = set()
     for line in call(["-hide_banner", "-filters"]).splitlines():
         cols = line.split()
-        if len(cols) >= 2 and len(cols[0]) == 3:
+        if len(cols) >= 2 and re.fullmatch(
+            r"[T.][S.][C.]?", cols[0]
+        ):  # FFmpeg 8.1 prints two flags, earlier builds three
             filters.add(cols[1])
     if REQUIRED_FILTER not in filters:
         raise NotRun(f"FFmpeg lacks the filter {REQUIRED_FILTER}")
