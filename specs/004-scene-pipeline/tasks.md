@@ -56,6 +56,8 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/004-scene-pipeli
 ## Phase — availability states (ADR-0040)
 
 - [ ] T-004-094 (FR-004-44) fixture propagation through the scene stages — test: tests/unit/test_t_004_094_fixture_propagation.py
+- [ ] T-004-095 (FR-004-45, FR-004-46) terrain tiles carry grid normals and texture coordinates, the root layer binds the rock and road materials, a missing texture falls back to a constant colour — test: tests/unit/test_t_004_095_scene_look.py
+- [ ] T-004-096 (FR-004-47) the fleet and the people stand on the terrain at haul-road centreline stations — test: tests/unit/test_t_004_096_grounded_fleet.py
 
 ## Phase 7 — Polish and review
 - [ ] T-004-090 mutation run on `pitstudio_studio.scene.terrain.rtin`, `.grid`, `.frame` and `pitstudio_studio.scene.design`; record the score against `mutation.numerical_core_min`

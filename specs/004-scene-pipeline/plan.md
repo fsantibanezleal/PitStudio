@@ -157,6 +157,9 @@ Key decisions:
 | FR-004-42 | unit (hostile) | hand calculation: a scene fixture with two projects for grid `g1` gives `terrain-source-ambiguous` | pytest |
 | FR-004-43 | unit (hostile) | hand calculation: `con.txt`, `dir/NUL` and `Com3.png` give `path-forbidden`; `console.txt` is accepted | pytest |
 | FR-004-44 | unit | hand calculation: a fixture terrain grid yields a scene manifest, design report and tiles all `fixture: true`; a real input yields `false` | pytest |
+| FR-004-45 | unit | analytic: on the plane z = 0.1 x + 0.05 y + 3 the vertex normal is (-0.1, -0.05, 1) / norm at every vertex, border and skirt included; tiles agree on a shared border | pytest |
+| FR-004-46 | unit | OpenUSD read back: the bound material of a terrain tile is bench_rock, of a haul-road mesh gravel_road; missing texture gives a constant colour | pytest |
+| FR-004-47 | unit | hand calculation on a straight road and a plane: height = plane value, heading = road bearing, spacing >= 30 m | pytest |
 
 ### Tolerances and their justification
 | Quantity | Tolerance | Why |
