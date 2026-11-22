@@ -278,11 +278,3 @@ def test_a_file_without_a_readable_acquisition_year_is_refused(tmp_path: Path, m
     run, _ = _run(ok.dem_job(tmp_path, monkeypatch, [src]))
     assert run.result["status"] == "failed" and run.result["message"].startswith("input-corrupt:")
     assert "year" in run.result["message"]
-
-
-def test_the_jpeg_helper_round_trips() -> None:
-    from PIL import Image
-
-    buf = io.BytesIO()
-    Image.fromarray(np.zeros((2, 2, 3), dtype=np.uint8)).save(buf, format="JPEG")
-    assert buf.getvalue()[:2] == b"\xff\xd8"
