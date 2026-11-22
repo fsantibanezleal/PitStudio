@@ -244,7 +244,7 @@ describe("the data table of the same graph (FR-019-04)", () => {
     expect(row("warp")[6]).toContain("openusd");
     expect(row("pytorch")[6]).toContain("isaac-sim-replicator");
     expect(row("pytorch")[7]).toContain("onnx-runtime");
-    expect(row("nvenc-ffmpeg")[6] + row("nvenc-ffmpeg")[7]).not.toMatch(
+    expect((row("nvenc-ffmpeg")[6] as string) + (row("nvenc-ffmpeg")[7] as string)).not.toMatch(
       /openusd|warp|pytorch|onnx-runtime|isaac-sim-replicator/,
     );
   });

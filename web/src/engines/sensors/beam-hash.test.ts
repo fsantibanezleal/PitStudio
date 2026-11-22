@@ -79,7 +79,7 @@ describe("beamHash and beamValue", () => {
       [4294967295, 4294967295, 4294967295],
       [0, 4294967295, 0],
       [123456, 789, 42],
-    ] as const) {
+    ] as Array<[number, number, number]>) {
       const u = beamValue(...key);
       expect(u).toBe(beamHash(...key) / 2 ** 32);
       expect(u >= 0 && u < 1).toBe(true);

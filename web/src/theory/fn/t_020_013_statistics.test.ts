@@ -70,7 +70,7 @@ describe("exact McNemar test (FR-020-49)", () => {
       [1_000_000, 0],
       [0, 1_000_000],
       [123_456, 123_456],
-    ]) {
+    ] as Array<[number, number]>) {
       const p = mcnemar({ b, c });
       expect(Number.isFinite(p)).toBe(true);
       expect(p).toBeGreaterThanOrEqual(0);
