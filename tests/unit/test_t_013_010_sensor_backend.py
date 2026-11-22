@@ -47,7 +47,11 @@ RTX = ROOT / "studio" / "rtx" / "src" / "pitstudio_rtx"
 ISAAC = ROOT / "studio" / "isaac" / "src" / "pitstudio_isaac"
 SENSORS = ROOT / "src" / "pitstudio" / "sensors"
 NVIDIA = {"ovrtx", "ovstage", "ovphysx", "isaacsim", "omni", "carb"}
-BACKEND_FILES = {RTX / "backends" / "ovrtx_backend.py", ISAAC / "sensor_backend.py"}
+BACKEND_FILES = {
+    RTX / "backends" / "ovrtx_backend.py",
+    ISAAC / "sensor_backend.py",
+    ISAAC / "sdg" / "render.py",  # the spec 009 Isaac Sim renderer imports isaacsim and omni by design
+}
 
 
 def _imports(path: Path) -> set[str]:
