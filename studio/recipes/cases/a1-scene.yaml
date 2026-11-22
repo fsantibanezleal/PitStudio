@@ -29,11 +29,13 @@ stages:
       - {stage: st10_terrain, output: terrain/grid.zarr/zarr.json}
     resources: {gpu: none, disk_gib_est: 1.0, cpu: 2}
     determinism: bitwise
-    timeout_s: 1800
+    timeout_s: 3600
     outputs:
       - {path: design/pit-design-report.json, schema: contract-pit-design-report, publish: false}
       - {path: design/road-network.geojson, schema: contract-road-network, publish: false}
       - {path: layers/design.usda, schema: stage-usd-layer, publish: false}
+      - {path: design/carved-grid.zarr/zarr.json, schema: contract-terrain-grid, publish: false}  # FR-004-50
+      - {path: layers/design-carved.usdc, schema: stage-usd-layer, publish: false}  # FR-004-50
   - id: st30_assets
     env: studio
     tool: openusd
