@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 // T-014-053 [red] · FR-014-44: hostile twin inputs and a corrupted ONNX hash.
 //
 // Spec: specs/014-robot-learning/spec.md FR-014-44: "If a visitor sets a twin input (payload, light-vehicle speed, soil cohesion or friction angle) to a

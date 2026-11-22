@@ -1,4 +1,5 @@
-﻿// T-014-052 [red] · FR-014-42: the TypeScript twins against the Python goldens; ORT-web WASM actions against ONNX Runtime CPU.
+// SPDX-License-Identifier: Apache-2.0
+// T-014-052 [red] · FR-014-42: the TypeScript twins against the Python goldens; ORT-web WASM actions against ONNX Runtime CPU.
 //
 // Spec: specs/014-robot-learning/spec.md FR-014-42: "On golden action sequences of 2,000 steps, each TypeScript twin shall match its Python reference
 // with a maximum absolute state difference <= 1e-6 (m, rad, m/s); closed-loop with the ONNX policy in ORT-web WASM, the actions of the first 200 steps
