@@ -8088,6 +8088,7 @@
         "tests/pipeline/test_t_009_016_sdg_verify.py",
         "tests/unit/test_t_009_016_annotator_readiness.py",
         "tests/unit/test_t_009_016_driver_failure_report.py",
+        "tests/unit/test_t_009_016_exposure_fog.py",
         "tests/unit/test_t_009_016_exposure_qa.py",
         "tests/unit/test_t_009_016_param_table.py",
         "tests/unit/test_t_009_016_resume_quality.py",
@@ -8132,6 +8133,7 @@
       ],
       "tests": [
         "tests/unit/test_t_009_012_dust_wet_sampler.py",
+        "tests/unit/test_t_009_016_exposure_fog.py",
         "tests/unit/test_t_009_016_exposure_qa.py",
         "tests/unit/test_t_009_016_param_table.py"
       ]
@@ -8172,6 +8174,7 @@
       ],
       "tests": [
         "tests/property/test_t_009_013_placement_unstructured.py",
+        "tests/unit/test_t_009_016_exposure_fog.py",
         "tests/unit/test_t_009_016_param_table.py",
         "tests/unit/test_t_009_016_shard_driver.py"
       ]
@@ -8929,6 +8932,7 @@
         "T-009-031"
       ],
       "tests": [
+        "tests/unit/test_t_009_016_exposure_fog.py",
         "tests/unit/test_t_009_016_resume_quality.py",
         "tests/unit/test_t_009_016_shard_driver.py",
         "tests/unit/test_t_009_031_oom_resume.py"

@@ -7,8 +7,8 @@ import { useChain } from "~/tier/probe";
 import { Attribution } from "./BuiltWithView";
 import styles from "./cases.module.css";
 import { EnginePanel, type EngineState, type PanelTier } from "./EnginePanel";
-import { KpiTable } from "./KpiTable";
-import { type CaseRegistry, headlineKpis } from "./types";
+import { PublishedKpiTable } from "./PublishedKpiTable";
+import type { CaseRegistry } from "./types";
 
 /** The parity report of the deployed build, read once (`assets/parity-report.json`); missing or unusable confirms nothing. */
 export function useParityReport(): unknown {
@@ -75,7 +75,7 @@ export function SimulateTab({ caseId, registry }: { caseId: string; registry: Ca
         aria-labelledby="sim-kpi-title"
       >
         <h2 id="sim-kpi-title">{t("kpi.panelTitle")}</h2>
-        <KpiTable items={headlineKpis(entry).map((kpi) => ({ kpi, value: null, artefact: null }))} />
+        <PublishedKpiTable caseId={caseId} entry={entry} />
         <Attribution kind="kpi" />
       </section>
     </>

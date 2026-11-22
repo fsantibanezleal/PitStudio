@@ -525,13 +525,13 @@
 | FR-008-49 | 008-data-pipeline | draft | T-008-092 | tests/contract/test_t_008_060_data_cards.py, tests/pipeline/test_t_008_092_fixture_source.py |
 | FR-008-50 | 008-data-pipeline | draft | T-008-093 | tests/pipeline/test_t_008_093_partial_source.py |
 | FR-009-01 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py |
-| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py, tests/pipeline/test_t_009_016_sdg_verify.py, tests/unit/test_t_009_016_annotator_readiness.py, tests/unit/test_t_009_016_driver_failure_report.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_resume_quality.py, tests/unit/test_t_009_016_run_job_inputs.py, tests/unit/test_t_009_016_shard_driver.py |
+| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py, tests/pipeline/test_t_009_016_sdg_verify.py, tests/unit/test_t_009_016_annotator_readiness.py, tests/unit/test_t_009_016_driver_failure_report.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_resume_quality.py, tests/unit/test_t_009_016_run_job_inputs.py, tests/unit/test_t_009_016_shard_driver.py |
 | FR-009-03 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-04 | 009-perception | draft | T-009-011 | tests/unit/test_t_009_011_sun_sampler.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py |
-| FR-009-05 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_param_table.py |
+| FR-009-05 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-06 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-07 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_param_table.py |
-| FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py |
+| FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py |
 | FR-009-09 | 009-perception | draft | T-009-014 | tests/unit/test_t_009_014_sdg_config_guards.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-10 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-11 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py |
@@ -1184,7 +1184,7 @@
 | NFR-008-03 | 008-data-pipeline | draft | T-008-061 | tests/contract/test_t_008_061_samples_hygiene.py |
 | NFR-009-01 | 009-perception | draft | T-009-071 | tests/contract/test_t_009_071_live_lane.py |
 | NFR-009-02 | 009-perception | draft | T-009-071 | tests/contract/test_t_009_071_live_lane.py |
-| NFR-009-03 | 009-perception | draft | T-009-031 | tests/unit/test_t_009_016_resume_quality.py, tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_031_oom_resume.py |
+| NFR-009-03 | 009-perception | draft | T-009-031 | tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_resume_quality.py, tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_031_oom_resume.py |
 | NFR-009-04 | 009-perception | draft | T-009-033 | tests/unit/test_t_009_033_support_determinism.py |
 | NFR-009-05 | 009-perception | draft | T-009-020 | tests/pipeline/test_t_009_016_sdg_verify.py, tests/property/test_t_009_020_splits.py |
 | NFR-009-06 | 009-perception | draft | T-009-071 | tests/contract/test_t_009_071_live_lane.py |

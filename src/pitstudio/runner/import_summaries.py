@@ -4,7 +4,8 @@ needs but cannot find raises `Missing`, which the import reports as a usage erro
 
 A summary has one shape, read by the case page ("Published results"): `title`, `label` (the data label), `methods`
 (registry method ids the result used), `verdict`
-(`ok`, `partial` or `failed`), `headline` (named values with unit) and `rows` (small tables). A results bundle follows
+(`ok`, `partial` or `failed`), `headline` (named values with unit; an optional `kpi` names the case KPI the
+value measures) and `rows` (small tables). A results bundle follows
 contracts/results.schema.json (DC-020-02) and is written to web/public/results/ by `studio publish`.
 """
 
@@ -32,8 +33,15 @@ def _json(src: Path, name: str) -> Any:
         raise Missing(f"{name} is not readable in the --from folder") from None
 
 
-def _hw(name: str, value: float, unit: str, note: str = "") -> dict:
-    return {"name": name, "value": round(value, 4), "unit": unit, **({"note": note} if note else {})}
+def _hw(name: str, value: float, unit: str, note: str = "", kpi: str = "") -> dict:
+    """One headline value; `kpi` is the id of the case KPI it measures, written only when it is that KPI (FR-018-74)."""
+    return {
+        "name": name,
+        "value": round(value, 4),
+        "unit": unit,
+        **({"note": note} if note else {}),
+        **({"kpi": kpi} if kpi else {}),
+    }
 
 
 def c1_summary(src: Path, run_id: str) -> dict:
@@ -72,6 +80,7 @@ def c1_summary(src: Path, run_id: str) -> dict:
                 best["mean_abs_error_h"],
                 "h",
                 "best of the six methods",
+                kpi="forecast_error",
             ),
             _hw(
                 "Mean absolute forecast error, inverse velocity",

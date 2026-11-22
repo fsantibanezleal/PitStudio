@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import styles from "./cases.module.css";
 import { type ArtefactRecord, type Kpi, type Lang, pick } from "./types";
 import { unitSymbol } from "./units";
@@ -9,6 +10,10 @@ export interface KpiItem {
   value: number | null;
   /** The web-manifest record the value comes from; without it a number has no provenance and is not shown. */
   artefact: ArtefactRecord | null;
+  /** The data label of the run the value comes from, shown as the chip's title. */
+  runLabel?: string;
+  /** The run is noted partial: the mark stays next to the value (FR-018-74). */
+  partial?: boolean;
 }
 
 export function formatValue(value: number, lang: Lang): string {
@@ -30,7 +35,7 @@ export function KpiTable({ items }: { items: KpiItem[] }) {
         </tr>
       </thead>
       <tbody>
-        {items.map(({ kpi, value, artefact }) => {
+        {items.map(({ kpi, value, artefact, runLabel, partial }) => {
           const published = artefact !== null && typeof value === "number" && Number.isFinite(value);
           const unit = unitSymbol(kpi.unit);
           return (
@@ -50,9 +55,12 @@ export function KpiTable({ items }: { items: KpiItem[] }) {
                     <span className={styles.lane} data-lane={artefact.lane}>
                       {t(`lane.${artefact.lane}`)}
                     </span>{" "}
-                    <span className={styles.chip}>
-                      {artefact.producer.tool} · {artefact.run_id} · {artefact.git_sha.slice(0, 7)}
+                    <span className={styles.chip} title={runLabel}>
+                      {artefact.producer.tool} ·{" "}
+                      <Link to={`/studio/runs/${artefact.run_id}/`}>{artefact.run_id}</Link> ·{" "}
+                      {artefact.git_sha.slice(0, 7)}
                     </span>
+                    {partial && <span className={styles.unit}> {t("results.partial")}</span>}
                   </>
                 )}
               </td>

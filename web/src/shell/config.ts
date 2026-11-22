@@ -18,6 +18,8 @@ export interface ShellLink {
 export interface ProvenanceItem {
   labelKey: string;
   href?: string;
+  /** Interpolation values of the label, e.g. `{ count }` for a plural key. */
+  values?: Record<string, string | number>;
 }
 
 /** One tab of the ⓘ architecture modal. */
@@ -41,7 +43,12 @@ export interface ShellConfig {
   repoUrl: string;
   routes: ShellRoute[];
   links: ShellLink[];
-  footer: { licenceKey: string; provenance: ProvenanceItem[] };
+  footer: {
+    licenceKey: string;
+    provenance: ProvenanceItem[];
+    /** A hook that gives the provenance items from published data; it replaces `provenance` when present. */
+    useProvenance?: () => ProvenanceItem[];
+  };
   architectureTabs: ArchitectureTab[];
   /** SHA-256 hex of the demo passphrase. Empty string → the gate is off. */
   access: { digest: string };

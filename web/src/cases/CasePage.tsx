@@ -14,8 +14,7 @@ import { ContextTab } from "./ContextTab";
 import { Stage } from "./ExploreView";
 import { artefactsOfCase, latestRunId, useWebManifest } from "./manifest";
 import { ReplayTab } from "./ReplayTab";
-import { ReproduceBlock } from "./ReproduceBlock";
-import { recipeOf } from "./recipes";
+import { ReproduceWithRuns } from "./ReproduceWithRuns";
 import { caseRegistry } from "./registry";
 import { replayDuration, replayVideosOf } from "./replayVideos";
 import { SimulateTab } from "./SimulateTab";
@@ -84,7 +83,7 @@ function Workbench({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
           )}
           {selected === "context" && <ContextTab caseId={caseId} registry={caseRegistry} sources={[]} />}
         </Tabs>
-        <ReproduceBlock caseId={caseId} recipe={recipeOf(caseId)} runId={latestRunId(own)} />
+        <ReproduceWithRuns caseId={caseId} runId={latestRunId(own)} />
       </CaseStory>
     </article>
   );

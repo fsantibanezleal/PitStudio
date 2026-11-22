@@ -1,6 +1,7 @@
 import { FolderGit2 } from "lucide-react";
 import type { ArchitectureTab, ShellConfig } from "~/shell/config";
 import { archTab } from "./architecture";
+import { usePublishedProvenance } from "./provenance";
 
 const ARCH_TABS = ["what", "lanes", "studio", "webflow", "science", "contracts", "tools"];
 
@@ -27,6 +28,7 @@ export const shellConfig: ShellConfig = {
   footer: {
     licenceKey: "footer.licence",
     provenance: [{ labelKey: "footer.provenanceNone" }],
+    useProvenance: usePublishedProvenance,
   },
   architectureTabs: ARCH_TABS.map(
     (id): ArchitectureTab => ({ id, titleKey: `arch.${id}.title`, Content: archTab(id) }),

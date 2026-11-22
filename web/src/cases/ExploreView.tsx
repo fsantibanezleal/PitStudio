@@ -10,19 +10,11 @@ import { TierBadge } from "~/tier/TierBadge";
 import { Attribution } from "./BuiltWithView";
 import { CaseRail } from "./CaseRail";
 import styles from "./cases.module.css";
-import { KpiTable } from "./KpiTable";
 import { LayerToggles } from "./LayerToggles";
 import { publishedLayers, useWebManifest } from "./manifest";
+import { PublishedKpiTable } from "./PublishedKpiTable";
 import { caseRegistry } from "./registry";
-import {
-  type CaseEntry,
-  type CaseId,
-  caseEntry,
-  headlineKpis,
-  isCaseId,
-  LAYER_IDS,
-  type LayerId,
-} from "./types";
+import { type CaseEntry, type CaseId, caseEntry, isCaseId, LAYER_IDS, type LayerId } from "./types";
 
 /** Layers, scene state and headline KPIs of one case; shared by the Explore route and the Scene tab. */
 export function Stage({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
@@ -79,7 +71,7 @@ export function Stage({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
         aria-labelledby="kpi-title"
       >
         <h2 id="kpi-title">{t("kpi.panelTitle")}</h2>
-        <KpiTable items={headlineKpis(entry).map((kpi) => ({ kpi, value: null, artefact: null }))} />
+        <PublishedKpiTable caseId={caseId} entry={entry} />
         <Attribution kind="kpi" />
         <p>
           <Link to={`/cases/${caseId}/`}>{t("kpi.openCase")}</Link>

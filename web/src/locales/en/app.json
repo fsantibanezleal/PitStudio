@@ -31,7 +31,10 @@
   },
   "footer": {
     "licence": "Code Apache-2.0 · docs and original data CC-BY-4.0",
-    "provenanceNone": "No data, models or simulation results are published yet."
+    "provenanceNone": "No data, models or simulation results are published yet.",
+    "provenanceLoading": "Reading the published runs.",
+    "provenanceRuns_one": "{{count}} published run",
+    "provenanceRuns_other": "{{count}} published runs"
   },
   "arch": {
     "what": {

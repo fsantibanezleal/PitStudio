@@ -124,7 +124,10 @@
     "noGpu": "This recipe needs no GPU.",
     "copy": "Copy the commands",
     "copied": "Copied",
-    "planned": "Not yet run — recipe planned"
+    "planned": "Not yet run — recipe planned",
+    "noRecipe": "No recipe produced the published runs below: a GPU queue job outside the runner did, and each run was recorded from that job with the import command shown.",
+    "published": "Published runs",
+    "cannotYet": "This run cannot be reproduced yet: its queue job is not named in the run record."
   },
   "engine": {
     "state": {

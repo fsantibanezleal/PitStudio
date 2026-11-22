@@ -124,7 +124,10 @@
     "noGpu": "Esta receta no necesita GPU.",
     "copy": "Copiar los comandos",
     "copied": "Copiado",
-    "planned": "Aún no ejecutado — receta planificada"
+    "planned": "Aún no ejecutado — receta planificada",
+    "noRecipe": "Ninguna receta produjo las corridas publicadas de abajo: las produjo un trabajo de la cola de GPU fuera del runner, y cada corrida se registró desde ese trabajo con el comando de importación indicado.",
+    "published": "Corridas publicadas",
+    "cannotYet": "Esta corrida aún no se puede reproducir: su trabajo de la cola no figura en el registro de la corrida."
   },
   "engine": {
     "state": {

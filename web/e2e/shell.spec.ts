@@ -117,7 +117,8 @@ test.describe("shell", () => {
     const footer = page.getByRole("contentinfo");
     await expect(footer).toContainText(/Version \d+\.\d{2}\.\d{3}/);
     await expect(footer).toContainText("Not affiliated with or endorsed by NVIDIA");
-    await expect(footer).toContainText("No data, models or simulation results are published yet.");
+    // FR-018-75: the footer counts the published runs of the web manifest
+    await expect(footer).toContainText(/\d+ published runs?/);
   });
 });
 

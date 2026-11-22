@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import styles from "./cases.module.css";
+import type { ImportedRun } from "./importedRuns";
 import { isCaseId } from "./types";
 
 export interface RecipeSummary {
@@ -32,10 +34,13 @@ export function ReproduceBlock({
   caseId,
   recipe,
   runId,
+  runs = [],
 }: {
   caseId: string;
   recipe: RecipeSummary | null;
   runId: string | null;
+  /** Published runs of the case that `studio import-run` recorded from a queue job (FR-018-77). */
+  runs?: readonly ImportedRun[];
 }) {
   const { t } = useTranslation("cases");
   const [copied, setCopied] = useState(false);
@@ -84,9 +89,48 @@ export function ReproduceBlock({
             </span>
           </p>
         </>
-      ) : (
+      ) : runs.length === 0 ? (
         <p className={styles.pending}>{t("reproduce.planned")}</p>
+      ) : (
+        <p>{t("reproduce.noRecipe")}</p>
       )}
+      {runs.length > 0 && <PublishedRuns runs={runs} />}
     </section>
+  );
+}
+
+const importCommand = (job: string): string => `uv run studio import-run ${job} --from <job output folder>`;
+
+/** What reproduces each published imported run: its import command and `studio publish`, or why it cannot be reproduced yet. */
+function PublishedRuns({ runs }: { runs: readonly ImportedRun[] }) {
+  const { t } = useTranslation("cases");
+  return (
+    <div data-testid="published-runs">
+      <h3>{t("reproduce.published")}</h3>
+      {runs.map((run) => (
+        <div key={run.runId} data-run={run.runId}>
+          <p>
+            <Link to={`/studio/runs/${run.runId}/`}>{run.runId}</Link> · {run.label}
+          </p>
+          {run.verdict === "failed" && <p className={styles.failed}>{t("results.failed")}</p>}
+          {run.partialReasons.length > 0 && (
+            <p className={styles.unit}>
+              {t("results.partial")} {run.partialReasons.join("; ")}
+            </p>
+          )}
+          {run.job ? (
+            <>
+              {[importCommand(run.job), `uv run studio publish ${run.runId}`].map((line) => (
+                <code key={line} data-command className={styles.command}>
+                  {line}
+                </code>
+              ))}
+            </>
+          ) : (
+            <p className={styles.unit}>{t("reproduce.cannotYet")}</p>
+          )}
+        </div>
+      ))}
+    </div>
   );
 }

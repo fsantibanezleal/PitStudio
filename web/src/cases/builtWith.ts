@@ -1,5 +1,6 @@
 // FR-018-72: what each case is built with, derived from the case registry (DC-018-01), the tool registry (DC-000-04), the method
 // registry (DC-020-01) and the published runs of the case. A pure module: the components and the unit test both read it.
+import { caseRegistry } from "./registry";
 import type { CaseEntry, Lang } from "./types";
 
 export type BuiltStatus = "used" | "planned";
@@ -10,6 +11,10 @@ export interface ToolInfo {
   name: string;
   version: string | null;
   licence: string | null;
+  /** Case ids the studio tool registry names for the tool (`studio/tools.yaml`). */
+  cases?: readonly string[];
+  /** Registry status; a tool "evaluated-not-adopted" is not planned, so it is never listed. */
+  status?: string;
 }
 export interface MethodInfo {
   id: string;
@@ -60,12 +65,22 @@ export interface BuiltWithInput {
   caseId?: string;
 }
 
+/** The id of the registry case an entry is, by its English title (unique per case); used when the caller does not pass the id. */
+function caseIdOf(entry: CaseEntry): string | undefined {
+  return Object.entries(caseRegistry.cases).find(([, c]) => c.title.en === entry.title.en)?.[0];
+}
+
 export function deriveBuiltWith(i: BuiltWithInput): BuiltGroups {
   const byId = new Map(i.tools.map((t) => [t.id, t]));
   const nvidia = new Set(NVIDIA_TOOL_IDS);
   const groups: BuiltGroups = { omniverse: [], frameworks: [], methods: [], data: [] };
   const render = new Set(i.renderTools ?? []);
-  const toolIds = [...Object.keys(i.entry.tools), ...[...render].filter((id) => !(id in i.entry.tools))];
+  // the case registry first, then the tools the studio tool registry names for the case, then the tools of the published render
+  const caseId = i.caseId ?? caseIdOf(i.entry);
+  const named = i.tools
+    .filter((t) => caseId !== undefined && t.cases?.includes(caseId) && t.status !== "evaluated-not-adopted")
+    .map((t) => t.id);
+  const toolIds = [...new Set([...Object.keys(i.entry.tools), ...named, ...render])];
   for (const id of toolIds) {
     const t = byId.get(id);
     if (!t) continue;
@@ -93,7 +108,7 @@ export function deriveBuiltWith(i: BuiltWithInput): BuiltGroups {
       status: i.usedMethods.has(id) ? "used" : "planned",
     });
   }
-  const dataHref = `/cases/${i.caseId ?? ""}/?tab=context`;
+  const dataHref = `/cases/${caseId ?? ""}/?tab=context`;
   // no published summary names the data it used, so a data chip never claims more than "planned" (ADR-0040)
   const status: BuiltStatus = "planned";
   for (const s of i.entry.sources)
@@ -111,6 +126,11 @@ export function deriveBuiltWith(i: BuiltWithInput): BuiltGroups {
   return groups;
 }
 
+/** A tool name with the NVIDIA mark once: a registry name that already starts with the vendor is not prefixed again. */
+export function vendorName(name: string, mark = "NVIDIA"): string {
+  return name.toLowerCase().startsWith(mark.toLowerCase()) ? name : `${mark} ${name}`;
+}
+
 export interface StatusWords {
   used: string;
   planned: string;
@@ -125,7 +145,7 @@ export function attributionText(
   words: StatusWords = EN_WORDS,
 ): string {
   const toolText = tools
-    .map((t) => `${t.nvidia ? "NVIDIA " : ""}${t.name}${t.version ? ` ${t.version}` : ""}`)
+    .map((t) => `${t.nvidia ? vendorName(t.name) : t.name}${t.version ? ` ${t.version}` : ""}`)
     .join(" + ");
   const parts = [toolText, ...methods.map((m) => m.name)].filter((p) => p.length > 0);
   const used = [...tools, ...methods].some((x) => x.status === "used");

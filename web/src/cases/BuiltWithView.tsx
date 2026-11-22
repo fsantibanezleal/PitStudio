@@ -12,9 +12,15 @@ import {
   type MethodInfo,
   type ToolInfo,
   toolsForVisual,
+  vendorName,
 } from "./builtWith";
 import styles from "./cases.module.css";
-import { type PublishedCase, type PublishedResult, usePublishedResults } from "./publishedResults";
+import {
+  type PublishedCase,
+  PublishedCaseContext,
+  type PublishedResult,
+  usePublishedResults,
+} from "./publishedResults";
 import { useRenderSummary } from "./renderSummary";
 import { SceneRender } from "./SceneRender";
 import type { ArtefactRecord, CaseEntry, Lang } from "./types";
@@ -29,6 +35,8 @@ export const toolInfos: ToolInfo[] = studioTools.map((t) => {
     name: t.name,
     version: v && v !== "unresolved" ? v : null,
     licence: t.spdx.length > 0 ? t.spdx.join(" or ") : null,
+    cases: t.cases,
+    status: t.status,
   };
 });
 export const methodInfos: MethodInfo[] = methodRegistry.map((m) => ({
@@ -200,22 +208,24 @@ export function CaseStory({
     };
   }, [groups, t]);
   return (
-    <AttributionContext.Provider value={value}>
-      <p className={styles.question} data-testid="case-question">
-        {pick(entry.question, lang)}
-      </p>
-      <BuiltWithSection groups={groups} />
-      {published.results.length > 0 && (
-        <section aria-labelledby="results-title" data-testid="published-results">
-          <h2 id="results-title">{t("results.title")}</h2>
-          {published.results.map((r) => (
-            <ResultCard key={r.runId} result={r} groups={groups} />
-          ))}
-        </section>
-      )}
-      <SceneRender state={render} tools={toolInfos} />
-      {children}
-    </AttributionContext.Provider>
+    <PublishedCaseContext.Provider value={published}>
+      <AttributionContext.Provider value={value}>
+        <p className={styles.question} data-testid="case-question">
+          {pick(entry.question, lang)}
+        </p>
+        <BuiltWithSection groups={groups} />
+        {published.results.length > 0 && (
+          <section aria-labelledby="results-title" data-testid="published-results">
+            <h2 id="results-title">{t("results.title")}</h2>
+            {published.results.map((r) => (
+              <ResultCard key={r.runId} result={r} groups={groups} />
+            ))}
+          </section>
+        )}
+        <SceneRender state={render} tools={toolInfos} />
+        {children}
+      </AttributionContext.Provider>
+    </PublishedCaseContext.Provider>
   );
 }
 
@@ -236,7 +246,7 @@ export function BuiltWithCompact({ entry, caseId, lang }: { entry: CaseEntry; ca
       {GROUP_IDS.filter((g) => g !== "data").map((g) => (
         <p key={g} data-group={g}>
           <span className={styles.unit}>{t(`builtWith.group.${g}`)}: </span>
-          {groups[g].map((i) => (i.nvidia ? `${t("builtWith.nvidia")} ${i.name}` : i.name)).join(", ") ||
+          {groups[g].map((i) => (i.nvidia ? vendorName(i.name, t("builtWith.nvidia")) : i.name)).join(", ") ||
             t("builtWith.none")}
         </p>
       ))}

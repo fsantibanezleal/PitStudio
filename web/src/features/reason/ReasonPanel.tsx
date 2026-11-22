@@ -47,6 +47,7 @@ export function ReasonPanel({ caseId }: { caseId: string }) {
     return () => controller.abort();
   }, [caseId]);
 
+  const notRunLine = `Cosmos Reason 2: ${NOT_RUN_TEXT}. No answers are published for this case.`;
   const doc = state.kind === "records" ? (state.result.ok ? state.result.doc : null) : null;
   const records = (doc as { records?: Record<string, unknown>[] } | null)?.records ?? [];
   return (
@@ -57,9 +58,7 @@ export function ReasonPanel({ caseId }: { caseId: string }) {
       aria-label="Cosmos Reason 2"
     >
       <h3>{HEADING}</h3>
-      {state.kind === "not-run" && (
-        <p>{`Cosmos Reason 2: ${NOT_RUN_TEXT}. No answers are published for this case.`}</p>
-      )}
+      {state.kind === "not-run" && <p>{notRunLine}</p>}
       {state.kind === "unavailable" && <p>{UNAVAILABLE_TEXT}</p>}
       {state.kind === "records" && state.result.ok && (
         <>
