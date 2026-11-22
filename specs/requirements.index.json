@@ -3935,6 +3935,43 @@
         "tests/unit/test_t_004_094_fixture_propagation.py"
       ]
     },
+    "FR-004-45": {
+      "spec": "004-scene-pipeline",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-004-095"
+      ],
+      "tests": [
+        "tests/unit/test_t_004_095_scene_look.py"
+      ]
+    },
+    "FR-004-46": {
+      "spec": "004-scene-pipeline",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-004-095"
+      ],
+      "tests": [
+        "tests/unit/test_t_004_095_scene_look.py",
+        "tests/unit/test_t_004_095_scene_look_primvar.py"
+      ]
+    },
+    "FR-004-47": {
+      "spec": "004-scene-pipeline",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-004-096"
+      ],
+      "tests": [
+        "tests/unit/test_t_004_096_grounded_fleet.py"
+      ]
+    },
     "P-004-01": {
       "spec": "004-scene-pipeline",
       "retired": false,
@@ -8022,6 +8059,8 @@
       "tests": [
         "tests/gpu/test_t_009_016_sdg_outputs.py",
         "tests/pipeline/test_t_009_016_sdg_verify.py",
+        "tests/unit/test_t_009_016_annotator_readiness.py",
+        "tests/unit/test_t_009_016_driver_failure_report.py",
         "tests/unit/test_t_009_016_param_table.py",
         "tests/unit/test_t_009_016_run_job_inputs.py",
         "tests/unit/test_t_009_016_shard_driver.py"
@@ -17429,7 +17468,8 @@
       "phase": "clarified",
       "tasks": [
         "T-018-025",
-        "T-018-095"
+        "T-018-095",
+        "T-018-096"
       ],
       "tests": []
     },
@@ -18330,6 +18370,16 @@
       "phase": "clarified",
       "tasks": [
         "T-018-095"
+      ],
+      "tests": []
+    },
+    "FR-018-73": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-096"
       ],
       "tests": []
     },
@@ -22240,6 +22290,13 @@
     "T-004-094": [
       "FR-004-44"
     ],
+    "T-004-095": [
+      "FR-004-45",
+      "FR-004-46"
+    ],
+    "T-004-096": [
+      "FR-004-47"
+    ],
     "T-004-090": [],
     "T-004-091": [],
     "T-005-001": [
@@ -24941,6 +24998,10 @@
     "T-018-095": [
       "US-018-7",
       "FR-018-72"
+    ],
+    "T-018-096": [
+      "US-018-7",
+      "FR-018-73"
     ],
     "T-018-088": [
       "US-018-3",
