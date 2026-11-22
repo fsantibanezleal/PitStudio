@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { BuiltWithCompact } from "./BuiltWithView";
 import styles from "./cases.module.css";
 import {
   type CaseId,
@@ -70,7 +71,10 @@ export function CatalogueView({ registry, tools }: CatalogueViewProps) {
                 return (
                   <tr key={id} data-case-id={id}>
                     <th scope="row">{id}</th>
-                    <td>{pick(entry.title, lang)}</td>
+                    <td>
+                      {pick(entry.title, lang)}
+                      <BuiltWithCompact entry={entry} caseId={id} lang={lang} />
+                    </td>
                     <td>
                       {entry.category} · {category}
                     </td>

@@ -23,19 +23,43 @@ const b2 = registry.cases.B2 as unknown as CaseEntry;
 
 describe("FR-018-72 deriveBuiltWith", () => {
   it("lists every method of the case by its registry name, never a tier label", () => {
-    const g = deriveBuiltWith({ entry: c1, tools, methods, usedTools: new Set(), usedMethods: new Set(), lang: "en" });
-    expect(g.methods.map((m) => m.name)).toEqual(["Slope stability LEM", "Slope forecasting", "RTX sensor simulation"]);
+    const g = deriveBuiltWith({
+      entry: c1,
+      tools,
+      methods,
+      usedTools: new Set(),
+      usedMethods: new Set(),
+      lang: "en",
+    });
+    expect(g.methods.map((m) => m.name)).toEqual([
+      "Slope stability LEM",
+      "Slope forecasting",
+      "RTX sensor simulation",
+    ]);
     for (const m of g.methods) expect(m.name).not.toMatch(/classical|SOTA|beyond/i);
     expect(g.methods.map((m) => m.href)).toEqual(["/methods/m13/", "/methods/m14/", "/methods/m23/"]);
   });
 
   it("marks NVIDIA and Omniverse tools, links studio tools and keeps the others as frameworks", () => {
-    const g = deriveBuiltWith({ entry: b2, tools, methods, usedTools: new Set(), usedMethods: new Set(), lang: "en" });
+    const g = deriveBuiltWith({
+      entry: b2,
+      tools,
+      methods,
+      usedTools: new Set(),
+      usedMethods: new Set(),
+      lang: "en",
+    });
     const replicator = g.omniverse.find((i) => i.id === "isaac-sim-replicator");
-    expect(replicator).toMatchObject({ nvidia: true, href: "/studio/tools/isaac-sim-replicator/", status: "planned" });
+    expect(replicator).toMatchObject({
+      nvidia: true,
+      href: "/studio/tools/isaac-sim-replicator/",
+      status: "planned",
+    });
     expect(g.frameworks.map((i) => i.id)).toContain("pytorch");
     expect(g.frameworks.every((i) => !i.nvidia)).toBe(true);
-    expect(NVIDIA_TOOL_IDS).toEqual(expect.arrayContaining(["warp", "tensorrt", "isaac-lab", "newton", "ovrtx"]));
+    expect(NVIDIA_TOOL_IDS).toEqual(
+      expect.arrayContaining(["warp", "tensorrt", "isaac-lab", "newton", "ovrtx"]),
+    );
   });
 
   it("says used only for a tool or method that produced a published run of the case", () => {
@@ -47,18 +71,41 @@ describe("FR-018-72 deriveBuiltWith", () => {
       usedMethods: new Set(["M14"]),
       lang: "en",
     });
-    expect(g.frameworks.find((i) => i.id === "pytorch")).toMatchObject({ status: "used", version: "2.14.1", licence: "BSD-3-Clause" });
+    expect(g.frameworks.find((i) => i.id === "pytorch")).toMatchObject({
+      status: "used",
+      version: "2.14.1",
+      licence: "BSD-3-Clause",
+    });
     expect(g.frameworks.find((i) => i.id === "onnx-runtime")).toMatchObject({ status: "planned" });
     expect(g.methods.find((i) => i.id === "M14")?.status).toBe("used");
     expect(g.methods.find((i) => i.id === "M13")?.status).toBe("planned");
   });
 
   it("builds the in-place attribution text with tool, version, method, mark and status", () => {
-    const g = deriveBuiltWith({ entry: c1, tools, methods, usedTools: new Set(["pytorch"]), usedMethods: new Set(["M14"]), lang: "en" });
-    const text = attributionText("Forecast by", [g.frameworks.find((i) => i.id === "pytorch")!], [g.methods.find((i) => i.id === "M14")!]);
+    const g = deriveBuiltWith({
+      entry: c1,
+      tools,
+      methods,
+      usedTools: new Set(["pytorch"]),
+      usedMethods: new Set(["M14"]),
+      lang: "en",
+    });
+    const text = attributionText(
+      "Forecast by",
+      [g.frameworks.find((i) => i.id === "pytorch")!],
+      [g.methods.find((i) => i.id === "M14")!],
+    );
     expect(text).toBe("Forecast by PyTorch 2.14.1, Slope forecasting. Used in the published result.");
-    const warp = deriveBuiltWith({ entry: registry.cases.A3 as unknown as CaseEntry, tools, methods, usedTools: new Set(), usedMethods: new Set(), lang: "en" })
-      .omniverse.filter((i) => i.id === "warp");
-    expect(attributionText("Simulated with", warp, [])).toBe("Simulated with NVIDIA Warp 1.17.0. Planned, not yet run.");
+    const warp = deriveBuiltWith({
+      entry: registry.cases.A3 as unknown as CaseEntry,
+      tools,
+      methods,
+      usedTools: new Set(),
+      usedMethods: new Set(),
+      lang: "en",
+    }).omniverse.filter((i) => i.id === "warp");
+    expect(attributionText("Simulated with", warp, [])).toBe(
+      "Simulated with NVIDIA Warp 1.17.0. Planned, not yet run.",
+    );
   });
 });

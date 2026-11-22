@@ -4,6 +4,7 @@ import { engineMode, NEEDS_WEBGPU, PARITY_NOT_CONFIRMED } from "~/engines/regist
 import { FnoScene } from "~/surrogates/FnoScene";
 import { GnsScene } from "~/surrogates/GnsScene";
 import { useChain } from "~/tier/probe";
+import { Attribution } from "./BuiltWithView";
 import styles from "./cases.module.css";
 import { EnginePanel, type EngineState, type PanelTier } from "./EnginePanel";
 import { KpiTable } from "./KpiTable";
@@ -69,11 +70,13 @@ export function SimulateTab({ caseId, registry }: { caseId: string; registry: Ca
       <section
         className={styles.panel}
         data-testid="kpi-panel"
+        data-visual="kpi"
         data-case={caseId}
         aria-labelledby="sim-kpi-title"
       >
         <h2 id="sim-kpi-title">{t("kpi.panelTitle")}</h2>
         <KpiTable items={headlineKpis(entry).map((kpi) => ({ kpi, value: null, artefact: null }))} />
+        <Attribution kind="kpi" />
       </section>
     </>
   );

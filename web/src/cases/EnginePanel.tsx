@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Attribution } from "./BuiltWithView";
 import styles from "./cases.module.css";
 import { type ControlSpec, parseControl } from "./controls";
 
@@ -122,6 +123,7 @@ export function EnginePanel(props: EnginePanelProps) {
     <section
       className={styles.panel}
       data-testid="engine-panel"
+      data-visual="simulate"
       data-engine={engine}
       data-state={state}
       data-requests={requests}
@@ -145,6 +147,7 @@ export function EnginePanel(props: EnginePanelProps) {
         <Control key={spec.name} spec={spec} onCommit={onCommit} />
       ))}
       {children}
+      <Attribution kind="simulate" />
     </section>
   );
 }

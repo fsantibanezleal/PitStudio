@@ -7,6 +7,7 @@ import { ClockControls } from "~/sim/ClockControls";
 import { DEFAULT_DURATION_S, useSimClock } from "~/sim/useSimClock";
 import { useThreeD } from "~/tier/probe";
 import { TierBadge } from "~/tier/TierBadge";
+import { Attribution } from "./BuiltWithView";
 import { CaseRail } from "./CaseRail";
 import styles from "./cases.module.css";
 import { KpiTable } from "./KpiTable";
@@ -51,6 +52,7 @@ export function Stage({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
       <section
         className={styles.scene}
         data-testid="scene-state"
+        data-visual="scene"
         data-visible-layers={[...visible].join(",")}
         data-motion={motion}
         aria-labelledby="scene-title"
@@ -66,16 +68,19 @@ export function Stage({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
               layers: [...visible].map((l) => t(`layers.${l}`)).join(", ") || t("scene.noLayers"),
             })}
           </p>
+          <Attribution kind="scene" />
         </div>
       </section>
       <section
         className={styles.panel}
         data-testid="kpi-panel"
+        data-visual="kpi"
         data-case={caseId}
         aria-labelledby="kpi-title"
       >
         <h2 id="kpi-title">{t("kpi.panelTitle")}</h2>
         <KpiTable items={headlineKpis(entry).map((kpi) => ({ kpi, value: null, artefact: null }))} />
+        <Attribution kind="kpi" />
         <p>
           <Link to={`/cases/${caseId}/`}>{t("kpi.openCase")}</Link>
         </p>

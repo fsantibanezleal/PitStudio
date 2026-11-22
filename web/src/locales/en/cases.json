@@ -72,7 +72,10 @@
     "question": "Question",
     "sources": "Real data sources",
     "noSources": "This case uses no real data source.",
-    "kind": { "real": "real", "synthetic": "synthetic" },
+    "kind": {
+      "real": "real",
+      "synthetic": "synthetic"
+    },
     "licence": "Licence",
     "unregistered": "Not yet in the data source registry",
     "card": "Dataset card",
@@ -173,5 +176,33 @@
     "simulatePending": "The in-browser engines of this case ({{engines}}) are not published yet, so nothing is computed here.",
     "replayPending": "No precomputed run of this case has been published yet.",
     "chartsPending": "No result of this case has been published yet, so there is nothing to chart."
+  },
+  "builtWith": {
+    "title": "Built with",
+    "nvidia": "NVIDIA",
+    "used": "used in the published result",
+    "planned": "planned, not yet run",
+    "usedSentence": "Used in the published result.",
+    "plannedSentence": "Planned, not yet run.",
+    "none": "None listed",
+    "group": {
+      "omniverse": "Omniverse and NVIDIA tools",
+      "frameworks": "Frameworks and models",
+      "methods": "Methods",
+      "data": "Data"
+    }
+  },
+  "attribution": {
+    "scene": "Rendered in the browser with",
+    "simulate": "Calculated live with",
+    "chart": "Charted from results of",
+    "kpi": "Measured with",
+    "result": "Computed with"
+  },
+  "results": {
+    "title": "Published results",
+    "failed": "Failed evaluation: not a working model.",
+    "partial": "Partial provenance: the run notes name what is missing.",
+    "run": "Open the run record"
   }
 }

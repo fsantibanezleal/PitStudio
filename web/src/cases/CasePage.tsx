@@ -8,6 +8,7 @@ import { useHydrated } from "~/shell/useHydrated";
 import { ClockControls } from "~/sim/ClockControls";
 import { DEFAULT_DURATION_S, useSimClock } from "~/sim/useSimClock";
 import { TierBadge } from "~/tier/TierBadge";
+import { CaseStory } from "./BuiltWithView";
 import { ChartsTab } from "./ChartsTab";
 import { ContextTab } from "./ContextTab";
 import { Stage } from "./ExploreView";
@@ -54,28 +55,37 @@ function Workbench({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
       <p>
         <Link to="/cases/">{t("case.back")}</Link>
       </p>
-      {/* the clock is shown once the manifest is known: its duration is the longest replay video */}
-      {manifest.status === "ready" && !transportInReplay && <ClockControls clock={clock} />}
-      <Tabs
-        idBase="case"
-        label={t("case.tabs")}
-        tabs={CASE_TAB_IDS.map((id) => ({ id, label: t(`case.tab.${id}`) }))}
-        selected={selected}
-        onSelect={select}
+      <CaseStory
+        caseId={caseId}
+        entry={entry}
+        artefacts={manifest.artefacts}
+        ready={manifest.status === "ready"}
       >
-        {selected === "scene" && <Stage caseId={caseId} entry={entry} />}
-        {selected === "simulate" && <SimulateTab caseId={caseId} registry={caseRegistry} />}
-        {selected === "replay" && <ReplayTab caseId={caseId} artefacts={manifest.artefacts} clock={clock} />}
-        {selected === "charts" && (
-          <ChartsTab
-            caseId={caseId}
-            registry={caseRegistry}
-            rows={publishedBundles.flatMap((bundle) => bundle.comparison)}
-          />
-        )}
-        {selected === "context" && <ContextTab caseId={caseId} registry={caseRegistry} sources={[]} />}
-      </Tabs>
-      <ReproduceBlock caseId={caseId} recipe={recipeOf(caseId)} runId={latestRunId(own)} />
+        {/* the clock is shown once the manifest is known: its duration is the longest replay video */}
+        {manifest.status === "ready" && !transportInReplay && <ClockControls clock={clock} />}
+        <Tabs
+          idBase="case"
+          label={t("case.tabs")}
+          tabs={CASE_TAB_IDS.map((id) => ({ id, label: t(`case.tab.${id}`) }))}
+          selected={selected}
+          onSelect={select}
+        >
+          {selected === "scene" && <Stage caseId={caseId} entry={entry} />}
+          {selected === "simulate" && <SimulateTab caseId={caseId} registry={caseRegistry} />}
+          {selected === "replay" && (
+            <ReplayTab caseId={caseId} artefacts={manifest.artefacts} clock={clock} />
+          )}
+          {selected === "charts" && (
+            <ChartsTab
+              caseId={caseId}
+              registry={caseRegistry}
+              rows={publishedBundles.flatMap((bundle) => bundle.comparison)}
+            />
+          )}
+          {selected === "context" && <ContextTab caseId={caseId} registry={caseRegistry} sources={[]} />}
+        </Tabs>
+        <ReproduceBlock caseId={caseId} recipe={recipeOf(caseId)} runId={latestRunId(own)} />
+      </CaseStory>
     </article>
   );
 }

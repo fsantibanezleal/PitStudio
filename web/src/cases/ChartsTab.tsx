@@ -4,6 +4,7 @@ import { ReasonPanel } from "~/features/reason/ReasonPanel";
 import type { ComparisonRow, DiffInterval } from "~/results/ComparisonRows";
 import { mcnemarVerdict, pairedVerdict, singleEventVerdict, type Verdict } from "~/results/verdict";
 import { verdictText } from "~/results/verdictText";
+import { Attribution } from "./BuiltWithView";
 import styles from "./cases.module.css";
 import { formatValue } from "./KpiTable";
 import { type CaseRegistry, type Kpi, type Lang, pick } from "./types";
@@ -80,7 +81,7 @@ function KpiChart({ kpi, row, lang }: { kpi: Kpi; row: ComparisonRow | undefined
   const words = verdict ? verdictText((key, options) => tr(key, options), verdict, challenger, baseline) : "";
 
   return (
-    <section className={styles.panel} data-kpi-chart={kpi.id} aria-label={name}>
+    <section className={styles.panel} data-kpi-chart={kpi.id} data-visual="chart" aria-label={name}>
       <h3>
         {name}
         {unit && <span className={styles.unit}> ({unit})</span>}
@@ -125,6 +126,7 @@ function KpiChart({ kpi, row, lang }: { kpi: Kpi; row: ComparisonRow | undefined
         </p>
       )}
       {words && <p className={styles.verdict}>{words}</p>}
+      <Attribution kind="chart" />
     </section>
   );
 }

@@ -72,7 +72,10 @@
     "question": "Pregunta",
     "sources": "Fuentes de datos reales",
     "noSources": "Este caso no usa fuentes de datos reales.",
-    "kind": { "real": "real", "synthetic": "sintética" },
+    "kind": {
+      "real": "real",
+      "synthetic": "sintética"
+    },
     "licence": "Licencia",
     "unregistered": "Aún no está en el registro de fuentes de datos",
     "card": "Ficha del conjunto de datos",
@@ -173,5 +176,33 @@
     "simulatePending": "Los motores en el navegador de este caso ({{engines}}) aún no están publicados, así que aquí no se calcula nada.",
     "replayPending": "Aún no se ha publicado ninguna ejecución precalculada de este caso.",
     "chartsPending": "Aún no se ha publicado ningún resultado de este caso, así que no hay nada que graficar."
+  },
+  "builtWith": {
+    "title": "Construido con",
+    "nvidia": "NVIDIA",
+    "used": "usado en el resultado publicado",
+    "planned": "planificado, aún sin ejecutar",
+    "usedSentence": "Usado en el resultado publicado.",
+    "plannedSentence": "Planificado, aún sin ejecutar.",
+    "none": "Sin elementos",
+    "group": {
+      "omniverse": "Herramientas Omniverse y NVIDIA",
+      "frameworks": "Frameworks y modelos",
+      "methods": "Métodos",
+      "data": "Datos"
+    }
+  },
+  "attribution": {
+    "scene": "Dibujado en el navegador con",
+    "simulate": "Calculado en vivo con",
+    "chart": "Graficado desde resultados de",
+    "kpi": "Medido con",
+    "result": "Calculado con"
+  },
+  "results": {
+    "title": "Resultados publicados",
+    "failed": "Evaluación fallida: no es un modelo que funcione.",
+    "partial": "Procedencia parcial: las notas de la corrida dicen qué falta.",
+    "run": "Abrir el registro de la corrida"
   }
 }
