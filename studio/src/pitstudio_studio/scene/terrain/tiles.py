@@ -56,6 +56,14 @@ class TileSet:
         }
 
 
+def layout(rows: int, cols: int) -> tuple[int, int, int]:
+    """Tiles east, tiles north and the quadtree level of a grid of `rows` x `cols` samples (stride 256)."""
+    nx = max(1, math.ceil((cols - 1) / STRIDE))
+    ny = max(1, math.ceil((rows - 1) / STRIDE))
+    level = max(0, math.ceil(math.log2(max(nx, ny)))) if max(nx, ny) > 1 else 0
+    return nx, ny, level
+
+
 def _fold_edge(edge: np.ndarray) -> np.ndarray:
     """1-D fold of the errors on a shared edge: a segment midpoint carries the largest error of its sub-segments."""
     folded = edge.copy()
@@ -149,9 +157,7 @@ def build_tiles(
     """
     elevation = np.asarray(elevation, dtype=np.float64)
     rows, cols = elevation.shape
-    nx = max(1, math.ceil((cols - 1) / STRIDE))
-    ny = max(1, math.ceil((rows - 1) / STRIDE))
-    level = max(0, math.ceil(math.log2(max(nx, ny)))) if max(nx, ny) > 1 else 0
+    nx, ny, level = layout(rows, cols)
     windows = {(rb, cb): _window(elevation, rb, cb) for rb in range(ny) for cb in range(nx)}
     fields = {key: rtin.error_field(window) for key, window in windows.items()}
     base = {key: f.fold().reshape(TILE_SAMPLES, TILE_SAMPLES) for key, f in fields.items()}

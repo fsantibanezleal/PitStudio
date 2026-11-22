@@ -20,6 +20,14 @@ OWN_SPDX = "CC-BY-4.0"
 PROVENANCE_MANNEQUIN = "procedural-mannequin"
 PROVENANCE_MAKEHUMAN = "makehuman-export"
 BOX_FACES = [0, 2, 3, 1, 4, 5, 7, 6, 0, 1, 5, 4, 2, 6, 7, 3, 0, 4, 6, 2, 1, 3, 7, 5]  # counter-clockwise from outside
+# The repeat of the rock material in metres of ground. The composed `primvars:st` of the terrain repeats every
+# ST_PERIOD_M metres (FR-004-45); a material that has a normal map scales it by ST_PERIOD_M / ROCK_REPEAT_M, so one
+# repeat of the rock set covers ROCK_REPEAT_M metres. 8 m: a 1K rock texture spans 1.8 m in the photograph it was taken
+# from, so a repeat of 8 m keeps the relief coarse enough to read as blasted bench rock from the 60 to 150 m camera
+# positions of the flyover, and it is
+# long enough that no tiling grid shows on the 1.2 km views (a 4 m repeat does, a 16 m repeat loses the relief).
+ROCK_REPEAT_M = 8.0
+ST_PERIOD_M = 50.0
 FLEET_SPACING_M = 20.0
 PEOPLE_SPACING_M = 3.0
 
@@ -282,8 +290,14 @@ def _write_fleet(
     stage.GetRootLayer().Save()
 
 
-def _write_materials(path: Path, spec: Mapping[str, Any], copied: dict[str, str]) -> None:
-    """One `UsdShade.Material` per material: a UsdPreviewSurface fed by a UsdUVTexture of the copied CC0 file."""
+def _write_materials(
+    path: Path, spec: Mapping[str, Any], copied: dict[str, str], normals: Mapping[str, str] | None = None
+) -> None:
+    """One `UsdShade.Material` per material: a UsdPreviewSurface fed by a UsdUVTexture of the copied CC0 file.
+
+    A material in `normals` (material id to its copied normal map) also reads that map into the surface `normal`
+    and takes both textures through a `Repeat` `UsdTransform2d` of scale `ST_PERIOD_M / ROCK_REPEAT_M`.
+    """
     from pxr import Sdf, UsdGeom, UsdShade
 
     stage = _new_stage(path)
@@ -301,7 +315,27 @@ def _write_materials(path: Path, spec: Mapping[str, Any], copied: dict[str, str]
         texture = UsdShade.Shader.Define(stage, f"/Materials/{name}/Texture")
         texture.CreateIdAttr("UsdUVTexture")
         texture.CreateInput("file", Sdf.ValueTypeNames.Asset).Set(Sdf.AssetPath(copied[material["id"]]))
-        texture.CreateInput("st", Sdf.ValueTypeNames.Float2).ConnectToSource(reader.GetOutput("result"))
+        coordinates = reader.GetOutput("result")
+        if normals and material["id"] in normals:
+            repeat = UsdShade.Shader.Define(stage, f"/Materials/{name}/Repeat")
+            repeat.CreateIdAttr("UsdTransform2d")
+            repeat.CreateInput("in", Sdf.ValueTypeNames.Float2).ConnectToSource(reader.GetOutput("result"))
+            factor = ST_PERIOD_M / ROCK_REPEAT_M
+            repeat.CreateInput("scale", Sdf.ValueTypeNames.Float2).Set((factor, factor))
+            repeat.CreateOutput("result", Sdf.ValueTypeNames.Float2)
+            coordinates = repeat.GetOutput("result")
+            relief = UsdShade.Shader.Define(stage, f"/Materials/{name}/NormalTexture")
+            relief.CreateIdAttr("UsdUVTexture")
+            relief.CreateInput("file", Sdf.ValueTypeNames.Asset).Set(Sdf.AssetPath(normals[material["id"]]))
+            relief.CreateInput("st", Sdf.ValueTypeNames.Float2).ConnectToSource(coordinates)
+            relief.CreateInput("sourceColorSpace", Sdf.ValueTypeNames.Token).Set("raw")
+            relief.CreateInput("scale", Sdf.ValueTypeNames.Float4).Set((2.0, 2.0, 2.0, 1.0))
+            relief.CreateInput("bias", Sdf.ValueTypeNames.Float4).Set((-1.0, -1.0, -1.0, 0.0))
+            relief.CreateInput("wrapS", Sdf.ValueTypeNames.Token).Set("repeat")
+            relief.CreateInput("wrapT", Sdf.ValueTypeNames.Token).Set("repeat")
+            relief.CreateOutput("rgb", Sdf.ValueTypeNames.Float3)
+            surface.CreateInput("normal", Sdf.ValueTypeNames.Normal3f).ConnectToSource(relief.GetOutput("rgb"))
+        texture.CreateInput("st", Sdf.ValueTypeNames.Float2).ConnectToSource(coordinates)
         texture.CreateOutput("rgb", Sdf.ValueTypeNames.Float3)
         surface.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).ConnectToSource(texture.GetOutput("rgb"))
         surface.CreateOutput("surface", Sdf.ValueTypeNames.Token)
@@ -335,6 +369,7 @@ def build_assets(
         files.append(path)
     records: list[dict[str, Any]] = []
     copied: dict[str, str] = {}
+    normals: dict[str, str] = {}
     for material in spec["materials"]:
         source = Path(textures[material["id"]])  # type: ignore[index]
         target = out / "assets" / "textures" / f"{prim_name(material['id'])}{source.suffix.lower()}"
@@ -349,8 +384,21 @@ def build_assets(
                 "sha256": common.sha256_file(target),
             }
         )
+        relief = (textures or {}).get(f"{material['id']}-normal")
+        if relief is not None and Path(relief).is_file():  # optional: the normal map of the rock set
+            target = out / "assets" / "textures" / f"{prim_name(material['id'])}_normal{Path(relief).suffix.lower()}"
+            shutil.copyfile(relief, target)
+            normals[material["id"]] = f"textures/{target.name}"
+            records.append(
+                {
+                    "id": f"{material['id']}-normal",
+                    "source": material["source"],
+                    "spdx": material["spdx"],
+                    "sha256": common.sha256_file(target),
+                }
+            )
     materials_layer = out / "assets" / "materials.usda"
-    _write_materials(materials_layer, spec, copied)
+    _write_materials(materials_layer, spec, copied, normals)
     files.append(materials_layer)
     exports: list[Path] = []
     if makehuman_smoke_passed and makehuman_dir is not None and Path(makehuman_dir).is_dir():

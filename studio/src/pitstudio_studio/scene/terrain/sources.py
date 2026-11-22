@@ -33,6 +33,14 @@ KNOWN_SOURCES: dict[str, dict[str, Any]] = {
         "spdx": "DL-DE-ZERO-2.0",
         "attribution": "Elevation data: Land NRW, Digitales Gelaendemodell DGM1 (dl-de/zero-2-0).",
     },
+    "usda-naip-bingham": {
+        "role": "imagery",
+        "spdx": "LicenseRef-USGov-PD",
+        "attribution": (
+            "Imagery: U.S. Department of Agriculture, Farm Service Agency, "
+            "National Agriculture Imagery Program (NAIP), {project}."
+        ),
+    },
     "polyhaven": {"role": "texture", "spdx": "CC0-1.0", "attribution": "Textures: Poly Haven (CC0)."},
     "ambientcg": {"role": "texture", "spdx": "CC0-1.0", "attribution": "Textures: ambientCG (CC0)."},
 }
@@ -111,3 +119,34 @@ def load_registry(root: Path | None = None) -> dict[str, Any]:
     except OSError, yaml.YAMLError:
         return {}
     return loaded if isinstance(loaded, dict) else {}
+
+
+def imagery_record(
+    source: Mapping[str, Any],
+    status: SourceStatus,
+    registry: Mapping[str, Any] | None = None,
+    *,
+    year: int | None = None,
+) -> dict[str, Any]:
+    """The DC-004-02 `sources[]` entry of an orthophoto source (role `imagery`); `epoch` is the year used."""
+    sid = source["id"]
+    entry = next((e for e in (registry or {}).get("sources", []) if e.get("id") == sid), None)
+    known = KNOWN_SOURCES.get(sid, {})
+    spdx = (entry or {}).get("spdx") or known.get("spdx", "LicenseRef-Unregistered")
+    label = f"{year}" if year is not None else "year not chosen"
+    record: dict[str, Any] = {
+        "id": sid,
+        "role": "imagery",
+        "spdx": spdx,
+        "licence_class": (entry or {}).get("licence_class") or source_class_of(spdx, "real") or "reference-only",
+        "redistribution": (entry or {}).get("redistribution", "redistributable" if known else "no-redistribution"),
+        "attribution": (entry or {}).get("attribution")
+        or known.get("attribution", "Attribution pending data registry entry").format(project=label),
+        "project": "NAIP",
+        "status": status.status,
+    }
+    if year is not None:
+        record["epoch"] = int(year)
+    if status.status == "not_run":
+        record["reason"] = (status.reason or "not run")[:MAX_REASON]
+    return record

@@ -171,6 +171,7 @@ def _write_root(
     params_sha256: str,
     terrain_layer: Any,
     scene_dir: Path | None = None,
+    ortho: look.Ortho | None = None,
 ) -> None:
     from pxr import Gf, Sdf, Usd, UsdGeom, UsdPhysics
 
@@ -185,6 +186,8 @@ def _write_root(
     has_looks = scene_dir is not None and (Path(scene_dir) / "assets" / "materials.usda").is_file()
     if has_looks:
         look.author_looks(stage, Path(scene_dir))
+    if ortho is not None and scene_dir is not None:
+        look.author_ortho(stage, Path(scene_dir), ortho)
     scene = UsdPhysics.Scene.Define(stage, "/World/PhysicsScene")
     scene.CreateGravityDirectionAttr(Gf.Vec3f(0.0, 0.0, -1.0))
     scene.CreateGravityMagnitudeAttr(GRAVITY_MS2)
@@ -203,8 +206,8 @@ def _write_root(
                 else:
                     world.GetPrim().CreateAttribute(f"pitstudio:{set_name}", Sdf.ValueTypeNames.String).Set(name)
         vset.SetVariantSelection(names[0])
-    if has_looks:
-        look.bind_materials(stage)
+    if has_looks or ortho is not None:
+        look.bind_materials(stage, ortho, rock=has_looks)
     root.customLayerData = {"manifest_id": manifest_id, "sha256_of_params": params_sha256}
     root.Save()
 
@@ -330,13 +333,14 @@ def compose_scene(spec: Mapping[str, Any], upstream: Mapping[str, Any], scene_di
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
     grid = grid_mod.load_grid(scene)
+    ortho = look.find_ortho(scene) if grid is not None else None  # FR-004-49: the orthophoto of FR-004-48
     if grid is not None:  # FR-004-45, FR-004-47: grid normals and texture coordinates, a fleet standing on the terrain
-        look.restyle_terrain(scene / "layers" / "terrain.usdc", grid)
+        look.restyle_terrain(scene / "layers" / "terrain.usdc", grid, ortho)
         road = scene / "design" / "road-network.geojson"
         if road.is_file():
             ground.ground_fleet(scene / "layers" / "fleet.usda", grid, ground.read_road(road))
     root = scene / "root.usda"
-    _write_root(root, spec, manifest_id, params_sha, opened["terrain"], scene)
+    _write_root(root, spec, manifest_id, params_sha, opened["terrain"], scene, ortho)
     entries = [_layer_entry("root", scene, "root.usda")]
     for role in SUBLAYER_ROLES:
         rel = f"layers/{role}.usd{'c' if role == 'terrain' else 'a'}"
@@ -348,6 +352,9 @@ def compose_scene(spec: Mapping[str, Any], upstream: Mapping[str, Any], scene_di
         rel = records["terrain"][key]["path"]
         if (scene / rel).is_file():
             records["terrain"][key]["sha256"] = common.sha256_file(scene / rel)
+    for image in records["terrain"].get("albedo", {}).get("images", []):  # FR-004-48: digests of the files as copied
+        if (scene / image["path"]).is_file():
+            image["sha256"] = common.sha256_file(scene / image["path"])
     for key in ("report", "road_network"):
         rel = records["design"][key]["path"]
         if (scene / rel).is_file():

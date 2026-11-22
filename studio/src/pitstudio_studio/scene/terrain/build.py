@@ -379,6 +379,53 @@ def _dump(doc: Any) -> str:
     return json.dumps(doc, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
 
 
+def build_albedo(
+    spec: Mapping[str, Any], primary: TerrainGrid, files: Mapping[str, Sequence[Path]], registry: Mapping[str, Any]
+) -> tuple[list[dict[str, Any]], dict[str, bytes], dict[str, Any] | None]:
+    """The orthophoto albedo of the grid (FR-004-48): the `sources[]` records of every `terrain.imagery`, the image
+    files by scene-relative path and the `terrain.albedo` record (None without a source that ran).
+
+    The first listed source with data provides the albedo; an optional source without data is `not_run` with a reason, a
+    required one fails the stage. The year used is the one nearest the DEM year `primary.epoch`.
+    """
+    from pitstudio_studio.scene.terrain import imagery, sources
+
+    records: list[dict[str, Any]] = []
+    images: dict[str, bytes] = {}
+    albedo: dict[str, Any] | None = None
+    for item in spec["terrain"].get("imagery", []):
+        sid = item["id"]
+        paths = [Path(p) for p in files.get(sid, [])]
+        if albedo is not None:
+            status = sources.SourceStatus(
+                sid, "not_run", "the terrain albedo is already provided by another imagery source"
+            )
+            records.append(sources.imagery_record(item, status, registry))
+        elif not paths:
+            if not item.get("optional"):
+                raise SceneStageError("input-corrupt", f"required imagery source {sid}: no input files for this source")
+            status = sources.SourceStatus(sid, "not_run", "data not fetched: no input files for this source")
+            records.append(sources.imagery_record(item, status, registry))
+        else:
+            years = [(p, imagery.acquisition_year(p)) for p in paths]
+            year = imagery.choose_year(years, primary.epoch)
+            chosen = [p for p, y in years if y == year]
+            origin = spec["site"]["origin"]
+            resampled = imagery.resample_orthophoto(
+                chosen,
+                rows=primary.rows,
+                cols=primary.cols,
+                x_min_m=primary.x_min_m,
+                y_max_m=primary.y_max_m,
+                cell_size_m=primary.cell_size_m,
+                origin=origin,
+            )
+            images = imagery.albedo_images(resampled.rgb)
+            albedo = imagery.albedo_record(sid, year, primary.epoch, resampled.ground_resolution_m, images, chosen)
+            records.append(sources.imagery_record(item, sources.SourceStatus(sid, "used"), registry, year=year))
+    return records, images, albedo
+
+
 def _body(ctx: StageContext) -> str:
     from pitstudio_studio.scene.terrain import sources, tiles, usd
 
@@ -398,7 +445,12 @@ def _body(ctx: StageContext) -> str:
         sources.source_record(src, status, registry)
         for src, status in zip(spec["terrain"]["sources"], built.sources, strict=True)
     ]
+    imagery_records, albedo_images, albedo = build_albedo(spec, primary, files, registry)
     work = ctx.work
+    for rel, data in albedo_images.items():
+        target = work / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(data)
     grid_dir = work / "terrain" / "grid.zarr"
     write_grid_zarr(primary, grid_dir)
     for sid, extra in built.grids.items():
@@ -436,11 +488,12 @@ def _body(ctx: StageContext) -> str:
             "crs": primary.crs,
         }
         for name, items in ctx.inputs.items()
+        if name in {s["id"] for s in spec["terrain"]["sources"]}
         for item in items
     ]
     records = {
         "fixture": primary.fixture,
-        "sources": source_records,
+        "sources": [*source_records, *imagery_records],
         "inputs": input_records,
         "terrain": {
             "grid": {"path": "terrain/grid.zarr/zarr.json", "sha256": common.sha256_file(grid_dir / "zarr.json")},
@@ -449,6 +502,7 @@ def _body(ctx: StageContext) -> str:
             "unfilled_holes": primary.counts["unfilled_holes"],
             "unfilled_cells": primary.counts["unfilled_cells"],
             "nodata_frac": primary.nodata_frac,
+            **({"albedo": albedo} if albedo is not None else {}),
         },
         "site": {
             "name": site.name,
