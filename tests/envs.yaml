@@ -10,6 +10,7 @@ studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/unit/test_t_011_heap_simulator_smoke.py
   - tests/contract/test_t_011_036_*.py
   - tests/unit/test_t_009_011_*.py
+  - tests/unit/test_t_009_016_*.py      # the SDG table, inputs and shard driver import pitstudio_studio, minephys and scipy
   - tests/property/test_t_009_013_*.py
   - tests/pipeline/test_t_004_053_*.py
   - tests/property/test_t_006_030_*.py   # the real nvtx package (spec 006, FR-006-17)
