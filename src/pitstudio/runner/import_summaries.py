@@ -270,6 +270,45 @@ def gns_summary(src: Path, run_id: str) -> dict:
     }
 
 
+def scene_summary(src: Path, run_id: str) -> dict:
+    tiles = _json(src, "scene/terrain/tiles.json")
+    report = _json(src, "scene/validation/scene-validation-report.json")
+    manifest = _json(src, "scene/scene.manifest.json")
+    boxes = [t["bbox"] for t in tiles["tiles"]]
+    ext = {
+        k: round(max(b[k] for b in boxes) - min(b[k.replace("max", "min")] for b in boxes), 1)
+        for k in ("x_max_m", "y_max_m", "z_max_m")
+    }
+    dem = next(i for i in manifest["inputs"] if i["kind"] == "dem")
+    return {
+        "title": "Bingham Canyon pit terrain, real elevation model baked to a quadtree of terrain tiles",
+        "label": "real USGS 3DEP terrain (QL2 elevation model, 2018 acquisition), public domain",
+        "verdict": "ok" if report["passed"] else "failed",
+        "headline": [
+            _hw(
+                "Terrain tiles per level of detail",
+                tiles["lods"][0]["tile_count"],
+                "tiles",
+                f"{len(tiles['lods'])} levels",
+            ),
+            _hw("East-west extent", ext["x_max_m"], "m"),
+            _hw("North-south extent", ext["y_max_m"], "m"),
+            _hw("Relief", ext["z_max_m"], "m"),
+        ],
+        "rows": [
+            {"lod": lod["lod"], "max_error_m": lod["max_error_m"], "tiles": lod["tile_count"]} for lod in tiles["lods"]
+        ],
+        "extra": {
+            "scene_validation": report["status"],
+            "dem_source": dem["source"],
+            "dem_sha256": dem["sha256"],
+            "horizontal_epsg": dem["crs"]["horizontal"]["epsg"],
+            "grid_elevation_sha256": tiles["grid_elevation_sha256"],
+            "fixture": bool(tiles.get("fixture")),
+        },
+    }
+
+
 BUILDERS: dict[str, Callable[[Path, str], dict]] = {
     "c1-summary": c1_summary,
     "c1-bundle": c1_bundle,
@@ -277,6 +316,7 @@ BUILDERS: dict[str, Callable[[Path, str], dict]] = {
     "d1-bundle": d1_bundle,
     "a3-summary": a3_summary,
     "gns-summary": gns_summary,
+    "scene-summary": scene_summary,
 }
 
 

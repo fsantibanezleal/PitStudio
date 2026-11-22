@@ -284,6 +284,7 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
     imp = {
         "job": job,
         "case": spec["case"],
+        "all_cases": bool(spec.get("all_cases")),
         "label": spec["label"],
         "partial": bool(partial),
         "outputs": list(outs.values()),

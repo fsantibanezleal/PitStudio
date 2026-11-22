@@ -230,12 +230,12 @@ def _imported_artefacts(
             "kind": o["kind"],
             "producer": {"tool": tool, "stage": key},
             "inputs": [],
-            "cases": [imp["case"]],
             "lane": "static",
             "budget_class": o["budget_class"],
             "licence_class": o["licence_class"],
             "spdx": o["spdx"],
             "asset_host": "git",
+            **({} if imp.get("all_cases") else {"cases": [imp["case"]]}),
             **{k: o[k] for k in ("media_type", "attribution") if k in o},
         }
         arts.append(a)
