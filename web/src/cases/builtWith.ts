@@ -56,8 +56,6 @@ export interface BuiltWithInput {
   usedMethods: ReadonlySet<string>;
   lang: Lang;
   caseId?: string;
-  /** True when at least one run of the case is published (the data of the case then backs a published result). */
-  published?: boolean;
 }
 
 export function deriveBuiltWith(i: BuiltWithInput): BuiltGroups {
@@ -92,7 +90,8 @@ export function deriveBuiltWith(i: BuiltWithInput): BuiltGroups {
     });
   }
   const dataHref = `/cases/${i.caseId ?? ""}/?tab=context`;
-  const status: BuiltStatus = i.published ? "used" : "planned";
+  // no published summary names the data it used, so a data chip never claims more than "planned" (ADR-0040)
+  const status: BuiltStatus = "planned";
   for (const s of i.entry.sources)
     groups.data.push({ id: s, name: s, version: null, licence: null, href: dataHref, nvidia: false, status });
   for (const s of i.entry.synthetic_data)

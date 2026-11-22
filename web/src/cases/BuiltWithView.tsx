@@ -175,7 +175,6 @@ export function CaseStory({
         usedMethods: published.usedMethods,
         lang,
         caseId,
-        published: published.results.some((r) => r.verdict !== "failed"),
       }),
     [entry, published, lang, caseId],
   );
