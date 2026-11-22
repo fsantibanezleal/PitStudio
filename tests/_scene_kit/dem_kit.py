@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Hand-written inputs of the compose look and grounding tests (T-004-095, T-004-096).
 
 The terrain is an analytic surface so every expected value is a hand calculation, never the code under test:
@@ -98,7 +99,11 @@ def terrain_layer(path: Path) -> None:
 def _tile(x0: float, y0: float, size: float, n: int) -> tuple[list[tuple[float, float, float]], list[int], list[int]]:
     """An (n+1) x (n+1) surface lattice on the analytic terrain plus a skirt ring 0.5 m below the border."""
     step = size / n
-    pts = [(x0 + i * step, y0 + j * step, plane_z(x0 + i * step, y0 + j * step)) for j in range(n + 1) for i in range(n + 1)]
+    pts = [
+        (x0 + i * step, y0 + j * step, plane_z(x0 + i * step, y0 + j * step))
+        for j in range(n + 1)
+        for i in range(n + 1)
+    ]
     idx: list[int] = []
     for j in range(n):
         for i in range(n):
@@ -146,7 +151,11 @@ def road_network(*, edge_m: float = 360.0, angle_deg: float = 0.0) -> dict[str, 
 
     def line(frm: str, to: str, cls: str, p: tuple[float, float], q: tuple[float, float]) -> dict[str, Any]:
         props = {"kind": "edge", "class": cls, "from": frm, "to": to, "length_m": edge_m}
-        return {"type": "Feature", "properties": props, "geometry": {"type": "LineString", "coordinates": [[*p, 0.0], [*q, -15.0]]}}
+        return {
+            "type": "Feature",
+            "properties": props,
+            "geometry": {"type": "LineString", "coordinates": [[*p, 0.0], [*q, -15.0]]},
+        }
 
     flat_bench = line("n8", "n9", "bench-road", (65.0, 100.0), (180.0, 100.0))  # flatter than any ramp: not a ramp
     return {"type": "FeatureCollection", "features": [line("n1", "n2", "ramp", start, end), flat_bench]}
@@ -206,8 +215,17 @@ def materials_asset(folder: Path, *, textures: tuple[str, ...] = ("bench_rock",)
     return path
 
 
-def upstream(root: Path, *, textures: tuple[str, ...] = ("bench_rock",), trucks: int = 2, road: bool = True,
-             grid: bool = True, materials: bool = True, edge_m: float = 360.0, angle_deg: float = 0.0) -> dict[str, Any]:
+def upstream(
+    root: Path,
+    *,
+    textures: tuple[str, ...] = ("bench_rock",),
+    trucks: int = 2,
+    road: bool = True,
+    grid: bool = True,
+    materials: bool = True,
+    edge_m: float = 360.0,
+    angle_deg: float = 0.0,
+) -> dict[str, Any]:
     """`kit.fixture_upstream` with an analytic terrain, a fleet at the origin, a grid, a road network and materials."""
     up = kit.fixture_upstream(root)
     layers = root / "layers"
@@ -220,6 +238,8 @@ def upstream(root: Path, *, textures: tuple[str, ...] = ("bench_rock",), trucks:
         files = {k: v for k, v in files.items() if not k.startswith("terrain/grid.zarr")}
         files.update(write_grid(root))
         up["records"]["terrain"]["grid"]["sha256"] = kit.sha256_file(files["terrain/grid.zarr/zarr.json"])
+    if not road:  # `kit.fixture_upstream` ships an example road network: drop it so there is none
+        files.pop("design/road-network.geojson", None)
     if road:
         target = root / "records" / "design" / "road-network.geojson"
         target.write_text(json.dumps(road_network(edge_m=edge_m, angle_deg=angle_deg)), encoding="utf-8", newline="\n")

@@ -1,4 +1,4 @@
-# ruff: noqa: E501, PT018
+# ruff: noqa: E501, PT018, RUF007
 """T-004-096: the fleet and the people stand on the terrain at haul-road centreline stations.
 
 Requirements: FR-004-47.
