@@ -277,3 +277,44 @@ def test_import_run_publish_starts_the_web_index_when_the_repository_has_none(wo
     idx = json.loads((world.repo / "web/public/assets/manifest.json").read_text(encoding="utf-8"))
     assert idx["kind"] == "web-index"
     assert [r["run_id"] for r in idx["runs"]] == [run_id]
+
+
+def test_import_run_publish_writes_the_results_bundle_of_the_import_spec(
+    world: World, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from pitstudio.runner import import_summaries, publish
+
+    def bundle(src: Path, run_id: str) -> dict:
+        return {
+            "schema_version": "1.0",
+            "kind": "comparison",
+            "id": "demo-bundle",
+            "tab": "learned-vs-classical",
+            "title": {"en": "Demo", "es": "Demo"},
+            "cases": ["C1"],
+            "run_ids": [run_id],
+            "criteria": [],
+            "rows": [
+                {
+                    "kind": "estimate",
+                    "metric": {
+                        "id": "m",
+                        "name": {"en": "M", "es": "M"},
+                        "unit": "h",
+                        "orientation": "lower-is-better",
+                    },
+                    "system": "demo",
+                    "n": 3,
+                    "value": 1.5,
+                }
+            ],
+        }
+
+    monkeypatch.setitem(import_summaries.BUILDERS, "demo-bundle", bundle)
+    spec = world.doc()
+    spec["bundles"] = [{"id": "demo-bundle", "derive": "demo-bundle"}]
+    assert world.run(spec)[0] == 0
+    run_id = world.runs()[0].name
+    publish.publish(world.store, world.repo, run_id, None)
+    doc = json.loads((world.repo / "web" / "public" / "results" / "demo-bundle.json").read_text(encoding="utf-8"))
+    assert doc["run_ids"] == [run_id]

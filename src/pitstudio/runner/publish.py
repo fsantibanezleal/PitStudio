@@ -309,6 +309,7 @@ def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[s
     if any(p.search(json.dumps(b)) for b in bundles.values() for p in PRIVATE):
         raise Usage("a results bundle holds an absolute path (privacy rule)")
     for bid, doc in bundles.items():
+        (repo / "web" / "public" / "results").mkdir(parents=True, exist_ok=True)
         write_atomic(repo / "web" / "public" / "results" / f"{bid}.json", json.dumps(doc, indent=1) + "\n")
     for src, dst in copies:
         dst.parent.mkdir(parents=True, exist_ok=True)
