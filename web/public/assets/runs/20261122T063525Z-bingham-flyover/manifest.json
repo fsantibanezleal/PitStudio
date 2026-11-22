@@ -1,0 +1,434 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261122T063525Z-bingham-flyover",
+ "recipe": {
+  "id": "bingham-flyover",
+  "path": "render/bingham-flyover.yaml",
+  "sha256": "3df0d97c8ac0e89dcfef5533b6a770f74fa65029f09f58389c5f3a1a41b3b766"
+ },
+ "git_sha": "e0012b7e106f8d49604f11fbcecf0aec81ff9fd0",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-22T06:35:25Z",
+ "profile": "imported",
+ "seed": 20261122,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "st52_rtx_render"
+   },
+   "tool": "ovrtx",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "ec541aef9510bf007677ea6e50669e16a73009a1d73ac2bd4665abebd42d5da8",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null
+    }
+   ],
+   "params": {},
+   "seed": 20261122,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "local-only",
+   "telemetry": "measured locally, not published (licence)",
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "render.manifest.json",
+     "sha256": "4c0de91105d1fc4ea1f0c776ddf4b14426886ef65fb068144810a4e172483bec",
+     "bytes": 220483
+    }
+   ]
+  },
+  {
+   "key": {
+    "id": "st56_encode"
+   },
+   "tool": "nvenc-ffmpeg",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "eccdc84b1a5e39861e8c5fc1421bbb730dcf861c97186ce7e8c91fd8a6638ce2",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null
+    }
+   ],
+   "params": {},
+   "seed": 20261122,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "local-only",
+   "telemetry": "measured locally, not published (licence)",
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "bingham-flyover.av1.mp4",
+     "sha256": "99146a2f70f27d6652feb97db8a500c67373ffd1bdd7e950174ccf47a3bef783",
+     "bytes": 7164436
+    },
+    {
+     "name": "bingham-flyover.h264.mp4",
+     "sha256": "892977049acc750ac1a7cd282f78e4e1dfad157d30c677a81387386e48f108d8",
+     "bytes": 4905246
+    },
+    {
+     "name": "bingham-flyover.webp",
+     "sha256": "1597141561b66c9bd64298bf57804631670235005cb7367d69af7fcaeb1fc7c5",
+     "bytes": 141426
+    },
+    {
+     "name": "flyover-0s.webp",
+     "sha256": "4a56f7d59d2bf5ecb44b5b272700886367f297c3034027b1040e3964bb7656ef",
+     "bytes": 229764
+    },
+    {
+     "name": "flyover-10s.webp",
+     "sha256": "7ea96cdf17ad1ceafc00792cd57917a4434bbeb06e0bcfc95eb8c09642863ffe",
+     "bytes": 184282
+    },
+    {
+     "name": "flyover-20s.webp",
+     "sha256": "a93cf2dbdc044ed41b37766150feb19fc5e2ef798240fd200959aa9102ab686e",
+     "bytes": 124426
+    },
+    {
+     "name": "encode-report.json",
+     "sha256": "4ac2ebc283ace86f200e97d1b5714363b2b581fd95d690c99ae65490aef2cac0",
+     "bytes": 6774
+    },
+    {
+     "name": "render.json",
+     "sha256": "090fadfe5dd870ba13766cc900eb015d74f0c80bfcc3166908498357dd06966e",
+     "bytes": 918
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "bingham-flyover-av1",
+   "run_id": "20261122T063525Z-bingham-flyover",
+   "git_sha": "e0012b7e106f8d49604f11fbcecf0aec81ff9fd0",
+   "path": "assets/20261122T063525Z-bingham-flyover/bingham-flyover.av1.mp4",
+   "bytes": 7164436,
+   "sha256": "99146a2f70f27d6652feb97db8a500c67373ffd1bdd7e950174ccf47a3bef783",
+   "kind": "video",
+   "producer": {
+    "tool": "nvenc-ffmpeg",
+    "stage": {
+     "id": "st56_encode"
+    }
+   },
+   "inputs": [],
+   "lane": "replay",
+   "budget_class": "videos",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "media_type": "video/mp4",
+   "encoder": {
+    "codec": "av1",
+    "profile": "main",
+    "pix_fmt": "yuv420p",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "frames": 600,
+    "duration_s": 20.0,
+    "bitrate_kbps": 2865.7744,
+    "vmaf": {
+     "mean": 93.66818101666667,
+     "p5": 89.67632285,
+     "model": "vmaf_v0.6.1"
+    },
+    "source_frames_sha256": "1ad57584c384be7cb65c9be0e2620cce2ae3aebe3d17ded0b98cce371024b07e",
+    "encoder": {
+     "ffmpeg_version": "n8.1.3",
+     "build_sha256": "cbbd35c98c9378b7f3c0db18d52bf926b44a419984d69f0a96adfea59703ceb7",
+     "nvenc_api": "13.0",
+     "args": [
+      "-hide_banner",
+      "-y",
+      "-framerate",
+      "30",
+      "-start_number",
+      "0",
+      "-i",
+      "frame_%05d.png",
+      "-frames:v",
+      "600",
+      "-vf",
+      "scale=1920:1080:flags=lanczos,format=yuv420p",
+      "-c:v",
+      "av1_nvenc",
+      "-preset",
+      "p5",
+      "-tune",
+      "hq",
+      "-rc",
+      "vbr",
+      "-cq",
+      "39",
+      "-b:v",
+      "0",
+      "-g",
+      "60",
+      "-movflags",
+      "+faststart",
+      "bingham-flyover.av1.cq39.mp4"
+     ]
+    },
+    "encode_fps": null
+   },
+   "lane_measurements": {
+    "web_drivable": false,
+    "max_asset_bytes": 7164436,
+    "interaction_ms": null,
+    "run_ms_t2": null,
+    "trace_bytes": null,
+    "measured": {
+     "tier": "T2",
+     "date": "2026-11-22",
+     "browser": "none: pre-rendered video"
+    }
+   }
+  },
+  {
+   "id": "bingham-flyover-h264",
+   "run_id": "20261122T063525Z-bingham-flyover",
+   "git_sha": "e0012b7e106f8d49604f11fbcecf0aec81ff9fd0",
+   "path": "assets/20261122T063525Z-bingham-flyover/bingham-flyover.h264.mp4",
+   "bytes": 4905246,
+   "sha256": "892977049acc750ac1a7cd282f78e4e1dfad157d30c677a81387386e48f108d8",
+   "kind": "video",
+   "producer": {
+    "tool": "nvenc-ffmpeg",
+    "stage": {
+     "id": "st56_encode"
+    }
+   },
+   "inputs": [],
+   "lane": "replay",
+   "budget_class": "videos",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "media_type": "video/mp4",
+   "encoder": {
+    "codec": "h264",
+    "profile": "high",
+    "pix_fmt": "yuv420p",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "frames": 600,
+    "duration_s": 20.0,
+    "bitrate_kbps": 1962.0983999999999,
+    "vmaf": {
+     "mean": 93.94995750333332,
+     "p5": 90.3877892,
+     "model": "vmaf_v0.6.1"
+    },
+    "source_frames_sha256": "1ad57584c384be7cb65c9be0e2620cce2ae3aebe3d17ded0b98cce371024b07e",
+    "encoder": {
+     "ffmpeg_version": "n8.1.3",
+     "build_sha256": "cbbd35c98c9378b7f3c0db18d52bf926b44a419984d69f0a96adfea59703ceb7",
+     "nvenc_api": "13.0",
+     "args": [
+      "-hide_banner",
+      "-y",
+      "-framerate",
+      "30",
+      "-start_number",
+      "0",
+      "-i",
+      "frame_%05d.png",
+      "-frames:v",
+      "600",
+      "-vf",
+      "scale=1280:720:flags=lanczos,format=yuv420p",
+      "-c:v",
+      "h264_nvenc",
+      "-preset",
+      "p5",
+      "-tune",
+      "hq",
+      "-rc",
+      "vbr",
+      "-cq",
+      "30",
+      "-b:v",
+      "0",
+      "-g",
+      "60",
+      "-movflags",
+      "+faststart",
+      "bingham-flyover.h264.cq30.mp4"
+     ]
+    },
+    "encode_fps": null
+   },
+   "lane_measurements": {
+    "web_drivable": false,
+    "max_asset_bytes": 4905246,
+    "interaction_ms": null,
+    "run_ms_t2": null,
+    "trace_bytes": null,
+    "measured": {
+     "tier": "T2",
+     "date": "2026-11-22",
+     "browser": "none: pre-rendered video"
+    }
+   }
+  },
+  {
+   "id": "bingham-flyover-poster",
+   "run_id": "20261122T063525Z-bingham-flyover",
+   "git_sha": "e0012b7e106f8d49604f11fbcecf0aec81ff9fd0",
+   "path": "assets/20261122T063525Z-bingham-flyover/bingham-flyover.webp",
+   "bytes": 141426,
+   "sha256": "1597141561b66c9bd64298bf57804631670235005cb7367d69af7fcaeb1fc7c5",
+   "kind": "image",
+   "producer": {
+    "tool": "nvenc-ffmpeg",
+    "stage": {
+     "id": "st56_encode"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "videos",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "media_type": "image/webp"
+  },
+  {
+   "id": "bingham-flyover-still-0s",
+   "run_id": "20261122T063525Z-bingham-flyover",
+   "git_sha": "e0012b7e106f8d49604f11fbcecf0aec81ff9fd0",
+   "path": "assets/20261122T063525Z-bingham-flyover/flyover-0s.webp",
+   "bytes": 229764,
+   "sha256": "4a56f7d59d2bf5ecb44b5b272700886367f297c3034027b1040e3964bb7656ef",
+   "kind": "image",
+   "producer": {
+    "tool": "nvenc-ffmpeg",
+    "stage": {
+     "id": "st56_encode"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "media_type": "image/webp"
+  },
+  {
+   "id": "bingham-flyover-still-10s",
+   "run_id": "20261122T063525Z-bingham-flyover",
+   "git_sha": "e0012b7e106f8d49604f11fbcecf0aec81ff9fd0",
+   "path": "assets/20261122T063525Z-bingham-flyover/flyover-10s.webp",
+   "bytes": 184282,
+   "sha256": "7ea96cdf17ad1ceafc00792cd57917a4434bbeb06e0bcfc95eb8c09642863ffe",
+   "kind": "image",
+   "producer": {
+    "tool": "nvenc-ffmpeg",
+    "stage": {
+     "id": "st56_encode"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "media_type": "image/webp"
+  },
+  {
+   "id": "bingham-flyover-still-20s",
+   "run_id": "20261122T063525Z-bingham-flyover",
+   "git_sha": "e0012b7e106f8d49604f11fbcecf0aec81ff9fd0",
+   "path": "assets/20261122T063525Z-bingham-flyover/flyover-20s.webp",
+   "bytes": 124426,
+   "sha256": "a93cf2dbdc044ed41b37766150feb19fc5e2ef798240fd200959aa9102ab686e",
+   "kind": "image",
+   "producer": {
+    "tool": "nvenc-ffmpeg",
+    "stage": {
+     "id": "st56_encode"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "media_type": "image/webp"
+  },
+  {
+   "id": "bingham-flyover-render",
+   "run_id": "20261122T063525Z-bingham-flyover",
+   "git_sha": "e0012b7e106f8d49604f11fbcecf0aec81ff9fd0",
+   "path": "assets/20261122T063525Z-bingham-flyover/render.json",
+   "bytes": 918,
+   "sha256": "090fadfe5dd870ba13766cc900eb015d74f0c80bfcc3166908498357dd06966e",
+   "kind": "table",
+   "producer": {
+    "tool": "nvenc-ffmpeg",
+    "stage": {
+     "id": "st56_encode"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced by the GPU queue, outside the runner",
+  "job 40-rtx-bingham-render; script sha256 53ff940eb2876d8d8cc7f5fb7e5090083a51457cc1debf464fdc85cdf6531513; log sha256 9222f32f9b0f5654f88eae51a5d25eec354e06a385879c89226e41ea2dea2a24",
+  "timings and GPU time of the render are local-only and are not recorded",
+  "Rendered with NVIDIA Omniverse RTX (ovrtx); scene a1-bingham, producer ovrtx 0.5.0.377615",
+  "real USGS 3DEP terrain (QL2 elevation model, 2018 acquisition), public domain, with the procedural design and fleet of the spec 004 scene; rendered with NVIDIA Omniverse RTX (ovrtx), encoded with NVENC",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "The clip is the camera flyover of the composed Bingham Canyon USD scene; the three published stills are frames of the flyover (0 s, 10 s, 20 s), not the six named views of the recipe, whose cameras did not move.",
+  "partial: recipe render/bingham-flyover.yaml changed since the render (sha256 differs)"
+ ]
+}
