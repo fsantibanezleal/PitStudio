@@ -34,6 +34,9 @@
   }
  ],
  "label": "calibrated synthetic, not validated against real data; nominal signal-to-noise strata, no observed SNR; one real event not run",
+ "methods": [
+  "M14"
+ ],
  "rows": [
   {
    "mean_abs_error_h": 237.28,

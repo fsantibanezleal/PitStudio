@@ -7,7 +7,7 @@
   "path": "cases/d1.yaml",
   "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
  },
- "git_sha": "a104a67eda0249c6bb7370a2296a29e906593886",
+ "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
  "git_dirty": false,
  "runner_version": "0.1.0",
  "created": "2026-10-11T23:58:48Z",
@@ -29,7 +29,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "24c47ce0c3a464aaa0d77ff0751bb109463e24eac2d6f3aa2c41511f3004c741",
+   "cache_key": "1644f072d716845b26c298f9621ffd99a21dc32cca1a4db0adde176342b6d12c",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -96,7 +96,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "cc1b4c317eaf728a29f78a22d3c5349bf45a002e802ccaebf6779e4a7defee48",
+   "cache_key": "9aa86121a5e2178961264ace397bd6ff7e1d1b4c2877b2be30b4414a64537ef6",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -122,8 +122,8 @@
    "outputs": [
     {
      "name": "results-summary.json",
-     "sha256": "6a58e70cd1d082a3295d9baae75449cc9a0ea6ce2755c9a294a98bf553204112",
-     "bytes": 1112
+     "sha256": "7bdbfaf896c594b77fb25b368486246127254cb772f088cf2734b00002e74360",
+     "bytes": 1138
     }
    ]
   }
@@ -132,10 +132,10 @@
   {
    "id": "d1-unet-trtr-results",
    "run_id": "20261011T235848Z-d1-unet-trtr-v2",
-   "git_sha": "a104a67eda0249c6bb7370a2296a29e906593886",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
    "path": "assets/20261011T235848Z-d1-unet-trtr-v2/results-summary.json",
-   "bytes": 1112,
-   "sha256": "6a58e70cd1d082a3295d9baae75449cc9a0ea6ce2755c9a294a98bf553204112",
+   "bytes": 1138,
+   "sha256": "7bdbfaf896c594b77fb25b368486246127254cb772f088cf2734b00002e74360",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",

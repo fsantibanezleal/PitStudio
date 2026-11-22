@@ -23,6 +23,9 @@
   }
  ],
  "label": "calibrated synthetic, not validated against real data",
+ "methods": [
+  "M8"
+ ],
  "rows": [
   {
    "diverged": true,

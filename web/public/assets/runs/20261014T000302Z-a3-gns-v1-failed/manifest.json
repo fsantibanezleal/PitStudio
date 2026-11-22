@@ -7,7 +7,7 @@
   "path": "cases/a3.yaml",
   "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
  },
- "git_sha": "126ee3d8454149f9bddbfeecdc5da00c30b62a2d",
+ "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
  "git_dirty": false,
  "runner_version": "0.1.0",
  "created": "2026-10-14T00:03:02Z",
@@ -29,7 +29,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "549fe5ccdd44b770abd0eca7f87ebeb1eb2b75f6f7f5acb42fabdef38213d8b4",
+   "cache_key": "86325a510ba2d7e3642146a410eb7e84807f32972237934108059537bd020331",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -81,7 +81,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "76f6de3091aadaca1e3f93bf69c885b29e739c177fe29b84369ddcdab678ef78",
+   "cache_key": "2bb1720e5135c107ff137c3546cbb0fb8e4f07afa74b29a0567fc8e9a07455e6",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -112,8 +112,8 @@
     },
     {
      "name": "results-summary.json",
-     "sha256": "300482e99a3244d811dca56c20f69a722788fa97cf544a4117f75f8049543e7e",
-     "bytes": 3494
+     "sha256": "211f0cb8bb2926bdbe42a9769938256cd735039aef7d788ece78c7d36ac7da2d",
+     "bytes": 3519
     }
    ]
   }
@@ -122,10 +122,10 @@
   {
    "id": "a3-gns-v1-failed-results",
    "run_id": "20261014T000302Z-a3-gns-v1-failed",
-   "git_sha": "126ee3d8454149f9bddbfeecdc5da00c30b62a2d",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
    "path": "assets/20261014T000302Z-a3-gns-v1-failed/results-summary.json",
-   "bytes": 3494,
-   "sha256": "300482e99a3244d811dca56c20f69a722788fa97cf544a4117f75f8049543e7e",
+   "bytes": 3519,
+   "sha256": "211f0cb8bb2926bdbe42a9769938256cd735039aef7d788ece78c7d36ac7da2d",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",

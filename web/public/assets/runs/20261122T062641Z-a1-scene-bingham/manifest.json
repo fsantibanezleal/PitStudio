@@ -1,16 +1,16 @@
 {
  "kind": "run",
  "schema_version": "1.0",
- "run_id": "20261122T062219Z-a1-scene-bingham",
+ "run_id": "20261122T062641Z-a1-scene-bingham",
  "recipe": {
   "id": "a1-scene",
   "path": "cases/a1-scene.yaml",
   "sha256": "ff82581dd9105e3bdeb5b41c749d94a8abc3b4a666f3996d29ef2ccaf49c39b5"
  },
- "git_sha": "e813396625717f6d4dca3e149c02f4eff01db0f9",
+ "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
  "git_dirty": false,
  "runner_version": "0.1.0",
- "created": "2026-11-22T06:22:19Z",
+ "created": "2026-11-22T06:26:41Z",
  "profile": "imported",
  "seed": 0,
  "published": true,
@@ -28,7 +28,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "08621622be0ad8b17b56c6596a3f46cdc829bb047da4fdc349315bbacbfa549b",
+   "cache_key": "722f28ce0905e059358587411d19dfa3f83f9dab08c123b61c2f25f1cbd442da",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -59,8 +59,8 @@
     },
     {
      "name": "terrain-summary.json",
-     "sha256": "aeaddc10dc37fa1191a5640fbd3d12a7ea84d6045b307540060383b8aa5ac22b",
-     "bytes": 1073
+     "sha256": "4ba54031aa6ea14468ed3a177d94832e9da7887c5e861d4e30b8bab02f6f02d4",
+     "bytes": 1089
     },
     {
      "name": "scene.manifest.json",
@@ -83,9 +83,9 @@
  "artefacts": [
   {
    "id": "layer-terrain-2023-bingham-tiles",
-   "run_id": "20261122T062219Z-a1-scene-bingham",
-   "git_sha": "e813396625717f6d4dca3e149c02f4eff01db0f9",
-   "path": "assets/20261122T062219Z-a1-scene-bingham/terrain-tiles.json",
+   "run_id": "20261122T062641Z-a1-scene-bingham",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+   "path": "assets/20261122T062641Z-a1-scene-bingham/terrain-tiles.json",
    "bytes": 203303,
    "sha256": "5eda3d628af31464f03594030dd2e27cde5637c5774aa055b6741ac7d3c1ada3",
    "kind": "table",
@@ -104,11 +104,11 @@
   },
   {
    "id": "layer-terrain-2023-bingham-summary",
-   "run_id": "20261122T062219Z-a1-scene-bingham",
-   "git_sha": "e813396625717f6d4dca3e149c02f4eff01db0f9",
-   "path": "assets/20261122T062219Z-a1-scene-bingham/terrain-summary.json",
-   "bytes": 1073,
-   "sha256": "aeaddc10dc37fa1191a5640fbd3d12a7ea84d6045b307540060383b8aa5ac22b",
+   "run_id": "20261122T062641Z-a1-scene-bingham",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+   "path": "assets/20261122T062641Z-a1-scene-bingham/terrain-summary.json",
+   "bytes": 1089,
+   "sha256": "4ba54031aa6ea14468ed3a177d94832e9da7887c5e861d4e30b8bab02f6f02d4",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
@@ -128,7 +128,7 @@
  "notes": [
   "produced by the GPU queue, outside the runner",
   "job a1-scene-bingham; script sha256 missing; log sha256 missing",
-  "started 2026-11-22T06:22:19Z; ended 2026-11-22T06:22:19Z; GPU-hours missing",
+  "started 2026-11-22T06:26:41Z; ended 2026-11-22T06:26:41Z; GPU-hours missing",
   "real USGS 3DEP terrain (QL2 elevation model, 2018 acquisition), public domain; the scene pipeline output of spec 004 (CPU stages, no GPU)",
   "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
   "The scene was produced by the spec 004 pipeline stages st10 to st45 on this machine; the layer id terrain-2023 is the registry name of the case terrain layer.",

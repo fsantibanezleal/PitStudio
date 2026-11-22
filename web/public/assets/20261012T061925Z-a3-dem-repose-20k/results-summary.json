@@ -24,6 +24,9 @@
   }
  ],
  "label": "calibrated synthetic, not validated against real data",
+ "methods": [
+  "M7"
+ ],
  "rows": [
   {
    "repose_deg": 27.22,

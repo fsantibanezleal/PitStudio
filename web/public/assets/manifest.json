@@ -5,64 +5,39 @@
  "git_sha": "126ee3d8454149f9bddbfeecdc5da00c30b62a2d",
  "runs": [
   {
-   "run_id": "20261013T171809Z-c1-slope-forecasters",
-   "manifest": "20261013T171809Z-c1-slope-forecasters/manifest.json",
-   "sha256": "4b73c93290bfc650af9df7c196bf6f2f6d57818f51ddc41ddcd1bd1c2f48b426"
-  },
-  {
    "run_id": "20261011T235848Z-d1-unet-trtr-v2",
    "manifest": "20261011T235848Z-d1-unet-trtr-v2/manifest.json",
-   "sha256": "3e2349a21f41a964a2de606cc3a2b641954e55de7d6fa1608c69ac1095a4230b"
+   "sha256": "0b8765d76e3cbcaff7f21ab393071fce9178398fb82269ef145a6619991237c9"
   },
   {
    "run_id": "20261012T061925Z-a3-dem-repose-20k",
    "manifest": "20261012T061925Z-a3-dem-repose-20k/manifest.json",
-   "sha256": "802fe615d520b5f04aa05c4ef8174aa1ede1b172c4d534c80d6ba05d0fe911ab"
+   "sha256": "6701e3d1ae648d958dd70440a90762e3b1e9620437d6ad27d46db778bb71b7bd"
+  },
+  {
+   "run_id": "20261013T171809Z-c1-slope-forecasters",
+   "manifest": "20261013T171809Z-c1-slope-forecasters/manifest.json",
+   "sha256": "c2dd6f6bd7ca22bed99c9aef6995831f57f3aefb426ec0938d7a04a8c25a4567"
   },
   {
    "run_id": "20261014T000302Z-a3-gns-v1-failed",
    "manifest": "20261014T000302Z-a3-gns-v1-failed/manifest.json",
-   "sha256": "cb03d1ba3d5e2e21603bf197a80390a760b14d17e283385f67e1821cc6263e3f"
+   "sha256": "bfc2adc3f8aba60f855dc3a7d03a70b4591dfa1b149ac29853ab93b21481a647"
   },
   {
-   "run_id": "20261122T062219Z-a1-scene-bingham",
-   "manifest": "20261122T062219Z-a1-scene-bingham/manifest.json",
-   "sha256": "bf63599ff35d21701772af8bc4f75405a621b59da5f01dd45b9251653ee40d97"
+   "run_id": "20261122T062641Z-a1-scene-bingham",
+   "manifest": "20261122T062641Z-a1-scene-bingham/manifest.json",
+   "sha256": "9e13551217bc6d587517edb087df2d56a59b368aa2efc1ace83b1be6dd09c8d3"
   }
  ],
  "artefacts": [
   {
-   "id": "c1-slope-forecasters-results",
-   "run_id": "20261013T171809Z-c1-slope-forecasters",
-   "git_sha": "126ee3d8454149f9bddbfeecdc5da00c30b62a2d",
-   "path": "assets/20261013T171809Z-c1-slope-forecasters/results-summary.json",
-   "bytes": 1714,
-   "sha256": "11e809242debf980f0081f75fef137993eb19e93a8fd5280faf7f5c130003e65",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "C1"
-   ],
-   "media_type": "application/json"
-  },
-  {
    "id": "d1-unet-trtr-results",
    "run_id": "20261011T235848Z-d1-unet-trtr-v2",
-   "git_sha": "a104a67eda0249c6bb7370a2296a29e906593886",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
    "path": "assets/20261011T235848Z-d1-unet-trtr-v2/results-summary.json",
-   "bytes": 1112,
-   "sha256": "6a58e70cd1d082a3295d9baae75449cc9a0ea6ce2755c9a294a98bf553204112",
+   "bytes": 1138,
+   "sha256": "7bdbfaf896c594b77fb25b368486246127254cb772f088cf2734b00002e74360",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
@@ -85,10 +60,10 @@
   {
    "id": "a3-dem-repose-results",
    "run_id": "20261012T061925Z-a3-dem-repose-20k",
-   "git_sha": "a104a67eda0249c6bb7370a2296a29e906593886",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
    "path": "assets/20261012T061925Z-a3-dem-repose-20k/results-summary.json",
-   "bytes": 926,
-   "sha256": "cff17262d1bd0dae613394f15449862ae5417c9e70eb744376565397663301bc",
+   "bytes": 951,
+   "sha256": "8a1835445804ebac1e03e2c0d5b1aff309d01f0c963796a5e6749c78f7ce6a08",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
@@ -108,12 +83,37 @@
    "media_type": "application/json"
   },
   {
+   "id": "c1-slope-forecasters-results",
+   "run_id": "20261013T171809Z-c1-slope-forecasters",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+   "path": "assets/20261013T171809Z-c1-slope-forecasters/results-summary.json",
+   "bytes": 1740,
+   "sha256": "5a71a5f2be936e3fc8bb7c09630f2c8c41270a25d471d3071b3e2cfe81346d8f",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
    "id": "a3-gns-v1-failed-results",
    "run_id": "20261014T000302Z-a3-gns-v1-failed",
-   "git_sha": "126ee3d8454149f9bddbfeecdc5da00c30b62a2d",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
    "path": "assets/20261014T000302Z-a3-gns-v1-failed/results-summary.json",
-   "bytes": 3494,
-   "sha256": "300482e99a3244d811dca56c20f69a722788fa97cf544a4117f75f8049543e7e",
+   "bytes": 3519,
+   "sha256": "211f0cb8bb2926bdbe42a9769938256cd735039aef7d788ece78c7d36ac7da2d",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
@@ -134,9 +134,9 @@
   },
   {
    "id": "layer-terrain-2023-bingham-tiles",
-   "run_id": "20261122T062219Z-a1-scene-bingham",
-   "git_sha": "e813396625717f6d4dca3e149c02f4eff01db0f9",
-   "path": "assets/20261122T062219Z-a1-scene-bingham/terrain-tiles.json",
+   "run_id": "20261122T062641Z-a1-scene-bingham",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+   "path": "assets/20261122T062641Z-a1-scene-bingham/terrain-tiles.json",
    "bytes": 203303,
    "sha256": "5eda3d628af31464f03594030dd2e27cde5637c5774aa055b6741ac7d3c1ada3",
    "kind": "table",
@@ -155,11 +155,11 @@
   },
   {
    "id": "layer-terrain-2023-bingham-summary",
-   "run_id": "20261122T062219Z-a1-scene-bingham",
-   "git_sha": "e813396625717f6d4dca3e149c02f4eff01db0f9",
-   "path": "assets/20261122T062219Z-a1-scene-bingham/terrain-summary.json",
-   "bytes": 1073,
-   "sha256": "aeaddc10dc37fa1191a5640fbd3d12a7ea84d6045b307540060383b8aa5ac22b",
+   "run_id": "20261122T062641Z-a1-scene-bingham",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+   "path": "assets/20261122T062641Z-a1-scene-bingham/terrain-summary.json",
+   "bytes": 1089,
+   "sha256": "4ba54031aa6ea14468ed3a177d94832e9da7887c5e861d4e30b8bab02f6f02d4",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
