@@ -23,6 +23,7 @@ const CONTRACTS_OUT = join(WEB, "src", "contracts", "validators");
 const CONTRACTS = {
   "parity-report": { validate: "#" },
   "lane-measurements": { validate: "#" },
+  "vlm-record": { validate: "#" },
   "replay-shard": {
     validateAny: "#",
     validateShardHeader: "#/$defs/shard_header",
