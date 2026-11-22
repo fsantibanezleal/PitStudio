@@ -17428,7 +17428,8 @@
       "draft": true,
       "phase": "clarified",
       "tasks": [
-        "T-018-025"
+        "T-018-025",
+        "T-018-095"
       ],
       "tests": []
     },
@@ -18319,6 +18320,16 @@
       "phase": "clarified",
       "tasks": [
         "T-018-094"
+      ],
+      "tests": []
+    },
+    "FR-018-72": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-095"
       ],
       "tests": []
     },
@@ -24926,6 +24937,10 @@
     ],
     "T-018-094": [
       "FR-018-71"
+    ],
+    "T-018-095": [
+      "US-018-7",
+      "FR-018-72"
     ],
     "T-018-088": [
       "US-018-3",

@@ -1025,6 +1025,7 @@
 | FR-018-69 | 018-web-cases | draft | T-018-092 | tests/unit/test_t_018_092_case_duplicate_kpi.py |
 | FR-018-70 | 018-web-cases | draft | T-018-093 | - |
 | FR-018-71 | 018-web-cases | draft | T-018-094 | - |
+| FR-018-72 | 018-web-cases | draft | T-018-095 | - |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_010_tool_map.spec.ts |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts, web/src/studio/t_019_010_tool_map.test.tsx |
 | FR-019-03 | 019-web-studio | draft | T-019-011 | web/e2e/t_019_011_map_fallback.spec.ts |
@@ -1775,7 +1776,7 @@
 | US-018-4 | 018-web-cases | draft | T-018-010, T-018-011, T-018-012, T-018-013, T-018-014, T-018-015, T-018-016, T-018-017, T-018-036 | - |
 | US-018-5 | 018-web-cases | draft | T-018-040, T-018-041, T-018-042 | - |
 | US-018-6 | 018-web-cases | draft | T-018-035 | - |
-| US-018-7 | 018-web-cases | draft | T-018-025 | - |
+| US-018-7 | 018-web-cases | draft | T-018-025, T-018-095 | - |
 | US-019-1 | 019-web-studio | draft | T-019-010, T-019-011, T-019-012, T-019-035, T-019-036, T-019-040, T-019-041 | web/e2e/t_019_010_tool_map.spec.ts |
 | US-019-2 | 019-web-studio | draft | T-019-020, T-019-021, T-019-022, T-019-023, T-019-024 | - |
 | US-019-3 | 019-web-studio | draft | T-019-030, T-019-031, T-019-032 | - |
