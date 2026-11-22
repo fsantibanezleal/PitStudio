@@ -7,6 +7,7 @@ studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/metamorphic/test_t_005_*.py
   - tests/unit/test_t_011_03[3-9]_*.py
   - tests/unit/test_t_011_060_*.py
+  - tests/unit/test_t_011_014_planar_*.py   # the planar reference-data generator (Warp DEM, spec 011 FR-011-03)
   - tests/unit/test_t_011_heap_simulator_smoke.py
   - tests/contract/test_t_011_036_*.py
   - tests/unit/test_t_009_011_*.py
