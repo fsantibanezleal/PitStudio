@@ -49,7 +49,7 @@ def test_011_every_draw_stays_in_its_design_ranges_and_is_reproducible() -> None
         rng = np.random.default_rng(seed)
         c = space.draw_geometry("column-collapse", rng)
         assert 0.5 <= c["a"] <= 4.0
-        assert 18.0 <= c["L0_D"] <= 70.0
+        assert 32.0 <= c["L0_D"] <= 70.0
         assert c["n"] <= space.N_MAX_COLLAPSE
         for family in ("pile-formation", "dump-over-crest"):
             p = space.draw_geometry(family, rng)
@@ -292,3 +292,19 @@ def test_011_a_replaced_geometry_is_redrawn_from_the_next_attempt(tmp_path: Path
     assert slot["failed_geometries"][0]["params"] == first
     generate.draw_slot(st, slot)
     assert slot["params"] != first
+
+
+@pytest.mark.req("FR-011-10")
+def test_011_a_feed_that_stops_progressing_is_called_a_jam_without_waiting_for_the_time_cap() -> None:
+    thr = 0.003
+    flowing = measure.RestJudge(thr, discharged_min=0.9, stall_s=6.0)
+    for i in range(1200):  # 12 s of a steady discharge that never goes static
+        assert flowing.update(0.5 + i * 0.01, 0.05, min(0.89, 0.02 + i * 0.001)) == "run"
+    creeping = measure.RestJudge(thr, discharged_min=0.9, stall_s=6.0)
+    verdicts = [creeping.update(0.5 + i * 0.01, 0.05, 0.3 + (i * 1e-6)) for i in range(800)]
+    assert verdicts[0] == "run"
+    assert "jammed" in verdicts
+    assert verdicts.index("jammed") * 0.01 >= 6.0 - 1e-9  # not before a whole window has passed without progress
+    done = measure.RestJudge(thr, discharged_min=0.9, stall_s=6.0)
+    for i in range(800):  # a nearly drained feed that still creeps is not stalled: it is past the discharge minimum
+        assert done.update(0.5 + i * 0.01, 0.05, 0.95) == "run"
