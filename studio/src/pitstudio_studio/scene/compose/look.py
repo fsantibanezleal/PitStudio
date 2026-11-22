@@ -20,7 +20,6 @@ from pitstudio_studio.scene.compose.grid import Grid
 TEXTURE_PERIOD_M = 50.0  # one texture repeat covers this many metres of terrain
 FALLBACK_ALBEDO = (0.42, 0.38, 0.33)  # constant diffuse colour of a material whose texture file is missing
 MATERIALS_PATH = "/World/Materials"
-BINDINGS = (("/World/Terrain", "bench_rock"), ("/World/Design/HaulRoads", "gravel_road"))
 
 
 def restyle_terrain(layer_path: Path, grid: Grid) -> int:
@@ -61,8 +60,7 @@ def author_looks(stage: Any, scene: Path) -> list[str]:
 
     if not (Path(scene) / "assets" / "materials.usda").is_file():
         return []
-    stage.OverridePrim("/World/Design")
-    stage.OverridePrim("/World/Design/HaulRoads")
+    _bind(stage, "/World/Design/HaulRoads", "gravel_road")  # first: /World/Design sorts before /World/Materials
     holder = stage.DefinePrim(MATERIALS_PATH, "Scope")
     holder.GetReferences().AddReference("assets/materials.usda", "/Materials")
     missing: list[str] = []
@@ -106,11 +104,14 @@ def copy_asset(source: Path, target: Path) -> None:
     Path(target).write_bytes(data.replace(b"token inputs:varname", b"string inputs:varname"))
 
 
-def bind_materials(stage: Any) -> None:
-    """Bind `/World/Terrain` and `/World/Design/HaulRoads` to their materials (after `PhysicsScene` is defined)."""
-    from pxr import UsdShade
+def _bind(stage: Any, target: str, material: str) -> None:
+    from pxr import Sdf, UsdShade
 
-    for target, name in BINDINGS:
-        material = UsdShade.Material(stage.GetPrimAtPath(f"{MATERIALS_PATH}/{name}"))
-        if material:
-            UsdShade.MaterialBindingAPI.Apply(stage.OverridePrim(target)).Bind(material)
+    prim = stage.OverridePrim(target)
+    UsdShade.MaterialBindingAPI.Apply(prim)
+    prim.CreateRelationship("material:binding").SetTargets([Sdf.Path(f"{MATERIALS_PATH}/{material}")])
+
+
+def bind_materials(stage: Any) -> None:
+    """Bind `/World/Terrain` to the rock (after `PhysicsScene` is defined: prims are authored in sorted order)."""
+    _bind(stage, "/World/Terrain", "bench_rock")
