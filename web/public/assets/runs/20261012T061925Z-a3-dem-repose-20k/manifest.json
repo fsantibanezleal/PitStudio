@@ -1,0 +1,141 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261012T061925Z-a3-dem-repose-20k",
+ "recipe": {
+  "id": "a3-dem-repose-20k",
+  "path": "cases/a3.yaml",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+ },
+ "git_sha": "a104a67eda0249c6bb7370a2296a29e906593886",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-10-12T06:19:25Z",
+ "profile": "imported",
+ "seed": 10,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "st50_physics"
+   },
+   "tool": "warp",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "83920ce4a69811697188406c08c158d7c6a67b5cbe00633f2d5b349a82703e71",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 3131.0
+    }
+   ],
+   "params": {},
+   "seed": 10,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 3131.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "results.json",
+     "sha256": "d39131bbb1e09133f0a18d0f92d52e14e677b52855ef0485b4ea7d05a1307eab",
+     "bytes": 4896
+    }
+   ]
+  },
+  {
+   "key": {
+    "id": "s50_evaluate"
+   },
+   "tool": "pitstudio",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "1b18fbc8993bade49aa08876c7b5cc2c6cea617b55fd800f3b7549c988c6d517",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 3131.0
+    }
+   ],
+   "params": {},
+   "seed": 10,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 3131.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "sha256": "cff17262d1bd0dae613394f15449862ae5417c9e70eb744376565397663301bc",
+     "bytes": 926
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "a3-dem-repose-results",
+   "run_id": "20261012T061925Z-a3-dem-repose-20k",
+   "git_sha": "a104a67eda0249c6bb7370a2296a29e906593886",
+   "path": "assets/20261012T061925Z-a3-dem-repose-20k/results-summary.json",
+   "bytes": 926,
+   "sha256": "cff17262d1bd0dae613394f15449862ae5417c9e70eb744376565397663301bc",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced by the GPU queue, outside the runner",
+  "job 21-dem-repose-n20k; script sha256 2ec8b6ecb22e67d0d198e65522e51b1c55f9616af78cfe5d66439ba18c96a6ae; log sha256 218ce14d027bc0285abccd6d4400384d1ce16db502828598df6c65c7d28535c9",
+  "started 2026-10-12T05:27:14Z; ended 2026-10-12T06:19:25Z; GPU-hours 0.5948",
+  "calibrated synthetic, not validated against real data",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "GPU-hours are the summed stepping wall time of the five seeds, from results.json.",
+  "partial: recipe cases/a3.yaml is not written yet: its sha256 is recorded as zeros"
+ ]
+}

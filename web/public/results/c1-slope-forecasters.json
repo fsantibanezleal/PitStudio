@@ -1,0 +1,73 @@
+{
+ "cases": [
+  "C1"
+ ],
+ "criteria": [],
+ "id": "c1-slope-forecasters",
+ "kind": "comparison",
+ "rows": [
+  {
+   "baseline": "Inverse velocity",
+   "challenger": "TCN",
+   "group": "c1-tcn",
+   "interval": {
+    "hi": -131.959,
+    "level": 0.95,
+    "lo": -227.512,
+    "method": "paired-t"
+   },
+   "kind": "paired",
+   "metric": {
+    "id": "forecast_error",
+    "name": {
+     "en": "Forecast error (absolute, hours)",
+     "es": "Error de pron\u00f3stico (absoluto, horas)"
+    },
+    "orientation": "lower-is-better",
+    "unit": "h"
+   },
+   "n": 3000,
+   "pairing_unit": {
+    "en": "test event and cutoff",
+    "es": "evento de prueba y corte"
+   },
+   "verdict": "challenger-better"
+  },
+  {
+   "baseline": "Inverse velocity",
+   "challenger": "PatchTST",
+   "group": "c1-patchtst",
+   "interval": {
+    "hi": -122.738,
+    "level": 0.95,
+    "lo": -218.236,
+    "method": "paired-t"
+   },
+   "kind": "paired",
+   "metric": {
+    "id": "forecast_error",
+    "name": {
+     "en": "Forecast error (absolute, hours)",
+     "es": "Error de pron\u00f3stico (absoluto, horas)"
+    },
+    "orientation": "lower-is-better",
+    "unit": "h"
+   },
+   "n": 3000,
+   "pairing_unit": {
+    "en": "test event and cutoff",
+    "es": "evento de prueba y corte"
+   },
+   "verdict": "challenger-better"
+  }
+ ],
+ "run_ids": [
+  "20261013T171809Z-c1-slope-forecasters"
+ ],
+ "schema_version": "1.0",
+ "tab": "learned-vs-classical",
+ "title": {
+  "en": "C1 slope forecasters against inverse velocity",
+  "es": "C1 pronosticadores de talud frente a velocidad inversa"
+ }
+}

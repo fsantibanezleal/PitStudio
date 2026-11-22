@@ -1,0 +1,77 @@
+{
+ "extra": {
+  "acceptance": "SC-010-01 not run: the observed SNR is unavailable",
+  "events_per_method": 3000,
+  "onnx_export": {
+   "chronos_bolt_fine_tuned": "LIVE",
+   "patchtst": "LIVE",
+   "tcn": "LIVE"
+  },
+  "validation_pinball": {
+   "chronos_bolt_fine_tuned": 41.3114,
+   "patchtst": 0.6873,
+   "tcn": 0.6778
+  }
+ },
+ "headline": [
+  {
+   "name": "Mean absolute forecast error, TCN",
+   "note": "best of the six methods",
+   "unit": "h",
+   "value": 57.54
+  },
+  {
+   "name": "Mean absolute forecast error, inverse velocity",
+   "note": "classical baseline",
+   "unit": "h",
+   "value": 237.28
+  },
+  {
+   "name": "Training GPU-hours, three arms",
+   "note": "budget 2.0 h",
+   "unit": "h",
+   "value": 0.3735
+  }
+ ],
+ "label": "calibrated synthetic, not validated against real data; nominal signal-to-noise strata, no observed SNR; one real event not run",
+ "rows": [
+  {
+   "mean_abs_error_h": 237.28,
+   "median_abs_error_h": 82.27,
+   "method": "Inverse velocity",
+   "n": 3000
+  },
+  {
+   "mean_abs_error_h": 159.51,
+   "median_abs_error_h": 74.57,
+   "method": "Bayesian time to failure",
+   "n": 3000
+  },
+  {
+   "mean_abs_error_h": 57.54,
+   "median_abs_error_h": 30.96,
+   "method": "TCN",
+   "n": 3000
+  },
+  {
+   "mean_abs_error_h": 66.79,
+   "median_abs_error_h": 29.61,
+   "method": "PatchTST",
+   "n": 3000
+  },
+  {
+   "mean_abs_error_h": 212.46,
+   "median_abs_error_h": 108.84,
+   "method": "Chronos-Bolt fine-tuned",
+   "n": 3000
+  },
+  {
+   "mean_abs_error_h": 254.99,
+   "median_abs_error_h": 147.43,
+   "method": "Chronos-Bolt zero-shot",
+   "n": 3000
+  }
+ ],
+ "title": "Slope time-to-failure forecasters: TCN, PatchTST and Chronos-Bolt against inverse velocity",
+ "verdict": "ok"
+}

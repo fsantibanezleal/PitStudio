@@ -1,0 +1,53 @@
+{
+ "extra": {
+  "dem_sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+  "dem_source": "usgs-3dep-bingham",
+  "fixture": false,
+  "grid_elevation_sha256": "4fac0391a49e0142c67c3f7fa000bd0e1745c92417d078b4f12d1b2fdddef1de",
+  "horizontal_epsg": 26912,
+  "scene_validation": "complete"
+ },
+ "headline": [
+  {
+   "name": "Terrain tiles per level of detail",
+   "note": "3 levels",
+   "unit": "tiles",
+   "value": 132
+  },
+  {
+   "name": "East-west extent",
+   "unit": "m",
+   "value": 2899.0
+  },
+  {
+   "name": "North-south extent",
+   "unit": "m",
+   "value": 2799.0
+  },
+  {
+   "name": "Relief",
+   "unit": "m",
+   "value": 1118.0
+  }
+ ],
+ "label": "real USGS 3DEP terrain (QL2 elevation model, 2018 acquisition), public domain",
+ "rows": [
+  {
+   "lod": 0,
+   "max_error_m": 0.25,
+   "tiles": 132
+  },
+  {
+   "lod": 1,
+   "max_error_m": 1.0,
+   "tiles": 132
+  },
+  {
+   "lod": 2,
+   "max_error_m": 4.0,
+   "tiles": 132
+  }
+ ],
+ "title": "Bingham Canyon pit terrain, real elevation model baked to a quadtree of terrain tiles",
+ "verdict": "ok"
+}

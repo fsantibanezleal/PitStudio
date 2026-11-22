@@ -1,0 +1,179 @@
+{
+ "kind": "web-index",
+ "schema_version": "1.0",
+ "generated": "2026-10-13",
+ "git_sha": "126ee3d8454149f9bddbfeecdc5da00c30b62a2d",
+ "runs": [
+  {
+   "run_id": "20261013T171809Z-c1-slope-forecasters",
+   "manifest": "20261013T171809Z-c1-slope-forecasters/manifest.json",
+   "sha256": "4b73c93290bfc650af9df7c196bf6f2f6d57818f51ddc41ddcd1bd1c2f48b426"
+  },
+  {
+   "run_id": "20261011T235848Z-d1-unet-trtr-v2",
+   "manifest": "20261011T235848Z-d1-unet-trtr-v2/manifest.json",
+   "sha256": "3e2349a21f41a964a2de606cc3a2b641954e55de7d6fa1608c69ac1095a4230b"
+  },
+  {
+   "run_id": "20261012T061925Z-a3-dem-repose-20k",
+   "manifest": "20261012T061925Z-a3-dem-repose-20k/manifest.json",
+   "sha256": "802fe615d520b5f04aa05c4ef8174aa1ede1b172c4d534c80d6ba05d0fe911ab"
+  },
+  {
+   "run_id": "20261014T000302Z-a3-gns-v1-failed",
+   "manifest": "20261014T000302Z-a3-gns-v1-failed/manifest.json",
+   "sha256": "cb03d1ba3d5e2e21603bf197a80390a760b14d17e283385f67e1821cc6263e3f"
+  },
+  {
+   "run_id": "20261122T062219Z-a1-scene-bingham",
+   "manifest": "20261122T062219Z-a1-scene-bingham/manifest.json",
+   "sha256": "bf63599ff35d21701772af8bc4f75405a621b59da5f01dd45b9251653ee40d97"
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "c1-slope-forecasters-results",
+   "run_id": "20261013T171809Z-c1-slope-forecasters",
+   "git_sha": "126ee3d8454149f9bddbfeecdc5da00c30b62a2d",
+   "path": "assets/20261013T171809Z-c1-slope-forecasters/results-summary.json",
+   "bytes": 1714,
+   "sha256": "11e809242debf980f0081f75fef137993eb19e93a8fd5280faf7f5c130003e65",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d1-unet-trtr-results",
+   "run_id": "20261011T235848Z-d1-unet-trtr-v2",
+   "git_sha": "a104a67eda0249c6bb7370a2296a29e906593886",
+   "path": "assets/20261011T235848Z-d1-unet-trtr-v2/results-summary.json",
+   "bytes": 1112,
+   "sha256": "6a58e70cd1d082a3295d9baae75449cc9a0ea6ce2755c9a294a98bf553204112",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "attribution",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+  },
+  {
+   "id": "a3-dem-repose-results",
+   "run_id": "20261012T061925Z-a3-dem-repose-20k",
+   "git_sha": "a104a67eda0249c6bb7370a2296a29e906593886",
+   "path": "assets/20261012T061925Z-a3-dem-repose-20k/results-summary.json",
+   "bytes": 926,
+   "sha256": "cff17262d1bd0dae613394f15449862ae5417c9e70eb744376565397663301bc",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "a3-gns-v1-failed-results",
+   "run_id": "20261014T000302Z-a3-gns-v1-failed",
+   "git_sha": "126ee3d8454149f9bddbfeecdc5da00c30b62a2d",
+   "path": "assets/20261014T000302Z-a3-gns-v1-failed/results-summary.json",
+   "bytes": 3494,
+   "sha256": "300482e99a3244d811dca56c20f69a722788fa97cf544a4117f75f8049543e7e",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "layer-terrain-2023-bingham-tiles",
+   "run_id": "20261122T062219Z-a1-scene-bingham",
+   "git_sha": "e813396625717f6d4dca3e149c02f4eff01db0f9",
+   "path": "assets/20261122T062219Z-a1-scene-bingham/terrain-tiles.json",
+   "bytes": 203303,
+   "sha256": "5eda3d628af31464f03594030dd2e27cde5637c5774aa055b6741ac7d3c1ada3",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st45_validate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git"
+  },
+  {
+   "id": "layer-terrain-2023-bingham-summary",
+   "run_id": "20261122T062219Z-a1-scene-bingham",
+   "git_sha": "e813396625717f6d4dca3e149c02f4eff01db0f9",
+   "path": "assets/20261122T062219Z-a1-scene-bingham/terrain-summary.json",
+   "bytes": 1073,
+   "sha256": "aeaddc10dc37fa1191a5640fbd3d12a7ea84d6045b307540060383b8aa5ac22b",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st45_validate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "application/json"
+  }
+ ]
+}

@@ -1,0 +1,79 @@
+{
+ "job": "a1-scene-bingham",
+ "case": "A1",
+ "all_cases": true,
+ "recipe": "cases/a1-scene.yaml",
+ "slug": "a1-scene-bingham",
+ "seed": 0,
+ "label": "real USGS 3DEP terrain (QL2 elevation model, 2018 acquisition), public domain; the scene pipeline output of spec 004 (CPU stages, no GPU)",
+ "notes": [
+  "The scene was produced by the spec 004 pipeline stages st10 to st45 on this machine; the layer id terrain-2023 is the registry name of the case terrain layer."
+ ],
+ "stages": [
+  {
+   "id": "st45_validate",
+   "tool": "pitstudio",
+   "outputs": [
+    {
+     "name": "terrain-tiles.json",
+     "from": "scene/terrain/tiles.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "id": "layer-terrain-2023-bingham-tiles",
+     "required_fields": [
+      "tiles",
+      "lods"
+     ]
+    },
+    {
+     "name": "terrain-summary.json",
+     "derive": "scene-summary",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "layer-terrain-2023-bingham-summary",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD"
+    },
+    {
+     "name": "scene.manifest.json",
+     "from": "scene/scene.manifest.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "required_fields": [
+      "inputs",
+      "layers"
+     ]
+    },
+    {
+     "name": "scene-validation-report.json",
+     "from": "scene/validation/scene-validation-report.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "required_fields": [
+      "passed"
+     ]
+    },
+    {
+     "name": "terrain.usdc",
+     "from": "scene/layers/terrain.usdc",
+     "kind": "usd",
+     "budget_class": "tiles-glb",
+     "publish": false,
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD"
+    }
+   ]
+  }
+ ]
+}
