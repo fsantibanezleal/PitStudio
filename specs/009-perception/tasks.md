@@ -63,6 +63,7 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/009-perception/t
 - [ ] T-009-097 (FR-009-51) fixture propagation through the detector stages — test: tests/unit/test_t_009_097_fixture_propagation.py
 - [ ] T-009-098 (FR-009-52) partial evaluations: models listed, no pooled claim over incomplete sets — test: tests/unit/test_t_009_098_partial_models.py
 - [ ] T-009-099 (FR-009-53) stale SDG images fail `input-stale` before training — test: tests/unit/test_t_009_099_input_stale.py
+- [ ] T-009-100 (FR-009-54) camera and object heights from the carved surface, clear view ahead, objects in line of sight — test: tests/unit/test_t_009_100_line_of_sight.py
 
 ## Phase 8 — Polish and hostile review
 - [ ] T-009-090 mutation run on the corruption, AP-wrapper and bootstrap modules; record the score (≥ 0.80 numerical core)

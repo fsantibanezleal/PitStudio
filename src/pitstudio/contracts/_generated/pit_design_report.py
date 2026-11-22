@@ -60,6 +60,20 @@ class Volumes(BaseModel):
     ]
 
 
+class OutlineStepM(BaseModel):
+    """
+    height step across the pit outline: carved height of a cell inside minus that of its 4-neighbour outside, over every such pair
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    pairs: Annotated[int, Field(ge=0)]
+    median_abs_m: Annotated[float, Field(ge=0.0, le=10000.0)]
+    max_abs_m: Annotated[float, Field(ge=0.0, le=10000.0)]
+    mean_signed_m: Annotated[float, Field(ge=-10000.0, le=10000.0)]
+
+
 class Slug(RootModel[str]):
     root: Annotated[str, Field(max_length=64, pattern="^[a-z0-9][a-z0-9-]{0,63}$")]
 
@@ -151,9 +165,33 @@ class Windrows(BaseModel):
     governing_asset: Slug
 
 
+class CarvedSurface(BaseModel):
+    """
+    the carved surface written next to the report (FR-004-50): the design meshes inside the pit outline, the source terrain outside it
+    """
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    grid_sha256: Annotated[
+        Sha256,
+        Field(description="SHA-256 of the carved elevation array, float32 little-endian, row 0 north"),
+    ]
+    cells_inside: Annotated[
+        int,
+        Field(description="grid cells whose centre lies inside the pit outline", ge=1),
+    ]
+    outline_step_m: Annotated[
+        OutlineStepM,
+        Field(
+            description="height step across the pit outline: carved height of a cell inside minus that of its 4-neighbour outside, over every such pair"
+        ),
+    ]
+
+
 class PitDesignReport(BaseModel):
     """
-    Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
+    Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline). Version 1.1: optional `fixture` member. Version 1.2: optional `carved_surface` member (FR-004-50).
     """
 
     model_config = ConfigDict(
@@ -183,3 +221,9 @@ class PitDesignReport(BaseModel):
             description="True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
         ),
     ] = False
+    carved_surface: Annotated[
+        CarvedSurface | None,
+        Field(
+            description="the carved surface written next to the report (FR-004-50): the design meshes inside the pit outline, the source terrain outside it"
+        ),
+    ] = None

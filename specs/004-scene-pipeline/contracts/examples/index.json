@@ -968,6 +968,23 @@
       "keyword": "additionalProperties"
     },
     {
+      "file": "pit-design-report.valid-carved.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "three-bench circular pit with the carved surface member (FR-004-50)"
+    },
+    {
+      "file": "pit-design-report.hostile-carved-negative-step.json",
+      "schema": "pit-design-report.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "negative absolute step",
+      "rule": "FR-004-50",
+      "pointer": "/carved_surface/outline_step_m/max_abs_m",
+      "keyword": "minimum"
+    },
+    {
       "file": "road-network.valid.json",
       "schema": "road-network.schema.json",
       "target": "#",

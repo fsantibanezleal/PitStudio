@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/pit-design-report.schema.json",
   "title": "Pit design report",
-  "description": "Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.",
+  "description": "Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline). Version 1.1: optional `fixture` member. Version 1.2: optional `carved_surface` member (FR-004-50).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -269,6 +269,59 @@
       "type": "boolean",
       "default": false,
       "description": "True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false."
+    },
+    "carved_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "the carved surface written next to the report (FR-004-50): the design meshes inside the pit outline, the source terrain outside it",
+      "required": [
+        "grid_sha256",
+        "cells_inside",
+        "outline_step_m"
+      ],
+      "properties": {
+        "grid_sha256": {
+          "$ref": "#/$defs/sha256",
+          "description": "SHA-256 of the carved elevation array, float32 little-endian, row 0 north"
+        },
+        "cells_inside": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "grid cells whose centre lies inside the pit outline"
+        },
+        "outline_step_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "height step across the pit outline: carved height of a cell inside minus that of its 4-neighbour outside, over every such pair",
+          "required": [
+            "pairs",
+            "median_abs_m",
+            "max_abs_m",
+            "mean_signed_m"
+          ],
+          "properties": {
+            "pairs": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "median_abs_m": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "max_abs_m": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "mean_signed_m": {
+              "type": "number",
+              "minimum": -10000,
+              "maximum": 10000
+            }
+          }
+        }
+      }
     }
   },
   "$defs": {

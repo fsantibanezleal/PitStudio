@@ -17,7 +17,7 @@ export type Sha256 = string
 export type Slug = string
 
 /**
- * Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline). Version 1.1: optional `fixture` member.
+ * Per-bench table, ramp and windrow measures, cut/fill volumes and identity residual written by st20_pit_design (DC-004-05, spec 004-scene-pipeline). Version 1.1: optional `fixture` member. Version 1.2: optional `carved_surface` member (FR-004-50).
  */
 export interface PitDesignReport {
 $schema?: string
@@ -95,6 +95,28 @@ identity_residual_rel: number
  * True while the document derives from a contract fixture (ADR-0040, FR-004-44); no stage that consumes it may publish a result from it. Absent means false.
  */
 fixture?: boolean
+/**
+ * the carved surface written next to the report (FR-004-50): the design meshes inside the pit outline, the source terrain outside it
+ */
+carved_surface?: {
+/**
+ * SHA-256 of the carved elevation array, float32 little-endian, row 0 north
+ */
+grid_sha256: string
+/**
+ * grid cells whose centre lies inside the pit outline
+ */
+cells_inside: number
+/**
+ * height step across the pit outline: carved height of a cell inside minus that of its 4-neighbour outside, over every such pair
+ */
+outline_step_m: {
+pairs: number
+median_abs_m: number
+max_abs_m: number
+mean_signed_m: number
+}
+}
 }
 /**
  * measured geometry of one bench (FR-004-19); tolerance checks belong to FR-004-35
