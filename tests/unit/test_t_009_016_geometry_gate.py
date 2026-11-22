@@ -90,7 +90,8 @@ def test_the_table_and_the_render_must_agree_on_90_percent_of_the_visible_object
         return [{"table_visible": True, "visible_px": 16}] * good + [{"table_visible": True, "visible_px": 15}] * bad
 
     ok = geometry_qa.evaluate_gate([frame(objects=objects(90, 10))])
-    assert ok["thresholds"]["table_render_agreement"] == {"value": 0.9, "limit": 0.9, "passed": True}
+    check = ok["thresholds"]["table_render_agreement"]
+    assert (check["value"], check["limit"], check["passed"]) == (0.9, 0.9, True)
     bad = geometry_qa.evaluate_gate([frame(objects=objects(89, 11))])
     assert bad["thresholds"]["table_render_agreement"]["passed"] is False and bad["passed"] is False
 
