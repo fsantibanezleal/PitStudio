@@ -1,4 +1,4 @@
-// T-018-096 · FR-018-73 in a real browser, against the published render run (the first RTX flyover of the Bingham Canyon scene,
+// T-018-096 Â· FR-018-73 in a real browser, against the published render run (the first RTX flyover of the Bingham Canyon scene,
 // published by `studio import-run` kind render): the rendered scene section on all 12 case pages from one component, the poster
 // and the stills at once with the producer attribution in place, no video file requested before a click, and the clip playing
 // after a click. Unit half: web/src/cases/t_018_096_scene_render.test.tsx.
@@ -17,7 +17,7 @@ async function openCase(page: Page, id: string): Promise<void> {
 
 test.describe("the rendered scene section (FR-018-73)", () => {
   for (const id of CASES) {
-    test(`${id} · one section with the poster, three stills, the label in place and the render tools in Built with`, async ({
+    test(`${id} Â· one section with the poster, three stills, the label in place and the render tools in Built with`, async ({
       page,
     }) => {
       await openCase(page, id);
@@ -59,7 +59,7 @@ test.describe("the rendered scene section (FR-018-73)", () => {
     );
     await page.getByRole("button", { name: "Play the flyover" }).click();
     await expect.poll(() => media.length, { timeout: 30_000 }).toBe(1);
-    expect(media[0]).toMatch(/bingham-flyover-av1\.mp4$/);
+    expect(media[0]).toMatch(/bingham-flyover\.av1\.mp4$/);
     await expect(video).toHaveAttribute("src", /^blob:/);
     await expect
       .poll(() => video.evaluate((el) => (el as HTMLVideoElement).currentTime), { timeout: 30_000 })
