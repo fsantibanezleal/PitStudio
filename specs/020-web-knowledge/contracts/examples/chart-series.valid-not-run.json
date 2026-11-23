@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "kind": "chart-series",
+  "id": "example-not-run",
+  "case": "C1",
+  "chart_type": "line",
+  "status": "not-run",
+  "title": {
+    "en": "Example chart",
+    "es": "Gráfico de ejemplo"
+  },
+  "producer": {
+    "tool": "warp",
+    "method": "granular DEM",
+    "version": "1.0.0",
+    "label": "fixture of the contract tests, not a result"
+  },
+  "serves": [
+    "FR-018-16",
+    "FR-020-07"
+  ],
+  "not_run_reason": {
+    "en": "The observed signal-to-noise ratio is unavailable.",
+    "es": "La relación señal-ruido observada no está disponible."
+  }
+}

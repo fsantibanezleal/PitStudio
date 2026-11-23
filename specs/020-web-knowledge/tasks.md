@@ -52,6 +52,8 @@ start with the requirement ID followed by " · "; Python tests use `@pytest.mark
 - [ ] T-020-092 (FR-020-52) fixture result rows: label and no verdict in development, "Not yet run" in release — test: web/src/results/t_020_092_fixture_row.test.ts
 - [ ] T-020-093 (FR-020-53) partial model coverage: count out of total, no whole-set claim — test: web/src/results/t_020_093_partial_models.test.ts
 - [ ] T-020-094 (FR-020-54) stale result rows: badge, excluded from summaries — test: web/src/results/t_020_094_stale_row.test.ts
+- [ ] T-020-100 (DC-020-05, FR-020-55) chart-series schema, example corpus, generated types — test: tests/contract/test_t_020_005_chart_series_schema.py
+- [ ] T-020-101 (FR-020-55, FR-020-56, FR-020-57) the generic chart reader of the Charts tab and the Published-results cards — test: web/src/charts/t_020_101_chart_reader.test.tsx, web/e2e/t_020_101_chart_reader.spec.ts
 
 ## Phase 8 — Gates, polish and independent review
 - [ ] T-020-088 [US-020-2] (SC-020-02) all 13 model rows of plan §7 present with criterion and status on the release build — test: web/e2e/t_020_088_criteria_rows.spec.ts

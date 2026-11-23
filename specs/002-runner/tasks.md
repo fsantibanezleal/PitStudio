@@ -68,6 +68,8 @@ against the fake GPU backend and fake stages unless it is marked `gpu`.
 - [ ] T-002-096 (FR-002-67) fixture capability report: fake backend only, real-GPU stages refused `capability-fixture` — test: tests/unit/test_t_002_096_capability_fixture.py
 - [ ] T-002-097 (FR-002-68) stale runs: `studio status` and `studio publish` compare the recomputed cache key with the manifest key — test: tests/unit/test_t_002_097_run_stale.py
 - [ ] T-002-098 (FR-002-69) error class `input-stale` (additive change of the stage-result schema) and its handling — test: tests/unit/test_t_002_098_input_stale.py
+- [ ] T-002-099 (FR-002-70) `studio import-run` accepts chart-series outputs and refuses invalid ones — test: tests/unit/test_t_002_099_import_chart_series.py
+- [ ] T-002-100 (FR-002-71) the clean rule of an imported run counts only the producer paths — test: tests/unit/test_t_002_100_producer_paths.py
 
 ## Phase 9 — Polish and hostile review
 

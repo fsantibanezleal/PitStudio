@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "kind": "chart-series",
+  "id": "example-table",
+  "case": "E1",
+  "chart_type": "table",
+  "status": "ok",
+  "title": {
+    "en": "Example chart",
+    "es": "Gráfico de ejemplo"
+  },
+  "producer": {
+    "tool": "warp",
+    "method": "granular DEM",
+    "version": "1.0.0",
+    "label": "fixture of the contract tests, not a result"
+  },
+  "serves": [
+    "FR-018-16",
+    "FR-020-07"
+  ],
+  "table": {
+    "columns": [
+      {
+        "id": "shell",
+        "label": {
+          "en": "Shell",
+          "es": "Cascarón"
+        },
+        "type": "text"
+      },
+      {
+        "id": "tonnes",
+        "label": {
+          "en": "Ore",
+          "es": "Mineral"
+        },
+        "type": "number",
+        "unit": "kt"
+      }
+    ],
+    "rows": [
+      [
+        "Shell 1",
+        120.5
+      ],
+      [
+        "Shell 2",
+        null
+      ]
+    ]
+  }
+}
