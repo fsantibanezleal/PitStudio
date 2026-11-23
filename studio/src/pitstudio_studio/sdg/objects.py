@@ -1,9 +1,8 @@
-"""Footprints and heights of the five perception classes as the SDG scenes place them (FR-009-01, FR-009-07).
+"""Footprints and heights of the four perception classes as the SDG scenes place them (FR-009-01, FR-009-07).
 
-The haul truck is the dimensioned asset of the spec 004 scene (`haul-truck-220t`: 12.8 m long, 7.3 m wide, 7.3 m to the
-top of the dump body). The shovel and the light vehicle are procedural boxes and the person is the procedural
-mannequin of the scene (FR-009-11: no MakeHuman export is staged on this machine); their sizes are generic public
-dimensions and design assumptions of the dataset, not a model of a specific machine. Nothing here is a measurement.
+Each class is the procedural asset of `st30_assets` (FR-004-51: the Caterpillar 793F haul truck, the Cat 7495 class rope
+shovel, the Toyota Land Cruiser 79 light vehicle and the adult mannequin) and its footprint and height are the bounding
+box of that asset (`scene.assets.catalogue.ENVELOPES`), so the table places exactly the volume the renderer draws.
 """
 
 from __future__ import annotations
@@ -13,12 +12,12 @@ from typing import Any
 from shapely import affinity
 from shapely.geometry import Polygon, box
 
-# class -> (asset id or None, length m, width m, height m)
+from pitstudio_studio.scene.assets import catalogue
+
+# class -> (asset id, length m, width m, height m)
 CLASS_DIMENSIONS: dict[str, tuple[str | None, float, float, float]] = {
-    "haul_truck": ("haul-truck-220t", 12.8, 7.3, 7.3),
-    "shovel": (None, 15.0, 9.0, 11.0),
-    "light_vehicle": (None, 5.3, 2.0, 1.9),
-    "person": (None, 0.6, 0.6, 1.75),
+    cls: (catalogue.ASSET_IDS[cls], *catalogue.ENVELOPES[cls])
+    for cls in ("haul_truck", "shovel", "light_vehicle", "person")
 }
 
 

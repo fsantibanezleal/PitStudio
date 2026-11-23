@@ -19,6 +19,7 @@ CC0_SOURCES = {"polyhaven", "ambientcg"}
 OWN_SPDX = "CC-BY-4.0"
 PROVENANCE_MANNEQUIN = "procedural-mannequin"
 PROVENANCE_MAKEHUMAN = "makehuman-export"
+PERSON_FILE = "person-mannequin.usda"
 BOX_FACES = [0, 2, 3, 1, 4, 5, 7, 6, 0, 1, 5, 4, 2, 6, 7, 3, 0, 4, 6, 2, 1, 3, 7, 5]  # counter-clockwise from outside
 # The repeat of the rock material in metres of ground. The composed `primvars:st` of the terrain repeats every
 # ST_PERIOD_M metres (FR-004-45); a material that has a normal map scales it by ST_PERIOD_M / ROCK_REPEAT_M, so one
@@ -42,6 +43,7 @@ class AssetBuild:
     textures: list[dict[str, Any]]
     people_route: str
     files: list[Path] = field(default_factory=list)
+    person_asset: Path | None = None
 
 
 def prim_name(identifier: str) -> str:
@@ -152,6 +154,23 @@ def _label(prim: Any, instance: str, value: str) -> None:
 
 
 def _write_machine(path: Path, asset: Mapping[str, Any], parts: list[Mapping[str, Any]]) -> None:
+    """One machine file: procedural geometry (FR-004-51) when the asset lists every part of its class, else boxes."""
+    from pitstudio_studio.scene.assets import machines
+
+    required = machines.REQUIRED_PARTS.get(asset["class_label"])
+    if required is not None and set(required) == {p["id"] for p in parts}:
+        _write_procedural(path, asset, parts)
+    else:
+        _write_machine_boxes(path, asset, parts)
+
+
+def _write_procedural(path: Path, asset: Mapping[str, Any], parts: list[Mapping[str, Any]]) -> None:
+    from pitstudio_studio.scene.assets import catalogue, procedural
+
+    procedural.write_procedural_machine(path, asset, parts, catalogue.bodies_of(asset["class_label"]))
+
+
+def _write_machine_boxes(path: Path, asset: Mapping[str, Any], parts: list[Mapping[str, Any]]) -> None:
     """One machine: an articulation root over rigid-body boxes (one per part) and a tree of limited, driven joints."""
     from pxr import Gf, Sdf, UsdGeom, UsdPhysics
 
@@ -230,18 +249,8 @@ def _parse_obj(path: Path) -> tuple[list[tuple[float, float, float]], list[list[
 
 
 def _person_mannequin(stage: Any, base: str, route_files: list[Path]) -> None:
-    from pxr import Gf, UsdGeom
-
-    body = UsdGeom.Capsule.Define(stage, f"{base}/Body")
-    body.CreateRadiusAttr(0.22)
-    body.CreateHeightAttr(0.9)
-    body.CreateAxisAttr("Z")
-    body.AddTranslateOp().Set(Gf.Vec3d(0.0, 0.0, 0.85))
-    head = UsdGeom.Sphere.Define(stage, f"{base}/Head")
-    head.CreateRadiusAttr(0.11)
-    head.AddTranslateOp().Set(Gf.Vec3d(0.0, 0.0, 1.62))
-    for gprim in (body, head):
-        _label(gprim.GetPrim(), "class", "person")
+    """A person of the procedural route: the articulated mannequin file of `st30_assets` (FR-004-51), by reference."""
+    stage.GetPrimAtPath(base).GetReferences().AddReference(f"../assets/{PERSON_FILE}")
 
 
 def _person_makehuman(stage: Any, base: str, obj: Path) -> None:
@@ -404,10 +413,15 @@ def build_assets(
     if makehuman_smoke_passed and makehuman_dir is not None and Path(makehuman_dir).is_dir():
         exports = sorted(Path(makehuman_dir).glob("*.obj"))
     route = "makehuman" if exports else "procedural-mannequin"
+    from pitstudio_studio.scene.assets import procedural
+
+    person_asset = out / "assets" / PERSON_FILE
+    procedural.write_person_asset(person_asset)
+    files.append(person_asset)
     fleet_layer = out / "layers" / "fleet.usda"
     _write_fleet(fleet_layer, spec, machines, route, exports)
     files.append(fleet_layer)
-    return AssetBuild(machines, fleet_layer, materials_layer, records, route, files)
+    return AssetBuild(machines, fleet_layer, materials_layer, records, route, files, person_asset)
 
 
 def _body(ctx: StageContext) -> str:

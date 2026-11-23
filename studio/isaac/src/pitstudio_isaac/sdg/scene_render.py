@@ -32,6 +32,12 @@ DUST_COLOUR = (0.55, 0.49, 0.40)
 MIN_INSTANCE_PX = 16  # smaller instances are counted in the frame state but get no annotation
 APERTURE_MM = 20.955
 OBJECT_ROOT = "/World/Sdg"
+CLASS_ASSETS = {  # class -> the asset file of `st30_assets` (assets/<id>.usda of the scene folder)
+    "haul_truck": "haul-truck-220t",
+    "shovel": "rope-shovel-32m3",
+    "light_vehicle": "light-vehicle-4x4",
+    "person": "person-mannequin",
+}
 CAMERA_PATH = "/World/SdgCamera"
 MATERIAL_SCOPE = "/World/SdgMaterials"
 CARVED_PRIM = "/World/Carved"  # the carved layer's root (FR-004-50): the source terrain and the design meshes are off
@@ -493,39 +499,11 @@ class SdgRenderer:
         api.SetTranslate(Gf.Vec3d(placement["x_m"], placement["y_m"], placement["z_m"]))
         api.SetRotate(Gf.Vec3f(0.0, 0.0, float(placement["yaw_deg"])), UsdGeom.XformCommonAPI.RotationOrderXYZ)
         cls = obj["class"]
-        length, width, height = obj["length_m"], obj["width_m"], obj["height_m"]
-        if cls == "haul_truck":
-            prim = self._stage.GetPrimAtPath(path)
-            prim.GetReferences().AddReference(str(self.scene_dir / "assets" / "haul-truck-220t.usda"))
-            return  # the asset carries its own class labels
-        if cls == "person":
-            capsule = UsdGeom.Capsule.Define(self._stage, f"{path}/Body")
-            capsule.GetAxisAttr().Set("Z")
-            capsule.GetHeightAttr().Set(0.9)
-            capsule.GetRadiusAttr().Set(0.22)
-            UsdGeom.XformCommonAPI(capsule).SetTranslate(Gf.Vec3d(0, 0, 0.85))
-            head = UsdGeom.Sphere.Define(self._stage, f"{path}/Head")
-            head.GetRadiusAttr().Set(0.12)
-            UsdGeom.XformCommonAPI(head).SetTranslate(Gf.Vec3d(0, 0, 1.63))
-            for child in (capsule.GetPrim(), head.GetPrim()):
-                self._label(child, "person")
-            return
-        if cls == "shovel":
-            house = (length * 0.65, width * 0.9, height - 3.0)
-            parts = [
-                ("Tracks", (length, width, 3.0), (0, 0, 1.5), (0.35, 0.35, 0.33)),
-                ("House", house, (-1.0, 0, 3.0 + house[2] / 2), (0.85, 0.65, 0.1)),
-            ]
-        elif cls == "light_vehicle":
-            cabin = (length * 0.45, width * 0.9, height - 1.3)
-            parts = [
-                ("Body", (length, width, 1.1), (0, 0, 0.75), (0.9, 0.9, 0.9)),
-                ("Cabin", cabin, (-0.3, 0, 1.3 + cabin[2] / 2), (0.75, 0.75, 0.8)),
-            ]
-        else:
+        asset = obj.get("asset_id") or CLASS_ASSETS.get(cls)
+        if asset is None:
             raise ValueError(f"unknown class {cls!r}")
-        for name, size, centre, colour in parts:
-            self._label(self._box(f"{path}/{name}", size, centre, colour).GetPrim(), cls)
+        # every class is the procedural asset of `st30_assets` (FR-004-51); the asset carries its class and part labels
+        self._stage.GetPrimAtPath(path).GetReferences().AddReference(str(self.scene_dir / "assets" / f"{asset}.usda"))
 
     def _clear_frame(self) -> None:
         from pxr import UsdGeom

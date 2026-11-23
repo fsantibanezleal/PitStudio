@@ -273,6 +273,11 @@ def scene_spec(textures: dict[str, dict[str, Any]]) -> dict[str, Any]:
         {"id": name, "source": source, "spdx": textures[texture]["spdx"]}
         for name, (source, texture) in MATERIALS.items()
     ]
+    from pitstudio_studio.scene.assets import catalogue  # the procedural machines and people (FR-004-51)
+
+    machines = catalogue.machine_specification()
+    for key in ("assets", "parts", "fleet", "people_count", "labels"):
+        spec[key] = machines[key]
     spec["validation"] = {"waivers": [dict(w) for w in WAIVERS]}
     return spec
 
