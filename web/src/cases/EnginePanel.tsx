@@ -147,7 +147,7 @@ export function EnginePanel(props: EnginePanelProps) {
         <Control key={spec.name} spec={spec} onCommit={onCommit} />
       ))}
       {children}
-      <Attribution kind="simulate" />
+      <Attribution kind="simulate" ran={state === "done"} />
     </section>
   );
 }

@@ -126,7 +126,7 @@ function KpiChart({ kpi, row, lang }: { kpi: Kpi; row: ComparisonRow | undefined
         </p>
       )}
       {words && <p className={styles.verdict}>{words}</p>}
-      <Attribution kind="chart" />
+      <Attribution kind="chart" ran={row !== undefined} />
     </section>
   );
 }

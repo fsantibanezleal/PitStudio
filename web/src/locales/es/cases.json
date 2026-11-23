@@ -211,6 +211,7 @@
     "planned": "planificado, aún sin ejecutar",
     "usedSentence": "Usado en el resultado publicado.",
     "plannedSentence": "Planificado, aún sin ejecutar.",
+    "plannedListSentence": "Planificado, aún sin ejecutar: {{parts}}.",
     "none": "Sin elementos",
     "group": {
       "omniverse": "Herramientas Omniverse y NVIDIA",

@@ -134,22 +134,72 @@ export function vendorName(name: string, mark = "NVIDIA"): string {
 export interface StatusWords {
   used: string;
   planned: string;
+  /** The sentence that lists the planned parts when others are used; absent, the English default is written. */
+  plannedList?: (parts: string) => string;
 }
 const EN_WORDS: StatusWords = { used: "Used in the published result.", planned: "Planned, not yet run." };
 
-/** "Forecast by PyTorch 2.14.1, Slope forecasting. Used in the published result." (tool, version, method, NVIDIA mark, status). */
+const partText = (tools: readonly BuiltItem[], methods: readonly BuiltItem[]): string =>
+  [
+    tools
+      .map((t) => `${t.nvidia ? vendorName(t.name) : t.name}${t.version ? ` ${t.version}` : ""}`)
+      .join(" + "),
+    ...methods.map((m) => m.name),
+  ]
+    .filter((p) => p.length > 0)
+    .join(", ");
+
+/**
+ * "Forecast by PyTorch 2.14.1, Slope forecasting. Used in the published result." (tool, version, method, NVIDIA mark, status).
+ * The used parts come first with the "used" sentence; the planned parts follow in their own sentence, so a planned part is never
+ * read as used (FR-018-79). With no used part the line says "planned" only; with no part at all it is empty.
+ */
 export function attributionText(
   verb: string,
   tools: readonly BuiltItem[],
   methods: readonly BuiltItem[],
   words: StatusWords = EN_WORDS,
 ): string {
-  const toolText = tools
-    .map((t) => `${t.nvidia ? vendorName(t.name) : t.name}${t.version ? ` ${t.version}` : ""}`)
-    .join(" + ");
-  const parts = [toolText, ...methods.map((m) => m.name)].filter((p) => p.length > 0);
-  const used = [...tools, ...methods].some((x) => x.status === "used");
-  return `${verb} ${parts.join(", ")}. ${used ? words.used : words.planned}`;
+  const isUsed = (x: BuiltItem) => x.status === "used";
+  const usedText = partText(tools.filter(isUsed), methods.filter(isUsed));
+  const plannedText = partText(
+    tools.filter((x) => !isUsed(x)),
+    methods.filter((x) => !isUsed(x)),
+  );
+  if (usedText === "" && plannedText === "") return "";
+  if (usedText === "") return `${verb} ${plannedText}. ${words.planned}`;
+  if (plannedText === "") return `${verb} ${usedText}. ${words.used}`;
+  const list = words.plannedList ?? ((parts: string) => `Planned, not yet run: ${parts}.`);
+  return `${verb} ${usedText}. ${words.used} ${list(plannedText)}`;
+}
+
+/** The tools and methods a published run of the case produced the visual with (see visualUsed.ts). */
+export interface UsedParts {
+  tools: ReadonlySet<string>;
+  methods: ReadonlySet<string>;
+}
+
+/** The attribution line of one visual: status comes from `used` alone, so a part another visual or the render used stays planned here. */
+export function visualAttributionText(
+  kind: string,
+  verb: string,
+  groups: BuiltGroups,
+  used: UsedParts,
+  words?: StatusWords,
+): string {
+  const mark = (i: BuiltItem, ids: ReadonlySet<string>): BuiltItem => ({
+    ...i,
+    status: ids.has(i.id) ? "used" : "planned",
+  });
+  const tools = toolsForVisual(kind, groups, used.tools).map((i) => mark(i, used.tools));
+  const methods =
+    kind === "scene"
+      ? []
+      : [...groups.methods]
+          .sort((a, b) => Number(used.methods.has(b.id)) - Number(used.methods.has(a.id)))
+          .slice(0, 2)
+          .map((i) => mark(i, used.methods));
+  return attributionText(verb, tools, methods, words);
 }
 
 /** Tool ids that may stand behind each kind of visual of a case page; the first two that the case lists are named. */
@@ -160,9 +210,17 @@ export const VISUAL_TOOLS: Record<string, readonly string[]> = {
   kpi: ["minephys", "pytorch", "warp"],
 };
 
-export function toolsForVisual(kind: string, groups: BuiltGroups): BuiltItem[] {
+export function toolsForVisual(
+  kind: string,
+  groups: BuiltGroups,
+  used: ReadonlySet<string> = new Set(),
+): BuiltItem[] {
   const all = [...groups.omniverse, ...groups.frameworks];
   const wanted = VISUAL_TOOLS[kind] ?? [];
-  const hit = all.filter((i) => wanted.includes(i.id)).slice(0, 2);
+  // a tool that produced the visual is named before the others, so the two named tools are never planned ones while a used one waits
+  const hit = all
+    .filter((i) => wanted.includes(i.id))
+    .sort((a, b) => Number(used.has(b.id)) - Number(used.has(a.id)))
+    .slice(0, 2);
   return hit.length > 0 ? hit : all.slice(0, 1);
 }

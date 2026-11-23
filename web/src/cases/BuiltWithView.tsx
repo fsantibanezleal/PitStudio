@@ -11,8 +11,8 @@ import {
   deriveBuiltWith,
   type MethodInfo,
   type ToolInfo,
-  toolsForVisual,
   vendorName,
+  visualAttributionText,
 } from "./builtWith";
 import styles from "./cases.module.css";
 import {
@@ -25,6 +25,7 @@ import { useRenderSummary } from "./renderSummary";
 import { SceneRender } from "./SceneRender";
 import type { ArtefactRecord, CaseEntry, Lang } from "./types";
 import { pick } from "./types";
+import { usedForVisual } from "./visualUsed";
 
 const GROUP_IDS: BuiltGroupId[] = ["omniverse", "frameworks", "methods", "data"];
 
@@ -47,17 +48,19 @@ export const methodInfos: MethodInfo[] = methodRegistry.map((m) => ({
 
 interface Attribution {
   groups: BuiltGroups;
-  text: (kind: string) => string;
+  text: (kind: string, ran?: boolean) => string;
 }
 const AttributionContext = createContext<Attribution | null>(null);
 
 /** The readable producer line of one visual frame (FR-018-72); nothing outside a case page. */
-export function Attribution({ kind }: { kind: string }) {
+export function Attribution({ kind, ran }: { kind: string; ran?: boolean }) {
   const a = useContext(AttributionContext);
-  if (!a) return null;
+  const text = a?.text(kind, ran) ?? "";
+  // a visual with no registry entry has no line rather than an invented one
+  if (text === "") return null;
   return (
     <p className={styles.producer} data-producer={kind}>
-      {a.text(kind)}
+      {text}
     </p>
   );
 }
@@ -125,7 +128,12 @@ function ResultCard({ result, groups }: { result: PublishedResult; groups: Built
   const methods = groups.methods
     .filter((m) => result.methods.includes(m.id))
     .map((m) => ({ ...m, status: "used" as const }));
-  const words = { used: t("builtWith.usedSentence"), planned: t("builtWith.plannedSentence") };
+  const words = {
+    used: t("builtWith.usedSentence"),
+    planned: t("builtWith.plannedSentence"),
+    plannedList: (parts: string) =>
+      t("builtWith.plannedListSentence", { parts, interpolation: { escapeValue: false } }),
+  };
   return (
     <section
       className={styles.panel}
@@ -192,21 +200,24 @@ export function CaseStory({
     [entry, published, renderTools, lang, caseId],
   );
   const value = useMemo<Attribution>(() => {
-    const words = { used: t("builtWith.usedSentence"), planned: t("builtWith.plannedSentence") };
+    const words = {
+      used: t("builtWith.usedSentence"),
+      planned: t("builtWith.plannedSentence"),
+      plannedList: (parts: string) =>
+        t("builtWith.plannedListSentence", { parts, interpolation: { escapeValue: false } }),
+    };
     return {
       groups,
-      text: (kind) => {
-        const tools = toolsForVisual(kind, groups);
-        const methods = kind === "scene" ? [] : groups.methods.slice(0, 2);
-        return attributionText(
+      text: (kind, ran) =>
+        visualAttributionText(
+          kind,
           t(`attribution.${kind}`, { defaultValue: t("attribution.result") }),
-          tools,
-          methods,
+          groups,
+          usedForVisual(kind, published.results, entry, ran),
           words,
-        );
-      },
+        ),
     };
-  }, [groups, t]);
+  }, [groups, t, published.results, entry]);
   return (
     <PublishedCaseContext.Provider value={published}>
       <AttributionContext.Provider value={value}>

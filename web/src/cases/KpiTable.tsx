@@ -47,7 +47,7 @@ export function KpiTable({ items }: { items: KpiItem[] }) {
                 ) : (
                   <span className={styles.pending}>{t("notYetRun")}</span>
                 )}
-                {unit && <span className={styles.unit}> {unit}</span>}
+                {published && unit && <span className={styles.unit}> {unit}</span>}
               </td>
               <td>
                 {published && (

@@ -211,6 +211,7 @@
     "planned": "planned, not yet run",
     "usedSentence": "Used in the published result.",
     "plannedSentence": "Planned, not yet run.",
+    "plannedListSentence": "Planned, not yet run: {{parts}}.",
     "none": "None listed",
     "group": {
       "omniverse": "Omniverse and NVIDIA tools",

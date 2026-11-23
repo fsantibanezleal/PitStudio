@@ -3,7 +3,7 @@
 // Oracles: the live C1 page text of 2026-11-23 ("Probability of failure: Not yet run %", "Measured with PyTorch, Slope stability LEM,
 // Slope forecasting. Used in the published result." while only the forecasters run 20261013T171809Z-c1-slope-forecasters is published),
 // the case registry example, the FR text.
-import { screen, within } from "@testing-library/react";
+import { within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { loadCaseRegistry } from "~/test-support/fixtures";
 import { renderApp } from "~/test-support/render";
@@ -147,7 +147,9 @@ describe("FR-018-79 what stands behind each visual of C1 with only the forecaste
       usedTools: new Set(),
       usedMethods: new Set(),
     });
-    expect(visualAttributionText("kpi", "Measured with", empty, usedForVisual("kpi", [], c1), words)).toBe("");
+    expect(visualAttributionText("kpi", "Measured with", empty, usedForVisual("kpi", [], c1), words)).toBe(
+      "",
+    );
   });
 });
 
@@ -163,8 +165,8 @@ describe("FR-018-79 a KPI that is not run shows the not-run text alone", () => {
       expect((document.querySelector('[data-kpi="pof"]') as HTMLElement).textContent).not.toMatch(/%/);
       const fos = document.querySelector('[data-kpi="fos"]') as HTMLElement;
       expect(fos.textContent).not.toMatch(new RegExp(`${notRun}\\s*\\S`));
-      const row = screen.getByText("57.54").closest("tr") as HTMLElement;
-      expect(row.textContent).toContain("57.54 h");
+      const row = document.querySelector('[data-kpi="forecast_error"]') as HTMLElement;
+      expect(row.textContent).toMatch(/57[.,]54 h/);
     });
   }
 });
