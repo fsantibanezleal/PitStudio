@@ -17,6 +17,7 @@ Oracles:
 Expected API (module `pitstudio_pipeline.fragmentation.psd`): instance_areas, image_psd, weighted_quantile, oversize_share,
 fit_swebrec, fit_instances; see the module docstring (sizes in pixels, area-weighted).
 """
+# ruff: noqa: E501, PT018
 
 from __future__ import annotations
 
@@ -152,7 +153,9 @@ def test_scaling_every_size_scales_x50_and_xmax_and_leaves_b_unchanged(k, ratio,
 
 
 @pytest.mark.req("FR-012-25")
-@pytest.mark.parametrize("areas", [[10.0, 20.0], [10.0], [10.0, 20.0, float("nan")], [10.0, 0.0, 30.0], [10.0, -1.0, 30.0]])
+@pytest.mark.parametrize(
+    "areas", [[10.0, 20.0], [10.0], [10.0, 20.0, float("nan")], [10.0, 0.0, 30.0], [10.0, -1.0, 30.0]]
+)
 def test_fewer_than_three_instances_or_a_bad_area_give_no_fit(areas) -> None:
     _, fit = P.fit_instances(areas)
     assert fit.status == "no-fit"

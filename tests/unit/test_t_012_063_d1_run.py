@@ -12,6 +12,7 @@ Oracles:
 - the DC-012-05 schema and the chart-series schema (`jsonschema`, `chartkit.problems`);
 - the grids equal `build_design_grid` (tested in T-012-060) and the KPI units of cases.yaml (P80 in mm, PPV in mm/s).
 """
+# ruff: noqa: PT018, RUF046
 
 from __future__ import annotations
 
@@ -68,7 +69,10 @@ class _Oracle(torch.nn.Module):
         out = []
         for sample in x:
             index = int(round(float(sample[0, 0, 0] * IMAGENET_STD[0] + IMAGENET_MEAN[0]) * 255.0))
-            out.append(torch.nn.functional.one_hot(torch.from_numpy(self.targets[index]).long(), 3).permute(2, 0, 1).float() * 20.0)
+            out.append(
+                torch.nn.functional.one_hot(torch.from_numpy(self.targets[index]).long(), 3).permute(2, 0, 1).float()
+                * 20.0
+            )
         return torch.stack(out)
 
 
@@ -86,11 +90,25 @@ def report(tmp_path_factory) -> dict:
         d = run / f"fold{fold}"
         d.mkdir()
         (d / "result.json").write_text(
-            json.dumps({"fold": fold, "n_train": 3, "n_val": 1, "n_test": 3, "test_fg_iou_mean": 1.0, "test_fg_iou_per_file": {str(f): 1.0 for f in files}}),
+            json.dumps(
+                {
+                    "fold": fold,
+                    "n_train": 3,
+                    "n_val": 1,
+                    "n_test": 3,
+                    "test_fg_iou_mean": 1.0,
+                    "test_fg_iou_per_file": {str(f): 1.0 for f in files},
+                }
+            ),
             encoding="utf-8",
         )
-        (d / "metrics.jsonl").write_text('{"epoch": 1, "loss": 1.0, "val_fg_iou": 0.9}\n{"epoch": 2, "loss": 0.8, "val_fg_iou": 0.95}\n', encoding="utf-8")
-    (run / "summary.json").write_text(json.dumps({"arm": "TRTR", "folds": [1.0, 1.0], "mean": 1.0, "std": 0.0, "min": 1.0}), encoding="utf-8")
+        (d / "metrics.jsonl").write_text(
+            '{"epoch": 1, "loss": 1.0, "val_fg_iou": 0.9}\n{"epoch": 2, "loss": 0.8, "val_fg_iou": 0.95}\n',
+            encoding="utf-8",
+        )
+    (run / "summary.json").write_text(
+        json.dumps({"arm": "TRTR", "folds": [1.0, 1.0], "mean": 1.0, "std": 0.0, "min": 1.0}), encoding="utf-8"
+    )
     return fold_report.build_report(run, images, labels, loader=lambda _p: _Oracle(labels))
 
 
@@ -120,11 +138,22 @@ def test_the_p80_map_cell_at_the_reference_design_is_the_grid_x80_in_mm(design) 
     ref = STAGE["params"]["reference_design"]
     xs = STAGE["params"]["grid_fragmentation"]["burden_m"]
     ys = STAGE["params"]["grid_fragmentation"]["spacing_m"]
-    col, row = xs.index(ref["burden_m"]), len(ys) - 1 - ys.index(ref["spacing_m"])  # first row is the top (largest spacing)
-    point = next(p for p in design["grids"]["fragmentation"]["points"] if p["inputs"] == {"burden_m": 6.0, "spacing_m": 7.0, "charge_length_m": 7.2})
+    col, row = (
+        xs.index(ref["burden_m"]),
+        len(ys) - 1 - ys.index(ref["spacing_m"]),
+    )  # first row is the top (largest spacing)
+    point = next(
+        p
+        for p in design["grids"]["fragmentation"]["points"]
+        if p["inputs"] == {"burden_m": 6.0, "spacing_m": 7.0, "charge_length_m": 7.2}
+    )
     assert r["values"][row * r["nx"] + col] == pytest.approx(point["x80_m"] * 1000.0, rel=1e-12)
     assert (r["nx"], r["ny"]) == (8, 8)
-    assert r["colour"]["unit"] == "mm" and r["colour"]["vmin"] <= min(r["values"]) and r["colour"]["vmax"] >= max(r["values"])
+    assert (
+        r["colour"]["unit"] == "mm"
+        and r["colour"]["vmin"] <= min(r["values"])
+        and r["colour"]["vmax"] >= max(r["values"])
+    )
     assert chart["markers"][0]["x"] == 6.0 and chart["markers"][0]["y"] == 7.0
     assert design["reference"]["x80_m"] == point["x80_m"]
 
@@ -149,7 +178,9 @@ def test_the_ppv_chart_has_one_series_per_charge_and_the_regulatory_limit_in_mm_
     f = STAGE["params"]["fixed_inputs"]
     ref = next(s for s in chart["series"] if s["id"] == "charge-150-kg")
     d = STAGE["params"]["grid_vibration"]["distance_m"]
-    assert ref["y"][d.index(300)] == pytest.approx(f["k_site_m_per_s"] * (300 / math.sqrt(150)) ** -f["beta"] * 1000.0, rel=1e-12)
+    assert ref["y"][d.index(300)] == pytest.approx(
+        f["k_site_m_per_s"] * (300 / math.sqrt(150)) ** -f["beta"] * 1000.0, rel=1e-12
+    )
     limit = next(s for s in chart["series"] if s["id"].startswith("limit"))
     for dist, y in zip(limit["x"], limit["y"], strict=True):
         feet = dist / 0.3048
@@ -174,7 +205,9 @@ def test_the_fold_charts_are_valid_and_carry_the_size_basis_and_the_attribution(
         assert chartkit.problems(chart) == [], chart["id"]
         assert chart["producer"]["label"] == d1_run.TRTR_LABEL
         if chart["id"] != "d1-fold-iou":
-            assert "Mendeley" in json.dumps(chart["caption"])  # FR-012-38: attribution verbatim next to every derived metric
+            assert "Mendeley" in json.dumps(
+                chart["caption"]
+            )  # FR-012-38: attribution verbatim next to every derived metric
     psd = next(c for c in out["charts"] if c["id"] == "d1-psd-pooled")
     assert "px" in psd["x_axis"]["unit"] and "pixels" in psd["caption"]["en"] and "not recorded" in psd["caption"]["en"]
     assert [m["id"] for m in psd["markers"]] == ["gt-p50", "gt-p80", "unet-p50", "unet-p80"]

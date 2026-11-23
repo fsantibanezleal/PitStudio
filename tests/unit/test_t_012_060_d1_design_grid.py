@@ -30,6 +30,7 @@ Expected public API (module `pitstudio.cases.d1.design_grid`, numpy + `minephys`
     write_design_grid(path, fixed, axes, **kw) -> dict          # builds first, writes the JSON only after success
     minephys_identity() -> str                                  # the pinned minephys version string
 """
+# ruff: noqa: E501, PT012
 
 from __future__ import annotations
 
@@ -69,7 +70,12 @@ def _direct(inputs: dict, variant: str = "cunningham1983") -> dict:
     k = blasting.powder_factor(q, i["burden_m"], i["spacing_m"], i["bench_height_m"])
     x50 = blasting.kuznetsov_x50(i["rock_factor"], k, q, i["rws"], variant)
     n = blasting.uniformity_index(
-        i["burden_m"], i["spacing_m"], i["hole_diameter_m"], i["drilling_deviation_m"], i["charge_length_m"], i["bench_height_m"]
+        i["burden_m"],
+        i["spacing_m"],
+        i["hole_diameter_m"],
+        i["drilling_deviation_m"],
+        i["charge_length_m"],
+        i["bench_height_m"],
     )
     b = blasting.kco_undulation(n, x50, i["x_max_m"])
     return {
@@ -141,7 +147,12 @@ def test_the_rosin_rammler_distribution_gives_its_closed_form_x80_and_oversize()
     point = doc["points"][0]
     n = float(
         blasting.uniformity_index(
-            6.0, f["spacing_m"], f["hole_diameter_m"], f["drilling_deviation_m"], f["charge_length_m"], f["bench_height_m"]
+            6.0,
+            f["spacing_m"],
+            f["hole_diameter_m"],
+            f["drilling_deviation_m"],
+            f["charge_length_m"],
+            f["bench_height_m"],
         )
     )
     x50 = point["x50_m"]
@@ -178,7 +189,9 @@ def test_the_ranges_of_the_builder_are_the_ranges_of_the_schema() -> None:
     for name, (lo, hi, lo_open, hi_open) in dg.INPUT_RANGES.items():
         spec = props[name]
         assert hi == spec["maximum"], name
-        assert (lo, lo_open) == ((spec["exclusiveMinimum"], True) if "exclusiveMinimum" in spec else (spec["minimum"], False)), name
+        assert (lo, lo_open) == (
+            (spec["exclusiveMinimum"], True) if "exclusiveMinimum" in spec else (spec["minimum"], False)
+        ), name
         assert hi_open is False
 
 
@@ -192,7 +205,20 @@ def test_the_builder_calls_minephys_and_defines_no_blasting_model_of_its_own() -
         if isinstance(n, ast.Import | ast.ImportFrom) and getattr(n, "module", "x") is not None
         for a in (n.names if isinstance(n, ast.Import) else [n])
     }
-    assert roots <= {"minephys", "numpy", "math", "json", "itertools", "pathlib", "importlib", "os", "collections", "typing", "__future__", "dataclasses"}
+    assert roots <= {
+        "minephys",
+        "numpy",
+        "math",
+        "json",
+        "itertools",
+        "pathlib",
+        "importlib",
+        "os",
+        "collections",
+        "typing",
+        "__future__",
+        "dataclasses",
+    }
     assert "minephys" in roots
     for node in ast.walk(tree):  # no ** exponent with a model constant, no sqrt of a charge: those are minephys's job
         if isinstance(node, ast.FunctionDef):
@@ -218,7 +244,9 @@ def test_x50_grows_with_the_burden_and_the_rock_factor_and_ppv_ignores_the_burde
     a, b = doc["points"]
     assert b["x50_m"] > a["x50_m"]
     assert a["ppv_m_per_s"] == b["ppv_m_per_s"]
-    coarser = _build(fixed={**FIXED, "rock_factor": rock + rock_delta}, axes={"burden_m": [burden]}, kuzram_variant="cunningham2005")
+    coarser = _build(
+        fixed={**FIXED, "rock_factor": rock + rock_delta}, axes={"burden_m": [burden]}, kuzram_variant="cunningham2005"
+    )
     finer = _build(fixed=fixed, axes={"burden_m": [burden]}, kuzram_variant="cunningham2005")
     assert coarser["points"][0]["x50_m"] > finer["points"][0]["x50_m"]
 
@@ -275,8 +303,19 @@ def test_a_missing_or_unknown_input_and_a_bad_axis_shape_are_refused_naming_the_
         _build(axes={"burden_m": [4.0 + 0.01 * i for i in range(65)]})  # more than 64 values
     with pytest.raises(ValueError, match="axes"):
         _build(
-            fixed={k: v for k, v in FIXED.items() if k not in ("spacing_m", "bench_height_m", "charge_length_m", "rock_factor", "rws")},
-            axes={"burden_m": [6.0], "spacing_m": [7.0], "bench_height_m": [12.0], "charge_length_m": [7.2], "rock_factor": [7.0], "rws": [100.0]},
+            fixed={
+                k: v
+                for k, v in FIXED.items()
+                if k not in ("spacing_m", "bench_height_m", "charge_length_m", "rock_factor", "rws")
+            },
+            axes={
+                "burden_m": [6.0],
+                "spacing_m": [7.0],
+                "bench_height_m": [12.0],
+                "charge_length_m": [7.2],
+                "rock_factor": [7.0],
+                "rws": [100.0],
+            },
         )
     with pytest.raises(ValueError, match="distribution"):
         _build(distribution="lognormal")

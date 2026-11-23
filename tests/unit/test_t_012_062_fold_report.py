@@ -13,6 +13,7 @@ Oracles:
 Expected API (module `pitstudio_pipeline.fragmentation.fold_report`): load_fold_model, predict_instances, passing_on_grid,
 evaluate_files, fold_section, training_curves, build_report, write_report.
 """
+# ruff: noqa: E501, PT018, RUF046
 
 from __future__ import annotations
 
@@ -84,8 +85,12 @@ def test_a_perfect_stub_gives_iou_one_and_the_instance_counts_and_areas_of_the_l
     for row, label in zip(rows, labels, strict=True):
         assert row["iou"] == 1.0
         assert row["gt_areas"].size == row["pred_areas"].size == len(np.unique(label)) - 1
-        assert row["pred_areas"].sum() == row["gt_areas"].sum()  # same foreground, boundary pixels assigned to instances
-        assert np.max(np.abs(np.sort(row["pred_areas"]) - np.sort(row["gt_areas"]))) <= 4 * 20  # boundary band of a block
+        assert (
+            row["pred_areas"].sum() == row["gt_areas"].sum()
+        )  # same foreground, boundary pixels assigned to instances
+        assert (
+            np.max(np.abs(np.sort(row["pred_areas"]) - np.sort(row["gt_areas"]))) <= 4 * 20
+        )  # boundary band of a block
 
 
 @pytest.mark.req("FR-012-24")
@@ -97,9 +102,26 @@ def test_passing_on_grid_is_the_step_function_of_the_points() -> None:
 
 @pytest.mark.req("FR-012-25")
 def test_a_no_fit_prediction_counts_with_relative_x50_error_one_and_is_counted() -> None:
-    good = {"file": 1, "iou": 0.9, "gt_areas": np.array([50.0, 80.0, 120.0, 200.0]), "pred_areas": np.array([50.0, 80.0, 120.0, 200.0])}
-    bad = {"file": 2, "iou": 0.8, "gt_areas": np.array([50.0, 80.0, 120.0, 200.0]), "pred_areas": np.array([50.0, 80.0])}
-    result = {"fold": 0, "n_train": 10, "n_val": 2, "n_test": 2, "test_fg_iou_mean": 0.85, "test_fg_iou_per_file": {"1": 0.9, "2": 0.8}}
+    good = {
+        "file": 1,
+        "iou": 0.9,
+        "gt_areas": np.array([50.0, 80.0, 120.0, 200.0]),
+        "pred_areas": np.array([50.0, 80.0, 120.0, 200.0]),
+    }
+    bad = {
+        "file": 2,
+        "iou": 0.8,
+        "gt_areas": np.array([50.0, 80.0, 120.0, 200.0]),
+        "pred_areas": np.array([50.0, 80.0]),
+    }
+    result = {
+        "fold": 0,
+        "n_train": 10,
+        "n_val": 2,
+        "n_test": 2,
+        "test_fg_iou_mean": 0.85,
+        "test_fg_iou_per_file": {"1": 0.9, "2": 0.8},
+    }
     section = fr.fold_section(result, [good, bad], limit_px=20.0)
     assert section["x50_images_no_fit"] == {"ground_truth": 0, "unet": 1}
     assert section["x50_relative_error_mean"] == pytest.approx((0.0 + 1.0) / 2, abs=1e-6)
@@ -111,8 +133,20 @@ def test_a_no_fit_prediction_counts_with_relative_x50_error_one_and_is_counted()
 
 @pytest.mark.req("FR-012-29")
 def test_a_stored_iou_that_differs_is_reported_not_hidden() -> None:
-    row = {"file": 1, "iou": 0.9, "gt_areas": np.array([50.0, 80.0, 120.0]), "pred_areas": np.array([50.0, 80.0, 120.0])}
-    result = {"fold": 0, "n_train": 1, "n_val": 1, "n_test": 1, "test_fg_iou_mean": 0.8, "test_fg_iou_per_file": {"1": 0.8}}
+    row = {
+        "file": 1,
+        "iou": 0.9,
+        "gt_areas": np.array([50.0, 80.0, 120.0]),
+        "pred_areas": np.array([50.0, 80.0, 120.0]),
+    }
+    result = {
+        "fold": 0,
+        "n_train": 1,
+        "n_val": 1,
+        "n_test": 1,
+        "test_fg_iou_mean": 0.8,
+        "test_fg_iou_per_file": {"1": 0.8},
+    }
     section = fr.fold_section(result, [row], limit_px=10.0)
     assert section["iou_max_abs_difference_vs_run"] == pytest.approx(0.1)
     assert section["iou_files_reproduced"] == 0
@@ -136,12 +170,23 @@ def test_the_report_of_a_run_folder_holds_metrics_only_and_reproduces_the_stored
         d = run / f"fold{fold}"
         d.mkdir(parents=True)
         (d / "result.json").write_text(
-            json.dumps({"fold": fold, "n_train": 3, "n_val": 1, "n_test": 3, "test_fg_iou_mean": 1.0, "test_fg_iou_per_file": {str(f): 1.0 for f in files}}),
+            json.dumps(
+                {
+                    "fold": fold,
+                    "n_train": 3,
+                    "n_val": 1,
+                    "n_test": 3,
+                    "test_fg_iou_mean": 1.0,
+                    "test_fg_iou_per_file": {str(f): 1.0 for f in files},
+                }
+            ),
             encoding="utf-8",
         )
         (d / "metrics.jsonl").write_text('{"epoch": 1, "loss": 1.0, "val_fg_iou": 0.9}\n', encoding="utf-8")
         (d / "best.pt").write_bytes(b"")
-    (run / "summary.json").write_text(json.dumps({"arm": "TRTR", "folds": [1.0, 1.0], "mean": 1.0, "std": 0.0, "min": 1.0}), encoding="utf-8")
+    (run / "summary.json").write_text(
+        json.dumps({"arm": "TRTR", "folds": [1.0, 1.0], "mean": 1.0, "std": 0.0, "min": 1.0}), encoding="utf-8"
+    )
     report = fr.build_report(run, images, labels, loader=lambda _p: _Oracle(labels))
     assert report["recomputed_mean_iou"] == 1.0
     assert report["iou_max_abs_difference_vs_run"] == 0.0
