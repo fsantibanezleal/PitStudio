@@ -365,3 +365,25 @@ def test_a_learned_band_whose_quantile_paths_cross_is_not_drawn_and_the_caption_
     assert "cross" in iv["caption"]["en"]
     other = next(x for x in iv["series"] if x["id"] == "tcn-08")
     assert "lo" in other
+
+
+@pytest.mark.req("FR-010-18")
+def test_the_observed_inverse_velocity_is_drawn_for_the_second_half_of_the_window_only() -> None:
+    baked = _baked()
+    iv, _ = c1_charts.event_charts(baked, producer=PRODUCER)
+    observed = next(s for s in iv["series"] if s["id"] == "observed")
+    t_c = baked["cutoffs"][-1]["t_c_h"]
+    assert min(observed["x"]) >= 0.5 * t_c - 1e-9
+    assert "second half" in observed["label"]["en"]
+
+
+@pytest.mark.req("FR-010-01")
+def test_the_critical_slip_surface_is_also_a_polyline_between_its_entry_and_exit() -> None:
+    charts = {c["id"]: c for c in c1_charts.wall_charts([_wall(1)], [_oracle(1)], producer=PRODUCER)}
+    arc = next(p for p in charts["c1-wall-s1-section"]["section"]["polylines"] if p["id"] == "critical-arc")
+    xs = [p[0] for p in arc["points"]]
+    assert xs[0] == pytest.approx(100.0)
+    assert xs[-1] == pytest.approx(470.0)
+    cx, cz, r = 400.0, 1900.0, 380.0
+    assert all(abs(((x - cx) ** 2 + (z - cz) ** 2) ** 0.5 - r) < 1e-6 for x, z in arc["points"])
+    assert all(z < cz for _, z in arc["points"])  # the lower arc
