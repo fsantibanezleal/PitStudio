@@ -21,6 +21,7 @@ from . import generate, space
 from .space import FAMILIES, D
 
 TARGET_DEG, TOL_DEG = 27.2, 1.5
+REAL_RANGE_DEG = (25.0, 35.0)  # the real granular range: a family outside it is not trained on (gns-walls decision 2)
 OVERFLOW_MAX = 0.01
 EXPECTED = {fam: sum(space.SPLIT_COUNTS[s][fam] for s in space.SPLIT_COUNTS) for fam in FAMILIES}
 
@@ -206,6 +207,7 @@ def verify(out: Path) -> dict[str, Any]:
             if v
             else None,
         }
+    problems += range_problems(summary)
     report = {
         "ok": not problems,
         "problems": problems,
@@ -225,6 +227,19 @@ def verify(out: Path) -> dict[str, Any]:
     (out / "index.json").write_text(json.dumps(report, indent=1, default=float), encoding="utf-8")
     (out / "DATASET_CARD.md").write_text(card(report), encoding="utf-8")
     return report
+
+
+def range_problems(summary: dict[str, Any]) -> list[str]:
+    """One problem per family whose mean repose is missing or outside the real granular range."""
+    lo, hi = REAL_RANGE_DEG
+    out = []
+    for fam, s in summary.items():
+        mean = s.get("repose_mean_deg")
+        if mean is None:
+            out.append(f"{fam}: no repose angle could be measured")
+        elif not lo <= mean <= hi:
+            out.append(f"{fam}: mean repose {mean:.1f} degrees is outside the real granular range {lo:g} to {hi:g}")
+    return out
 
 
 def _fmt(x: float | None) -> str:
