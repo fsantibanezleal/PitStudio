@@ -70,6 +70,7 @@ against the fake GPU backend and fake stages unless it is marked `gpu`.
 - [ ] T-002-098 (FR-002-69) error class `input-stale` (additive change of the stage-result schema) and its handling — test: tests/unit/test_t_002_098_input_stale.py
 - [ ] T-002-099 (FR-002-70) `studio import-run` accepts chart-series outputs and refuses invalid ones — test: tests/unit/test_t_002_099_import_chart_series.py
 - [ ] T-002-100 (FR-002-71) the clean rule of an imported run counts only the producer paths — test: tests/unit/test_t_002_100_producer_paths.py
+- [ ] T-002-101 (FR-002-72) the CPU import kind: label, no queue facts, no timing — test: tests/unit/test_t_002_101_import_cpu_kind.py
 
 ## Phase 9 — Polish and hostile review
 
