@@ -108,6 +108,10 @@ value?: number
 rest_time_s: number
 store: Store
 label: "calibrated synthetic — not validated against real data"
+/**
+ * true while the document is a contract fixture: stages run against it, write fixture: true on every artefact and publish no result computed from it (FR-011-49)
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `undefined`'s JSON-Schema

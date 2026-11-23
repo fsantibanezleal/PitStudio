@@ -218,3 +218,9 @@ class DemCalibrationResult(BaseModel):
     gradient_status: Literal["reliable", "unreliable"] | None = None
     cmaes: Cmaes | None = None
     label: Literal["calibrated synthetic — not validated against real data"]
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true while the document is a contract fixture: stages run against it, write fixture: true on every artefact and publish no result computed from it (FR-011-49)"
+        ),
+    ] = False

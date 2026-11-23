@@ -55,12 +55,15 @@ class CheckedFile(BaseModel):
         extra="forbid",
     )
     path: Annotated[Relpath, Field(description="Path relative to the data root.")]
-    sha256: Sha256
+    sha256: Annotated[
+        Sha256 | None,
+        Field(description="null only for a file with status unavailable (never fetched)"),
+    ]
     validator: Literal[
         "tabular", "raster", "point-cloud", "vector", "image-mask", "image", "series", "dataset-structure"
     ]
     schema_name: Annotated[str, Field(max_length=64, min_length=1, pattern="^[a-z][a-z0-9_]{0,63}$")]
-    status: Literal["accepted", "rejected"]
+    status: Literal["accepted", "rejected", "unavailable"]
     records: Records | None
 
 
@@ -128,3 +131,10 @@ class IngestionReport(BaseModel):
     files: Annotated[list[CheckedFile], Field(max_length=100000, min_length=1)]
     violations: Annotated[list[Violation], Field(max_length=1000000)]
     outputs: Annotated[list[Output], Field(max_length=4096)]
+    partial: Annotated[
+        bool | None,
+        Field(
+            description="true = only some files of a multi-file source were verified; the missing ones are listed with status unavailable (FR-008-50)"
+        ),
+    ] = False
+    fixture: Annotated[bool | None, Field(description="true = the source is a fixture (FR-008-49)")] = False

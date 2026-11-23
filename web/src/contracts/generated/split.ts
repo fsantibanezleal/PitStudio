@@ -49,6 +49,10 @@ folds: []|[Fold]|[Fold, Fold]|[Fold, Fold, Fold]|[Fold, Fold, Fold, Fold]|[Fold,
  * SHA-256 of the RFC 8785 canonical JSON of {groups, folds}.
  */
 membership_sha256: string
+/**
+ * true = the split was built over a fixture source (FR-008-49)
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `undefined`'s JSON-Schema

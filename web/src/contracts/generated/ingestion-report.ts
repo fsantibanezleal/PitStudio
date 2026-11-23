@@ -27,6 +27,14 @@ outputs: {
 path: Relpath
 sha256: Sha256
 }[]
+/**
+ * true = only some files of a multi-file source were verified; the missing ones are listed with status unavailable (FR-008-50)
+ */
+partial?: boolean
+/**
+ * true = the source is a fixture (FR-008-49)
+ */
+fixture?: boolean
 }
 /**
  * This interface was referenced by `undefined`'s JSON-Schema
@@ -50,6 +58,24 @@ export type RunId = string
 export type UtcTimestamp = string
 /**
  * This interface was referenced by `undefined`'s JSON-Schema
+ * via the `definition` "checked_file".
+ */
+export type CheckedFile = {
+/**
+ * Path relative to the data root.
+ */
+path: string
+/**
+ * null only for a file with status unavailable (never fetched)
+ */
+sha256: (Sha256 | null)
+validator: ("tabular" | "raster" | "point-cloud" | "vector" | "image-mask" | "image" | "series" | "dataset-structure")
+schema_name: string
+status: ("accepted" | "rejected" | "unavailable")
+records: (number | null)
+}
+/**
+ * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "sha256".
  */
 export type Sha256 = string
@@ -59,21 +85,6 @@ export type Sha256 = string
  */
 export type Relpath = string
 
-/**
- * This interface was referenced by `undefined`'s JSON-Schema
- * via the `definition` "checked_file".
- */
-export interface CheckedFile {
-/**
- * Path relative to the data root.
- */
-path: string
-sha256: Sha256
-validator: ("tabular" | "raster" | "point-cloud" | "vector" | "image-mask" | "image" | "series" | "dataset-structure")
-schema_name: string
-status: ("accepted" | "rejected")
-records: (number | null)
-}
 /**
  * This interface was referenced by `undefined`'s JSON-Schema
  * via the `definition` "violation".

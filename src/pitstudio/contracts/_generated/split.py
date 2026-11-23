@@ -104,3 +104,7 @@ class GroupedSplitFile(BaseModel):
         Sha256,
         Field(description="SHA-256 of the RFC 8785 canonical JSON of {groups, folds}."),
     ]
+    fixture: Annotated[
+        bool | None,
+        Field(description="true = the split was built over a fixture source (FR-008-49)"),
+    ] = False

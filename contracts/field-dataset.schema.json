@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/field-dataset.schema.json",
+  "$comment": "revision 2: optional boolean `fixture` added (FR-011-49, contract change under ADR-0039 section 4); the $id carries no version segment in this repository",
   "title": "FNO field dataset metadata",
   "description": "Metadata of one Warp shallow-water or dust field run on a terrain patch written by st50_physics (DC-011-03, spec 011-surrogates).",
   "type": "object",
@@ -240,6 +241,11 @@
     },
     "label": {
       "const": "calibrated synthetic — not validated against real data"
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "true while the document is a contract fixture: stages run against it, write fixture: true on every artefact and publish no result computed from it (FR-011-49)"
     }
   },
   "allOf": [

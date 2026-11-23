@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/calibration-result.schema.json",
+  "$comment": "revision 2: optional boolean `fixture` added (FR-011-49, contract change under ADR-0039 section 4); the $id carries no version segment in this repository",
   "title": "DEM calibration result",
   "description": "One calibration trial or literature-target calibration of the Warp DEM written by the calibration driver (DC-011-04, spec 011-surrogates).",
   "type": "object",
@@ -343,6 +344,11 @@
     },
     "label": {
       "const": "calibrated synthetic — not validated against real data"
+    },
+    "fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "true while the document is a contract fixture: stages run against it, write fixture: true on every artefact and publish no result computed from it (FR-011-49)"
     }
   },
   "allOf": [

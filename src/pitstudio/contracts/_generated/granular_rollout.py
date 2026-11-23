@@ -206,3 +206,9 @@ class GranularRolloutMetadata(BaseModel):
     rest_time_s: Annotated[float, Field(description="T_end of the reference rollout", gt=0.0, le=3600.0)]
     store: Store
     label: Literal["calibrated synthetic — not validated against real data"]
+    fixture: Annotated[
+        bool | None,
+        Field(
+            description="true while the document is a contract fixture: stages run against it, write fixture: true on every artefact and publish no result computed from it (FR-011-49)"
+        ),
+    ] = False
