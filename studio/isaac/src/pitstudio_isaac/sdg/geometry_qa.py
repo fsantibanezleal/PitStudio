@@ -86,7 +86,7 @@ def _project(camera: Mapping[str, Any], points: np.ndarray) -> tuple[np.ndarray,
 def projected_hull(
     camera: Mapping[str, Any], placement: Mapping[str, Any], dims: Mapping[str, Any]
 ) -> list[tuple[float, float]]:
-    """The convex hull, in pixels, of the eight corners of an object's box (corners behind the camera clamp at 0.1 m)."""
+    """The convex hull in pixels of the eight corners of an object's box (corners behind the camera clamp at 0.1 m)."""
     u, v, _ = _project(camera, _corners(placement, dims))
     return _hull([(float(a), float(b)) for a, b in zip(u, v, strict=True)])
 
