@@ -254,7 +254,7 @@ release_tag?: ReleaseTag
 budget_class: ("videos" | "tiles-glb" | "shards-clouds" | "splats" | "onnx" | "runtimes" | "own-code" | "studio-showcase")
 encoder?: Encoder
 }
-export type ArtefactKind = ("video" | "image" | "figure" | "point-cloud" | "mesh" | "tiles" | "splat" | "onnx" | "table" | "trace" | "shard" | "field" | "text" | "model-card" | "telemetry" | "usd")
+export type ArtefactKind = ("video" | "image" | "figure" | "point-cloud" | "mesh" | "tiles" | "splat" | "onnx" | "table" | "trace" | "shard" | "field" | "text" | "model-card" | "telemetry" | "usd" | "chart-series")
 export type CaseId = ("A1" | "A2" | "A3" | "B1" | "B2" | "C1" | "C2" | "C3" | "D1" | "D2" | "E1" | "E2")
 export type Date = string
 export type LicenceClass = ("public-domain" | "open-no-attribution" | "own" | "attribution" | "share-alike" | "display-only" | "reference-only")

@@ -7,6 +7,7 @@ export type { E1BlockModel, Source, Semver, Relpath, Licence, SpdxId, LicenceCla
 export type { DEMCalibrationResult, Seed, ParameterResult, GradientCheck } from "./calibration-result";
 export type { PitStudioCapabilityReport, ProbeResult } from "./capabilities";
 export type { CategoryId, Kpi, ParamKey, KpiUnit, Synthetic, MethodId, EngineId, Layer, CaseId, PitStudioCaseRegistry, Category, TitleText, Case, ProseText } from "./cases";
+export type { ChartSeries, NumberOrNull, Marker, NameEnEs, Producer, Axis, Series, NameEnEs1, Raster, Section, Table } from "./chart-series";
 export type { CocoId, CoordinatePx, Polygon, Category1, COCOInstancesSubset, Image, Annotation } from "./coco-instances";
 export type { Design, Box, KnowledgeRowId, XBurdenM, XSpacingRatio, XPowderFactorKgPerM3, XHoleDiameterMm, XBenchHeightM, XRockFactor, XBondWorkIndexKwhPerT, XMorrellIndexKwhPerT, XCrusherCssMm, XTargetP80Um, XMillPowerKw, XEfficiency, XEnergyCapKwhPerT, XExplosiveCostUsdPerKg, XEnergyCostUsdPerKwh, XConsumablesUsdPerT, Box1, ConfigInputs, ConfigInputs1, XSpecificEnergyKwhPerT, XThroughputTPerH, XCostUsdPerT, D2ComminutionSweeps, Bound, Configuration, Point } from "./comminution-sweep";
 export type { PitStudioConsoleResponseBodies, ContractVersion, RecipeSummary, RecipePath, Job, JobId, JobState, UtcTimestamp, RunSummary, Health, ErrorItem, RecipeList, StageKey, JobList, JobCreated, RunList, Problem } from "./console";
@@ -24,7 +25,7 @@ export type { ExportConfig } from "./export-config";
 export type { ExportParityReport, Tolerance, GoldenSet, Argmax, Metric } from "./export-parity-report";
 export type { FetchRecord, FileBytes } from "./fetch-record";
 export type { FNOFieldDatasetMetadata, Store } from "./field-dataset";
-export type { Chart, FigureId, Topic, FigureRegistry, NameEnEs, RangeControl, ChoiceControl, TextEnEs, Photo } from "./figures";
+export type { Chart, FigureId, Topic, FigureRegistry, RangeControl, ChoiceControl, TextEnEs, Photo } from "./figures";
 export type { MendeleyPerFoldValidationSubsets, Fold } from "./fragment-split";
 export type { MuckPileFragmentTable } from "./fragment-table";
 export type { FragmentationEvaluationReport, AucInterval, NoFit, Family } from "./fragmentation-eval";
@@ -53,7 +54,7 @@ export type { PerceptionDatasetIndexRecord, SizeBytes, ImageFile, MaskFile, Dept
 export type { PhysicsBenchmarkReport, Verdict, MaterialRef, Oracle, Check, Overhead, Stamp } from "./physics-benchmark-report";
 export type { PhysicsFieldStoreMetadata, Crs, CrsRef, LinearUnit, TimeAxis, Variable, SiteOrigin, CrsRecord, Input } from "./physics-field";
 export type { PhysicsObservablesTableDescription, Column } from "./physics-observables";
-export type { PhysicsParityGolden, ScenarioSchemaVersion, ScenarioSlug, ScenarioSolver, ScenarioBenchmarkId, ScenarioTwin, ScenarioVec3M, ScenarioTimeStep, ScenarioTimeStep1, ScenarioOutput, ScenarioMaterialCard, ScenarioQuantity, ScenarioStatus, ScenarioHttpsUrl, ScenarioSweBlock, ScenarioDustBlock, ScenarioDustSource, ScenarioGeometry, ScenarioCounts, ScenarioVehicleCard, ScenarioDemBlock, ScenarioMpmNewtonBlock, ScenarioMlsmpm2DBlock, ScenarioVehiclesBlock, ScenarioRigidNewtonBlock, InitialState, Observables, Series, Series1 } from "./physics-parity-golden";
+export type { PhysicsParityGolden, ScenarioSchemaVersion, ScenarioSlug, ScenarioSolver, ScenarioBenchmarkId, ScenarioTwin, ScenarioVec3M, ScenarioTimeStep, ScenarioTimeStep1, ScenarioOutput, ScenarioMaterialCard, ScenarioQuantity, ScenarioStatus, ScenarioHttpsUrl, ScenarioSweBlock, ScenarioDustBlock, ScenarioDustSource, ScenarioGeometry, ScenarioCounts, ScenarioVehicleCard, ScenarioDemBlock, ScenarioMpmNewtonBlock, ScenarioMlsmpm2DBlock, ScenarioVehiclesBlock, ScenarioRigidNewtonBlock, InitialState, Observables, Series1 } from "./physics-parity-golden";
 export type { PhysicsScenario, Solver, BenchmarkId, Twin, TimeStep, TimeStep1, MaterialCard, Quantity, SweBlock, DustBlock, DustSource, Geometry, Counts, VehicleCard, DemBlock, MpmNewtonBlock, Mlsmpm2DBlock, VehiclesBlock, RigidNewtonBlock } from "./physics-scenario";
 export type { PitDesignReport, Bench } from "./pit-design-report";
 export type { Lambda, Shell, Bitset, Tonnes, Cents, StripRatio, Schedule, E1ShellsPushbacksAndSchedule, Config, Pushback, Period } from "./pit-shells";

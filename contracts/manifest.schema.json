@@ -165,7 +165,8 @@
         "text",
         "model-card",
         "telemetry",
-        "usd"
+        "usd",
+        "chart-series"
       ]
     },
     "stage_id": {
@@ -1844,7 +1845,8 @@
                   "text",
                   "model-card",
                   "usd",
-                  "tiles"
+                  "tiles",
+                  "chart-series"
                 ]
               }
             }

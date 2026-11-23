@@ -214,6 +214,7 @@ modules:
   track: C
   title: 'studio publish: run manifests, telemetry and artefacts to web/public/assets'
   inputs:
+  - chart-series
   - events
   - physics-observables
   - replay-shard
@@ -221,6 +222,7 @@ modules:
   - scene-manifest
   - scene-validation-report
   outputs:
+  - chart-series
   - events
   - manifest
   - replay-shard
@@ -1500,6 +1502,7 @@ modules:
   inputs:
   - calibration-result
   - cases
+  - chart-series
   - comminution-sweep
   - d1-design-grid
   - detection-eval
@@ -2061,6 +2064,13 @@ contracts:
   schema: specs/018-web-cases/contracts/cases.schema.json
   promoted_target: contracts/cases.schema.json
   owner_spec: 018
+- name: chart-series
+  dc:
+  - DC-020-05
+  schema_state: draft
+  schema: specs/020-web-knowledge/contracts/chart-series.schema.json
+  promoted_target: contracts/chart-series.schema.json
+  owner_spec: '020'
 - name: coco-instances
   dc:
   - DC-009-02
@@ -7296,6 +7306,14 @@ edges:
   contract: results
   dc: DC-020-02
   schema: specs/020-web-knowledge/contracts/results.schema.json
+  schema_state: draft
+  availability: *id028
+- id: E-DC-020-05-01
+  from: runner-publish
+  to: web-route-case
+  contract: chart-series
+  dc: DC-020-05
+  schema: specs/020-web-knowledge/contracts/chart-series.schema.json
   schema_state: draft
   availability: *id028
 - id: E-DC-020-02-12

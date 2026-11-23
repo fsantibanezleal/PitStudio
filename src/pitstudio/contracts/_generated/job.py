@@ -296,6 +296,50 @@ class SpdxId(
     ]
 
 
+class ArtefactKind1(
+    RootModel[
+        Literal[
+            "video",
+            "image",
+            "figure",
+            "point-cloud",
+            "mesh",
+            "tiles",
+            "splat",
+            "onnx",
+            "table",
+            "trace",
+            "shard",
+            "field",
+            "text",
+            "model-card",
+            "telemetry",
+            "usd",
+            "chart-series",
+        ]
+    ]
+):
+    root: Literal[
+        "video",
+        "image",
+        "figure",
+        "point-cloud",
+        "mesh",
+        "tiles",
+        "splat",
+        "onnx",
+        "table",
+        "trace",
+        "shard",
+        "field",
+        "text",
+        "model-card",
+        "telemetry",
+        "usd",
+        "chart-series",
+    ]
+
+
 class StageId(
     RootModel[
         Literal[
@@ -923,7 +967,7 @@ class Artefact(BaseModel):
     bytes: Annotated[int, Field(ge=0, le=9007199254740991)]
     sha256: Sha256
     media_type: Annotated[str | None, Field(max_length=128, pattern="^[a-z]+/[a-z0-9.+-]{1,64}$")] = None
-    kind: ArtefactKind
+    kind: ArtefactKind1
     producer: Producer
     inputs: Annotated[list[InputRef], Field(max_length=32)]
     cases: Annotated[list[CaseId] | None, Field(max_length=12)] = None

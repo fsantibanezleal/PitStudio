@@ -185,6 +185,7 @@ class ArtefactKind(
             "model-card",
             "telemetry",
             "usd",
+            "chart-series",
         ]
     ]
 ):
@@ -205,6 +206,7 @@ class ArtefactKind(
         "model-card",
         "telemetry",
         "usd",
+        "chart-series",
     ]
 
 
