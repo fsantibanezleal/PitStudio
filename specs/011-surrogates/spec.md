@@ -195,9 +195,12 @@ x₉₉ and x₁ are the 99th and 1st percentiles of particle x at T_end. Test g
 
 The GNS training envelope (DC-011-02 `training_envelope` of the GNS example and `data.FAMILY_RANGES`) is the design envelope recorded by the
 rollout dataset at d = 0.01 m, not an illustrative range: column collapse aspect ratio 0.5 to 4.0 and column width 0.32 to 0.70 m (the 30 d pile
-floor of FR-011-03 needs L₀ of about 0.30 m or more, since the final pile height is 0.49 to 1.07 L₀); pile formation pour height 0.05 to 0.40 m and
-pour rate 0.79 to 1.45 m²/s; dump over a crest crest height 0.09 to 0.22 m and dump rate 0.76 to 1.23 m²/s (rates are the solid-area rate of a
-constant-N free-fall release).
+floor of FR-011-03 needs L₀ of about 0.32 m or more, since the final pile height is 0.49 to 1.07 L₀); pile formation pour height 0.5 to 1.25 m and
+pour rate 0.06 to 0.2 m²/s; dump over a crest crest height 0.09 to 0.22 m and dump rate 0.09 to 0.25 m²/s. Pile and dump are fed quasi-statically
+from a funnel hopper of the generator (frozen wall spheres that are not recorded): the pour height is the height of the orifice above the floor,
+the pour rate and the dump rate are the measured steady discharge rates (the slope of the solid area that crossed the orifice level), and a
+rollout counts as at rest only after at least 90 percent of its grains have left the orifice. Gns-v2 released the grains in free fall; that
+dynamic deposition gave piles 10 degrees flatter than the 3-D heap of the same material, so the feed changed and the envelope followed the dataset.
 The extractor's own resolution, measured at specification on analytic piles laid particle by particle, is ≤ 0.35° for
 piles ≥ 30 d high and about 1° for 20 d piles; hence the 30 d floor of FR-011-03. Reference and surrogate go through
 the same extractor, so its resolution enters both sides.
@@ -289,6 +292,6 @@ Identity, Cast. Anything else fails FR-011-36.
 ### ADDED Requirements
 (none — new feature)
 ### MODIFIED Requirements
-(none)
+- Section 7 training envelope (FR-011-03): pour height, pour rate and dump rate follow the quasi-static funnel-hopper feed of the reference data (gns-v3); column collapse and crest height are unchanged. Test-change request recorded for T-011-014 in specs/test-change-requests.md.
 ### REMOVED Requirements
 (none)

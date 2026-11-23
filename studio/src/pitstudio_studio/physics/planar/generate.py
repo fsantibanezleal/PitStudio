@@ -340,6 +340,11 @@ def process_feed(
         return
     rate = float(np.mean([r["rate"] for _, r in rs]))
     record = space.geometry_record(fam, slot["params"], rate)
+    for key, lo, hi in space.CONTRACT_RANGES[fam]:
+        if not lo <= record[key] <= hi:
+            log(f"{slot['id']} {fam} FAILED({key} {record[key]:.4g} outside {lo} to {hi}: geometry replaced)")
+            replace_geometry(out, slot, f"outside the declared envelope: {key} {record[key]:.4g}")
+            return
     if slot["split"] == "test":
         train = [s["record"] for s in family_slots(st, fam) if s["split"] == "train" and s["done"]]
         ok, dist = space.split_rule_ok(fam, record, train)

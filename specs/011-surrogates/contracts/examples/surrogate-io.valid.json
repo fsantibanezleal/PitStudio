@@ -133,13 +133,13 @@
       "unit": "m"
     },
     "pour_height": {
-      "min": 0.05,
-      "max": 0.4,
+      "min": 0.5,
+      "max": 1.25,
       "unit": "m"
     },
     "pour_rate": {
-      "min": 0.79,
-      "max": 1.45,
+      "min": 0.06,
+      "max": 0.2,
       "unit": "m^2/s"
     },
     "crest_height": {
@@ -148,8 +148,8 @@
       "unit": "m"
     },
     "dump_rate": {
-      "min": 0.76,
-      "max": 1.23,
+      "min": 0.09,
+      "max": 0.25,
       "unit": "m^2/s"
     },
     "particle_diameter": {

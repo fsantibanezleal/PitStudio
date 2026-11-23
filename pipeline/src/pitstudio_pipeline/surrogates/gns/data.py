@@ -35,8 +35,8 @@ FAMILIES = ("column-collapse", "pile-formation", "dump-over-crest")
 # the training envelope of DC-011-02: parameter -> (min, max), per family
 FAMILY_RANGES: dict[str, dict[str, tuple[float, float]]] = {
     "column-collapse": {"aspect_ratio": (0.5, 4.0), "column_width_m": (0.32, 0.70)},
-    "pile-formation": {"pour_height_m": (0.05, 0.40), "pour_rate_m2_per_s": (0.79, 1.45)},
-    "dump-over-crest": {"crest_height_m": (0.09, 0.22), "dump_rate_m2_per_s": (0.76, 1.23)},
+    "pile-formation": {"pour_height_m": (0.5, 1.25), "pour_rate_m2_per_s": (0.06, 0.2)},
+    "dump-over-crest": {"crest_height_m": (0.09, 0.22), "dump_rate_m2_per_s": (0.09, 0.25)},
 }
 TEST_QUOTA = {"column-collapse": 8, "pile-formation": 6, "dump-over-crest": 6}
 N_GEOMETRIES, N_TRAIN, N_VAL, N_TEST = 100, 70, 10, 20

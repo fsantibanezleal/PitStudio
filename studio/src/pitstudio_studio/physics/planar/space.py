@@ -64,12 +64,12 @@ N_FEED = 4000
 HOPPER_W_D = 60.0  # interior width of the hopper
 FUNNEL_DEG = 65.0  # wall angle of the funnel plates from the horizontal (mass flow in a planar hopper)
 FEED_RANGES: dict[str, dict[str, tuple[float, float]]] = {
-    "pile-formation": {"x_p_D": (-20.0, 20.0), "z_o_D": (50.0, 125.0), "w_o_D": (12.0, 20.0)},
+    "pile-formation": {"x_p_D": (-20.0, 20.0), "z_o_D": (50.0, 125.0), "w_o_D": (13.0, 19.0)},
     "dump-over-crest": {
         "x_c_D": (-20.0, 20.0),
         "h_c_D": (9.0, 22.0),
         "z_o_D": (50.0, 100.0),
-        "w_o_D": (12.0, 20.0),
+        "w_o_D": (16.0, 21.0),
         "x_off_D": (8.0, 20.0),
     },
 }
@@ -78,8 +78,8 @@ FEED_RANGES: dict[str, dict[str, tuple[float, float]]] = {
 # dataset records. pour height is the orifice height above the floor; the rates are the measured steady discharge rates.
 CONTRACT_RANGES: dict[str, tuple[tuple[str, float, float], ...]] = {
     "column-collapse": (("aspect_ratio", 0.5, 4.0), ("column_width_m", 0.32, 0.70)),
-    "pile-formation": (("pour_height_m", 0.05, 0.40), ("pour_rate_m2_per_s", 0.79, 1.45)),
-    "dump-over-crest": (("crest_height_m", 0.09, 0.22), ("dump_rate_m2_per_s", 0.76, 1.23)),
+    "pile-formation": (("pour_height_m", 0.5, 1.25), ("pour_rate_m2_per_s", 0.06, 0.2)),
+    "dump-over-crest": (("crest_height_m", 0.09, 0.22), ("dump_rate_m2_per_s", 0.09, 0.25)),
 }
 
 
