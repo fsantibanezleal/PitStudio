@@ -271,13 +271,16 @@ def test_fr_001_31_corpus_fixtures() -> None:
 # FR-001-31 · the committed registry
 # ----------------------------------------------------------------------------------------------------------------
 @pytest.mark.req("FR-001-31")
-def test_fr_001_31_committed_registry_is_an_empty_valid_list_loaded_strictly() -> None:
+def test_fr_001_31_committed_registry_is_a_valid_list_loaded_strictly() -> None:
     from pitstudio.contracts import load_yaml
 
     text = (cs.ROOT / SOURCES_YAML).read_text(encoding="utf-8")
     doc = yaml.safe_load(text)  # PyYAML as the reference parser
-    assert doc == {"sources": []}
-    assert ok(doc)
+    assert set(doc) == {"sources"}
+    assert isinstance(doc["sources"], list)
+    assert ok(doc)  # every entry validates against contracts/sources.schema.json
+    ids = [e["id"] for e in doc["sources"]]
+    assert len(ids) == len(set(ids))
     assert load_yaml(cs.ROOT / SOURCES_YAML) == doc
 
 
