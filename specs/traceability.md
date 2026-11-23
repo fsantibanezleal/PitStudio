@@ -1042,6 +1042,7 @@
 | FR-018-77 | 018-web-cases | draft | T-018-100 | web/src/cases/t_018_100_reproduce_imported.test.tsx |
 | FR-018-78 | 018-web-cases | draft | T-018-101 | web/e2e/t_018_101_consistent_pages.spec.ts |
 | FR-018-79 | 018-web-cases | draft | T-018-102 | web/src/cases/t_018_102_attribution.test.tsx, web/e2e/t_018_102_attribution.spec.ts |
+| FR-018-80 | 018-web-cases | draft | T-018-103 | web/src/cases/t_018_103_built_with_collapsed.test.tsx |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_010_tool_map.spec.ts |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts, web/src/studio/t_019_010_tool_map.test.tsx |
 | FR-019-03 | 019-web-studio | draft | T-019-011 | web/e2e/t_019_011_map_fallback.spec.ts |
@@ -1792,7 +1793,7 @@
 | US-018-4 | 018-web-cases | draft | T-018-010, T-018-011, T-018-012, T-018-013, T-018-014, T-018-015, T-018-016, T-018-017, T-018-036 | - |
 | US-018-5 | 018-web-cases | draft | T-018-040, T-018-041, T-018-042 | - |
 | US-018-6 | 018-web-cases | draft | T-018-035 | - |
-| US-018-7 | 018-web-cases | draft | T-018-025, T-018-095, T-018-096, T-018-097, T-018-098, T-018-099, T-018-100, T-018-101, T-018-102 | - |
+| US-018-7 | 018-web-cases | draft | T-018-025, T-018-095, T-018-096, T-018-097, T-018-098, T-018-099, T-018-100, T-018-101, T-018-102, T-018-103 | - |
 | US-019-1 | 019-web-studio | draft | T-019-010, T-019-011, T-019-012, T-019-035, T-019-036, T-019-040, T-019-041 | web/e2e/t_019_010_tool_map.spec.ts |
 | US-019-2 | 019-web-studio | draft | T-019-020, T-019-021, T-019-022, T-019-023, T-019-024 | - |
 | US-019-3 | 019-web-studio | draft | T-019-030, T-019-031, T-019-032 | - |

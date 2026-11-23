@@ -86,6 +86,7 @@ start with the requirement ID followed by " · " (for example `it("FR-018-39 · 
 - [ ] T-018-100 [US-018-7] (FR-018-77) Reproduce block of a case with a published imported run - test: web/src/cases/t_018_100_reproduce_imported.test.tsx
 - [ ] T-018-101 [US-018-7] (FR-018-78) consistent case pages, all 12 against the published run manifests - test: web/e2e/t_018_101_consistent_pages.spec.ts
 - [ ] T-018-102 [US-018-7] (FR-018-79) truthful per-visual attribution and not-run values without unit, all 12 case pages - test: web/src/cases/t_018_102_attribution.test.tsx
+- [ ] T-018-103 [US-018-7] (FR-018-80) Built with section collapsed by default with used and planned counts in the summary row - test: web/src/cases/t_018_103_built_with_collapsed.test.tsx
 
 ## Phase 9 — Gates, polish and independent review
 - [ ] T-018-088 [US-018-3] (SC-018-01, FR-018-67) parity-report completeness: every engine of §7.1 passes or is shown in T0; invalid report or measurement files fail the build — test: web/src/engines/t_018_088_parity_report.test.ts

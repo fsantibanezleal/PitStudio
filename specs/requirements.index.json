@@ -17585,7 +17585,8 @@
         "T-018-099",
         "T-018-100",
         "T-018-101",
-        "T-018-102"
+        "T-018-102",
+        "T-018-103"
       ],
       "tests": []
     },
@@ -18572,6 +18573,18 @@
       "tests": [
         "web/src/cases/t_018_102_attribution.test.tsx",
         "web/e2e/t_018_102_attribution.spec.ts"
+      ]
+    },
+    "FR-018-80": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-103"
+      ],
+      "tests": [
+        "web/src/cases/t_018_103_built_with_collapsed.test.tsx"
       ]
     },
     "P-018-01": {
@@ -25235,6 +25248,10 @@
     "T-018-102": [
       "US-018-7",
       "FR-018-79"
+    ],
+    "T-018-103": [
+      "US-018-7",
+      "FR-018-80"
     ],
     "T-018-088": [
       "US-018-3",
