@@ -3713,7 +3713,8 @@
         "T-004-032"
       ],
       "tests": [
-        "tests/unit/test_t_004_032_materials_licence.py"
+        "tests/unit/test_t_004_032_materials_licence.py",
+        "tests/unit/test_t_009_016_arid_textures.py"
       ]
     },
     "FR-004-27": {
@@ -8200,6 +8201,7 @@
       ],
       "tests": [
         "tests/property/test_t_009_013_placement_unstructured.py",
+        "tests/unit/test_t_009_016_arid_textures.py",
         "tests/unit/test_t_009_016_exposure_fog.py",
         "tests/unit/test_t_009_016_param_table.py",
         "tests/unit/test_t_009_016_shard_driver.py",

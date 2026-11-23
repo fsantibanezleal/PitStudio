@@ -323,7 +323,7 @@
 | FR-004-23 | 004-scene-pipeline | draft | T-004-026 | tests/unit/test_t_004_026_design_hostile.py |
 | FR-004-24 | 004-scene-pipeline | draft | T-004-030 | tests/unit/test_t_004_030_assets_physics.py |
 | FR-004-25 | 004-scene-pipeline | draft | T-004-031 | tests/property/test_t_004_031_labels.py |
-| FR-004-26 | 004-scene-pipeline | draft | T-004-032 | tests/unit/test_t_004_032_materials_licence.py |
+| FR-004-26 | 004-scene-pipeline | draft | T-004-032 | tests/unit/test_t_004_032_materials_licence.py, tests/unit/test_t_009_016_arid_textures.py |
 | FR-004-27 | 004-scene-pipeline | draft | T-004-033 | tests/unit/test_t_004_033_assets_hostile.py |
 | FR-004-28 | 004-scene-pipeline | draft | T-004-034 | tests/unit/test_t_004_034_people_route.py |
 | FR-004-29 | 004-scene-pipeline | draft | T-004-040 | tests/unit/test_t_004_040_compose.py |
@@ -533,7 +533,7 @@
 | FR-009-05 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-06 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-07 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_param_table.py |
-| FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_016_visible_sky.py |
+| FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_arid_textures.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_016_visible_sky.py |
 | FR-009-09 | 009-perception | draft | T-009-014 | tests/unit/test_t_009_014_sdg_config_guards.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-10 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-11 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py |
