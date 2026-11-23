@@ -28,6 +28,7 @@ studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/property/test_t_004_052_*.py      # pxr
   - tests/unit/test_sdg_inputs_tool.py      # shapely, the SDG input builder of the studio lane
   - tests/unit/test_t_004_0[0-4]*_*.py      # pxr, pyproj, shapely, laspy through pitstudio_studio.scene (spec 004 scene pipeline)
+  - tests/unit/test_web_terrain_extract.py  # pxr, scipy: the OpenUSD side of the web bake (spec 016, FR-016-19)
   - tests/unit/test_t_004_05*_*.py
   - tests/unit/test_t_004_09[24-8]_*.py
   - tests/unit/test_t_013_01[345]_*.py      # pyarrow and pitstudio_rtx (studio/rtx): the sensor lane

@@ -198,7 +198,7 @@ def _recipe_artefacts(
     return arts, copies
 
 
-PUBLISHABLE_KINDS = ("image", "figure", "table", "text", "model-card", "usd", "video")
+PUBLISHABLE_KINDS = ("image", "figure", "table", "text", "model-card", "usd", "video", "tiles")
 # kinds scanned for a machine path: media is binary and a scan of it would only misfire
 TEXT_KINDS = ("figure", "table", "text", "model-card")
 
@@ -216,7 +216,8 @@ def _imported_artefacts(
         src = store.obj(o["sha256"])
         if not src.is_file() or file_sha(src) != o["sha256"]:
             raise Usage(f"imported output {o['name']}: the stored object does not match its digest")
-        text = src.read_text(encoding="utf-8", errors="ignore") if o["kind"] in TEXT_KINDS else ""
+        scanned = o["kind"] in TEXT_KINDS or (o["kind"] == "tiles" and o.get("media_type") == "application/json")
+        text = src.read_text(encoding="utf-8", errors="ignore") if scanned else ""
         if any(p.search(text) for p in PRIVATE):
             raise Usage(f"imported output {o['name']} holds an absolute path (privacy rule)")
         key = {"id": o["stage"], **({"variant": o["variant"]} if o.get("variant") else {})}
@@ -231,7 +232,7 @@ def _imported_artefacts(
             "sha256": o["sha256"],
             "kind": o["kind"],
             "producer": {"tool": tool, "stage": key},
-            "inputs": [],
+            "inputs": o.get("inputs", []),
             "lane": "replay" if o["kind"] == "video" else "static",
             "budget_class": o["budget_class"],
             "licence_class": o["licence_class"],

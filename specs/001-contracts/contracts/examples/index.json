@@ -233,6 +233,23 @@
       "keyword": "const"
     },
     {
+      "file": "manifest.valid-web-index-tiles.json",
+      "schema": "manifest.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "web index with a static 3D Tiles tileset artefact (web-terrain-3d-2026-11-23)"
+    },
+    {
+      "file": "manifest.hostile-static-tiles-with-measurements.json",
+      "schema": "manifest.schema.json",
+      "target": "#/$defs/web_index",
+      "valid": false,
+      "class": "static lane artefact with lane measurements",
+      "rule": "FR-001-13",
+      "pointer": "/artefacts/0",
+      "keyword": "not"
+    },
+    {
       "file": "manifest.hostile-missing-attribution.json",
       "schema": "manifest.schema.json",
       "target": "#/$defs/web_index",

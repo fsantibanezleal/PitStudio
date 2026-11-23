@@ -677,3 +677,148 @@ def test_import_run_render_labels_the_run_partial_when_the_recipe_changed_since_
     assert run_job(world, RENDER_JOB, spec)[0] == 0
     notes = " | ".join(manifest_of(world)["notes"])
     assert "partial" in notes and "recipe render/demo.yaml changed since the render" in notes
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# kind "bake": the web bake of the terrain (web-terrain-3d-2026-11-23): 3D Tiles and glTF files, no queue, no GPU
+# ----------------------------------------------------------------------------------------------------------------------
+
+BAKE_JOB = "43-web-terrain-demo"
+PD = {"licence_class": "public-domain", "spdx": "LicenseRef-USGov-PD"}
+TILE_INPUTS = [{"id": "usgs-3dep-bingham", "sha256": "a" * 64, "kind": "source"}]
+TILESET = {
+    "asset": {"version": "1.1"},
+    "geometricError": 12,
+    "root": {"geometricError": 12, "content": {"uri": "lod0.glb"}},
+}
+GLB = (
+    b"glTF" + b"\x02\x00\x00\x00" + b"\x00" * 40 + b"C:" + bytes([92]) + b"Users" + bytes([92]) + b"someone"
+)  # binary: never scanned for paths
+
+
+def bake_spec(**tileset_extra: object) -> dict:
+    tile = {"budget_class": "tiles-glb", "publish": True, "stage": "s60_export", **PD}
+    return {
+        "job": BAKE_JOB,
+        "kind": "bake",
+        "case": "A1",
+        "all_cases": True,
+        "recipe": "cases/c1.yaml",
+        "slug": "web-terrain-demo",
+        "seed": 0,
+        "label": "terrain tiles baked from the OpenUSD scene",
+        "notes": ["baked by the web bake tool"],
+        "stages": [
+            {
+                "id": "s60_export",
+                "tool": "openusd",
+                "outputs": [
+                    {
+                        "name": "tiles/lod0/tileset.json",
+                        "from": "tiles/lod0/tileset.json",
+                        "id": "demo-lod0-tileset",
+                        "kind": "tiles",
+                        "media_type": "application/json",
+                        "inputs": TILE_INPUTS,
+                        **tile,
+                        **tileset_extra,
+                    },
+                    {
+                        "name": "tiles/lod0/lod0.glb",
+                        "from": "tiles/lod0/lod0.glb",
+                        "id": "demo-lod0-tile",
+                        "kind": "tiles",
+                        "media_type": "model/gltf-binary",
+                        "inputs": TILE_INPUTS,
+                        **tile,
+                    },
+                ],
+            }
+        ],
+    }
+
+
+def bake_files(w: World, *, tileset: dict | None = None) -> None:
+    (w.src / "tiles" / "lod0").mkdir(parents=True, exist_ok=True)
+    (w.src / "tiles" / "lod0" / "tileset.json").write_text(json.dumps(tileset or TILESET), encoding="utf-8")
+    (w.src / "tiles" / "lod0" / "lod0.glb").write_bytes(GLB)
+
+
+def test_manifest_contract_accepts_tiles_on_the_static_lane_and_still_refuses_a_static_video() -> None:
+    """Contract change of web-terrain-3d-2026-11-23 (ADR-0039): a baked tileset or glTF tile is a static artefact."""
+    base = {
+        "id": "demo-lod0-tileset",
+        "run_id": "20261123T120000Z-web-terrain-demo",
+        "git_sha": "a" * 40,
+        "path": "assets/20261123T120000Z-web-terrain-demo/tiles/lod0/tileset.json",
+        "bytes": 240,
+        "sha256": "b" * 64,
+        "kind": "tiles",
+        "producer": {"tool": "openusd", "stage": {"id": "s60_export"}},
+        "inputs": TILE_INPUTS,
+        "lane": "static",
+        "asset_host": "git",
+        "budget_class": "tiles-glb",
+        **PD,
+    }
+    assert first_errors("manifest", base, "#/$defs/artefact", n=3) == []
+    assert first_errors("manifest", {**base, "kind": "video", "id": "v"}, "#/$defs/artefact", n=1)
+    assert first_errors("manifest", {**base, "kind": "onnx"}, "#/$defs/artefact", n=1)
+    spec_copy = ROOT / "specs" / "001-contracts" / "contracts" / "manifest.schema.json"
+    assert spec_copy.read_bytes() == (ROOT / "contracts" / "manifest.schema.json").read_bytes()
+
+
+def test_import_run_bake_records_a_valid_run_without_queue_facts_gpu_hours_or_partial_notes(world: World) -> None:
+    bake_files(world)
+    code, err = run_job(world, BAKE_JOB, bake_spec())
+    assert code == 0, err
+    m = manifest_of(world)
+    assert first_errors("manifest", m, "#/$defs/run", n=3) == []
+    assert [s["tool"] for s in m["stages"]] == ["openusd"]
+    notes = " | ".join(m["notes"])
+    assert "web bake" in notes and LABEL not in notes
+    assert "GPU-hours" not in notes and "script" not in notes and "partial" not in notes
+    imp = json.loads((world.runs()[0] / "import.json").read_text(encoding="utf-8"))
+    assert imp["all_cases"] is True and imp["partial"] is False
+
+
+def test_import_run_bake_publishes_tiles_as_static_artefacts_with_inputs_and_matching_digests(world: World) -> None:
+    from pitstudio.runner import publish
+
+    bake_files(world)
+    assert run_job(world, BAKE_JOB, bake_spec())[0] == 0
+    run_id = world.runs()[0].name
+    publish.publish(world.store, world.repo, run_id, None)
+    web = world.repo / "web" / "public"
+    idx = json.loads((web / "assets" / "manifest.json").read_text(encoding="utf-8"))
+    assert first_errors("manifest", idx, "#/$defs/web_index", n=3) == []
+    by_id = {a["id"]: a for a in idx["artefacts"]}
+    tileset, tile = by_id["demo-lod0-tileset"], by_id["demo-lod0-tile"]
+    assert tileset["kind"] == tile["kind"] == "tiles" and tileset["lane"] == tile["lane"] == "static"
+    assert tileset["inputs"] == TILE_INPUTS and tileset["budget_class"] == "tiles-glb"
+    assert tileset["path"] == f"assets/{run_id}/tiles/lod0/tileset.json" and tileset["media_type"] == "application/json"
+    for a in (tileset, tile):
+        data = (web / a["path"]).read_bytes()
+        assert sha(data) == a["sha256"] and len(data) == a["bytes"]
+        assert "cases" not in a  # one tileset for every case page
+
+
+def test_import_run_bake_scans_a_published_tileset_for_machine_paths_but_never_the_binary_tiles(world: World) -> None:
+    from pitstudio.runner import publish
+    from pitstudio.runner.recipe import Usage
+
+    bake_files(world)
+    assert run_job(world, BAKE_JOB, bake_spec())[0] == 0
+    publish.publish(
+        world.store, world.repo, world.runs()[0].name, None
+    )  # the GLB holds a machine path in its bytes: not scanned
+    git(world.repo, "add", "-A")
+    git(world.repo, "commit", "-q", "-m", "published")
+    leaking = {**TILESET, "extras": {"from": "C:" + chr(92) + "Users" + chr(92) + "someone" + chr(92) + "scene.usdc"}}
+    bake_files(world, tileset=leaking)
+    os.utime(world.queue / f"{JOB}.log", None)
+    spec = bake_spec()
+    spec["slug"] = "web-terrain-leak"
+    assert run_job(world, BAKE_JOB, spec)[0] == 0
+    with pytest.raises(Usage, match="absolute path"):
+        publish.publish(world.store, world.repo, world.runs()[-1].name, None)
