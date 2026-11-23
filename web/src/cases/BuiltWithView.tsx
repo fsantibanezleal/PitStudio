@@ -87,25 +87,36 @@ function Chip({ item }: { item: BuiltItem }) {
   );
 }
 
-function BuiltWithSection({ groups }: { groups: BuiltGroups }) {
+/** The Built with section: a native disclosure, collapsed on every load; its summary row counts the used and the planned parts (FR-018-80). */
+export function BuiltWithSection({ groups }: { groups: BuiltGroups }) {
   const { t } = useTranslation("cases");
+  const all = GROUP_IDS.flatMap((g) => groups[g]);
+  const used = all.filter((i) => i.status === "used").length;
   return (
     <section className={styles.builtWith} data-testid="built-with" aria-labelledby="built-with-title">
-      <h2 id="built-with-title">{t("builtWith.title")}</h2>
-      <div className={styles.builtGroups}>
-        {GROUP_IDS.map((g) => (
-          <div key={g} data-group={g}>
-            <h3>{t(`builtWith.group.${g}`)}</h3>
-            <ul className={styles.chips}>
-              {groups[g].length > 0 ? (
-                groups[g].map((item) => <Chip key={`${g}-${item.id}`} item={item} />)
-              ) : (
-                <li className={styles.unit}>{t("builtWith.none")}</li>
-              )}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <details className={styles.builtDetails}>
+        <summary className={styles.builtSummary}>
+          <h2 id="built-with-title">{t("builtWith.title")}</h2>
+          <span className={styles.unit} data-testid="built-with-counts">
+            {t("builtWith.counts", { used, planned: all.length - used })}
+          </span>
+          <span className={styles.builtChevron} aria-hidden="true" />
+        </summary>
+        <div className={styles.builtGroups}>
+          {GROUP_IDS.map((g) => (
+            <div key={g} data-group={g}>
+              <h3>{t(`builtWith.group.${g}`)}</h3>
+              <ul className={styles.chips}>
+                {groups[g].length > 0 ? (
+                  groups[g].map((item) => <Chip key={`${g}-${item.id}`} item={item} />)
+                ) : (
+                  <li className={styles.unit}>{t("builtWith.none")}</li>
+                )}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </details>
     </section>
   );
 }
