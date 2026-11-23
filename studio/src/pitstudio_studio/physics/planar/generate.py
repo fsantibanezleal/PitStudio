@@ -191,16 +191,28 @@ def write_rollout(
     if store.exists():
         shutil.rmtree(store)
     store.parent.mkdir(parents=True, exist_ok=True)
-    frames = res["frames"]
+    grains = res["frames"]
+    boundary = res.get("boundary")
+    n_boundary = 0 if boundary is None else len(boundary)
+    names = ["grain", "boundary"] if n_boundary else ["grain"]
+    # grains first, then the static solids (funnel, platform): type 0 and type 1, the boundary repeated in every frame
+    frames = (
+        np.concatenate([grains, np.broadcast_to(boundary[None], (len(grains), n_boundary, 2))], axis=1)
+        if n_boundary
+        else grains
+    )
+    types = np.concatenate([np.zeros(grains.shape[1], dtype=np.uint8), np.ones(n_boundary, dtype=np.uint8)])
+    radii = np.concatenate([res["radii"], np.full(n_boundary, 0.5 * D, dtype=np.float32)])
     g = zarr.open_group(str(store), mode="w")
     g.create_array("positions", data=frames, chunks=(min(32, len(frames)), frames.shape[1], 2))
-    g.create_array("radius_m", data=res["radii"])
-    g.create_array("type_index", data=np.zeros(frames.shape[1], dtype=np.uint8))
+    g.create_array("radius_m", data=radii)
+    g.create_array("type_index", data=types)
     g.create_array("frame_times_s", data=res["frame_times"])
     g.attrs.update(
         {
-            "axes": "positions[t, i] = (x, z) in metres, z vertical; planar monolayer (y held at 0), grains only",
-            "particle_types": ["grain"],
+            "axes": "positions[t, i] = (x, z) in metres, z vertical; planar monolayer (y held at 0); "
+            "grains first, then the static boundary particles (type 1, same position in every frame)",
+            "particle_types": names,
             "rollout_id": rid,
         }
     )
@@ -219,7 +231,7 @@ def write_rollout(
         "bounds_m": [float(b) for b in res["bounds"]],
         "frame_times_s": [float(t) for t in res["frame_times"]],
         "particle_count": int(frames.shape[1]),
-        "particle_types": ["grain"],
+        "particle_types": names,
         "material": cfg.record(),
         "rest_time_s": float(res["frame_times"][-1]),
         "store": {"format": "zarr", "path": rel, "sha256": store_digest(store)},
@@ -257,6 +269,7 @@ def _entry(rid: str, seed: int, res: dict) -> dict:
         "seed": seed,
         "id": rid,
         "particles": res["n"],
+        "boundary_particles": int(res.get("n_boundary", 0)),
         "frames": len(res["frame_times"]),
         "rest_time_s": float(res["frame_times"][-1]),
     }

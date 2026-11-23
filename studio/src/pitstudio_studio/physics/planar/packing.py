@@ -3,7 +3,8 @@
 Pure NumPy. Every state is a monolayer: positions are (x, 0, z) metres, radii are D/2 U(1 - poly, 1 + poly). The hopper
 is
 made of FROZEN spheres (radius D/2, centre spacing 0.8 D) that the engine holds in place with a kernel inside the CUDA
-graph; they are generator-side obstacles, never recorded. A funnel (plates rising from the orifice edges at FUNNEL_DEG
+graph; they are recorded as the static boundary particles of the rollout.
+A funnel (plates rising from the orifice edges at FUNNEL_DEG
 from the horizontal, then vertical side walls) drains completely, so a finished feed leaves almost no grain on the
 plates.
 """
@@ -132,3 +133,20 @@ def hopper_state(
     rad = np.concatenate([np.full(len(walls), 0.5 * D), radii(rng, n, poly)])
     frozen = np.concatenate([np.ones(len(walls), dtype=np.int32), np.zeros(n, dtype=np.int32)])
     return Hopper(pos, rad, frozen, n, len(walls), x_center, z_orifice, top)
+
+
+def dump_solid(lx0: float, crest: float, crest_z: float) -> np.ndarray:
+    """Boundary points (x, z) of the solid under a dump platform: its top row and its crest face.
+
+    The generator holds the grains with two planes (the platform top z = crest_z for x < crest, the crest face x = crest
+    below it). A plane touches a grain of radius D/2 at a centre distance D/2, so the points sit D/2 inside the solid:
+    a grain resting on the row is at the contact distance D of a boundary sphere, as on a wall sphere of the funnel.
+    The row and the face are closed at the WALL_PITCH of the funnel, from the left wall of the box to the crest and from
+    the crest foot to the platform.
+    """
+    z_top, x_face = crest_z - 0.5 * D, crest - 0.5 * D
+    n_top = max(1, math.ceil((x_face - lx0) / (WALL_PITCH * D)))
+    top = [(lx0 + (x_face - lx0) * i / n_top, z_top) for i in range(n_top + 1)]
+    n_face = max(1, math.ceil(z_top / (WALL_PITCH * D)))
+    face = [(x_face, z_top * i / n_face) for i in range(n_face)]  # the corner is the last point of the top row
+    return np.array(top + face)

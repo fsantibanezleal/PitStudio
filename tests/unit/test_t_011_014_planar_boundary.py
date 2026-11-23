@@ -51,8 +51,9 @@ def test_011_a_pile_records_its_funnel_spheres_as_boundary_in_the_frame_of_the_i
 def test_011_a_dump_adds_its_platform_and_crest_face_inside_the_solid_and_never_those_of_another_instance() -> None:
     insts = _insts("dump-over-crest", DUMP, 2)
     first, second = (engine.instance_boundary("dump-over-crest", it) for it in insts)
-    assert first.shape == second.shape  # the same geometry twice: the stacking in z and the shift do not leak in
-    assert np.allclose(first, second, atol=1e-6)
+    n_walls = [it["hopper"].n_walls for it in insts]
+    # the same geometry twice (only the funnel top follows the random fill): stacking in z and shift do not leak in
+    assert np.allclose(first[n_walls[0] :], second[n_walls[1] :], atol=1e-6)
     geo = insts[0]["geo"]
     hopper = insts[0]["hopper"]
     solid = first[hopper.n_walls :]
@@ -78,8 +79,11 @@ def test_011_a_finished_feed_returns_its_grains_and_its_static_boundary_separate
     assert res["n_boundary"] > 0
     # the bounds of the rollout contain the funnel, so a reference state never lies outside its own box
     x0, z0, x1, z1 = res["bounds"]
-    assert (res["boundary"][:, 0] >= x0).all() and (res["boundary"][:, 0] <= x1).all()
-    assert (res["boundary"][:, 1] >= z0).all() and (res["boundary"][:, 1] <= z1).all()
+    bx, bz = res["boundary"][:, 0], res["boundary"][:, 1]
+    assert (bx >= x0).all()
+    assert (bx <= x1).all()
+    assert (bz >= z0).all()
+    assert (bz <= z1).all()
 
 
 def _result(n_boundary: int = 5) -> dict:
@@ -106,7 +110,16 @@ def test_011_the_payload_holds_grains_then_boundary_with_a_type_each_and_the_bou
 
     res = _result()
     meta = generate.write_rollout(
-        tmp_path, "r1", "pile-formation", "g1", PILE, space.geometry_record("pile-formation", PILE, 0.1), 1, res, CFG, "v"
+        tmp_path,
+        "r1",
+        "pile-formation",
+        "g1",
+        PILE,
+        space.geometry_record("pile-formation", PILE, 0.1),
+        1,
+        res,
+        CFG,
+        "v",
     )
     assert meta["particle_types"] == ["grain", "boundary"]
     assert meta["particle_count"] == 3 + 5
@@ -123,7 +136,16 @@ def test_011_the_payload_holds_grains_then_boundary_with_a_type_each_and_the_bou
 def test_011_a_collapse_without_boundary_keeps_one_particle_type(tmp_path: Path) -> None:
     res = _result(0)
     meta = generate.write_rollout(
-        tmp_path, "r2", "column-collapse", "g2", PILE, space.geometry_record("column-collapse", {"a": 1.0, "L0_D": 40.0}), 1, res, CFG, "v"
+        tmp_path,
+        "r2",
+        "column-collapse",
+        "g2",
+        PILE,
+        space.geometry_record("column-collapse", {"a": 1.0, "L0_D": 40.0}),
+        1,
+        res,
+        CFG,
+        "v",
     )
     assert meta["particle_types"] == ["grain"]
     assert meta["particle_count"] == 3
@@ -133,7 +155,7 @@ def _write_with_boundary(tmp_path: Path, boundary: np.ndarray | None, moving: bo
     import zarr
 
     res = _result(0)
-    t, n = res["frames"].shape[:2]
+    n = res["frames"].shape[1]
     rng = np.random.default_rng(2)
     # a settled grain block: grains at rest on the floor, so the per-rollout checks of verify can run
     res["frames"] = np.repeat(rng.uniform(0.1, 0.2, (1, n, 2)).astype(np.float32), 40, axis=0)
@@ -141,7 +163,16 @@ def _write_with_boundary(tmp_path: Path, boundary: np.ndarray | None, moving: bo
     res["boundary"] = boundary
     res["n_boundary"] = 0 if boundary is None else len(boundary)
     meta = generate.write_rollout(
-        tmp_path, "r3", "pile-formation", "g3", PILE, space.geometry_record("pile-formation", PILE, 0.1), 1, res, CFG, "v"
+        tmp_path,
+        "r3",
+        "pile-formation",
+        "g3",
+        PILE,
+        space.geometry_record("pile-formation", PILE, 0.1),
+        1,
+        res,
+        CFG,
+        "v",
     )
     if moving:  # corrupt one boundary frame, then refresh the digest
         store = tmp_path / meta["store"]["path"]

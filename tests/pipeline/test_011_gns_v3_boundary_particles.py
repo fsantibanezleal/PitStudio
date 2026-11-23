@@ -11,10 +11,11 @@ from __future__ import annotations
 import numpy as np
 import pytest
 import torch
-from pitstudio.granular.observables import observables
-from pitstudio.granular.rollout import run_rollout
 from pitstudio_pipeline.surrogates.gns import data, evaluate, infer, train
 from pitstudio_pipeline.surrogates.gns.model import GnsStep
+
+from pitstudio.granular.observables import observables
+from pitstudio.granular.rollout import run_rollout
 
 D, DT = 0.01, 0.01
 NAMES = ["grain", "boundary"]

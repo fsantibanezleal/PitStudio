@@ -43,7 +43,21 @@ N_GEOMETRIES, N_TRAIN, N_VAL, N_TEST = 100, 70, 10, 20
 MIN_DISTANCE = 0.05
 SEEDS_PER_GEOMETRY = 3
 RADIUS_FACTOR = 2.5  # R = 2.5 d (FR-011-02)
+# A rollout may carry rigid solids (a funnel, a platform) as particles of their own type, named "boundary" in the
+# `particle_types` of DC-011-01. They are nodes of the graph (Sanchez-Gonzalez et al. 2020, arXiv:2002.09405,
+# Appendix B.2 and B.3: obstacles as boundary particles, a type feature, masked out of the loss) whose positions
+# come from
+# the reference: never predicted, never in the loss, the noise, the statistics or the observables.
+BOUNDARY_TYPE = "boundary"
 _SPLIT_ATTEMPTS = 400
+
+
+def boundary_mask(type_names: Sequence[str], types: np.ndarray) -> np.ndarray:
+    """True for the particles whose type is named "boundary" (all False when the rollout declares no such type)."""
+    arr = np.asarray(types)
+    if BOUNDARY_TYPE not in type_names:
+        return np.zeros(arr.shape, dtype=bool)
+    return arr == list(type_names).index(BOUNDARY_TYPE)
 
 
 # ------------------------------------------------------------------ geometry split (FR-011-03)
@@ -229,6 +243,7 @@ class PreprocessedRollout:
     positions: np.ndarray  # float32 [T, N, 2]
     particle_types: np.ndarray  # int64 [N]
     digest: str = ""
+    boundary: np.ndarray = field(default_factory=lambda: np.zeros(0, dtype=bool))  # bool [N]: the static solids
     extras: dict[str, Any] = field(default_factory=dict)
 
 
@@ -329,7 +344,13 @@ def s10_preprocess(meta_path: str | Path, *, root: str | Path) -> PreprocessedRo
         raise RolloutFileError(f"store/sha256: recorded {store['sha256']} but the payload digest is {actual}")
     positions, types = _read_parquet(payload, meta) if store["format"] == "parquet" else _read_zarr(payload, meta)
     _check_payload(positions, types, meta)
-    return PreprocessedRollout(meta=meta, positions=positions, particle_types=types, digest=actual)
+    return PreprocessedRollout(
+        meta=meta,
+        positions=positions,
+        particle_types=types,
+        digest=actual,
+        boundary=boundary_mask(meta["particle_types"], types),
+    )
 
 
 def _read_parquet(path: Path, meta: dict[str, Any]) -> tuple[np.ndarray, np.ndarray]:
@@ -420,6 +441,7 @@ def to_training_rollout(pre: PreprocessedRollout) -> dict[str, Any]:
     return {
         "positions": pre.positions,
         "particle_types": pre.particle_types,
+        "boundary": pre.boundary,
         "bounds": np.asarray(meta["bounds_m"], dtype=np.float32),
         "d": meta["particle_diameter_m"],
         "dt": meta["frame_interval_s"],
@@ -510,7 +532,12 @@ def evaluation_geometries(meta_dir: Path, *, root: Path, geometry_ids: Sequence[
                 "bounds": list(meta["bounds_m"]),
             }
             refs.append(
-                {"seed": meta["packing_seed"], "positions": pre.positions, "particle_types": pre.particle_types}
+                {
+                    "seed": meta["packing_seed"],
+                    "positions": pre.positions,
+                    "particle_types": pre.particle_types,
+                    "boundary": pre.boundary,
+                }
             )
         if base is not None:
             refs.sort(key=lambda r: r["seed"])

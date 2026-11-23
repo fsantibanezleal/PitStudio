@@ -353,11 +353,18 @@ def fp16_deltas(dataset: Dataset, paths: Mapping[str, Path], model: Any, *, prov
                 "d": geometry["d"],
                 "dt": geometry["dt"],
             }
+            boundary = evaluate._boundary(ref, frames.shape[1])
+            if boundary.any():
+                state["boundary"] = boundary
+                state["boundary_positions"] = frames[:, boundary]
             for key, surrogate in steppers.items():
                 rollout = surrogate(state, frames.shape[0] - 1)
                 try:
                     o = observables(
-                        rollout.positions[-1], d=geometry["d"], family=geometry["family"], geometry=geometry["geometry"]
+                        evaluate._grains(ref, rollout.positions[-1]),
+                        d=geometry["d"],
+                        family=geometry["family"],
+                        geometry=geometry["geometry"],
                     )
                     value = (o["repose_deg"], o["run_out_m"]) if rollout.status == "ok" else (math.nan, math.nan)
                 except ValueError:

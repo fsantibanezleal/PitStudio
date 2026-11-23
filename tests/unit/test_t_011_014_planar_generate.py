@@ -97,9 +97,10 @@ def test_011_a_run_writes_valid_rollouts_updates_the_state_and_releases_the_lock
         meta = json.loads(f.read_text(encoding="utf-8"))
         generate.validate_meta(meta)
         validate_rollout_metadata(meta)
-        assert meta["particle_types"] == ["grain"]
+        assert meta["particle_types"] == ["grain", "boundary"]  # the funnel spheres, static, after the 24 grains
         assert meta["dimensions"] == 2
-        assert meta["particle_count"] == 24
+        assert meta["particle_count"] == 24 + done[0]["seeds"][0]["boundary_particles"]
+        assert done[0]["seeds"][0]["boundary_particles"] > 0
         assert meta["geometry"]["pour_rate_m2_per_s"] == pytest.approx(done[0]["rate"])
         assert meta["geometry"]["pour_height_m"] == pytest.approx(done[0]["params"]["z_o_D"] * D)
         assert meta["store"]["sha256"] == generate.store_digest(out / meta["store"]["path"])

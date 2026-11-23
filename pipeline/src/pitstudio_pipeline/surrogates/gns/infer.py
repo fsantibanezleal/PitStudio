@@ -87,14 +87,56 @@ def torch_advance(model: Any) -> Callable[..., tuple[np.ndarray, np.ndarray]]:
     return step
 
 
+def hold_boundary(
+    advance: Callable[..., tuple[np.ndarray, np.ndarray]],
+    boundary: np.ndarray,
+    reference: np.ndarray,
+    dt: float,
+) -> Callable[..., tuple[np.ndarray, np.ndarray]]:
+    """A one-step `advance` whose boundary particles are not predicted: after step s their positions are the reference
+    frame s (the last one repeated beyond it) and their velocity history takes the reference velocity.
+
+    `boundary` is the bool mask [N], `reference` the positions [T, n_boundary, 2] of those particles in the frames 0 ...
+    (T - 1) of the reference rollout (Sanchez-Gonzalez et al. 2020, Appendix B.3: obstacles are inputs, never outputs).
+    The wrapper counts its own calls, so build one per rollout.
+    """
+    mask = np.asarray(boundary, dtype=bool)
+    ref = np.asarray(reference, dtype=np.float32)
+    if ref.ndim != 3 or ref.shape[1] != int(mask.sum()) or ref.shape[2] != 2:
+        raise ValueError(f"reference must have shape [T, {int(mask.sum())}, 2], got {list(ref.shape)}")
+    calls = 0
+
+    def step(pos, vel, types, bounds, index, graph_mask):  # type: ignore[no-untyped-def]
+        nonlocal calls
+        new_x, new_v = advance(pos, vel, types, bounds, index, graph_mask)
+        calls += 1
+        now, before = min(calls, len(ref) - 1), min(calls - 1, len(ref) - 1)
+        new_x = np.array(new_x, dtype=np.float32)
+        new_v = np.array(new_v, dtype=np.float32)
+        new_x[mask] = ref[now]
+        ref_velocity = (ref[now] - ref[before]) / np.float32(dt)
+        new_v[mask] = np.concatenate([np.asarray(vel)[mask][:, 1:], ref_velocity[:, None, :]], axis=1)
+        return new_x, new_v
+
+    return step
+
+
 def make_surrogate(
     advance: Callable[..., tuple[np.ndarray, np.ndarray]],
 ) -> Callable[[Mapping[str, Any], int], RolloutResult]:
-    """`surrogate(initial_state, n_steps)` for `evaluate_held_out`: the rollout loop around a one-step `advance`."""
+    """`surrogate(initial_state, n_steps)` for `evaluate_held_out`: the rollout loop around a one-step `advance`.
+
+    A state with a `boundary` mask and the `boundary_positions` of the reference runs with those particles held at the
+    reference (`hold_boundary`); a state without them predicts every particle.
+    """
 
     def surrogate(state: Mapping[str, Any], n_steps: int) -> RolloutResult:
+        step = advance
+        boundary = state.get("boundary")
+        if boundary is not None and np.asarray(boundary).any():
+            step = hold_boundary(advance, np.asarray(boundary), state["boundary_positions"], float(state["dt"]))
         return run_rollout(
-            advance,
+            step,
             state["positions"],
             state["velocities"],
             state["particle_type"],

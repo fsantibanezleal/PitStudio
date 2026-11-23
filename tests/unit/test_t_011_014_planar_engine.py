@@ -63,7 +63,7 @@ def test_011_a_small_feed_drains_rests_and_records_only_its_grains() -> None:
     frames = res["frames"]
     assert frames.ndim == 3
     assert frames.shape[1:] == (24, 2)
-    assert frames.dtype == np.float32  # grains only: the funnel is not recorded
+    assert frames.dtype == np.float32  # `frames` are the grains; the funnel comes back as `boundary`
     assert len(res["frame_times"]) == len(frames)
     assert res["frame_times"][0] == 0.0
     assert (np.diff(res["frame_times"]) > 0).all()

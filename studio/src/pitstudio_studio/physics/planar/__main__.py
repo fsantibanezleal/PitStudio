@@ -56,6 +56,7 @@ def dry_run(allow_cpu: bool) -> int:
         ps = engine.PlanarSim(
             insts[0]["positions"], h.radii, h.frozen, engine.feed_walls(fam, insts), cfg, device="cpu"
         )
+        assert len(engine.instance_boundary(fam, insts[0])) >= h.n_walls > 0  # the solids the GNS will see
         ps.advance(20)
         assert abs(ps.sim.positions[:, 1]).max() == 0.0
     print(

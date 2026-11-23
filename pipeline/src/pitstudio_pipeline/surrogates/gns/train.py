@@ -79,8 +79,8 @@ def random_walk_noise(n_particles: int, history: int, scale: float, *, seed: int
 def one_step_loss(
     model: GnsStep, batch: Mapping[str, torch.Tensor], *, stats: Mapping[str, Mapping[str, Sequence[float]]]
 ) -> torch.Tensor:
-    """Mean squared error of the normalised accelerations; `stats["acceleration"]` holds the mean and std
-    (FR-011-04)."""
+    """Mean squared error of the normalised accelerations over the nodes of `batch["loss_mask"]` (the grains; every
+    node when the batch has none); `stats["acceleration"]` holds the mean and std (FR-011-04)."""
     pred = model.acceleration_unchecked(
         batch["positions"],
         batch["velocities"],
@@ -92,7 +92,11 @@ def one_step_loss(
     mean = torch.as_tensor(stats["acceleration"]["mean"], dtype=pred.dtype, device=pred.device)
     std = torch.as_tensor(stats["acceleration"]["std"], dtype=pred.dtype, device=pred.device)
     target = batch["target_acceleration"].to(pred.dtype)
-    return torch.mean(((pred - mean) / std - (target - mean) / std) ** 2)
+    squared = ((pred - mean) / std - (target - mean) / std) ** 2
+    mask = batch.get("loss_mask")
+    if mask is None:
+        return torch.mean(squared)
+    return torch.mean(squared[mask.to(torch.bool)])  # boundary particles are inputs only, never in the loss
 
 
 def compute_stats(rollouts: Sequence[Mapping[str, Any]]) -> dict[str, dict[str, list[float]]]:
@@ -100,6 +104,8 @@ def compute_stats(rollouts: Sequence[Mapping[str, Any]]) -> dict[str, dict[str, 
     acc = {"velocities": np.zeros((3, 2)), "acceleration": np.zeros((3, 2))}  # count, sum, sum of squares
     for r in rollouts:
         pos = np.asarray(r["positions"], dtype=np.float64)
+        if r.get("boundary") is not None and np.asarray(r["boundary"]).any():
+            pos = pos[:, ~np.asarray(r["boundary"], dtype=bool)]  # the static solids are not part of the statistics
         dt = float(r["dt"])
         vel = np.diff(pos, axis=0) / dt
         acceleration = np.diff(vel, axis=0) / dt
@@ -136,10 +142,11 @@ def make_sample(
     window = np.asarray(pos[t - HISTORY : t + 2], dtype=np.float64)
     history = (np.diff(window[: HISTORY + 1], axis=0) / dt).transpose(1, 0, 2)  # [N, 5, 2]
     forward = (window[HISTORY + 1] - window[HISTORY]) / dt
+    boundary = rollout.get("boundary")
+    boundary = np.zeros(history.shape[0], dtype=bool) if boundary is None else np.asarray(boundary, dtype=bool)
     if noise_scale > 0:
-        history = history + random_walk_noise(history.shape[0], HISTORY, noise_scale, seed=seed) * np.asarray(
-            velocity_std
-        )
+        noise = random_walk_noise(history.shape[0], HISTORY, noise_scale, seed=seed) * np.asarray(velocity_std)
+        history = history + np.where(boundary[:, None, None], 0.0, noise)  # the solids carry no noise
     target = (forward - history[:, -1, :]) / dt
     current = np.asarray(pos[t], dtype=np.float32)
     radius = radius if radius is not None else 2.5 * float(rollout["d"])
@@ -156,18 +163,27 @@ def make_sample(
         "neighbour_index": index,
         "neighbour_mask": mask,
         "target_acceleration": target.astype(np.float32),
+        "loss_mask": ~boundary,
     }
 
 
 def collate(samples: Sequence[Mapping[str, Any]], device: torch.device) -> dict[str, torch.Tensor]:
     """One big graph from several samples: neighbour indices offset, bounds repeated per particle."""
     offset = 0
-    keys = ("positions", "velocities", "particle_type", "neighbour_index", "neighbour_mask", "target_acceleration")
+    keys = (
+        "positions",
+        "velocities",
+        "particle_type",
+        "neighbour_index",
+        "neighbour_mask",
+        "target_acceleration",
+        "loss_mask",
+    )
     parts: dict[str, list[torch.Tensor]] = {k: [] for k in (*keys, "bounds")}
     for s in samples:
         t = {k: torch.as_tensor(s[k], device=device) for k in (*keys, "bounds")}
         n = t["positions"].shape[0]
-        for k in ("positions", "velocities", "particle_type", "neighbour_mask", "target_acceleration"):
+        for k in ("positions", "velocities", "particle_type", "neighbour_mask", "target_acceleration", "loss_mask"):
             parts[k].append(t[k])
         parts["neighbour_index"].append(t["neighbour_index"] + offset)
         parts["bounds"].append(t["bounds"].expand(n, 4))
@@ -232,6 +248,7 @@ def rollout_probe(advance: Callable[..., Any], rollouts: Sequence[Mapping[str, A
     step of any rollout completed).
     """
     from pitstudio.granular.rollout import N_HISTORY, run_rollout
+    from pitstudio_pipeline.surrogates.gns.infer import hold_boundary
 
     steps = _positive_int(steps, "steps")
     if len(rollouts) == 0:
@@ -246,8 +263,15 @@ def rollout_probe(advance: Callable[..., Any], rollouts: Sequence[Mapping[str, A
         reference = np.asarray(rollout["positions"])
         n = reference.shape[1]
         d = float(rollout["d"])
+        boundary = rollout.get("boundary")
+        boundary = np.zeros(n, dtype=bool) if boundary is None else np.asarray(boundary, dtype=bool)
+        step = (
+            hold_boundary(advance, boundary, reference[:, boundary], float(rollout["dt"]))
+            if boundary.any()
+            else advance
+        )
         result = run_rollout(
-            advance,
+            step,
             reference[0],
             np.zeros((n, N_HISTORY, 2), dtype=np.float32),
             np.asarray(rollout["particle_types"]),
@@ -259,7 +283,7 @@ def rollout_probe(advance: Callable[..., Any], rollouts: Sequence[Mapping[str, A
         completed.append(result.steps_completed)
         for s in range(1, result.steps_completed + 1):
             gap = np.linalg.norm(result.positions[s].astype(np.float64) - reference[s].astype(np.float64), axis=1)
-            errors.append(float(gap.mean()) / d)
+            errors.append(float(gap[~boundary].mean()) / d)  # the grains' error: the held solids add none
     return {
         "steps_requested": requested,
         "divergence_steps": divergence,

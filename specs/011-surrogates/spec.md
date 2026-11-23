@@ -197,9 +197,9 @@ The GNS training envelope (DC-011-02 `training_envelope` of the GNS example and 
 rollout dataset at d = 0.01 m, not an illustrative range: column collapse aspect ratio 0.5 to 4.0 and column width 0.32 to 0.70 m (the 30 d pile
 floor of FR-011-03 needs L₀ of about 0.32 m or more, since the final pile height is 0.49 to 1.07 L₀); pile formation pour height 0.5 to 1.25 m and
 pour rate 0.06 to 0.2 m²/s; dump over a crest crest height 0.09 to 0.22 m and dump rate 0.09 to 0.25 m²/s. Pile and dump are fed quasi-statically
-from a funnel hopper of the generator (frozen wall spheres that are not recorded): the pour height is the height of the orifice above the floor,
+from a funnel hopper of the generator (frozen wall spheres, recorded as static boundary particles): the pour height is the height of the orifice above the floor,
 the pour rate and the dump rate are the measured steady discharge rates (the slope of the solid area that crossed the orifice level), and a
-rollout counts as at rest only after at least 90 percent of its grains have left the orifice. Gns-v2 released the grains in free fall; that
+rollout counts as at rest only after at least 90 percent of its grains have left the orifice. The funnel, and for a dump the platform and the crest face, are boundary particles: a particle type of their own (`boundary`, after the grains), the same position in every frame, nodes of the graph that the GNS sees but does not predict (a rollout takes their positions from the reference), that are excluded from the loss, the input noise, the normalisation statistics and the observables (Sanchez-Gonzalez et al. 2020, arXiv:2002.09405, Appendix B.2 and B.3). Gns-v2 released the grains in free fall; that
 dynamic deposition gave piles 10 degrees flatter than the 3-D heap of the same material, so the feed changed and the envelope followed the dataset.
 The extractor's own resolution, measured at specification on analytic piles laid particle by particle, is ≤ 0.35° for
 piles ≥ 30 d high and about 1° for 20 d piles; hence the 30 d floor of FR-011-03. Reference and surrogate go through
@@ -292,6 +292,7 @@ Identity, Cast. Anything else fails FR-011-36.
 ### ADDED Requirements
 (none — new feature)
 ### MODIFIED Requirements
+- Section 7 boundary particles (FR-011-03, FR-011-04, FR-011-05): the funnel and the dump solids are recorded as static particles of type `boundary` and handled as inputs only (gns-walls); DC-011-01 `particle_types` states the convention.
 - Section 7 training envelope (FR-011-03): pour height, pour rate and dump rate follow the quasi-static funnel-hopper feed of the reference data (gns-v3); column collapse and crest height are unchanged. Test-change request recorded for T-011-014 in specs/test-change-requests.md.
 ### REMOVED Requirements
 (none)

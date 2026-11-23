@@ -388,11 +388,23 @@ def feed_instances(family: str, tasks: list[dict], cfg: SimConfig) -> list[dict]
     return insts
 
 
+def instance_boundary(family: str, it: dict) -> np.ndarray:
+    """Static solids of one feed instance as (x, z) points of its own frame (float32), grains excluded: the funnel
+    spheres and, for a dump, the platform and the crest face. Boundary particles of the GNS (spec 011 FR-011-03)."""
+    h = it["hopper"]
+    pts = h.positions[: h.n_walls][:, [0, 2]]
+    if family == "dump-over-crest":
+        geo = it["geo"]
+        pts = np.vstack([pts, packing.dump_solid(geo["lx0"], geo["crest"], geo["crest_z"])])
+    return pts.astype(np.float32)
+
+
 def simulate_feed(
     family: str, tasks: list[dict], pacer: Any, cfg: SimConfig, device: str = "cuda:0", *, t_cap: float | None = None
 ) -> list[dict]:
-    """Pile or dump rollouts from a funnel hopper, K side by side. Only the grains are recorded (the funnel is a
-    generator-side obstacle). A rollout is "rest" only when it is static AND at least DISCHARGED_MIN of its grains have
+    """Pile or dump rollouts from a funnel hopper, K side by side. `frames` holds the grains; the static solids (funnel,
+    dump platform) come back as `boundary` (`instance_boundary`) and are written as particles of their own type. A
+    rollout is "rest" only when it is static AND at least DISCHARGED_MIN of its grains have
     left the orifice; static before that is "jammed"."""
     t0 = time.perf_counter()
     idle0 = pacer.idle_s
@@ -458,10 +470,14 @@ def simulate_feed(
         low = fin[:, 1] < z_o - measure.ORIFICE_MARGIN_D * D
         height = float((fin[low, 1] + r[low]).max() / D) if low.any() else 0.0
         zt = float(max((f[:, 1] + r).max() for f in frames[:: max(1, len(frames) // 40)]))
+        boundary = instance_boundary(family, it)
+        zt = max(zt, float(boundary[:, 1].max()))  # the box contains the funnel: a reference state is never outside it
         out.append(
             {
                 "status": "rest",
                 "frames": frames,
+                "boundary": boundary,
+                "n_boundary": len(boundary),
                 "frame_times": tt,
                 "radii": r,
                 "wall_s": wall / len(insts),

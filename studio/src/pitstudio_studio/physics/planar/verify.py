@@ -54,15 +54,38 @@ def check_rollout(root: Path, meta: dict, params: dict) -> dict[str, Any]:
     if not store.exists():
         return {"id": store.stem, "family": family, "problems": [*problems, "payload missing"]}
     if generate.store_digest(store) != meta["store"]["sha256"]:
-        problems.append("digest mismatch")
+        return {
+            "id": store.stem,
+            "family": family,
+            "problems": [*problems, "digest mismatch"],
+        }  # no read of a corrupt payload
     g = zarr.open_group(str(store), mode="r")
     pos_arr = g["positions"]
     n_frames = pos_arr.shape[0]
     tail = np.asarray(pos_arr[max(0, n_frames - space.REST_FRAMES - 1) :], dtype=np.float64)
-    rad = np.asarray(g["radius_m"][:], dtype=np.float64)
-    fin = tail[-1]
+    types = np.asarray(g["type_index"][:])
+    is_boundary = types == 1
+    n_boundary = int(is_boundary.sum())
+    if family != "column-collapse" and n_boundary == 0:
+        problems.append("boundary particles missing: the funnel of a pile or dump is not in the rollout")
+    if n_boundary:
+        start = int(np.flatnonzero(is_boundary)[0])
+        if not is_boundary[start:].all():
+            problems.append("boundary particles are not stored after the grains")
+        every = np.asarray(pos_arr[:, start:, :], dtype=np.float64)  # (T, Nb, 2): every frame of the solids
+        first = every[0]
+        if not (every == first[None]).all():
+            problems.append("boundary particles move between frames (the generator's solids are static)")
+        x0, z0, x1, z1 = meta["bounds_m"]
+        if (first[:, 0] < x0).any() or (first[:, 0] > x1).any() or (first[:, 1] < z0).any() or (first[:, 1] > z1).any():
+            problems.append("boundary particles outside the bounds of the rollout")
+    rad_all = np.asarray(g["radius_m"][:], dtype=np.float64)
+    fin_all = tail[-1]
+    grains = ~is_boundary
+    rad = rad_all[grains]
+    fin = fin_all[grains]  # every measurement below reads grains only; the graph below reads every node
     dt = meta["frame_interval_s"]
-    speed = float((np.linalg.norm(np.diff(tail, axis=0), axis=2) / dt).max())
+    speed = float((np.linalg.norm(np.diff(tail[:, grains], axis=0), axis=2) / dt).max())
     thr = space.REST_FRAC * math.sqrt(space.G * D)
     if not speed <= thr * 1.05:
         problems.append(f"not at rest: {speed:.4f} m/s over the last frames (threshold {thr:.4f})")
@@ -76,8 +99,8 @@ def check_rollout(root: Path, meta: dict, params: dict) -> dict[str, Any]:
     top = float((fin[low, 1] + rad[low]).max() / D) if low.any() else 0.0
     if top < space.MIN_HEIGHT_D:
         problems.append(f"pile {top:.1f} d below the 30 d floor")
-    graph = build_radius_graph(fin.astype(np.float32), meta["connectivity_radius_m"])
-    overflow = float(graph.overflow_count) / len(fin)
+    graph = build_radius_graph(fin_all.astype(np.float32), meta["connectivity_radius_m"])
+    overflow = float(graph.overflow_count) / len(fin_all)  # counted with the boundary particles
     if overflow >= OVERFLOW_MAX:
         problems.append(f"radius-graph overflow {overflow:.4f} at rest")
     left_in_feed = float((~low).mean())
@@ -98,7 +121,8 @@ def check_rollout(root: Path, meta: dict, params: dict) -> dict[str, Any]:
         "rest_speed_m_per_s": speed,
         "left_in_feed_fraction": left_in_feed,
         "frames": int(n_frames),
-        "particles": len(fin),
+        "particles": len(fin_all),
+        "boundary_particles": n_boundary,
         "problems": problems,
     }
 
@@ -177,6 +201,7 @@ def verify(out: Path) -> dict[str, Any]:
             "max_left_in_feed_fraction": float(max(r["left_in_feed_fraction"] for r in rows if r["family"] == fam))
             if v
             else None,
+            "boundary_particles_min": min(r["boundary_particles"] for r in rows if r["family"] == fam) if v else None,
             "max_overflow_fraction": float(max(r["overflow_fraction"] for r in rows if r["family"] == fam))
             if v
             else None,
@@ -238,8 +263,10 @@ def card(r: dict[str, Any]) -> str:
         lines.append(f"- {fam}: " + ", ".join(f"{k} {lo:.4g} to {hi:.4g}" for k, (lo, hi) in params.items()))
     lines += [
         "",
-        "Pile and dump are built by a quasi-static funnel-hopper feed (frozen wall spheres of the generator, "
-        "not recorded); the recorded rate is the measured discharge rate. Hopper leftovers on the funnel plates are "
+        "Pile and dump are built by a quasi-static funnel-hopper feed; the recorded rate is the measured discharge "
+        "rate. The funnel spheres (and, for a dump, the platform and crest face) are recorded as static boundary "
+        "particles (type 1, after the grains, the same position in every frame; the GNS sees them and does not "
+        "predict them, and every observable reads the grains only). Hopper leftovers on the funnel plates are "
         "reported per family in `index.json` (`max_left_in_feed_fraction`).",
         "",
     ]

@@ -34,6 +34,17 @@ def at_rest(positions: np.ndarray, *, d: float, dt: float, g: float = 9.81) -> b
     return bool(speed < REST_FRACTION * math.sqrt(g * d))
 
 
+def _boundary(ref: Mapping[str, Any], n: int) -> np.ndarray:
+    """The reference's boundary mask [n] (all False when it has none)."""
+    mask = ref.get("boundary")
+    return np.zeros(n, dtype=bool) if mask is None else np.asarray(mask, dtype=bool)
+
+
+def _grains(ref: Mapping[str, Any], positions: np.ndarray) -> np.ndarray:
+    """`positions` [N, 2] without the boundary particles: errors and observables read grains only (FR-011-05)."""
+    return positions[~_boundary(ref, positions.shape[0])]
+
+
 def _spread(values: Sequence[float]) -> dict[str, float]:
     arr = np.asarray(values, dtype=np.float64)
     return {"range": float(arr.max() - arr.min()), "sd": float(arr.std(ddof=1)) if arr.size > 1 else 0.0}
@@ -151,7 +162,9 @@ def _evaluate_geometry(
         return record
 
     try:
-        ref_obs = [observables(np.asarray(r["positions"])[-1], d=d, family=family, geometry=params) for r in used]
+        ref_obs = [
+            observables(_grains(r, np.asarray(r["positions"])[-1]), d=d, family=family, geometry=params) for r in used
+        ]
     except ValueError as exc:
         record["reason"] = f"reference observables could not be extracted: {exc}"
         return record
@@ -175,6 +188,10 @@ def _evaluate_geometry(
             "d": d,
             "dt": dt,
         }
+        boundary = _boundary(ref, n)
+        if boundary.any():  # the solids are inputs: held at the reference, never predicted
+            state["boundary"] = boundary
+            state["boundary_positions"] = frames[:, boundary]
         result = surrogate(state, frames.shape[0] - 1)
         out = np.asarray(result.positions)
         if out.ndim != 3 or out.shape[1] != n or out.shape[2] != 2:
@@ -193,7 +210,9 @@ def _evaluate_geometry(
         errs = [
             float(
                 np.linalg.norm(
-                    out[t].astype(np.float64) - np.asarray(ref["positions"])[t].astype(np.float64), axis=1
+                    _grains(ref, out[t]).astype(np.float64)
+                    - _grains(ref, np.asarray(ref["positions"])[t]).astype(np.float64),
+                    axis=1,
                 ).mean()
             )
             for ref, out, _ in results
@@ -208,7 +227,7 @@ def _evaluate_geometry(
         record["reason"] = f"diverged at step {step}"
         return record
     try:
-        sur_obs = [observables(out[-1], d=d, family=family, geometry=params) for _, out, _ in results]
+        sur_obs = [observables(_grains(ref, out[-1]), d=d, family=family, geometry=params) for ref, out, _ in results]
     except ValueError as exc:
         record["reason"] = f"surrogate observables could not be extracted: {exc}"
         return record

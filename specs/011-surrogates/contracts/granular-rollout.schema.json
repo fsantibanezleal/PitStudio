@@ -158,7 +158,7 @@
     },
     "particle_types": {
       "type": "array",
-      "description": "type names in type-index order",
+      "description": "type names in type-index order; a rollout whose grains are held by rigid solids (a funnel, a platform) lists \"grain\" first and \"boundary\" second, the solids being static nodes of the graph that the surrogate does not predict (positions taken from the reference), excluded from the loss and from every observable",
       "items": {
         "$ref": "#/$defs/slug"
       },
