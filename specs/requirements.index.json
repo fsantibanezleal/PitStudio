@@ -2440,6 +2440,30 @@
       ],
       "tests": []
     },
+    "FR-002-70": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-099"
+      ],
+      "tests": [
+        "tests/unit/test_t_002_099_import_chart_series.py"
+      ]
+    },
+    "FR-002-71": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-100"
+      ],
+      "tests": [
+        "tests/unit/test_t_002_100_producer_paths.py"
+      ]
+    },
     "P-002-01": {
       "spec": "002-runner",
       "retired": false,
@@ -4021,6 +4045,18 @@
       ],
       "tests": [
         "tests/unit/test_t_004_100_procedural_assets.py"
+      ]
+    },
+    "FR-004-52": {
+      "spec": "004-scene-pipeline",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-004-101"
+      ],
+      "tests": [
+        "tests/unit/test_t_004_101_windrow_ridge.py"
       ]
     },
     "P-004-01": {
@@ -9276,6 +9312,7 @@
       ],
       "tests": [
         "tests/parity/test_t_010_018_geotech_goldens.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py",
         "tests/unit/test_t_010_010_lem_search.py"
       ]
     },
@@ -9289,6 +9326,7 @@
       ],
       "tests": [
         "tests/parity/test_t_010_018_geotech_goldens.py",
+        "tests/pipeline/test_t_010_102_c1_walls.py",
         "tests/unit/test_t_010_011_hoek_brown_slices.py"
       ]
     },
@@ -9303,6 +9341,7 @@
       ],
       "tests": [
         "tests/parity/test_t_010_018_geotech_goldens.py",
+        "tests/pipeline/test_t_010_102_c1_walls.py",
         "tests/property/test_t_010_015_pof.py"
       ]
     },
@@ -9339,7 +9378,8 @@
         "T-010-016"
       ],
       "tests": [
-        "tests/pipeline/test_t_010_016_sections_from_dem.py"
+        "tests/pipeline/test_t_010_016_sections_from_dem.py",
+        "tests/pipeline/test_t_010_102_c1_walls.py"
       ]
     },
     "FR-010-07": {
@@ -9399,6 +9439,7 @@
         "T-010-020"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_101_c1_event_curves.py",
         "tests/unit/test_t_010_020_voight_events.py"
       ]
     },
@@ -9423,7 +9464,8 @@
         "T-010-040"
       ],
       "tests": [
-        "tests/pipeline/test_t_010_040_dewit_ingest.py"
+        "tests/pipeline/test_t_010_040_dewit_ingest.py",
+        "tests/pipeline/test_t_010_104_c1_real_event.py"
       ]
     },
     "FR-010-14": {
@@ -9435,7 +9477,8 @@
         "T-010-040"
       ],
       "tests": [
-        "tests/pipeline/test_t_010_040_dewit_ingest.py"
+        "tests/pipeline/test_t_010_040_dewit_ingest.py",
+        "tests/pipeline/test_t_010_104_c1_real_event.py"
       ]
     },
     "FR-010-15": {
@@ -9484,6 +9527,8 @@
         "T-010-023"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_101_c1_event_curves.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py",
         "tests/property/test_t_010_023_preprocess.py"
       ]
     },
@@ -9496,6 +9541,7 @@
         "T-010-024"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_101_c1_event_curves.py",
         "tests/unit/test_t_010_024_iv_bayes.py"
       ]
     },
@@ -9508,6 +9554,7 @@
         "T-010-024"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_101_c1_event_curves.py",
         "tests/unit/test_t_010_024_iv_bayes.py"
       ]
     },
@@ -9521,6 +9568,8 @@
       ],
       "tests": [
         "tests/pipeline/test_t_010_027_forecasters.py",
+        "tests/pipeline/test_t_010_101_c1_event_curves.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py",
         "tests/unit/test_t_010_027_context_forecast.py"
       ]
     },
@@ -9533,6 +9582,7 @@
         "T-010-026"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_105_c1_charts.py",
         "tests/property/test_t_010_026_readout.py"
       ]
     },
@@ -9545,6 +9595,9 @@
         "T-010-030"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_100_c1_error_results.py",
+        "tests/pipeline/test_t_010_101_c1_event_curves.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py",
         "tests/unit/test_t_010_030_ttf_metrics.py"
       ]
     },
@@ -9557,6 +9610,8 @@
         "T-010-030"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_100_c1_error_results.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py",
         "tests/unit/test_t_010_030_ttf_metrics.py"
       ]
     },
@@ -9569,6 +9624,9 @@
         "T-010-031"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_100_c1_error_results.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py",
+        "tests/pipeline/test_t_010_106_c1_assemble.py",
         "tests/unit/test_t_010_031_paired_decision.py"
       ]
     },
@@ -9593,6 +9651,8 @@
         "T-010-043"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_104_c1_real_event.py",
+        "tests/pipeline/test_t_010_106_c1_assemble.py",
         "web/e2e/c1-real-event.spec.ts"
       ]
     },
@@ -9605,6 +9665,7 @@
         "T-010-031"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_100_c1_error_results.py",
         "tests/unit/test_t_010_031_paired_decision.py"
       ]
     },
@@ -9618,6 +9679,8 @@
       ],
       "tests": [
         "tests/pipeline/test_t_010_028_window_guards.py",
+        "tests/pipeline/test_t_010_101_c1_event_curves.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py",
         "web/src/cases/c1/forecastGuards.test.ts"
       ]
     },
@@ -9630,7 +9693,8 @@
         "T-010-032"
       ],
       "tests": [
-        "tests/pipeline/test_t_010_032_forecaster_export.py"
+        "tests/pipeline/test_t_010_032_forecaster_export.py",
+        "tests/pipeline/test_t_010_101_c1_event_curves.py"
       ]
     },
     "FR-010-31": {
@@ -10138,7 +10202,8 @@
         "T-010-033"
       ],
       "tests": [
-        "tests/pipeline/test_t_010_033_acceptance_report.py"
+        "tests/pipeline/test_t_010_033_acceptance_report.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py"
       ]
     },
     "SC-010-02": {
@@ -10162,6 +10227,7 @@
         "T-010-042"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_105_c1_charts.py",
         "tests/unit/test_t_010_042_real_event_report.py",
         "web/e2e/c1-real-event.spec.ts"
       ]
@@ -10187,7 +10253,9 @@
         "T-010-012"
       ],
       "tests": [
-        "tests/pipeline/test_t_010_012_pyslope_oracle.py"
+        "tests/pipeline/test_t_010_012_pyslope_oracle.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py",
+        "tests/unit/test_t_010_103_c1_oracle.py"
       ]
     },
     "DC-010-01": {
@@ -11664,7 +11732,10 @@
       "tasks": [
         "T-012-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_061_fold_psd.py",
+        "tests/unit/test_t_012_062_fold_report.py"
+      ]
     },
     "FR-012-25": {
       "spec": "012-fragmentation",
@@ -11674,7 +11745,10 @@
       "tasks": [
         "T-012-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_061_fold_psd.py",
+        "tests/unit/test_t_012_062_fold_report.py"
+      ]
     },
     "FR-012-26": {
       "spec": "012-fragmentation",
@@ -11694,7 +11768,9 @@
       "tasks": [
         "T-012-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_061_fold_psd.py"
+      ]
     },
     "FR-012-28": {
       "spec": "012-fragmentation",
@@ -11715,7 +11791,9 @@
         "T-012-017"
       ],
       "tests": [
-        "tests/unit/test_t_012_017_iou_ratio.py"
+        "tests/unit/test_t_012_017_iou_ratio.py",
+        "tests/unit/test_t_012_062_fold_report.py",
+        "tests/unit/test_t_012_063_d1_run.py"
       ]
     },
     "FR-012-30": {
@@ -11738,7 +11816,9 @@
       "tasks": [
         "T-012-032"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_062_fold_report.py"
+      ]
     },
     "FR-012-32": {
       "spec": "012-fragmentation",
@@ -11808,7 +11888,10 @@
       "tasks": [
         "T-012-042"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_062_fold_report.py",
+        "tests/unit/test_t_012_063_d1_run.py"
+      ]
     },
     "FR-012-39": {
       "spec": "012-fragmentation",
@@ -11838,7 +11921,10 @@
       "tasks": [
         "T-012-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_060_d1_design_grid.py",
+        "tests/unit/test_t_012_063_d1_run.py"
+      ]
     },
     "FR-012-42": {
       "spec": "012-fragmentation",
@@ -11892,7 +11978,9 @@
       "tasks": [
         "T-012-060"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_060_d1_design_grid.py"
+      ]
     },
     "FR-012-47": {
       "spec": "012-fragmentation",
@@ -11922,7 +12010,9 @@
       "tasks": [
         "T-012-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_061_fold_psd.py"
+      ]
     },
     "P-012-02": {
       "spec": "012-fragmentation",
@@ -11932,7 +12022,9 @@
       "tasks": [
         "T-012-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_061_fold_psd.py"
+      ]
     },
     "P-012-03": {
       "spec": "012-fragmentation",
@@ -11942,7 +12034,9 @@
       "tasks": [
         "T-012-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_061_fold_psd.py"
+      ]
     },
     "P-012-04": {
       "spec": "012-fragmentation",
@@ -11952,7 +12046,9 @@
       "tasks": [
         "T-012-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_061_fold_psd.py"
+      ]
     },
     "P-012-05": {
       "spec": "012-fragmentation",
@@ -11962,7 +12058,9 @@
       "tasks": [
         "T-012-030"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_012_061_fold_psd.py"
+      ]
     },
     "P-012-06": {
       "spec": "012-fragmentation",
@@ -16380,7 +16478,9 @@
         "T-017-010"
       ],
       "tests": [
-        "tests/unit/test_t_017_010_d2_chain.py"
+        "tests/unit/test_t_017_010_breakdown.py",
+        "tests/unit/test_t_017_010_d2_chain.py",
+        "tests/unit/test_t_017_063_d2_run.py"
       ]
     },
     "FR-017-02": {
@@ -16392,7 +16492,9 @@
         "T-017-011"
       ],
       "tests": [
-        "tests/unit/test_t_017_011_sweeps.py"
+        "tests/unit/test_t_017_011_sobol_indices.py",
+        "tests/unit/test_t_017_011_sweeps.py",
+        "tests/unit/test_t_017_063_d2_run.py"
       ]
     },
     "FR-017-03": {
@@ -16488,7 +16590,8 @@
         "T-017-011"
       ],
       "tests": [
-        "tests/unit/test_t_017_011_sweeps.py"
+        "tests/unit/test_t_017_011_sweeps.py",
+        "tests/unit/test_t_017_063_d2_run.py"
       ]
     },
     "FR-017-11": {
@@ -16539,6 +16642,7 @@
         "T-017-021"
       ],
       "tests": [
+        "tests/pipeline/test_t_017_101_e1_run.py",
         "tests/property/test_t_017_021_closure.py"
       ]
     },
@@ -16553,7 +16657,8 @@
       ],
       "tests": [
         "tests/pipeline/test_t_017_022_mincut_oracles.py",
-        "tests/pipeline/test_t_017_023_mincut_ortools.py"
+        "tests/pipeline/test_t_017_023_mincut_ortools.py",
+        "tests/pipeline/test_t_017_101_e1_run.py"
       ]
     },
     "FR-017-16": {
@@ -16565,6 +16670,7 @@
         "T-017-024"
       ],
       "tests": [
+        "tests/pipeline/test_t_017_101_e1_run.py",
         "tests/property/test_t_017_024_shells_pushbacks.py"
       ]
     },
@@ -16577,6 +16683,7 @@
         "T-017-024"
       ],
       "tests": [
+        "tests/pipeline/test_t_017_101_e1_run.py",
         "tests/property/test_t_017_024_shells_pushbacks.py"
       ]
     },
@@ -16733,6 +16840,7 @@
         "T-017-040"
       ],
       "tests": [
+        "tests/pipeline/test_t_017_102_e2_run.py",
         "tests/property/test_t_017_040_dem_difference.py",
         "web/src/engines/volume/t_018_072_volume.test.ts"
       ]
@@ -16746,7 +16854,8 @@
         "T-017-042"
       ],
       "tests": [
-        "tests/pipeline/test_t_017_042_dem_prepare.py"
+        "tests/pipeline/test_t_017_042_dem_prepare.py",
+        "tests/pipeline/test_t_017_102_e2_run.py"
       ]
     },
     "FR-017-32": {
@@ -16770,6 +16879,7 @@
         "T-017-041"
       ],
       "tests": [
+        "tests/pipeline/test_t_017_102_e2_run.py",
         "tests/unit/test_t_017_041_volume_uncertainty.py",
         "web/src/engines/volume/t_018_072_volume.test.ts"
       ]
@@ -16783,7 +16893,8 @@
         "T-017-043"
       ],
       "tests": [
-        "tests/pipeline/test_t_017_043_bingham_volume.py"
+        "tests/pipeline/test_t_017_043_bingham_volume.py",
+        "tests/pipeline/test_t_017_102_e2_run.py"
       ]
     },
     "FR-017-35": {
@@ -16995,7 +17106,8 @@
         "T-017-070"
       ],
       "tests": [
-        "tests/contract/test_t_017_070_planning_survey_manifests.py"
+        "tests/contract/test_t_017_070_planning_survey_manifests.py",
+        "tests/pipeline/test_t_017_101_e1_run.py"
       ]
     },
     "FR-017-52": {
@@ -17323,6 +17435,7 @@
         "T-017-028"
       ],
       "tests": [
+        "tests/pipeline/test_t_017_101_e1_run.py",
         "tests/unit/test_t_017_028_mincut_timing_record.py"
       ]
     },
@@ -17421,7 +17534,8 @@
         "T-017-001"
       ],
       "tests": [
-        "tests/contract/test_t_017_001_planning_survey_schemas.py"
+        "tests/contract/test_t_017_001_planning_survey_schemas.py",
+        "tests/unit/test_t_017_063_d2_run.py"
       ]
     },
     "DC-017-02": {
@@ -17586,7 +17700,9 @@
         "T-018-100",
         "T-018-101",
         "T-018-102",
-        "T-018-103"
+        "T-018-103",
+        "T-018-110",
+        "T-018-111"
       ],
       "tests": []
     },
@@ -18509,6 +18625,7 @@
         "T-018-097"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_106_c1_assemble.py",
         "web/src/cases/t_018_097_kpi_published.test.tsx"
       ]
     },
@@ -18584,8 +18701,29 @@
         "T-018-103"
       ],
       "tests": [
-        "web/src/cases/t_018_103_built_with_collapsed.test.tsx"
+        "web/src/cases/t_018_103_built_with_collapsed.test.tsx",
+        "web/e2e/t_018_103_built_with_collapsed.spec.ts"
       ]
+    },
+    "FR-018-85": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-110"
+      ],
+      "tests": []
+    },
+    "FR-018-86": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-111"
+      ],
+      "tests": []
     },
     "P-018-01": {
       "spec": "018-web-cases",
@@ -20645,7 +20783,8 @@
         "T-020-003"
       ],
       "tests": [
-        "tests/contract/test_t_020_003_figure_registry.py"
+        "tests/contract/test_t_020_003_figure_registry.py",
+        "tests/contract/test_t_020_005_chart_series_schema.py"
       ]
     },
     "FR-020-11": {
@@ -21194,6 +21333,45 @@
         "T-020-094"
       ],
       "tests": []
+    },
+    "FR-020-55": {
+      "spec": "020-web-knowledge",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-020-100",
+        "T-020-101"
+      ],
+      "tests": [
+        "tests/contract/test_t_020_005_chart_series_schema.py",
+        "tests/pipeline/test_t_010_105_c1_charts.py",
+        "tests/pipeline/test_t_010_106_c1_assemble.py"
+      ]
+    },
+    "FR-020-56": {
+      "spec": "020-web-knowledge",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-020-101"
+      ],
+      "tests": [
+        "tests/contract/test_t_020_005_chart_series_schema.py"
+      ]
+    },
+    "FR-020-57": {
+      "spec": "020-web-knowledge",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-020-101"
+      ],
+      "tests": [
+        "tests/contract/test_t_020_005_chart_series_schema.py"
+      ]
     },
     "P-020-01": {
       "spec": "020-web-knowledge",
@@ -21768,6 +21946,19 @@
       "tests": [
         "tests/contract/test_t_020_003_figure_registry.py"
       ]
+    },
+    "DC-020-05": {
+      "spec": "020-web-knowledge",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-020-100"
+      ],
+      "tests": [
+        "tests/contract/test_t_020_005_chart_series_schema.py",
+        "tests/unit/test_t_017_063_d2_run.py"
+      ]
     }
   },
   "tasks": {
@@ -22216,6 +22407,12 @@
     "T-002-098": [
       "FR-002-69"
     ],
+    "T-002-099": [
+      "FR-002-70"
+    ],
+    "T-002-100": [
+      "FR-002-71"
+    ],
     "T-002-090": [
       "NFR-002-05"
     ],
@@ -22512,6 +22709,9 @@
     ],
     "T-004-100": [
       "FR-004-51"
+    ],
+    "T-004-101": [
+      "FR-004-52"
     ],
     "T-004-090": [],
     "T-004-091": [],
@@ -25253,6 +25453,14 @@
       "US-018-7",
       "FR-018-80"
     ],
+    "T-018-110": [
+      "US-018-7",
+      "FR-018-85"
+    ],
+    "T-018-111": [
+      "US-018-7",
+      "FR-018-86"
+    ],
     "T-018-088": [
       "US-018-3",
       "SC-018-01",
@@ -25613,6 +25821,15 @@
     ],
     "T-020-094": [
       "FR-020-54"
+    ],
+    "T-020-100": [
+      "DC-020-05",
+      "FR-020-55"
+    ],
+    "T-020-101": [
+      "FR-020-55",
+      "FR-020-56",
+      "FR-020-57"
     ],
     "T-020-088": [
       "US-020-2",
