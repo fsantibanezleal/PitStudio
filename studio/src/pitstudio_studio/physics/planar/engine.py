@@ -332,18 +332,60 @@ def feed_geometry(family: str, p: dict) -> dict[str, float]:
     }
 
 
-def feed_walls(family: str, insts: list[dict]) -> list[Plane]:
+def instance_walls(family: str, it: dict) -> list[Plane]:
+    """The planes of one feed instance. The crest face of a dump is infinite along x, so a dump batch stacks its
+    instances in z (`elev`, each with its own floor limited in x): a plane then never reaches a grain of another
+    instance."""
     g2 = 0.5 * GAP_D * D
-    walls = [Plane((0.0, 0.0, 0.0), (0.0, 0.0, 1.0))]
-    for it in insts:
-        xl, xr = it["X0"], it["X1"]
-        if family == "dump-over-crest":
-            xc, hc = it["geo"]["crest"] + it["shift"], it["geo"]["crest_z"]
-            walls.append(Plane((0.0, 0.0, hc), (0.0, 0.0, 1.0), tangent_range=(0, xl - g2, xc)))
-            walls.append(Plane((xc, 0.0, 0.0), (1.0, 0.0, 0.0), tangent_range=(2, -math.inf, hc)))
-        walls.append(Plane((xl, 0.0, 0.0), (1.0, 0.0, 0.0), tangent_range=(0, xl - g2, math.inf)))
-        walls.append(Plane((xr, 0.0, 0.0), (-1.0, 0.0, 0.0), tangent_range=(0, -math.inf, xr + g2)))
+    xl, xr, e = it["X0"], it["X1"], it["elev"]
+    walls = []
+    if family == "dump-over-crest":
+        xc, hc = it["geo"]["crest"] + it["shift"], e + it["geo"]["crest_z"]
+        walls.append(Plane((0.0, 0.0, e), (0.0, 0.0, 1.0), tangent_range=(0, xl - g2, xr + g2)))
+        walls.append(Plane((0.0, 0.0, hc), (0.0, 0.0, 1.0), tangent_range=(0, xl - g2, xc)))
+        walls.append(Plane((xc, 0.0, 0.0), (1.0, 0.0, 0.0), tangent_range=(2, -math.inf, hc)))
+    walls.append(Plane((xl, 0.0, 0.0), (1.0, 0.0, 0.0), tangent_range=(0, xl - g2, math.inf)))
+    walls.append(Plane((xr, 0.0, 0.0), (-1.0, 0.0, 0.0), tangent_range=(0, -math.inf, xr + g2)))
     return walls
+
+
+def feed_walls(family: str, insts: list[dict]) -> list[Plane]:
+    walls = [] if family == "dump-over-crest" else [Plane((0.0, 0.0, 0.0), (0.0, 0.0, 1.0))]
+    for it in insts:
+        walls += instance_walls(family, it)
+    return walls
+
+
+def feed_instances(family: str, tasks: list[dict], cfg: SimConfig) -> list[dict]:
+    """Initial state of every instance of a feed batch: shifted along x (and stacked in z for a dump)."""
+    insts = []
+    x_cursor = 0.0
+    for k, t in enumerate(tasks):
+        p = t["p"]
+        rng = np.random.default_rng([space.MASTER_SEED, 77, t["geom_seed"], t["seed"]])
+        geo = feed_geometry(family, p)
+        shift = x_cursor - geo["lx0"]
+        x_cursor += (geo["lx1"] - geo["lx0"]) + GAP_D * D
+        elev = (len(tasks) - 1 - k) * space.ELEV_D * D if family == "dump-over-crest" else 0.0
+        h = packing.hopper_state(p, rng, x_center=geo["x_center"], z_orifice=geo["z_orifice"], poly=cfg.poly)
+        pos = h.positions.copy()
+        pos[:, 0] += shift
+        pos[:, 2] += elev
+        insts.append(
+            {
+                "p": p,
+                "geo": geo,
+                "shift": shift,
+                "elev": elev,
+                "X0": geo["lx0"] + shift,
+                "X1": geo["lx1"] + shift,
+                "status": "run",
+                "hopper": h,
+                "positions": pos,
+                "n": len(pos),
+            }
+        )
+    return insts
 
 
 def simulate_feed(
@@ -355,34 +397,11 @@ def simulate_feed(
     t0 = time.perf_counter()
     idle0 = pacer.idle_s
     thr = REST_FRAC * math.sqrt(G * D)
-    insts, pos_l, rad_l, frz_l = [], [], [], []
-    x_cursor = 0.0
-    for t in tasks:
-        p = t["p"]
-        rng = np.random.default_rng([space.MASTER_SEED, 77, t["geom_seed"], t["seed"]])
-        geo = feed_geometry(family, p)
-        shift = x_cursor - geo["lx0"]
-        x_cursor += (geo["lx1"] - geo["lx0"]) + GAP_D * D
-        h = packing.hopper_state(p, rng, x_center=geo["x_center"], z_orifice=geo["z_orifice"], poly=cfg.poly)
-        pos = h.positions.copy()
-        pos[:, 0] += shift
-        insts.append(
-            {
-                "p": p,
-                "geo": geo,
-                "shift": shift,
-                "X0": geo["lx0"] + shift,
-                "X1": geo["lx1"] + shift,
-                "status": "run",
-                "hopper": h,
-                "n": len(pos),
-            }
-        )
-        pos_l.append(pos)
-        rad_l.append(h.radii)
-        frz_l.append(h.frozen)
-    pos, rad, frz = np.concatenate(pos_l), np.concatenate(rad_l), np.concatenate(frz_l)
-    sl = np.cumsum([0] + [i["n"] for i in insts])
+    insts = feed_instances(family, tasks, cfg)
+    pos = np.concatenate([i["positions"] for i in insts])
+    rad = np.concatenate([i["hopper"].radii for i in insts])
+    frz = np.concatenate([i["hopper"].frozen for i in insts])
+    sl = np.cumsum([0, *[i["n"] for i in insts]])
     grain_idx = [np.arange(sl[k], sl[k + 1])[insts[k]["hopper"].frozen == 0] for k in range(len(insts))]
     ps = PlanarSim(pos, rad, frz, feed_walls(family, insts), cfg, device=device)
     sim = ps.sim
@@ -393,7 +412,7 @@ def simulate_feed(
 
     def snap(k: int, p3: np.ndarray, tm: float) -> None:
         g = grain_idx[k]
-        fr[k].append(np.stack([p3[g, 0] - insts[k]["shift"], p3[g, 2]], axis=1).astype(np.float32))
+        fr[k].append(np.stack([p3[g, 0] - insts[k]["shift"], p3[g, 2] - insts[k]["elev"]], axis=1).astype(np.float32))
         ft[k].append(tm)
 
     p0 = sim.positions
@@ -415,7 +434,7 @@ def simulate_feed(
             snap(k, p3, sim.time)
             g = grain_idx[k]
             last_v[k] = float(v[g].max())
-            frac_now[k] = measure.discharged_fraction(p3[g, 2], it["geo"]["z_orifice"])
+            frac_now[k] = measure.discharged_fraction(p3[g, 2] - it["elev"], it["geo"]["z_orifice"])
             verdict = judges[k].update(sim.time, last_v[k], frac_now[k])
             if verdict != "run":
                 it["status"] = verdict

@@ -41,6 +41,7 @@ N_MAX_COLLAPSE = 6500
 LOOSE_PITCH = 1.45  # column fill pitch, D
 BOX_HALF = 220.0  # half width of the pile / dump domain, D
 GAP_D = 8.0  # separation of the independent rollouts of one batch, D
+ELEV_D = 30.0  # vertical offset between the instances of a dump batch, D (more than the highest crest, 22 d)
 FAMILIES = ("column-collapse", "pile-formation", "dump-over-crest")
 SPLIT_ORDER = ("val", "train", "test")  # validation geometries first: the 70 + 10 set exists before the test set
 SPLIT_COUNTS = {
@@ -64,7 +65,7 @@ N_FEED = 4000
 HOPPER_W_D = 60.0  # interior width of the hopper
 FUNNEL_DEG = 65.0  # wall angle of the funnel plates from the horizontal (mass flow in a planar hopper)
 FEED_RANGES: dict[str, dict[str, tuple[float, float]]] = {
-    "pile-formation": {"x_p_D": (-20.0, 20.0), "z_o_D": (50.0, 125.0), "w_o_D": (13.0, 19.0)},
+    "pile-formation": {"x_p_D": (-20.0, 20.0), "z_o_D": (50.0, 125.0), "w_o_D": (15.0, 19.0)},
     "dump-over-crest": {
         "x_c_D": (-20.0, 20.0),
         "h_c_D": (9.0, 22.0),
