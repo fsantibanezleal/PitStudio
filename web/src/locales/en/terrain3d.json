@@ -1,0 +1,30 @@
+{
+  "caption": "Bingham Canyon terrain tiles",
+  "status": {
+    "checking": "checking the published files",
+    "used": "used: published run {{run}}"
+  },
+  "summary": "3D view of the Bingham Canyon open pit: real USGS 3DEP elevation coloured by a USDA NAIP 2018 aerial photograph, drawn with {{renderer}}. Orbit with the pointer or the arrow keys, zoom with the wheel or the plus and minus keys.",
+  "renderer": {
+    "webgpu": "WebGPU",
+    "webgl2": "WebGL 2",
+    "pending": "a 3D renderer that is starting"
+  },
+  "canvasLabel": "Interactive 3D terrain of the Bingham Canyon pit",
+  "loading": "Loading the 3D view",
+  "controls": {
+    "reset": "Reset view",
+    "loadDetail": "Load higher detail ({{size}})",
+    "stopDetail": "Stop loading detail",
+    "hint": "Orbit: drag or arrow keys. Zoom: wheel, pinch, plus and minus keys."
+  },
+  "detail": {
+    "loading": "Loading higher detail: {{active}} tile(s) in progress",
+    "shown": "Higher detail loaded",
+    "stopped": "Higher detail stopped"
+  },
+  "chip": {
+    "title": "Terrain provenance"
+  },
+  "error": "The terrain tiles could not be read."
+}

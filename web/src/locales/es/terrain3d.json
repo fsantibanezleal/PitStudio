@@ -1,0 +1,30 @@
+{
+  "caption": "Teselas de terreno de Bingham Canyon",
+  "status": {
+    "checking": "comprobando los archivos publicados",
+    "used": "usado: ejecución publicada {{run}}"
+  },
+  "summary": "Vista 3D del rajo abierto de Bingham Canyon: elevación real USGS 3DEP coloreada con una fotografía aérea USDA NAIP 2018, dibujada con {{renderer}}. Oriente la vista con el puntero o las flechas del teclado; acerque con la rueda o las teclas más y menos.",
+  "renderer": {
+    "webgpu": "WebGPU",
+    "webgl2": "WebGL 2",
+    "pending": "un renderizador 3D que se está iniciando"
+  },
+  "canvasLabel": "Terreno 3D interactivo del rajo de Bingham Canyon",
+  "loading": "Cargando la vista 3D",
+  "controls": {
+    "reset": "Restablecer vista",
+    "loadDetail": "Cargar más detalle ({{size}})",
+    "stopDetail": "Detener la carga de detalle",
+    "hint": "Orbitar: arrastrar o flechas. Zoom: rueda, pellizco, teclas más y menos."
+  },
+  "detail": {
+    "loading": "Cargando más detalle: {{active}} tesela(s) en curso",
+    "shown": "Más detalle cargado",
+    "stopped": "Carga de detalle detenida"
+  },
+  "chip": {
+    "title": "Procedencia del terreno"
+  },
+  "error": "No se pudieron leer las teselas del terreno."
+}

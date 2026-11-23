@@ -5,6 +5,7 @@ import { useHydrated } from "~/shell/useHydrated";
 import { useMotion } from "~/shell/useReducedMotion";
 import { ClockControls } from "~/sim/ClockControls";
 import { DEFAULT_DURATION_S, useSimClock } from "~/sim/useSimClock";
+import { TerrainView } from "~/terrain/TerrainView";
 import { useThreeD } from "~/tier/probe";
 import { TierBadge } from "~/tier/TierBadge";
 import { Attribution } from "./BuiltWithView";
@@ -51,9 +52,12 @@ export function Stage({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
       >
         <div>
           <h2 id="scene-title">{t("scene.title")}</h2>
-          <p>
-            {t("scene.terrain")}: <span className={styles.pending}>{t("notYetRun")}</span>
-          </p>
+          <TerrainView
+            caseId={caseId}
+            artefacts={manifest.artefacts}
+            ready={manifest.status === "ready"}
+            threeD={threeD}
+          />
           {threeD === false && <p>{t("scene.noThreeD")}</p>}
           <p className={styles.unit}>
             {t("scene.summary", {
@@ -90,6 +94,9 @@ export function ExploreView() {
   const selected = isCaseId(requested) ? requested : null;
   const entry = selected ? caseEntry(caseRegistry, selected) : undefined;
 
+  const manifest = useWebManifest();
+  const threeD = useThreeD();
+
   const clock = useSimClock({
     duration: DEFAULT_DURATION_S,
     fps: entry?.clock_fps ?? 10,
@@ -116,7 +123,20 @@ export function ExploreView() {
           {selected && entry ? (
             <Stage key={selected} caseId={selected} entry={entry} />
           ) : (
-            <p className={styles.panel}>{t("cases:explore.pick")}</p>
+            <>
+              <section className={styles.scene} data-visual="scene" aria-labelledby="pit-title">
+                <div>
+                  <h2 id="pit-title">{t("cases:scene.title")}</h2>
+                  <TerrainView
+                    caseId={null}
+                    artefacts={manifest.artefacts}
+                    ready={manifest.status === "ready"}
+                    threeD={threeD}
+                  />
+                </div>
+              </section>
+              <p className={styles.panel}>{t("cases:explore.pick")}</p>
+            </>
           )}
         </div>
       </div>
