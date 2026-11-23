@@ -155,3 +155,19 @@ def test_rows_without_a_forecast_are_left_out_of_the_distribution() -> None:
     ]
     (d,) = c1_errors.error_distributions(rows)
     assert d["n_events"] == 1
+
+
+@pytest.mark.req("FR-010-24")
+def test_the_median_interval_is_the_percentile_bootstrap_of_the_median_per_method_stratum_and_cutoff() -> None:
+    rows = _rows("nominal_30", n=30)
+    out = c1_errors.median_intervals(rows, seed=9, resamples=500)
+    assert len(out) == 6 * 2
+    tcn = next(r for r in out if r["method"] == "tcn" and r["cutoff"] == 0.5)
+    by_id = {r["event_id"]: r["rel_error"] for r in rows if r["method"] == "tcn" and r["cutoff"] == 0.5}
+    values = np.array([by_id[k] for k in sorted(by_id)])  # the bootstrap resamples the sorted event ids
+    idx = np.random.Generator(np.random.PCG64(np.random.SeedSequence(9))).integers(0, 30, size=(500, 30))
+    lo, hi = np.percentile(np.median(values[idx], axis=1), [2.5, 97.5])
+    assert tcn["median_rel_error"] == pytest.approx(np.median(values))
+    assert tcn["interval"]["lower"] == pytest.approx(lo) and tcn["interval"]["upper"] == pytest.approx(hi)
+    assert tcn["n_events"] == 30 and tcn["bootstrap"]["resamples"] == 500
+    assert "verdict" not in tcn and "threshold" not in tcn  # no SC-010-01 verdict outside the observed-SNR stratum

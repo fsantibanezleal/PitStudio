@@ -87,3 +87,31 @@ def error_distributions(events: Sequence[Mapping[str, Any]]) -> list[dict[str, A
             }
         )
     return out
+
+
+def median_intervals(
+    events: Sequence[Mapping[str, Any]], *, seed: int, resamples: int = ev.RESAMPLES
+) -> list[dict[str, Any]]:
+    """Median relative error with its percentile-bootstrap 95 % interval per (method, stratum, cut-off) (FR-010-24).
+
+    The SC-010-01 verdict is stated only for the observed-SNR stratum (``evaluate.acceptance_row``); these rows carry
+    no threshold and no verdict."""
+    rows = _scored(events)
+    groups: dict[tuple[str, str, float], dict[str, float]] = {}
+    for r in rows:
+        groups.setdefault((r["method"], r["stratum"], r["cutoff"]), {})[r["event_id"]] = float(r["rel_error"])
+    out = []
+    for (method, stratum, cutoff), errors in groups.items():
+        row = ev.acceptance_row(method, cutoff, errors, seed=seed, resamples=resamples)
+        out.append(
+            {
+                "method": method,
+                "stratum": stratum,
+                "cutoff": cutoff,
+                "n_events": row["n_events"],
+                "median_rel_error": row["median_rel_error"],
+                "interval": row["interval"],
+                "bootstrap": row["bootstrap"],
+            }
+        )
+    return out
