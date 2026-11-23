@@ -1,12 +1,42 @@
 """Verification and card of the generated GNS reference dataset (spec 011, FR-011-03, FR-011-10, FR-011-14).
 
-Every rule is recomputed from the files on disk, not trusted from the generator's state: schema and Zarr digest of every
-rollout, 100 geometries with 3 seeds and the 70 / 10 / 20 split by geometry, pile at least 30 d, rest on the last
-frames,
-radius-graph overflow under 1 percent at rest, the test geometries inside the training envelope and at least 0.05 from
-every training geometry under the contract metric, every contract parameter inside the declared envelope, and the repose
-angle per family against the 3-D DEM target. Writes `index.json` and `DATASET_CARD.md` beside the data.
-"""
+Every rule is recomputed from the files on disk, not trusted from the generator's state: schema and Zarr digest of
+every rollout, 100 geometries with 3 seeds and the 70 / 10 / 20 split by geometry, pile at least 30 d, rest on the last
+frames, radius-graph overflow under 1 percent at rest, the test geometries inside the training envelope and at least
+0.05 from every training geometry under the contract metric, every contract parameter inside the declared envelope, and
+the physical check of each family: pile and dump keep the repose angle inside the real granular range, the column
+collapse is judged by the published run-out scaling of 2-D granular column collapse. Writes `index.json` and
+`DATASET_CARD.md` beside the data.
+
+Column collapse. A column of aspect ratio a = H0 / L0 (0.5 to 4) collapses dynamically, so its deposit slope falls
+below the static repose angle as a grows; the deposit is characterised by the normalised run-out (L_inf - L0) / L0 and
+the normalised final height H_inf / L0, which depend on a alone. The laws used (2-D rectangular channel, every
+coefficient read from the source named):
+
+- Lube, Huppert, Sparks and Freundt 2005, "Collapses of two-dimensional granular columns", Phys. Rev. E 72, 041301.
+  Run-out: 1.2 a for a < 2.3 and 1.9 a^(2/3) for a > 2.3. The coefficients are quoted from Staron and Hinch 2005,
+  "Study of the collapse of granular columns using DEM numerical simulation", arXiv:physics/0501022, section III (the
+  original PRE text was not readable: UNVERIFIED verbatim). The same source gives the final-height exponent 0.4 with no
+  coefficient, so the final height takes no Lube law here.
+- Lajeunesse, Monnier and Homsy 2005, "Granular slumping on a horizontal surface", Phys. Fluids 17, 103302, rectangular
+  channel (conclusions, read from the paper): H_f / L_i = a for a <= 0.7 and proportional to a^(1/3) above; (L_f - L_i)
+  / L_i proportional to a for a <= 3 and to a^(2/3) above. The text read gives the exponents and the regime boundaries
+  but no coefficient, so its height law enters with the coefficient that makes it continuous with H = a at a = 0.7
+  (0.7^(2/3), derived, not quoted) and its run-out law only fixes the regime boundary (3).
+- Sarlin, Morize, Sauret and Gondret 2021, "Collapse dynamics of dry granular columns: from free-fall to quasi-static
+  flow", arXiv:2112.11458, equations (1) and (2), quasi-2-D glass beads, free-fall regime: run-out 1.85 a for a <= 3
+  and 2.67 a^(2/3) for a > 3; final height a for a <= 0.8 and 0.93 a^(1/3) above. L_f is read at z = d, one grain
+  diameter above the floor, "to reduce measurement uncertainties".
+
+Scatter. None of the sources states a numeric error band for its laws; they state that the coefficients depend on the
+material (Staron and Hinch 2005, on Balmforth and Kerswell), and the published coefficients differ (run-out 1.2 against
+1.85 in the linear branch, 1.9 against 2.67 in the power branch). The scatter used is therefore the published spread:
+at each a the laws give a lowest and a highest value; their midpoint is the reference and the half-spread over the
+midpoint is the scatter (21.3 percent for the linear run-out, 16.8 percent for the power run-out, 8.2 percent for the
+final height above a = 0.8), never below one grain diameter over the reference length (the resolution of the
+observable, after Sarlin et al.). Where the laws disagree on the branch (run-out 2.3 to 3, height 0.7 to 0.8) both
+branches of every law enter the spread. A regime passes when the signed mean deviation of its geometries from the
+midpoint lies within the mean scatter and no geometry deviates by more than twice its scatter."""
 
 from __future__ import annotations
 
@@ -21,8 +51,27 @@ from . import generate, space
 from .space import FAMILIES, D
 
 TARGET_DEG, TOL_DEG = 27.2, 1.5
-REAL_RANGE_DEG = (25.0, 35.0)  # the real granular range: a family outside it is not trained on (gns-walls decision 2)
+REAL_RANGE_DEG = (25.0, 35.0)  # the real granular range for pile and dump (gns-walls decision 2)
 OVERFLOW_MAX = 0.01
+ASPECT_RANGE = (0.5, 4.0)  # the declared aspect ratios of the collapse family (spec 011 section 7)
+
+# The published 2-D column-collapse laws: (upper end of the branch in a, coefficient, exponent); the last is open.
+_LAWS: dict[str, dict[str, tuple[tuple[float | None, float, float], ...]]] = {
+    "runout": {
+        "Lube 2005": ((2.3, 1.2, 1.0), (None, 1.9, 2 / 3)),
+        "Sarlin 2021": ((3.0, 1.85, 1.0), (None, 2.67, 2 / 3)),
+    },
+    "height": {
+        "Lajeunesse 2005": ((0.7, 1.0, 1.0), (None, 0.7 ** (2 / 3), 1 / 3)),
+        "Sarlin 2021": ((0.8, 1.0, 1.0), (None, 0.93, 1 / 3)),
+    },
+}
+# Regimes: (name, largest a it holds); the last is open. Transition: the laws disagree on the branch.
+_REGIMES = {
+    "runout": (("linear", 2.3 - 1e-9), ("transition", 3.0), ("power", None)),
+    "height": (("slump", 0.7), ("transition", 0.8 - 1e-9), ("free-fall", None)),
+}
+_LABEL = {"runout": "run-out", "height": "final height"}
 EXPECTED = {fam: sum(space.SPLIT_COUNTS[s][fam] for s in space.SPLIT_COUNTS) for fam in FAMILIES}
 
 
@@ -208,6 +257,8 @@ def verify(out: Path) -> dict[str, Any]:
             else None,
         }
     problems += range_problems(summary)
+    scaling = collapse_scaling(collapse_geometries(rows, record))
+    problems += scaling["problems"]
     report = {
         "ok": not problems,
         "problems": problems,
@@ -216,6 +267,7 @@ def verify(out: Path) -> dict[str, Any]:
         "target_deg": TARGET_DEG,
         "tol_deg": TOL_DEG,
         "family": summary,
+        "collapse_scaling": scaling,
         "envelope": envelope,
         "test_geometries": test_rows,
         "rows": rows,
@@ -229,15 +281,137 @@ def verify(out: Path) -> dict[str, Any]:
     return report
 
 
+def regime(kind: str, a: float) -> str:
+    """The regime of aspect ratio `a` for `kind` ("runout" or "height")."""
+    for name, upper in _REGIMES[kind]:
+        if upper is None or a <= upper:
+            return name
+    raise AssertionError("unreachable: the last regime is open")
+
+
+def law_envelope(kind: str, a: float) -> tuple[float, float]:
+    """Lowest and highest normalised run-out or final height the published laws give at aspect ratio `a`."""
+    in_transition = regime(kind, a) == "transition"
+    values = []
+    for branches in _LAWS[kind].values():
+        for i, (upper, coef, exp) in enumerate(branches):
+            below = branches[i - 1][0] if i else None
+            own = (upper is None or a <= upper) and (below is None or a > below)
+            if own or in_transition:
+                values.append(coef * a**exp)
+    return min(values), max(values)
+
+
+def scatter(kind: str, a: float, width_m: float) -> float:
+    """Relative scatter at `a`: the half-spread of the published laws over their midpoint, at least one grain / L0."""
+    lo, hi = law_envelope(kind, a)
+    mid = 0.5 * (lo + hi)
+    return max((hi - lo) / (hi + lo), D / (mid * width_m))
+
+
+def collapse_geometries(rows: list[dict], records: dict[str, dict]) -> list[dict]:
+    """One entry per collapse geometry: the seed means of run-out, final height (grains only) and repose."""
+    by_geom: dict[str, list[dict]] = {}
+    for r in rows:
+        if r["family"] == "column-collapse" and math.isfinite(r["run_out_m"]):
+            by_geom.setdefault(r["geometry_id"], []).append(r)
+    out = []
+    for gid, rs in sorted(by_geom.items()):
+        rec = records[gid]
+        repose = [r["repose_deg"] for r in rs if math.isfinite(r["repose_deg"])]
+        out.append(
+            {
+                "geometry_id": gid,
+                "aspect_ratio": float(rec["aspect_ratio"]),
+                "column_width_m": float(rec["column_width_m"]),
+                "run_out_m": float(np.mean([r["run_out_m"] for r in rs])),
+                "height_m": float(np.mean([r["pile_height_d"] for r in rs])) * D,
+                "repose_deg": float(np.mean(repose)) if repose else math.nan,
+                "seeds": len(rs),
+            }
+        )
+    return out
+
+
+def collapse_scaling(geoms: list[dict]) -> dict[str, Any]:
+    """The column-collapse check against the published laws, per geometry and per regime (module docstring)."""
+    rows: list[dict[str, Any]] = []
+    problems: list[str] = []
+    for g in geoms:
+        a, width = g["aspect_ratio"], g["column_width_m"]
+        row: dict[str, Any] = {"geometry_id": g["geometry_id"], "aspect_ratio": a, "repose_deg": g.get("repose_deg")}
+        if not ASPECT_RANGE[0] <= a <= ASPECT_RANGE[1]:
+            problems.append(
+                f"{g['geometry_id']}: aspect ratio {a:.2f} is outside the declared range "
+                f"{ASPECT_RANGE[0]:g} to {ASPECT_RANGE[1]:g} (evaluated on the published laws all the same)"
+            )
+        for kind, observed in (("runout", g["run_out_m"] / width), ("height", g["height_m"] / width)):
+            lo, hi = law_envelope(kind, a)
+            mid, s = 0.5 * (lo + hi), scatter(kind, a, width)
+            dev = (observed - mid) / mid
+            row[kind] = {
+                "regime": regime(kind, a),
+                "observed": observed,
+                "law_low": lo,
+                "law_high": hi,
+                "deviation": dev,
+                "scatter": s,
+            }
+            row[f"{kind}_ok"] = abs(dev) <= 2 * s
+            if not row[f"{kind}_ok"]:
+                problems.append(
+                    f"{g['geometry_id']}: {_LABEL[kind]} {observed:.3g} (a {a:.2f}) deviates {dev:+.1%} from the "
+                    f"published laws {lo:.3g} to {hi:.3g}, beyond twice the scatter {2 * s:.1%}"
+                )
+        rows.append(row)
+    report: dict[str, Any] = {"geometries": rows}
+    for kind in ("runout", "height"):
+        report[kind] = {}
+        for name, _ in _REGIMES[kind]:
+            part = [r for r in rows if r[kind]["regime"] == name]
+            if not part:
+                continue
+            mean_dev = float(np.mean([r[kind]["deviation"] for r in part]))
+            mean_s = float(np.mean([r[kind]["scatter"] for r in part]))
+            ok = abs(mean_dev) <= mean_s and all(r[f"{kind}_ok"] for r in part)
+            report[kind][name] = {"n": len(part), "mean_deviation": mean_dev, "mean_scatter": mean_s, "ok": ok}
+            if abs(mean_dev) > mean_s:
+                problems.append(
+                    f"column-collapse {_LABEL[kind]}, regime {name}: mean deviation {mean_dev:+.1%} from the "
+                    f"published laws is beyond the scatter {mean_s:.1%} ({len(part)} geometries)"
+                )
+    report["repose_by_aspect"] = repose_by_aspect(geoms)
+    report["problems"] = problems
+    return report
+
+
+def repose_by_aspect(geoms: list[dict]) -> list[dict[str, Any]]:
+    """The collapse repose angle per aspect-ratio bin (reported, not gated: a collapse is flatter than repose)."""
+    out = []
+    for lo, hi in ((0.5, 1.0), (1.0, 2.0), (2.0, 3.0), (3.0, 4.0001)):
+        v = [
+            g["repose_deg"]
+            for g in geoms
+            if lo <= g["aspect_ratio"] < hi and math.isfinite(g.get("repose_deg") or math.nan)
+        ]
+        out.append(
+            {"a_from": lo, "a_to": min(hi, 4.0), "n": len(v), "repose_mean_deg": float(np.mean(v)) if v else None}
+        )
+    return out
+
+
 def range_problems(summary: dict[str, Any]) -> list[str]:
-    """One problem per family whose mean repose is missing or outside the real granular range."""
+    """One problem per family whose mean repose is missing, or (pile and dump) outside the real granular range.
+
+    The collapse is judged by its run-out scaling (`collapse_scaling`), not by the static repose range.
+    """
     lo, hi = REAL_RANGE_DEG
     out = []
     for fam, s in summary.items():
         mean = s.get("repose_mean_deg")
         if mean is None:
             out.append(f"{fam}: no repose angle could be measured")
-        elif not lo <= mean <= hi:
+        elif fam != "column-collapse" and not lo <= mean <= hi:
             out.append(f"{fam}: mean repose {mean:.1f} degrees is outside the real granular range {lo:g} to {hi:g}")
     return out
 
@@ -273,6 +447,30 @@ def card(r: dict[str, Any]) -> str:
             f"| {fam} | {s['n']} | {_fmt(s['repose_mean_deg'])} | {_fmt(s['repose_sd_deg'])} | "
             f"{_fmt(s['repose_min_deg'])} | {_fmt(s['repose_max_deg'])} | {within} | {_fmt(s['pile_height_d_min'])} |"
         )
+    cs = r.get("collapse_scaling")
+    if cs:
+        lines += [
+            "",
+            "## Column collapse against the published 2-D scaling laws",
+            "",
+            "Normalised run-out (L_inf - L0) / L0 and final height H_inf / L0 against Lube et al. 2005, "
+            "Lajeunesse et al. 2005 and Sarlin et al. 2021 (`verify.py` docstring); the scatter is the published "
+            "spread of the laws.",
+            "",
+            "| quantity | regime | geometries | mean deviation | scatter | within |",
+            "|---|---|---|---|---|---|",
+        ]
+        for kind in ("runout", "height"):
+            for name, res in cs[kind].items():
+                lines.append(
+                    f"| {_LABEL[kind]} | {name} | {res['n']} | {res['mean_deviation']:+.1%} | "
+                    f"{res['mean_scatter']:.1%} | {'yes' if res['ok'] else 'no'} |"
+                )
+        lines += ["", "Collapse repose by aspect ratio (reported, not gated):", ""]
+        lines += [
+            f"- a {b['a_from']:g} to {b['a_to']:g}: {_fmt(b['repose_mean_deg'])} degrees ({b['n']} geometries)"
+            for b in cs["repose_by_aspect"]
+        ]
     lines += ["", "## Design envelope recorded by the dataset", ""]
     for fam, params in r["envelope"].items():
         lines.append(f"- {fam}: " + ", ".join(f"{k} {lo:.4g} to {hi:.4g}" for k, (lo, hi) in params.items()))

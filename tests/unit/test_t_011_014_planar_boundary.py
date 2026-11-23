@@ -220,12 +220,12 @@ def test_011_verification_fails_a_boundary_that_moves_or_leaves_its_box(tmp_path
 
 
 @pytest.mark.req("FR-011-03")
-def test_011_a_family_whose_mean_repose_is_outside_the_real_granular_range_fails_the_verification() -> None:
+def test_011_a_pile_or_dump_whose_mean_repose_is_outside_the_real_granular_range_fails_the_verification() -> None:
     inside = {fam: {"n": 30, "repose_mean_deg": 27.0} for fam in space.FAMILIES}
     assert verify.range_problems(inside) == []
-    bad = {**inside, "column-collapse": {"n": 30, "repose_mean_deg": 23.8}}
+    bad = {**inside, "dump-over-crest": {"n": 30, "repose_mean_deg": 23.8}}
     (problem,) = verify.range_problems(bad)
-    assert "column-collapse" in problem
+    assert "dump-over-crest" in problem
     assert "23.8" in problem
     assert "25" in problem
     assert "35" in problem

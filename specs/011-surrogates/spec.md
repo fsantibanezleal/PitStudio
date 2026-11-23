@@ -201,6 +201,7 @@ from a funnel hopper of the generator (frozen wall spheres, recorded as static b
 the pour rate and the dump rate are the measured steady discharge rates (the slope of the solid area that crossed the orifice level), and a
 rollout counts as at rest only after at least 90 percent of its grains have left the orifice. The funnel, and for a dump the platform and the crest face, are boundary particles: a particle type of their own (`boundary`, after the grains), the same position in every frame, nodes of the graph that the GNS sees but does not predict (a rollout takes their positions from the reference), that are excluded from the loss, the input noise, the normalisation statistics and the observables (Sanchez-Gonzalez et al. 2020, arXiv:2002.09405, Appendix B.2 and B.3). Gns-v2 released the grains in free fall; that
 dynamic deposition gave piles 10 degrees flatter than the 3-D heap of the same material, so the feed changed and the envelope followed the dataset.
+The column collapse is verified by the published run-out scaling of 2-D granular column collapse (normalised run-out (L_inf - L0) / L0 and final height H_inf / L0 against a, Lube et al. 2005, Lajeunesse et al. 2005, Sarlin et al. 2021; coefficients, regimes and the scatter in the `verify.py` docstring), not by the repose range, because a dynamic collapse is flatter than the static repose angle as a grows; the collapse repose is reported by aspect ratio, and pile and dump keep the 25 to 35 degree repose range.
 The extractor's own resolution, measured at specification on analytic piles laid particle by particle, is ≤ 0.35° for
 piles ≥ 30 d high and about 1° for 20 d piles; hence the 30 d floor of FR-011-03. Reference and surrogate go through
 the same extractor, so its resolution enters both sides.
@@ -294,5 +295,6 @@ Identity, Cast. Anything else fails FR-011-36.
 ### MODIFIED Requirements
 - Section 7 boundary particles (FR-011-03, FR-011-04, FR-011-05): the funnel and the dump solids are recorded as static particles of type `boundary` and handled as inputs only (gns-walls); DC-011-01 `particle_types` states the convention.
 - Section 7 training envelope (FR-011-03): pour height, pour rate and dump rate follow the quasi-static funnel-hopper feed of the reference data (gns-v3); column collapse and crest height are unchanged. Test-change request recorded for T-011-014 in specs/test-change-requests.md.
+- Section 7 column-collapse verification (FR-011-03): the collapse family is checked against the published 2-D run-out and final-height scaling laws instead of the 25 to 35 degree repose range (gns-collapse-check); pile and dump unchanged.
 ### REMOVED Requirements
 (none)
