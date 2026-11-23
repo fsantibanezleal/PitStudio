@@ -4,7 +4,7 @@
 // exists at build time shows the recipe path and the three commands; one without shows "Not yet run — recipe planned" and no command.
 // (No case recipe is committed yet, so today every page must show the planned state; the commands branch is covered by the unit test.)
 // The block is on the page whatever sub-tab is open and comes after the tab panel (the page "ends with" it).
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 import { CASE_IDS, CASE_TABS } from "../src/test-support/fixtures";
@@ -14,6 +14,23 @@ function recipeExists(id: string): boolean {
   return existsSync(
     fileURLToPath(new URL(`../../studio/recipes/cases/${id.toLowerCase()}.yaml`, import.meta.url)),
   );
+}
+
+// Published imported runs of a case (FR-018-77), read from the staged web manifests, never typed here.
+function importedRunIds(id: string): string[] {
+  const assets = (rel: string) => fileURLToPath(new URL(`../public/assets/${rel}`, import.meta.url));
+  const index = JSON.parse(readFileSync(assets("manifest.json"), "utf8")) as {
+    artefacts: { id: string; run_id: string; cases?: string[] }[];
+  };
+  const ids = new Set<string>();
+  for (const a of index.artefacts) {
+    if (!a.id.endsWith("-results") || !(a.cases ?? []).includes(id)) continue;
+    const manifest = JSON.parse(readFileSync(assets(`runs/${a.run_id}/manifest.json`), "utf8")) as {
+      profile?: string;
+    };
+    if (manifest.profile === "imported") ids.add(a.run_id);
+  }
+  return [...ids];
 }
 
 test.describe("Reproduce this (FR-018-19, FR-018-20)", () => {
@@ -56,6 +73,10 @@ test.describe("Reproduce this (FR-018-19, FR-018-20)", () => {
           /^uv run studio publish (<run-id>|[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]*)$/,
         );
         await expect(page.getByRole("button", { name: /copy/i })).toBeVisible();
+      } else if (importedRunIds(id).length > 0) {
+        // FR-018-77: a published imported run is stated by its run id, not by the planned text
+        for (const runId of importedRunIds(id)) await expect(page.getByText(runId).first()).toBeVisible();
+        await expect(page.getByText("Not yet run — recipe planned")).toHaveCount(0);
       } else {
         await expect(page.getByText("Not yet run — recipe planned")).toBeVisible();
         await expect(commands).toHaveCount(0);
