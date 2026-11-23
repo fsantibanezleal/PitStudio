@@ -6,15 +6,10 @@ for the machine lock, and calls `Guard.check()` between frames (pause when hot, 
 error,
 and a cool-down between GPU blocks). `Pacer` bundles those calls; the batch functions of `engine` only see `check`,
 `idle_s` and `max_temp`.
-
-`filelock` is a dependency of the root package's `runner` extra and of the pipeline environment, not of the studio
-environment. When it is missing, a job can point `PITSTUDIO_FILELOCK_SITE` at a site-packages folder that has it (the
-folder is appended to `sys.path`, so only the missing pure-Python package is taken from there).
 """
 
 from __future__ import annotations
 
-import importlib
 import importlib.util
 import os
 import sys
@@ -22,26 +17,11 @@ import time
 from pathlib import Path
 from typing import Any
 
+import filelock
+
 LOCK_ENV = "PITSTUDIO_GPU_LOCK"
-FILELOCK_SITE_ENV = "PITSTUDIO_FILELOCK_SITE"
 LOCK_TRIES = 36  # bounded wait: 36 x 10 min
 START_WAIT_TRIES = 60  # bounded wait for the start temperature: 60 x 30 s
-
-
-def import_filelock() -> Any:
-    """The `filelock` module, from the environment or from the site folder named by PITSTUDIO_FILELOCK_SITE."""
-    try:
-        return importlib.import_module("filelock")
-    except ImportError:
-        site = os.environ.get(FILELOCK_SITE_ENV)
-        if not site or not Path(site).is_dir():
-            raise RuntimeError(
-                "filelock is not installed in this environment; "
-                f"set {FILELOCK_SITE_ENV} to a site-packages folder that has it"
-            ) from None
-        if site not in sys.path:
-            sys.path.append(site)
-        return importlib.import_module("filelock")
 
 
 def load_guard_module() -> Any:
@@ -111,7 +91,7 @@ def start_session() -> tuple[Any, Any, Pacer]:
         time.sleep(30)
     else:
         raise SystemExit(3)
-    lock = import_filelock().FileLock(str(lock_path()))
+    lock = filelock.FileLock(str(lock_path()))
     print("waiting for the GPU lock ...", flush=True)
     acquire(lock)
     print("lock acquired", flush=True)

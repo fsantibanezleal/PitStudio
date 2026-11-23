@@ -28,6 +28,7 @@ dependencies = [
     "simready-foundation-tier-core>=2026.8.0",  # the tier content that simready-validate checks scenes against (FR-004-34)
     "pvlib>=0.16.1",
     "scipy>=1.18.1",
+    "filelock>=4.3.0",
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [dependency-groups]

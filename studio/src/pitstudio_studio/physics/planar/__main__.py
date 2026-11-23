@@ -45,13 +45,10 @@ def dry_run(allow_cpu: bool) -> int:
     assert measure.RestJudge(0.003, discharged_min=0.9).update(1.0, 0.0, 0.1) == "run"
     gg = gpujob.load_guard_module()
     assert gg.START_MAX_C == 80
-    try:
-        gpujob.import_filelock()
-        lock_note = "filelock importable"
-    except RuntimeError as exc:
-        lock_note = f"filelock missing ({exc})"
-        if not allow_cpu:
-            raise
+    import filelock
+
+    assert hasattr(filelock, "FileLock")
+    lock_note = "filelock importable"
     p = {"x_p_D": 0.0, "z_o_D": 15.0, "w_o_D": 9.0, "n": 30}
     for fam, q in (("pile-formation", p), ("dump-over-crest", {**p, "x_c_D": 0.0, "h_c_D": 9.0, "x_off_D": 6.0})):
         insts = engine.feed_instances(fam, [{"p": q, "seed": 1, "geom_seed": 1}], cfg)

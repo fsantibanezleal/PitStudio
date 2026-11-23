@@ -176,6 +176,15 @@ epath = [
 ]
 
 [[package]]
+name = "filelock"
+version = "4.3.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/bf/a895b0b8e83d0a64d134f658e393e83998abfc22bbb8b58181ce55268706/filelock-4.3.0.tar.gz", hash = "sha256:143407310acf479e82d88068e3b9a6486f45fb410c0ed8729fe7359eaabeb6f1", size = 742199, upload-time = "2026-11-22T02:15:03.187Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/68/66/870b527908a06c7ec0e91239bd2c4d0bb22921efd4f915428b4e47d461a6/filelock-4.3.0-py3-none-any.whl", hash = "sha256:f933f39f7e01249a4a49b9abab30edc6d4b874624c3de5dd0b0d137aa8adb979", size = 244553, upload-time = "2026-11-22T02:15:01.667Z" },
+]
+
+[[package]]
 name = "fsspec"
 version = "2026.9.0"
 source = { registry = "https://pypi.org/simple" }
@@ -793,6 +802,7 @@ version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "cma" },
+    { name = "filelock" },
     { name = "laspy", extra = ["lazrs"] },
     { name = "newton", extra = ["sim"] },
     { name = "numpy" },
@@ -828,6 +838,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "cma", specifier = ">=4.5.0" },
+    { name = "filelock", specifier = ">=4.3.0" },
     { name = "laspy", extras = ["lazrs"] },
     { name = "newton", extras = ["sim"] },
     { name = "numpy" },
