@@ -15,6 +15,10 @@ missing; the run is labelled with the bake and records no timing. Each output ma
 and digests
 the published artefact lists).
 
+A spec with `"kind": "cpu"` imports a run computed on the CPU by code of this repository (FR-002-72): no queue job
+exists, so no script, log, GPU-hours or timing fact is looked for or missing, and the run is labelled "produced on the
+CPU, on this machine, with <tools>, outside the runner".
+
 A spec with `"kind": "render"` imports an RTX render (publish-render-2026-11-22): the ovrtx render manifest is checked
 (kind, label, producer, frame digests against the encode report), every video output takes its encoder record from the
 encode report of the NVENC stage (digest of the file, digest of the source frames, no throughput, no path), the summary
@@ -95,6 +99,12 @@ def queue_facts(job: str) -> tuple[dict[str, Any], list[str]]:
     if facts["duration_s"] is None:
         missing.append("start time missing")
     return facts, missing
+
+
+def cpu_label(spec: dict, tools: dict[str, dict]) -> str:
+    """How a CPU run was produced (FR-002-72): on the CPU, on this machine, by the stage tools, outside the runner."""
+    used = ", ".join(dict.fromkeys(st["tool"] for st in spec["stages"] if st.get("tool") in tools))
+    return f"produced on the CPU, on this machine, with {used}, outside the runner"
 
 
 def producer_paths(repo: Path, spec: dict) -> list[str]:
@@ -267,19 +277,21 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
     partial: list[str] = []
     render = spec.get("kind") == "render"
     bake = spec.get("kind") == "bake"
+    cpu = spec.get("kind") == "cpu"
+    nojob = bake or cpu  # no queue job: no script, log, GPU-hours or timing fact exists
     rmanifest, rreport = load_render(src, spec, tools) if render else ({}, {})
     rframes = _frames_digest(rmanifest) if render else ""
-    facts, qmiss = ({"script": None, "log": None, "end": None, "duration_s": None}, []) if bake else queue_facts(job)
+    facts, qmiss = ({"script": None, "log": None, "end": None, "duration_s": None}, []) if nojob else queue_facts(job)
     partial += [x for x in qmiss if not (render and x == "start time missing")]
     partial += spec.get("partial_reasons", [])
-    hours = None if render or bake else _gpu_hours(spec.get("gpu_hours"), src)
-    if not (render or bake) and hours is None and (m := re.search(r"GPU hours ([0-9.]+)", facts.get("log_text", ""))):
+    hours = None if render or nojob else _gpu_hours(spec.get("gpu_hours"), src)
+    if not (render or nojob) and hours is None and (m := re.search(r"GPU hours ([0-9.]+)", facts.get("log_text", ""))):
         hours = float(m[1])
-    if not (render or bake) and not isinstance(hours, int | float):
+    if not (render or nojob) and not isinstance(hours, int | float):
         hours = None
         partial.append("GPU-hours missing")
     end = facts["end"] or datetime.now(UTC).replace(microsecond=0)
-    dur = 0 if render or bake else facts["duration_s"] or 0  # a render or a bake records no timing
+    dur = 0 if render or nojob else facts["duration_s"] or 0  # a render, a bake or a CPU run records no timing
     begin = end - timedelta(seconds=dur)
     git_sha, _whole_tree = git_state(repo)
     paths = producer_paths(repo, spec)
@@ -360,13 +372,15 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
         partial.append(f"recipe {spec['recipe']} is not written yet: its sha256 is recorded as zeros")
 
     notes += [
-        BAKE_LABEL if bake else LABEL,
+        BAKE_LABEL if bake else cpu_label(spec, tools) if cpu else LABEL,
         f"job {job}"
-        if bake
+        if nojob
         else f"job {job}; script sha256 {facts['script'] or 'missing'}; log sha256 {facts['log'] or 'missing'}",
         (
             "the bake ran on the CPU: no GPU time and no timing are recorded"
             if bake
+            else "no GPU time and no timing are recorded"
+            if cpu
             else "timings and GPU time of the render are local-only and are not recorded"
             if render
             else f"started {_stamp(begin)}; ended {_stamp(end)}; GPU-hours {hours if hours is not None else 'missing'}"
