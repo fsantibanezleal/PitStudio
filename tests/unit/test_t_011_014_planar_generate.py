@@ -46,9 +46,14 @@ def _tiny_ranges(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setitem(
         space.FEED_RANGES, "pile-formation", {"x_p_D": (0.0, 0.0), "z_o_D": (12.0, 13.0), "w_o_D": (10.0, 11.0)}
     )
-    monkeypatch.setattr(
-        generate, "MIN_HEIGHT_D", 0.0
-    )  # 24 grains are no 30 d pile: the floor is exercised through verify
+    # a 24-grain hopper discharges at a rate and a height far below the design envelope: widen it for this fixture only
+    monkeypatch.setitem(
+        space.CONTRACT_RANGES,
+        "pile-formation",
+        (("pour_height_m", 0.0, 10.0), ("pour_rate_m2_per_s", 0.0, 10.0)),
+    )
+    # 24 grains are no 30 d pile: the floor is exercised through verify
+    monkeypatch.setattr(generate, "MIN_HEIGHT_D", 0.0)
 
 
 @pytest.fixture(scope="module")
