@@ -198,9 +198,9 @@ def _recipe_artefacts(
     return arts, copies
 
 
-PUBLISHABLE_KINDS = ("image", "figure", "table", "text", "model-card", "usd", "video", "tiles")
+PUBLISHABLE_KINDS = ("image", "figure", "table", "text", "model-card", "usd", "video", "tiles", "chart-series")
 # kinds scanned for a machine path: media is binary and a scan of it would only misfire
-TEXT_KINDS = ("figure", "table", "text", "model-card")
+TEXT_KINDS = ("figure", "table", "text", "model-card", "chart-series")
 
 
 def _imported_artefacts(

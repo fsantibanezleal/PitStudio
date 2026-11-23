@@ -31,11 +31,12 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any, cast
 
-from pitstudio.runner import __version__, import_summaries
+from pitstudio.runner import __version__, chart_series, import_summaries
 from pitstudio.runner.cache import Store, file_sha, jcs, sha, write_atomic
 from pitstudio.runner.recipe import SLUG, Usage, first_errors, load_yaml, one_line
 from pitstudio.runner.worker import git_state
@@ -44,6 +45,8 @@ LABEL = "produced by the GPU queue, outside the runner"
 BAKE_LABEL = "produced by the web bake of the terrain (tools/bake_web_terrain.py), outside the runner"
 SPEC_DIR = Path(__file__).parent / "imports"
 ZERO = "0" * 64
+# the code every import runs from, when its spec names no producer paths of its own (the recipe is added to them)
+DEFAULT_PRODUCER_PATHS = ("src/pitstudio/runner", "studio/tools.yaml")
 QUEUE_LINE = re.compile(r"\[queue (\d\d):(\d\d):(\d\d)\] (start|done|FAILED) (\S+)")
 
 
@@ -92,6 +95,49 @@ def queue_facts(job: str) -> tuple[dict[str, Any], list[str]]:
     if facts["duration_s"] is None:
         missing.append("start time missing")
     return facts, missing
+
+
+def producer_paths(repo: Path, spec: dict) -> list[str]:
+    """The repository paths whose state decides whether the run is reproducible (FR-002-71).
+
+    The spec names them (`producer_paths`: the stage entry modules and their package); without them the default is the
+    runner package, the tool registry and the recipe, as far as they exist. A named path that is not a repository path
+    (absolute, outside, a backslash, empty or missing) is a usage error: a clean rule must not pass over a typo.
+    """
+    named = spec.get("producer_paths")
+    if named is None:
+        paths = [*DEFAULT_PRODUCER_PATHS, f"studio/recipes/{spec['recipe']}"]
+        return [p for p in paths if (repo / p).exists()]
+    if not isinstance(named, list) or not named or len(named) > 32:
+        raise Usage("producer paths must be a list of 1 to 32 repository paths")
+    root = repo.resolve()
+    for p in named:
+        ok = (
+            isinstance(p, str)
+            and p
+            and not re.search(r"[\\:\x00-\x1f]|^/|(^|/)\.\.(/|$)", p)
+            and (repo / p).exists()
+            and (repo / p).resolve().is_relative_to(root)
+        )
+        if not ok:
+            raise Usage(f"producer path {one_line(p, 80)!r} is not a path of the repository")
+    return [str(p) for p in named]
+
+
+def dirty_producer(repo: Path, paths: list[str]) -> bool:
+    """True when a file under one of `paths` is modified or untracked, or git cannot say (never guessed clean)."""
+    if not paths:
+        return False
+    try:
+        r = subprocess.run(
+            ["git", "-C", str(repo), "status", "--porcelain", "--untracked-files=all", "--", *paths],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+    except OSError, subprocess.SubprocessError:
+        return True
+    return r.returncode != 0 or bool(r.stdout.strip())
 
 
 def _scrub(arg: str) -> str:
@@ -235,7 +281,9 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
     end = facts["end"] or datetime.now(UTC).replace(microsecond=0)
     dur = 0 if render or bake else facts["duration_s"] or 0  # a render or a bake records no timing
     begin = end - timedelta(seconds=dur)
-    git_sha, dirty = git_state(repo)
+    git_sha, _whole_tree = git_state(repo)
+    paths = producer_paths(repo, spec)
+    dirty = git_sha == ZERO[:40] or dirty_producer(repo, paths)  # only the producer paths decide (FR-002-71)
     rid = f"{end.strftime('%Y%m%dT%H%M%SZ')}-{spec['slug']}"
     if (store_dir / "runs" / rid).exists():
         raise Usage(f"run {rid} is already in the store")
@@ -270,6 +318,12 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
             if o.get("sha256") and o["sha256"] != digest:
                 raise Usage(f"output {one_line(o['name'], 80)}: digest differs from the pinned one (refused)")
             raw = data if data is not None else None
+            if o.get("kind") == "chart-series":
+                problems = chart_series.check(
+                    data if data is not None else cast(Path, path).read_bytes(), spec["case"], o["name"]
+                )
+                if problems:
+                    raise Usage(one_line("; ".join(problems), 500))
             if o.get("required_fields"):
                 try:
                     doc = json.loads(raw if raw is not None else cast(Path, path).read_bytes())
@@ -326,6 +380,7 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
             else []
         ),
         spec["label"],
+        f"producer paths: {', '.join(paths) or 'none'}; git sha {git_sha}; {'modified' if dirty else 'unmodified'}",
         "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the "
         "contract, the stages were not launched by the runner",
         *spec.get("notes", []),
@@ -424,6 +479,7 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
         "all_cases": bool(spec.get("all_cases")),
         "label": spec["label"],
         "partial": bool(partial),
+        "producer_paths": paths,
         "outputs": list(outs.values()),
         "bundles": bundles,
     }
