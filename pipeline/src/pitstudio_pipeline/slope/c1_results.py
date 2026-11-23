@@ -60,6 +60,8 @@ DISTRIBUTIONS = [
     },
     {"material_id": "monzonite", "parameter": "sigma_ci_mpa", "distribution": "lognormal", "mean": 60.0, "cv": 0.3},
 ]
+# Mohr-Coulomb strength used only for the pySlope comparison (pySlope has no Hoek-Brown): illustrative, UNVERIFIED
+ORACLE_MC = {"gamma": 26.0, "c": 150.0, "phi": 38.0}
 DEFAULTS = {
     "materials": [MATERIAL],
     "pore_pressure_ratio": 0.2,
@@ -262,6 +264,20 @@ def real(archive: Path, out: Path) -> None:
     )
 
 
+def oracle(walls_dir: Path, out: Path) -> None:
+    """The pySlope planar-reduction check of every wall section found in walls_dir (root environment: pySlope)."""
+    from pitstudio_pipeline.slope import c1_oracle
+
+    checks = []
+    for f in sorted(walls_dir.glob("usgs-3dep-bingham-s*.json")):
+        doc = json.loads(f.read_text(encoding="utf-8"))["section"]
+        checks.append(
+            c1_oracle.check_planar_reduction(doc, gamma=ORACLE_MC["gamma"], cohesion_kpa=ORACLE_MC["c"], friction_deg=ORACLE_MC["phi"])
+        )
+        print(checks[-1]["section_id"], checks[-1]["fixed_pass"], checks[-1]["search_pass"], flush=True)
+    _write(out / "oracle-check.json", {"checks": checks})
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -282,8 +298,13 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("real")
     p.add_argument("--archive", required=True)
     p.add_argument("--out", required=True)
+    p = sub.add_parser("oracle")
+    p.add_argument("--walls", required=True)
+    p.add_argument("--out", required=True)
     args = ap.parse_args(argv)
-    if args.cmd == "real":
+    if args.cmd == "oracle":
+        oracle(Path(args.walls), Path(args.out))
+    elif args.cmd == "real":
         real(Path(args.archive), Path(args.out))
     elif args.cmd == "curves":
         curves(Path(args.events_from), Path(args.onnx), Path(args.out))

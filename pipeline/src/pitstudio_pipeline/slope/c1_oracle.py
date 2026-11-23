@@ -11,6 +11,7 @@ this module loads in any environment; ``check_planar_reduction`` raises ``Import
 from __future__ import annotations
 
 import contextlib
+import importlib.metadata
 import io
 import math
 from collections.abc import Mapping
@@ -121,7 +122,7 @@ def check_planar_reduction(
         "section_id": doc.get("section_id"),
         "planar_reduction": red,
         "material": {"gamma_kn_per_m3": gamma, "cohesion_kpa": cohesion_kpa, "friction_deg": friction_deg},
-        "pyslope_version": getattr(pyslope, "__version__", "unknown"),
+        "pyslope_version": importlib.metadata.version("pyslope"),
         "fixed_circles": len(fixed),
         "fixed_max_rel_diff": max(f["rel_diff"] for f in fixed),
         "fixed_rtol": FIXED_RTOL,
