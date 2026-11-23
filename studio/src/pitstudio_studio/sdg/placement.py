@@ -107,12 +107,16 @@ def sample_unstructured(
     max_distractors: int = _MAX_DISTRACTORS,
     visible: Callable[[dict[str, Any]], bool] | None = None,
     visibility_out: list[bool] | None = None,
+    reject: Callable[[dict[str, Any]], bool] | None = None,
+    placed_out: list[dict[str, Any]] | None = None,
     tries: int = 25,
 ) -> dict[str, Any]:
     """One DC-009-01 `dr_unstructured` object: every quantity drawn from its range, independently of any field.
 
     With `visible` (FR-009-54) a placement the predicate rejects is drawn again, at most `tries` draws in all; the last
-    draw stays when none is visible, and `visibility_out` receives one flag per placement.
+    draw stays when none is visible, and `visibility_out` receives one flag per placement. With `reject` (FR-009-55: an
+    object too near the camera) a draw it rejects is never kept; a class whose every draw is rejected has no placement.
+    `placed_out` receives each placement as soon as it is chosen, so `visible` can read the objects placed before.
     """
     if len(texture_ids) == 0:
         raise ValueError("texture_ids must hold at least one texture id")
@@ -128,7 +132,9 @@ def sample_unstructured(
     # The order of the draws is part of the reproducibility contract (fixed seeds): positions first, then the rest.
     placements = []
     for cls in object_classes:
-        for _ in range(max(int(tries), 1) if visible is not None else 1):
+        chosen: dict[str, Any] | None = None
+        chosen_seen = False
+        for _ in range(max(int(tries), 1) if (visible is not None or reject is not None) else 1):
             x, y = _point_in(rng, ground_region)
             drawn = {
                 "class": cls,
@@ -138,11 +144,18 @@ def sample_unstructured(
                 "yaw_deg": float(rng.uniform(0.0, 360.0)),
             }
             seen = True if visible is None else bool(visible(drawn))
+            if reject is not None and reject(drawn):
+                continue
+            chosen, chosen_seen = drawn, seen
             if seen:
                 break
-        placements.append(drawn)
+        if chosen is None:
+            continue
+        placements.append(chosen)
+        if placed_out is not None:
+            placed_out.append(chosen)
         if visibility_out is not None:
-            visibility_out.append(seen)
+            visibility_out.append(chosen_seen)
     tex = rng.integers(0, len(texture_ids), size=int(textures_per_image))
     light = float(10.0 ** rng.uniform(math.log10(lo_l), math.log10(hi_l)))
     light = min(max(light, lo_l), hi_l)  # guard the last-ulp rounding of the exponential
