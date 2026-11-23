@@ -19,20 +19,22 @@ Measured on Isaac Sim 6.1 (probes of 2026-11-22, report sdg-exposure-2026-11-22)
 
 Measured on the carved scene (probes of 2026-11-23, jobs 88a to 88f, report sdg-gate-2026-11-23):
 
-- the film ISO of the buried-geometry calibration (100, cameras under the DEM where the dome fill was blocked) left every
-  frame white once the cameras were above the carved surface; the sweep of 24 rows per arm puts the frames with more than
-  25 percent clipped pixels at 0 of 24 (structured) and 1 of 24 (unstructured) at ISO 0.4, so the ISO is 0.4 and 0.3;
-- the dome seen by camera rays saturated the sky (86.4 percent of the sky pixels at 255). `/rtx/background/source/type`
-  (tokens `domeLight`, `backplate`, `color`; carb `/rtx/background/source/type`, schema
-  `omni.usd.schema.render_settings.rtx-1.0.3` generatedSchema.usda line 54) set to `color` shows the constant
-  `/rtx/background/source/color` (line 82) and leaves the dome as fill light: terrain pixels moved by at most 0.21 levels;
-- that colour is not scaled by the film ISO but goes through the tonemapper like the scene radiance, so the colour
-  displaying the luminance of sunlit ground is the ISO times the ground radiance (units of ISO 1). The ground radiance
-  (p90 of the terrain pixels) is about 1.03 times the light factor in the unstructured arm (p10 0.77, p90 1.37 of 23 rows)
-  and about 0.8 in the structured arm (p10 0.37, p90 1.31 of 24 rows);
-- the sky to sunlit ground luminance ratio of a clear day is 0.6 to 1.6 (clear sky 3 to 5 kcd/m2, a scene in full sunlight
-  5 kcd/m2, https://en.wikipedia.org/wiki/Orders_of_magnitude_(luminance), an encyclopedia table, no peer-reviewed value
-  read); the constant is 1.0.
+- the film ISO of the buried-geometry calibration (100, cameras under the DEM where the dome fill was blocked)
+  left every frame white once the cameras were above the carved surface; the sweep of 24 rows per arm puts the
+  frames with more than 25 percent clipped pixels at 0 of 24 (structured) and 1 of 24 (unstructured) at ISO 0.4,
+  so the ISO is 0.4 and 0.3;
+- the dome seen by camera rays saturated the sky (86.4 percent of the sky pixels at 255).
+  `/rtx/background/source/type` (tokens `domeLight`, `backplate`, `color`; carb `/rtx/background/source/type`,
+  schema `omni.usd.schema.render_settings.rtx-1.0.3` generatedSchema.usda line 54) set to `color` shows the
+  constant `/rtx/background/source/color` (line 82) and leaves the dome as fill light: terrain pixels moved by
+  at most 0.21 levels;
+- that colour is not scaled by the film ISO but goes through the tonemapper like the scene radiance, so the
+  colour displaying the luminance of sunlit ground is the ISO times the ground radiance (units of ISO 1). The
+  ground radiance (p90 of the terrain pixels) is about 1.03 times the light factor in the unstructured arm (p10
+  0.77, p90 1.37 of 23 rows) and about 0.8 in the structured arm (p10 0.37, p90 1.31 of 24 rows);
+- the sky to sunlit ground luminance ratio of a clear day is 0.6 to 1.6 (clear sky 3 to 5 kcd/m2, a scene in
+  full sunlight 5 kcd/m2, https://en.wikipedia.org/wiki/Orders_of_magnitude_(luminance), an encyclopedia table,
+  no peer-reviewed value read); the constant is 1.0.
 """
 
 from __future__ import annotations
@@ -81,8 +83,8 @@ def transmittance_of(settings: Mapping[str, Any], distance_m: float) -> float:
 def sky_settings(row: Mapping[str, Any]) -> dict[str, Any]:
     """The visible sky of a row: a constant background colour at the luminance of its sunlit ground.
 
-    The dome stays the fill light but camera rays see `/rtx/background/source/color`. The colour is not scaled by the film
-    ISO, so it is the ISO times the ground radiance (times the luminance ratio) in the units of the scene radiance.
+    The dome stays the fill light but camera rays see `/rtx/background/source/color`. The colour is not scaled by the
+    film ISO, so it is the ISO times the ground radiance (times the luminance ratio) in the units of the scene radiance.
     """
     if row["arm"] == "structured":
         radiance = STRUCTURED_GROUND_RADIANCE
