@@ -11,6 +11,7 @@ import fnmatch
 import os
 from pathlib import Path
 
+import pytest
 import yaml
 
 REPO = Path(__file__).resolve().parents[1]
@@ -72,6 +73,26 @@ def pytest_ignore_collect(collection_path: Path, config) -> bool | None:
     if relative in _PENDING:
         return True
     return True if owner_of(relative, _OWNERS) != running_env() else None
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_cmdline_main(config: pytest.Config) -> None:
+    """A whole-suite run of the root environment spreads the tests over worker processes (pytest-xdist, a dev dep).
+
+    The root suite is about 9,000 tests and a part of them start generator, ruff, mypy or git processes (1.5 s per
+    process start on a managed Windows machine); one process needs far more than the 20 minutes the gate allows. Only a
+    run without test paths (the `testpaths` of pyproject.toml) is spread: an explicit path or `-n 0` keeps a single
+    process. Only the root environment (the studio and pipeline environments do not install xdist) and only when the
+    user did not choose `-n`.
+    `PITSTUDIO_TEST_WORKERS` sets the worker count (default 8, at most the processors).
+    """
+    whole_suite = list(config.args) in ([], list(config.getini("testpaths")))
+    if running_env() != "root" or not whole_suite or os.environ.get("PYTEST_XDIST_WORKER"):
+        return
+    if not config.pluginmanager.hasplugin("xdist") or getattr(config.option, "numprocesses", None) is not None:
+        return
+    workers = int(os.environ.get("PITSTUDIO_TEST_WORKERS", "8"))
+    config.option.numprocesses = max(1, min(workers, os.cpu_count() or 1))
 
 
 def pytest_terminal_summary(terminalreporter) -> None:

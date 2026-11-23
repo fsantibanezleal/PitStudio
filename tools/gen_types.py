@@ -11,10 +11,14 @@ Exit:   0 ok (or no drift), 1 drift (``--check``), 2 usage error, 3 a schema can
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
+import json
 import os
 import subprocess
 import sys
 import tempfile
+import traceback
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
@@ -45,7 +49,7 @@ OPTIONS = [
     "--disable-timestamp",
     "--formatters", "builtin",
 ]  # fmt: skip
-WORKERS = max(1, min(16, os.cpu_count() or 1))
+WORKERS = max(1, min(12, os.cpu_count() or 1))
 UNSUPPORTED_KEYS = ("prefixItems", "$dynamicRef", "$dynamicAnchor", "$recursiveRef")
 
 
@@ -93,18 +97,82 @@ def run(cmd: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run(cmd, cwd=cwd, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
 
 
-def generate_module(schema_file: Path, target: Path) -> None:
-    cmd = [
-        sys.executable, "-m", "datamodel_code_generator",
-        "--input", schema_file.name,
+def generator_args(schema_name: str, target: str) -> list[str]:
+    return [
+        "--input", schema_name,
         *OPTIONS,
-        "--custom-file-header", HEADER.format(file=schema_file.name),
-        "--output", str(target),
+        "--custom-file-header", HEADER.format(file=schema_name),
+        "--output", target,
     ]  # fmt: skip
-    done = run(cmd, schema_file.parent)
-    if done.returncode != 0 or not target.is_file():
-        reason = (done.stderr.strip().splitlines() or ["generator failed"])[-1][:200]
-        raise GenerationError(f"{schema_file.name}: {reason}")
+
+
+def generate_chunk(contracts: Path, jobs: list[tuple[str, str]]) -> list[tuple[str, str | None]]:
+    """Vet and generate `jobs` (schema file name, target path) in ONE interpreter started with the pinned hash seed.
+
+    Starting an interpreter costs about 1.5 s on Windows and the generator was started once per schema (89 schemas:
+    almost 3 minutes), so the worker imports it once and calls the very entry point of the command line per schema.
+    Returns, per job, ("ok", None), ("vet", reason) or ("generate", reason).
+    """
+    cmd = [sys.executable, str(Path(__file__).resolve()), "--worker", str(contracts)]
+    env = {**os.environ, "PYTHONHASHSEED": "0", "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1", "NO_COLOR": "1"}
+    done = subprocess.run(
+        cmd, input=json.dumps(jobs), env=env, capture_output=True, text=True, encoding="utf-8", errors="replace"
+    )
+    try:
+        results = [(str(kind), reason) for kind, reason in json.loads(done.stdout.strip().splitlines()[-1])]
+    except IndexError, ValueError:
+        reason = (done.stderr.strip().splitlines() or ["generator worker failed"])[-1][:200]
+        return [("generate", reason)] * len(jobs)
+    return [(kind, None if reason is None else str(reason)[:200]) for kind, reason in results]
+
+
+def worker(contracts: Path) -> int:
+    """Worker mode: read the jobs from stdin, vet and generate each, print one JSON list of (kind, reason) pairs."""
+    from datamodel_code_generator.__main__ import main as generator_main  # imported once per worker, not per schema
+
+    jobs = json.load(sys.stdin)
+    os.chdir(contracts)  # the generator resolves the relative --input against the working directory, as with the CLI
+    results: list[tuple[str, str | None]] = []
+    for schema_name, target in jobs:
+        try:
+            vet(contracts / schema_name)
+        except GenerationError as exc:
+            results.append(("vet", str(exc).removeprefix(f"{schema_name}: ")))
+            continue
+        err = io.StringIO()
+        try:
+            with contextlib.redirect_stderr(err), contextlib.redirect_stdout(io.StringIO()):
+                code = generator_main(generator_args(schema_name, target))
+            failed = int(getattr(code, "value", code)) != 0 or not Path(target).is_file()
+            reason = (err.getvalue().strip().splitlines() or ["generator failed"])[-1] if failed else None
+        except BaseException:  # a crash of one schema must not hide the others
+            reason = traceback.format_exc().strip().splitlines()[-1]
+        results.append(("ok", None) if reason is None else ("generate", reason))
+    print(json.dumps(results))
+    return 0
+
+
+def generate_modules(schemas: list[Path], targets: list[Path]) -> None:
+    """Vet and generate every schema; as in a serial run, the first vet failure wins over a generation failure."""
+    by_dir: dict[Path, list[int]] = {}
+    for index, schema_file in enumerate(schemas):
+        by_dir.setdefault(schema_file.parent, []).append(index)
+    results: dict[int, tuple[str, str | None]] = {}
+    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+        futures = []
+        for folder, indices in by_dir.items():
+            size = -(-len(indices) // WORKERS)  # ceiling division: at most WORKERS interpreters per folder
+            for start in range(0, len(indices), size):
+                part = indices[start : start + size]
+                jobs = [(schemas[i].name, str(targets[i])) for i in part]
+                futures.append((part, pool.submit(generate_chunk, folder, jobs)))
+        for part, future in futures:
+            results.update(zip(part, future.result(), strict=True))
+    for wanted in ("vet", "generate"):
+        for index, schema_file in enumerate(schemas):
+            kind, reason = results[index]
+            if kind == wanted:
+                raise GenerationError(f"{schema_file.name}: {reason}")
 
 
 def format_with_ruff(files: list[Path]) -> None:
@@ -133,16 +201,11 @@ def init_text(stems: list[str]) -> str:
 def generate(contracts: Path, workdir: Path) -> dict[str, bytes]:
     """The expected content of every generated file, by file name. Raises ``GenerationError``."""
     schemas = sorted(contracts.glob("*.schema.json"))
-    for schema_file in schemas:
-        vet(schema_file)
     stems = [stem_of(s) for s in schemas]
     out = workdir / "generated"
     out.mkdir()
     produced = [out / f"{stem_of(s).replace('-', '_')}.py" for s in schemas]
-    # one generator process per schema (about 2 s of start-up each on Windows): run them side by side; map keeps the
-    # schema order, so the first failure reported is the same as in a serial run
-    with ThreadPoolExecutor(max_workers=min(WORKERS, max(len(schemas), 1))) as pool:
-        list(pool.map(generate_module, schemas, produced))
+    generate_modules(schemas, produced)
     init = out / "__init__.py"
     init.write_text(init_text(stems), encoding="utf-8", newline="\n")
     format_with_ruff([*produced, init])
@@ -159,8 +222,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Generate or check the Pydantic models of the contract schemas.")
     parser.add_argument("--check", action="store_true", help="exit 1 listing every file that differs; write nothing")
     parser.add_argument("--contracts", type=Path, default=DEFAULT_CONTRACTS, help="folder with the *.schema.json files")
+    parser.add_argument("--worker", type=Path, help=argparse.SUPPRESS)  # internal: one generator interpreter
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="folder of the generated modules")
     args = parser.parse_args(argv)
+    if args.worker is not None:
+        return worker(args.worker)
     if not args.contracts.is_dir():
         print(f"usage error: {args.contracts.name} is not a directory", file=sys.stderr)
         return 2
