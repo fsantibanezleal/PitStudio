@@ -41,7 +41,7 @@ ROAD_SUBSET = "road"  # GeomSubset of the carved tiles whose faces lie on the ra
 TEXTURE_SCALE = 1.0 / 8.0  # triplanar world-space mapping: one texture tile per 8 m
 # The composed scene binds no material (its materials layer is not in the layer stack), so the job binds two
 # triplanar textured materials: `rock` on the carved surface, `gravel` on its `road` face subsets.
-RT_SUBFRAMES = 64  # path-tracing subframes per capture: 16 left up to 22 levels of history dependence (probes)
+RT_SUBFRAMES = render_settings.RT_SUBFRAMES  # subframes per capture: the smallest count under the history limit
 CAPTURE_ATTEMPTS = 8  # steps tried per frame before the annotators count as empty (the first step after start is empty)
 BINDINGS = {  # a scene without a carved layer (built before FR-004-50) keeps the source terrain and the design meshes
     "rock": ("/World/Terrain", "/World/Design/Benches", "/World/Design/Berms"),

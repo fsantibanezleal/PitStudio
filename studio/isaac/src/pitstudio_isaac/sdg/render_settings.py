@@ -53,6 +53,9 @@ SKY_LUMINANCE_RATIO = 1.0  # sky to sunlit ground luminance, inside the 0.6 to 1
 SKY_TINT = (0.75, 0.88, 1.20)  # a clear sky is bluer than neutral; scaled so that its Rec. 709 luminance is 1
 STRUCTURED_GROUND_RADIANCE = 0.8  # sunlit ground radiance in units of ISO 1, structured arm
 UNSTRUCTURED_GROUND_RADIANCE = 1.03  # the same per unit of the light factor, unstructured arm
+RT_SUBFRAMES = 8  # real-time subframes per capture: the smallest count of the probe grid under the history limit
+HISTORY_LIMIT_LEVELS = 2.0  # a row after different predecessors keeps its mean luminance within this many levels
+HISTORY_MEASURED_LEVELS = {8: 1.56, 16: 0.96, 32: 0.66, 64: 0.47}  # `aa/op` none, max over the 6 history rows (job 88f)
 _REC709 = (0.2126, 0.7152, 0.0722)
 
 
@@ -101,6 +104,15 @@ def sky_settings(row: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def history_settings() -> dict[str, Any]:
+    """The temporal history of the renderer, set on every row so that no row inherits what an earlier row left.
+
+    `/rtx/post/aa/op` is an enum of the tokens none, taa, fxaa, dlss, rtxaa; 0 is none (the default is dlss, whose
+    feedback from prior frames made a frame depend on the one before it).
+    """
+    return {"/rtx/post/aa/op": 0}
+
+
 def render_settings(row: Mapping[str, Any]) -> dict[str, Any]:
     """Every RTX exposure, fog and sky setting of a row: a function of the row only, never of the frames before it."""
     sigma = float(row["dr"]["dust_extinction_per_km"]) if row["arm"] == "structured" else 0.0
@@ -110,6 +122,7 @@ def render_settings(row: Mapping[str, Any]) -> dict[str, Any]:
         "/rtx/post/tonemap/filmIso": FILM_ISO[row["arm"]],
         **fog_settings(sigma),
         **sky_settings(row),
+        **history_settings(),
     }
 
 
@@ -120,6 +133,12 @@ def describe() -> dict[str, Any]:
         "film_iso": dict(FILM_ISO),
         "tonemap_op": TONEMAP_OP,
         "dome_fill_gain": DOME_FILL_GAIN,
+        "history": {
+            "settings": history_settings(),
+            "rt_subframes": RT_SUBFRAMES,
+            "max_mean_diff_levels": HISTORY_MEASURED_LEVELS[RT_SUBFRAMES],
+            "limit_levels": HISTORY_LIMIT_LEVELS,
+        },
         "sky": {
             "source": "color",
             "luminance_ratio_to_sunlit_ground": SKY_LUMINANCE_RATIO,
