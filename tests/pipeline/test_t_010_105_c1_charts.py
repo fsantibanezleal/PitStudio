@@ -349,3 +349,19 @@ def test_the_real_event_chart_is_not_run_with_the_label_and_the_archive_table_li
     assert "failure time" in r["not_run_reason"]["en"]
     t = by_id["c1-real-event-archive"]
     assert len(t["table"]["rows"]) == 2
+
+
+@pytest.mark.req("FR-010-22")
+def test_a_learned_band_whose_quantile_paths_cross_is_not_drawn_and_the_caption_says_so() -> None:
+    baked = _baked()
+    arm = baked["cutoffs"][0]["methods"]["tcn"]
+    arm["y_lo"][5] = arm["y_median"][5] + 1.0  # the 0.1 path above the median at one step: a crossing of the model
+    iv, _ = c1_charts.event_charts(baked, producer=PRODUCER)
+    _check(iv)
+    s = next(x for x in iv["series"] if x["id"] == "tcn-05")
+    assert "lo" not in s
+    assert "hi" not in s
+    assert "band_label" not in s
+    assert "cross" in iv["caption"]["en"]
+    other = next(x for x in iv["series"] if x["id"] == "tcn-08")
+    assert "lo" in other
