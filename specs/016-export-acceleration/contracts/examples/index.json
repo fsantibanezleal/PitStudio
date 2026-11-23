@@ -697,6 +697,8 @@
       "schema": "bench-record.schema.json",
       "target": "#",
       "valid": false,
+      "pointer": "/fixture",
+      "keyword": "type",
       "note": "fixture must be a boolean"
     },
     {
@@ -711,6 +713,8 @@
       "schema": "export-parity-report.schema.json",
       "target": "#",
       "valid": false,
+      "pointer": "/fixture",
+      "keyword": "type",
       "note": "fixture must be a boolean"
     },
     {
@@ -725,6 +729,8 @@
       "schema": "accel-table.schema.json",
       "target": "#",
       "valid": false,
+      "pointer": "/rows/0/fixture",
+      "keyword": "type",
       "note": "row fixture must be a boolean"
     }
   ],
