@@ -61,6 +61,7 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/004-scene-pipeli
 - [ ] T-004-097 (FR-004-48) the orthophoto albedo of the terrain grid, with its manifest source and digests — test: tests/unit/test_t_004_097_orthophoto_albedo.py
 - [ ] T-004-098 (FR-004-49) the terrain material reads the orthophoto through `st_ortho` and the rock normal map through `st` — test: tests/unit/test_t_004_098_terrain_ortho_material.py
 - [ ] T-004-099 (FR-004-50) the carved design surface as a grid and a tiled layer, with the outline step reported and a design hole refused — test: tests/unit/test_t_004_099_carved_surface.py
+- [ ] T-004-100 (FR-004-51) recognisable procedural machine and person assets with part labels and materials — test: tests/unit/test_t_004_100_procedural_assets.py
 
 ## Phase 7 — Polish and review
 - [ ] T-004-090 mutation run on `pitstudio_studio.scene.terrain.rtin`, `.grid`, `.frame` and `pitstudio_studio.scene.design`; record the score against `mutation.numerical_core_min`
