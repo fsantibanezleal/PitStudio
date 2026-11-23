@@ -172,28 +172,18 @@ def test_011_verification_of_an_incomplete_set_reports_every_missing_rule_and_wr
 
 
 @pytest.mark.req("FR-011-03")
-def test_011_the_machine_lock_plumbing_finds_filelock_in_a_named_site_folder(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    site = tmp_path / "site"
-    site.mkdir()
-    (site / "filelock.py").write_text("class FileLock:\n    pass\n", encoding="utf-8")
-    real_import = gpujob.importlib.import_module
+def test_011_filelock_is_a_locked_dependency_of_the_studio_environment_and_the_site_bridge_is_gone() -> None:
+    import tomllib
 
-    def fake(name: str, *a, **k):
-        if name == "filelock" and str(site) not in sys.path:
-            raise ImportError("no filelock here")
-        return real_import(name, *a, **k)
+    pyproject = tomllib.loads((ROOT / "studio" / "pyproject.toml").read_text(encoding="utf-8"))
+    assert any(d.split(">")[0].split("=")[0].strip() == "filelock" for d in pyproject["project"]["dependencies"])
+    lock = (ROOT / "studio" / "uv.lock").read_text(encoding="utf-8")
+    assert 'name = "filelock"' in lock
+    assert not hasattr(gpujob, "FILELOCK_SITE_ENV")
+    assert not hasattr(gpujob, "import_filelock")
+    import filelock
 
-    monkeypatch.setattr(gpujob.importlib, "import_module", fake)
-    monkeypatch.setattr(sys, "path", list(sys.path))
-    monkeypatch.delitem(sys.modules, "filelock", raising=False)
-    monkeypatch.delenv(gpujob.FILELOCK_SITE_ENV, raising=False)
-    with pytest.raises(RuntimeError, match=gpujob.FILELOCK_SITE_ENV):
-        gpujob.import_filelock()
-    monkeypatch.setenv(gpujob.FILELOCK_SITE_ENV, str(site))
-    assert hasattr(gpujob.import_filelock(), "FileLock")
-    monkeypatch.delitem(sys.modules, "filelock", raising=False)
+    assert hasattr(filelock, "FileLock")
 
 
 @pytest.mark.req("FR-011-03")
