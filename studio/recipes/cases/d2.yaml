@@ -1,0 +1,94 @@
+# Case D2: mine-to-mill throughput and kWh/t (spec 017-planning-survey, FR-017-01, FR-017-02). CPU only. One stage: the
+# analytical chain of `minephys` (Kuz-Ram / KCO blast, Whiten crusher, Bond third law, throughput, cost), the seeded
+# scrambled-Sobol sweeps over the box of section 7 (200 configurations x 64 blast designs = 12,800 evaluations, split
+# 140 / 20 / 40 by configuration), the Sobol first-order and total indices over the same box (N x (d + 2) evaluations),
+# the results summary and the chart-series files. Every bound of the box is illustrative and UNVERIFIED (spec 017
+# section 7); the learned meta-model (FR-017-03..07) is a later stage and is not part of this recipe yet.
+id: d2-mine-to-mill
+case: D2
+seed: 20261123
+description: D2 mine-to-mill chain from blast fragmentation to mill throughput, kWh/t and cost, with Sobol sensitivity sweeps.
+stages:
+  - id: s05_synthesize
+    variant: chain-sweeps
+    env: pipeline
+    tool: minephys
+    entry: pitstudio_pipeline.mine_to_mill.d2_run
+    inputs: []
+    params:
+      seed: 20261123
+      n_configurations: 200
+      points_per_configuration: 64
+      split: {train: 140, validation: 20, held_out: 40}
+      sobol: {n_base: 1024, seed: 20261124, n_bootstrap: 200}
+      reference_design:
+        burden_m: 4.5
+        spacing_ratio: 1.2
+        powder_factor_kg_per_m3: 0.6
+        hole_diameter_mm: 165
+        bench_height_m: 12
+        rock_factor: 8
+        bond_work_index_kwh_per_t: 14
+        crusher_css_mm: 100
+        target_p80_um: 150
+        mill_power_kw: 10000
+        efficiency: 1.0
+        energy_cap_kwh_per_t: 20
+        explosive_cost_usd_per_kg: 1.2
+        energy_cost_usd_per_kwh: 0.08
+        consumables_usd_per_t: 0.35
+      box:
+        burden_m: {min: 3.5, max: 6.0, row: d2_burden, status: UNVERIFIED}
+        spacing_ratio: {min: 1.0, max: 1.5, row: d2_spacing_ratio, status: UNVERIFIED}
+        powder_factor_kg_per_m3: {min: 0.3, max: 0.9, row: d2_powder_factor, status: UNVERIFIED}
+        hole_diameter_mm: {min: 115, max: 171, row: d2_hole_diameter, status: UNVERIFIED}
+        bench_height_m: {min: 10, max: 15, row: d2_bench_height, status: UNVERIFIED}
+        rock_factor: {min: 4, max: 14, row: d2_rock_factor, status: UNVERIFIED}
+        bond_work_index_kwh_per_t: {min: 8, max: 20, row: d2_bond_work_index, status: UNVERIFIED}
+        crusher_css_mm: {min: 80, max: 200, row: d2_crusher_css, status: UNVERIFIED}
+        target_p80_um: {min: 75, max: 300, row: d2_target_p80, status: UNVERIFIED}
+        mill_power_kw: {min: 5000, max: 25000, row: d2_mill_power, status: UNVERIFIED}
+        efficiency: {min: 0.7, max: 1.0, row: d2_efficiency, status: UNVERIFIED}
+        energy_cap_kwh_per_t: {min: 8, max: 30, row: d2_energy_cap, status: UNVERIFIED}
+        explosive_cost_usd_per_kg: {min: 0.8, max: 2.0, row: d2_explosive_cost, status: UNVERIFIED}
+        energy_cost_usd_per_kwh: {min: 0.04, max: 0.2, row: d2_energy_cost, status: UNVERIFIED}
+        consumables_usd_per_t: {min: 0.1, max: 1.0, row: d2_consumables, status: UNVERIFIED}
+    resources:
+      gpu: none
+    determinism: bitwise
+    timeout_s: 3600
+    outputs:
+      - path: sweeps.json
+        schema: contract-comminution-sweep
+      - path: sensitivity.json
+        schema: json
+      - path: results-summary.json
+        schema: json
+        publish: true
+      - path: charts/d2-energy-vs-p80.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d2-throughput-vs-p80.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d2-cost-vs-p80.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d2-rom-x80-vs-powder-factor.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d2-f80-vs-rom-x80.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d2-energy-vs-f80.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d2-sobol-first-order.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d2-sobol-total.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d2-chain-stages.json
+        schema: contract-chart-series
+        publish: true
