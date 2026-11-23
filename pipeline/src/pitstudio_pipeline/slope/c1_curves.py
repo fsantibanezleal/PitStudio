@@ -51,18 +51,15 @@ def select_events(
     strata = sorted({r["stratum"] for r in rows})
     for stratum in strata:
         group = sorted(
-            (
-                (float(r["rel_error"]), r["event_id"])
-                for r in rows
-                if r["stratum"] == stratum
-                and r["method"] == method
-                and r["cutoff"] == cutoff
-                and r["outcome"] != "no forecast"
-            )
+            (float(r["rel_error"]), r["event_id"])
+            for r in rows
+            if r["stratum"] == stratum
+            and r["method"] == method
+            and r["cutoff"] == cutoff
+            and r["outcome"] != "no forecast"
         )
         n = len(group)
-        for q in quantiles:
-            picked.append(group[min(n - 1, int(round(q * (n - 1))))][1])
+        picked.extend(group[min(n - 1, round(q * (n - 1)))][1] for q in quantiles)
     return picked
 
 
@@ -98,14 +95,14 @@ def decimate(t: Any, y: Any, limit: int = MAX_POINTS) -> tuple[list[float], list
 
 
 def _last_points(window: Window) -> tuple[np.ndarray, np.ndarray]:
-    tt, yy = baselines._points(window.t, window.y, baselines.LAST_FRACTION, baselines.MIN_POINTS)  # noqa: SLF001
+    tt, yy = baselines._points(window.t, window.y, baselines.LAST_FRACTION, baselines.MIN_POINTS)
     return tt, yy
 
 
 def iv_fit(window: Window) -> dict[str, Any]:
     """The OLS line over the last 25 % of the unmasked samples and its root (FR-010-19)."""
     tt, yy = _last_points(window)
-    y_bar, slope, t_bar = baselines._ols(tt, yy)  # noqa: SLF001
+    y_bar, slope, t_bar = baselines._ols(tt, yy)
     fit_y = y_bar + slope * (tt - t_bar)
     forecast_ = baselines.inverse_velocity(window)
     return {

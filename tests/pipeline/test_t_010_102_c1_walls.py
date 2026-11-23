@@ -1,16 +1,18 @@
-"""T-010-102: C1 wall sections from the 3DEP DEM with FoS, slip circle and PoF distribution (C1-U4 of the 2026-11-23 plan).
+"""T-010-102: C1 wall sections from the 3DEP DEM with FoS, slip circle and PoF distribution (C1-U4).
 
 Requirements: FR-010-01, FR-010-02, FR-010-03, FR-010-06.
 Spec: specs/010-slope/spec.md section 3.1. Runs in the `pipeline/` environment.
 
 Expected API (module `pitstudio_pipeline.slope.c1_walls`):
-- `choose_face(ground, *, drop_m) -> (crest_x, toe_x)`: on the simplified ground polyline [[x, z], ...] (high side first)
+- `choose_face(ground, *, drop_m) -> (crest_x, toe_x)`: on the simplified ground polyline [[x, z], ...]
+  (high side first)
   the pair of vertices (i, j), j after i, with the first j that is at least `drop_m` below i, that has the steepest mean
   angle atan(drop / run); ties go to the lowest i. ValueError when no vertex pair drops by `drop_m`. The extractor of
   FR-010-06 takes the steepest single run, which on a 1 m DEM is a bench scarp of a few metres (the reason of this
   rule); the face chosen here is the steepest stretch of one inter-ramp height.
 - `wall_section(section, *, drop_m, mode, pof_settings, material, distributions) -> dict`: the extracted section with
-  `crest_x_m` and `toe_x_m` of `choose_face`, the material, the analysis mode ("live" or "baked"), the methods bishop and
+  `crest_x_m` and `toe_x_m` of `choose_face`, the material, the analysis mode ("live" or "baked"), the methods
+  bishop and
   spencer and the `analysis.pof` settings; the result validates against `slope-section.schema.json`.
 - `pof_distribution(section, *, n, k, seed) -> dict`: `probability_of_failure` plus `min_factors` (the per-sample
   minimum Bishop factor over the K candidates, length n, finite) from the same draws; `failures`, `pof` and
@@ -59,7 +61,13 @@ def _extracted(ground=None):
         "crest_x_m": 100.0,
         "toe_x_m": 160.0,
         "materials": [
-            {"id": "m", "model": "mohr-coulomb", "unit_weight_kn_per_m3": 20.0, "cohesion_kpa": 20.0, "friction_angle_deg": 30.0}
+            {
+                "id": "m",
+                "model": "mohr-coulomb",
+                "unit_weight_kn_per_m3": 20.0,
+                "cohesion_kpa": 20.0,
+                "friction_angle_deg": 30.0,
+            }
         ],
         "pore_pressure_ratio": 0.0,
         "analysis": {
@@ -78,7 +86,8 @@ def test_the_face_is_the_steepest_stretch_that_drops_by_the_inter_ramp_height() 
     assert c1_walls.choose_face(ground, drop_m=70.0) == (100.0, 160.0)
     # asking for 100 m the steepest pair that reaches it starts at the crest and ends where 100 m are lost
     crest, toe = c1_walls.choose_face(ground, drop_m=100.0)
-    assert crest == 100.0 and toe == 400.0
+    assert crest == 100.0
+    assert toe == 400.0
 
 
 @pytest.mark.req("FR-010-06")
@@ -99,16 +108,23 @@ def test_the_wall_section_is_valid_hoek_brown_with_the_chosen_face_and_the_pof_s
     )
     assert (doc["crest_x_m"], doc["toe_x_m"]) == (100.0, 160.0)
     assert doc["materials"] == [MATERIAL]
-    assert doc["analysis"]["mode"] == "live" and doc["analysis"]["methods"] == ["bishop", "spencer"]
+    assert doc["analysis"]["mode"] == "live"
+    assert doc["analysis"]["methods"] == ["bishop", "spencer"]
     assert doc["analysis"]["slices"] == 50
-    assert doc["analysis"]["pof"]["samples"] == 20 and doc["analysis"]["pof"]["distributions"] == DISTRIBUTIONS
+    assert doc["analysis"]["pof"]["samples"] == 20
+    assert doc["analysis"]["pof"]["distributions"] == DISTRIBUTIONS
     section.parse_section(doc)  # raises InvalidSectionError when it does not validate
     base = _extracted()
     c1_walls.wall_section(
-        base, drop_m=70.0, mode="live", pof_settings={"samples": 20, "candidates": 4, "seed": 7},
-        material=MATERIAL, distributions=DISTRIBUTIONS,
+        base,
+        drop_m=70.0,
+        mode="live",
+        pof_settings={"samples": 20, "candidates": 4, "seed": 7},
+        material=MATERIAL,
+        distributions=DISTRIBUTIONS,
     )
-    assert base["crest_x_m"] == 100.0 and base["materials"][0]["id"] == "m"  # the input is not modified
+    assert base["crest_x_m"] == 100.0
+    assert base["materials"][0]["id"] == "m"
 
 
 @pytest.mark.req("FR-010-03")
@@ -149,13 +165,18 @@ def test_the_distribution_run_has_the_pof_of_the_library_and_a_finite_minimum_pe
     ref = pof.probability_of_failure(doc, n=30, candidates=3, seed=11)
     assert (got["failures"], got["pof"], got["wilson_95"]) == (ref["failures"], ref["pof"], ref["wilson_95"])
     mins = np.asarray(got["min_factors"])
-    assert mins.shape == (30,) and np.all(np.isfinite(mins)) and int((mins < 1.0).sum()) == got["failures"]
+    assert mins.shape == (30,)
+    assert np.all(np.isfinite(mins))
+    assert int((mins < 1.0).sum()) == got["failures"]
 
 
 @pytest.mark.req("FR-010-03")
 def test_the_histogram_counts_every_value_once_and_has_edges_and_centres() -> None:
     values = [1.0, 1.5, 1.5, 2.0, 3.0]
     h = c1_walls.histogram(values, bins=4)
-    assert len(h["edges"]) == 5 and len(h["centres"]) == 4 and sum(h["counts"]) == 5
-    assert h["edges"][0] == 1.0 and h["edges"][-1] == 3.0
+    assert len(h["edges"]) == 5
+    assert len(h["centres"]) == 4
+    assert sum(h["counts"]) == 5
+    assert h["edges"][0] == 1.0
+    assert h["edges"][-1] == 3.0
     assert h["counts"][-1] >= 1  # the maximum falls in the last bin

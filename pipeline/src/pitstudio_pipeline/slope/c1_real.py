@@ -37,10 +37,8 @@ def _prism_export(name: str, data: bytes) -> dict[str, Any] | None:
     first_prism = [r for r in rows if r["Prism"] == prisms[0]]
     try:
         base = float(first_prism[0]["Easting"])
-        residual = max(
-            abs(float(r["Easting Diff"]) - 1000.0 * (float(r["Easting"]) - base)) for r in first_prism
-        )
-    except (ValueError, KeyError):
+        residual = max(abs(float(r["Easting Diff"]) - 1000.0 * (float(r["Easting"]) - base)) for r in first_prism)
+    except ValueError, KeyError:
         residual = float("inf")
     unit = "mm" if residual < UNIT_TOLERANCE_MM else "unknown"
     return {
@@ -73,7 +71,10 @@ def archive_evidence(archive: str | Path, *, expected_bytes: int, expected_md5: 
     out["failure_time_in_archive"] = False
     if not out["checksum_ok"]:
         out["members"] = []
-        out["ingest"] = {"accepted": False, "reason": "archive checksum mismatch: size or MD5 differs from the Zenodo record"}
+        out["ingest"] = {
+            "accepted": False,
+            "reason": "archive checksum mismatch: size or MD5 differs from the Zenodo record",
+        }
         return out
     members: list[dict[str, Any]] = []
     prism: dict[str, Any] | None = None
@@ -115,8 +116,7 @@ def real_event_state(evidence: dict[str, Any]) -> dict[str, Any]:
     elif not evidence["ingest"]["accepted"]:
         state["reason"] = (
             "the archive states no failure time and its layout (a prism survey export without a displacement unit "
-            "in its headers) is not one the ingestion accepts: "
-            + str(evidence["ingest"]["reason"])
+            "in its headers) is not one the ingestion accepts: " + str(evidence["ingest"]["reason"])
         )
     else:
         state["reason"] = "the ingestion accepted the archive but no forecast was run in this unit"

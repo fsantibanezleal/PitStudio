@@ -1,6 +1,7 @@
 """Wall sections of case C1: the analysed face, FoS inputs and the PoF distribution (FR-010-01 to FR-010-03, FR-010-06).
 
-``extract_sections`` (``pitstudio_pipeline.slope.sections``) cuts the ground profiles from the DEM; its crest and toe are
+``extract_sections`` (``pitstudio_pipeline.slope.sections``) cuts the ground profiles from the DEM; its crest and
+toe are
 the ends of the steepest single run, which on a 1 m DEM is a bench scarp of a few metres. ``choose_face`` takes instead
 the steepest stretch of one inter-ramp height, ``wall_section`` writes the analysis settings and ``pof_distribution``
 returns the PoF of ``pitstudio.slope.pof`` together with the per-sample minimum factor, so the distribution that
@@ -76,12 +77,12 @@ def pof_distribution(section: Any, *, n: int, k: int, seed: int) -> dict[str, An
     settings = prep.pof or {}
     distributions = list(settings.get("distributions", []))
     for d in distributions:
-        pof._check_distribution(d)  # noqa: SLF001
-    n = pof._check_n(n)  # noqa: SLF001
-    seed = pof._check_seed(seed)  # noqa: SLF001
+        pof._check_distribution(d)
+    n = pof._check_n(n)
+    seed = pof._check_seed(seed)
     chosen, _ = pof.candidate_circles(prep, int(k))
     samples = pof.draw_samples(distributions, n, seed)
-    minimum = pof._minimum_over(prep, chosen, samples, n, None)  # noqa: SLF001
+    minimum = pof._minimum_over(prep, chosen, samples, n, None)
     failures = int(np.sum((minimum < 1.0) | np.isinf(minimum)))
     lower, upper = pof.wilson_interval(failures, n)
     return {

@@ -28,7 +28,8 @@ STAGES = {
 }
 SEED = 20261007
 ATTRIBUTION = (
-    "de Wit (2025). Data used for the study of time-lapse velocity variations during an open-pit mine slope failure using "
+    "de Wit (2025). Data used for the study of time-lapse velocity variations during an open-pit mine slope "
+    "failure using "
     "seismic noise interferometry. Zenodo. https://doi.org/10.5281/zenodo.15003054. Licensed under CC BY 4.0."
 )
 
@@ -82,10 +83,16 @@ def summary_of(slug: str, data: Mapping[str, Any]) -> dict[str, Any]:
         return {
             "methods": ["M14"],
             "title": "C1 seeded event curves with the baselines and the three exported forecasters",
-            "label": SYNTH + "; nominal signal-to-noise strata; forecasters run with ONNX Runtime CPU on the exported files",
+            "label": SYNTH
+            + "; nominal signal-to-noise strata; forecasters run with ONNX Runtime CPU on the exported files",
             "verdict": "ok",
             "headline": [
-                _hw("Seeded test events baked", len(curves["events"]), "1", "4 per stratum, chosen by rank of the TCN error"),
+                _hw(
+                    "Seeded test events baked",
+                    len(curves["events"]),
+                    "1",
+                    "4 per stratum, chosen by rank of the TCN error",
+                ),
                 _hw(
                     "Largest gap between a baked and a scored failure time",
                     max(worst.values()),
@@ -111,7 +118,9 @@ def summary_of(slug: str, data: Mapping[str, Any]) -> dict[str, Any]:
             "title": "C1 single real event (de Wit): not run",
             "label": c1_charts.REAL_LABEL + "; not run: the archive states no failure time",
             "verdict": "partial",
-            "headline": [_hw("Archive members read", len(real["evidence"]["members"]), "1", "no forecast number is published")],
+            "headline": [
+                _hw("Archive members read", len(real["evidence"]["members"]), "1", "no forecast number is published")
+            ],
             "rows": [{"member": m["name"], "bytes": m["bytes"]} for m in real["evidence"]["members"]],
         }
     if slug == "c1-wall-sections":
@@ -135,15 +144,20 @@ def summary_of(slug: str, data: Mapping[str, Any]) -> dict[str, Any]:
                     "Probability of failure",
                     100.0 * pof["pof"],
                     "%",
-                    f"{note}; {pof['failures']} of {pof['samples']} samples, the {pof['candidates']} most critical surfaces",
+                    f"{note}; {pof['failures']} of {pof['samples']} samples, the {pof['candidates']} most "
+                    f"critical surfaces",
                     kpi="pof",
                 ),
             ],
             "rows": [
                 {
                     "section": w["section"]["section_id"],
-                    "fos_bishop": next((round(r["fos"], 3) for r in w["fos"] if r["method"] == "bishop" and "fos" in r), None),
-                    "fos_spencer": next((round(r["fos"], 3) for r in w["fos"] if r["method"] == "spencer" and "fos" in r), None),
+                    "fos_bishop": next(
+                        (round(r["fos"], 3) for r in w["fos"] if r["method"] == "bishop" and "fos" in r), None
+                    ),
+                    "fos_spencer": next(
+                        (round(r["fos"], 3) for r in w["fos"] if r["method"] == "spencer" and "fos" in r), None
+                    ),
                     "pof": w["pof"]["pof"],
                 }
                 for w in walls
@@ -176,9 +190,7 @@ def import_spec(
         }
         for c in charts
     ]
-    outputs += [
-        {"name": name, "from": src, "kind": "table", "publish": False, **common} for name, src in extra_outputs
-    ]
+    outputs += [{"name": name, "from": src, "kind": "table", "publish": False, **common} for name, src in extra_outputs]
     outputs.append(
         {
             "name": "results-summary.json",
@@ -199,7 +211,8 @@ def import_spec(
     )
     notes = [
         "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
-        "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files).",
+        "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the "
+        "ONNX files).",
     ]
     if slug == "c1-real-event":
         notes.append(ATTRIBUTION)
@@ -246,7 +259,10 @@ def assemble(
     errors = json.loads((data_dir / "error-results.json").read_text(encoding="utf-8"))
     curves = json.loads((data_dir / "event-curves.json").read_text(encoding="utf-8"))
     real = json.loads((data_dir / "real-event.json").read_text(encoding="utf-8"))
-    walls = [json.loads(p.read_text(encoding="utf-8")) for p in sorted((data_dir / "walls").glob("usgs-3dep-bingham-s*.json"))]
+    walls = [
+        json.loads(p.read_text(encoding="utf-8"))
+        for p in sorted((data_dir / "walls").glob("usgs-3dep-bingham-s*.json"))
+    ]
     oracles = json.loads((data_dir / "oracle-check.json").read_text(encoding="utf-8"))["checks"]
     dem = json.loads((data_dir / "bingham-2018-west-wall-window.json").read_text(encoding="utf-8"))
     prod_walls = c1_charts.producer(c1_charts.WALL_METHOD, c1_charts.WALL_LABEL)

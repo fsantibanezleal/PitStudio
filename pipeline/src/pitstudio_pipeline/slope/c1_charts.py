@@ -3,7 +3,8 @@
 Each builder turns the JSON a ``c1_results`` sub-command wrote into chart documents that the generic chart reader of the
 Charts tab draws; nothing here draws. Every chart carries its producer (tool, method, version, label) and the ids of the
 requirements it serves; a value that was not computed is a chart in the state ``not-run`` with its reason and no data.
-No interval is drawn without its paired or bootstrap source in the results, no verdict is drawn for the single real event.
+No interval is drawn without its paired or bootstrap source in the results, no verdict is drawn for the
+single real event.
 """
 
 from __future__ import annotations
@@ -70,7 +71,9 @@ def _nums(values: Sequence[Any]) -> list[float | None]:
     return [_num(v) for v in values]
 
 
-def _base(chart_id: str, chart_type: str, title: dict[str, str], prod: Mapping[str, str], serves: list[str]) -> dict[str, Any]:
+def _base(
+    chart_id: str, chart_type: str, title: dict[str, str], prod: Mapping[str, str], serves: list[str]
+) -> dict[str, Any]:
     return {
         "schema_version": "1.0",
         "kind": "chart-series",
@@ -84,7 +87,9 @@ def _base(chart_id: str, chart_type: str, title: dict[str, str], prod: Mapping[s
     }
 
 
-def _not_run(chart_id: str, title: dict[str, str], prod: Mapping[str, str], serves: list[str], reason: dict[str, str]) -> dict[str, Any]:
+def _not_run(
+    chart_id: str, title: dict[str, str], prod: Mapping[str, str], serves: list[str], reason: dict[str, str]
+) -> dict[str, Any]:
     c = _base(chart_id, "table", title, prod, serves)
     c["status"] = "not-run"
     c["not_run_reason"] = reason
@@ -96,7 +101,7 @@ def _cat(method: str) -> dict[str, Any]:
 
 
 def _cut(c: float) -> str:
-    return f"{int(round(c * 10)):02d}"
+    return f"{round(c * 10):02d}"
 
 
 # ---------------------------------------------------------------------------------------------------------- U1
@@ -118,9 +123,11 @@ def error_charts(results: Mapping[str, Any], *, producer: Mapping[str, str]) -> 
             ["FR-010-23", "FR-010-24"],
         )
         chart["caption"] = _t(
-            "Median relative error |t_hat - t_f| / (t_f - t_c) with its 95 % percentile bootstrap interval, per noise stratum. "
+            "Median relative error |t_hat - t_f| / (t_f - t_c) with its 95 % percentile bootstrap interval, per "
+            "noise stratum. "
             "Nominal SNR: the observed SNR is not available.",
-            "Error relativo mediano |t_hat - t_f| / (t_f - t_c) con su intervalo bootstrap percentil del 95 %, por estrato de ruido. "
+            "Error relativo mediano |t_hat - t_f| / (t_f - t_c) con su intervalo bootstrap percentil del 95 %, "
+            "por estrato de ruido. "
             "SNR nominal: no hay SNR observado.",
         )
         chart["y_axis"] = {"label": _t("Median relative error", "Error relativo mediano"), "unit": "1"}
@@ -136,7 +143,10 @@ def error_charts(results: Mapping[str, Any], *, producer: Mapping[str, str]) -> 
                     "lo": [_num(rows[m]["interval"]["lower"]) for m in METHODS],
                     "hi": [_num(rows[m]["interval"]["upper"]) for m in METHODS],
                     "n": int(rows["tcn"]["n_events"]),
-                    "band_label": _t("95 % percentile bootstrap interval of the median", "Intervalo bootstrap percentil del 95 % de la mediana"),
+                    "band_label": _t(
+                        "95 % percentile bootstrap interval of the median",
+                        "Intervalo bootstrap percentil del 95 % de la mediana",
+                    ),
                 }
             )
         out.append(chart)
@@ -145,17 +155,25 @@ def error_charts(results: Mapping[str, Any], *, producer: Mapping[str, str]) -> 
         chart = _base(
             cid,
             "bar",
-            _t(f"Paired difference to inverse velocity, cut-off {c}", f"Diferencia pareada con velocidad inversa, corte {c}"),
+            _t(
+                f"Paired difference to inverse velocity, cut-off {c}",
+                f"Diferencia pareada con velocidad inversa, corte {c}",
+            ),
             producer,
             ["FR-010-25", "SC-010-02"],
         )
         chart["caption"] = _t(
-            f"Mean of e(inverse velocity) - e(model) over the same events, paired 95 % bootstrap interval; above 0 favours the "
+            f"Mean of e(inverse velocity) - e(model) over the same events, paired 95 % bootstrap interval; above "
+            f"0 favours the "
             f"model. {n_comp} comparisons made, no family-wise claim.",
-            f"Media de e(velocidad inversa) - e(modelo) sobre los mismos eventos, intervalo bootstrap pareado del 95 %; sobre 0 "
+            f"Media de e(velocidad inversa) - e(modelo) sobre los mismos eventos, intervalo bootstrap pareado del "
+            f"95 %; sobre 0 "
             f"favorece al modelo. {n_comp} comparaciones, sin afirmación conjunta.",
         )
-        chart["y_axis"] = {"label": _t("Paired mean difference of the relative error", "Diferencia media pareada del error relativo"), "unit": "1"}
+        chart["y_axis"] = {
+            "label": _t("Paired mean difference of the relative error", "Diferencia media pareada del error relativo"),
+            "unit": "1",
+        }
         chart["categories"] = [_cat(m) for m in LEARNED]
         chart["series"] = []
         for s in strata:
@@ -170,7 +188,9 @@ def error_charts(results: Mapping[str, Any], *, producer: Mapping[str, str]) -> 
                     "lo": [_num(rows[m]["interval"]["lower"]) for m in LEARNED],
                     "hi": [_num(rows[m]["interval"]["upper"]) for m in LEARNED],
                     "n": int(rows["tcn"]["n_pairs"]),
-                    "band_label": _t("95 % paired percentile bootstrap interval", "Intervalo bootstrap percentil pareado del 95 %"),
+                    "band_label": _t(
+                        "95 % paired percentile bootstrap interval", "Intervalo bootstrap percentil pareado del 95 %"
+                    ),
                 }
             )
         chart["markers"] = [
@@ -191,14 +211,19 @@ def error_charts(results: Mapping[str, Any], *, producer: Mapping[str, str]) -> 
             chart = _base(
                 f"c1-error-ecdf-{slug(s)}-cutoff-{_cut(c)}",
                 "ecdf",
-                _t(f"Error distribution, {STRATUM_NAMES[s][0]}, cut-off {c}", f"Distribución del error, {STRATUM_NAMES[s][1]}, corte {c}"),
+                _t(
+                    f"Error distribution, {STRATUM_NAMES[s][0]}, cut-off {c}",
+                    f"Distribución del error, {STRATUM_NAMES[s][1]}, corte {c}",
+                ),
                 producer,
                 ["FR-010-23"],
             )
             chart["caption"] = _t(
-                "Share of the 500 test events whose relative TTF error is at most x, per method; steps at the horizon cap "
+                "Share of the 500 test events whose relative TTF error is at most x, per method; steps at the "
+                "horizon cap "
                 "are events with no failure predicted.",
-                "Fracción de los 500 eventos de prueba con error relativo de TTF menor o igual a x, por método; los escalones "
+                "Fracción de los 500 eventos de prueba con error relativo de TTF menor o igual a x, por método; "
+                "los escalones "
                 "en el tope son eventos sin falla pronosticada.",
             )
             chart["x_axis"] = {"label": _t("Relative TTF error", "Error relativo de TTF"), "unit": "1"}
@@ -225,8 +250,10 @@ def error_charts(results: Mapping[str, Any], *, producer: Mapping[str, str]) -> 
         ["FR-010-23"],
     )
     table["caption"] = _t(
-        "Median, mean and 90th percentile of the relative TTF error and the median absolute error in hours; nominal SNR strata.",
-        "Mediana, media y percentil 90 del error relativo de TTF y mediana del error absoluto en horas; estratos de SNR nominal.",
+        "Median, mean and 90th percentile of the relative TTF error and the median absolute error in hours; "
+        "nominal SNR strata.",
+        "Mediana, media y percentil 90 del error relativo de TTF y mediana del error absoluto en horas; estratos "
+        "de SNR nominal.",
     )
     table["table"] = {
         "columns": [
@@ -237,7 +264,12 @@ def error_charts(results: Mapping[str, Any], *, producer: Mapping[str, str]) -> 
             {"id": "median-error", "label": _t("Median error", "Error mediano"), "type": "number", "unit": "1"},
             {"id": "mean-error", "label": _t("Mean error", "Error medio"), "type": "number", "unit": "1"},
             {"id": "p90-error", "label": _t("90th percentile", "Percentil 90"), "type": "number", "unit": "1"},
-            {"id": "median-abs-error-h", "label": _t("Median absolute error", "Error absoluto mediano"), "type": "number", "unit": "h"},
+            {
+                "id": "median-abs-error-h",
+                "label": _t("Median absolute error", "Error absoluto mediano"),
+                "type": "number",
+                "unit": "h",
+            },
         ],
         "rows": [
             [
@@ -261,7 +293,8 @@ def error_charts(results: Mapping[str, Any], *, producer: Mapping[str, str]) -> 
             producer,
             ["SC-010-01", "FR-010-24"],
             _t(
-                "Observed SNR unavailable: the real series was not ingested, the strata use the nominal SNR 10, 30 and 100.",
+                "Observed SNR unavailable: the real series was not ingested, the strata use the nominal SNR 10, "
+                "30 and 100.",
                 "SNR observado no disponible: la serie real no se ingirió, los estratos usan SNR nominal 10, 30 y 100.",
             ),
         )
@@ -297,7 +330,10 @@ def event_charts(baked: Mapping[str, Any], *, producer: Mapping[str, str]) -> li
     series.append(
         {
             "id": "observed",
-            "label": _t("Observed inverse velocity (window to the last cut-off)", "Velocidad inversa observada (ventana hasta el último corte)"),
+            "label": _t(
+                "Observed inverse velocity (window to the last cut-off)",
+                "Velocidad inversa observada (ventana hasta el último corte)",
+            ),
             "draw": "points",
             "x": [float(v) for v in last["observed_t_h"]],
             "y": _nums(last["observed_y"]),
@@ -333,7 +369,9 @@ def event_charts(baked: Mapping[str, Any], *, producer: Mapping[str, str]) -> li
         series.append(
             {
                 "id": f"iv-fit-{tag}",
-                "label": _t(f"Inverse-velocity fit, cut-off {c['cutoff']}", f"Ajuste de velocidad inversa, corte {c['cutoff']}"),
+                "label": _t(
+                    f"Inverse-velocity fit, cut-off {c['cutoff']}", f"Ajuste de velocidad inversa, corte {c['cutoff']}"
+                ),
                 "x": fit_t,
                 "y": _nums(fit_y),
             }
@@ -387,11 +425,13 @@ def event_charts(baked: Mapping[str, Any], *, producer: Mapping[str, str]) -> li
                 }
             )
     caption_en = (
-        f"Synthetic Voight event {baked['event_id'][-6:]} ({sname[0]}); forecasts from the observed window at the cut-offs "
+        f"Synthetic Voight event {baked['event_id'][-6:]} ({sname[0]}); forecasts from the observed window at the "
+        f"cut-offs "
         "0.5 and 0.8 against the true failure time."
     )
     caption_es = (
-        f"Evento de Voight sintético {baked['event_id'][-6:]} ({sname[1]}); pronósticos desde la ventana observada en los cortes "
+        f"Evento de Voight sintético {baked['event_id'][-6:]} ({sname[1]}); pronósticos desde la ventana "
+        f"observada en los cortes "
         "0.5 y 0.8 frente al tiempo de falla verdadero."
     )
     if notes:
@@ -401,7 +441,10 @@ def event_charts(baked: Mapping[str, Any], *, producer: Mapping[str, str]) -> li
     iv_chart = _base(
         f"c1-iv-{eid}",
         "line",
-        _t(f"Inverse velocity and forecasts, event {baked['event_id'][-6:]}", f"Velocidad inversa y pronósticos, evento {baked['event_id'][-6:]}"),
+        _t(
+            f"Inverse velocity and forecasts, event {baked['event_id'][-6:]}",
+            f"Velocidad inversa y pronósticos, evento {baked['event_id'][-6:]}",
+        ),
         producer,
         ["FR-010-18", "FR-010-19", "FR-010-20", "FR-010-21", "FR-010-22"],
     )
@@ -413,7 +456,10 @@ def event_charts(baked: Mapping[str, Any], *, producer: Mapping[str, str]) -> li
     disp = _base(
         f"c1-disp-{eid}",
         "line",
-        _t(f"Line-of-sight displacement, event {baked['event_id'][-6:]}", f"Desplazamiento en línea de vista, evento {baked['event_id'][-6:]}"),
+        _t(
+            f"Line-of-sight displacement, event {baked['event_id'][-6:]}",
+            f"Desplazamiento en línea de vista, evento {baked['event_id'][-6:]}",
+        ),
         producer,
         ["FR-010-11", "FR-010-18"],
     )
@@ -469,7 +515,10 @@ def wall_charts(
         chart = _base(
             f"c1-wall-s{k}-section",
             "section",
-            _t(f"Wall section {k} with the critical slip circle", f"Sección de talud {k} con el círculo de falla crítico"),
+            _t(
+                f"Wall section {k} with the critical slip circle",
+                f"Sección de talud {k} con el círculo de falla crítico",
+            ),
             prod,
             ["FR-010-01", "FR-010-02", "FR-010-06"],
         )
@@ -477,9 +526,11 @@ def wall_charts(
         if spencer:
             fos_text += f", Spencer {spencer['fos']:.2f}"
         chart["caption"] = _t(
-            f"Ground profile from the 1 m DEM, analysed face {height:.0f} m high at {angle:.0f} degrees; minimum FoS {fos_text}. "
+            f"Ground profile from the 1 m DEM, analysed face {height:.0f} m high at {angle:.0f} degrees; minimum "
+            f"FoS {fos_text}. "
             "Illustrative rock-mass inputs, UNVERIFIED.",
-            f"Perfil del terreno del DEM de 1 m, cara analizada de {height:.0f} m a {angle:.0f} grados; FS mínimo {fos_text}. "
+            f"Perfil del terreno del DEM de 1 m, cara analizada de {height:.0f} m a {angle:.0f} grados; FS mínimo "
+            f"{fos_text}. "
             "Insumos de macizo ilustrativos, SIN VERIFICAR.",
         )
         chart["x_axis"] = {"label": _t("Distance along the section", "Distancia a lo largo de la sección"), "unit": "m"}
@@ -490,7 +541,10 @@ def wall_charts(
             circles.append(
                 {
                     "id": "bishop-critical",
-                    "label": _t(f"Critical circle, Bishop FoS {bishop['fos']:.2f}", f"Círculo crítico, Bishop FS {bishop['fos']:.2f}"),
+                    "label": _t(
+                        f"Critical circle, Bishop FoS {bishop['fos']:.2f}",
+                        f"Círculo crítico, Bishop FS {bishop['fos']:.2f}",
+                    ),
                     "role": "critical",
                     "cx": float(cc["centre_x_m"]),
                     "cy": float(cc["centre_z_m"]),
@@ -502,7 +556,10 @@ def wall_charts(
             circles.append(
                 {
                     "id": "spencer-critical",
-                    "label": _t(f"Critical circle, Spencer FoS {spencer['fos']:.2f}", f"Círculo crítico, Spencer FS {spencer['fos']:.2f}"),
+                    "label": _t(
+                        f"Critical circle, Spencer FoS {spencer['fos']:.2f}",
+                        f"Círculo crítico, Spencer FS {spencer['fos']:.2f}",
+                    ),
                     "role": "other",
                     "cx": float(sc["centre_x_m"]),
                     "cy": float(sc["centre_z_m"]),
@@ -538,12 +595,17 @@ def wall_charts(
         )
         n, kk = int(pofd["samples"]), int(pofd["candidates"])
         pc["caption"] = _t(
-            f"PoF {pofd['pof']:.4g}: {pofd['failures']} of {n:,} samples below FoS 1 (Wilson 95 %: {pofd['wilson_95']['lower']:.4g} "
+            f"PoF {pofd['pof']:.4g}: {pofd['failures']} of {n:,} samples below FoS 1 (Wilson 95 %: "
+            f"{pofd['wilson_95']['lower']:.4g} "
             f"to {pofd['wilson_95']['upper']:.4g}), over the {kk} most critical surfaces of the mean case.",
-            f"PoF {pofd['pof']:.4g}: {pofd['failures']} de {n:,} muestras bajo FS 1 (Wilson 95 %: {pofd['wilson_95']['lower']:.4g} "
+            f"PoF {pofd['pof']:.4g}: {pofd['failures']} de {n:,} muestras bajo FS 1 (Wilson 95 %: "
+            f"{pofd['wilson_95']['lower']:.4g} "
             f"a {pofd['wilson_95']['upper']:.4g}), sobre las {kk} superficies más críticas del caso medio.",
         )
-        pc["x_axis"] = {"label": _t("Minimum factor of safety of a sample", "Factor de seguridad mínimo de una muestra"), "unit": "1"}
+        pc["x_axis"] = {
+            "label": _t("Minimum factor of safety of a sample", "Factor de seguridad mínimo de una muestra"),
+            "unit": "1",
+        }
         pc["y_axis"] = {"label": _t("Samples", "Muestras"), "unit": "1"}
         pc["series"] = [
             {
@@ -596,14 +658,17 @@ def wall_charts(
     table = _base(
         "c1-wall-table",
         "table",
-        _t("Wall sections: FoS, PoF and the pySlope check", "Secciones de talud: FS, PoF y la verificación con pySlope"),
+        _t(
+            "Wall sections: FoS, PoF and the pySlope check", "Secciones de talud: FS, PoF y la verificación con pySlope"
+        ),
         prod,
         ["FR-010-01", "FR-010-03", "SC-010-05"],
     )
     table["caption"] = _t(
         "Minimum FoS over a circle grid and PoF over the 64 most critical surfaces. Illustrative inputs, UNVERIFIED. "
         "Educational, not design software.",
-        "FS mínimo sobre una grilla de círculos y PoF sobre las 64 superficies más críticas. Insumos ilustrativos, SIN VERIFICAR. "
+        "FS mínimo sobre una grilla de círculos y PoF sobre las 64 superficies más críticas. Insumos "
+        "ilustrativos, SIN VERIFICAR. "
         "Educativo, no software de diseño.",
     )
     table["table"] = {
@@ -613,14 +678,28 @@ def wall_charts(
             {"id": "face-angle", "label": _t("Face angle", "Ángulo de la cara"), "type": "number", "unit": "deg"},
             {"id": "fos-bishop", "label": _t("FoS Bishop", "FS Bishop"), "type": "number", "unit": "1"},
             {"id": "fos-spencer", "label": _t("FoS Spencer", "FS Spencer"), "type": "number", "unit": "1"},
-            {"id": "theta", "label": _t("Spencer interslice angle", "Ángulo entre dovelas de Spencer"), "type": "number", "unit": "deg"},
+            {
+                "id": "theta",
+                "label": _t("Spencer interslice angle", "Ángulo entre dovelas de Spencer"),
+                "type": "number",
+                "unit": "deg",
+            },
             {"id": "pof", "label": _t("PoF", "PoF"), "type": "number", "unit": "1"},
             {"id": "pof-lower", "label": _t("PoF Wilson lower", "PoF Wilson inferior"), "type": "number", "unit": "1"},
             {"id": "pof-upper", "label": _t("PoF Wilson upper", "PoF Wilson superior"), "type": "number", "unit": "1"},
             {"id": "samples", "label": _t("Samples N", "Muestras N"), "type": "number", "unit": "1"},
-            {"id": "candidates", "label": _t("Candidate surfaces K", "Superficies candidatas K"), "type": "number", "unit": "1"},
+            {
+                "id": "candidates",
+                "label": _t("Candidate surfaces K", "Superficies candidatas K"),
+                "type": "number",
+                "unit": "1",
+            },
             {"id": "oracle-fixed-pass", "label": _t("pySlope fixed circles", "pySlope círculos fijos"), "type": "text"},
-            {"id": "oracle-search-pass", "label": _t("pySlope searched minimum", "pySlope mínimo buscado"), "type": "text"},
+            {
+                "id": "oracle-search-pass",
+                "label": _t("pySlope searched minimum", "pySlope mínimo buscado"),
+                "type": "text",
+            },
         ],
         "rows": rows,
     }
@@ -641,9 +720,11 @@ def real_charts(real: Mapping[str, Any], *, producer: Mapping[str, str]) -> list
         producer,
         ["FR-010-26", "FR-010-27", "SC-010-03"],
         _t(
-            "No failure time is stated in the archive or on its record page, and its prism-survey layout is not one the "
+            "No failure time is stated in the archive or on its record page, and its prism-survey layout is not "
+            "one the "
             "ingestion accepts: no t_f, no SNR_obs, no forecast.",
-            "El archivo y la página del registro no indican un tiempo de falla, y su formato de levantamiento de prismas no lo "
+            "El archivo y la página del registro no indican un tiempo de falla, y su formato de levantamiento de "
+            "prismas no lo "
             "acepta la ingestión: sin t_f, sin SNR_obs, sin pronóstico.",
         ),
     )
@@ -659,10 +740,21 @@ def real_charts(real: Mapping[str, Any], *, producer: Mapping[str, str]) -> list
     extra_en = extra_es = ""
     if px:
         extra_en = f" Prism export: {px['prisms']} prisms, {px['rows']:,} rows, {px['first']} to {px['last']}."
-        extra_es = f" Exportación de prismas: {px['prisms']} prismas, {px['rows']:,} filas, {px['first']} a {px['last']}."
+        extra_es = (
+            f" Exportación de prismas: {px['prisms']} prismas, {px['rows']:,} filas, {px['first']} a {px['last']}."
+        )
     table["caption"] = _t(
-        ("Members of Data.zip (checksum matches the Zenodo record)." if ev["checksum_ok"] else "Checksum does not match.") + extra_en,
-        ("Contenido de Data.zip (la suma de verificación coincide con el registro de Zenodo)." if ev["checksum_ok"] else "La suma de verificación no coincide.")
+        (
+            "Members of Data.zip (checksum matches the Zenodo record)."
+            if ev["checksum_ok"]
+            else "Checksum does not match."
+        )
+        + extra_en,
+        (
+            "Contenido de Data.zip (la suma de verificación coincide con el registro de Zenodo)."
+            if ev["checksum_ok"]
+            else "La suma de verificación no coincide."
+        )
         + extra_es,
     )
     table["table"] = {

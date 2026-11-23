@@ -37,7 +37,8 @@ WALL_LINE = ((401700.0, 4486300.0), (401700.0, 4487100.0))
 HALF_LENGTH_M = 450.0
 DROP_M = 100.0
 POF = {"samples": 2000, "candidates": 64, "seed": SEED}
-# The inputs of the example section of specs/010-slope/contracts/examples/slope-section.valid-hoek-brown.json. No rock-mass
+# The inputs of the example section of specs/010-slope/contracts/examples/slope-section.valid-hoek-brown.json.
+# No rock-mass
 # data of the pit is sourced: every number is illustrative and UNVERIFIED.
 MATERIAL = {
     "id": "monzonite",
@@ -158,7 +159,10 @@ def walls(dem_window: Path, out: Path, only: int | None) -> None:
                 "seconds": {"fos": round(t_fos, 1), "pof": round(t_pof, 1)},
             },
         )
-        print(f"{doc['section_id']}: FoS {[(r['method'], round(r.get('fos', float('nan')), 3)) for r in fos['fos']]}", flush=True)
+        print(
+            f"{doc['section_id']}: FoS {[(r['method'], round(r.get('fos', float('nan')), 3)) for r in fos['fos']]}",
+            flush=True,
+        )
 
 
 def errors(events_from: Path, out: Path) -> None:
@@ -181,7 +185,9 @@ def errors(events_from: Path, out: Path) -> None:
     )
 
 
-JOB_SEED = 20261012  # the seed of the GPU job that scored the rows (its Bayesian draws), kept so the values can be compared
+JOB_SEED = (
+    20261012  # the seed of the GPU job that scored the rows (its Bayesian draws), kept so the values can be compared
+)
 
 
 def _job_config() -> dict[str, Any]:
@@ -256,7 +262,8 @@ def real(archive: Path, out: Path) -> None:
             "evidence": evidence,
             "state": c1_real.real_event_state(evidence),
             "record_page_check": {
-                "zenodo_record_15003054": "read 2026-11-23: no failure date, no description of the radar files or units",
+                "zenodo_record_15003054": "read 2026-11-23: no failure date, no description of the radar "
+                "files or units",
                 "seismica_article_1902": "abstract only: velocity decrease about 12 days before the initiation of the "
                 "slope failure; no date (the full PDF was not reachable: UNVERIFIED)",
             },
@@ -272,10 +279,21 @@ def oracle(walls_dir: Path, out: Path) -> None:
     for f in sorted(walls_dir.glob("usgs-3dep-bingham-s*.json")):
         doc = json.loads(f.read_text(encoding="utf-8"))["section"]
         checks.append(
-            c1_oracle.check_planar_reduction(doc, gamma=ORACLE_MC["gamma"], cohesion_kpa=ORACLE_MC["c"], friction_deg=ORACLE_MC["phi"])
+            c1_oracle.check_planar_reduction(
+                doc, gamma=ORACLE_MC["gamma"], cohesion_kpa=ORACLE_MC["c"], friction_deg=ORACLE_MC["phi"]
+            )
         )
         print(checks[-1]["section_id"], checks[-1]["fixed_pass"], checks[-1]["search_pass"], flush=True)
     _write(out / "oracle-check.json", {"checks": checks})
+
+
+def assemble(data_dir: Path, out_dir: Path, specs_dir: Path, ttf_results: Path, schema: Path) -> None:
+    """The four run folders (charts, raw data, summary) and their import specs."""
+    from pitstudio_pipeline.slope import c1_assemble
+
+    written = c1_assemble.assemble(data_dir, out_dir, specs_dir, ttf_results=ttf_results, schema=schema)
+    for slug, ids in written.items():
+        print(slug, len(ids), "charts")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -301,8 +319,16 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("oracle")
     p.add_argument("--walls", required=True)
     p.add_argument("--out", required=True)
+    p = sub.add_parser("assemble")
+    p.add_argument("--data", required=True)
+    p.add_argument("--out", required=True)
+    p.add_argument("--specs", required=True)
+    p.add_argument("--ttf-results", required=True)
+    p.add_argument("--schema", required=True)
     args = ap.parse_args(argv)
-    if args.cmd == "oracle":
+    if args.cmd == "assemble":
+        assemble(Path(args.data), Path(args.out), Path(args.specs), Path(args.ttf_results), Path(args.schema))
+    elif args.cmd == "oracle":
         oracle(Path(args.walls), Path(args.out))
     elif args.cmd == "real":
         real(Path(args.archive), Path(args.out))

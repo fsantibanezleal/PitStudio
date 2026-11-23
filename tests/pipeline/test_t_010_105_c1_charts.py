@@ -32,7 +32,9 @@ from pitstudio_pipeline.slope import c1_charts, c1_curves, c1_errors, c1_real
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = json.loads((ROOT / "specs/020-web-knowledge/contracts/chart-series.schema.json").read_text(encoding="utf-8"))
 VALID = Draft202012Validator(SCHEMA)
-PRODUCER = c1_charts.producer("Paired percentile bootstrap, B = 10,000", "calibrated synthetic, not validated against real data")
+PRODUCER = c1_charts.producer(
+    "Paired percentile bootstrap, B = 10,000", "calibrated synthetic, not validated against real data"
+)
 
 
 def _check(chart):
@@ -83,7 +85,8 @@ def _results():
 @pytest.mark.req("FR-020-55")
 def test_the_producer_carries_tool_method_version_and_label() -> None:
     assert set(PRODUCER) == {"tool", "method", "version", "label"}
-    assert PRODUCER["tool"] == "pitstudio" and PRODUCER["version"]
+    assert PRODUCER["tool"] == "pitstudio"
+    assert PRODUCER["version"]
 
 
 @pytest.mark.req("FR-010-25")
@@ -94,9 +97,15 @@ def test_error_charts_validate_and_the_paired_chart_draws_the_stored_intervals_a
         _check(c)
     by_id = {c["id"]: c for c in charts}
     paired = by_id["c1-paired-difference-cutoff-05"]
-    assert paired["chart_type"] == "bar" and [m["orientation"] for m in paired["markers"]] == ["horizontal"]
+    assert paired["chart_type"] == "bar"
+    assert [m["orientation"] for m in paired["markers"]] == ["horizontal"]
     assert paired["markers"][0]["y"] == 0.0
-    assert [c["id"] for c in paired["categories"]] == ["tcn", "patchtst", "chronos-bolt-zero-shot", "chronos-bolt-fine-tuned"]
+    assert [c["id"] for c in paired["categories"]] == [
+        "tcn",
+        "patchtst",
+        "chronos-bolt-zero-shot",
+        "chronos-bolt-fine-tuned",
+    ]
     for s in paired["series"]:
         stratum = s["id"].replace("-", "_")
         for i, arm in enumerate(["tcn", "patchtst", "chronos_bolt_zero_shot", "chronos_bolt_fine_tuned"]):
@@ -104,7 +113,8 @@ def test_error_charts_validate_and_the_paired_chart_draws_the_stored_intervals_a
                 x for x in res["comparisons"] if x["stratum"] == stratum and x["method"] == arm and x["cutoff"] == 0.5
             )
             assert s["y"][i] == pytest.approx(c["mean_difference"])
-            assert s["lo"][i] == pytest.approx(c["interval"]["lower"]) and s["hi"][i] == pytest.approx(c["interval"]["upper"])
+            assert s["lo"][i] == pytest.approx(c["interval"]["lower"])
+            assert s["hi"][i] == pytest.approx(c["interval"]["upper"])
     assert "no family-wise" in paired["caption"]["en"].lower() or "family-wise" in paired["caption"]["en"].lower()
 
 
@@ -112,7 +122,8 @@ def test_error_charts_validate_and_the_paired_chart_draws_the_stored_intervals_a
 def test_the_median_chart_has_a_band_per_stratum_and_every_method_as_a_category() -> None:
     charts = {c["id"]: c for c in c1_charts.error_charts(_results(), producer=PRODUCER)}
     c = charts["c1-median-error-cutoff-08"]
-    assert len(c["categories"]) == 6 and {s["id"] for s in c["series"]} == {"nominal-10", "nominal-30"}
+    assert len(c["categories"]) == 6
+    assert {s["id"] for s in c["series"]} == {"nominal-10", "nominal-30"}
     for s in c["series"]:
         assert len(s["y"]) == len(s["lo"]) == len(s["hi"]) == 6
         assert all(lo <= y <= hi for lo, y, hi in zip(s["lo"], s["y"], s["hi"], strict=True))
@@ -122,7 +133,9 @@ def test_the_median_chart_has_a_band_per_stratum_and_every_method_as_a_category(
 def test_the_ecdf_charts_are_one_per_stratum_and_cutoff_with_a_step_series_per_method() -> None:
     charts = {c["id"]: c for c in c1_charts.error_charts(_results(), producer=PRODUCER)}
     e = charts["c1-error-ecdf-nominal-30-cutoff-05"]
-    assert e["chart_type"] == "ecdf" and len(e["series"]) == 6 and all(s["draw"] == "step" for s in e["series"])
+    assert e["chart_type"] == "ecdf"
+    assert len(e["series"]) == 6
+    assert all(s["draw"] == "step" for s in e["series"])
     assert all(s["y"][-1] <= 1.0 and s["n"] == 30 for s in e["series"])
     assert "c1-error-ecdf-nominal-10-cutoff-08" in charts
 
@@ -131,7 +144,8 @@ def test_the_ecdf_charts_are_one_per_stratum_and_cutoff_with_a_step_series_per_m
 def test_the_error_table_has_one_row_per_method_stratum_and_cutoff() -> None:
     charts = {c["id"]: c for c in c1_charts.error_charts(_results(), producer=PRODUCER)}
     t = charts["c1-error-table"]
-    assert t["chart_type"] == "table" and len(t["table"]["rows"]) == 6 * 2 * 2
+    assert t["chart_type"] == "table"
+    assert len(t["table"]["rows"]) == 6 * 2 * 2
     cols = [c["id"] for c in t["table"]["columns"]]
     row = t["table"]["rows"][0]
     assert row[cols.index("n-events")] == 30
@@ -141,7 +155,8 @@ def test_the_error_table_has_one_row_per_method_stratum_and_cutoff() -> None:
 def test_the_acceptance_chart_is_not_run_with_a_reason_and_no_data() -> None:
     charts = {c["id"]: c for c in c1_charts.error_charts(_results(), producer=PRODUCER)}
     a = charts["c1-acceptance-sc-010-01"]
-    assert a["status"] == "not-run" and "observed snr unavailable" in a["not_run_reason"]["en"].lower()
+    assert a["status"] == "not-run"
+    assert "observed snr unavailable" in a["not_run_reason"]["en"].lower()
     assert not any(k in a for k in ("series", "table", "categories"))
 
 
@@ -165,9 +180,12 @@ def test_the_event_charts_validate_and_carry_the_markers_of_the_true_and_the_pre
     iv, disp = c1_charts.event_charts(baked, producer=PRODUCER)
     _check(iv)
     _check(disp)
-    assert iv["chart_type"] == "line" and len(iv["series"]) <= 12
+    assert iv["chart_type"] == "line"
+    assert len(iv["series"]) <= 12
     labels = {m["id"] for m in iv["markers"]}
-    assert "true-failure" in labels and "cutoff-05" in labels and "cutoff-08" in labels
+    assert "true-failure" in labels
+    assert "cutoff-05" in labels
+    assert "cutoff-08" in labels
     true = next(m for m in iv["markers"] if m["id"] == "true-failure")
     assert true["x"] == pytest.approx(baked["t_f_h"])
     predicted = [m for m in iv["markers"] if m["id"].startswith("pred-")]
@@ -175,9 +193,11 @@ def test_the_event_charts_validate_and_carry_the_markers_of_the_true_and_the_pre
     tcn = next(m for m in predicted if m["id"] == "pred-tcn-05")
     assert tcn["x"] == pytest.approx(baked["cutoffs"][0]["methods"]["tcn"]["t_hat_f_h"])
     bayes = [s for s in iv["series"] if s["id"].startswith("bayes")]
-    assert bayes and all(len(s["lo"]) == len(s["hi"]) == len(s["y"]) for s in bayes)
+    assert bayes
+    assert all(len(s["lo"]) == len(s["hi"]) == len(s["y"]) for s in bayes)
     assert all(np.all(np.asarray(s["lo"]) <= np.asarray(s["hi"]) + 1e-9) for s in bayes)
-    assert disp["chart_type"] == "line" and disp["series"][0]["draw"] == "points"
+    assert disp["chart_type"] == "line"
+    assert disp["series"][0]["draw"] == "points"
 
 
 @pytest.mark.req("FR-010-29")
@@ -208,7 +228,13 @@ def _wall(k=1, pof=0.0):
                 "slices": 50,
                 "circles_evaluated": 12792,
                 "rejected_circles": 100,
-                "critical_circle": {"centre_x_m": 400.0, "centre_z_m": 1900.0, "radius_m": 380.0, "entry_x_m": 100.0, "exit_x_m": 470.0},
+                "critical_circle": {
+                    "centre_x_m": 400.0,
+                    "centre_z_m": 1900.0,
+                    "radius_m": 380.0,
+                    "entry_x_m": 100.0,
+                    "exit_x_m": 470.0,
+                },
                 "iterations": 17,
             },
             {
@@ -218,7 +244,13 @@ def _wall(k=1, pof=0.0):
                 "slices": 50,
                 "circles_evaluated": 12792,
                 "rejected_circles": 100,
-                "critical_circle": {"centre_x_m": 400.0, "centre_z_m": 1900.0, "radius_m": 380.0, "entry_x_m": 100.0, "exit_x_m": 470.0},
+                "critical_circle": {
+                    "centre_x_m": 400.0,
+                    "centre_z_m": 1900.0,
+                    "radius_m": 380.0,
+                    "entry_x_m": 100.0,
+                    "exit_x_m": 470.0,
+                },
                 "iterations": 13,
                 "theta_deg": -30.7,
             },
@@ -262,10 +294,12 @@ def test_the_wall_charts_validate_and_show_the_ground_the_face_the_critical_circ
     assert sec["chart_type"] == "section"
     assert {p["role"] for p in sec["section"]["polylines"]} >= {"ground"}
     (circle,) = sec["section"]["circles"]
-    assert circle["role"] == "critical" and circle["r"] == pytest.approx(380.0)
+    assert circle["role"] == "critical"
+    assert circle["r"] == pytest.approx(380.0)
     pof = by_id["c1-wall-s1-pof"]
     one = next(m for m in pof["markers"] if m["id"] == "fos-one")
-    assert one["orientation"] == "vertical" and one["x"] == 1.0
+    assert one["orientation"] == "vertical"
+    assert one["x"] == 1.0
     assert "0 of 2,000" in pof["caption"]["en"] or "0 of 2000" in pof["caption"]["en"]
     table = by_id["c1-wall-table"]
     assert len(table["table"]["rows"]) == 2
@@ -277,7 +311,8 @@ def test_the_wall_table_states_the_oracle_check_and_the_unverified_inputs() -> N
     t = charts["c1-wall-table"]
     cols = [c["id"] for c in t["table"]["columns"]]
     row = t["table"]["rows"][0]
-    assert row[cols.index("oracle-fixed-pass")] == "pass" and row[cols.index("oracle-search-pass")] == "pass"
+    assert row[cols.index("oracle-fixed-pass")] == "pass"
+    assert row[cols.index("oracle-search-pass")] == "pass"
     assert "UNVERIFIED" in t["producer"]["label"]
     assert "design" in t["caption"]["en"].lower()
 
@@ -292,9 +327,14 @@ def test_the_real_event_chart_is_not_run_with_the_label_and_the_archive_table_li
             {"name": "weather-data/x.csv", "bytes": 14012, "header": "Product code,Station"},
         ],
         "ingest": {"accepted": False, "reason": "archive has no supported member (a series CSV or a map stack)"},
-        "prism_export": {"member": "radar-deformation-data/slopeMovement.dat", "prisms": 160, "rows": 82401,
-                         "first": "01-Jan-14 16:16:55", "last": "06-Aug-14 05:40:38",
-                         "units_evidence": {"easting_diff_unit": "mm", "max_abs_residual": 5e-8}},
+        "prism_export": {
+            "member": "radar-deformation-data/slopeMovement.dat",
+            "prisms": 160,
+            "rows": 82401,
+            "first": "01-Jan-14 16:16:55",
+            "last": "06-Aug-14 05:40:38",
+            "units_evidence": {"easting_diff_unit": "mm", "max_abs_residual": 5e-8},
+        },
         "failure_time_in_archive": False,
     }
     real = {"evidence": evidence, "state": c1_real.real_event_state({**evidence, "checksum_ok": True})}
@@ -303,7 +343,8 @@ def test_the_real_event_chart_is_not_run_with_the_label_and_the_archive_table_li
         _check(c)
     by_id = {c["id"]: c for c in charts}
     r = by_id["c1-real-event"]
-    assert r["status"] == "not-run" and "single real event" in r["caption"]["en"]
+    assert r["status"] == "not-run"
+    assert "single real event" in r["caption"]["en"]
     assert "evento real único" in r["caption"]["es"]
     assert "failure time" in r["not_run_reason"]["en"]
     t = by_id["c1-real-event-archive"]

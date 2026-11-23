@@ -19,7 +19,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "pipeline" / "src"))
 
-from pitstudio_pipeline.slope import c1_oracle  # noqa: E402
+from pitstudio_pipeline.slope import c1_oracle
 
 
 def _doc():
@@ -34,10 +34,11 @@ def _doc():
 @pytest.mark.req("SC-010-05")
 def test_the_planar_reduction_takes_height_and_mean_angle_between_crest_and_toe() -> None:
     red = c1_oracle.planar_reduction(_doc())
-    assert red["height_m"] == pytest.approx(40.0) and red["run_m"] == pytest.approx(40.0)
+    assert red["height_m"] == pytest.approx(40.0)
+    assert red["run_m"] == pytest.approx(40.0)
     assert red["angle_deg"] == pytest.approx(45.0)
     bad = _doc() | {"toe_x_m": 50.0}
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r"\w"):
         c1_oracle.planar_reduction(bad)
     assert math.isfinite(red["angle_deg"])
 

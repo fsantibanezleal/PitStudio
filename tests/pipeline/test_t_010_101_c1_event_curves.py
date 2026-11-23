@@ -5,7 +5,8 @@ Spec: specs/010-slope/spec.md section 3.3. Runs in the `pipeline/` environment.
 
 Expected API (module `pitstudio_pipeline.slope.c1_curves`):
 - `select_events(rows, *, per_stratum=4, quantiles=(0.1, 0.4, 0.7, 0.95), method="tcn", cutoff=0.5) -> list[str]`:
-  per stratum (in sorted stratum order, whatever the row order) the event ids at those quantiles of the relative error of `method` at
+  per stratum (in sorted stratum order, whatever the row order) the event ids at those quantiles of the relative
+  error of `method` at
   `cutoff`, picked by rank so that good and poor cases are both shown; deterministic.
 - `event_seed(event_id) -> int` and `rebuild_event(event_id, stratum, config) -> dict`: the synthetic test event of its
   seed, the same document the evaluation scored (`events.synthesize_event`, split "test", no observed SNR).
@@ -27,6 +28,7 @@ import pytest
 from pitstudio.slope import baselines, events, preprocess
 from pitstudio.slope.errors import InvalidWindowError
 from pitstudio_pipeline.slope import c1_curves, data
+import itertools
 
 
 def _config():
@@ -49,32 +51,33 @@ def _window(doc, cutoff=0.5):
 
 
 def _rows():
-    rows = []
-    for stratum in ("nominal_10", "nominal_30"):
-        for i in range(20):
-            rows.append(
-                {
-                    "event_id": f"voight-test-{stratum.replace('_', '-')}-{2_000_000 + i:06d}",
-                    "stratum": stratum,
-                    "method": "tcn",
-                    "cutoff": 0.5,
-                    "outcome": "predicted",
-                    "rel_error": 0.01 * (20 - i),
-                }
-            )
-    return rows
+    return [
+        {
+            "event_id": f"voight-test-{stratum.replace('_', '-')}-{2_000_000 + i:06d}",
+            "stratum": stratum,
+            "method": "tcn",
+            "cutoff": 0.5,
+            "outcome": "predicted",
+            "rel_error": 0.01 * (20 - i),
+        }
+        for stratum in ("nominal_10", "nominal_30")
+        for i in range(20)
+    ]
 
 
 @pytest.mark.req("FR-010-23")
 def test_selection_is_by_rank_in_each_stratum_and_deterministic() -> None:
     a = c1_curves.select_events(_rows())
     assert a == c1_curves.select_events(list(reversed(_rows())))
-    assert len(a) == 8 and len(set(a)) == 8
+    assert len(a) == 8
+    assert len(set(a)) == 8
     first = a[:4]
-    assert all("nominal-10" in e for e in first) and all("nominal-30" in e for e in a[4:])
+    assert all("nominal-10" in e for e in first)
+    assert all("nominal-30" in e for e in a[4:])
     errs = {r["event_id"]: r["rel_error"] for r in _rows()}
     ranked = sorted(errs[e] for e in first)
-    assert ranked == sorted(ranked) and ranked[0] < ranked[-1]
+    assert ranked == sorted(ranked)
+    assert ranked[0] < ranked[-1]
 
 
 @pytest.mark.req("FR-010-11")
@@ -82,8 +85,9 @@ def test_the_event_seed_and_the_rebuilt_event_match_the_scored_id() -> None:
     doc = _doc(2_000_003)
     assert c1_curves.event_seed(doc["event_id"]) == 2_000_003
     again = c1_curves.rebuild_event(doc["event_id"], "nominal_30", _config())
-    assert again["los_displacement_mm"] == doc["los_displacement_mm"] and again["t_f_h"] == doc["t_f_h"]
-    with pytest.raises(ValueError):
+    assert again["los_displacement_mm"] == doc["los_displacement_mm"]
+    assert again["t_f_h"] == doc["t_f_h"]
+    with pytest.raises(ValueError, match=r"\w"):
         c1_curves.event_seed("not-an-event")
 
 
@@ -103,7 +107,8 @@ def test_the_bayesian_band_median_root_is_the_baseline_and_the_band_is_ordered()
     band = c1_curves.bayes_band(w, seed=5)
     assert band["t_hat_f_h"] == pytest.approx(baselines.bayesian_ttf(w, seed=5).t_hat_f)
     lo, med, hi = (np.asarray(band[k]) for k in ("y_lo", "y_median", "y_hi"))
-    assert np.all(lo <= med + 1e-12) and np.all(med <= hi + 1e-12)
+    assert np.all(lo <= med + 1e-12)
+    assert np.all(med <= hi + 1e-12)
     assert len(band["t_h"]) == len(med)
 
 
@@ -125,12 +130,14 @@ def test_a_baked_event_has_both_cutoffs_every_method_and_the_true_failure_time()
     doc = _doc()
     fake = _Fake()
     baked = c1_curves.bake_event(doc, {"tcn": fake}, seed=3)
-    assert baked["event_id"] == doc["event_id"] and baked["t_f_h"] == doc["t_f_h"]
+    assert baked["event_id"] == doc["event_id"]
+    assert baked["t_f_h"] == doc["t_f_h"]
     assert [c["cutoff"] for c in baked["cutoffs"]] == [0.5, 0.8]
     for c in baked["cutoffs"]:
         assert c["t_c_h"] == pytest.approx(c["cutoff"] * doc["t_f_h"])
         assert set(c["methods"]) == {"inverse_velocity", "bayesian_ttf", "tcn"}
-        assert c["methods"]["tcn"]["status"] == "ok" and c["methods"]["tcn"]["t_hat_f_h"] > c["t_c_h"] - 1e-6
+        assert c["methods"]["tcn"]["status"] == "ok"
+        assert c["methods"]["tcn"]["t_hat_f_h"] > c["t_c_h"] - 1e-6
         assert len(c["methods"]["tcn"]["t_h"]) == len(c["methods"]["tcn"]["y_median"])
     assert fake.calls >= 2
 
@@ -142,7 +149,8 @@ def test_a_forecaster_that_rejects_the_window_is_reported_not_run_with_its_reaso
 
     baked = c1_curves.bake_event(_doc(), {"tcn": reject}, seed=3)
     arm = baked["cutoffs"][0]["methods"]["tcn"]
-    assert arm["status"] == "no forecast" and "no positive velocity" in arm["reason"]
+    assert arm["status"] == "no forecast"
+    assert "no positive velocity" in arm["reason"]
     assert "t_hat_f_h" not in arm
 
 
@@ -163,8 +171,10 @@ def test_decimation_keeps_the_ends_and_the_order_and_never_exceeds_the_limit() -
     t = np.linspace(0, 100, 2000)
     y = t**2
     dt, dy = c1_curves.decimate(t, y, 300)
-    assert len(dt) == len(dy) <= 300 and dt[0] == t[0] and dt[-1] == t[-1]
-    assert all(a < b for a, b in zip(dt, dt[1:], strict=False))
+    assert len(dt) == len(dy) <= 300
+    assert dt[0] == t[0]
+    assert dt[-1] == t[-1]
+    assert all(a < b for a, b in itertools.pairwise(dt))
     short = c1_curves.decimate(t[:10], y[:10], 300)
     assert len(short[0]) == 10
     assert preprocess.L == 512

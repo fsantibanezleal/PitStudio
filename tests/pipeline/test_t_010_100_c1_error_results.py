@@ -67,9 +67,11 @@ def test_a_model_better_by_a_constant_has_an_interval_above_zero_and_the_verdict
     out = c1_errors.paired_intervals(_rows(shift=0.2), seed=3, resamples=500)
     for c in out:
         assert c["mean_difference"] == pytest.approx(0.2)
-        assert c["interval"]["lower"] == pytest.approx(0.2) and c["interval"]["upper"] == pytest.approx(0.2)
+        assert c["interval"]["lower"] == pytest.approx(0.2)
+        assert c["interval"]["upper"] == pytest.approx(0.2)
         assert c["verdict"] == "better"
-        assert c["bootstrap"]["method"] == "paired-percentile" and c["bootstrap"]["resample_unit"] == "sorted-event-id"
+        assert c["bootstrap"]["method"] == "paired-percentile"
+        assert c["bootstrap"]["resample_unit"] == "sorted-event-id"
 
 
 @pytest.mark.req("FR-010-25")
@@ -80,7 +82,9 @@ def test_the_interval_is_the_paired_percentile_bootstrap_of_the_differences() ->
         if r["method"] == "tcn":
             r["rel_error"] += float(rng_rows.normal(0, 0.1))
     got = next(
-        c for c in c1_errors.paired_intervals(rows, seed=11, resamples=1000) if c["method"] == "tcn" and c["cutoff"] == 0.5
+        c
+        for c in c1_errors.paired_intervals(rows, seed=11, resamples=1000)
+        if c["method"] == "tcn" and c["cutoff"] == 0.5
     )
     base = {r["event_id"]: r["rel_error"] for r in rows if r["method"] == "inverse_velocity" and r["cutoff"] == 0.5}
     model = {r["event_id"]: r["rel_error"] for r in rows if r["method"] == "tcn" and r["cutoff"] == 0.5}
@@ -88,7 +92,8 @@ def test_the_interval_is_the_paired_percentile_bootstrap_of_the_differences() ->
     d = np.array([base[i] - model[i] for i in ids])
     idx = np.random.Generator(np.random.PCG64(np.random.SeedSequence(11))).integers(0, len(ids), size=(1000, len(ids)))
     lo, hi = np.percentile(d[idx].mean(axis=1), [2.5, 97.5])
-    assert got["interval"]["lower"] == pytest.approx(lo) and got["interval"]["upper"] == pytest.approx(hi)
+    assert got["interval"]["lower"] == pytest.approx(lo)
+    assert got["interval"]["upper"] == pytest.approx(hi)
     assert got["mean_difference"] == pytest.approx(d.mean())
 
 
@@ -140,17 +145,28 @@ def test_the_distribution_summary_has_quantiles_cap_share_and_ecdf() -> None:
     assert d["quantiles"]["p95"] == pytest.approx(np.percentile(errs, 95))
     assert d["share_at_cap"] == pytest.approx(0.2)
     grid = d["ecdf"]["x"]
-    assert grid[0] == 0.0 and grid[-1] == 2.0 and len(grid) == 41
+    assert grid[0] == 0.0
+    assert grid[-1] == 2.0
+    assert len(grid) == 41
     ecdf = dict(zip(grid, d["ecdf"]["p"], strict=True))
-    assert ecdf[0.0] == pytest.approx(0.1) and ecdf[0.5] == pytest.approx(0.6) and ecdf[2.0] == pytest.approx(1.0)
+    assert ecdf[0.0] == pytest.approx(0.1)
+    assert ecdf[0.5] == pytest.approx(0.6)
+    assert ecdf[2.0] == pytest.approx(1.0)
     assert all(a <= b for a, b in zip(d["ecdf"]["p"], d["ecdf"]["p"][1:], strict=False))
 
 
 @pytest.mark.req("FR-010-23")
 def test_rows_without_a_forecast_are_left_out_of_the_distribution() -> None:
     rows = [
-        {"event_id": "a", "stratum": "s", "method": "tcn", "cutoff": 0.5, "outcome": "predicted", "rel_error": 0.1,
-         "scored_at_cap": False},
+        {
+            "event_id": "a",
+            "stratum": "s",
+            "method": "tcn",
+            "cutoff": 0.5,
+            "outcome": "predicted",
+            "rel_error": 0.1,
+            "scored_at_cap": False,
+        },
         {"event_id": "b", "stratum": "s", "method": "tcn", "cutoff": 0.5, "outcome": "no forecast", "reason": "x"},
     ]
     (d,) = c1_errors.error_distributions(rows)
@@ -168,6 +184,9 @@ def test_the_median_interval_is_the_percentile_bootstrap_of_the_median_per_metho
     idx = np.random.Generator(np.random.PCG64(np.random.SeedSequence(9))).integers(0, 30, size=(500, 30))
     lo, hi = np.percentile(np.median(values[idx], axis=1), [2.5, 97.5])
     assert tcn["median_rel_error"] == pytest.approx(np.median(values))
-    assert tcn["interval"]["lower"] == pytest.approx(lo) and tcn["interval"]["upper"] == pytest.approx(hi)
-    assert tcn["n_events"] == 30 and tcn["bootstrap"]["resamples"] == 500
-    assert "verdict" not in tcn and "threshold" not in tcn  # no SC-010-01 verdict outside the observed-SNR stratum
+    assert tcn["interval"]["lower"] == pytest.approx(lo)
+    assert tcn["interval"]["upper"] == pytest.approx(hi)
+    assert tcn["n_events"] == 30
+    assert tcn["bootstrap"]["resamples"] == 500
+    assert "verdict" not in tcn
+    assert "threshold" not in tcn
