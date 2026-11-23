@@ -21,6 +21,7 @@ AFFILIATES. All rights reserved" or `LicenseRef-NvidiaProprietary` in its first 
 from __future__ import annotations
 
 import io
+import os
 import re
 import sys
 import tokenize
@@ -102,7 +103,14 @@ def test_every_lane_source_file_has_the_apache_header_and_no_nvidia_notice() -> 
 @pytest.mark.req("FR-013-33")
 def test_no_recipe_or_scene_of_the_lane_references_an_nvidia_asset() -> None:
     folder = ROOT / "studio"
-    texts = [p for pattern in ("recipes/**/*.yaml", "**/*.usda") for p in folder.glob(pattern)]
+    # walk with the environment folders pruned: `studio/isaac/.venv` holds thousands of NVIDIA scenes that are not repository files
+    texts = []
+    for here, dirnames, filenames in os.walk(folder):
+        dirnames[:] = [d for d in dirnames if d not in {".venv", "node_modules", "__pycache__"}]
+        for name in filenames:
+            path = Path(here) / name
+            if name.endswith(".usda") or (name.endswith(".yaml") and path.relative_to(folder).parts[0] == "recipes"):
+                texts.append(path)
     offenders = {
         str(p.relative_to(ROOT)): m.group(0)
         for p in texts

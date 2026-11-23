@@ -19,6 +19,7 @@ from __future__ import annotations
 import importlib
 import importlib.util
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -170,7 +171,12 @@ def test_fr_001_45_no_module_uses_the_generated_types_without_validating() -> No
     ):
         if not base.is_dir():
             continue
-        for path in base.rglob("*.py"):
+        # walk with the environment folders pruned before descending (an Isaac Sim .venv holds 94000 files)
+        paths = []
+        for here, dirnames, filenames in os.walk(base):
+            dirnames[:] = [d for d in dirnames if d not in {".venv", "node_modules", "__pycache__"}]
+            paths.extend(Path(here) / n for n in filenames if n.endswith(".py"))
+        for path in paths:
             parts = path.relative_to(cs.ROOT).parts
             if "_generated" in parts or ".venv" in parts or "tests" in parts:
                 continue
