@@ -53,18 +53,14 @@ def dry_run(allow_cpu: bool) -> int:
         if not allow_cpu:
             raise
     p = {"x_p_D": 0.0, "z_o_D": 15.0, "w_o_D": 9.0, "n": 30}
-    geo = engine.feed_geometry("pile-formation", p)
-    h = packing.hopper_state(p, rng, x_center=geo["x_center"], z_orifice=geo["z_orifice"])
-    ps = engine.PlanarSim(
-        h.positions,
-        h.radii,
-        h.frozen,
-        engine.feed_walls("pile-formation", [{"X0": geo["lx0"], "X1": geo["lx1"], "geo": geo, "shift": 0.0}]),
-        cfg,
-        device="cpu",
-    )
-    ps.advance(20)
-    assert abs(ps.sim.positions[:, 1]).max() == 0.0
+    for fam, q in (("pile-formation", p), ("dump-over-crest", {**p, "x_c_D": 0.0, "h_c_D": 9.0, "x_off_D": 6.0})):
+        insts = engine.feed_instances(fam, [{"p": q, "seed": 1, "geom_seed": 1}], cfg)
+        h = insts[0]["hopper"]
+        ps = engine.PlanarSim(
+            insts[0]["positions"], h.radii, h.frozen, engine.feed_walls(fam, insts), cfg, device="cpu"
+        )
+        ps.advance(20)
+        assert abs(ps.sim.positions[:, 1]).max() == 0.0
     print(
         f"[planar] dry-run ok: 3 families, contact law dt {cfg.dt:.3e} s, {lock_note}, "
         f"CUDA devices {wp.get_cuda_device_count()}"
