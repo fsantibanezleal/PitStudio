@@ -15,6 +15,7 @@ studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/unit/test_t_009_100_*.py      # camera and object line of sight on the carved surface (the SDG table, studio environment)
   - tests/unit/test_t_004_099_*.py      # the carved design surface of st20_pit_design (OpenUSD, zarr, shapely, studio environment)
   - tests/unit/test_t_004_100_*.py      # procedural machine and person assets of st30_assets (OpenUSD, studio environment)
+  - tests/unit/test_t_004_101_*.py      # windrow ridges of st20_pit_design (shapely, scipy, OpenUSD, studio environment)
   - tests/unit/test_t_009_101_*.py      # camera clearance and object visibility with size and occlusion (the SDG table, studio environment)
   - tests/property/test_t_009_013_*.py
   - tests/pipeline/test_t_004_053_*.py
