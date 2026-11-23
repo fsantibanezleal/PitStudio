@@ -9,7 +9,8 @@ Steps (each is a sub-command; every one is idempotent and writes only below `PIT
              `processed/scene/<scene id>/`; the pit outline is the smoothed rim contour passed as `upstream-shell`.
 - `recipe`   write `processed/perception/recipe.json` (DC-009-03) from the texture pool manifest and validate it.
 
-`dem` and `textures` need `httpx` (run them with `uv run --no-project --with httpx --with truststore`); `scene` and
+`dem` and `textures` need `httpx` (run them with `uv run --no-project --with httpx --with truststore`; `textures`
+also `--with pillow --with numpy` for the vegetation tint check); `scene` and
 `recipe` run in the studio environment (`uv run --project studio`). Never use curl.
 """
 
@@ -39,15 +40,34 @@ DEM_VERTICAL_EVIDENCE = (
     "earth elevation values in metres referenced to NAVD88 (TNM Access API record, ScienceBase item "
     "5eacf22382cefae35a24ce71)"
 )
-AMBIENTCG = ("Rock064", "Rock063", "Rock058", "Ground068")
-POLYHAVEN = ("rock_boulder_cracked", "aerial_rocks_01", "aerial_rocks_02", "gravel_ground_01")
+# Arid rock sets: every colour map has a vegetation tint (share of pixels with HSV hue 60 to 150 degrees and saturation
+# above 0.25) below TINT_LIMIT_PCT, measured by `vegetation_tint_pct` when `textures` downloads it. Rock063, Rock064,
+# Ground068 and Poly Haven aerial_rocks_01 (3 to 19 percent: yellow-green moss and lichen) were removed from the pool.
+AMBIENTCG = ("Rock023", "Rock027", "Rock026", "Rock024", "Rock058", "Rock025", "Rock051", "Rock054", "Rock060")
+POLYHAVEN = (
+    "rock_boulder_cracked",
+    "rock_boulder_dry",
+    "worn_rock_natural_01",
+    "rock_wall_11",
+    "rock_face_03",
+    "quarry_wall",
+    "dry_riverbed_rock",
+    "gravel_ground_01",
+)
+TINT_LIMIT_PCT = 2.0
 LITHOLOGIES = {
-    "quartz_monzonite": ["ambientcg-rock064", "ambientcg-rock063", "polyhaven-aerial-rocks-01"],
-    "limestone": ["ambientcg-rock058", "polyhaven-rock-boulder-cracked", "polyhaven-aerial-rocks-02"],
+    "quartz_monzonite": ["ambientcg-rock023", "ambientcg-rock027", "ambientcg-rock026", "polyhaven-rock-boulder-dry"],
+    "limestone": [
+        "ambientcg-rock058",
+        "ambientcg-rock054",
+        "polyhaven-rock-boulder-cracked",
+        "polyhaven-worn-rock-natural-01",
+        "polyhaven-rock-wall-11",
+    ],
 }
 MATERIALS = {
     "gravel-road": ("polyhaven", "polyhaven-gravel-ground-01"),
-    "bench-rock": ("ambientcg", "ambientcg-rock064"),
+    "bench-rock": ("polyhaven", "polyhaven-rock-boulder-dry"),
 }
 ORIGIN = {"easting_m": 402500.0, "northing_m": 4486500.0, "z0_m": 1800.0}  # the pit centre in the 2018 DEM (EPSG:26912)
 AOI = [[-1500.0, -1400.0], [1400.0, -1400.0], [1400.0, 1400.0], [-1500.0, 1400.0]]
@@ -83,6 +103,26 @@ def sha256_file(path: Path) -> str:
 
 def slug(text: str) -> str:
     return text.lower().replace("_", "-")
+
+
+def vegetation_tint_pct(image: bytes) -> float:
+    """Percent of the pixels of an image with HSV hue from 60 to 150 degrees and saturation above 0.25 (moss, lichen).
+
+    The image is reduced to 512 by 512 pixels first; needs Pillow and NumPy (`uv run --with pillow --with numpy`).
+    """
+    import numpy as np
+    from PIL import Image
+
+    hsv = np.asarray(Image.open(io.BytesIO(image)).convert("RGB").resize((512, 512)).convert("HSV"), dtype=np.float32)
+    hue, saturation = hsv[..., 0] / 255.0 * 360.0, hsv[..., 1] / 255.0
+    return float(np.mean((hue >= 60.0) & (hue <= 150.0) & (saturation > 0.25)) * 100.0)
+
+
+def _checked_tint(texture_id: str, image: bytes) -> float:
+    tint = vegetation_tint_pct(image)
+    if tint >= TINT_LIMIT_PCT:
+        sys.exit(f"{texture_id}: vegetation tint {tint:.2f} percent is not below {TINT_LIMIT_PCT} percent")
+    return round(tint, 3)
 
 
 def _client() -> Any:
@@ -210,6 +250,7 @@ def cmd_textures(data: Path) -> None:
                 "archive_sha256": sha256_bytes(archive.content),
                 "map": "colour",
                 "resolution": "1K",
+                "vegetation_tint_pct": _checked_tint(f"ambientcg-{slug(asset)}", data_bytes),
                 "spdx": "CC0-1.0",
                 "asset_page": f"https://ambientcg.com/view?id={asset}",
                 "downloaded": today,
@@ -238,6 +279,7 @@ def cmd_textures(data: Path) -> None:
                 "md5_published": published["md5"],
                 "map": "colour",
                 "resolution": "1K",
+                "vegetation_tint_pct": _checked_tint(f"polyhaven-{slug(asset)}", image.content),
                 "spdx": "CC0-1.0",
                 "asset_page": f"https://polyhaven.com/a/{asset}",
                 "downloaded": today,
