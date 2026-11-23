@@ -1,0 +1,113 @@
+{
+ "job": "e1-shells",
+ "kind": "cpu",
+ "case": "E1",
+ "recipe": "cases/e1.yaml",
+ "slug": "e1-shells",
+ "seed": 3,
+ "label": "calibrated synthetic, not validated against a real deposit: a seeded oreblocks porphyry deposit of 62,500 blocks",
+ "producer_paths": [
+  "src/pitstudio/planning",
+  "pipeline/src/pitstudio_pipeline/planning",
+  "studio/recipes/cases/e1.yaml"
+ ],
+ "notes": [
+  "Exact minimum-cut shells at 40 revenue factors, the pushback rule, and the oracle comparison with the oreblocks stamped optimum; the scheduler is not part of this run."
+ ],
+ "stages": [
+  {
+   "id": "s50_evaluate",
+   "variant": "shells",
+   "tool": "pitstudio",
+   "outputs": [
+    {
+     "name": "e1-shells.json",
+     "from": "e1-shells.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e1-shells-document",
+     "media_type": "application/json",
+     "required_fields": [
+      "shells",
+      "ultimate_pit",
+      "pushbacks"
+     ],
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "e1-run.json",
+     "from": "e1-run.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e1-shells-run-summary",
+     "media_type": "application/json",
+     "required_fields": [
+      "oracle",
+      "timing",
+      "inputs"
+     ],
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "e1-value-vs-lambda.json",
+     "from": "charts/e1-value-vs-lambda.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e1-e1-value-vs-lambda",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "e1-strip-ratio-vs-lambda.json",
+     "from": "charts/e1-strip-ratio-vs-lambda.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e1-e1-strip-ratio-vs-lambda",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "e1-shell-table.json",
+     "from": "charts/e1-shell-table.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e1-e1-shell-table",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "e1-pushbacks.json",
+     "from": "charts/e1-pushbacks.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e1-e1-pushbacks",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "e1-sections.json",
+     "from": "charts/e1-sections.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e1-e1-sections",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    }
+   ]
+  }
+ ]
+}
