@@ -337,7 +337,7 @@ def smoothed_outline(ring: list[list[float]], radius_m: float, simplify_m: float
     return [[float(x), float(y)] for x, y in list(shell.exterior.coords)[:-1]]
 
 
-def cmd_scene(data: Path, scratch: Path) -> None:
+def cmd_scene(data: Path, scratch: Path, first_stage: str = "st10_terrain") -> None:
     os.environ["PITSTUDIO_DATA"] = str(data)
     sys.path.insert(0, str(ROOT / "studio" / "src"))
     sys.path.insert(0, str(ROOT / "src"))
@@ -391,44 +391,55 @@ def cmd_scene(data: Path, scratch: Path) -> None:
             return None
         return base / stage / "result.json"
 
-    dem = data / "interim" / "usgs-3dep-bingham" / "ut-central-ql2-2018-dem-navd88.tif"
-    r10 = run(terrain, "terrain", "st10_terrain", [("usgs-3dep-bingham", dem)])
-    group = zarr.open_group(str(base / "st10_terrain" / "terrain" / "grid.zarr"), mode="r")
-    attrs = group.attrs
-    ring = outline_mod.rim_contour(
-        np.asarray(group["elevation"][:]),
-        x_min_m=float(attrs["x_min_m"]),
-        y_max_m=float(attrs["y_max_m"]),
-        cell_size_m=float(attrs["cell_size_m"]),
-        rim_z_m=float(spec["design"].get("rim_z_m", 0.0)),
-    )
-    r20 = None
-    for radius in OPENING_RADII_M:
-        shell = smoothed_outline(ring, radius)
-        (base / "inputs").mkdir(exist_ok=True)
-        outline_file = base / "inputs" / "pit-outline.geojson"
-        outline_file.write_text(json.dumps({"type": "Polygon", "coordinates": [[*shell, shell[0]]]}, indent=1), "utf-8")
-        print(f"outline: opening radius {radius:.0f} m, {len(shell)} vertices", flush=True)
-        r20 = run(
-            design,
-            "design",
-            "st20_pit_design",
-            [
-                ("terrain-grid", base / "st10_terrain" / "terrain" / "grid.zarr" / "zarr.json"),
-                ("outline", outline_file),
-            ],
-            fatal=False,
+    r10 = base / "st10_terrain" / "result.json"
+    if first_stage == "st10_terrain":
+        dem = data / "interim" / "usgs-3dep-bingham" / "ut-central-ql2-2018-dem-navd88.tif"
+        r10 = run(terrain, "terrain", "st10_terrain", [("usgs-3dep-bingham", dem)])
+    r20 = base / "st20_pit_design" / "result.json"
+    if first_stage == "st30_assets":  # the terrain and the pit design are unchanged: their stage folders are reused
+        if not (r10.is_file() and r20.is_file()):
+            sys.exit("--from st30_assets needs the results of st10_terrain and st20_pit_design in the scene folder")
+    else:
+        if not r10.is_file():
+            sys.exit("--from st20_pit_design needs the result of st10_terrain in the scene folder")
+        group = zarr.open_group(str(base / "st10_terrain" / "terrain" / "grid.zarr"), mode="r")
+        attrs = group.attrs
+        ring = outline_mod.rim_contour(
+            np.asarray(group["elevation"][:]),
+            x_min_m=float(attrs["x_min_m"]),
+            y_max_m=float(attrs["y_max_m"]),
+            cell_size_m=float(attrs["cell_size_m"]),
+            rim_z_m=float(spec["design"].get("rim_z_m", 0.0)),
         )
-        if r20 is not None:
-            params = {
-                "opening_radius_m": radius,
-                "simplify_m": 8.0,
-                "rim_z_m": float(spec["design"].get("rim_z_m", 0.0)),
-            }
-            (base / "inputs" / "outline-params.json").write_text(json.dumps(params), encoding="utf-8")
-            break
-    if r20 is None:
-        sys.exit("st20_pit_design rejected every outline; see the messages above")
+        r20 = None
+        for radius in OPENING_RADII_M:
+            shell = smoothed_outline(ring, radius)
+            (base / "inputs").mkdir(exist_ok=True)
+            outline_file = base / "inputs" / "pit-outline.geojson"
+            outline_file.write_text(
+                json.dumps({"type": "Polygon", "coordinates": [[*shell, shell[0]]]}, indent=1), "utf-8"
+            )
+            print(f"outline: opening radius {radius:.0f} m, {len(shell)} vertices", flush=True)
+            r20 = run(
+                design,
+                "design",
+                "st20_pit_design",
+                [
+                    ("terrain-grid", base / "st10_terrain" / "terrain" / "grid.zarr" / "zarr.json"),
+                    ("outline", outline_file),
+                ],
+                fatal=False,
+            )
+            if r20 is not None:
+                params = {
+                    "opening_radius_m": radius,
+                    "simplify_m": 8.0,
+                    "rim_z_m": float(spec["design"].get("rim_z_m", 0.0)),
+                }
+                (base / "inputs" / "outline-params.json").write_text(json.dumps(params), encoding="utf-8")
+                break
+        if r20 is None:
+            sys.exit("st20_pit_design rejected every outline; see the messages above")
     material_files = [
         (name, data / "raw" / "textures" / textures[texture]["file"]) for name, (_, texture) in MATERIALS.items()
     ]
@@ -472,6 +483,13 @@ def cmd_recipe(data: Path) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("step", choices=("dem", "textures", "scene", "recipe"))
+    parser.add_argument(
+        "--from",
+        dest="first_stage",
+        choices=("st10_terrain", "st20_pit_design", "st30_assets"),
+        default="st10_terrain",
+        help="`scene`: first stage to run (the earlier stage folders are reused)",
+    )
     parser.add_argument("--scratch", type=Path, help="scratch folder of the scene stages (default: <data>/../_scratch)")
     args = parser.parse_args(argv)
     data = data_root()
@@ -480,7 +498,7 @@ def main(argv: list[str] | None = None) -> int:
     elif args.step == "textures":
         cmd_textures(data)
     elif args.step == "scene":
-        cmd_scene(data, args.scratch or data.parent / "_scratch" / "sdg-inputs")
+        cmd_scene(data, args.scratch or data.parent / "_scratch" / "sdg-inputs", args.first_stage)
     else:
         cmd_recipe(data)
     return 0
