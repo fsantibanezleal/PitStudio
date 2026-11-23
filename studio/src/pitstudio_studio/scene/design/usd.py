@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
 from typing import Any
 
@@ -13,7 +14,6 @@ from pitstudio_studio.scene.normals import author_normals
 
 PROVENANCE = "design-code"
 ROAD_WIDTH_M = 8.0
-WINDROW_BASE_HALF_WIDTH_M = 1.0
 
 
 def _ring_xyz(ring: Any, z: float) -> np.ndarray:
@@ -63,21 +63,28 @@ def _strip(
 
 
 def _ridge(points: np.ndarray, height: float) -> list[tuple[np.ndarray, np.ndarray, np.ndarray]]:
-    """A triangular ridge of the given height along a 3-D polyline."""
+    """A trapezoid ridge of the given height along a 3-D polyline: the section of `carved.windrow_raise` (FR-004-52).
+
+    A crest of `2 * WINDROW_CREST_HALF_WIDTH_M` at the height, side slopes at `WINDROW_REPOSE_DEG` down to the ground.
+    """
+    from pitstudio_studio.scene.design import carved
+
     xy = points[:, :2]
     tangent = np.gradient(xy, axis=0)
     norm = np.maximum(np.hypot(tangent[:, 0], tangent[:, 1]), 1e-12)
     left = np.column_stack([-tangent[:, 1] / norm, tangent[:, 0] / norm])
-    w = WINDROW_BASE_HALF_WIDTH_M
-    lo = np.column_stack([xy + w * left, points[:, 2]])
-    top = np.column_stack([xy, points[:, 2] + height])
-    hi = np.column_stack([xy - w * left, points[:, 2]])
+    crest = carved.WINDROW_CREST_HALF_WIDTH_M
+    base = crest + height / math.tan(math.radians(carved.WINDROW_REPOSE_DEG))
+    z = points[:, 2]
+    foot_l = np.column_stack([xy + base * left, z])
+    top_l = np.column_stack([xy + crest * left, z + height])
+    top_r = np.column_stack([xy - crest * left, z + height])
+    foot_r = np.column_stack([xy - base * left, z])
     out = []
     for k in range(len(points) - 1):
-        out.append((lo[k], lo[k + 1], top[k + 1]))
-        out.append((lo[k], top[k + 1], top[k]))
-        out.append((top[k], top[k + 1], hi[k + 1]))
-        out.append((top[k], hi[k + 1], hi[k]))
+        for a, b in ((foot_l, top_l), (top_l, top_r), (top_r, foot_r)):
+            out.append((a[k], a[k + 1], b[k + 1]))
+            out.append((a[k], b[k + 1], b[k]))
     return out
 
 

@@ -43,6 +43,7 @@ class DesignResult:
     )
     inside: np.ndarray | None = None  # cells whose centre lies inside the pit outline
     road_mask: np.ndarray | None = None  # cells on the ramp or on a berm road
+    windrow_raise: np.ndarray | None = None  # FR-004-52: the raise of the windrow ridges in metres (float)
 
 
 def _mask(geometry: Any, shape: tuple[int, int], x_min: float, y_max: float, cell: float) -> np.ndarray:
@@ -100,22 +101,6 @@ def _stamp_ramp(
         best[r0:r1, c0:c1] = np.where(better, d2, best[r0:r1, c0:c1])
         level[r0:r1, c0:c1] = np.where(better, h, level[r0:r1, c0:c1])
     return level
-
-
-def _windrow_mask(
-    wr: Sequence[windrow_mod.Windrow], shape: tuple[int, int], x_min: float, y_max: float, cell: float
-) -> np.ndarray:
-    import shapely
-
-    mask = np.zeros(shape, dtype=bool)
-    for w in wr:
-        distances = np.arange(0.0, w.line.length + cell / 2.0, cell / 2.0)
-        xy = shapely.get_coordinates(shapely.line_interpolate_point(w.line, distances))
-        col = np.floor((xy[:, 0] - x_min) / cell).astype(np.int64)
-        row = np.floor((y_max - xy[:, 1]) / cell).astype(np.int64)
-        ok = (col >= 0) & (col < shape[1]) & (row >= 0) & (row < shape[0])
-        mask[row[ok], col[ok]] = True
-    return mask
 
 
 def _road_mask(
@@ -288,9 +273,13 @@ def build_design(
         strip = np.isfinite(level) & inside
         z_design[strip] = level[strip]
     z_design[~inside] = np.nan
-    windrow_mask = _windrow_mask(wr, shape, x_min, y_max, cell) & inside
+    height = float(values["windrow_height_m"])
+    windrow_raise = np.where(
+        inside, carved_mod.windrow_raise([w.line for w in wr], shape, x_min, y_max, cell, height), 0.0
+    )
+    windrow_mask = windrow_raise >= height - 1e-9  # the crest cells
     zt = terrain.astype(np.float64)
-    carved = np.fmin(zt, z_design) + np.where(windrow_mask, values["windrow_height_m"], 0.0)
+    carved = np.fmin(zt, z_design) + windrow_raise
     z_final = np.where(inside, carved, zt).astype(np.float32)
     zf = z_final.astype(np.float64)
     d = np.where(np.isfinite(zt) & np.isfinite(zf), zt - zf, 0.0)
@@ -300,7 +289,7 @@ def build_design(
         float(np.maximum(-d, 0).sum() * area),
         float(d.sum() * area),
     )
-    z_carved = carved_mod.carve(z_design, windrow_mask, values["windrow_height_m"], zt, inside)
+    z_carved = carved_mod.carve(z_design, windrow_mask, values["windrow_height_m"], zt, inside, raise_m=windrow_raise)
     road_mask = _road_mask(ramp, bench_roads_xyz, shape, x_min, y_max, cell)
     ring_mask = _mask(poly.buffer(3.0 * cell), shape, x_min, y_max, cell) & ~inside
     measured = _measure(bench_list, z_bench, masks, ring_mask, zt, values["face_angle_deg"], cell)
@@ -376,6 +365,7 @@ def build_design(
         z_carved=z_carved,
         inside=inside,
         road_mask=road_mask,
+        windrow_raise=windrow_raise,
     )
 
 

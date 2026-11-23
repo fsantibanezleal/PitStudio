@@ -29,6 +29,62 @@ ROOT_PRIM = "/World/Carved"
 SOURCE_PRIM_ROOT = "/World/Terrain/"
 ROAD_SUBSET = "road"
 PROVENANCE = "design-code"
+# FR-004-52: a windrow is a ridge with a 1 m crest and side slopes at the angle of repose of the heaped rock. The scene
+# specification carries no material card with a repose angle, so the value is 37 degrees (decision of the main session,
+# 2026-11-23; UNVERIFIED against a published figure: the MSHA training slides tie the base width of an earth berm to the
+# angle of repose without a number (arlweb.msha.gov/training/surfhaul/slide37.htm). Height rule, 30 CFR 56.9300(b):
+# at least mid-axle height of the largest vehicle (arlweb.msha.gov/stats/top20viols/tips/9300.htm).
+WINDROW_REPOSE_DEG = 37.0
+WINDROW_CREST_HALF_WIDTH_M = 0.5
+
+
+def windrow_raise(
+    lines: Sequence[Any],
+    shape: tuple[int, int],
+    x_min_m: float,
+    y_max_m: float,
+    cell_m: float,
+    height_m: float,
+    repose_deg: float = WINDROW_REPOSE_DEG,
+    crest_half_width_m: float = WINDROW_CREST_HALF_WIDTH_M,
+) -> np.ndarray:
+    """The raise (m) of every cell above the design surface: a trapezoid section about each windrow line.
+
+    The raise is the windrow height within `crest_half_width_m` of a line and falls with the tangent of the angle of
+    repose beyond it, to zero; where two windrows overlap the higher raise stands (never the sum). Cell centres are at
+    `x_min + (col + 0.5) * cell` and `y_max - (row + 0.5) * cell`.
+    """
+    import math
+
+    import shapely
+    from scipy import ndimage as ndi
+    from scipy.spatial import cKDTree
+
+    out = np.zeros(shape, dtype=np.float64)
+    slope = math.tan(math.radians(repose_deg))
+    reach = crest_half_width_m + height_m / slope
+    samples = []
+    for line in lines:
+        distances = np.arange(0.0, line.length + cell_m / 4.0, cell_m / 2.0)
+        samples.append(shapely.get_coordinates(shapely.line_interpolate_point(line, distances)))
+    if not samples:
+        return out
+    xy = np.vstack(samples)
+    col = np.clip(np.floor((xy[:, 0] - x_min_m) / cell_m).astype(np.int64), 0, shape[1] - 1)
+    row = np.clip(np.floor((y_max_m - xy[:, 1]) / cell_m).astype(np.int64), 0, shape[0] - 1)
+    near = np.zeros(shape, dtype=bool)
+    near[row, col] = True
+    near = ndi.binary_dilation(near, structure=np.ones((3, 3), dtype=bool), iterations=math.ceil(reach / cell_m) + 1)
+    rr, cc = np.nonzero(near)
+    centres = np.column_stack([x_min_m + (cc + 0.5) * cell_m, y_max_m - (rr + 0.5) * cell_m])
+    distance, _ = cKDTree(xy).query(centres, distance_upper_bound=reach)
+    raised = np.where(
+        np.isfinite(distance),
+        np.clip(height_m - np.maximum(distance - crest_half_width_m, 0.0) * slope, 0.0, height_m),
+        0.0,
+    )
+    out[rr, cc] = raised
+    return out
 
 
 def carve(
@@ -37,8 +93,11 @@ def carve(
     windrow_height_m: float,
     terrain: np.ndarray,
     inside: np.ndarray,
+    raise_m: np.ndarray | None = None,
 ) -> np.ndarray:
     """The carved surface (float32): the design surface plus the windrows inside the outline, the terrain outside it.
+
+    With `raise_m` (FR-004-52, the ridge of `windrow_raise`) the raise replaces the mask times the height.
 
     Terrain nodata outside the outline stays nodata. A cell inside the outline whose design height is not finite is a
     design hole: `SceneStageError` with error class `design-hole`, nothing is filled.
@@ -54,7 +113,10 @@ def carve(
             f"column {c})",
             cells=int(hole.sum()),
         )
-    raised = np.where(np.asarray(windrow_mask, dtype=bool), float(windrow_height_m), 0.0)
+    if raise_m is not None:
+        raised = np.asarray(raise_m, dtype=np.float64)
+    else:
+        raised = np.where(np.asarray(windrow_mask, dtype=bool), float(windrow_height_m), 0.0)
     return np.where(inside, z_design + raised, np.asarray(terrain, dtype=np.float64)).astype(np.float32)
 
 
