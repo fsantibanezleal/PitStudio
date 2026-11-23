@@ -83,8 +83,9 @@ def test_the_producer_paths_and_the_sha_are_recorded_with_the_run(world: World) 
 
 
 @pytest.mark.req("FR-002-71")
-@pytest.mark.parametrize("bad", ["../outside", "/etc", "C:/Users/x", "studio/missing-dir", "", "a\\b"])
-def test_a_producer_path_that_is_not_a_repository_path_is_refused(world: World, bad: str) -> None:
+@pytest.mark.parametrize("bad", ["../outside", "/etc", "<absolute>", "studio/missing-dir", "", "a\\b"])
+def test_a_producer_path_that_is_not_a_repository_path_is_refused(world: World, bad: str, tmp_path) -> None:
+    bad = str(tmp_path / "outside") if bad == "<absolute>" else bad  # an absolute path of this machine
     code, err = world.run(spec_with(world, [bad]))
     assert code == 2 and "producer path" in err
     assert world.runs() == []
