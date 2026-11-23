@@ -8780,6 +8780,7 @@
         "T-009-101"
       ],
       "tests": [
+        "tests/unit/test_t_009_016_gate_occlusion.py",
         "tests/unit/test_t_009_101_visibility_occlusion.py"
       ]
     },
@@ -17579,7 +17580,8 @@
         "T-018-098",
         "T-018-099",
         "T-018-100",
-        "T-018-101"
+        "T-018-101",
+        "T-018-102"
       ],
       "tests": []
     },
@@ -18553,6 +18555,18 @@
       ],
       "tests": [
         "web/e2e/t_018_101_consistent_pages.spec.ts"
+      ]
+    },
+    "FR-018-79": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-102"
+      ],
+      "tests": [
+        "web/src/cases/t_018_102_attribution.test.tsx"
       ]
     },
     "P-018-01": {
@@ -25212,6 +25226,10 @@
     "T-018-101": [
       "US-018-7",
       "FR-018-78"
+    ],
+    "T-018-102": [
+      "US-018-7",
+      "FR-018-79"
     ],
     "T-018-088": [
       "US-018-3",
