@@ -38,6 +38,11 @@
    "run_id": "20261122T204530Z-bingham-flyover",
    "manifest": "20261122T204530Z-bingham-flyover/manifest.json",
    "sha256": "d642ab68d00cc7c63b55b3cc1d48564417d482e8d04d740780dd4f6583f5083c"
+  },
+  {
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "manifest": "20261123T212821Z-web-terrain-bingham/manifest.json",
+   "sha256": "d354e6f641d2ca8378a1faff75059ce4b30f46b3d6874a12f2940acca2777413"
   }
  ],
  "artefacts": [
@@ -754,6 +759,1222 @@
    "budget_class": "studio-showcase",
    "licence_class": "own",
    "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "media_type": "application/json"
+  },
+  {
+   "id": "bingham-lod0-tileset",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/lod0/tileset.json",
+   "bytes": 240,
+   "sha256": "78bae5d8a790d3710741c8cc35d3cd2724902fbb0f93596c88e392fbceb3db5b",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "application/json"
+  },
+  {
+   "id": "bingham-lod0-lod0",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/lod0/lod0.glb",
+   "bytes": 428080,
+   "sha256": "05190a35d80e7dc991aa5028634e823b5fa34a36fb0b091b0031208112fa8790",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-tileset",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/tileset.json",
+   "bytes": 6572,
+   "sha256": "0b9cfad294714899f8a16c105da01ce7b653f469061fa183f56fe68205bc26df",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "application/json"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-0-0",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-0-0.glb",
+   "bytes": 310744,
+   "sha256": "fd063a3b7d7a2a8755c1d7e165116067d7a52e8df14f7f558e9c733942703803",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-0-0",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-0-0.glb",
+   "bytes": 1777088,
+   "sha256": "43c43be106112bdb19c894a58f2a4d282f5691abf2fa580c879b05b6ada4b43f",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-0-1",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-0-1.glb",
+   "bytes": 237868,
+   "sha256": "d892f5e6578c0725828c38e3469662111d2787796a75b73d9e8698d94076fd2c",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-0-1",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-0-1.glb",
+   "bytes": 1684940,
+   "sha256": "57c198e155db4d94fe115bc688a75f391b8a35ebb5e77452a0a7d363d966e17b",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-0-2",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-0-2.glb",
+   "bytes": 227544,
+   "sha256": "9e51f68314f2d6d6ee807157446e15284aa2c0681a80c1c599fa1927d106e130",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-0-2",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-0-2.glb",
+   "bytes": 1778776,
+   "sha256": "ae682fe09ffea1ca5c40d10a5db05fc4360b563c23e20d45f7711111b486d6f0",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-0-3",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-0-3.glb",
+   "bytes": 66048,
+   "sha256": "b365f343bc3023afd7e2603de0ea382ab987598cdb05b03ad73a4ed4c671fcd0",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-0-3",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-0-3.glb",
+   "bytes": 480968,
+   "sha256": "74caaed2f35d1fe7762fbad08f0d35dbfe8b3a7407f48280e6ef932a46b3ee0d",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-1-0",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-1-0.glb",
+   "bytes": 259444,
+   "sha256": "9546c1234c1da18dfd9d5c7fc4ffdba7ed976f19ff78954e9d515d72eeade47f",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-1-0",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-1-0.glb",
+   "bytes": 1407640,
+   "sha256": "2dac67922379e1cfa756f8c5cfa582a294039175c80e4df829726e93efd64d4c",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-1-1",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-1-1.glb",
+   "bytes": 185740,
+   "sha256": "0887d89f8b709645b2f9ffa48fe0cd8277aa753eb800d3f165612aedf904cd8b",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-1-1",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-1-1.glb",
+   "bytes": 1336532,
+   "sha256": "7e1930e49dc3630132cc51e64582fb84093bc60f89a5171a323e192265b5fb82",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-1-2",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-1-2.glb",
+   "bytes": 355168,
+   "sha256": "db9943e8236fe4e5de2b38ff0c991fb1eaf8a0d101e1deb6966d57cee1340f87",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-1-2",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-1-2.glb",
+   "bytes": 3034408,
+   "sha256": "dcda84b17a2b3e1a0c812f9ff915df9d4885a202441e7681debe6d298f93cf13",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-1-3",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-1-3.glb",
+   "bytes": 183336,
+   "sha256": "79ce41c21e666d4ddb4004014893717f4184bdcd393fe2b6c300381c9ae50ac4",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-1-3",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-1-3.glb",
+   "bytes": 1165072,
+   "sha256": "cb6773a55167c9df118a90c925bf3cb3f2c5fdc20b043592cfbace73fce3ddf4",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-2-0",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-2-0.glb",
+   "bytes": 200072,
+   "sha256": "4ab1c279de0764599860c8ad71924adeaf0d572a4f218af9dca55380f571f16d",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-2-0",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-2-0.glb",
+   "bytes": 1084192,
+   "sha256": "00b801882c0dc213d38b7eb7e1143bab03cdea62b06d4c47100db16c03ceb114",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-2-1",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-2-1.glb",
+   "bytes": 201440,
+   "sha256": "b05d05f7ca92a52137c2cd483bcf5ddb798d844e405f8f7546fafb4d649c6e88",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-2-1",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-2-1.glb",
+   "bytes": 1518944,
+   "sha256": "4dcb7055a761b1b9bf57a9c060dedd9512f6f2e3bf2a10c74e1544d8448213ec",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-2-2",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-2-2.glb",
+   "bytes": 308332,
+   "sha256": "696cf1ccf096e6007476cdaa78eb6b51763c40750c866efe61ebfd6f1e14f049",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-2-2",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-2-2.glb",
+   "bytes": 1887516,
+   "sha256": "acde9b42ba31f98597146daf80af3a4547f1b3e0c541c870dd85ffce9faa7361",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-2-3",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-2-3.glb",
+   "bytes": 130744,
+   "sha256": "7f5e53cb2390267d208012ae1a1a1fa48587938b61e1a71ce230afe039987f59",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-2-3",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-2-3.glb",
+   "bytes": 829476,
+   "sha256": "8022d3c8fc903dd9b12b0e4936e7f45bc09e8d02a6c979bbbf6c9b03eb1d16d5",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-3-0",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-3-0.glb",
+   "bytes": 247260,
+   "sha256": "724163f5aafb09075f0558e03a63d08ce366142eefb9f80e4dc5e817553df238",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-3-0",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-3-0.glb",
+   "bytes": 976716,
+   "sha256": "b36b21cb6db79b49771753406beca9f9939a8cb79b15b4a264f24af523b2bc52",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-3-1",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-3-1.glb",
+   "bytes": 246992,
+   "sha256": "2ba6e96c2278dd276b24813aae7c82003a7119fdd6b408ac88edc2c9eb74c11d",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-3-1",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-3-1.glb",
+   "bytes": 1227632,
+   "sha256": "1842d8a90529910373deb1f0df033c69a5ec78cd1cbd67a9073cc4f3a5983e88",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-3-2",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-3-2.glb",
+   "bytes": 279392,
+   "sha256": "e2f0cd4504ed9e93454356387c5612a33cf90fa910728768bbd7b2c309834a3a",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-3-2",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-3-2.glb",
+   "bytes": 1328452,
+   "sha256": "7bca6add29d82b18e91518ffed7f780a2e0c3284544da419229fac47de403304",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod1-l1-3-3",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod1/l1-3-3.glb",
+   "bytes": 156756,
+   "sha256": "d127dafb658e4176bb15b2cd324034a508f80d2eef7bf2ff3b4eb2bc74d3e1ef",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-detail-lod2-l2-3-3",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/detail/lod2/l2-3-3.glb",
+   "bytes": 714284,
+   "sha256": "a17fd9ce31ee6cd8de023e981e6b631573fdd8af8e38f1d2ca41cb609cf8cc2c",
+   "kind": "tiles",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "model/gltf-binary"
+  },
+  {
+   "id": "bingham-textures-rock-normal",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/textures/rock-normal.jpg",
+   "bytes": 47289,
+   "sha256": "e065efab9d70cbe535b3e86323af7ca585214a061ade5f853f5fcc044560f50b",
+   "kind": "image",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "polyhaven-rock-boulder-dry",
+     "sha256": "5915fea28a97357c78a04fb31c2516f1f7ed1b3a9cef4ae25aa93e4655e6c595",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "open-no-attribution",
+   "spdx": "CC0-1.0",
+   "asset_host": "git",
+   "media_type": "image/jpeg"
+  },
+  {
+   "id": "bingham-terrain-bake-report",
+   "run_id": "20261123T212821Z-web-terrain-bingham",
+   "git_sha": "66160b2f5ee0c879bdb33e66c3af9ebb4f16a299",
+   "path": "assets/20261123T212821Z-web-terrain-bingham/tiles/bake-report.json",
+   "bytes": 22016,
+   "sha256": "6d210a770ffb1b8995d22c1751fd10608e1d156875895ac0cc76f85c6b7fd80b",
+   "kind": "table",
+   "producer": {
+    "tool": "openusd",
+    "stage": {
+     "id": "s60_export"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usda-naip-bingham",
+     "sha256": "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "tiles-glb",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
    "asset_host": "git",
    "media_type": "application/json"
   }
