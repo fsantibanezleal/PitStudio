@@ -116,6 +116,7 @@ tests/unit/test_t_003_015_latency_idempotence.py
 tests/unit/test_t_003_023_unavailable_store.py
 tests/unit/test_t_003_030_pages_artifact.py
 tests/unit/test_t_003_092_job_record_shards.py
+tests/unit/test_t_004_100_procedural_assets.py
 tests/unit/test_t_007_061_astar_hostile.py
 tests/unit/test_t_007_062_route_energy.py
 tests/unit/test_t_009_041_night.py
@@ -126,6 +127,7 @@ tests/unit/test_t_009_093_coco_polygon_consistency.py
 tests/unit/test_t_009_094_coco_file_name_paths.py
 tests/unit/test_t_009_096_report_duplicate_row.py
 tests/unit/test_t_009_099_input_stale.py
+tests/unit/test_t_009_101_visibility_occlusion.py
 tests/unit/test_t_012_012_groups_folds.py
 tests/unit/test_t_017_010_d2_chain.py
 tests/unit/test_t_017_011_sweeps.py
