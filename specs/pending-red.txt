@@ -56,7 +56,6 @@ tests/pipeline/test_t_007_093_partial_seeds.py
 tests/pipeline/test_t_008_018_mendeley_memory.py
 tests/pipeline/test_t_009_034_acceptance.py
 tests/pipeline/test_t_016_021_layer2_acceptance.py
-tests/pipeline/test_t_016_033_web_bake_validators.py
 tests/pipeline/test_t_017_012_meta_model_selection.py
 tests/pipeline/test_t_017_013_meta_model_evaluate.py
 tests/pipeline/test_t_017_014_meta_model_export.py
