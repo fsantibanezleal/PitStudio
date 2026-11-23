@@ -13,7 +13,7 @@ stages:
   - id: s50_evaluate
     variant: design-grids-and-trtr-folds
     env: pipeline
-    tool: minephys
+    tool: pitstudio
     entry: pitstudio_pipeline.fragmentation.d1_run
     inputs: []
     params:
