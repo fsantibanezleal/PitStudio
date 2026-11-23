@@ -43,13 +43,13 @@ async function apply(page: Page, polygon: unknown): Promise<void> {
   await page.getByTestId("e2-polygon-apply").click();
 }
 
-const FRUSTUM = [
+const FRUSTUM: ReadonlyArray<readonly [number, number]> = [
   [40, 80],
   [80, 80],
   [80, 120],
   [40, 120],
 ];
-const TRENCH = [
+const TRENCH: ReadonlyArray<readonly [number, number]> = [
   [130, 60],
   [170, 60],
   [170, 140],
