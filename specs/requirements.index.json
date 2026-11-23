@@ -4010,6 +4010,18 @@
         "tests/unit/test_t_004_099_carved_surface.py"
       ]
     },
+    "FR-004-51": {
+      "spec": "004-scene-pipeline",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-004-100"
+      ],
+      "tests": [
+        "tests/unit/test_t_004_100_procedural_assets.py"
+      ]
+    },
     "P-004-01": {
       "spec": "004-scene-pipeline",
       "retired": false,
@@ -8102,10 +8114,12 @@
         "tests/unit/test_t_009_016_driver_failure_report.py",
         "tests/unit/test_t_009_016_exposure_fog.py",
         "tests/unit/test_t_009_016_exposure_qa.py",
+        "tests/unit/test_t_009_016_frame_history.py",
         "tests/unit/test_t_009_016_param_table.py",
         "tests/unit/test_t_009_016_resume_quality.py",
         "tests/unit/test_t_009_016_run_job_inputs.py",
-        "tests/unit/test_t_009_016_shard_driver.py"
+        "tests/unit/test_t_009_016_shard_driver.py",
+        "tests/unit/test_t_009_016_visible_sky.py"
       ]
     },
     "FR-009-03": {
@@ -8188,7 +8202,8 @@
         "tests/property/test_t_009_013_placement_unstructured.py",
         "tests/unit/test_t_009_016_exposure_fog.py",
         "tests/unit/test_t_009_016_param_table.py",
-        "tests/unit/test_t_009_016_shard_driver.py"
+        "tests/unit/test_t_009_016_shard_driver.py",
+        "tests/unit/test_t_009_016_visible_sky.py"
       ]
     },
     "FR-009-09": {
@@ -8754,6 +8769,18 @@
         "tests/unit/test_t_009_100_line_of_sight.py"
       ]
     },
+    "FR-009-55": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-101"
+      ],
+      "tests": [
+        "tests/unit/test_t_009_101_visibility_occlusion.py"
+      ]
+    },
     "P-009-01": {
       "spec": "009-perception",
       "retired": false,
@@ -8959,8 +8986,10 @@
       ],
       "tests": [
         "tests/unit/test_t_009_016_exposure_fog.py",
+        "tests/unit/test_t_009_016_frame_history.py",
         "tests/unit/test_t_009_016_resume_quality.py",
         "tests/unit/test_t_009_016_shard_driver.py",
+        "tests/unit/test_t_009_016_visible_sky.py",
         "tests/unit/test_t_009_031_oom_resume.py"
       ]
     },
@@ -10318,8 +10347,10 @@
         "T-011-014"
       ],
       "tests": [
+        "tests/pipeline/test_011_gns_v3_boundary_particles.py",
         "tests/pipeline/test_011_gns_v3_dataset_contract.py",
         "tests/pipeline/test_t_011_014_gns_training.py",
+        "tests/unit/test_t_011_014_planar_boundary.py",
         "tests/unit/test_t_011_014_planar_engine.py",
         "tests/unit/test_t_011_014_planar_generate.py",
         "tests/unit/test_t_011_014_planar_space.py"
@@ -10336,6 +10367,7 @@
       "tests": [
         "tests/pipeline/test_011_gns_v2_rollout_noise.py",
         "tests/pipeline/test_011_gns_v2_validation_rollouts.py",
+        "tests/pipeline/test_011_gns_v3_boundary_particles.py",
         "tests/pipeline/test_t_011_014_gns_training.py"
       ]
     },
@@ -10349,6 +10381,7 @@
       ],
       "tests": [
         "tests/pipeline/test_011_gns_v2_repose.py",
+        "tests/pipeline/test_011_gns_v3_boundary_particles.py",
         "tests/property/test_t_011_013_observables.py",
         "tests/unit/test_t_011_014_planar_space.py"
       ]
@@ -10436,6 +10469,7 @@
         "T-011-017"
       ],
       "tests": [
+        "tests/pipeline/test_011_gns_v3_boundary_particles.py",
         "tests/pipeline/test_t_011_015_gns_evaluate.py",
         "tests/unit/test_t_011_017_rollout_guards.py"
       ]
@@ -22442,6 +22476,9 @@
     "T-004-099": [
       "FR-004-50"
     ],
+    "T-004-100": [
+      "FR-004-51"
+    ],
     "T-004-090": [],
     "T-004-091": [],
     "T-005-001": [
@@ -23319,6 +23356,9 @@
     ],
     "T-009-100": [
       "FR-009-54"
+    ],
+    "T-009-101": [
+      "FR-009-55"
     ],
     "T-009-090": [],
     "T-009-091": [],
