@@ -35,6 +35,23 @@ Measured on the carved scene (probes of 2026-11-23, jobs 88a to 88f, report sdg-
 - the sky to sunlit ground luminance ratio of a clear day is 0.6 to 1.6 (clear sky 3 to 5 kcd/m2, a scene in
   full sunlight 5 kcd/m2, https://en.wikipedia.org/wiki/Orders_of_magnitude_(luminance), an encyclopedia table,
   no peer-reviewed value read); the constant is 1.0.
+
+Measured on an open grey plane (albedo 0.18, 3,000 m above the scene, probe job 8a of 2026-11-23, report
+sdg-finish-2026-11-23, ISO 100, f/16, 1/100 s, linear radiance of the 8-bit sRGB decoded centre crop):
+
+- the plane radiance is linear in the intensity of the sun and of the dome (decades 1e3 to 1e5: 0.00566, 0.0567, 0.572
+  for the sun at 45 degrees; 0.00783, 0.0779, 0.776 for the dome; doubling the intensity gives 2.04 and 2.00 times);
+- per unit of sun intensity and sine of the elevation 7.97e-6 (elevations 30 to 75 degrees within 1.5 percent, 15
+  degrees 19 percent lower); per unit of dome intensity 7.78e-6 whatever the elevation (within 1.3 percent);
+- the p90 of the terrain pixels (linear luminance, the sunlit ground the sky is matched to) of the 96 gate frames with
+  the sun at or above 30 degrees: median 0.373 (25 structured frames) and 0.183 per unit of the light factor (19
+  unstructured frames), that is 0.0037 and 0.0018 in units of ISO 1; below 30 degrees the ground falls with the sine of
+  the elevation while the sky colour stays constant (the locked sky tests ask for that), so the sky to ground ratio
+  of low-sun frames is above 1;
+- the fog colour is not scaled by the film ISO: an intensity of 0.001 (the 0.25 of ISO 0.4 scaled to ISO 100) turned the
+  infinite-depth sky of 3 of 96 gate frames black, 0.25 left none black;
+- the film ISO, the shutter rate (cameraShutter, 1/s) and the f-number act as the photographic law says: ISO 200
+  doubles, a shutter of 1/200 s halves and f/8 quadruples the plane radiance (2.00, 0.50 and 4.00 times).
 """
 
 from __future__ import annotations
@@ -44,15 +61,28 @@ from collections.abc import Mapping
 from typing import Any
 
 FOG_COLOUR = (0.55, 0.49, 0.40)  # the dust colour of the scene
-FOG_COLOUR_INTENSITY = 0.25  # in-scattered radiance of the fog colour; the fog also carries the dome's ambient light
+FOG_COLOUR_INTENSITY = 0.25  # fog colour radiance, not scaled by the film ISO (0.001 left 3 of 96 dusty skies black)
 FOG_END_DISTANCE_M = 5000.0  # the simple fog's end distance does not change the transmittance (measured with 100 km)
-FILM_ISO = {"structured": 0.4, "unstructured": 0.3}
+FILM_ISO = {"structured": 100.0, "unstructured": 100.0}  # sunny 16: ISO 100 at f/16 and 1/100 s
+FILM_SHUTTER_S = 0.01  # the shutter time is the reciprocal of the ISO at f/16 (sunny 16)
+F_NUMBER = 16.0
 TONEMAP_OP = 6  # the renderer's default tonemapper
-DOME_FILL_GAIN = 1000.0  # the nominal dome reached the pit terrain about 1000 times weaker than the sun (probes)
+SUN_TO_SKY_ILLUMINANCE = 6.0  # direct sun over the whole clear sky on a horizontal surface: 120,000 lux over 20,000 lux
+LIGHT_CITATION = (
+    "direct sunlight at noon 120,000 lux and shade lit by the whole clear sky at midday 20,000 lux, "
+    "https://en.wikipedia.org/wiki/Daylight (ratio 6); sunny 16: shutter time 1/ISO at f/16, "
+    "https://en.wikipedia.org/wiki/Sunny_16_rule"
+)
+PLANE_RADIANCE_PER_SUN_UNIT = 7.97e-6  # linear radiance of the open grey plane per unit of sun intensity at the zenith
+PLANE_RADIANCE_PER_DOME_UNIT = 7.78e-6  # the same per unit of dome intensity (independent of the sun elevation)
 SKY_LUMINANCE_RATIO = 1.0  # sky to sunlit ground luminance, inside the 0.6 to 1.6 of a clear day (module docstring)
 SKY_TINT = (0.75, 0.88, 1.20)  # a clear sky is bluer than neutral; scaled so that its Rec. 709 luminance is 1
-STRUCTURED_GROUND_RADIANCE = 0.8  # sunlit ground radiance in units of ISO 1, structured arm
-UNSTRUCTURED_GROUND_RADIANCE = 1.03  # the same per unit of the light factor, unstructured arm
+STRUCTURED_GROUND_RADIANCE = (
+    0.0037  # sunlit ground radiance in units of ISO 1, structured arm (median p90 0.373 at ISO 100)
+)
+UNSTRUCTURED_GROUND_RADIANCE = (
+    0.0018  # the same per unit of the light factor, unstructured arm (median p90 0.183 at ISO 100)
+)
 RT_SUBFRAMES = 8  # real-time subframes per capture: the smallest count of the probe grid under the history limit
 HISTORY_LIMIT_LEVELS = 2.0  # a row after different predecessors keeps its mean luminance within this many levels
 HISTORY_MEASURED_LEVELS = {8: 1.56, 16: 0.96, 32: 0.66, 64: 0.47}  # `aa/op` none, max over the 6 history rows (job 88f)
@@ -81,6 +111,16 @@ def transmittance_of(settings: Mapping[str, Any], distance_m: float) -> float:
     if not settings.get("/rtx/fog/enabled", False):
         return 1.0
     return math.exp(-float(settings["/rtx/fog/fogDistanceDensity"]) * distance_m / 1000.0)
+
+
+def dome_intensity_for(sun_intensity: float, elevation_deg: float) -> float:
+    """Dome intensity that puts the horizontal sun to sky illuminance at the cited ratio for this sun.
+
+    The sun lights a horizontal plane with its intensity times the sine of the elevation, the dome independent of the
+    elevation, so the dome follows the sun: sun * sin(el) * k_sun = ratio * dome * k_dome.
+    """
+    sine = math.sin(math.radians(elevation_deg))
+    return sun_intensity * sine * PLANE_RADIANCE_PER_SUN_UNIT / (SUN_TO_SKY_ILLUMINANCE * PLANE_RADIANCE_PER_DOME_UNIT)
 
 
 def sky_settings(row: Mapping[str, Any]) -> dict[str, Any]:
@@ -120,6 +160,8 @@ def render_settings(row: Mapping[str, Any]) -> dict[str, Any]:
         "/rtx/post/histogram/enabled": False,
         "/rtx/post/tonemap/op": TONEMAP_OP,
         "/rtx/post/tonemap/filmIso": FILM_ISO[row["arm"]],
+        "/rtx/post/tonemap/cameraShutter": 1.0 / FILM_SHUTTER_S,
+        "/rtx/post/tonemap/fNumber": F_NUMBER,
         **fog_settings(sigma),
         **sky_settings(row),
         **history_settings(),
@@ -132,7 +174,13 @@ def describe() -> dict[str, Any]:
         "auto_exposure": False,
         "film_iso": dict(FILM_ISO),
         "tonemap_op": TONEMAP_OP,
-        "dome_fill_gain": DOME_FILL_GAIN,
+        "exposure": {"f_number": F_NUMBER, "shutter_s": FILM_SHUTTER_S},
+        "light": {
+            "sun_to_sky_illuminance": SUN_TO_SKY_ILLUMINANCE,
+            "citation": LIGHT_CITATION,
+            "plane_radiance_per_sun_unit": PLANE_RADIANCE_PER_SUN_UNIT,
+            "plane_radiance_per_dome_unit": PLANE_RADIANCE_PER_DOME_UNIT,
+        },
         "history": {
             "settings": history_settings(),
             "rt_subframes": RT_SUBFRAMES,

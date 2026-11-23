@@ -25,8 +25,13 @@ from pitstudio_isaac.sdg import render_settings
 from pitstudio_isaac.sdg.masks import external_polygons
 from pitstudio_isaac.sdg.render import CATEGORIES, CATEGORY_IDS, _entry, _start_isaac
 
-NOMINAL_SUN_INTENSITY = 3000.0  # the sun of the scene's lights layer
-NOMINAL_DOME_INTENSITY = 800.0 * render_settings.DOME_FILL_GAIN  # the scene's dome (800) with the measured fill gain
+MID_GREY_LINEAR = 0.18  # sunny 16: a sunlit 18 percent grey card is exposed to the middle grey, linear 0.18
+REFERENCE_ELEVATION_DEG = 60.0  # a high sun, where sunny 16 holds
+NOMINAL_SUN_INTENSITY = MID_GREY_LINEAR / (  # the open grey plane (albedo 0.18) under sun and sky reads 0.18 at ISO 100
+    render_settings.PLANE_RADIANCE_PER_SUN_UNIT
+    * math.sin(math.radians(REFERENCE_ELEVATION_DEG))
+    * (1.0 + 1.0 / render_settings.SUN_TO_SKY_ILLUMINANCE)
+)
 STRUCTURED_SUN_TEMPERATURE_K = 5800.0
 DUST_COLOUR = (0.55, 0.49, 0.40)
 MIN_INSTANCE_PX = 16  # smaller instances are counted in the frame state but get no annotation
@@ -142,7 +147,7 @@ def light_for_row(row: Mapping[str, Any]) -> dict[str, Any]:
         return {
             "direction": direction,
             "sun_intensity": NOMINAL_SUN_INTENSITY,
-            "dome_intensity": NOMINAL_DOME_INTENSITY,
+            "dome_intensity": render_settings.dome_intensity_for(NOMINAL_SUN_INTENSITY, dr["sun_elevation_deg"]),
             "temperature_k": STRUCTURED_SUN_TEMPERATURE_K,
             "fog_per_m": float(dr["dust_extinction_per_km"]) / 1000.0,
         }
@@ -150,7 +155,7 @@ def light_for_row(row: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "direction": direction,
         "sun_intensity": NOMINAL_SUN_INTENSITY * factor,
-        "dome_intensity": NOMINAL_DOME_INTENSITY * factor,
+        "dome_intensity": render_settings.dome_intensity_for(NOMINAL_SUN_INTENSITY * factor, dr["sun_elevation_deg"]),
         "temperature_k": float(dr["colour_temperature_k"]),
         "fog_per_m": 0.0,
     }
