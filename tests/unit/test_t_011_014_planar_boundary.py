@@ -217,3 +217,17 @@ def test_011_verification_fails_a_boundary_that_moves_or_leaves_its_box(tmp_path
     outside[:, 1] = 5.0
     root, meta = _write_with_boundary(out, outside)
     assert any("outside the bounds" in p for p in verify.check_rollout(root, meta, PILE)["problems"])
+
+
+@pytest.mark.req("FR-011-03")
+def test_011_a_family_whose_mean_repose_is_outside_the_real_granular_range_fails_the_verification() -> None:
+    inside = {fam: {"n": 30, "repose_mean_deg": 27.0} for fam in space.FAMILIES}
+    assert verify.range_problems(inside) == []
+    bad = {**inside, "column-collapse": {"n": 30, "repose_mean_deg": 23.8}}
+    (problem,) = verify.range_problems(bad)
+    assert "column-collapse" in problem
+    assert "23.8" in problem
+    assert "25" in problem
+    assert "35" in problem
+    empty = {**inside, "pile-formation": {"n": 0, "repose_mean_deg": None}}
+    assert any("pile-formation" in p for p in verify.range_problems(empty))
