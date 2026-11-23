@@ -122,6 +122,10 @@ tests/unit/test_t_009_094_coco_file_name_paths.py
 tests/unit/test_t_009_096_report_duplicate_row.py
 tests/unit/test_t_009_099_input_stale.py
 tests/unit/test_t_012_012_groups_folds.py
+tests/unit/test_t_012_060_d1_design_grid.py
+tests/unit/test_t_012_061_fold_psd.py
+tests/unit/test_t_012_062_fold_report.py
+tests/unit/test_t_012_063_d1_run.py
 tests/unit/test_t_017_010_d2_chain.py
 tests/unit/test_t_017_011_sweeps.py
 tests/unit/test_t_017_046_reconstruction.py
