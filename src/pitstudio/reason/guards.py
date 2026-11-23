@@ -143,7 +143,7 @@ def check_display_only(manifests: Sequence[Mapping[str, Any]]) -> list[Violation
                 for out in stage.get("outputs") or []:
                     shas.update(x for x in (out.get("sha256"),) if x)
                     names.update(x for x in (out.get("name"),) if x)
-    found = []
+    found: list[Violation] = []
     for manifest, stages in parsed:
         for stage in stages:
             sid = stage["key"]["id"]

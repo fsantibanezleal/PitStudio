@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import Any
 
 import numpy as np
 
@@ -93,7 +94,7 @@ def compare(
         agree_rows += int((large & (np.argmax(r2, axis=-1) == np.argmax(c2, axis=-1))).sum())
     agreement = agree_rows / checked if checked else 1.0
 
-    common = {
+    common: dict[str, Any] = {
         "max_abs_error": max_err,
         "mismatch_fraction": fraction,
         "argmax_rows": rows,

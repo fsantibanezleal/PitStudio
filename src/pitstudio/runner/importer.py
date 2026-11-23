@@ -26,7 +26,7 @@ import os
 import re
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from pitstudio.runner import __version__, import_summaries
 from pitstudio.runner.cache import Store, file_sha, jcs, sha, write_atomic
@@ -257,13 +257,13 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
                         f"output {one_line(o['name'], 80)}: {one_line(o['from'], 80)} is not in the --from folder"
                     )
                 data = None
-            digest = sha(data) if data is not None else file_sha(path)
+            digest = sha(data) if data is not None else file_sha(cast(Path, path))
             if o.get("sha256") and o["sha256"] != digest:
                 raise Usage(f"output {one_line(o['name'], 80)}: digest differs from the pinned one (refused)")
             raw = data if data is not None else None
             if o.get("required_fields"):
                 try:
-                    doc = json.loads(raw if raw is not None else path.read_bytes())
+                    doc = json.loads(raw if raw is not None else cast(Path, path).read_bytes())
                 except ValueError:
                     doc = None
                 partial.extend(
@@ -353,7 +353,7 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
                 "outputs": [],
             }
         )
-    manifest = {
+    manifest: dict[str, Any] = {
         "kind": "run",
         "schema_version": "1.0",
         "run_id": rid,

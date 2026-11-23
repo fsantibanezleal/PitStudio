@@ -59,7 +59,7 @@ class Violation:
 
 
 def _files(root: Path) -> list[Path]:
-    out = []
+    out: list[Path] = []
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in _SKIP_DIRS]
         out.extend(Path(dirpath) / name for name in filenames)

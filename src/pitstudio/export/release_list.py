@@ -55,7 +55,7 @@ def build_release_list(entries: Sequence[Mapping[str, Any]], *, tag: str, root: 
         if not isinstance(sha, str) or not _SHA.fullmatch(sha):
             raise ReleaseListError("sha256 must be 64 lower-case hex digits", path)
         out.append({"path": path, "bytes": nbytes, "sha256": sha})
-    out.sort(key=lambda e: e["path"])
+    out.sort(key=lambda e: str(e["path"]))
     return {"schema_version": "1.0", "tag": tag, "entries": out}
 
 

@@ -156,11 +156,11 @@ def check_isaaclab_lock(lock: LockInfo) -> list[dict[str, str]]:
                     _problem("FR-014-01", name, f"{name} is at commit {commit[:12]}, the others at {common[:12]}")
                 )
     for name, exact, prefix, index_suffix in _PINS:
-        entries = lock.packages.get(name)
-        if not entries:
+        pinned = lock.packages.get(name)
+        if not pinned:
             problems.append(_problem("FR-014-01", name, f"{name} is missing from the lock"))
             continue
-        for entry in entries:
+        for entry in pinned:
             version = entry["version"]
             if exact is not None and version != exact:
                 problems.append(_problem("FR-014-01", name, f"{name} is {version}, expected {exact}"))

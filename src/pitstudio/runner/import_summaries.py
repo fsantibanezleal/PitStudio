@@ -57,7 +57,7 @@ def c1_summary(src: Path, run_id: str) -> dict:
         "chronos_bolt_fine_tuned": "Chronos-Bolt fine-tuned",
         "chronos_bolt_zero_shot": "Chronos-Bolt zero-shot",
     }
-    rows = [
+    rows: list[dict[str, Any]] = [
         {
             "method": names[m],
             "n": len(v),

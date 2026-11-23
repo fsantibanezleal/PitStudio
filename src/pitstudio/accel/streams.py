@@ -76,7 +76,7 @@ def camera_streams_report(
         if not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
             raise ValueError(f"tiles_per_s of batch {entry.get('size')} is not a finite number >= 0: {value!r}")
     best = max(throughput, key=lambda e: e["samples_per_s"])
-    kwargs = {"width": width, "height": height, "tile": tile, "overlap": overlap, "fps": fps}
+    kwargs: dict[str, Any] = {"width": width, "height": height, "tile": tile, "overlap": overlap, "fps": fps}
     return {
         "frame_w_px": width,
         "frame_h_px": height,

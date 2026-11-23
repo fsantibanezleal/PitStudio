@@ -249,7 +249,7 @@ def forward_kinematics(q: np.ndarray, params: ArmParams) -> np.ndarray:
     return pts
 
 
-def joint_torques(q: np.ndarray, force_xz: Sequence[float], params: ArmParams) -> np.ndarray:
+def joint_torques(q: np.ndarray, force_xz: Sequence[float] | np.ndarray, params: ArmParams) -> np.ndarray:
     """J^T F for a tip force (Fx, Fz): tau_i = -(z_tip - z_i) Fx + (x_tip - x_i) Fz."""
     pts = forward_kinematics(q, params)
     tip = pts[3]
