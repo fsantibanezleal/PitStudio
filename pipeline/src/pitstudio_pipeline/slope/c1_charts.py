@@ -307,6 +307,11 @@ def error_charts(results: Mapping[str, Any], *, producer: Mapping[str, str]) -> 
 _ARM_ORDER = ("inverse_velocity", "bayesian_ttf", "tcn", "patchtst", "chronos_bolt_fine_tuned")
 
 
+def _ordered(lo: Sequence[Any], mid: Sequence[Any], hi: Sequence[Any]) -> bool:
+    """True when lo <= mid <= hi at every step (a band whose model quantile paths cross is not drawn)."""
+    return all(a <= b + 1e-12 and b <= c + 1e-12 for a, b, c in zip(lo, mid, hi, strict=True))
+
+
 def _hours(v: float) -> str:
     return f"{v:.1f} h"
 
@@ -396,17 +401,19 @@ def event_charts(baked: Mapping[str, Any], *, producer: Mapping[str, str]) -> li
             if a["status"] != "ok":
                 notes.append(f"{NAMES[arm][0]} at {c['cutoff']}: no forecast ({a['reason']})")
                 continue
-            series.append(
-                {
-                    "id": f"{slug(arm)}-{tag}",
-                    "label": _t(f"{NAMES[arm][0]}, cut-off {c['cutoff']}", f"{NAMES[arm][1]}, corte {c['cutoff']}"),
-                    "x": [float(v) for v in a["t_h"]],
-                    "y": _nums(a["y_median"]),
-                    "lo": _nums(a["y_lo"]),
-                    "hi": _nums(a["y_hi"]),
-                    "band_label": _t("0.1 to 0.9 quantile path", "Trayectoria de cuantiles 0.1 a 0.9"),
-                }
-            )
+            entry: dict[str, Any] = {
+                "id": f"{slug(arm)}-{tag}",
+                "label": _t(f"{NAMES[arm][0]}, cut-off {c['cutoff']}", f"{NAMES[arm][1]}, corte {c['cutoff']}"),
+                "x": [float(v) for v in a["t_h"]],
+                "y": _nums(a["y_median"]),
+            }
+            if _ordered(a["y_lo"], a["y_median"], a["y_hi"]):
+                entry["lo"] = _nums(a["y_lo"])
+                entry["hi"] = _nums(a["y_hi"])
+                entry["band_label"] = _t("0.1 to 0.9 quantile path", "Trayectoria de cuantiles 0.1 a 0.9")
+            else:
+                notes.append(f"{NAMES[arm][0]} at {c['cutoff']}: band omitted, its quantile paths cross")
+            series.append(entry)
         for method in _ARM_ORDER:
             a = m.get(method)
             if a is None or a["status"] != "ok":
@@ -424,20 +431,14 @@ def event_charts(baked: Mapping[str, Any], *, producer: Mapping[str, str]) -> li
                     "x": float(a["t_hat_f_h"]),
                 }
             )
-    caption_en = (
-        f"Synthetic Voight event {baked['event_id'][-6:]} ({sname[0]}); forecasts from the observed window at the "
-        f"cut-offs "
-        "0.5 and 0.8 against the true failure time."
-    )
+    caption_en = f"Synthetic Voight event {baked['event_id'][-6:]} ({sname[0]}): forecasts at the cut-offs 0.5 and 0.8."
     caption_es = (
-        f"Evento de Voight sintético {baked['event_id'][-6:]} ({sname[1]}); pronósticos desde la ventana "
-        f"observada en los cortes "
-        "0.5 y 0.8 frente al tiempo de falla verdadero."
+        f"Evento de Voight sintético {baked['event_id'][-6:]} ({sname[1]}): pronósticos en los cortes 0.5 y 0.8."
     )
     if notes:
-        extra = "; ".join(notes)[:80]
-        caption_en = (caption_en[:100] + " " + extra)[:200]
-        caption_es = (caption_es[:100] + " " + extra)[:200]
+        extra = "; ".join(notes)
+        caption_en = f"{caption_en} {extra}"[:200]
+        caption_es = f"{caption_es} {extra}"[:200]
     iv_chart = _base(
         f"c1-iv-{eid}",
         "line",
