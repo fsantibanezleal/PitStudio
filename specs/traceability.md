@@ -527,13 +527,13 @@
 | FR-008-49 | 008-data-pipeline | draft | T-008-092 | tests/contract/test_t_008_060_data_cards.py, tests/pipeline/test_t_008_092_fixture_source.py |
 | FR-008-50 | 008-data-pipeline | draft | T-008-093 | tests/pipeline/test_t_008_093_partial_source.py |
 | FR-009-01 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py |
-| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py, tests/pipeline/test_t_009_016_sdg_verify.py, tests/unit/test_t_009_016_annotator_readiness.py, tests/unit/test_t_009_016_driver_failure_report.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_frame_history.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_resume_quality.py, tests/unit/test_t_009_016_run_job_inputs.py, tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_016_visible_sky.py |
+| FR-009-02 | 009-perception | draft | T-009-016 | tests/gpu/test_t_009_016_sdg_outputs.py, tests/pipeline/test_t_009_016_sdg_verify.py, tests/unit/test_t_009_016_annotator_readiness.py, tests/unit/test_t_009_016_driver_failure_report.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_frame_history.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_physical_light.py, tests/unit/test_t_009_016_resume_quality.py, tests/unit/test_t_009_016_run_job_inputs.py, tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_016_visible_sky.py |
 | FR-009-03 | 009-perception | draft | T-009-010 | tests/contract/test_t_009_010_classes_arms.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-04 | 009-perception | draft | T-009-011 | tests/unit/test_t_009_011_sun_sampler.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py |
 | FR-009-05 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_exposure_qa.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-06 | 009-perception | draft | T-009-012 | tests/unit/test_t_009_012_dust_wet_sampler.py, tests/unit/test_t_009_016_param_table.py |
 | FR-009-07 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_param_table.py |
-| FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_arid_textures.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_016_visible_sky.py |
+| FR-009-08 | 009-perception | draft | T-009-013 | tests/property/test_t_009_013_placement_unstructured.py, tests/unit/test_t_009_016_arid_textures.py, tests/unit/test_t_009_016_exposure_fog.py, tests/unit/test_t_009_016_param_table.py, tests/unit/test_t_009_016_physical_light.py, tests/unit/test_t_009_016_shard_driver.py, tests/unit/test_t_009_016_visible_sky.py |
 | FR-009-09 | 009-perception | draft | T-009-014 | tests/unit/test_t_009_014_sdg_config_guards.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-10 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py, tests/unit/test_t_009_016_run_job_inputs.py |
 | FR-009-11 | 009-perception | draft | T-009-015 | tests/unit/test_t_009_015_asset_people_guard.py |
@@ -888,7 +888,7 @@
 | FR-016-16 | 016-export-acceleration | draft | T-016-031 | tests/unit/test_t_016_031_release_assets.py |
 | FR-016-17 | 016-export-acceleration | draft | T-016-032 | tests/unit/test_t_016_032_budgets.py |
 | FR-016-18 | 016-export-acceleration | draft | T-016-032 | tests/unit/test_t_016_032_budgets.py |
-| FR-016-19 | 016-export-acceleration | draft | T-016-033 | tests/pipeline/test_t_016_033_web_bake_validators.py |
+| FR-016-19 | 016-export-acceleration | draft | T-016-033 | tests/pipeline/test_t_016_033_web_bake_validators.py, tests/pipeline/test_web_bake_hlod.py |
 | FR-016-20 | 016-export-acceleration | draft | T-016-040 | tests/gpu/test_t_016_040_engine_probe_graph.py, tests/unit/test_t_016_040_engine_builds.py |
 | FR-016-21 | 016-export-acceleration | draft | T-016-040 | tests/unit/test_t_016_040_engine_builds.py |
 | FR-016-22 | 016-export-acceleration | draft | T-016-050 | tests/unit/test_t_016_050_licence_guards.py |
@@ -906,7 +906,7 @@
 | FR-016-34 | 016-export-acceleration | draft | T-016-050 | tests/contract/test_t_016_050_publish_guards.py |
 | FR-016-35 | 016-export-acceleration | draft | T-016-060 | tests/unit/test_t_016_060_camera_streams.py |
 | FR-016-36 | 016-export-acceleration | draft | T-016-042 | tests/unit/test_t_016_042_latency_stats.py |
-| FR-016-37 | 016-export-acceleration | draft | T-016-033 | tests/pipeline/test_t_016_033_web_bake_validators.py |
+| FR-016-37 | 016-export-acceleration | draft | T-016-033 | tests/pipeline/test_t_016_033_web_bake_validators.py, tests/pipeline/test_web_bake_hlod.py |
 | FR-016-38 | 016-export-acceleration | draft | T-016-060 | tests/unit/test_t_016_060_camera_streams.py |
 | FR-016-39 | 016-export-acceleration | draft | T-016-012 | tests/unit/test_t_016_012_parity_comparator.py |
 | FR-016-40 | 016-export-acceleration | draft | T-016-092 | tests/unit/test_t_016_092_fixture_propagation.py |
@@ -1041,7 +1041,7 @@
 | FR-018-76 | 018-web-cases | draft | T-018-099 | web/src/cases/t_018_099_vendor_registry.test.tsx, web/e2e/t_018_101_consistent_pages.spec.ts |
 | FR-018-77 | 018-web-cases | draft | T-018-100 | web/src/cases/t_018_100_reproduce_imported.test.tsx |
 | FR-018-78 | 018-web-cases | draft | T-018-101 | web/e2e/t_018_101_consistent_pages.spec.ts |
-| FR-018-79 | 018-web-cases | draft | T-018-102 | web/src/cases/t_018_102_attribution.test.tsx |
+| FR-018-79 | 018-web-cases | draft | T-018-102 | web/src/cases/t_018_102_attribution.test.tsx, web/e2e/t_018_102_attribution.spec.ts |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_010_tool_map.spec.ts |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts, web/src/studio/t_019_010_tool_map.test.tsx |
 | FR-019-03 | 019-web-studio | draft | T-019-011 | web/e2e/t_019_011_map_fallback.spec.ts |

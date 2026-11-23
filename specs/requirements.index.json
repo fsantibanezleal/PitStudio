@@ -8117,6 +8117,7 @@
         "tests/unit/test_t_009_016_exposure_qa.py",
         "tests/unit/test_t_009_016_frame_history.py",
         "tests/unit/test_t_009_016_param_table.py",
+        "tests/unit/test_t_009_016_physical_light.py",
         "tests/unit/test_t_009_016_resume_quality.py",
         "tests/unit/test_t_009_016_run_job_inputs.py",
         "tests/unit/test_t_009_016_shard_driver.py",
@@ -8204,6 +8205,7 @@
         "tests/unit/test_t_009_016_arid_textures.py",
         "tests/unit/test_t_009_016_exposure_fog.py",
         "tests/unit/test_t_009_016_param_table.py",
+        "tests/unit/test_t_009_016_physical_light.py",
         "tests/unit/test_t_009_016_shard_driver.py",
         "tests/unit/test_t_009_016_visible_sky.py"
       ]
@@ -15721,7 +15723,8 @@
         "T-016-033"
       ],
       "tests": [
-        "tests/pipeline/test_t_016_033_web_bake_validators.py"
+        "tests/pipeline/test_t_016_033_web_bake_validators.py",
+        "tests/pipeline/test_web_bake_hlod.py"
       ]
     },
     "FR-016-20": {
@@ -15938,7 +15941,8 @@
         "T-016-033"
       ],
       "tests": [
-        "tests/pipeline/test_t_016_033_web_bake_validators.py"
+        "tests/pipeline/test_t_016_033_web_bake_validators.py",
+        "tests/pipeline/test_web_bake_hlod.py"
       ]
     },
     "FR-016-38": {
@@ -18566,7 +18570,8 @@
         "T-018-102"
       ],
       "tests": [
-        "web/src/cases/t_018_102_attribution.test.tsx"
+        "web/src/cases/t_018_102_attribution.test.tsx",
+        "web/e2e/t_018_102_attribution.spec.ts"
       ]
     },
     "P-018-01": {
