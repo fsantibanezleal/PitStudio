@@ -20,6 +20,7 @@ for (const size of SIZES) {
       expect(box).not.toBeNull();
       expect(box?.y ?? Infinity).toBeLessThan(size.height);
       expect((box?.y ?? 0) + Math.min(box?.height ?? 0, 120)).toBeLessThanOrEqual(size.height);
+      await section.locator("summary").click(); // FR-018-80: the section is collapsed on load
       for (const g of GROUPS) await expect(section.locator(`[data-group="${g}"]`)).toBeVisible();
       const chips = section.locator("[data-chip]");
       expect(await chips.count()).toBeGreaterThan(3);
@@ -32,6 +33,7 @@ for (const size of SIZES) {
 
 test("built with: /cases/B2 lists Isaac Sim Replicator in the Omniverse and NVIDIA group as planned, not yet run", async ({ page }) => {
   await page.goto("/cases/B2/");
+  await page.locator('[data-testid="built-with"] summary').click(); // FR-018-80: the section is collapsed on load
   const chip = page.locator('[data-testid="built-with"] [data-group="omniverse"] [data-chip="isaac-sim-replicator"]');
   await expect(chip).toBeVisible();
   await expect(chip).toContainText(/planned, not yet run/i);

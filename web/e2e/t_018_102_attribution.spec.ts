@@ -41,7 +41,8 @@ async function render(page: Page, id: string, tab: string, lang: string): Promis
   await open(page, `cases/${id}/?tab=${tab}&lang=${lang}`);
   await expect(page.getByTestId("case-question")).toBeVisible();
   await expect(page.getByTestId("scene-render")).toHaveCount(1);
-  await expect(page.locator('[data-visual="kpi"]').first()).toBeVisible();
+  await expect(page.getByRole("tabpanel")).toBeVisible();
+  await expect(page.getByRole("tab", { selected: true })).toHaveCount(1);
 }
 
 test.describe("truthful attribution and not-run values (FR-018-79)", () => {
@@ -58,7 +59,8 @@ test.describe("truthful attribution and not-run values (FR-018-79)", () => {
         page,
       }) => {
         const words = LANGS[lang];
-        const runs = (truth[id] ?? []).filter((r) => r.verdict !== "failed");
+        // a failed evaluation is a published run: its result card names the tools that trained it
+        const runs = truth[id] ?? [];
         const runTools = new Set(runs.flatMap((r) => [...r.tools]));
         const runMethods = new Set(runs.flatMap((r) => [...r.methods]));
         for (const tab of TABS) {
