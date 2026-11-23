@@ -62,7 +62,7 @@ def snapshot(folder: Path) -> dict[str, str]:
     return {
         p.relative_to(folder).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
         for p in sorted(folder.rglob("*"))
-        if p.is_file()
+        if p.is_file() and "__pycache__" not in p.parts  # bytecode written by an import is not a generated file
     }
 
 
@@ -88,7 +88,13 @@ def contracts_copy(tmp: Path) -> Path:
 @pytest.mark.req("DC-001-06")
 def test_fr_001_40_one_module_per_contract_plus_an_init_with_the_pinned_header_and_no_noise(tmp_path: Path) -> None:
     out = fresh(tmp_path)
-    assert sorted(p.name for p in out.iterdir()) == sorted([*(f"{s}.py" for s in STEMS), "__init__.py"])
+    names = {p.name for p in out.iterdir()}
+    assert names >= {*(f"{s}.py" for s in STEMS), "__init__.py"}
+    # one module per schema of the contracts folder (89 since the promotion 3151936) plus the init
+    assert names == {
+        f"{p.name.removesuffix('.schema.json').replace('-', '_')}.py"
+        for p in cs.ROOT.joinpath("contracts").glob("*.schema.json")
+    } | {"__init__.py"}
     for stem in STEMS:
         text = (out / f"{stem}.py").read_bytes().decode("utf-8")
         assert text.split("\n", 1)[0] == HEADER.format(file=f"{stem}.schema.json")
