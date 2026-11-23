@@ -104,18 +104,14 @@ def build_import_spec(report: dict[str, Any], exchange: dict[str, Any]) -> dict[
         "slug": SLUG,
         "seed": 0,
         "label": (
-            "Bingham Canyon terrain baked from the OpenUSD scene a1-bingham-v3: real USGS 3DEP elevation (public "
-            "domain), "
-            "coloured by the USDA NAIP 2018 orthophoto (public domain) with an arid CC0 rock normal map; glTF 2.0 "
-            "tiles in "
-            "3D Tiles 1.1 tilesets that passed the Khronos glTF Validator and the 3D Tiles Validator with 0 errors"
+            "Bingham Canyon terrain baked from the OpenUSD scene a1-bingham-v3: USGS 3DEP elevation, USDA NAIP 2018 "
+            "colour, CC0 rock normal map; glTF tiles in 3D Tiles 1.1, validators 0 errors"
         ),
         "notes": [
-            f"Read from the composed scene with OpenUSD (usd-core {exchange['producer']['version']}) and written by "
+            f"Read with OpenUSD (usd-core {exchange['producer']['version']}), written by "
             f"pitstudio_pipeline.export.web_bake; scene manifest {exchange['scene']['manifest_id']}.",
-            "Web LOD-0 is one whole-site tile; the detail tileset refines it with two levels (the scene lod2 and "
-            "lod1 tiles); "
-            "the scene lod0 variant is not baked.",
+            "Web LOD-0 is one whole-site tile; the detail tileset adds two levels (scene lod2 and lod1 tiles); "
+            "scene lod0 is not baked.",
         ],
         "stages": [{"id": "s60_export", "tool": "openusd", "outputs": outputs}],
     }
