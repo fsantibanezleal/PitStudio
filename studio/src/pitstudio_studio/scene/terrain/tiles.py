@@ -172,6 +172,31 @@ def build_tiles(
             floors[rb, cb][STRIDE, :] = folded
             floors[rb + 1, cb][0, :] = folded
     errors = {key: fields[key].fold(floors[key]) for key in windows}
+    # The fold adds the errors of the vertices below a shared-edge vertex inside each tile, so the two tiles of an edge
+    # can still differ there. Raise the floors to the larger of the two folded edges until both tiles agree (the errors
+    # only grow and are bounded by the largest triangle error, so the loop ends; P-004-02).
+    for _ in range(4 * (nx + ny) + 8):
+        changed: set[tuple[int, int]] = set()
+        for rb, cb in windows:
+            for neighbour, own, other in (
+                ((rb, cb + 1), (slice(None), STRIDE), (slice(None), 0)),  # east: shared column
+                ((rb + 1, cb), (STRIDE, slice(None)), (0, slice(None))),  # south: shared row
+            ):
+                if neighbour not in windows:
+                    continue
+                grid = (
+                    errors[rb, cb].reshape(TILE_SAMPLES, TILE_SAMPLES),
+                    errors[neighbour].reshape(TILE_SAMPLES, TILE_SAMPLES),
+                )
+                folded = _fold_edge(np.maximum(grid[0][own], grid[1][other]))
+                for key, index in (((rb, cb), own), (neighbour, other)):
+                    if np.any(folded > floors[key][index]):
+                        floors[key][index] = np.maximum(floors[key][index], folded)
+                        changed.add(key)
+        if not changed:
+            break
+        for key in changed:
+            errors[key] = fields[key].fold(floors[key])
     tiles: list[Tile] = []
     entries: list[dict[str, Any]] = []
     lod_rows: list[dict[str, Any]] = []
