@@ -117,3 +117,44 @@ def test_011_a_collapse_batch_returns_one_valid_result_per_task() -> None:
     released = engine.collapse_walls([{"p": p, "X0": 0.0, "X1": 1.0, "shift": 0.0}], True)
     assert walls[2].point[0] == pytest.approx(8.0 * D)
     assert released[2].point[0] == pytest.approx(1.0)  # the retaining wall moves out on release
+
+
+@pytest.mark.req("FR-011-03")
+def test_011_no_wall_of_one_dump_instance_touches_the_grains_of_another() -> None:
+    """The crest face is a plane that is infinite along x: without a vertical offset between the instances of a batch it
+    pushes every instance to its left (the gns-v3 calibration saw the last instance rest and the others never
+    finish)."""
+    q = {"x_c_D": 0.0, "h_c_D": 22.0, "z_o_D": 100.0, "w_o_D": 18.0, "x_off_D": 14.0, "n": 24}
+    tasks = [{"p": q, "seed": i, "geom_seed": i} for i in range(4)]
+    insts = engine.feed_instances("dump-over-crest", tasks, CFG)
+    assert [it["elev"] for it in insts] == sorted((it["elev"] for it in insts), reverse=True)
+    xs = np.linspace(0.0, 1.0, 40)
+    for k, it in enumerate(insts):
+        pts_x = it["X0"] + xs * (it["X1"] - it["X0"])
+        pts_z = it["elev"] + np.linspace(0.0, 4.0, 80)
+        for j, other in enumerate(insts):
+            if j == k:
+                continue
+            for plane in engine.instance_walls("dump-over-crest", other):
+                n = np.array(plane.normal)
+                for x in pts_x:
+                    for z in pts_z:
+                        if plane.tangent_range is not None:
+                            axis, lo, hi = plane.tangent_range
+                            if not lo <= (x, 0.0, z)[axis] <= hi:
+                                continue
+                        assert np.dot(np.array([x, 0.0, z]) - np.array(plane.point), n) > 0.0, (k, j, plane)
+
+
+@pytest.mark.req("FR-011-03")
+def test_011_recorded_dump_frames_are_in_the_local_frame_without_the_batch_elevation() -> None:
+    q = {"x_c_D": 0.0, "h_c_D": 9.0, "z_o_D": 12.0, "w_o_D": 10.0, "x_off_D": 6.0, "n": 24}
+    tasks = [{"p": q, "seed": 1, "geom_seed": 1}, {"p": q, "seed": 2, "geom_seed": 2}]
+    res = engine.simulate_feed("dump-over-crest", tasks, engine.NoPacer(), CFG, "cpu", t_cap=2.0)
+    for r in res:
+        if r["status"] == "rest":
+            assert r["frames"][:, :, 1].min() >= 0.0
+            assert (
+                r["frames"][0, :, 1].min() > (9.0 + 12.0) * D
+            )  # the fill starts above the orifice of its own instance
+            assert r["bounds"][3] < 2.0
