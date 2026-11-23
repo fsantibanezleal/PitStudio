@@ -332,16 +332,18 @@ def event_charts(baked: Mapping[str, Any], *, producer: Mapping[str, str]) -> li
         }
     ]
     last = baked["cutoffs"][-1]
+    half = 0.5 * float(last["t_c_h"])
+    shown = [(t, y) for t, y in zip(last["observed_t_h"], last["observed_y"], strict=True) if t >= half]
     series.append(
         {
             "id": "observed",
             "label": _t(
-                "Observed inverse velocity (window to the last cut-off)",
-                "Velocidad inversa observada (ventana hasta el último corte)",
+                "Observed inverse velocity (second half of the window to the last cut-off)",
+                "Velocidad inversa observada (segunda mitad de la ventana hasta el último corte)",
             ),
             "draw": "points",
-            "x": [float(v) for v in last["observed_t_h"]],
-            "y": _nums(last["observed_y"]),
+            "x": [float(t) for t, _ in shown],
+            "y": _nums([y for _, y in shown]),
         }
     )
     markers: list[dict[str, Any]] = [
@@ -486,6 +488,14 @@ def event_charts(baked: Mapping[str, Any], *, producer: Mapping[str, str]) -> li
 # ---------------------------------------------------------------------------------------------------------- U4
 
 
+def _arc(circle: Mapping[str, Any], points: int = 41) -> list[list[float]]:
+    """The lower arc of a critical circle between its entry and exit x."""
+    cx, cz, r = float(circle["centre_x_m"]), float(circle["centre_z_m"]), float(circle["radius_m"])
+    xs = np.linspace(float(circle["entry_x_m"]), float(circle["exit_x_m"]), points)
+    zs = cz - np.sqrt(np.maximum(r * r - (xs - cx) ** 2, 0.0))
+    return [[float(x), float(z)] for x, z in zip(xs, zs, strict=True)]
+
+
 def _k(section_id: str) -> int:
     m = re.search(r"-s(\d+)$", section_id)
     if not m:
@@ -567,6 +577,7 @@ def wall_charts(
                     "r": float(sc["radius_m"]),
                 }
             )
+        arc = _arc(bishop["critical_circle"]) if bishop else []
         chart["section"] = {
             "polylines": [
                 {
@@ -581,6 +592,18 @@ def wall_charts(
                     "role": "other",
                     "points": [[float(sec["crest_x_m"]), zc], [float(sec["toe_x_m"]), zt]],
                 },
+                *(
+                    [
+                        {
+                            "id": "critical-arc",
+                            "label": _t("Critical slip surface (Bishop)", "Superficie de falla crítica (Bishop)"),
+                            "role": "other",
+                            "points": arc,
+                        }
+                    ]
+                    if arc
+                    else []
+                ),
             ],
             "circles": circles,
         }
