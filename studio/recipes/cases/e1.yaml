@@ -1,0 +1,31 @@
+# Case E1: pit shells and pushbacks (spec 017, US-017-2). This recipe holds the CPU stage that is written: the exact minimum-cut
+# ultimate pit at the 40 revenue factors of FR-017-16 on a seeded `oreblocks` deposit (synthetic), the pushback rule of
+# FR-017-17 and the chart-series files of the page. The HiGHS scheduler (FR-017-18..22), the MineLib check (FR-017-23) and the
+# Composer captures (FR-017-29) are later stages and are not part of this recipe yet.
+id: e1-shells
+case: E1
+seed: 3
+description: E1 min-cut nested pit shells over the revenue-factor grid of an oreblocks deposit, pushbacks, charts.
+stages:
+  - id: s50_evaluate
+    variant: shells
+    env: pipeline
+    tool: pitstudio
+    entry: pitstudio_pipeline.planning.e1_run
+    inputs: []
+    params:
+      archetype: porphyry
+      dims: [50, 50, 25]
+      seed: 3
+      t_min_t: 5000000.0   # T_min of FR-017-17: one declared period of processing capacity, in tonnes
+      section_lambdas: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    resources: {gpu: none, disk_gib_est: 0.1, cpu: 1}
+    determinism: bitwise
+    timeout_s: 1800
+    outputs:
+      - {path: e1-shells.json, schema: json, publish: true}
+      - {path: charts/e1-value-vs-lambda.json, schema: contract-chart-series, publish: true}
+      - {path: charts/e1-strip-ratio-vs-lambda.json, schema: contract-chart-series, publish: true}
+      - {path: charts/e1-shell-table.json, schema: contract-chart-series, publish: true}
+      - {path: charts/e1-pushbacks.json, schema: contract-chart-series, publish: true}
+      - {path: charts/e1-sections.json, schema: contract-chart-series, publish: true}
