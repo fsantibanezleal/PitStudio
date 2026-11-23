@@ -37,6 +37,8 @@ test.describe("KPIs without a published artefact (FR-018-05)", () => {
       const kpis = headlineKpis(registry, id);
       await expect(panel.locator("[data-kpi]")).toHaveCount(kpis.length);
       for (const kpi of kpis) {
+        // the forecast error of C1 is published (FR-018-74): its row has a value, a badge and a provenance chip
+        if (id === "C1" && kpi.id === "forecast_error") continue;
         const row = panel.locator(`[data-kpi="${kpi.id}"]`);
         await expect(row).toContainText(kpi.name.en);
         await expect(row).toContainText("Not yet run");
@@ -57,6 +59,8 @@ test.describe("layers (FR-018-04)", () => {
     const layers = page.getByTestId("layers");
     await expect(layers).toBeVisible();
     for (const layer of registry.cases.A1?.layers ?? []) {
+      // the Bingham terrain scene run is published: its layer is enabled on every case
+      if (layer === "terrain-2023") continue;
       const toggle = layers.locator(`button[data-layer="${layer}"]`);
       await expect(toggle).toHaveCount(1);
       await expect(toggle).toBeDisabled();
