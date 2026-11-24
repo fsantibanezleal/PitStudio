@@ -126,12 +126,21 @@ def _run(cmd: list[str], env_extra: dict[str, str]) -> None:
 def _bake(scene: Path, exchange: Path, out: Path, web_dir: str | None) -> None:
     env = {"PYTHONUTF8": "1"}
     web = {"PITSTUDIO_WEB_DIR": web_dir} if web_dir else {}
-    studio = ["uv", "run", "--project", "studio", "python", "-m", "pitstudio_studio.scene.web_terrain"]
+    studio = ["uv", "run", "--no-sync", "--project", "studio", "python", "-m", "pitstudio_studio.scene.web_terrain"]
     _run(
         [*studio, "--scene", str(scene / "st45_validate" / "scene"), "--out", str(exchange)],
         {**env, "PYTHONPATH": str(ROOT / "studio" / "src")},
     )
-    pipeline = ["uv", "run", "--project", "pipeline", "python", "-m", "pitstudio_pipeline.export.web_terrain"]
+    pipeline = [
+        "uv",
+        "run",
+        "--no-sync",
+        "--project",
+        "pipeline",
+        "python",
+        "-m",
+        "pitstudio_pipeline.export.web_terrain",
+    ]
     _run(
         [*pipeline, "--exchange", str(exchange), "--out", str(out)],
         {**env, **web, "PYTHONPATH": str(ROOT / "pipeline" / "src")},
