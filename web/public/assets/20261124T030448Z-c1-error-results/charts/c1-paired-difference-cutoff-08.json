@@ -1,0 +1,167 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c1-paired-difference-cutoff-08",
+ "case": "C1",
+ "chart_type": "bar",
+ "status": "ok",
+ "title": {
+  "en": "Paired difference to inverse velocity, cut-off 0.8",
+  "es": "Diferencia pareada con velocidad inversa, corte 0.8"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "Median with percentile bootstrap, paired percentile bootstrap against inverse velocity, B = 10,000",
+  "version": "0.00.000",
+  "label": "calibrated synthetic, not validated against real data; nominal signal-to-noise strata, no observed SNR"
+ },
+ "serves": [
+  "FR-010-25",
+  "SC-010-02"
+ ],
+ "caption": {
+  "en": "Mean of e(inverse velocity) - e(model) over the same events, paired 95 % bootstrap interval; above 0 favours the model. 24 comparisons made, no family-wise claim.",
+  "es": "Media de e(velocidad inversa) - e(modelo) sobre los mismos eventos, intervalo bootstrap pareado del 95 %; sobre 0 favorece al modelo. 24 comparaciones, sin afirmación conjunta."
+ },
+ "y_axis": {
+  "label": {
+   "en": "Paired mean difference of the relative error",
+   "es": "Diferencia media pareada del error relativo"
+  },
+  "unit": "1"
+ },
+ "categories": [
+  {
+   "id": "tcn",
+   "label": {
+    "en": "TCN",
+    "es": "TCN"
+   }
+  },
+  {
+   "id": "patchtst",
+   "label": {
+    "en": "PatchTST",
+    "es": "PatchTST"
+   }
+  },
+  {
+   "id": "chronos-bolt-zero-shot",
+   "label": {
+    "en": "Chronos-Bolt zero-shot",
+    "es": "Chronos-Bolt sin ajuste"
+   }
+  },
+  {
+   "id": "chronos-bolt-fine-tuned",
+   "label": {
+    "en": "Chronos-Bolt fine-tuned",
+    "es": "Chronos-Bolt ajustado"
+   }
+  }
+ ],
+ "series": [
+  {
+   "id": "nominal-10",
+   "label": {
+    "en": "Nominal SNR 10",
+    "es": "SNR nominal 10"
+   },
+   "y": [
+    5.15523169596532,
+    3.9855447004476727,
+    -0.3464130758122143,
+    0.5415054129662104
+   ],
+   "lo": [
+    2.995670190518364,
+    1.8265390323928916,
+    -2.5064685111135243,
+    -1.6552294887380345
+   ],
+   "hi": [
+    9.204605338708376,
+    8.027557263308694,
+    3.7048660931460784,
+    4.626378577611636
+   ],
+   "n": 500,
+   "band_label": {
+    "en": "95 % paired percentile bootstrap interval",
+    "es": "Intervalo bootstrap percentil pareado del 95 %"
+   }
+  },
+  {
+   "id": "nominal-30",
+   "label": {
+    "en": "Nominal SNR 30",
+    "es": "SNR nominal 30"
+   },
+   "y": [
+    3.859110543851989,
+    3.0878615228936503,
+    -2.1261724920954004,
+    -0.666095425936134
+   ],
+   "lo": [
+    3.242207858771372,
+    2.45780206101333,
+    -2.7479385615630307,
+    -1.3291490920476712
+   ],
+   "hi": [
+    4.6197816252624,
+    3.851930293051583,
+    -1.3673147255715135,
+    0.11778497961624305
+   ],
+   "n": 500,
+   "band_label": {
+    "en": "95 % paired percentile bootstrap interval",
+    "es": "Intervalo bootstrap percentil pareado del 95 %"
+   }
+  },
+  {
+   "id": "nominal-100",
+   "label": {
+    "en": "Nominal SNR 100",
+    "es": "SNR nominal 100"
+   },
+   "y": [
+    4.575397259797733,
+    4.52912556052449,
+    -1.6700774964038547,
+    0.25428204123428577
+   ],
+   "lo": [
+    3.2314502358795187,
+    3.1883705212051137,
+    -3.0142985172965266,
+    -1.1213003859293218
+   ],
+   "hi": [
+    6.438124448858603,
+    6.400437655897073,
+    0.18476779755526768,
+    2.1229340014066236
+   ],
+   "n": 500,
+   "band_label": {
+    "en": "95 % paired percentile bootstrap interval",
+    "es": "Intervalo bootstrap percentil pareado del 95 %"
+   }
+  }
+ ],
+ "markers": [
+  {
+   "id": "no-difference",
+   "label": {
+    "en": "No difference to inverse velocity",
+    "es": "Sin diferencia con velocidad inversa"
+   },
+   "value_text": "0",
+   "orientation": "horizontal",
+   "y": 0.0
+  }
+ ]
+}

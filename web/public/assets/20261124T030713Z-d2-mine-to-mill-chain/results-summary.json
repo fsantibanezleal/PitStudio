@@ -1,0 +1,242 @@
+{
+ "extra": {
+  "assumptions": {
+   "crusher_breakage_phi_gamma_beta": {
+    "status": "UNVERIFIED",
+    "unit": "1",
+    "value": [
+     0.4,
+     0.7,
+     3.0
+    ]
+   },
+   "crusher_k1_over_css": {
+    "status": "UNVERIFIED",
+    "unit": "1",
+    "value": 0.5
+   },
+   "crusher_k2_over_css": {
+    "status": "UNVERIFIED",
+    "unit": "1",
+    "value": 1.0
+   },
+   "crusher_k3": {
+    "status": "UNVERIFIED",
+    "unit": "1",
+    "value": 2.0
+   },
+   "drilling_deviation_m": {
+    "status": "UNVERIFIED",
+    "unit": "m",
+    "value": 0.2
+   },
+   "finest_class_um": {
+    "status": "chosen",
+    "unit": "um",
+    "value": 20.0
+   },
+   "morrell_mia_equals_mib": {
+    "status": "UNVERIFIED",
+    "unit": "bool",
+    "value": true
+   },
+   "relative_weight_strength": {
+    "status": "UNVERIFIED",
+    "unit": "ANFO = 100",
+    "value": 100.0
+   },
+   "rock_density_t_per_m3": {
+    "status": "UNVERIFIED",
+    "unit": "t/m3",
+    "value": 2.7
+   },
+   "size_classes": {
+    "status": "chosen",
+    "unit": "1",
+    "value": 96
+   },
+   "stemming_over_burden": {
+    "status": "UNVERIFIED",
+    "unit": "1",
+    "value": 0.7
+   },
+   "xmax_over_burden": {
+    "status": "UNVERIFIED",
+    "unit": "1",
+    "value": 1.0
+   }
+  },
+  "blast_inputs_total_index_specific_energy": 0.0,
+  "finding": "With a primary crusher between the blast and the mill, the blast inputs together have a total Sobol index of 0.0000 on the specific energy (the crusher setting 0.0005), and the correlation of the log run-of-mine x80 with the log crusher product F80 is -0.043: in this Bond-law chain the mill feed size is set by the crusher, so the blast reaches the mill energy only through the crusher; the coarse-feed (SAG) circuits where fragmentation matters most are not part of this chain.",
+  "log_correlation_rom_x80_crusher_f80": -0.043148,
+  "m17_scope": "comminution chain only; the learned meta-model of M17 is not run",
+  "minephys": "minephys 0.0.0+g98d5b25",
+  "pbm": "the population-balance mill product is not in the minephys chain (open question D2-Q1)",
+  "smallest_feed_f80_um": 40672.765,
+  "sobol_evaluations": 17408,
+  "sobol_n_base": 1024,
+  "sobol_seed": 20261124,
+  "split": {
+   "held_out": 40,
+   "train": 140,
+   "validation": 20
+  },
+  "sweep_evaluations": 12800,
+  "sweep_seed": 20261123,
+  "unverified_rows": [
+   "d2_bench_height",
+   "d2_bond_work_index",
+   "d2_burden",
+   "d2_consumables",
+   "d2_crusher_css",
+   "d2_efficiency",
+   "d2_energy_cap",
+   "d2_energy_cost",
+   "d2_explosive_cost",
+   "d2_hole_diameter",
+   "d2_mill_power",
+   "d2_powder_factor",
+   "d2_rock_factor",
+   "d2_spacing_ratio",
+   "d2_target_p80"
+  ],
+  "validity_warnings_by_argument": {
+   "uniformity_index": 4150
+  }
+ },
+ "headline": [
+  {
+   "kpi": "mill_throughput",
+   "name": "Mill throughput, reference design",
+   "unit": "t/h",
+   "value": 924.2828
+  },
+  {
+   "kpi": "specific_energy",
+   "name": "Specific energy, reference design",
+   "unit": "kWh/t",
+   "value": 10.8192
+  },
+  {
+   "kpi": "cost_per_tonne",
+   "name": "Cost per tonne, reference design",
+   "note": "illustrative unit costs and an assumed rock density (UNVERIFIED)",
+   "unit": "USD/t",
+   "value": 1.4822
+  }
+ ],
+ "label": "calibrated synthetic, not validated against real data",
+ "methods": [
+  "M12",
+  "M17"
+ ],
+ "rows": [
+  {
+   "first_order_specific_energy": 0.5668,
+   "input": "bond_work_index_kwh_per_t",
+   "total_cost": 0.2264,
+   "total_specific_energy": 0.5916,
+   "total_throughput": 0.3022
+  },
+  {
+   "first_order_specific_energy": 0.4077,
+   "input": "target_p80_um",
+   "total_cost": 0.1647,
+   "total_specific_energy": 0.4339,
+   "total_throughput": 0.1572
+  },
+  {
+   "first_order_specific_energy": 0.0005,
+   "input": "crusher_css_mm",
+   "total_cost": 0.0002,
+   "total_specific_energy": 0.0005,
+   "total_throughput": 0.0003
+  },
+  {
+   "first_order_specific_energy": -0.0,
+   "input": "burden_m",
+   "total_cost": 0.0,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  },
+  {
+   "first_order_specific_energy": -0.0,
+   "input": "rock_factor",
+   "total_cost": 0.0,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  },
+  {
+   "first_order_specific_energy": -0.0,
+   "input": "powder_factor_kg_per_m3",
+   "total_cost": 0.0175,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  },
+  {
+   "first_order_specific_energy": -0.0,
+   "input": "bench_height_m",
+   "total_cost": 0.0,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  },
+  {
+   "first_order_specific_energy": 0.0,
+   "input": "hole_diameter_mm",
+   "total_cost": 0.0,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  },
+  {
+   "first_order_specific_energy": 0.0,
+   "input": "spacing_ratio",
+   "total_cost": 0.0,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  },
+  {
+   "first_order_specific_energy": 0.0,
+   "input": "mill_power_kw",
+   "total_cost": 0.0,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.5807
+  },
+  {
+   "first_order_specific_energy": 0.0,
+   "input": "efficiency",
+   "total_cost": 0.0,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.046
+  },
+  {
+   "first_order_specific_energy": 0.0,
+   "input": "energy_cap_kwh_per_t",
+   "total_cost": 0.0,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  },
+  {
+   "first_order_specific_energy": 0.0,
+   "input": "explosive_cost_usd_per_kg",
+   "total_cost": 0.0131,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  },
+  {
+   "first_order_specific_energy": 0.0,
+   "input": "energy_cost_usd_per_kwh",
+   "total_cost": 0.4931,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  },
+  {
+   "first_order_specific_energy": 0.0,
+   "input": "consumables_usd_per_t",
+   "total_cost": 0.1382,
+   "total_specific_energy": 0.0,
+   "total_throughput": 0.0
+  }
+ ],
+ "title": "Mine-to-mill chain: blast fragmentation to mill throughput, energy and cost, with Sobol sensitivity sweeps",
+ "verdict": "ok"
+}

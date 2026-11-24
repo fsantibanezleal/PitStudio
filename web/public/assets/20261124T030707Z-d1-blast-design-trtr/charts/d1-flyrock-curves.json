@@ -1,0 +1,137 @@
+{
+ "caption": {
+  "en": "Ballistic range at a 45 degree launch with quadratic drag (C_D 1, air 1.24 kg/m3, rock 2650 kg/m3).",
+  "es": "Alcance balistico con lanzamiento a 45 grados y arrastre cuadratico (C_D 1, aire 1.24 kg/m3, roca 2650 kg/m3)."
+ },
+ "case": "D1",
+ "chart_type": "line",
+ "id": "d1-flyrock-curves",
+ "kind": "chart-series",
+ "producer": {
+  "label": "model output with illustrative site constants (UNVERIFIED), not validated against real data",
+  "method": "Kuz-Ram (Cunningham 2005) with KCO/Swebrec, scaled-distance PPV and ballistic flyrock of minephys.blasting",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "id": "fragment-50-mm",
+   "label": {
+    "en": "Fragment 50 mm",
+    "es": "Fragmento 50 mm"
+   },
+   "n": 6,
+   "x": [
+    20.0,
+    30.0,
+    40.0,
+    50.0,
+    60.0,
+    80.0
+   ],
+   "y": [
+    33.567952821169285,
+    62.66818353589135,
+    91.16111344567355,
+    116.88447191219419,
+    139.49031660510352,
+    176.63392319889235
+   ]
+  },
+  {
+   "id": "fragment-100-mm",
+   "label": {
+    "en": "Fragment 100 mm",
+    "es": "Fragmento 100 mm"
+   },
+   "n": 6,
+   "x": [
+    20.0,
+    30.0,
+    40.0,
+    50.0,
+    60.0,
+    80.0
+   ],
+   "y": [
+    36.75605021952437,
+    73.95912421615131,
+    115.22731506532666,
+    156.40477181309822,
+    195.37737088112544,
+    264.1451241603155
+   ]
+  },
+  {
+   "id": "fragment-200-mm",
+   "label": {
+    "en": "Fragment 200 mm",
+    "es": "Fragmento 200 mm"
+   },
+   "n": 6,
+   "x": [
+    20.0,
+    30.0,
+    40.0,
+    50.0,
+    60.0,
+    80.0
+   ],
+   "y": [
+    38.645430588107146,
+    81.71504114651835,
+    134.27181128467794,
+    191.74700212788073,
+    250.6727341435644,
+    364.64445378269534
+   ]
+  },
+  {
+   "id": "fragment-400-mm",
+   "label": {
+    "en": "Fragment 400 mm",
+    "es": "Fragmento 400 mm"
+   },
+   "n": 6,
+   "x": [
+    20.0,
+    30.0,
+    40.0,
+    50.0,
+    60.0,
+    80.0
+   ],
+   "y": [
+    39.68195763209377,
+    86.39196300828756,
+    147.02420087809796,
+    217.98680594144994,
+    295.83649686460376,
+    460.90926026130535
+   ]
+  }
+ ],
+ "serves": [
+  "FR-012-41"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Flyrock radius against launch speed",
+  "es": "Radio de proyeccion segun velocidad de lanzamiento"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Launch speed",
+   "es": "Velocidad de lanzamiento"
+  },
+  "unit": "m/s"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Flyrock radius",
+   "es": "Radio de proyeccion"
+  },
+  "unit": "m"
+ }
+}

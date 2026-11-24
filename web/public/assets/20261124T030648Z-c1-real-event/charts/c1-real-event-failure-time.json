@@ -1,0 +1,102 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c1-real-event-failure-time",
+ "case": "C1",
+ "chart_type": "table",
+ "status": "ok",
+ "title": {
+  "en": "de Wit failure time, its uncertainty and its sources",
+  "es": "Tiempo de falla de Wit, su incertidumbre y sus fuentes"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "Prism export of Zenodo record 15003054: median of the top 5 % prisms, five methods at 0.5 and 0.8",
+  "version": "0.00.000",
+  "label": "single real event — no significance test; failure time at day resolution, two documentary sources"
+ },
+ "serves": [
+  "FR-010-13",
+  "FR-010-14",
+  "FR-010-26"
+ ],
+ "caption": {
+  "en": "The failure time is stated by the two sources below to the day; the archive itself states none.",
+  "es": "Las dos fuentes de abajo dan el tiempo de falla al día; el archivo mismo no indica ninguno."
+ },
+ "table": {
+  "columns": [
+   {
+    "id": "item",
+    "label": {
+     "en": "Item",
+     "es": "Elemento"
+    },
+    "type": "text"
+   },
+   {
+    "id": "value",
+    "label": {
+     "en": "Value",
+     "es": "Valor"
+    },
+    "type": "text"
+   },
+   {
+    "id": "source",
+    "label": {
+     "en": "Source or basis",
+     "es": "Fuente o base"
+    },
+    "type": "text"
+   }
+  ],
+  "rows": [
+   [
+    "Failure time t_f (primary)",
+    "2014-02-23T00:00:00, uncertainty +/- 24 h",
+    "de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902 (the article of Zenodo record 15003054)"
+   ],
+   [
+    "Clock zone",
+    "local clock of the archive (AEST, UTC+10, assumed: the archive states no zone, UNVERIFIED)",
+    "the archive states none"
+   ],
+   [
+    "Start of the series t_0",
+    "2014-01-01T20:31:36",
+    "first epoch with enough prisms"
+   ],
+   [
+    "Record length t_f - t_0",
+    "1251.5 h",
+    "computed"
+   ],
+   [
+    "SNR_obs (FR-010-12)",
+    "539.78",
+    "computed on the series between t_0 and t_f"
+   ],
+   [
+    "Sensitivity failure time (not ranked)",
+    "2014-02-20T00:00:00, uncertainty +/- 24 h",
+    "Taylor and de Wit, SSIM 2023, Perth, doi 10.36487/ACG_repo/2335_50"
+   ],
+   [
+    "Source 1",
+    "de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902 (the article of Zenodo record 15003054)",
+    "'a slope failure that occurred on the 23rd February 2014'; Fig. 4: 'The initialisation of slope failure on the 23rd of February 2014 is indicated by the dashed black line'"
+   ],
+   [
+    "Source 2",
+    "Taylor and de Wit, SSIM 2023, Perth, doi 10.36487/ACG_repo/2335_50",
+    "2 March 2014 is '10 days after the slope was interpreted as failing, based on ground radar measurements'"
+   ],
+   [
+    "Blast marked on the curves",
+    "2014-02-11T10:40:42",
+    "date: Taylor and de Wit 2023 (a blast at the foot of the pit wall on 11 February 2014); time: the largest event of the archive's seismic list that day, UNVERIFIED as the blast (the list does not label"
+   ]
+  ]
+ }
+}

@@ -1,0 +1,44 @@
+{
+ "methods": [
+  "M13"
+ ],
+ "title": "C1 wall sections: minimum factor of safety, slip circle and probability of failure",
+ "label": "illustrative rock-mass inputs, UNVERIFIED; 3DEP 2018 DEM section; educational, not design software",
+ "verdict": "ok",
+ "headline": [
+  {
+   "name": "Minimum factor of safety, Bishop",
+   "value": 1.6811,
+   "unit": "1",
+   "note": "lowest of the 3 sections: section 3",
+   "kpi": "fos"
+  },
+  {
+   "name": "Probability of failure",
+   "value": 0.05,
+   "unit": "%",
+   "note": "lowest of the 3 sections: section 3; 1 of 2000 samples, the 64 most critical surfaces",
+   "kpi": "pof"
+  }
+ ],
+ "rows": [
+  {
+   "section": "usgs-3dep-bingham-s1",
+   "fos_bishop": 2.753,
+   "fos_spencer": 2.755,
+   "pof": 0.0
+  },
+  {
+   "section": "usgs-3dep-bingham-s2",
+   "fos_bishop": 1.866,
+   "fos_spencer": 1.863,
+   "pof": 0.0
+  },
+  {
+   "section": "usgs-3dep-bingham-s3",
+   "fos_bishop": 1.681,
+   "fos_spencer": 1.68,
+   "pof": 0.0005
+  }
+ ]
+}

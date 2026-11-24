@@ -1,0 +1,1329 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261124T030643Z-c1-event-curves",
+ "recipe": {
+  "id": "c1-slope",
+  "path": "cases/c1.yaml",
+  "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
+ },
+ "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-24T03:06:43Z",
+ "profile": "imported",
+ "seed": 20261007,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s40_infer"
+   },
+   "tool": "onnx-runtime",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "5402b799d36a3e5dfae4a6ba2d6e24ebc4724dd4bccb76c5037033591ec2a9db",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 20261007,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "charts/c1-iv-voight-test-nominal-10-2000108.json",
+     "sha256": "cba29fd9d5f2ddb09acd477157ad755f12c0ed424ad11e646e0b74f9a589e4e6",
+     "bytes": 87894
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-10-2000108.json",
+     "sha256": "62be8b509f45c91ad1f0ccbc5a15da028025956223b8f7c2219f71284797c35d",
+     "bytes": 13923
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-10-2000450.json",
+     "sha256": "c5c2897c7ca3ba4abacf2fc82a71fb40f8e41a1ab2c781161ce878fe38b45192",
+     "bytes": 87967
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-10-2000450.json",
+     "sha256": "7cd08f02b24c3df6165af3af11363053e149fadfdb1134b901f14822e74ecf62",
+     "bytes": 14034
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-10-2000231.json",
+     "sha256": "c658f4fce3c702edcee3102d2aea1c966abd7685847f510f447afb011424face",
+     "bytes": 84833
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-10-2000231.json",
+     "sha256": "fd7ced5e380f0d89a3ef160222f86d0f09a7849bde53dfe077f2a25187c5539e",
+     "bytes": 13739
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-10-2000498.json",
+     "sha256": "434d7c4c9b588e1b7184c78427e0fc84c2ba37a8d55e4d32769bb493dc7d64ec",
+     "bytes": 78723
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-10-2000498.json",
+     "sha256": "cf27290d1932e4bcbe207ebd3bc12fd38db504383fb32b06fc219143ff3a040b",
+     "bytes": 13710
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-100-2001097.json",
+     "sha256": "7ac438a14410fc8f7b6d0689b1f754fc95e884a3ebf9d2dc4d197841fbdea0db",
+     "bytes": 85647
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-100-2001097.json",
+     "sha256": "8b75fabf62c14618a0ee0c1182bdd5ff5e286c585d0b23a0ed0b09b6bb18a76f",
+     "bytes": 13806
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-100-2001320.json",
+     "sha256": "f405f5b62183582505554481270edb63aa5e551a6c1a1d382ea23e1efe36138e",
+     "bytes": 89669
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-100-2001320.json",
+     "sha256": "70f03aa85eadc9fd9885f0e2f4d409bed578848dffadee40027e1b0092ba0e53",
+     "bytes": 13646
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-100-2001262.json",
+     "sha256": "9e6cd94bc87682c7fe9c0b939e77d91b4c4427536ce96e9545d8c4fd62b1c0a0",
+     "bytes": 81467
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-100-2001262.json",
+     "sha256": "b7c2a09a1350381f53bade08bc05c307f2b121e3838f5467777c3d4c9ed0ed87",
+     "bytes": 13748
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-100-2001114.json",
+     "sha256": "5669335905643ac710f420f262a11080f9331790fd8367c1a71f291cc72f0adb",
+     "bytes": 78804
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-100-2001114.json",
+     "sha256": "271ea862777fa34efc2b6516e429af9ba62b56b19138a00e9895a97d43fdd7de",
+     "bytes": 13732
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-30-2000810.json",
+     "sha256": "892ab13ed00fe60ff84afae8cec4fec399de12a58a028b271656977753978d36",
+     "bytes": 84982
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-30-2000810.json",
+     "sha256": "96eadd7d6e24edcf8d448a952ddfa919944302cfb6fac89b7c47718fa02be5cf",
+     "bytes": 13594
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-30-2000613.json",
+     "sha256": "d866b0dcaac5c9d8048401f42c90caca206dc44924e7f4a6d586de27c4d7b633",
+     "bytes": 88165
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-30-2000613.json",
+     "sha256": "731855330fafe9bc7ea72e4698706f8ab7e2a99f0e4fee32401e4ae436c08812",
+     "bytes": 13713
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-30-2000603.json",
+     "sha256": "5927e5de65ba5d67b001b5e891d99d26bcf6cf4e9507c92c3a9d9e47f95facbd",
+     "bytes": 88154
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-30-2000603.json",
+     "sha256": "d2a99b8e7baf6b6716129d759c77bee8cc50847fdd1084fe08546803ca9285d7",
+     "bytes": 13645
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-30-2000601.json",
+     "sha256": "69e4329140c19dd8973e345505afb4236d5fb4ec7798d15ff72f4136f37be8d1",
+     "bytes": 81736
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-30-2000601.json",
+     "sha256": "fa35dda3ac7a3aebbbed7255dcb47f6cfa90f2d7d1c6c0a02317e026f3bee51d",
+     "bytes": 13755
+    },
+    {
+     "name": "event-curves.json",
+     "sha256": "2eae6723d4a34deb827d5fb2c4047c271494a47b69ccfc630d288bbbf06eaa66",
+     "bytes": 1545665
+    },
+    {
+     "name": "results-summary.json",
+     "sha256": "1daa6797a03ee0b80de21f44b0e476814f1a5059980bfb144a10681d706a2591",
+     "bytes": 3010
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "c1-iv-voight-test-nominal-10-2000108",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000108.json",
+   "bytes": 87894,
+   "sha256": "cba29fd9d5f2ddb09acd477157ad755f12c0ed424ad11e646e0b74f9a589e4e6",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-10-2000108",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000108.json",
+   "bytes": 13923,
+   "sha256": "62be8b509f45c91ad1f0ccbc5a15da028025956223b8f7c2219f71284797c35d",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-10-2000450",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000450.json",
+   "bytes": 87967,
+   "sha256": "c5c2897c7ca3ba4abacf2fc82a71fb40f8e41a1ab2c781161ce878fe38b45192",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-10-2000450",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000450.json",
+   "bytes": 14034,
+   "sha256": "7cd08f02b24c3df6165af3af11363053e149fadfdb1134b901f14822e74ecf62",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-10-2000231",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000231.json",
+   "bytes": 84833,
+   "sha256": "c658f4fce3c702edcee3102d2aea1c966abd7685847f510f447afb011424face",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-10-2000231",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000231.json",
+   "bytes": 13739,
+   "sha256": "fd7ced5e380f0d89a3ef160222f86d0f09a7849bde53dfe077f2a25187c5539e",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-10-2000498",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000498.json",
+   "bytes": 78723,
+   "sha256": "434d7c4c9b588e1b7184c78427e0fc84c2ba37a8d55e4d32769bb493dc7d64ec",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-10-2000498",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000498.json",
+   "bytes": 13710,
+   "sha256": "cf27290d1932e4bcbe207ebd3bc12fd38db504383fb32b06fc219143ff3a040b",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-100-2001097",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001097.json",
+   "bytes": 85647,
+   "sha256": "7ac438a14410fc8f7b6d0689b1f754fc95e884a3ebf9d2dc4d197841fbdea0db",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-100-2001097",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001097.json",
+   "bytes": 13806,
+   "sha256": "8b75fabf62c14618a0ee0c1182bdd5ff5e286c585d0b23a0ed0b09b6bb18a76f",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-100-2001320",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001320.json",
+   "bytes": 89669,
+   "sha256": "f405f5b62183582505554481270edb63aa5e551a6c1a1d382ea23e1efe36138e",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-100-2001320",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001320.json",
+   "bytes": 13646,
+   "sha256": "70f03aa85eadc9fd9885f0e2f4d409bed578848dffadee40027e1b0092ba0e53",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-100-2001262",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001262.json",
+   "bytes": 81467,
+   "sha256": "9e6cd94bc87682c7fe9c0b939e77d91b4c4427536ce96e9545d8c4fd62b1c0a0",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-100-2001262",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001262.json",
+   "bytes": 13748,
+   "sha256": "b7c2a09a1350381f53bade08bc05c307f2b121e3838f5467777c3d4c9ed0ed87",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-100-2001114",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001114.json",
+   "bytes": 78804,
+   "sha256": "5669335905643ac710f420f262a11080f9331790fd8367c1a71f291cc72f0adb",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-100-2001114",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001114.json",
+   "bytes": 13732,
+   "sha256": "271ea862777fa34efc2b6516e429af9ba62b56b19138a00e9895a97d43fdd7de",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-30-2000810",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000810.json",
+   "bytes": 84982,
+   "sha256": "892ab13ed00fe60ff84afae8cec4fec399de12a58a028b271656977753978d36",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-30-2000810",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000810.json",
+   "bytes": 13594,
+   "sha256": "96eadd7d6e24edcf8d448a952ddfa919944302cfb6fac89b7c47718fa02be5cf",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-30-2000613",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000613.json",
+   "bytes": 88165,
+   "sha256": "d866b0dcaac5c9d8048401f42c90caca206dc44924e7f4a6d586de27c4d7b633",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-30-2000613",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000613.json",
+   "bytes": 13713,
+   "sha256": "731855330fafe9bc7ea72e4698706f8ab7e2a99f0e4fee32401e4ae436c08812",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-30-2000603",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000603.json",
+   "bytes": 88154,
+   "sha256": "5927e5de65ba5d67b001b5e891d99d26bcf6cf4e9507c92c3a9d9e47f95facbd",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-30-2000603",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000603.json",
+   "bytes": 13645,
+   "sha256": "d2a99b8e7baf6b6716129d759c77bee8cc50847fdd1084fe08546803ca9285d7",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-iv-voight-test-nominal-30-2000601",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000601.json",
+   "bytes": 81736,
+   "sha256": "69e4329140c19dd8973e345505afb4236d5fb4ec7798d15ff72f4136f37be8d1",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-disp-voight-test-nominal-30-2000601",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000601.json",
+   "bytes": 13755,
+   "sha256": "fa35dda3ac7a3aebbbed7255dcb47f6cfa90f2d7d1c6c0a02317e026f3bee51d",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-event-curves-results",
+   "run_id": "20261124T030643Z-c1-event-curves",
+   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+   "path": "assets/20261124T030643Z-c1-event-curves/results-summary.json",
+   "bytes": 3010,
+   "sha256": "1daa6797a03ee0b80de21f44b0e476814f1a5059980bfb144a10681d706a2591",
+   "kind": "table",
+   "producer": {
+    "tool": "onnx-runtime",
+    "stage": {
+     "id": "s40_infer"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced on the CPU, on this machine, with onnx-runtime, outside the runner",
+  "job c1-event-curves",
+  "no GPU time and no timing are recorded",
+  "calibrated synthetic, not validated against real data; nominal signal-to-noise strata, no observed SNR",
+  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 47f56a0263235c936b7bb8801b209c5e49651ae9; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
+  "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files)."
+ ]
+}

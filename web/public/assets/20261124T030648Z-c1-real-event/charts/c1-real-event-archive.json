@@ -1,0 +1,97 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c1-real-event-archive",
+ "case": "C1",
+ "chart_type": "table",
+ "status": "ok",
+ "title": {
+  "en": "de Wit archive: what it holds",
+  "es": "Archivo de Wit: qué contiene"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "Prism export of Zenodo record 15003054: median of the top 5 % prisms, five methods at 0.5 and 0.8",
+  "version": "0.00.000",
+  "label": "single real event — no significance test; failure time at day resolution, two documentary sources"
+ },
+ "serves": [
+  "FR-010-13",
+  "FR-010-14"
+ ],
+ "caption": {
+  "en": "Members of Data.zip (checksum matches the Zenodo record). Prism export: 160 prisms, 82,401 rows, 01-Jan-14 16:16:55 to 06-Aug-14 05:40:38.",
+  "es": "Contenido de Data.zip (la suma de verificación coincide con el registro de Zenodo). Exportación de prismas: 160 prismas, 82,401 filas, 01-Jan-14 16:16:55 a 06-Aug-14 05:40:38."
+ },
+ "table": {
+  "columns": [
+   {
+    "id": "member",
+    "label": {
+     "en": "Member",
+     "es": "Elemento"
+    },
+    "type": "text"
+   },
+   {
+    "id": "bytes",
+    "label": {
+     "en": "Size",
+     "es": "Tamaño"
+    },
+    "type": "number",
+    "unit": "B"
+   },
+   {
+    "id": "first-line",
+    "label": {
+     "en": "First data line",
+     "es": "Primera línea de datos"
+    },
+    "type": "text"
+   }
+  ],
+  "rows": [
+   [
+    "radar-deformation-data/slopeMovement.dat",
+    12795137,
+    "%Prism,day,month,year,hour,minute,second,Easting,Northing,Height,Adjusted Distance Diff,Unadjusted Slope Distance Diff,Easting Diff,Northing Diff,Height Diff"
+   ],
+   [
+    "radar-deformation-data/South_West_Corner_06082014.csv",
+    13371991,
+    "Prism,Date,Time,Easting,Northing,Height,Adjusted Distance Diff,Unadjusted Slope Distance Diff,Easting Diff,Northing Diff,Height Diff"
+   ],
+   [
+    "radar-deformation-data/West Wall Prism Movements - 3 months to 20-Feb-14.csv",
+    505043,
+    "Prism,Date,Time,Easting,Northing,RL,Cumulative 3D Movement (mm) Since 20th Nov"
+   ],
+   [
+    "seismic-event-data/events-and-blasts.csv",
+    71691,
+    "#Index,EventTimeEpochSeconds,Local Magnitude,Potency [m^3],LocE [m],LocN [m],LocU [m]"
+   ],
+   [
+    "velocity-change-measurements/mean-velocity-changes.txt",
+    3627,
+    "Date\tVelocity Change (%)\tVelocity Change plus Standard Deviation (%)\tVelocity Change minus Standard Deviation (%)"
+   ],
+   [
+    "weather-data/IDCJAC0009_029167_2013_Data.csv",
+    14012,
+    "Product code,Bureau of Meteorology station number,Year,Month,Day,Rainfall amount (millimetres),Period over which rainfall was measured (days),Quality"
+   ],
+   [
+    "weather-data/IDCJAC0009_029167_2014_Data.csv",
+    14022,
+    "Product code,Bureau of Meteorology station number,Year,Month,Day,Rainfall amount (millimetres),Period over which rainfall was measured (days),Quality"
+   ],
+   [
+    "weather-data/IDCJMD0040.029167.SiteInfo.pdf",
+    294429,
+    ""
+   ]
+  ]
+ }
+}

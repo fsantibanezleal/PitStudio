@@ -1,0 +1,407 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261124T030503Z-c1-wall-sections",
+ "recipe": {
+  "id": "c1-slope",
+  "path": "cases/c1.yaml",
+  "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
+ },
+ "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-24T03:05:03Z",
+ "profile": "imported",
+ "seed": 20261007,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s20_feature_extraction"
+   },
+   "tool": "minephys",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "108111cd189561cb49c993dd9787d8c723a2684298c9b3621c29e97369f72f6d",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 20261007,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "charts/c1-wall-s1-section.json",
+     "sha256": "4ab649834d5d4673e2d64c96451b97cac7f94a5bb6b9b963e3f7cf92c5cab9ba",
+     "bytes": 15150
+    },
+    {
+     "name": "charts/c1-wall-s1-pof.json",
+     "sha256": "f4f3019cc58f81c5681555b8b45f806d95f4b4d09e002f570165483ce6d01a7f",
+     "bytes": 3250
+    },
+    {
+     "name": "charts/c1-wall-s2-section.json",
+     "sha256": "eb1fa10b7ca7e6395ac6594676af2d8e7f460b72c1e7cf661a28de3f425bfc76",
+     "bytes": 17728
+    },
+    {
+     "name": "charts/c1-wall-s2-pof.json",
+     "sha256": "3c00f1444979bcc1b129a76d299bab3229693009ddd6976bad1d2cfdc8594c4c",
+     "bytes": 3256
+    },
+    {
+     "name": "charts/c1-wall-s3-section.json",
+     "sha256": "c2d54b4896d920f4fdcf894627de8807981759368576f477f9cfe3ee26d3251c",
+     "bytes": 18663
+    },
+    {
+     "name": "charts/c1-wall-s3-pof.json",
+     "sha256": "6823b9d9f4162d84f5a28e595f390054f9765b9dd199b35760597977629be2e4",
+     "bytes": 3281
+    },
+    {
+     "name": "charts/c1-wall-table.json",
+     "sha256": "1a5fe7f70013374388ef9434c276eda40a815f0f72497bdd5c66a7847e91179a",
+     "bytes": 3665
+    },
+    {
+     "name": "sections/usgs-3dep-bingham-s1.json",
+     "sha256": "d1aedd124c1648d4476b33a6670650b3dc2c3d6248f90a6f99f597fc885d1143",
+     "bytes": 14030
+    },
+    {
+     "name": "sections/usgs-3dep-bingham-s2.json",
+     "sha256": "be186ed315f60164c41aa8be3aeb87fb333a2b1c6052487e0415685c8a9e6649",
+     "bytes": 16256
+    },
+    {
+     "name": "sections/usgs-3dep-bingham-s3.json",
+     "sha256": "620133961c34794bc90fce14430ac134919554ed80347c51728d9fda84ee8f71",
+     "bytes": 17095
+    },
+    {
+     "name": "oracle-check.json",
+     "sha256": "e3b142cfd1a1d04617a0865021e5589ee7641cfd51525e374fc0678f0ab1c798",
+     "bytes": 1786
+    },
+    {
+     "name": "results-summary.json",
+     "sha256": "14e63473e98c6564d68845569685fd69c71d9759b6c4e245c138f5e3edfe0eab",
+     "bytes": 1017
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "c1-wall-s1-section",
+   "run_id": "20261124T030503Z-c1-wall-sections",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s1-section.json",
+   "bytes": 15150,
+   "sha256": "4ab649834d5d4673e2d64c96451b97cac7f94a5bb6b9b963e3f7cf92c5cab9ba",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s20_feature_extraction"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usgs-3dep-bingham-window",
+     "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-wall-s1-pof",
+   "run_id": "20261124T030503Z-c1-wall-sections",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s1-pof.json",
+   "bytes": 3250,
+   "sha256": "f4f3019cc58f81c5681555b8b45f806d95f4b4d09e002f570165483ce6d01a7f",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s20_feature_extraction"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usgs-3dep-bingham-window",
+     "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-wall-s2-section",
+   "run_id": "20261124T030503Z-c1-wall-sections",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s2-section.json",
+   "bytes": 17728,
+   "sha256": "eb1fa10b7ca7e6395ac6594676af2d8e7f460b72c1e7cf661a28de3f425bfc76",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s20_feature_extraction"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usgs-3dep-bingham-window",
+     "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-wall-s2-pof",
+   "run_id": "20261124T030503Z-c1-wall-sections",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s2-pof.json",
+   "bytes": 3256,
+   "sha256": "3c00f1444979bcc1b129a76d299bab3229693009ddd6976bad1d2cfdc8594c4c",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s20_feature_extraction"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usgs-3dep-bingham-window",
+     "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-wall-s3-section",
+   "run_id": "20261124T030503Z-c1-wall-sections",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s3-section.json",
+   "bytes": 18663,
+   "sha256": "c2d54b4896d920f4fdcf894627de8807981759368576f477f9cfe3ee26d3251c",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s20_feature_extraction"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usgs-3dep-bingham-window",
+     "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-wall-s3-pof",
+   "run_id": "20261124T030503Z-c1-wall-sections",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s3-pof.json",
+   "bytes": 3281,
+   "sha256": "6823b9d9f4162d84f5a28e595f390054f9765b9dd199b35760597977629be2e4",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s20_feature_extraction"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usgs-3dep-bingham-window",
+     "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-wall-table",
+   "run_id": "20261124T030503Z-c1-wall-sections",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-table.json",
+   "bytes": 3665,
+   "sha256": "1a5fe7f70013374388ef9434c276eda40a815f0f72497bdd5c66a7847e91179a",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s20_feature_extraction"
+    }
+   },
+   "inputs": [
+    {
+     "id": "usgs-3dep-bingham",
+     "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+     "kind": "source"
+    },
+    {
+     "id": "usgs-3dep-bingham-window",
+     "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-wall-sections-results",
+   "run_id": "20261124T030503Z-c1-wall-sections",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030503Z-c1-wall-sections/results-summary.json",
+   "bytes": 1017,
+   "sha256": "14e63473e98c6564d68845569685fd69c71d9759b6c4e245c138f5e3edfe0eab",
+   "kind": "table",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s20_feature_extraction"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced on the CPU, on this machine, with minephys, outside the runner",
+  "job c1-wall-sections",
+  "no GPU time and no timing are recorded",
+  "illustrative rock-mass inputs, UNVERIFIED; 3DEP 2018 DEM section; educational, not design software",
+  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 3e64a500a1b3b09e3276892bfd2d156817afeba3; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
+  "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files)."
+ ]
+}

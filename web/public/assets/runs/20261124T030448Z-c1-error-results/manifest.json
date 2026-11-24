@@ -1,0 +1,537 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261124T030448Z-c1-error-results",
+ "recipe": {
+  "id": "c1-slope",
+  "path": "cases/c1.yaml",
+  "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
+ },
+ "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-24T03:04:48Z",
+ "profile": "imported",
+ "seed": 20261007,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s50_evaluate"
+   },
+   "tool": "pitstudio",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "94ef9862594d7c6b895817976b4675136e55c4c7d122cc5425133d642dcec73c",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 20261007,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "charts/c1-median-error-cutoff-05.json",
+     "sha256": "1d53f2ea47d57e35f55035222633bcba4dd82b3b988c8d92e5a94580a303e0f9",
+     "bytes": 4249
+    },
+    {
+     "name": "charts/c1-median-error-cutoff-08.json",
+     "sha256": "a5831bb6d3ffb47fec79ae52a1c69b2ba6f706d6da0eb5b69b1b7ff1c1a2281c",
+     "bytes": 4210
+    },
+    {
+     "name": "charts/c1-paired-difference-cutoff-05.json",
+     "sha256": "e154903db0a498c9ec013c614165b97bebc1e14e2976613e2865fb9b227f9ce7",
+     "bytes": 3840
+    },
+    {
+     "name": "charts/c1-paired-difference-cutoff-08.json",
+     "sha256": "5024254482e0073fcdb58b0142b9d4761d8296f3f8fa98cb1bb3d4f989e99b6f",
+     "bytes": 3825
+    },
+    {
+     "name": "charts/c1-error-ecdf-nominal-10-cutoff-05.json",
+     "sha256": "c0654b42bed58511125fa1ea8716a6d049cc6a75684376f9d895c3176e12d4a3",
+     "bytes": 7639
+    },
+    {
+     "name": "charts/c1-error-ecdf-nominal-10-cutoff-08.json",
+     "sha256": "aea1c4a6875615777a11dbd3f5ae73e5226cf9fd00623137b159fcd01f7a81ad",
+     "bytes": 7813
+    },
+    {
+     "name": "charts/c1-error-ecdf-nominal-30-cutoff-05.json",
+     "sha256": "357301a6cc28637be37cf75cd87987885b3127afc372ab8572bfafc1cf1765cb",
+     "bytes": 7624
+    },
+    {
+     "name": "charts/c1-error-ecdf-nominal-30-cutoff-08.json",
+     "sha256": "36b497d68d1eb9530e937a21403864b1749bfecf15268db03044920f702468f0",
+     "bytes": 7844
+    },
+    {
+     "name": "charts/c1-error-ecdf-nominal-100-cutoff-05.json",
+     "sha256": "d3d7d33d28867bb510a6c96f5ed5e1273cc89270d8349efa08326c58def179c1",
+     "bytes": 7629
+    },
+    {
+     "name": "charts/c1-error-ecdf-nominal-100-cutoff-08.json",
+     "sha256": "00c0edaae0c2bf188cd6a182dcb6c22a6cdfa8522ea01c56b768bbc5bc1c433e",
+     "bytes": 7825
+    },
+    {
+     "name": "charts/c1-error-table.json",
+     "sha256": "51eba28f4e439f799f41b751cf4ffb70fdeee9493aea482fc44616507c6e85b6",
+     "bytes": 6842
+    },
+    {
+     "name": "charts/c1-acceptance-sc-010-01.json",
+     "sha256": "14c8395b126f4a135d639fc02bd6f3d4da666e6546ebecea3983d6a2ca539e86",
+     "bytes": 899
+    },
+    {
+     "name": "error-results.json",
+     "sha256": "01fe1dfe37aa3b5b1b6bf80b01ff21ccc25c5972ebff9c9d5234ee83effe88df",
+     "bytes": 87029
+    },
+    {
+     "name": "results-summary.json",
+     "sha256": "1f98e316f108ba82866574969473051d4c08ce30a4861264ca713f1bd9c0642d",
+     "bytes": 5181
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "c1-median-error-cutoff-05",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-median-error-cutoff-05.json",
+   "bytes": 4249,
+   "sha256": "1d53f2ea47d57e35f55035222633bcba4dd82b3b988c8d92e5a94580a303e0f9",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-median-error-cutoff-08",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-median-error-cutoff-08.json",
+   "bytes": 4210,
+   "sha256": "a5831bb6d3ffb47fec79ae52a1c69b2ba6f706d6da0eb5b69b1b7ff1c1a2281c",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-paired-difference-cutoff-05",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-paired-difference-cutoff-05.json",
+   "bytes": 3840,
+   "sha256": "e154903db0a498c9ec013c614165b97bebc1e14e2976613e2865fb9b227f9ce7",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-paired-difference-cutoff-08",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-paired-difference-cutoff-08.json",
+   "bytes": 3825,
+   "sha256": "5024254482e0073fcdb58b0142b9d4761d8296f3f8fa98cb1bb3d4f989e99b6f",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-error-ecdf-nominal-10-cutoff-05",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-10-cutoff-05.json",
+   "bytes": 7639,
+   "sha256": "c0654b42bed58511125fa1ea8716a6d049cc6a75684376f9d895c3176e12d4a3",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-error-ecdf-nominal-10-cutoff-08",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-10-cutoff-08.json",
+   "bytes": 7813,
+   "sha256": "aea1c4a6875615777a11dbd3f5ae73e5226cf9fd00623137b159fcd01f7a81ad",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-error-ecdf-nominal-30-cutoff-05",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-30-cutoff-05.json",
+   "bytes": 7624,
+   "sha256": "357301a6cc28637be37cf75cd87987885b3127afc372ab8572bfafc1cf1765cb",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-error-ecdf-nominal-30-cutoff-08",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-30-cutoff-08.json",
+   "bytes": 7844,
+   "sha256": "36b497d68d1eb9530e937a21403864b1749bfecf15268db03044920f702468f0",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-error-ecdf-nominal-100-cutoff-05",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-100-cutoff-05.json",
+   "bytes": 7629,
+   "sha256": "d3d7d33d28867bb510a6c96f5ed5e1273cc89270d8349efa08326c58def179c1",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-error-ecdf-nominal-100-cutoff-08",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-100-cutoff-08.json",
+   "bytes": 7825,
+   "sha256": "00c0edaae0c2bf188cd6a182dcb6c22a6cdfa8522ea01c56b768bbc5bc1c433e",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-error-table",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-table.json",
+   "bytes": 6842,
+   "sha256": "51eba28f4e439f799f41b751cf4ffb70fdeee9493aea482fc44616507c6e85b6",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-acceptance-sc-010-01",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-acceptance-sc-010-01.json",
+   "bytes": 899,
+   "sha256": "14c8395b126f4a135d639fc02bd6f3d4da666e6546ebecea3983d6a2ca539e86",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [
+    {
+     "id": "c1-ttf-results-job33",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "c1-error-results-results",
+   "run_id": "20261124T030448Z-c1-error-results",
+   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+   "path": "assets/20261124T030448Z-c1-error-results/results-summary.json",
+   "bytes": 5181,
+   "sha256": "1f98e316f108ba82866574969473051d4c08ce30a4861264ca713f1bd9c0642d",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced on the CPU, on this machine, with pitstudio, outside the runner",
+  "job c1-error-results",
+  "no GPU time and no timing are recorded",
+  "calibrated synthetic, not validated against real data; nominal signal-to-noise strata, no observed SNR",
+  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 3e64a500a1b3b09e3276892bfd2d156817afeba3; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
+  "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files)."
+ ]
+}

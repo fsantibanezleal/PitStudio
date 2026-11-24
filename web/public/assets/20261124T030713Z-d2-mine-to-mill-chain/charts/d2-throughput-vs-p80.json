@@ -1,0 +1,122 @@
+{
+ "caption": {
+  "en": "Median and 10 to 90 percent range of 12800 chain evaluations of the sweep in 15 bins of target P80; every other input varies over its box.",
+  "es": "Mediana y rango 10 a 90 por ciento de 12800 evaluaciones de la cadena en 15 tramos de P80 objetivo; las demas entradas varian en su caja."
+ },
+ "case": "D2",
+ "chart_type": "line",
+ "id": "d2-throughput-vs-p80",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic, not validated against real data",
+  "method": "Kuz-Ram/KCO blast, Whiten crusher, Bond law and cost chain; scrambled-Sobol sweeps and Saltelli/Jansen Sobol indices",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "10th to 90th percentile",
+    "es": "Percentil 10 a 90"
+   },
+   "hi": [
+    1475.0219277196384,
+    1576.9663809401588,
+    1829.3185822841513,
+    2266.552794258007,
+    2175.128344527184,
+    1747.2724786516058,
+    1887.3198700656899,
+    2679.888657890981,
+    1589.960750776339,
+    2671.239756790842,
+    3347.1907573326134,
+    2597.718167689176,
+    2462.470605952608,
+    2760.495093357209,
+    3167.910111180342
+   ],
+   "id": "median-throughput",
+   "label": {
+    "en": "Median",
+    "es": "Mediana"
+   },
+   "lo": [
+    505.4187250981789,
+    405.52733340805753,
+    426.8838918361163,
+    685.6660486337166,
+    451.0234465783615,
+    556.637625800584,
+    698.8843937395086,
+    579.5104303244357,
+    833.4155305058096,
+    506.87417128156744,
+    744.6760242270868,
+    765.9847252161687,
+    819.719995775884,
+    575.2038857367552,
+    754.5259562351739
+   ],
+   "n": 12800,
+   "x": [
+    82.12364060538155,
+    97.78763219320143,
+    112.52379751800058,
+    127.13567675628627,
+    141.60834301191454,
+    157.3914910107851,
+    172.86581693647,
+    187.83291736259483,
+    202.70436304687922,
+    217.95490470249206,
+    231.653282379445,
+    247.27057551665763,
+    261.9780684588477,
+    277.33277934936007,
+    292.3452986099829
+   ],
+   "y": [
+    957.1825585643687,
+    918.0004592951143,
+    1029.8873347169338,
+    1107.0451523411457,
+    1113.5100929878856,
+    1216.1588486274607,
+    1214.8122228101738,
+    1621.9596059017038,
+    1285.6384178473163,
+    1609.0987522892756,
+    1570.9610104548738,
+    1588.6097467759969,
+    1334.1240181047679,
+    1722.478299798896,
+    1764.6803525067949
+   ]
+  }
+ ],
+ "serves": [
+  "FR-017-01",
+  "FR-017-02"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Mill throughput against the target P80",
+  "es": "Rendimiento de la planta segun el P80 objetivo"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Target P80",
+   "es": "P80 objetivo"
+  },
+  "unit": "um"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Mill throughput",
+   "es": "Rendimiento de la planta"
+  },
+  "unit": "t/h"
+ }
+}

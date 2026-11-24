@@ -1,0 +1,193 @@
+{
+ "caption": {
+  "en": "Sizes in pixels; oversize = area share above 169 px. Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed.",
+  "es": "Tamanos en pixeles; sobretamano = fraccion de area sobre 169 px. Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+ },
+ "case": "D1",
+ "chart_type": "table",
+ "id": "d1-fold-table",
+ "kind": "chart-series",
+ "producer": {
+  "label": "real images (Mendeley Data 78ht3pjsr4, CC BY 4.0); metrics only, no image is published",
+  "method": "TRTR U-Net inference on the CPU, FR-012-19 instance decoder, area-weighted instance PSD (FR-012-24)",
+  "tool": "pitstudio",
+  "version": "0.0.0"
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-012-29",
+  "FR-012-24"
+ ],
+ "status": "ok",
+ "table": {
+  "columns": [
+   {
+    "id": "fold",
+    "label": {
+     "en": "Fold",
+     "es": "Particion"
+    },
+    "type": "text"
+   },
+   {
+    "id": "n-test",
+    "label": {
+     "en": "Test originals",
+     "es": "Originales de prueba"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "iou",
+    "label": {
+     "en": "IoU, CPU",
+     "es": "IoU, CPU"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "p50-gt",
+    "label": {
+     "en": "Truth P50",
+     "es": "P50 verdad"
+    },
+    "type": "number",
+    "unit": "px"
+   },
+   {
+    "id": "p50-unet",
+    "label": {
+     "en": "U-Net P50",
+     "es": "P50 U-Net"
+    },
+    "type": "number",
+    "unit": "px"
+   },
+   {
+    "id": "p80-gt",
+    "label": {
+     "en": "Truth P80",
+     "es": "P80 verdad"
+    },
+    "type": "number",
+    "unit": "px"
+   },
+   {
+    "id": "p80-unet",
+    "label": {
+     "en": "U-Net P80",
+     "es": "P80 U-Net"
+    },
+    "type": "number",
+    "unit": "px"
+   },
+   {
+    "id": "over-gt",
+    "label": {
+     "en": "Truth oversize",
+     "es": "Sobretamano verdad"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "over-unet",
+    "label": {
+     "en": "U-Net oversize",
+     "es": "Sobretamano U-Net"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "x50-err",
+    "label": {
+     "en": "Mean x50 error",
+     "es": "Error medio de x50"
+    },
+    "type": "number",
+    "unit": "1"
+   }
+  ],
+  "rows": [
+   [
+    "fold 0",
+    48,
+    0.8839355176926795,
+    80.62989832043978,
+    100.6619708359774,
+    123.95090184137311,
+    166.00141703589108,
+    0.059461936656185266,
+    0.1875712174928601,
+    0.26866890368025437
+   ],
+   [
+    "fold 1",
+    45,
+    0.8850916608278627,
+    86.41198298736391,
+    99.22307924557228,
+    140.19585302437486,
+    173.88106284217426,
+    0.10785100743920606,
+    0.21804835436590153,
+    0.20770410120163596
+   ],
+   [
+    "fold 2",
+    42,
+    0.894517877626117,
+    87.14476458288395,
+    108.43590779648613,
+    131.39226821622555,
+    178.26135977403737,
+    0.061906295473796225,
+    0.223694980332651,
+    0.21505416508515288
+   ],
+   [
+    "fold 3",
+    60,
+    0.8926222603522411,
+    87.17775195085085,
+    110.53042568894483,
+    137.84311312221442,
+    175.26399076400804,
+    0.09668789608754569,
+    0.21533386690463252,
+    0.26266084154419383
+   ],
+   [
+    "fold 4",
+    45,
+    0.8986484812810618,
+    84.41117869527224,
+    107.1787537749251,
+    140.06278962395695,
+    176.97078978214705,
+    0.11376351785955674,
+    0.23251374015382054,
+    0.2658487380110362
+   ],
+   [
+    "all folds",
+    240,
+    0.8909631595559924,
+    84.6357050193013,
+    106.80919316202014,
+    133.5171768527819,
+    174.23537132221898,
+    0.08846600671913174,
+    0.21521625179568682,
+    0.24398734990445464
+   ]
+  ]
+ },
+ "title": {
+  "en": "Per-fold TRTR results and instance size quantiles",
+  "es": "Resultados TRTR por particion y cuantiles de tamano de instancias"
+ }
+}

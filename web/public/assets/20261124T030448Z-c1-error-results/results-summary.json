@@ -1,0 +1,234 @@
+{
+ "methods": [
+  "M14"
+ ],
+ "title": "C1 forecast error by method and noise stratum, with paired intervals against inverse velocity",
+ "label": "calibrated synthetic, not validated against real data; nominal signal-to-noise strata, no observed SNR",
+ "verdict": "ok",
+ "headline": [
+  {
+   "name": "Learned-arm comparisons better than inverse velocity (interval above 0)",
+   "value": 17.0,
+   "unit": "1",
+   "note": "of 24 comparisons made, 95 % paired percentile bootstrap, no family-wise claim"
+  }
+ ],
+ "rows": [
+  {
+   "stratum": "nominal_10",
+   "method": "tcn",
+   "cutoff": 0.5,
+   "mean_difference": 0.8241,
+   "lower": 0.6129,
+   "upper": 1.1181,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_10",
+   "method": "tcn",
+   "cutoff": 0.8,
+   "mean_difference": 5.1552,
+   "lower": 2.9957,
+   "upper": 9.2046,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_10",
+   "method": "patchtst",
+   "cutoff": 0.5,
+   "mean_difference": 0.9352,
+   "lower": 0.724,
+   "upper": 1.2283,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_10",
+   "method": "patchtst",
+   "cutoff": 0.8,
+   "mean_difference": 3.9855,
+   "lower": 1.8265,
+   "upper": 8.0276,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_10",
+   "method": "chronos_bolt_zero_shot",
+   "cutoff": 0.5,
+   "mean_difference": 0.1792,
+   "lower": -0.031,
+   "upper": 0.4739,
+   "verdict": "no significant difference"
+  },
+  {
+   "stratum": "nominal_10",
+   "method": "chronos_bolt_zero_shot",
+   "cutoff": 0.8,
+   "mean_difference": -0.3464,
+   "lower": -2.5065,
+   "upper": 3.7049,
+   "verdict": "no significant difference"
+  },
+  {
+   "stratum": "nominal_10",
+   "method": "chronos_bolt_fine_tuned",
+   "cutoff": 0.5,
+   "mean_difference": 0.225,
+   "lower": 0.015,
+   "upper": 0.5185,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_10",
+   "method": "chronos_bolt_fine_tuned",
+   "cutoff": 0.8,
+   "mean_difference": 0.5415,
+   "lower": -1.6552,
+   "upper": 4.6264,
+   "verdict": "no significant difference"
+  },
+  {
+   "stratum": "nominal_30",
+   "method": "tcn",
+   "cutoff": 0.5,
+   "mean_difference": 0.8892,
+   "lower": 0.6635,
+   "upper": 1.1824,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_30",
+   "method": "tcn",
+   "cutoff": 0.8,
+   "mean_difference": 3.8591,
+   "lower": 3.2422,
+   "upper": 4.6198,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_30",
+   "method": "patchtst",
+   "cutoff": 0.5,
+   "mean_difference": 0.9972,
+   "lower": 0.7729,
+   "upper": 1.2926,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_30",
+   "method": "patchtst",
+   "cutoff": 0.8,
+   "mean_difference": 3.0879,
+   "lower": 2.4578,
+   "upper": 3.8519,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_30",
+   "method": "chronos_bolt_zero_shot",
+   "cutoff": 0.5,
+   "mean_difference": 0.2903,
+   "lower": 0.0638,
+   "upper": 0.5828,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_30",
+   "method": "chronos_bolt_zero_shot",
+   "cutoff": 0.8,
+   "mean_difference": -2.1262,
+   "lower": -2.7479,
+   "upper": -1.3673,
+   "verdict": "worse"
+  },
+  {
+   "stratum": "nominal_30",
+   "method": "chronos_bolt_fine_tuned",
+   "cutoff": 0.5,
+   "mean_difference": 0.3567,
+   "lower": 0.1297,
+   "upper": 0.6499,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_30",
+   "method": "chronos_bolt_fine_tuned",
+   "cutoff": 0.8,
+   "mean_difference": -0.6661,
+   "lower": -1.3291,
+   "upper": 0.1178,
+   "verdict": "no significant difference"
+  },
+  {
+   "stratum": "nominal_100",
+   "method": "tcn",
+   "cutoff": 0.5,
+   "mean_difference": 1.192,
+   "lower": 0.5372,
+   "upper": 2.1303,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_100",
+   "method": "tcn",
+   "cutoff": 0.8,
+   "mean_difference": 4.5754,
+   "lower": 3.2315,
+   "upper": 6.4381,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_100",
+   "method": "patchtst",
+   "cutoff": 0.5,
+   "mean_difference": 1.3133,
+   "lower": 0.6586,
+   "upper": 2.2526,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_100",
+   "method": "patchtst",
+   "cutoff": 0.8,
+   "mean_difference": 4.5291,
+   "lower": 3.1884,
+   "upper": 6.4004,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_100",
+   "method": "chronos_bolt_zero_shot",
+   "cutoff": 0.5,
+   "mean_difference": 0.7549,
+   "lower": 0.0992,
+   "upper": 1.6939,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_100",
+   "method": "chronos_bolt_zero_shot",
+   "cutoff": 0.8,
+   "mean_difference": -1.6701,
+   "lower": -3.0143,
+   "upper": 0.1848,
+   "verdict": "no significant difference"
+  },
+  {
+   "stratum": "nominal_100",
+   "method": "chronos_bolt_fine_tuned",
+   "cutoff": 0.5,
+   "mean_difference": 0.8575,
+   "lower": 0.1988,
+   "upper": 1.7951,
+   "verdict": "better"
+  },
+  {
+   "stratum": "nominal_100",
+   "method": "chronos_bolt_fine_tuned",
+   "cutoff": 0.8,
+   "mean_difference": 0.2543,
+   "lower": -1.1213,
+   "upper": 2.1229,
+   "verdict": "no significant difference"
+  }
+ ]
+}

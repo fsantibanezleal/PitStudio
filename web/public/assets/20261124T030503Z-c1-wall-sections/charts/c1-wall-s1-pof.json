@@ -1,0 +1,157 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c1-wall-s1-pof",
+ "case": "C1",
+ "chart_type": "line",
+ "status": "ok",
+ "title": {
+  "en": "Probability of failure, section 1",
+  "es": "Probabilidad de falla, sección 1"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "Bishop and Spencer limit equilibrium over a circle grid, generalised Hoek-Brown, Monte Carlo PoF",
+  "version": "0.00.000",
+  "label": "illustrative rock-mass inputs, UNVERIFIED; 3DEP 2018 DEM section; educational, not design software"
+ },
+ "serves": [
+  "FR-010-03",
+  "FR-010-04"
+ ],
+ "caption": {
+  "en": "PoF 0: 0 of 2,000 samples below FoS 1 (Wilson 95 %: 0 to 0.001917), over the 64 most critical surfaces of the mean case.",
+  "es": "PoF 0: 0 de 2,000 muestras bajo FS 1 (Wilson 95 %: 0 a 0.001917), sobre las 64 superficies más críticas del caso medio."
+ },
+ "x_axis": {
+  "label": {
+   "en": "Minimum factor of safety of a sample",
+   "es": "Factor de seguridad mínimo de una muestra"
+  },
+  "unit": "1"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Samples",
+   "es": "Muestras"
+  },
+  "unit": "1"
+ },
+ "series": [
+  {
+   "id": "min-factor-histogram",
+   "label": {
+    "en": "Samples by minimum factor of safety",
+    "es": "Muestras por factor de seguridad mínimo"
+   },
+   "draw": "step",
+   "n": 2000,
+   "x": [
+    1.6481068672987338,
+    1.768738751685723,
+    1.8893706360727118,
+    2.0100025204597007,
+    2.1306344048466896,
+    2.2512662892336786,
+    2.3718981736206675,
+    2.492530058007657,
+    2.6131619423946457,
+    2.7337938267816346,
+    2.8544257111686235,
+    2.9750575955556124,
+    3.095689479942602,
+    3.2163213643295907,
+    3.3369532487165796,
+    3.4575851331035685,
+    3.5782170174905574,
+    3.6988489018775463,
+    3.8194807862645352,
+    3.940112670651524,
+    4.060744555038513,
+    4.181376439425502,
+    4.302008323812491,
+    4.42264020819948,
+    4.54327209258647,
+    4.663903976973458,
+    4.784535861360448,
+    4.905167745747436,
+    5.025799630134426,
+    5.146431514521414,
+    5.2670633989084035,
+    5.3876952832953915,
+    5.508327167682381,
+    5.62895905206937,
+    5.749590936456359,
+    5.870222820843349,
+    5.990854705230337,
+    6.111486589617327,
+    6.232118474004315,
+    6.3527503583913045
+   ],
+   "y": [
+    3.0,
+    5.0,
+    13.0,
+    38.0,
+    91.0,
+    139.0,
+    169.0,
+    224.0,
+    208.0,
+    221.0,
+    212.0,
+    170.0,
+    132.0,
+    111.0,
+    80.0,
+    44.0,
+    46.0,
+    39.0,
+    17.0,
+    14.0,
+    11.0,
+    2.0,
+    7.0,
+    1.0,
+    0.0,
+    2.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  }
+ ],
+ "markers": [
+  {
+   "id": "fos-one",
+   "label": {
+    "en": "Factor of safety 1",
+    "es": "Factor de seguridad 1"
+   },
+   "value_text": "FoS 1",
+   "orientation": "vertical",
+   "x": 1.0
+  },
+  {
+   "id": "mean-case-fos",
+   "label": {
+    "en": "Mean-case minimum FoS (Bishop)",
+    "es": "FS mínimo del caso medio (Bishop)"
+   },
+   "value_text": "2.75",
+   "orientation": "vertical",
+   "x": 2.7527257637720868
+  }
+ ]
+}

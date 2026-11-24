@@ -1,0 +1,138 @@
+{
+ "caption": {
+  "en": "Kuz-Ram/KCO prediction on a burden by spacing grid at the reference charge length; the other inputs are fixed (see the recipe).",
+  "es": "Prediccion Kuz-Ram/KCO en una malla piedra por espaciamiento con el largo de carga de referencia; las demas entradas son fijas (ver la receta)."
+ },
+ "case": "D1",
+ "chart_type": "raster",
+ "id": "d1-p80-map",
+ "kind": "chart-series",
+ "markers": [
+  {
+   "id": "reference-design",
+   "label": {
+    "en": "Reference design",
+    "es": "Diseno de referencia"
+   },
+   "orientation": "point",
+   "value_text": "P80 619 mm",
+   "x": 6.0,
+   "y": 7.0
+  }
+ ],
+ "producer": {
+  "label": "model output with illustrative site constants (UNVERIFIED), not validated against real data",
+  "method": "Kuz-Ram (Cunningham 2005) with KCO/Swebrec, scaled-distance PPV and ballistic flyrock of minephys.blasting",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "raster": {
+  "colour": {
+   "colormap": "viridis",
+   "label": {
+    "en": "P80 (sieve size)",
+    "es": "P80 (tamano de tamiz)"
+   },
+   "unit": "mm",
+   "vmax": 889.4302885716527,
+   "vmin": 389.87288517178695
+  },
+  "extent": {
+   "x0": 4.25,
+   "x1": 8.25,
+   "y0": 4.75,
+   "y1": 8.75
+  },
+  "nx": 8,
+  "ny": 8,
+  "values": [
+   532.0735919745338,
+   586.1147990217286,
+   639.3020384838097,
+   691.5500238504617,
+   742.7733399135367,
+   792.885918835785,
+   841.8008233726453,
+   889.4302885716527,
+   513.6368285816162,
+   565.9469478347817,
+   617.4848836816275,
+   668.1779310200466,
+   717.9533081834243,
+   766.7374875666067,
+   814.4558384022797,
+   861.0325200933215,
+   494.6882290458846,
+   545.194178641041,
+   595.0059523021771,
+   644.0629688747977,
+   692.3045755154307,
+   739.6692672719614,
+   786.0942243148742,
+   831.5150928924812,
+   475.1719943459939,
+   523.7937867175023,
+   571.79568211145,
+   619.128776229934,
+   665.7440460608693,
+   711.5914929468782,
+   756.619608033227,
+   800.7750746629185,
+   455.02166488234695,
+   501.67119473049013,
+   547.7714333661241,
+   593.2847087291877,
+   638.1731264001464,
+   682.3976713086819,
+   725.9176344133418,
+   768.6902685583334,
+   434.15722434684847,
+   478.73677215383805,
+   522.8340291784995,
+   566.4221027206411,
+   609.473712973148,
+   651.9602895841373,
+   693.8513921556024,
+   735.1143500736218,
+   412.48114680476885,
+   454.88150828365235,
+   496.86306150467556,
+   538.4092171534121,
+   579.5027692677185,
+   620.1250242909972,
+   660.2552477533968,
+   699.8703172365255,
+   389.87288517178695,
+   429.97099978256597,
+   469.71038668450603,
+   509.084240076222,
+   548.0848412152615,
+   586.7027592068562,
+   624.9263560195787,
+   662.7414803709845
+  ]
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-012-41"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Predicted P80 of the muck pile by burden and spacing",
+  "es": "P80 predicho de la pila segun piedra y espaciamiento"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Burden",
+   "es": "Piedra"
+  },
+  "unit": "m"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Spacing",
+   "es": "Espaciamiento"
+  },
+  "unit": "m"
+ }
+}

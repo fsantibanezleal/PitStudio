@@ -1,0 +1,305 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c1-real-event-sensitivity",
+ "case": "C1",
+ "chart_type": "table",
+ "status": "ok",
+ "title": {
+  "en": "Real event, sensitivity: t_f 2014-02-20 (radar reading)",
+  "es": "Evento real, sensibilidad: t_f 2014-02-20 (lectura de radar)"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "Prism export of Zenodo record 15003054: median of the top 5 % prisms, five methods at 0.5 and 0.8",
+  "version": "0.00.000",
+  "label": "single real event — no significance test; failure time at day resolution, two documentary sources"
+ },
+ "serves": [
+  "FR-010-26",
+  "FR-010-27",
+  "SC-010-03"
+ ],
+ "caption": {
+  "en": "single real event — no significance test. Sensitivity failure time of SSIM 2023, not ranked against the primary one; own cut-offs.",
+  "es": "evento real único — sin prueba de significancia. Tiempo de falla de sensibilidad de SSIM 2023, sin ordenar frente al principal; cortes propios."
+ },
+ "table": {
+  "columns": [
+   {
+    "id": "cutoff",
+    "label": {
+     "en": "Cut-off",
+     "es": "Corte"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "method",
+    "label": {
+     "en": "Method",
+     "es": "Método"
+    },
+    "type": "text"
+   },
+   {
+    "id": "outcome",
+    "label": {
+     "en": "Outcome",
+     "es": "Resultado"
+    },
+    "type": "text"
+   },
+   {
+    "id": "t-hat",
+    "label": {
+     "en": "Predicted failure time",
+     "es": "Tiempo de falla pronosticado"
+    },
+    "type": "number",
+    "unit": "h"
+   },
+   {
+    "id": "t-hat-instant",
+    "label": {
+     "en": "Predicted failure instant",
+     "es": "Instante de falla pronosticado"
+    },
+    "type": "text"
+   },
+   {
+    "id": "signed-error",
+    "label": {
+     "en": "Signed error",
+     "es": "Error con signo"
+    },
+    "type": "number",
+    "unit": "h"
+   },
+   {
+    "id": "error-lower",
+    "label": {
+     "en": "Error, t_f later by the uncertainty",
+     "es": "Error, t_f más tarde por la incertidumbre"
+    },
+    "type": "number",
+    "unit": "h"
+   },
+   {
+    "id": "error-upper",
+    "label": {
+     "en": "Error, t_f earlier by the uncertainty",
+     "es": "Error, t_f antes por la incertidumbre"
+    },
+    "type": "number",
+    "unit": "h"
+   },
+   {
+    "id": "ratio",
+    "label": {
+     "en": "Error over t_f - t_c",
+     "es": "Error sobre t_f - t_c"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "ratio-lower",
+    "label": {
+     "en": "Ratio, lower end",
+     "es": "Razón, extremo inferior"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "ratio-upper",
+    "label": {
+     "en": "Ratio, upper end",
+     "es": "Razón, extremo superior"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "reason",
+    "label": {
+     "en": "Reason",
+     "es": "Motivo"
+    },
+    "type": "text"
+   }
+  ],
+  "rows": [
+   [
+    0.5,
+    "Inverse velocity",
+    "no failure predicted",
+    1771.5181669928245,
+    "2014-03-16T16:02:41",
+    592.0448336594911,
+    568.0448336594911,
+    616.0448336594911,
+    1.0039138943248531,
+    0.9255514042279117,
+    1.0889250599386484,
+    null
+   ],
+   [
+    0.5,
+    "Bayesian time to failure",
+    "no failure predicted",
+    1771.5181669928245,
+    "2014-03-16T16:02:41",
+    592.0448336594911,
+    568.0448336594911,
+    616.0448336594911,
+    1.0039138943248531,
+    0.9255514042279117,
+    1.0889250599386484,
+    null
+   ],
+   [
+    0.5,
+    "TCN",
+    "predicted",
+    1239.0760375566208,
+    "2014-02-22T11:36:09",
+    59.602704223287446,
+    35.602704223287446,
+    83.60270422328745,
+    0.10106664142179975,
+    0.0580097396113764,
+    0.1477767115854033,
+    null
+   ],
+   [
+    0.5,
+    "PatchTST",
+    "predicted",
+    1329.748199186085,
+    "2014-02-26T06:16:29",
+    150.27486585275165,
+    126.27486585275165,
+    174.27486585275165,
+    0.2548168942964684,
+    0.20574763202364474,
+    0.3080494444165748,
+    null
+   ],
+   [
+    0.5,
+    "Chronos-Bolt zero-shot",
+    "not run",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "not run: the zero-shot Chronos-Bolt arm has no exported ONNX file, so no baked forecast exists for it (FR-010-30)"
+   ],
+   [
+    0.5,
+    "Chronos-Bolt fine-tuned",
+    "no failure predicted",
+    1771.5181669928245,
+    "2014-03-16T16:02:41",
+    592.0448336594911,
+    568.0448336594911,
+    616.0448336594911,
+    1.0039138943248531,
+    0.9255514042279117,
+    1.0889250599386484,
+    null
+   ],
+   [
+    0.8,
+    "Inverse velocity",
+    "predicted",
+    1351.1630057048494,
+    "2014-02-27T03:41:22",
+    171.68967237151605,
+    147.68967237151605,
+    195.68967237151605,
+    0.7278234595024734,
+    0.5682674225898547,
+    0.9235233498319109,
+    null
+   ],
+   [
+    0.8,
+    "Bayesian time to failure",
+    "predicted",
+    1128.8000758957469,
+    "2014-02-17T21:19:36",
+    -50.67325743758647,
+    -74.67325743758647,
+    -26.67325743758647,
+    -0.21481306955188964,
+    -0.28732123823595135,
+    -0.1258797961137286,
+    null
+   ],
+   [
+    0.8,
+    "TCN",
+    "predicted",
+    1643.6675966671653,
+    "2014-03-11T08:11:39",
+    464.19426333383194,
+    440.19426333383194,
+    488.19426333383194,
+    1.9678031296475493,
+    1.6937410412442686,
+    2.3039478577429926,
+    null
+   ],
+   [
+    0.8,
+    "PatchTST",
+    "predicted",
+    2127.657153615048,
+    "2014-03-31T12:11:01",
+    948.1838202817148,
+    924.1838202817148,
+    972.1838202817148,
+    4.019522076018598,
+    3.555993788310579,
+    4.588052335508123,
+    null
+   ],
+   [
+    0.8,
+    "Chronos-Bolt zero-shot",
+    "not run",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "not run: the zero-shot Chronos-Bolt arm has no exported ONNX file, so no baked forecast exists for it (FR-010-30)"
+   ],
+   [
+    0.8,
+    "Chronos-Bolt fine-tuned",
+    "no failure predicted",
+    2834.4290671885196,
+    "2014-04-29T22:57:20",
+    1654.9557338551863,
+    1630.9557338551863,
+    1678.9557338551863,
+    7.015655577299417,
+    6.275449030075723,
+    7.923539371079909,
+    null
+   ]
+  ]
+ }
+}

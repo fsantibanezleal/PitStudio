@@ -1,0 +1,128 @@
+{
+ "extra": {
+  "design_note": "grid points whose Kuz-Ram uniformity index lies outside the typical 0.8 to 1.5 (UNVERIFIED range) are counted here, not hidden",
+  "design_validity_warnings_by_argument": {
+   "uniformity_index": 6
+  },
+  "device": "cpu",
+  "finding": "The U-Net instance distribution is coarser than the labelled truth: pooled P50 106.8 px against 84.6 px (26 percent), oversize share 0.215 against 0.088. The cause (merged neighbouring fragments are a likely one) is UNVERIFIED: it was not tested.",
+  "iou_reproduction": {
+   "cause": "UNVERIFIED: the run evaluated in bf16 autocast, this stage in fp32 on the CPU",
+   "files": 240,
+   "files_within_1e-4": 54,
+   "max_abs_difference_per_file": 0.00534195192389364
+  },
+  "minephys": "0.0.0+g98d5b25",
+  "reference_design": {
+   "flyrock_radius_m": 115.22731506532666,
+   "oversize_pct": 3.6287866091617715,
+   "powder_factor": 0.5960611061498491,
+   "ppv_m_per_s": 0.005990719697896703,
+   "x50_m": 0.3129550142277008,
+   "x80_m": 0.619128776229934
+  },
+  "size_basis_design": "sieve size of the blasted rock, m (x50, x80), mass passing",
+  "size_basis_image": "equivalent-circle diameter 2 sqrt(A / pi) of each instance, in pixels of the 512 x 512 image (the pixel scale of the real images is not recorded, so no metre value is claimed); passing = area of instances up to that size over the total instance area (FR-012-24)"
+ },
+ "headline": [
+  {
+   "kpi": "p80",
+   "name": "P80 of the muck pile, reference design",
+   "unit": "mm",
+   "value": 619.1288
+  },
+  {
+   "kpi": "oversize",
+   "name": "Oversize, reference design",
+   "unit": "%",
+   "value": 3.6288
+  },
+  {
+   "kpi": "ppv",
+   "name": "Peak particle velocity, reference design",
+   "note": "illustrative site constants (UNVERIFIED)",
+   "unit": "mm/s",
+   "value": 5.9907
+  },
+  {
+   "kpi": "flyrock_radius",
+   "name": "Flyrock radius, reference design",
+   "unit": "m",
+   "value": 115.2273
+  },
+  {
+   "name": "Mean foreground IoU, five folds (CPU)",
+   "unit": "1",
+   "value": 0.89096
+  },
+  {
+   "name": "Worst fold IoU (CPU)",
+   "unit": "1",
+   "value": 0.88394
+  }
+ ],
+ "label": "model output with illustrative site constants (UNVERIFIED), not validated against real data; real images (Mendeley Data 78ht3pjsr4, CC BY 4.0); metrics only, no image is published",
+ "methods": [
+  "M11",
+  "M12"
+ ],
+ "rows": [
+  {
+   "fold": 0,
+   "n_test": 48,
+   "n_train": 684,
+   "test_fg_iou": 0.88394,
+   "test_fg_iou_run": 0.88389,
+   "truth_oversize_share": 0.0595,
+   "truth_p50_px": 80.63,
+   "unet_oversize_share": 0.1876,
+   "unet_p50_px": 100.66
+  },
+  {
+   "fold": 1,
+   "n_test": 45,
+   "n_train": 708,
+   "test_fg_iou": 0.88509,
+   "test_fg_iou_run": 0.88505,
+   "truth_oversize_share": 0.1079,
+   "truth_p50_px": 86.41,
+   "unet_oversize_share": 0.218,
+   "unet_p50_px": 99.22
+  },
+  {
+   "fold": 2,
+   "n_test": 42,
+   "n_train": 708,
+   "test_fg_iou": 0.89452,
+   "test_fg_iou_run": 0.89446,
+   "truth_oversize_share": 0.0619,
+   "truth_p50_px": 87.14,
+   "unet_oversize_share": 0.2237,
+   "unet_p50_px": 108.44
+  },
+  {
+   "fold": 3,
+   "n_test": 60,
+   "n_train": 636,
+   "test_fg_iou": 0.89262,
+   "test_fg_iou_run": 0.8926,
+   "truth_oversize_share": 0.0967,
+   "truth_p50_px": 87.18,
+   "unet_oversize_share": 0.2153,
+   "unet_p50_px": 110.53
+  },
+  {
+   "fold": 4,
+   "n_test": 45,
+   "n_train": 708,
+   "test_fg_iou": 0.89865,
+   "test_fg_iou_run": 0.89865,
+   "truth_oversize_share": 0.1138,
+   "truth_p50_px": 84.41,
+   "unet_oversize_share": 0.2325,
+   "unet_p50_px": 107.18
+  }
+ ],
+ "title": "Blast design grids (Kuz-Ram/KCO, vibration, flyrock) and the five-fold TRTR U-Net with its instance size distributions",
+ "verdict": "ok"
+}
