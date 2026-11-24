@@ -90,6 +90,8 @@ start with the requirement ID followed by " · " (for example `it("FR-018-39 · 
 - [ ] T-018-110 [US-018-7] (FR-018-85) the C1 interval and the D1 ratio chart drawn as the quantity they are titled with — test: web/src/cases/t_018_110_chart_fixes.test.tsx
 - [ ] T-018-111 [US-018-7] (FR-018-86) A3 repose and GNS charts from published chart series — test: web/e2e/t_018_111_a3_charts.spec.ts
 - [ ] T-018-112 [US-018-7] (FR-018-87) no empty placeholder chart beside published chart series — test: web/src/cases/t_018_112_placeholders.test.tsx
+- [ ] T-018-113 [US-018-7] (NFR-018-01, FR-020-55) a case page requests for its first view only what it shows: the manifest once, chart files when a run's list opens, stills when they near the viewport; scripts split per tab (NFR-018-02) — test: web/src/cases/t_018_113_first_view_weight.test.tsx, web/e2e/t_018_113_case_first_view.spec.ts
+- [ ] T-018-114 [US-018-7] (FR-018-85) the note of a chart that plots another quantity than its KPI says what the chart is and what the KPI needs — test: web/src/cases/t_018_114_kpi_note.test.tsx
 
 ## Phase 9 — Gates, polish and independent review
 - [ ] T-018-088 [US-018-3] (SC-018-01, FR-018-67) parity-report completeness: every engine of §7.1 passes or is shown in T0; invalid report or measurement files fail the build — test: web/src/engines/t_018_088_parity_report.test.ts
