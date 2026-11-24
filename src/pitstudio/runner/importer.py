@@ -315,7 +315,7 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
                 data, path = derived[o["name"]], None
             elif "derive" in o:
                 try:
-                    derived[o["name"]] = import_summaries.build(o["derive"], src, rid)
+                    derived[o["name"]] = import_summaries.build(o["derive"], src, rid, o.get("derive_args"))
                 except import_summaries.Missing as e:
                     raise Usage(f"{o['name']}: {one_line(e)}") from None
                 data, path = derived[o["name"]], None

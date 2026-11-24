@@ -324,7 +324,175 @@ def scene_summary(src: Path, run_id: str) -> dict:
     }
 
 
-BUILDERS: dict[str, Callable[[Path, str], dict]] = {
+    """The producer block of a chart series: the tool and version of the import spec, the method, the data label."""
+    """The producer block of a chart series: the tool and version the import spec names, the method and the data label."""
+    given = (args or {}).get("producer")
+    if not isinstance(given, dict) or not given.get("tool") or not given.get("version"):
+        raise Missing("the chart builder needs derive_args.producer with a tool and a version")
+    return {"tool": given["tool"], "method": method, "version": given["version"], "label": SYNTH}
+
+
+def _chart(case: str, id_: str, chart_type: str, title: dict, producer: dict, serves: list[str], **rest: Any) -> dict:
+    return {
+        "schema_version": "1.0",
+        "kind": "chart-series",
+        "id": id_,
+        "case": case,
+        "chart_type": chart_type,
+        "status": "ok",
+        "title": title,
+        "producer": producer,
+        "serves": serves,
+        **rest,
+    }
+
+
+def a3_repose_chart(src: Path, run_id: str, args: dict | None = None) -> dict:
+    """A3: the repose angle of each seed and the mean with its Student t interval (FR-018-86)."""
+    r = _json(src, "results.json")
+    producer = _producer(args, "granular discrete element model, repose angle of the settled heap")
+    title = {"en": "Angle of repose by seed", "es": "Ángulo de reposo por semilla"}
+    serves = ["FR-018-86", "FR-018-16", "FR-020-56"]
+    if not r.get("complete") or "summary" not in r:
+        return _chart(
+            "A3",
+            "a3-repose-by-seed",
+            "bar",
+            title,
+            producer,
+            serves,
+            status="not-run",
+            not_run_reason={
+                "en": "The five-seed run is not complete, so no repose angle is published.",
+                "es": "La corrida de cinco semillas no está completa, así que no se publica ningún ángulo de reposo.",
+            },
+        )
+    sm = r["summary"]
+    seeds = list(r["seeds"])
+    angles = [round(float(a), 4) for a in r["repose_angles_deg"]]
+    lo, hi = (round(float(v), 4) for v in sm["ci95_deg"])
+    return _chart(
+        "A3",
+        "a3-repose-by-seed",
+        "bar",
+        title,
+        producer,
+        serves,
+        caption={
+            "en": f"{r['n_particles']:,} particles, {sm['n_seeds']} seeds; "
+            "the mean bar carries the 95 % interval of the mean.",
+            "es": f"{r['n_particles']:,} partículas, {sm['n_seeds']} semillas; "
+            "la barra de la media lleva su intervalo del 95 %.",
+        },
+        y_axis={"label": {"en": "Angle of repose", "es": "Ángulo de reposo"}, "unit": "deg"},
+        categories=[
+            *({"id": f"seed-{s}", "label": {"en": f"Seed {s}", "es": f"Semilla {s}"}} for s in seeds),
+            {"id": "mean", "label": {"en": "Mean", "es": "Media"}},
+        ],
+        series=[
+            {
+                "id": "repose",
+                "label": {"en": "Angle of repose", "es": "Ángulo de reposo"},
+                "y": [*angles, round(float(sm["mean_deg"]), 4)],
+                "lo": [*([None] * len(angles)), lo],
+                "hi": [*([None] * len(angles)), hi],
+                "band_label": {
+                    "en": f"95 % interval of the mean, Student t, n = {sm['n_seeds']}",
+                    "es": f"Intervalo del 95 % de la media, t de Student, n = {sm['n_seeds']}",
+                },
+            }
+        ],
+    )
+
+
+def a3_gns_chart(src: Path, run_id: str, args: dict | None = None) -> dict:
+    """A3: the rollout position error of the graph network simulator against the step, over the evaluated geometries."""
+    ev = _json(src, "evaluation.published.json")
+    producer = _producer(args, "graph network simulator rollout against the discrete element reference")
+    title = {"en": "GNS v1 rollout error against steps", "es": "Error de rollout de GNS v1 contra pasos"}
+    serves = ["FR-018-86", "FR-018-16", "FR-020-56"]
+    curves = [g["position_error_growth"] for g in ev["geometries"] if g.get("position_error_growth")]
+    if not curves:
+        return _chart(
+            "A3",
+            "a3-gns-rollout-error",
+            "line",
+            title,
+            producer,
+            serves,
+            status="not-run",
+            not_run_reason={
+                "en": "No geometry produced a rollout error curve.",
+                "es": "Ninguna geometría produjo una curva de error de rollout.",
+            },
+        )
+    steps = max(len(c) for c in curves)
+    xs, med, lo, hi = [], [], [], []
+    for k in range(steps):
+        vals = sorted(float(c[k]) for c in curves if len(c) > k)
+        xs.append(k)
+        med.append(round(statistics.median(vals), 6))
+        lo.append(round(vals[0], 6))
+        hi.append(round(vals[-1], 6))
+    geos = ev["geometries"]
+    diverged = sorted(
+        int(g["diverged_at_step"]) for g in geos if g.get("diverged") and g.get("diverged_at_step") is not None
+    )
+    markers = (
+        [
+            {
+                "id": "first-divergence",
+                "label": {"en": "First rollout to diverge", "es": "Primer rollout que diverge"},
+                "value_text": f"step {diverged[0]}",
+                "orientation": "vertical",
+                "x": diverged[0],
+            },
+            {
+                "id": "last-divergence",
+                "label": {"en": "Last rollout to diverge", "es": "Último rollout que diverge"},
+                "value_text": f"step {diverged[-1]}",
+                "orientation": "vertical",
+                "x": diverged[-1],
+            },
+        ]
+        if diverged
+        else []
+    )
+    n_div = sum(1 for g in geos if g.get("diverged"))
+    return _chart(
+        "A3",
+        "a3-gns-rollout-error",
+        "line",
+        title,
+        producer,
+        serves,
+        caption={
+            "en": f"{n_div} of {len(geos)} geometries diverged; the curve is the median over the geometries still "
+            "rolling out at each step, the band their minimum and maximum. Acceptance SC-011-01: failed.",
+            "es": f"{n_div} de {len(geos)} geometrías divergieron; la curva es la mediana de las geometrías que aún "
+            "avanzan en cada paso, la banda su mínimo y máximo. Criterio SC-011-01: no cumplido.",
+        },
+        x_axis={"label": {"en": "Rollout step", "es": "Paso de rollout"}, "unit": "1"},
+        y_axis={
+            "label": {"en": "Mean position error per grain", "es": "Error medio de posición por grano"},
+            "unit": "m",
+        },
+        series=[
+            {
+                "id": "median-error",
+                "label": {"en": "Median over geometries", "es": "Mediana entre geometrías"},
+                "x": xs,
+                "y": med,
+                "lo": lo,
+                "hi": hi,
+                "band_label": {"en": "minimum to maximum over geometries", "es": "mínimo a máximo entre geometrías"},
+            }
+        ],
+        **({"markers": markers} if markers else {}),
+    )
+
+
+BUILDERS: dict[str, Callable[..., dict]] = {
     "c1-summary": c1_summary,
     "c1-bundle": c1_bundle,
     "d1-summary": d1_summary,
@@ -332,10 +500,15 @@ BUILDERS: dict[str, Callable[[Path, str], dict]] = {
     "a3-summary": a3_summary,
     "gns-summary": gns_summary,
     "scene-summary": scene_summary,
+    "a3-repose-chart": a3_repose_chart,
+    "a3-gns-chart": a3_gns_chart,
 }
 
+TAKES_ARGS = {"a3-repose-chart", "a3-gns-chart"}
 
-def build(name: str, src: Path, run_id: str) -> bytes:
+
+def build(name: str, src: Path, run_id: str, args: dict | None = None) -> bytes:
     if name not in BUILDERS:
         raise Missing(f"unknown builder {name}")
-    return (json.dumps(BUILDERS[name](src, run_id), indent=1, sort_keys=True, allow_nan=False) + "\n").encode("utf-8")
+    doc = BUILDERS[name](src, run_id, args) if name in TAKES_ARGS else BUILDERS[name](src, run_id)
+    return (json.dumps(doc, indent=1, sort_keys=True, allow_nan=False) + "\n").encode("utf-8")
