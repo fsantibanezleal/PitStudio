@@ -25,7 +25,7 @@ _spec.loader.exec_module(tool)
 
 TEXTURES = {
     "polyhaven-gravel-ground-01": {"spdx": "CC0-1.0"},
-    "ambientcg-rock064": {"spdx": "CC0-1.0"},
+    "polyhaven-rock-boulder-dry": {"spdx": "CC0-1.0"},
 }
 
 
@@ -42,7 +42,7 @@ def test_the_scene_spec_is_valid_and_centred_on_the_pit() -> None:
 
 
 def test_a_texture_pool_licence_other_than_cc0_is_carried_into_the_spec_for_the_stage_to_refuse() -> None:
-    spec = tool.scene_spec({**TEXTURES, "ambientcg-rock064": {"spdx": "CC-BY-4.0"}})
+    spec = tool.scene_spec({**TEXTURES, "polyhaven-rock-boulder-dry": {"spdx": "CC-BY-4.0"}})
     assert spec["materials"][1]["spdx"] == "CC-BY-4.0"  # st30_assets rejects it (FR-004-26), the tool does not hide it
 
 

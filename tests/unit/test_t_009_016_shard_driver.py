@@ -477,6 +477,12 @@ def _usd_scene(tmp: Path) -> Path:
     (tmp / "assets").mkdir(parents=True)
     (tmp / "root.usda").write_text(_ROOT_USDA, encoding="utf-8")
     (tmp / "assets" / "haul-truck-220t.usda").write_text(_TRUCK_USDA, encoding="utf-8")
+    for stem, cls in (
+        ("rope-shovel-32m3", "shovel"),
+        ("light-vehicle-4x4", "light_vehicle"),
+        ("person-mannequin", "person"),
+    ):
+        (tmp / "assets" / f"{stem}.usda").write_text(_TRUCK_USDA.replace("haul_truck", cls), encoding="utf-8")
     return tmp
 
 

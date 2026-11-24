@@ -137,6 +137,7 @@ def test_the_timeline_plays_after_the_render_product_exists_and_before_the_first
 ) -> None:
     events: list[str] = []
     _fake_kit(monkeypatch, events)
+    monkeypatch.setattr(scene_render, "carved_layer", lambda _scene: tmp_path / "design-carved.usdc")
     scene_render.SdgRenderer(tmp_path, {})
     assert events.index("capture_on_play=False") < events.index("open_stage") < events.index("prepare")
     last_attach = len(events) - 1 - events[::-1].index("attach")

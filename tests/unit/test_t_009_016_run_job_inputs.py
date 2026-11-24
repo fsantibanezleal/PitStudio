@@ -48,7 +48,22 @@ def _root(tmp: Path, *, scene_status: str = "complete", texture_bytes: bytes = b
     (perception / "recipe.json").write_text(json.dumps(recipe), encoding="utf-8")
     scene = tmp / "processed" / "scene" / "a1-bingham" / "st45_validate" / "scene"
     scene.mkdir(parents=True)
-    (scene / "scene.manifest.json").write_text(json.dumps({"validation": {"status": scene_status}}), encoding="utf-8")
+    report = b"{}"
+    (scene / "scene.manifest.json").write_text(
+        json.dumps(
+            {
+                "validation": {"status": scene_status},
+                "design": {"report": {"path": "design/pit-design-report.json", "sha256": _sha(report)}},
+            }
+        ),
+        encoding="utf-8",
+    )
+    stage = scene.parent.parent / "st20_pit_design"
+    (stage / "layers").mkdir(parents=True)
+    (stage / "design").mkdir(parents=True)
+    (stage / "design" / "pit-design-report.json").write_bytes(report)
+    (stage / "layers" / "design-carved.usdc").write_bytes(b"carved")
+    (stage / "digests.json").write_text(json.dumps({"layers/design-carved.usdc": _sha(b"carved")}), encoding="utf-8")
     return tmp
 
 
