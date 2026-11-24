@@ -240,3 +240,10 @@ def test_an_area_without_a_valid_cell_in_both_epochs_is_not_run_and_the_other_ar
     )
     for f in (tmp_path / "out" / "charts").glob("e2-*.json"):
         assert list(Draft202012Validator(SCHEMA).iter_errors(json.loads(f.read_text("utf-8")))) == [], f.name
+
+
+@pytest.mark.req("FR-017-51")
+def test_every_written_file_has_lf_line_ends_so_its_published_digest_equals_the_committed_file(run) -> None:
+    out, _ = run
+    files = [out / "survey-volume.json", out / "e2-run.json", *sorted((out / "charts").glob("e2-*.json"))]
+    assert all(b"\r" not in f.read_bytes() for f in files)

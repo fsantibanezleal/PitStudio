@@ -195,3 +195,10 @@ def test_the_shells_document_is_a_valid_dc_017_03_result_without_units_and_sched
     doc = _doc(out)
     assert list(Draft202012Validator(SHELLS_SCHEMA).iter_errors(doc)) == []
     assert "contract" not in doc
+
+
+@pytest.mark.req("FR-017-51")
+def test_every_written_file_has_lf_line_ends_so_its_published_digest_equals_the_committed_file(run) -> None:
+    out, _ = run
+    files = [out / "e1-shells.json", out / "e1-run.json", *sorted((out / "charts").glob("e1-*.json"))]
+    assert all(b"\r" not in f.read_bytes() for f in files)
