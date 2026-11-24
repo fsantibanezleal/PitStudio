@@ -371,7 +371,8 @@ def _report(doc: dict[str, Any], out_tiles: Path, lod0: BakeResult, detail: Bake
             "validator_warnings": sum(len(f.get("validator", {}).get("warnings", [])) for f in files),
         },
     }
-    (out_tiles / "bake-report.json").write_text(json.dumps(report, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    text = json.dumps(report, indent=1, sort_keys=True) + "\n"
+    (out_tiles / "bake-report.json").write_text(text, encoding="utf-8", newline="\n")  # LF: digest survives git
     return report
 
 
