@@ -292,16 +292,12 @@ def test_fr_001_31_the_example_comment_uses_the_schema_field_names() -> None:
         assert stale not in text, stale
     for name in ("spdx:", "licence_url:", "licence_class:"):
         assert name in text, name
-    block = text.split("Example entry:", 1)[1]
-    lines = [ln[2:] if ln.startswith("# ") else ln[1:] for ln in block.splitlines() if ln.startswith("#")]
-    example = yaml.safe_load("\n".join(lines))
-    assert isinstance(example, list)
-    assert len(example) == 1
+    entries = yaml.safe_load(text)["sources"]
+    assert len(entries) >= 1
     schema = cs.load_schema("sources")
     entry_props = set(schema["$defs"]["entry"]["properties"])
     file_props = set(schema["$defs"]["file"]["properties"])
-    assert set(example[0]) <= entry_props, set(example[0]) - entry_props
-    assert {
+    required = {
         "id",
         "kind",
         "title",
@@ -313,8 +309,11 @@ def test_fr_001_31_the_example_comment_uses_the_schema_field_names() -> None:
         "redistribution",
         "citation",
         "card",
-    } <= set(example[0])
-    assert all(set(f) <= file_props for f in example[0]["files"])
+    }
+    for entry in entries:
+        assert set(entry) <= entry_props, (entry["id"], set(entry) - entry_props)
+        assert required <= set(entry), (entry["id"], required - set(entry))
+        assert all(set(f) <= file_props for f in entry["files"]), entry["id"]
 
 
 # ----------------------------------------------------------------------------------------------------------------
