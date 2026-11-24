@@ -169,7 +169,7 @@ def _write(out_dir: Path, name: str, doc: Any) -> None:
     text = json.dumps(doc, indent=1) + "\n"
     if name.startswith("charts/") and len(text.encode()) > MAX_CHART_BYTES:
         raise ValueError(f"{name} is {len(text.encode())} bytes, above the {MAX_CHART_BYTES} byte chart budget")
-    (out_dir / name).write_text(text, encoding="utf-8")
+    (out_dir / name).write_text(text, encoding="utf-8", newline="\n")
 
 
 def run_e2(

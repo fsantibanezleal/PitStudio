@@ -4,7 +4,8 @@ of the case page (FR-017-14..17, FR-017-51, NFR-017-06).
 Usage: python -m pitstudio_pipeline.planning.e1_run RECIPE.yaml OUT_DIR
 
 Writes `e1-shells.json` (a DC-017-03 result: shells, ultimate pit and pushbacks; units and schedule are optional in
-the contract and absent here, the scheduler is not part of this run), `charts/e1-*.json` (DC-020-05 chart-series, case E1) and
+the contract and absent here, the scheduler is not part of this run), `charts/e1-*.json` (DC-020-05 chart-series,
+case E1) and
 `e1-run.json` (inputs, versions, the min-cut timing, the oracle comparison). The deposit is synthetic.
 """
 
@@ -161,7 +162,7 @@ def run_e1(
             for pb in pushbacks
         ],
     }
-    (out_dir / "e1-shells.json").write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
+    (out_dir / "e1-shells.json").write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8", newline="\n")
 
     rows = table.rows
     lam_x = [r["lambda"] for r in rows]
@@ -300,7 +301,9 @@ def run_e1(
         ),
     ]
     for chart in charts:
-        (out_dir / "charts" / f"{chart['id']}.json").write_text(json.dumps(chart, indent=1) + "\n", encoding="utf-8")
+        (out_dir / "charts" / f"{chart['id']}.json").write_text(
+            json.dumps(chart, indent=1) + "\n", encoding="utf-8", newline="\n"
+        )
 
     stamped = inst.stamped_pit_value_usd
     ours = final["value_cents"] / 100.0
@@ -336,7 +339,7 @@ def run_e1(
         "pushbacks": len(pushbacks),
         "charts": [c["id"] for c in charts],
     }
-    (out_dir / "e1-run.json").write_text(json.dumps(summary, indent=1) + "\n", encoding="utf-8")
+    (out_dir / "e1-run.json").write_text(json.dumps(summary, indent=1) + "\n", encoding="utf-8", newline="\n")
     return summary
 
 
