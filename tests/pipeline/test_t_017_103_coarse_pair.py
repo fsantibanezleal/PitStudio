@@ -220,3 +220,12 @@ def test_the_overlap_ratio_of_a_footprint_inside_the_box_never_exceeds_one_at_ut
         poly = np.vstack([poly, poly[:1]])  # a closed ring, as GeoJSON gives it
         ratio = polygon_area(clip_polygon(poly, box)) / polygon_area(poly)
         assert ratio == pytest.approx(1.0, abs=1e-12)
+
+
+@pytest.mark.req("FR-017-51")
+def test_no_written_file_holds_an_absolute_path(run) -> None:
+    import re
+
+    out, _ = run
+    files = [out / "survey-volume.json", out / "e2-run.json", *sorted((out / "charts").glob("e2-*.json"))]
+    assert not [f.name for f in files if re.search(r"(?<![A-Za-z0-9])[A-Za-z]:[\\/]", f.read_text("utf-8"))]
