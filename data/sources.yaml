@@ -47,6 +47,26 @@ sources:
     card: data/cards/usgs-3dep-bingham.md
     account:
       needed: false
+  - id: srtm-gl1-bingham
+    kind: real
+    title: "SRTM GL1 one-arc-second elevation tile N40W113 (NASA, February 2000, EGM96 heights) over the Bingham Canyon area, Utah"
+    landing_url: "https://www.earthdata.nasa.gov/data/catalog/lpcloud-srtmgl1-003"
+    access: api                      # OpenTopography public data bucket (no key), a copy of the SRTM GL1 tiles of NASA LP DAAC
+    files:
+      - url: "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N40W113.tif"
+        sha256: "f855eeb49139b416a2bad301d8fee9ee35c0118232b0707d43fad0f5ff069390"
+        bytes: 11459943
+        kind: raster
+        name: "srtm-gl1-n40w113.tif"
+    spdx: LicenseRef-USGov-PD
+    licence_url: "https://www.earthdata.nasa.gov/data/catalog/lpcloud-srtmgl1-003"
+    licence_class: public-domain
+    redistribution: redistributable
+    attribution: "NASA Shuttle Radar Topography Mission (SRTM) Global 1 arc second, NASA JPL and NGA; distributed by NASA EOSDIS Land Processes DAAC (public domain)."
+    citation: "NASA Shuttle Radar Topography Mission Global 1 arc second (SRTMGL1 version 3), acquired 2000-02-11 to 2000-02-21, NASA EOSDIS Land Processes DAAC, catalog entry LPCLOUD SRTMGL1.003. Tile N40W113 fetched from the OpenTopography public bucket on 2026-11-24."
+    card: data/cards/srtm-gl1-bingham.md
+    account:
+      needed: false
 # Colour maps of the SDG texture pool (specs 004 and 009, FR-009-08; sdg-realism-2026-11-23): one entry per CC0 texture.
 # Each map has a vegetation tint below 2 percent (share of pixels with HSV hue 60 to 150 degrees and saturation above 0.25),
 # measured by tools/sdg_inputs.py `textures`; the values are in data/cards/sdg-cc0-textures.md.
