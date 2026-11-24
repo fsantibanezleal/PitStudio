@@ -1,16 +1,16 @@
 {
  "kind": "run",
  "schema_version": "1.0",
- "run_id": "20261124T030503Z-c1-wall-sections",
+ "run_id": "20261124T032001Z-c1-wall-sections",
  "recipe": {
   "id": "c1-slope",
   "path": "cases/c1.yaml",
   "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
  },
- "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+ "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
  "git_dirty": false,
  "runner_version": "0.1.0",
- "created": "2026-11-24T03:05:03Z",
+ "created": "2026-11-24T03:20:01Z",
  "profile": "imported",
  "seed": 20261007,
  "published": true,
@@ -28,7 +28,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "108111cd189561cb49c993dd9787d8c723a2684298c9b3621c29e97369f72f6d",
+   "cache_key": "8c2a291cbb2719d37e6787d1763fe83342e8b550505321ee681f024f3c486578",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -54,63 +54,63 @@
    "outputs": [
     {
      "name": "charts/c1-wall-s1-section.json",
-     "sha256": "4ab649834d5d4673e2d64c96451b97cac7f94a5bb6b9b963e3f7cf92c5cab9ba",
-     "bytes": 15150
+     "sha256": "202c6920221cfd5f251687d9448b319ca168dab9bcc8762f554ff3190932b8ce",
+     "bytes": 14182
     },
     {
      "name": "charts/c1-wall-s1-pof.json",
-     "sha256": "f4f3019cc58f81c5681555b8b45f806d95f4b4d09e002f570165483ce6d01a7f",
-     "bytes": 3250
+     "sha256": "4f5c1a63edf13e316c73d6422abda35930f4cc597cbbb91cb7be0999ff00682a",
+     "bytes": 3093
     },
     {
      "name": "charts/c1-wall-s2-section.json",
-     "sha256": "eb1fa10b7ca7e6395ac6594676af2d8e7f460b72c1e7cf661a28de3f425bfc76",
-     "bytes": 17728
+     "sha256": "a90a468318f9ad2a4681fbc066eb47fc15e7fd1181c29206cc0b9a64c159306c",
+     "bytes": 16576
     },
     {
      "name": "charts/c1-wall-s2-pof.json",
-     "sha256": "3c00f1444979bcc1b129a76d299bab3229693009ddd6976bad1d2cfdc8594c4c",
-     "bytes": 3256
+     "sha256": "7630a867e82cdef678b6c366d90cb2b900a7e6e451042bf421f12175b2ce3096",
+     "bytes": 3099
     },
     {
      "name": "charts/c1-wall-s3-section.json",
-     "sha256": "c2d54b4896d920f4fdcf894627de8807981759368576f477f9cfe3ee26d3251c",
-     "bytes": 18663
+     "sha256": "0996fbdae866facddfc123a52de440da9d846b7f89d092bbc5c5fbb7515fdc2d",
+     "bytes": 17447
     },
     {
      "name": "charts/c1-wall-s3-pof.json",
-     "sha256": "6823b9d9f4162d84f5a28e595f390054f9765b9dd199b35760597977629be2e4",
-     "bytes": 3281
+     "sha256": "d0c62c77f4dff2fa5fcdb0a27ec2c8e52d07e82711c9109a5797519c8ebaaa3b",
+     "bytes": 3124
     },
     {
      "name": "charts/c1-wall-table.json",
-     "sha256": "1a5fe7f70013374388ef9434c276eda40a815f0f72497bdd5c66a7847e91179a",
-     "bytes": 3665
+     "sha256": "3ae718eaa6a40a5150e54502965178271a67fc3c2c7e69ef14250d24e13954cc",
+     "bytes": 3473
     },
     {
      "name": "sections/usgs-3dep-bingham-s1.json",
-     "sha256": "d1aedd124c1648d4476b33a6670650b3dc2c3d6248f90a6f99f597fc885d1143",
-     "bytes": 14030
+     "sha256": "dc59383ecdd2db21f4ffb10eceb3acd322bd308ee8bd352c00c68504f378c2c7",
+     "bytes": 13054
     },
     {
      "name": "sections/usgs-3dep-bingham-s2.json",
-     "sha256": "be186ed315f60164c41aa8be3aeb87fb333a2b1c6052487e0415685c8a9e6649",
-     "bytes": 16256
+     "sha256": "bd74302d07b5fdeaddd981df4cf75dc5529a8e404eee64d9a8bbfecc0d2f7f56",
+     "bytes": 15096
     },
     {
      "name": "sections/usgs-3dep-bingham-s3.json",
-     "sha256": "620133961c34794bc90fce14430ac134919554ed80347c51728d9fda84ee8f71",
-     "bytes": 17095
+     "sha256": "071bd2c6af3445d7fe0808e3f2cb37bfe9eb71293bbee54b54716e15b6899251",
+     "bytes": 15871
     },
     {
      "name": "oracle-check.json",
-     "sha256": "e3b142cfd1a1d04617a0865021e5589ee7641cfd51525e374fc0678f0ab1c798",
-     "bytes": 1786
+     "sha256": "f59f57351b96d244ba3bb2f301f096ae767c3a950f8b43773423ca2457ff30ba",
+     "bytes": 1710
     },
     {
      "name": "results-summary.json",
-     "sha256": "14e63473e98c6564d68845569685fd69c71d9759b6c4e245c138f5e3edfe0eab",
-     "bytes": 1017
+     "sha256": "c054c5ae8ac8656c0243c3d02401d8559c7afff5527b176b5ccaf6806f260acb",
+     "bytes": 973
     }
    ]
   }
@@ -118,11 +118,11 @@
  "artefacts": [
   {
    "id": "c1-wall-s1-section",
-   "run_id": "20261124T030503Z-c1-wall-sections",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s1-section.json",
-   "bytes": 15150,
-   "sha256": "4ab649834d5d4673e2d64c96451b97cac7f94a5bb6b9b963e3f7cf92c5cab9ba",
+   "run_id": "20261124T032001Z-c1-wall-sections",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032001Z-c1-wall-sections/charts/c1-wall-s1-section.json",
+   "bytes": 14182,
+   "sha256": "202c6920221cfd5f251687d9448b319ca168dab9bcc8762f554ff3190932b8ce",
    "kind": "chart-series",
    "producer": {
     "tool": "minephys",
@@ -154,11 +154,11 @@
   },
   {
    "id": "c1-wall-s1-pof",
-   "run_id": "20261124T030503Z-c1-wall-sections",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s1-pof.json",
-   "bytes": 3250,
-   "sha256": "f4f3019cc58f81c5681555b8b45f806d95f4b4d09e002f570165483ce6d01a7f",
+   "run_id": "20261124T032001Z-c1-wall-sections",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032001Z-c1-wall-sections/charts/c1-wall-s1-pof.json",
+   "bytes": 3093,
+   "sha256": "4f5c1a63edf13e316c73d6422abda35930f4cc597cbbb91cb7be0999ff00682a",
    "kind": "chart-series",
    "producer": {
     "tool": "minephys",
@@ -190,11 +190,11 @@
   },
   {
    "id": "c1-wall-s2-section",
-   "run_id": "20261124T030503Z-c1-wall-sections",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s2-section.json",
-   "bytes": 17728,
-   "sha256": "eb1fa10b7ca7e6395ac6594676af2d8e7f460b72c1e7cf661a28de3f425bfc76",
+   "run_id": "20261124T032001Z-c1-wall-sections",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032001Z-c1-wall-sections/charts/c1-wall-s2-section.json",
+   "bytes": 16576,
+   "sha256": "a90a468318f9ad2a4681fbc066eb47fc15e7fd1181c29206cc0b9a64c159306c",
    "kind": "chart-series",
    "producer": {
     "tool": "minephys",
@@ -226,11 +226,11 @@
   },
   {
    "id": "c1-wall-s2-pof",
-   "run_id": "20261124T030503Z-c1-wall-sections",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s2-pof.json",
-   "bytes": 3256,
-   "sha256": "3c00f1444979bcc1b129a76d299bab3229693009ddd6976bad1d2cfdc8594c4c",
+   "run_id": "20261124T032001Z-c1-wall-sections",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032001Z-c1-wall-sections/charts/c1-wall-s2-pof.json",
+   "bytes": 3099,
+   "sha256": "7630a867e82cdef678b6c366d90cb2b900a7e6e451042bf421f12175b2ce3096",
    "kind": "chart-series",
    "producer": {
     "tool": "minephys",
@@ -262,11 +262,11 @@
   },
   {
    "id": "c1-wall-s3-section",
-   "run_id": "20261124T030503Z-c1-wall-sections",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s3-section.json",
-   "bytes": 18663,
-   "sha256": "c2d54b4896d920f4fdcf894627de8807981759368576f477f9cfe3ee26d3251c",
+   "run_id": "20261124T032001Z-c1-wall-sections",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032001Z-c1-wall-sections/charts/c1-wall-s3-section.json",
+   "bytes": 17447,
+   "sha256": "0996fbdae866facddfc123a52de440da9d846b7f89d092bbc5c5fbb7515fdc2d",
    "kind": "chart-series",
    "producer": {
     "tool": "minephys",
@@ -298,11 +298,11 @@
   },
   {
    "id": "c1-wall-s3-pof",
-   "run_id": "20261124T030503Z-c1-wall-sections",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-s3-pof.json",
-   "bytes": 3281,
-   "sha256": "6823b9d9f4162d84f5a28e595f390054f9765b9dd199b35760597977629be2e4",
+   "run_id": "20261124T032001Z-c1-wall-sections",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032001Z-c1-wall-sections/charts/c1-wall-s3-pof.json",
+   "bytes": 3124,
+   "sha256": "d0c62c77f4dff2fa5fcdb0a27ec2c8e52d07e82711c9109a5797519c8ebaaa3b",
    "kind": "chart-series",
    "producer": {
     "tool": "minephys",
@@ -334,11 +334,11 @@
   },
   {
    "id": "c1-wall-table",
-   "run_id": "20261124T030503Z-c1-wall-sections",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030503Z-c1-wall-sections/charts/c1-wall-table.json",
-   "bytes": 3665,
-   "sha256": "1a5fe7f70013374388ef9434c276eda40a815f0f72497bdd5c66a7847e91179a",
+   "run_id": "20261124T032001Z-c1-wall-sections",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032001Z-c1-wall-sections/charts/c1-wall-table.json",
+   "bytes": 3473,
+   "sha256": "3ae718eaa6a40a5150e54502965178271a67fc3c2c7e69ef14250d24e13954cc",
    "kind": "chart-series",
    "producer": {
     "tool": "minephys",
@@ -370,11 +370,11 @@
   },
   {
    "id": "c1-wall-sections-results",
-   "run_id": "20261124T030503Z-c1-wall-sections",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030503Z-c1-wall-sections/results-summary.json",
-   "bytes": 1017,
-   "sha256": "14e63473e98c6564d68845569685fd69c71d9759b6c4e245c138f5e3edfe0eab",
+   "run_id": "20261124T032001Z-c1-wall-sections",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032001Z-c1-wall-sections/results-summary.json",
+   "bytes": 973,
+   "sha256": "c054c5ae8ac8656c0243c3d02401d8559c7afff5527b176b5ccaf6806f260acb",
    "kind": "table",
    "producer": {
     "tool": "minephys",
@@ -399,7 +399,8 @@
   "job c1-wall-sections",
   "no GPU time and no timing are recorded",
   "illustrative rock-mass inputs, UNVERIFIED; 3DEP 2018 DEM section; educational, not design software",
-  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 3e64a500a1b3b09e3276892bfd2d156817afeba3; unmodified",
+  "supersedes run 20261124T030503Z-c1-wall-sections: its published files are removed when this run is published",
+  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 2045397467f05c8edd4d2403379ee4684bab058b; unmodified",
   "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
   "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
   "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files)."

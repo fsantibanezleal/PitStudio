@@ -1,16 +1,16 @@
 {
  "kind": "run",
  "schema_version": "1.0",
- "run_id": "20261124T030643Z-c1-event-curves",
+ "run_id": "20261124T031946Z-c1-event-curves",
  "recipe": {
   "id": "c1-slope",
   "path": "cases/c1.yaml",
   "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
  },
- "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+ "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
  "git_dirty": false,
  "runner_version": "0.1.0",
- "created": "2026-11-24T03:06:43Z",
+ "created": "2026-11-24T03:19:46Z",
  "profile": "imported",
  "seed": 20261007,
  "published": true,
@@ -28,7 +28,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "5402b799d36a3e5dfae4a6ba2d6e24ebc4724dd4bccb76c5037033591ec2a9db",
+   "cache_key": "fe70f9e8335ce68a60263f60a6f16578cd351f02cfc00f760f6a428222a64ac5",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -54,133 +54,133 @@
    "outputs": [
     {
      "name": "charts/c1-iv-voight-test-nominal-10-2000108.json",
-     "sha256": "cba29fd9d5f2ddb09acd477157ad755f12c0ed424ad11e646e0b74f9a589e4e6",
-     "bytes": 87894
+     "sha256": "b6c5ef5c12239e74dd25cd471dd0adc52924cae13db40175e1058b5a72b6479c",
+     "bytes": 84258
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-10-2000108.json",
-     "sha256": "62be8b509f45c91ad1f0ccbc5a15da028025956223b8f7c2219f71284797c35d",
-     "bytes": 13923
+     "sha256": "31c051b6a1cc44225399f78bd680bdde58d40ae1db4fb6b536f86055431ce939",
+     "bytes": 13357
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-10-2000450.json",
-     "sha256": "c5c2897c7ca3ba4abacf2fc82a71fb40f8e41a1ab2c781161ce878fe38b45192",
-     "bytes": 87967
+     "sha256": "9ad27c6248e88221f39be97e3656c845ed3c0241d7d90dd941457c8be7986ae5",
+     "bytes": 84331
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-10-2000450.json",
-     "sha256": "7cd08f02b24c3df6165af3af11363053e149fadfdb1134b901f14822e74ecf62",
-     "bytes": 14034
+     "sha256": "770780678cac5d4266e4d36e5b0692a29de5463fe1c5158a386031c2e677efc4",
+     "bytes": 13468
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-10-2000231.json",
-     "sha256": "c658f4fce3c702edcee3102d2aea1c966abd7685847f510f447afb011424face",
-     "bytes": 84833
+     "sha256": "4e58c5eddbf0e6874cad840fd3faefb61d11ca3f0734c3cbfdbaa5ca3fca4947",
+     "bytes": 81393
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-10-2000231.json",
-     "sha256": "fd7ced5e380f0d89a3ef160222f86d0f09a7849bde53dfe077f2a25187c5539e",
-     "bytes": 13739
+     "sha256": "69fcd2f98d3ae1cbf15439a3f3d2a57e857d99cebcf1e7afbca00d122da67f7b",
+     "bytes": 13173
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-10-2000498.json",
-     "sha256": "434d7c4c9b588e1b7184c78427e0fc84c2ba37a8d55e4d32769bb493dc7d64ec",
-     "bytes": 78723
+     "sha256": "f610325d6917beb368887b5bbe1e703ef14f57a1c8edcc28409f90bf229b1268",
+     "bytes": 75469
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-10-2000498.json",
-     "sha256": "cf27290d1932e4bcbe207ebd3bc12fd38db504383fb32b06fc219143ff3a040b",
-     "bytes": 13710
+     "sha256": "c9d17099aa52875e3da19529dc8b81e4324f6994dc6355524595771a9145dc11",
+     "bytes": 13144
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-100-2001097.json",
-     "sha256": "7ac438a14410fc8f7b6d0689b1f754fc95e884a3ebf9d2dc4d197841fbdea0db",
-     "bytes": 85647
+     "sha256": "2ee27f8a1a328a60c12db83c1d8c02e50b3098ea51ae887c91feaf4e4f6d6a71",
+     "bytes": 82117
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-100-2001097.json",
-     "sha256": "8b75fabf62c14618a0ee0c1182bdd5ff5e286c585d0b23a0ed0b09b6bb18a76f",
-     "bytes": 13806
+     "sha256": "37ae6560b96e21010850bef8ca590bc363af2386b277c52451e9c9556baf37d6",
+     "bytes": 13240
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-100-2001320.json",
-     "sha256": "f405f5b62183582505554481270edb63aa5e551a6c1a1d382ea23e1efe36138e",
-     "bytes": 89669
+     "sha256": "2a801fead57a99a387edcd29da38361f7a1069365542945fdaa46485bcb2543f",
+     "bytes": 86025
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-100-2001320.json",
-     "sha256": "70f03aa85eadc9fd9885f0e2f4d409bed578848dffadee40027e1b0092ba0e53",
-     "bytes": 13646
+     "sha256": "c775919149a9a623fc0398b4c73d1023e90d11ba673bc0359827324e5ec3ffce",
+     "bytes": 13080
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-100-2001262.json",
-     "sha256": "9e6cd94bc87682c7fe9c0b939e77d91b4c4427536ce96e9545d8c4fd62b1c0a0",
-     "bytes": 81467
+     "sha256": "37a1910e70525d774b22bca7b889efcf99b74183fa3ab4e6377a7152661e9e73",
+     "bytes": 78121
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-100-2001262.json",
-     "sha256": "b7c2a09a1350381f53bade08bc05c307f2b121e3838f5467777c3d4c9ed0ed87",
-     "bytes": 13748
+     "sha256": "a9ec237c45a4021f78d5b0ed1def89ca1d33df4d7655c2c5072fa97dd8af6a46",
+     "bytes": 13182
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-100-2001114.json",
-     "sha256": "5669335905643ac710f420f262a11080f9331790fd8367c1a71f291cc72f0adb",
-     "bytes": 78804
+     "sha256": "401bbd1fbe5fd0e16856f0fedc5bda1e59b96047d036f931c286d0996652bbbb",
+     "bytes": 75538
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-100-2001114.json",
-     "sha256": "271ea862777fa34efc2b6516e429af9ba62b56b19138a00e9895a97d43fdd7de",
-     "bytes": 13732
+     "sha256": "a73a0d2040a556b7776d280b76b165d75de2778484b080bc46c0fc97211192eb",
+     "bytes": 13166
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-30-2000810.json",
-     "sha256": "892ab13ed00fe60ff84afae8cec4fec399de12a58a028b271656977753978d36",
-     "bytes": 84982
+     "sha256": "a5aa578c99051a32bbb9bc91cf487a5d4e630fcb179bc46636ad0811c7d19cc8",
+     "bytes": 81476
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-30-2000810.json",
-     "sha256": "96eadd7d6e24edcf8d448a952ddfa919944302cfb6fac89b7c47718fa02be5cf",
-     "bytes": 13594
+     "sha256": "577e4a1c42b092785a6ab62cd2392fbd5c673a75a3c58b6350d117e78745d701",
+     "bytes": 13028
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-30-2000613.json",
-     "sha256": "d866b0dcaac5c9d8048401f42c90caca206dc44924e7f4a6d586de27c4d7b633",
-     "bytes": 88165
+     "sha256": "0750f5ef9c18e3cbf82f88605d9b588e1dcad1abeb73a339a3ec87e0acd978ea",
+     "bytes": 84529
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-30-2000613.json",
-     "sha256": "731855330fafe9bc7ea72e4698706f8ab7e2a99f0e4fee32401e4ae436c08812",
-     "bytes": 13713
+     "sha256": "3db09d571aef854d14dfc4956d2d955d68f8eb76e966ca817a0cfcf850ad490a",
+     "bytes": 13147
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-30-2000603.json",
-     "sha256": "5927e5de65ba5d67b001b5e891d99d26bcf6cf4e9507c92c3a9d9e47f95facbd",
-     "bytes": 88154
+     "sha256": "8cb35122d27e8c23575429e75b70445330b6753e15d729863ae7b90a0fc4e4bd",
+     "bytes": 84580
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-30-2000603.json",
-     "sha256": "d2a99b8e7baf6b6716129d759c77bee8cc50847fdd1084fe08546803ca9285d7",
-     "bytes": 13645
+     "sha256": "b93c977e010b25b39d4874eac9268c306926242868e6cebbb57c7fb23a4f0e24",
+     "bytes": 13079
     },
     {
      "name": "charts/c1-iv-voight-test-nominal-30-2000601.json",
-     "sha256": "69e4329140c19dd8973e345505afb4236d5fb4ec7798d15ff72f4136f37be8d1",
-     "bytes": 81736
+     "sha256": "84015b85a6be2d80a2cd78be1e7591b824124e80fae30d12a5867cda98815f07",
+     "bytes": 78356
     },
     {
      "name": "charts/c1-disp-voight-test-nominal-30-2000601.json",
-     "sha256": "fa35dda3ac7a3aebbbed7255dcb47f6cfa90f2d7d1c6c0a02317e026f3bee51d",
-     "bytes": 13755
+     "sha256": "ce242193d24bb0e5c168a4e5fc8bcf1d11490aac38c1c829359352dccfa321d1",
+     "bytes": 13189
     },
     {
      "name": "event-curves.json",
-     "sha256": "2eae6723d4a34deb827d5fb2c4047c271494a47b69ccfc630d288bbbf06eaa66",
-     "bytes": 1545665
+     "sha256": "7f8bf95af5b162f9d35a7748bcec7e9bb927b6a40fceb7004920bc9fd78cfde9",
+     "bytes": 1488665
     },
     {
      "name": "results-summary.json",
-     "sha256": "1daa6797a03ee0b80de21f44b0e476814f1a5059980bfb144a10681d706a2591",
-     "bytes": 3010
+     "sha256": "0de1954af93c7c6161a4d112f518f972fbe153e8904715dfd98318dd3b4c464a",
+     "bytes": 2902
     }
    ]
   }
@@ -188,11 +188,11 @@
  "artefacts": [
   {
    "id": "c1-iv-voight-test-nominal-10-2000108",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000108.json",
-   "bytes": 87894,
-   "sha256": "cba29fd9d5f2ddb09acd477157ad755f12c0ed424ad11e646e0b74f9a589e4e6",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000108.json",
+   "bytes": 84258,
+   "sha256": "b6c5ef5c12239e74dd25cd471dd0adc52924cae13db40175e1058b5a72b6479c",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -234,11 +234,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-10-2000108",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000108.json",
-   "bytes": 13923,
-   "sha256": "62be8b509f45c91ad1f0ccbc5a15da028025956223b8f7c2219f71284797c35d",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000108.json",
+   "bytes": 13357,
+   "sha256": "31c051b6a1cc44225399f78bd680bdde58d40ae1db4fb6b536f86055431ce939",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -280,11 +280,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-10-2000450",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000450.json",
-   "bytes": 87967,
-   "sha256": "c5c2897c7ca3ba4abacf2fc82a71fb40f8e41a1ab2c781161ce878fe38b45192",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000450.json",
+   "bytes": 84331,
+   "sha256": "9ad27c6248e88221f39be97e3656c845ed3c0241d7d90dd941457c8be7986ae5",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -326,11 +326,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-10-2000450",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000450.json",
-   "bytes": 14034,
-   "sha256": "7cd08f02b24c3df6165af3af11363053e149fadfdb1134b901f14822e74ecf62",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000450.json",
+   "bytes": 13468,
+   "sha256": "770780678cac5d4266e4d36e5b0692a29de5463fe1c5158a386031c2e677efc4",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -372,11 +372,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-10-2000231",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000231.json",
-   "bytes": 84833,
-   "sha256": "c658f4fce3c702edcee3102d2aea1c966abd7685847f510f447afb011424face",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000231.json",
+   "bytes": 81393,
+   "sha256": "4e58c5eddbf0e6874cad840fd3faefb61d11ca3f0734c3cbfdbaa5ca3fca4947",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -418,11 +418,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-10-2000231",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000231.json",
-   "bytes": 13739,
-   "sha256": "fd7ced5e380f0d89a3ef160222f86d0f09a7849bde53dfe077f2a25187c5539e",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000231.json",
+   "bytes": 13173,
+   "sha256": "69fcd2f98d3ae1cbf15439a3f3d2a57e857d99cebcf1e7afbca00d122da67f7b",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -464,11 +464,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-10-2000498",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000498.json",
-   "bytes": 78723,
-   "sha256": "434d7c4c9b588e1b7184c78427e0fc84c2ba37a8d55e4d32769bb493dc7d64ec",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-10-2000498.json",
+   "bytes": 75469,
+   "sha256": "f610325d6917beb368887b5bbe1e703ef14f57a1c8edcc28409f90bf229b1268",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -510,11 +510,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-10-2000498",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000498.json",
-   "bytes": 13710,
-   "sha256": "cf27290d1932e4bcbe207ebd3bc12fd38db504383fb32b06fc219143ff3a040b",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-10-2000498.json",
+   "bytes": 13144,
+   "sha256": "c9d17099aa52875e3da19529dc8b81e4324f6994dc6355524595771a9145dc11",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -556,11 +556,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-100-2001097",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001097.json",
-   "bytes": 85647,
-   "sha256": "7ac438a14410fc8f7b6d0689b1f754fc95e884a3ebf9d2dc4d197841fbdea0db",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001097.json",
+   "bytes": 82117,
+   "sha256": "2ee27f8a1a328a60c12db83c1d8c02e50b3098ea51ae887c91feaf4e4f6d6a71",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -602,11 +602,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-100-2001097",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001097.json",
-   "bytes": 13806,
-   "sha256": "8b75fabf62c14618a0ee0c1182bdd5ff5e286c585d0b23a0ed0b09b6bb18a76f",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001097.json",
+   "bytes": 13240,
+   "sha256": "37ae6560b96e21010850bef8ca590bc363af2386b277c52451e9c9556baf37d6",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -648,11 +648,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-100-2001320",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001320.json",
-   "bytes": 89669,
-   "sha256": "f405f5b62183582505554481270edb63aa5e551a6c1a1d382ea23e1efe36138e",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001320.json",
+   "bytes": 86025,
+   "sha256": "2a801fead57a99a387edcd29da38361f7a1069365542945fdaa46485bcb2543f",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -694,11 +694,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-100-2001320",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001320.json",
-   "bytes": 13646,
-   "sha256": "70f03aa85eadc9fd9885f0e2f4d409bed578848dffadee40027e1b0092ba0e53",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001320.json",
+   "bytes": 13080,
+   "sha256": "c775919149a9a623fc0398b4c73d1023e90d11ba673bc0359827324e5ec3ffce",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -740,11 +740,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-100-2001262",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001262.json",
-   "bytes": 81467,
-   "sha256": "9e6cd94bc87682c7fe9c0b939e77d91b4c4427536ce96e9545d8c4fd62b1c0a0",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001262.json",
+   "bytes": 78121,
+   "sha256": "37a1910e70525d774b22bca7b889efcf99b74183fa3ab4e6377a7152661e9e73",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -786,11 +786,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-100-2001262",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001262.json",
-   "bytes": 13748,
-   "sha256": "b7c2a09a1350381f53bade08bc05c307f2b121e3838f5467777c3d4c9ed0ed87",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001262.json",
+   "bytes": 13182,
+   "sha256": "a9ec237c45a4021f78d5b0ed1def89ca1d33df4d7655c2c5072fa97dd8af6a46",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -832,11 +832,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-100-2001114",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001114.json",
-   "bytes": 78804,
-   "sha256": "5669335905643ac710f420f262a11080f9331790fd8367c1a71f291cc72f0adb",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-100-2001114.json",
+   "bytes": 75538,
+   "sha256": "401bbd1fbe5fd0e16856f0fedc5bda1e59b96047d036f931c286d0996652bbbb",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -878,11 +878,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-100-2001114",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001114.json",
-   "bytes": 13732,
-   "sha256": "271ea862777fa34efc2b6516e429af9ba62b56b19138a00e9895a97d43fdd7de",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-100-2001114.json",
+   "bytes": 13166,
+   "sha256": "a73a0d2040a556b7776d280b76b165d75de2778484b080bc46c0fc97211192eb",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -924,11 +924,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-30-2000810",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000810.json",
-   "bytes": 84982,
-   "sha256": "892ab13ed00fe60ff84afae8cec4fec399de12a58a028b271656977753978d36",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000810.json",
+   "bytes": 81476,
+   "sha256": "a5aa578c99051a32bbb9bc91cf487a5d4e630fcb179bc46636ad0811c7d19cc8",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -970,11 +970,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-30-2000810",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000810.json",
-   "bytes": 13594,
-   "sha256": "96eadd7d6e24edcf8d448a952ddfa919944302cfb6fac89b7c47718fa02be5cf",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000810.json",
+   "bytes": 13028,
+   "sha256": "577e4a1c42b092785a6ab62cd2392fbd5c673a75a3c58b6350d117e78745d701",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -1016,11 +1016,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-30-2000613",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000613.json",
-   "bytes": 88165,
-   "sha256": "d866b0dcaac5c9d8048401f42c90caca206dc44924e7f4a6d586de27c4d7b633",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000613.json",
+   "bytes": 84529,
+   "sha256": "0750f5ef9c18e3cbf82f88605d9b588e1dcad1abeb73a339a3ec87e0acd978ea",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -1062,11 +1062,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-30-2000613",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000613.json",
-   "bytes": 13713,
-   "sha256": "731855330fafe9bc7ea72e4698706f8ab7e2a99f0e4fee32401e4ae436c08812",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000613.json",
+   "bytes": 13147,
+   "sha256": "3db09d571aef854d14dfc4956d2d955d68f8eb76e966ca817a0cfcf850ad490a",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -1108,11 +1108,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-30-2000603",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000603.json",
-   "bytes": 88154,
-   "sha256": "5927e5de65ba5d67b001b5e891d99d26bcf6cf4e9507c92c3a9d9e47f95facbd",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000603.json",
+   "bytes": 84580,
+   "sha256": "8cb35122d27e8c23575429e75b70445330b6753e15d729863ae7b90a0fc4e4bd",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -1154,11 +1154,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-30-2000603",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000603.json",
-   "bytes": 13645,
-   "sha256": "d2a99b8e7baf6b6716129d759c77bee8cc50847fdd1084fe08546803ca9285d7",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000603.json",
+   "bytes": 13079,
+   "sha256": "b93c977e010b25b39d4874eac9268c306926242868e6cebbb57c7fb23a4f0e24",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -1200,11 +1200,11 @@
   },
   {
    "id": "c1-iv-voight-test-nominal-30-2000601",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000601.json",
-   "bytes": 81736,
-   "sha256": "69e4329140c19dd8973e345505afb4236d5fb4ec7798d15ff72f4136f37be8d1",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-iv-voight-test-nominal-30-2000601.json",
+   "bytes": 78356,
+   "sha256": "84015b85a6be2d80a2cd78be1e7591b824124e80fae30d12a5867cda98815f07",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -1246,11 +1246,11 @@
   },
   {
    "id": "c1-disp-voight-test-nominal-30-2000601",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000601.json",
-   "bytes": 13755,
-   "sha256": "fa35dda3ac7a3aebbbed7255dcb47f6cfa90f2d7d1c6c0a02317e026f3bee51d",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/charts/c1-disp-voight-test-nominal-30-2000601.json",
+   "bytes": 13189,
+   "sha256": "ce242193d24bb0e5c168a4e5fc8bcf1d11490aac38c1c829359352dccfa321d1",
    "kind": "chart-series",
    "producer": {
     "tool": "onnx-runtime",
@@ -1292,11 +1292,11 @@
   },
   {
    "id": "c1-event-curves-results",
-   "run_id": "20261124T030643Z-c1-event-curves",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030643Z-c1-event-curves/results-summary.json",
-   "bytes": 3010,
-   "sha256": "1daa6797a03ee0b80de21f44b0e476814f1a5059980bfb144a10681d706a2591",
+   "run_id": "20261124T031946Z-c1-event-curves",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031946Z-c1-event-curves/results-summary.json",
+   "bytes": 2902,
+   "sha256": "0de1954af93c7c6161a4d112f518f972fbe153e8904715dfd98318dd3b4c464a",
    "kind": "table",
    "producer": {
     "tool": "onnx-runtime",
@@ -1321,7 +1321,8 @@
   "job c1-event-curves",
   "no GPU time and no timing are recorded",
   "calibrated synthetic, not validated against real data; nominal signal-to-noise strata, no observed SNR",
-  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 47f56a0263235c936b7bb8801b209c5e49651ae9; unmodified",
+  "supersedes run 20261124T030643Z-c1-event-curves: its published files are removed when this run is published",
+  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 2045397467f05c8edd4d2403379ee4684bab058b; unmodified",
   "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
   "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
   "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files)."

@@ -1,16 +1,16 @@
 {
  "kind": "run",
  "schema_version": "1.0",
- "run_id": "20261124T030707Z-d1-blast-design-trtr",
+ "run_id": "20261124T032007Z-d1-blast-design-trtr",
  "recipe": {
   "id": "d1-blast-trtr",
   "path": "cases/d1.yaml",
   "sha256": "da35ea3a88a8e433ea63b904ee814b8f1a123717362eadd689eafe6233f3d46b"
  },
- "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+ "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
  "git_dirty": false,
  "runner_version": "0.1.0",
- "created": "2026-11-24T03:07:07Z",
+ "created": "2026-11-24T03:20:07Z",
  "profile": "imported",
  "seed": 20261004,
  "published": true,
@@ -28,7 +28,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "fb572bcca77d04ab847ec2330351e86487307de8f2e1da662754491290f5cab1",
+   "cache_key": "9b6cc52cb6aba23091d43bf69b5c1c0b8048bcffe837452c768cd4d5c4fd66a6",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -54,78 +54,78 @@
    "outputs": [
     {
      "name": "design-grid-fragmentation.json",
-     "sha256": "1b7ccd63fbdd27f0a242e46a656dc4a35dd7785623d7bbd2f750386160c3ddc3",
-     "bytes": 58156
+     "sha256": "4c2acb56710eea65b7b97c92ea9add858e5e2fed44cdcd199c964cc7d2dc5443",
+     "bytes": 55782
     },
     {
      "name": "design-grid-vibration.json",
-     "sha256": "261851fe678ff21b5bc666a6574b879843a040c02f502a6812f2fc54d0565687",
-     "bytes": 14702
+     "sha256": "b43527648f0c8816f51d880321e9ecefebaf1dd4246d6d5cd19b92cab9d9f32b",
+     "bytes": 14113
     },
     {
      "name": "design-grid-flyrock.json",
-     "sha256": "ab9527a259071a161be7a1f44dc60b46af88a02f8329d7d1af836b00c491674f",
-     "bytes": 7985
+     "sha256": "30b0c422505dee777fecdcc0aa13f721a28ab3cc21e87d030f39c5f61f70a5c2",
+     "bytes": 7664
     },
     {
      "name": "fold-report.json",
-     "sha256": "eba5e80de4c83b7b674366c8e7cea73f802e3b350a450899b8cfa507595791c0",
-     "bytes": 106298
+     "sha256": "924a0ac4d9e5881a6a748053e0ebf54c6e29964e2d329b7a222f72c779814e16",
+     "bytes": 100166
     },
     {
      "name": "results-summary.json",
-     "sha256": "0f09877983dc0ecb943bc64e03f3d8f88a0d0b2346a3f103789b12dd391ad1f6",
-     "bytes": 3815
+     "sha256": "8b37d4af046684db98c5e5eb88480f226a0ddce9f7882e140160cec93af1e86e",
+     "bytes": 3687
     },
     {
      "name": "charts/d1-p80-map.json",
-     "sha256": "7ff18be4de02a93200f3440156e6937c0afc35b93f2aa543b88f56dc631f2537",
-     "bytes": 3205
+     "sha256": "654c77af2cd5c9eec64af452326b90357ed3a157bee657397fde5da706f71a1f",
+     "bytes": 3067
     },
     {
      "name": "charts/d1-oversize-map.json",
-     "sha256": "1a9ce2168ea56d7df7e66936008062b6e32e9022132357847e96b05863e30dd7",
-     "bytes": 3214
+     "sha256": "ed5eae34f4c970c466dce2df8940b2e30404fe044d3acf8f4e91ac35c7f71330",
+     "bytes": 3076
     },
     {
      "name": "charts/d1-powder-factor-map.json",
-     "sha256": "76db892c146e26dd3905e5ba82b73fb757a16f0a4b4332c890db5ff1bfba6172",
-     "bytes": 3235
+     "sha256": "93d29fd91bfe65319c04c7acc699bf116df6061992766414ae4fd86d9a8aab1d",
+     "bytes": 3097
     },
     {
      "name": "charts/d1-ppv-curves.json",
-     "sha256": "0f069a319441ef61af53c9e955d4e473a1dc0a8cb7b14f8f108012a6ba4063e3",
-     "bytes": 4496
+     "sha256": "20022c0b35e1f306f2e40822dbb6ff3755fe8afc90fcbee446acac5c2d026465",
+     "bytes": 4256
     },
     {
      "name": "charts/d1-flyrock-curves.json",
-     "sha256": "f609a6fc0bdf7bf6e5a394c7029cd6f469e76ecfeba4a4176aac6d4dcc0781f3",
-     "bytes": 2637
+     "sha256": "ec93eac8e8dcdb8ee6cf6819ba73ac9ab852521046addcbb9579fc87c92a10bb",
+     "bytes": 2500
     },
     {
      "name": "charts/d1-fold-iou.json",
-     "sha256": "a102763a9c3cb32649699746b72ba351d1e822a7e0453b1d8d158078020a4547",
-     "bytes": 2200
+     "sha256": "4da3e6dc806f0d00c1d42ebae13ab97c52e3bde274b169bdc2aa75e09055611a",
+     "bytes": 2100
     },
     {
      "name": "charts/d1-psd-pooled.json",
-     "sha256": "a693360d7cc2c0ec5da43a89b5d8c5bffa356129515f7fa16a22acc19910fc59",
-     "bytes": 11448
+     "sha256": "446747b247f5fe7d837eae08886110dbce3c9ad7f7b7d76d90bf812f498d9d4b",
+     "bytes": 10977
     },
     {
      "name": "charts/d1-psd-per-fold.json",
-     "sha256": "2be1ddea5010a010a2399500e013e8dd55333fd1070c3c6aa8f89925ec758132",
-     "bytes": 29176
+     "sha256": "045289ccb17a758d47bd58ef801b0a5ff00aabb2905ef8d588c259296653adcc",
+     "bytes": 27975
     },
     {
      "name": "charts/d1-training-curves.json",
-     "sha256": "999adfac93e41d8bb69e6301cf2a7cb0d191a02711fa6f76571ba859fa823e83",
-     "bytes": 37106
+     "sha256": "01819cdd6b3ab9258e924021e5b0080e8acb5e3ba128a16e317bfd4492d1134b",
+     "bytes": 34243
     },
     {
      "name": "charts/d1-fold-table.json",
-     "sha256": "5bcd87ee9d2b27fe917bfb59961c1c343ba08c6e3ac9977bd0a285482b9732ac",
-     "bytes": 3961
+     "sha256": "0718d664d94bd00ab367f1b3cd4b3aca26a7bd81836b9d68f5ea5accabfc971c",
+     "bytes": 3768
     }
    ]
   }
@@ -133,11 +133,11 @@
  "artefacts": [
   {
    "id": "d1-blast-design-trtr-results",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/results-summary.json",
-   "bytes": 3815,
-   "sha256": "0f09877983dc0ecb943bc64e03f3d8f88a0d0b2346a3f103789b12dd391ad1f6",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/results-summary.json",
+   "bytes": 3687,
+   "sha256": "8b37d4af046684db98c5e5eb88480f226a0ddce9f7882e140160cec93af1e86e",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
@@ -165,11 +165,11 @@
   },
   {
    "id": "d1-p80-map",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-p80-map.json",
-   "bytes": 3205,
-   "sha256": "7ff18be4de02a93200f3440156e6937c0afc35b93f2aa543b88f56dc631f2537",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-p80-map.json",
+   "bytes": 3067,
+   "sha256": "654c77af2cd5c9eec64af452326b90357ed3a157bee657397fde5da706f71a1f",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -190,11 +190,11 @@
   },
   {
    "id": "d1-oversize-map",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-oversize-map.json",
-   "bytes": 3214,
-   "sha256": "1a9ce2168ea56d7df7e66936008062b6e32e9022132357847e96b05863e30dd7",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-oversize-map.json",
+   "bytes": 3076,
+   "sha256": "ed5eae34f4c970c466dce2df8940b2e30404fe044d3acf8f4e91ac35c7f71330",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -215,11 +215,11 @@
   },
   {
    "id": "d1-powder-factor-map",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-powder-factor-map.json",
-   "bytes": 3235,
-   "sha256": "76db892c146e26dd3905e5ba82b73fb757a16f0a4b4332c890db5ff1bfba6172",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-powder-factor-map.json",
+   "bytes": 3097,
+   "sha256": "93d29fd91bfe65319c04c7acc699bf116df6061992766414ae4fd86d9a8aab1d",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -240,11 +240,11 @@
   },
   {
    "id": "d1-ppv-curves",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-ppv-curves.json",
-   "bytes": 4496,
-   "sha256": "0f069a319441ef61af53c9e955d4e473a1dc0a8cb7b14f8f108012a6ba4063e3",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-ppv-curves.json",
+   "bytes": 4256,
+   "sha256": "20022c0b35e1f306f2e40822dbb6ff3755fe8afc90fcbee446acac5c2d026465",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -265,11 +265,11 @@
   },
   {
    "id": "d1-flyrock-curves",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-flyrock-curves.json",
-   "bytes": 2637,
-   "sha256": "f609a6fc0bdf7bf6e5a394c7029cd6f469e76ecfeba4a4176aac6d4dcc0781f3",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-flyrock-curves.json",
+   "bytes": 2500,
+   "sha256": "ec93eac8e8dcdb8ee6cf6819ba73ac9ab852521046addcbb9579fc87c92a10bb",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -290,11 +290,11 @@
   },
   {
    "id": "d1-fold-iou",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-fold-iou.json",
-   "bytes": 2200,
-   "sha256": "a102763a9c3cb32649699746b72ba351d1e822a7e0453b1d8d158078020a4547",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-fold-iou.json",
+   "bytes": 2100,
+   "sha256": "4da3e6dc806f0d00c1d42ebae13ab97c52e3bde274b169bdc2aa75e09055611a",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -322,11 +322,11 @@
   },
   {
    "id": "d1-psd-pooled",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-psd-pooled.json",
-   "bytes": 11448,
-   "sha256": "a693360d7cc2c0ec5da43a89b5d8c5bffa356129515f7fa16a22acc19910fc59",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-psd-pooled.json",
+   "bytes": 10977,
+   "sha256": "446747b247f5fe7d837eae08886110dbce3c9ad7f7b7d76d90bf812f498d9d4b",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -354,11 +354,11 @@
   },
   {
    "id": "d1-psd-per-fold",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-psd-per-fold.json",
-   "bytes": 29176,
-   "sha256": "2be1ddea5010a010a2399500e013e8dd55333fd1070c3c6aa8f89925ec758132",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-psd-per-fold.json",
+   "bytes": 27975,
+   "sha256": "045289ccb17a758d47bd58ef801b0a5ff00aabb2905ef8d588c259296653adcc",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -386,11 +386,11 @@
   },
   {
    "id": "d1-training-curves",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-training-curves.json",
-   "bytes": 37106,
-   "sha256": "999adfac93e41d8bb69e6301cf2a7cb0d191a02711fa6f76571ba859fa823e83",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-training-curves.json",
+   "bytes": 34243,
+   "sha256": "01819cdd6b3ab9258e924021e5b0080e8acb5e3ba128a16e317bfd4492d1134b",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -418,11 +418,11 @@
   },
   {
    "id": "d1-fold-table",
-   "run_id": "20261124T030707Z-d1-blast-design-trtr",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030707Z-d1-blast-design-trtr/charts/d1-fold-table.json",
-   "bytes": 3961,
-   "sha256": "5bcd87ee9d2b27fe917bfb59961c1c343ba08c6e3ac9977bd0a285482b9732ac",
+   "run_id": "20261124T032007Z-d1-blast-design-trtr",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032007Z-d1-blast-design-trtr/charts/d1-fold-table.json",
+   "bytes": 3768,
+   "sha256": "0718d664d94bd00ab367f1b3cd4b3aca26a7bd81836b9d68f5ea5accabfc971c",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -454,7 +454,8 @@
   "job d1-blast-trtr",
   "no GPU time and no timing are recorded",
   "design grids: model output with illustrative site constants (UNVERIFIED), not validated against real data; TRTR metrics: real images (Mendeley Data 78ht3pjsr4, CC BY 4.0), metrics only, no image is published",
-  "producer paths: src/pitstudio/cases/d1, pipeline/src/pitstudio_pipeline/fragmentation, pipeline/src/pitstudio_pipeline/chartkit.py, studio/recipes/cases/d1.yaml; git sha 47f56a0263235c936b7bb8801b209c5e49651ae9; unmodified",
+  "supersedes run 20261124T030707Z-d1-blast-design-trtr: its published files are removed when this run is published",
+  "producer paths: src/pitstudio/cases/d1, pipeline/src/pitstudio_pipeline/fragmentation, pipeline/src/pitstudio_pipeline/chartkit.py, studio/recipes/cases/d1.yaml; git sha 2045397467f05c8edd4d2403379ee4684bab058b; unmodified",
   "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
   "Produced on the CPU by pitstudio_pipeline.fragmentation.d1_run (not by the GPU queue); no GPU time is used.",
   "The five fold models are the outputs of the GPU training run published as 20261011T235848Z-d1-unet-trtr-v2; here they only run inference on the CPU."

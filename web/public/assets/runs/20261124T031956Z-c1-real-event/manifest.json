@@ -1,16 +1,16 @@
 {
  "kind": "run",
  "schema_version": "1.0",
- "run_id": "20261124T030648Z-c1-real-event",
+ "run_id": "20261124T031956Z-c1-real-event",
  "recipe": {
   "id": "c1-slope",
   "path": "cases/c1.yaml",
   "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
  },
- "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
+ "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
  "git_dirty": false,
  "runner_version": "0.1.0",
- "created": "2026-11-24T03:06:48Z",
+ "created": "2026-11-24T03:19:56Z",
  "profile": "imported",
  "seed": 20261007,
  "published": true,
@@ -28,7 +28,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "2c2b18f37355ddcd736e02f7169b12dc405ad3d83b305b5504c2899dd5dcc8ed",
+   "cache_key": "f21ad7921f40533bb7ab7470c5a1640fb7e4691274a0e07a959a0a4bdc3f230e",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -54,43 +54,43 @@
    "outputs": [
     {
      "name": "charts/c1-real-event.json",
-     "sha256": "3aa23d542b8738ed6b79b0b5749ac38e339d464fc687f3869289eb97fe460d45",
-     "bytes": 6308
+     "sha256": "f7c823ba3032410c8e272d4134c32605adcf2aa6cfd08c7236fdf2cc474fe7e6",
+     "bytes": 6003
     },
     {
      "name": "charts/c1-real-event-sensitivity.json",
-     "sha256": "b0f1df692b74743941e726ce519a49a1c5551e0d8249006fa2009ef17eeab84b",
-     "bytes": 6379
+     "sha256": "754f874f71d09f847b0bcdbfbd33fd063aec4e4f6c115bb46b409dcd9a011cf7",
+     "bytes": 6074
     },
     {
      "name": "charts/c1-real-event-failure-time.json",
-     "sha256": "f435118f3d744c11c0f677eb123ac741cf662a05941b5584d0c258dcfc76e880",
-     "bytes": 3008
+     "sha256": "20e4cee2a90090da509a2cd2cb36b370de305d5deb202ce74c1dfd9af1c6e4f5",
+     "bytes": 2906
     },
     {
      "name": "charts/c1-real-event-iv.json",
-     "sha256": "123b617b9330c2ce521d751e257583d9b404ca3e7a36fd60e9fd74bd94a4d830",
-     "bytes": 71944
+     "sha256": "7eaea2bd8cf5a256e3daee66a41754fca49e973fb1cb3a18b9e7443401c023d5",
+     "bytes": 68978
     },
     {
      "name": "charts/c1-real-event-disp.json",
-     "sha256": "b938cd7629882cbd33d7b4fba5167320cc1151fde15401ea485ed15dfff540c8",
-     "bytes": 9956
+     "sha256": "87ce8e0f844b6462b1ea71e72c0ae288cc96ae1b2e306d80e5d9e3e2e3e389f2",
+     "bytes": 9445
     },
     {
      "name": "charts/c1-real-event-archive.json",
-     "sha256": "8a4777c158d1a24b2324c4cd321d5b5cb89650bdf6411ec9f3d677df06ca6394",
-     "bytes": 3032
+     "sha256": "6dbd61ce74131d6f9a16b72fb34428eb59cfaf3a21348231d3f11ae7ea60847a",
+     "bytes": 2935
     },
     {
      "name": "real-event.json",
-     "sha256": "dd792dc6000c5fd5c4708a2f548170b0fc5833459785d605df5a24bcf4579347",
-     "bytes": 145675
+     "sha256": "f59a986c07d9642ace57af888c2b24d7c95ed708229e7093e5ff6977b651af07",
+     "bytes": 139782
     },
     {
      "name": "results-summary.json",
-     "sha256": "92d449c5f962cd2c02bed99f7ffa5ffc4a22eff9fbeea6fc0b7ab03bca3b6deb",
-     "bytes": 2350
+     "sha256": "c186af861d2b8f9ba8d0c51fa330ab044d75a485aa6cdec405c8392c4721c9ad",
+     "bytes": 2242
     }
    ]
   }
@@ -98,11 +98,11 @@
  "artefacts": [
   {
    "id": "c1-real-event",
-   "run_id": "20261124T030648Z-c1-real-event",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030648Z-c1-real-event/charts/c1-real-event.json",
-   "bytes": 6308,
-   "sha256": "3aa23d542b8738ed6b79b0b5749ac38e339d464fc687f3869289eb97fe460d45",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event.json",
+   "bytes": 6003,
+   "sha256": "f7c823ba3032410c8e272d4134c32605adcf2aa6cfd08c7236fdf2cc474fe7e6",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -145,11 +145,11 @@
   },
   {
    "id": "c1-real-event-sensitivity",
-   "run_id": "20261124T030648Z-c1-real-event",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030648Z-c1-real-event/charts/c1-real-event-sensitivity.json",
-   "bytes": 6379,
-   "sha256": "b0f1df692b74743941e726ce519a49a1c5551e0d8249006fa2009ef17eeab84b",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-sensitivity.json",
+   "bytes": 6074,
+   "sha256": "754f874f71d09f847b0bcdbfbd33fd063aec4e4f6c115bb46b409dcd9a011cf7",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -192,11 +192,11 @@
   },
   {
    "id": "c1-real-event-failure-time",
-   "run_id": "20261124T030648Z-c1-real-event",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030648Z-c1-real-event/charts/c1-real-event-failure-time.json",
-   "bytes": 3008,
-   "sha256": "f435118f3d744c11c0f677eb123ac741cf662a05941b5584d0c258dcfc76e880",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-failure-time.json",
+   "bytes": 2906,
+   "sha256": "20e4cee2a90090da509a2cd2cb36b370de305d5deb202ce74c1dfd9af1c6e4f5",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -239,11 +239,11 @@
   },
   {
    "id": "c1-real-event-iv",
-   "run_id": "20261124T030648Z-c1-real-event",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030648Z-c1-real-event/charts/c1-real-event-iv.json",
-   "bytes": 71944,
-   "sha256": "123b617b9330c2ce521d751e257583d9b404ca3e7a36fd60e9fd74bd94a4d830",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-iv.json",
+   "bytes": 68978,
+   "sha256": "7eaea2bd8cf5a256e3daee66a41754fca49e973fb1cb3a18b9e7443401c023d5",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -286,11 +286,11 @@
   },
   {
    "id": "c1-real-event-disp",
-   "run_id": "20261124T030648Z-c1-real-event",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030648Z-c1-real-event/charts/c1-real-event-disp.json",
-   "bytes": 9956,
-   "sha256": "b938cd7629882cbd33d7b4fba5167320cc1151fde15401ea485ed15dfff540c8",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-disp.json",
+   "bytes": 9445,
+   "sha256": "87ce8e0f844b6462b1ea71e72c0ae288cc96ae1b2e306d80e5d9e3e2e3e389f2",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -333,11 +333,11 @@
   },
   {
    "id": "c1-real-event-archive",
-   "run_id": "20261124T030648Z-c1-real-event",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030648Z-c1-real-event/charts/c1-real-event-archive.json",
-   "bytes": 3032,
-   "sha256": "8a4777c158d1a24b2324c4cd321d5b5cb89650bdf6411ec9f3d677df06ca6394",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-archive.json",
+   "bytes": 2935,
+   "sha256": "6dbd61ce74131d6f9a16b72fb34428eb59cfaf3a21348231d3f11ae7ea60847a",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -380,11 +380,11 @@
   },
   {
    "id": "c1-real-event-results",
-   "run_id": "20261124T030648Z-c1-real-event",
-   "git_sha": "47f56a0263235c936b7bb8801b209c5e49651ae9",
-   "path": "assets/20261124T030648Z-c1-real-event/results-summary.json",
-   "bytes": 2350,
-   "sha256": "92d449c5f962cd2c02bed99f7ffa5ffc4a22eff9fbeea6fc0b7ab03bca3b6deb",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/results-summary.json",
+   "bytes": 2242,
+   "sha256": "c186af861d2b8f9ba8d0c51fa330ab044d75a485aa6cdec405c8392c4721c9ad",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
@@ -410,7 +410,8 @@
   "job c1-real-event",
   "no GPU time and no timing are recorded",
   "single real event \u2014 no significance test; failure time at day resolution from two documentary sources, prism-median series",
-  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 47f56a0263235c936b7bb8801b209c5e49651ae9; unmodified",
+  "supersedes run 20261124T030648Z-c1-real-event: its published files are removed when this run is published",
+  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 2045397467f05c8edd4d2403379ee4684bab058b; unmodified",
   "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
   "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
   "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files).",

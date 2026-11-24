@@ -1,16 +1,16 @@
 {
  "kind": "run",
  "schema_version": "1.0",
- "run_id": "20261124T030448Z-c1-error-results",
+ "run_id": "20261124T031939Z-c1-error-results",
  "recipe": {
   "id": "c1-slope",
   "path": "cases/c1.yaml",
   "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
  },
- "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
+ "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
  "git_dirty": false,
  "runner_version": "0.1.0",
- "created": "2026-11-24T03:04:48Z",
+ "created": "2026-11-24T03:19:39Z",
  "profile": "imported",
  "seed": 20261007,
  "published": true,
@@ -28,7 +28,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "94ef9862594d7c6b895817976b4675136e55c4c7d122cc5425133d642dcec73c",
+   "cache_key": "2fba42c733cb40535bd30fdb2686f2ab27cf4530ebdee003604808b829d8890c",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -54,73 +54,73 @@
    "outputs": [
     {
      "name": "charts/c1-median-error-cutoff-05.json",
-     "sha256": "1d53f2ea47d57e35f55035222633bcba4dd82b3b988c8d92e5a94580a303e0f9",
-     "bytes": 4249
+     "sha256": "14b000d98821a2006a1ebd70b157eee2be359ce07ae1d3fea707eadf80c3f19b",
+     "bytes": 4062
     },
     {
      "name": "charts/c1-median-error-cutoff-08.json",
-     "sha256": "a5831bb6d3ffb47fec79ae52a1c69b2ba6f706d6da0eb5b69b1b7ff1c1a2281c",
-     "bytes": 4210
+     "sha256": "117bce7e13fdc37ad6481fe0056be86c96795274e5d61d1486ab5b1c85f47e87",
+     "bytes": 4023
     },
     {
      "name": "charts/c1-paired-difference-cutoff-05.json",
-     "sha256": "e154903db0a498c9ec013c614165b97bebc1e14e2976613e2865fb9b227f9ce7",
-     "bytes": 3840
+     "sha256": "6c3eeee7f1562ec1d8aa053ec007e8e85a84a2af33ab66d9f22b6bb58dcae74a",
+     "bytes": 3673
     },
     {
      "name": "charts/c1-paired-difference-cutoff-08.json",
-     "sha256": "5024254482e0073fcdb58b0142b9d4761d8296f3f8fa98cb1bb3d4f989e99b6f",
-     "bytes": 3825
+     "sha256": "c7fa98a6f398dab2cff37b4ecc20aa6fc446c2c71d3d6610914f3bfeef16018c",
+     "bytes": 3658
     },
     {
      "name": "charts/c1-error-ecdf-nominal-10-cutoff-05.json",
-     "sha256": "c0654b42bed58511125fa1ea8716a6d049cc6a75684376f9d895c3176e12d4a3",
-     "bytes": 7639
+     "sha256": "2c8aa54873e424addd52b2247a711709514d8b5ba5df00f7a18002dc38186bdf",
+     "bytes": 7028
     },
     {
      "name": "charts/c1-error-ecdf-nominal-10-cutoff-08.json",
-     "sha256": "aea1c4a6875615777a11dbd3f5ae73e5226cf9fd00623137b159fcd01f7a81ad",
-     "bytes": 7813
+     "sha256": "fc36a513c0a503cb9da931ba1ccb44b9d9507cb98622d1de34bd044bd97fc0e3",
+     "bytes": 7202
     },
     {
      "name": "charts/c1-error-ecdf-nominal-30-cutoff-05.json",
-     "sha256": "357301a6cc28637be37cf75cd87987885b3127afc372ab8572bfafc1cf1765cb",
-     "bytes": 7624
+     "sha256": "2f98160ea1e69459382cde395c4aebe98e19268106a15326f051ac5784af85cc",
+     "bytes": 7013
     },
     {
      "name": "charts/c1-error-ecdf-nominal-30-cutoff-08.json",
-     "sha256": "36b497d68d1eb9530e937a21403864b1749bfecf15268db03044920f702468f0",
-     "bytes": 7844
+     "sha256": "68b9860df3022cacbdb375e854622691c13f8df19dcab15d67e7ccb2228726a2",
+     "bytes": 7233
     },
     {
      "name": "charts/c1-error-ecdf-nominal-100-cutoff-05.json",
-     "sha256": "d3d7d33d28867bb510a6c96f5ed5e1273cc89270d8349efa08326c58def179c1",
-     "bytes": 7629
+     "sha256": "9224f3c42e0920be6caaa7f77a7bbcc1cf8b790699046d665acda09b797e44f2",
+     "bytes": 7018
     },
     {
      "name": "charts/c1-error-ecdf-nominal-100-cutoff-08.json",
-     "sha256": "00c0edaae0c2bf188cd6a182dcb6c22a6cdfa8522ea01c56b768bbc5bc1c433e",
-     "bytes": 7825
+     "sha256": "eebb9349253017655ca91d47bed2233b37b43458473b59a2df1d794bf7a79044",
+     "bytes": 7214
     },
     {
      "name": "charts/c1-error-table.json",
-     "sha256": "51eba28f4e439f799f41b751cf4ffb70fdeee9493aea482fc44616507c6e85b6",
-     "bytes": 6842
+     "sha256": "0939e4e138fd500afd45d840f3b92a823655dd11d410b215e19f4624a45e8681",
+     "bytes": 6381
     },
     {
      "name": "charts/c1-acceptance-sc-010-01.json",
-     "sha256": "14c8395b126f4a135d639fc02bd6f3d4da666e6546ebecea3983d6a2ca539e86",
-     "bytes": 899
+     "sha256": "550cd63e9620db6466672cd641e866a2112ebd6b17eafe7f45042e2c5c1ac3cd",
+     "bytes": 873
     },
     {
      "name": "error-results.json",
-     "sha256": "01fe1dfe37aa3b5b1b6bf80b01ff21ccc25c5972ebff9c9d5234ee83effe88df",
-     "bytes": 87029
+     "sha256": "7a31957c9412436d6e49ac12280946db1deb704e3cb9a19fbc51913a3b024ad3",
+     "bytes": 81774
     },
     {
      "name": "results-summary.json",
-     "sha256": "1f98e316f108ba82866574969473051d4c08ce30a4861264ca713f1bd9c0642d",
-     "bytes": 5181
+     "sha256": "6984934323f30bf5c3aca7d91a18f923852a4b16108c3640d52627472e7595ea",
+     "bytes": 4947
     }
    ]
   }
@@ -128,11 +128,11 @@
  "artefacts": [
   {
    "id": "c1-median-error-cutoff-05",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-median-error-cutoff-05.json",
-   "bytes": 4249,
-   "sha256": "1d53f2ea47d57e35f55035222633bcba4dd82b3b988c8d92e5a94580a303e0f9",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-median-error-cutoff-05.json",
+   "bytes": 4062,
+   "sha256": "14b000d98821a2006a1ebd70b157eee2be359ce07ae1d3fea707eadf80c3f19b",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -159,11 +159,11 @@
   },
   {
    "id": "c1-median-error-cutoff-08",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-median-error-cutoff-08.json",
-   "bytes": 4210,
-   "sha256": "a5831bb6d3ffb47fec79ae52a1c69b2ba6f706d6da0eb5b69b1b7ff1c1a2281c",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-median-error-cutoff-08.json",
+   "bytes": 4023,
+   "sha256": "117bce7e13fdc37ad6481fe0056be86c96795274e5d61d1486ab5b1c85f47e87",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -190,11 +190,11 @@
   },
   {
    "id": "c1-paired-difference-cutoff-05",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-paired-difference-cutoff-05.json",
-   "bytes": 3840,
-   "sha256": "e154903db0a498c9ec013c614165b97bebc1e14e2976613e2865fb9b227f9ce7",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-paired-difference-cutoff-05.json",
+   "bytes": 3673,
+   "sha256": "6c3eeee7f1562ec1d8aa053ec007e8e85a84a2af33ab66d9f22b6bb58dcae74a",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -221,11 +221,11 @@
   },
   {
    "id": "c1-paired-difference-cutoff-08",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-paired-difference-cutoff-08.json",
-   "bytes": 3825,
-   "sha256": "5024254482e0073fcdb58b0142b9d4761d8296f3f8fa98cb1bb3d4f989e99b6f",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-paired-difference-cutoff-08.json",
+   "bytes": 3658,
+   "sha256": "c7fa98a6f398dab2cff37b4ecc20aa6fc446c2c71d3d6610914f3bfeef16018c",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -252,11 +252,11 @@
   },
   {
    "id": "c1-error-ecdf-nominal-10-cutoff-05",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-10-cutoff-05.json",
-   "bytes": 7639,
-   "sha256": "c0654b42bed58511125fa1ea8716a6d049cc6a75684376f9d895c3176e12d4a3",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-error-ecdf-nominal-10-cutoff-05.json",
+   "bytes": 7028,
+   "sha256": "2c8aa54873e424addd52b2247a711709514d8b5ba5df00f7a18002dc38186bdf",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -283,11 +283,11 @@
   },
   {
    "id": "c1-error-ecdf-nominal-10-cutoff-08",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-10-cutoff-08.json",
-   "bytes": 7813,
-   "sha256": "aea1c4a6875615777a11dbd3f5ae73e5226cf9fd00623137b159fcd01f7a81ad",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-error-ecdf-nominal-10-cutoff-08.json",
+   "bytes": 7202,
+   "sha256": "fc36a513c0a503cb9da931ba1ccb44b9d9507cb98622d1de34bd044bd97fc0e3",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -314,11 +314,11 @@
   },
   {
    "id": "c1-error-ecdf-nominal-30-cutoff-05",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-30-cutoff-05.json",
-   "bytes": 7624,
-   "sha256": "357301a6cc28637be37cf75cd87987885b3127afc372ab8572bfafc1cf1765cb",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-error-ecdf-nominal-30-cutoff-05.json",
+   "bytes": 7013,
+   "sha256": "2f98160ea1e69459382cde395c4aebe98e19268106a15326f051ac5784af85cc",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -345,11 +345,11 @@
   },
   {
    "id": "c1-error-ecdf-nominal-30-cutoff-08",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-30-cutoff-08.json",
-   "bytes": 7844,
-   "sha256": "36b497d68d1eb9530e937a21403864b1749bfecf15268db03044920f702468f0",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-error-ecdf-nominal-30-cutoff-08.json",
+   "bytes": 7233,
+   "sha256": "68b9860df3022cacbdb375e854622691c13f8df19dcab15d67e7ccb2228726a2",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -376,11 +376,11 @@
   },
   {
    "id": "c1-error-ecdf-nominal-100-cutoff-05",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-100-cutoff-05.json",
-   "bytes": 7629,
-   "sha256": "d3d7d33d28867bb510a6c96f5ed5e1273cc89270d8349efa08326c58def179c1",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-error-ecdf-nominal-100-cutoff-05.json",
+   "bytes": 7018,
+   "sha256": "9224f3c42e0920be6caaa7f77a7bbcc1cf8b790699046d665acda09b797e44f2",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -407,11 +407,11 @@
   },
   {
    "id": "c1-error-ecdf-nominal-100-cutoff-08",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-ecdf-nominal-100-cutoff-08.json",
-   "bytes": 7825,
-   "sha256": "00c0edaae0c2bf188cd6a182dcb6c22a6cdfa8522ea01c56b768bbc5bc1c433e",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-error-ecdf-nominal-100-cutoff-08.json",
+   "bytes": 7214,
+   "sha256": "eebb9349253017655ca91d47bed2233b37b43458473b59a2df1d794bf7a79044",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -438,11 +438,11 @@
   },
   {
    "id": "c1-error-table",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-error-table.json",
-   "bytes": 6842,
-   "sha256": "51eba28f4e439f799f41b751cf4ffb70fdeee9493aea482fc44616507c6e85b6",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-error-table.json",
+   "bytes": 6381,
+   "sha256": "0939e4e138fd500afd45d840f3b92a823655dd11d410b215e19f4624a45e8681",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -469,11 +469,11 @@
   },
   {
    "id": "c1-acceptance-sc-010-01",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/charts/c1-acceptance-sc-010-01.json",
-   "bytes": 899,
-   "sha256": "14c8395b126f4a135d639fc02bd6f3d4da666e6546ebecea3983d6a2ca539e86",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/charts/c1-acceptance-sc-010-01.json",
+   "bytes": 873,
+   "sha256": "550cd63e9620db6466672cd641e866a2112ebd6b17eafe7f45042e2c5c1ac3cd",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -500,11 +500,11 @@
   },
   {
    "id": "c1-error-results-results",
-   "run_id": "20261124T030448Z-c1-error-results",
-   "git_sha": "3e64a500a1b3b09e3276892bfd2d156817afeba3",
-   "path": "assets/20261124T030448Z-c1-error-results/results-summary.json",
-   "bytes": 5181,
-   "sha256": "1f98e316f108ba82866574969473051d4c08ce30a4861264ca713f1bd9c0642d",
+   "run_id": "20261124T031939Z-c1-error-results",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031939Z-c1-error-results/results-summary.json",
+   "bytes": 4947,
+   "sha256": "6984934323f30bf5c3aca7d91a18f923852a4b16108c3640d52627472e7595ea",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
@@ -529,7 +529,8 @@
   "job c1-error-results",
   "no GPU time and no timing are recorded",
   "calibrated synthetic, not validated against real data; nominal signal-to-noise strata, no observed SNR",
-  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 3e64a500a1b3b09e3276892bfd2d156817afeba3; unmodified",
+  "supersedes run 20261124T030448Z-c1-error-results: its published files are removed when this run is published",
+  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 2045397467f05c8edd4d2403379ee4684bab058b; unmodified",
   "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
   "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
   "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files)."
