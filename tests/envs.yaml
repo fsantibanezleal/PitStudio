@@ -39,7 +39,8 @@ studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/contract/test_t_013_017_*.py
   - tests/pipeline/test_t_017_023_*.py   # OR-Tools SimpleMaxFlow oracle of the min-cut (studio environment, plan 017)
   - tests/pipeline/test_t_017_042_*.py   # rasterio GeoTIFFs of the DEM grid preparation (studio environment)
-  - tests/pipeline/test_t_017_102_*.py   # the E2 real-volume run: rasterio, pyproj, pitstudio_studio.survey
+  - tests/pipeline/test_t_017_102_*.py
+  - tests/pipeline/test_t_017_103_*.py   # the coarse E2 pair: rasterio, pyproj, pitstudio_studio.survey
 pipeline:   # torch, onnx, onnxruntime, polars, scipy ... (pipeline/pyproject.toml)
   - tests/pipeline/**
   - tests/unit/test_t_012_*.py

@@ -120,7 +120,35 @@ def _declared_transform(recipe: Mapping[str, Any]) -> dict | None:
     return None
 
 
+def _sample_bilinear(src: DemInfo, dst_transform: tuple, dst_crs: str, shape: tuple[int, int]) -> np.ndarray:
+    """Point-sampled bilinear interpolation of a geographic grid at the cell centres of the target grid.
+
+    GDAL's approximate transformer and kernel scaling displace cells by a fraction of a source pixel, which is a metre of
+    height on a steep 30 m DEM; sampling at the exact centres is exact for a plane. A no-data neighbour gives no data.
+    """
+    from affine import Affine
+    from pyproj import Transformer
+    from scipy.ndimage import map_coordinates
+
+    a, _b, c, _d, e, f = dst_transform
+    xs = c + (np.arange(shape[1]) + 0.5) * a
+    ys = f + (np.arange(shape[0]) + 0.5) * e
+    gx, gy = np.meshgrid(xs, ys)
+    lon, lat = Transformer.from_crs(dst_crs, src.crs, always_xy=True).transform(gx, gy)
+    col, row = (~Affine(*src.transform)) @ (lon, lat)
+    out = map_coordinates(src.z, [row - 0.5, col - 0.5], order=1, mode="constant", cval=np.nan, prefilter=False)
+    return np.asarray(out, dtype=np.float64)
+
+
+def _is_geographic(crs: str) -> bool:
+    from pyproj import CRS
+
+    return CRS.from_user_input(crs).is_geographic
+
+
 def _resample(src: DemInfo, dst_transform: tuple, dst_crs: str, shape: tuple[int, int]) -> np.ndarray:
+    if _is_geographic(src.crs) and not _is_geographic(dst_crs):
+        return _sample_bilinear(src, dst_transform, dst_crs, shape)
     from affine import Affine
     from rasterio.warp import Resampling, reproject
 
@@ -143,8 +171,9 @@ def prepare_pair(path_2018: Path, path_2023: Path, *, recipe: Mapping[str, Any])
     """Both DEMs on the 2023 grid with a recorded transform, or "not run" when the vertical datums differ."""
     meta = recipe.get("dem_metadata") or {}
     # a YAML recipe cannot name a key "2018" (recipe parameter names start with a letter): `epoch_2018` is accepted too
-    d18 = read_dem(path_2018, fallback=meta.get("2018") or meta.get("epoch_2018"))
-    d23 = read_dem(path_2023, fallback=meta.get("2023") or meta.get("epoch_2023"))
+    # `before` and `after` name the two DEMs by role (the older one is stored under the record key 2018)
+    d18 = read_dem(path_2018, fallback=meta.get("before") or meta.get("2018") or meta.get("epoch_2018"))
+    d23 = read_dem(path_2023, fallback=meta.get("after") or meta.get("2023") or meta.get("epoch_2023"))
     declared = _declared_transform(recipe)
     differ = (d18.vertical_datum, d18.geoid) != (d23.vertical_datum, d23.geoid)
     if differ and declared is None:

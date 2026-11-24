@@ -1,3 +1,4 @@
+# ruff: noqa: E501, PT018
 """T-017-103: the coarse E2 pair, SRTM GL1 (February 2000) against a 1 m lidar DEM aggregated to a 30 m grid (pipeline
 test of the studio environment).
 
@@ -72,8 +73,8 @@ def _inputs(tmp: Path) -> tuple[Path, Path]:
     dem = _write(tmp / "dem.tif", z18, from_origin(X0, Y0 + N, 1.0, 1.0), "EPSG:26912", -999999.0)
     # the 2000 SRTM-like grid: 1 arc-second cells, centres on integer arc-seconds, covering the area with a margin
     to_utm = Transformer.from_crs(4326, 26912, always_xy=True)
-    lon0, lat0 = -112.1700, 40.4900
-    nx = ny = 160  # 160 arc-seconds is about 3.7 km by 4.9 km
+    lon0, lat0 = -112.1760, 40.4850
+    nx = ny = 200  # 200 arc-seconds is about 4.7 km by 6.2 km: a margin around the 3 km square
     lon = lon0 + np.arange(nx) / 3600.0
     lat = lat0 + (ny - 1 - np.arange(ny)) / 3600.0
     lo, la = np.meshgrid(lon, lat)
@@ -116,10 +117,10 @@ def _recipe() -> dict:
                 "id": "pit",
                 "label": "test pit",
                 "footprint": [
-                    [X0 + 1450, Y0 + 1450],
-                    [X0 + 1850, Y0 + 1450],
-                    [X0 + 1850, Y0 + 1850],
-                    [X0 + 1450, Y0 + 1850],
+                    [X0 + 1440, Y0 + 1440],
+                    [X0 + 1860, Y0 + 1440],
+                    [X0 + 1860, Y0 + 1860],
+                    [X0 + 1440, Y0 + 1860],
                 ],
             }
         ],
@@ -150,8 +151,8 @@ def _volume(out: Path) -> dict:
 def test_the_pit_cut_is_the_hand_volume_over_the_footprint_net_of_the_shift(run) -> None:
     out, _ = run
     v = _volume(out)
-    # footprint 400 x 400 m holds the 300 x 300 x 40 m pit; every other footprint cell differs by shift - offset (fill)
-    ground = 400 * 400 - 300 * 300
+    # footprint 420 x 420 m (cell edges) holds the 300 x 300 x 40 m pit; every other footprint cell differs by shift - offset (fill)
+    ground = 420 * 420 - 300 * 300
     assert v["v_cut_m3"] == pytest.approx(300 * 300 * (40.0 - (SHIFT - OFFSET)), rel=1e-3)
     assert v["v_fill_m3"] == pytest.approx(ground * (SHIFT - OFFSET), rel=1e-3)
 
@@ -183,9 +184,11 @@ def test_the_volume_carries_the_epochs_the_datum_conversion_the_grid_and_the_lab
     v = _volume(out)
     assert v["label"] == "measurement, not validation"
     assert (v["surfaces"]["before"]["epoch"], v["surfaces"]["after"]["epoch"]) == ("2000", "2018")
-    assert v["surfaces"]["before"]["crs"] == "EPSG:4326" and v["surfaces"]["after"]["crs"] == "EPSG:26912"
+    assert v["surfaces"]["before"]["crs"] == "EPSG:4326"
+    assert v["surfaces"]["after"]["crs"] == "EPSG:26912"
     assert v["surfaces"]["before"]["vertical_datum"] == "EGM96"
-    assert v["vertical_transform"]["kind"] == "grid" and v["vertical_transform"]["source"]
+    assert v["vertical_transform"]["kind"] == "grid"
+    assert v["vertical_transform"]["source"]
     assert v["grid"]["cell_m"] == 30.0
     assert summary["status"] == "ok"
     chart = json.loads((out / "charts" / "e2-volume-bars.json").read_text("utf-8"))

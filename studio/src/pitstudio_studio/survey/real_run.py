@@ -74,15 +74,16 @@ def _footprint(area: Mapping[str, Any], data_root: Path | None) -> tuple[np.ndar
     return np.empty((0, 2)), None
 
 
-def _surface_meta(rec: dict, epoch: str, dem_name: str, recipe: Mapping[str, Any]) -> dict:
+def _surface_meta(rec: dict, key: str, epoch: str, path: str) -> dict:
+    """Surface record of the `before` (record key 2018) or `after` (record key 2023) DEM of the prepared pair."""
     meta = {
-        "path": f"data/raw/usgs-3dep-bingham/{dem_name}",
-        "sha256": rec[f"sha256_{epoch}"],
+        "path": path,
+        "sha256": rec[f"sha256_{key}"],
         "epoch": epoch,
-        "project": rec[f"project_{epoch}"],
-        "crs": rec["source_crs_2018"] if epoch == "2018" else rec["crs"],
-        "vertical_datum": rec[f"vertical_datum_{epoch}"],
-        "rmse_z_m": rec[f"rmse_z_{epoch}_m"],
+        "project": rec[f"project_{key}"],
+        "crs": rec["source_crs_2018"] if key == "2018" else rec["crs"],
+        "vertical_datum": rec[f"vertical_datum_{key}"],
+        "rmse_z_m": rec[f"rmse_z_{key}_m"],
     }
     missing = [k for k in ("project", "vertical_datum", "rmse_z_m") if meta[k] is None]
     if missing:
@@ -196,10 +197,24 @@ def run_e2(
     }
     areas = list(recipe["areas"])
     table_title = _en_es("Cut, fill and net volume", "Volumen de corte, relleno y neto")
-    bars_title = _en_es(
-        "Cut, fill and net surface change 2018 to 2023", "Corte, relleno y cambio neto de superficie 2018 a 2023"
+    epochs = tuple(recipe.get("epochs", ("2018", "2023")))  # the epoch of the older and of the newer DEM
+    period = recipe.get("period", f"{epochs[0]} to {epochs[1]}")
+    period_es = period.replace(" to ", " a ")
+    paths = tuple(
+        recipe.get(
+            "surface_paths",
+            (
+                f"data/raw/usgs-3dep-bingham/{Path(path_2018).name}",
+                f"data/raw/usgs-3dep-bingham/{Path(path_2023).name}",
+            ),
+        )
     )
-    map_title = _en_es("Elevation change 2018 to 2023", "Cambio de elevación 2018 a 2023")
+    if recipe.get("run_label"):
+        producer["label"] = f"{LABEL}; {recipe['run_label']}"[:200]
+    bars_title = _en_es(
+        f"Cut, fill and net surface change {period}", f"Corte, relleno y cambio neto de superficie {period_es}"
+    )
+    map_title = _en_es(f"Elevation change {period}", f"Cambio de elevación {period_es}")
     if prep.status != "ok":
         reason = prep.label or "Not run"
         doc = {
@@ -237,8 +252,8 @@ def run_e2(
     meta_common = {
         "licence": dict(recipe["licence"]),
         "surfaces": {
-            "before": _surface_meta(rec, "2018", Path(path_2018).name, recipe),
-            "after": _surface_meta(rec, "2023", Path(path_2023).name, recipe),
+            "before": _surface_meta(rec, "2018", epochs[0], paths[0]),
+            "after": _surface_meta(rec, "2023", epochs[1], paths[1]),
         },
         "resampling": {"method": "none"}
         if rec["resampling"] == "none"
@@ -335,8 +350,8 @@ def run_e2(
         "vmax": q,
         "unit": "m",
         "label": _en_es(
-            "Surface change, 2023 minus 2018 (negative is cut)",
-            "Cambio de superficie, 2023 menos 2018 (negativo es corte)",
+            f"Surface change, {epochs[1]} minus {epochs[0]} (negative is cut)",
+            f"Cambio de superficie, {epochs[1]} menos {epochs[0]} (negativo es corte)",
         ),
     }
     table_rows = []
