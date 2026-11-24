@@ -582,16 +582,14 @@ class SdgRenderer:
         self.last_settings = values
         return values
 
-    def render_row(self, row: Mapping[str, Any], out_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
-        """Render one row below `out_dir`: its DC-009-01 record (paths relative to `out_dir`) and what was measured."""
+    def _capture(self, row: Mapping[str, Any]) -> tuple[Any, Any, Any]:
+        """Compose the row on the stage and capture its rgb, depth and instance segmentation."""
         self._compose_frame(row)
         for _ in range(self.settle_updates):
             self._app.update()
         for _ in range(self.warmup_steps):
             self._rep.orchestrator.step(delta_time=0.0, rt_subframes=self.rt_subframes, pause_timeline=False)
-        height = int(row["camera"]["height_px"])
-        width = int(row["camera"]["width_px"])
-        rgb, depth, seg = capture_until_ready(
+        return capture_until_ready(
             lambda: self._rep.orchestrator.step(delta_time=0.0, rt_subframes=self.rt_subframes, pause_timeline=False),
             lambda: (
                 np.asarray(self._annotators["rgb"].get_data()),
@@ -599,6 +597,19 @@ class SdgRenderer:
                 self._annotators["instance_segmentation"].get_data(),
             ),
         )
+
+    def render_row(self, row: Mapping[str, Any], out_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+        """Render one row below `out_dir`: its DC-009-01 record (paths relative to `out_dir`) and what was measured.
+
+        The first row of a renderer is captured once more before the capture that is kept (FR-009-59): the first
+        capture of a process showed a black sky whatever the row.
+        """
+        if not getattr(self, "_primed", False):
+            self._primed = True
+            self._capture(row)
+        height = int(row["camera"]["height_px"])
+        width = int(row["camera"]["width_px"])
+        rgb, depth, seg = self._capture(row)
         rgb = rgb[..., :3].astype(np.uint8)
         present = {int(i) for i in np.unique(np.asarray(seg["data"]))}
         id_to_path = instance_paths(
