@@ -93,9 +93,14 @@ STRUCTURED_GROUND_RADIANCE = (
 UNSTRUCTURED_GROUND_RADIANCE = (
     0.0018  # the same per unit of the light factor, unstructured arm (median p90 0.183 at ISO 100)
 )
-RT_SUBFRAMES = 8  # real-time subframes per capture: the smallest count of the probe grid under the history limit
+RT_SUBFRAMES = 64  # real-time subframes per capture: the smallest count of the probe grid within the history limit
 HISTORY_LIMIT_LEVELS = 2.0  # a row after different predecessors keeps its mean luminance within this many levels
-HISTORY_MEASURED_LEVELS = {8: 1.56, 16: 0.96, 32: 0.66, 64: 0.47}  # `aa/op` none, max over the 6 history rows (job 88f)
+HISTORY_MEASURED_LEVELS = {
+    8: 6.65,
+    16: 3.98,
+    32: 2.49,
+    64: 1.16,
+}  # max over the 6 history rows, physical light (job 8q)
 _REC709 = (0.2126, 0.7152, 0.0722)
 
 
