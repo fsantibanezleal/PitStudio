@@ -268,6 +268,7 @@
 | FR-002-69 | 002-runner | draft | T-002-098 | - |
 | FR-002-70 | 002-runner | draft | T-002-099 | tests/unit/test_t_002_099_import_chart_series.py |
 | FR-002-71 | 002-runner | draft | T-002-100 | tests/unit/test_t_002_100_producer_paths.py |
+| FR-002-72 | 002-runner | draft | T-002-101 | tests/unit/test_t_002_101_import_cpu_kind.py |
 | FR-003-01 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
 | FR-003-02 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
 | FR-003-03 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
@@ -585,6 +586,7 @@
 | FR-009-53 | 009-perception | draft | T-009-099 | tests/unit/test_t_009_099_input_stale.py |
 | FR-009-54 | 009-perception | draft | T-009-100 | tests/unit/test_t_009_016_carved_scene.py, tests/unit/test_t_009_016_geometry_gate.py, tests/unit/test_t_009_100_line_of_sight.py |
 | FR-009-55 | 009-perception | draft | T-009-101 | tests/unit/test_t_009_016_gate_occlusion.py, tests/unit/test_t_009_101_visibility_occlusion.py |
+| FR-009-56 | 009-perception | draft | T-009-102 | tests/unit/test_t_009_102_view_grid.py |
 | FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/unit/test_t_010_010_lem_search.py |
 | FR-010-02 | 010-slope | draft | T-010-011 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_102_c1_walls.py, tests/unit/test_t_010_011_hoek_brown_slices.py |
 | FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_102_c1_walls.py, tests/property/test_t_010_015_pof.py |
@@ -596,10 +598,10 @@
 | FR-010-09 | 010-slope | draft | T-010-010 | tests/unit/test_t_010_010_lem_search.py |
 | FR-010-10 | 010-slope | draft | T-010-017 | web/e2e/c1-simulate.spec.ts |
 | FR-010-11 | 010-slope | draft | T-010-020 | tests/pipeline/test_t_010_101_c1_event_curves.py, tests/unit/test_t_010_020_voight_events.py |
-| FR-010-12 | 010-slope | draft | T-010-021 | tests/property/test_t_010_021_snr.py |
-| FR-010-13 | 010-slope | draft | T-010-040 | tests/pipeline/test_t_010_040_dewit_ingest.py, tests/pipeline/test_t_010_104_c1_real_event.py |
-| FR-010-14 | 010-slope | draft | T-010-040 | tests/pipeline/test_t_010_040_dewit_ingest.py, tests/pipeline/test_t_010_104_c1_real_event.py |
-| FR-010-15 | 010-slope | draft | T-010-041 | tests/contract/test_t_010_041_dewit_exclusion.py |
+| FR-010-12 | 010-slope | draft | T-010-021 | tests/pipeline/test_t_010_110_dewit_prisms.py, tests/property/test_t_010_021_snr.py |
+| FR-010-13 | 010-slope | draft | T-010-040 | tests/pipeline/test_t_010_040_dewit_ingest.py, tests/pipeline/test_t_010_104_c1_real_event.py, tests/pipeline/test_t_010_110_dewit_prisms.py, tests/pipeline/test_t_010_112_c1_real_charts.py |
+| FR-010-14 | 010-slope | draft | T-010-040 | tests/pipeline/test_t_010_040_dewit_ingest.py, tests/pipeline/test_t_010_104_c1_real_event.py, tests/pipeline/test_t_010_110_dewit_prisms.py |
+| FR-010-15 | 010-slope | draft | T-010-041 | tests/contract/test_t_010_041_dewit_exclusion.py, tests/pipeline/test_t_010_110_dewit_prisms.py |
 | FR-010-16 | 010-slope | draft | T-010-020 | tests/unit/test_t_010_020_voight_events.py |
 | FR-010-17 | 010-slope | draft | T-010-022 | tests/pipeline/test_t_010_033_acceptance_report.py, tests/unit/test_t_010_022_snr_fallback.py |
 | FR-010-18 | 010-slope | draft | T-010-023 | tests/pipeline/test_t_010_101_c1_event_curves.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/property/test_t_010_023_preprocess.py |
@@ -610,8 +612,8 @@
 | FR-010-23 | 010-slope | draft | T-010-030 | tests/pipeline/test_t_010_100_c1_error_results.py, tests/pipeline/test_t_010_101_c1_event_curves.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/unit/test_t_010_030_ttf_metrics.py |
 | FR-010-24 | 010-slope | draft | T-010-030 | tests/pipeline/test_t_010_100_c1_error_results.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/unit/test_t_010_030_ttf_metrics.py |
 | FR-010-25 | 010-slope | draft | T-010-031 | tests/pipeline/test_t_010_100_c1_error_results.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/pipeline/test_t_010_106_c1_assemble.py, tests/unit/test_t_010_031_paired_decision.py |
-| FR-010-26 | 010-slope | draft | T-010-042 | tests/unit/test_t_010_042_real_event_report.py |
-| FR-010-27 | 010-slope | draft | T-010-043 | tests/pipeline/test_t_010_104_c1_real_event.py, tests/pipeline/test_t_010_106_c1_assemble.py, web/e2e/c1-real-event.spec.ts |
+| FR-010-26 | 010-slope | draft | T-010-042 | tests/pipeline/test_t_010_111_c1_real_eval.py, tests/pipeline/test_t_010_112_c1_real_charts.py, tests/unit/test_t_010_042_real_event_report.py |
+| FR-010-27 | 010-slope | draft | T-010-043 | tests/pipeline/test_t_010_104_c1_real_event.py, tests/pipeline/test_t_010_106_c1_assemble.py, tests/pipeline/test_t_010_111_c1_real_eval.py, tests/pipeline/test_t_010_112_c1_real_charts.py, web/e2e/c1-real-event.spec.ts |
 | FR-010-28 | 010-slope | draft | T-010-031 | tests/pipeline/test_t_010_100_c1_error_results.py, tests/unit/test_t_010_031_paired_decision.py |
 | FR-010-29 | 010-slope | draft | T-010-028 | tests/pipeline/test_t_010_028_window_guards.py, tests/pipeline/test_t_010_101_c1_event_curves.py, tests/pipeline/test_t_010_105_c1_charts.py, web/src/cases/c1/forecastGuards.test.ts |
 | FR-010-30 | 010-slope | draft | T-010-032 | tests/pipeline/test_t_010_032_forecaster_export.py, tests/pipeline/test_t_010_101_c1_event_curves.py |
@@ -635,14 +637,14 @@
 | FR-010-48 | 010-slope | draft | T-010-097 | tests/unit/test_t_010_097_input_stale.py |
 | FR-011-01 | 011-surrogates | draft | T-011-010 | tests/pipeline/test_t_011_010_gns_model.py |
 | FR-011-02 | 011-surrogates | draft | T-011-011 | tests/property/test_t_011_011_radius_graph.py, web/src/engines/gns/radiusGraph.test.ts |
-| FR-011-03 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_011_gns_v3_boundary_particles.py, tests/pipeline/test_011_gns_v3_dataset_contract.py, tests/pipeline/test_t_011_014_gns_training.py, tests/unit/test_t_011_014_planar_boundary.py, tests/unit/test_t_011_014_planar_engine.py, tests/unit/test_t_011_014_planar_generate.py, tests/unit/test_t_011_014_planar_space.py |
+| FR-011-03 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_011_gns_v3_boundary_particles.py, tests/pipeline/test_011_gns_v3_dataset_contract.py, tests/pipeline/test_t_011_014_gns_training.py, tests/unit/test_t_011_014_planar_boundary.py, tests/unit/test_t_011_014_planar_collapse_scaling.py, tests/unit/test_t_011_014_planar_engine.py, tests/unit/test_t_011_014_planar_generate.py, tests/unit/test_t_011_014_planar_rest_bounds.py, tests/unit/test_t_011_014_planar_space.py |
 | FR-011-04 | 011-surrogates | draft | T-011-014 | tests/pipeline/test_011_gns_v2_rollout_noise.py, tests/pipeline/test_011_gns_v2_validation_rollouts.py, tests/pipeline/test_011_gns_v3_boundary_particles.py, tests/pipeline/test_t_011_014_gns_training.py |
 | FR-011-05 | 011-surrogates | draft | T-011-013 | tests/pipeline/test_011_gns_v2_repose.py, tests/pipeline/test_011_gns_v3_boundary_particles.py, tests/property/test_t_011_013_observables.py, tests/unit/test_t_011_014_planar_space.py |
 | FR-011-06 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py |
 | FR-011-07 | 011-surrogates | draft | T-011-012 | tests/pipeline/test_t_011_012_gns_export.py |
 | FR-011-08 | 011-surrogates | draft | T-011-016 | tests/pipeline/test_t_011_016_gns_parity.py |
 | FR-011-09 | 011-surrogates | draft | T-011-020 | web/e2e/a3-gns-live.spec.ts |
-| FR-011-10 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py, tests/unit/test_t_011_014_planar_engine.py, tests/unit/test_t_011_014_planar_space.py |
+| FR-011-10 | 011-surrogates | draft | T-011-015 | tests/pipeline/test_t_011_015_gns_evaluate.py, tests/unit/test_t_011_014_planar_engine.py, tests/unit/test_t_011_014_planar_rest_bounds.py, tests/unit/test_t_011_014_planar_space.py |
 | FR-011-11 | 011-surrogates | draft | T-011-020 | web/e2e/a3-gns-live.spec.ts |
 | FR-011-12 | 011-surrogates | draft | T-011-017 | tests/pipeline/test_011_gns_v3_boundary_particles.py, tests/pipeline/test_t_011_015_gns_evaluate.py, tests/unit/test_t_011_017_rollout_guards.py |
 | FR-011-13 | 011-surrogates | draft | T-011-011 | tests/pipeline/test_t_011_015_gns_evaluate.py, tests/property/test_t_011_011_radius_graph.py, tests/unit/test_t_011_017_rollout_guards.py, web/src/engines/gns/radiusGraph.test.ts |
@@ -1047,7 +1049,7 @@
 | FR-018-78 | 018-web-cases | draft | T-018-101 | web/e2e/t_018_101_consistent_pages.spec.ts |
 | FR-018-79 | 018-web-cases | draft | T-018-102 | web/src/cases/t_018_102_attribution.test.tsx, web/e2e/t_018_102_attribution.spec.ts |
 | FR-018-80 | 018-web-cases | draft | T-018-103 | web/src/cases/t_018_103_built_with_collapsed.test.tsx, web/e2e/t_018_103_built_with_collapsed.spec.ts |
-| FR-018-85 | 018-web-cases | draft | T-018-110 | - |
+| FR-018-85 | 018-web-cases | draft | T-018-110 | web/src/cases/t_018_110_chart_fixes.test.tsx |
 | FR-018-86 | 018-web-cases | draft | T-018-111 | - |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_010_tool_map.spec.ts |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts, web/src/studio/t_019_010_tool_map.test.tsx |
@@ -1152,9 +1154,9 @@
 | FR-020-52 | 020-web-knowledge | draft | T-020-092 | - |
 | FR-020-53 | 020-web-knowledge | draft | T-020-093 | - |
 | FR-020-54 | 020-web-knowledge | draft | T-020-094 | - |
-| FR-020-55 | 020-web-knowledge | draft | T-020-100, T-020-101 | tests/contract/test_t_020_005_chart_series_schema.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/pipeline/test_t_010_106_c1_assemble.py |
-| FR-020-56 | 020-web-knowledge | draft | T-020-101 | tests/contract/test_t_020_005_chart_series_schema.py |
-| FR-020-57 | 020-web-knowledge | draft | T-020-101 | tests/contract/test_t_020_005_chart_series_schema.py |
+| FR-020-55 | 020-web-knowledge | draft | T-020-100, T-020-101 | tests/contract/test_t_020_005_chart_series_schema.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/pipeline/test_t_010_106_c1_assemble.py, tests/pipeline/test_t_010_112_c1_real_charts.py, web/src/charts/t_020_101_chart_reader.test.tsx, web/src/charts/t_020_101_run_charts.test.tsx |
+| FR-020-56 | 020-web-knowledge | draft | T-020-101 | tests/contract/test_t_020_005_chart_series_schema.py, web/src/charts/t_020_101_chart_reader.test.tsx |
+| FR-020-57 | 020-web-knowledge | draft | T-020-101 | tests/contract/test_t_020_005_chart_series_schema.py, web/src/charts/t_020_101_chart_reader.test.tsx |
 | NFR-000-01 | 000-foundation | draft | T-020-062 | - |
 | NFR-000-02 | 000-foundation | draft | T-018-037, T-019-041, T-020-064 | web/e2e/shell.spec.ts |
 | NFR-000-03 | 000-foundation | draft | T-020-063 | - |

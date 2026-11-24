@@ -127,6 +127,7 @@ Story index (for traceability):
 | FR-009-53 | Unwanted | If the SHA-256 of an image listed in the SDG index (DC-009-01) differs from the digest recorded there, then `s30_train` and `s50_evaluate` shall fail with error class `input-stale` (FR-002-69) naming the record, and no checkpoint shall be trained on it. | unit (hostile) |
 | FR-009-54 | State | While building the parameter table, the DR sampler shall take every camera and object height from the carved surface of FR-004-50, accept a camera pose only if the ray along its optical axis meets the carved surface farther than the near distance `VIEW_NEAR_M` (default 10 m) or not at all, and mark an object visible only if the segments from the camera centre to its footprint centroid at mid-height and to its top centre meet the carved surface nowhere; an object not visible shall be drawn again within the placement tries and, if still not visible, recorded with `visible: false` in the row. | property |
 | FR-009-55 | State | While building the parameter table, the DR sampler shall accept a camera only if no placed object lies closer than `VIEW_NEAR_M` within its view cone, and shall mark an object visible only if its projected bounding box is at least `MIN_INSTANCE_PX` pixels and the line-of-sight segments of FR-009-54 miss the carved surface and the bounding boxes of the other placed objects. | property |
+| FR-009-56 | State | While building the parameter table, the DR sampler shall accept a camera only if the median image-plane depth of the rays of a 16 by 9 grid through the pixel centres that meet the carved surface is at least `VIEW_NEAR_M` (a camera none of whose rays meets the surface is accepted), in addition to the optical-axis test of FR-009-54. | property |
 
 ## 4. Correctness properties
 
@@ -277,6 +278,7 @@ choices fixed before any result, not sourced norms.
 ### ADDED Requirements
 - 2026-11-22: FR-009-54 (the parameter table takes every camera and object height from the carved surface of FR-004-50, accepts a camera only with clear ground ahead and marks an object visible only when the camera sees its footprint centroid and its top centre; objects that are not visible are drawn again, then recorded with `visible: false`). No earlier requirement is modified: the DR ranges of FR-009-04, FR-009-05 and FR-009-08 are unchanged.
 - 2026-11-23: FR-009-55 (the parameter table accepts a camera only with no placed object closer than `VIEW_NEAR_M` in its view cone and marks an object visible only with a projected box of at least `MIN_INSTANCE_PX` pixels and a line of sight that misses the carved surface and the other placed objects). No earlier requirement is modified: the line of sight of FR-009-54 keeps its two segments and its surface test.
+- 2026-11-23: FR-009-56 (the parameter table accepts a camera only when the median image-plane depth of a 16 by 9 grid of rays on the carved surface is at least `VIEW_NEAR_M`; the 96-frame gate found two frames whose median finite depth was below 10 m although their optical axis was clear). No earlier requirement is modified: the optical-axis test of FR-009-54 stays.
 ### MODIFIED Requirements
 (none)
 ### REMOVED Requirements

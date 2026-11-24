@@ -2464,6 +2464,18 @@
         "tests/unit/test_t_002_100_producer_paths.py"
       ]
     },
+    "FR-002-72": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-101"
+      ],
+      "tests": [
+        "tests/unit/test_t_002_101_import_cpu_kind.py"
+      ]
+    },
     "P-002-01": {
       "spec": "002-runner",
       "retired": false,
@@ -8822,6 +8834,18 @@
         "tests/unit/test_t_009_101_visibility_occlusion.py"
       ]
     },
+    "FR-009-56": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-102"
+      ],
+      "tests": [
+        "tests/unit/test_t_009_102_view_grid.py"
+      ]
+    },
     "P-009-01": {
       "spec": "009-perception",
       "retired": false,
@@ -9452,6 +9476,7 @@
         "T-010-021"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_110_dewit_prisms.py",
         "tests/property/test_t_010_021_snr.py"
       ]
     },
@@ -9465,7 +9490,9 @@
       ],
       "tests": [
         "tests/pipeline/test_t_010_040_dewit_ingest.py",
-        "tests/pipeline/test_t_010_104_c1_real_event.py"
+        "tests/pipeline/test_t_010_104_c1_real_event.py",
+        "tests/pipeline/test_t_010_110_dewit_prisms.py",
+        "tests/pipeline/test_t_010_112_c1_real_charts.py"
       ]
     },
     "FR-010-14": {
@@ -9478,7 +9505,8 @@
       ],
       "tests": [
         "tests/pipeline/test_t_010_040_dewit_ingest.py",
-        "tests/pipeline/test_t_010_104_c1_real_event.py"
+        "tests/pipeline/test_t_010_104_c1_real_event.py",
+        "tests/pipeline/test_t_010_110_dewit_prisms.py"
       ]
     },
     "FR-010-15": {
@@ -9490,7 +9518,8 @@
         "T-010-041"
       ],
       "tests": [
-        "tests/contract/test_t_010_041_dewit_exclusion.py"
+        "tests/contract/test_t_010_041_dewit_exclusion.py",
+        "tests/pipeline/test_t_010_110_dewit_prisms.py"
       ]
     },
     "FR-010-16": {
@@ -9639,6 +9668,8 @@
         "T-010-042"
       ],
       "tests": [
+        "tests/pipeline/test_t_010_111_c1_real_eval.py",
+        "tests/pipeline/test_t_010_112_c1_real_charts.py",
         "tests/unit/test_t_010_042_real_event_report.py"
       ]
     },
@@ -9653,6 +9684,8 @@
       "tests": [
         "tests/pipeline/test_t_010_104_c1_real_event.py",
         "tests/pipeline/test_t_010_106_c1_assemble.py",
+        "tests/pipeline/test_t_010_111_c1_real_eval.py",
+        "tests/pipeline/test_t_010_112_c1_real_charts.py",
         "web/e2e/c1-real-event.spec.ts"
       ]
     },
@@ -10424,8 +10457,10 @@
         "tests/pipeline/test_011_gns_v3_dataset_contract.py",
         "tests/pipeline/test_t_011_014_gns_training.py",
         "tests/unit/test_t_011_014_planar_boundary.py",
+        "tests/unit/test_t_011_014_planar_collapse_scaling.py",
         "tests/unit/test_t_011_014_planar_engine.py",
         "tests/unit/test_t_011_014_planar_generate.py",
+        "tests/unit/test_t_011_014_planar_rest_bounds.py",
         "tests/unit/test_t_011_014_planar_space.py"
       ]
     },
@@ -10518,6 +10553,7 @@
       "tests": [
         "tests/pipeline/test_t_011_015_gns_evaluate.py",
         "tests/unit/test_t_011_014_planar_engine.py",
+        "tests/unit/test_t_011_014_planar_rest_bounds.py",
         "tests/unit/test_t_011_014_planar_space.py"
       ]
     },
@@ -18713,7 +18749,9 @@
       "tasks": [
         "T-018-110"
       ],
-      "tests": []
+      "tests": [
+        "web/src/cases/t_018_110_chart_fixes.test.tsx"
+      ]
     },
     "FR-018-86": {
       "spec": "018-web-cases",
@@ -21346,7 +21384,10 @@
       "tests": [
         "tests/contract/test_t_020_005_chart_series_schema.py",
         "tests/pipeline/test_t_010_105_c1_charts.py",
-        "tests/pipeline/test_t_010_106_c1_assemble.py"
+        "tests/pipeline/test_t_010_106_c1_assemble.py",
+        "tests/pipeline/test_t_010_112_c1_real_charts.py",
+        "web/src/charts/t_020_101_chart_reader.test.tsx",
+        "web/src/charts/t_020_101_run_charts.test.tsx"
       ]
     },
     "FR-020-56": {
@@ -21358,7 +21399,8 @@
         "T-020-101"
       ],
       "tests": [
-        "tests/contract/test_t_020_005_chart_series_schema.py"
+        "tests/contract/test_t_020_005_chart_series_schema.py",
+        "web/src/charts/t_020_101_chart_reader.test.tsx"
       ]
     },
     "FR-020-57": {
@@ -21370,7 +21412,8 @@
         "T-020-101"
       ],
       "tests": [
-        "tests/contract/test_t_020_005_chart_series_schema.py"
+        "tests/contract/test_t_020_005_chart_series_schema.py",
+        "web/src/charts/t_020_101_chart_reader.test.tsx"
       ]
     },
     "P-020-01": {
@@ -22412,6 +22455,9 @@
     ],
     "T-002-100": [
       "FR-002-71"
+    ],
+    "T-002-101": [
+      "FR-002-72"
     ],
     "T-002-090": [
       "NFR-002-05"
@@ -23593,6 +23639,9 @@
     ],
     "T-009-101": [
       "FR-009-55"
+    ],
+    "T-009-102": [
+      "FR-009-56"
     ],
     "T-009-090": [],
     "T-009-091": [],
