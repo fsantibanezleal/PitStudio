@@ -10,16 +10,6 @@
    "sha256": "0b8765d76e3cbcaff7f21ab393071fce9178398fb82269ef145a6619991237c9"
   },
   {
-   "run_id": "20261012T061925Z-a3-dem-repose-20k",
-   "manifest": "20261012T061925Z-a3-dem-repose-20k/manifest.json",
-   "sha256": "6701e3d1ae648d958dd70440a90762e3b1e9620437d6ad27d46db778bb71b7bd"
-  },
-  {
-   "run_id": "20261014T000302Z-a3-gns-v1-failed",
-   "manifest": "20261014T000302Z-a3-gns-v1-failed/manifest.json",
-   "sha256": "bfc2adc3f8aba60f855dc3a7d03a70b4591dfa1b149ac29853ab93b21481a647"
-  },
-  {
    "run_id": "20261122T062641Z-a1-scene-bingham",
    "manifest": "20261122T062641Z-a1-scene-bingham/manifest.json",
    "sha256": "9e13551217bc6d587517edb087df2d56a59b368aa2efc1ace83b1be6dd09c8d3"
@@ -53,6 +43,16 @@
    "run_id": "20261124T021003Z-e2-volume",
    "manifest": "20261124T021003Z-e2-volume/manifest.json",
    "sha256": "425d3efb72c559a3bb19ec4c2fe262137bb07d507d1954a1541d3ff426288a03"
+  },
+  {
+   "run_id": "20261012T061925Z-a3-dem-repose-20k-charts",
+   "manifest": "20261012T061925Z-a3-dem-repose-20k-charts/manifest.json",
+   "sha256": "567371c7a86b23051ca88247dbb1923dd9584dff1a2b1d8cd2849d58103fc2d4"
+  },
+  {
+   "run_id": "20261014T000302Z-a3-gns-v1-failed-charts",
+   "manifest": "20261014T000302Z-a3-gns-v1-failed-charts/manifest.json",
+   "sha256": "d659525bfc6d1b460daff0456b70d3393db81bc2439c246d8d5f5fc8a1dc59d7"
   }
  ],
  "artefacts": [
@@ -81,56 +81,6 @@
    ],
    "media_type": "application/json",
    "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
-  },
-  {
-   "id": "a3-dem-repose-results",
-   "run_id": "20261012T061925Z-a3-dem-repose-20k",
-   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
-   "path": "assets/20261012T061925Z-a3-dem-repose-20k/results-summary.json",
-   "bytes": 951,
-   "sha256": "8a1835445804ebac1e03e2c0d5b1aff309d01f0c963796a5e6749c78f7ce6a08",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "A3"
-   ],
-   "media_type": "application/json"
-  },
-  {
-   "id": "a3-gns-v1-failed-results",
-   "run_id": "20261014T000302Z-a3-gns-v1-failed",
-   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
-   "path": "assets/20261014T000302Z-a3-gns-v1-failed/results-summary.json",
-   "bytes": 3519,
-   "sha256": "211f0cb8bb2926bdbe42a9769938256cd735039aef7d788ece78c7d36ac7da2d",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "A3"
-   ],
-   "media_type": "application/json"
   },
   {
    "id": "layer-terrain-2023-bingham-tiles",
@@ -2304,6 +2254,106 @@
    ],
    "media_type": "application/json",
    "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "a3-dem-repose-results",
+   "run_id": "20261012T061925Z-a3-dem-repose-20k-charts",
+   "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
+   "path": "assets/20261012T061925Z-a3-dem-repose-20k-charts/results-summary.json",
+   "bytes": 951,
+   "sha256": "8a1835445804ebac1e03e2c0d5b1aff309d01f0c963796a5e6749c78f7ce6a08",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "a3-repose-by-seed",
+   "run_id": "20261012T061925Z-a3-dem-repose-20k-charts",
+   "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
+   "path": "assets/20261012T061925Z-a3-dem-repose-20k-charts/charts/a3-repose-by-seed.json",
+   "bytes": 1900,
+   "sha256": "fbb59f4a599935b3ae73fbcc6eddf167fe06e8cc9abff2db4a5cd5881fd1561b",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "a3-gns-v1-failed-results",
+   "run_id": "20261014T000302Z-a3-gns-v1-failed-charts",
+   "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
+   "path": "assets/20261014T000302Z-a3-gns-v1-failed-charts/results-summary.json",
+   "bytes": 3519,
+   "sha256": "211f0cb8bb2926bdbe42a9769938256cd735039aef7d788ece78c7d36ac7da2d",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "a3-gns-rollout-error",
+   "run_id": "20261014T000302Z-a3-gns-v1-failed-charts",
+   "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
+   "path": "assets/20261014T000302Z-a3-gns-v1-failed-charts/charts/a3-gns-rollout-error.json",
+   "bytes": 5198,
+   "sha256": "e4137a63adb8ee40f42b2f26be2f862bfb6dc0e4249fd12f57ec66f3395bd329",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
   }
  ]
 }

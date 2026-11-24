@@ -1,13 +1,13 @@
 {
  "kind": "run",
  "schema_version": "1.0",
- "run_id": "20261014T000302Z-a3-gns-v1-failed",
+ "run_id": "20261014T000302Z-a3-gns-v1-failed-charts",
  "recipe": {
-  "id": "a3-gns-v1-failed",
+  "id": "a3-gns-v1-failed-charts",
   "path": "cases/a3.yaml",
   "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
  },
- "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+ "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
  "git_dirty": false,
  "runner_version": "0.1.0",
  "created": "2026-10-14T00:03:02Z",
@@ -29,7 +29,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "86325a510ba2d7e3642146a410eb7e84807f32972237934108059537bd020331",
+   "cache_key": "2e7d7449de8c5fdce45f847e9822f3cbf1ff2cad172aaaa4c74562cff28f4612",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -81,7 +81,7 @@
     "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
     "versions": {}
    },
-   "cache_key": "2bb1720e5135c107ff137c3546cbb0fb8e4f07afa74b29a0567fc8e9a07455e6",
+   "cache_key": "0d2e79f9a0fbdd5f82b9ec3c7ed6548dd214bb1fcd5f6d88ba7dd2d4fc595d0b",
    "cache": "miss",
    "status": "succeeded",
    "exit_code": 0,
@@ -114,6 +114,11 @@
      "name": "results-summary.json",
      "sha256": "211f0cb8bb2926bdbe42a9769938256cd735039aef7d788ece78c7d36ac7da2d",
      "bytes": 3519
+    },
+    {
+     "name": "charts/a3-gns-rollout-error.json",
+     "sha256": "e4137a63adb8ee40f42b2f26be2f862bfb6dc0e4249fd12f57ec66f3395bd329",
+     "bytes": 5198
     }
    ]
   }
@@ -121,12 +126,37 @@
  "artefacts": [
   {
    "id": "a3-gns-v1-failed-results",
-   "run_id": "20261014T000302Z-a3-gns-v1-failed",
-   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
-   "path": "assets/20261014T000302Z-a3-gns-v1-failed/results-summary.json",
+   "run_id": "20261014T000302Z-a3-gns-v1-failed-charts",
+   "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
+   "path": "assets/20261014T000302Z-a3-gns-v1-failed-charts/results-summary.json",
    "bytes": 3519,
    "sha256": "211f0cb8bb2926bdbe42a9769938256cd735039aef7d788ece78c7d36ac7da2d",
    "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "a3-gns-rollout-error",
+   "run_id": "20261014T000302Z-a3-gns-v1-failed-charts",
+   "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
+   "path": "assets/20261014T000302Z-a3-gns-v1-failed-charts/charts/a3-gns-rollout-error.json",
+   "bytes": 5198,
+   "sha256": "e4137a63adb8ee40f42b2f26be2f862bfb6dc0e4249fd12f57ec66f3395bd329",
+   "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
     "stage": {
@@ -150,8 +180,11 @@
   "job 39-gns-train-v1-resume; script sha256 4b8802606d901ed68d0b3032d9ac761eff9fb3246505568fe6cf1ea5b20bbb2c; log sha256 ca6856e42d8739e141ae0e930eef52f3a8d48e325318832e248280d21090a7da",
   "started 2026-10-13T17:18:47Z; ended 2026-10-14T00:03:02Z; GPU-hours missing",
   "calibrated synthetic, not validated against real data; FAILED acceptance SC-011-01, not a working model",
+  "supersedes run 20261014T000302Z-a3-gns-v1-failed: its published files are removed when this run is published",
+  "producer paths: src/pitstudio/runner, studio/tools.yaml; git sha 42c61bc61148edc2645ed2e27d6318ce8e412279; unmodified",
   "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
   "Evaluation verdict: SC-011-01 fail. Graph network simulator v1 is a failed evaluation, never a working model.",
+  "Republished with the rollout error chart of FR-018-86 (median over geometries with its minimum and maximum, divergence markers).",
   "also job 27-gns-eval-export; script sha256 39df7040f1efa63a2be44cb3a8eb3fa4249188222d21c49b4d355bb332f7a321; log sha256 34b46d32660a17f683383daa8da1f3df5ae1fd4de1b1c2f7ce9779881e9bf28d",
   "partial: GPU-hours missing; recipe cases/a3.yaml is not written yet: its sha256 is recorded as zeros"
  ]
