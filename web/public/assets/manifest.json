@@ -35,11 +35,6 @@
    "sha256": "159c527f901048b9c64609af48886b3f4ea53c7c6177c143260c25420fbfef13"
   },
   {
-   "run_id": "20261124T020959Z-e1-shells",
-   "manifest": "20261124T020959Z-e1-shells/manifest.json",
-   "sha256": "8b59adcb55b236dd36c13ea73a690a1137d971b6e38bffc0df6cdc7c049a9824"
-  },
-  {
    "run_id": "20261124T021003Z-e2-volume",
    "manifest": "20261124T021003Z-e2-volume/manifest.json",
    "sha256": "425d3efb72c559a3bb19ec4c2fe262137bb07d507d1954a1541d3ff426288a03"
@@ -83,6 +78,11 @@
    "run_id": "20261124T030713Z-d2-mine-to-mill-chain",
    "manifest": "20261124T030713Z-d2-mine-to-mill-chain/manifest.json",
    "sha256": "5beda2b761ca1bc5428d195c252fb9cc90b1ef8ececa0d587605db916b7b4043"
+  },
+  {
+   "run_id": "20261124T031351Z-e1-shells",
+   "manifest": "20261124T031351Z-e1-shells/manifest.json",
+   "sha256": "fd7eab18202fd15e7d8b207012f4fab56c05f2ce68a4993202da7a0240ec2eb6"
   }
  ],
  "artefacts": [
@@ -1966,188 +1966,6 @@
    "licence_class": "public-domain",
    "spdx": "LicenseRef-USGov-PD",
    "asset_host": "git",
-   "media_type": "application/json"
-  },
-  {
-   "id": "e1-shells-document",
-   "run_id": "20261124T020959Z-e1-shells",
-   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
-   "path": "assets/20261124T020959Z-e1-shells/e1-shells.json",
-   "bytes": 541747,
-   "sha256": "14b837028c9e95a3400ff5069e66fa55f9ee58c8f4f1977e0df6d0fa52c215d2",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate",
-     "variant": "shells"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "E1"
-   ],
-   "media_type": "application/json"
-  },
-  {
-   "id": "e1-shells-run-summary",
-   "run_id": "20261124T020959Z-e1-shells",
-   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
-   "path": "assets/20261124T020959Z-e1-shells/e1-run.json",
-   "bytes": 3832,
-   "sha256": "69a6d2ab06fe8b6937707faa5ad2b8d7e7bf795b7d6429c27ceab573a0dc0fb1",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate",
-     "variant": "shells"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "E1"
-   ],
-   "media_type": "application/json"
-  },
-  {
-   "id": "e1-e1-value-vs-lambda",
-   "run_id": "20261124T020959Z-e1-shells",
-   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
-   "path": "assets/20261124T020959Z-e1-shells/e1-value-vs-lambda.json",
-   "bytes": 2559,
-   "sha256": "179619fea18f78ff2a9ef42c9e5a07e46c3c7b94eff22d47abac0ba0df30bd71",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate",
-     "variant": "shells"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "E1"
-   ],
-   "media_type": "application/json"
-  },
-  {
-   "id": "e1-e1-strip-ratio-vs-lambda",
-   "run_id": "20261124T020959Z-e1-shells",
-   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
-   "path": "assets/20261124T020959Z-e1-shells/e1-strip-ratio-vs-lambda.json",
-   "bytes": 2355,
-   "sha256": "607e408fcd8c7f94a90b4c6716409d306723c05762d760dbaccaabcb0c31565a",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate",
-     "variant": "shells"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "E1"
-   ],
-   "media_type": "application/json"
-  },
-  {
-   "id": "e1-e1-shell-table",
-   "run_id": "20261124T020959Z-e1-shells",
-   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
-   "path": "assets/20261124T020959Z-e1-shells/e1-shell-table.json",
-   "bytes": 5253,
-   "sha256": "72c8d177fa1d28354cb4bdf3af41458018d148bd18bad548e1c7e022446bb183",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate",
-     "variant": "shells"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "E1"
-   ],
-   "media_type": "application/json"
-  },
-  {
-   "id": "e1-e1-pushbacks",
-   "run_id": "20261124T020959Z-e1-shells",
-   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
-   "path": "assets/20261124T020959Z-e1-shells/e1-pushbacks.json",
-   "bytes": 2393,
-   "sha256": "dbce60f17d28639594296f5b4a3bd7282888eafb700d254a65f01555aa7827df",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate",
-     "variant": "shells"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "E1"
-   ],
-   "media_type": "application/json"
-  },
-  {
-   "id": "e1-e1-sections",
-   "run_id": "20261124T020959Z-e1-shells",
-   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
-   "path": "assets/20261124T020959Z-e1-shells/e1-sections.json",
-   "bytes": 21140,
-   "sha256": "705bd77dc6f0861522be93a53b3cec1f0c167510a494189d9b7b304cef6a2d05",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "s50_evaluate",
-     "variant": "shells"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "own",
-   "spdx": "CC-BY-4.0",
-   "asset_host": "git",
-   "cases": [
-    "E1"
-   ],
    "media_type": "application/json"
   },
   {
@@ -5060,6 +4878,188 @@
    "asset_host": "git",
    "cases": [
     "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-shells-document",
+   "run_id": "20261124T031351Z-e1-shells",
+   "git_sha": "4fe95401b75532d557c7462198660782f0a3df5b",
+   "path": "assets/20261124T031351Z-e1-shells/e1-shells.json",
+   "bytes": 509917,
+   "sha256": "be2a056c609ec173dca469fad2dd78c9cf1804a84998aa1ef68e2bf430b94423",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-shells-run-summary",
+   "run_id": "20261124T031351Z-e1-shells",
+   "git_sha": "4fe95401b75532d557c7462198660782f0a3df5b",
+   "path": "assets/20261124T031351Z-e1-shells/e1-run.json",
+   "bytes": 3848,
+   "sha256": "5dd9b49618bd8249f388c40ceb2f4ef57dca169988887eda4f3d2eec5f364d94",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-value-vs-lambda",
+   "run_id": "20261124T031351Z-e1-shells",
+   "git_sha": "4fe95401b75532d557c7462198660782f0a3df5b",
+   "path": "assets/20261124T031351Z-e1-shells/e1-value-vs-lambda.json",
+   "bytes": 2559,
+   "sha256": "179619fea18f78ff2a9ef42c9e5a07e46c3c7b94eff22d47abac0ba0df30bd71",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-strip-ratio-vs-lambda",
+   "run_id": "20261124T031351Z-e1-shells",
+   "git_sha": "4fe95401b75532d557c7462198660782f0a3df5b",
+   "path": "assets/20261124T031351Z-e1-shells/e1-strip-ratio-vs-lambda.json",
+   "bytes": 2355,
+   "sha256": "607e408fcd8c7f94a90b4c6716409d306723c05762d760dbaccaabcb0c31565a",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-shell-table",
+   "run_id": "20261124T031351Z-e1-shells",
+   "git_sha": "4fe95401b75532d557c7462198660782f0a3df5b",
+   "path": "assets/20261124T031351Z-e1-shells/e1-shell-table.json",
+   "bytes": 5253,
+   "sha256": "72c8d177fa1d28354cb4bdf3af41458018d148bd18bad548e1c7e022446bb183",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-pushbacks",
+   "run_id": "20261124T031351Z-e1-shells",
+   "git_sha": "4fe95401b75532d557c7462198660782f0a3df5b",
+   "path": "assets/20261124T031351Z-e1-shells/e1-pushbacks.json",
+   "bytes": 2017,
+   "sha256": "370c037bc3b45f8ccfc5e377a7993cca327f14a4ebfde2656fca24450fffab96",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-sections",
+   "run_id": "20261124T031351Z-e1-shells",
+   "git_sha": "4fe95401b75532d557c7462198660782f0a3df5b",
+   "path": "assets/20261124T031351Z-e1-shells/e1-sections.json",
+   "bytes": 21140,
+   "sha256": "705bd77dc6f0861522be93a53b3cec1f0c167510a494189d9b7b304cef6a2d05",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
    ],
    "media_type": "application/json"
   }
