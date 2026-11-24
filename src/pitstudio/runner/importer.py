@@ -50,6 +50,8 @@ BAKE_LABEL = "produced by the web bake of the terrain (tools/bake_web_terrain.py
 SPEC_DIR = Path(__file__).parent / "imports"
 ZERO = "0" * 64
 # the code every import runs from, when its spec names no producer paths of its own (the recipe is added to them)
+CRLF = b"\r\n"
+LF_KINDS = ("table", "figure", "text", "model-card", "chart-series")
 DEFAULT_PRODUCER_PATHS = ("src/pitstudio/runner", "studio/tools.yaml")
 QUEUE_LINE = re.compile(r"\[queue (\d\d):(\d\d):(\d\d)\] (start|done|FAILED) (\S+)")
 
@@ -329,6 +331,10 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
                         f"output {one_line(o['name'], 80)}: {one_line(o['from'], 80)} is not in the --from folder"
                     )
                 data = None
+                if o.get("kind") in LF_KINDS and CRLF in (raw_bytes := path.read_bytes()):
+                    # a text output is published with LF line ends, as a clean checkout holds it (FR-002-74)
+                    derived[o["name"]] = data = raw_bytes.replace(CRLF, b"\n")
+                    path = None
             digest = sha(data) if data is not None else file_sha(cast(Path, path))
             if o.get("sha256") and o["sha256"] != digest:
                 raise Usage(f"output {one_line(o['name'], 80)}: digest differs from the pinned one (refused)")
