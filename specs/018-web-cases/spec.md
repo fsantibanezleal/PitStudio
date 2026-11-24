@@ -185,6 +185,7 @@ are defined in those specs and are not restated here.
 | FR-018-80 | State | While a case page loads, its "Built with" section shall be collapsed behind a keyboard-operable disclosure (native details and summary) whose always-visible summary row gives the counts of used and planned parts in the page language; its chips shall stay in the page document, and the state shall not be stored. | E2E |
 | FR-018-85 | Ubiquitous | The Charts tab shall draw the paired 95 % interval of a difference as an interval (its end points joined as a bar around the estimate, with the zero reference), never as a line between its end points, and a ratio chart shall plot the ratio that its title names. | unit + E2E |
 | FR-018-86 | State | While the A3 runs of the DEM repose and of the GNS rollout are published with chart series, the A3 Charts tab shall show the repose angle by seed with its interval and the GNS rollout error against steps, each with its units and producer label. | E2E |
+| FR-018-87 | State | While a case's published runs carry chart series, the Charts tab shall not show an empty placeholder chart for a KPI without a result row; it shall list those KPIs, each with its "Not yet run" reason, in one compact list, and a KPI named by the `kpi` field of a chart series (DC-020-05) shall not be listed. A case with no chart series keeps one placeholder per KPI. | unit |
 
 ## 4. Correctness properties
 Property tests use fast-check with the `property_tests` counts of `thresholds.yaml` (200 in CI, 2,000 at release); "exact" means `===` on
