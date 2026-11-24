@@ -17,6 +17,10 @@ title: NameEnEs
 caption?: NameEnEs
 producer: Producer
 /**
+ * The id of the case KPI (DC-018-01) this chart shows; the Charts tab then lists no placeholder for it.
+ */
+kpi?: string
+/**
  * The requirement or success-criterion ids of the specs this chart serves.
  * 
  * @minItems 1

@@ -57,7 +57,7 @@ export type { PhysicsObservablesTableDescription, Column } from "./physics-obser
 export type { PhysicsParityGolden, ScenarioSchemaVersion, ScenarioSlug, ScenarioSolver, ScenarioBenchmarkId, ScenarioTwin, ScenarioVec3M, ScenarioTimeStep, ScenarioTimeStep1, ScenarioOutput, ScenarioMaterialCard, ScenarioQuantity, ScenarioStatus, ScenarioHttpsUrl, ScenarioSweBlock, ScenarioDustBlock, ScenarioDustSource, ScenarioGeometry, ScenarioCounts, ScenarioVehicleCard, ScenarioDemBlock, ScenarioMpmNewtonBlock, ScenarioMlsmpm2DBlock, ScenarioVehiclesBlock, ScenarioRigidNewtonBlock, InitialState, Observables, Series1 } from "./physics-parity-golden";
 export type { PhysicsScenario, Solver, BenchmarkId, Twin, TimeStep, TimeStep1, MaterialCard, Quantity, SweBlock, DustBlock, DustSource, Geometry, Counts, VehicleCard, DemBlock, MpmNewtonBlock, Mlsmpm2DBlock, VehiclesBlock, RigidNewtonBlock } from "./physics-scenario";
 export type { PitDesignReport, Bench } from "./pit-design-report";
-export type { Lambda, Shell, Bitset, Tonnes, Cents, StripRatio, Schedule, E1ShellsPushbacksAndSchedule, Config, Pushback, Period } from "./pit-shells";
+export type { E1ShellsPushbacksAndSchedule, Lambda, Shell, Bitset, Tonnes, Cents, StripRatio, Schedule, Config, Pushback, Period } from "./pit-shells";
 export type { Pair, Corruption, PlausibilityPairIndex, Confirmation } from "./plausibility-pairs";
 export type { KernelTimingTable, Kernel } from "./profile-summary";
 export type { PitStudioMachineProfile, StoreDefault, EnvVar, BinaryId, SeriesField, Step, Steps, Guards, FakeSeries, FakeDevice } from "./profile";

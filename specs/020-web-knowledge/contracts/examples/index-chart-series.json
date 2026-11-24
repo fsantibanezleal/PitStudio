@@ -286,6 +286,23 @@
       "rule": "DC-018-01",
       "pointer": "/case",
       "keyword": "enum"
+    },
+    {
+      "file": "chart-series.valid-kpi-link.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: a chart that names its KPI"
+    },
+    {
+      "file": "chart-series.hostile-kpi-malformed.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a KPI id that is not a KPI id",
+      "rule": "FR-018-87",
+      "pointer": "/kpi",
+      "keyword": "pattern"
     }
   ]
 }

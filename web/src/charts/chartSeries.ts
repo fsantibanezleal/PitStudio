@@ -14,6 +14,7 @@ const COLORMAPS = new Set(["viridis", "cividis", "inferno", "magma"]);
 const SLUG = /^[a-z0-9][a-z0-9-]{0,63}$/;
 const TOOL = /^[a-z0-9][a-z0-9_-]{0,63}$/;
 const VERSION = /^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$/;
+const KPI = /^[a-z][a-z0-9_]{0,63}$/;
 const SERVES = /^(FR|NFR|SC|DC)-[0-9]{3}-[0-9]{2,3}$/;
 const MAX_POINTS = 20000;
 
@@ -181,6 +182,7 @@ const KEYS = [
   "id",
   "case",
   "chart_type",
+  "kpi",
   "status",
   "title",
   "caption",
@@ -205,6 +207,7 @@ export function readChartSeries(raw: unknown): ChartDoc | null {
   const type = raw.chart_type;
   if (typeof type !== "string" || !TYPES.has(type)) return null;
   if (raw.status !== "ok" && raw.status !== "not-run") return null;
+  if (raw.kpi !== undefined && !(typeof raw.kpi === "string" && KPI.test(raw.kpi))) return null;
   if (!nameEnEs(raw.title) || (raw.caption !== undefined && !nameEnEs(raw.caption))) return null;
   const p = raw.producer;
   if (

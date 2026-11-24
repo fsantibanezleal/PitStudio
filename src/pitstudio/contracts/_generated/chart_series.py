@@ -263,6 +263,14 @@ class ChartSeries(BaseModel):
     title: NameEnEs
     caption: NameEnEs | None = None
     producer: Producer
+    kpi: Annotated[
+        str | None,
+        Field(
+            description="The id of the case KPI (DC-018-01) this chart shows; the Charts tab then lists no placeholder for it.",
+            max_length=64,
+            pattern="^[a-z][a-z0-9_]{0,63}$",
+        ),
+    ] = None
     serves: Annotated[
         list[Serve],
         Field(

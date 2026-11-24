@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "kind": "chart-series",
+  "id": "example-kpi-link",
+  "case": "A3",
+  "chart_type": "bar",
+  "status": "ok",
+  "title": {
+    "en": "Example chart",
+    "es": "Gráfico de ejemplo"
+  },
+  "producer": {
+    "tool": "warp",
+    "method": "granular DEM",
+    "version": "1.0.0",
+    "label": "fixture of the contract tests, not a result"
+  },
+  "serves": [
+    "FR-018-16",
+    "FR-020-07"
+  ],
+  "y_axis": {
+    "label": {
+      "en": "Angle of repose",
+      "es": "Ángulo de reposo"
+    },
+    "unit": "deg"
+  },
+  "categories": [
+    {
+      "id": "seed-0",
+      "label": {
+        "en": "Seed 0",
+        "es": "Semilla 0"
+      }
+    },
+    {
+      "id": "seed-1",
+      "label": {
+        "en": "Seed 1",
+        "es": "Semilla 1"
+      }
+    },
+    {
+      "id": "seed-2",
+      "label": {
+        "en": "Seed 2",
+        "es": "Semilla 2"
+      }
+    }
+  ],
+  "series": [
+    {
+      "id": "repose",
+      "label": {
+        "en": "Angle of repose",
+        "es": "Ángulo de reposo"
+      },
+      "y": [
+        34.1,
+        35.0,
+        33.4
+      ],
+      "lo": [
+        33.2,
+        34.0,
+        32.5
+      ],
+      "hi": [
+        35.0,
+        36.0,
+        34.3
+      ],
+      "band_label": {
+        "en": "Bootstrap 95 % interval",
+        "es": "Intervalo bootstrap del 95 %"
+      }
+    }
+  ],
+  "kpi": "repose_angle"
+}

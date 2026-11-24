@@ -19,6 +19,12 @@
     "title": { "$ref": "#/$defs/name_en_es" },
     "caption": { "$ref": "#/$defs/name_en_es" },
     "producer": { "$ref": "#/$defs/producer" },
+    "kpi": {
+      "description": "The id of the case KPI (DC-018-01) this chart shows; the Charts tab then lists no placeholder for it.",
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
     "serves": {
       "description": "The requirement or success-criterion ids of the specs this chart serves.",
       "type": "array",

@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Chart, type ChartSeries } from "~/charts/Chart";
 import { type IntervalEntry, IntervalPlot } from "~/charts/IntervalPlot";
+import { useChartSeries } from "~/charts/useChartSeries";
 import { ReasonPanel } from "~/features/reason/ReasonPanel";
 import type { ComparisonRow, DiffInterval } from "~/results/ComparisonRows";
 import { mcnemarVerdict, pairedVerdict, singleEventVerdict, type Verdict } from "~/results/verdict";
@@ -215,15 +216,37 @@ export function ChartsTab({
   registry: CaseRegistry;
   rows: readonly ComparisonRow[];
 }) {
-  const { i18n } = useTranslation("cases");
+  const { t, i18n } = useTranslation("cases");
   const lang: Lang = i18n.resolvedLanguage === "es" ? "es" : "en";
+  const published = useChartSeries(caseId);
   const entry = Object.hasOwn(registry.cases, caseId) ? registry.cases[caseId] : undefined;
   if (!entry) return null;
+  // FR-018-87: beside published chart series a KPI without a result row gets no empty chart, only a line in one list
+  const covered = published.status === "ready" && published.charts.length > 0;
+  const linked = new Set(published.charts.map((c) => c.doc.kpi));
+  const rowsOf = (id: string) => rows.filter((r) => r.metric?.id === id);
+  const notRun = covered ? entry.kpis.filter((k) => rowsOf(k.id).length === 0 && !linked.has(k.id)) : [];
   return (
     <>
-      {entry.kpis.map((kpi) => (
-        <KpiChart key={kpi.id} kpi={kpi} rows={rows.filter((r) => r.metric?.id === kpi.id)} lang={lang} />
-      ))}
+      {entry.kpis
+        .filter((kpi) => !covered || rowsOf(kpi.id).length > 0)
+        .map((kpi) => (
+          <KpiChart key={kpi.id} kpi={kpi} rows={rowsOf(kpi.id)} lang={lang} />
+        ))}
+      {notRun.length > 0 && (
+        <section className={styles.panel} data-testid="kpis-not-run" aria-label={t("charts.kpisNotRun")}>
+          <h3>{t("charts.kpisNotRun")}</h3>
+          <ul>
+            {notRun.map((k) => (
+              <li key={k.id} data-kpi-not-run={k.id}>
+                {pick(k.name, lang)}
+                {": "}
+                {t("notYetRun")}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <Suspense fallback={null}>
         <CaseRunCharts caseId={caseId} />
       </Suspense>
