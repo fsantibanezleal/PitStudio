@@ -27,7 +27,7 @@ import { open } from "./helpers";
 const registry = loadCaseRegistry();
 
 test.describe("KPIs without a published artefact (FR-018-05)", () => {
-  test("FR-018-05 · every headline KPI of every case shows 'Not yet run' in place of its value, with its unit and no badge", async ({
+  test("FR-018-05 · every headline KPI of every case shows 'Not yet run' in place of its value, with no unit and no badge", async ({
     page,
   }) => {
     for (const id of CASE_IDS) {
@@ -43,7 +43,10 @@ test.describe("KPIs without a published artefact (FR-018-05)", () => {
         await expect(row).toContainText(kpi.name.en);
         await expect(row).toContainText("Not yet run");
         const symbol = UNIT_SYMBOLS[kpi.unit];
-        if (symbol) await expect(row).toContainText(symbol);
+        // FR-018-79: no unit next to "Not yet run"; the KPI name and the not-run text are removed first, since a short
+        // symbol ("s", "h", "%") may occur inside the name
+        const rest = (await row.innerText()).replace(kpi.name.en, "").replace("Not yet run", "");
+        if (symbol) expect(rest).not.toContain(symbol);
         await expect(row).not.toContainText(/\bLIVE\b|\bREPLAY\b|\bSTATIC\b/);
         await expect(row).not.toContainText(/NaN|Infinity|undefined|null/);
       }
