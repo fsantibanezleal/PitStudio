@@ -3,8 +3,8 @@ of the case page (FR-017-14..17, FR-017-51, NFR-017-06).
 
 Usage: python -m pitstudio_pipeline.planning.e1_run RECIPE.yaml OUT_DIR
 
-Writes `e1-shells.json` (DC-017-03 shells, ultimate pit and pushbacks; the scheduler is not part of this run, so the
-units and schedule are absent and the run says so), `charts/e1-*.json` (DC-020-05 chart-series, case E1) and
+Writes `e1-shells.json` (a DC-017-03 result: shells, ultimate pit and pushbacks; units and schedule are optional in
+the contract and absent here, the scheduler is not part of this run), `charts/e1-*.json` (DC-020-05 chart-series, case E1) and
 `e1-run.json` (inputs, versions, the min-cut timing, the oracle comparison). The deposit is synthetic.
 """
 
@@ -143,8 +143,6 @@ def run_e1(
 
     doc = {
         "schema_version": "1.0",
-        "contract": "DC-017-03 subset: shells, ultimate_pit and pushbacks; units and schedule are not run "
-        "(the scheduler is not part of this run)",
         "block_model": {"id": inst.name, "sha256": inst.sha256(), "n_blocks": inst.n_blocks},
         "licence": {"spdx": "CC-BY-4.0", "licence_class": "own"},
         "block_set_encoding": "bitset-lsb0-base64",

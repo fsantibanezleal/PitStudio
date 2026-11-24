@@ -41,6 +41,7 @@ from pitstudio.planning.bev import to_cents
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = json.loads((ROOT / "contracts" / "chart-series.schema.json").read_text("utf-8"))
+SHELLS_SCHEMA = json.loads((ROOT / "contracts" / "pit-shells.schema.json").read_text("utf-8"))
 LAMBDAS = [0.2, 0.4, 0.6, 0.8, 1.0]
 
 
@@ -186,3 +187,11 @@ def test_the_min_cut_wall_times_are_recorded_for_every_lambda(run) -> None:
         f"twin-porphyry-6x6x4-s3-lambda-{k / 40:.3f}" for k in range(1, 41)
     }
     assert summary["timing"]["overruns"] == []
+
+
+@pytest.mark.req("FR-017-22")
+def test_the_shells_document_is_a_valid_dc_017_03_result_without_units_and_schedule(run) -> None:
+    out, _ = run
+    doc = _doc(out)
+    assert list(Draft202012Validator(SHELLS_SCHEMA).iter_errors(doc)) == []
+    assert "contract" not in doc
