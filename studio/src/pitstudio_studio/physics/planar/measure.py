@@ -17,8 +17,38 @@ import numpy as np
 from . import space
 from .space import D
 
+REST_SLACK = 1.05  # the verification accepts a rest speed up to this factor over the threshold (float32 frames)
 ORIFICE_MARGIN_D = 1.5  # a grain has been discharged once it is this far below the orifice plane
 MIN_HEAP_GRAINS = 50  # fewer discharged grains than this give no heap to measure
+
+
+def rest_threshold() -> float:
+    """Maximum grain speed of a rollout at rest, m/s: 0.01 sqrt(g d) (FR-011-10)."""
+    return space.REST_FRAC * math.sqrt(space.G * D)
+
+
+def step_speed(prev: np.ndarray, cur: np.ndarray, dt: float) -> float:
+    """Largest grain displacement between two stored frames over `dt`, m/s (frames[t, i] = (x, z), any float type)."""
+    return float(
+        np.linalg.norm(np.asarray(cur, dtype=np.float64) - np.asarray(prev, dtype=np.float64), axis=-1).max() / dt
+    )
+
+
+def rest_speed(frames: np.ndarray, dt: float, n: int = space.REST_FRAMES) -> float:
+    """The rest speed of a rollout as the verification reads it: the largest displacement speed over the last `n`
+    frame intervals of the stored grain frames; infinite when there is not one frame more than intervals."""
+    frames = np.asarray(frames)
+    if len(frames) < 2:
+        return float("inf")
+    tail = frames[-(n + 1) :].astype(np.float64)
+    return float((np.linalg.norm(np.diff(tail, axis=0), axis=-1) / dt).max())
+
+
+def combined_speed(v_max: float, prev: np.ndarray, cur: np.ndarray, dt: float) -> float:
+    """The speed the rest judge reads at one frame: the larger of the instantaneous maximum grain speed and the
+    displacement speed of the frame pair. The generator once judged on the first alone, and 84 of 300 rollouts failed
+    the verification, which reads the second."""
+    return max(float(v_max), step_speed(prev, cur, dt))
 
 
 def discharged_fraction(z: np.ndarray, z_orifice: float) -> float:

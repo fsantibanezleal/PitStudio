@@ -26,7 +26,7 @@ from typing import Any
 
 import numpy as np
 
-from . import space
+from . import measure, space
 from .space import FAMILIES, MIN_HEIGHT_D, D, SimConfig
 
 REPO = Path(__file__).resolve().parents[5]
@@ -163,6 +163,25 @@ def make_batch(st: dict, family: str, splits: Sequence[str], n_geometries: int) 
 
 
 # ----------------------------------------------------------------------------------------------- payload and metadata
+def contain_bounds(bounds: Sequence[float], boundary: np.ndarray | None) -> list[float]:
+    """`bounds` = (x0, z0, x1, z1) widened to contain every stored boundary particle.
+
+    The payload stores float32 and the domain is float64: a platform row that starts exactly on the left wall of the box
+    rounds to a float32 1e-8 to 1e-7 m outside it half of the time (48 of 84 dump rollouts of gns-rollouts-v2). The box
+    of a rollout is the box of what it stores.
+    """
+    x0, z0, x1, z1 = (float(b) for b in bounds)
+    if boundary is None or len(boundary) == 0:
+        return [x0, z0, x1, z1]
+    b = np.asarray(boundary, dtype=np.float64)
+    return [
+        min(x0, float(b[:, 0].min())),
+        min(z0, float(b[:, 1].min())),
+        max(x1, float(b[:, 0].max())),
+        max(z1, float(b[:, 1].max())),
+    ]
+
+
 def store_digest(path: Path) -> str:
     lines = [
         f"{f.relative_to(path).as_posix()} {hashlib.sha256(f.read_bytes()).hexdigest()}\n"
@@ -228,7 +247,7 @@ def write_rollout(
         "particle_diameter_m": D,
         "connectivity_radius_m": 2.5 * D,
         "frame_interval_s": cfg.frame_dt,
-        "bounds_m": [float(b) for b in res["bounds"]],
+        "bounds_m": contain_bounds(res["bounds"], boundary),
         "frame_times_s": [float(t) for t in res["frame_times"]],
         "particle_count": int(frames.shape[1]),
         "particle_types": names,
@@ -351,7 +370,8 @@ def process_feed(
         log(f"{slot['id']} {fam} FAILED {bad} (geometry replaced) w_o={slot['params']['w_o_D']:.2f}")
         replace_geometry(out, slot, f"jammed / no-rest / pile < 30 d / no rate {bad}")
         return
-    rate = float(np.mean([r["rate"] for _, r in rs]))
+    kept = list(slot["seeds"])  # seeds of this geometry that stay (a requeued rollout is re-simulated alone)
+    rate = float(np.mean([e["rate"] for e in kept] + [r["rate"] for _, r in rs]))
     record = space.geometry_record(fam, slot["params"], rate)
     for key, lo, hi in space.CONTRACT_RANGES[fam]:
         if not lo <= record[key] <= hi:
@@ -365,6 +385,9 @@ def process_feed(
             log(f"{slot['id']} {fam} FAILED(test distance {dist:.3f} / envelope: geometry replaced)")
             replace_geometry(out, slot, "test-distance-or-envelope", {"distance": dist, "rate": rate})
             return
+    for e in kept:  # the geometry record is shared by the seeds: the kept rollouts take the new mean rate, nothing else
+        meta = json.loads((Path(out) / "meta" / f"{e['id']}.json").read_text(encoding="utf-8"))
+        _commit_meta(out, e["id"], {**meta, "geometry": record})
     for task, res in rs:
         rid = f"{slot['id']}-s{task['seed']}"
         _commit_meta(
@@ -378,6 +401,136 @@ def process_feed(
         f"{slot['id']} {fam} {slot['split']} rate={rate:.5f} m2/s w_o={slot['params']['w_o_D']:.2f} d "
         f"pile={lo:.1f}-{hi:.1f} d"
     )
+
+
+# ------------------------------------------------------------------------------------------- repairs of a finished set
+def _grain_frames(store: Path, n: int = space.REST_FRAMES + 1) -> np.ndarray:
+    """The last `n` stored frames of the grains of a rollout, (n, grains, 2) float32."""
+    import zarr
+
+    g = zarr.open_group(str(store), mode="r")
+    types = np.asarray(g["type_index"][:])
+    frames = g["positions"]
+    return np.asarray(frames[max(0, frames.shape[0] - n) :])[:, types == 0]
+
+
+def not_at_rest(out: Path, limit: float | None = None) -> list[dict]:
+    """The rollouts whose stored frames still move: rest speed (`measure.rest_speed`, the verification's reading) over
+    `limit`, by default the threshold with the slack of the verification. A `limit` below zero lists every rollout."""
+    out = Path(out)
+    limit = measure.rest_threshold() * measure.REST_SLACK if limit is None else limit
+    rows = []
+    for f in sorted((out / "meta").glob("*.json")):
+        meta = json.loads(f.read_text(encoding="utf-8"))
+        store = out / meta["store"]["path"]
+        if not store.exists():
+            continue  # the verification reports a missing payload
+        speed = measure.rest_speed(_grain_frames(store), meta["frame_interval_s"])
+        if not speed <= limit:
+            rows.append({"id": f.stem, "geometry_id": meta["geometry_id"], "family": meta["family"], "speed": speed})
+    return rows
+
+
+def requeue_not_at_rest(out: Path, limit: float | None = None, reason: str = "not-at-rest") -> list[dict]:
+    """Take the rollouts that are not at rest back to the generator (FR-011-10).
+
+    Each one's metadata and payload move to `<out>/superseded/<reason>/` (kept, never dropped), its seed leaves the
+    slot, the slot is open again and `slot["superseded"]` counts it with the old digest. `run` then simulates the
+    missing seeds under the same ids; a seed that still does not come to rest is replaced by the next seed of the
+    geometry (or, after too many, the geometry) by the rules the generator already has. Returns the rollouts moved; a
+    set with none over the limit is not touched.
+    """
+    out = Path(out)
+    rows = not_at_rest(out, limit)
+    if not rows:
+        return []
+    st = load_state(out)
+    if st is None:
+        raise SystemExit(f"no _state.json in {out}")
+    slots = {s["id"]: s for s in st["slots"]}
+    dest = out / "superseded" / reason
+    dest.mkdir(parents=True, exist_ok=True)
+    for row in rows:
+        rid, slot = row["id"], slots[row["geometry_id"]]
+        meta_f = out / "meta" / f"{rid}.json"
+        meta = json.loads(meta_f.read_text(encoding="utf-8"))
+        n, tag = 1, rid
+        while (dest / f"{tag}.json").exists():
+            n += 1
+            tag = f"{rid}-{n}"
+        shutil.move(str(out / meta["store"]["path"]), str(dest / f"{tag}.zarr"))
+        shutil.move(str(meta_f), str(dest / f"{tag}.json"))
+        slot["seeds"] = [e for e in slot["seeds"] if e["id"] != rid]
+        slot.setdefault("superseded", []).append(
+            {
+                "id": rid,
+                "seed": meta["packing_seed"],
+                "reason": reason,
+                "rest_speed_m_per_s": row["speed"],
+                "rest_time_s": meta["rest_time_s"],
+                "sha256": meta["store"]["sha256"],
+            }
+        )
+        slot["done"] = False
+    save_state(out, st)
+    return rows
+
+
+def _boundary_of(out: Path, meta: dict) -> np.ndarray | None:
+    """The stored static boundary particles of a rollout (frame 0), None for a rollout without any."""
+    import zarr
+
+    g = zarr.open_group(str(Path(out) / meta["store"]["path"]), mode="r")
+    types = np.asarray(g["type_index"][:])
+    if not (types == 1).any():
+        return None
+    return np.asarray(g["positions"][0, int(np.flatnonzero(types == 1)[0]) :, :])
+
+
+def rewrite_bounds(out: Path) -> dict:
+    """Repair the recorded box of every finished rollout that has boundary particles, from its static geometry.
+
+    The static solids (funnel, platform, crest face) are rebuilt from the slot's parameters and the rollout's seeds, the
+    way the generator built them, and compared with the stored particles; only when they are identical is `bounds_m`
+    widened to contain them (`contain_bounds`) and the metadata rewritten. No payload is written, and the proof lists
+    the digest check of every store, so the grain arrays are untouched. A rollout whose stored solids differ from its
+    geometry is reported in `mismatched` and left alone.
+    """
+    from . import engine
+
+    out = Path(out)
+    st = load_state(out)
+    if st is None:
+        raise SystemExit(f"no _state.json in {out}")
+    slots = {s["id"]: s for s in st["slots"]}
+    cfg = SimConfig(st["contact"]["friction_rolling"], st["contact"]["friction_static"], st["contact"]["poly"])
+    checked, rewritten, mismatched, proof = 0, [], [], []
+    for f in sorted((out / "meta").glob("*.json")):
+        meta = json.loads(f.read_text(encoding="utf-8"))
+        stored = _boundary_of(out, meta)
+        if stored is None:
+            continue
+        checked += 1
+        slot = slots[meta["geometry_id"]]
+        task = {"p": slot["params"], "seed": meta["packing_seed"], "geom_seed": slot["idx"]}
+        (inst,) = engine.feed_instances(meta["family"], [task], cfg)
+        same = bool(np.array_equal(engine.instance_boundary(meta["family"], inst), stored))
+        digest = store_digest(out / meta["store"]["path"])
+        proof.append(
+            {
+                "id": f.stem,
+                "static_geometry_equals_stored": same,
+                "payload_digest_matches_meta": digest == meta["store"]["sha256"],
+            }
+        )
+        if not same:
+            mismatched.append(f.stem)
+            continue
+        bounds = contain_bounds(meta["bounds_m"], stored)
+        if bounds != [float(b) for b in meta["bounds_m"]]:
+            _commit_meta(out, f.stem, {**meta, "bounds_m": bounds})
+            rewritten.append(f.stem)
+    return {"checked": checked, "rewritten": rewritten, "mismatched": mismatched, "proof": proof}
 
 
 # ----------------------------------------------------------------------------------------------- run

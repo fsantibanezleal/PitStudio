@@ -270,7 +270,8 @@ def simulate_collapse(
             a, b = sl[k], sl[k + 1]
             fr[k].append(np.stack([p3[a:b, 0] - it["shift"], p3[a:b, 2]], axis=1).astype(np.float32))
             ft[k].append(sim.time)
-            last_v[k] = float(v[a:b].max())
+            # rest is judged on what the verification reads: the displacement between the stored frames as well
+            last_v[k] = measure.combined_speed(v[a:b].max(), fr[k][-2], fr[k][-1], cfg.frame_dt)
             if judges[k].update(sim.time, last_v[k]) == "rest":
                 it["status"] = "rest"
     cc = sim.contact_counts()
@@ -445,7 +446,7 @@ def simulate_feed(
                 continue
             snap(k, p3, sim.time)
             g = grain_idx[k]
-            last_v[k] = float(v[g].max())
+            last_v[k] = measure.combined_speed(v[g].max(), fr[k][-2], fr[k][-1], cfg.frame_dt)
             frac_now[k] = measure.discharged_fraction(p3[g, 2] - it["elev"], it["geo"]["z_orifice"])
             verdict = judges[k].update(sim.time, last_v[k], frac_now[k])
             if verdict != "run":

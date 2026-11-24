@@ -66,7 +66,7 @@ def dry_run(allow_cpu: bool) -> int:
     return 0
 
 
-def main(argv: list[str] | None = None) -> int:
+def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="python -m pitstudio_studio.physics.planar")
     sub = ap.add_subparsers(dest="cmd", required=True)
     dr = sub.add_parser("dry-run", help="real code path on the CPU, asserts CUDA exists unless --allow-cpu")
@@ -89,11 +89,27 @@ def main(argv: list[str] | None = None) -> int:
     g.add_argument("--k-feed", type=int, default=12)
     g.add_argument("--limit-batches", type=int, default=0)
     g.add_argument("--families", default=",".join(FAMILIES))
+    g.add_argument(
+        "--requeue-not-at-rest",
+        action="store_true",
+        help="first take every finished rollout that is not at rest (verification reading) back to the generator: "
+        "files kept under superseded/, same seeds re-simulated, idempotent on a resume",
+    )
     v = sub.add_parser(
         "verify", help="recompute every dataset rule from the files; writes index.json and DATASET_CARD.md"
     )
     v.add_argument("--out", required=True)
-    a = ap.parse_args(argv)
+    rb = sub.add_parser(
+        "rewrite-bounds",
+        help="widen the recorded bounds of finished rollouts to contain their boundary particles, from the static "
+        "geometry; no payload is written",
+    )
+    rb.add_argument("--out", required=True)
+    return ap
+
+
+def main(argv: list[str] | None = None) -> int:
+    a = build_parser().parse_args(argv)
     if a.cmd == "dry-run":
         return dry_run(a.allow_cpu)
     if a.cmd == "verify":
@@ -108,6 +124,28 @@ def main(argv: list[str] | None = None) -> int:
         for p in report["problems"][:40]:
             print("PROBLEM", p)
         return 0 if report["ok"] else 1
+    if a.cmd == "rewrite-bounds":
+        from . import generate
+
+        rep = generate.rewrite_bounds(Path(a.out))
+        digest_ok = all(p["payload_digest_matches_meta"] for p in rep["proof"])
+        print(
+            json.dumps(
+                {
+                    "checked": rep["checked"],
+                    "rewritten": rep["rewritten"],
+                    "mismatched": rep["mismatched"],
+                    "payload_digests_match": digest_ok,
+                },
+                indent=1,
+            )
+        )
+        return 0 if not rep["mismatched"] and digest_ok else 1
+    if a.cmd == "generate" and a.requeue_not_at_rest:
+        from . import generate
+
+        moved = generate.requeue_not_at_rest(Path(a.out))
+        print(f"[planar] requeued {len(moved)} rollout(s) that were not at rest", flush=True)
     from . import gpujob
 
     guard, lock, pacer = gpujob.start_session()

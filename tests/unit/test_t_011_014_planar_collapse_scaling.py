@@ -5,7 +5,13 @@ static repose angle as a grows; the repose range of pile and dump is the wrong c
 against the published scaling laws of 2-D column collapse (Lube et al. 2005, Phys. Rev. E 72, 041301, as quoted by
 Staron and Hinch 2005, arXiv:physics/0501022; Lajeunesse, Monnier and Homsy 2005, Phys. Fluids 17, 103302; Sarlin et
 al. 2021, arXiv:2112.11458): the normalised run-out (L_inf - L0) / L0 and the normalised final height H_inf / L0, per
-regime of a. The synthetic deposits below are built from those laws."""
+regime of a. The synthetic deposits below are built from those laws.
+
+The final height in the free-fall regime (a >= 0.8) is the exception (gns-final, owner standing directive): the
+published laws give the exponent 1/3 (Lajeunesse, Sarlin) or 0.4 (Lube; Balmforth and Kerswell 0.5), their coefficient
+depends on the material (friction and rolling resistance change the deposit height; Balmforth and Kerswell 2005, J.
+Fluid Mech. 538, 399-428), so the regime is accepted when the fitted exponent of H_inf / L0 against a is within 0.05
+of 0.4, and the fitted coefficient is reported, not gated."""
 
 from __future__ import annotations
 
@@ -36,16 +42,26 @@ def _geom(gid: str, a: float, run_out: float, height: float, width: float = L0) 
 
 
 def _on_laws(a: float, t: float = 0.0) -> dict:
-    """A deposit at a fraction t of the published half-spread above the midpoint of the laws (t = 0: on it)."""
+    """A deposit at a fraction t of the published half-spread above the midpoint of the laws (t = 0: on it).
+
+    Free-fall heights (a >= 0.8) follow H / L0 = 0.93 a^0.4, the exponent the free-fall regime is gated on; t moves the
+    run-out only there.
+    """
     ro_lo, ro_hi = verify.law_envelope("runout", a)
     h_lo, h_hi = verify.law_envelope("height", a)
     ro_mid, h_mid = 0.5 * (ro_lo + ro_hi), 0.5 * (h_lo + h_hi)
-    return _geom(
-        f"a{a}",
-        a,
-        ro_mid + t * 0.5 * (ro_hi - ro_lo),
-        h_mid + t * 0.5 * (h_hi - h_lo),
-    )
+    height = 0.93 * a**0.4 if verify.regime("height", a) == "free-fall" else h_mid + t * 0.5 * (h_hi - h_lo)
+    return _geom(f"a{a}", a, ro_mid + t * 0.5 * (ro_hi - ro_lo), height)
+
+
+def _free_fall(exponent: float, coefficient: float = 0.93, aspects=(0.9, 1.3, 1.8, 2.4, 3.0, 3.6, 4.0)) -> list[dict]:
+    """Free-fall deposits with H / L0 = coefficient a^exponent and the run-out on the laws."""
+    out = []
+    for a in aspects:
+        g = _on_laws(a)
+        g["height_m"] = coefficient * a**exponent * L0
+        out.append(g)
+    return out
 
 
 @pytest.mark.req("FR-011-03")
@@ -113,10 +129,11 @@ def test_011_a_deposits_on_the_laws_and_inside_the_scatter_pass_in_every_regime(
         "free-fall",
     }  # no geometry between 0.7 and 0.8: the regime is absent, not failed
     for part in ("runout", "height"):
-        for res in rep[part].values():
+        for name, res in rep[part].items():
             assert res["ok"]
             assert res["n"] >= 1
-            assert abs(res["mean_deviation"]) <= res["mean_scatter"]
+            if (part, name) != ("height", "free-fall"):  # the free-fall height is gated on its exponent
+                assert abs(res["mean_deviation"]) <= res["mean_scatter"]
 
 
 @pytest.mark.req("FR-011-03")
@@ -150,13 +167,56 @@ def test_011_a_one_geometry_beyond_twice_the_scatter_fails_even_when_the_regime_
 
 
 @pytest.mark.req("FR-011-03")
-def test_011_a_final_height_is_checked_as_well_as_run_out() -> None:
-    geoms = [_on_laws(a, 0.0) for a in (1.5, 2.5, 3.5)]
-    for g in geoms:
-        g["height_m"] *= 1.4  # a deposit 40 percent taller than the laws: run-out is fine, the height is not
+def test_011_a_a_slump_or_transition_height_is_still_checked_against_the_published_laws() -> None:
+    geoms = [_on_laws(a, 0.0) for a in (0.55, 0.75, 1.5, 2.5, 3.5)]
+    for g in geoms[:2]:
+        g["height_m"] *= 1.4  # a deposit 40 percent taller than the laws where the laws are one curve
     rep = verify.collapse_scaling(geoms)
     assert rep["runout"]["linear"]["ok"]
-    assert any("final height" in p and "free-fall" in p for p in rep["problems"])
+    assert not rep["height"]["slump"]["ok"]
+    assert any("final height" in p and "slump" in p for p in rep["problems"])
+    assert any("final height" in p and "a0.75" in p for p in rep["problems"])
+
+
+@pytest.mark.req("FR-011-03")
+def test_011_a_the_free_fall_height_is_accepted_on_the_fitted_exponent_within_005_of_04() -> None:
+    for exponent in (0.35, 0.40, 0.423, 0.45):
+        rep = verify.collapse_scaling(_free_fall(exponent))
+        ff = rep["height"]["free-fall"]
+        assert ff["ok"], exponent
+        assert ff["exponent"] == pytest.approx(exponent, abs=1e-9)
+        assert ff["coefficient"] == pytest.approx(0.93)
+        assert ff["exponent_published"] == 0.4
+        assert ff["exponent_tolerance"] == 0.05
+        assert not any("final height" in p for p in rep["problems"])
+    # the two laws that give 1/3 are outside the band, and so are a flat or a linear height
+    for exponent in (1 / 3, 0.34, 0.46, 0.5, 0.0, 1.0):
+        rep = verify.collapse_scaling(_free_fall(exponent))
+        assert not rep["height"]["free-fall"]["ok"], exponent
+        (problem,) = [p for p in rep["problems"] if "final height" in p]
+        assert "free-fall" in problem
+        assert "exponent" in problem
+        assert "0.4" in problem
+        assert f"{rep['height']['free-fall']['exponent']:.3f}" in problem
+
+
+@pytest.mark.req("FR-011-03")
+def test_011_a_the_free_fall_coefficient_is_reported_and_not_gated() -> None:
+    for coefficient in (0.7, 0.93, 1.3, 1.6):  # friction and rolling resistance move the deposit height
+        rep = verify.collapse_scaling(_free_fall(0.4, coefficient))
+        ff = rep["height"]["free-fall"]
+        assert ff["ok"]
+        assert ff["coefficient"] == pytest.approx(coefficient)
+        assert not any("final height" in p for p in rep["problems"])
+
+
+@pytest.mark.req("FR-011-03")
+def test_011_a_the_free_fall_exponent_needs_three_geometries_over_a_real_span_of_a() -> None:
+    rep = verify.collapse_scaling(_free_fall(0.4, aspects=(1.5, 2.0)))
+    assert not rep["height"]["free-fall"]["ok"]
+    assert any("final height" in p and "fit" in p for p in rep["problems"])
+    rep = verify.collapse_scaling(_free_fall(0.4, aspects=(2.0, 2.0, 2.0)))
+    assert not rep["height"]["free-fall"]["ok"]
 
 
 @pytest.mark.req("FR-011-03")

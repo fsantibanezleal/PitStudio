@@ -53,6 +53,11 @@ from .space import FAMILIES, D
 TARGET_DEG, TOL_DEG = 27.2, 1.5
 REAL_RANGE_DEG = (25.0, 35.0)  # the real granular range for pile and dump (gns-walls decision 2)
 OVERFLOW_MAX = 0.01
+HEIGHT_EXPONENT, HEIGHT_EXPONENT_TOL = (
+    0.4,
+    0.05,
+)  # free-fall final height H / L0 ~ a^0.4 (Lube 2005), gated on the exponent
+MIN_FIT_GEOMETRIES, MIN_FIT_SPAN = 3, 1.5  # the exponent fit needs three geometries and a_max / a_min of at least this
 ASPECT_RANGE = (0.5, 4.0)  # the declared aspect ratios of the collapse family (spec 011 section 7)
 
 # The published 2-D column-collapse laws: (upper end of the branch in a, coefficient, exponent); the last is open.
@@ -135,9 +140,9 @@ def check_rollout(root: Path, meta: dict, params: dict) -> dict[str, Any]:
     rad = rad_all[grains]
     fin = fin_all[grains]  # every measurement below reads grains only; the graph below reads every node
     dt = meta["frame_interval_s"]
-    speed = float((np.linalg.norm(np.diff(tail[:, grains], axis=0), axis=2) / dt).max())
-    thr = space.REST_FRAC * math.sqrt(space.G * D)
-    if not speed <= thr * 1.05:
+    speed = measure.rest_speed(tail[:, grains], dt)
+    thr = measure.rest_threshold()
+    if not speed <= thr * measure.REST_SLACK:
         problems.append(f"not at rest: {speed:.4f} m/s over the last frames (threshold {thr:.4f})")
     z_o = None
     if family == "pile-formation":
@@ -357,7 +362,8 @@ def collapse_scaling(geoms: list[dict]) -> dict[str, Any]:
                 "deviation": dev,
                 "scatter": s,
             }
-            row[f"{kind}_ok"] = abs(dev) <= 2 * s
+            gated = (kind, regime(kind, a)) != ("height", "free-fall")  # the free-fall height is gated on its exponent
+            row[f"{kind}_ok"] = abs(dev) <= 2 * s or not gated
             if not row[f"{kind}_ok"]:
                 problems.append(
                     f"{g['geometry_id']}: {_LABEL[kind]} {observed:.3g} (a {a:.2f}) deviates {dev:+.1%} from the "
@@ -373,6 +379,12 @@ def collapse_scaling(geoms: list[dict]) -> dict[str, Any]:
                 continue
             mean_dev = float(np.mean([r[kind]["deviation"] for r in part]))
             mean_s = float(np.mean([r[kind]["scatter"] for r in part]))
+            if (kind, name) == ("height", "free-fall"):
+                entry, issue = free_fall_height(part)
+                report[kind][name] = {"n": len(part), "mean_deviation": mean_dev, "mean_scatter": mean_s, **entry}
+                if issue:
+                    problems.append(issue)
+                continue
             ok = abs(mean_dev) <= mean_s and all(r[f"{kind}_ok"] for r in part)
             report[kind][name] = {"n": len(part), "mean_deviation": mean_dev, "mean_scatter": mean_s, "ok": ok}
             if abs(mean_dev) > mean_s:
@@ -383,6 +395,37 @@ def collapse_scaling(geoms: list[dict]) -> dict[str, Any]:
     report["repose_by_aspect"] = repose_by_aspect(geoms)
     report["problems"] = problems
     return report
+
+
+def free_fall_height(part: list[dict[str, Any]]) -> tuple[dict[str, Any], str | None]:
+    """The free-fall final height (a >= 0.8): power fit H / L0 = c a^e over the geometries; accepted when e is within
+    HEIGHT_EXPONENT_TOL of HEIGHT_EXPONENT (Lube 2005, exponent 0.4; the two laws read that give 1/3 are outside the
+    band by design of the owner decision). The coefficient c depends on the material (friction and rolling resistance
+    change the deposit height; Balmforth and Kerswell 2005, J. Fluid Mech. 538, 399-428), so it is reported, not gated.
+    Returns the report entry and the problem text (None when accepted)."""
+    a = np.array([r["aspect_ratio"] for r in part], dtype=np.float64)
+    h = np.array([r["height"]["observed"] for r in part], dtype=np.float64)
+    entry: dict[str, Any] = {
+        "exponent": None,
+        "coefficient": None,
+        "exponent_published": HEIGHT_EXPONENT,
+        "exponent_tolerance": HEIGHT_EXPONENT_TOL,
+        "ok": False,
+    }
+    if len(a) < MIN_FIT_GEOMETRIES or a.max() / a.min() < MIN_FIT_SPAN:
+        return entry, (
+            f"column-collapse final height, regime free-fall: cannot fit the exponent, {len(a)} geometries over "
+            f"a {a.min():.2f} to {a.max():.2f} (needs {MIN_FIT_GEOMETRIES} and a_max / a_min of {MIN_FIT_SPAN:g})"
+        )
+    e, ln_c = np.polyfit(np.log(a), np.log(h), 1)
+    entry.update(exponent=float(e), coefficient=float(math.exp(ln_c)))
+    entry["ok"] = bool(abs(e - HEIGHT_EXPONENT) <= HEIGHT_EXPONENT_TOL + 1e-9)
+    if entry["ok"]:
+        return entry, None
+    return entry, (
+        f"column-collapse final height, regime free-fall: fitted exponent {e:.3f} (H / L0 = {entry['coefficient']:.3f} "
+        f"a^{e:.3f}, {len(a)} geometries) is outside {HEIGHT_EXPONENT:g} +- {HEIGHT_EXPONENT_TOL:g}"
+    )
 
 
 def repose_by_aspect(geoms: list[dict]) -> list[dict[str, Any]]:
@@ -466,6 +509,16 @@ def card(r: dict[str, Any]) -> str:
                     f"| {_LABEL[kind]} | {name} | {res['n']} | {res['mean_deviation']:+.1%} | "
                     f"{res['mean_scatter']:.1%} | {'yes' if res['ok'] else 'no'} |"
                 )
+        ff = cs["height"].get("free-fall")
+        if ff and ff.get("exponent") is not None:
+            lines += [
+                "",
+                f"Final height in the free-fall regime (a >= 0.8) is gated on its fitted exponent, not on the laws' "
+                f"coefficient: H / L0 = {ff['coefficient']:.3f} a^{ff['exponent']:.3f} over {ff['n']} geometries; "
+                f"accepted within {ff['exponent_tolerance']:g} of {ff['exponent_published']:g} "
+                f"({'yes' if ff['ok'] else 'no'}). The coefficient depends on the material (friction, rolling "
+                f"resistance) and is reported, not gated.",
+            ]
         lines += ["", "Collapse repose by aspect ratio (reported, not gated):", ""]
         lines += [
             f"- a {b['a_from']:g} to {b['a_to']:g}: {_fmt(b['repose_mean_deg'])} degrees ({b['n']} geometries)"

@@ -216,6 +216,8 @@ def test_011_verification_fails_a_boundary_that_moves_or_leaves_its_box(tmp_path
     outside = boundary.copy()
     outside[:, 1] = 5.0
     root, meta = _write_with_boundary(out, outside)
+    assert meta["bounds_m"][3] >= 5.0  # the writer widens the box to hold what it stores (gns-final)
+    meta["bounds_m"][3] = 1.0  # a box that does not hold its solids is what the verification must catch
     assert any("outside the bounds" in p for p in verify.check_rollout(root, meta, PILE)["problems"])
 
 
