@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext, useMemo } from "react";
+import { createContext, lazy, type ReactNode, Suspense, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { methodRegistry, methodSlug } from "~/methods/registry";
@@ -26,6 +26,8 @@ import { SceneRender } from "./SceneRender";
 import type { ArtefactRecord, CaseEntry, Lang } from "./types";
 import { pick } from "./types";
 import { usedForVisual } from "./visualUsed";
+
+const RunChartList = lazy(() => import("~/charts/RunCharts").then((m) => ({ default: m.RunChartList })));
 
 const GROUP_IDS: BuiltGroupId[] = ["omniverse", "frameworks", "methods", "data"];
 
@@ -121,7 +123,15 @@ export function BuiltWithSection({ groups }: { groups: BuiltGroups }) {
   );
 }
 
-function ResultCard({ result, groups }: { result: PublishedResult; groups: BuiltGroups }) {
+function ResultCard({
+  result,
+  groups,
+  caseId,
+}: {
+  result: PublishedResult;
+  groups: BuiltGroups;
+  caseId: string;
+}) {
   const { t } = useTranslation("cases");
   const own: BuiltItem[] = result.tools.flatMap((id) => {
     const info = toolInfos.find((x) => x.id === id);
@@ -164,6 +174,9 @@ function ResultCard({ result, groups }: { result: PublishedResult; groups: Built
         ))}
       </ul>
       {result.partial && <p className={styles.unit}>{t("results.partial")}</p>}
+      <Suspense fallback={null}>
+        <RunChartList caseId={caseId} runId={result.runId} />
+      </Suspense>
       <p className={styles.producer} data-producer="result">
         {attributionText(t("attribution.result"), own.slice(0, 3), methods, words)}
       </p>
@@ -240,7 +253,7 @@ export function CaseStory({
           <section aria-labelledby="results-title" data-testid="published-results">
             <h2 id="results-title">{t("results.title")}</h2>
             {published.results.map((r) => (
-              <ResultCard key={r.runId} result={r} groups={groups} />
+              <ResultCard key={r.runId} result={r} groups={groups} caseId={caseId} />
             ))}
           </section>
         )}

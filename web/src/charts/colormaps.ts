@@ -2,21 +2,25 @@
 // stops are RGB triples). `sequential` is a viridis-like map, `diverging` a blue-white-red map for signed fields.
 
 export type Rgb = readonly [number, number, number];
-export type ColormapName = "sequential" | "diverging";
+/** The four maps FR-020-10 allows (viridis, cividis, inferno, magma), plus the blue-white-red `diverging` of the sandbox. */
+export type ColormapName = "sequential" | "diverging" | "viridis" | "cividis" | "inferno" | "magma";
+
+const VIRIDIS: readonly Rgb[] = [
+  [68, 1, 84],
+  [72, 40, 120],
+  [62, 74, 137],
+  [49, 104, 142],
+  [38, 130, 142],
+  [31, 158, 137],
+  [53, 183, 121],
+  [109, 205, 89],
+  [180, 222, 44],
+  [253, 231, 37],
+];
 
 const STOPS: Record<ColormapName, readonly Rgb[]> = {
-  sequential: [
-    [68, 1, 84],
-    [72, 40, 120],
-    [62, 74, 137],
-    [49, 104, 142],
-    [38, 130, 142],
-    [31, 158, 137],
-    [53, 183, 121],
-    [109, 205, 89],
-    [180, 222, 44],
-    [253, 231, 37],
-  ],
+  sequential: VIRIDIS,
+  viridis: VIRIDIS,
   diverging: [
     [33, 102, 172],
     [67, 147, 195],
@@ -27,6 +31,39 @@ const STOPS: Record<ColormapName, readonly Rgb[]> = {
     [244, 165, 130],
     [214, 96, 77],
     [178, 24, 43],
+  ],
+  cividis: [
+    [0, 32, 76],
+    [0, 42, 102],
+    [39, 64, 110],
+    [72, 86, 112],
+    [104, 108, 117],
+    [137, 131, 119],
+    [172, 156, 114],
+    [210, 182, 99],
+    [255, 234, 70],
+  ],
+  inferno: [
+    [0, 0, 4],
+    [31, 12, 72],
+    [85, 15, 109],
+    [136, 34, 106],
+    [186, 54, 85],
+    [227, 89, 51],
+    [249, 140, 10],
+    [249, 201, 50],
+    [252, 255, 164],
+  ],
+  magma: [
+    [0, 0, 4],
+    [28, 16, 68],
+    [79, 18, 123],
+    [129, 37, 129],
+    [181, 54, 122],
+    [229, 80, 100],
+    [251, 135, 97],
+    [254, 194, 135],
+    [252, 253, 191],
   ],
 };
 

@@ -188,7 +188,9 @@
     "discordant": "pares discordantes",
     "estimate": "estimación con su intervalo",
     "position": "posición",
-    "noData": "sin datos"
+    "noData": "sin datos",
+    "runCharts": "Gráficos de esta corrida ({{count}})",
+    "runChartsTitle": "Gráficos de las corridas publicadas"
   },
   "case": {
     "back": "Todos los casos",

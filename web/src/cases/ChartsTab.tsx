@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Chart, type ChartSeries } from "~/charts/Chart";
 import { ReasonPanel } from "~/features/reason/ReasonPanel";
@@ -9,6 +10,8 @@ import styles from "./cases.module.css";
 import { formatValue } from "./KpiTable";
 import { type CaseRegistry, type Kpi, type Lang, pick } from "./types";
 import { unitSymbol } from "./units";
+
+const CaseRunCharts = lazy(() => import("~/charts/RunCharts"));
 
 const finite = (n: unknown): n is number => typeof n === "number" && Number.isFinite(n);
 
@@ -154,6 +157,9 @@ export function ChartsTab({
       {entry.kpis.map((kpi) => (
         <KpiChart key={kpi.id} kpi={kpi} row={rows.find((r) => r.metric?.id === kpi.id)} lang={lang} />
       ))}
+      <Suspense fallback={null}>
+        <CaseRunCharts caseId={caseId} />
+      </Suspense>
       {(caseId === "B1" || caseId === "B2") && <ReasonPanel caseId={caseId} />}
     </>
   );

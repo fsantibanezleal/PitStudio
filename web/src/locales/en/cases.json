@@ -188,7 +188,9 @@
     "discordant": "discordant pairs",
     "estimate": "estimate with its interval",
     "position": "position",
-    "noData": "no data"
+    "noData": "no data",
+    "runCharts": "Charts of this run ({{count}})",
+    "runChartsTitle": "Charts of the published runs"
   },
   "case": {
     "back": "All cases",

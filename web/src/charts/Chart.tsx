@@ -21,6 +21,29 @@ export interface ChartSeries {
   y: ArrayLike<number>;
   unit: string;
   si?: SiUnit;
+  /** line (default), step (a staircase, as an ECDF) or points (a scatter: no line joins the samples). */
+  draw?: "line" | "step" | "points";
+}
+
+/** A lower and upper edge around one series (an interval band), same length as x; a missing reading is NaN. */
+export interface ChartBand {
+  id: string;
+  name: string;
+  /** Index of the series the band surrounds (it takes its colour). */
+  series: number;
+  lo: ArrayLike<number>;
+  hi: ArrayLike<number>;
+}
+
+/** A labelled feature of the chart (FR-020-08): a vertical line at x, a horizontal line at y, or a point at (x, y). */
+export interface ChartMarker {
+  id: string;
+  label: string;
+  /** The number as the read-out shows it, with its unit. */
+  valueText: string;
+  orientation: "vertical" | "horizontal" | "point";
+  x?: number;
+  y?: number;
 }
 
 export interface ChartProps {
@@ -45,6 +68,10 @@ export interface ChartProps {
   references?: Array<{ id: string; y: number; label: string }>;
   /** Draw the series as bands stacked on each other (the values in the table stay the plain series values). */
   stacked?: boolean;
+  /** Translucent bands around series (a paired interval, a bootstrap band). */
+  bands?: ChartBand[];
+  /** Labelled features: lines at x or y and points. */
+  markers?: ChartMarker[];
 }
 
 interface ChartData {
@@ -102,7 +129,7 @@ function paddedRange(lo: number, hi: number, scale: Scale, pad: number): [number
 
 function initialRanges(
   x: Series | null,
-  ys: Float64Array[],
+  ys: ArrayLike<number>[],
   xScale: Scale,
   yScale: Scale,
   refs: readonly number[] = [],
@@ -125,7 +152,7 @@ function initialRanges(
 }
 
 /** Round tick positions covering [lo, hi]: 1, 2, 5 times a power of ten, or whole decades on a log axis. */
-function ticks(lo: number, hi: number, scale: Scale, approx: number): number[] {
+export function ticks(lo: number, hi: number, scale: Scale, approx: number): number[] {
   const out: number[] = [];
   if (scale === "log") {
     const a = Math.floor(Math.log10(lo));
@@ -148,7 +175,7 @@ function ticks(lo: number, hi: number, scale: Scale, approx: number): number[] {
   return out;
 }
 
-function fmt(value: number, lang: string): string {
+export function fmt(value: number, lang: string): string {
   if (!Number.isFinite(value)) return "";
   return new Intl.NumberFormat(lang, { maximumSignificantDigits: 4, useGrouping: false }).format(value);
 }
@@ -207,18 +234,17 @@ export function Chart(props: ChartProps) {
   }
   const data = cache.current.value;
 
-  const refValues = (props.references ?? []).map((r) => r.y).join(",");
-  // biome-ignore lint/correctness/useExhaustiveDependencies: refValues is the stable text of the reference values
+  const bands = props.bands ?? [];
+  const markers = props.markers ?? [];
+  const refList = [
+    ...(props.references ?? []).map((r) => r.y),
+    ...markers.flatMap((m) => (m.y !== undefined && Number.isFinite(m.y) ? [m.y] : [])),
+  ];
+  const refValues = refList.join(",");
+  // biome-ignore lint/correctness/useExhaustiveDependencies: refValues is the stable text of the reference values; the bands are read with the data
   const initial = useMemo(
-    () =>
-      initialRanges(
-        data.x,
-        data.ys,
-        xScale,
-        yScale,
-        (props.references ?? []).map((r) => r.y),
-      ),
-    [data, xScale, yScale, refValues],
+    () => initialRanges(data.x, [...data.ys, ...bands.flatMap((b) => [b.lo, b.hi])], xScale, yScale, refList),
+    [data, xScale, yScale, refValues, bands.map((b) => b.id).join("|")],
   );
   const [ranges, setRanges] = useState<Ranges>(initial);
   const [size, setSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
@@ -382,6 +408,41 @@ export function Chart(props: ChartProps) {
     g.rect(0, 0, view.width, view.height);
     g.clip();
     if (data.x) {
+      for (const band of bands) {
+        const list = drawn.lists[band.series];
+        if (!list || list.length === 0) continue;
+        g.fillStyle = colors.series[band.series % SERIES_COLORS.length] || colors.axis;
+        g.globalAlpha = 0.22;
+        let run: number[] = [];
+        const flush = () => {
+          if (run.length > 0) {
+            g.beginPath();
+            run.forEach((idx, k) => {
+              const p = toScreen(view, data.x?.x[idx] as number, band.hi[idx] as number);
+              if (k === 0) g.moveTo(p.px, p.py);
+              else g.lineTo(p.px, p.py);
+            });
+            for (let k = run.length - 1; k >= 0; k--) {
+              const idx = run[k] as number;
+              const p = toScreen(view, data.x?.x[idx] as number, band.lo[idx] as number);
+              g.lineTo(p.px, p.py);
+            }
+            g.closePath();
+            g.fill();
+          }
+          run = [];
+        };
+        for (const k of list) {
+          const idx = k + drawn.i0;
+          const lo = band.lo[idx] as number;
+          const hi = band.hi[idx] as number;
+          const ok = Number.isFinite(lo) && Number.isFinite(hi) && (yScale !== "log" || (lo > 0 && hi > 0));
+          if (ok) run.push(idx);
+          else flush();
+        }
+        flush();
+        g.globalAlpha = 1;
+      }
       for (let s = 0; s < data.ys.length; s++) {
         const list = drawn.lists[s];
         const y = data.ys[s] as Float64Array;
@@ -418,9 +479,11 @@ export function Chart(props: ChartProps) {
           }
           g.globalAlpha = 1;
         }
+        const mode = inputs[s]?.draw ?? "line";
         g.lineWidth = 1.5;
         g.beginPath();
         let open = false;
+        let lastPy = 0;
         for (const k of list) {
           const idx = k + drawn.i0;
           const yv = y[idx] as number;
@@ -429,12 +492,17 @@ export function Chart(props: ChartProps) {
             continue;
           }
           const { px, py } = toScreen(view, data.x.x[idx] as number, yv);
-          if (open) g.lineTo(px, py);
-          else g.moveTo(px, py);
+          if (mode !== "points") {
+            if (open) {
+              if (mode === "step") g.lineTo(px, lastPy);
+              g.lineTo(px, py);
+            } else g.moveTo(px, py);
+          }
+          lastPy = py;
           open = true;
         }
-        g.stroke();
-        if (list.length === 1 || (data.n <= 200 && list.length === data.n)) {
+        if (mode !== "points") g.stroke();
+        if (mode === "points" || list.length === 1 || (data.n <= 200 && list.length === data.n)) {
           g.fillStyle = g.strokeStyle;
           for (const k of list) {
             const idx = k + drawn.i0;
@@ -463,6 +531,53 @@ export function Chart(props: ChartProps) {
         g.textBaseline = "bottom";
         g.fillText(ref.label, view.width - 4, py - 2);
       }
+      // markers: the labelled features of the chart
+      g.font = "11px system-ui, sans-serif";
+      for (const m of markers) {
+        const text = `${m.label} ${m.valueText}`;
+        g.strokeStyle = colors.text;
+        g.fillStyle = colors.text;
+        g.lineWidth = 1;
+        if (m.orientation === "vertical" && m.x !== undefined && Number.isFinite(m.x)) {
+          const { px } = toScreen(view, m.x, ranges.y0);
+          g.save();
+          g.setLineDash([2, 3]);
+          g.beginPath();
+          g.moveTo(px + 0.5, 0);
+          g.lineTo(px + 0.5, view.height);
+          g.stroke();
+          g.restore();
+          g.textAlign = px > view.width / 2 ? "right" : "left";
+          g.textBaseline = "top";
+          g.fillText(text, px + (px > view.width / 2 ? -4 : 4), 2);
+        } else if (m.orientation === "horizontal" && m.y !== undefined && Number.isFinite(m.y)) {
+          if (yScale === "log" && m.y <= 0) continue;
+          const { py } = toScreen(view, ranges.x0, m.y);
+          g.save();
+          g.setLineDash([6, 4]);
+          g.beginPath();
+          g.moveTo(0, py + 0.5);
+          g.lineTo(view.width, py + 0.5);
+          g.stroke();
+          g.restore();
+          g.textAlign = "right";
+          g.textBaseline = "bottom";
+          g.fillText(text, view.width - 4, py - 2);
+        } else if (m.orientation === "point" && m.x !== undefined && m.y !== undefined) {
+          if (!Number.isFinite(m.x) || !Number.isFinite(m.y) || (yScale === "log" && m.y <= 0)) continue;
+          const { px, py } = toScreen(view, m.x, m.y);
+          g.beginPath();
+          g.moveTo(px, py - 5);
+          g.lineTo(px + 5, py);
+          g.lineTo(px, py + 5);
+          g.lineTo(px - 5, py);
+          g.closePath();
+          g.fill();
+          g.textAlign = px > view.width / 2 ? "right" : "left";
+          g.textBaseline = "bottom";
+          g.fillText(text, px + (px > view.width / 2 ? -8 : 8), py - 4);
+        }
+      }
       // crosshair
       const c = live.current.cursor;
       if (c !== null && c >= 0 && c < data.n) {
@@ -481,7 +596,7 @@ export function Chart(props: ChartProps) {
       }
     }
     g.restore();
-  }, [view, drawn, colors, cursor, data, ranges, xScale, yScale, lang]);
+  }, [view, drawn, colors, cursor, data, ranges, xScale, yScale, lang, bands, markers]);
 
   // Wheel needs a non-passive listener to stop the page scrolling.
   useEffect(() => {
@@ -642,7 +757,16 @@ export function Chart(props: ChartProps) {
     return { x, y, text: `${xName} ${xText} · ${first.name} ${yText}` };
   })();
 
-  const tableColumns = inputs.map((s) => ({ id: s.id, header: `${s.name} (${s.unit})`, values: s.y }));
+  const tableColumns = [
+    ...inputs.map((s) => ({ id: s.id, header: `${s.name} (${s.unit})`, values: s.y })),
+    ...bands.flatMap((b) => {
+      const unit = inputs[b.series]?.unit ?? "";
+      return [
+        { id: `${b.id}-lo`, header: `${b.name}, ${t("lower")} (${unit})`, values: b.lo },
+        { id: `${b.id}-hi`, header: `${b.name}, ${t("upper")} (${unit})`, values: b.hi },
+      ];
+    }),
+  ];
   const tableId = `${uid}-table`;
 
   return (
@@ -710,6 +834,12 @@ export function Chart(props: ChartProps) {
           <span key={s.id} className={styles.legend}>
             {" · "}
             {s.name} ({s.unit})
+          </span>
+        ))}
+        {bands.map((b) => (
+          <span key={b.id} className={styles.legend} data-band={b.id}>
+            {" · "}
+            {b.name}
           </span>
         ))}
       </p>
