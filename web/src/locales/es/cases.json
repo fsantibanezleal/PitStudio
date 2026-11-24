@@ -190,7 +190,8 @@
     "position": "posición",
     "noData": "sin datos",
     "runCharts": "Gráficos de esta corrida ({{count}})",
-    "runChartsTitle": "Gráficos de las corridas publicadas"
+    "runChartsTitle": "Gráficos de las corridas publicadas",
+    "notTheKpi": "Este gráfico muestra {{row}}, tal como se publicó; no es el KPI {{kpi}}, que necesita una corrida que aún no está publicada."
   },
   "case": {
     "back": "Todos los casos",

@@ -34,5 +34,10 @@
     "radius": "radio {{r}} {{unit}}",
     "element": "elemento",
     "centre": "centro"
-  }
+  },
+  "intervalText": "intervalo del {{level}} % [{{lo}}, {{hi}}] {{unit}}",
+  "zeroReference": "sin diferencia",
+  "intervalAxis": "Eje horizontal: valor en {{unit}}; cada segmento es el intervalo del {{level}} % entre sus topes.",
+  "intervalHelp": "Las flechas mueven la lectura de un intervalo a otro; Escape la borra.",
+  "estimate": "estimación"
 }

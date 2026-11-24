@@ -190,7 +190,8 @@
     "position": "position",
     "noData": "no data",
     "runCharts": "Charts of this run ({{count}})",
-    "runChartsTitle": "Charts of the published runs"
+    "runChartsTitle": "Charts of the published runs",
+    "notTheKpi": "This chart shows {{row}}, as published; it is not the KPI {{kpi}}, which needs a run that is not published yet."
   },
   "case": {
     "back": "All cases",

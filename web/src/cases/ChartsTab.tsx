@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Chart, type ChartSeries } from "~/charts/Chart";
+import { type IntervalEntry, IntervalPlot } from "~/charts/IntervalPlot";
 import { ReasonPanel } from "~/features/reason/ReasonPanel";
 import type { ComparisonRow, DiffInterval } from "~/results/ComparisonRows";
 import { mcnemarVerdict, pairedVerdict, singleEventVerdict, type Verdict } from "~/results/verdict";
@@ -64,13 +65,59 @@ function chartOf(row: ComparisonRow, label: Label): { x: number[]; series: Chart
   return null;
 }
 
-function KpiChart({ kpi, row, lang }: { kpi: Kpi; row: ComparisonRow | undefined; lang: Lang }) {
+/** The intervals a KPI's rows carry, to be drawn as intervals: a paired difference (with the zero reference) or an estimate with its interval. */
+function intervalsOf(
+  rows: readonly ComparisonRow[],
+  label: (row: ComparisonRow) => string,
+): { entries: IntervalEntry[]; zero: boolean; level: number } | null {
+  const first = rows[0];
+  if (!first) return null;
+  const entries: IntervalEntry[] = [];
+  let level = 0.95;
+  for (const [k, r] of rows.entries()) {
+    if (r.kind !== first.kind) continue;
+    if (
+      r.kind === "paired" &&
+      finite(r.interval.lo) &&
+      finite(r.interval.hi) &&
+      r.interval.lo <= r.interval.hi
+    ) {
+      entries.push({ id: `row-${k}`, label: label(r), lo: r.interval.lo, hi: r.interval.hi });
+      level = finite(r.interval.level) ? r.interval.level : level;
+    } else if (
+      r.kind === "estimate" &&
+      finite(r.value) &&
+      r.interval &&
+      finite(r.interval.lo) &&
+      finite(r.interval.hi) &&
+      r.interval.lo <= r.interval.hi
+    ) {
+      entries.push({ id: `row-${k}`, label: label(r), lo: r.interval.lo, hi: r.interval.hi, point: r.value });
+      level = finite(r.interval.level) ? r.interval.level : level;
+    }
+  }
+  return entries.length > 0 ? { entries, zero: first.kind === "paired", level } : null;
+}
+
+function KpiChart({ kpi, rows, lang }: { kpi: Kpi; rows: readonly ComparisonRow[]; lang: Lang }) {
   const { t } = useTranslation("cases");
   const { t: tr } = useTranslation("results");
   const unit = unitSymbol(kpi.unit);
-  const name = pick(kpi.name, lang);
+  const kpiName = pick(kpi.name, lang);
+  const row = rows[0];
+  // the chart is titled with what the published row measures: a row whose own metric name differs from the KPI is not the KPI
+  const rowName = row ? pick(row.metric.name, lang) : kpiName;
+  const same = rowName.trim().toLowerCase() === kpiName.trim().toLowerCase();
+  const name = same ? kpiName : rowName;
   const num = (n: number) => formatValue(n, lang);
   const chart = row ? chartOf(row, (key) => t(key)) : null;
+  const drawn = row
+    ? intervalsOf(rows, (r) =>
+        r.kind === "estimate"
+          ? r.system
+          : tr("rows.versus", { challenger: r.challenger, baseline: r.baseline }),
+      )
+    : null;
   const interval = (iv: DiffInterval) =>
     tr("rows.interval", {
       level: Math.round((finite(iv.level) ? iv.level : 0.95) * 100),
@@ -78,10 +125,12 @@ function KpiChart({ kpi, row, lang }: { kpi: Kpi; row: ComparisonRow | undefined
       hi: num(iv.hi),
       method: tr(`method.${iv.method}`, { defaultValue: iv.method }),
     });
-  const verdict = row ? rowVerdict(row, kpi.orientation) : null;
-  const challenger = row && row.kind !== "estimate" ? row.challenger : "";
-  const baseline = row && row.kind !== "estimate" ? row.baseline : "";
-  const words = verdict ? verdictText((key, options) => tr(key, options), verdict, challenger, baseline) : "";
+  const wordsOf = (r: ComparisonRow) => {
+    const verdict = rowVerdict(r, kpi.orientation);
+    const challenger = r.kind !== "estimate" ? r.challenger : "";
+    const baseline = r.kind !== "estimate" ? r.baseline : "";
+    return verdict ? verdictText((key, options) => tr(key, options), verdict, challenger, baseline) : "";
+  };
 
   return (
     <section className={styles.panel} data-kpi-chart={kpi.id} data-visual="chart" aria-label={name}>
@@ -89,46 +138,64 @@ function KpiChart({ kpi, row, lang }: { kpi: Kpi; row: ComparisonRow | undefined
         {name}
         {unit && <span className={styles.unit}> ({unit})</span>}
       </h3>
-      <Chart
-        id={`kpi-${kpi.id}`}
-        title={t("charts.chartTitle", { name })}
-        x={chart?.x ?? []}
-        xName={t("charts.position")}
-        xUnit="1"
-        series={chart?.series ?? [{ id: "none", name: t("charts.noData"), y: [], unit: unit || "1" }]}
-        height={150}
-      />
+      {drawn ? (
+        <IntervalPlot
+          id={`kpi-${kpi.id}`}
+          title={t("charts.chartTitle", { name })}
+          unit={unit || "1"}
+          intervals={drawn.entries}
+          zero={drawn.zero}
+          level={drawn.level}
+          lang={lang}
+        />
+      ) : (
+        <Chart
+          id={`kpi-${kpi.id}`}
+          title={t("charts.chartTitle", { name })}
+          x={chart?.x ?? []}
+          xName={t("charts.position")}
+          xUnit="1"
+          series={chart?.series ?? [{ id: "none", name: t("charts.noData"), y: [], unit: unit || "1" }]}
+          height={150}
+        />
+      )}
       {!row && <p className={styles.pending}>{t("notYetRun")}</p>}
-      {row && row.kind !== "estimate" && (
-        <p className={styles.unit}>
-          {tr("rows.versus", { challenger: row.challenger, baseline: row.baseline })}
-        </p>
-      )}
-      {row?.kind === "paired" && <p>{interval(row.interval)}</p>}
-      {row?.kind === "single-event" && (
-        <p>
-          {tr("rows.values", {
-            challenger: finite(row.challenger_value) ? num(row.challenger_value) : tr("rows.unavailable"),
-            baseline: finite(row.baseline_value) ? num(row.baseline_value) : tr("rows.unavailable"),
-          })}
-        </p>
-      )}
-      {row?.kind === "mcnemar" && (
-        <p>
-          {tr("rows.discordant", {
-            b: row.b,
-            c: row.c,
-            p: finite(row.p_value) ? num(row.p_value) : tr("rows.unavailable"),
-          })}
-        </p>
-      )}
-      {row?.kind === "estimate" && (
-        <p>
-          {tr("rows.value", { value: finite(row.value) ? num(row.value) : tr("rows.unavailable") })}
-          {row.interval ? ` · ${interval(row.interval)}` : ""}
-        </p>
-      )}
-      {words && <p className={styles.verdict}>{words}</p>}
+      {row && !same && <p className={styles.unit}>{t("charts.notTheKpi", { kpi: kpiName, row: rowName })}</p>}
+      {rows.map((r, k) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: result rows have no id of their own, their order is their identity
+        <div key={k} data-kpi-row={k}>
+          {r.kind !== "estimate" && (
+            <p className={styles.unit}>
+              {tr("rows.versus", { challenger: r.challenger, baseline: r.baseline })}
+            </p>
+          )}
+          {r.kind === "paired" && <p>{interval(r.interval)}</p>}
+          {r.kind === "single-event" && (
+            <p>
+              {tr("rows.values", {
+                challenger: finite(r.challenger_value) ? num(r.challenger_value) : tr("rows.unavailable"),
+                baseline: finite(r.baseline_value) ? num(r.baseline_value) : tr("rows.unavailable"),
+              })}
+            </p>
+          )}
+          {r.kind === "mcnemar" && (
+            <p>
+              {tr("rows.discordant", {
+                b: r.b,
+                c: r.c,
+                p: finite(r.p_value) ? num(r.p_value) : tr("rows.unavailable"),
+              })}
+            </p>
+          )}
+          {r.kind === "estimate" && (
+            <p>
+              {tr("rows.value", { value: finite(r.value) ? num(r.value) : tr("rows.unavailable") })}
+              {r.interval ? ` · ${interval(r.interval)}` : ""}
+            </p>
+          )}
+          {wordsOf(r) && <p className={styles.verdict}>{wordsOf(r)}</p>}
+        </div>
+      ))}
       <Attribution kind="chart" ran={row !== undefined} />
     </section>
   );
@@ -155,7 +222,7 @@ export function ChartsTab({
   return (
     <>
       {entry.kpis.map((kpi) => (
-        <KpiChart key={kpi.id} kpi={kpi} row={rows.find((r) => r.metric?.id === kpi.id)} lang={lang} />
+        <KpiChart key={kpi.id} kpi={kpi} rows={rows.filter((r) => r.metric?.id === kpi.id)} lang={lang} />
       ))}
       <Suspense fallback={null}>
         <CaseRunCharts caseId={caseId} />

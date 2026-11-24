@@ -34,5 +34,10 @@
     "radius": "radius {{r}} {{unit}}",
     "element": "element",
     "centre": "centre"
-  }
+  },
+  "intervalText": "{{level}} % interval [{{lo}}, {{hi}}] {{unit}}",
+  "zeroReference": "no difference",
+  "intervalAxis": "Horizontal axis: value in {{unit}}; each segment is the {{level}} % interval between its end caps.",
+  "intervalHelp": "Arrow keys move the read-out from interval to interval; Escape clears it.",
+  "estimate": "estimate"
 }
