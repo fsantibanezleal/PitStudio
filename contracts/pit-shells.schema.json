@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/pit-shells.schema.json",
   "title": "E1 shells, pushbacks and schedule",
-  "description": "Nested pit shells, pushbacks, bench-phase units and the MILP schedule written by the planner (DC-017-03, spec 017-planning-survey).",
+  "description": "Nested pit shells, pushbacks, bench-phase units and the MILP schedule written by the planner (DC-017-03, spec 017-planning-survey). A shells-only result (shells, ultimate pit, pushbacks) is valid without units and schedule; a schedule needs its units and the scheduler fields of the config.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -13,9 +13,7 @@
     "config",
     "shells",
     "ultimate_pit",
-    "pushbacks",
-    "units",
-    "schedule"
+    "pushbacks"
   ],
   "properties": {
     "$schema": {
@@ -126,13 +124,7 @@
       "additionalProperties": false,
       "required": [
         "lambdas",
-        "t_min_t",
-        "periods",
-        "mining_capacity_t",
-        "processing_capacity_t",
-        "discount_rate",
-        "time_limit_s",
-        "mip_rel_gap"
+        "t_min_t"
       ],
       "properties": {
         "lambdas": {
@@ -642,5 +634,33 @@
       "maxLength": 64,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
     }
-  }
+  },
+  "dependentRequired": {
+    "schedule": [
+      "units"
+    ]
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "schedule"
+        ]
+      },
+      "then": {
+        "properties": {
+          "config": {
+            "required": [
+              "periods",
+              "mining_capacity_t",
+              "processing_capacity_t",
+              "discount_rate",
+              "time_limit_s",
+              "mip_rel_gap"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }

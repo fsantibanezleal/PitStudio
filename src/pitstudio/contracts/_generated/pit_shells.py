@@ -170,12 +170,12 @@ class Config(BaseModel):
     )
     lambdas: Annotated[list[Lambda], Field(max_length=200, min_length=1)]
     t_min_t: Annotated[float, Field(gt=0.0, le=1000000000000.0)]
-    periods: Annotated[int, Field(ge=1, le=50)]
-    mining_capacity_t: Annotated[list[MiningCapacityTItem], Field(max_length=50, min_length=1)]
-    processing_capacity_t: Annotated[list[ProcessingCapacityTItem], Field(max_length=50, min_length=1)]
-    discount_rate: Annotated[float, Field(ge=0.0, lt=1.0)]
-    time_limit_s: Annotated[float, Field(gt=0.0, le=604800.0)]
-    mip_rel_gap: Annotated[float, Field(ge=0.0, le=0.0001)]
+    periods: Annotated[int | None, Field(ge=1, le=50)] = None
+    mining_capacity_t: Annotated[list[MiningCapacityTItem] | None, Field(max_length=50, min_length=1)] = None
+    processing_capacity_t: Annotated[list[ProcessingCapacityTItem] | None, Field(max_length=50, min_length=1)] = None
+    discount_rate: Annotated[float | None, Field(ge=0.0, lt=1.0)] = None
+    time_limit_s: Annotated[float | None, Field(gt=0.0, le=604800.0)] = None
+    mip_rel_gap: Annotated[float | None, Field(ge=0.0, le=0.0001)] = None
 
 
 class Licence(BaseModel):
@@ -250,7 +250,7 @@ class Shell(BaseModel):
 
 class E1ShellsPushbacksAndSchedule(BaseModel):
     """
-    Nested pit shells, pushbacks, bench-phase units and the MILP schedule written by the planner (DC-017-03, spec 017-planning-survey).
+    Nested pit shells, pushbacks, bench-phase units and the MILP schedule written by the planner (DC-017-03, spec 017-planning-survey). A shells-only result (shells, ultimate pit, pushbacks) is valid without units and schedule; a schedule needs its units and the scheduler fields of the config.
     """
 
     model_config = ConfigDict(
@@ -265,5 +265,5 @@ class E1ShellsPushbacksAndSchedule(BaseModel):
     shells: Annotated[list[Shell], Field(max_length=200, min_length=1)]
     ultimate_pit: UltimatePit
     pushbacks: Annotated[list[Pushback], Field(max_length=200, min_length=1)]
-    units: Annotated[list[Unit], Field(max_length=200000, min_length=0)]
-    schedule: Schedule
+    units: Annotated[list[Unit] | None, Field(max_length=200000, min_length=0)] = None
+    schedule: Schedule | None = None

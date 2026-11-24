@@ -364,6 +364,33 @@
       "keyword": "const"
     },
     {
+      "file": "pit-shells.valid-shells-only.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "shells-only result: shells, ultimate pit and pushbacks without units, schedule or scheduler configuration"
+    },
+    {
+      "file": "pit-shells.hostile-schedule-without-units.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "schedule without its bench-phase units",
+      "rule": "FR-017-22",
+      "pointer": "",
+      "keyword": "dependentRequired"
+    },
+    {
+      "file": "pit-shells.hostile-schedule-without-config.json",
+      "schema": "pit-shells.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "schedule without the scheduler fields of the configuration",
+      "rule": "FR-017-22",
+      "pointer": "/config",
+      "keyword": "required"
+    },
+    {
       "file": "survey-volume.valid.json",
       "schema": "survey-volume.schema.json",
       "target": "#",
