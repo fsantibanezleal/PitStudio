@@ -106,6 +106,7 @@ tests/unit/test_t_002_072_profile_cmd.py
 tests/unit/test_t_002_092_profile_duplicate_gpu.py
 tests/unit/test_t_002_093_result_duplicate_output_path.py
 tests/unit/test_t_002_094_thermal_guard.py
+tests/unit/test_t_002_103_supersedes.py
 tests/unit/test_t_003_010_startup.py
 tests/unit/test_t_003_015_latency_idempotence.py
 tests/unit/test_t_003_023_unavailable_store.py
