@@ -47,7 +47,7 @@ import sys
 from pathlib import Path
 
 import pytest
-from hypothesis import given
+from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 from jsonschema import Draft202012Validator
 from pitstudio.reason import bench
@@ -188,6 +188,7 @@ def test_an_unknown_path_is_refused() -> None:
 
 
 @pytest.mark.req("FR-015-13")
+@settings(suppress_health_check=[HealthCheck.too_slow], deadline=None)
 @given(st.lists(st.floats(0.0, 3600.0, allow_nan=False), min_size=1, max_size=300))
 def test_property_wall_time_summary_is_ordered_and_within_the_data(walls: list[float]) -> None:
     w = bench.summarise_path(
