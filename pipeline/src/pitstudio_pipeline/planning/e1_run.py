@@ -135,8 +135,18 @@ def run_e1(
         masks=[p.masks[0] for p in parts],
         ultimate_pit=parts[-1].ultimate_pit | {"shell": len(parts) - 1},
     )
+    # A pushback is accounted by the destination of its blocks at the ultimate pit (revenue factor of the last
+    # shell), so its ore and waste tonnages never fall (at a smaller shell's own factor a block may be waste that is
+    # ore later).
+    last_lam = LAMBDA_GRID[-1]
+    ore_final = (last_lam * inst.grade * econ["recovery"] * econ["price"] - econ["processing_cost"]) > 0
     shells = [
-        {"lambda": r["lambda"], "mask": m, "ore_t": r["ore_t"], "waste_t": r["waste_t"]}
+        {
+            "lambda": r["lambda"],
+            "mask": m,
+            "ore_t": float(inst.tonnage[m & ore_final].sum()),
+            "waste_t": float(inst.tonnage[m & ~ore_final].sum()),
+        }
         for r, m in zip(table.rows, table.masks, strict=True)
     ]
     pushbacks = build_pushbacks(shells, t_min_t=t_min_t)
