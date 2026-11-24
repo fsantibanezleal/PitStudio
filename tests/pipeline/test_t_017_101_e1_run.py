@@ -202,3 +202,26 @@ def test_every_written_file_has_lf_line_ends_so_its_published_digest_equals_the_
     out, _ = run
     files = [out / "e1-shells.json", out / "e1-run.json", *sorted((out / "charts").glob("e1-*.json"))]
     assert all(b"\r" not in f.read_bytes() for f in files)
+
+
+@pytest.mark.req("FR-017-17")
+def test_pushback_tonnages_are_never_negative_and_split_the_ultimate_pit_by_its_own_destinations(
+    tmp_path: Path,
+) -> None:
+    # on this deposit the destination of a block at its own shell's revenue factor makes the incremental waste of the
+    # last pushback negative (waste blocks of a small shell turn into ore in a larger one): a pushback is accounted by
+    # the destination of its blocks at the ultimate pit
+    run_e1(tmp_path, archetype="porphyry", dims=(12, 12, 8), seed=3, t_min_t=1.0e6, section_lambdas=[1.0], clock=time)
+    doc = _doc(tmp_path)
+    n = doc["block_model"]["n_blocks"]
+    inst = twin_instance("porphyry", (12, 12, 8), 3)
+    e = inst.econ
+    ore = (inst.grade * e["recovery"] * e["price"] - e["processing_cost"]) > 0
+    final = _bits(doc["shells"][-1]["blocks"], n)
+    assert all(pb["ore_t"] >= 0 and pb["waste_t"] >= 0 for pb in doc["pushbacks"])
+    assert sum(pb["ore_t"] for pb in doc["pushbacks"]) == pytest.approx(
+        float(inst.tonnage[final & ore].sum()), rel=1e-12
+    )
+    assert sum(pb["waste_t"] for pb in doc["pushbacks"]) == pytest.approx(
+        float(inst.tonnage[final & ~ore].sum()), rel=1e-12
+    )
