@@ -10,8 +10,9 @@ ovrtx S3 handoff of spec 013) and is reported as skipped in the table manifest.
 
 Every height comes from the carved surface of `st20_pit_design` (FR-004-50), the surface the renderer shows
 (FR-009-54): a camera pose is accepted only when the ray along its optical axis meets the surface farther than
-`VIEW_NEAR_M` or not at all, and an object is visible only when the camera sees its footprint centroid at mid-height
-and its top centre. An object that is not visible is drawn again within the placement tries and then recorded with
+`VIEW_NEAR_M` or not at all and the median depth of a 16 by 9 grid of rays is at least `VIEW_NEAR_M` (FR-009-56), and
+an object is visible only when the camera sees its footprint centroid at mid-height and its top centre. An object
+that is not visible is drawn again within the placement tries and then recorded with
 `visible: false` in the row. A scene without a carved surface (built before FR-004-50) keeps the road-centre-line height
 and every object is visible.
 """
@@ -33,7 +34,7 @@ import numpy as np
 import shapely
 from shapely.geometry.base import BaseGeometry
 
-from pitstudio_studio.sdg import dust_field, dust_wet, placement, sun
+from pitstudio_studio.sdg import carved_surface, dust_field, dust_wet, placement, sun
 from pitstudio_studio.sdg._schemas import schema_errors
 from pitstudio_studio.sdg.config import load_config
 from pitstudio_studio.sdg.objects import dimensions, footprint
@@ -46,6 +47,7 @@ CAMERA_HEIGHT_M = (2.5, 6.0)  # above the design surface: cab to gantry height
 CAMERA_PITCH_DEG = (2.0, 8.0)  # looking down
 CAMERA_HFOV_DEG = (60.0, 90.0)
 VIEW_NEAR_M, VIEW_FAR_M = 10.0, 250.0
+VIEW_GRID = (16, 9)  # columns and rows of the pixel-centre ray grid of the clear-view check (FR-009-56)
 MIN_INSTANCE_PX = 16  # the renderer's `scene_render.MIN_INSTANCE_PX`: a smaller instance gets no annotation
 VIEW_MAX_RANGE_M = 4000.0  # the camera's far clipping distance in the renderer
 MIN_VISIBLE_M2 = 100.0
@@ -67,6 +69,48 @@ def camera_clear(scene: SceneInputs, camera: dict[str, Any]) -> bool:
         return True
     hit = scene.carved.first_hit(camera["position_m"], camera["forward"], VIEW_MAX_RANGE_M)
     return hit is None or hit > VIEW_NEAR_M
+
+
+def view_depths(scene: SceneInputs, camera: dict[str, Any]) -> np.ndarray:
+    """FR-009-56: image-plane depth of each `VIEW_GRID` pixel-centre ray on the carved surface (NaN: no hit).
+
+    The 144 values are row-major, the top row first. The depth is the ray distance times the cosine of the angle to
+    the optical axis, the quantity the rendered depth map holds. A scene without a carved surface has no hit.
+    """
+    cols, rows = VIEW_GRID
+    out = np.full(cols * rows, np.nan)
+    if scene.carved is None:
+        return out
+    eye, forward, right, up = _camera_axes(camera)
+    fx = camera["fx_px"]
+    fy = camera.get("fy_px", fx)
+    cx = camera.get("cx_px", camera["width_px"] / 2.0)
+    cy = camera.get("cy_px", camera["height_px"] / 2.0)
+    u = (np.arange(cols) + 0.5) / cols * camera["width_px"]
+    v = (np.arange(rows) + 0.5) / rows * camera["height_px"]
+    uu, vv = np.meshgrid(u, v)  # row-major: the top row first
+    rays = (
+        forward[None, :]
+        + ((uu.ravel() - cx) / fx)[:, None] * right[None, :]
+        - ((vv.ravel() - cy) / fy)[:, None] * up[None, :]
+    )
+    rays /= np.linalg.norm(rays, axis=1, keepdims=True)
+    step = carved_surface.MARCH_STEP_CELLS * scene.carved.cell_size_m  # the march of `CarvedSurface.first_hit`
+    distances = np.arange(0.0, VIEW_MAX_RANGE_M + step, step)
+    for k in range(rows * cols):
+        points = eye[None, :] + distances[:, None] * rays[k][None, :]
+        with np.errstate(invalid="ignore"):
+            below = points[:, 2] < np.asarray(scene.carved.height(points[:, 0], points[:, 1]))
+        if below.any():
+            out[k] = distances[int(np.argmax(below))] * float(rays[k] @ forward)
+    return out
+
+
+def camera_view_clear(scene: SceneInputs, camera: dict[str, Any]) -> bool:
+    """FR-009-56: the median finite grid depth is at least `VIEW_NEAR_M` (true when no ray meets the surface)."""
+    depths = view_depths(scene, camera)
+    finite = depths[np.isfinite(depths)]
+    return finite.size == 0 or float(np.median(finite)) >= VIEW_NEAR_M
 
 
 def object_visible(scene: SceneInputs, camera: dict[str, Any], placement: dict[str, Any], dims: dict[str, Any]) -> bool:
@@ -307,7 +351,7 @@ def scenario_geometry(scene: SceneInputs, recipe_seed: int, seed: int) -> dict[s
             "cx_px": IMAGE_W / 2.0,
             "cy_px": IMAGE_H / 2.0,
         }
-        if not camera_clear(scene, camera):
+        if not camera_view_clear(scene, camera) or not camera_clear(scene, camera):
             continue
         return {"layout_id": edge.edge_id, "camera": camera, "areas": areas, "heading_deg": heading, "hfov_deg": hfov}
     raise ValueError(f"no camera site with a visible road found for seed {seed}")
