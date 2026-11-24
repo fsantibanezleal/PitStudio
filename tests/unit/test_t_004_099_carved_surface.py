@@ -104,7 +104,7 @@ def test_the_windrow_cells_stand_the_windrow_height_above_the_design_surface(fla
     wr = res.windrow_mask & res.inside
     assert wr.sum() > 100
     assert np.allclose(res.z_carved[wr] - res.z_design[wr], 2.5, atol=1e-5)
-    plain = res.inside & ~res.windrow_mask
+    plain = res.inside & (res.windrow_raise == 0.0)
     assert np.allclose(res.z_carved[plain], res.z_design[plain], atol=1e-6)
 
 

@@ -104,7 +104,7 @@ def test_carving_rule_and_unchanged_terrain_outside_the_outline() -> None:
     deep_in, far_out = _inside(Polygon(outline), grid, 2.0)
     zt = grid.elevation.astype(np.float64)
     np.testing.assert_array_equal(np.asarray(res.z_final)[far_out], grid.elevation[far_out])  # terrain untouched
-    expected = np.minimum(zt, res.z_design) + np.where(res.windrow_mask, 2.0, 0.0)
+    expected = np.minimum(zt, res.z_design) + res.windrow_raise
     np.testing.assert_allclose(np.asarray(res.z_final, dtype=np.float64)[deep_in], expected[deep_in], atol=1e-4)
     assert res.windrow_mask.any() and not res.windrow_mask[far_out].any()
 
