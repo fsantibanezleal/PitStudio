@@ -253,12 +253,10 @@ def test_object_heights_come_from_the_carved_surface_and_visibility_agrees_with_
             depth = max(march(surface, cam, mid), march(surface, cam, top))
             if obj["visible"]:
                 assert depth < 0.25, (seed, obj["prim_id"], depth)
-            else:
-                assert depth >= 0.0, (
-                    seed,
-                    obj["prim_id"],
-                    depth,
-                )  # hidden for a reason: the sight line meets the surface
+            elif depth < 0.0:
+                assert table.projected_box_px(row["camera"], p, dimensions(p["class"])) < table.MIN_INSTANCE_PX or (
+                    table.object_occluded(row["camera"], p, [q for q in row["dr"]["placements"] if q is not p])
+                ), (seed, obj["prim_id"])
             seen[obj["visible"]] += 1
     assert seen[True] > 20
 
