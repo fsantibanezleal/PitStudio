@@ -16950,6 +16950,7 @@
       ],
       "tests": [
         "tests/pipeline/test_t_017_102_e2_run.py",
+        "tests/pipeline/test_t_017_103_coarse_pair.py",
         "tests/property/test_t_017_040_dem_difference.py",
         "web/src/engines/volume/t_018_072_volume.test.ts"
       ]
@@ -16976,7 +16977,8 @@
         "T-017-042"
       ],
       "tests": [
-        "tests/pipeline/test_t_017_042_dem_prepare.py"
+        "tests/pipeline/test_t_017_042_dem_prepare.py",
+        "tests/pipeline/test_t_017_103_coarse_pair.py"
       ]
     },
     "FR-017-33": {
@@ -16989,6 +16991,7 @@
       ],
       "tests": [
         "tests/pipeline/test_t_017_102_e2_run.py",
+        "tests/pipeline/test_t_017_103_coarse_pair.py",
         "tests/unit/test_t_017_041_volume_uncertainty.py",
         "web/src/engines/volume/t_018_072_volume.test.ts"
       ]
@@ -17003,7 +17006,8 @@
       ],
       "tests": [
         "tests/pipeline/test_t_017_043_bingham_volume.py",
-        "tests/pipeline/test_t_017_102_e2_run.py"
+        "tests/pipeline/test_t_017_102_e2_run.py",
+        "tests/pipeline/test_t_017_103_coarse_pair.py"
       ]
     },
     "FR-017-35": {
@@ -17217,7 +17221,8 @@
       "tests": [
         "tests/contract/test_t_017_070_planning_survey_manifests.py",
         "tests/pipeline/test_t_017_101_e1_run.py",
-        "tests/pipeline/test_t_017_102_e2_run.py"
+        "tests/pipeline/test_t_017_102_e2_run.py",
+        "tests/pipeline/test_t_017_103_coarse_pair.py"
       ]
     },
     "FR-017-52": {
@@ -17812,7 +17817,8 @@
         "T-018-102",
         "T-018-103",
         "T-018-110",
-        "T-018-111"
+        "T-018-111",
+        "T-018-112"
       ],
       "tests": []
     },
@@ -18837,6 +18843,18 @@
       ],
       "tests": [
         "tests/unit/test_t_018_111_a3_chart_series.py"
+      ]
+    },
+    "FR-018-87": {
+      "spec": "018-web-cases",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-018-112"
+      ],
+      "tests": [
+        "web/src/cases/t_018_112_placeholders.test.tsx"
       ]
     },
     "P-018-01": {
@@ -25603,6 +25621,10 @@
     "T-018-111": [
       "US-018-7",
       "FR-018-86"
+    ],
+    "T-018-112": [
+      "US-018-7",
+      "FR-018-87"
     ],
     "T-018-088": [
       "US-018-3",

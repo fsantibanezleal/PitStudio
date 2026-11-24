@@ -951,11 +951,11 @@
 | FR-017-27 | 017-planning-survey | draft | T-017-026 | tests/unit/test_t_017_026_block_model_guards.py |
 | FR-017-28 | 017-planning-survey | draft | T-017-030 | tests/pipeline/test_t_017_030_schedule.py |
 | FR-017-29 | 017-planning-survey | draft | T-017-034 | web/e2e/e1-composer-captures.spec.ts |
-| FR-017-30 | 017-planning-survey | draft | T-017-040 | tests/pipeline/test_t_017_102_e2_run.py, tests/property/test_t_017_040_dem_difference.py, web/src/engines/volume/t_018_072_volume.test.ts |
+| FR-017-30 | 017-planning-survey | draft | T-017-040 | tests/pipeline/test_t_017_102_e2_run.py, tests/pipeline/test_t_017_103_coarse_pair.py, tests/property/test_t_017_040_dem_difference.py, web/src/engines/volume/t_018_072_volume.test.ts |
 | FR-017-31 | 017-planning-survey | draft | T-017-042 | tests/pipeline/test_t_017_042_dem_prepare.py, tests/pipeline/test_t_017_102_e2_run.py |
-| FR-017-32 | 017-planning-survey | draft | T-017-042 | tests/pipeline/test_t_017_042_dem_prepare.py |
-| FR-017-33 | 017-planning-survey | draft | T-017-041 | tests/pipeline/test_t_017_102_e2_run.py, tests/unit/test_t_017_041_volume_uncertainty.py, web/src/engines/volume/t_018_072_volume.test.ts |
-| FR-017-34 | 017-planning-survey | draft | T-017-043 | tests/pipeline/test_t_017_043_bingham_volume.py, tests/pipeline/test_t_017_102_e2_run.py |
+| FR-017-32 | 017-planning-survey | draft | T-017-042 | tests/pipeline/test_t_017_042_dem_prepare.py, tests/pipeline/test_t_017_103_coarse_pair.py |
+| FR-017-33 | 017-planning-survey | draft | T-017-041 | tests/pipeline/test_t_017_102_e2_run.py, tests/pipeline/test_t_017_103_coarse_pair.py, tests/unit/test_t_017_041_volume_uncertainty.py, web/src/engines/volume/t_018_072_volume.test.ts |
+| FR-017-34 | 017-planning-survey | draft | T-017-043 | tests/pipeline/test_t_017_043_bingham_volume.py, tests/pipeline/test_t_017_102_e2_run.py, tests/pipeline/test_t_017_103_coarse_pair.py |
 | FR-017-35 | 017-planning-survey | draft | T-017-044 | tests/property/test_t_017_044_known_volume_scene.py |
 | FR-017-36 | 017-planning-survey | draft | T-017-045 | tests/contract/test_t_017_045_survey_flights.py |
 | FR-017-37 | 017-planning-survey | draft | T-017-046 | tests/gpu/test_t_017_046_reconstruction_smoke.py, tests/unit/test_t_017_046_reconstruction.py |
@@ -972,7 +972,7 @@
 | FR-017-48 | 017-planning-survey | draft | T-017-040 | tests/property/test_t_017_040_dem_difference.py, web/src/engines/volume/t_018_072_volume.test.ts |
 | FR-017-49 | 017-planning-survey | draft | T-017-049 | tests/pipeline/test_t_017_049_splat_package.py, web/e2e/e2-splat-view.spec.ts |
 | FR-017-50 | 017-planning-survey | draft | T-017-050 | tests/unit/test_t_017_050_survey_fake_gpu.py |
-| FR-017-51 | 017-planning-survey | draft | T-017-070 | tests/contract/test_t_017_070_planning_survey_manifests.py, tests/pipeline/test_t_017_101_e1_run.py, tests/pipeline/test_t_017_102_e2_run.py |
+| FR-017-51 | 017-planning-survey | draft | T-017-070 | tests/contract/test_t_017_070_planning_survey_manifests.py, tests/pipeline/test_t_017_101_e1_run.py, tests/pipeline/test_t_017_102_e2_run.py, tests/pipeline/test_t_017_103_coarse_pair.py |
 | FR-017-52 | 017-planning-survey | draft | T-017-092 | tests/pipeline/test_t_017_092_fixture_propagation.py |
 | FR-017-53 | 017-planning-survey | draft | T-017-093 | tests/pipeline/test_t_017_093_partial_cells.py |
 | FR-018-01 | 018-web-cases | draft | T-018-020 | web/e2e/t_018_020_explore_pit.spec.ts |
@@ -1057,6 +1057,7 @@
 | FR-018-80 | 018-web-cases | draft | T-018-103 | web/src/cases/t_018_103_built_with_collapsed.test.tsx, web/e2e/t_018_103_built_with_collapsed.spec.ts |
 | FR-018-85 | 018-web-cases | draft | T-018-110 | web/src/cases/t_018_110_chart_fixes.test.tsx |
 | FR-018-86 | 018-web-cases | draft | T-018-111 | tests/unit/test_t_018_111_a3_chart_series.py |
+| FR-018-87 | 018-web-cases | draft | T-018-112 | web/src/cases/t_018_112_placeholders.test.tsx |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_010_tool_map.spec.ts |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts, web/src/studio/t_019_010_tool_map.test.tsx |
 | FR-019-03 | 019-web-studio | draft | T-019-011 | web/e2e/t_019_011_map_fallback.spec.ts |
@@ -1810,7 +1811,7 @@
 | US-018-4 | 018-web-cases | draft | T-018-010, T-018-011, T-018-012, T-018-013, T-018-014, T-018-015, T-018-016, T-018-017, T-018-036 | - |
 | US-018-5 | 018-web-cases | draft | T-018-040, T-018-041, T-018-042 | - |
 | US-018-6 | 018-web-cases | draft | T-018-035 | - |
-| US-018-7 | 018-web-cases | draft | T-018-025, T-018-095, T-018-096, T-018-097, T-018-098, T-018-099, T-018-100, T-018-101, T-018-102, T-018-103, T-018-110, T-018-111 | - |
+| US-018-7 | 018-web-cases | draft | T-018-025, T-018-095, T-018-096, T-018-097, T-018-098, T-018-099, T-018-100, T-018-101, T-018-102, T-018-103, T-018-110, T-018-111, T-018-112 | - |
 | US-019-1 | 019-web-studio | draft | T-019-010, T-019-011, T-019-012, T-019-035, T-019-036, T-019-040, T-019-041 | web/e2e/t_019_010_tool_map.spec.ts |
 | US-019-2 | 019-web-studio | draft | T-019-020, T-019-021, T-019-022, T-019-023, T-019-024 | - |
 | US-019-3 | 019-web-studio | draft | T-019-030, T-019-031, T-019-032 | - |
