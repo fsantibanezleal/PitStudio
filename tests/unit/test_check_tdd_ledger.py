@@ -133,3 +133,48 @@ def test_rows_outside_the_waivers_section_are_not_waivers(work: Path) -> None:
 def test_a_missing_ledger_waives_nothing(work: Path) -> None:
     assert check_tdd.load_approvals(work) == set()
     assert not check_tdd.waived(set(), "a" * 40, 1)
+
+
+# ---- several task ids in one subject: every id is held to the rules as a single-id subject is -----------------
+def test_a_green_with_several_ids_is_accepted_when_each_id_has_an_earlier_red(
+    repo: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    commit(
+        repo,
+        "test(T-004-097,T-004-098): FR-004-48 FR-004-49 pins [red]",
+        {"tests/test_a.py": "def test_a(): assert 0\n"},
+    )
+    commit(repo, "feat(T-004-097,T-004-098): FR-004-48 FR-004-49 thing [green]", {"a.py": "1\n"})
+    code, out = run(repo, monkeypatch, capsys)
+    assert code == 0, out
+
+
+def test_a_green_with_several_ids_is_accepted_when_the_reds_came_one_per_id(
+    repo: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    commit(repo, "test(T-004-097): FR-004-48 pin [red]", {"tests/test_a.py": "def test_a(): assert 0\n"})
+    commit(repo, "test(T-004-098): FR-004-49 pin [red]", {"tests/test_b.py": "def test_b(): assert 0\n"})
+    commit(repo, "feat(T-004-097, T-004-098): FR-004-48 FR-004-49 thing [green]", {"a.py": "1\n"})
+    code, out = run(repo, monkeypatch, capsys)
+    assert code == 0, out
+
+
+def test_a_green_with_several_ids_fails_for_the_id_that_has_no_red(
+    repo: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    commit(repo, "test(T-004-097): FR-004-48 pin [red]", {"tests/test_a.py": "def test_a(): assert 0\n"})
+    commit(repo, "feat(T-004-097,T-004-098): FR-004-48 FR-004-49 thing [green]", {"a.py": "1\n"})
+    code, out = run(repo, monkeypatch, capsys)
+    assert code == 1
+    assert "T-004-098 has no earlier [red] commit" in out
+    assert "T-004-097 has no earlier" not in out
+
+
+def test_a_green_with_no_id_still_fails_and_a_waiver_does_not_clear_it(
+    repo: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    sha = commit(repo, "feat: thing without an id [green]", {"a.py": "1\n"})
+    commit(repo, "docs: ledger", {"specs/approvals.md": LEDGER_HEAD + f"| {sha[:7]} | 1 | owner 2026-10-12 | x |\n"})
+    code, out = run(repo, monkeypatch, capsys)
+    assert code == 1
+    assert "without a task id" in out

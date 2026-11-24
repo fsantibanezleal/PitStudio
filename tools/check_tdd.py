@@ -26,7 +26,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK = re.compile(r"\((T-\d{3}-\d{3})\)")
+TASK = re.compile(r"\((T-\d{3}-\d{3}(?:\s*,\s*T-\d{3}-\d{3})*)\)")
 SKIP_ADDED = re.compile(
     r"^\+(?!\+\+).*(pytest\.mark\.(skip|xfail)|pytest\.skip\(|\.only\(|\b(it|test|describe)\.skip\b|"
     r"\b(it|test|describe)\.todo\b|@unittest\.skip)"
@@ -119,10 +119,12 @@ def main(argv: list[str]) -> int:
             return waived(ledger, sha, rule)
 
         m = TASK.search(subject)
-        tid = m.group(1) if m else None
+        tids = [t.strip() for t in m.group(1).split(",")] if m else []
+        tid = tids[0] if tids else None
         changed = git("show", "--name-only", "--format=", sha, check=False).splitlines()
         if "[red]" in subject and tid:
-            red_seen.setdefault(tid, sha)
+            for t in tids:
+                red_seen.setdefault(t, sha)
             added = git("show", "--diff-filter=A", "--name-only", "--format=", sha, check=False).splitlines()
             red_commits.append(
                 (sha, [f for f in added if f.startswith("tests/") or "/tests/" in f or ".test." in f or ".spec." in f])
@@ -130,8 +132,12 @@ def main(argv: list[str]) -> int:
         if "[green]" in subject:
             if not tid:
                 errs.append(f"{short}: [green] commit without a task id '(T-NNN-xxx)' in its subject")
-            elif tid not in red_seen and not ok(1):
-                errs.append(f"{short}: [green] for {tid} has no earlier [red] commit")
+            else:
+                errs.extend(
+                    f"{short}: [green] for {t} has no earlier [red] commit"
+                    for t in tids
+                    if t not in red_seen and not ok(1)
+                )
             if parent:
                 locked_before = lock_for(parent, None, lock_cache)
                 touched = sorted(set(changed) & set(locked_before))
