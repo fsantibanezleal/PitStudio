@@ -15,7 +15,7 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
-from pitstudio_pipeline.slope import c1_charts
+from pitstudio_pipeline.slope import c1_charts, c1_real_charts
 
 RUNS = ("c1-error-results", "c1-event-curves", "c1-real-event", "c1-wall-sections")
 SYNTH = "calibrated synthetic, not validated against real data"
@@ -111,6 +111,34 @@ def summary_of(slug: str, data: Mapping[str, Any]) -> dict[str, Any]:
                 for e in curves["events"]
             ],
         }
+    if slug == "c1-real-event" and data["real"]["state"]["status"] == "run":
+        pair = data["real"]["pair"]
+        prim = pair["primary"]
+        return {
+            "methods": ["M14"],
+            "title": "C1 single real event (de Wit): time-to-failure forecasts at the cut-offs 0.5 and 0.8",
+            "label": c1_charts.REAL_LABEL + "; failure time at day resolution from two documentary sources",
+            "verdict": "ok",
+            "headline": [
+                _hw("SNR_obs of the real series", prim["snr_obs"], "1", "FR-010-12, between t_0 and t_f"),
+                _hw(
+                    "Record length t_f - t_0",
+                    prim["t_f_h"],
+                    "h",
+                    f"t_f {prim['t_f_instant']} with an uncertainty of {prim['t_f_uncertainty_h']:g} h",
+                ),
+            ],
+            "rows": [
+                {
+                    "cutoff": r["cutoff"],
+                    "method": r["method"],
+                    "outcome": r["outcome"],
+                    "t_hat_f_h": None if "t_hat_f_h" not in r else round(r["t_hat_f_h"], 2),
+                    "signed_error_h": None if "signed_error_h" not in r else round(r["signed_error_h"], 2),
+                }
+                for r in prim["rows"]
+            ],
+        }
     if slug == "c1-real-event":
         real = data["real"]
         return {
@@ -172,8 +200,9 @@ def import_spec(
     extra_outputs: Sequence[tuple[str, str]],
     *,
     inputs: Sequence[Mapping[str, Any]],
+    real_run: bool = False,
 ) -> dict[str, Any]:
-    """The import spec of a run folder (see the module docstring)."""
+    """The import spec of a run folder (see the module docstring); ``real_run``: the de Wit event was evaluated."""
     stage, tool = STAGES[slug]
     licence = ("attribution", "CC-BY-4.0") if slug == "c1-real-event" else ("own", "CC-BY-4.0")
     common = {"budget_class": "studio-showcase", "licence_class": licence[0], "spdx": licence[1]}
@@ -203,7 +232,9 @@ def import_spec(
         }
     )
     label = (
-        c1_charts.REAL_LABEL + "; not run: the archive states no failure time"
+        c1_charts.REAL_LABEL + "; failure time at day resolution from two documentary sources, prism-median series"
+        if slug == "c1-real-event" and real_run
+        else c1_charts.REAL_LABEL + "; not run: the archive states no failure time"
         if slug == "c1-real-event"
         else c1_charts.WALL_LABEL
         if slug == "c1-wall-sections"
@@ -239,10 +270,31 @@ def _write(path: Path, obj: Any) -> None:
     path.write_text(json.dumps(obj, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def _real_plan(real: Mapping[str, Any], prod_not_run: Mapping[str, str], prod_run: Mapping[str, str]):
+    """The real-event charts: the not-run pair, or, once the series was evaluated, the six charts of the run."""
+    if real["state"]["status"] != "run":
+        return c1_charts.real_charts(real, producer=prod_not_run)
+    archive = c1_charts.real_charts(real, producer=prod_run)[1]
+    return c1_real_charts.real_event_charts(
+        real["pair"],
+        real["detail"],
+        producer=prod_run,
+        failure_time=real["failure_time"],
+        blast=real.get("blast"),
+        archive_table=archive,
+    )
+
+
 def assemble(
-    data_dir: Path, out_dir: Path, specs_dir: Path, *, ttf_results: Path, schema: Path
+    data_dir: Path,
+    out_dir: Path,
+    specs_dir: Path,
+    *,
+    ttf_results: Path,
+    schema: Path,
+    only: Sequence[str] | None = None,
 ) -> dict[str, list[str]]:
-    """Write the four run folders and their import specs; every chart is validated against ``schema`` first."""
+    """Write the run folders (all four, or ``only`` these) and their import specs; every chart is validated first."""
     validator = Draft202012Validator(json.loads(schema.read_text(encoding="utf-8")))
     prod_err = c1_charts.producer(
         "Median with percentile bootstrap, paired percentile bootstrap against inverse velocity, B = 10,000",
@@ -255,6 +307,10 @@ def assemble(
     prod_real = c1_charts.producer(
         "Archive check of Zenodo record 15003054 (checksum, members, ingestion)",
         c1_charts.REAL_LABEL + "; not run: no failure time stated",
+    )
+    prod_real_run = c1_charts.producer(
+        "Prism export of Zenodo record 15003054: median of the top 5 % prisms, five methods at 0.5 and 0.8",
+        c1_charts.REAL_LABEL + "; failure time at day resolution, two documentary sources",
     )
     errors = json.loads((data_dir / "error-results.json").read_text(encoding="utf-8"))
     curves = json.loads((data_dir / "event-curves.json").read_text(encoding="utf-8"))
@@ -273,7 +329,7 @@ def assemble(
     plan = {
         "c1-error-results": c1_charts.error_charts(errors, producer=prod_err),
         "c1-event-curves": event_charts,
-        "c1-real-event": c1_charts.real_charts(real, producer=prod_real),
+        "c1-real-event": _real_plan(real, prod_real, prod_real_run),
         "c1-wall-sections": c1_charts.wall_charts(walls, oracles, producer=prod_walls),
     }
     src_ttf = {"id": "c1-ttf-results-job33", "sha256": _sha(ttf_results), "kind": "source"}
@@ -281,7 +337,8 @@ def assemble(
         "c1-error-results": [src_ttf],
         "c1-event-curves": [src_ttf]
         + [{"id": f"c1-onnx-{a}", "sha256": curves["onnx_sha256"][a], "kind": "source"} for a in curves["onnx_sha256"]],
-        "c1-real-event": [{"id": "dewit-slope-failure", "sha256": real["evidence"]["sha256"], "kind": "source"}],
+        "c1-real-event": [{"id": "dewit-slope-failure", "sha256": real["evidence"]["sha256"], "kind": "source"}]
+        + [{"id": f"c1-onnx-{a}", "sha256": h, "kind": "source"} for a, h in real.get("onnx_sha256", {}).items()],
         "c1-wall-sections": [
             {"id": "usgs-3dep-bingham", "sha256": dem["source_sha256"], "kind": "source"},
             {"id": "usgs-3dep-bingham-window", "sha256": dem["window_sha256"], "kind": "source"},
@@ -295,7 +352,7 @@ def assemble(
         + [("oracle-check.json", {"checks": oracles})],
     }
     written: dict[str, list[str]] = {}
-    for slug in RUNS:
+    for slug in only if only is not None else RUNS:
         run = out_dir / slug
         for chart in plan[slug]:
             problems = [e.message[:160] for e in validator.iter_errors(chart)]
@@ -315,6 +372,9 @@ def assemble(
         else:
             sdata = {"real": real}
         _write(run / "results-summary.json", summary_of(slug, sdata))
-        _write(specs_dir / f"{slug}.json", import_spec(slug, plan[slug], extra, inputs=inputs[slug]))
+        _write(
+            specs_dir / f"{slug}.json",
+            import_spec(slug, plan[slug], extra, inputs=inputs[slug], real_run=real["state"]["status"] == "run"),
+        )
         written[slug] = [c["id"] for c in plan[slug]]
     return written

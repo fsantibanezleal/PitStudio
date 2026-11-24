@@ -302,6 +302,8 @@ Every artefact is also described by its manifest entry (DC-000-01, `contracts/ma
 
 - Availability states (2026-10-11): FR-010-46, FR-010-47, FR-010-48 added from the module map (`specs/000-foundation/modules.yaml`). They specify how this spec's consumers behave when an input is a fixture, partial, stale or absent. No earlier requirement is modified.
 
+- Failure time of the real event (2026-11-23): t_f = 2014-02-23T00:00 on the archive clock (the archive states no zone; AEST, UTC+10, assumed, UNVERIFIED) at day resolution with an uncertainty of one day, from de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902 (text and Fig. 4) and Taylor and de Wit, SSIM 2023, doi 10.36487/ACG_repo/2335_50 (radar interpretation about 20 February, reported as an unranked sensitivity row); the day interval of an error is the error for t_f anywhere within the uncertainty with the forecast fixed, not an interval of the estimate, so the "no interval" of FR-010-26 holds.
+
 ## 9. Changes (only for features that modify earlier behaviour)
 ### ADDED Requirements
 (none — new feature)

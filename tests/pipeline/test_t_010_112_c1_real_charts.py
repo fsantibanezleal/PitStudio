@@ -4,7 +4,8 @@ Spec: specs/020-web-knowledge/contracts/chart-series.schema.json (the contract),
 Runs in the `pipeline/` environment.
 
 Expected API:
-- `c1_real_eval.bake(document, forecasters, *, seed) -> dict`: per cut-off the observed window, the inverse-velocity fit,
+- `c1_real_eval.bake(document, forecasters, *, seed) -> dict`: per cut-off the observed window, the inverse-velocity
+  fit,
   the Bayesian band and the learned medians, as `c1_curves.bake_event` does for a synthetic event, plus the whole
   displacement record `displacement_t_h` and `displacement_mm`.
 - `c1_real_charts.real_event_charts(pair, detail, *, producer, failure_time, blast, archive_table) -> list[dict]`: the
@@ -110,14 +111,16 @@ def test_every_chart_validates_against_the_contract_and_the_size_cap(charts) -> 
         errors = sorted(VALID.iter_errors(chart), key=lambda e: list(e.path))
         assert not errors, (chart["id"], [(list(e.path), e.message[:120]) for e in errors[:3]])
         assert len(json.dumps(chart)) <= 524_288
-        assert chart["case"] == "C1" and chart["status"] == "ok"
+        assert chart["case"] == "C1"
+        assert chart["status"] == "ok"
 
 
 @pytest.mark.req("FR-010-27")
 def test_the_real_event_table_has_the_twelve_rows_in_the_fixed_order_under_the_label(charts) -> None:
     c = _by_id(charts)["c1-real-event"]
     assert c["chart_type"] == "table"
-    assert LABEL in c["caption"]["en"] and LABEL_ES in c["caption"]["es"]
+    assert LABEL in c["caption"]["en"]
+    assert LABEL_ES in c["caption"]["es"]
     cols = [x["id"] for x in c["table"]["columns"]]
     assert cols[:2] == ["cutoff", "method"]
     rows = c["table"]["rows"]
@@ -169,9 +172,11 @@ def test_the_sensitivity_table_names_its_failure_time_and_says_it_is_not_ranked(
 def test_the_failure_time_table_carries_the_instant_the_uncertainty_the_zone_and_both_citations(charts) -> None:
     c = _by_id(charts)["c1-real-event-failure-time"]
     text = json.dumps(c["table"]["rows"])
-    assert "2014-02-23T00:00:00" in text and "24" in text
+    assert "2014-02-23T00:00:00" in text
+    assert "24" in text
     assert "local time of the archive" in text
-    assert "10.26443/seismica.v5i1.1902" in text and "10.36487/ACG_repo/2335_50" in text
+    assert "10.26443/seismica.v5i1.1902" in text
+    assert "10.36487/ACG_repo/2335_50" in text
     assert "2014-02-20" in text  # the sensitivity value, with its source named
 
 
@@ -179,7 +184,8 @@ def test_the_failure_time_table_carries_the_instant_the_uncertainty_the_zone_and
 def test_the_curve_chart_marks_the_failure_the_blast_the_cut_offs_and_every_forecast(charts) -> None:
     c = _by_id(charts)["c1-real-event-iv"]
     ids = [m["id"] for m in c["markers"]]
-    assert "failure-time" in ids and "blast-2014-02-11" in ids
+    assert "failure-time" in ids
+    assert "blast-2014-02-11" in ids
     assert {"cutoff-05", "cutoff-08"} <= set(ids)
     preds = [i for i in ids if i.startswith("pred-")]
     assert len(preds) == 10  # five methods at two cut-offs (the failed or absent ones are not drawn)

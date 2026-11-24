@@ -93,7 +93,9 @@ def _zip(files: dict[str, str]) -> tuple[bytes, str, int]:
 
 @pytest.fixture
 def archive(tmp_path: Path):
-    raw, md5, size = _zip({"radar-deformation-data/prisms.csv": _csv(_fixture()), "weather-data/rain.csv": "a,b\n1,2\n"})
+    raw, md5, size = _zip(
+        {"radar-deformation-data/prisms.csv": _csv(_fixture()), "weather-data/rain.csv": "a,b\n1,2\n"}
+    )
     path = tmp_path / "Data.zip"
     path.write_bytes(raw)
     return path, md5, size
@@ -177,8 +179,11 @@ def test_the_series_stops_where_fewer_than_half_of_the_selected_prisms_have_a_re
     prisms = _fixture(n_prisms=40)
     # of the 2 selected prisms one stops 2 days before t_f, the other goes on to t_f
     cut = TF - timedelta(days=2)
-    prisms["31-1038"] = [r for r in prisms["31-1038"] if r[0] <= cut]
+    # a 0.5 m step after the first reading keeps it among the selected prisms although its record is shorter
+    rows = [r for r in prisms["31-1038"] if r[0] <= cut]
+    prisms["31-1038"] = [rows[0]] + [(t, e + 0.5, n, h) for t, e, n, h in rows[1:]]
     series = dewit_prisms.build_series(prisms, TF, min_share=1.0)
+    assert "31-1038" in series["prisms"]
     assert series["t0"] + timedelta(hours=series["t_h"][-1]) <= cut
     series_half = dewit_prisms.build_series(prisms, TF, min_share=0.5)
     assert series_half["t0"] + timedelta(hours=series_half["t_h"][-1]) > cut
@@ -196,7 +201,8 @@ def test_the_ingestion_returns_the_series_document_with_snr_obs_units_and_the_fa
     path, md5, size = archive
     result = dewit_prisms.ingest_prisms(path, failure_time=FAILURE, expected_bytes=size, expected_md5=md5)
     doc = result.document
-    assert doc["kind"] == "real-event" and doc["synthetic"] is False
+    assert doc["kind"] == "real-event"
+    assert doc["synthetic"] is False
     assert doc["use"] == "descriptive-evaluation-only"
     assert doc["archive_member"] == "radar-deformation-data/prisms.csv"
     assert doc["extraction"] == "prism-median-top-5pct"
@@ -210,7 +216,8 @@ def test_the_ingestion_returns_the_series_document_with_snr_obs_units_and_the_fa
     assert doc["attribution"] == ATTRIBUTION
     assert doc["archive_sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
     assert doc["prisms"] == ["31-1039", "31-1038"]
-    assert doc["snr_obs"] > 0 and np.isfinite(doc["snr_obs"])
+    assert doc["snr_obs"] > 0
+    assert np.isfinite(doc["snr_obs"])
     assert len(doc["t_h"]) == len(doc["los_displacement_mm"])
     assert doc["source_units"] == {"displacement": "mm", "time": "h"}
     assert result.manifest["snr_obs"] == doc["snr_obs"]
@@ -251,7 +258,7 @@ def test_a_failure_time_without_two_citations_a_zone_or_a_valid_instant_is_rejec
 
 @pytest.mark.req("FR-010-14")
 def test_a_checksum_mismatch_and_a_hostile_member_name_are_rejected(archive, tmp_path: Path) -> None:
-    path, md5, size = archive
+    path, _md5, size = archive
     with pytest.raises(dewit.DewitRejected, match="checksum"):
         dewit_prisms.ingest_prisms(path, failure_time=FAILURE, expected_bytes=size, expected_md5="0" * 32)
     raw, md5b, sizeb = _zip({"../evil/prisms.csv": _csv(_fixture())})

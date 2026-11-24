@@ -7,6 +7,7 @@ Sub-commands (every one deterministic for its seeds, CPU only, writes JSON under
     python -m pitstudio_pipeline.slope.c1_results errors --events-from ttf-results.json --out DIR
     python -m pitstudio_pipeline.slope.c1_results curves --events-from ttf-results.json --onnx DIR --out DIR
     python -m pitstudio_pipeline.slope.c1_results real --archive Data.zip --out DIR
+    python -m pitstudio_pipeline.slope.c1_results dewit --archive Data.zip --onnx DIR --out DIR
 
 The 1 m 3DEP tile is LZW compressed and ``tifffile`` here has no ``imagecodecs``, so ``crop-dem`` writes an uncompressed
 window of it (same georeferencing, no resampling) and ``walls`` reads that window; the SHA-256 of the source tile is
@@ -271,6 +272,71 @@ def real(archive: Path, out: Path) -> None:
     )
 
 
+def dewit(archive: Path, onnx_dir: Path, out: Path) -> None:
+    """The de Wit real event: the prism series, the five methods at 0.5 and 0.8, the sensitivity row, chart inputs."""
+    import zipfile
+
+    from pitstudio_pipeline.slope import c1_curves, c1_real, c1_real_eval, dewit_prisms
+    from pitstudio_pipeline.slope import dewit as dewit_mod
+
+    evidence = c1_real.archive_evidence(
+        archive, expected_bytes=dewit_mod.EXPECTED_BYTES, expected_md5=dewit_mod.EXPECTED_MD5
+    )
+    primary = dewit_prisms.ingest_prisms(archive, failure_time=c1_real_eval.PRIMARY_FAILURE)
+    sens = dewit_prisms.ingest_prisms(archive, failure_time=c1_real_eval.SENSITIVITY_FAILURE)
+    forecasters = c1_curves.load_onnx_forecasters(onnx_dir)
+    pair = c1_real_eval.evaluate_pair(primary.document, sens.document, forecasters, seed=SEED)
+    detail = c1_real_eval.bake(primary.document, forecasters, seed=SEED)
+    with zipfile.ZipFile(archive) as z:
+        events_csv = z.read("seismic-event-data/events-and-blasts.csv").decode("utf-8", "replace")
+    blast = c1_real_eval.blast_marker(events_csv, c1_real_eval.BLAST_DATE, utc_offset_h=10.0)
+    state = {
+        "event_id": dewit_mod.EVENT_ID,
+        "status": "run",
+        "label": c1_real.LABEL,
+        "label_es": c1_real.LABEL_ES,
+        "snr_obs": primary.document["snr_obs"],
+    }
+    _write(
+        out / "real-event.json",
+        {
+            "evidence": evidence,
+            "state": state,
+            "failure_time": c1_real_eval.PRIMARY_FAILURE,
+            "sensitivity_failure_time": c1_real_eval.SENSITIVITY_FAILURE,
+            "series": primary.document,
+            "sensitivity_series": {
+                k: sens.document[k]
+                for k in (
+                    "t_0_instant",
+                    "t_f_instant",
+                    "t_f_h",
+                    "snr_obs",
+                    "prisms",
+                    "sampling",
+                    "t_h",
+                    "los_displacement_mm",
+                )
+            },
+            "pair": pair,
+            "detail": detail,
+            "blast": blast,
+            "onnx_sha256": {a: _sha(onnx_dir / f) for a, f in c1_curves.ONNX_FILES.items()},
+            "record_page_check": {
+                "zenodo_record_15003054": "read 2026-11-23: no failure date, no description of the radar files "
+                "or units",
+                "seismica_article_1902": "the failure date is quoted from the article text by the main session; the "
+                "article page reachable here shows the abstract only (UNVERIFIED by this run)",
+            },
+        },
+    )
+    print(
+        f"series {len(primary.document['t_h'])} epochs, t_f_h {primary.document['t_f_h']:.1f}, "
+        f"SNR_obs {primary.document['snr_obs']:.2f}, prisms {primary.document['prisms']}",
+        flush=True,
+    )
+
+
 def oracle(walls_dir: Path, out: Path) -> None:
     """The pySlope planar-reduction check of every wall section found in walls_dir (root environment: pySlope)."""
     from pitstudio_pipeline.slope import c1_oracle
@@ -287,11 +353,18 @@ def oracle(walls_dir: Path, out: Path) -> None:
     _write(out / "oracle-check.json", {"checks": checks})
 
 
-def assemble(data_dir: Path, out_dir: Path, specs_dir: Path, ttf_results: Path, schema: Path) -> None:
+def assemble(
+    data_dir: Path,
+    out_dir: Path,
+    specs_dir: Path,
+    ttf_results: Path,
+    schema: Path,
+    only: list[str] | None = None,
+) -> None:
     """The four run folders (charts, raw data, summary) and their import specs."""
     from pitstudio_pipeline.slope import c1_assemble
 
-    written = c1_assemble.assemble(data_dir, out_dir, specs_dir, ttf_results=ttf_results, schema=schema)
+    written = c1_assemble.assemble(data_dir, out_dir, specs_dir, ttf_results=ttf_results, schema=schema, only=only)
     for slug, ids in written.items():
         print(slug, len(ids), "charts")
 
@@ -316,6 +389,10 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("real")
     p.add_argument("--archive", required=True)
     p.add_argument("--out", required=True)
+    p = sub.add_parser("dewit")
+    p.add_argument("--archive", required=True)
+    p.add_argument("--onnx", required=True)
+    p.add_argument("--out", required=True)
     p = sub.add_parser("oracle")
     p.add_argument("--walls", required=True)
     p.add_argument("--out", required=True)
@@ -325,9 +402,14 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--specs", required=True)
     p.add_argument("--ttf-results", required=True)
     p.add_argument("--schema", required=True)
+    p.add_argument("--only", nargs="+")
     args = ap.parse_args(argv)
     if args.cmd == "assemble":
-        assemble(Path(args.data), Path(args.out), Path(args.specs), Path(args.ttf_results), Path(args.schema))
+        assemble(
+            Path(args.data), Path(args.out), Path(args.specs), Path(args.ttf_results), Path(args.schema), args.only
+        )
+    elif args.cmd == "dewit":
+        dewit(Path(args.archive), Path(args.onnx), Path(args.out))
     elif args.cmd == "oracle":
         oracle(Path(args.walls), Path(args.out))
     elif args.cmd == "real":
