@@ -22,6 +22,31 @@ sources:
     card: data/cards/usda-naip-bingham.md
     account:
       needed: false
+  - id: usgs-3dep-bingham
+    kind: real
+    title: "USGS 3DEP one-metre lidar DEMs of the Bingham Canyon area, Utah: UT Central QL2 2018 and UT 2023 Salt Lake Co (tile x40y449)"
+    landing_url: "https://apps.nationalmap.gov/downloader/"
+    access: api                      # The National Map Access API (tnmaccess), anonymous, files from the staged-products bucket
+    files:
+      - url: "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/UT_Central_QL2_2018/TIFF/USGS_one_meter_x40y449_UT_Central_QL2_2018.tif"
+        sha256: "484a57cc33c95696d163bddf5dc6de353e71cc3d1946b568cf895939c6c90391"
+        bytes: 165604778
+        kind: raster
+        name: "ut-central-ql2-2018-dem.tif"
+      - url: "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/UT_2023SaltLakeCo_C24/TIFF/USGS_1M_12_x40y449_UT_2023SaltLakeCo_C24.tif"
+        sha256: "e1b755b0f23f6a8f0f361fa941c819bf7bf804e8678dd372c48ccbfbea1cec19"
+        bytes: 257390595
+        kind: raster
+        name: "ut-2023-salt-lake-co-dem.tif"
+    spdx: LicenseRef-USGov-PD
+    licence_url: "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits"
+    licence_class: public-domain
+    redistribution: redistributable
+    attribution: "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    citation: "U.S. Geological Survey, 3D Elevation Program, one-metre DEM tile x40y449, projects UT Central QL2 2018 and UT 2023 Salt Lake Co, The National Map. Accessed through the TNM Access API, 2026-10-12 and 2026-10-13."
+    card: data/cards/usgs-3dep-bingham.md
+    account:
+      needed: false
 # Colour maps of the SDG texture pool (specs 004 and 009, FR-009-08; sdg-realism-2026-11-23): one entry per CC0 texture.
 # Each map has a vegetation tint below 2 percent (share of pixels with HSV hue 60 to 150 degrees and saturation above 0.25),
 # measured by tools/sdg_inputs.py `textures`; the values are in data/cards/sdg-cc0-textures.md.
