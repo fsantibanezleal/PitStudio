@@ -100,7 +100,9 @@ def test_the_sky_is_a_function_of_the_row_only() -> None:
 @pytest.mark.req("FR-009-08")
 def test_the_sky_leaves_the_fill_light_of_the_terrain_unchanged() -> None:
     nominal = scene_render.light_for_row(_row())
-    assert nominal["dome_intensity"] == 800.0 * render_settings.DOME_FILL_GAIN
+    assert nominal["dome_intensity"] == pytest.approx(
+        render_settings.dome_intensity_for(scene_render.NOMINAL_SUN_INTENSITY, 60.0)
+    )
     s = render_settings.render_settings(_row())
     for key in ("/rtx/post/histogram/enabled", "/rtx/post/tonemap/op", "/rtx/post/tonemap/filmIso"):
         assert key in s  # the exposure settings stay
@@ -128,9 +130,7 @@ def test_the_render_settings_model_records_the_sky() -> None:
 
 
 @pytest.mark.req("FR-009-02")
-def test_the_film_iso_is_calibrated_on_the_open_carved_scene() -> None:
-    # Sweep of 2026-11-23 (job 88d, 24 rows per arm, ISO 25 to 0.1): the ISO 100 of the buried-geometry calibration
-    # (cameras under the DEM, the dome fill reached the terrain 1000 times weaker) left every frame white on the carved
-    # surface; frames with more than 25 percent clipped pixels: structured 24 / 24 at ISO 25, 8 at 6.25, 0 at 1.5 and
-    # 0.4; unstructured 19 / 24 at ISO 25, 11 at 6.25, 5 at 1.5, 1 at 0.4, 0 at 0.1.
-    assert render_settings.FILM_ISO == {"structured": 0.4, "unstructured": 0.3}
+def test_the_film_iso_is_the_sunny_16_one() -> None:
+    # Sunny 16: ISO 100 at f/16 and 1/100 s (https://en.wikipedia.org/wiki/Sunny_16_rule); the light of the scene is
+    # proportioned physically (tests/unit/test_t_009_016_physical_light.py), so no calibrated ISO is left to pin.
+    assert render_settings.FILM_ISO == {"structured": 100.0, "unstructured": 100.0}

@@ -89,8 +89,9 @@ def test_the_light_factor_scales_sun_and_dome_alike_and_the_dome_carries_the_fil
     assert bright["sun_intensity"] / lit["sun_intensity"] == pytest.approx(100.0)
     assert bright["dome_intensity"] / lit["dome_intensity"] == pytest.approx(100.0)
     nominal = scene_render.light_for_row(_row())
-    assert nominal["dome_intensity"] == 800.0 * exposure.DOME_FILL_GAIN
-    assert exposure.DOME_FILL_GAIN == 1000.0
+    assert nominal["dome_intensity"] == pytest.approx(
+        exposure.dome_intensity_for(scene_render.NOMINAL_SUN_INTENSITY, 60.0)
+    )
 
 
 def _u_dr(factor: float) -> dict:
