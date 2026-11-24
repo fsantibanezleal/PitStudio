@@ -24,6 +24,9 @@ def polygon_area(vertices: np.ndarray) -> float:
     v = np.asarray(vertices, dtype=np.float64).reshape(-1, 2)
     if len(v) < 3:
         return 0.0
+    v = (
+        v - v[0]
+    )  # relative to the first vertex: the shoelace of UTM-sized coordinates would lose about 1e-9 of the area
     x, y = v[:, 0], v[:, 1]
     return float(abs(np.dot(x, np.roll(y, -1)) - np.dot(y, np.roll(x, -1))) / 2.0)
 
@@ -83,7 +86,7 @@ def real_volume(
     clipped = clip_polygon(footprint, query_box)
     footprint_area = polygon_area(footprint)
     if len(clipped) and footprint_area > 0:
-        aoi, overlap = clipped, polygon_area(clipped) / footprint_area
+        aoi, overlap = clipped, min(1.0, polygon_area(clipped) / footprint_area)
         source = SOURCE if footprint_label is None else f"{footprint_label} intersected with the 3DEP query box"
     else:
         aoi, overlap, source = np.asarray(query_box, dtype=np.float64).reshape(-1, 2), 0.0, PROVISIONAL

@@ -1,0 +1,69 @@
+# Case E2, coarse real volume: the Bingham Canyon pit between the SRTM GL1 DEM of February 2000 and the 3DEP 2018 lidar DEM
+# aggregated to 30 m (spec 017, FR-017-30..34), CPU only. It supersedes the strip run of e2.yaml for the pit outline: the 2023
+# 3DEP tile has no data over the pit, the 2013 tile none, and the 2006 point clouds are a later unit (PDAL SMRF, FR follow-up).
+id: e2-coarse
+case: E2
+seed: 0
+description: E2 real Bingham Canyon pit volume 2000 to 2018, coarse 30 m, SRTM GL1 against 3DEP lidar, with bounds, stable-ground check, map and table.
+stages:
+  - id: st10_terrain
+    variant: coarse-2000-2018
+    env: studio
+    tool: pitstudio
+    entry: pitstudio_studio.survey.coarse_pair
+    inputs:
+      - {id: usgs-3dep-bingham, sha256: 484a57cc33c95696d163bddf5dc6de353e71cc3d1946b568cf895939c6c90391}  # UT Central QL2 2018
+      - {id: srtm-gl1-bingham, sha256: f855eeb49139b416a2bad301d8fee9ee35c0118232b0707d43fad0f5ff069390}  # SRTM GL1 N40W113
+    params:
+      id: bingham-2000-2018
+      srtm: raw/srtm-gl1-bingham/srtm-gl1-n40w113.tif
+      dem: raw/usgs-3dep-bingham/ut-central-ql2-2018-dem.tif
+      epochs: ["2000", "2018"]
+      period: 2000 to 2018
+      run_label: coarse 30 m, 2000 to 2018
+      surface_paths:
+        - data/raw/srtm-gl1-bingham/srtm-gl1-n40w113.tif
+        - data/processed/dem-2018-30m.tif
+      licence:
+        spdx: LicenseRef-USGov-PD
+        licence_class: public-domain
+        attribution: "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+      grid: {cell_m: 30.0, min_coverage: 0.95}
+      stable_ground: {min_distance_m: 3000.0, area: pit-outline}
+      # sigma of SRTM: 9 m absolute height error at 90 percent confidence for North America, as reported by Rodriguez et al. 2006
+      # and read here only through a secondary source (the papers themselves were not readable: UNVERIFIED), divided by 1.645 for
+      # an RMSE; the bounds use the larger of this figure and the standard deviation measured on stable ground.
+      srtm_rmse_nominal_m: 5.5
+      dem_metadata:
+        before:
+          project: SRTM GL1 (Shuttle Radar Topography Mission, 1 arc-second, STS-99, 2000-02-11 to 2000-02-21)
+          vertical_datum: EGM96
+          geoid: EGM96
+          source: "SRTM heights are referenced to EGM96 (USGS EROS SRTM 1 Arc-Second product page); acquisition 2000-02-11 to 2000-02-21 (NASA Earthdata catalog LPCLOUD SRTMGL1.003)"
+        after:
+          project: UT Central QL2 2018
+          vertical_datum: NAVD88
+          rmse_z_m: 0.10
+          source: "The National Map product text: elevations in metres referenced to NAVD88; RMSEz is the QL2 specification bound, not the project-reported value (UNVERIFIED)"
+      areas:
+        - id: pit-outline
+          label: Bingham pit outline (scene A1)
+          label_es: Contorno del pit de Bingham (escena A1)
+          footprint_file: processed/scene/a1-bingham-v3/inputs/pit-outline.geojson
+          origin_m: [402500.0, 4486500.0]
+          footprint_label: scene A1 pit outline (an st20 input derived from the 2018 DEM, not the Tang and Werner footprint)
+        - id: query-box
+          label: 2018 tile, cells with data in both DEMs
+          label_es: Tile 2018, celdas con dato en ambos DEM
+      map_area: pit-outline
+      notes:
+        - the site label stays provisional because the Tang and Werner mining footprint is not fetched
+        - SRTM heights are the radar surface near 2000-02, the 2018 DEM is bare earth: vegetation and radar penetration differences are inside the stable-ground sd
+    resources: {gpu: none, disk_gib_est: 1.0, cpu: 1}
+    determinism: bitwise
+    timeout_s: 1800
+    outputs:
+      - {path: survey-volume.json, schema: contract-survey-volume, publish: true}
+      - {path: charts/e2-volume-bars.json, schema: contract-chart-series, publish: true}
+      - {path: charts/e2-difference-map.json, schema: contract-chart-series, publish: true}
+      - {path: charts/e2-volume-table.json, schema: contract-chart-series, publish: true}

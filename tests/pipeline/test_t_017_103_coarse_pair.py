@@ -1,4 +1,4 @@
-# ruff: noqa: E501, PT018
+# ruff: noqa: E501
 """T-017-103: the coarse E2 pair, SRTM GL1 (February 2000) against a 1 m lidar DEM aggregated to a 30 m grid (pipeline
 test of the studio environment).
 
@@ -201,3 +201,22 @@ def test_every_written_file_has_lf_line_ends(run) -> None:
     out, _ = run
     files = [out / "survey-volume.json", out / "e2-run.json", *sorted((out / "charts").glob("e2-*.json"))]
     assert all(b"\r" not in f.read_bytes() for f in files)
+
+
+@pytest.mark.req("FR-017-34")
+def test_the_overlap_ratio_of_a_footprint_inside_the_box_never_exceeds_one_at_utm_magnitudes() -> None:
+    from pitstudio.survey.real_volume import clip_polygon, polygon_area
+
+    rng = np.random.default_rng(7)
+    ox, oy = (
+        402_500.0,
+        4_486_500.0,
+    )  # UTM magnitudes: a shoelace sum of absolute coordinates loses about 1e-9 of the area
+    box = np.array([[ox - 5e3, oy - 5e3], [ox + 5e3, oy - 5e3], [ox + 5e3, oy + 5e3], [ox - 5e3, oy + 5e3]])
+    for _ in range(100):
+        ang = np.sort(rng.uniform(0, 2 * np.pi, 52))
+        r = 1200.0 * rng.uniform(0.6, 1.0, 52)
+        poly = np.c_[ox - 700 + r * np.cos(ang), oy - 600 + r * np.sin(ang)]
+        poly = np.vstack([poly, poly[:1]])  # a closed ring, as GeoJSON gives it
+        ratio = polygon_area(clip_polygon(poly, box)) / polygon_area(poly)
+        assert ratio == pytest.approx(1.0, abs=1e-12)
