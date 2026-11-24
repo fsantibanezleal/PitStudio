@@ -45,6 +45,8 @@ def _ortools_pit(values: list[int], pairs) -> tuple[int, frozenset[int]]:
             solver.add_arc_with_capacity(i, t, -v)
     for i, j in pairs:
         solver.add_arc_with_capacity(i, j, inf)
+    # the sink must be a node of the graph even when no block has a negative value
+    solver.add_arc_with_capacity(s, t, 0)
     assert solver.solve(s, t) == solver.OPTIMAL
     side = frozenset(int(i) for i in solver.get_source_side_min_cut() if i not in (s, t))
     positive = sum(v for v in values if v > 0)

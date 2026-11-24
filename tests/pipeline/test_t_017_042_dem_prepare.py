@@ -51,13 +51,18 @@ Expected public API (module `pitstudio_studio.survey.dem_prepare`, `studio/` env
 from __future__ import annotations
 
 import hashlib
+import sys
 from pathlib import Path
 
 import numpy as np
 import pytest
-from pitstudio_studio.survey.dem_prepare import prepare_pair, read_dem
 
-EM_DASH = "â€”"
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "studio" / "src"))
+
+from pitstudio_studio.survey.dem_prepare import prepare_pair, read_dem  # noqa: E402
+
+EM_DASH = chr(0x2014)  # the em dash of the FR-017-32 label
 SOURCE = "NOAA VDatum 4.x, GEOID12B to GEOID18 offset at Bingham Canyon"
 
 
