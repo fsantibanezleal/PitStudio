@@ -69,6 +69,7 @@ and are locked after `[red]` (`python tools/lock_tests.py specs/009-perception/t
 - [ ] T-009-103 (FR-009-57) per-row incident-light exposure (ISO 2720) within the shutter and ISO ranges, a function of the row only — test: tests/unit/test_t_009_103_metered_exposure.py
 - [ ] T-009-104 (FR-009-58) the fog block on every row, density 0 for no dust — test: tests/unit/test_t_009_104_fog_every_row.py
 - [ ] T-009-105 (FR-009-59) the renderer captures its first row twice and keeps the second capture — test: tests/unit/test_t_009_105_renderer_priming.py
+- [ ] T-009-106 (FR-009-60) the subframe count is the smallest of 8, 16, 32, 64 within the history limit under the physical light — test: tests/unit/test_t_009_106_history_subframes.py
 
 ## Phase 8 — Polish and hostile review
 - [ ] T-009-090 mutation run on the corruption, AP-wrapper and bootstrap modules; record the score (≥ 0.80 numerical core)

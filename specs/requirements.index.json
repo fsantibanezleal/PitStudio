@@ -8906,6 +8906,18 @@
         "tests/unit/test_t_009_105_renderer_priming.py"
       ]
     },
+    "FR-009-60": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-106"
+      ],
+      "tests": [
+        "tests/unit/test_t_009_106_history_subframes.py"
+      ]
+    },
     "P-009-01": {
       "spec": "009-perception",
       "retired": false,
@@ -23721,6 +23733,9 @@
     ],
     "T-009-105": [
       "FR-009-59"
+    ],
+    "T-009-106": [
+      "FR-009-60"
     ],
     "T-009-090": [],
     "T-009-091": [],

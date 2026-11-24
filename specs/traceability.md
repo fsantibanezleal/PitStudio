@@ -592,6 +592,7 @@
 | FR-009-57 | 009-perception | draft | T-009-103 | tests/unit/test_t_009_103_metered_exposure.py |
 | FR-009-58 | 009-perception | draft | T-009-104 | tests/unit/test_t_009_104_fog_every_row.py |
 | FR-009-59 | 009-perception | draft | T-009-105 | tests/unit/test_t_009_105_renderer_priming.py |
+| FR-009-60 | 009-perception | draft | T-009-106 | tests/unit/test_t_009_106_history_subframes.py |
 | FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/unit/test_t_010_010_lem_search.py |
 | FR-010-02 | 010-slope | draft | T-010-011 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_102_c1_walls.py, tests/unit/test_t_010_011_hoek_brown_slices.py |
 | FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_102_c1_walls.py, tests/property/test_t_010_015_pof.py |
