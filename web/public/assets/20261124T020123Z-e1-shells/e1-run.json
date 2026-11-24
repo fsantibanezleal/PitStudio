@@ -1,0 +1,101 @@
+{
+ "kind": "e1-run",
+ "case": "E1",
+ "label": "calibrated synthetic: seeded oreblocks deposit, not validated against a real deposit",
+ "inputs": {
+  "deposit": "twin-porphyry-50x50x25-s3",
+  "archetype": "porphyry",
+  "dims": [
+   50,
+   50,
+   25
+  ],
+  "seed": 3,
+  "block_size_m": [
+   10.0,
+   10.0,
+   10.0
+  ],
+  "n_blocks": 62500,
+  "n_arcs": 525696,
+  "slope_deg": 45.0,
+  "economics": {
+   "price": 9000.0,
+   "recovery": 0.88,
+   "mining_cost": 2.5,
+   "processing_cost": 9.0
+  },
+  "block_model_sha256": "5630ffc1735e4e8a43c6227403cab241c1dd83089645495f10a74f277770f8d7",
+  "t_min_t": 5000000.0
+ },
+ "versions": {
+  "oreblocks": "0.5.2",
+  "minephys_pin": "98d5b25",
+  "python": "3.14.4"
+ },
+ "timing": {
+  "mincut_wall_s": {
+   "twin-porphyry-50x50x25-s3-lambda-0.025": 0.03391050000209361,
+   "twin-porphyry-50x50x25-s3-lambda-0.050": 0.02349069999763742,
+   "twin-porphyry-50x50x25-s3-lambda-0.075": 0.39986949996091425,
+   "twin-porphyry-50x50x25-s3-lambda-0.100": 1.3230462999781594,
+   "twin-porphyry-50x50x25-s3-lambda-0.125": 3.2662740000523627,
+   "twin-porphyry-50x50x25-s3-lambda-0.150": 3.649661799950991,
+   "twin-porphyry-50x50x25-s3-lambda-0.175": 4.247808299958706,
+   "twin-porphyry-50x50x25-s3-lambda-0.200": 4.2721694999490865,
+   "twin-porphyry-50x50x25-s3-lambda-0.225": 3.9693476000102237,
+   "twin-porphyry-50x50x25-s3-lambda-0.250": 4.025132700044196,
+   "twin-porphyry-50x50x25-s3-lambda-0.275": 4.258261699986178,
+   "twin-porphyry-50x50x25-s3-lambda-0.300": 4.567529299994931,
+   "twin-porphyry-50x50x25-s3-lambda-0.325": 4.068415199988522,
+   "twin-porphyry-50x50x25-s3-lambda-0.350": 4.409381400037091,
+   "twin-porphyry-50x50x25-s3-lambda-0.375": 3.6323658999754116,
+   "twin-porphyry-50x50x25-s3-lambda-0.400": 3.673525999998674,
+   "twin-porphyry-50x50x25-s3-lambda-0.425": 4.009409399994183,
+   "twin-porphyry-50x50x25-s3-lambda-0.450": 4.5215043000062,
+   "twin-porphyry-50x50x25-s3-lambda-0.475": 4.805950900015887,
+   "twin-porphyry-50x50x25-s3-lambda-0.500": 3.8899269999819808,
+   "twin-porphyry-50x50x25-s3-lambda-0.525": 3.731154199980665,
+   "twin-porphyry-50x50x25-s3-lambda-0.550": 4.170706100005191,
+   "twin-porphyry-50x50x25-s3-lambda-0.575": 4.325050099985674,
+   "twin-porphyry-50x50x25-s3-lambda-0.600": 4.206052499997895,
+   "twin-porphyry-50x50x25-s3-lambda-0.625": 3.508246399986092,
+   "twin-porphyry-50x50x25-s3-lambda-0.650": 3.850687999976799,
+   "twin-porphyry-50x50x25-s3-lambda-0.675": 3.984273199981544,
+   "twin-porphyry-50x50x25-s3-lambda-0.700": 4.290620899992064,
+   "twin-porphyry-50x50x25-s3-lambda-0.725": 4.2907721000374295,
+   "twin-porphyry-50x50x25-s3-lambda-0.750": 3.6581548000103794,
+   "twin-porphyry-50x50x25-s3-lambda-0.775": 3.7457824000157416,
+   "twin-porphyry-50x50x25-s3-lambda-0.800": 4.16902490000939,
+   "twin-porphyry-50x50x25-s3-lambda-0.825": 4.255774200020824,
+   "twin-porphyry-50x50x25-s3-lambda-0.850": 4.225292699993588,
+   "twin-porphyry-50x50x25-s3-lambda-0.875": 4.261640699987765,
+   "twin-porphyry-50x50x25-s3-lambda-0.900": 3.4911446000332944,
+   "twin-porphyry-50x50x25-s3-lambda-0.925": 3.502137399977073,
+   "twin-porphyry-50x50x25-s3-lambda-0.950": 4.0666966999997385,
+   "twin-porphyry-50x50x25-s3-lambda-0.975": 4.859881200012751,
+   "twin-porphyry-50x50x25-s3-lambda-1.000": 4.936292300000787
+  },
+  "overruns": []
+ },
+ "oracle": {
+  "name": "oreblocks exact solver (stamped optimum)",
+  "stamped_pit_value_usd": 4685386757.233087,
+  "pit_value_usd": 4685386756.29,
+  "tolerance_usd": 216.285001,
+  "agrees": true,
+  "mask_differences": 0
+ },
+ "scheduler": {
+  "status": "not-run",
+  "reason": "the scheduler is outside this run (units and schedule absent)"
+ },
+ "pushbacks": 11,
+ "charts": [
+  "e1-value-vs-lambda",
+  "e1-strip-ratio-vs-lambda",
+  "e1-shell-table",
+  "e1-pushbacks",
+  "e1-sections"
+ ]
+}

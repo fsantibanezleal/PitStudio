@@ -1,6 +1,5 @@
 {
  "schema_version": "1.0",
- "contract": "DC-017-03 subset: shells, ultimate_pit and pushbacks; units and schedule are not run (the scheduler is not part of this run)",
  "block_model": {
   "id": "twin-porphyry-50x50x25-s3",
   "sha256": "5630ffc1735e4e8a43c6227403cab241c1dd83089645495f10a74f277770f8d7",
