@@ -40,19 +40,19 @@
    "sha256": "d642ab68d00cc7c63b55b3cc1d48564417d482e8d04d740780dd4f6583f5083c"
   },
   {
-   "run_id": "20261123T235914Z-e2-volume",
-   "manifest": "20261123T235914Z-e2-volume/manifest.json",
-   "sha256": "7c8b066a3648d3ca01721042d136562b918532f1b7abe3e865fe276603802154"
-  },
-  {
    "run_id": "20261124T000400Z-web-terrain-bingham",
    "manifest": "20261124T000400Z-web-terrain-bingham/manifest.json",
    "sha256": "159c527f901048b9c64609af48886b3f4ea53c7c6177c143260c25420fbfef13"
   },
   {
-   "run_id": "20261124T020123Z-e1-shells",
-   "manifest": "20261124T020123Z-e1-shells/manifest.json",
-   "sha256": "811ba3573b0e1773ca9275f003c424ab1edabee8f6a562b0c638bd2f326401b0"
+   "run_id": "20261124T020959Z-e1-shells",
+   "manifest": "20261124T020959Z-e1-shells/manifest.json",
+   "sha256": "8b59adcb55b236dd36c13ea73a690a1137d971b6e38bffc0df6cdc7c049a9824"
+  },
+  {
+   "run_id": "20261124T021003Z-e2-volume",
+   "manifest": "20261124T021003Z-e2-volume/manifest.json",
+   "sha256": "425d3efb72c559a3bb19ec4c2fe262137bb07d507d1954a1541d3ff426288a03"
   }
  ],
  "artefacts": [
@@ -771,141 +771,6 @@
    "spdx": "CC-BY-4.0",
    "asset_host": "git",
    "media_type": "application/json"
-  },
-  {
-   "id": "e2-survey-volume",
-   "run_id": "20261123T235914Z-e2-volume",
-   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
-   "path": "assets/20261123T235914Z-e2-volume/survey-volume.json",
-   "bytes": 2680,
-   "sha256": "478ed0e1f28b380972c219bcb71cd85d66351e51b609e67f1db8dcb167bf84d7",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
-  },
-  {
-   "id": "e2-volume-run-summary",
-   "run_id": "20261123T235914Z-e2-volume",
-   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
-   "path": "assets/20261123T235914Z-e2-volume/e2-run.json",
-   "bytes": 2649,
-   "sha256": "2a05898db0bf1105db321c866de65424db489e22d92adfe01a899914bc299256",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
-  },
-  {
-   "id": "e2-e2-volume-bars",
-   "run_id": "20261123T235914Z-e2-volume",
-   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
-   "path": "assets/20261123T235914Z-e2-volume/e2-volume-bars.json",
-   "bytes": 1857,
-   "sha256": "f06e5574de4c0988740327047632b635c8f44fe58deb0d5b557a206a96929c57",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
-  },
-  {
-   "id": "e2-e2-difference-map",
-   "run_id": "20261123T235914Z-e2-volume",
-   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
-   "path": "assets/20261123T235914Z-e2-volume/e2-difference-map.json",
-   "bytes": 9828,
-   "sha256": "29502aacbbd03e2593a2c12da4e5ca7ef8b018c25d3fe1e4b23583a122270292",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
-  },
-  {
-   "id": "e2-e2-volume-table",
-   "run_id": "20261123T235914Z-e2-volume",
-   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
-   "path": "assets/20261123T235914Z-e2-volume/e2-volume-table.json",
-   "bytes": 2231,
-   "sha256": "c22b40feb06ba0892ba4223c20908a13b6d036af5c8fcc7b2ad4c6d561950d23",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
   },
   {
    "id": "bingham-lod0-tileset",
@@ -2125,11 +1990,11 @@
   },
   {
    "id": "e1-shells-document",
-   "run_id": "20261124T020123Z-e1-shells",
-   "git_sha": "b9a0e5c56e80cac461d0af32da3be09da06fe007",
-   "path": "assets/20261124T020123Z-e1-shells/e1-shells.json",
-   "bytes": 542262,
-   "sha256": "f6b5ad948708543c13646f667e5f76aba651a6c1f8112617174d8e202994a158",
+   "run_id": "20261124T020959Z-e1-shells",
+   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
+   "path": "assets/20261124T020959Z-e1-shells/e1-shells.json",
+   "bytes": 541747,
+   "sha256": "14b837028c9e95a3400ff5069e66fa55f9ee58c8f4f1977e0df6d0fa52c215d2",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
@@ -2151,11 +2016,11 @@
   },
   {
    "id": "e1-shells-run-summary",
-   "run_id": "20261124T020123Z-e1-shells",
-   "git_sha": "b9a0e5c56e80cac461d0af32da3be09da06fe007",
-   "path": "assets/20261124T020123Z-e1-shells/e1-run.json",
-   "bytes": 3924,
-   "sha256": "fd3bc145a2d18953682d191b84a2e2d877c5db31d5e1a4714832b96bcdb0a583",
+   "run_id": "20261124T020959Z-e1-shells",
+   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
+   "path": "assets/20261124T020959Z-e1-shells/e1-run.json",
+   "bytes": 3832,
+   "sha256": "69a6d2ab06fe8b6937707faa5ad2b8d7e7bf795b7d6429c27ceab573a0dc0fb1",
    "kind": "table",
    "producer": {
     "tool": "pitstudio",
@@ -2177,11 +2042,11 @@
   },
   {
    "id": "e1-e1-value-vs-lambda",
-   "run_id": "20261124T020123Z-e1-shells",
-   "git_sha": "b9a0e5c56e80cac461d0af32da3be09da06fe007",
-   "path": "assets/20261124T020123Z-e1-shells/e1-value-vs-lambda.json",
-   "bytes": 2706,
-   "sha256": "34064da90b7450eca270fa9841295d1277abaf1ed4096280b7edc024bde882cc",
+   "run_id": "20261124T020959Z-e1-shells",
+   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
+   "path": "assets/20261124T020959Z-e1-shells/e1-value-vs-lambda.json",
+   "bytes": 2559,
+   "sha256": "179619fea18f78ff2a9ef42c9e5a07e46c3c7b94eff22d47abac0ba0df30bd71",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -2203,11 +2068,11 @@
   },
   {
    "id": "e1-e1-strip-ratio-vs-lambda",
-   "run_id": "20261124T020123Z-e1-shells",
-   "git_sha": "b9a0e5c56e80cac461d0af32da3be09da06fe007",
-   "path": "assets/20261124T020123Z-e1-shells/e1-strip-ratio-vs-lambda.json",
-   "bytes": 2485,
-   "sha256": "b8ba2f045f040b7bbd84b9ac56fe7752da65b0f4047a566f7025ee1da8442e38",
+   "run_id": "20261124T020959Z-e1-shells",
+   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
+   "path": "assets/20261124T020959Z-e1-shells/e1-strip-ratio-vs-lambda.json",
+   "bytes": 2355,
+   "sha256": "607e408fcd8c7f94a90b4c6716409d306723c05762d760dbaccaabcb0c31565a",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -2229,11 +2094,11 @@
   },
   {
    "id": "e1-e1-shell-table",
-   "run_id": "20261124T020123Z-e1-shells",
-   "git_sha": "b9a0e5c56e80cac461d0af32da3be09da06fe007",
-   "path": "assets/20261124T020123Z-e1-shells/e1-shell-table.json",
-   "bytes": 5655,
-   "sha256": "4520d08fe0f225ac70ee6940787ed102a775f1b20e90ccb77392f73235a9c75d",
+   "run_id": "20261124T020959Z-e1-shells",
+   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
+   "path": "assets/20261124T020959Z-e1-shells/e1-shell-table.json",
+   "bytes": 5253,
+   "sha256": "72c8d177fa1d28354cb4bdf3af41458018d148bd18bad548e1c7e022446bb183",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -2255,11 +2120,11 @@
   },
   {
    "id": "e1-e1-pushbacks",
-   "run_id": "20261124T020123Z-e1-shells",
-   "git_sha": "b9a0e5c56e80cac461d0af32da3be09da06fe007",
-   "path": "assets/20261124T020123Z-e1-shells/e1-pushbacks.json",
-   "bytes": 2547,
-   "sha256": "502fa5e5d7be92a711a6200d7782c481d8cbb8a134a58d660c166ad09f142f69",
+   "run_id": "20261124T020959Z-e1-shells",
+   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
+   "path": "assets/20261124T020959Z-e1-shells/e1-pushbacks.json",
+   "bytes": 2393,
+   "sha256": "dbce60f17d28639594296f5b4a3bd7282888eafb700d254a65f01555aa7827df",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -2281,11 +2146,11 @@
   },
   {
    "id": "e1-e1-sections",
-   "run_id": "20261124T020123Z-e1-shells",
-   "git_sha": "b9a0e5c56e80cac461d0af32da3be09da06fe007",
-   "path": "assets/20261124T020123Z-e1-shells/e1-sections.json",
-   "bytes": 23160,
-   "sha256": "d52e0e2e3d272b24b4b1b5ffa2baf6a8d7b32ece513464e1f1a54cae60faca17",
+   "run_id": "20261124T020959Z-e1-shells",
+   "git_sha": "5c56c2d54db28722035a75f7e07e832d7cd6c849",
+   "path": "assets/20261124T020959Z-e1-shells/e1-sections.json",
+   "bytes": 21140,
+   "sha256": "705bd77dc6f0861522be93a53b3cec1f0c167510a494189d9b7b304cef6a2d05",
    "kind": "chart-series",
    "producer": {
     "tool": "pitstudio",
@@ -2304,6 +2169,141 @@
     "E1"
    ],
    "media_type": "application/json"
+  },
+  {
+   "id": "e2-survey-volume",
+   "run_id": "20261124T021003Z-e2-volume",
+   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
+   "path": "assets/20261124T021003Z-e2-volume/survey-volume.json",
+   "bytes": 2577,
+   "sha256": "3068b4d9de1115709d03dc933a0b5dbe02c2a1155ccafb5f5a8f3555e2021a80",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "real-volume"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2-volume-run-summary",
+   "run_id": "20261124T021003Z-e2-volume",
+   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
+   "path": "assets/20261124T021003Z-e2-volume/e2-run.json",
+   "bytes": 2562,
+   "sha256": "f2f6d4c392ee8768b0e8cca0eac54690d357205211ff2e0ffc0ea878aebbc286",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "real-volume"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2-e2-volume-bars",
+   "run_id": "20261124T021003Z-e2-volume",
+   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
+   "path": "assets/20261124T021003Z-e2-volume/e2-volume-bars.json",
+   "bytes": 1773,
+   "sha256": "03ff7da8dd2046b9f9ba7aa5b18867c912f20da6f4c36045e9c5bc1fbcbb2465",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "real-volume"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2-e2-difference-map",
+   "run_id": "20261124T021003Z-e2-volume",
+   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
+   "path": "assets/20261124T021003Z-e2-volume/e2-difference-map.json",
+   "bytes": 8965,
+   "sha256": "2c43211e5ae25af18c2ab4ce43faa0d66e357fd19ba5c73e920c935731131c6e",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "real-volume"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2-e2-volume-table",
+   "run_id": "20261124T021003Z-e2-volume",
+   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
+   "path": "assets/20261124T021003Z-e2-volume/e2-volume-table.json",
+   "bytes": 2112,
+   "sha256": "6cbd7a9d9d91ff64f110cce7ad35bc06834b766bca283603dd24e00c4defc972",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "real-volume"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
   }
  ]
 }
