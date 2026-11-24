@@ -106,7 +106,6 @@ tests/unit/test_t_002_072_profile_cmd.py
 tests/unit/test_t_002_092_profile_duplicate_gpu.py
 tests/unit/test_t_002_093_result_duplicate_output_path.py
 tests/unit/test_t_002_094_thermal_guard.py
-tests/unit/test_t_002_103_supersedes.py
 tests/unit/test_t_003_010_startup.py
 tests/unit/test_t_003_015_latency_idempotence.py
 tests/unit/test_t_003_023_unavailable_store.py
@@ -171,6 +170,7 @@ web/e2e/t_020_016_hostile.spec.ts
 web/e2e/t_020_063_first_view.spec.ts
 web/e2e/t_020_064_a11y_matrix.spec.ts
 web/src/cases/d2/metaModelGuards.test.ts
+web/src/cases/t_018_112_placeholders.test.tsx
 web/src/engines/analytical/comminution/t_018_070_comminution.test.ts
 web/src/engines/des/policy.parity.test.ts
 web/src/engines/des/scenario.hostile.test.ts
