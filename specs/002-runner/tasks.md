@@ -71,6 +71,7 @@ against the fake GPU backend and fake stages unless it is marked `gpu`.
 - [ ] T-002-099 (FR-002-70) `studio import-run` accepts chart-series outputs and refuses invalid ones — test: tests/unit/test_t_002_099_import_chart_series.py
 - [ ] T-002-100 (FR-002-71) the clean rule of an imported run counts only the producer paths — test: tests/unit/test_t_002_100_producer_paths.py
 - [ ] T-002-101 (FR-002-72) the CPU import kind: label, no queue facts, no timing — test: tests/unit/test_t_002_101_import_cpu_kind.py
+- [ ] T-002-103 (FR-002-73) a republished run supersedes and removes its predecessor from the published tree — test: tests/unit/test_t_002_103_supersedes.py
 
 ## Phase 9 — Polish and hostile review
 
