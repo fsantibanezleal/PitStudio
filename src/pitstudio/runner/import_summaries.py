@@ -324,8 +324,8 @@ def scene_summary(src: Path, run_id: str) -> dict:
     }
 
 
+def _producer(args: dict | None, method: str) -> dict:
     """The producer block of a chart series: the tool and version of the import spec, the method, the data label."""
-    """The producer block of a chart series: the tool and version the import spec names, the method and the data label."""
     given = (args or {}).get("producer")
     if not isinstance(given, dict) or not given.get("tool") or not given.get("version"):
         raise Missing("the chart builder needs derive_args.producer with a tool and a version")
