@@ -1,8 +1,11 @@
 // Training envelopes of the 011 surrogates and the decisions that follow from them (DC-011-02, FR-011-11, FR-011-39, NFR-011-02,
 // NFR-011-03). Pure functions, nothing here throws: a value that is not a finite number is outside every range.
 //
-// The ranges are the `training_envelope` of the contract examples (`specs/011-surrogates/contracts/examples/surrogate-io.valid.json`
-// and `surrogate-io.valid-fno.json`); `envelope.test.ts` compares them with those files, so a changed envelope fails a test here.
+// The ranges are read from the `training_envelope` of the contract examples (`specs/011-surrogates/contracts/examples/surrogate-io.valid.json`
+// and `surrogate-io.valid-fno.json`), so a changed envelope reaches the page with the contract and cannot drift;
+// `envelope.test.ts` compares them with those files.
+import fnoExample from "../../../../specs/011-surrogates/contracts/examples/surrogate-io.valid-fno.json";
+import gnsExample from "../../../../specs/011-surrogates/contracts/examples/surrogate-io.valid.json";
 
 export interface Range {
   min: number;
@@ -13,29 +16,28 @@ export type GnsFamily = "column-collapse" | "pile-formation" | "dump-over-crest"
 
 export const GNS_FAMILIES: readonly GnsFamily[] = ["column-collapse", "pile-formation", "dump-over-crest"];
 
-/** The GNS training envelope per family (the dataset's design envelope at d = 0.01 m). */
+const rangeOf = (envelope: Readonly<Record<string, Range>>, name: string): Range => {
+  const r = envelope[name] as Range;
+  return { min: r.min, max: r.max };
+};
+const gnsRanges = (names: readonly string[]): Record<string, Range> =>
+  Object.fromEntries(names.map((n) => [n, rangeOf(gnsExample.training_envelope, n)]));
+
+/** The GNS training envelope per family (the dataset's design envelope), from the DC-011-02 example. */
 export const GNS_ENVELOPE: Readonly<Record<GnsFamily, Readonly<Record<string, Range>>>> = {
-  "column-collapse": {
-    column_aspect_ratio: { min: 0.5, max: 4 },
-    column_width: { min: 0.32, max: 0.7 },
-  },
-  "pile-formation": {
-    pour_height: { min: 0.05, max: 0.4 },
-    pour_rate: { min: 0.79, max: 1.45 },
-  },
-  "dump-over-crest": {
-    crest_height: { min: 0.09, max: 0.22 },
-    dump_rate: { min: 0.76, max: 1.23 },
-  },
+  "column-collapse": gnsRanges(["column_aspect_ratio", "column_width"]),
+  "pile-formation": gnsRanges(["pour_height", "pour_rate"]),
+  "dump-over-crest": gnsRanges(["crest_height", "dump_rate"]),
 };
 
 /** The FNO training envelope of C2 (DC-011-02) and the C3 wind controls (DC-011-02, field dataset of the dust case). */
 export const FNO_ENVELOPE: Readonly<Record<string, Range>> = {
-  breach_row: { min: 0, max: 63 },
-  breach_col: { min: 0, max: 63 },
-  release_volume: { min: 10000, max: 200000 },
-  yield_stress: { min: 10, max: 200 },
-  plastic_viscosity: { min: 0.05, max: 1.0 },
+  ...Object.fromEntries(
+    ["breach_row", "breach_col", "release_volume", "yield_stress", "plastic_viscosity"].map((n) => [
+      n,
+      rangeOf(fnoExample.training_envelope, n),
+    ]),
+  ),
   wind_speed: { min: 0, max: 50 },
   wind_direction: { min: 0, max: 359 },
 };

@@ -17,13 +17,21 @@ export interface CaseCharts {
   charts: PublishedChart[];
 }
 
-const cache = new Map<string, Promise<unknown>>();
+// One fetch per file for the page's life. The cache belongs to the `fetch` function that filled it, so a replaced `fetch` (a test
+// double, a service-worker swap) never reads another implementation's answers.
+const caches = new WeakMap<typeof fetch, Map<string, Promise<unknown>>>();
 
 function fetchJson(path: string): Promise<unknown> {
   const url = `${import.meta.env.BASE_URL}${path}`;
+  const get = globalThis.fetch;
+  let cache = caches.get(get);
+  if (!cache) {
+    cache = new Map();
+    caches.set(get, cache);
+  }
   let hit = cache.get(url);
   if (!hit) {
-    hit = fetch(url)
+    hit = get(url)
       .then((res) => (res.ok ? res.json() : null))
       .catch(() => null);
     cache.set(url, hit);
