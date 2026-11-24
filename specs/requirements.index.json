@@ -2488,6 +2488,18 @@
         "tests/unit/test_t_002_103_supersedes.py"
       ]
     },
+    "FR-002-74": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-104"
+      ],
+      "tests": [
+        "tests/unit/test_t_002_104_lf_text.py"
+      ]
+    },
     "P-002-01": {
       "spec": "002-runner",
       "retired": false,
@@ -8880,6 +8892,18 @@
       ],
       "tests": [
         "tests/unit/test_t_009_104_fog_every_row.py"
+      ]
+    },
+    "FR-009-59": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-105"
+      ],
+      "tests": [
+        "tests/unit/test_t_009_105_renderer_priming.py"
       ]
     },
     "P-009-01": {
@@ -22502,6 +22526,9 @@
     "T-002-103": [
       "FR-002-73"
     ],
+    "T-002-104": [
+      "FR-002-74"
+    ],
     "T-002-090": [
       "NFR-002-05"
     ],
@@ -23691,6 +23718,9 @@
     ],
     "T-009-104": [
       "FR-009-58"
+    ],
+    "T-009-105": [
+      "FR-009-59"
     ],
     "T-009-090": [],
     "T-009-091": [],

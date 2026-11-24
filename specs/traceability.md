@@ -1,4 +1,4 @@
-# Traceability matrix — generated 2026-11-23 by tools/trace.py (do not edit)
+# Traceability matrix — generated 2026-11-24 by tools/trace.py (do not edit)
 
 | Req ID | Spec | Status | Tasks | Tests |
 |---|---|---|---|---|
@@ -270,6 +270,7 @@
 | FR-002-71 | 002-runner | draft | T-002-100 | tests/unit/test_t_002_100_producer_paths.py |
 | FR-002-72 | 002-runner | draft | T-002-101 | tests/unit/test_t_002_101_import_cpu_kind.py |
 | FR-002-73 | 002-runner | draft | T-002-103 | tests/unit/test_t_002_103_supersedes.py |
+| FR-002-74 | 002-runner | draft | T-002-104 | tests/unit/test_t_002_104_lf_text.py |
 | FR-003-01 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
 | FR-003-02 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
 | FR-003-03 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
@@ -590,6 +591,7 @@
 | FR-009-56 | 009-perception | draft | T-009-102 | tests/unit/test_t_009_102_view_grid.py |
 | FR-009-57 | 009-perception | draft | T-009-103 | tests/unit/test_t_009_103_metered_exposure.py |
 | FR-009-58 | 009-perception | draft | T-009-104 | tests/unit/test_t_009_104_fog_every_row.py |
+| FR-009-59 | 009-perception | draft | T-009-105 | tests/unit/test_t_009_105_renderer_priming.py |
 | FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/unit/test_t_010_010_lem_search.py |
 | FR-010-02 | 010-slope | draft | T-010-011 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_102_c1_walls.py, tests/unit/test_t_010_011_hoek_brown_slices.py |
 | FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_102_c1_walls.py, tests/property/test_t_010_015_pof.py |
