@@ -192,6 +192,7 @@ layout, profile, job spec, events, code roots).
 | FR-002-71 | Event | When `studio import-run` records whether a run was made from a clean tree, it shall count only the modified or untracked files under the producer paths of the run (the import spec, the importer and its package, and the paths its stages name), with the git sha, so that a dirty file elsewhere in the checkout does not make the run unpublishable and a dirty producer path does. | unit |
 | FR-002-72 | Event | When `studio import-run` imports a spec of kind `cpu`, the runner shall look for no queue script, log, time or GPU-hour fact, shall record no timing, and shall label the run "produced on the CPU, on this machine" with the producer tools of its stages and "outside the runner", never as a GPU-queue job. | unit |
 | FR-002-73 | Event | When a run imported with `supersedes: <run id>` is published, `studio publish` shall remove the published files and index records of the superseded run, so a republished result never appears twice; a superseded run that was never published is not an error, and a run cannot supersede itself. | unit |
+| FR-002-74 | Ubiquitous | `studio import-run` shall record and publish the text outputs it imports (kinds table, figure, text, model-card and chart-series) with LF line ends, so that the published digest equals the digest of the file a clean checkout holds; a binary output is never changed. | unit |
 
 ## 4. Correctness properties
 

@@ -72,6 +72,7 @@ against the fake GPU backend and fake stages unless it is marked `gpu`.
 - [ ] T-002-100 (FR-002-71) the clean rule of an imported run counts only the producer paths — test: tests/unit/test_t_002_100_producer_paths.py
 - [ ] T-002-101 (FR-002-72) the CPU import kind: label, no queue facts, no timing — test: tests/unit/test_t_002_101_import_cpu_kind.py
 - [ ] T-002-103 (FR-002-73) a republished run supersedes and removes its predecessor from the published tree — test: tests/unit/test_t_002_103_supersedes.py
+- [ ] T-002-104 (FR-002-74) text outputs of an import are stored with LF line ends — test: tests/unit/test_t_002_104_lf_text.py
 
 ## Phase 9 — Polish and hostile review
 
