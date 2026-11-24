@@ -440,12 +440,15 @@ def run_e2(
     for ch in charts:
         _write(out_dir, f"charts/{ch['id']}.json", ch)
 
+    vertical = _transform_meta(
+        rec["vertical_transform"]
+    )  # the grid is named by its digest and file name, never by a path
     summary = {
         "kind": "e2-run",
         "case": "E2",
         "status": "ok",
         "label": LABEL,
-        "prepare": {k: rec[k] for k in rec if k not in ("metadata_from_recipe",)},
+        "prepare": {**{k: rec[k] for k in rec if k not in ("metadata_from_recipe",)}, "vertical_transform": vertical},
         "metadata_from_recipe": rec["metadata_from_recipe"],
         "dem_metadata_sources": {k: v.get("source") for k, v in (recipe.get("dem_metadata") or {}).items()},
         "footprint_sha256": footprint_digests,

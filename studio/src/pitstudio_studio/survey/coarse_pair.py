@@ -4,7 +4,8 @@
 Steps: the lidar DEM is block-averaged onto a UTM grid of the cell size of the recipe (cells with less than the minimum
 valid coverage are no data); the datum grid (NAVD88 height minus EGM96 height, from the PROJ grids us_nga_egm96_15 and
 us_noaa_g2018u0 unless the caller passes its own function) is written on the same grid; `run_e2` then resamples the old
-DEM bilinearly onto that grid, applies the declared grid transform and differences the pair over each area. A stable-ground
+DEM bilinearly onto that grid, applies the declared grid transform and differences the pair over each area. A
+stable-ground
 check (cells farther than a minimum distance from an area of interest) gives the mean and standard deviation of the
 difference, and the sigma of the old DEM in the bounds is the larger of its nominal figure and that measured standard
 deviation, combined with the lidar RMSEz by the formula of FR-017-33.
@@ -32,8 +33,8 @@ OffsetFn = Callable[[np.ndarray, np.ndarray, str], np.ndarray]
 def navd88_minus_egm96(x: np.ndarray, y: np.ndarray, crs: str) -> np.ndarray:
     """Height of NAVD88 minus height of EGM96 (metres) at points of `crs`, from the PROJ grids of NGA and NOAA.
 
-    The pipeline is EGM96 height (WGS 84) to NAVD88 height (NAD83(2011)) through GEOID18 (`us_noaa_g2018u0`); the grids are
-    fetched from the PROJ network on first use. A point outside the GEOID18 area is NaN.
+    The pipeline is EGM96 height (WGS 84) to NAVD88 height (NAD83(2011)) through GEOID18 (`us_noaa_g2018u0`); the grids
+    are fetched from the PROJ network on first use. A point outside the GEOID18 area is NaN.
     """
     import pyproj
     from pyproj import Transformer
@@ -154,7 +155,8 @@ def run_coarse(
         "path": str(offset_path),
         "source": recipe.get(
             "datum_source",
-            "height of NAVD88 minus height of EGM96 from the PROJ grids us_nga_egm96_15 (EGM96, NGA) and us_noaa_g2018u0 "
+            "height of NAVD88 minus height of EGM96 from the PROJ grids us_nga_egm96_15 (EGM96, NGA) and "
+            "us_noaa_g2018u0 "
             "(GEOID18, NOAA), evaluated at the cell centres",
         ),
     }
@@ -207,7 +209,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         scratch=a.scratch,
         data_root=a.data_root,
     )
-    print(json.dumps({k: summary[k] for k in ("status", "stable_ground", "sigma_srtm_m", "volumes") if k in summary}, indent=1))
+    print(
+        json.dumps(
+            {k: summary[k] for k in ("status", "stable_ground", "sigma_srtm_m", "volumes") if k in summary}, indent=1
+        )
+    )
     return 0
 
 

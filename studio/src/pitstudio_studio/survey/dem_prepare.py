@@ -123,8 +123,9 @@ def _declared_transform(recipe: Mapping[str, Any]) -> dict | None:
 def _sample_bilinear(src: DemInfo, dst_transform: tuple, dst_crs: str, shape: tuple[int, int]) -> np.ndarray:
     """Point-sampled bilinear interpolation of a geographic grid at the cell centres of the target grid.
 
-    GDAL's approximate transformer and kernel scaling displace cells by a fraction of a source pixel, which is a metre of
-    height on a steep 30 m DEM; sampling at the exact centres is exact for a plane. A no-data neighbour gives no data.
+    GDAL's approximate transformer and kernel scaling displace cells by a fraction of a source pixel, which is a metre
+    of height on a steep 30 m DEM; sampling at the exact centres is exact for a plane. A no-data neighbour gives
+    no data.
     """
     from affine import Affine
     from pyproj import Transformer
