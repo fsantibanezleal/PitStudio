@@ -220,6 +220,40 @@ def test_011_a_the_free_fall_exponent_needs_three_geometries_over_a_real_span_of
 
 
 @pytest.mark.req("FR-011-03")
+def test_011_a_the_run_out_regime_mean_may_exceed_the_scatter_by_the_grain_resolution_only() -> None:
+    aspects = (1.0, 1.2, 1.4, 1.6, 1.8, 2.0)
+    res = [D / (0.5 * sum(verify.law_envelope("runout", a)) * L0) for a in aspects]
+    mean_res = sum(res) / len(res)
+    assert 0.005 < mean_res < 0.02  # about 1 percent: one grain over the run-out
+    mean_s = sum(verify.scatter("runout", a, L0) for a in aspects) / len(aspects)
+
+    def regime_at(excess: float) -> dict:
+        geoms = []
+        for a in aspects:
+            g = _on_laws(a)
+            mid = 0.5 * sum(verify.law_envelope("runout", a))
+            g["run_out_m"] = (
+                mid * (1.0 - (mean_s + excess)) * L0
+            )  # every geometry the same deviation below the midpoint
+            geoms.append(g)
+        return verify.collapse_scaling(geoms)
+
+    inside = regime_at(0.5 * mean_res)  # over the scatter by half a grain: accepted
+    assert inside["runout"]["linear"]["ok"]
+    assert inside["runout"]["linear"]["mean_resolution"] == pytest.approx(mean_res)
+    assert not any("run-out" in p for p in inside["problems"])
+    outside = regime_at(1.5 * mean_res)  # over by more than a grain: refused, with the numbers
+    assert not outside["runout"]["linear"]["ok"]
+    (problem,) = [p for p in outside["problems"] if "mean deviation" in p]
+    assert "resolution" in problem
+    # the final height keeps its own rules: a slump mean over its scatter by the same excess still fails
+    slump = [_on_laws(0.55), _on_laws(0.6)]
+    for g in slump:
+        g["height_m"] *= 1.0 + verify.scatter("height", g["aspect_ratio"], L0) + 0.5 * mean_res
+    assert not verify.collapse_scaling(slump)["height"]["slump"]["ok"]
+
+
+@pytest.mark.req("FR-011-03")
 def test_011_a_a_geometry_outside_the_declared_aspect_range_is_reported_and_not_dropped() -> None:
     geoms = [_on_laws(2.0), _on_laws(5.0)]
     rep = verify.collapse_scaling(geoms)
