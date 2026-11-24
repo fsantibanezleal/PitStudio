@@ -42,7 +42,7 @@ from typing import Any, cast
 
 from pitstudio.runner import __version__, chart_series, import_summaries
 from pitstudio.runner.cache import Store, file_sha, jcs, sha, write_atomic
-from pitstudio.runner.recipe import SLUG, Usage, first_errors, load_yaml, one_line
+from pitstudio.runner.recipe import RUN_ID, SLUG, Usage, first_errors, load_yaml, one_line
 from pitstudio.runner.worker import git_state
 
 LABEL = "produced by the GPU queue, outside the runner"
@@ -272,6 +272,9 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
     if not SLUG.fullmatch(spec.get("slug", "")) or not re.fullmatch(r"C1|[A-E][1-3]", spec.get("case", "")):
         raise Usage("the import spec needs a slug and a case id")
     recipe_path = repo / "studio" / "recipes" / spec["recipe"]
+    superseded = spec.get("supersedes")
+    if superseded is not None and not (isinstance(superseded, str) and RUN_ID.fullmatch(superseded)):
+        raise Usage("supersedes must be the id of a run this import replaces")
     tools = {t["id"]: t for t in load_yaml(repo / "studio" / "tools.yaml", "tool registry")["tools"]}
     notes: list[str] = []
     partial: list[str] = []
@@ -394,6 +397,11 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
             else []
         ),
         spec["label"],
+        *(
+            [f"supersedes run {superseded}: its published files are removed when this run is published"]
+            if superseded
+            else []
+        ),
         f"producer paths: {', '.join(paths) or 'none'}; git sha {git_sha}; {'modified' if dirty else 'unmodified'}",
         "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the "
         "contract, the stages were not launched by the runner",
@@ -494,6 +502,7 @@ def import_run(store_dir: Path, repo: Path, job: str, src: Path, spec_file: str 
         "label": spec["label"],
         "partial": bool(partial),
         "producer_paths": paths,
+        **({"supersedes": superseded} if superseded else {}),
         "outputs": list(outs.values()),
         "bundles": bundles,
     }

@@ -271,6 +271,9 @@ def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[s
     except OSError, ValueError:
         raise Usage(f"unknown run {run_id}") from None
     _refuse_unfit(m, events)
+    superseded = (importer.imported(run) or {}).get("supersedes")
+    if superseded == run_id:
+        raise Usage("a run cannot supersede itself")
     by = {kstr(s["key"]): s for s in m["stages"]}
     imp = importer.imported(run)
     arts, copies = (
@@ -307,6 +310,9 @@ def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[s
         {"run_id": run_id, "manifest": f"{run_id}/manifest.json", "sha256": sha(body.encode())}
     ]
     idx["artefacts"] = [a for a in idx["artefacts"] if a["run_id"] != run_id] + arts
+    if superseded:  # FR-002-73: a republished result never appears twice
+        idx["runs"] = [r for r in idx["runs"] if r["run_id"] != superseded]
+        idx["artefacts"] = [a for a in idx["artefacts"] if a["run_id"] != superseded]
     samples: dict[str, list[dict]] = {}
     for line in (
         (run / "telemetry.jsonl").read_text(encoding="utf-8").splitlines()
@@ -336,5 +342,8 @@ def publish(store_dir: Path, repo: Path, run_id: str, tag: str | None) -> list[s
     write_atomic(out / "manifest.json", body)
     write_atomic(out / "telemetry.json", json.dumps(tele, separators=(",", ":")))
     write_atomic(idx_path, json.dumps(idx, indent=1) + "\n")
+    if superseded:
+        for gone in (repo / "web" / "public" / "assets" / superseded, out.parent / superseded):
+            shutil.rmtree(gone, ignore_errors=True)
     (run / "PINNED").write_text("pinned by studio publish\n", encoding="utf-8")
     return [f"published {run_id}: {len(arts)} artefact(s)"]
