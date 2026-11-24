@@ -73,6 +73,16 @@ LIGHT_CITATION = (
     "https://en.wikipedia.org/wiki/Daylight (ratio 6); sunny 16: shutter time 1/ISO at f/16, "
     "https://en.wikipedia.org/wiki/Sunny_16_rule"
 )
+ISO_2720_C = 250.0  # incident-light calibration constant of a flat receptor (ISO 2720): N^2 / t = E * S / C
+METERING_CITATION = (
+    "incident-light metering, ISO 2720 N^2/t = E*S/C with the flat-receptor constant C = 250, "
+    "https://en.wikipedia.org/wiki/Light_meter; the reference scene is the sunny 16 rule "
+    "(ISO 100, f/16, 1/100 s = 64,000 lux), https://en.wikipedia.org/wiki/Sunny_16_rule"
+)
+REFERENCE_ELEVATION_DEG = 60.0  # the reference row: a high sun, where sunny 16 holds, and light factor 1
+REFERENCE_ILLUMINANCE_LUX = ISO_2720_C * F_NUMBER**2 / (100.0 * FILM_SHUTTER_S)  # 64,000 lux
+SHUTTER_RANGE_S = (1.0 / 4000.0, 1.0 / 30.0)  # the shutter times a camera offers at a fixed f-number
+ISO_RANGE = (100.0, 1600.0)
 PLANE_RADIANCE_PER_SUN_UNIT = 7.97e-6  # linear radiance of the open grey plane per unit of sun intensity at the zenith
 PLANE_RADIANCE_PER_DOME_UNIT = 7.78e-6  # the same per unit of dome intensity (independent of the sun elevation)
 SKY_LUMINANCE_RATIO = 1.0  # sky to sunlit ground luminance, inside the 0.6 to 1.6 of a clear day (module docstring)
@@ -90,11 +100,13 @@ _REC709 = (0.2126, 0.7152, 0.0722)
 
 
 def fog_settings(sigma_per_km: float) -> dict[str, Any]:
-    """RTX fog settings of a dust extinction in 1/km: Beer-Lambert transmittance exp(-sigma * d); none for no dust."""
+    """RTX fog settings of a dust extinction in 1/km: Beer-Lambert transmittance exp(-sigma * d).
+
+    The whole block is written on every row, the density 0 for no dust (transmittance 1): a fog that is switched on and
+    off made the first fog frame of a process render a black sky (FR-009-58).
+    """
     if sigma_per_km < 0.0:
         raise ValueError(f"the dust extinction cannot be negative ({sigma_per_km})")
-    if sigma_per_km == 0.0:
-        return {"/rtx/fog/enabled": False}
     return {
         "/rtx/fog/enabled": True,
         "/rtx/fog/fogColor": list(FOG_COLOUR),
@@ -123,20 +135,59 @@ def dome_intensity_for(sun_intensity: float, elevation_deg: float) -> float:
     return sun_intensity * sine * PLANE_RADIANCE_PER_SUN_UNIT / (SUN_TO_SKY_ILLUMINANCE * PLANE_RADIANCE_PER_DOME_UNIT)
 
 
+def _light_factor(row: Mapping[str, Any]) -> float:
+    """The light factor of an unstructured row, 1 for a structured one (which carries none)."""
+    if row["arm"] == "structured":
+        return 1.0
+    factor = float(row["dr"].get("light_intensity_factor", 1.0))
+    if not math.isfinite(factor) or factor <= 0.0:
+        raise ValueError(f"the light factor must be positive and finite ({factor})")
+    return factor
+
+
+def illuminance_lux(row: Mapping[str, Any]) -> float:
+    """Horizontal illuminance of a row in lux: the sunny-16 reference scaled by the light factor and the sun elevation.
+
+    The sun term (intensity times sin(elevation)) and the sky term (the fixed ratio of `SUN_TO_SKY_ILLUMINANCE`) both
+    scale with sin(elevation), so the sum does.
+    """
+    sine = math.sin(math.radians(float(row["dr"]["sun_elevation_deg"])))
+    reference = math.sin(math.radians(REFERENCE_ELEVATION_DEG))
+    return REFERENCE_ILLUMINANCE_LUX * _light_factor(row) * sine / reference
+
+
+def exposure_for(row: Mapping[str, Any]) -> dict[str, float]:
+    """The metered exposure of a row (ISO 2720 at the fixed f-number), a function of the row only.
+
+    The shutter time of the equation at ISO 100 is used when it lies in `SHUTTER_RANGE_S`; a longer time takes the
+    slowest shutter and the ISO makes up, up to `ISO_RANGE[1]`; a shorter time takes the fastest shutter at ISO 100.
+    """
+    lux = illuminance_lux(row)
+    lo, hi = SHUTTER_RANGE_S
+    iso_lo, iso_hi = ISO_RANGE
+    needed = F_NUMBER**2 * ISO_2720_C / (lux * iso_lo)  # shutter time at ISO 100
+    if needed > hi:
+        iso = min(iso_hi, F_NUMBER**2 * ISO_2720_C / (lux * hi))
+        return {"iso": iso, "shutter_s": hi, "f_number": F_NUMBER}
+    return {"iso": iso_lo, "shutter_s": max(needed, lo), "f_number": F_NUMBER}
+
+
+def exposure_relative(row: Mapping[str, Any]) -> float:
+    """ISO times shutter times illuminance over the reference's: 1 inside the ranges, off 1 where a limit is hit."""
+    e = exposure_for(row)
+    reference = FILM_ISO["structured"] * FILM_SHUTTER_S * REFERENCE_ILLUMINANCE_LUX
+    return e["iso"] * e["shutter_s"] * illuminance_lux(row) / reference
+
+
 def sky_settings(row: Mapping[str, Any]) -> dict[str, Any]:
     """The visible sky of a row: a constant background colour at the luminance of its sunlit ground.
 
     The dome stays the fill light but camera rays see `/rtx/background/source/color`. The colour is not scaled by the
-    film ISO, so it is the ISO times the ground radiance (times the luminance ratio) in the units of the scene radiance.
+    film, so it is the base ISO times the ground radiance (times the luminance ratio) in the units of the scene
+    radiance, times the achieved exposure relative to the metered one (1 unless a limit of the camera is hit).
     """
-    if row["arm"] == "structured":
-        radiance = STRUCTURED_GROUND_RADIANCE
-    else:
-        factor = float(row["dr"].get("light_intensity_factor", 1.0))
-        if not math.isfinite(factor) or factor <= 0.0:
-            raise ValueError(f"the light factor must be positive and finite ({factor})")
-        radiance = UNSTRUCTURED_GROUND_RADIANCE * factor
-    luminance = SKY_LUMINANCE_RATIO * FILM_ISO[row["arm"]] * radiance
+    radiance = STRUCTURED_GROUND_RADIANCE if row["arm"] == "structured" else UNSTRUCTURED_GROUND_RADIANCE
+    luminance = SKY_LUMINANCE_RATIO * FILM_ISO[row["arm"]] * radiance * exposure_relative(row)
     norm = sum(w * c for w, c in zip(_REC709, SKY_TINT, strict=True))
     return {
         "/rtx/background/source/type": "color",
@@ -156,12 +207,13 @@ def history_settings() -> dict[str, Any]:
 def render_settings(row: Mapping[str, Any]) -> dict[str, Any]:
     """Every RTX exposure, fog and sky setting of a row: a function of the row only, never of the frames before it."""
     sigma = float(row["dr"]["dust_extinction_per_km"]) if row["arm"] == "structured" else 0.0
+    exposure = exposure_for(row)
     return {
         "/rtx/post/histogram/enabled": False,
         "/rtx/post/tonemap/op": TONEMAP_OP,
-        "/rtx/post/tonemap/filmIso": FILM_ISO[row["arm"]],
-        "/rtx/post/tonemap/cameraShutter": 1.0 / FILM_SHUTTER_S,
-        "/rtx/post/tonemap/fNumber": F_NUMBER,
+        "/rtx/post/tonemap/filmIso": exposure["iso"],
+        "/rtx/post/tonemap/cameraShutter": 1.0 / exposure["shutter_s"],
+        "/rtx/post/tonemap/fNumber": exposure["f_number"],
         **fog_settings(sigma),
         **sky_settings(row),
         **history_settings(),
@@ -174,7 +226,15 @@ def describe() -> dict[str, Any]:
         "auto_exposure": False,
         "film_iso": dict(FILM_ISO),
         "tonemap_op": TONEMAP_OP,
-        "exposure": {"f_number": F_NUMBER, "shutter_s": FILM_SHUTTER_S},
+        "exposure": {"f_number": F_NUMBER, "shutter_s": FILM_SHUTTER_S},  # the reference exposure (sunny 16)
+        "metering": {
+            "iso_2720_c": ISO_2720_C,
+            "reference_illuminance_lux": REFERENCE_ILLUMINANCE_LUX,
+            "reference_elevation_deg": REFERENCE_ELEVATION_DEG,
+            "shutter_range_s": list(SHUTTER_RANGE_S),
+            "iso_range": list(ISO_RANGE),
+            "citation": METERING_CITATION,
+        },
         "light": {
             "sun_to_sky_illuminance": SUN_TO_SKY_ILLUMINANCE,
             "citation": LIGHT_CITATION,

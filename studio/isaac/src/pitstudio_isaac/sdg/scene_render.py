@@ -26,7 +26,7 @@ from pitstudio_isaac.sdg.masks import external_polygons
 from pitstudio_isaac.sdg.render import CATEGORIES, CATEGORY_IDS, _entry, _start_isaac
 
 MID_GREY_LINEAR = 0.18  # sunny 16: a sunlit 18 percent grey card is exposed to the middle grey, linear 0.18
-REFERENCE_ELEVATION_DEG = 60.0  # a high sun, where sunny 16 holds
+REFERENCE_ELEVATION_DEG = render_settings.REFERENCE_ELEVATION_DEG
 NOMINAL_SUN_INTENSITY = MID_GREY_LINEAR / (  # the open grey plane (albedo 0.18) under sun and sky reads 0.18 at ISO 100
     render_settings.PLANE_RADIANCE_PER_SUN_UNIT
     * math.sin(math.radians(REFERENCE_ELEVATION_DEG))
