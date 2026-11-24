@@ -68,7 +68,7 @@ from pitstudio_pipeline.mine_to_mill.sweeps import (
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = json.loads((ROOT / "specs/017-planning-survey/contracts/comminution-sweep.schema.json").read_text("utf-8"))
-LABEL = "calibrated synthetic â€” not validated against real data"
+LABEL = f"calibrated synthetic {chr(0x2014)} not validated against real data"  # the DC-017-01 constant (FR-017-51)
 
 BOUNDS = {
     "burden_m": (3.0, 6.0),
@@ -171,8 +171,8 @@ def test_the_default_design_gives_200_configurations_of_64_points_split_140_20_4
     configs = doc["configurations"]
     assert len(configs) == 200
     assert all(len(c["points"]) == 64 for c in configs)
-    counts = {s: sum(1 for c in configs if c["split"] == s) for s in ("train", "validation", "held_out")}
-    assert counts == {"train": 140, "validation": 20, "held_out": 40}
+    counts = {s: sum(1 for c in configs if c["split"] == s) for s in ("train", "validation", "held-out")}
+    assert counts == {"train": 140, "validation": 20, "held-out": 40}
     assert len({c["id"] for c in configs}) == 200
     assert doc["synthetic"] is True
     assert doc["label"] == LABEL
@@ -263,12 +263,12 @@ def test_the_design_is_a_deterministic_function_of_its_seed_and_the_splits_are_d
     a = generate_sweeps(copy.deepcopy(design), chain=_fake_chain)
     b = generate_sweeps(copy.deepcopy(design), chain=_fake_chain)
     assert json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
-    ids = {s: {c["id"] for c in a["configurations"] if c["split"] == s} for s in ("train", "validation", "held_out")}
+    ids = {s: {c["id"] for c in a["configurations"] if c["split"] == s} for s in ("train", "validation", "held-out")}
     assert not ids["train"] & ids["validation"]
-    assert not ids["train"] & ids["held_out"]
-    assert not ids["validation"] & ids["held_out"]
-    assert len(ids["train"]) + len(ids["validation"]) + len(ids["held_out"]) == 20
-    assert (len(ids["train"]), len(ids["validation"]), len(ids["held_out"])) == (14, 2, 4)
+    assert not ids["train"] & ids["held-out"]
+    assert not ids["validation"] & ids["held-out"]
+    assert len(ids["train"]) + len(ids["validation"]) + len(ids["held-out"]) == 20
+    assert (len(ids["train"]), len(ids["validation"]), len(ids["held-out"])) == (14, 2, 4)
 
 
 @pytest.mark.req("P-017-19")
