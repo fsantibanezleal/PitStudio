@@ -269,6 +269,7 @@
 | FR-002-70 | 002-runner | draft | T-002-099 | tests/unit/test_t_002_099_import_chart_series.py |
 | FR-002-71 | 002-runner | draft | T-002-100 | tests/unit/test_t_002_100_producer_paths.py |
 | FR-002-72 | 002-runner | draft | T-002-101 | tests/unit/test_t_002_101_import_cpu_kind.py |
+| FR-002-73 | 002-runner | draft | T-002-103 | tests/unit/test_t_002_103_supersedes.py |
 | FR-003-01 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
 | FR-003-02 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
 | FR-003-03 | 003-console | draft | T-003-010 | tests/unit/test_t_003_010_startup.py |
@@ -587,6 +588,8 @@
 | FR-009-54 | 009-perception | draft | T-009-100 | tests/unit/test_t_009_016_carved_scene.py, tests/unit/test_t_009_016_geometry_gate.py, tests/unit/test_t_009_100_line_of_sight.py |
 | FR-009-55 | 009-perception | draft | T-009-101 | tests/unit/test_t_009_016_gate_occlusion.py, tests/unit/test_t_009_101_visibility_occlusion.py |
 | FR-009-56 | 009-perception | draft | T-009-102 | tests/unit/test_t_009_102_view_grid.py |
+| FR-009-57 | 009-perception | draft | T-009-103 | tests/unit/test_t_009_103_metered_exposure.py |
+| FR-009-58 | 009-perception | draft | T-009-104 | tests/unit/test_t_009_104_fog_every_row.py |
 | FR-010-01 | 010-slope | draft | T-010-010, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_105_c1_charts.py, tests/unit/test_t_010_010_lem_search.py |
 | FR-010-02 | 010-slope | draft | T-010-011 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_102_c1_walls.py, tests/unit/test_t_010_011_hoek_brown_slices.py |
 | FR-010-03 | 010-slope | draft | T-010-015, T-010-018 | tests/parity/test_t_010_018_geotech_goldens.py, tests/pipeline/test_t_010_102_c1_walls.py, tests/property/test_t_010_015_pof.py |
@@ -937,7 +940,7 @@
 | FR-017-19 | 017-planning-survey | draft | T-017-031 | tests/property/test_t_017_031_schedule_checker.py |
 | FR-017-20 | 017-planning-survey | draft | T-017-032 | tests/pipeline/test_t_017_032_schedule_enumeration.py |
 | FR-017-21 | 017-planning-survey | draft | T-017-033 | tests/contract/test_t_017_033_e1_outputs.py |
-| FR-017-22 | 017-planning-survey | draft | T-017-033 | tests/contract/test_t_017_033_e1_outputs.py |
+| FR-017-22 | 017-planning-survey | draft | T-017-033 | tests/contract/test_t_017_033_e1_outputs.py, tests/pipeline/test_t_017_101_e1_run.py |
 | FR-017-23 | 017-planning-survey | draft | T-017-025 | tests/pipeline/test_t_017_025_minelib_marvin.py |
 | FR-017-24 | 017-planning-survey | draft | T-017-025 | tests/pipeline/test_t_017_025_minelib_marvin.py |
 | FR-017-25 | 017-planning-survey | draft | T-017-027 | web/e2e/e1-revenue-factor.spec.ts |
@@ -966,7 +969,7 @@
 | FR-017-48 | 017-planning-survey | draft | T-017-040 | tests/property/test_t_017_040_dem_difference.py, web/src/engines/volume/t_018_072_volume.test.ts |
 | FR-017-49 | 017-planning-survey | draft | T-017-049 | tests/pipeline/test_t_017_049_splat_package.py, web/e2e/e2-splat-view.spec.ts |
 | FR-017-50 | 017-planning-survey | draft | T-017-050 | tests/unit/test_t_017_050_survey_fake_gpu.py |
-| FR-017-51 | 017-planning-survey | draft | T-017-070 | tests/contract/test_t_017_070_planning_survey_manifests.py, tests/pipeline/test_t_017_101_e1_run.py |
+| FR-017-51 | 017-planning-survey | draft | T-017-070 | tests/contract/test_t_017_070_planning_survey_manifests.py, tests/pipeline/test_t_017_101_e1_run.py, tests/pipeline/test_t_017_102_e2_run.py |
 | FR-017-52 | 017-planning-survey | draft | T-017-092 | tests/pipeline/test_t_017_092_fixture_propagation.py |
 | FR-017-53 | 017-planning-survey | draft | T-017-093 | tests/pipeline/test_t_017_093_partial_cells.py |
 | FR-018-01 | 018-web-cases | draft | T-018-020 | web/e2e/t_018_020_explore_pit.spec.ts |
@@ -1050,7 +1053,7 @@
 | FR-018-79 | 018-web-cases | draft | T-018-102 | web/src/cases/t_018_102_attribution.test.tsx, web/e2e/t_018_102_attribution.spec.ts |
 | FR-018-80 | 018-web-cases | draft | T-018-103 | web/src/cases/t_018_103_built_with_collapsed.test.tsx, web/e2e/t_018_103_built_with_collapsed.spec.ts |
 | FR-018-85 | 018-web-cases | draft | T-018-110 | web/src/cases/t_018_110_chart_fixes.test.tsx |
-| FR-018-86 | 018-web-cases | draft | T-018-111 | - |
+| FR-018-86 | 018-web-cases | draft | T-018-111 | tests/unit/test_t_018_111_a3_chart_series.py |
 | FR-019-01 | 019-web-studio | draft | T-019-010 | web/src/studio/t_019_010_tool_map.test.tsx, web/e2e/t_019_010_tool_map.spec.ts |
 | FR-019-02 | 019-web-studio | draft | T-019-003 | web/src/studio/t_019_003_build_index.test.ts, web/src/studio/t_019_010_tool_map.test.tsx |
 | FR-019-03 | 019-web-studio | draft | T-019-011 | web/e2e/t_019_011_map_fallback.spec.ts |

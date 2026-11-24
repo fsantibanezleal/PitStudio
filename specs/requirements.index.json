@@ -2476,6 +2476,18 @@
         "tests/unit/test_t_002_101_import_cpu_kind.py"
       ]
     },
+    "FR-002-73": {
+      "spec": "002-runner",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-002-103"
+      ],
+      "tests": [
+        "tests/unit/test_t_002_103_supersedes.py"
+      ]
+    },
     "P-002-01": {
       "spec": "002-runner",
       "retired": false,
@@ -8844,6 +8856,30 @@
       ],
       "tests": [
         "tests/unit/test_t_009_102_view_grid.py"
+      ]
+    },
+    "FR-009-57": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-103"
+      ],
+      "tests": [
+        "tests/unit/test_t_009_103_metered_exposure.py"
+      ]
+    },
+    "FR-009-58": {
+      "spec": "009-perception",
+      "retired": false,
+      "draft": true,
+      "phase": "clarified",
+      "tasks": [
+        "T-009-104"
+      ],
+      "tests": [
+        "tests/unit/test_t_009_104_fog_every_row.py"
       ]
     },
     "P-009-01": {
@@ -16780,7 +16816,8 @@
         "T-017-033"
       ],
       "tests": [
-        "tests/contract/test_t_017_033_e1_outputs.py"
+        "tests/contract/test_t_017_033_e1_outputs.py",
+        "tests/pipeline/test_t_017_101_e1_run.py"
       ]
     },
     "FR-017-23": {
@@ -17143,7 +17180,8 @@
       ],
       "tests": [
         "tests/contract/test_t_017_070_planning_survey_manifests.py",
-        "tests/pipeline/test_t_017_101_e1_run.py"
+        "tests/pipeline/test_t_017_101_e1_run.py",
+        "tests/pipeline/test_t_017_102_e2_run.py"
       ]
     },
     "FR-017-52": {
@@ -18761,7 +18799,9 @@
       "tasks": [
         "T-018-111"
       ],
-      "tests": []
+      "tests": [
+        "tests/unit/test_t_018_111_a3_chart_series.py"
+      ]
     },
     "P-018-01": {
       "spec": "018-web-cases",
@@ -22459,6 +22499,9 @@
     "T-002-101": [
       "FR-002-72"
     ],
+    "T-002-103": [
+      "FR-002-73"
+    ],
     "T-002-090": [
       "NFR-002-05"
     ],
@@ -23642,6 +23685,12 @@
     ],
     "T-009-102": [
       "FR-009-56"
+    ],
+    "T-009-103": [
+      "FR-009-57"
+    ],
+    "T-009-104": [
+      "FR-009-58"
     ],
     "T-009-090": [],
     "T-009-091": [],
