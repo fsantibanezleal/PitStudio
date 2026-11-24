@@ -6,14 +6,14 @@
  "chart_type": "bar",
  "status": "ok",
  "title": {
-  "en": "Cut, fill and net surface change 2018 to 2023",
-  "es": "Corte, relleno y cambio neto de superficie 2018 a 2023"
+  "en": "Cut, fill and net surface change 2000 to 2018",
+  "es": "Corte, relleno y cambio neto de superficie 2000 a 2018"
  },
  "producer": {
   "tool": "pitstudio",
   "method": "DEM differencing with exactly rounded sums (pitstudio.survey)",
   "version": "pitstudio-survey-1.0",
-  "label": "measurement, not validation"
+  "label": "measurement, not validation; coarse 30 m, 2000 to 2018"
  },
  "serves": [
   "FR-018-16",
@@ -51,25 +51,51 @@
  ],
  "series": [
   {
-   "id": "query-box",
+   "id": "pit-outline",
    "label": {
-    "en": "3DEP query box, cells with data in both epochs",
-    "es": "Caja de consulta 3DEP, celdas con dato en ambas \u00e9pocas"
+    "en": "Bingham pit outline (scene A1)",
+    "es": "Contorno del pit de Bingham (escena A1)"
    },
    "y": [
-    493616.9955403262,
-    3867837.9920235374,
-    3374220.9964832114
+    546843326.9596374,
+    9497.977041391732,
+    -546833828.982596
    ],
    "lo": [
-    353939.6474681352,
-    3728160.643951346,
-    3234543.6484110206
+    519317131.8552912,
+    -27516697.1273048,
+    -574360024.0869422
    ],
    "hi": [
-    633294.3436125172,
-    4007515.3400957286,
-    3513898.344555402
+    574369522.0639836,
+    27535693.081387587,
+    -519307633.8782498
+   ],
+   "band_label": {
+    "en": "Fully correlated vertical-error bound from the RMSEz of both epochs",
+    "es": "Cota de error vertical totalmente correlacionado a partir del RMSEz de ambas \u00e9pocas"
+   }
+  },
+  {
+   "id": "query-box",
+   "label": {
+    "en": "2018 tile, cells with data in both DEMs",
+    "es": "Tile 2018, celdas con dato en ambos DEM"
+   },
+   "y": [
+    1308545511.084959,
+    324308411.3259001,
+    -984237099.759059
+   ],
+   "lo": [
+    1000461426.478135,
+    16224326.719076037,
+    -1292321184.3658829
+   ],
+   "hi": [
+    1616629595.691783,
+    632392495.9327241,
+    -676153015.1522349
    ],
    "band_label": {
     "en": "Fully correlated vertical-error bound from the RMSEz of both epochs",

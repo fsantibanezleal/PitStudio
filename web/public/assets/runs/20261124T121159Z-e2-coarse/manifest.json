@@ -1,0 +1,230 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261124T121159Z-e2-coarse",
+ "recipe": {
+  "id": "e2-coarse",
+  "path": "cases/e2-coarse.yaml",
+  "sha256": "0de4d9747a19eab2635a8346072f45df430d470e57c84a357b3c10d384bfcf28"
+ },
+ "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-24T12:11:59Z",
+ "profile": "imported",
+ "seed": 0,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "st10_terrain",
+    "variant": "coarse-2000-2018"
+   },
+   "tool": "pitstudio",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "b35022100e507bc161d0a3de15aca54f19e24e52aa658733da4c060ccdbf6312",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 0,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "survey-volume.json",
+     "sha256": "c37fc5e0679d3e7362eea962b6e8584cf09e02e8be973e919c3de1c09f9db299",
+     "bytes": 8049
+    },
+    {
+     "name": "e2-run.json",
+     "sha256": "5de6ab41fd7815e56d99e0f0aa7fd68be32c38d7bd1f2152b6a97a31522ee3ce",
+     "bytes": 3413
+    },
+    {
+     "name": "e2-volume-bars.json",
+     "sha256": "30c09346332da574ab1478252dfd29c9851b6bc8537a25ff3be0b5fb48a711ac",
+     "bytes": 2385
+    },
+    {
+     "name": "e2-difference-map.json",
+     "sha256": "51fee32c8a3f38d095d62665c57af5245b320274aa4f01eb49225f868b355245",
+     "bytes": 69693
+    },
+    {
+     "name": "e2-volume-table.json",
+     "sha256": "335129a9039c9eb0933397236f092bb84adecbf5f07c6fcf4544e7c9bbc2ab1c",
+     "bytes": 2155
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "e2c-survey-volume",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/survey-volume.json",
+   "bytes": 8049,
+   "sha256": "c37fc5e0679d3e7362eea962b6e8584cf09e02e8be973e919c3de1c09f9db299",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2c-run-summary",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/e2-run.json",
+   "bytes": 3413,
+   "sha256": "5de6ab41fd7815e56d99e0f0aa7fd68be32c38d7bd1f2152b6a97a31522ee3ce",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2c-e2-volume-bars",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/e2-volume-bars.json",
+   "bytes": 2385,
+   "sha256": "30c09346332da574ab1478252dfd29c9851b6bc8537a25ff3be0b5fb48a711ac",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2c-e2-difference-map",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/e2-difference-map.json",
+   "bytes": 69693,
+   "sha256": "51fee32c8a3f38d095d62665c57af5245b320274aa4f01eb49225f868b355245",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2c-e2-volume-table",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/e2-volume-table.json",
+   "bytes": 2155,
+   "sha256": "335129a9039c9eb0933397236f092bb84adecbf5f07c6fcf4544e7c9bbc2ab1c",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  }
+ ],
+ "notes": [
+  "produced on the CPU, on this machine, with pitstudio, outside the runner",
+  "job e2-coarse",
+  "no GPU time and no timing are recorded",
+  "measurement, not validation, coarse 30 m, 2000 to 2018: SRTM GL1 (February 2000) against the 3DEP 2018 lidar DEM; the bounds use the stable-ground sd of the old DEM",
+  "producer paths: src/pitstudio/survey, studio/src/pitstudio_studio/survey, studio/recipes/cases/e2-coarse.yaml; git sha 1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Supersedes the strip run: the 2023 and 2013 3DEP tiles have no data over the pit. SRTM absolute accuracy figures are UNVERIFIED (secondary source); the stable-ground mean is reported, not removed."
+ ]
+}

@@ -35,11 +35,6 @@
    "sha256": "159c527f901048b9c64609af48886b3f4ea53c7c6177c143260c25420fbfef13"
   },
   {
-   "run_id": "20261124T021003Z-e2-volume",
-   "manifest": "20261124T021003Z-e2-volume/manifest.json",
-   "sha256": "425d3efb72c559a3bb19ec4c2fe262137bb07d507d1954a1541d3ff426288a03"
-  },
-  {
    "run_id": "20261012T061925Z-a3-dem-repose-20k-charts",
    "manifest": "20261012T061925Z-a3-dem-repose-20k-charts/manifest.json",
    "sha256": "567371c7a86b23051ca88247dbb1923dd9584dff1a2b1d8cd2849d58103fc2d4"
@@ -83,6 +78,11 @@
    "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
    "manifest": "20261124T032013Z-d2-mine-to-mill-chain/manifest.json",
    "sha256": "5d742f94499ed24042017db42021fc6bf2baff0b0ec43f08fd0bb5b261379a9c"
+  },
+  {
+   "run_id": "20261124T121159Z-e2-coarse",
+   "manifest": "20261124T121159Z-e2-coarse/manifest.json",
+   "sha256": "7ff4a2ef6257b28c18d4191301d92ad75986e8e2c26e3b7ba1f52c7b96515617"
   }
  ],
  "artefacts": [
@@ -1967,141 +1967,6 @@
    "spdx": "LicenseRef-USGov-PD",
    "asset_host": "git",
    "media_type": "application/json"
-  },
-  {
-   "id": "e2-survey-volume",
-   "run_id": "20261124T021003Z-e2-volume",
-   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
-   "path": "assets/20261124T021003Z-e2-volume/survey-volume.json",
-   "bytes": 2577,
-   "sha256": "3068b4d9de1115709d03dc933a0b5dbe02c2a1155ccafb5f5a8f3555e2021a80",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
-  },
-  {
-   "id": "e2-volume-run-summary",
-   "run_id": "20261124T021003Z-e2-volume",
-   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
-   "path": "assets/20261124T021003Z-e2-volume/e2-run.json",
-   "bytes": 2562,
-   "sha256": "f2f6d4c392ee8768b0e8cca0eac54690d357205211ff2e0ffc0ea878aebbc286",
-   "kind": "table",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
-  },
-  {
-   "id": "e2-e2-volume-bars",
-   "run_id": "20261124T021003Z-e2-volume",
-   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
-   "path": "assets/20261124T021003Z-e2-volume/e2-volume-bars.json",
-   "bytes": 1773,
-   "sha256": "03ff7da8dd2046b9f9ba7aa5b18867c912f20da6f4c36045e9c5bc1fbcbb2465",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
-  },
-  {
-   "id": "e2-e2-difference-map",
-   "run_id": "20261124T021003Z-e2-volume",
-   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
-   "path": "assets/20261124T021003Z-e2-volume/e2-difference-map.json",
-   "bytes": 8965,
-   "sha256": "2c43211e5ae25af18c2ab4ce43faa0d66e357fd19ba5c73e920c935731131c6e",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
-  },
-  {
-   "id": "e2-e2-volume-table",
-   "run_id": "20261124T021003Z-e2-volume",
-   "git_sha": "1a439bc6f6ffea5132b36d6ed510142429c01e87",
-   "path": "assets/20261124T021003Z-e2-volume/e2-volume-table.json",
-   "bytes": 2112,
-   "sha256": "6cbd7a9d9d91ff64f110cce7ad35bc06834b766bca283603dd24e00c4defc972",
-   "kind": "chart-series",
-   "producer": {
-    "tool": "pitstudio",
-    "stage": {
-     "id": "st10_terrain",
-     "variant": "real-volume"
-    }
-   },
-   "inputs": [],
-   "lane": "static",
-   "budget_class": "studio-showcase",
-   "licence_class": "public-domain",
-   "spdx": "LicenseRef-USGov-PD",
-   "asset_host": "git",
-   "cases": [
-    "E2"
-   ],
-   "media_type": "application/json",
-   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
   },
   {
    "id": "a3-dem-repose-results",
@@ -5062,6 +4927,141 @@
     "D2"
    ],
    "media_type": "application/json"
+  },
+  {
+   "id": "e2c-survey-volume",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/survey-volume.json",
+   "bytes": 8049,
+   "sha256": "c37fc5e0679d3e7362eea962b6e8584cf09e02e8be973e919c3de1c09f9db299",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2c-run-summary",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/e2-run.json",
+   "bytes": 3413,
+   "sha256": "5de6ab41fd7815e56d99e0f0aa7fd68be32c38d7bd1f2152b6a97a31522ee3ce",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2c-e2-volume-bars",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/e2-volume-bars.json",
+   "bytes": 2385,
+   "sha256": "30c09346332da574ab1478252dfd29c9851b6bc8537a25ff3be0b5fb48a711ac",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2c-e2-difference-map",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/e2-difference-map.json",
+   "bytes": 69693,
+   "sha256": "51fee32c8a3f38d095d62665c57af5245b320274aa4f01eb49225f868b355245",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "e2c-e2-volume-table",
+   "run_id": "20261124T121159Z-e2-coarse",
+   "git_sha": "1d5807c6e5c263e3d09ac7f1fd088191df9c3ed2",
+   "path": "assets/20261124T121159Z-e2-coarse/e2-volume-table.json",
+   "bytes": 2155,
+   "sha256": "335129a9039c9eb0933397236f092bb84adecbf5f07c6fcf4544e7c9bbc2ab1c",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st10_terrain",
+     "variant": "coarse-2000-2018"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "E2"
+   ],
+   "media_type": "application/json",
+   "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
   }
  ]
 }

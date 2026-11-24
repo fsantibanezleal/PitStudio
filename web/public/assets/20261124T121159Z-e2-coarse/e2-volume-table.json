@@ -13,7 +13,7 @@
   "tool": "pitstudio",
   "method": "DEM differencing with exactly rounded sums (pitstudio.survey)",
   "version": "pitstudio-survey-1.0",
-  "label": "measurement, not validation"
+  "label": "measurement, not validation; coarse 30 m, 2000 to 2018"
  },
  "serves": [
   "FR-018-16",
@@ -95,24 +95,24 @@
   ],
   "rows": [
    [
-    "Bingham pit outline (scene A1): Not run \u2014 no valid cell inside the polygon",
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null
+    "Bingham pit outline (scene A1)",
+    546843326.9596374,
+    9497.977041391732,
+    -546833828.982596,
+    417831.6356962478,
+    27526195.104346193,
+    4340,
+    0.0
    ],
    [
-    "3DEP query box, cells with data in both epochs",
-    493616.9955403262,
-    3867837.9920235374,
-    3374220.9964832114,
-    140.54664706068232,
-    139677.348072191,
-    987668,
-    0.99012332
+    "2018 tile, cells with data in both DEMs",
+    1308545511.084959,
+    324308411.3259001,
+    -984237099.759059,
+    1397857.3647949093,
+    308084084.60682404,
+    48575,
+    0.0966824115743668
    ]
   ]
  }
