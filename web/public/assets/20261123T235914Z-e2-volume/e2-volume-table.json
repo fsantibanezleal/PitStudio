@@ -1,0 +1,119 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "e2-volume-table",
+ "case": "E2",
+ "chart_type": "table",
+ "status": "ok",
+ "title": {
+  "en": "Cut, fill and net volume",
+  "es": "Volumen de corte, relleno y neto"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "DEM differencing with exactly rounded sums (pitstudio.survey)",
+  "version": "pitstudio-survey-1.0",
+  "label": "measurement, not validation"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-017-34"
+ ],
+ "table": {
+  "columns": [
+   {
+    "id": "area",
+    "label": {
+     "en": "Area of interest",
+     "es": "\u00c1rea de inter\u00e9s"
+    },
+    "type": "text"
+   },
+   {
+    "id": "cut",
+    "label": {
+     "en": "Cut",
+     "es": "Corte"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "fill",
+    "label": {
+     "en": "Fill",
+     "es": "Relleno"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "net",
+    "label": {
+     "en": "Net",
+     "es": "Neto"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "bound-uncorrelated",
+    "label": {
+     "en": "Bound, uncorrelated error",
+     "es": "Cota, error no correlacionado"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "bound-correlated",
+    "label": {
+     "en": "Bound, fully correlated error",
+     "es": "Cota, error totalmente correlacionado"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "cells",
+    "label": {
+     "en": "Valid cells",
+     "es": "Celdas v\u00e1lidas"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "nodata",
+    "label": {
+     "en": "No-data fraction",
+     "es": "Fracci\u00f3n sin dato"
+    },
+    "type": "number",
+    "unit": "1"
+   }
+  ],
+  "rows": [
+   [
+    "Bingham pit outline (scene A1): Not run \u2014 no valid cell inside the polygon",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    "3DEP query box, cells with data in both epochs",
+    493616.9955403262,
+    3867837.9920235374,
+    3374220.9964832114,
+    140.54664706068232,
+    139677.348072191,
+    987668,
+    0.99012332
+   ]
+  ]
+ }
+}

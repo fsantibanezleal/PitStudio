@@ -1,0 +1,103 @@
+{
+ "schema_version": "1.0",
+ "volumes": [
+  {
+   "id": "bingham-2018-2023-pit-outline",
+   "scope": "real",
+   "method": "dem-differencing",
+   "status": "not_run",
+   "reason": "Not run \u2014 no valid cell inside the polygon",
+   "label": "measurement, not validation",
+   "licence": {
+    "spdx": "LicenseRef-USGov-PD",
+    "licence_class": "public-domain",
+    "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+   }
+  },
+  {
+   "id": "bingham-2018-2023-query-box",
+   "scope": "real",
+   "method": "dem-differencing",
+   "status": "ok",
+   "label": "measurement, not validation",
+   "licence": {
+    "spdx": "LicenseRef-USGov-PD",
+    "licence_class": "public-domain",
+    "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+   },
+   "surfaces": {
+    "before": {
+     "path": "data/raw/usgs-3dep-bingham/ut-central-ql2-2018-dem.tif",
+     "sha256": "484a57cc33c95696d163bddf5dc6de353e71cc3d1946b568cf895939c6c90391",
+     "epoch": "2018",
+     "project": "UT Central QL2 2018",
+     "crs": "EPSG:26912",
+     "vertical_datum": "NAVD88",
+     "rmse_z_m": 0.1
+    },
+    "after": {
+     "path": "data/raw/usgs-3dep-bingham/ut-2023-salt-lake-co-dem.tif",
+     "sha256": "e1b755b0f23f6a8f0f361fa941c819bf7bf804e8678dd372c48ccbfbea1cec19",
+     "epoch": "2023",
+     "project": "UT 2023 Salt Lake Co",
+     "crs": "EPSG:26912",
+     "vertical_datum": "NAVD88",
+     "rmse_z_m": 0.1
+    }
+   },
+   "grid": {
+    "cell_m": 1.0,
+    "shape": [
+     10000,
+     10000
+    ],
+    "origin_m": [
+     399999.9999795239,
+     4480000.000045213
+    ],
+    "crs": "EPSG:26912"
+   },
+   "resampling": {
+    "method": "bilinear",
+    "source_crs": "EPSG:26912"
+   },
+   "vertical_transform": {
+    "kind": "none"
+   },
+   "polygon": {
+    "vertices": [
+     [
+      399999.9999795239,
+      4480000.000045213
+     ],
+     [
+      409999.9999795239,
+      4480000.000045213
+     ],
+     [
+      409999.9999795239,
+      4490000.000045213
+     ],
+     [
+      399999.9999795239,
+      4490000.000045213
+     ]
+    ],
+    "source": "provisional: no mining-footprint polygon intersects the 3DEP query box, so the area of interest is the whole query box and the site label stays provisional",
+    "overlap_ratio": 0.0
+   },
+   "v_cut_m3": 493616.9955403262,
+   "v_fill_m3": 3867837.9920235374,
+   "v_net_m3": 3374220.9964832114,
+   "cells": {
+    "valid": 987668,
+    "nodata": 99012332,
+    "nodata_fraction": 0.99012332
+   },
+   "uncertainty_m3": {
+    "uncorrelated": 140.54664706068232,
+    "correlated": 139677.348072191
+   }
+  }
+ ]
+}

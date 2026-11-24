@@ -1,0 +1,147 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "e1-value-vs-lambda",
+ "case": "E1",
+ "chart_type": "line",
+ "status": "ok",
+ "title": {
+  "en": "Pit value against revenue factor",
+  "es": "Valor del pit seg\u00fan el factor de ingreso"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "minimum cut (minephys.planning) over the revenue-factor grid",
+  "version": "minephys-98d5b25-oreblocks-0.5.2",
+  "label": "calibrated synthetic: seeded oreblocks deposit, not validated against a real deposit"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-017-16"
+ ],
+ "x_axis": {
+  "label": {
+   "en": "Revenue factor",
+   "es": "Factor de ingreso"
+  },
+  "unit": "1"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Pit value",
+   "es": "Valor del pit"
+  },
+  "unit": "MUSD"
+ },
+ "series": [
+  {
+   "id": "pit-value",
+   "label": {
+    "en": "Value of the ultimate pit",
+    "es": "Valor del pit \u00faltimo"
+   },
+   "x": [
+    0.025,
+    0.05,
+    0.075,
+    0.1,
+    0.125,
+    0.15,
+    0.175,
+    0.2,
+    0.225,
+    0.25,
+    0.275,
+    0.3,
+    0.325,
+    0.35,
+    0.375,
+    0.4,
+    0.425,
+    0.45,
+    0.475,
+    0.5,
+    0.525,
+    0.55,
+    0.575,
+    0.6,
+    0.625,
+    0.65,
+    0.675,
+    0.7,
+    0.725,
+    0.75,
+    0.775,
+    0.8,
+    0.825,
+    0.85,
+    0.875,
+    0.9,
+    0.925,
+    0.95,
+    0.975,
+    1.0
+   ],
+   "y": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    13.92086129,
+    88.2523467,
+    183.34255718,
+    291.4208424,
+    407.42483293,
+    528.80917171,
+    654.09088402,
+    782.46608906,
+    913.07323815,
+    1045.56431979,
+    1179.23954366,
+    1314.33865558,
+    1450.43395581,
+    1587.14411629,
+    1724.44968758,
+    1862.43435046,
+    2001.03251689,
+    2140.03052322,
+    2279.38582667,
+    2419.09927572,
+    2559.06729224,
+    2699.25910354,
+    2839.64005979,
+    2980.22466296,
+    3121.02661008,
+    3262.12717089,
+    3403.4376546,
+    3544.92779267,
+    3686.601064,
+    3828.45950665,
+    3970.52853575,
+    4112.84340683,
+    4255.45978448,
+    4398.39562389,
+    4541.68713072,
+    4685.38675629
+   ],
+   "n": 62500
+  }
+ ],
+ "markers": [
+  {
+   "id": "ultimate-pit",
+   "label": {
+    "en": "Ultimate pit (revenue factor 1)",
+    "es": "Pit \u00faltimo (factor de ingreso 1)"
+   },
+   "value_text": "4,685.4 MUSD",
+   "orientation": "point",
+   "x": 1.0,
+   "y": 4685.38675629
+  }
+ ],
+ "caption": {
+  "en": "Exact minimum cut of the block precedence graph at each of the 40 revenue factors.",
+  "es": "Corte m\u00ednimo exacto del grafo de precedencias de bloques en cada uno de los 40 factores de ingreso."
+ }
+}

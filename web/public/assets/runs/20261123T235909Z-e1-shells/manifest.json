@@ -1,0 +1,287 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261123T235909Z-e1-shells",
+ "recipe": {
+  "id": "e1-shells",
+  "path": "cases/e1.yaml",
+  "sha256": "27e7c841a350d3726dcabae85571ef6f799f0c2b3c8b0027b75becd11eb27256"
+ },
+ "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-23T23:59:09Z",
+ "profile": "imported",
+ "seed": 3,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s50_evaluate",
+    "variant": "shells"
+   },
+   "tool": "pitstudio",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "f371bcf3579848e036b700dd025b510de4eb6edc90457a8deb14fbd1f98048a1",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 3,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "e1-shells.json",
+     "sha256": "4d7ab4b5a8ce82c9d804f6bcf23ca2fdf4f38266a1fc1fc2e00f5152c9b8853b",
+     "bytes": 542404
+    },
+    {
+     "name": "e1-run.json",
+     "sha256": "a9a3f1f02ab1a910c8b039ba8d7807556853cfd8766f16e6e42c0ef77360bff4",
+     "bytes": 3942
+    },
+    {
+     "name": "e1-value-vs-lambda.json",
+     "sha256": "34064da90b7450eca270fa9841295d1277abaf1ed4096280b7edc024bde882cc",
+     "bytes": 2706
+    },
+    {
+     "name": "e1-strip-ratio-vs-lambda.json",
+     "sha256": "b8ba2f045f040b7bbd84b9ac56fe7752da65b0f4047a566f7025ee1da8442e38",
+     "bytes": 2485
+    },
+    {
+     "name": "e1-shell-table.json",
+     "sha256": "4520d08fe0f225ac70ee6940787ed102a775f1b20e90ccb77392f73235a9c75d",
+     "bytes": 5655
+    },
+    {
+     "name": "e1-pushbacks.json",
+     "sha256": "502fa5e5d7be92a711a6200d7782c481d8cbb8a134a58d660c166ad09f142f69",
+     "bytes": 2547
+    },
+    {
+     "name": "e1-sections.json",
+     "sha256": "d52e0e2e3d272b24b4b1b5ffa2baf6a8d7b32ece513464e1f1a54cae60faca17",
+     "bytes": 23160
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "e1-shells-document",
+   "run_id": "20261123T235909Z-e1-shells",
+   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
+   "path": "assets/20261123T235909Z-e1-shells/e1-shells.json",
+   "bytes": 542404,
+   "sha256": "4d7ab4b5a8ce82c9d804f6bcf23ca2fdf4f38266a1fc1fc2e00f5152c9b8853b",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-shells-run-summary",
+   "run_id": "20261123T235909Z-e1-shells",
+   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
+   "path": "assets/20261123T235909Z-e1-shells/e1-run.json",
+   "bytes": 3942,
+   "sha256": "a9a3f1f02ab1a910c8b039ba8d7807556853cfd8766f16e6e42c0ef77360bff4",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-value-vs-lambda",
+   "run_id": "20261123T235909Z-e1-shells",
+   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
+   "path": "assets/20261123T235909Z-e1-shells/e1-value-vs-lambda.json",
+   "bytes": 2706,
+   "sha256": "34064da90b7450eca270fa9841295d1277abaf1ed4096280b7edc024bde882cc",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-strip-ratio-vs-lambda",
+   "run_id": "20261123T235909Z-e1-shells",
+   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
+   "path": "assets/20261123T235909Z-e1-shells/e1-strip-ratio-vs-lambda.json",
+   "bytes": 2485,
+   "sha256": "b8ba2f045f040b7bbd84b9ac56fe7752da65b0f4047a566f7025ee1da8442e38",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-shell-table",
+   "run_id": "20261123T235909Z-e1-shells",
+   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
+   "path": "assets/20261123T235909Z-e1-shells/e1-shell-table.json",
+   "bytes": 5655,
+   "sha256": "4520d08fe0f225ac70ee6940787ed102a775f1b20e90ccb77392f73235a9c75d",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-pushbacks",
+   "run_id": "20261123T235909Z-e1-shells",
+   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
+   "path": "assets/20261123T235909Z-e1-shells/e1-pushbacks.json",
+   "bytes": 2547,
+   "sha256": "502fa5e5d7be92a711a6200d7782c481d8cbb8a134a58d660c166ad09f142f69",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "e1-e1-sections",
+   "run_id": "20261123T235909Z-e1-shells",
+   "git_sha": "7b4ff69b2acd86fe99474de9db933b4374e458dc",
+   "path": "assets/20261123T235909Z-e1-shells/e1-sections.json",
+   "bytes": 23160,
+   "sha256": "d52e0e2e3d272b24b4b1b5ffa2baf6a8d7b32ece513464e1f1a54cae60faca17",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate",
+     "variant": "shells"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "E1"
+   ],
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced on the CPU, on this machine, with pitstudio, outside the runner",
+  "job e1-shells",
+  "no GPU time and no timing are recorded",
+  "calibrated synthetic, not validated against a real deposit: a seeded oreblocks porphyry deposit of 62,500 blocks",
+  "producer paths: src/pitstudio/planning, pipeline/src/pitstudio_pipeline/planning, studio/recipes/cases/e1.yaml; git sha 7b4ff69b2acd86fe99474de9db933b4374e458dc; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Exact minimum-cut shells at 40 revenue factors, the pushback rule, and the oracle comparison with the oreblocks stamped optimum; the scheduler is not part of this run."
+ ]
+}

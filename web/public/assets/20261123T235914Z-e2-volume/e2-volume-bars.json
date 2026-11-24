@@ -1,0 +1,84 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "e2-volume-bars",
+ "case": "E2",
+ "chart_type": "bar",
+ "status": "ok",
+ "title": {
+  "en": "Cut, fill and net surface change 2018 to 2023",
+  "es": "Corte, relleno y cambio neto de superficie 2018 a 2023"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "DEM differencing with exactly rounded sums (pitstudio.survey)",
+  "version": "pitstudio-survey-1.0",
+  "label": "measurement, not validation"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-017-34"
+ ],
+ "y_axis": {
+  "label": {
+   "en": "Volume",
+   "es": "Volumen"
+  },
+  "unit": "m3"
+ },
+ "categories": [
+  {
+   "id": "cut",
+   "label": {
+    "en": "Cut",
+    "es": "Corte"
+   }
+  },
+  {
+   "id": "fill",
+   "label": {
+    "en": "Fill",
+    "es": "Relleno"
+   }
+  },
+  {
+   "id": "net",
+   "label": {
+    "en": "Net (fill minus cut)",
+    "es": "Neto (relleno menos corte)"
+   }
+  }
+ ],
+ "series": [
+  {
+   "id": "query-box",
+   "label": {
+    "en": "3DEP query box, cells with data in both epochs",
+    "es": "Caja de consulta 3DEP, celdas con dato en ambas \u00e9pocas"
+   },
+   "y": [
+    493616.9955403262,
+    3867837.9920235374,
+    3374220.9964832114
+   ],
+   "lo": [
+    353939.6474681352,
+    3728160.643951346,
+    3234543.6484110206
+   ],
+   "hi": [
+    633294.3436125172,
+    4007515.3400957286,
+    3513898.344555402
+   ],
+   "band_label": {
+    "en": "Fully correlated vertical-error bound from the RMSEz of both epochs",
+    "es": "Cota de error vertical totalmente correlacionado a partir del RMSEz de ambas \u00e9pocas"
+   }
+  }
+ ],
+ "caption": {
+  "en": "Measurement of the surface change between two lidar epochs, not a validation.",
+  "es": "Medici\u00f3n del cambio de superficie entre dos \u00e9pocas lidar, no una validaci\u00f3n."
+ }
+}

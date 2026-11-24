@@ -1,0 +1,154 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "e1-pushbacks",
+ "case": "E1",
+ "chart_type": "bar",
+ "status": "ok",
+ "title": {
+  "en": "Pushback tonnage",
+  "es": "Tonelaje por pushback"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "pushback rule on the nested shells (minimum incremental ore tonnage)",
+  "version": "minephys-98d5b25-oreblocks-0.5.2",
+  "label": "calibrated synthetic: seeded oreblocks deposit, not validated against a real deposit"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-017-17"
+ ],
+ "y_axis": {
+  "label": {
+   "en": "Incremental tonnage",
+   "es": "Tonelaje incremental"
+  },
+  "unit": "Mt"
+ },
+ "categories": [
+  {
+   "id": "pushback-1",
+   "label": {
+    "en": "Pushback 1",
+    "es": "Pushback 1"
+   }
+  },
+  {
+   "id": "pushback-2",
+   "label": {
+    "en": "Pushback 2",
+    "es": "Pushback 2"
+   }
+  },
+  {
+   "id": "pushback-3",
+   "label": {
+    "en": "Pushback 3",
+    "es": "Pushback 3"
+   }
+  },
+  {
+   "id": "pushback-4",
+   "label": {
+    "en": "Pushback 4",
+    "es": "Pushback 4"
+   }
+  },
+  {
+   "id": "pushback-5",
+   "label": {
+    "en": "Pushback 5",
+    "es": "Pushback 5"
+   }
+  },
+  {
+   "id": "pushback-6",
+   "label": {
+    "en": "Pushback 6",
+    "es": "Pushback 6"
+   }
+  },
+  {
+   "id": "pushback-7",
+   "label": {
+    "en": "Pushback 7",
+    "es": "Pushback 7"
+   }
+  },
+  {
+   "id": "pushback-8",
+   "label": {
+    "en": "Pushback 8",
+    "es": "Pushback 8"
+   }
+  },
+  {
+   "id": "pushback-9",
+   "label": {
+    "en": "Pushback 9",
+    "es": "Pushback 9"
+   }
+  },
+  {
+   "id": "pushback-10",
+   "label": {
+    "en": "Pushback 10",
+    "es": "Pushback 10"
+   }
+  },
+  {
+   "id": "pushback-11",
+   "label": {
+    "en": "Pushback 11",
+    "es": "Pushback 11"
+   }
+  }
+ ],
+ "series": [
+  {
+   "id": "ore",
+   "label": {
+    "en": "Ore",
+    "es": "Mineral"
+   },
+   "y": [
+    21.2247,
+    9.3879,
+    7.398,
+    6.4098,
+    8.1594,
+    5.5431,
+    5.7186,
+    6.2316,
+    5.0436,
+    5.5296,
+    6.0075
+   ]
+  },
+  {
+   "id": "waste",
+   "label": {
+    "en": "Waste",
+    "es": "Est\u00e9ril"
+   },
+   "y": [
+    24.9885,
+    7.7463,
+    3.9555,
+    2.7621,
+    1.4418,
+    -0.0135,
+    -0.6885,
+    -0.405,
+    -1.5012,
+    -3.0861,
+    -5.0598
+   ]
+  }
+ ],
+ "caption": {
+  "en": "A pushback closes when its incremental ore reaches 5 Mt.",
+  "es": "Un pushback se cierra cuando su mineral incremental llega a 5 Mt."
+ }
+}
