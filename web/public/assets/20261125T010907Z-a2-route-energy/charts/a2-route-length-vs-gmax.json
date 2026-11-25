@@ -1,0 +1,65 @@
+{
+ "caption": {
+  "en": "A* over the real terrain model averaged to 10 m cells, pit bottom to the design exit; limits with no feasible route are absent.",
+  "es": "A* sobre el modelo de terreno real promediado a celdas de 10 m, del fondo del pit a la salida del diseno; los limites sin ruta factible no aparecen."
+ },
+ "case": "A2",
+ "chart_type": "line",
+ "id": "a2-route-length-vs-gmax",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
+  "method": "wheel energy m g (RR + grade) L per segment, drivetrain efficiencies and regeneration, grade-constrained least-energy A*",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "draw": "points",
+   "id": "length",
+   "label": {
+    "en": "Least-energy route",
+    "es": "Ruta de minima energia"
+   },
+   "x": [
+    10.0,
+    12.0,
+    15.0,
+    20.0,
+    25.0
+   ],
+   "y": [
+    9.1674,
+    8.2886,
+    8.0979,
+    7.9389,
+    7.8648
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-16",
+  "FR-007-34",
+  "FR-007-35"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Least-energy route length against the grade limit",
+  "es": "Largo de la ruta de minima energia segun el limite de pendiente"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Grade limit",
+   "es": "Limite de pendiente"
+  },
+  "unit": "%"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Route length",
+   "es": "Largo de la ruta"
+  },
+  "unit": "km"
+ }
+}

@@ -1,0 +1,96 @@
+{
+ "caption": {
+  "en": "Deepest bench to the exit, 6.8 km, loaded up and empty down; trolley on every ramp; battery figure net of regeneration.",
+  "es": "Del banco mas profundo a la salida, 6.8 km, cargado subiendo y vacio bajando; trolley en toda rampa; cifra a bateria neta de regeneracion."
+ },
+ "case": "A2",
+ "categories": [
+  {
+   "id": "diesel",
+   "label": {
+    "en": "Diesel",
+    "es": "Diesel"
+   }
+  },
+  {
+   "id": "trolley",
+   "label": {
+    "en": "Trolley-assist",
+    "es": "Asistencia con trolley"
+   }
+  },
+  {
+   "id": "bev",
+   "label": {
+    "en": "Battery-electric",
+    "es": "Electrico a bateria"
+   }
+  }
+ ],
+ "chart_type": "bar",
+ "id": "a2-drivetrain-energy",
+ "kind": "chart-series",
+ "kpi": "energy_per_tonne",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
+  "method": "wheel energy m g (RR + grade) L per segment, drivetrain efficiencies and regeneration, grade-constrained least-energy A*",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "id": "loaded",
+   "label": {
+    "en": "Loaded climb",
+    "es": "Subida cargada"
+   },
+   "y": [
+    9.45407,
+    3.67658,
+    3.59666
+   ]
+  },
+  {
+   "id": "empty",
+   "label": {
+    "en": "Empty descent",
+    "es": "Bajada vacia"
+   },
+   "y": [
+    0.0,
+    0.0,
+    -0.451906
+   ]
+  },
+  {
+   "id": "round",
+   "label": {
+    "en": "Round trip",
+    "es": "Ciclo completo"
+   },
+   "y": [
+    9.45407,
+    3.67658,
+    3.14475
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-16",
+  "FR-007-34",
+  "FR-007-35"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Energy per tonne by drivetrain on the pit road",
+  "es": "Energia por tonelada segun el accionamiento en el camino del pit"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Source energy per payload tonne",
+   "es": "Energia en la fuente por tonelada de carga util"
+  },
+  "unit": "kWh/t"
+ }
+}

@@ -1,0 +1,349 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261125T010907Z-a2-route-energy",
+ "recipe": {
+  "id": "a2",
+  "path": "cases/a2.yaml",
+  "sha256": "f0c05de1e0cda9845d452010172687405f01f77c08289314559021e5804e775f"
+ },
+ "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-25T01:09:07Z",
+ "profile": "imported",
+ "seed": 0,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s05_synthesize"
+   },
+   "tool": "minephys",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "d7df946f4830b5682d15033e3e866909864ad271bde9c582ecacc17e810efd7e",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 0,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "sha256": "510bc0a5bca961c48d8b6d8b4d500444574e4d2e35fd796be50e7085a15be7ba",
+     "bytes": 4689
+    },
+    {
+     "name": "charts/a2-fuel-vs-grade.json",
+     "sha256": "8343c4ef105d81a57a1cd684e5b8f6ab64c2bd7c515b949e65b7e45537ad981c",
+     "bytes": 3907
+    },
+    {
+     "name": "charts/a2-energy-vs-grade.json",
+     "sha256": "a669c3c44e1810fe9a73e51a564a78df618679534ee2560e566a9efea344c870",
+     "bytes": 3753
+    },
+    {
+     "name": "charts/a2-co2-vs-grade.json",
+     "sha256": "fad14a106d03a98534dc870936bdc2d69dfbd0d9ad0e1eb2334b86aa6d79653c",
+     "bytes": 2115
+    },
+    {
+     "name": "charts/a2-drivetrain-energy.json",
+     "sha256": "96b79bb532d4c46ebfd8c8b85fe69ac2f63ef1d2c75ab74da73ea4e6ff9c924a",
+     "bytes": 1950
+    },
+    {
+     "name": "charts/a2-trolley-length.json",
+     "sha256": "fe2daa86425a1edf72ccfdbe798d845db9096fbf13f4d62ccf9b712827c7902a",
+     "bytes": 2463
+    },
+    {
+     "name": "charts/a2-route-length-vs-gmax.json",
+     "sha256": "3a1ba449152d8559e1497de41c80e88ac0bedc2fb86faee3fe56c112ebe06d68",
+     "bytes": 1498
+    },
+    {
+     "name": "charts/a2-route-table.json",
+     "sha256": "e89e023d514c2f1fb0445006b1e412959d50d9d040764c294c36d8686365bc1f",
+     "bytes": 2680
+    },
+    {
+     "name": "charts/a2-assumptions.json",
+     "sha256": "eafcf6813dd3d8a316162ce655650eb1b08ba1c8f0216e071f611531c8ad50a1",
+     "bytes": 3055
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "a2-route-energy-results",
+   "run_id": "20261125T010907Z-a2-route-energy",
+   "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+   "path": "assets/20261125T010907Z-a2-route-energy/results-summary.json",
+   "bytes": 4689,
+   "sha256": "510bc0a5bca961c48d8b6d8b4d500444574e4d2e35fd796be50e7085a15be7ba",
+   "kind": "table",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-fuel-vs-grade",
+   "run_id": "20261125T010907Z-a2-route-energy",
+   "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+   "path": "assets/20261125T010907Z-a2-route-energy/charts/a2-fuel-vs-grade.json",
+   "bytes": 3907,
+   "sha256": "8343c4ef105d81a57a1cd684e5b8f6ab64c2bd7c515b949e65b7e45537ad981c",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-energy-vs-grade",
+   "run_id": "20261125T010907Z-a2-route-energy",
+   "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+   "path": "assets/20261125T010907Z-a2-route-energy/charts/a2-energy-vs-grade.json",
+   "bytes": 3753,
+   "sha256": "a669c3c44e1810fe9a73e51a564a78df618679534ee2560e566a9efea344c870",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-co2-vs-grade",
+   "run_id": "20261125T010907Z-a2-route-energy",
+   "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+   "path": "assets/20261125T010907Z-a2-route-energy/charts/a2-co2-vs-grade.json",
+   "bytes": 2115,
+   "sha256": "fad14a106d03a98534dc870936bdc2d69dfbd0d9ad0e1eb2334b86aa6d79653c",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-drivetrain-energy",
+   "run_id": "20261125T010907Z-a2-route-energy",
+   "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+   "path": "assets/20261125T010907Z-a2-route-energy/charts/a2-drivetrain-energy.json",
+   "bytes": 1950,
+   "sha256": "96b79bb532d4c46ebfd8c8b85fe69ac2f63ef1d2c75ab74da73ea4e6ff9c924a",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-trolley-length",
+   "run_id": "20261125T010907Z-a2-route-energy",
+   "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+   "path": "assets/20261125T010907Z-a2-route-energy/charts/a2-trolley-length.json",
+   "bytes": 2463,
+   "sha256": "fe2daa86425a1edf72ccfdbe798d845db9096fbf13f4d62ccf9b712827c7902a",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-route-length-vs-gmax",
+   "run_id": "20261125T010907Z-a2-route-energy",
+   "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+   "path": "assets/20261125T010907Z-a2-route-energy/charts/a2-route-length-vs-gmax.json",
+   "bytes": 1498,
+   "sha256": "3a1ba449152d8559e1497de41c80e88ac0bedc2fb86faee3fe56c112ebe06d68",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-route-table",
+   "run_id": "20261125T010907Z-a2-route-energy",
+   "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+   "path": "assets/20261125T010907Z-a2-route-energy/charts/a2-route-table.json",
+   "bytes": 2680,
+   "sha256": "e89e023d514c2f1fb0445006b1e412959d50d9d040764c294c36d8686365bc1f",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-assumptions",
+   "run_id": "20261125T010907Z-a2-route-energy",
+   "git_sha": "e9661966883fefcf7f8b6e793bda2d4b877c4628",
+   "path": "assets/20261125T010907Z-a2-route-energy/charts/a2-assumptions.json",
+   "bytes": 3055,
+   "sha256": "eafcf6813dd3d8a316162ce655650eb1b08ba1c8f0216e071f611531c8ad50a1",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  }
+ ],
+ "notes": [
+  "produced on the CPU, on this machine, with minephys, outside the runner",
+  "job a2-route-energy",
+  "no GPU time and no timing are recorded",
+  "calibrated synthetic \u2014 not validated against real data; efficiencies and fuel energy density are UNVERIFIED scenario inputs without a knowledge row: route energy, fuel and CO2e per tonne by drivetrain on the Bingham pit road and least-energy A* routes over the real terrain",
+  "producer paths: pipeline/src/pitstudio_pipeline/haulage, src/pitstudio/haulage, pipeline/src/pitstudio_pipeline/chartkit.py, studio/recipes/cases/a2.yaml; git sha e9661966883fefcf7f8b6e793bda2d4b877c4628; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Produced on the CPU by pitstudio_pipeline.haulage.a2_run (not by the GPU queue); no GPU time is used.",
+  "The drivetrain efficiencies and the fuel energy density have no minephys knowledge-table row: they are explicit scenario inputs listed as UNVERIFIED; the electricity emissions need a grid intensity that has no default, so CO2e is shown for diesel only."
+ ]
+}

@@ -1,0 +1,125 @@
+{
+ "extra": {
+  "a_star": {
+   "cell_m": 10.0,
+   "design_exit_cell": [
+    173,
+    13
+   ],
+   "goal_cell": [
+    41,
+    94
+   ],
+   "goal_limit": 0.1,
+   "goal_note": "the cell of the design exit lies on terrain that the tight limits do not reach from the pit bottom; the goal is the cell nearest the exit, no lower than it, that the tightest limit reaching any such cell reaches (the relation to the real pit exit is UNVERIFIED)",
+   "grade_limits_with_a_route": [
+    0.1,
+    0.12,
+    0.15,
+    0.2,
+    0.25
+   ],
+   "start_cell": [
+    137,
+    175
+   ],
+   "terrain": {
+    "epoch": 2018,
+    "project": "UT Central QL2 2018",
+    "source_ids": [
+     "usgs-3dep-bingham"
+    ]
+   }
+  },
+  "assumptions": [
+   "tank-to-wheel efficiency of a diesel-electric truck: scenario input, UNVERIFIED, no knowledge row (the value of the minephys specification 001 worked example)",
+   "volumetric energy content of diesel: scenario input, UNVERIFIED, no knowledge row (the value of the minephys specification 001 worked example)",
+   "line-to-wheel efficiency of a trolley-assisted truck: scenario input, UNVERIFIED, no knowledge row, no source",
+   "battery-to-wheel efficiency of a battery-electric truck: scenario input, UNVERIFIED, no knowledge row, no source",
+   "share of the descent energy a battery truck recovers: scenario input, UNVERIFIED, no knowledge row, no source",
+   "the truck masses are those of the engine catalog class CAT_793F (public specification magnitudes)",
+   "rolling resistance and the trolley layout are illustrative scenario inputs, UNVERIFIED",
+   "the A* route is a least-energy path over the terrain model, not a designed road; the design route follows the road network of the A1 pit design",
+   "Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it."
+  ],
+  "co2e_note": "kg CO2e per tonne is shown for diesel only: the emissions of electricity need a grid intensity that has no default and none was supplied",
+  "constants": {
+   "diesel_co2_kg_per_m3": 2697.196654576696,
+   "eta_diesel": 0.35,
+   "eta_drive": 0.92,
+   "eta_electric": 0.9,
+   "eta_regen": 0.6,
+   "fuel_energy_density_j_per_m3": 36000000000.0,
+   "g": 9.80665
+  },
+  "diesel_round_trip_kwh_per_t": 9.45407,
+  "minephys": "minephys 0.0.0+g98d5b25",
+  "route": {
+   "climb_m": 540.0,
+   "length_km": 6.7716,
+   "ramp_length_km": 6.4605,
+   "segments": 64,
+   "start": "n36"
+  },
+  "source_energy_saving_vs_diesel_percent": {
+   "bev": 66.74,
+   "trolley": 61.11
+  },
+  "truck": {
+   "empty_mass_t": 165.0,
+   "payload_t": 227.0
+  }
+ },
+ "headline": [
+  {
+   "kpi": "fuel_per_tkm",
+   "name": "Diesel fuel per tonne-kilometre",
+   "note": "diesel truck, deepest bench to the exit and back (12.9 km), payload 227 t, rolling resistance 2.5 %; basis payload tonnes and along-road km; efficiency and fuel density are UNVERIFIED inputs without a knowledge row; calibrated synthetic, not validated against real data",
+   "unit": "L/(t.km)",
+   "value": 0.073168
+  },
+  {
+   "kpi": "energy_per_tonne",
+   "name": "Diesel source energy per tonne",
+   "note": "diesel truck, deepest bench to the exit and back (12.9 km), payload 227 t, rolling resistance 2.5 %; efficiency and fuel density are UNVERIFIED inputs without a knowledge row; calibrated synthetic, not validated against real data",
+   "unit": "kWh/t",
+   "value": 9.4541
+  },
+  {
+   "kpi": "co2e_per_tonne",
+   "name": "Diesel CO2e per tonne",
+   "note": "diesel truck, deepest bench to the exit and back (12.9 km), payload 227 t, rolling resistance 2.5 %; the diesel CO2 factor is a verified table row; efficiency and fuel density are UNVERIFIED inputs without a knowledge row; calibrated synthetic, not validated against real data",
+   "unit": "kg/t",
+   "value": 2.5499
+  }
+ ],
+ "label": "calibrated synthetic \u2014 not validated against real data. Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it.",
+ "methods": [
+  "M6"
+ ],
+ "rows": [
+  {
+   "drivetrain": "diesel",
+   "empty_kwh_per_t": 0.0,
+   "loaded_kwh_per_t": 9.45407,
+   "regenerated_kwh": 0.0,
+   "unverified_rows": []
+  },
+  {
+   "drivetrain": "trolley",
+   "empty_kwh_per_t": 0.0,
+   "loaded_kwh_per_t": 3.67658,
+   "regenerated_kwh": 0.0,
+   "unverified_rows": []
+  },
+  {
+   "drivetrain": "bev",
+   "empty_kwh_per_t": -0.451906,
+   "loaded_kwh_per_t": 3.59666,
+   "regenerated_kwh": 102.583,
+   "unverified_rows": []
+  }
+ ],
+ "title": "Haul-road energy by drivetrain on the Bingham pit road: diesel, trolley-assist and battery-electric trucks",
+ "verdict": "ok"
+}

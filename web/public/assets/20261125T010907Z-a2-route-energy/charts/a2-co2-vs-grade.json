@@ -1,0 +1,117 @@
+{
+ "caption": {
+  "en": "Loaded climb of 1 km, diesel truck. Electricity emissions need a grid intensity that has no default: none is shown for the other drivetrains.",
+  "es": "Subida cargada de 1 km, camion diesel. Las emisiones de la electricidad requieren una intensidad de red sin valor por defecto: no se muestran para los otros accionamientos."
+ },
+ "case": "A2",
+ "chart_type": "line",
+ "id": "a2-co2-vs-grade",
+ "kind": "chart-series",
+ "kpi": "co2e_per_tonne",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
+  "method": "wheel energy m g (RR + grade) L per segment, drivetrain efficiencies and regeneration, grade-constrained least-energy A*",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "id": "diesel",
+   "label": {
+    "en": "Diesel",
+    "es": "Diesel"
+   },
+   "x": [
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0,
+    3.5,
+    4.0,
+    4.5,
+    5.0,
+    5.5,
+    6.0,
+    6.5,
+    7.0,
+    7.5,
+    8.0,
+    8.5,
+    9.0,
+    9.5,
+    10.0,
+    10.5,
+    11.0,
+    11.5,
+    12.0,
+    12.5,
+    13.0,
+    13.5,
+    14.0,
+    14.5,
+    15.0
+   ],
+   "y": [
+    0.0906281,
+    0.108754,
+    0.126879,
+    0.145005,
+    0.163131,
+    0.181256,
+    0.199382,
+    0.217507,
+    0.235633,
+    0.253759,
+    0.271884,
+    0.29001,
+    0.308136,
+    0.326261,
+    0.344387,
+    0.362512,
+    0.380638,
+    0.398764,
+    0.416889,
+    0.435015,
+    0.453141,
+    0.471266,
+    0.489392,
+    0.507517,
+    0.525643,
+    0.543769,
+    0.561894,
+    0.58002,
+    0.598146,
+    0.616271,
+    0.634397
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-16",
+  "FR-007-34",
+  "FR-007-35"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Diesel CO2e per tonne against grade",
+  "es": "CO2e del diesel por tonelada segun la pendiente"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Road grade",
+   "es": "Pendiente del camino"
+  },
+  "unit": "%"
+ },
+ "y_axis": {
+  "label": {
+   "en": "CO2e per payload tonne",
+   "es": "CO2e por tonelada de carga util"
+  },
+  "unit": "kg/t"
+ }
+}
