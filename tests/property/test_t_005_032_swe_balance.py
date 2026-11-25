@@ -1,4 +1,5 @@
-"""T-005-032 - FR-005-26, FR-005-28: lake at rest over benched terrain; volume conservation with sources and open boundaries.
+"""T-005-032 - FR-005-26, FR-005-28: lake at rest over benched terrain; volume conservation with sources and open
+boundaries.
 
 Oracles: exact identities and closed forms, never the solver: a free surface of constant height over any terrain is a
 steady state (velocities stay at round-off); the volume balance V(t) = V0 + injected - outflow is an identity of the
@@ -78,7 +79,9 @@ def test_open_boundary_volume_is_accumulated_and_the_balance_holds():
 def test_breach_volume_and_open_boundary_balance_together():
     z = np.linspace(0.0, 1.0, 40)[None, :].repeat(10, axis=0)[:, ::-1].copy()  # slopes down to x-max
     br = Breach(cells=[(4, 2), (5, 2)], volume=500.0, peak_discharge=25.0)  # T = 40 s
-    s = SweSimulation(z, np.zeros_like(z), dx=1.0, boundaries={"x-max": "open"}, breach=br, params=SweParams(max_dt=0.1))
+    s = SweSimulation(
+        z, np.zeros_like(z), dx=1.0, boundaries={"x-max": "open"}, breach=br, params=SweParams(max_dt=0.1)
+    )
     s.advance(60.0)
     assert math.isclose(s.injected_volume(), 500.0, rel_tol=1e-12)
     assert s.boundary_outflow() > 0.0

@@ -1,8 +1,10 @@
 """T-005-033 - FR-005-29: Bingham bed stress, exact arrest below h_stop, sheet-flow velocity above.
 
 Oracles (the solver is never the reference):
-- the implicit friction step: a uniform state with open boundaries is an exact solution of the flux update, so one step of
-  length dt changes only the momentum, which must satisfy m + dt tau_b(m / h) / rho = m*; the root is found here with SciPy
+- the implicit friction step: a uniform state with open boundaries is an exact solution of the flux update, so one
+step of
+  length dt changes only the momentum, which must satisfy m + dt tau_b(m / h) / rho = m*; the root is found here
+  with SciPy
   `brentq` on the Buckingham-Reiner relation written in its expanded form U = (tau_b h / 3 mu)(1 - 1.5 r + 0.5 r^3);
 - the spec 005 worked example (rho 1800 kg/m3, S 0.0875, tau_y 100 Pa, mu_B 10 Pa s, h 0.2 m): tau_b = 309.0 Pa,
   U = 1.095 m/s, h_stop = 0.0647 m;
@@ -145,7 +147,8 @@ def test_a_layer_below_h_stop_stays_exactly_at_rest_away_from_its_edges():
     )  # fmt: skip
     s.advance(3.0)  # an edge disturbance moves sqrt(g h) = 1.5 m/s: 4.5 m = 18 cells, short of the 21 cells kept
     inner = slice(100 + 21, 300 - 21)  # more than 20 cells from either edge
-    assert np.all(s.qx[:, inner] == 0.0) and np.all(s.qy[:, inner] == 0.0)  # at rest exactly, not almost
+    assert np.all(s.qx[:, inner] == 0.0)  # at rest exactly, not almost
+    assert np.all(s.qy[:, inner] == 0.0)
     # the depth changes only by the numerical diffusion of the layer's edges, which decays away from them
     assert np.abs(s.h[:, inner] - 0.8 * h_stop).max() <= 1e-4 * 0.8 * h_stop
 
@@ -172,7 +175,9 @@ def test_zero_yield_stress_and_zero_viscosity_leave_the_frictionless_solution_bi
     b = SweSimulation(z, h0, dx=1.0, device="cpu", params=SweParams(rho=2500.0, tau_y=0.0, mu_b=0.0))
     for s in (a, b):
         s.advance(6.0)
-    assert np.array_equal(a.h, b.h) and np.array_equal(a.qx, b.qx) and np.array_equal(a.qy, b.qy)
+    assert np.array_equal(a.h, b.h)
+    assert np.array_equal(a.qx, b.qx)
+    assert np.array_equal(a.qy, b.qy)
 
 
 def test_plastic_limit_with_zero_viscosity_decelerates_at_the_yield_stress():

@@ -1,4 +1,5 @@
-"""T-005-034 - FR-005-30, FR-005-31: C2 maps (arrival time, maximum depth and speed, inundated area) and the breach volume.
+"""T-005-034 - FR-005-30, FR-005-31: C2 maps (arrival time, maximum depth and speed, inundated area) and the breach
+volume.
 
 Oracles: the maps are recomputed here from snapshots of the depth taken at known times (no solver code), and the breach
 volume from the closed form of the triangular hydrograph (V = Q_p T / 2 with T = 2 V / Q_p).
@@ -26,7 +27,9 @@ def dam_break_with_snapshots():
     n, dx = 300, 0.5
     h0 = np.zeros((3, n))
     h0[:, :20] = 2.0
-    s = SweSimulation(np.zeros((3, n)), h0, dx=dx, boundaries={"x-max": "open"}, params=SweParams(h_thr=THR), device="cpu")
+    s = SweSimulation(
+        np.zeros((3, n)), h0, dx=dx, boundaries={"x-max": "open"}, params=SweParams(h_thr=THR), device="cpu"
+    )
     times, snaps, speeds = [0.0], [s.h], [np.zeros((3, n))]
     for k in range(1, 61):
         s.advance(0.25 * k)
@@ -102,7 +105,9 @@ def test_triangular_hydrograph_injects_the_prescribed_volume(frac):
     br = Breach(cells=[(3, 3), (3, 4), (4, 3), (4, 4)], volume=volume, peak_discharge=q_peak, peak_fraction=frac)
     assert br.base_time == pytest.approx(2.0 * volume / q_peak)
     z = np.zeros((8, 8))
-    s = SweSimulation(z, np.zeros_like(z), dx=20.0, breach=br, params=SweParams(max_dt=br.base_time / 200), device="cpu")
+    s = SweSimulation(
+        z, np.zeros_like(z), dx=20.0, breach=br, params=SweParams(max_dt=br.base_time / 200), device="cpu"
+    )
     s.advance(1.1 * br.base_time)
     assert math.isclose(s.injected_volume(), volume, rel_tol=1e-6)
     assert math.isclose(s.volume(), volume, rel_tol=1e-6)  # all of it is in the closed box
@@ -115,7 +120,8 @@ def test_the_hydrograph_peaks_at_the_declared_fraction_with_the_declared_dischar
     assert q(tp) == pytest.approx(10.0, rel=1e-4)
     assert q(0.5 * tp) == pytest.approx(5.0, rel=1e-6)
     assert q(tp + 0.5 * (br.base_time - tp)) == pytest.approx(5.0, rel=1e-6)
-    assert br.released(0.0) == 0.0 and br.released(br.base_time) == pytest.approx(1000.0, rel=1e-14)
+    assert br.released(0.0) == 0.0
+    assert br.released(br.base_time) == pytest.approx(1000.0, rel=1e-14)
     assert br.released(1.0e9) == pytest.approx(1000.0, rel=1e-14)
     assert br.released(tp) == pytest.approx(0.3 * 1000.0, rel=1e-12)  # the rising limb holds the fraction of the volume
 
@@ -125,6 +131,7 @@ def test_the_breach_starts_at_its_declared_time():
     z = np.zeros((3, 3))
     s = SweSimulation(z, np.zeros_like(z), dx=1.0, breach=br, params=SweParams(max_dt=0.5), device="cpu")
     s.advance(7.0)
-    assert s.injected_volume() == 0.0 and s.volume() == 0.0
+    assert s.injected_volume() == 0.0
+    assert s.volume() == 0.0
     s.advance(7.0 + br.base_time)
     assert math.isclose(s.injected_volume(), 100.0, rel_tol=1e-9)

@@ -1,7 +1,8 @@
 """T-005-030 - FR-005-23, FR-005-27: Rusanov flux, hydrostatic reconstruction, CFL step, positivity and dry threshold.
 
 Oracles: a two-cell box whose first explicit step is worked by hand from the Rusanov formula (no solver code); the step
-count of a lake at rest, where the wave speed sqrt(g h) is constant so dt = C_CFL dx / sqrt(g h) is known in closed form;
+count of a lake at rest, where the wave speed sqrt(g h) is constant so dt = C_CFL dx / sqrt(g h) is known in closed
+form;
 the exact balance of volume in a closed domain.
 
 Expected public API (module `pitstudio_studio.physics.swe`):
@@ -92,7 +93,8 @@ def test_the_dry_threshold_zeroes_velocity_and_never_removes_water():
     s = sim(np.zeros((6, 6)), film, params=SweParams(h_dry=1.0e-4))
     s.advance(5.0)
     assert math.isclose(s.volume(), s.initial_volume(), rel_tol=1e-13)
-    assert np.all(s.qx == 0.0) and np.all(s.qy == 0.0)
+    assert np.all(s.qx == 0.0)
+    assert np.all(s.qy == 0.0)
     assert s.h.min() > 0.0
 
 
@@ -103,5 +105,6 @@ def test_the_hydrostatic_reconstruction_makes_a_pond_on_a_step_a_steady_state():
     depth = np.maximum(0.0, 1.0 - bed)
     s = sim(bed, depth, dx=0.5)
     s.advance(20.0)
-    assert np.abs(s.qx).max() <= 1e-12 and np.abs(s.qy).max() <= 1e-12
+    assert np.abs(s.qx).max() <= 1e-12
+    assert np.abs(s.qy).max() <= 1e-12
     assert np.abs(s.h - depth).max() <= 1e-13

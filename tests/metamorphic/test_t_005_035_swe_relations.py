@@ -1,6 +1,7 @@
 """T-005-035 - P-005-14 ... P-005-18: shallow-water metamorphic relations.
 
-Mirror symmetry (P-005-14), rotation by 90 degrees (P-005-15), Froude scaling (P-005-16), yield-stress monotonicity of the
+Mirror symmetry (P-005-14), rotation by 90 degrees (P-005-15), Froude scaling (P-005-16), yield-stress monotonicity
+of the
 inundated area and the run-out (P-005-17) and the Newtonian and frictionless limits (P-005-18, the sheet flow part is
 T-005-033). Each relation compares two runs of the solver, so no reference solution is needed.
 """
@@ -9,6 +10,7 @@ from __future__ import annotations
 
 import math
 import sys
+from itertools import pairwise
 from pathlib import Path
 
 import numpy as np
@@ -55,7 +57,8 @@ def test_rotating_terrain_and_state_by_90_degrees_rotates_the_solution(seed):
     b = run(np.rot90(z).copy(), np.rot90(h0).copy(), 4.0)  # counter-clockwise: (x, y) -> (-y, x)
     tol = 1e-6 * h0.max()
     assert np.abs(b.h - np.rot90(a.h)).max() <= tol
-    # np.rot90 turns the array counter-clockwise as drawn with row 0 on top, here (row, column) = (y, x): the new x axis is
+    # np.rot90 turns the array counter-clockwise as drawn with row 0 on top, here (row, column) = (y, x): the new x
+    # axis is
     # the old y axis and the new y axis is the old -x axis, so new qx = old qy and new qy = -old qx at the rotated cell
     assert np.abs(b.qx - np.rot90(a.qy)).max() <= tol
     assert np.abs(b.qy + np.rot90(a.qx)).max() <= tol
@@ -65,7 +68,7 @@ def test_rotating_terrain_and_state_by_90_degrees_rotates_the_solution(seed):
 def test_froude_scaling_leaves_the_dimensionless_fields_unchanged(lam):
     """Lengths x lam, times x sqrt(lam), velocities x sqrt(lam), tau_y x lam, mu_B x lam^1.5 (thresholds follow)."""
     n = 40
-    j, i = np.mgrid[0:12, 0:n]
+    _, i = np.mgrid[0:12, 0:n]
     z = 0.08 * (n - i) / n * 3.0
     h0 = np.where(i < 8, 1.0, 0.0)
     base = SweParams(rho=1800.0, tau_y=40.0, mu_b=2.0, h_dry=1e-4, h_thr=0.05, max_dt=1.0)
@@ -99,16 +102,17 @@ def test_raising_the_yield_stress_never_increases_the_inundated_area_or_the_run_
     results = [breach_run(t) for t in (0.0, 50.0, 100.0, 200.0, 500.0)]
     areas = [a for a, _ in results]
     reach = [r for _, r in results]
-    assert all(a2 <= a1 for a1, a2 in zip(areas, areas[1:], strict=False)), areas  # exact ordering of A
-    assert all(r2 <= r1 + 1 for r1, r2 in zip(reach, reach[1:], strict=False)), reach  # run-out within one cell
+    assert all(a2 <= a1 for a1, a2 in pairwise(areas)), areas  # exact ordering of A
+    assert all(r2 <= r1 + 1 for r1, r2 in pairwise(reach)), reach  # run-out within one cell
     assert areas[0] > areas[-1]  # the sweep is not flat
 
 
 def test_yield_stress_monotonicity_of_a_flood_that_fills_the_valley_holds_to_a_cell_or_two():
-    """FINDING against P-005-17: with 1000 m3 the valley floods almost wholly for every tau_y and the area is not exactly
+    """FINDING against P-005-17: with 1000 m3 the valley floods almost wholly for every tau_y and the area is not
+    exactly
     ordered: it rises by two cells (0.14 %) between 100 and 200 Pa. The relation is pinned to 1 % of the valley here."""
     areas = [breach_run(t, volume=1000.0)[0] for t in (0.0, 50.0, 100.0, 200.0, 500.0)]
-    assert all(a2 <= a1 * 1.01 for a1, a2 in zip(areas, areas[1:], strict=False)), areas
+    assert all(a2 <= a1 * 1.01 for a1, a2 in pairwise(areas)), areas
     assert areas[-1] < areas[0]
 
 
@@ -116,4 +120,5 @@ def test_the_water_and_the_zero_stress_bingham_cases_agree_exactly():
     z, h0 = random_state(21, n=16)
     a = run(z, h0, 3.0)
     b = run(z, h0, 3.0, params=SweParams(tau_y=0.0, mu_b=0.0, rho=1500.0))
-    assert np.array_equal(a.h, b.h) and np.array_equal(a.qx, b.qx)
+    assert np.array_equal(a.h, b.h)
+    assert np.array_equal(a.qx, b.qx)

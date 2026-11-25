@@ -1,8 +1,10 @@
-"""T-005-031 - FR-005-24, FR-005-25, P-005-19: Ritter and Stoker dam breaks with grid convergence, and a 2-D radial dam break.
+"""T-005-031 - FR-005-24, FR-005-25, P-005-19: Ritter and Stoker dam breaks with grid convergence, and a 2-D radial
+dam break.
 
 Oracles (the solver is never the reference):
 - Ritter dry-bed fan and Stoker wet-bed middle state and bore: the closed forms of the SWASHES compilation (Delestre et
-  al., Int. J. Numer. Methods Fluids 72(3), 2013, DOI 10.1002/fld.3741, sections 4.1.1 and 4.1.2); the Stoker middle state
+  al., Int. J. Numer. Methods Fluids 72(3), 2013, DOI 10.1002/fld.3741, sections 4.1.1 and 4.1.2); the Stoker
+  middle state
   is the root found with SciPy `brentq`.
 - the radial case: an independent axisymmetric finite-volume solver written here in NumPy on 4000 cells.
 The 1-D problems run in a channel 4 cells wide with reflective walls (x in [0, 10] m, x0 = 5 m, t = 6 s).
@@ -95,8 +97,10 @@ def test_ritter_wet_front_at_a_tenth_of_the_left_depth_is_within_five_percent(ri
 
 
 def test_ritter_wet_front_at_the_spec_threshold_lags_and_converges():
-    """FINDING against FR-005-24: the specified threshold is 1e-3 h_l with +-5 %. A first-order Rusanov scheme smears the
-    tip of the fan: an independent NumPy implementation of the same scheme gives the same front (-20.5 % at 400 cells), so
+    """FINDING against FR-005-24: the specified threshold is 1e-3 h_l with +-5 %. A first-order Rusanov scheme
+    smears the
+    tip of the fan: an independent NumPy implementation of the same scheme gives the same front (-20.5 % at 400
+    cells), so
     the tolerance is not attainable by FR-005-23's scheme. This test pins what the solver does (the lag shrinks with the
     grid and stays below 25 %, 20 % and 15 %), and the report asks the owner how to restate FR-005-24."""
     runs = {n: channel(n, 0.0, h_dry=1.0e-8) for n in CELLS}
@@ -173,5 +177,6 @@ def test_radial_dam_break_matches_the_axisymmetric_reference_and_is_symmetric():
     r_ref, h_ref = radial_reference()
     ref_at_cells = np.interp(rr, r_ref, h_ref)
     assert float(np.abs(h - ref_at_cells).sum() / ref_at_cells.sum()) <= 0.03
-    assert np.abs(h - h.T).max() <= 1e-12 and np.abs(h - h[::-1, :]).max() <= 1e-12  # square-grid symmetry
+    assert np.abs(h - h.T).max() <= 1e-12  # square-grid symmetry
+    assert np.abs(h - h[::-1, :]).max() <= 1e-12
     assert math.isclose(s.volume(), s.initial_volume(), rel_tol=1e-13)
