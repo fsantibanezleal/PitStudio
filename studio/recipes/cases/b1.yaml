@@ -4,8 +4,10 @@
 # truck trajectories are replayed with manned light vehicles in the lane-based traffic layer of pitstudio_pipeline.haulage.traffic:
 # constant-velocity time to collision per encounter, near-misses per 1,000 vehicle-hours and throughput against the share of
 # autonomous trucks (0, 25, 50, 75, 100 %) and the number of light vehicles (0, 4, 8, 16), on paired seeds. The engine's class
-# parameters are class-representative; the reaction times, decelerations, disc radii, lane offset and the light-vehicle patrol
-# are illustrative inputs, UNVERIFIED for any site; no proximity or incident data exists, so nothing is validated. The RTX
+# parameters are class-representative; the footprints, lane offset, manned reaction time and decelerations are cited; the
+# autonomous reaction time, accelerations, yielding thresholds and the light-vehicle patrol are UNVERIFIED for any site; vehicles are
+# bodies with their real footprints that never overlap (an overlap is a counted collision event, never a TTC of 0); no proximity or
+# incident data exists, so nothing is validated. The RTX
 # lidar and radar frames and the Cosmos reasoning of case B1 are GPU stages for later and are not in this recipe.
 id: b1
 case: B1
@@ -32,22 +34,23 @@ stages:
         simplify_epsilon_m: 5.0  # Douglas-Peucker tolerance of the road polylines
         loaders: {n46: 0, n56: 0, n66: 1}   # bench-road ends at -150, -300 and -450 m: declared destination = index into dumps
         dumps: [n0, n1]          # the crusher at the pit exit, a waste dump on the first junction below the rim
-      traffic:                   # every value is an illustrative input, UNVERIFIED (see pitstudio_pipeline.haulage.traffic.DEFAULTS)
+      traffic:                   # sourced inputs first (`b1_run.INPUT_ROWS` and the inputs table of the run give each source), then the UNVERIFIED ones
+        footprint_m: {haul-truck: [13.36, 8.563], light-vehicle: [5.275, 1.96]}  # length, width: asset specification (Cat 793F sheet dimensions table; Land Cruiser 79 sheet; FR-004-51)
+        lane_offset_m: 7.493     # 0.875 x 8.563 m: lane centre of a two-lane road of 3.5 x truck width (Tannant and Regensburg 2001, Eq. 5, p. 17)
+        reaction_s: {autonomous: 0.5, manned: 1.5}  # manned: driver reaction 1.5 s (Tannant and Regensburg 2001, p. 14); autonomous 0.5 s UNVERIFIED (ISO 17757:2019 not read)
+        decel_mps2: {haul-truck: 2.94, light-vehicle: 3.4}  # truck: Kaufman and Ault 1977 via Tannant and Regensburg 2001, p. 14; light vehicle: AASHTO 11.2 ft/s2 (TxDOT RDM 4.11.1)
         dt_s: 0.5
-        lane_offset_m: 6.5       # lane centre to road centre line; two lanes of about 3.5 truck widths overall
-        radius_m: {haul-truck: 5.0, light-vehicle: 2.0}
-        reaction_s: {autonomous: 0.5, manned: 1.5}
-        brake_ttc_s: 6.0
-        emergency_ttc_s: 3.5
-        decel_mps2: {haul-truck: 2.0, light-vehicle: 4.0}
-        accel_mps2: {haul-truck: 1.0, light-vehicle: 2.0}
+        accel_mps2: {haul-truck: 1.0, light-vehicle: 2.0}   # UNVERIFIED
+        brake_ttc_s: 6.0         # UNVERIFIED model rule
+        emergency_ttc_s: 3.5     # UNVERIFIED model rule
         look_ahead_m: 100.0
         follow_half_angle_deg: 20.0
         encounter_radius_m: 60.0
         near_miss_ttc_s: 3.0     # FR-018-55
         brake_hold_s: 1.0
         release_s: 30.0
-        light_vehicle: {speed_factor: 0.9, dwell_mean_s: 60.0}
+        collision_gap_s: 5.0     # contacts of one pair closer in time than this are one collision event
+        light_vehicle: {speed_factor: 0.9, dwell_mean_s: 60.0}   # UNVERIFIED patrol pattern
       sweep:
         fleet_size: 20
         dispatcher: sptf

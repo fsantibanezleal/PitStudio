@@ -8,6 +8,10 @@ otherwise gap / (-p . w + sqrt(disc)), the form without cancellation near a graz
 browser engine `web/src/engines/traffic/ttc.ts`; this module is its numpy twin for the pipeline traffic layer (`ttc_pairs`
 works on whole arrays of pairs).
 
+`obb_pairs` is the footprint form used by the B1 traffic layer (docs M20, asset-specification dimensions): the time at which two
+oriented rectangles that translate at constant velocity first touch, and their separation; an overlap has no time to contact (NaN).
+The browser twin keeps the disc form.
+
 Pure closed form: no randomness, no simulation. The model ignores braking and steering of the pair during the encounter; it is
 a screening metric (docs M20, assumptions).
 """
@@ -80,6 +84,48 @@ def ttc_pairs(p: np.ndarray, w: np.ndarray, radius_m: float | np.ndarray) -> np.
     denom = np.where(closing, -pw + np.sqrt(np.where(closing, disc, 0.0)), 1.0)
     out = np.where(closing, gap / denom, np.inf)
     return np.where(pp <= r * r, 0.0, out)
+
+
+def obb_pairs(
+    d: np.ndarray, w: np.ndarray, head_a: np.ndarray, head_b: np.ndarray, half_a: np.ndarray, half_b: np.ndarray
+) -> tuple[np.ndarray, np.ndarray]:
+    """Time to contact and separation of arrays of pairs of oriented rectangles (vehicle footprints) at constant velocity.
+
+    `d` is the position of b minus the position of a and `w` the velocity of b minus the velocity of a, both (m, 2); `head_a` and
+    `head_b` are the unit heading vectors (m, 2) of the long axes; `half_a` and `half_b` the (half length, half width) (m, 2).
+    The two rectangles are convex, so they are apart exactly when one of the four edge-normal axes separates their projections
+    (separating axis theorem), and the translating pair first touches at the latest entry time over the four axes, provided it
+    is before the earliest exit time. Returns `(ttc, sep)`: `sep` is the largest axis gap (negative when the bodies overlap, a
+    lower bound of the true distance otherwise, equal to it for face to face approaches); `ttc` is NaN for an overlapping pair
+    (an overlap has no time to collision: it is a collision, not a TTC of 0), +inf when the pair never touches and the time of
+    first contact otherwise."""
+    d, w = np.asarray(d, dtype=float), np.asarray(w, dtype=float)
+    ua, ub = np.asarray(head_a, dtype=float), np.asarray(head_b, dtype=float)
+    va, vb = np.stack([-ua[:, 1], ua[:, 0]], axis=1), np.stack([-ub[:, 1], ub[:, 0]], axis=1)
+    la, wa = half_a[:, 0], half_a[:, 1]
+    lb, wb = half_b[:, 0], half_b[:, 1]
+    t_in = np.full(len(d), -np.inf)
+    t_out = np.full(len(d), np.inf)
+    sep = np.full(len(d), -np.inf)
+    for ax in (ua, va, ub, vb):
+        r = (
+            la * np.abs((ua * ax).sum(1))
+            + wa * np.abs((va * ax).sum(1))
+            + lb * np.abs((ub * ax).sum(1))
+            + wb * np.abs((vb * ax).sum(1))
+        )
+        s = (d * ax).sum(1)
+        v = (w * ax).sum(1)
+        sep = np.maximum(sep, np.abs(s) - r)
+        still = np.abs(v) < 1e-12
+        vv = np.where(still, 1.0, v)
+        t1, t2 = (-r - s) / vv, (r - s) / vv
+        lo = np.where(still, np.where(np.abs(s) < r, -np.inf, np.inf), np.minimum(t1, t2))
+        hi = np.where(still, np.where(np.abs(s) < r, np.inf, -np.inf), np.maximum(t1, t2))
+        t_in, t_out = np.maximum(t_in, lo), np.minimum(t_out, hi)
+    touching = (t_in < t_out) & (t_out > 0.0)
+    ttc = np.where(touching, np.maximum(t_in, 0.0), np.inf)
+    return np.where(sep < 0.0, np.nan, ttc), sep
 
 
 def near_misses_per_1000h(near_misses: int, exposure_seconds: float) -> float:

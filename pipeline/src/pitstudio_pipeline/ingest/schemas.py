@@ -88,6 +88,22 @@ def _is_text(variable: str) -> bool:
     return variable.startswith(_TEXT_VARIABLES) and "baseht" not in variable
 
 
+WIND_DIRECTION_SENTINEL = 999.0
+WIND_DIRECTION_RULE = "in_range(0, 360) or calm_variable_sentinel(999)"
+WIND_DIRECTION_SENTINEL_NOTE = (
+    "The station files hold 999 on every calm and variable hour, with wind_direction_Measurement_Code C (calm) "
+    "or V (variable), and no direction. The NCEI documentation gives 000 for calm winds and lists the codes C, N "
+    "and V; it does not mention 999, so that meaning is read from the files (UNVERIFIED in the documentation text). "
+    "The value is accepted by the schema and is never a direction."
+)
+
+
+def _direction_in_range_or_sentinel(data: pa.PolarsData) -> pl.LazyFrame:
+    """True where a direction is 0 to 360 degrees or the sentinel 999 (null passes: the column is nullable)."""
+    col = pl.col(data.key)
+    return data.lazyframe.select((col.is_between(0.0, 360.0) | (col == WIND_DIRECTION_SENTINEL)).fill_null(True))
+
+
 def _ghcnh_columns() -> dict[str, pa.Column]:
     columns: dict[str, pa.Column] = {
         "STATION": pa.Column(pl.String, nullable=False),
@@ -124,12 +140,18 @@ def _ghcnh_columns() -> dict[str, pa.Column]:
     for variable in GHCNH_VARIABLES:
         if _is_text(variable):
             columns[variable] = pa.Column(pl.String, nullable=True)
-        elif variable == "wind_direction":  # whole degrees from true north, 360 = north, 000 = calm (Table 1, p.7)
+        elif (
+            variable == "wind_direction"
+        ):  # whole degrees from true north, 360 = north, 000 = calm (Table 1, p.7); 999 calm or variable
             columns[variable] = pa.Column(
                 pl.Float64,
-                pa.Check.in_range(0.0, 360.0),
+                pa.Check(_direction_in_range_or_sentinel, name=WIND_DIRECTION_RULE),
                 nullable=True,
-                metadata={"unit": "deg", "source": NCEI_DOC + ", Table 1, p.7"},
+                metadata={
+                    "unit": "deg",
+                    "source": NCEI_DOC + ", Table 1, p.7 and Table 2 (codes C calm, N normal, V variable)",
+                    "sentinel": WIND_DIRECTION_SENTINEL_NOTE,
+                },
             )
         elif variable == "wind_speed":  # metres per second, never negative (Table 1, p.7)
             columns[variable] = pa.Column(

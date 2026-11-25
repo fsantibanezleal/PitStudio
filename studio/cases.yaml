@@ -517,7 +517,8 @@ cases:
       unit: m3/shift
       orientation: lower-is-better
       headline: false
-    sources: []
+    sources:
+    - ghcnh-slc-wind
     synthetic_data:
     - label:
         en: Plume and particle fields

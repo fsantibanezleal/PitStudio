@@ -7,8 +7,10 @@ CPU only. For every seed one shift of the pinned `minehaulsim` engine runs throu
 network bundle, `a1_run.design_bundle`) with the leg recorder of `legs.py`; the trucks of that shift are then replayed in the
 traffic layer of `traffic.py` for every (autonomous share, number of light vehicles): the same engine seed gives every scenario
 the same truck variates (paired seeds). Every number is the engine's or the traffic layer's. Behaviour is rule-based and
-parameterised: reaction times, decelerations, disc radii, the lane offset and the light-vehicle patrol are illustrative inputs
-and UNVERIFIED for any site; no proximity or incident data exists to calibrate or validate them. Calibrated synthetic.
+parameterised: the footprints, the lane offset, the manned reaction time and the decelerations come from cited sources (`INPUT_ROWS`
+gives each with its page or table); the autonomous reaction time, the accelerations, the yielding thresholds and the light-vehicle
+patrol are UNVERIFIED for any site; no proximity or incident data exists to calibrate or validate them. Vehicles are bodies with
+their real footprints that never overlap: an overlap is a collision event, counted and reported, never a TTC of 0. Calibrated synthetic.
 """
 # ruff: noqa: E501
 
@@ -40,6 +42,31 @@ METHOD = "seeded DES truck trajectories on the pit road network replayed with la
 SERVES = ["FR-018-55", "FR-018-16"]
 bi = chartkit.bi
 T95 = 0.975
+
+_T = "Tannant and Regensburg 2001 (Guidelines for Mine Haul Road Design, UBC), "
+INPUT_ROWS: list[tuple[str, tuple[str, ...], str, str, str]] = [
+    ("Footprint, haul truck (length x width)", ("footprint_m", "haul-truck"), "m", "Asset specification",
+     "Cat 793F sheet, dimensions table (13,360 x 8,563 mm), as cited by the scene asset specification (FR-004-51); sheet not re-read"),
+    ("Footprint, light vehicle (length x width)", ("footprint_m", "light-vehicle"), "m", "Asset specification",
+     "Land Cruiser 79 sheet (5,235 x 1,800 mm), bounding box of the asset geometry (FR-004-51); sheet not re-read"),
+    ("Lane offset from the road centre line", ("lane_offset_m",), "m", "Derived from a source",
+     _T + "Eq. 5, p. 17 (3.5 x truck width, two lanes); vehicles centred: 0.875 x 8.563 m"),
+    ("Reaction time, manned vehicle", ("reaction_s", "manned"), "s", "Sourced",
+     _T + "p. 14, driver reaction t2, reasonable value 1.5 s (haul truck); applied to light-vehicle drivers"),
+    ("Deceleration, haul truck", ("decel_mps2", "haul-truck"), "m/s2", "Sourced",
+     _T + "p. 14, Kaufman and Ault (1977): friction 0.3, about 2.94 m/s2; Holman (1989) 9 % grade test consistent"),
+    ("Deceleration, light vehicle", ("decel_mps2", "light-vehicle"), "m/s2", "Sourced",
+     "AASHTO Green Book 11.2 ft/s2 (3.4 m/s2) as printed in TxDOT Roadway Design Manual 4.11.1; comfortable threshold, not a gravel maximum"),
+    ("Reaction time, autonomous truck", ("reaction_s", "autonomous"), "s", "UNVERIFIED",
+     "ISO 17757:2019 covers stop systems and late detection; its numbers are paywalled and were not read"),
+    ("Acceleration, haul truck", ("accel_mps2", "haul-truck"), "m/s2", "UNVERIFIED", "No source read (re-acceleration after braking)"),
+    ("Acceleration, light vehicle", ("accel_mps2", "light-vehicle"), "m/s2", "UNVERIFIED", "No source read (re-acceleration after braking)"),
+    ("Yield when TTC is below", ("brake_ttc_s",), "s", "UNVERIFIED", "Model rule, no source read"),
+    ("Brake for any moving vehicle when TTC is below", ("emergency_ttc_s",), "s", "UNVERIFIED", "Model rule, no source read"),
+    ("Near-miss threshold", ("near_miss_ttc_s",), "s", "Specification", "FR-018-55 (spec 018) fixes the threshold"),
+    ("Light-vehicle speed as a share of the limit", ("light_vehicle", "speed_factor"), "1", "UNVERIFIED", "No source read (patrol pattern)"),
+    ("Light-vehicle dwell time at a node (mean)", ("light_vehicle", "dwell_mean_s"), "s", "UNVERIFIED", "No source read (patrol pattern)"),
+]  # fmt: skip
 
 
 def sig(x: float | None, n: int = 6) -> float | None:
@@ -86,10 +113,11 @@ def seed_job(args: tuple[str, str, int, dict]) -> dict[str, Any]:
                     "tl": int(((pair == T.PAIR_TL) & (e["min_ttc"] < tcfg["near_miss_ttc_s"])).sum()),
                     "ll": int(((pair == T.PAIR_LL) & (e["min_ttc"] < tcfg["near_miss_ttc_s"])).sum()),
                 },
-                "contacts": {
-                    "tl": int(((pair == T.PAIR_TL) & (e["min_gap"] <= 0)).sum()),
-                    "ll": int(((pair == T.PAIR_LL) & (e["min_gap"] <= 0)).sum()),
+                "collisions": {
+                    "tl": int(e["collisions"][pair == T.PAIR_TL].sum()),
+                    "ll": int(e["collisions"][pair == T.PAIR_LL].sum()),
                 },
+                "contact_hold_s": r.contact_hold_s,
                 "min_ttc_tl": e["min_ttc"][fin & (pair == T.PAIR_TL)].astype(np.float32).tolist(),
                 "min_ttc_all": e["min_ttc"][fin].astype(np.float32).tolist(),
                 "tonnes_des": r.tonnes_des,
@@ -142,7 +170,7 @@ def build_outputs(params: dict, geo: dict, bundle: dict, results: list[dict]) ->
 
     version = f"{minehaulsim.__version__}+mp{minephys_identity()}"
     assert version.startswith(pin["version"])
-    label = f"{LABEL}; rule-based agents with illustrative behaviour inputs, see the run summary"
+    label = f"{LABEL}; rule-based agents, behaviour inputs sourced or UNVERIFIED as listed in the run summary"
     prod = chartkit.producer(TOOL, METHOD, version, label)
     shares, lvs, seeds = sw["autonomous_shares"], sw["light_vehicles"], sw["seeds"]
     ref_share, ref_lv = sw["reference"]["share"], sw["reference"]["light_vehicles"]
@@ -166,7 +194,9 @@ def build_outputs(params: dict, geo: dict, bundle: dict, results: list[dict]) ->
         f"95 % interval over {seeds} seeds (Student t)", f"Intervalo de 95 % sobre {seeds} semillas (t de Student)"
     )
     shift = f"{bundle['horizon_s'] / 3600:g} h shift, first {bundle['kpi_window']['warmup_s'] / 3600:g} h discarded"
-    common_en = f"Calibrated synthetic, {sw['fleet_size']} trucks, {shift}; behaviour inputs illustrative."
+    common_en = (
+        f"Calibrated synthetic, {sw['fleet_size']} trucks, {shift}; behaviour inputs sourced or UNVERIFIED as listed."
+    )
     common_es = f"Sintetico calibrado, {sw['fleet_size']} camiones, turno de {bundle['horizon_s'] / 3600:g} h (primeras {bundle['kpi_window']['warmup_s'] / 3600:g} h descartadas); parametros de comportamiento ilustrativos."
     pct = [100.0 * s for s in shares]
     charts: list[dict] = []
@@ -342,13 +372,22 @@ def build_outputs(params: dict, geo: dict, bundle: dict, results: list[dict]) ->
             [per_seed(s, ref_lv, per_shift("near_misses", "ll")) for s in shares],
         ),
         line_series(
-            "contact-tl",
+            "collision-tl",
             bi(
-                "Overlaps of the vehicle discs, truck - light vehicle",
-                "Solapes de los discos, camion - vehiculo liviano",
+                "Collision events, truck - light vehicle",
+                "Eventos de colision, camion - vehiculo liviano",
             ),
             pct,
-            [per_seed(s, ref_lv, per_shift("contacts", "tl")) for s in shares],
+            [per_seed(s, ref_lv, per_shift("collisions", "tl")) for s in shares],
+        ),
+        line_series(
+            "collision-ll",
+            bi(
+                "Collision events, light vehicle - light vehicle",
+                "Eventos de colision, vehiculo liviano - vehiculo liviano",
+            ),
+            pct,
+            [per_seed(s, ref_lv, per_shift("collisions", "ll")) for s in shares],
         ),
     ]
     charts.append(
@@ -363,8 +402,8 @@ def build_outputs(params: dict, geo: dict, bundle: dict, results: list[dict]) ->
             prod,
             SERVES,
             caption=bi(
-                f"{ref_lv} light vehicles, {win_h:g} h window. An overlap is two vehicle discs touching in the model, not a real collision.",
-                f"{ref_lv} vehiculos livianos, ventana de {win_h:g} h. Un solape es el contacto de dos discos del modelo, no una colision real.",
+                f"{ref_lv} light vehicles, {win_h:g} h window. A collision event is two vehicle footprints that would have overlapped in the model (the body is stopped); it has no TTC and is not a real collision.",
+                f"{ref_lv} vehiculos livianos, ventana de {win_h:g} h. Un evento de colision es el solape que habrian tenido dos huellas de vehiculo en el modelo (el cuerpo se detiene); no tiene TTC y no es una colision real.",
             ),
             x_axis=chartkit.axis("Autonomous share of the haul trucks", "Proporcion de camiones autonomos", "%"),
             y_axis=chartkit.axis("Events per shift", "Eventos por turno", "1"),
@@ -486,47 +525,15 @@ def build_outputs(params: dict, geo: dict, bundle: dict, results: list[dict]) ->
             table={"columns": cols, "rows": rows},
         )
     )
-    # 8 the behaviour inputs, each listed as UNVERIFIED
+    # 8 the behaviour inputs, each with its source or the UNVERIFIED label
     prm = tcfg
-    inputs = [
-        (
-            "Reaction time, autonomous truck",
-            "Tiempo de reaccion, camion autonomo",
-            prm["reaction_s"]["autonomous"],
-            "s",
-        ),
-        ("Reaction time, manned vehicle", "Tiempo de reaccion, vehiculo tripulado", prm["reaction_s"]["manned"], "s"),
-        ("Yield when TTC is below", "Ceder paso cuando el TTC es menor que", prm["brake_ttc_s"], "s"),
-        (
-            "Brake for any moving vehicle when TTC is below",
-            "Frenar por cualquier vehiculo en movimiento con TTC menor que",
-            prm["emergency_ttc_s"],
-            "s",
-        ),
-        ("Near-miss threshold", "Umbral de cuasi-accidente", prm["near_miss_ttc_s"], "s"),
-        ("Deceleration, haul truck", "Desaceleracion, camion", prm["decel_mps2"]["haul-truck"], "m/s2"),
-        ("Deceleration, light vehicle", "Desaceleracion, vehiculo liviano", prm["decel_mps2"]["light-vehicle"], "m/s2"),
-        ("Disc radius, haul truck", "Radio del disco, camion", prm["radius_m"]["haul-truck"], "m"),
-        ("Disc radius, light vehicle", "Radio del disco, vehiculo liviano", prm["radius_m"]["light-vehicle"], "m"),
-        (
-            "Lane offset from the road centre line",
-            "Desfase del carril respecto del eje del camino",
-            prm["lane_offset_m"],
-            "m",
-        ),
-        (
-            "Light-vehicle speed as a share of the limit",
-            "Velocidad del vehiculo liviano como fraccion del limite",
-            prm["light_vehicle"]["speed_factor"],
-            "1",
-        ),
-        (
-            "Light-vehicle dwell time at a node (mean)",
-            "Permanencia del vehiculo liviano en un nodo (media)",
-            prm["light_vehicle"]["dwell_mean_s"],
-            "s",
-        ),
-    ]
+    rows_tbl = []
+    for en, key, unit, status, source in INPUT_ROWS:
+        v = prm
+        for part in key:
+            v = v[part]
+        val = " x ".join(f"{x:g}" for x in v) if isinstance(v, list) else f"{v:g}"
+        rows_tbl.append([en, f"{val} {unit}", status, source])
     charts.append(
         chartkit.chart(
             "b1-inputs-table",
@@ -536,16 +543,17 @@ def build_outputs(params: dict, geo: dict, bundle: dict, results: list[dict]) ->
             prod,
             SERVES,
             caption=bi(
-                "Every value is a recipe input with no source read for any site; the results move with them.",
-                "Cada valor es un parametro de la receta sin fuente para un sitio; los resultados cambian con ellos.",
+                "Each value with its source and page or table, or marked UNVERIFIED when no source was read; the results move with the unverified ones.",
+                "Cada valor con su fuente y pagina o tabla, o marcado UNVERIFIED cuando no se leyo una fuente; los resultados cambian con los no verificados.",
             ),
             table={
                 "columns": [
                     {"id": "name", "label": bi("Input", "Parametro"), "type": "text"},
                     {"id": "value", "label": bi("Value", "Valor"), "type": "text"},
                     {"id": "status", "label": bi("Status", "Estado"), "type": "text"},
+                    {"id": "source", "label": bi("Source", "Fuente"), "type": "text"},
                 ],
-                "rows": [[en, f"{v:g} {u}", "UNVERIFIED, illustrative"] for en, es, v, u in inputs],
+                "rows": rows_tbl,
             },
         )
     )
@@ -558,20 +566,20 @@ def build_outputs(params: dict, geo: dict, bundle: dict, results: list[dict]) ->
             "name": "5th percentile of the minimum time to collision of truck - light-vehicle encounters",
             "unit": "s",
             "value": ttc_series[0]["y"][ref_idx],
-            "note": f"{where}; 95 % bootstrap interval {ttc_series[0]['lo'][ref_idx]} to {ttc_series[0]['hi'][ref_idx]} s; calibrated synthetic, behaviour inputs illustrative",
+            "note": f"{where}; 95 % bootstrap interval {ttc_series[0]['lo'][ref_idx]} to {ttc_series[0]['hi'][ref_idx]} s; calibrated synthetic, behaviour inputs sourced or UNVERIFIED as listed",
         },
         {
             "kpi": "near_misses",
             "name": "Near-misses per 1,000 vehicle-hours",
             "unit": "1/(1000 h)",
             "value": sig(nm_m, 5),
-            "note": f"{where}; 95 % half-width {sig((nm_hi - nm_lo) / 2, 3)}; TTC threshold {tcfg['near_miss_ttc_s']:g} s; calibrated synthetic, behaviour inputs illustrative",
+            "note": f"{where}; 95 % half-width {sig((nm_hi - nm_lo) / 2, 3)}; TTC threshold {tcfg['near_miss_ttc_s']:g} s; calibrated synthetic, behaviour inputs sourced or UNVERIFIED as listed",
         },
     ]
     all_rel = sum(x["releases"] for r in results for x in r["scenarios"].values())
     summary = {
         "title": "Autonomous and manned traffic on the Bingham pit road network: time to collision, near-misses and throughput against the autonomous share",
-        "label": f"{LABEL}. Rule-based agents with illustrative behaviour inputs; no proximity data exists to calibrate or validate them. {BIAS_NOTE}",
+        "label": f"{LABEL}. Rule-based agents, behaviour inputs sourced or UNVERIFIED as listed; no proximity data exists to calibrate or validate them. {BIAS_NOTE}",
         "methods": ["M2", "M20"],
         "verdict": "ok",
         "headline": headline,
@@ -607,11 +615,11 @@ def build_outputs(params: dict, geo: dict, bundle: dict, results: list[dict]) ->
             "assumptions": [
                 "haul trucks follow the engine trajectories (recorded per segment: request, exit and kinematic times); a truck that brakes lags its schedule and the delay is applied to the engine tonnes after the fact, so queueing at loaders and dumps is not re-simulated",
                 "light vehicles are manned, drive seeded random trips between design nodes along the shortest road path at a share of the segment speed limit and dwell off the road at nodes",
-                "vehicles drive in a lane offset from the road centre line; opposing vehicles pass at twice the offset; each vehicle is a disc",
-                "the share of autonomous trucks acts only through the reaction time before braking; the yielding rules and the other inputs are the same for every vehicle",
-                "vehicles at rest in their plan, truck against truck, and vehicles on roads that run side by side without a shared node are not evaluated",
+                "vehicles drive in a lane offset from the road centre line; opposing vehicles pass at twice the offset; each vehicle is an oriented rectangle of its asset-specification footprint; two footprints never overlap: a pair about to overlap is a collision event (counted) and the body that would run into the other is stopped, an overlap has no TTC",
+                "the share of autonomous trucks acts only through the reaction time before braking (the autonomous value is UNVERIFIED); the yielding rules and the other inputs are the same for every vehicle",
+                "light vehicles at rest, truck against truck, and vehicles on roads that run side by side without a shared node are not evaluated",
                 "constant-velocity TTC ignores braking and steering during the encounter; it is a screening metric",
-                "every behaviour input is illustrative and UNVERIFIED for any site; no incident or proximity record exists to calibrate or validate them",
+                "the behaviour inputs marked UNVERIFIED in the inputs table have no source read; no incident or proximity record exists to calibrate or validate any of them",
                 "the sensors and the Cosmos reasoning of case B1 are not part of this run",
                 BIAS_NOTE,
             ],

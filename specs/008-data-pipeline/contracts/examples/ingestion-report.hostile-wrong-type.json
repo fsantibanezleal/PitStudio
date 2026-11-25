@@ -34,8 +34,8 @@
       "field": "wind_direction",
       "field_kind": "column",
       "value": 361,
-      "expected": "in [0, 360]",
-      "rule": "in_range(0, 360)",
+      "expected": "in [0, 360] or 999 (calm or variable)",
+      "rule": "in_range(0, 360) or calm_variable_sentinel(999)",
       "unit": "deg"
     }
   ],

@@ -116,15 +116,15 @@ def test_a_crossing_conflict_is_avoided_by_the_light_vehicle_and_happens_without
         r = T.simulate(
             [veh(1, T.TRUCK, truck, auton), veh(1000, T.LIGHT, lv)], horizon_s=60.0, warmup_s=0.0, trace=True
         )
-        assert r.contacts == 0 and r.near_misses == 0
-        assert scan_min_dist(r) > 7.0  # the disc radii of a truck and a light vehicle sum to 7 m
+        assert r.collisions == 0 and r.near_misses == 0
+        assert np.all(r.encounters["min_ttc"] > 0.0)
         assert r.trace_m[:, 1].min() < 1.0  # it was the light vehicle that braked
     r0 = T.simulate(
         [veh(1, T.TRUCK, truck), veh(1000, T.LIGHT, lv)], horizon_s=60.0, warmup_s=0.0, interactions=False, trace=True
     )
-    assert r0.contacts == 1 and r0.near_misses == 1
-    assert scan_min_dist(r0) < 7.0
-    assert r0.encounters["min_ttc"][0] == pytest.approx(0.0)
+    assert r0.collisions == 1 and r0.near_misses == 1
+    assert scan_min_dist(r0) < 9.0  # the footprints overlap: the half lengths of the two bodies sum to 9.3 m
+    assert 0.0 < r0.encounters["min_ttc"][0] < 3.0  # the closest approach before the contact, never a TTC of 0
 
 
 def test_head_on_vehicles_in_their_own_lanes_never_close():
@@ -140,7 +140,7 @@ def test_head_on_vehicles_in_their_own_lanes_never_close():
     assert len(r.encounters) == 1 and math.isinf(
         r.encounters["min_ttc"][0]
     )  # an encounter (they pass within 60 m) without a TTC
-    assert r.near_misses == 0 and r.contacts == 0
+    assert r.near_misses == 0 and r.collisions == 0
     assert scan_min_dist(r) == pytest.approx(13.0, abs=0.01)
     assert r.trace_m.min() == 1.0  # nobody braked
 
@@ -157,7 +157,9 @@ def test_a_vehicle_behind_a_slower_one_in_the_same_lane_stops_short_of_it_and_a_
         gaps[reaction] = scan_min_dist(r)
         assert r.trace_m[:, 0].min() < 1.0  # the truck braked
     assert gaps[0.5] > gaps[1.5] > gaps[3.0]
-    assert gaps[0.5] > 7.0  # no overlap with the autonomous reaction time, discs of 5 m and 2 m
+    assert all(
+        g > 9.3175 for g in gaps.values()
+    )  # the bodies never overlap, at any reaction time: the centres stay 6.68 + 2.6375 m apart
     free = T.simulate(
         [veh(1, T.TRUCK, line((0.0, 0.0), (2000.0, 0.0), 0.0, 200.0)), veh(1000, T.LIGHT, slow)],
         horizon_s=40.0,
@@ -165,7 +167,7 @@ def test_a_vehicle_behind_a_slower_one_in_the_same_lane_stops_short_of_it_and_a_
         interactions=False,
         trace=True,
     )
-    assert scan_min_dist(free) < 7.0 and free.contacts == 1
+    assert scan_min_dist(free) < 9.0 and free.collisions == 1
 
 
 def test_the_autonomous_flag_acts_only_through_the_reaction_time():
@@ -199,7 +201,9 @@ def test_a_block_longer_than_the_release_time_ends_with_a_negotiated_go():
     )
     assert r.releases >= 1
     held = (r.trace_m[:, 0] < 0.5).sum() * 0.5
-    assert 15.0 < held < 120.0  # blocked for about the release time, not for the whole run
+    assert held > 15.0  # blocked at least for the release time
+    # the go-ahead cannot take the truck through the body of the crawler: the truck is stopped by contact (a collision event) and never overlaps it
+    assert r.collisions >= 1 and scan_min_dist(r) > 9.3175
 
 
 # ---------------------------------------------------------------- the whole network
@@ -318,4 +322,4 @@ def test_vehicles_on_roads_that_share_no_node_do_not_interact():
     r = T.simulate(
         [veh(1, T.TRUCK, a), veh(1000, T.LIGHT, b)], horizon_s=45.0, warmup_s=0.0, net=joined, interactions=False
     )
-    assert len(r.encounters) == 1 and r.contacts == 1
+    assert len(r.encounters) == 1 and r.collisions == 1

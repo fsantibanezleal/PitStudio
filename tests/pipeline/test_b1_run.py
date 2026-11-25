@@ -121,10 +121,35 @@ def test_two_runs_with_the_same_seeds_write_identical_files(run, tmp_path):
         assert p.read_bytes() == (out2 / p.relative_to(out)).read_bytes(), p.name
 
 
-def test_the_inputs_table_lists_every_behaviour_input_as_unverified(run):
+def test_the_inputs_table_gives_every_input_its_source_with_page_or_table_or_the_unverified_label(run):
     _, result, _, _ = run
     t = next(c for c in result["charts"] if c["id"] == "b1-inputs-table")["table"]
-    assert len(t["rows"]) >= 10 and all(r[2].startswith("UNVERIFIED") for r in t["rows"])
+    rows = t["rows"]
+    assert len(rows) >= 14 and all(len(r) == 4 and all(len(c) <= 200 for c in r) for r in rows)
+    statuses = {r[2] for r in rows}
+    assert statuses <= {"Sourced", "Derived from a source", "Asset specification", "Specification", "UNVERIFIED"}
+    for name, _, status, source in rows:
+        assert source.strip(), name
+        if status in ("Sourced", "Derived from a source"):
+            assert " p. " in source or "Table" in source or "Eq." in source or " 4.11.1" in source, (
+                name,
+                source,
+            )  # a page, table, equation or section
+    unverified = [r[0] for r in rows if r[2] == "UNVERIFIED"]
+    assert "Reaction time, autonomous truck" in unverified and "Acceleration, haul truck" in unverified
+    sourced = [r[0] for r in rows if r[2] == "Sourced"]
+    assert {"Deceleration, haul truck", "Deceleration, light vehicle", "Reaction time, manned vehicle"} <= set(sourced)
+
+
+def test_no_encounter_of_the_sweep_has_a_time_to_collision_of_zero_and_collisions_are_reported(run):
+    _, result, _, _ = run
+    ttc = next(c for c in result["charts"] if c["id"] == "b1-min-ttc-distribution")
+    for s in ttc["series"]:
+        assert s["x"][0] == 0.0 and s["y"][0] == 0.0, s[
+            "id"
+        ]  # no encounter has a minimum TTC of 0: the distribution starts at zero
+    conf = next(c for c in result["charts"] if c["id"] == "b1-conflicts-per-shift")
+    assert {s["id"] for s in conf["series"]} >= {"collision-tl", "collision-ll"}
 
 
 def test_the_command_line_writes_the_files_and_removes_its_work_folder(run, tmp_path):
