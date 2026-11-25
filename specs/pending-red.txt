@@ -148,7 +148,6 @@ web/e2e/t_018_036_hostile_inputs.spec.ts
 web/e2e/t_018_037_a11y_cases.spec.ts
 web/e2e/t_018_073_pyodide.spec.ts
 web/e2e/t_018_089_vertical_slice.spec.ts
-web/e2e/t_018_113_case_first_view.spec.ts
 web/e2e/t_019_035_no_loopback.spec.ts
 web/e2e/t_019_040_budgets.spec.ts
 web/e2e/t_019_041_a11y_studio.spec.ts
@@ -158,9 +157,6 @@ web/e2e/t_020_016_hostile.spec.ts
 web/e2e/t_020_063_first_view.spec.ts
 web/e2e/t_020_064_a11y_matrix.spec.ts
 web/src/cases/d2/metaModelGuards.test.ts
-web/src/cases/t_018_113_first_view_weight.test.tsx
-web/src/cases/t_018_114_kpi_note.test.tsx
-web/src/charts/t_020_113_chart_display.test.tsx
 web/src/engines/analytical/comminution/t_018_070_comminution.test.ts
 web/src/engines/des/policy.parity.test.ts
 web/src/engines/des/scenario.hostile.test.ts
