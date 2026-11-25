@@ -6,6 +6,8 @@ studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
   - tests/unit/test_t_005_*.py
   - tests/metamorphic/test_t_005_*.py
   - tests/pipeline/test_t_005_031_*.py   # the Warp shallow-water dam breaks (spec 005, FR-005-24, FR-005-25)
+  - tests/unit/test_swe_open_boundary.py   # open boundaries of the Warp shallow-water solver never make water (spec 005, FR-005-28)
+  - tests/unit/test_c2_breach_run.py     # the C2 breach run on a synthetic terrain (Warp CPU, rasterio, shapely, spec 005 and 020)
   - tests/property/test_t_005_032_*.py   # the Warp shallow-water balance properties (spec 005, FR-005-26, FR-005-28)
   - tests/unit/test_t_011_03[3-9]_*.py
   - tests/unit/test_t_011_060_*.py
