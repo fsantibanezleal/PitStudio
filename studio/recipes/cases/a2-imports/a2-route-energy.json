@@ -5,7 +5,7 @@
  "recipe": "cases/a2.yaml",
  "slug": "a2-route-energy",
  "seed": 0,
- "label": "calibrated synthetic — not validated against real data; every constant is a verified minephys knowledge row with its citation (efficiencies from one published truck model, diesel lower heating value from a US government data page): route energy, fuel and CO2e per tonne by drivetrain on the Bingham pit road and least-energy A* routes over the real terrain",
+ "label": "calibrated synthetic — not validated against real data; constants are cited minephys knowledge rows: route energy, fuel and CO2e per tonne by drivetrain on the Bingham pit road and least-energy A* routes over the real terrain",
  "producer_paths": [
   "pipeline/src/pitstudio_pipeline/haulage",
   "src/pitstudio/haulage",
@@ -14,7 +14,7 @@
  ],
  "notes": [
   "Produced on the CPU by pitstudio_pipeline.haulage.a2_run (not by the GPU queue); no GPU time is used.",
-  "Supersedes the first A2 run, whose five efficiency and fuel-density constants were recipe inputs listed UNVERIFIED because the pinned minephys had no rows for them; minephys spec 001 DC-001-02 now holds them as verified rows (Lindgren et al. 2022, Table 2, p. 7; US DOE Alternative Fuels Data Center, Fuel Properties Comparison) and the run reads them from the tables.",
+  "Supersedes the first A2 run, which listed five constants as UNVERIFIED recipe inputs; minephys spec 001 DC-001-02 now holds them as verified rows (Lindgren et al. 2022, Table 2, p. 7; US DOE AFDC fuel properties).",
   "The electricity emissions need a grid intensity that has no default, so CO2e is shown for diesel only."
  ],
  "stages": [
