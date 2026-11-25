@@ -67,6 +67,71 @@ sources:
     card: data/cards/srtm-gl1-bingham.md
     account:
       needed: false
+  - id: ghcnh-slc-wind
+    kind: real
+    title: "NOAA GHCNh hourly observations of station USW00024127, Salt Lake City International Airport, Utah, calendar years 2015 to 2024 (wind speed and direction used by case C3)"
+    landing_url: "https://www.ncei.noaa.gov/products/global-historical-climatology-network-hourly"
+    access: api                      # NCEI open data folder, anonymous HTTPS, one pipe-separated file per station and year
+    files:
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2015/psv/GHCNh_USW00024127_2015.psv"
+        sha256: "1bf226bfc3330cf88d85c97f4c4edac3bd99d57aadd4640cffdaf1e1ca41f4a3"
+        bytes: 11966848
+        kind: table
+        name: "ghcnh-usw00024127-2015.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2016/psv/GHCNh_USW00024127_2016.psv"
+        sha256: "d14d682a038e7715c2c5c33a7985771940397d3bd440e5238b3e0e45dceb318e"
+        bytes: 12214137
+        kind: table
+        name: "ghcnh-usw00024127-2016.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2017/psv/GHCNh_USW00024127_2017.psv"
+        sha256: "68e43b7629b1c18d1a349cdef0d8e628b7edda6c60b98fb7e4b55cb0b30cb78e"
+        bytes: 12382849
+        kind: table
+        name: "ghcnh-usw00024127-2017.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2018/psv/GHCNh_USW00024127_2018.psv"
+        sha256: "b259bc020d537cfa8f76cd7e1ae8cf8a80f182d3ce2870cc55da1fbd08ac8519"
+        bytes: 12140589
+        kind: table
+        name: "ghcnh-usw00024127-2018.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2019/psv/GHCNh_USW00024127_2019.psv"
+        sha256: "4cafb829629cda126a1f632054ff0a4b1e6fe5c8404fdfb9602fa24ac21b5f3a"
+        bytes: 12565024
+        kind: table
+        name: "ghcnh-usw00024127-2019.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2020/psv/GHCNh_USW00024127_2020.psv"
+        sha256: "1b89bbd96e4fe02b77e31284ef968abb084b54a74f0e7b3cd1ed2b0fb7afdb8d"
+        bytes: 11854259
+        kind: table
+        name: "ghcnh-usw00024127-2020.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2021/psv/GHCNh_USW00024127_2021.psv"
+        sha256: "da1437b1d268d8e4890efca0d0de685daca68566acd45868168609d1e7a743ec"
+        bytes: 12202923
+        kind: table
+        name: "ghcnh-usw00024127-2021.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2022/psv/GHCNh_USW00024127_2022.psv"
+        sha256: "0e4b76a89e85351bf5eee7ef8b7ffa082dffe08f2f4d4014b4521d99d955a12e"
+        bytes: 12250139
+        kind: table
+        name: "ghcnh-usw00024127-2022.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2023/psv/GHCNh_USW00024127_2023.psv"
+        sha256: "571c3b8f7a9279c191720733fe1ede427eef7f90f5b703953108e18974747c66"
+        bytes: 12715611
+        kind: table
+        name: "ghcnh-usw00024127-2023.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2024/psv/GHCNh_USW00024127_2024.psv"
+        sha256: "21c876e5ef94ecbc3639507b76bb1951f920ce78a2b931a1452f4bcee299e283"
+        bytes: 12322539
+        kind: table
+        name: "ghcnh-usw00024127-2024.psv"
+    spdx: CC0-1.0
+    licence_url: "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc%3AC01688"
+    licence_class: public-domain
+    redistribution: redistributable
+    attribution: "Menne, M.J., Noone, S., Casey, N.W., Dunn, R.H., McNeill, S., Kantor, D., Thorne, P.W., Orcutt, K., Cunningham, S., Risavi, N. (2023): Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, NOAA National Centers for Environmental Information. https://doi.org/10.25921/jp3d-3v19"
+    citation: "Menne et al. 2023, Global Historical Climatology Network-Hourly (GHCNh), subset: station USW00024127, 2015 to 2024, NOAA NCEI, https://doi.org/10.25921/jp3d-3v19. Accessed 2026-11-24."
+    card: data/cards/ghcnh-slc-wind.md
+    account:
+      needed: false
 # Colour maps of the SDG texture pool (specs 004 and 009, FR-009-08; sdg-realism-2026-11-23): one entry per CC0 texture.
 # Each map has a vegetation tint below 2 percent (share of pixels with HSV hue 60 to 150 degrees and saturation above 0.25),
 # measured by tools/sdg_inputs.py `textures`; the values are in data/cards/sdg-cc0-textures.md.
