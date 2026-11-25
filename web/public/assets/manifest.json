@@ -103,6 +103,11 @@
    "run_id": "20261125T035023Z-c2-cpu-40m",
    "manifest": "20261125T035023Z-c2-cpu-40m/manifest.json",
    "sha256": "521ffaa4f48a9b3589004b07546bd913320d5bc0efe7f24da44a4db31885f8e1"
+  },
+  {
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "manifest": "20261125T104334Z-b1-traffic-sweep/manifest.json",
+   "sha256": "3fc8563ef312514a1784e9b84aed3845db93d6df7ad388b2f71d7c47275c8ce5"
   }
  ],
  "artefacts": [
@@ -6164,6 +6169,240 @@
    ],
    "media_type": "application/json",
    "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "b1-traffic-sweep-results",
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "git_sha": "f9394081c1032829ea72daeb8e9359016f08221a",
+   "path": "assets/20261125T104334Z-b1-traffic-sweep/results-summary.json",
+   "bytes": 4866,
+   "sha256": "a85e5621c0f61e347701637c54b9a39fb6484565598377afc611fa2b0f085ecb",
+   "kind": "table",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "B1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+  },
+  {
+   "id": "b1-near-miss-rate-vs-share",
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "git_sha": "f9394081c1032829ea72daeb8e9359016f08221a",
+   "path": "assets/20261125T104334Z-b1-traffic-sweep/charts/b1-near-miss-rate-vs-share.json",
+   "bytes": 3104,
+   "sha256": "c8c40feacac9bf3301d41020f13004697ff99062ae73ae3a9f49e8907d8c9091",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "B1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+  },
+  {
+   "id": "b1-near-miss-rate-vs-density",
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "git_sha": "f9394081c1032829ea72daeb8e9359016f08221a",
+   "path": "assets/20261125T104334Z-b1-traffic-sweep/charts/b1-near-miss-rate-vs-density.json",
+   "bytes": 2675,
+   "sha256": "95e5d5fed713172afa38d336bc50a5673a0d9f6acf0e6adaf999e131d179e492",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "B1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+  },
+  {
+   "id": "b1-min-ttc-percentiles-vs-share",
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "git_sha": "f9394081c1032829ea72daeb8e9359016f08221a",
+   "path": "assets/20261125T104334Z-b1-traffic-sweep/charts/b1-min-ttc-percentiles-vs-share.json",
+   "bytes": 2875,
+   "sha256": "3a3cdc4e9ec0686a323fe27861c0669f00aadfd312144ef5d490d48f03dd7d03",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "B1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+  },
+  {
+   "id": "b1-min-ttc-distribution",
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "git_sha": "f9394081c1032829ea72daeb8e9359016f08221a",
+   "path": "assets/20261125T104334Z-b1-traffic-sweep/charts/b1-min-ttc-distribution.json",
+   "bytes": 9196,
+   "sha256": "a370653c5949819fdfb04478bc5666e586e1f5052025f3c8f72a2e34d4bed819",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "B1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+  },
+  {
+   "id": "b1-conflicts-per-shift",
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "git_sha": "f9394081c1032829ea72daeb8e9359016f08221a",
+   "path": "assets/20261125T104334Z-b1-traffic-sweep/charts/b1-conflicts-per-shift.json",
+   "bytes": 3095,
+   "sha256": "376d3cbff97b1824fb8903d95b2ad97abcec2438bfaa0110bfa2e4c46b68c1a9",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "B1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+  },
+  {
+   "id": "b1-throughput-vs-share",
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "git_sha": "f9394081c1032829ea72daeb8e9359016f08221a",
+   "path": "assets/20261125T104334Z-b1-traffic-sweep/charts/b1-throughput-vs-share.json",
+   "bytes": 3290,
+   "sha256": "850e255ace469c1dfe367c5c42e1de0b977c8442b3f3ebdd5817de574cc11dcc",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "B1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+  },
+  {
+   "id": "b1-scenario-table",
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "git_sha": "f9394081c1032829ea72daeb8e9359016f08221a",
+   "path": "assets/20261125T104334Z-b1-traffic-sweep/charts/b1-scenario-table.json",
+   "bytes": 2692,
+   "sha256": "c6549566b5c2e983d7a2d565de4b076d5f92f48a5f84b2c191d31559f2a36e03",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "B1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+  },
+  {
+   "id": "b1-inputs-table",
+   "run_id": "20261125T104334Z-b1-traffic-sweep",
+   "git_sha": "f9394081c1032829ea72daeb8e9359016f08221a",
+   "path": "assets/20261125T104334Z-b1-traffic-sweep/charts/b1-inputs-table.json",
+   "bytes": 2434,
+   "sha256": "a0f4fbbd541d0289a50819b241aad98ba1c74e32f51baaed21db42e6d970a5ed",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "B1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
   }
  ]
 }

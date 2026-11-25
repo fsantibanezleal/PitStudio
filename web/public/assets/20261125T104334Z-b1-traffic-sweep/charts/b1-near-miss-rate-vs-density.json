@@ -1,0 +1,138 @@
+{
+ "caption": {
+  "en": "Calibrated synthetic, 20 trucks, 8 h shift, first 1 h discarded; behaviour inputs illustrative.",
+  "es": "Sintetico calibrado, 20 camiones, turno de 8 h (primeras 1 h descartadas); parametros de comportamiento ilustrativos."
+ },
+ "case": "B1",
+ "chart_type": "line",
+ "id": "b1-near-miss-rate-vs-density",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; rule-based agents with illustrative behaviour inputs, see the run summary",
+  "method": "seeded DES truck trajectories on the pit road network replayed with lane-based mixed traffic, constant-velocity TTC per encounter, paired seeds",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    1233.67,
+    2262.84,
+    4212.51
+   ],
+   "id": "share0",
+   "label": {
+    "en": "0 % autonomous",
+    "es": "0 % autonomos"
+   },
+   "lo": [
+    1169.9,
+    2176.96,
+    4078.23
+   ],
+   "n": 30,
+   "x": [
+    4.0,
+    8.0,
+    16.0
+   ],
+   "y": [
+    1201.79,
+    2219.9,
+    4145.37
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    1220.7,
+    2251.82,
+    4142.6
+   ],
+   "id": "share50",
+   "label": {
+    "en": "50 % autonomous",
+    "es": "50 % autonomos"
+   },
+   "lo": [
+    1155.89,
+    2158.73,
+    4039.68
+   ],
+   "n": 30,
+   "x": [
+    4.0,
+    8.0,
+    16.0
+   ],
+   "y": [
+    1188.29,
+    2205.27,
+    4091.14
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    1216.83,
+    2226.87,
+    4100.69
+   ],
+   "id": "share100",
+   "label": {
+    "en": "100 % autonomous",
+    "es": "100 % autonomos"
+   },
+   "lo": [
+    1162.93,
+    2154.76,
+    3986.62
+   ],
+   "n": 30,
+   "x": [
+    4.0,
+    8.0,
+    16.0
+   ],
+   "y": [
+    1189.88,
+    2190.82,
+    4043.65
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-55",
+  "FR-018-16"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Near-misses per 1,000 vehicle-hours against the number of light vehicles",
+  "es": "Cuasi-accidentes por 1.000 horas-vehiculo segun la cantidad de vehiculos livianos"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Light vehicles on the network",
+   "es": "Vehiculos livianos en la red"
+  },
+  "unit": "1"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Near-misses",
+   "es": "Cuasi-accidentes"
+  },
+  "unit": "1/(1000 h)"
+ }
+}

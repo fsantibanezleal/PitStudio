@@ -1,0 +1,140 @@
+{
+ "caption": {
+  "en": "Mean of 30 paired seeds, 95 % Student-t half-width of the near-miss rate. No verdict: inputs are illustrative; model scenarios only.",
+  "es": "Media de 30 semillas pareadas, semiancho de 95 % (t de Student). Sin veredicto: parametros ilustrativos; solo escenarios del modelo."
+ },
+ "case": "B1",
+ "chart_type": "table",
+ "id": "b1-scenario-table",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; rule-based agents with illustrative behaviour inputs, see the run summary",
+  "method": "seeded DES truck trajectories on the pit road network replayed with lane-based mixed traffic, constant-velocity TTC per encounter, paired seeds",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-018-55",
+  "FR-018-16"
+ ],
+ "status": "ok",
+ "table": {
+  "columns": [
+   {
+    "id": "share",
+    "label": {
+     "en": "Autonomous trucks",
+     "es": "Camiones autonomos"
+    },
+    "type": "number",
+    "unit": "%"
+   },
+   {
+    "id": "enc",
+    "label": {
+     "en": "Truck - light-vehicle encounters per shift",
+     "es": "Encuentros camion - liviano por turno"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "nm",
+    "label": {
+     "en": "Near-misses per 1,000 vehicle-h",
+     "es": "Cuasi-accidentes por 1.000 h-vehiculo"
+    },
+    "type": "number",
+    "unit": "1/(1000 h)"
+   },
+   {
+    "id": "half",
+    "label": {
+     "en": "95 % half-width",
+     "es": "Semiancho al 95 %"
+    },
+    "type": "number",
+    "unit": "1/(1000 h)"
+   },
+   {
+    "id": "p5",
+    "label": {
+     "en": "5th percentile of the minimum TTC",
+     "es": "Percentil 5 del TTC minimo"
+    },
+    "type": "number",
+    "unit": "s"
+   },
+   {
+    "id": "thr",
+    "label": {
+     "en": "Throughput",
+     "es": "Rendimiento"
+    },
+    "type": "number",
+    "unit": "t/h"
+   },
+   {
+    "id": "held",
+    "label": {
+     "en": "Truck-hours braked per shift",
+     "es": "Horas-camion frenado por turno"
+    },
+    "type": "number",
+    "unit": "h"
+   }
+  ],
+  "rows": [
+   [
+    0,
+    3476.0,
+    2220.0,
+    42.9,
+    0.0,
+    8528.6,
+    0.316
+   ],
+   [
+    25,
+    3474.0,
+    2254.0,
+    49.4,
+    0.0,
+    8535.0,
+    0.353
+   ],
+   [
+    50,
+    3468.0,
+    2205.0,
+    46.5,
+    0.0,
+    8534.0,
+    0.377
+   ],
+   [
+    75,
+    3484.0,
+    2204.0,
+    48.4,
+    0.0,
+    8532.1,
+    0.399
+   ],
+   [
+    100,
+    3473.0,
+    2191.0,
+    36.1,
+    0.0,
+    8530.9,
+    0.417
+   ]
+  ]
+ },
+ "title": {
+  "en": "Autonomous share scenarios with 8 light vehicles",
+  "es": "Escenarios de proporcion de autonomos con 8 vehiculos livianos"
+ }
+}

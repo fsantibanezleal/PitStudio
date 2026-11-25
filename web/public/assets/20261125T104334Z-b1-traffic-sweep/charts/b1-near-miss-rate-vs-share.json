@@ -1,0 +1,163 @@
+{
+ "caption": {
+  "en": "Calibrated synthetic, 20 trucks, 8 h shift, first 1 h discarded; behaviour inputs illustrative. Near-miss: minimum TTC of an encounter below 3 s.",
+  "es": "Sintetico calibrado, 20 camiones, turno de 8 h (primeras 1 h descartadas); parametros de comportamiento ilustrativos. Cuasi-accidente: TTC minimo de un encuentro bajo 3 s."
+ },
+ "case": "B1",
+ "chart_type": "line",
+ "id": "b1-near-miss-rate-vs-share",
+ "kind": "chart-series",
+ "kpi": "near_misses",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; rule-based agents with illustrative behaviour inputs, see the run summary",
+  "method": "seeded DES truck trajectories on the pit road network replayed with lane-based mixed traffic, constant-velocity TTC per encounter, paired seeds",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    1233.67,
+    1237.5,
+    1220.7,
+    1215.89,
+    1216.83
+   ],
+   "id": "lv4",
+   "label": {
+    "en": "4 light vehicles",
+    "es": "4 vehiculos livianos"
+   },
+   "lo": [
+    1169.9,
+    1175.59,
+    1155.89,
+    1163.08,
+    1162.93
+   ],
+   "n": 30,
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    1201.79,
+    1206.55,
+    1188.29,
+    1189.48,
+    1189.88
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    2262.84,
+    2303.5,
+    2251.82,
+    2252.46,
+    2226.87
+   ],
+   "id": "lv8",
+   "label": {
+    "en": "8 light vehicles",
+    "es": "8 vehiculos livianos"
+   },
+   "lo": [
+    2176.96,
+    2204.67,
+    2158.73,
+    2155.71,
+    2154.76
+   ],
+   "n": 30,
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    2219.9,
+    2254.08,
+    2205.27,
+    2204.08,
+    2190.82
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    4212.51,
+    4163.88,
+    4142.6,
+    4131.2,
+    4100.69
+   ],
+   "id": "lv16",
+   "label": {
+    "en": "16 light vehicles",
+    "es": "16 vehiculos livianos"
+   },
+   "lo": [
+    4078.23,
+    4048.29,
+    4039.68,
+    4037.59,
+    3986.62
+   ],
+   "n": 30,
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    4145.37,
+    4106.08,
+    4091.14,
+    4084.39,
+    4043.65
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-55",
+  "FR-018-16"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Near-misses per 1,000 vehicle-hours against the autonomous share",
+  "es": "Cuasi-accidentes por 1.000 horas-vehiculo segun la proporcion de autonomos"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Autonomous share of the haul trucks",
+   "es": "Proporcion de camiones autonomos"
+  },
+  "unit": "%"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Near-misses",
+   "es": "Cuasi-accidentes"
+  },
+  "unit": "1/(1000 h)"
+ }
+}

@@ -1,0 +1,116 @@
+{
+ "caption": {
+  "en": "Every value is a recipe input with no source read for any site; the results move with them.",
+  "es": "Cada valor es un parametro de la receta sin fuente para un sitio; los resultados cambian con ellos."
+ },
+ "case": "B1",
+ "chart_type": "table",
+ "id": "b1-inputs-table",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; rule-based agents with illustrative behaviour inputs, see the run summary",
+  "method": "seeded DES truck trajectories on the pit road network replayed with lane-based mixed traffic, constant-velocity TTC per encounter, paired seeds",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-018-55",
+  "FR-018-16"
+ ],
+ "status": "ok",
+ "table": {
+  "columns": [
+   {
+    "id": "name",
+    "label": {
+     "en": "Input",
+     "es": "Parametro"
+    },
+    "type": "text"
+   },
+   {
+    "id": "value",
+    "label": {
+     "en": "Value",
+     "es": "Valor"
+    },
+    "type": "text"
+   },
+   {
+    "id": "status",
+    "label": {
+     "en": "Status",
+     "es": "Estado"
+    },
+    "type": "text"
+   }
+  ],
+  "rows": [
+   [
+    "Reaction time, autonomous truck",
+    "0.5 s",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Reaction time, manned vehicle",
+    "1.5 s",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Yield when TTC is below",
+    "6 s",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Brake for any moving vehicle when TTC is below",
+    "3.5 s",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Near-miss threshold",
+    "3 s",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Deceleration, haul truck",
+    "2 m/s2",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Deceleration, light vehicle",
+    "4 m/s2",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Disc radius, haul truck",
+    "5 m",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Disc radius, light vehicle",
+    "2 m",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Lane offset from the road centre line",
+    "6.5 m",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Light-vehicle speed as a share of the limit",
+    "0.9 1",
+    "UNVERIFIED, illustrative"
+   ],
+   [
+    "Light-vehicle dwell time at a node (mean)",
+    "60 s",
+    "UNVERIFIED, illustrative"
+   ]
+  ]
+ },
+ "title": {
+  "en": "Behaviour inputs of the traffic model",
+  "es": "Parametros de comportamiento del modelo de trafico"
+ }
+}

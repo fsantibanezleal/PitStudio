@@ -14,7 +14,9 @@
  ],
  "notes": [
   "Produced on the CPU by pitstudio_pipeline.haulage.b1_run (not by the GPU queue); no GPU time is used.",
-  "Reaction times, decelerations, disc radii, the lane offset and the light-vehicle patrol are illustrative and UNVERIFIED; no proximity or incident record exists to calibrate or validate them, so the comparison is between model scenarios only. The RTX lidar and radar frames and the Cosmos reasoning of case B1 are not part of this run."
+  "Reaction times, decelerations, disc radii, the lane offset and the light-vehicle patrol are illustrative and UNVERIFIED for any site.",
+  "No proximity or incident record exists to calibrate or validate them: the comparison is between model scenarios only.",
+  "The RTX lidar and radar frames and the Cosmos reasoning of case B1 are not part of this run."
  ],
  "stages": [
   {
