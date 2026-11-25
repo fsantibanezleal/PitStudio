@@ -17,9 +17,14 @@ Noise selection (`noise_selection` in the config): "val_loss" (default) takes th
 validation loss; "rollout" (GNS v2) rolls every pilot model out for `rollout_steps` steps from frame 0 of
 `rollout_geometries` validation geometries and takes the candidate that completes the largest fraction of those steps,
 then the smaller mean position error, then the smaller scale (`rollout_probe`, `choose_by_rollout`). The one-step loss
-sees no error accumulation; run-002 chose by it and 19 of 20 held-out rollouts diverged. No multi-step or
-push-forward loss
-term is implemented: the loss stays the one-step normalised-acceleration MSE.
+sees no error accumulation; run-002 chose by it and 19 of 20 held-out rollouts diverged.
+
+Push-forward (`pushforward_steps` k >= 1, GNS v4; Brandstetter, Worrall and Welling 2022, "Message Passing Neural PDE
+Solvers", ICLR, arXiv:2202.03376): besides the one-step loss, the model is unrolled k steps WITHOUT gradient on its own
+predictions (boundary particles held at the reference, as in a rollout) and the loss of step k + 1 is taken from that
+perturbed state, with the noise-correcting target (the acceleration that lands on the reference frame from the perturbed
+state). Both terms are summed; `pushforward_warmup_steps` optimiser steps of the one-step loss alone come first. With
+`pushforward_steps` 0 (the default) the loss is the one-step normalised-acceleration MSE alone.
 
 Sample weighting (`sample_weighting`): "frames" (default) draws the epoch's samples uniformly over all (rollout,
 frame) pairs;
@@ -163,6 +168,72 @@ def make_sample(
         "neighbour_index": index,
         "neighbour_mask": mask,
         "target_acceleration": target.astype(np.float32),
+        "loss_mask": ~boundary,
+    }
+
+
+def pushforward_sample(
+    model: Any,
+    rollout: Mapping[str, Any],
+    t: int,
+    *,
+    radius: float,
+    unroll: int = 1,
+    device: torch.device | None = None,
+) -> dict[str, Any]:
+    """The push-forward sample of frame `t`: the state after `unroll` steps of `model` from the clean reference history,
+    and the acceleration that lands on reference frame t + unroll + 1 from it (Brandstetter et al. 2022).
+
+    The unrolled steps carry no gradient. Boundary particles are held at the reference positions and take the reference
+    velocity (`infer.hold_boundary`) and stay out of `loss_mask`. A reference index beyond the last frame is clamped to
+    it (the rollouts end at rest). The result is a sample for `collate`; the radius graph is built at the perturbed
+    positions.
+    """
+    unroll = _positive_int(unroll, "unroll")
+    base = make_sample(rollout, t, radius=radius, device=device)
+    dt = float(rollout["dt"])
+    reference = rollout["positions"]
+    last = reference.shape[0] - 1
+    dev = device if device is not None else torch.device("cpu")
+    boundary = torch.as_tensor(~np.asarray(base["loss_mask"], dtype=bool), device=dev)
+    pos = torch.as_tensor(base["positions"], dtype=torch.float32, device=dev)
+    vel = torch.as_tensor(base["velocities"], dtype=torch.float32, device=dev)
+    types = torch.as_tensor(base["particle_type"], dtype=torch.int64, device=dev)
+    bounds = torch.as_tensor(base["bounds"], dtype=torch.float32, device=dev)
+    index = torch.as_tensor(base["neighbour_index"], device=dev)
+    mask = torch.as_tensor(base["neighbour_mask"], device=dev)
+
+    def ref_frame(frame: int) -> torch.Tensor:
+        return torch.as_tensor(np.asarray(reference[min(frame, last)], dtype=np.float32), device=dev)
+
+    with torch.no_grad():
+        for s in range(1, unroll + 1):
+            acc = model.acceleration_unchecked(pos, vel, types, bounds, index, mask)
+            new_v = vel[:, -1, :] + acc.to(torch.float32) * dt
+            new_x = pos + new_v * dt
+            history = torch.cat([vel[:, 1:, :], new_v.unsqueeze(1)], dim=1)
+            if bool(boundary.any()):
+                now, before = ref_frame(t + s), ref_frame(t + s - 1)
+                new_x = torch.where(boundary[:, None], now, new_x)
+                held = (now - before) / dt
+                history[:, -1, :] = torch.where(boundary[:, None], held, history[:, -1, :])
+            pos, vel = new_x, history
+            if device is not None and DEVICE_GRAPH:
+                index, mask, _ = build_radius_graph_torch(pos, radius, K_MAX)
+            else:
+                graph = build_radius_graph(pos.cpu().numpy(), radius, K_MAX)
+                index = torch.as_tensor(graph.neighbour_index, device=dev)
+                mask = torch.as_tensor(graph.neighbour_mask, device=dev)
+        forward = (ref_frame(t + unroll + 1).to(torch.float64) - pos.to(torch.float64)) / dt
+        target = (forward - vel[:, -1, :].to(torch.float64)) / dt
+    return {
+        "positions": pos,
+        "velocities": vel,
+        "particle_type": types,
+        "bounds": bounds,
+        "neighbour_index": index,
+        "neighbour_mask": mask,
+        "target_acceleration": torch.nan_to_num(target.to(torch.float32)),
         "loss_mask": ~boundary,
     }
 
@@ -352,6 +423,16 @@ def validate_config(config: Mapping[str, Any]) -> dict[str, Any]:
     cfg.setdefault("sample_weighting", "frames")
     if cfg["sample_weighting"] not in ("frames", "rollout"):
         raise ValueError(f"sample_weighting must be 'frames' or 'rollout', got {cfg['sample_weighting']!r}")
+    for key in ("pushforward_steps", "pushforward_warmup_steps"):
+        value = cfg.setdefault(key, 0)
+        if not isinstance(value, int | np.integer) or isinstance(value, bool) or value < 0:
+            raise ValueError(f"{key} must be an integer >= 0, got {value!r}")
+        cfg[key] = int(value)
+    cfg.setdefault("matmul_precision", "highest")
+    if cfg["matmul_precision"] not in ("highest", "high"):
+        raise ValueError(
+            f"matmul_precision must be 'highest' (float32) or 'high' (TF32), got {cfg['matmul_precision']!r}"
+        )
     cfg.setdefault("rollout_steps", 60)
     cfg.setdefault("rollout_geometries", 3)
     if cfg["noise_selection"] not in ("val_loss", "rollout"):
@@ -417,6 +498,7 @@ class _Run:
         self.cfg, self.train, self.val, self.stats, self.seed = cfg, train_rollouts, val_rollouts, stats, seed
         self.device = torch.device(cfg["device"])
         torch.manual_seed(seed)
+        torch.set_float32_matmul_precision(cfg.get("matmul_precision", "highest"))  # TF32 matmuls: a speed choice
         self.model = GnsStep(
             connectivity_radius=cfg["connectivity_radius"],
             frame_interval=dt,
@@ -449,7 +531,14 @@ class _Run:
         )
         self.val_pick = [self.val_index[i] for i in sorted(pick)]
         self.noise_counter = 0
+        self.pushforward_applied = 0  # optimiser steps that carried the push-forward term, in this process
+        self._pf_total, self._pf_count = 0.0, 0
         self.on_log: Callable[[int, int, float, int], None] | None = None
+
+    @property
+    def pushforward_loss_mean(self) -> float:
+        """Mean push-forward loss over the steps that carried it since the last `epoch` call began (nan when none)."""
+        return self._pf_total / self._pf_count if self._pf_count else math.nan
 
     def val_loss(self) -> float:
         self.model.eval()
@@ -479,6 +568,7 @@ class _Run:
     ) -> float:
         """One epoch in a data order fixed by (seed, epoch_index), resumable from `start_chunk`."""
         self.model.train()
+        self._pf_total, self._pf_count = 0.0, 0
         limit = self.cfg["samples_per_epoch"] or len(self.train_index)
         order = sample_order(
             self.train_index,
@@ -508,14 +598,31 @@ class _Run:
                     )
                     for k, (r, t) in enumerate(chunk)
                 ]
-                yield chunk_no, collate(samples, self.device)
+                yield chunk_no, collate(samples, self.device), chunk
 
         feed = _Prefetch(batches)
         try:
-            for chunk_no, batch in feed:
+            pf_steps = self.cfg["pushforward_steps"]
+            for chunk_no, batch, chunk in feed:
                 self.optimiser.zero_grad(set_to_none=True)
                 loss = one_step_loss(self.model, batch, stats=self.stats)
-                loss.backward()
+                total_loss = loss
+                if pf_steps and self.scheduler.last_epoch >= self.cfg["pushforward_warmup_steps"]:
+                    pf_batch = collate(
+                        [
+                            pushforward_sample(
+                                self.model, self.train[r], t, radius=radius, unroll=pf_steps, device=self.device
+                            )
+                            for r, t in chunk
+                        ],
+                        self.device,
+                    )
+                    pf_loss = one_step_loss(self.model, pf_batch, stats=self.stats)
+                    total_loss = loss + pf_loss
+                    self.pushforward_applied += 1
+                    self._pf_total += float(pf_loss.detach())
+                    self._pf_count += 1
+                total_loss.backward()
                 self.optimiser.step()
                 self.scheduler.step()
                 weight = batch["positions"].shape[0]
@@ -675,6 +782,8 @@ def train_gns(
         )
         val_loss = run.val_loss()
         entry = {"epoch": epoch_index + 1, "train_loss": train_loss, "val_loss": val_loss}
+        if cfg["pushforward_steps"]:
+            entry["pushforward_loss"] = run.pushforward_loss_mean
         epochs_log.append(entry)
         if on_epoch:
             on_epoch(entry)

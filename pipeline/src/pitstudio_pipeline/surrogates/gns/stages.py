@@ -487,12 +487,45 @@ def s_speed(dataset: Dataset, run: Path, *, device: str, env: Mapping[str, str],
     return report
 
 
+def choose_final(pilots_dir: Path, config_pattern: str, budget_gpu_hours: float, out: Path) -> dict[str, Any]:
+    """The pilot rule (`evaluate.choose_pilot`) over every finished pilot folder, then the winner's config scaled to the
+    budget by its measured rate (`evaluate.scale_config`), written to `out` with the record of the choice."""
+    reports, hours = {}, {}
+    for folder in sorted(p for p in Path(pilots_dir).iterdir() if (p / "pilot.json").is_file()):
+        reports[folder.name] = json.loads((folder / "evaluation.validation.json").read_text(encoding="utf-8"))
+        hours[folder.name] = float(json.loads((folder / "pilot.json").read_text(encoding="utf-8"))["gpu_hours_train"])
+    winner = evaluate.choose_pilot(reports)
+    pilot_config = json.loads(Path(config_pattern.format(name=winner)).read_text(encoding="utf-8"))
+    final = evaluate.scale_config(pilot_config, pilot_gpu_hours=hours[winner], budget_gpu_hours=budget_gpu_hours)
+    score = evaluate.pilot_score(reports[winner])
+    final["chosen_from"] = {
+        "pilot": winner,
+        "reached_rest": score["reached_rest"],
+        "n_geometries": score["n_geometries"],
+    }
+    _write_json(out, final)
+    return {
+        "winner": winner,
+        "epochs": final["epochs"],
+        "scores": {n: evaluate.pilot_score(r) for n, r in reports.items()},
+    }
+
+
 # ------------------------------------------------------------------ command line
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="python -m pitstudio_pipeline.surrogates.gns", description=__doc__)
     sub = parser.add_subparsers(dest="stage", required=True)
+    choose = sub.add_parser(
+        "choose", help="apply the pilot rule to the pilots' validation reports and write the final config"
+    )
+    choose.add_argument("--pilots-dir", required=True, type=Path, help="folder of pilot run folders (pilot-a, ...)")
+    choose.add_argument(
+        "--config-pattern", required=True, help="path of a pilot's config with {name} for its folder name"
+    )
+    choose.add_argument("--budget-gpu-hours", required=True, type=float)
+    choose.add_argument("--out", required=True, type=Path, help="the final config to write")
     for name in ("train", "evaluate", "export", "speed"):
         p = sub.add_parser(name)
         p.add_argument("--data", required=True, type=Path, help="rollout directory (meta/, payload/, _state.json)")
@@ -509,14 +542,32 @@ def main(argv: Sequence[str] | None = None) -> int:
             p.add_argument(
                 "--split", default="test", choices=["test", "val"], help="val: full-length validation rollouts"
             )
+            p.add_argument(
+                "--lock-dir",
+                type=Path,
+                help="with --device cuda: take the machine GPU lock `gpu0.compute` in this directory for the stage",
+            )
     args = parser.parse_args(argv)
+    if args.stage == "choose":
+        print(json.dumps(choose_final(args.pilots_dir, args.config_pattern, args.budget_gpu_hours, args.out)))
+        return 0
     dataset = Dataset(args.data)
     env = os.environ
     if args.stage == "train":
         config = json.loads(args.config.read_text(encoding="utf-8")) if args.config else {}
         s30_train(dataset, args.out, config, seed=args.seed, device=args.device, env=env)
     elif args.stage == "evaluate":
-        report = s50_evaluate(dataset, args.run, device=args.device, env=env, split=args.split)
+        session = None
+        if args.lock_dir is not None and args.device.startswith("cuda"):
+            from pitstudio_pipeline.surrogates.gns import run_train
+
+            session = run_train.GpuSession(args.lock_dir, cuda=True, guard_module=run_train.find_guard_module())
+            session.acquire()
+        try:
+            report = s50_evaluate(dataset, args.run, device=args.device, env=env, split=args.split)
+        finally:
+            if session is not None:
+                session.release()
         print(json.dumps({k: report[k] for k in ("status", "n_geometries", "sc_011_01")}))
     elif args.stage == "export":
         card = s60_export(dataset, args.run, ort_provider=args.ort_provider)

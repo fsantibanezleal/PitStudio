@@ -239,3 +239,46 @@ def _evaluate_geometry(
     )
     record["pass"] = bool(record["delta_repose_deg"] <= repose_limit and record["delta_runout_rel"] <= runout_limit)
     return record
+
+
+# ------------------------------------------------------------------ pilots (GNS v4): the choice rule
+
+
+def pilot_score(report: Mapping[str, Any]) -> dict[str, Any]:
+    """The pilot measures of one `evaluation.validation.json`: how many validation geometries reach the reference rest
+    time (`validation_rollouts[*].diverged_before_rest` false) and the mean over geometries of the mean position error
+    of the rollout (m, from `position_error_growth`)."""
+    rollouts = report["validation_rollouts"]
+    errors = [float(np.mean(g["position_error_growth"])) for g in report["geometries"] if g["position_error_growth"]]
+    return {
+        "n_geometries": len(rollouts),
+        "reached_rest": sum(1 for r in rollouts if not r["diverged_before_rest"]),
+        "mean_position_error_m": float(np.mean(errors)) if errors else math.inf,
+        "diverged_at_step": {r["geometry_id"]: r["diverged_at_step"] for r in rollouts},
+    }
+
+
+def choose_pilot(reports: Mapping[str, Mapping[str, Any]]) -> str:
+    """The pilot whose validation rollouts reach the reference rest time in the most geometries, then the smaller
+    position error, then the name. Pilots are compared on the same geometries only: a different set raises."""
+    if not reports:
+        raise ValueError("no pilot to choose from")
+    ids = {name: sorted(r["geometry_id"] for r in rep["validation_rollouts"]) for name, rep in reports.items()}
+    first = next(iter(ids.values()))
+    for name, got in ids.items():
+        if got != first:
+            raise ValueError(f"pilot {name!r} was run on other geometries than the others: {got} against {first}")
+    scores = {name: pilot_score(rep) for name, rep in reports.items()}
+    return min(scores, key=lambda n: (-scores[n]["reached_rest"], scores[n]["mean_position_error_m"], n))
+
+
+def scale_config(pilot_config: Mapping[str, Any], *, pilot_gpu_hours: float, budget_gpu_hours: float) -> dict[str, Any]:
+    """The final training config: the winning pilot's config with `epochs` set so that the run costs about
+    `budget_gpu_hours` at the pilot's measured rate (optimiser steps per GPU-hour), at least one epoch."""
+    for name, value in (("pilot_gpu_hours", pilot_gpu_hours), ("budget_gpu_hours", budget_gpu_hours)):
+        if not (isinstance(value, int | float) and math.isfinite(value) and value > 0):
+            raise ValueError(f"{name} must be a positive finite number, got {value!r}")
+    steps_per_epoch = math.ceil(pilot_config["samples_per_epoch"] / pilot_config["batch_size"])
+    pilot_steps = pilot_config["epochs"] * steps_per_epoch
+    steps_per_hour = pilot_steps / pilot_gpu_hours
+    return {**pilot_config, "epochs": max(1, int(budget_gpu_hours * steps_per_hour // steps_per_epoch))}
