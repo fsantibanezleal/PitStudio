@@ -111,10 +111,14 @@ describe("the golden vectors", () => {
         .filter((v) => v.source === "spec-007-worked-example")
         .map((v) => [v.input.n_trucks, v]),
     );
-    const r8 = value<Record<string, number>>(finiteSourceQueue((fs[8] as Json).input as never));
+    const r8 = value<{ idle_probability: number; throughput: number }>(
+      finiteSourceQueue((fs[8] as Json).input as never),
+    );
     expect(r8.idle_probability).toBeCloseTo(0.17882, 5);
     expect(r8.throughput * 3600).toBeCloseTo(16.424, 3);
-    const r5 = value<Record<string, number>>(finiteSourceQueue((fs[5] as Json).input as never));
+    const r5 = value<{ idle_probability: number; throughput: number }>(
+      finiteSourceQueue((fs[5] as Json).input as never),
+    );
     expect(r5.idle_probability).toBeCloseTo(0.28487, 5);
     expect(r5.throughput * 3600).toBeCloseTo(10.727, 3);
     for (const [n, perHour] of [
