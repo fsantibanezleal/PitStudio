@@ -54,7 +54,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-from hypothesis import HealthCheck, given, settings
+from hypothesis import HealthCheck, assume, given, settings
 from hypothesis import strategies as st
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "support"))
@@ -255,6 +255,7 @@ def test_an_empty_window_gives_zero_production_and_no_division_by_zero():
 @SETTINGS
 @given(st.integers(1, 40), st.integers(1, 40), st.floats(1.0, 1e4), st.floats(1.0, 1e5), st.integers(1, 50))
 def test_match_factor_is_homogeneous_of_degree_zero_in_trucks_and_loaders(n_t, n_l, t_l, t_c, k):
+    assume(t_l < t_c)  # a cycle contains its loading: `minephys.haulage.match_factor` rejects load_time >= cycle_time
     assert match_factor(k * n_t, k * n_l, t_l, t_c) == pytest.approx(match_factor(n_t, n_l, t_l, t_c), rel=1e-12)
     assert match_factor(n_t, n_l, t_l, t_c) == pytest.approx(n_t * t_l / (n_l * t_c), rel=1e-12)
 
