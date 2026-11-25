@@ -1,0 +1,231 @@
+{
+ "job": "c2-cpu",
+ "kind": "cpu",
+ "case": "C2",
+ "recipe": "cases/c2-cpu.yaml",
+ "slug": "c2-cpu-40m",
+ "seed": 0,
+ "label": "synthetic breach scenario of a hypothetical facility on real terrain, not validated against real data; computed on the CPU at 40 m cells (the 10 m GPU run supersedes it)",
+ "producer_paths": [
+  "studio/src/pitstudio_studio/physics/swe.py",
+  "studio/src/pitstudio_studio/physics/swe_benchmarks.py",
+  "studio/src/pitstudio_studio/physics/c2_breach.py",
+  "studio/recipes/cases/c2-cpu.yaml"
+ ],
+ "notes": [
+  "Three breach scenarios of a hypothetical facility (volume, hydrograph and rheology are scenario inputs with their sources in the recipe) over the 3DEP 2018 DEM block-averaged to 40 m; the benchmark report is that of the CPU device.",
+  "The first-order hydrostatic reconstruction underestimates the bed force on steep thin flows, so run-out on the steep ground is a lower bound of what the equations give; the recipe lists the limits."
+ ],
+ "stages": [
+  {
+   "id": "st50_physics",
+   "variant": "swe-breach-cpu-coarse",
+   "tool": "warp",
+   "outputs": [
+    {
+     "name": "c2-run.json",
+     "from": "c2-run.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-run-summary",
+     "media_type": "application/json",
+     "required_fields": [
+      "scenarios",
+      "terrain",
+      "breach",
+      "solver"
+     ],
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "swe-benchmarks.json",
+     "from": "swe-benchmarks.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-solver-benchmarks",
+     "media_type": "application/json",
+     "required_fields": [
+      "rows",
+      "device",
+      "solver"
+     ],
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-depth-map-s1-reference.json",
+     "from": "charts/c2-depth-map-s1-reference.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-depth-map-s1-reference",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-arrival-map-s1-reference.json",
+     "from": "charts/c2-arrival-map-s1-reference.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-arrival-map-s1-reference",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-depth-map-s2-fluid.json",
+     "from": "charts/c2-depth-map-s2-fluid.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-depth-map-s2-fluid",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-arrival-map-s2-fluid.json",
+     "from": "charts/c2-arrival-map-s2-fluid.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-arrival-map-s2-fluid",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-depth-map-s3-large.json",
+     "from": "charts/c2-depth-map-s3-large.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-depth-map-s3-large",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-arrival-map-s3-large.json",
+     "from": "charts/c2-arrival-map-s3-large.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-arrival-map-s3-large",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-arrival-distance.json",
+     "from": "charts/c2-arrival-distance.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-arrival-distance",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-front-time.json",
+     "from": "charts/c2-front-time.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-front-time",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-area-time.json",
+     "from": "charts/c2-area-time.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-area-time",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-pit-volume.json",
+     "from": "charts/c2-pit-volume.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-pit-volume",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-area-bars.json",
+     "from": "charts/c2-area-bars.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-area-bars",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-depth-bars.json",
+     "from": "charts/c2-depth-bars.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-depth-bars",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-kpi-table.json",
+     "from": "charts/c2-kpi-table.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-kpi-table",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "c2-solver-verification.json",
+     "from": "charts/c2-solver-verification.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c2cpu-solver-verification",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    }
+   ]
+  }
+ ]
+}

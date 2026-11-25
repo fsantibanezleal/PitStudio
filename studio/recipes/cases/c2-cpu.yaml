@@ -1,0 +1,100 @@
+# CPU twin of c2.yaml at 40 m cells (case C2 coarse CPU lane; c2.yaml is the 10 m GPU job). Same terrain, scenarios and solver; the
+# Warp CPU device runs kernels serially, so the cell is four times coarser and the breach is one cell wide. The GPU run at 10 m
+# supersedes this one when the queue has run it.
+# Case C2: tailings breach run-out over the Bingham Canyon terrain with the Warp shallow-water solver (spec 005 FR-005-23..32,
+# FR-005-30, FR-005-31; spec 018 FR-018-16). Three baked breach scenarios of a HYPOTHETICAL facility: a triangular breach
+# hydrograph released into one cell onto the 3DEP 2018 one-metre DEM block-averaged to 40 m, simulated for six hours
+# with a Bingham bed stress. The stage runs on the GPU through the job queue; the benchmark report of the same device is run
+# first by the job (python -m pitstudio_studio.physics.swe_benchmarks) and its rows are published beside the results.
+# Nothing here is a measurement of a real facility: the site, the volumes and the rheology are scenario inputs with their sources.
+id: c2-breach-cpu
+case: C2
+seed: 0
+description: C2 tailings breach over real terrain with a validated Warp shallow-water solver, three baked scenarios, maps, charts.
+stages:
+  - id: st50_physics
+    variant: swe-breach-cpu-coarse
+    env: studio
+    tool: warp
+    entry: pitstudio_studio.physics.c2_breach
+    inputs:
+      - {id: usgs-3dep-bingham, sha256: 484a57cc33c95696d163bddf5dc6de353e71cc3d1946b568cf895939c6c90391}  # UT Central QL2 2018
+    params:
+      dem: raw/usgs-3dep-bingham/ut-central-ql2-2018-dem.tif
+      pit_outline: processed/scene/a1-bingham-v3/inputs/pit-outline.geojson
+      pit_outline_origin_m: [402500.0, 4486500.0]
+      min_coverage: 0.95
+      # the terrain window in UTM zone 12N metres (EPSG:26912): the west half of the 2018 tile, where the DEM has data over the pit
+      window: {x_min: 400000.0, x_max: 404800.0, y_min: 4480400.0, y_max: 4488400.0}
+      run:
+        cell_m: 40
+        t_end_s: 21600
+        snapshot_s: 600
+        cfl: 0.45
+        max_dt_s: 2.0
+        h_dry_m: 1.0e-4
+        h_thr_m: 0.05
+        depth_exclusion_m: 100.0
+        distance_bin_m: 100.0
+        headline_scenario: s1-reference
+        # HYPOTHETICAL release point: a scenario input chosen by the author on the north-west bench above the pit, 700 m from the
+        # north edge of the window and 1000 m from the west edge (the bed elevation is recorded in c2-run.json), one 40 m cell; it is not the location of any real facility (docs/cases/c2-tailings-breach.md)
+        breach: {x_m: 401000.0, y_m: 4487700.0, width_cells: 1}
+      scenarios:
+        - id: s1-reference
+          label: "Reference: 100,000 m3, 100 Pa"
+          label_es: "Referencia: 100.000 m3, 100 Pa"
+          volume_m3: 100000
+          peak_discharge_m3_s: 11.105
+          tau_y_pa: 100.0
+          mu_b_pa_s: 0.5
+          rho_kg_m3: 1800.0
+          source: "volume, yield stress, viscosity and density: inside the training envelope of the C2 surrogate (specs/011-surrogates contract example surrogate-io.valid-fno.json, training_envelope: volume 1e4 to 2e5 m3, yield stress 10 to 200 Pa, plastic viscosity 0.05 to 1 Pa s, density 1600 to 2000 kg/m3), values taken mid-range; peak discharge = volume x 422 / 3.8e6 per second, the ratio of the Mirai reconstruction (3.8 Mm3 released, 422 m3/s peak: Silva and Eleuterio 2023, NHESS 23:3095, quoted in docs/cases/c2-tailings-breach.md; the paper itself was not read: UNVERIFIED), base time T = 2 V / Q_p (FR-005-31)"
+        - id: s2-fluid
+          label: "Fluid: 100,000 m3, 10 Pa"
+          label_es: "Fluido: 100.000 m3, 10 Pa"
+          volume_m3: 100000
+          peak_discharge_m3_s: 11.105
+          tau_y_pa: 10.0
+          mu_b_pa_s: 0.05
+          rho_kg_m3: 1800.0
+          source: "yield stress and plastic viscosity at the lower bound of the training envelope (10 Pa, 0.05 Pa s); volume, density and hydrograph as the reference scenario"
+        - id: s3-large
+          label: "Large: 200,000 m3, 100 Pa"
+          label_es: "Grande: 200.000 m3, 100 Pa"
+          volume_m3: 200000
+          peak_discharge_m3_s: 22.211
+          tau_y_pa: 100.0
+          mu_b_pa_s: 0.5
+          rho_kg_m3: 1800.0
+          source: "volume at the upper bound of the training envelope (2e5 m3); peak discharge = volume x 422 / 3.8e6 per second as the reference scenario; rheology and density as the reference scenario"
+      limits:
+        - educational, not regulatory: a depth-averaged 2-D flow with a single-phase Bingham rheology, no erosion, entrainment or breach mechanics
+        - the facility, its volume and its breach are hypothetical scenario inputs; there is no real flood record for this terrain, so the fields are calibrated synthetic and not validated against real data
+        - the bed force of the first-order hydrostatic reconstruction on a slope is smaller than the exact one by the factor S dx / (2 h) (slope S, cell dx, depth h); on steep cells with shallow flow the front runs slower than the exact equations would give
+        - the Ritter front at the specified 1e-3 h_l threshold lags the analytical front by 14 to 21 percent (FR-005-24 asks 5 percent); at 0.1 h_l it is within 3 percent
+        - the pit walls are steeper than the long-wave assumption of the shallow-water equations allows, so the flow on them is indicative
+    resources:
+      gpu: none
+    determinism:
+      class: statistical
+      observables:
+        inundated_area_km2: {rtol: 0.01, atol: 0.0001}
+    timeout_s: 7200
+    outputs:
+      - {path: c2-run.json, schema: json, publish: true}
+      - {path: swe-benchmarks.json, schema: json, publish: true}
+      - {path: charts/c2-depth-map-s1-reference.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-arrival-map-s1-reference.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-depth-map-s2-fluid.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-arrival-map-s2-fluid.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-depth-map-s3-large.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-arrival-map-s3-large.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-arrival-distance.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-front-time.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-area-time.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-pit-volume.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-area-bars.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-depth-bars.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-kpi-table.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c2-solver-verification.json, schema: contract-chart-series, publish: true}
