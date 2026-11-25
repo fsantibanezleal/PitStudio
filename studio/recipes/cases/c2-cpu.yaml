@@ -4,8 +4,8 @@
 # Case C2: tailings breach run-out over the Bingham Canyon terrain with the Warp shallow-water solver (spec 005 FR-005-23..32,
 # FR-005-30, FR-005-31; spec 018 FR-018-16). Three baked breach scenarios of a HYPOTHETICAL facility: a triangular breach
 # hydrograph released into one cell onto the 3DEP 2018 one-metre DEM block-averaged to 40 m, simulated for six hours
-# with a Bingham bed stress. The stage runs on the GPU through the job queue; the benchmark report of the same device is run
-# first by the job (python -m pitstudio_studio.physics.swe_benchmarks) and its rows are published beside the results.
+# with a Bingham bed stress. The stage runs on the Warp CPU device; the benchmark report of the CPU device is run first
+# (python -m pitstudio_studio.physics.swe_benchmarks) and its rows are published beside the results.
 # Nothing here is a measurement of a real facility: the site, the volumes and the rheology are scenario inputs with their sources.
 id: c2-breach-cpu
 case: C2
