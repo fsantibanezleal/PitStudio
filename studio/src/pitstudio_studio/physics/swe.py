@@ -12,8 +12,9 @@ four neighbours and writes only itself, so there are no atomics except an order-
 deterministic. Each face flux is computed from the same inputs by both of its cells, so the mass update telescopes.
 
 Boundaries (per side x-min, x-max, y-min, y-max): "wall" (reflective), "open" (zero gradient of depth and velocity with
-the bed continued linearly, so a uniform slope flows out at its normal depth; the volume leaving is accumulated) and
-"inflow" (a prescribed depth and velocity over the same linear bed continuation). A breach is a triangular
+the bed continued downhill, never uphill, so a uniform slope flows out at its normal depth and no edge makes water: a
+velocity into the domain meets a wall; the volume leaving is accumulated) and
+"inflow" (a prescribed depth and velocity over the bed continued linearly). A breach is a triangular
 hydrograph of volume V and peak
 Q_p injected over declared cells, integrated exactly over every step so that the injected volume is V.
 """
@@ -178,8 +179,24 @@ def ghost_state(
     out = wp.vec3d(h, qn, qt)
     if code == 0:
         out = wp.vec3d(h, -qn, qt)
+    elif code == 1:
+        if qn < ZERO:  # a velocity into the domain meets a wall: an open boundary lets water out and never makes it
+            out = wp.vec3d(h, -qn, qt)
     elif code == 2:
         out = wp.vec3d(h_in, qn_in, qt_in)
+    return out
+
+
+@wp.func
+def ghost_bed(code: int, z_c: wp.float64, z_in: wp.float64) -> wp.float64:
+    """The bed beyond a boundary face: the edge cell's bed continued linearly from its inner neighbour `z_in`. An open
+    boundary continues it downhill only (an uphill ghost bed would hold a higher free surface and push water in); an inflow
+    boundary continues it both ways (the upstream bed of the prescribed state)."""
+    out = z_c
+    if code == 2:
+        out = wp.float64(2.0) * z_c - z_in
+    elif code == 1:
+        out = wp.min(z_c, wp.float64(2.0) * z_c - z_in)
     return out
 
 
@@ -291,7 +308,7 @@ def step_kernel(
         qxw = -gs[1]
         qyw = gs[2]
         if bc[0] != 0 and nx > 1:
-            zw = wp.float64(2.0) * zc - z[j, 1]  # open and inflow: the bed continues linearly
+            zw = ghost_bed(bc[0], zc, z[j, 1])
     fw = face_flux(hw, qxw, qyw, zw, hc, qxc, qyc, zc, g, h_dry)
 
     # east face
@@ -310,7 +327,7 @@ def step_kernel(
         qxe = gs[1]
         qye = gs[2]
         if bc[1] != 0 and nx > 1:
-            ze = wp.float64(2.0) * zc - z[j, nx - 2]
+            ze = ghost_bed(bc[1], zc, z[j, nx - 2])
     fe = face_flux(hc, qxc, qyc, zc, he, qxe, qye, ze, g, h_dry)
 
     # south face: normal momentum is qy, tangential qx
@@ -329,7 +346,7 @@ def step_kernel(
         qys = -gs[1]
         qxs = gs[2]
         if bc[2] != 0 and ny > 1:
-            zs = wp.float64(2.0) * zc - z[1, i]
+            zs = ghost_bed(bc[2], zc, z[1, i])
     gsf = face_flux(hs, qys, qxs, zs, hc, qyc, qxc, zc, g, h_dry)
 
     # north face
@@ -348,7 +365,7 @@ def step_kernel(
         qyn = gs[1]
         qxn = gs[2]
         if bc[3] != 0 and ny > 1:
-            zn = wp.float64(2.0) * zc - z[ny - 2, i]
+            zn = ghost_bed(bc[3], zc, z[ny - 2, i])
     gnf = face_flux(hc, qyc, qxc, zc, hn, qyn, qxn, zn, g, h_dry)
 
     # volume leaving through the domain boundary at this cell (negative: entering)
