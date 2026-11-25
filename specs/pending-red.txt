@@ -99,7 +99,6 @@ tests/unit/test_t_003_015_latency_idempotence.py
 tests/unit/test_t_003_023_unavailable_store.py
 tests/unit/test_t_003_030_pages_artifact.py
 tests/unit/test_t_003_092_job_record_shards.py
-tests/unit/test_t_007_062_route_energy.py
 tests/unit/test_t_009_041_night.py
 tests/unit/test_t_009_043_corruption_guards.py
 tests/unit/test_t_009_072_variant_rejection.py

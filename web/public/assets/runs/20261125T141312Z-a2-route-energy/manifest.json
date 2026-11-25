@@ -1,0 +1,351 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261125T141312Z-a2-route-energy",
+ "recipe": {
+  "id": "a2",
+  "path": "cases/a2.yaml",
+  "sha256": "fd13f9e5a0f63759435bd4300700eafc9f2be0fa73dd698d021a45e3e6ba2b3e"
+ },
+ "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-25T14:13:12Z",
+ "profile": "imported",
+ "seed": 0,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s05_synthesize"
+   },
+   "tool": "minephys",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "446f5a75ed3fb09f4dafb32006f893dfec67c39492b25909e0a87f7c0ecd76db",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 0,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "sha256": "e8a73a20d7779fca9cd0a3203bfaae2813bbfa6e2f471315b430f560652149d5",
+     "bytes": 5654
+    },
+    {
+     "name": "charts/a2-fuel-vs-grade.json",
+     "sha256": "23a07f8bd074c1c69a087f644a5f412dda37f889ea238e11cc52fca92cd71cd1",
+     "bytes": 3857
+    },
+    {
+     "name": "charts/a2-energy-vs-grade.json",
+     "sha256": "920a335491a946c61d58ea8cf3b78a20ca1b8054d6b2c64a46b1b176a72ae41d",
+     "bytes": 3758
+    },
+    {
+     "name": "charts/a2-co2-vs-grade.json",
+     "sha256": "556c83bd283590b3d75086ffd596d3be1dbdb469887da3dacb1922b6db6d7c1f",
+     "bytes": 2114
+    },
+    {
+     "name": "charts/a2-drivetrain-energy.json",
+     "sha256": "5ba1680665eb99a94c2eaf89e14db0713c2f722fb9ed8dffea212b604ec7dfd6",
+     "bytes": 1948
+    },
+    {
+     "name": "charts/a2-trolley-length.json",
+     "sha256": "17ba71d2333a49c1a4426153eefb9cd7f322a319b67b00f63f94b419aa8ded82",
+     "bytes": 2460
+    },
+    {
+     "name": "charts/a2-route-length-vs-gmax.json",
+     "sha256": "67456fba978d2ab0c8c94b4092c656076f81949bbd53a42c435d1a72cf23742b",
+     "bytes": 1498
+    },
+    {
+     "name": "charts/a2-route-table.json",
+     "sha256": "8fb0aa23b92922aba93196167094f47303bcfd8bbe4f646706b727b84d4dfc0e",
+     "bytes": 2680
+    },
+    {
+     "name": "charts/a2-assumptions.json",
+     "sha256": "ef90c4d41c9555b4c9effb66450f38aba4ee81fa64482e187bbf4a8f874ddb8f",
+     "bytes": 3247
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "a2-route-energy-results",
+   "run_id": "20261125T141312Z-a2-route-energy",
+   "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+   "path": "assets/20261125T141312Z-a2-route-energy/results-summary.json",
+   "bytes": 5654,
+   "sha256": "e8a73a20d7779fca9cd0a3203bfaae2813bbfa6e2f471315b430f560652149d5",
+   "kind": "table",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain; drivetrain efficiencies: Lindgren, Grauers, Ranggard and Maki 2022, Energies 15(13) 4871, CC-BY-4.0, Table 2 p. 7; diesel lower heating value: US DOE Alternative Fuels Data Center, Fuel Properties Comparison, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-fuel-vs-grade",
+   "run_id": "20261125T141312Z-a2-route-energy",
+   "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+   "path": "assets/20261125T141312Z-a2-route-energy/charts/a2-fuel-vs-grade.json",
+   "bytes": 3857,
+   "sha256": "23a07f8bd074c1c69a087f644a5f412dda37f889ea238e11cc52fca92cd71cd1",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain; drivetrain efficiencies: Lindgren, Grauers, Ranggard and Maki 2022, Energies 15(13) 4871, CC-BY-4.0, Table 2 p. 7; diesel lower heating value: US DOE Alternative Fuels Data Center, Fuel Properties Comparison, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-energy-vs-grade",
+   "run_id": "20261125T141312Z-a2-route-energy",
+   "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+   "path": "assets/20261125T141312Z-a2-route-energy/charts/a2-energy-vs-grade.json",
+   "bytes": 3758,
+   "sha256": "920a335491a946c61d58ea8cf3b78a20ca1b8054d6b2c64a46b1b176a72ae41d",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain; drivetrain efficiencies: Lindgren, Grauers, Ranggard and Maki 2022, Energies 15(13) 4871, CC-BY-4.0, Table 2 p. 7; diesel lower heating value: US DOE Alternative Fuels Data Center, Fuel Properties Comparison, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-co2-vs-grade",
+   "run_id": "20261125T141312Z-a2-route-energy",
+   "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+   "path": "assets/20261125T141312Z-a2-route-energy/charts/a2-co2-vs-grade.json",
+   "bytes": 2114,
+   "sha256": "556c83bd283590b3d75086ffd596d3be1dbdb469887da3dacb1922b6db6d7c1f",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain; drivetrain efficiencies: Lindgren, Grauers, Ranggard and Maki 2022, Energies 15(13) 4871, CC-BY-4.0, Table 2 p. 7; diesel lower heating value: US DOE Alternative Fuels Data Center, Fuel Properties Comparison, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-drivetrain-energy",
+   "run_id": "20261125T141312Z-a2-route-energy",
+   "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+   "path": "assets/20261125T141312Z-a2-route-energy/charts/a2-drivetrain-energy.json",
+   "bytes": 1948,
+   "sha256": "5ba1680665eb99a94c2eaf89e14db0713c2f722fb9ed8dffea212b604ec7dfd6",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain; drivetrain efficiencies: Lindgren, Grauers, Ranggard and Maki 2022, Energies 15(13) 4871, CC-BY-4.0, Table 2 p. 7; diesel lower heating value: US DOE Alternative Fuels Data Center, Fuel Properties Comparison, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-trolley-length",
+   "run_id": "20261125T141312Z-a2-route-energy",
+   "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+   "path": "assets/20261125T141312Z-a2-route-energy/charts/a2-trolley-length.json",
+   "bytes": 2460,
+   "sha256": "17ba71d2333a49c1a4426153eefb9cd7f322a319b67b00f63f94b419aa8ded82",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain; drivetrain efficiencies: Lindgren, Grauers, Ranggard and Maki 2022, Energies 15(13) 4871, CC-BY-4.0, Table 2 p. 7; diesel lower heating value: US DOE Alternative Fuels Data Center, Fuel Properties Comparison, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-route-length-vs-gmax",
+   "run_id": "20261125T141312Z-a2-route-energy",
+   "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+   "path": "assets/20261125T141312Z-a2-route-energy/charts/a2-route-length-vs-gmax.json",
+   "bytes": 1498,
+   "sha256": "67456fba978d2ab0c8c94b4092c656076f81949bbd53a42c435d1a72cf23742b",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain; drivetrain efficiencies: Lindgren, Grauers, Ranggard and Maki 2022, Energies 15(13) 4871, CC-BY-4.0, Table 2 p. 7; diesel lower heating value: US DOE Alternative Fuels Data Center, Fuel Properties Comparison, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-route-table",
+   "run_id": "20261125T141312Z-a2-route-energy",
+   "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+   "path": "assets/20261125T141312Z-a2-route-energy/charts/a2-route-table.json",
+   "bytes": 2680,
+   "sha256": "8fb0aa23b92922aba93196167094f47303bcfd8bbe4f646706b727b84d4dfc0e",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain; drivetrain efficiencies: Lindgren, Grauers, Ranggard and Maki 2022, Energies 15(13) 4871, CC-BY-4.0, Table 2 p. 7; diesel lower heating value: US DOE Alternative Fuels Data Center, Fuel Properties Comparison, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a2-assumptions",
+   "run_id": "20261125T141312Z-a2-route-energy",
+   "git_sha": "cd80e15b4b54cdec7458ca8bd5fef254b5dfccba",
+   "path": "assets/20261125T141312Z-a2-route-energy/charts/a2-assumptions.json",
+   "bytes": 3247,
+   "sha256": "ef90c4d41c9555b4c9effb66450f38aba4ee81fa64482e187bbf4a8f874ddb8f",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A2"
+   ],
+   "media_type": "application/json",
+   "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain; drivetrain efficiencies: Lindgren, Grauers, Ranggard and Maki 2022, Energies 15(13) 4871, CC-BY-4.0, Table 2 p. 7; diesel lower heating value: US DOE Alternative Fuels Data Center, Fuel Properties Comparison, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  }
+ ],
+ "notes": [
+  "produced on the CPU, on this machine, with minephys, outside the runner",
+  "job a2-route-energy",
+  "no GPU time and no timing are recorded",
+  "calibrated synthetic \u2014 not validated against real data; constants are cited minephys knowledge rows: route energy, fuel and CO2e per tonne by drivetrain on the Bingham pit road and least-energy A* routes over the real terrain",
+  "supersedes run 20261125T010907Z-a2-route-energy: its published files are removed when this run is published",
+  "producer paths: pipeline/src/pitstudio_pipeline/haulage, src/pitstudio/haulage, pipeline/src/pitstudio_pipeline/chartkit.py, studio/recipes/cases/a2.yaml; git sha cd80e15b4b54cdec7458ca8bd5fef254b5dfccba; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Produced on the CPU by pitstudio_pipeline.haulage.a2_run (not by the GPU queue); no GPU time is used.",
+  "Supersedes the first A2 run, which listed five constants as UNVERIFIED recipe inputs; minephys spec 001 DC-001-02 now holds them as verified rows (Lindgren et al. 2022, Table 2, p. 7; US DOE AFDC fuel properties).",
+  "The electricity emissions need a grid intensity that has no default, so CO2e is shown for diesel only."
+ ]
+}

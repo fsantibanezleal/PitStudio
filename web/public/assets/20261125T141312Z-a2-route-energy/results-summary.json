@@ -1,0 +1,136 @@
+{
+ "extra": {
+  "a_star": {
+   "cell_m": 10.0,
+   "design_exit_cell": [
+    173,
+    13
+   ],
+   "goal_cell": [
+    41,
+    94
+   ],
+   "goal_limit": 0.1,
+   "goal_note": "the cell of the design exit lies on terrain that the tight limits do not reach from the pit bottom; the goal is the cell nearest the exit, no lower than it, that the tightest limit reaching any such cell reaches (the relation of that cell to the real pit exit has not been checked)",
+   "grade_limits_with_a_route": [
+    0.1,
+    0.12,
+    0.15,
+    0.2,
+    0.25
+   ],
+   "start_cell": [
+    137,
+    175
+   ],
+   "terrain": {
+    "epoch": 2018,
+    "project": "UT Central QL2 2018",
+    "source_ids": [
+     "usgs-3dep-bingham"
+    ]
+   }
+  },
+  "assumptions": [
+   "standard gravity: minephys knowledge row standard_gravity, nistsp811, Appendix B.8",
+   "diesel combustion CO2 factor: minephys knowledge row diesel_co2_kg_per_us_gal, epa2025ghghub, Table 2, p. 2",
+   "marginal fuel-to-wheel efficiency of a diesel-electric truck: minephys knowledge row diesel_electric_fuel_to_wheel_efficiency, lindgren2022, Table 2, p. 7",
+   "diesel lower heating value: minephys knowledge row diesel_lower_heating_value_j_per_m3, afdc2026fuelproperties, Fuel Properties Comparison, row Low Sulfur Diesel, lower heating value (128,488 Btu/gal)",
+   "DC-bus-to-wheel efficiency of the electric drive (trolley-assisted truck): minephys knowledge row electric_dc_bus_to_wheel_efficiency, lindgren2022, Table 2, p. 7",
+   "battery-to-wheel efficiency of a battery-electric truck: minephys knowledge row battery_electric_battery_to_wheel_efficiency, lindgren2022, Table 2, p. 7",
+   "wheel-to-battery electrical efficiency of regenerative braking: minephys knowledge row battery_electric_regeneration_efficiency, lindgren2022, Table 2, p. 7",
+   "the truck masses are those of the engine catalog class CAT_793F (public specification magnitudes)",
+   "rolling resistance (swept) and the trolley layout are illustrative scenario assumptions, not measurements of this pit",
+   "the A* route is a least-energy path over the terrain model, not a designed road; the design route follows the road network of the A1 pit design",
+   "Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it."
+  ],
+  "co2e_note": "kg CO2e per tonne is shown for diesel only: the emissions of electricity need a grid intensity that has no default and none was supplied",
+  "constant_rows": {
+   "diesel_co2_kg_per_m3": "diesel_co2_kg_per_us_gal",
+   "eta_diesel": "diesel_electric_fuel_to_wheel_efficiency",
+   "eta_drive": "battery_electric_battery_to_wheel_efficiency",
+   "eta_electric": "electric_dc_bus_to_wheel_efficiency",
+   "eta_regen": "battery_electric_regeneration_efficiency",
+   "fuel_energy_density_j_per_m3": "diesel_lower_heating_value_j_per_m3",
+   "g": "standard_gravity"
+  },
+  "constants": {
+   "diesel_co2_kg_per_m3": 2697.196654576696,
+   "eta_diesel": 0.354,
+   "eta_drive": 0.85845,
+   "eta_electric": 0.885,
+   "eta_regen": 0.85845,
+   "fuel_energy_density_j_per_m3": 35811696091.9353,
+   "g": 9.80665
+  },
+  "diesel_round_trip_kwh_per_t": 9.34724,
+  "minephys": "minephys 0.0.0+gcabb880",
+  "route": {
+   "climb_m": 540.0,
+   "length_km": 6.7716,
+   "ramp_length_km": 6.4605,
+   "segments": 64,
+   "start": "n36"
+  },
+  "source_energy_saving_vs_diesel_percent": {
+   "bev": 65.68,
+   "trolley": 60.0
+  },
+  "truck": {
+   "empty_mass_t": 165.0,
+   "payload_t": 227.0
+  }
+ },
+ "headline": [
+  {
+   "kpi": "fuel_per_tkm",
+   "name": "Diesel fuel per tonne-kilometre",
+   "note": "diesel truck, deepest bench to the exit and back (12.9 km), payload 227 t, rolling resistance 2.5 %; basis payload tonnes and along-road km; constants are minephys knowledge rows (the efficiencies are parameters of one published truck model); calibrated synthetic, not validated against real data",
+   "unit": "L/(t.km)",
+   "value": 0.072721
+  },
+  {
+   "kpi": "energy_per_tonne",
+   "name": "Diesel source energy per tonne",
+   "note": "diesel truck, deepest bench to the exit and back (12.9 km), payload 227 t, rolling resistance 2.5 %; constants are minephys knowledge rows (the efficiencies are parameters of one published truck model); calibrated synthetic, not validated against real data",
+   "unit": "kWh/t",
+   "value": 9.3472
+  },
+  {
+   "kpi": "co2e_per_tonne",
+   "name": "Diesel CO2e per tonne",
+   "note": "diesel truck, deepest bench to the exit and back (12.9 km), payload 227 t, rolling resistance 2.5 %; the diesel CO2 factor is a verified table row; constants are minephys knowledge rows (the efficiencies are parameters of one published truck model); calibrated synthetic, not validated against real data",
+   "unit": "kg/t",
+   "value": 2.5344
+  }
+ ],
+ "label": "calibrated synthetic \u2014 not validated against real data. Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it.",
+ "methods": [
+  "M6"
+ ],
+ "rows": [
+  {
+   "drivetrain": "diesel",
+   "empty_kwh_per_t": 0.0,
+   "loaded_kwh_per_t": 9.34724,
+   "regenerated_kwh": 0.0,
+   "unverified_rows": []
+  },
+  {
+   "drivetrain": "trolley",
+   "empty_kwh_per_t": 0.0,
+   "loaded_kwh_per_t": 3.7389,
+   "regenerated_kwh": 0.0,
+   "unverified_rows": []
+  },
+  {
+   "drivetrain": "bev",
+   "empty_kwh_per_t": -0.646565,
+   "loaded_kwh_per_t": 3.85453,
+   "regenerated_kwh": 146.77,
+   "unverified_rows": []
+  }
+ ],
+ "title": "Haul-road energy by drivetrain on the Bingham pit road: diesel, trolley-assist and battery-electric trucks",
+ "verdict": "ok"
+}

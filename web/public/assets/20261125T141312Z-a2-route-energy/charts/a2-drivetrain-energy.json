@@ -35,7 +35,7 @@
   "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
   "method": "wheel energy m g (RR + grade) L per segment, drivetrain efficiencies and regeneration, grade-constrained least-energy A*",
   "tool": "minephys",
-  "version": "0.0.0+g98d5b25"
+  "version": "0.0.0+gcabb880"
  },
  "schema_version": "1.0",
  "series": [
@@ -46,9 +46,9 @@
     "es": "Subida cargada"
    },
    "y": [
-    9.45407,
-    3.67658,
-    3.59666
+    9.34724,
+    3.7389,
+    3.85453
    ]
   },
   {
@@ -60,7 +60,7 @@
    "y": [
     0.0,
     0.0,
-    -0.451906
+    -0.646565
    ]
   },
   {
@@ -70,9 +70,9 @@
     "es": "Ciclo completo"
    },
    "y": [
-    9.45407,
-    3.67658,
-    3.14475
+    9.34724,
+    3.7389,
+    3.20797
    ]
   }
  ],
