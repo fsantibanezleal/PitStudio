@@ -10,6 +10,7 @@ version and module-hash guard of FR-007-02 runs first; a mismatch writes nothing
 
 from __future__ import annotations
 
+import functools
 import hashlib
 import heapq
 import json
@@ -295,9 +296,25 @@ def run_shift(
             closures=tuple((c["start_s"], c["duration_s"], tuple(c["segment_ids"])) for c in f["closures"]),
         )  # fmt: skip
     original_rng, original_engine = sim.RngManager, sim.Engine
+    original_go_load, original_arrive_dump = sim._Sim._go_load, sim._Sim._arrive_dump
+    arrivals: list[
+        tuple[str, float, int, int]
+    ] = []  # every arrival at a loader or a dump, also those of a traffic traversal
+
+    @functools.wraps(original_go_load)
+    def go_load(self, tid, loader):
+        arrivals.append(("arrive-loader", self.engine.now, tid, loader))
+        return original_go_load(self, tid, loader)
+
+    @functools.wraps(original_arrive_dump)
+    def arrive_dump(self, tid, dump, payload):
+        arrivals.append(("arrive-dump", self.engine.now, tid, dump))
+        return original_arrive_dump(self, tid, dump, payload)
+
     if variate_source == "counter":
         sim.RngManager = lambda s: CounterRngManager(source)
     sim.Engine = lambda: engine
+    sim._Sim._go_load, sim._Sim._arrive_dump = go_load, arrive_dump
     try:
         result = sim.run_shift(
             net, loaders, list(bundle["dumps"]), trucks, _EnginePolicy(disp, engine), seed, until_s=bundle["horizon_s"],
@@ -305,6 +322,7 @@ def run_shift(
         )  # fmt: skip
     finally:
         sim.RngManager, sim.Engine = original_rng, original_engine
+        sim._Sim._go_load, sim._Sim._arrive_dump = original_go_load, original_arrive_dump
 
     cyclelog = [
         {
@@ -361,6 +379,7 @@ def run_shift(
         loaders=[{"node": ld["node"], "n_spots": ld["n_spots"]} for ld in bundle["loaders"]],
         free_flow_cycle_s=free_flow_cycle_s(bundle, net, junctions),
         cost_rates=cost,
+        arrivals=arrivals,
     )
     if trace_path is not None:
         Path(trace_path).write_text(json.dumps(trace, indent=1, sort_keys=False) + "\n", encoding="utf-8", newline="\n")

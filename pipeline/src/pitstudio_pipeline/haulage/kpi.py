@@ -105,8 +105,10 @@ def compute_kpis(
     free_flow_cycle_s: dict[str, float],
     cost_rates: dict | None = None,
     time_unit: str = "s",
+    arrivals: list[tuple[str, float, int, int]] | None = None,
 ) -> dict:
-    """The KPI table of a trace; see the module docstring. `time_unit` names the unit of every time of the trace and of T_c*."""
+    """The KPI table of a trace; see the module docstring. `time_unit` names the unit of every time of the trace and of T_c*.
+    `arrivals` (kind, t, truck, node) replaces the arrival events of the trace as the source of the queue waits."""
     if time_unit not in ("s", "h"):
         raise ValueError(f"time_unit must be 's' or 'h': {time_unit!r}")
     _validate_trace(trace)
@@ -119,11 +121,18 @@ def compute_kpis(
 
     arr_loader: dict[int, list[tuple[float, int]]] = defaultdict(list)
     arr_dump: dict[int, list[tuple[float, int]]] = defaultdict(list)
-    for e in trace["events"]:
-        if e["kind"] == "arrive-loader":
-            arr_loader[e["truck"]].append((e["t_s"], e["node"]))
-        elif e["kind"] == "arrive-dump":
-            arr_dump[e["truck"]].append((e["t_s"], e["node"]))
+    # arrivals come from the engine's own arrival hook when the caller has it (a traffic traversal ends without a heap event, so
+    # the trace alone misses those arrivals); otherwise from the arrival events of the trace
+    source = (
+        list(arrivals)
+        if arrivals is not None
+        else [(e["kind"], e["t_s"], e["truck"], e["node"]) for e in trace["events"]]
+    )
+    for kind, t, tr, node in source:
+        if kind == "arrive-loader":
+            arr_loader[tr].append((t, node))
+        elif kind == "arrive-dump":
+            arr_dump[tr].append((t, node))
 
     load_start: dict[int, list[tuple[float, int]]] = defaultdict(list)
     dump_start: dict[int, list[tuple[float, int]]] = defaultdict(list)
