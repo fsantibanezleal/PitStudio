@@ -70,6 +70,7 @@ stages:
         - educational, not regulatory: a depth-averaged 2-D flow with a single-phase Bingham rheology, no erosion, entrainment or breach mechanics
         - the facility, its volume and its breach are hypothetical scenario inputs; there is no real flood record for this terrain, so the fields are calibrated synthetic and not validated against real data
         - the bed force of the first-order hydrostatic reconstruction on a slope is smaller than the exact one by the factor S dx / (2 h) (slope S, cell dx, depth h); on steep cells with shallow flow the front runs slower than the exact equations would give
+        - where the Bingham arrest holds a cell's momentum at zero the flood spreads only by the numerical mass flux of the Rusanov scheme, about half the gravity-wave speed, so on steep thin flows (the CPU run at 40 m shows a largest speed of 0.0 m/s for two of three scenarios) arrival times are upper bounds and run-out and rheology effects are damped
         - the Ritter front at the specified 1e-3 h_l threshold lags the analytical front by 14 to 21 percent (FR-005-24 asks 5 percent); at 0.1 h_l it is within 3 percent
         - the pit walls are steeper than the long-wave assumption of the shallow-water equations allows, so the flow on them is indicative
     resources:
