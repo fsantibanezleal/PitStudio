@@ -44,13 +44,13 @@
   <rect x="20" y="76" width="230" height="124" rx="6" class="box"/>
   <text x="32" y="98" class="title">Future-event list</text>
   <text x="32" y="117" class="path">binary heap</text>
-  <text x="32" y="135" class="item">key = (t, priority, seq)</text>
+  <text x="32" y="135" class="item">key = (t, seq)</text>
   <text x="32" y="153" class="item">pop min → advance clock</text>
   <text x="32" y="171" class="item">ties broken by seq id</text>
   <rect x="20" y="250" width="230" height="130" rx="6" class="box"/>
   <text x="32" y="272" class="title">Travel-time sampler</text>
-  <text x="32" y="291" class="path">minephys.haulage</text>
-  <text x="32" y="309" class="item">speed on grade per segment</text>
+  <text x="32" y="291" class="path">minehaulsim kinematics</text>
+  <text x="32" y="309" class="item">speed per M06 route segment</text>
   <text x="32" y="327" class="item">rimpull / retarder limits</text>
   <text x="32" y="345" class="item">+ counter-based PRNG noise</text>
   <rect x="340" y="66" width="480" height="330" rx="8" class="band"/>

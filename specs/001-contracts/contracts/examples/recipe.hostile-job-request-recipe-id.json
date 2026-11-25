@@ -1,0 +1,12 @@
+{
+  "recipe": "../a2",
+  "stages": [
+    {
+      "id": "st50_physics",
+      "variant": "dem"
+    }
+  ],
+  "force": false,
+  "rerun_check": true,
+  "profile": "laptop-rtx5000ada"
+}

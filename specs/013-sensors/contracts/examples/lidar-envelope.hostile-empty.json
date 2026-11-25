@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "generated": "2026-10-07T10:15:00Z",
+  "versions": {
+    "ovrtx": "0.5.0.377615",
+    "ovstage": "0.2.0.377349"
+  },
+  "probe_scene": {
+    "cube_edge_m": 2,
+    "cube_range_m": 20
+  },
+  "configurations": []
+}

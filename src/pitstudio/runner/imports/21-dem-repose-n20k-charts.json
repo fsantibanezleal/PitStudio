@@ -1,0 +1,81 @@
+{
+ "job": "21-dem-repose-n20k",
+ "case": "A3",
+ "recipe": "cases/a3.yaml",
+ "slug": "a3-dem-repose-20k-charts",
+ "seed": 10,
+ "label": "calibrated synthetic, not validated against real data",
+ "gpu_hours": {
+  "file": "results.json",
+  "path": [
+   "runs"
+  ],
+  "each": "stepping_wall_s",
+  "divide": 3600
+ },
+ "notes": [
+  "GPU-hours are the summed stepping wall time of the five seeds, from results.json.",
+  "Republished with the chart series of FR-018-86: the repose angle of each seed and the mean with its Student t interval."
+ ],
+ "stages": [
+  {
+   "id": "st50_physics",
+   "tool": "warp",
+   "outputs": [
+    {
+     "name": "results.json",
+     "from": "results.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "summary",
+      "seeds",
+      "repose_angles_deg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s50_evaluate",
+   "tool": "pitstudio",
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "derive": "a3-summary",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "id": "a3-dem-repose-results"
+    },
+    {
+     "name": "charts/a3-repose-by-seed.json",
+     "derive": "a3-repose-chart",
+     "derive_args": {
+      "producer": {
+       "tool": "warp",
+       "version": "1.17.0"
+      }
+     },
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "id": "a3-repose-by-seed"
+    }
+   ]
+  }
+ ],
+ "supersedes": "20261012T061925Z-a3-dem-repose-20k",
+ "producer_paths": [
+  "src/pitstudio/runner",
+  "studio/tools.yaml"
+ ]
+}

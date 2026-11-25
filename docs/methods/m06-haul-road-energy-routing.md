@@ -7,7 +7,7 @@
 
 | Tier | Learned | Lane | Cases | Implementation (licence) | Status |
 |---|---|---|---|---|---|
-| Classical | no | live | [A2](../cases/a2-haul-road-electrification.md), [E1](../cases/e1-pit-shell-pushbacks.md) | `minephys.haulage` (Apache-2.0) + A* on the DEM (Python and TypeScript) | not yet implemented |
+| Classical | no | live | [A2](../cases/a2-haul-road-electrification.md), [E1](../cases/e1-pit-shell-pushbacks.md) | `minephys.haulage` (Apache-2.0) for the energy physics + PitStudio's own A* on the DEM (Python and TypeScript) | not yet implemented |
 
 ## What and why
 
@@ -21,7 +21,9 @@ diesel saved per year [4].
 
 M06 gives PitStudio:
 
-- the **travel-time model** that feeds every truck in the [DES](m02-haulage-des.md);
+- the **route geometry** (segments of length, grade and rolling resistance) that the [DES](m02-haulage-des.md) runs on;
+  the DES computes travel times with its own rimpull/retarder kinematics, and M06's per-segment speeds are reported
+  next to them;
 - the **energy, kWh/t and CO₂e/t** KPIs of case A2, for diesel, trolley-assist and battery-electric drivetrains on the
   same road;
 - a **grade-constrained least-energy route** over the real terrain, which case E1 uses to turn pushbacks into haul
@@ -113,7 +115,9 @@ route(dem, start, goal, g_max, truck):
 ```
 
 The route is simplified, then re-evaluated with the full force balance (acceleration and drag included) to give speed,
-time and energy per segment; those segment times feed the DES.
+time and energy per segment for the energy KPIs. The DES receives the route geometry, not these segment times: the
+reference engine computes travel times with its own kinematics, and the M06 speeds are reported next to the DES speeds
+for case A2.
 
 ### Worked example (illustrative inputs)
 
@@ -169,10 +173,11 @@ Fallback: baked route and energy grids. The `minephys` wheel in Pyodide gives a 
 ## In PitStudio
 
 - **Cases:** [A2](../cases/a2-haul-road-electrification.md) (energy, electrification),
-  [E1](../cases/e1-pit-shell-pushbacks.md) (haul distance per lift); travel times for
+  [E1](../cases/e1-pit-shell-pushbacks.md) (haul distance per lift); route geometry for
   [M02](m02-haulage-des.md).
-- **Code (planned):** `minephys.haulage` (rimpull/retarder, resistance, cycle time, energy, CO₂, trolley/BEV); A* in
-  the same module and in a `web/` worker; terrain from the studio stage `st10_terrain`
+- **Code (planned):** `minephys.haulage` (rimpull/retarder, resistance, cycle time, energy, CO₂, trolley/BEV); A* is
+  PitStudio code, not part of `minephys` (the core package's `pitstudio.haulage.routing`, with a TypeScript port in a
+  `web/` worker); terrain from the studio stage `st10_terrain`
   ([studio stages](../pipelines/studio-stages.md)).
 - **Status:** not yet implemented — built test-first in the build phase.
 

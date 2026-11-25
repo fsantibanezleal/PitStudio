@@ -1,0 +1,115 @@
+{
+  "id": null,
+  "case": null,
+  "path": "studio/recipes/_bench/broken.yaml",
+  "sha256": "b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2",
+  "stages": 0,
+  "valid": false,
+  "errors": [
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    },
+    {
+      "pointer": "/stages/0/env",
+      "keyword": "const",
+      "message": "'isaac' was expected"
+    }
+  ]
+}

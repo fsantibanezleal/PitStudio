@@ -1,0 +1,162 @@
+{
+ "caption": {
+  "en": "8 light vehicles, 7 h window. An overlap is two vehicle discs touching in the model, not a real collision.",
+  "es": "8 vehiculos livianos, ventana de 7 h. Un solape es el contacto de dos discos del modelo, no una colision real."
+ },
+ "case": "B1",
+ "chart_type": "line",
+ "id": "b1-conflicts-per-shift",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; rule-based agents with illustrative behaviour inputs, see the run summary",
+  "method": "seeded DES truck trajectories on the pit road network replayed with lane-based mixed traffic, constant-velocity TTC per encounter, paired seeds",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    349.342,
+    356.287,
+    345.824,
+    346.183,
+    343.895
+   ],
+   "id": "nm-tl",
+   "label": {
+    "en": "Near-misses, truck - light vehicle",
+    "es": "Cuasi-accidentes, camion - vehiculo liviano"
+   },
+   "lo": [
+    335.991,
+    342.646,
+    333.176,
+    332.617,
+    334.505
+   ],
+   "n": 30,
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    342.667,
+    349.467,
+    339.5,
+    339.4,
+    339.2
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    99.471,
+    99.1698,
+    99.1621,
+    98.4711,
+    95.4939
+   ],
+   "id": "nm-ll",
+   "label": {
+    "en": "Near-misses, light vehicle - light vehicle",
+    "es": "Cuasi-accidentes, vehiculo liviano - vehiculo liviano"
+   },
+   "lo": [
+    85.3956,
+    85.4969,
+    86.3046,
+    86.7289,
+    84.9061
+   ],
+   "n": 30,
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    92.4333,
+    92.3333,
+    92.7333,
+    92.6,
+    90.2
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    147.054,
+    151.066,
+    145.762,
+    147.961,
+    147.82
+   ],
+   "id": "contact-tl",
+   "label": {
+    "en": "Overlaps of the vehicle discs, truck - light vehicle",
+    "es": "Solapes de los discos, camion - vehiculo liviano"
+   },
+   "lo": [
+    139.012,
+    144.334,
+    136.838,
+    138.705,
+    139.38
+   ],
+   "n": 30,
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    143.033,
+    147.7,
+    141.3,
+    143.333,
+    143.6
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-55",
+  "FR-018-16"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Conflicts per shift against the autonomous share",
+  "es": "Conflictos por turno segun la proporcion de autonomos"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Autonomous share of the haul trucks",
+   "es": "Proporcion de camiones autonomos"
+  },
+  "unit": "%"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Events per shift",
+   "es": "Eventos por turno"
+  },
+  "unit": "1"
+ }
+}

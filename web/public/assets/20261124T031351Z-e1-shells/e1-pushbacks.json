@@ -1,0 +1,127 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "e1-pushbacks",
+ "case": "E1",
+ "chart_type": "bar",
+ "status": "ok",
+ "title": {
+  "en": "Pushback tonnage",
+  "es": "Tonelaje por pushback"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "pushback rule on the nested shells (minimum incremental ore tonnage)",
+  "version": "minephys-98d5b25-oreblocks-0.5.2",
+  "label": "calibrated synthetic: seeded oreblocks deposit, not validated against a real deposit"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-017-17"
+ ],
+ "y_axis": {
+  "label": {
+   "en": "Incremental tonnage",
+   "es": "Tonelaje incremental"
+  },
+  "unit": "Mt"
+ },
+ "categories": [
+  {
+   "id": "pushback-1",
+   "label": {
+    "en": "Pushback 1",
+    "es": "Pushback 1"
+   }
+  },
+  {
+   "id": "pushback-2",
+   "label": {
+    "en": "Pushback 2",
+    "es": "Pushback 2"
+   }
+  },
+  {
+   "id": "pushback-3",
+   "label": {
+    "en": "Pushback 3",
+    "es": "Pushback 3"
+   }
+  },
+  {
+   "id": "pushback-4",
+   "label": {
+    "en": "Pushback 4",
+    "es": "Pushback 4"
+   }
+  },
+  {
+   "id": "pushback-5",
+   "label": {
+    "en": "Pushback 5",
+    "es": "Pushback 5"
+   }
+  },
+  {
+   "id": "pushback-6",
+   "label": {
+    "en": "Pushback 6",
+    "es": "Pushback 6"
+   }
+  },
+  {
+   "id": "pushback-7",
+   "label": {
+    "en": "Pushback 7",
+    "es": "Pushback 7"
+   }
+  },
+  {
+   "id": "pushback-8",
+   "label": {
+    "en": "Pushback 8",
+    "es": "Pushback 8"
+   }
+  }
+ ],
+ "series": [
+  {
+   "id": "ore",
+   "label": {
+    "en": "Ore",
+    "es": "Mineral"
+   },
+   "y": [
+    35.6319,
+    11.3832,
+    7.8786,
+    6.7122,
+    7.2846,
+    6.2046,
+    5.3811,
+    6.1776
+   ]
+  },
+  {
+   "id": "waste",
+   "label": {
+    "en": "Waste",
+    "es": "Est\u00e9ril"
+   },
+   "y": [
+    10.5813,
+    5.751,
+    3.4749,
+    2.4597,
+    2.3166,
+    1.7847,
+    1.7064,
+    2.0655
+   ]
+  }
+ ],
+ "caption": {
+  "en": "A pushback closes when its incremental ore reaches 5 Mt.",
+  "es": "Un pushback se cierra cuando su mineral incremental llega a 5 Mt."
+ }
+}

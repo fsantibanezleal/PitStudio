@@ -1,0 +1,233 @@
+{
+ "job": "c1-wall-sections",
+ "kind": "cpu",
+ "case": "C1",
+ "recipe": "cases/c1.yaml",
+ "slug": "c1-wall-sections",
+ "seed": 20261007,
+ "label": "illustrative rock-mass inputs, UNVERIFIED; 3DEP 2018 DEM section; educational, not design software",
+ "producer_paths": [
+  "pipeline/src/pitstudio_pipeline/slope",
+  "studio/recipes/cases/c1.yaml"
+ ],
+ "notes": [
+  "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
+  "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files)."
+ ],
+ "stages": [
+  {
+   "id": "s20_feature_extraction",
+   "tool": "minephys",
+   "outputs": [
+    {
+     "name": "charts/c1-wall-s1-section.json",
+     "from": "charts/c1-wall-s1-section.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-wall-s1-section",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "usgs-3dep-bingham",
+       "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+       "kind": "source"
+      },
+      {
+       "id": "usgs-3dep-bingham-window",
+       "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-wall-s1-pof.json",
+     "from": "charts/c1-wall-s1-pof.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-wall-s1-pof",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "usgs-3dep-bingham",
+       "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+       "kind": "source"
+      },
+      {
+       "id": "usgs-3dep-bingham-window",
+       "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-wall-s2-section.json",
+     "from": "charts/c1-wall-s2-section.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-wall-s2-section",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "usgs-3dep-bingham",
+       "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+       "kind": "source"
+      },
+      {
+       "id": "usgs-3dep-bingham-window",
+       "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-wall-s2-pof.json",
+     "from": "charts/c1-wall-s2-pof.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-wall-s2-pof",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "usgs-3dep-bingham",
+       "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+       "kind": "source"
+      },
+      {
+       "id": "usgs-3dep-bingham-window",
+       "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-wall-s3-section.json",
+     "from": "charts/c1-wall-s3-section.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-wall-s3-section",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "usgs-3dep-bingham",
+       "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+       "kind": "source"
+      },
+      {
+       "id": "usgs-3dep-bingham-window",
+       "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-wall-s3-pof.json",
+     "from": "charts/c1-wall-s3-pof.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-wall-s3-pof",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "usgs-3dep-bingham",
+       "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+       "kind": "source"
+      },
+      {
+       "id": "usgs-3dep-bingham-window",
+       "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-wall-table.json",
+     "from": "charts/c1-wall-table.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-wall-table",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "usgs-3dep-bingham",
+       "sha256": "0e0bc3634a053561fd8b7a176915091072bcd948afdb5d64cf6552bbf7413fc5",
+       "kind": "source"
+      },
+      {
+       "id": "usgs-3dep-bingham-window",
+       "sha256": "4d1e983925ad039925488ab6429ac03c164a593b5415aec63c17cc0e93ec024a",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "sections/usgs-3dep-bingham-s1.json",
+     "from": "sections/usgs-3dep-bingham-s1.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "sections/usgs-3dep-bingham-s2.json",
+     "from": "sections/usgs-3dep-bingham-s2.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "sections/usgs-3dep-bingham-s3.json",
+     "from": "sections/usgs-3dep-bingham-s3.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "oracle-check.json",
+     "from": "oracle-check.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "results-summary.json",
+     "from": "results-summary.json",
+     "kind": "table",
+     "publish": true,
+     "id": "c1-wall-sections-results",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    }
+   ]
+  }
+ ]
+}

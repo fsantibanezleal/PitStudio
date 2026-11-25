@@ -173,10 +173,13 @@ $$
 
 The 5/2 exponent follows from dimensional analysis: outflow velocity scales as $\sqrt{gD}$ and the flowing area as
 $D^2$. A Hertz–Mindlin DEM of 4 × 10⁵ spheres reproduces the law with the exponent fixed at 5/2 and a fitted
-$C = 0.56$ [23]. The textbook ranges $C \approx 0.55$–0.65 and $k \approx 1.4$–1.5 are UNVERIFIED — pinned at
-specification; Mankoc et al. extend the law to small orifices [24].
+$C = 0.56$ [23], but that fit uses the **particle** density ($\rho$ = 3,000 kg/m³ in place of $\rho_b$, eqs. 1 and 6),
+so its $C$ is not interchangeable with the bulk-density $C$ of the form above. The textbook bulk-density ranges
+$C \approx 0.55$–0.65 and $k \approx 1.4$–1.5 are UNVERIFIED — pinned at specification; Mankoc et al. extend the law to
+small orifices [24].
 
-*Worked example 2* ($C$ = 0.56 [23]; illustrative $\rho_b$ = 1,600 kg/m³, $d$ = 20 mm, $k$ = 1.5): a 0.3 m orifice
+*Worked example 2* (illustrative: $C$ = 0.56 used as a bulk-density coefficient, $\rho_b$ = 1,600 kg/m³, $d$ = 20 mm,
+$k$ = 1.5): a 0.3 m orifice
 discharges 106 kg/s (383 t/h); halving it to 0.15 m gives 14 kg/s, and doubling it to 0.6 m gives 688 kg/s. The steep
 $D^{5/2}$ dependence is why chute and feeder openings are sized with margin.
 

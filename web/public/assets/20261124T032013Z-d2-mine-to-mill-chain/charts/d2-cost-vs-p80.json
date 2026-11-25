@@ -1,0 +1,122 @@
+{
+ "caption": {
+  "en": "Median and 10 to 90 percent range of 12800 chain evaluations of the sweep in 15 bins of target P80; every other input varies over its box.",
+  "es": "Mediana y rango 10 a 90 por ciento de 12800 evaluaciones de la cadena en 15 tramos de P80 objetivo; las demas entradas varian en su caja."
+ },
+ "case": "D2",
+ "chart_type": "line",
+ "id": "d2-cost-vs-p80",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic, not validated against real data",
+  "method": "Kuz-Ram/KCO blast, Whiten crusher, Bond law and cost chain; scrambled-Sobol sweeps and Saltelli/Jansen Sobol indices",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "10th to 90th percentile",
+    "es": "Percentil 10 a 90"
+   },
+   "hi": [
+    4.731432534500698,
+    3.647007362590818,
+    3.1790857151462193,
+    2.6654348108258215,
+    3.4673675040295704,
+    2.641854722402359,
+    3.0248161287146913,
+    3.1324721562609765,
+    3.0732802449774277,
+    2.9239689312525505,
+    2.5441944870840247,
+    2.383269389479087,
+    2.428026686688048,
+    2.2289207936344777,
+    2.510470311136818
+   ],
+   "id": "median-cost",
+   "label": {
+    "en": "Median",
+    "es": "Mediana"
+   },
+   "lo": [
+    1.487062754422742,
+    1.7278085847665026,
+    1.5347487438621688,
+    1.154701341079585,
+    1.6976609006589325,
+    1.3047949032069963,
+    1.1238572479124527,
+    1.173077278381516,
+    1.1278982237072677,
+    1.009865370128808,
+    1.0638545730214533,
+    1.424076574572763,
+    1.1375321033168668,
+    1.1064607156210462,
+    1.1760032697233167
+   ],
+   "n": 12800,
+   "x": [
+    82.12364060538155,
+    97.78763219320143,
+    112.52379751800058,
+    127.13567675628627,
+    141.60834301191454,
+    157.3914910107851,
+    172.86581693647,
+    187.83291736259483,
+    202.70436304687922,
+    217.95490470249206,
+    231.653282379445,
+    247.27057551665763,
+    261.9780684588477,
+    277.33277934936007,
+    292.3452986099829
+   ],
+   "y": [
+    2.4463456026598944,
+    2.443388456747565,
+    2.4046953045855934,
+    1.9267779432213634,
+    2.2997768825889464,
+    2.190975355874426,
+    2.2668553363896655,
+    2.0514514272772884,
+    2.069484744480464,
+    2.1499698889492804,
+    1.7645281813140454,
+    1.9299166863777821,
+    1.6954021135251178,
+    1.8397521063173332,
+    1.7578965204325347
+   ]
+  }
+ ],
+ "serves": [
+  "FR-017-01",
+  "FR-017-02"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Cost per tonne against the target P80",
+  "es": "Costo por tonelada segun el P80 objetivo"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Target P80",
+   "es": "P80 objetivo"
+  },
+  "unit": "um"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Cost per tonne",
+   "es": "Costo por tonelada"
+  },
+  "unit": "USD/t"
+ }
+}

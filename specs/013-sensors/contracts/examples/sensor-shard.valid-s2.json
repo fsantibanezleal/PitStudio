@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261007T130000Z-e2-survey",
+  "stage": "st53_sensors",
+  "scenario": "S2",
+  "backend": "ovrtx",
+  "frames": [],
+  "files": [
+    {
+      "path": "sensors/s2/survey-cam/image-index.parquet",
+      "bytes": 18230,
+      "sha256": "c66a8eb7e6a7e395bf000e8884c7de131a5cf32a9f42de44a1b9ceaf47c8900e",
+      "format": "parquet",
+      "content": "image-index",
+      "rows": 120
+    },
+    {
+      "path": "sensors/s2/survey-cam/hdr.zarr/zarr.json",
+      "bytes": 912,
+      "sha256": "a2e5afad64484c2aeb15e94ef43f955655e54eafde172f86a6650effa9e80642",
+      "format": "zarr",
+      "content": "hdr-color"
+    },
+    {
+      "path": "sensors/s2/survey-cam/hdr.zarr/c/0/0/0",
+      "bytes": 8294400,
+      "sha256": "2406b24fcb295d984ec2c522ff3db6249162dae722b358ff07c5ef8499686de5",
+      "format": "zarr",
+      "content": "hdr-color"
+    },
+    {
+      "path": "sensors/s2/survey-cam/ldr-00000.png",
+      "bytes": 3120554,
+      "sha256": "8f8cbb7dcf46e0bc7d53265749a6c17d116093a6ba95e442764060c76fd4a86c",
+      "format": "png",
+      "content": "ldr-color"
+    }
+  ]
+}

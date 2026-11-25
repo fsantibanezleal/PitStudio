@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "kind": "comparison",
+  "id": "a1-ppo-vs-sptf",
+  "tab": "learned-vs-classical",
+  "title": {
+    "en": "PPO dispatch against SPTF",
+    "es": "Despacho PPO contra SPTF"
+  },
+  "cases": [
+    "A1"
+  ],
+  "run_ids": [
+    "20261005T090000Z-a1-dispatch"
+  ],
+  "criteria": [
+    {
+      "requirement": "SC-007-01",
+      "status": "pass"
+    }
+  ],
+  "rows": [
+    {
+      "kind": "paired",
+      "metric": {
+        "id": "throughput",
+        "name": {
+          "en": "throughput",
+          "es": "rendimiento"
+        },
+        "unit": "t/h",
+        "orientation": "higher-is-better"
+      },
+      "challenger": "PPO (M4)",
+      "baseline": "SPTF",
+      "pairing_unit": {
+        "en": "seed",
+        "es": "semilla"
+      },
+      "n": 30,
+      "interval": {
+        "lo": 12.4,
+        "hi": 31.9,
+        "level": 0.95,
+        "method": "paired-t"
+      },
+      "verdict": "challenger-better"
+    },
+    {
+      "kind": "paired",
+      "metric": {
+        "id": "queue_time",
+        "name": {
+          "en": "truck queue time",
+          "es": "tiempo en cola"
+        },
+        "unit": "min",
+        "orientation": "lower-is-better"
+      },
+      "challenger": "PPO (M4)",
+      "baseline": "SPTF",
+      "pairing_unit": {
+        "en": "seed",
+        "es": "semilla"
+      },
+      "n": 30,
+      "interval": {
+        "lo": -0.8,
+        "hi": 0.3,
+        "level": 0.95,
+        "method": "paired-bootstrap"
+      },
+      "verdict": "no-significant-difference"
+    },
+    {
+      "kind": "paired",
+      "metric": {
+        "id": "queue_time",
+        "name": {
+          "en": "truck queue time",
+          "es": "tiempo en cola"
+        },
+        "unit": "min",
+        "orientation": "lower-is-better"
+      },
+      "challenger": "PPO (M4)",
+      "baseline": "two-stage LP",
+      "pairing_unit": {
+        "en": "seed",
+        "es": "semilla"
+      },
+      "n": 30,
+      "interval": {
+        "lo": 0.4,
+        "hi": 1.6,
+        "level": 0.95,
+        "method": "paired-t"
+      },
+      "verdict": "baseline-better"
+    }
+  ]
+}

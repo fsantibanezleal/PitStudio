@@ -1,0 +1,41 @@
+{
+  "run_id": "20261007T210000Z-c2-slope",
+  "stages": [
+    {
+      "key": {
+        "id": "st50_physics"
+      },
+      "performance": "public",
+      "bucket_s": 2.0,
+      "points": [
+        {
+          "t_s": 0.0,
+          "util_pct": 12.0,
+          "power_w": 31.5,
+          "sm_clock_mhz": 1410.0,
+          "temp_c": 48.0,
+          "mem_used_bytes": 1073741824,
+          "clocks_event_mask": 1
+        },
+        {
+          "t_s": 2.0,
+          "util_pct": 88.5,
+          "power_w": 97.2,
+          "sm_clock_mhz": 1785.0,
+          "temp_c": 69.0,
+          "mem_used_bytes": 2147483648,
+          "clocks_event_mask": 4
+        },
+        {
+          "t_s": 4.0,
+          "util_pct": 90.0,
+          "power_w": null,
+          "sm_clock_mhz": 1770.0,
+          "temp_c": 71.0,
+          "mem_used_bytes": 2147483648,
+          "clocks_event_mask": 4
+        }
+      ]
+    }
+  ]
+}

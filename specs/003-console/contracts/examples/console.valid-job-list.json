@@ -1,0 +1,45 @@
+{
+  "jobs": [
+    {
+      "job_id": "20261007T210000Z-0a1b2c3d",
+      "recipe": "c2-slope",
+      "state": "running",
+      "run_id": "20261007T210000Z-c2-slope",
+      "created": "2026-10-07T21:00:00Z",
+      "stage": {
+        "id": "st55_sdg",
+        "variant": "night"
+      },
+      "shards": {
+        "done": 3,
+        "total": 40
+      },
+      "exit_code": null,
+      "reason": null
+    },
+    {
+      "job_id": "20261006T200000Z-9f8e7d6c",
+      "recipe": "a2-haulage",
+      "state": "succeeded",
+      "run_id": "20261006T200000Z-a2-haulage",
+      "created": "2026-10-06T20:00:00Z",
+      "stage": null,
+      "shards": null,
+      "exit_code": 0,
+      "reason": null
+    },
+    {
+      "job_id": "20261007T220000Z-12345678",
+      "recipe": "b2-perception",
+      "state": "held",
+      "run_id": "20261007T220000Z-b2-perception",
+      "created": "2026-10-07T22:00:00Z",
+      "stage": {
+        "id": "st52_rtx_render"
+      },
+      "shards": null,
+      "exit_code": 4,
+      "reason": "GPU hold: training in another project"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "kind": "input",
+  "engine": "fno",
+  "engine_version": "0.1.0",
+  "function": "dust_field",
+  "args": {
+    "model": {
+      "artefact": "c3-fno-dust-fp32",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 6200000
+    },
+    "precision": "fp16",
+    "patch": {
+      "artefact": "c3-patch-02",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 16384
+    },
+    "source_strength_kg_per_s": 0.4,
+    "wind_speed_m_per_s": 5.0,
+    "wind_direction_rad": 1.0
+  }
+}

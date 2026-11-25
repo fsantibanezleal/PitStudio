@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/frame-state.schema.json",
+  "title": "Frame state",
+  "description": "Per-frame scene state written by st55_sdg: transforms in metres, classes, footprints, visible pixels, depth and dust-field references, conditions (DC-015-01, spec 015-vlm).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "frame_id": {
+      "$ref": "#/$defs/artefact_id"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "case": {
+      "$ref": "#/$defs/case_id"
+    },
+    "location": {
+      "$ref": "#/$defs/location"
+    },
+    "condition": {
+      "$ref": "#/$defs/condition"
+    },
+    "metersPerUnit": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1000
+    },
+    "upAxis": {
+      "enum": [
+        "Y",
+        "Z"
+      ]
+    },
+    "image": {
+      "$ref": "#/$defs/image"
+    },
+    "depth": {
+      "$ref": "#/$defs/file_ref"
+    },
+    "dust_field": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/file_ref"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "terrain": {
+      "$ref": "#/$defs/file_ref"
+    },
+    "camera": {
+      "$ref": "#/$defs/camera"
+    },
+    "objects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/object"
+      },
+      "maxItems": 1024,
+      "minItems": 1
+    },
+    "bench_edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bench_edge"
+      },
+      "maxItems": 16
+    }
+  },
+  "required": [
+    "schema_version",
+    "frame_id",
+    "run_id",
+    "synthetic",
+    "case",
+    "location",
+    "condition",
+    "metersPerUnit",
+    "upAxis",
+    "image",
+    "depth",
+    "dust_field",
+    "terrain",
+    "camera",
+    "objects",
+    "bench_edges"
+  ],
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "object_class": {
+      "enum": [
+        "haul_truck",
+        "shovel",
+        "light_vehicle",
+        "person",
+        "boulder"
+      ]
+    },
+    "condition": {
+      "enum": [
+        "day",
+        "night",
+        "dust",
+        "rain"
+      ]
+    },
+    "location": {
+      "enum": [
+        "haul_road",
+        "bench",
+        "loading_area"
+      ]
+    },
+    "file_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ]
+    },
+    "coordinate_m": {
+      "type": "number",
+      "minimum": -100000,
+      "maximum": 100000
+    },
+    "vec3_m": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/coordinate_m"
+      },
+      "maxItems": 3,
+      "minItems": 3
+    },
+    "vec2_m": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/coordinate_m"
+      },
+      "maxItems": 2,
+      "minItems": 2
+    },
+    "pose": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "translation_m": {
+          "$ref": "#/$defs/vec3_m"
+        },
+        "rotation_xyzw": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "maxItems": 4,
+          "minItems": 4
+        }
+      },
+      "required": [
+        "translation_m",
+        "rotation_xyzw"
+      ]
+    },
+    "prim_id": {
+      "type": "string",
+      "maxLength": 512,
+      "pattern": "^/[A-Za-z_][A-Za-z0-9_]{0,63}(/[A-Za-z_][A-Za-z0-9_]{0,63}){0,15}$"
+    },
+    "visible_px": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 67108864
+    },
+    "footprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "centre_m": {
+          "$ref": "#/$defs/vec2_m"
+        },
+        "half_extents_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 100
+          },
+          "maxItems": 2,
+          "minItems": 2
+        },
+        "heading_deg": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        }
+      },
+      "required": [
+        "centre_m",
+        "half_extents_m",
+        "heading_deg"
+      ]
+    },
+    "object": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prim_id": {
+          "$ref": "#/$defs/prim_id"
+        },
+        "class": {
+          "$ref": "#/$defs/object_class"
+        },
+        "asset_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "pose": {
+          "$ref": "#/$defs/pose"
+        },
+        "footprint": {
+          "$ref": "#/$defs/footprint"
+        },
+        "visible_px": {
+          "$ref": "#/$defs/visible_px"
+        },
+        "in_frustum": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "prim_id",
+        "class",
+        "pose",
+        "footprint",
+        "visible_px",
+        "in_frustum"
+      ]
+    },
+    "bench_edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "edge_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "berm_present": {
+          "type": "boolean"
+        },
+        "visible_px": {
+          "$ref": "#/$defs/visible_px"
+        }
+      },
+      "required": [
+        "edge_id",
+        "berm_present",
+        "visible_px"
+      ]
+    },
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "width_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 8192
+        },
+        "height_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 8192
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "width_px",
+        "height_px"
+      ]
+    },
+    "camera": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intrinsics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fx_px": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 100000
+            },
+            "fy_px": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 100000
+            },
+            "cx_px": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 8192
+            },
+            "cy_px": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 8192
+            }
+          },
+          "required": [
+            "fx_px",
+            "fy_px",
+            "cx_px",
+            "cy_px"
+          ]
+        },
+        "pose": {
+          "$ref": "#/$defs/pose"
+        }
+      },
+      "required": [
+        "intrinsics",
+        "pose"
+      ]
+    }
+  }
+}

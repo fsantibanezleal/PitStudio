@@ -1,0 +1,536 @@
+{
+ "files": [
+  {
+   "bytes": 240,
+   "level": "lod0",
+   "path": "tiles/lod0/tileset.json",
+   "role": "tileset",
+   "sha256": "78bae5d8a790d3710741c8cc35d3cd2724902fbb0f93596c88e392fbceb3db5b",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "CONTENT_VALIDATION_WARNING: lod0.glb caused validation warnings (lod0.glb)"
+    ]
+   }
+  },
+  {
+   "bytes": 428080,
+   "level": "lod0",
+   "path": "tiles/lod0/lod0.glb",
+   "role": "tile",
+   "sha256": "05190a35d80e7dc991aa5028634e823b5fa34a36fb0b091b0031208112fa8790",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 6572,
+   "level": "detail",
+   "path": "tiles/detail/tileset.json",
+   "role": "tileset",
+   "sha256": "0b9cfad294714899f8a16c105da01ce7b653f469061fa183f56fe68205bc26df",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "CONTENT_VALIDATION_WARNING: ../lod0/lod0.glb caused validation warnings (../lod0/lod0.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-3-3.glb caused validation warnings (lod1/l1-3-3.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-3-3.glb caused validation warnings (lod2/l2-3-3.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-3-2.glb caused validation warnings (lod1/l1-3-2.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-3-2.glb caused validation warnings (lod2/l2-3-2.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-3-1.glb caused validation warnings (lod1/l1-3-1.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-3-1.glb caused validation warnings (lod2/l2-3-1.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-3-0.glb caused validation warnings (lod1/l1-3-0.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-3-0.glb caused validation warnings (lod2/l2-3-0.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-2-3.glb caused validation warnings (lod1/l1-2-3.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-2-3.glb caused validation warnings (lod2/l2-2-3.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-2-2.glb caused validation warnings (lod1/l1-2-2.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-2-2.glb caused validation warnings (lod2/l2-2-2.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-2-1.glb caused validation warnings (lod1/l1-2-1.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-2-1.glb caused validation warnings (lod2/l2-2-1.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-2-0.glb caused validation warnings (lod1/l1-2-0.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-2-0.glb caused validation warnings (lod2/l2-2-0.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-1-3.glb caused validation warnings (lod1/l1-1-3.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-1-3.glb caused validation warnings (lod2/l2-1-3.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-1-2.glb caused validation warnings (lod1/l1-1-2.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-1-2.glb caused validation warnings (lod2/l2-1-2.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-1-1.glb caused validation warnings (lod1/l1-1-1.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-1-1.glb caused validation warnings (lod2/l2-1-1.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-1-0.glb caused validation warnings (lod1/l1-1-0.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-1-0.glb caused validation warnings (lod2/l2-1-0.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-0-3.glb caused validation warnings (lod1/l1-0-3.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-0-3.glb caused validation warnings (lod2/l2-0-3.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-0-2.glb caused validation warnings (lod1/l1-0-2.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-0-2.glb caused validation warnings (lod2/l2-0-2.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-0-1.glb caused validation warnings (lod1/l1-0-1.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-0-1.glb caused validation warnings (lod2/l2-0-1.glb)",
+     "CONTENT_VALIDATION_WARNING: lod1/l1-0-0.glb caused validation warnings (lod1/l1-0-0.glb)",
+     "CONTENT_VALIDATION_WARNING: lod2/l2-0-0.glb caused validation warnings (lod2/l2-0-0.glb)"
+    ]
+   }
+  },
+  {
+   "bytes": 310744,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-0-0.glb",
+   "role": "tile",
+   "sha256": "fd063a3b7d7a2a8755c1d7e165116067d7a52e8df14f7f558e9c733942703803",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1777088,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-0-0.glb",
+   "role": "tile",
+   "sha256": "43c43be106112bdb19c894a58f2a4d282f5691abf2fa580c879b05b6ada4b43f",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 237868,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-0-1.glb",
+   "role": "tile",
+   "sha256": "d892f5e6578c0725828c38e3469662111d2787796a75b73d9e8698d94076fd2c",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1684940,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-0-1.glb",
+   "role": "tile",
+   "sha256": "57c198e155db4d94fe115bc688a75f391b8a35ebb5e77452a0a7d363d966e17b",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 227544,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-0-2.glb",
+   "role": "tile",
+   "sha256": "9e51f68314f2d6d6ee807157446e15284aa2c0681a80c1c599fa1927d106e130",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1778776,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-0-2.glb",
+   "role": "tile",
+   "sha256": "ae682fe09ffea1ca5c40d10a5db05fc4360b563c23e20d45f7711111b486d6f0",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 66048,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-0-3.glb",
+   "role": "tile",
+   "sha256": "b365f343bc3023afd7e2603de0ea382ab987598cdb05b03ad73a4ed4c671fcd0",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 480968,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-0-3.glb",
+   "role": "tile",
+   "sha256": "74caaed2f35d1fe7762fbad08f0d35dbfe8b3a7407f48280e6ef932a46b3ee0d",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 259444,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-1-0.glb",
+   "role": "tile",
+   "sha256": "9546c1234c1da18dfd9d5c7fc4ffdba7ed976f19ff78954e9d515d72eeade47f",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1407640,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-1-0.glb",
+   "role": "tile",
+   "sha256": "2dac67922379e1cfa756f8c5cfa582a294039175c80e4df829726e93efd64d4c",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 185740,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-1-1.glb",
+   "role": "tile",
+   "sha256": "0887d89f8b709645b2f9ffa48fe0cd8277aa753eb800d3f165612aedf904cd8b",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1336532,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-1-1.glb",
+   "role": "tile",
+   "sha256": "7e1930e49dc3630132cc51e64582fb84093bc60f89a5171a323e192265b5fb82",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 355168,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-1-2.glb",
+   "role": "tile",
+   "sha256": "db9943e8236fe4e5de2b38ff0c991fb1eaf8a0d101e1deb6966d57cee1340f87",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 3034408,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-1-2.glb",
+   "role": "tile",
+   "sha256": "dcda84b17a2b3e1a0c812f9ff915df9d4885a202441e7681debe6d298f93cf13",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 183336,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-1-3.glb",
+   "role": "tile",
+   "sha256": "79ce41c21e666d4ddb4004014893717f4184bdcd393fe2b6c300381c9ae50ac4",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1165072,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-1-3.glb",
+   "role": "tile",
+   "sha256": "cb6773a55167c9df118a90c925bf3cb3f2c5fdc20b043592cfbace73fce3ddf4",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 200072,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-2-0.glb",
+   "role": "tile",
+   "sha256": "4ab1c279de0764599860c8ad71924adeaf0d572a4f218af9dca55380f571f16d",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1084192,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-2-0.glb",
+   "role": "tile",
+   "sha256": "00b801882c0dc213d38b7eb7e1143bab03cdea62b06d4c47100db16c03ceb114",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 201440,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-2-1.glb",
+   "role": "tile",
+   "sha256": "b05d05f7ca92a52137c2cd483bcf5ddb798d844e405f8f7546fafb4d649c6e88",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1518944,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-2-1.glb",
+   "role": "tile",
+   "sha256": "4dcb7055a761b1b9bf57a9c060dedd9512f6f2e3bf2a10c74e1544d8448213ec",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 308332,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-2-2.glb",
+   "role": "tile",
+   "sha256": "696cf1ccf096e6007476cdaa78eb6b51763c40750c866efe61ebfd6f1e14f049",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1887516,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-2-2.glb",
+   "role": "tile",
+   "sha256": "acde9b42ba31f98597146daf80af3a4547f1b3e0c541c870dd85ffce9faa7361",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 130744,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-2-3.glb",
+   "role": "tile",
+   "sha256": "7f5e53cb2390267d208012ae1a1a1fa48587938b61e1a71ce230afe039987f59",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 829476,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-2-3.glb",
+   "role": "tile",
+   "sha256": "8022d3c8fc903dd9b12b0e4936e7f45bc09e8d02a6c979bbbf6c9b03eb1d16d5",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 247260,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-3-0.glb",
+   "role": "tile",
+   "sha256": "724163f5aafb09075f0558e03a63d08ce366142eefb9f80e4dc5e817553df238",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 976716,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-3-0.glb",
+   "role": "tile",
+   "sha256": "b36b21cb6db79b49771753406beca9f9939a8cb79b15b4a264f24af523b2bc52",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 246992,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-3-1.glb",
+   "role": "tile",
+   "sha256": "2ba6e96c2278dd276b24813aae7c82003a7119fdd6b408ac88edc2c9eb74c11d",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1227632,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-3-1.glb",
+   "role": "tile",
+   "sha256": "1842d8a90529910373deb1f0df033c69a5ec78cd1cbd67a9073cc4f3a5983e88",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 279392,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-3-2.glb",
+   "role": "tile",
+   "sha256": "e2f0cd4504ed9e93454356387c5612a33cf90fa910728768bbd7b2c309834a3a",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 1328452,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-3-2.glb",
+   "role": "tile",
+   "sha256": "7bca6add29d82b18e91518ffed7f780a2e0c3284544da419229fac47de403304",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 156756,
+   "level": "lod1",
+   "path": "tiles/detail/lod1/l1-3-3.glb",
+   "role": "tile",
+   "sha256": "d127dafb658e4176bb15b2cd324034a508f80d2eef7bf2ff3b4eb2bc74d3e1ef",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 714284,
+   "level": "lod2",
+   "path": "tiles/detail/lod2/l2-3-3.glb",
+   "role": "tile",
+   "sha256": "a17fd9ce31ee6cd8de023e981e6b631573fdd8af8e38f1d2ca41cb609cf8cc2c",
+   "validator": {
+    "errors": 0,
+    "warnings": [
+     "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE: Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations. (/meshes/0/primitives/0/material)"
+    ]
+   }
+  },
+  {
+   "bytes": 47289,
+   "level": "shared",
+   "path": "tiles/textures/rock-normal.jpg",
+   "role": "texture",
+   "sha256": "e065efab9d70cbe535b3e86323af7ca585214a061ade5f853f5fcc044560f50b"
+  }
+ ],
+ "kind": "web-terrain-bake",
+ "level_scheme": {
+  "not_baked": "the scene lod0 variant (0.25 m): the orthophoto has 1 m samples, the tile budget is 95 MB",
+  "web_lod0": "one whole-site tile derived from the scene lod2 variant, 12505 triangles, error 12.0 m against the elevation model",
+  "web_lod1": "the scene lod2 tiles (4.0 m), 3 x 3 tiles per file",
+  "web_lod2": "the scene lod1 tiles (1.0 m), 3 x 3 tiles per file"
+ },
+ "producer": {
+  "package": "usd-core",
+  "tool": "openusd",
+  "version": "26.8"
+ },
+ "scene": {
+  "manifest_id": "a1-scene-ea6ef6b6acf2",
+  "params_sha256": "ea6ef6b6acf214a72f6ae8f1e23856577c228b0685bab0c7770eccc0ff4f26ab",
+  "terrain_layer_sha256": "1fa5de73899d4f0426f2f52e0ead27ff6e21c1ea571d691c6f25149a24fb7e61"
+ },
+ "schema_version": "1.0",
+ "textures": {
+  "albedo": {
+   "ground_resolution_m": 0.6,
+   "sha256": "06ac604eedd022b7c0f090a751b1ca1c5e8e4bfca56bd5f3e87dd5d37b88c1b6",
+   "source": "usda-naip-bingham",
+   "year": 2018
+  },
+  "rock_normal": {
+   "repeat_m": 8.0,
+   "sha256": "5915fea28a97357c78a04fb31c2516f1f7ed1b3a9cef4ae25aa93e4655e6c595",
+   "source": "polyhaven-rock-boulder-dry",
+   "spdx": "CC0-1.0"
+  }
+ },
+ "totals": {
+  "bytes": 26311697,
+  "files": 36,
+  "validator_errors": 0,
+  "validator_warnings": 67
+ }
+}

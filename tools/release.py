@@ -57,6 +57,16 @@ def main(argv: list[str]) -> int:
     if not commits:
         print("nothing to release")
         return 1
+    gate = subprocess.run(
+        [sys.executable, str(ROOT / "tools" / "trace.py"), "--check", "--release"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
+    if gate.returncode != 0:  # G6: no release while a spec is below Converged or a requirement has no test
+        print(gate.stdout[-4000:])
+        print("release refused: tools/trace.py --check --release failed")
+        return 3
     new = a.version or bump(current(), [c.strip() for c in commits])
     if not PADDED.match(new):
         print(f"invalid version {new!r}: use X.YY.ZZZ")

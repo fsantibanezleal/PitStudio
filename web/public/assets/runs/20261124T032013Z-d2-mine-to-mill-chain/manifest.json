@@ -1,0 +1,381 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+ "recipe": {
+  "id": "d2-mine-to-mill",
+  "path": "cases/d2.yaml",
+  "sha256": "a656c88b0b03feec983f4d4a1d379ed75b1155f660ccad6035d0a4e9c59044a5"
+ },
+ "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-24T03:20:13Z",
+ "profile": "imported",
+ "seed": 20261123,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s05_synthesize"
+   },
+   "tool": "minephys",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "4b01a673c1cb8871dd3c8fe16b43c928ef7f88c05da5e5a4f2737be1944cf08c",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 20261123,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "sweeps.json",
+     "sha256": "ccc251ca4365f489c6b863c6382e67ef8f3c3b5a6a6162361361120ca8455d57",
+     "bytes": 3773766
+    },
+    {
+     "name": "sensitivity.json",
+     "sha256": "959010f76788b0ad35380b1e6ba694704b4bd8665b3a23842c939b9558eff8f1",
+     "bytes": 7771
+    },
+    {
+     "name": "results-summary.json",
+     "sha256": "3e5b274d02085bcddcdea93179f7c0725c1db0b6d48ee2adc59c78fdff43d525",
+     "bytes": 5945
+    },
+    {
+     "name": "charts/d2-energy-vs-p80.json",
+     "sha256": "f7707656bc3f2386f9327647001ca0a0ca57ecf23453cb46726a0f23f5fee624",
+     "bytes": 2771
+    },
+    {
+     "name": "charts/d2-throughput-vs-p80.json",
+     "sha256": "73e9fe3160899014d66b79c7feeefb8093b0790fa24ec3a799c1bd87a5ada45a",
+     "bytes": 2794
+    },
+    {
+     "name": "charts/d2-cost-vs-p80.json",
+     "sha256": "6f72c4e26b9f2c6ef36cd673033f159ccf94b9e2bd3b28c700b1889493ea83af",
+     "bytes": 2783
+    },
+    {
+     "name": "charts/d2-rom-x80-vs-powder-factor.json",
+     "sha256": "2aeb6b423606a234fe8d88e71d7f273ded5c366f15b351c658cda79d0ae53751",
+     "bytes": 2754
+    },
+    {
+     "name": "charts/d2-f80-vs-rom-x80.json",
+     "sha256": "151fc0f29dcc6deac0ee00b2582fce16f6221449ede51e3c45856045ab1aa812",
+     "bytes": 99963
+    },
+    {
+     "name": "charts/d2-energy-vs-f80.json",
+     "sha256": "4f49d476bcd6da99da9b68a1183772b1896ff51a87fa260b720a0944c336a31a",
+     "bytes": 2887
+    },
+    {
+     "name": "charts/d2-sobol-first-order.json",
+     "sha256": "89d3467b7ff78b0311266defa3b11e74d1af01348e664a72e66e795a7a526305",
+     "bytes": 6584
+    },
+    {
+     "name": "charts/d2-sobol-total.json",
+     "sha256": "f88fd0a23633c9ec3c94d1ffae6944296e5459393a72bd2d17d3c5662edcbd23",
+     "bytes": 6509
+    },
+    {
+     "name": "charts/d2-chain-stages.json",
+     "sha256": "8df921d68f788a13beff3315c8994f4224b60f7d83dcf52d2f6d42ddcca7800c",
+     "bytes": 3123
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "d2-mine-to-mill-chain-results",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/results-summary.json",
+   "bytes": 5945,
+   "sha256": "3e5b274d02085bcddcdea93179f7c0725c1db0b6d48ee2adc59c78fdff43d525",
+   "kind": "table",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d2-energy-vs-p80",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/charts/d2-energy-vs-p80.json",
+   "bytes": 2771,
+   "sha256": "f7707656bc3f2386f9327647001ca0a0ca57ecf23453cb46726a0f23f5fee624",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d2-throughput-vs-p80",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/charts/d2-throughput-vs-p80.json",
+   "bytes": 2794,
+   "sha256": "73e9fe3160899014d66b79c7feeefb8093b0790fa24ec3a799c1bd87a5ada45a",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d2-cost-vs-p80",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/charts/d2-cost-vs-p80.json",
+   "bytes": 2783,
+   "sha256": "6f72c4e26b9f2c6ef36cd673033f159ccf94b9e2bd3b28c700b1889493ea83af",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d2-rom-x80-vs-powder-factor",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/charts/d2-rom-x80-vs-powder-factor.json",
+   "bytes": 2754,
+   "sha256": "2aeb6b423606a234fe8d88e71d7f273ded5c366f15b351c658cda79d0ae53751",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d2-f80-vs-rom-x80",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/charts/d2-f80-vs-rom-x80.json",
+   "bytes": 99963,
+   "sha256": "151fc0f29dcc6deac0ee00b2582fce16f6221449ede51e3c45856045ab1aa812",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d2-energy-vs-f80",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/charts/d2-energy-vs-f80.json",
+   "bytes": 2887,
+   "sha256": "4f49d476bcd6da99da9b68a1183772b1896ff51a87fa260b720a0944c336a31a",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d2-sobol-first-order",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/charts/d2-sobol-first-order.json",
+   "bytes": 6584,
+   "sha256": "89d3467b7ff78b0311266defa3b11e74d1af01348e664a72e66e795a7a526305",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d2-sobol-total",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/charts/d2-sobol-total.json",
+   "bytes": 6509,
+   "sha256": "f88fd0a23633c9ec3c94d1ffae6944296e5459393a72bd2d17d3c5662edcbd23",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "d2-chain-stages",
+   "run_id": "20261124T032013Z-d2-mine-to-mill-chain",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T032013Z-d2-mine-to-mill-chain/charts/d2-chain-stages.json",
+   "bytes": 3123,
+   "sha256": "8df921d68f788a13beff3315c8994f4224b60f7d83dcf52d2f6d42ddcca7800c",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D2"
+   ],
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced on the CPU, on this machine, with minephys, outside the runner",
+  "job d2-mine-to-mill",
+  "no GPU time and no timing are recorded",
+  "calibrated synthetic, not validated against real data: illustrative UNVERIFIED bounds and assumptions, chain of minephys",
+  "supersedes run 20261124T030713Z-d2-mine-to-mill-chain: its published files are removed when this run is published",
+  "producer paths: src/pitstudio/cases/d2, pipeline/src/pitstudio_pipeline/mine_to_mill, pipeline/src/pitstudio_pipeline/chartkit.py, studio/recipes/cases/d2.yaml; git sha 2045397467f05c8edd4d2403379ee4684bab058b; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Produced on the CPU by pitstudio_pipeline.mine_to_mill.d2_run (not by the GPU queue); no GPU time is used.",
+  "12,800 chain evaluations in the seeded sweeps and 17,408 in the Sobol design; the sweep file (3.9 MB) stays in the store and is not published."
+ ]
+}

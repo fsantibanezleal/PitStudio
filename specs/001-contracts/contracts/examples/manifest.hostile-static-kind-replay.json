@@ -1,0 +1,314 @@
+{
+  "$schema": "../manifest.schema.json",
+  "kind": "run",
+  "schema_version": "1.0",
+  "run_id": "20261007T120000Z-a2-haulage",
+  "recipe": {
+    "id": "a2-haulage",
+    "path": "cases/a2-haulage.yaml",
+    "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
+  "git_sha": "cccccccccccccccccccccccccccccccccccccccc",
+  "git_dirty": false,
+  "runner_version": "0.1.0",
+  "created": "2026-10-07T12:00:00Z",
+  "profile": "laptop-rtx5000ada",
+  "seed": 20261007,
+  "published": true,
+  "launcher": "uv",
+  "gpu": {
+    "backend": "nvml",
+    "index": 0,
+    "name": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+    "driver": "582.78",
+    "vram_total_bytes": 17171480576,
+    "power_limit_enforced_w": 175.0
+  },
+  "stages": [
+    {
+      "key": {
+        "id": "st56_encode"
+      },
+      "tool": "nvenc-ffmpeg",
+      "env": {
+        "name": "studio",
+        "python": "3.14.4",
+        "lock_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "versions": {
+          "av": "14.0.1"
+        }
+      },
+      "cache_key": "4444444444444444444444444444444444444444444444444444444444444444",
+      "cache": "miss",
+      "status": "succeeded",
+      "exit_code": 0,
+      "error_class": null,
+      "attempts": [
+        {
+          "n": 1,
+          "error_class": null,
+          "duration_s": 42.5
+        }
+      ],
+      "params": {
+        "crf": 30,
+        "codec": "av1",
+        "ladder": [
+          720,
+          1080
+        ]
+      },
+      "seed": 123456789,
+      "determinism": {
+        "class": "statistical",
+        "rerun_check": "pending"
+      },
+      "performance": "public",
+      "wall_s": 42.5,
+      "telemetry": {
+        "sample_hz": 2,
+        "n_samples": 85,
+        "gpu_busy_pct": {
+          "mean": 61.2,
+          "p50": 63.0,
+          "p95": 88.5
+        },
+        "mem_used_peak_bytes": 2147483648,
+        "power_w": {
+          "mean": 71.4,
+          "p95": 96.0,
+          "max": 103.2
+        },
+        "power_at_limit_frac": 0.0,
+        "energy_j": 3034.5,
+        "sm_clock_mhz": {
+          "mean": 1785.0,
+          "p5": 1410.0
+        },
+        "temp_c_max": 74.0,
+        "clocks_event_frac": {
+          "sw_power_cap": 0.0,
+          "sw_thermal": 0.0,
+          "hw_thermal": 0.0,
+          "hw_slowdown": 0.0,
+          "power_brake": 0.0,
+          "idle": 0.02
+        },
+        "nvenc_util_pct": {
+          "mean": 55.0,
+          "max": 92.0
+        },
+        "pcie_replays_delta": 0
+      },
+      "throughput": {
+        "value": 240.0,
+        "unit": "frames/s"
+      },
+      "thermal_flag": false,
+      "inputs": [
+        {
+          "id": "a2-frames",
+          "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "kind": "artefact"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "media/a2-haul.mp4",
+          "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+          "bytes": 5242880
+        }
+      ]
+    },
+    {
+      "key": {
+        "id": "st53_sensors"
+      },
+      "tool": "ovrtx",
+      "env": {
+        "name": "rtx",
+        "python": "3.12.15",
+        "lock_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+        "versions": {
+          "ovrtx": "0.5.0"
+        }
+      },
+      "cache_key": "8888888888888888888888888888888888888888888888888888888888888888",
+      "cache": "hit",
+      "status": "succeeded",
+      "exit_code": 0,
+      "error_class": null,
+      "attempts": [
+        {
+          "n": 1,
+          "error_class": null
+        }
+      ],
+      "params": {
+        "sensor": "s1"
+      },
+      "seed": 5,
+      "determinism": {
+        "class": "none",
+        "rerun_check": "not-applicable"
+      },
+      "performance": "local-only",
+      "telemetry": "measured locally, not published (licence)",
+      "thermal_flag": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "sensors/s1-shard-000.parquet",
+          "sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+          "bytes": 1048576
+        }
+      ]
+    },
+    {
+      "key": {
+        "id": "st45b_kit_validate"
+      },
+      "tool": "kit-usd-composer-explorer",
+      "env": {
+        "name": "kit",
+        "python": null,
+        "lock_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "versions": {}
+      },
+      "cache_key": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "cache": "miss",
+      "status": "not_run",
+      "reason": "Kit executable not installed on this machine",
+      "exit_code": 0,
+      "error_class": null,
+      "attempts": [
+        {
+          "n": 1,
+          "error_class": null
+        }
+      ],
+      "params": {},
+      "seed": 6,
+      "determinism": {
+        "class": "none",
+        "rerun_check": "not-applicable"
+      },
+      "performance": "local-only",
+      "telemetry": "measured locally, not published (licence)",
+      "thermal_flag": false,
+      "inputs": [],
+      "outputs": []
+    }
+  ],
+  "artefacts": [
+    {
+      "id": "a2-haul-clip",
+      "run_id": "20261007T120000Z-a2-haulage",
+      "git_sha": "cccccccccccccccccccccccccccccccccccccccc",
+      "path": "assets/runs/20261007T120000Z-a2-haulage/a2-haul.mp4",
+      "bytes": 5242880,
+      "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+      "media_type": "video/mp4",
+      "kind": "video",
+      "producer": {
+        "tool": "nvenc-ffmpeg",
+        "stage": {
+          "id": "st56_encode"
+        }
+      },
+      "inputs": [
+        {
+          "id": "a2-frames",
+          "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "kind": "artefact"
+        }
+      ],
+      "cases": [
+        "A2"
+      ],
+      "lane": "replay",
+      "lane_measurements": {
+        "web_drivable": true,
+        "max_asset_bytes": 5242880,
+        "interaction_ms": null,
+        "run_ms_t2": null,
+        "trace_bytes": null,
+        "measured": {
+          "tier": "T2",
+          "date": "2026-10-07",
+          "browser": "Chromium 141"
+        }
+      },
+      "licence_class": "own",
+      "spdx": "CC-BY-4.0",
+      "asset_host": "git",
+      "budget_class": "videos",
+      "encoder": {
+        "codec": "av1",
+        "profile": "main",
+        "pix_fmt": "yuv420p",
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "frames": 600,
+        "duration_s": 20.0,
+        "bitrate_kbps": 2097.152,
+        "vmaf": {
+          "mean": 93.1,
+          "p5": 88.4,
+          "model": "vmaf_v0.6.1"
+        },
+        "source_frames_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "encoder": {
+          "ffmpeg_version": "n7.1",
+          "build_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "nvenc_api": "13.0",
+          "args": [
+            "-c:v",
+            "av1_nvenc",
+            "-cq",
+            "30"
+          ]
+        },
+        "encode_fps": 240.0
+      }
+    },
+    {
+      "id": "a2-encode-report",
+      "run_id": "20261007T120000Z-a2-haulage",
+      "git_sha": "cccccccccccccccccccccccccccccccccccccccc",
+      "path": "assets/runs/20261007T120000Z-a2-haulage/a2-encode-report.json",
+      "bytes": 2048,
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "media_type": "application/json",
+      "kind": "table",
+      "producer": {
+        "tool": "nvenc-ffmpeg",
+        "stage": {
+          "id": "st56_encode"
+        }
+      },
+      "inputs": [],
+      "lane": "replay",
+      "licence_class": "own",
+      "spdx": "CC-BY-4.0",
+      "asset_host": "git",
+      "budget_class": "own-code",
+      "lane_measurements": {
+        "web_drivable": true,
+        "max_asset_bytes": 5242880,
+        "interaction_ms": null,
+        "run_ms_t2": null,
+        "trace_bytes": null,
+        "measured": {
+          "tier": "T2",
+          "date": "2026-10-07",
+          "browser": "Chromium 141"
+        }
+      }
+    }
+  ],
+  "notes": [
+    "scrubbed note: outputs under <repo>/runs/"
+  ]
+}

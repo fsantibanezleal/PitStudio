@@ -1,0 +1,158 @@
+{
+ "job": "42-rtx-bingham-render-v3",
+ "kind": "render",
+ "case": "A1",
+ "all_cases": true,
+ "recipe": "render/bingham-flyover-v3.yaml",
+ "slug": "bingham-flyover",
+ "seed": 20261122,
+ "label": "real USGS 3DEP terrain (QL2 elevation model, 2018 acquisition) coloured by the USDA NAIP 2018 orthophoto, public domain, with the procedural design and fleet of the spec 004 scene and an arid CC0 rock normal map; rendered with NVIDIA Omniverse RTX (ovrtx), encoded with NVENC",
+ "notes": [
+  "The clip is the camera flyover of the composed Bingham Canyon USD scene; the three published stills are frames of the flyover (0 s, 10 s, 20 s), not the six named views of the recipe, whose cameras did not move.",
+  "Version 3 of the scene render: the ground colour is the registered NAIP orthophoto (imagery source usda-naip-bingham, year 2018, 60 cm) and it supersedes the earlier published render runs on the case pages."
+ ],
+ "render": {
+  "manifest": "render.manifest.json",
+  "report": "encode-report.json",
+  "built_with": [
+   "openusd",
+   "ovrtx",
+   "nvenc-ffmpeg"
+  ],
+  "title": {
+   "en": "Bingham Canyon flyover, rendered with NVIDIA Omniverse RTX",
+   "es": "Sobrevuelo de Bingham Canyon, renderizado con NVIDIA Omniverse RTX"
+  }
+ },
+ "stages": [
+  {
+   "id": "st52_rtx_render",
+   "tool": "ovrtx",
+   "outputs": [
+    {
+     "name": "render.manifest.json",
+     "from": "render.manifest.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "label",
+      "producer",
+      "artefacts"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "st56_encode",
+   "tool": "nvenc-ffmpeg",
+   "outputs": [
+    {
+     "name": "bingham-flyover.av1.mp4",
+     "from": "bingham-flyover.av1.mp4",
+     "id": "bingham-flyover-av1",
+     "kind": "video",
+     "media_type": "video/mp4",
+     "budget_class": "videos",
+     "publish": true,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "encoder_from": {
+      "codec": "av1"
+     }
+    },
+    {
+     "name": "bingham-flyover.h264.mp4",
+     "from": "bingham-flyover.h264.mp4",
+     "id": "bingham-flyover-h264",
+     "kind": "video",
+     "media_type": "video/mp4",
+     "budget_class": "videos",
+     "publish": true,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "encoder_from": {
+      "codec": "h264"
+     }
+    },
+    {
+     "name": "bingham-flyover.webp",
+     "from": "bingham-flyover.webp",
+     "id": "bingham-flyover-poster",
+     "kind": "image",
+     "media_type": "image/webp",
+     "budget_class": "videos",
+     "publish": true,
+     "role": "poster",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "flyover-0s.webp",
+     "from": "flyover-0s.webp",
+     "id": "bingham-flyover-still-0s",
+     "kind": "image",
+     "media_type": "image/webp",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "role": "still",
+     "t_s": 0,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "flyover-10s.webp",
+     "from": "flyover-10s.webp",
+     "id": "bingham-flyover-still-10s",
+     "kind": "image",
+     "media_type": "image/webp",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "role": "still",
+     "t_s": 10,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "flyover-20s.webp",
+     "from": "flyover-20s.webp",
+     "id": "bingham-flyover-still-20s",
+     "kind": "image",
+     "media_type": "image/webp",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "role": "still",
+     "t_s": 20,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "encode-report.json",
+     "from": "encode-report.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "clips",
+      "vmaf_model"
+     ]
+    },
+    {
+     "name": "render.json",
+     "derive": "render-summary",
+     "id": "bingham-flyover-render",
+     "kind": "table",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    }
+   ]
+  }
+ ]
+}

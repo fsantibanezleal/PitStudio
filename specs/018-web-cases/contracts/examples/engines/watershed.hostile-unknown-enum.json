@@ -1,0 +1,26 @@
+{
+  "kind": "input",
+  "engine": "watershed",
+  "engine_version": "0.1.0",
+  "function": "segment",
+  "args": {
+    "elevation": {
+      "dtype": "float32",
+      "shape": {
+        "rows": 512,
+        "cols": 512
+      },
+      "byte_length": 1048576
+    },
+    "markers": {
+      "dtype": "int32",
+      "shape": {
+        "rows": 512,
+        "cols": 512
+      },
+      "byte_length": 1048576
+    },
+    "pixel_size_m": 0.004,
+    "connectivity": 3
+  }
+}

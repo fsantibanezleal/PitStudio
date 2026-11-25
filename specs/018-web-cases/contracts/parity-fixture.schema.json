@@ -1,0 +1,844 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/parity-fixture.schema.json",
+  "title": "PitStudio parity fixture",
+  "description": "Parity fixture web/tests/fixtures/parity/<engine-id>/<fixture>.json[.gz] written by tools/make_parity_fixtures.py (DC-018-04, spec 018-web-cases).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "engine",
+    "fixture",
+    "reference",
+    "tolerance",
+    "cases"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "engine": {
+      "$ref": "cases.schema.json#/$defs/engine_id"
+    },
+    "fixture": {
+      "$ref": "#/$defs/slug",
+      "description": "fixture id, equal to the file stem"
+    },
+    "function": {
+      "$ref": "#/$defs/param_key",
+      "description": "engine function the fixture exercises"
+    },
+    "reference": {
+      "$ref": "#/$defs/reference"
+    },
+    "tolerance": {
+      "$ref": "#/$defs/tolerance"
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100000,
+      "items": {
+        "$ref": "#/$defs/vector"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "tolerance": {
+            "properties": {
+              "class": {
+                "enum": [
+                  "analytical-closed-form",
+                  "analytical-iterative"
+                ]
+              }
+            },
+            "required": [
+              "class"
+            ]
+          }
+        },
+        "required": [
+          "tolerance"
+        ]
+      },
+      "then": {
+        "required": [
+          "function"
+        ],
+        "properties": {
+          "cases": {
+            "minItems": 200
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tolerance": {
+            "properties": {
+              "class": {
+                "enum": [
+                  "ml-wasm-fp32",
+                  "ml-webgpu-fp32",
+                  "ml-fp16"
+                ]
+              }
+            },
+            "required": [
+              "class"
+            ]
+          }
+        },
+        "required": [
+          "tolerance"
+        ]
+      },
+      "then": {
+        "properties": {
+          "cases": {
+            "minItems": 200
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tolerance": {
+            "properties": {
+              "class": {
+                "const": "monte-carlo-count"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          }
+        },
+        "required": [
+          "tolerance"
+        ]
+      },
+      "then": {
+        "properties": {
+          "cases": {
+            "items": {
+              "required": [
+                "variates"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "module_path": {
+      "type": "string",
+      "maxLength": 200,
+      "pattern": "^[a-z_][a-z0-9_]{0,63}(\\.[a-z_][a-z0-9_]{0,63}){0,7}$"
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "parity_class": {
+      "enum": [
+        "analytical-closed-form",
+        "analytical-iterative",
+        "monte-carlo-count",
+        "monte-carlo-binomial",
+        "exact-stream",
+        "min-cut",
+        "rigid-body-hash",
+        "label-map-exact",
+        "wgsl-kernel",
+        "wgsl-observables",
+        "ml-wasm-fp32",
+        "ml-webgpu-fp32",
+        "ml-fp16",
+        "detector-wasm",
+        "detector-webgpu",
+        "hosted"
+      ],
+      "description": "system class of spec 018 section 7.2; hosted = an engine of specs 007, 013 or 014 judged by its own suite"
+    },
+    "tolerance": {
+      "type": "object",
+      "description": "parity class and its tolerance; each value is capped at the spec value, so a looser tolerance fails",
+      "additionalProperties": false,
+      "required": [
+        "class"
+      ],
+      "properties": {
+        "class": {
+          "$ref": "#/$defs/parity_class"
+        },
+        "rtol": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.0001,
+          "description": "relative tolerance"
+        },
+        "atol_scale": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1e-12,
+          "description": "absolute tolerance as a multiple of the output unit scale s_y (DC-018-02)"
+        },
+        "solver_tol": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1e-05,
+          "description": "convergence tolerance of the reference solver; rtol = max(1e-9, 10 x solver_tol)"
+        },
+        "objective_rtol": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1e-10
+        },
+        "max_abs": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.01,
+          "description": "maximum absolute difference (non-dimensional for WGSL kernels)"
+        },
+        "max_abs_px": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "box tolerance in pixels"
+        },
+        "top1_agreement_min": {
+          "type": "number",
+          "minimum": 0.995,
+          "maximum": 1
+        },
+        "sigma": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 3,
+          "description": "binomial bound in standard errors, plus 1/N"
+        },
+        "observables": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "repose_deg": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1.5
+            },
+            "runout_rel": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.05
+            },
+            "discharge_rel": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.05
+            },
+            "mass_drift_rel": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.005
+            }
+          }
+        },
+        "defined_by": {
+          "enum": [
+            "FR-007-10",
+            "FR-007-15",
+            "FR-007-20",
+            "FR-007-32",
+            "FR-007-39",
+            "P-013-15",
+            "FR-014-42"
+          ],
+          "description": "requirement of the owning spec that fixes the class and tolerance"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "analytical-closed-form"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "rtol",
+              "atol_scale"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "rtol",
+                "atol_scale"
+              ]
+            },
+            "properties": {
+              "rtol": {
+                "maximum": 1e-09
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "analytical-iterative"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "rtol",
+              "atol_scale",
+              "solver_tol"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "rtol",
+                "atol_scale",
+                "solver_tol"
+              ]
+            },
+            "properties": {
+              "rtol": {
+                "minimum": 1e-09
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "monte-carlo-count"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "propertyNames": {
+              "enum": [
+                "class"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "monte-carlo-binomial"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "sigma"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "sigma"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "exact-stream"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "propertyNames": {
+              "enum": [
+                "class"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "min-cut"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "objective_rtol"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "objective_rtol"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "rigid-body-hash"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "propertyNames": {
+              "enum": [
+                "class"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "label-map-exact"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "rtol"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "rtol"
+              ]
+            },
+            "properties": {
+              "rtol": {
+                "maximum": 1e-09
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "wgsl-kernel"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "max_abs"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "max_abs"
+              ]
+            },
+            "properties": {
+              "max_abs": {
+                "maximum": 0.001
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "wgsl-observables"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "observables"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "observables"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "ml-wasm-fp32"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "max_abs"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "max_abs",
+                "top1_agreement_min"
+              ]
+            },
+            "properties": {
+              "max_abs": {
+                "maximum": 0.0001
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "ml-webgpu-fp32"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "max_abs"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "max_abs",
+                "top1_agreement_min"
+              ]
+            },
+            "properties": {
+              "max_abs": {
+                "maximum": 0.001
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "ml-fp16"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "max_abs"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "max_abs",
+                "top1_agreement_min"
+              ]
+            },
+            "properties": {
+              "max_abs": {
+                "maximum": 0.01
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "detector-wasm"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "max_abs_px",
+              "top1_agreement_min"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "max_abs_px",
+                "top1_agreement_min"
+              ]
+            },
+            "properties": {
+              "max_abs_px": {
+                "maximum": 0.5
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "detector-webgpu"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "max_abs_px",
+              "top1_agreement_min"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "max_abs_px",
+                "top1_agreement_min"
+              ]
+            },
+            "properties": {
+              "max_abs_px": {
+                "maximum": 1.0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class": {
+                "const": "hosted"
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "defined_by"
+            ],
+            "propertyNames": {
+              "enum": [
+                "class",
+                "defined_by"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 142,
+          "pattern": "^(@[a-z0-9-]{1,40}/)?[A-Za-z0-9][A-Za-z0-9._-]{0,99}$",
+          "description": "reference package (PyPI or npm name)"
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        },
+        "callable": {
+          "$ref": "#/$defs/module_path",
+          "description": "reference function, e.g. minephys.blasting.kuz_ram_x50"
+        }
+      }
+    },
+    "value": {
+      "description": "JSON value of an engine input or output (64-bit integers as decimal or hex strings)",
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "maxLength": 1024
+        },
+        {
+          "type": "array",
+          "maxItems": 4194304,
+          "items": {
+            "$ref": "#/$defs/value"
+          }
+        },
+        {
+          "$ref": "#/$defs/value_map"
+        }
+      ]
+    },
+    "value_map": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "maxLength": 64,
+        "pattern": "^[a-z][a-z0-9_]{0,63}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/value"
+      },
+      "maxProperties": 64
+    },
+    "variates": {
+      "type": "object",
+      "description": "recorded variate stream of a Monte-Carlo vector",
+      "additionalProperties": false,
+      "required": [
+        "generator",
+        "entropy",
+        "spawn_key",
+        "samples"
+      ],
+      "properties": {
+        "generator": {
+          "enum": [
+            "pcg64"
+          ],
+          "description": "numpy PCG64 seeded through SeedSequence"
+        },
+        "entropy": {
+          "type": "string",
+          "maxLength": 39,
+          "pattern": "^(0|[1-9][0-9]{0,38})$",
+          "description": "SeedSequence entropy as a decimal integer"
+        },
+        "spawn_key": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        },
+        "samples": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100000,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "items": {
+              "type": "number"
+            }
+          },
+          "description": "sample matrix, one row per Monte-Carlo sample"
+        }
+      }
+    },
+    "vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input",
+        "output"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+        },
+        "input": {
+          "$ref": "#/$defs/value_map",
+          "description": "engine input in SI units (DC-018-02)"
+        },
+        "output": {
+          "$ref": "#/$defs/value_map",
+          "description": "reference output"
+        },
+        "variates": {
+          "$ref": "#/$defs/variates"
+        }
+      }
+    }
+  }
+}

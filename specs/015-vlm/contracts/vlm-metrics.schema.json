@@ -1,0 +1,1930 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/vlm-metrics.schema.json",
+  "title": "Reason-lane metrics",
+  "description": "Metrics tables of the reason lane: footprint bench, agreement gate, tasks A-C and the optional real probe, written by the scoring stages (DC-015-05, spec 015-vlm).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "run_id": {
+      "$ref": "#/$defs/run_id"
+    },
+    "git_sha": {
+      "$ref": "#/$defs/git_sha"
+    },
+    "generated": {
+      "$ref": "#/$defs/date"
+    },
+    "notices": {
+      "$ref": "vlm-record.schema.json#/$defs/notices"
+    },
+    "bench": {
+      "$ref": "#/$defs/bench"
+    },
+    "gate": {
+      "$ref": "#/$defs/gate"
+    },
+    "task_a": {
+      "$ref": "#/$defs/task_a"
+    },
+    "task_b": {
+      "$ref": "#/$defs/task_b"
+    },
+    "task_c": {
+      "$ref": "#/$defs/task_c"
+    },
+    "real_probe": {
+      "$ref": "#/$defs/real_probe"
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "git_sha",
+    "generated",
+    "notices",
+    "bench",
+    "gate",
+    "task_a",
+    "task_b",
+    "task_c",
+    "real_probe"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "gate": {
+            "properties": {
+              "status": {
+                "const": "fail"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          }
+        },
+        "required": [
+          "gate"
+        ]
+      },
+      "then": {
+        "properties": {
+          "task_a": {
+            "properties": {
+              "rows": {
+                "items": {
+                  "if": {
+                    "properties": {
+                      "arm": {
+                        "const": "cosmos-q8_0"
+                      }
+                    },
+                    "required": [
+                      "arm"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "status": {
+                        "const": "rejected"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "task_b": {
+            "properties": {
+              "rows": {
+                "items": {
+                  "if": {
+                    "properties": {
+                      "arm": {
+                        "const": "cosmos-q8_0"
+                      }
+                    },
+                    "required": [
+                      "arm"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "status": {
+                        "const": "rejected"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "task_c": {
+            "properties": {
+              "rows": {
+                "items": {
+                  "if": {
+                    "properties": {
+                      "arm": {
+                        "const": "cosmos-q8_0"
+                      }
+                    },
+                    "required": [
+                      "arm"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "status": {
+                        "const": "rejected"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gate": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          }
+        },
+        "required": [
+          "gate"
+        ]
+      },
+      "then": {
+        "properties": {
+          "task_a": {
+            "properties": {
+              "rows": {
+                "items": {
+                  "if": {
+                    "properties": {
+                      "arm": {
+                        "const": "cosmos-q8_0"
+                      }
+                    },
+                    "required": [
+                      "arm"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "status": {
+                        "const": "not_run"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "task_b": {
+            "properties": {
+              "rows": {
+                "items": {
+                  "if": {
+                    "properties": {
+                      "arm": {
+                        "const": "cosmos-q8_0"
+                      }
+                    },
+                    "required": [
+                      "arm"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "status": {
+                        "const": "not_run"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "task_c": {
+            "properties": {
+              "rows": {
+                "items": {
+                  "if": {
+                    "properties": {
+                      "arm": {
+                        "const": "cosmos-q8_0"
+                      }
+                    },
+                    "required": [
+                      "arm"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "status": {
+                        "const": "not_run"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "git_sha": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "date": {
+      "type": "string",
+      "maxLength": 10,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
+    },
+    "driver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+(\\.[0-9]+)+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "fraction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "estimate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/fraction"
+        },
+        "lo": {
+          "$ref": "#/$defs/fraction"
+        },
+        "hi": {
+          "$ref": "#/$defs/fraction"
+        }
+      },
+      "required": [
+        "value",
+        "lo",
+        "hi"
+      ]
+    },
+    "t_estimate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/fraction"
+        },
+        "lo": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "hi": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        }
+      },
+      "required": [
+        "value",
+        "lo",
+        "hi"
+      ]
+    },
+    "gpu": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "driver": {
+          "$ref": "#/$defs/driver"
+        }
+      },
+      "required": [
+        "name",
+        "driver"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "bench_path": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "enum": [
+            "q8_0",
+            "bf16"
+          ]
+        },
+        "status": {
+          "enum": [
+            "measured",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "context_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 262144
+        },
+        "vram_peak_bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "prefill_tokens_per_s": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "decode_tokens_per_s": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "wall_s_per_query": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "mean": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 3600
+                },
+                "p50": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 3600
+                },
+                "p95": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 3600
+                }
+              },
+              "required": [
+                "mean",
+                "p50",
+                "p95"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "gpu": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/gpu"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "status",
+        "context_tokens",
+        "vram_peak_bytes",
+        "prefill_tokens_per_s",
+        "decode_tokens_per_s",
+        "wall_s_per_query",
+        "gpu"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "vram_peak_bytes": {
+                "const": null
+              },
+              "prefill_tokens_per_s": {
+                "const": null
+              },
+              "decode_tokens_per_s": {
+                "const": null
+              },
+              "wall_s_per_query": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "vram_peak_bytes": {
+                "not": {
+                  "const": null
+                }
+              },
+              "prefill_tokens_per_s": {
+                "not": {
+                  "const": null
+                }
+              },
+              "decode_tokens_per_s": {
+                "not": {
+                  "const": null
+                }
+              },
+              "wall_s_per_query": {
+                "not": {
+                  "const": null
+                }
+              },
+              "gpu": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "path": {
+                "const": "q8_0"
+              },
+              "context_tokens": {
+                "const": 16384
+              }
+            },
+            "required": [
+              "path",
+              "context_tokens"
+            ]
+          },
+          "then": {
+            "properties": {
+              "vram_peak_bytes": {
+                "maximum": 6000000000
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "path": {
+                "const": "bf16"
+              },
+              "context_tokens": {
+                "const": 16384
+              }
+            },
+            "required": [
+              "path",
+              "context_tokens"
+            ]
+          },
+          "then": {
+            "properties": {
+              "vram_peak_bytes": {
+                "maximum": 12000000000
+              }
+            }
+          }
+        }
+      ]
+    },
+    "bench": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "measured",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "performance": {
+          "const": "public"
+        },
+        "label": {
+          "const": "our hardware, not a comparative benchmark"
+        },
+        "n_queries": {
+          "const": 200
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/bench_path"
+          },
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "status",
+        "performance",
+        "label",
+        "n_queries",
+        "paths"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "paths": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "paths": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "n": {
+          "const": 500
+        },
+        "agree": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "agreement": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "wilson95": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "lo": {
+                  "$ref": "#/$defs/fraction"
+                },
+                "hi": {
+                  "$ref": "#/$defs/fraction"
+                }
+              },
+              "required": [
+                "lo",
+                "hi"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "threshold": {
+          "const": 0.95
+        },
+        "q8_0_path": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "not_run"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "n",
+        "agree",
+        "agreement",
+        "wilson95",
+        "threshold",
+        "q8_0_path"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "pass"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "agreement": {
+                "minimum": 0.95,
+                "not": {
+                  "const": null
+                }
+              },
+              "q8_0_path": {
+                "const": "accepted"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "fail"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "agreement": {
+                "exclusiveMaximum": 0.95,
+                "not": {
+                  "const": null
+                }
+              },
+              "q8_0_path": {
+                "const": "rejected"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "agree": {
+                "const": null
+              },
+              "agreement": {
+                "const": null
+              },
+              "wilson95": {
+                "const": null
+              },
+              "q8_0_path": {
+                "const": "not_run"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "row_a": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "arm": {
+          "enum": [
+            "cosmos-q8_0",
+            "cosmos-bf16",
+            "qwen-base",
+            "detector-rule",
+            "constant"
+          ]
+        },
+        "reasoning": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "status": {
+          "enum": [
+            "measured",
+            "not_run",
+            "not_applicable",
+            "rejected"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6480
+        },
+        "balanced_accuracy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "f1": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unparseable_rate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error_rate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "auroc": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "by_condition": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "condition": {
+                "$ref": "frame-state.schema.json#/$defs/condition"
+              },
+              "n": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 6480
+              },
+              "balanced_accuracy": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/fraction"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "condition",
+              "n",
+              "balanced_accuracy"
+            ]
+          },
+          "maxItems": 4
+        }
+      },
+      "required": [
+        "arm",
+        "reasoning",
+        "type",
+        "status",
+        "n",
+        "balanced_accuracy",
+        "f1",
+        "unparseable_rate",
+        "error_rate",
+        "auroc",
+        "by_condition"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "measured"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "balanced_accuracy": {
+                "not": {
+                  "const": null
+                }
+              },
+              "f1": {
+                "not": {
+                  "const": null
+                }
+              },
+              "error_rate": {
+                "maximum": 0.02,
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          },
+          "else": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "balanced_accuracy": {
+                "const": null
+              },
+              "f1": {
+                "const": null
+              },
+              "auroc": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "detector-rule"
+              },
+              "type": {
+                "enum": [
+                  2,
+                  4,
+                  6
+                ]
+              }
+            },
+            "required": [
+              "arm",
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "const": "not_applicable"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "rejected"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-q8_0"
+              },
+              "reason": {
+                "pattern": "^rejected: agreement a = 0\\.[0-9]{1,6} < 0\\.95$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": 3
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "auroc": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "enum": [
+                  "cosmos-bf16",
+                  "detector-rule",
+                  "constant"
+                ]
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "auroc": {
+                "const": null
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mcnemar_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6
+            },
+            {
+              "const": "pooled-binary"
+            }
+          ]
+        },
+        "cosmos_arm": {
+          "enum": [
+            "cosmos-q8_0",
+            "cosmos-bf16"
+          ]
+        },
+        "b": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6480
+        },
+        "c": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6480
+        },
+        "p": {
+          "$ref": "#/$defs/fraction"
+        },
+        "chi2_cc": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verdict": {
+          "enum": [
+            "Cosmos beats Qwen base",
+            "no significant difference"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "cosmos_arm",
+        "b",
+        "c",
+        "p",
+        "chi2_cc",
+        "verdict"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "verdict": {
+                "const": "Cosmos beats Qwen base"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          },
+          "then": {
+            "properties": {
+              "p": {
+                "exclusiveMaximum": 0.05
+              }
+            }
+          }
+        }
+      ]
+    },
+    "task_a": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "measured",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/row_a"
+          },
+          "maxItems": 128
+        },
+        "mcnemar": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/mcnemar_row"
+          },
+          "maxItems": 14
+        }
+      },
+      "required": [
+        "status",
+        "rows",
+        "mcnemar"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ]
+          }
+        }
+      ]
+    },
+    "row_b": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "arm": {
+          "enum": [
+            "cosmos-q8_0",
+            "cosmos-bf16",
+            "qwen-base",
+            "physics-check"
+          ]
+        },
+        "status": {
+          "enum": [
+            "measured",
+            "not_run",
+            "rejected"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "input_mode": {
+          "enum": [
+            "native-video",
+            "frame-list-approximation",
+            "simulation-state"
+          ]
+        },
+        "n_pairs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "accuracy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/t_estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verdict": {
+          "anyOf": [
+            {
+              "enum": [
+                "above chance",
+                "not above chance"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "position_bias": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "single_clip_auroc": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "detection_rate": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "gravity-x0.3": {
+                  "$ref": "#/$defs/fraction"
+                },
+                "zero-friction": {
+                  "$ref": "#/$defs/fraction"
+                },
+                "mass-injection": {
+                  "$ref": "#/$defs/fraction"
+                },
+                "time-reversal": {
+                  "$ref": "#/$defs/fraction"
+                },
+                "interpenetration": {
+                  "$ref": "#/$defs/fraction"
+                },
+                "frozen-particles": {
+                  "$ref": "#/$defs/fraction"
+                }
+              },
+              "required": [
+                "gravity-x0.3",
+                "zero-friction",
+                "mass-injection",
+                "time-reversal",
+                "interpenetration",
+                "frozen-particles"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "arm",
+        "status",
+        "input_mode",
+        "n_pairs",
+        "accuracy",
+        "verdict",
+        "position_bias",
+        "single_clip_auroc",
+        "detection_rate"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "measured"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "accuracy": {
+                "not": {
+                  "const": null
+                }
+              },
+              "verdict": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          },
+          "else": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "accuracy": {
+                "const": null
+              },
+              "verdict": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verdict": {
+                "const": "above chance"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          },
+          "then": {
+            "properties": {
+              "accuracy": {
+                "properties": {
+                  "lo": {
+                    "exclusiveMinimum": 0.5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verdict": {
+                "const": "not above chance"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          },
+          "then": {
+            "properties": {
+              "accuracy": {
+                "properties": {
+                  "lo": {
+                    "maximum": 0.5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-q8_0"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "input_mode": {
+                "const": "frame-list-approximation"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-bf16"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "input_mode": {
+                "const": "native-video"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "physics-check"
+              }
+            },
+            "required": [
+              "arm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "input_mode": {
+                "const": "simulation-state"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "rejected"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-q8_0"
+              },
+              "reason": {
+                "pattern": "^rejected: agreement a = 0\\.[0-9]{1,6} < 0\\.95$"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "task_b": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "measured",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "n_pairs": {
+          "const": 100
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/row_b"
+          },
+          "maxItems": 8
+        }
+      },
+      "required": [
+        "status",
+        "n_pairs",
+        "rows"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ]
+          }
+        }
+      ]
+    },
+    "row_c": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "arm": {
+          "enum": [
+            "cosmos-q8_0",
+            "cosmos-bf16",
+            "qwen-base",
+            "template-caption"
+          ]
+        },
+        "status": {
+          "enum": [
+            "measured",
+            "not_run",
+            "rejected"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "n_captions": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2500
+        },
+        "chair_i": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "chair_s": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recall": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "no_object_rate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fraction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "condition_ba": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "dust": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/fraction"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "night": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/fraction"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "rain": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/fraction"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "dust",
+                "night",
+                "rain"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "arm",
+        "status",
+        "n_captions",
+        "chair_i",
+        "chair_s",
+        "recall",
+        "no_object_rate",
+        "condition_ba"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "measured"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "chair_i": {
+                "not": {
+                  "const": null
+                }
+              },
+              "chair_s": {
+                "not": {
+                  "const": null
+                }
+              },
+              "recall": {
+                "not": {
+                  "const": null
+                }
+              },
+              "no_object_rate": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          },
+          "else": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "chair_i": {
+                "const": null
+              },
+              "chair_s": {
+                "const": null
+              },
+              "recall": {
+                "const": null
+              },
+              "no_object_rate": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arm": {
+                "const": "template-caption"
+              },
+              "status": {
+                "const": "measured"
+              }
+            },
+            "required": [
+              "arm",
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "chair_i": {
+                "const": 0
+              },
+              "recall": {
+                "const": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "rejected"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "arm": {
+                "const": "cosmos-q8_0"
+              },
+              "reason": {
+                "pattern": "^rejected: agreement a = 0\\.[0-9]{1,6} < 0\\.95$"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "task_c": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "measured",
+            "not_run"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/row_c"
+          },
+          "maxItems": 8
+        }
+      },
+      "required": [
+        "status",
+        "rows"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ]
+          }
+        }
+      ]
+    },
+    "real_probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "measured",
+            "not_measured"
+          ]
+        },
+        "n_images": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 200
+        },
+        "cohen_kappa": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/row_a"
+          },
+          "maxItems": 64
+        }
+      },
+      "required": [
+        "status",
+        "n_images",
+        "cohen_kappa",
+        "rows"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_measured"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "n_images": {
+                "const": 0
+              },
+              "cohen_kappa": {
+                "const": null
+              },
+              "rows": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "n_images": {
+                "minimum": 1
+              },
+              "cohen_kappa": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

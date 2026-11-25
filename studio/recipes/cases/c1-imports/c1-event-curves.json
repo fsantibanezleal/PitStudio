@@ -1,0 +1,837 @@
+{
+ "job": "c1-event-curves",
+ "kind": "cpu",
+ "case": "C1",
+ "recipe": "cases/c1.yaml",
+ "slug": "c1-event-curves",
+ "seed": 20261007,
+ "label": "calibrated synthetic, not validated against real data; nominal signal-to-noise strata, no observed SNR",
+ "producer_paths": [
+  "pipeline/src/pitstudio_pipeline/slope",
+  "studio/recipes/cases/c1.yaml"
+ ],
+ "notes": [
+  "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
+  "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files)."
+ ],
+ "stages": [
+  {
+   "id": "s40_infer",
+   "tool": "onnx-runtime",
+   "outputs": [
+    {
+     "name": "charts/c1-iv-voight-test-nominal-10-2000108.json",
+     "from": "charts/c1-iv-voight-test-nominal-10-2000108.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-10-2000108",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-10-2000108.json",
+     "from": "charts/c1-disp-voight-test-nominal-10-2000108.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-10-2000108",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-10-2000450.json",
+     "from": "charts/c1-iv-voight-test-nominal-10-2000450.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-10-2000450",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-10-2000450.json",
+     "from": "charts/c1-disp-voight-test-nominal-10-2000450.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-10-2000450",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-10-2000231.json",
+     "from": "charts/c1-iv-voight-test-nominal-10-2000231.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-10-2000231",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-10-2000231.json",
+     "from": "charts/c1-disp-voight-test-nominal-10-2000231.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-10-2000231",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-10-2000498.json",
+     "from": "charts/c1-iv-voight-test-nominal-10-2000498.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-10-2000498",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-10-2000498.json",
+     "from": "charts/c1-disp-voight-test-nominal-10-2000498.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-10-2000498",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-100-2001097.json",
+     "from": "charts/c1-iv-voight-test-nominal-100-2001097.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-100-2001097",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-100-2001097.json",
+     "from": "charts/c1-disp-voight-test-nominal-100-2001097.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-100-2001097",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-100-2001320.json",
+     "from": "charts/c1-iv-voight-test-nominal-100-2001320.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-100-2001320",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-100-2001320.json",
+     "from": "charts/c1-disp-voight-test-nominal-100-2001320.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-100-2001320",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-100-2001262.json",
+     "from": "charts/c1-iv-voight-test-nominal-100-2001262.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-100-2001262",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-100-2001262.json",
+     "from": "charts/c1-disp-voight-test-nominal-100-2001262.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-100-2001262",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-100-2001114.json",
+     "from": "charts/c1-iv-voight-test-nominal-100-2001114.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-100-2001114",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-100-2001114.json",
+     "from": "charts/c1-disp-voight-test-nominal-100-2001114.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-100-2001114",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-30-2000810.json",
+     "from": "charts/c1-iv-voight-test-nominal-30-2000810.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-30-2000810",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-30-2000810.json",
+     "from": "charts/c1-disp-voight-test-nominal-30-2000810.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-30-2000810",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-30-2000613.json",
+     "from": "charts/c1-iv-voight-test-nominal-30-2000613.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-30-2000613",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-30-2000613.json",
+     "from": "charts/c1-disp-voight-test-nominal-30-2000613.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-30-2000613",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-30-2000603.json",
+     "from": "charts/c1-iv-voight-test-nominal-30-2000603.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-30-2000603",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-30-2000603.json",
+     "from": "charts/c1-disp-voight-test-nominal-30-2000603.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-30-2000603",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-iv-voight-test-nominal-30-2000601.json",
+     "from": "charts/c1-iv-voight-test-nominal-30-2000601.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-iv-voight-test-nominal-30-2000601",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/c1-disp-voight-test-nominal-30-2000601.json",
+     "from": "charts/c1-disp-voight-test-nominal-30-2000601.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "c1-disp-voight-test-nominal-30-2000601",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "c1-ttf-results-job33",
+       "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-chronos-bolt-fine-tuned",
+       "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-patchtst",
+       "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+       "kind": "source"
+      },
+      {
+       "id": "c1-onnx-tcn",
+       "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "event-curves.json",
+     "from": "event-curves.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "results-summary.json",
+     "from": "results-summary.json",
+     "kind": "table",
+     "publish": true,
+     "id": "c1-event-curves-results",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    }
+   ]
+  }
+ ]
+}

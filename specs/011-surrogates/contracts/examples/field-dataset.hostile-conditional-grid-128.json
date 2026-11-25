@@ -1,0 +1,114 @@
+{
+  "model": "tailings",
+  "patch_id": "p07",
+  "scenario_id": "p07-t013",
+  "source_dem": {
+    "source_id": "bingham-3dep",
+    "sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "cell_size_m": 8,
+  "grid": {
+    "nx": 128,
+    "ny": 64
+  },
+  "resolution_transfer": false,
+  "channels": [
+    {
+      "name": "bed_elevation",
+      "role": "input",
+      "unit": "m"
+    },
+    {
+      "name": "release_depth",
+      "role": "input",
+      "unit": "m"
+    },
+    {
+      "name": "yield_stress",
+      "role": "input",
+      "unit": "Pa"
+    },
+    {
+      "name": "plastic_viscosity",
+      "role": "input",
+      "unit": "Pa.s"
+    },
+    {
+      "name": "density",
+      "role": "input",
+      "unit": "kg/m^3"
+    },
+    {
+      "name": "depth_t1",
+      "role": "output",
+      "unit": "m"
+    },
+    {
+      "name": "depth_t2",
+      "role": "output",
+      "unit": "m"
+    },
+    {
+      "name": "depth_t3",
+      "role": "output",
+      "unit": "m"
+    },
+    {
+      "name": "depth_t4",
+      "role": "output",
+      "unit": "m"
+    },
+    {
+      "name": "depth_t5",
+      "role": "output",
+      "unit": "m"
+    },
+    {
+      "name": "depth_t6",
+      "role": "output",
+      "unit": "m"
+    },
+    {
+      "name": "depth_t7",
+      "role": "output",
+      "unit": "m"
+    },
+    {
+      "name": "depth_t8",
+      "role": "output",
+      "unit": "m"
+    },
+    {
+      "name": "depth_max",
+      "role": "output",
+      "unit": "m"
+    }
+  ],
+  "scenario": {
+    "breach_row": 31,
+    "breach_col": 12,
+    "release_volume_m3": 50000,
+    "yield_stress_pa": 80,
+    "plastic_viscosity_pa_s": 0.3,
+    "density_kg_per_m3": 1800
+  },
+  "t_end_s": 3600.0,
+  "output_times_s": [
+    450.0,
+    900.0,
+    1350.0,
+    1800.0,
+    2250.0,
+    2700.0,
+    3150.0,
+    3600.0
+  ],
+  "solver": "warp-swe-bingham",
+  "solver_version": "1.17.0",
+  "store": {
+    "format": "zarr",
+    "path": "data/interim/fno/tailings/p07-t013.zarr",
+    "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "label": "calibrated synthetic — not validated against real data"
+}

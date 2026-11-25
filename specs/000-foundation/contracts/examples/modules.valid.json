@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "generated": "2026-10-11",
+  "modules": [
+    {
+      "id": "bench-probes",
+      "spec": "002",
+      "env": "studio",
+      "gpu": true,
+      "kind": "probe",
+      "area": "runner",
+      "track": "C",
+      "title": "studio/bench/run_bench.py: capability probes written to studio/capabilities.json",
+      "inputs": [],
+      "outputs": [
+        "capabilities"
+      ]
+    },
+    {
+      "id": "runner-guards",
+      "spec": "002",
+      "env": "root",
+      "gpu": false,
+      "kind": "runner",
+      "area": "runner",
+      "track": "C",
+      "title": "Guards before a stage: capability, VRAM, disk, temperature, lock, hold",
+      "inputs": [
+        "capabilities"
+      ],
+      "outputs": [
+        "events"
+      ]
+    }
+  ],
+  "contracts": [
+    {
+      "name": "capabilities",
+      "dc": [
+        "DC-000-02",
+        "DC-001-05",
+        "DC-002-06",
+        "DC-013-08",
+        "DC-014-07",
+        "DC-015-08"
+      ],
+      "schema_state": "promoted",
+      "schema": "contracts/capabilities.schema.json",
+      "promoted_target": "contracts/capabilities.schema.json",
+      "owner_spec": "000"
+    }
+  ],
+  "edges": [
+    {
+      "id": "E-DC-000-02-01",
+      "from": "bench-probes",
+      "to": "runner-guards",
+      "contract": "capabilities",
+      "dc": "DC-000-02",
+      "schema": "contracts/capabilities.schema.json",
+      "schema_state": "promoted",
+      "availability": {
+        "absent": {
+          "behaviour": "no capability report or no entry for a probe: the stage is refused with reason `capability` and exit 5, or the web shows the tool \"Not yet run\"; nothing crashes",
+          "covered_by": [
+            "FR-002-21",
+            "FR-000-07"
+          ]
+        },
+        "fixture": {
+          "behaviour": "a fixture report allows the fake backend only and is never shown as a measured probe",
+          "covered_by": [
+            "FR-002-67"
+          ]
+        },
+        "partial": {
+          "behaviour": "an entry for each probe that ran; a stage that lists a missing probe is refused, the others run",
+          "covered_by": [
+            "FR-002-21"
+          ]
+        },
+        "real": {
+          "behaviour": "the contract-valid artefact is used as specified by DC-000-02; no label, no caveat",
+          "covered_by": [
+            "DC-000-02"
+          ]
+        },
+        "stale": {
+          "behaviour": "a report whose driver differs from the live driver is refused `capability-stale`",
+          "covered_by": [
+            "FR-002-21"
+          ]
+        },
+        "invalid": {
+          "behaviour": "an invalid report is rejected and treated as absent",
+          "covered_by": [
+            "FR-002-21",
+            "FR-019-38"
+          ]
+        }
+      }
+    }
+  ]
+}

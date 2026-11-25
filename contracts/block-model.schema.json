@@ -1,0 +1,709 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/block-model.schema.json",
+  "title": "E1 block model",
+  "description": "Block model with values, grid indices and precedence arcs for the ultimate pit (DC-017-02, spec 017-planning-survey).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "synthetic",
+    "source",
+    "licence",
+    "grid",
+    "precedence",
+    "value_form",
+    "blocks"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "id": {
+      "$ref": "#/$defs/slug"
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "licence": {
+      "$ref": "#/$defs/licence"
+    },
+    "grid": {
+      "$ref": "#/$defs/grid"
+    },
+    "precedence": {
+      "$ref": "#/$defs/precedence"
+    },
+    "value_form": {
+      "enum": [
+        "components",
+        "destination-values"
+      ]
+    },
+    "economics": {
+      "$ref": "#/$defs/economics"
+    },
+    "reference_optimum": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit",
+        "source"
+      ],
+      "properties": {
+        "value": {
+          "type": "integer",
+          "minimum": -4611686018427387904,
+          "maximum": 4611686018427387903
+        },
+        "unit": {
+          "enum": [
+            "usd-cents",
+            "instance-units"
+          ]
+        },
+        "source": {
+          "enum": [
+            "oreblocks-stamp",
+            "minelib-best-known"
+          ]
+        }
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/block"
+      },
+      "minItems": 1,
+      "maxItems": 1000000
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "properties": {
+              "kind": {
+                "const": "oreblocks"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          }
+        },
+        "required": [
+          "source"
+        ]
+      },
+      "then": {
+        "properties": {
+          "synthetic": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "properties": {
+              "kind": {
+                "const": "minelib"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          }
+        },
+        "required": [
+          "source"
+        ]
+      },
+      "then": {
+        "properties": {
+          "synthetic": {
+            "const": false
+          },
+          "licence": {
+            "properties": {
+              "spdx": {
+                "const": "CC-BY-SA-3.0"
+              },
+              "licence_class": {
+                "const": "share-alike"
+              }
+            },
+            "required": [
+              "attribution"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "value_form": {
+            "const": "components"
+          }
+        },
+        "required": [
+          "value_form"
+        ]
+      },
+      "then": {
+        "required": [
+          "economics"
+        ],
+        "properties": {
+          "blocks": {
+            "items": {
+              "required": [
+                "grade"
+              ],
+              "not": {
+                "required": [
+                  "values_usd"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "value_form": {
+            "const": "destination-values"
+          }
+        },
+        "required": [
+          "value_form"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "economics"
+          ]
+        },
+        "properties": {
+          "blocks": {
+            "items": {
+              "required": [
+                "values_usd"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "ijk",
+        "centre_m",
+        "tonnage_t"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999999999
+        },
+        "ijk": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9999
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "centre_m": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "tonnage_t": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000000.0
+        },
+        "grade": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "values_usd": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [],
+          "properties": {
+            "mill": {
+              "$ref": "#/$defs/value_usd"
+            },
+            "waste": {
+              "$ref": "#/$defs/value_usd"
+            },
+            "leach": {
+              "$ref": "#/$defs/value_usd"
+            },
+            "stockpile": {
+              "$ref": "#/$defs/value_usd"
+            }
+          },
+          "minProperties": 1
+        },
+        "prec": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 999999999
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        }
+      },
+      "description": "One block; grade is a mass fraction; prec lists the ids of the blocks that must be mined first."
+    },
+    "economics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metal_price_usd_per_t",
+        "selling_cost_usd_per_t",
+        "recovery",
+        "processing_cost_usd_per_t",
+        "mining_cost_usd_per_t"
+      ],
+      "properties": {
+        "metal_price_usd_per_t": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000000.0
+        },
+        "selling_cost_usd_per_t": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "recovery": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "processing_cost_usd_per_t": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000.0
+        },
+        "mining_cost_usd_per_t": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000.0
+        }
+      },
+      "description": "Components of v_i(lambda) (FR-017-12): p, s_r, r, c_p and c_m."
+    },
+    "grid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin_m",
+        "block_size_m",
+        "shape"
+      ],
+      "properties": {
+        "origin_m": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "block_size_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1000
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "description": "Regular grid; index k increases upward; origin is the minimum corner."
+    },
+    "licence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spdx",
+        "licence_class"
+      ],
+      "properties": {
+        "spdx": {
+          "$ref": "#/$defs/spdx_id"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/licence_class"
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "licence_class": {
+                "enum": [
+                  "attribution",
+                  "share-alike",
+                  "display-only",
+                  "reference-only"
+                ]
+              }
+            },
+            "required": [
+              "licence_class"
+            ]
+          },
+          "then": {
+            "required": [
+              "attribution"
+            ]
+          }
+        }
+      ]
+    },
+    "licence_class": {
+      "enum": [
+        "public-domain",
+        "open-no-attribution",
+        "own",
+        "attribution",
+        "share-alike",
+        "display-only",
+        "reference-only"
+      ]
+    },
+    "precedence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "own",
+            "generated"
+          ]
+        },
+        "slope_deg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 90
+        },
+        "levels": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "const": "generated"
+              }
+            },
+            "required": [
+              "source"
+            ]
+          },
+          "then": {
+            "required": [
+              "slope_deg",
+              "levels"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "const": "own"
+              }
+            },
+            "required": [
+              "source"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "slope_deg"
+                  ]
+                },
+                {
+                  "required": [
+                    "levels"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Origin of the per-block arcs: the instance's own arcs or the level-cone generator (FR-017-13)."
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "oreblocks",
+            "minelib",
+            "own-grid"
+          ]
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "oreblocks_version": {
+          "$ref": "#/$defs/semver"
+        },
+        "instance": {
+          "$ref": "#/$defs/slug"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "sha256"
+            ],
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/relpath"
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 8
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "oreblocks"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "seed",
+              "oreblocks_version"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "instance"
+                  ]
+                },
+                {
+                  "required": [
+                    "files"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "minelib"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "instance",
+              "files"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "seed"
+                  ]
+                },
+                {
+                  "required": [
+                    "oreblocks_version"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "own-grid"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "seed"
+                  ]
+                },
+                {
+                  "required": [
+                    "oreblocks_version"
+                  ]
+                },
+                {
+                  "required": [
+                    "instance"
+                  ]
+                },
+                {
+                  "required": [
+                    "files"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "spdx_id": {
+      "enum": [
+        "LicenseRef-USGov-PD",
+        "CC0-1.0",
+        "DL-DE-ZERO-2.0",
+        "CC-BY-4.0",
+        "LicenseRef-Copernicus-CLMS",
+        "CC-BY-SA-3.0",
+        "CC-BY-SA-4.0",
+        "Apache-2.0",
+        "MIT",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "MPL-2.0",
+        "LGPL-2.1-or-later",
+        "LicenseRef-TOST-1.0",
+        "LicenseRef-NVIDIA-Open-Model",
+        "LicenseRef-NVIDIA-SLA",
+        "LicenseRef-NvidiaProprietary",
+        "LicenseRef-NVIDIA-Omniverse",
+        "LicenseRef-TensorRT-SLA",
+        "LicenseRef-TensorRT-RTX-SLA"
+      ]
+    },
+    "value_usd": {
+      "type": "number",
+      "minimum": -1000000000000.0,
+      "maximum": 1000000000000.0
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+ "caption": {
+  "en": "Median and 10 to 90 percent range of the blast x80 (Kuz-Ram/KCO) in bins of powder factor over the same sweep.",
+  "es": "Mediana y rango 10 a 90 por ciento del x80 de la tronadura (Kuz-Ram/KCO) en tramos de factor de carga, en el mismo barrido."
+ },
+ "case": "D2",
+ "chart_type": "line",
+ "id": "d2-rom-x80-vs-powder-factor",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic, not validated against real data",
+  "method": "Kuz-Ram/KCO blast, Whiten crusher, Bond law and cost chain; scrambled-Sobol sweeps and Saltelli/Jansen Sobol indices",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "10th to 90th percentile",
+    "es": "Percentil 10 a 90"
+   },
+   "hi": [
+    1548.6183495132675,
+    1447.3030027651853,
+    1366.3324541737761,
+    1295.9292985568954,
+    1226.4737074102336,
+    1157.1826696277058,
+    1120.4294110996266,
+    1076.9696630237715,
+    1022.9260938775611,
+    1007.8010561818289,
+    946.9282986577267,
+    930.761894654318,
+    902.0974903182553,
+    877.9102059218576,
+    841.168253772848
+   ],
+   "id": "median-rom-x80",
+   "label": {
+    "en": "Median",
+    "es": "Mediana"
+   },
+   "lo": [
+    609.7724290807629,
+    567.262002916298,
+    534.2125181997378,
+    501.9270847808232,
+    475.15686780803946,
+    453.8292882476157,
+    437.8757977719465,
+    422.3127962471296,
+    396.74887749828895,
+    386.6017547916564,
+    371.50425211156767,
+    356.06181946915626,
+    344.7438094045334,
+    336.3760986403983,
+    327.74871112151436
+   ],
+   "n": 12800,
+   "x": [
+    0.3200312268694764,
+    0.35996584948678845,
+    0.39998215732673864,
+    0.4400779963905612,
+    0.4802212081094921,
+    0.5196306091114613,
+    0.5598058814067266,
+    0.6001613414184923,
+    0.6398653961278413,
+    0.6800213038210324,
+    0.7201296641957561,
+    0.7601509261360637,
+    0.8001895825663562,
+    0.8402806558247123,
+    0.8801962581808257
+   ],
+   "y": [
+    1076.1192248108061,
+    991.96112130043,
+    931.6713557095622,
+    881.6556531327866,
+    837.7520555533642,
+    793.8082546680341,
+    759.7224717080001,
+    727.7663765438513,
+    702.3857770725457,
+    681.9251120322866,
+    660.597904629767,
+    631.7566438927938,
+    608.7997547833079,
+    589.5560417662585,
+    580.1204268282861
+   ]
+  }
+ ],
+ "serves": [
+  "FR-017-01",
+  "FR-017-02"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Run-of-mine x80 against the powder factor",
+  "es": "x80 de la pila segun el factor de carga"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Powder factor",
+   "es": "Factor de carga"
+  },
+  "unit": "kg/m3"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Run-of-mine x80",
+   "es": "x80 de la pila"
+  },
+  "unit": "mm"
+ }
+}

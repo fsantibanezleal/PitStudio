@@ -1,0 +1,35 @@
+{
+  "kind": "output",
+  "engine": "il1-twin",
+  "engine_version": "0.1.0",
+  "function": "rollout",
+  "result": {
+    "steps": 600,
+    "termination": "success",
+    "states": {
+      "dtype": "float64",
+      "shape": {
+        "steps": 601,
+        "variables": 6
+      },
+      "byte_length": 33656
+    },
+    "actions": {
+      "dtype": "float32",
+      "shape": {
+        "steps": 600,
+        "components": 2
+      },
+      "byte_length": 4800
+    },
+    "metrics": {
+      "success": true,
+      "collision": false,
+      "rms_lateral_error_m": 0.21,
+      "max_lateral_error_m": 0.64,
+      "min_ttc_s": 7.5,
+      "within_speed_limit_fraction": 0.98,
+      "energy_j_per_kg_m": 9.5
+    }
+  }
+}

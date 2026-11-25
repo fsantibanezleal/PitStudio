@@ -1,0 +1,127 @@
+{
+  "synthetic": true,
+  "stage": "st55_sdg",
+  "pile_seed": 1042,
+  "view": 0,
+  "image": {
+    "width_px": 1024,
+    "height_px": 1024,
+    "colour_space": "sRGB"
+  },
+  "render": {
+    "path": "data/synthetic/d1/renders/1042/v00/rgb.png",
+    "sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+  },
+  "instance_mask": {
+    "path": "data/synthetic/d1/renders/1042/v00/instance.png",
+    "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "dtype": "uint16"
+  },
+  "depth": {
+    "path": "data/synthetic/d1/renders/1042/v00/depth.npy",
+    "sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+    "dtype": "float32",
+    "unit": "m"
+  },
+  "intrinsics": {
+    "focal_length_px": 1400.0,
+    "cx_px": 511.5,
+    "cy_px": 511.5
+  },
+  "tiles": [
+    {
+      "tile": 0,
+      "x0_px": 0,
+      "y0_px": 0,
+      "size_px": 512,
+      "render": {
+        "path": "data/synthetic/d1/renders/1042/v00/t0/rgb.png",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "instance_mask": {
+        "path": "data/synthetic/d1/renders/1042/v00/t0/instance.png",
+        "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "depth": {
+        "path": "data/synthetic/d1/renders/1042/v00/t0/depth.npy",
+        "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    },
+    {
+      "tile": 1,
+      "x0_px": 512,
+      "y0_px": 0,
+      "size_px": 512,
+      "render": {
+        "path": "data/synthetic/d1/renders/1042/v00/t1/rgb.png",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "instance_mask": {
+        "path": "data/synthetic/d1/renders/1042/v00/t1/instance.png",
+        "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      "depth": {
+        "path": "data/synthetic/d1/renders/1042/v00/t1/depth.npy",
+        "sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    },
+    {
+      "tile": 2,
+      "x0_px": 0,
+      "y0_px": 512,
+      "size_px": 512,
+      "render": {
+        "path": "data/synthetic/d1/renders/1042/v00/t2/rgb.png",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "instance_mask": {
+        "path": "data/synthetic/d1/renders/1042/v00/t2/instance.png",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "depth": {
+        "path": "data/synthetic/d1/renders/1042/v00/t2/depth.npy",
+        "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+      }
+    },
+    {
+      "tile": 3,
+      "x0_px": 512,
+      "y0_px": 512,
+      "size_px": 512,
+      "render": {
+        "path": "data/synthetic/d1/renders/1042/v00/t3/rgb.png",
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "instance_mask": {
+        "path": "data/synthetic/d1/renders/1042/v00/t3/instance.png",
+        "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "depth": {
+        "path": "data/synthetic/d1/renders/1042/v00/t3/depth.npy",
+        "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+      }
+    }
+  ],
+  "instance_to_fragment": {
+    "3": 3,
+    "17": 17,
+    "42": 42,
+    "108": 108,
+    "517": 517,
+    "940": 940,
+    "1288": 1288,
+    "2051": 2051,
+    "3307": 3307,
+    "5120": 5120,
+    "7764": 7764,
+    "8190": 8190
+  },
+  "fragment_table": {
+    "path": "data/synthetic/d1/piles/1042/fragments.parquet",
+    "sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+  },
+  "licence": {
+    "spdx": "Proprietary",
+    "licence_class": "attribution"
+  }
+}

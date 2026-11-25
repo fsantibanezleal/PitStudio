@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/dust-lidar.schema.json",
+  "title": "Engine dust-lidar: input and output messages",
+  "description": "Input and output messages of the browser engine `dust-lidar` (cases B1, C3): the dust-transmittance slider on a baked lidar frame hosted from spec 013 (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `dust-lidar`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "dust-lidar",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "apply_level"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "apply_level"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/apply_level_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `dust-lidar`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "dust-lidar",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "apply_level"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "apply_level"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/apply_level_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "apply_level_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Beer-Lambert dust model of spec 013 applied to a baked lidar frame at one slider level.",
+      "required": [
+        "frame",
+        "returns",
+        "level"
+      ],
+      "properties": {
+        "frame": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Baked dust-slider frame valid against dust-slider.schema.json (DC-013-05), at most 10 MB (NFR-013-02).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000000,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "returns": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 150000,
+          "description": "Returns in the baked frame (cap 150,000, FR-013-39)."
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 40,
+          "description": "Slider level index j of the 41 baked levels (FR-013-38, FR-013-39)."
+        }
+      }
+    },
+    "apply_level_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "kept_returns",
+        "dust_returns",
+        "positions_m",
+        "intensity",
+        "return_class"
+      ],
+      "properties": {
+        "level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 40
+        },
+        "kept_returns": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 150000,
+          "description": "Returns kept by the dust rule (FR-013-12)."
+        },
+        "dust_returns": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 150000,
+          "description": "Dust returns emitted (FR-013-13)."
+        },
+        "positions_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Positions of the output returns.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "float32",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "points",
+                "components"
+              ],
+              "properties": {
+                "points": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 300000,
+                  "description": "Returns in the output frame: kept returns plus dust returns."
+                },
+                "components": {
+                  "const": 3
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3600000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "intensity": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Display intensity of the output returns.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "uint8",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "points"
+              ],
+              "properties": {
+                "points": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 300000,
+                  "description": "Returns in the output frame: kept returns plus dust returns."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 300000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        },
+        "return_class": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Class of each output return: 0 retro, 1 diffuse, 2 dust.",
+          "required": [
+            "dtype",
+            "shape",
+            "byte_length"
+          ],
+          "properties": {
+            "dtype": {
+              "const": "uint8",
+              "description": "Element type of the buffer."
+            },
+            "shape": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Dimensions, outermost first.",
+              "required": [
+                "points"
+              ],
+              "properties": {
+                "points": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 300000,
+                  "description": "Returns in the output frame: kept returns plus dust returns."
+                }
+              }
+            },
+            "byte_length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 300000,
+              "description": "Bytes of the buffer; equals the product of the dimensions times the element size."
+            }
+          }
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

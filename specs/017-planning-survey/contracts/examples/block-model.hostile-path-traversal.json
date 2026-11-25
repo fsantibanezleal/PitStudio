@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0",
+  "id": "minelib-marvin",
+  "synthetic": false,
+  "source": {
+    "kind": "minelib",
+    "instance": "marvin",
+    "files": [
+      {
+        "name": "../../etc/passwd",
+        "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      {
+        "name": "marvin.prec",
+        "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      {
+        "name": "marvin.upit",
+        "sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    ]
+  },
+  "licence": {
+    "spdx": "CC-BY-SA-3.0",
+    "licence_class": "share-alike",
+    "attribution": "MineLib: a library of open pit mining problems (Espinoza, Goycoolea, Moreno, Newman), CC BY-SA 3.0"
+  },
+  "grid": {
+    "origin_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "block_size_m": [
+      30.0,
+      30.0,
+      30.0
+    ],
+    "shape": [
+      3,
+      1,
+      2
+    ]
+  },
+  "precedence": {
+    "source": "own"
+  },
+  "value_form": "destination-values",
+  "blocks": [
+    {
+      "id": 0,
+      "ijk": [
+        1,
+        0,
+        0
+      ],
+      "centre_m": [
+        15.0,
+        5.0,
+        5.0
+      ],
+      "tonnage_t": 1000.0,
+      "values_usd": {
+        "mill": 5.0,
+        "waste": -1.0
+      },
+      "prec": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 1,
+      "ijk": [
+        0,
+        0,
+        1
+      ],
+      "centre_m": [
+        5.0,
+        5.0,
+        15.0
+      ],
+      "tonnage_t": 1000.0,
+      "values_usd": {
+        "mill": -2.0,
+        "waste": -1.0
+      }
+    },
+    {
+      "id": 2,
+      "ijk": [
+        1,
+        0,
+        1
+      ],
+      "centre_m": [
+        15.0,
+        5.0,
+        15.0
+      ],
+      "tonnage_t": 1000.0,
+      "values_usd": {
+        "mill": -2.0,
+        "waste": -1.0
+      }
+    },
+    {
+      "id": 3,
+      "ijk": [
+        2,
+        0,
+        1
+      ],
+      "centre_m": [
+        25.0,
+        5.0,
+        15.0
+      ],
+      "tonnage_t": 1000.0,
+      "values_usd": {
+        "mill": -2.0,
+        "waste": -1.0
+      }
+    }
+  ],
+  "reference_optimum": {
+    "value": 1415655436,
+    "unit": "instance-units",
+    "source": "minelib-best-known"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "scenario": "S4a",
+  "backend": "ovrtx",
+  "poses": "traces/b1-approach-poses.parquet",
+  "sensors": [
+    {
+      "kind": "radar",
+      "id": "proximity-77",
+      "wavelength_m": 0.00369,
+      "motion_bvh": true,
+      "range_resolution_m": 0.15,
+      "velocity_resolution_m_per_s": 0.1,
+      "azimuth_resolution_deg": 1.0,
+      "elevation_resolution_deg": 2.0,
+      "max_range_m": 100,
+      "frame_rate_hz": 20,
+      "mount_position_m": [
+        5.5,
+        0,
+        1.2
+      ],
+      "mount_rotation_deg": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

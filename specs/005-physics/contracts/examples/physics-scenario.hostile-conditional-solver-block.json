@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "scenario": "bench-swe-ritter-400",
+  "kind": "benchmark",
+  "solver": "swe",
+  "device": "cpu",
+  "seed": 0,
+  "deterministic": true,
+  "benchmarks": [
+    "swe-ritter"
+  ],
+  "geometry": {
+    "shape": "channel",
+    "domain_min_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "domain_max_m": [
+      10.0,
+      0.1,
+      0.0
+    ],
+    "length_m": 10.0,
+    "width_m": 0.1
+  },
+  "counts": {
+    "cells_x": 400,
+    "cells_y": 4
+  },
+  "time_step": {
+    "end_time_s": 6.0
+  },
+  "output": {
+    "every_steps": 100,
+    "fields": true,
+    "replay": false
+  },
+  "materials": []
+}

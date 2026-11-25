@@ -1,0 +1,204 @@
+{
+  "schema_version": "1.0",
+  "layout_version": 1,
+  "policy": {
+    "id": "ppo",
+    "architecture": "shared-mlp",
+    "artefact_id": "a1-dispatch-ppo-onnx",
+    "onnx": {
+      "path": "models/a1-dispatch-ppo/policy.onnx",
+      "sha256": "5c8bc7130f0267678aeef8d69ad522691ac49bba37594c21aed1c6408544dae2",
+      "bytes": 412160,
+      "opset": 17,
+      "ir_version": 10
+    }
+  },
+  "inputs": {
+    "truck_features": {
+      "name": "truck_features",
+      "dtype": "float16",
+      "shape": [
+        1,
+        40,
+        12
+      ],
+      "features": [
+        {
+          "index": 0,
+          "name": "state_travel_empty",
+          "unit": "1",
+          "transform": "one-hot truck state"
+        },
+        {
+          "index": 1,
+          "name": "state_queue_loader",
+          "unit": "1",
+          "transform": "one-hot truck state"
+        },
+        {
+          "index": 2,
+          "name": "state_loading",
+          "unit": "1",
+          "transform": "one-hot truck state"
+        },
+        {
+          "index": 3,
+          "name": "state_travel_loaded",
+          "unit": "1",
+          "transform": "one-hot truck state"
+        },
+        {
+          "index": 4,
+          "name": "state_queue_dump",
+          "unit": "1",
+          "transform": "one-hot truck state"
+        },
+        {
+          "index": 5,
+          "name": "state_dumping",
+          "unit": "1",
+          "transform": "one-hot truck state"
+        },
+        {
+          "index": 6,
+          "name": "state_parked_or_down",
+          "unit": "1",
+          "transform": "one-hot truck state"
+        },
+        {
+          "index": 7,
+          "name": "payload_ratio",
+          "unit": "1",
+          "transform": "payload / class mean payload"
+        },
+        {
+          "index": 8,
+          "name": "time_left_in_state_h",
+          "unit": "h",
+          "transform": "identity"
+        },
+        {
+          "index": 9,
+          "name": "eta_to_target_h",
+          "unit": "h",
+          "transform": "identity"
+        },
+        {
+          "index": 10,
+          "name": "deciding",
+          "unit": "1",
+          "transform": "1 for the deciding truck, else 0"
+        },
+        {
+          "index": 11,
+          "name": "valid",
+          "unit": "1",
+          "transform": "1 for a real truck slot, 0 for padding"
+        }
+      ]
+    },
+    "target_features": {
+      "name": "target_features",
+      "dtype": "float32",
+      "shape": [
+        1,
+        16,
+        9
+      ],
+      "features": [
+        {
+          "index": 0,
+          "name": "is_dump",
+          "unit": "1",
+          "transform": "0 = loader, 1 = dump"
+        },
+        {
+          "index": 1,
+          "name": "queued_frac",
+          "unit": "1",
+          "transform": "queued trucks / 40"
+        },
+        {
+          "index": 2,
+          "name": "inbound_frac",
+          "unit": "1",
+          "transform": "inbound trucks / 40"
+        },
+        {
+          "index": 3,
+          "name": "time_until_free_h",
+          "unit": "h",
+          "transform": "identity"
+        },
+        {
+          "index": 4,
+          "name": "backlog_h",
+          "unit": "h",
+          "transform": "identity"
+        },
+        {
+          "index": 5,
+          "name": "mean_service_time_h",
+          "unit": "h",
+          "transform": "identity"
+        },
+        {
+          "index": 6,
+          "name": "deciding_truck_eta_h",
+          "unit": "h",
+          "transform": "identity; 0 when masked"
+        },
+        {
+          "index": 7,
+          "name": "spots_frac",
+          "unit": "1",
+          "transform": "loading spots / 4"
+        },
+        {
+          "index": 8,
+          "name": "serviceable",
+          "unit": "1",
+          "transform": "1 if serviceable, else 0"
+        }
+      ]
+    },
+    "truck_mask": {
+      "name": "truck_mask",
+      "dtype": "bool",
+      "shape": [
+        1,
+        40
+      ],
+      "meaning": "true = real truck slot"
+    },
+    "target_mask": {
+      "name": "target_mask",
+      "dtype": "bool",
+      "shape": [
+        1,
+        16
+      ],
+      "meaning": "true = serviceable and reachable for the deciding truck"
+    }
+  },
+  "output": {
+    "name": "logits",
+    "dtype": "float32",
+    "shape": [
+      1,
+      16
+    ],
+    "meaning": "one logit per target slot"
+  },
+  "decision": {
+    "masking": "masked target has probability 0",
+    "applied_by": "des",
+    "selection": "argmax",
+    "tie_rule": "lowest-target-index"
+  },
+  "padding": {
+    "max_trucks": 40,
+    "max_targets": 16
+  },
+  "time_unit": "h"
+}

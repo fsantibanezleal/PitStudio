@@ -1,0 +1,62 @@
+{
+  "title": "PitStudio console",
+  "intro": "Local control panel for the studio runner on this machine. Nothing here is reachable from the public site.",
+  "tabs": {
+    "label": "Console sections",
+    "recipes": "Recipes",
+    "queue": "Queue",
+    "runs": "Runs",
+    "newJob": "New job"
+  },
+  "col": {
+    "id": "Id",
+    "case": "Case",
+    "stages": "Stages",
+    "status": "Status",
+    "job": "Job",
+    "recipe": "Recipe",
+    "state": "State",
+    "run": "Run",
+    "stage": "Stage",
+    "shards": "Shards",
+    "valid": "Valid",
+    "action": "Action"
+  },
+  "valid": "valid",
+  "invalid": "invalid",
+  "loading": "Loading…",
+  "empty": "Nothing to show yet.",
+  "error": "The request failed: {{message}}",
+  "recipes": {
+    "table": "Recipes",
+    "details": "Recipe details",
+    "open": "Open recipe {{id}}"
+  },
+  "queue": { "table": "Queue", "cancel": "Cancel", "cancelJob": "Cancel job {{id}}" },
+  "runs": {
+    "table": "Runs",
+    "details": "Run details",
+    "notes": "Notes",
+    "logTail": "Log tail",
+    "manifest": "Manifest",
+    "artefacts": "Artefacts",
+    "telemetry": "Telemetry",
+    "close": "Close run",
+    "events": "Recent events",
+    "noArtefacts": "This run lists no artefacts.",
+    "open": "Open",
+    "chart": "GPU power in watts over time",
+    "points": "{{count}} telemetry points"
+  },
+  "form": {
+    "name": "Run form",
+    "recipe": "Recipe",
+    "profile": "Profile",
+    "stages": "Stages",
+    "force": "Force",
+    "rerun": "Rerun check",
+    "submit": "Queue job",
+    "queued": "Queued job {{id}}",
+    "noRecipes": "No valid recipe is available."
+  }
+}

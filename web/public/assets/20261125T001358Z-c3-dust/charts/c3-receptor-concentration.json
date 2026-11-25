@@ -1,0 +1,92 @@
+{
+ "caption": {
+  "en": "Mean and hourly 99th percentile at four hypothetical receptors 1000 m outside the pit box; 74966 modelled hours, 12663 of 87629 not modelled.",
+  "es": "Media y percentil 99 horario en cuatro receptores hipoteticos a 1000 m del recuadro del pit; 74966 horas modeladas, 12663 de 87629 sin modelar."
+ },
+ "case": "C3",
+ "categories": [
+  {
+   "id": "r-n",
+   "label": {
+    "en": "Receptor N",
+    "es": "Receptor N"
+   }
+  },
+  {
+   "id": "r-e",
+   "label": {
+    "en": "Receptor E",
+    "es": "Receptor E"
+   }
+  },
+  {
+   "id": "r-s",
+   "label": {
+    "en": "Receptor S",
+    "es": "Receptor S"
+   }
+  },
+  {
+   "id": "r-w",
+   "label": {
+    "en": "Receptor W",
+    "es": "Receptor O"
+   }
+  }
+ ],
+ "chart_type": "bar",
+ "id": "c3-receptor-concentration",
+ "kind": "chart-series",
+ "kpi": "receptor_concentration",
+ "producer": {
+  "label": "screening Gaussian plume, not AERMOD; illustrative scenario, not validated against measured concentrations",
+  "method": "US EPA AP-42 13.2.2 equation 1a unpaved-road PM10 factor; ISC3 Gaussian plume with ground reflection, Pasquill-Gifford rural dispersion",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "id": "mean",
+   "label": {
+    "en": "Mean over the record",
+    "es": "Media del registro"
+   },
+   "y": [
+    261.5,
+    122.1,
+    301.3,
+    153.9
+   ]
+  },
+  {
+   "id": "p99-hourly",
+   "label": {
+    "en": "Hourly 99th percentile",
+    "es": "Percentil 99 horario"
+   },
+   "y": [
+    2842.0,
+    2286.0,
+    2642.0,
+    2802.0
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-16",
+  "FR-018-51"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "PM10 at four hypothetical receptors over the wind record",
+  "es": "PM10 en cuatro receptores hipoteticos durante el registro de viento"
+ },
+ "y_axis": {
+  "label": {
+   "en": "PM10 concentration",
+   "es": "Concentracion de PM10"
+  },
+  "unit": "ug/m3"
+ }
+}

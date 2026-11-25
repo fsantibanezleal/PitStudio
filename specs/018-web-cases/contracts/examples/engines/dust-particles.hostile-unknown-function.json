@@ -1,0 +1,34 @@
+{
+  "kind": "input",
+  "engine": "dust-particles",
+  "engine_version": "0.1.0",
+  "function": "evaluate_all",
+  "args": {
+    "scene": {
+      "artefact": "c3-terrain-patch",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 65536
+    },
+    "particle_count": 10000,
+    "radius_m": 5e-06,
+    "particle_density_kg_per_m3": 2650.0,
+    "air_density_kg_per_m3": 1.2,
+    "air_viscosity_pa_s": 1.8e-05,
+    "diffusivity_m2_per_s": 1.0,
+    "wind_m_per_s": [
+      4.0,
+      0.0,
+      0.0
+    ],
+    "source_position_m": [
+      100.0,
+      200.0,
+      2.0
+    ],
+    "ground": "deposit",
+    "boundary": "open",
+    "duration_s": 600.0,
+    "step_s": 0.5,
+    "seed": 3
+  }
+}

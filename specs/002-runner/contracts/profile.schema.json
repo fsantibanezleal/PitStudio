@@ -1,0 +1,504 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/profile.schema.json",
+  "title": "PitStudio machine profile",
+  "description": "Machine profile studio/recipes/_profiles/<id>.yaml read by the runner, with $defs/fake_device for the fake GPU backend's device files (DC-002-01, spec 002-runner).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "os",
+    "gpus",
+    "store_default",
+    "cpu_slots",
+    "envs_enabled",
+    "process_control",
+    "guards",
+    "telemetry_hz",
+    "keep_awake"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "id": {
+      "$ref": "#/$defs/slug"
+    },
+    "os": {
+      "enum": [
+        "windows",
+        "linux"
+      ]
+    },
+    "gpus": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/gpu"
+      },
+      "maxItems": 16
+    },
+    "store_default": {
+      "$ref": "#/$defs/store_default"
+    },
+    "cpu_slots": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 256
+    },
+    "envs_enabled": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/environment"
+      },
+      "minItems": 1,
+      "maxItems": 9,
+      "uniqueItems": true
+    },
+    "process_control": {
+      "enum": [
+        "job-object",
+        "process-group"
+      ]
+    },
+    "guards": {
+      "$ref": "#/$defs/guards"
+    },
+    "telemetry_hz": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "keep_awake": {
+      "type": "boolean"
+    },
+    "quotas": {
+      "type": "object",
+      "description": "store quota per stage id, GiB (2^30 B); absent = no quota",
+      "propertyNames": {
+        "maxLength": 32,
+        "pattern": "^[a-z][a-z0-9_]{1,31}$",
+        "$ref": "#/$defs/stage_id"
+      },
+      "additionalProperties": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 10000
+      },
+      "maxProperties": 64
+    },
+    "binaries": {
+      "type": "object",
+      "description": "pinned executable id -> name of the environment variable holding its path (never the path)",
+      "propertyNames": {
+        "maxLength": 32,
+        "pattern": "^[a-z][a-z0-9-]{1,31}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/env_var"
+      },
+      "maxProperties": 32
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "os": {
+            "const": "windows"
+          }
+        },
+        "required": [
+          "os"
+        ]
+      },
+      "then": {
+        "properties": {
+          "process_control": {
+            "const": "job-object"
+          },
+          "store_default": {
+            "pattern": "^[A-Z]:/[a-z0-9_-]{1,16}$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "os": {
+            "const": "linux"
+          }
+        },
+        "required": [
+          "os"
+        ]
+      },
+      "then": {
+        "properties": {
+          "process_control": {
+            "const": "process-group"
+          },
+          "store_default": {
+            "pattern": "^/(srv|data|scratch)/[a-z0-9_-]{1,32}$"
+          },
+          "keep_awake": {
+            "const": false
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "driver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+(\\.[0-9]+)+$"
+    },
+    "binary_id": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[a-z][a-z0-9-]{1,31}$"
+    },
+    "env_var": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Z][A-Z0-9_]{2,63}$"
+    },
+    "stage_id": {
+      "enum": [
+        "s00_download",
+        "s05_synthesize",
+        "s10_preprocess",
+        "s20_feature_extraction",
+        "s30_train",
+        "s40_infer",
+        "s50_evaluate",
+        "s60_export",
+        "s62_accel",
+        "s64_bench",
+        "st10_terrain",
+        "st20_pit_design",
+        "st30_assets",
+        "st40_compose",
+        "st45_validate",
+        "st45b_kit_validate",
+        "st50_physics",
+        "st52_rtx_render",
+        "st53_sensors",
+        "st54_vehicles",
+        "st55_sdg",
+        "st56_encode",
+        "st57_rain_lidar",
+        "st58_kit_capture",
+        "st58b_capture_splat",
+        "st59_reason_bench",
+        "st59a_vqa",
+        "st59b_plausibility",
+        "st59c_captions",
+        "st60_il_train",
+        "st61_il_mpm_eval"
+      ]
+    },
+    "environment": {
+      "enum": [
+        "studio",
+        "isaac",
+        "rtx",
+        "isaaclab",
+        "kit",
+        "reason",
+        "pipeline",
+        "accel",
+        "external"
+      ]
+    },
+    "store_default": {
+      "description": "short machine-neutral absolute store root, used only when PITSTUDIO_STORE is unset: a drive-root folder on Windows, a /srv, /data or /scratch folder on Linux (bound to `os` at the root)",
+      "type": "string",
+      "maxLength": 41,
+      "pattern": "^([A-Z]:/[a-z0-9_-]{1,16}|/(srv|data|scratch)/[a-z0-9_-]{1,32})$"
+    },
+    "gpu": {
+      "type": "object",
+      "description": "nominal device facts for planning; the live (or fake) backend value governs the guards",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "vram_bytes",
+        "power_class"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "vram_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "power_class": {
+          "enum": [
+            "laptop-power-limited",
+            "desktop",
+            "server"
+          ]
+        }
+      }
+    },
+    "guards": {
+      "type": "object",
+      "description": "pre-flight guard settings; margins in GiB (2^30 B), floors of FR-002-19 / FR-002-20",
+      "additionalProperties": false,
+      "required": [
+        "vram_margin_gib",
+        "disk_margin_gib",
+        "max_start_temp_c",
+        "cooldown_wait_s",
+        "lock_wait_s"
+      ],
+      "properties": {
+        "vram_margin_gib": {
+          "type": "number",
+          "minimum": 1.5,
+          "maximum": 256
+        },
+        "disk_margin_gib": {
+          "type": "number",
+          "minimum": 20,
+          "maximum": 10000
+        },
+        "max_start_temp_c": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 80
+        },
+        "cooldown_wait_s": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600
+        },
+        "lock_wait_s": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400
+        }
+      }
+    },
+    "series_field": {
+      "enum": [
+        "free_bytes",
+        "temp_c",
+        "power_w",
+        "power_limit_w",
+        "util_pct",
+        "sm_clock_mhz",
+        "clocks_event_mask",
+        "energy_mj_per_s",
+        "nvenc_util_pct",
+        "pcie_replays"
+      ]
+    },
+    "step": {
+      "description": "[t_s, value]: seconds since the backend started and the value from then on; per-field value ranges and ascending t_s are checked by the fake backend's loader (FR-002-57)",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/step"
+      },
+      "minItems": 1,
+      "maxItems": 10000
+    },
+    "fake_series": {
+      "type": "object",
+      "description": "scripted backend answers per field: a constant, or [t_s, value] steps",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "free_bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        },
+        "temp_c": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 200
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        },
+        "power_w": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        },
+        "power_limit_w": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        },
+        "util_pct": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        },
+        "sm_clock_mhz": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 20000
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        },
+        "clocks_event_mask": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        },
+        "energy_mj_per_s": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000000
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        },
+        "nvenc_util_pct": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        },
+        "pcie_replays": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "$ref": "#/$defs/steps"
+            }
+          ]
+        }
+      }
+    },
+    "fake_device": {
+      "type": "object",
+      "description": "device file of the fake GPU backend (PITSTUDIO_GPU_BACKEND=fake:<file>, FR-002-55); all values finite",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "driver",
+        "vram_total_bytes",
+        "init_error",
+        "series"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "editor hint; ignored by consumers"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 ._()+-]{0,127}$"
+        },
+        "driver": {
+          "$ref": "#/$defs/driver"
+        },
+        "vram_total_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "init_error": {
+          "type": "boolean"
+        },
+        "unsupported": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/series_field"
+          },
+          "maxItems": 10,
+          "uniqueItems": true
+        },
+        "series": {
+          "$ref": "#/$defs/fake_series"
+        }
+      }
+    }
+  }
+}

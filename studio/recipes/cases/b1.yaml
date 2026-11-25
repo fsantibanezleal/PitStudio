@@ -1,0 +1,73 @@
+# Case B1, autonomous and manned traffic and proximity (spec 018 FR-018-55, FR-018-16; docs M20), CPU stage only.
+# One stage: for each of 30 seeds one 8 h shift of the pinned minehaulsim engine (adapter of spec 007, traffic mode, engine
+# profile) over the road network of the A1 pit design (st20_pit_design of a1-scene) with 20 trucks and sptf dispatch, whose
+# truck trajectories are replayed with manned light vehicles in the lane-based traffic layer of pitstudio_pipeline.haulage.traffic:
+# constant-velocity time to collision per encounter, near-misses per 1,000 vehicle-hours and throughput against the share of
+# autonomous trucks (0, 25, 50, 75, 100 %) and the number of light vehicles (0, 4, 8, 16), on paired seeds. The engine's class
+# parameters are class-representative; the footprints, lane offset, manned reaction time and decelerations are cited; the
+# autonomous reaction time, accelerations, yielding thresholds and the light-vehicle patrol are UNVERIFIED for any site; vehicles are
+# bodies with their real footprints that never overlap (an overlap is a counted collision event, never a TTC of 0); no proximity or
+# incident data exists, so nothing is validated. The RTX
+# lidar and radar frames and the Cosmos reasoning of case B1 are GPU stages for later and are not in this recipe.
+id: b1
+case: B1
+seed: 0
+description: B1 mixed autonomous and manned traffic on the Bingham pit design road network, time to collision, near-misses and throughput against the autonomous share.
+stages:
+  - id: s05_synthesize
+    variant: mixed-traffic-sweep
+    env: pipeline
+    tool: minehaulsim
+    entry: pitstudio_pipeline.haulage.b1_run
+    inputs: []  # the road network file is named in params; its digest is in the run record
+    params:
+      seed: 0
+      inputs:
+        road_network: processed/scene/a1-bingham-v3/st20_pit_design/design/road-network.geojson
+      scenario:
+        horizon_s: 28800.0       # one 8 h shift
+        warmup_s: 3600.0         # the first hour is discarded
+        truck_class: CAT_793F    # the engine catalog class (public specification magnitudes, class-representative)
+        loader_class: SHOVEL_45
+        rolling_resistance_pct: 2.5   # illustrative in-pit value, UNVERIFIED for the site
+        speed_limit_kmh: {ramp: 30.0, bench-road: 40.0}   # illustrative, UNVERIFIED
+        simplify_epsilon_m: 5.0  # Douglas-Peucker tolerance of the road polylines
+        loaders: {n46: 0, n56: 0, n66: 1}   # bench-road ends at -150, -300 and -450 m: declared destination = index into dumps
+        dumps: [n0, n1]          # the crusher at the pit exit, a waste dump on the first junction below the rim
+      traffic:                   # sourced inputs first (`b1_run.INPUT_ROWS` and the inputs table of the run give each source), then the UNVERIFIED ones
+        footprint_m: {haul-truck: [13.36, 8.563], light-vehicle: [5.275, 1.96]}  # length, width: asset specification (Cat 793F sheet dimensions table; Land Cruiser 79 sheet; FR-004-51)
+        lane_offset_m: 7.493     # 0.875 x 8.563 m: lane centre of a two-lane road of 3.5 x truck width (Tannant and Regensburg 2001, Eq. 5, p. 17)
+        reaction_s: {autonomous: 0.5, manned: 1.5}  # manned: driver reaction 1.5 s (Tannant and Regensburg 2001, p. 14); autonomous 0.5 s UNVERIFIED (ISO 17757:2019 not read)
+        decel_mps2: {haul-truck: 2.94, light-vehicle: 3.4}  # truck: Kaufman and Ault 1977 via Tannant and Regensburg 2001, p. 14; light vehicle: AASHTO 11.2 ft/s2 (TxDOT RDM 4.11.1)
+        dt_s: 0.5
+        accel_mps2: {haul-truck: 1.0, light-vehicle: 2.0}   # UNVERIFIED
+        brake_ttc_s: 6.0         # UNVERIFIED model rule
+        emergency_ttc_s: 3.5     # UNVERIFIED model rule
+        look_ahead_m: 100.0
+        follow_half_angle_deg: 20.0
+        encounter_radius_m: 60.0
+        near_miss_ttc_s: 3.0     # FR-018-55
+        brake_hold_s: 1.0
+        release_s: 30.0
+        collision_gap_s: 5.0     # contacts of one pair closer in time than this are one collision event
+        light_vehicle: {speed_factor: 0.9, dwell_mean_s: 60.0}   # UNVERIFIED patrol pattern
+      sweep:
+        fleet_size: 20
+        dispatcher: sptf
+        autonomous_shares: [0.0, 0.25, 0.5, 0.75, 1.0]
+        light_vehicles: [0, 4, 8, 16]
+        seeds: 30
+        reference: {share: 0.5, light_vehicles: 8}
+    resources: {gpu: none, disk_gib_est: 0.1, cpu: 8}
+    determinism: bitwise
+    timeout_s: 21600
+    outputs:
+      - {path: results-summary.json, schema: json, publish: true}
+      - {path: charts/b1-near-miss-rate-vs-share.json, schema: contract-chart-series, publish: true}
+      - {path: charts/b1-near-miss-rate-vs-density.json, schema: contract-chart-series, publish: true}
+      - {path: charts/b1-min-ttc-percentiles-vs-share.json, schema: contract-chart-series, publish: true}
+      - {path: charts/b1-min-ttc-distribution.json, schema: contract-chart-series, publish: true}
+      - {path: charts/b1-conflicts-per-shift.json, schema: contract-chart-series, publish: true}
+      - {path: charts/b1-throughput-vs-share.json, schema: contract-chart-series, publish: true}
+      - {path: charts/b1-scenario-table.json, schema: contract-chart-series, publish: true}
+      - {path: charts/b1-inputs-table.json, schema: contract-chart-series, publish: true}

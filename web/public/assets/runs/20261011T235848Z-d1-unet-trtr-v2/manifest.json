@@ -1,0 +1,168 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261011T235848Z-d1-unet-trtr-v2",
+ "recipe": {
+  "id": "d1-unet-trtr-v2",
+  "path": "cases/d1.yaml",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+ },
+ "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-10-11T23:58:48Z",
+ "profile": "imported",
+ "seed": 20261004,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s30_train",
+    "variant": "unet-trtr"
+   },
+   "tool": "pytorch",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "1644f072d716845b26c298f9621ffd99a21dc32cca1a4db0adde176342b6d12c",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 82.0
+    }
+   ],
+   "params": {},
+   "seed": 20261004,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 82.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "summary.json",
+     "sha256": "720725b9f0c3c8ebf17e1cfd547e7092f426930d61fcb9115a9afeef6d543bdf",
+     "bytes": 150
+    },
+    {
+     "name": "fold0-result.json",
+     "sha256": "4c341f1d5f1336fe7ba101c61f25a0e252cafec1f6e2a0d3c3aae29603ff1175",
+     "bytes": 1764
+    },
+    {
+     "name": "fold1-result.json",
+     "sha256": "a1eb38320da54cedd00168ca5b0f50f871ef9de788ff2bb2b50d161a38111ec4",
+     "bytes": 1708
+    },
+    {
+     "name": "fold2-result.json",
+     "sha256": "4cdb5bb3e0d0c5c91ea2ca783c29777a402ff37d85c130ee534fe96e68fb7772",
+     "bytes": 1663
+    },
+    {
+     "name": "fold3-result.json",
+     "sha256": "cf55ed613adc5775634e3eaf057ab0606025149d785ce86fa65c3fdd41278aa9",
+     "bytes": 1983
+    },
+    {
+     "name": "fold4-result.json",
+     "sha256": "15f0af7c190e7f66d96c7cc7c171cc13150ffd91a0edd376b1454d7ccfeae5fa",
+     "bytes": 1716
+    }
+   ]
+  },
+  {
+   "key": {
+    "id": "s50_evaluate"
+   },
+   "tool": "pitstudio",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "9aa86121a5e2178961264ace397bd6ff7e1d1b4c2877b2be30b4414a64537ef6",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 82.0
+    }
+   ],
+   "params": {},
+   "seed": 20261004,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 82.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "sha256": "7bdbfaf896c594b77fb25b368486246127254cb772f088cf2734b00002e74360",
+     "bytes": 1138
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "d1-unet-trtr-results",
+   "run_id": "20261011T235848Z-d1-unet-trtr-v2",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+   "path": "assets/20261011T235848Z-d1-unet-trtr-v2/results-summary.json",
+   "bytes": 1138,
+   "sha256": "7bdbfaf896c594b77fb25b368486246127254cb772f088cf2734b00002e74360",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "attribution",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "D1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+  }
+ ],
+ "notes": [
+  "produced by the GPU queue, outside the runner",
+  "job 11-unet-export-trt; script sha256 4634efa7184a16b89480c2df2f0cdb9421237476e9097100f280b3e92e848a1c; log sha256 369cfc6d20ec4804cbb415fdd82210f280c1ceecfb89c195a4ed38d2da436665",
+  "started 2026-10-11T23:57:26Z; ended 2026-10-11T23:58:48Z; GPU-hours 5.8999",
+  "real images (Mendeley Data 78ht3pjsr4, CC BY 4.0); metrics only, no image is published",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "TensorRT engines and latencies of job 11 stay local-only (licence); this run publishes the training metrics only.",
+  "partial: the five-fold training was not a queue job: job 11 is the export of fold 0 and supplies the script and log hashes; recipe cases/d1.yaml is not written yet: its sha256 is recorded as zeros"
+ ]
+}

@@ -1,0 +1,90 @@
+{
+ "job": "39-gns-train-v1-resume",
+ "case": "A3",
+ "recipe": "cases/a3.yaml",
+ "slug": "a3-gns-v1-failed",
+ "seed": 0,
+ "label": "calibrated synthetic, not validated against real data; FAILED acceptance SC-011-01, not a working model",
+ "gpu_hours": {
+  "file": "train_manifest.json",
+  "path": [
+   "gpu_hours"
+  ]
+ },
+ "also_jobs": [
+  "27-gns-eval-export"
+ ],
+ "notes": [
+  "Evaluation verdict: SC-011-01 fail. Graph network simulator v1 is a failed evaluation, never a working model."
+ ],
+ "stages": [
+  {
+   "id": "s30_train",
+   "variant": "gns",
+   "tool": "pytorch",
+   "outputs": [
+    {
+     "name": "train-manifest.json",
+     "from": "train_manifest.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "model",
+      "gpu_hours"
+     ]
+    },
+    {
+     "name": "gns-a3-fp32.onnx",
+     "from": "models/gns-a3-fp32.onnx",
+     "kind": "onnx",
+     "budget_class": "onnx",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "Apache-2.0"
+    },
+    {
+     "name": "gns-a3-fp16.onnx",
+     "from": "models/gns-a3-fp16.onnx",
+     "kind": "onnx",
+     "budget_class": "onnx",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "Apache-2.0"
+    }
+   ]
+  },
+  {
+   "id": "s50_evaluate",
+   "tool": "pitstudio",
+   "outputs": [
+    {
+     "name": "evaluation.json",
+     "from": "evaluation.published.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "geometries",
+      "sc_011_01"
+     ]
+    },
+    {
+     "name": "results-summary.json",
+     "derive": "gns-summary",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "id": "a3-gns-v1-failed-results"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,182 @@
+{
+ "caption": {
+  "en": "Mean of 30 seeds with the 95 % Student-t half-width. No verdict: no learned dispatcher or paired rule in this build; an interval holding another mean is no difference.",
+  "es": "Media de 30 semillas con semiancho de 95 % (t de Student). Sin veredicto: no hay despacho aprendido ni regla pareada; un intervalo que contiene otra media no es diferencia."
+ },
+ "case": "A1",
+ "chart_type": "table",
+ "id": "a1-dispatcher-table",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
+  "method": "seeded discrete-event haulage simulation, counter-based Philox variates, traffic mode, pit road network; exact MVA oracle",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-018-16",
+  "FR-007-17",
+  "FR-007-18"
+ ],
+ "status": "ok",
+ "table": {
+  "columns": [
+   {
+    "id": "dispatcher",
+    "label": {
+     "en": "Dispatcher",
+     "es": "Despacho"
+    },
+    "type": "text"
+   },
+   {
+    "id": "trucks",
+    "label": {
+     "en": "Trucks",
+     "es": "Camiones"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "tph",
+    "label": {
+     "en": "Throughput",
+     "es": "Rendimiento"
+    },
+    "type": "number",
+    "unit": "t/h"
+   },
+   {
+    "id": "half",
+    "label": {
+     "en": "95 % half-width",
+     "es": "Semiancho al 95 %"
+    },
+    "type": "number",
+    "unit": "t/h"
+   },
+   {
+    "id": "queue",
+    "label": {
+     "en": "Queue time",
+     "es": "Tiempo en cola"
+    },
+    "type": "number",
+    "unit": "min"
+   }
+  ],
+  "rows": [
+   [
+    "Fixed",
+    8,
+    4248.2,
+    11.1,
+    0.2171
+   ],
+   [
+    "Nearest",
+    8,
+    3151.1,
+    18.8,
+    16.19
+   ],
+   [
+    "SPTF",
+    8,
+    4626.8,
+    11.8,
+    1.057
+   ],
+   [
+    "Shortest queue",
+    8,
+    4223.3,
+    16.7,
+    0.2718
+   ],
+   [
+    "Min idle",
+    8,
+    4031.3,
+    15.2,
+    0.2771
+   ],
+   [
+    "Fixed",
+    16,
+    7070.9,
+    19.8,
+    3.327
+   ],
+   [
+    "Nearest",
+    16,
+    3153.3,
+    18.7,
+    49.44
+   ],
+   [
+    "SPTF",
+    16,
+    7369.7,
+    22.6,
+    2.457
+   ],
+   [
+    "Shortest queue",
+    16,
+    7362.8,
+    21.8,
+    1.86
+   ],
+   [
+    "Min idle",
+    16,
+    7461.6,
+    16.8,
+    1.068
+   ],
+   [
+    "Fixed",
+    24,
+    8936.7,
+    28.9,
+    6.958
+   ],
+   [
+    "Nearest",
+    24,
+    3156.9,
+    19.9,
+    79.09
+   ],
+   [
+    "SPTF",
+    24,
+    9331.4,
+    29.1,
+    4.877
+   ],
+   [
+    "Shortest queue",
+    24,
+    9161.8,
+    32.6,
+    5.777
+   ],
+   [
+    "Min idle",
+    24,
+    9332.3,
+    29.2,
+    4.875
+   ]
+  ]
+ },
+ "title": {
+  "en": "Dispatchers compared at three fleet sizes",
+  "es": "Despachos comparados en tres tamanos de flota"
+ }
+}

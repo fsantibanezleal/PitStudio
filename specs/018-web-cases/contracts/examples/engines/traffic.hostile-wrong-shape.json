@@ -1,0 +1,34 @@
+{
+  "kind": "input",
+  "engine": "traffic",
+  "engine_version": "0.1.0",
+  "function": "simulate",
+  "args": {
+    "vehicles": [
+      {
+        "vehicle_class": "haul-truck",
+        "position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "heading_rad": 0.0,
+        "speed_m_per_s": 10.0
+      },
+      {
+        "vehicle_class": "light-vehicle",
+        "position_m": [
+          100.0,
+          0.0
+        ],
+        "heading_rad": 3.141592653589793,
+        "speed_m_per_s": 5.0
+      }
+    ],
+    "speed_limit_m_per_s": 11.0,
+    "collision_radius_m": 4.0,
+    "steps": 600,
+    "step_s": 0.016666666666666666,
+    "ttc_threshold_s": 3
+  }
+}

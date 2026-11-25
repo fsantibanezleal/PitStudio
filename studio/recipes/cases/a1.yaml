@@ -1,0 +1,54 @@
+# Case A1, truck-shovel cycle, dispatch and fleet sizing (spec 007 FR-007-17, FR-007-18, FR-018-16; plan 007 A1-U3), CPU only.
+# One stage: the seeded discrete-event haulage simulation of the pinned minehaulsim engine (adapter of spec 007, counter-based
+# Philox variates, traffic mode, engine profile) over the road network of the A1 pit design (st20_pit_design of a1-scene), for
+# every dispatcher and fleet size over 30 seeds of an 8 h shift, and the single-loader oracle family against exact
+# mean-value analysis. The engine's class parameters are class-representative, the speed limits and rolling resistance are
+# illustrative and UNVERIFIED, no hourly rate exists so no cost per tonne is computed, and nothing is validated against real
+# haul data. No learned dispatcher exists in this build, so no dispatch verdict is made.
+id: a1
+case: A1
+seed: 0
+description: A1 fleet-size and dispatcher sweep of the discrete-event haulage engine over the Bingham pit design road network, with the DES-versus-MVA gap.
+stages:
+  - id: s05_synthesize
+    variant: des-fleet-sweep
+    env: pipeline
+    tool: minehaulsim
+    entry: pitstudio_pipeline.haulage.a1_run
+    inputs: []  # the road network file is named in params; its digest is in the run record
+    params:
+      seed: 0
+      inputs:
+        road_network: processed/scene/a1-bingham-v3/st20_pit_design/design/road-network.geojson
+      scenario:
+        horizon_s: 28800.0       # one 8 h shift
+        warmup_s: 3600.0         # the first hour is discarded
+        truck_class: CAT_793F    # the engine catalog class (public specification magnitudes, class-representative)
+        loader_class: SHOVEL_45
+        rolling_resistance_pct: 2.5   # illustrative in-pit value, UNVERIFIED for the site
+        speed_limit_kmh: {ramp: 30.0, bench-road: 40.0}   # illustrative, UNVERIFIED
+        simplify_epsilon_m: 5.0  # Douglas-Peucker tolerance of the road polylines
+        loaders: {n46: 0, n56: 0, n66: 1}   # bench-road ends at -150, -300 and -450 m: declared destination = index into dumps
+        dumps: [n0, n1]          # the crusher at the pit exit, a waste dump on the first junction below the rim
+      sweep:
+        dispatchers: [fixed, nearest, sptf, sq, min-idle]
+        fleet_sizes: [1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40]
+        seeds: 30
+        table_sizes: [8, 16, 24]
+      family:
+        fleet_sizes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        seeds: 30
+        horizon_s: 86400.0
+        warmup_s: 7200.0
+    resources: {gpu: none, disk_gib_est: 0.1, cpu: 8}
+    determinism: bitwise
+    timeout_s: 14400
+    outputs:
+      - {path: results-summary.json, schema: json, publish: true}
+      - {path: charts/a1-throughput-vs-fleet.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a1-queue-vs-fleet.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a1-match-factor-vs-fleet.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a1-utilisation-vs-fleet.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a1-hours-per-kt.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a1-des-vs-mva.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a1-dispatcher-table.json, schema: contract-chart-series, publish: true}

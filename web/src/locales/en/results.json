@@ -1,0 +1,382 @@
+{
+  "tabs": {
+    "label": "Result groups",
+    "learned-vs-classical": "Learned vs classical",
+    "sim-to-real": "Sim-to-real and sim-to-sim",
+    "parity": "Parity",
+    "dr-ablation": "DR ablation",
+    "isaac-lab": "Isaac Lab vs baselines",
+    "cosmos": "Cosmos vs Qwen vs detector",
+    "acceleration": "Acceleration"
+  },
+  "pending": {
+    "status": "Not yet run",
+    "reports": "What will be reported",
+    "criterion": "Pre-registered criterion",
+    "ppo-dispatch": {
+      "title": "PPO dispatch against SPTF and LP",
+      "reports": "Paired difference in tonnes per hour over paired seeds, with its 95 % interval",
+      "criterion": "At least 30 paired seeds; \"beats SPTF / LP\" only if the paired 95 % interval of the t/h difference excludes 0, otherwise \"no significant difference\" (SC-007-01)"
+    },
+    "attention-dispatch": {
+      "title": "Attention policy against SPTF, LP and PPO",
+      "reports": "Paired difference in tonnes per hour, overall and per fleet size",
+      "criterion": "At least 30 paired seeds; the same decision rule as for PPO; the per-fleet-size comparison is reported (SC-007-02)"
+    },
+    "slope-forecasters": {
+      "title": "Slope forecasters against inverse velocity",
+      "reports": "Time-of-failure error as a share of lead time on seeded synthetic events, per learned arm",
+      "criterion": "Median error at most 0.10 of the lead time at both noise levels; \"better than inverse velocity\" only when the paired interval lies above 0 (SC-010-01, SC-010-02)"
+    },
+    "gns-granular": {
+      "title": "Graph-network surrogate against the DEM solver",
+      "reports": "Repose-angle and run-out error on held-out geometries",
+      "criterion": "Repose error at most 1.5 degrees and run-out error at most 5 % on every one of the 20 held-out geometries (SC-011-01)"
+    },
+    "unet-watershed": {
+      "title": "U-Net against watershed with a Swebrec fit",
+      "reports": "Paired difference of the x50 error with its 95 % interval, real and synthetic images stated separately",
+      "criterion": "\"U-Net beats watershed\" only when the interval of the paired difference excludes 0 in its favour, otherwise \"no significant difference\" (SC-012-03)"
+    },
+    "unet-tstr": {
+      "title": "Train on synthetic, test on real (U-Net)",
+      "reports": "Foreground IoU ratio of TSTR to TRTR on the real test originals over 5 grouped folds, with every fold, the minimum and the spread",
+      "criterion": "Mean ratio of at least 0.90 (SC-012-02)"
+    },
+    "fragment-realism": {
+      "title": "Realism of the synthetic fragment images",
+      "reports": "Real-versus-synthetic classifier AUC above the real-versus-real AUC, injected-shift AUC, train-versus-test AUC and duplicate flags",
+      "criterion": "AUC excess at most 0.10, injected-shift AUC at least 0.80, train-versus-test AUC at most 0.60 and no duplicate flag, for both families (SC-012-04)"
+    },
+    "il1-sim-to-sim": {
+      "title": "Haul-truck policy, simulator against its browser twin",
+      "reports": "The sim-to-sim gap with its 95 % interval",
+      "criterion": "The gap is reported with its interval; no claim beyond it (SC-014-05)"
+    },
+    "slope-real-event": {
+      "title": "Slope forecasting on the real monitoring series",
+      "reports": "Time-of-failure error at the 50 % and 80 % record cut-offs, described and not tested",
+      "criterion": "One real event: reported descriptively, with no \"better than\" claim (SC-010-03)"
+    },
+    "onnx-parity": {
+      "title": "ONNX export against the training framework",
+      "reports": "Per model: maximum absolute and relative difference and argmax agreement on golden inputs",
+      "criterion": "Relative tolerance 1e-3, absolute tolerance 1e-5, maximum absolute difference 1e-4 and 100 % argmax agreement (SC-016-02)"
+    },
+    "web-engine-parity": {
+      "title": "Browser engines against their Python references",
+      "reports": "The parity verdict of each in-browser engine in Chromium, Firefox and WebKit",
+      "criterion": "Every engine either passes its parity class or is shown as precomputed replay with the note that parity is not confirmed (SC-018-01)"
+    },
+    "structured-dr": {
+      "title": "Structured domain randomisation against plain randomisation",
+      "reports": "Paired difference of detector accuracy with its 95 % interval",
+      "criterion": "\"Structured DR better\" only when the interval excludes 0 in its favour, otherwise \"no significant difference\" or \"worse\" (SC-009-04)"
+    },
+    "detector-small": {
+      "title": "Small detector on synthetic held-out images",
+      "reports": "mAP50 with its 95 % interval",
+      "criterion": "mAP50 of at least 0.80 (SC-009-01)"
+    },
+    "detector-nano": {
+      "title": "Nano detector on synthetic held-out images",
+      "reports": "mAP50 with its 95 % interval",
+      "criterion": "mAP50 of at least 0.70 (SC-009-02)"
+    },
+    "il1-route": {
+      "title": "Haul-truck imitation policy, route success",
+      "reports": "Route success without collision over seeded episodes, with its Wilson interval",
+      "criterion": "At least 95 % over 100 seeded episodes (SC-014-01)"
+    },
+    "il1-vs-pid": {
+      "title": "Haul-truck policy against pure pursuit with PID",
+      "reports": "Each metric with its paired interval",
+      "criterion": "\"Beats pure pursuit with PID\" only by the decision rule, per metric (SC-014-04)"
+    },
+    "il2-fill": {
+      "title": "Excavator policy, bucket fill",
+      "reports": "Fill factor per episode and the share of stalled episodes",
+      "criterion": "Fill factor of at least 0.8 in at least 80 % of episodes, stalls in at most 5 % (SC-014-06, SC-014-07)"
+    },
+    "cosmos-vs-qwen": {
+      "title": "Cosmos Reason against its base model",
+      "reports": "Per-question-type balanced accuracy with its interval and the McNemar test of the discordant answers",
+      "criterion": "\"Cosmos beats the base model\" only if the McNemar p-value is below 0.05 (SC-015-03)"
+    },
+    "cosmos-task-b": {
+      "title": "Cosmos Reason on the pre-registered chance-level task",
+      "reports": "Pair accuracy with its 95 % interval against chance",
+      "criterion": "\"Above chance\" only by the pre-registered rule against 0.5 (SC-015-05)"
+    },
+    "tensorrt-engines": {
+      "title": "TensorRT engines against their ONNX models",
+      "reports": "Latency, throughput, energy and accuracy change per engine, with every rejected variant listed",
+      "criterion": "Full precision within rtol 1e-3 and atol 1e-5; reduced precision within 1 percentage point; failing variants reported as rejected, none dropped (SC-016-01)"
+    },
+    "reduced-precision": {
+      "title": "Reduced-precision variants of the published models",
+      "reports": "Task-metric change against full precision",
+      "criterion": "Absolute change of at most 1 percentage point and mask IoU of at least 0.99 (SC-016-03)"
+    }
+  },
+  "rows": {
+    "versus": "{{challenger}} (challenger) against {{baseline}} (baseline)",
+    "pairing": "Pairing unit: {{unit}} · n = {{n}}",
+    "n": "n = {{n}}",
+    "interval": "{{level}} % interval of the difference: [{{lo}}, {{hi}}] ({{method}})",
+    "noInterval": "interval unavailable",
+    "system": "System: {{system}}",
+    "value": "Value: {{value}}",
+    "values": "Challenger value: {{challenger}} · baseline value: {{baseline}}",
+    "threshold": "Pre-registered threshold: {{comparator}} {{value}}",
+    "discordant": "Discordant pairs: b = {{b}}, c = {{c}} · p = {{p}}",
+    "unavailable": "unavailable"
+  },
+  "method": {
+    "paired-t": "paired t",
+    "paired-bootstrap": "paired bootstrap"
+  },
+  "orientation": {
+    "higher-is-better": "higher is better",
+    "lower-is-better": "lower is better"
+  },
+  "verdict": {
+    "better": "{{winner}} better than {{loser}}",
+    "none": "no significant difference",
+    "single": "single real event — no significance test",
+    "unavailable": "no verdict: the interval is not usable"
+  },
+  "accel": {
+    "model": "Model",
+    "backend": "Backend",
+    "precision": "Precision",
+    "status": "Status",
+    "parity": "Parity"
+  },
+  "simToReal": {
+    "tstr": {
+      "title": "Train on synthetic, test on real",
+      "label": "Ratio of TSTR to TRTR foreground IoU",
+      "criterion": "Criterion: at least {{value}}"
+    },
+    "c2st": {
+      "title": "Realism of the synthetic data (classifier two-sample test)",
+      "tabular": "Tabular data",
+      "1-d": "One-dimensional series",
+      "images": "Images",
+      "auc": "AUC synthetic vs real: {{value}}",
+      "baseline": "AUC real vs real (baseline): {{value}}",
+      "gap": "Gap: {{value}}",
+      "criterionAuc": "Criterion: AUC at most 0.6",
+      "criterionGap": "Criterion: gap at most 0.1"
+    },
+    "sim2sim": {
+      "title": "Simulator against simulator",
+      "fee-mpm-fill": "Fill gap, FEE against MPM",
+      "il-ts-twin": "Isaac Lab against the browser twin"
+    },
+    "probes": {
+      "title": "Sim-to-real on real probes",
+      "equipment": "Equipment",
+      "people": "People",
+      "notMeasured": "not measured"
+    },
+    "synthetic": {
+      "title": "Synthetic data without a real reference",
+      "label": "calibrated synthetic — not validated against real data"
+    }
+  },
+  "parityTab": {
+    "title": "Parity of the deployed commit",
+    "engine": "Engine",
+    "class": "Class",
+    "tolerance": "Tolerance",
+    "maxError": "Maximum observed error",
+    "browsers": "Browsers",
+    "verdict": "Verdict",
+    "pass": "pass",
+    "fail": "fail",
+    "notRun": "Not yet run: {{reason}}",
+    "empty": "No parity report is published yet."
+  },
+  "cosmosTab": {
+    "attribution": "Built on NVIDIA Cosmos",
+    "type": "Question type: {{type}}",
+    "balancedAccuracy": "Balanced accuracy",
+    "interval": "{{level}} % interval [{{lo}}, {{hi}}]",
+    "mcnemar": "Cosmos Reason 2 against Qwen3-VL-2B (exact McNemar test): p = {{p}}, b = {{b}}, c = {{c}}",
+    "q8": "Q8_0 versus BF16 agreement",
+    "q8Value": "Agreement {{value}} against the threshold {{threshold}}",
+    "noHeadline": "Cosmos results are never a headline KPI."
+  },
+  "accelTab": {
+    "model": "Model",
+    "backend": "Backend",
+    "precision": "Precision",
+    "status": "Status",
+    "p50": "Latency p50",
+    "p95": "Latency p95",
+    "throughput": "Throughput",
+    "energy": "Energy per inference",
+    "delta": "Accuracy change",
+    "parity": "Parity",
+    "ms": "{{value}} ms",
+    "itemsPerS": "{{value}} items/s",
+    "joules": "{{value}} J",
+    "pp": "{{value}} pp",
+    "rejected": "rejected",
+    "reason": "Reason: {{reason}}",
+    "withheld": "measured locally, not published (licence)",
+    "conditions": "Conditions",
+    "gpu": "GPU: {{gpu}}",
+    "driver": "Driver: {{driver}}",
+    "power": "Enforced power limit: {{watts}} W",
+    "throttle": "Throttle fractions",
+    "licence": "TensorRT licence SHA-256: {{sha}}",
+    "notComparative": "our hardware, not a comparative benchmark",
+    "sw_power_cap": "software power cap",
+    "sw_thermal": "software thermal",
+    "hw_thermal": "hardware thermal",
+    "hw_slowdown": "hardware slowdown",
+    "power_brake": "power brake",
+    "noLicence": "not recorded"
+  },
+  "criteria": {
+    "title": "Pre-registered criteria of the 13 models",
+    "model": "Model",
+    "criterion": "Pre-registered criterion",
+    "status": "Status",
+    "pass": "pass",
+    "fail": "fail",
+    "rows": {
+      "dfine": "D-FINE-N and D-FINE-S",
+      "rfdetr-seg": "RF-DETR-Seg-N",
+      "unet": "U-Net fragmentation",
+      "gns": "GNS granular surrogate",
+      "fno": "FNO surrogates",
+      "dispatch": "PPO and attention dispatch",
+      "il1": "IL-1 haul-truck policy",
+      "il2": "IL-2 excavator policy",
+      "slope-forecasters": "Slope forecasters",
+      "meta-model": "Mine-to-mill meta-model",
+      "dem-calibration": "DEM calibration",
+      "cosmos": "Cosmos Reason 2",
+      "tensorrt-engines": "TensorRT engines"
+    },
+    "fallback": {
+      "rfdetr-seg": "RF-DETR-Seg-N (fp32) on pit-family held-out images: mask AP50 of at least 0.70 (SC-009-05)",
+      "il2": "IL-2 fill factor of at least 0.8 in at least 80 % of FEE episodes (SC-014-06)",
+      "dem-calibration": "The 95 % interval of the recovered parameter covers the synthetic truth in at least 90 % of trials, at least 45 of 50, for each arm (SC-011-02)",
+      "tensorrt-engines": "Per-engine parity on every TensorRT version and execution provider: fp32 rtol 1e-3 and atol 1e-5; reduced precision within 1 percentage point; failing variants reported as rejected, none dropped (SC-016-01)"
+    }
+  },
+  "methodsPage": {
+    "title": "Methods",
+    "lead": "The ladder of methods M1 to M23 from the method registry: what each computes, how it is compared and where it runs.",
+    "table": {
+      "id": "Id",
+      "name": "Method",
+      "tiers": "Tier",
+      "implementation": "Implementation",
+      "spdx": "Licence (SPDX)",
+      "lanes": "Lane",
+      "cases": "Cases",
+      "learned": "Kind",
+      "status": "Status"
+    },
+    "learned": "learned",
+    "classical": "classical",
+    "computes": "What it computes",
+    "design": "Baseline and comparison design",
+    "baseline": "Baseline: {{baseline}}",
+    "metric": "Metric: {{metric}} ({{unit}}), {{orientation}}",
+    "pairing": "Pairing unit: {{unit}}, n = {{n}}",
+    "criterion": "Pre-registered acceptance criterion",
+    "criterionRef": "{{requirement}} of {{spec}}",
+    "lane": "Lane",
+    "laneList": "Lanes: {{lanes}}",
+    "estimate": "estimate",
+    "measured": "Measured gate values: interaction {{interaction}} ms, run at T2 {{run}} ms, largest asset {{bytes}} bytes; measured on {{tier}} on {{date}} in {{browser}}",
+    "simulate": "Runs live in the Simulate tab of",
+    "docs": "Documentation page",
+    "status": "Status",
+    "pass": "pass",
+    "fail": "fail"
+  },
+  "knowledge": {
+    "title": "Knowledge base",
+    "lead": "Glossary, equations, parameters, datasets, frameworks and bibliography, generated at build time from the pinned minephys tables.",
+    "navLabel": "Knowledge sections",
+    "nav": {
+      "glossary": "Glossary",
+      "equations": "Equations",
+      "parameters": "Parameters",
+      "datasets": "Datasets",
+      "frameworks": "Frameworks",
+      "bibliography": "Bibliography"
+    },
+    "provenance": "Generated from minephys {{version}} at commit {{commit}}",
+    "unverified": "UNVERIFIED — pinned at specification",
+    "verified": "verified",
+    "search": "Search",
+    "noTerms": "No matching terms",
+    "noParameters": "No matching parameters",
+    "filter": {
+      "module": "Module",
+      "status": "Status",
+      "all": "All"
+    },
+    "glossary": {
+      "termEn": "English term",
+      "termEs": "Spanish term",
+      "source": "Source: {{key}}"
+    },
+    "param": {
+      "id": "ID",
+      "module": "Module",
+      "value": "Value",
+      "units": "Units",
+      "si": "SI value",
+      "citation": "Citation",
+      "page": "Page or table",
+      "verification": "Verification",
+      "symbols": "Code symbols"
+    },
+    "eq": {
+      "symbols": "Symbols",
+      "symbol": "Symbol",
+      "meaning": "Meaning",
+      "units": "Units",
+      "source": "Source: {{key}}, {{page}}",
+      "function": "Implemented by",
+      "theory": "Theory page",
+      "tryIt": "Try it",
+      "result": "{{value}} {{unit}}",
+      "failed": "The engine could not evaluate this equation.",
+      "noEngine": "No browser engine is available in this build."
+    },
+    "datasets": {
+      "id": "Id",
+      "kind": "Kind",
+      "real": "real",
+      "synthetic": "synthetic",
+      "spdx": "Licence (SPDX)",
+      "redistribution": "Redistribution",
+      "landing": "Landing page",
+      "card": "Dataset card",
+      "provenance": "fetched by the pipeline, never redistributed"
+    },
+    "frameworks": {
+      "notYetRun": "Not yet run",
+      "evaluatedNotAdopted": "Evaluated, not adopted",
+      "done": "Done",
+      "licence": "Licence class: {{value}}"
+    },
+    "bib": {
+      "doi": "DOI",
+      "link": "Link",
+      "citedParameters": "Cited by parameters",
+      "citedEquations": "Cited by equations"
+    }
+  }
+}

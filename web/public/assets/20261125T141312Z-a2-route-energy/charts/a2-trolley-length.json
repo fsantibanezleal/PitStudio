@@ -1,0 +1,142 @@
+{
+ "caption": {
+  "en": "Round trip on the pit road; the ramp is electrified from the pit bottom upward. Descents draw nothing and regenerate nothing for a trolley truck.",
+  "es": "Ciclo completo en el camino del pit; la rampa se electrifica desde el fondo hacia arriba. Las bajadas no consumen ni regeneran en un camion con trolley."
+ },
+ "case": "A2",
+ "chart_type": "line",
+ "id": "a2-trolley-length",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
+  "method": "wheel energy m g (RR + grade) L per segment, drivetrain efficiencies and regeneration, grade-constrained least-energy A*",
+  "tool": "minephys",
+  "version": "0.0.0+gcabb880"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "id": "diesel",
+   "label": {
+    "en": "From the tank",
+    "es": "Del estanque"
+   },
+   "x": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+   ],
+   "y": [
+    9.34724,
+    8.30921,
+    7.40207,
+    6.49136,
+    5.52356,
+    4.63634,
+    3.70132,
+    2.69975,
+    1.81745,
+    0.778113,
+    0.0
+   ]
+  },
+  {
+   "id": "line",
+   "label": {
+    "en": "From the line",
+    "es": "De la linea"
+   },
+   "x": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+   ],
+   "y": [
+    0.0,
+    0.415213,
+    0.778068,
+    1.14235,
+    1.52947,
+    1.88436,
+    2.25837,
+    2.659,
+    3.01192,
+    3.42765,
+    3.7389
+   ]
+  },
+  {
+   "id": "total",
+   "label": {
+    "en": "Total at the source",
+    "es": "Total en la fuente"
+   },
+   "x": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+   ],
+   "y": [
+    9.34724,
+    8.72443,
+    8.18014,
+    7.63371,
+    7.05303,
+    6.5207,
+    5.95969,
+    5.35875,
+    4.82937,
+    4.20577,
+    3.7389
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-16",
+  "FR-007-34",
+  "FR-007-35"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Diesel and line energy against the electrified ramp share",
+  "es": "Energia diesel y de linea segun la proporcion de rampa electrificada"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Share of the ramp length under the trolley line",
+   "es": "Proporcion de la rampa bajo la linea de trolley"
+  },
+  "unit": "1"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Energy per payload tonne",
+   "es": "Energia por tonelada de carga util"
+  },
+  "unit": "kWh/t"
+ }
+}

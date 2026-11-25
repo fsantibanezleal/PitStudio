@@ -1,0 +1,108 @@
+{
+ "methods": [
+  "M14"
+ ],
+ "title": "C1 seeded event curves with the baselines and the three exported forecasters",
+ "label": "calibrated synthetic, not validated against real data; nominal signal-to-noise strata; forecasters run with ONNX Runtime CPU on the exported files",
+ "verdict": "ok",
+ "headline": [
+  {
+   "name": "Seeded test events baked",
+   "value": 12.0,
+   "unit": "1",
+   "note": "4 per stratum, chosen by rank of the TCN error"
+  },
+  {
+   "name": "Largest gap between a baked and a scored failure time",
+   "value": 0.0,
+   "unit": "h",
+   "note": "ONNX Runtime CPU against the scored rows of the GPU job"
+  }
+ ],
+ "rows": [
+  {
+   "event": "voight-test-nominal-10-2000108",
+   "stratum": "nominal_10",
+   "true_failure_h": 64.59,
+   "tcn_at_0_5_h": 59.08259197647144,
+   "tcn_at_0_8_h": 90.09650883434222
+  },
+  {
+   "event": "voight-test-nominal-10-2000450",
+   "stratum": "nominal_10",
+   "true_failure_h": 44.95,
+   "tcn_at_0_5_h": 37.718999752272765,
+   "tcn_at_0_8_h": 63.727976640647874
+  },
+  {
+   "event": "voight-test-nominal-10-2000231",
+   "stratum": "nominal_10",
+   "true_failure_h": 55.68,
+   "tcn_at_0_5_h": 42.97401291958579,
+   "tcn_at_0_8_h": 67.11707495959304
+  },
+  {
+   "event": "voight-test-nominal-10-2000498",
+   "stratum": "nominal_10",
+   "true_failure_h": 72.36,
+   "tcn_at_0_5_h": 50.843861380782855,
+   "tcn_at_0_8_h": 85.19723238116502
+  },
+  {
+   "event": "voight-test-nominal-100-2001097",
+   "stratum": "nominal_100",
+   "true_failure_h": 162.21,
+   "tcn_at_0_5_h": 136.35264841940165,
+   "tcn_at_0_8_h": 162.9514462539727
+  },
+  {
+   "event": "voight-test-nominal-100-2001320",
+   "stratum": "nominal_100",
+   "true_failure_h": 100.64,
+   "tcn_at_0_5_h": 75.57008677560056,
+   "tcn_at_0_8_h": 131.0267084867882
+  },
+  {
+   "event": "voight-test-nominal-100-2001262",
+   "stratum": "nominal_100",
+   "true_failure_h": 296.45,
+   "tcn_at_0_5_h": 193.2584328839399,
+   "tcn_at_0_8_h": 239.0151975893192
+  },
+  {
+   "event": "voight-test-nominal-100-2001114",
+   "stratum": "nominal_100",
+   "true_failure_h": 336.19,
+   "tcn_at_0_5_h": 195.66064668921933,
+   "tcn_at_0_8_h": 295.850521508828
+  },
+  {
+   "event": "voight-test-nominal-30-2000810",
+   "stratum": "nominal_30",
+   "true_failure_h": 84.35,
+   "tcn_at_0_5_h": 75.66523562283771,
+   "tcn_at_0_8_h": 91.48824496857671
+  },
+  {
+   "event": "voight-test-nominal-30-2000613",
+   "stratum": "nominal_30",
+   "true_failure_h": 293.73,
+   "tcn_at_0_5_h": 239.7374558334578,
+   "tcn_at_0_8_h": 317.28293851404834
+  },
+  {
+   "event": "voight-test-nominal-30-2000603",
+   "stratum": "nominal_30",
+   "true_failure_h": 687.59,
+   "tcn_at_0_5_h": 519.2016642278974,
+   "tcn_at_0_8_h": 805.6991761439284
+  },
+  {
+   "event": "voight-test-nominal-30-2000601",
+   "stratum": "nominal_30",
+   "true_failure_h": 142.5,
+   "tcn_at_0_5_h": 93.92202865894778,
+   "tcn_at_0_8_h": 174.71866331845627
+  }
+ ]
+}

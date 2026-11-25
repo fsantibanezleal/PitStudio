@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "seed": 20261008,
+  "pairs": [
+    {
+      "pair_id": "pair-001",
+      "scenario": "truck-dump",
+      "source_run_id": "20261009T020000Z-a1",
+      "corruptions": [
+        "gravity-x0.3"
+      ],
+      "calibrated": {
+        "asset_id": "clip-001-calibrated",
+        "path": "data/reason/task_b/001/calibrated.mp4",
+        "sha256": "611d399d6cc59abaf7a836e830f3aa415dca447034fc347e779d5e2c0ea591ff",
+        "duration_s": 6.0,
+        "frame_count": 180,
+        "fps": 30.0,
+        "camera_id": "cam-dump-02",
+        "scene_id": "truck-dump-s07"
+      },
+      "corrupted": {
+        "asset_id": "clip-001-corrupted",
+        "path": "data/reason/task_b/001/corrupted.mp4",
+        "sha256": "ca70f390425c6b841b4d6d95965b72a8116e76f8643a5908b46b54765cc52e2f",
+        "duration_s": 6.0,
+        "frame_count": 180,
+        "fps": 30.0,
+        "camera_id": "cam-dump-02",
+        "scene_id": "truck-dump-s07"
+      },
+      "confirmation": {
+        "statistic": "fitted_g_ratio",
+        "value": 0.35,
+        "sustained_s": null,
+        "own_detector_triggered": true,
+        "calibrated_detectors_clear": true
+      }
+    },
+    {
+      "pair_id": "pair-017",
+      "scenario": "bench-collapse",
+      "source_run_id": "20261009T020000Z-a1",
+      "corruptions": [
+        "frozen-particles"
+      ],
+      "calibrated": {
+        "asset_id": "clip-017-calibrated",
+        "path": "data/reason/task_b/017/calibrated.mp4",
+        "sha256": "8be0545dfcd013720e8dbab05d6c6e6f29fc849e9df6fb1d86b661f1f2979c8c",
+        "duration_s": 6.0,
+        "frame_count": 180,
+        "fps": 30.0,
+        "camera_id": "cam-dump-02",
+        "scene_id": "truck-dump-s07"
+      },
+      "corrupted": {
+        "asset_id": "clip-017-corrupted",
+        "path": "data/reason/task_b/017/corrupted.mp4",
+        "sha256": "4c2ac91aeed5dabc72928ddf1845b00eaa92baec5e35a760425f8fb6a4a7b5b4",
+        "duration_s": 6.0,
+        "frame_count": 180,
+        "fps": 30.0,
+        "camera_id": "cam-dump-02",
+        "scene_id": "truck-dump-s07"
+      },
+      "confirmation": {
+        "statistic": "frozen_particle_fraction",
+        "value": 0.08,
+        "sustained_s": 2.5,
+        "own_detector_triggered": true,
+        "calibrated_detectors_clear": true
+      }
+    }
+  ]
+}

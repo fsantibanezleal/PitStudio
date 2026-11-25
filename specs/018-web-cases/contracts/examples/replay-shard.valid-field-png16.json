@@ -1,0 +1,46 @@
+{
+  "document": "replay-shard-header",
+  "schema_version": "1.0",
+  "kind": "field",
+  "encoding": "png16",
+  "code_type": "uint16",
+  "code_range": {
+    "min": 0,
+    "max": 61234
+  },
+  "fps": 1,
+  "frames": {
+    "start": 0,
+    "count": 1
+  },
+  "items": 65536,
+  "channels": [
+    {
+      "name": "max_depth",
+      "unit": "m",
+      "min": 0.0,
+      "max": 40.0
+    }
+  ],
+  "bbox_m": {
+    "min": [
+      -1280.0,
+      -1280.0,
+      1500.0
+    ],
+    "max": [
+      1280.0,
+      1280.0,
+      2400.0
+    ]
+  },
+  "grid": {
+    "width": 256,
+    "height": 256
+  },
+  "payload": {
+    "path": "max-depth.png",
+    "bytes": 98304,
+    "sha256": "02ab58f586db3cde8e62208fe23ebdde3dcf56b718d9603622a2f4a824f6e3ef"
+  }
+}

@@ -62,8 +62,9 @@ $$
 \text{LIVE} \iff D \;\wedge\; S_{\text{asset}} \le 25\ \text{MB} \;\wedge\; \big(t_{\text{interaction}} \le 16\ \text{ms} \;\vee\; t_{\text{run}} \le 1\ \text{s on T2}\big) \;\wedge\; S_{\text{trace}} \le 10\ \text{MB}
 $$
 
-where $D$ is "web-drivable" (the engine exists in the browser), $S_{\text{asset}}$ the largest file the engine needs
-(MB), $t_{\text{interaction}}$ the time to respond to one input (ms), $t_{\text{run}}$ the time for one full run on the
+where $D$ is "web-drivable" (the engine exists in the browser), $S_{\text{asset}}$ the largest of the engine's own
+files — model, policy, shard, scene or fixture (MB; shared runtimes such as the ORT-web WASM build count against the
+runtime budget in [budgets](budgets.md), not here), $t_{\text{interaction}}$ the time to respond to one input (ms), $t_{\text{run}}$ the time for one full run on the
 WASM tier (s) and $S_{\text{trace}}$ the size of the trace it must load (MB). The 16 ms bound is one frame at 60 Hz. The
 measured values are stored in the manifest; CI fails on a mislabel. The tier never changes a lane: a LIVE
 engine that falls back to T0 shows its precomputed output with the REPLAY badge.
@@ -82,9 +83,10 @@ compute nodes is not documented [5], so T2 never assumes GPU compute: it switche
 **ONNX Runtime Web 1.30.** One build that loads in every browser. The WebGPU execution provider is the recommended path
 and the WebGL and JSEP paths are being phased out [6][7]; outputs can stay on the GPU (`preferredOutputLocation:
 'gpu-buffer'`) between steps of a surrogate rollout [8]. The WebGPU operator list does not support `Conv` in 3-D, and it
-does not confirm `NonMaxSuppression`, `ScatterElements` or `RoiAlign` [9]. Detectors are therefore exported with
-non-maximum suppression outside the graph (done in the worker), and the GNS is exported in a dense-adjacency form when
-scatter operators would fall back to the CPU. Models use ONNX opset 17–19, and the export pins the ONNX IR version to
+does not confirm `NonMaxSuppression`, `ScatterElements` or `RoiAlign` [9]. Detection needs no non-maximum
+suppression: D-FINE is NMS-free and keeps its top-K selection inside the exported graph
+([D-FINE](../models/d-fine.md)). The GNS is exported in a dense-adjacency form when scatter operators would fall back
+to the CPU. Models use ONNX opset 17–19, and the export pins the ONNX IR version to
 one that both ORT (Python and web) and TensorRT read: `onnx` now writes IR 14 by default while ORT 1.30 reads at most
 IR 13.
 
@@ -124,7 +126,7 @@ Every live engine that has a Python reference is checked against it, with tolera
 Exact DES parity needs care because JavaScript's `Math` functions have implementation-dependent precision across
 browsers and platforms [14]. The DES therefore uses a counter-based PRNG implemented identically in Python and
 TypeScript, draws variates without transcendental `Math.*` calls, and breaks event ties explicitly by
-(time, priority, sequence id).
+(time, sequence id).
 
 ## Worked examples
 

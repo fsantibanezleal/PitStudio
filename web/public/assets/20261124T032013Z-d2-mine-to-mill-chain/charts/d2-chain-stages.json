@@ -1,0 +1,148 @@
+{
+ "case": "D2",
+ "chart_type": "table",
+ "id": "d2-chain-stages",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic, not validated against real data",
+  "method": "Kuz-Ram/KCO blast, Whiten crusher, Bond law and cost chain; scrambled-Sobol sweeps and Saltelli/Jansen Sobol indices",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-017-01"
+ ],
+ "status": "ok",
+ "table": {
+  "columns": [
+   {
+    "id": "stage",
+    "label": {
+     "en": "Stage",
+     "es": "Etapa"
+    },
+    "type": "text"
+   },
+   {
+    "id": "quantity",
+    "label": {
+     "en": "Quantity",
+     "es": "Magnitud"
+    },
+    "type": "text"
+   },
+   {
+    "id": "value",
+    "label": {
+     "en": "Value",
+     "es": "Valor"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "unit",
+    "label": {
+     "en": "Unit",
+     "es": "Unidad"
+    },
+    "type": "text"
+   },
+   {
+    "id": "equation",
+    "label": {
+     "en": "Equation",
+     "es": "Ecuacion"
+    },
+    "type": "text"
+   },
+   {
+    "id": "source",
+    "label": {
+     "en": "Source",
+     "es": "Fuente"
+    },
+    "type": "text"
+   }
+  ],
+  "rows": [
+   [
+    "blast",
+    "charge per hole",
+    174.95999999999995,
+    "kg",
+    "Q = K B S H (powder factor K held by the design, S = (S/B) B)",
+    "minephys:spec-002-blasting, section 3"
+   ],
+   [
+    "blast",
+    "Kuznetsov mean size x50",
+    0.32512851718952396,
+    "m",
+    "x50 = A K^-0.8 Q^(1/6) (115 / RWS)^(19/20) cm",
+    "cunningham2005, eq. 1, p. 201"
+   ],
+   [
+    "blast",
+    "uniformity index n",
+    1.3567220645770544,
+    "1",
+    "n = (2.2 - 14 B/d) sqrt((1 + S/B)/2) (1 - W/B) (|BCL - CCL|/L + 0.1)^0.1 L/H",
+    "cunningham2005, eq. 3, p. 202"
+   ],
+   [
+    "blast",
+    "Swebrec undulation b",
+    4.942055331762868,
+    "1",
+    "b = 2 ln 2 ln(x_max / x50) n",
+    "mutinda2021, eq. 6, p. 109"
+   ],
+   [
+    "blast",
+    "run-of-mine x80",
+    0.6182779202384616,
+    "m",
+    "x = x_max (x50 / x_max)^(((1 - P) / P)^(1/b)) at P = 0.8",
+    "mutinda2021, eq. 1, p. 109"
+   ],
+   [
+    "crusher",
+    "crusher product F80",
+    0.05237268586717539,
+    "m",
+    "p = (I - C)(I - B C)^-1 f with Whiten classification and Austin breakage; F80 by log-log interpolation",
+    "minephys:spec-005-comminution, FR-005-24..31 (whiten1972crushing, UNVERIFIED attribution)"
+   ],
+   [
+    "mill",
+    "specific energy",
+    10.819199830904566,
+    "kWh/t",
+    "W = 10 W_i (1/sqrt(P80) - 1/sqrt(F80)), sizes in um",
+    "mcivor2016bondgmsg, p. 1"
+   ],
+   [
+    "mill",
+    "throughput",
+    924.2827710266931,
+    "t/h",
+    "t/h = eta P_mill / W",
+    "minephys:spec-005-comminution, FR-005-31 (mine_to_mill_chain)"
+   ],
+   [
+    "cost",
+    "cost per tonne",
+    1.4822026531390318,
+    "USD/t",
+    "K c_explosive / rho_rock + c_energy W + c_consumables (rho_rock 2.7 t/m3, UNVERIFIED)",
+    "spec 017 FR-017-01; illustrative unit costs"
+   ]
+  ]
+ },
+ "title": {
+  "en": "Chain stages of the reference design, each with its equation",
+  "es": "Etapas de la cadena del diseno de referencia, cada una con su ecuacion"
+ }
+}

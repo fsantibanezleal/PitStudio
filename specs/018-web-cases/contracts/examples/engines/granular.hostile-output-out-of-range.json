@@ -1,0 +1,12 @@
+{
+  "kind": "output",
+  "engine": "granular",
+  "engine_version": "0.1.0",
+  "function": "dem_pile",
+  "result": {
+    "repose_angle_rad": 0.5934119456780721,
+    "particle_count": 20000,
+    "mass_drift_fraction": -0.001,
+    "steps": 200000
+  }
+}

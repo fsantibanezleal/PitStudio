@@ -1,0 +1,196 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c2-arrival-distance",
+ "case": "C2",
+ "chart_type": "line",
+ "status": "ok",
+ "title": {
+  "en": "Arrival time of the flow against distance from the breach",
+  "es": "Tiempo de llegada del flujo seg\u00fan la distancia"
+ },
+ "producer": {
+  "tool": "warp",
+  "method": "depth-averaged shallow water, Rusanov flux with hydrostatic reconstruction, Bingham bed stress",
+  "version": "warp-1.17.0-swe-1.0",
+  "label": "synthetic breach scenario of a hypothetical facility on real terrain, not validated against real data"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-005-30"
+ ],
+ "caption": {
+  "en": "Earliest arrival over all cells in 100 m distance bins (straight-line distance from the breach)",
+  "es": "Llegada m\u00e1s temprana entre todas las celdas en intervalos de 100 m de distancia en l\u00ednea recta"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Distance from the breach",
+   "es": "Distancia desde la rotura"
+  },
+  "unit": "km"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Arrival time",
+   "es": "Tiempo de llegada"
+  },
+  "unit": "min"
+ },
+ "series": [
+  {
+   "id": "s1-reference",
+   "label": {
+    "en": "Reference: 100,000 m3, 100 Pa",
+    "es": "Referencia: 100.000 m3, 100 Pa"
+   },
+   "x": [
+    0.05,
+    0.15,
+    0.25,
+    0.35,
+    0.45,
+    0.55,
+    0.65,
+    0.75,
+    0.85,
+    0.95,
+    1.45,
+    1.55,
+    1.65,
+    1.75,
+    1.85,
+    1.95,
+    2.05,
+    2.15
+   ],
+   "y": [
+    6.03,
+    29.04,
+    67.73,
+    72.77,
+    80.44,
+    84.25,
+    107.2,
+    131.67,
+    158.67,
+    117.58,
+    143.59,
+    141.72,
+    154.8,
+    195.77,
+    167.17,
+    169.27,
+    170.53,
+    175.7
+   ],
+   "n": 160
+  },
+  {
+   "id": "s2-fluid",
+   "label": {
+    "en": "Fluid: 100,000 m3, 10 Pa",
+    "es": "Fluido: 100.000 m3, 10 Pa"
+   },
+   "x": [
+    0.05,
+    0.15,
+    0.25,
+    0.35,
+    0.45,
+    0.55,
+    0.65,
+    0.75,
+    0.85,
+    0.95,
+    1.05,
+    1.45,
+    1.55,
+    1.65,
+    1.75,
+    1.85,
+    1.95,
+    2.05,
+    2.15
+   ],
+   "y": [
+    6.03,
+    29.04,
+    67.93,
+    73.0,
+    80.67,
+    84.45,
+    106.36,
+    122.7,
+    137.44,
+    116.76,
+    156.36,
+    143.01,
+    141.33,
+    150.77,
+    179.13,
+    163.81,
+    166.83,
+    168.63,
+    173.62
+   ],
+   "n": 168
+  },
+  {
+   "id": "s3-large",
+   "label": {
+    "en": "Large: 200,000 m3, 100 Pa",
+    "es": "Grande: 200.000 m3, 100 Pa"
+   },
+   "x": [
+    0.05,
+    0.15,
+    0.25,
+    0.35,
+    0.45,
+    0.55,
+    0.65,
+    0.75,
+    0.85,
+    0.95,
+    1.05,
+    1.15,
+    1.25,
+    1.35,
+    1.45,
+    1.55,
+    1.65,
+    1.75,
+    1.85,
+    1.95,
+    2.05,
+    2.15
+   ],
+   "y": [
+    4.26,
+    21.5,
+    43.89,
+    49.36,
+    56.78,
+    60.84,
+    75.24,
+    88.14,
+    100.37,
+    86.41,
+    113.24,
+    124.36,
+    135.13,
+    145.2,
+    114.65,
+    113.25,
+    119.6,
+    140.12,
+    133.22,
+    136.79,
+    138.86,
+    143.7
+   ],
+   "n": 321
+  }
+ ]
+}

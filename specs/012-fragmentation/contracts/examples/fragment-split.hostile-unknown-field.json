@@ -1,0 +1,68 @@
+{
+  "kind": "folds",
+  "source_id": "mendeley-78ht3pjsr4",
+  "archive_sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+  "split_id": "mendeley-78ht3pjsr4",
+  "split_membership_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+  "validation_fraction": 0.1,
+  "validation_seed": 20261004,
+  "expansion": "dihedral-4",
+  "folds": [
+    {
+      "fold": 0,
+      "validation_originals": [
+        2,
+        5,
+        8,
+        11,
+        14,
+        17
+      ]
+    },
+    {
+      "fold": 1,
+      "validation_originals": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18
+      ]
+    },
+    {
+      "fold": 2,
+      "validation_originals": [
+        1,
+        4,
+        7,
+        10,
+        13,
+        16
+      ]
+    },
+    {
+      "fold": 3,
+      "validation_originals": [
+        20,
+        23,
+        26,
+        29,
+        32,
+        35
+      ]
+    },
+    {
+      "fold": 4,
+      "validation_originals": [
+        19,
+        22,
+        25,
+        28,
+        31,
+        34
+      ]
+    }
+  ],
+  "bogus": 1
+}

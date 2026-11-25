@@ -1,0 +1,71 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c2-area-bars",
+ "case": "C2",
+ "chart_type": "bar",
+ "status": "ok",
+ "title": {
+  "en": "Inundated area by scenario",
+  "es": "\u00c1rea inundada por escenario"
+ },
+ "producer": {
+  "tool": "warp",
+  "method": "depth-averaged shallow water, Rusanov flux with hydrostatic reconstruction, Bingham bed stress",
+  "version": "warp-1.17.0-swe-1.0",
+  "label": "synthetic breach scenario of a hypothetical facility on real terrain, not validated against real data"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-005-30"
+ ],
+ "caption": {
+  "en": "Area of cells whose maximum depth exceeds 0.05 m",
+  "es": "\u00c1rea de celdas cuya profundidad m\u00e1xima supera 0.05 m"
+ },
+ "kpi": "inundated_area",
+ "y_axis": {
+  "label": {
+   "en": "Inundated area",
+   "es": "\u00c1rea inundada"
+  },
+  "unit": "km2"
+ },
+ "categories": [
+  {
+   "id": "s1-reference",
+   "label": {
+    "en": "Reference: 100,000 m3, 100 Pa",
+    "es": "Referencia: 100.000 m3, 100 Pa"
+   }
+  },
+  {
+   "id": "s2-fluid",
+   "label": {
+    "en": "Fluid: 100,000 m3, 10 Pa",
+    "es": "Fluido: 100.000 m3, 10 Pa"
+   }
+  },
+  {
+   "id": "s3-large",
+   "label": {
+    "en": "Large: 200,000 m3, 100 Pa",
+    "es": "Grande: 200.000 m3, 100 Pa"
+   }
+  }
+ ],
+ "series": [
+  {
+   "id": "inundated-area",
+   "label": {
+    "en": "Inundated area",
+    "es": "\u00c1rea inundada"
+   },
+   "y": [
+    0.256,
+    0.2688,
+    0.5136
+   ]
+  }
+ ]
+}

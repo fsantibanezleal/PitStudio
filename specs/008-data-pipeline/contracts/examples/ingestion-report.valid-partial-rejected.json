@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "source": "usgs-3dep-bingham",
+  "stage": "s10_preprocess",
+  "run_id": "20261007T101500Z-e1-pit-shell",
+  "created": "2026-10-07T10:21:03Z",
+  "status": "rejected",
+  "files": [
+    {
+      "path": "raw/usgs-3dep-bingham/USGS_1M_12_x42y449_2016.tif",
+      "sha256": "630d969fec086778cf8f4217fee2bb05eee4ec7d41fee1feec3cdd5e8e5ec3fd",
+      "validator": "raster",
+      "schema_name": "dem_geotiff",
+      "status": "rejected",
+      "records": null
+    },
+    {
+      "path": "raw/usgs-3dep-bingham/USGS_1M_12_x42y450_2016.tif",
+      "sha256": null,
+      "validator": "raster",
+      "schema_name": "dem_geotiff",
+      "status": "unavailable",
+      "records": null
+    }
+  ],
+  "violations": [
+    {
+      "file": "raw/usgs-3dep-bingham/USGS_1M_12_x42y449_2016.tif",
+      "row": null,
+      "pixel": null,
+      "field": "crs",
+      "field_kind": "property",
+      "value": null,
+      "expected": "an EPSG coordinate reference system",
+      "rule": "CRS present",
+      "unit": null
+    }
+  ],
+  "outputs": [],
+  "partial": true
+}

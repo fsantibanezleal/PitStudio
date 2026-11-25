@@ -1,0 +1,564 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/job.schema.json",
+  "title": "PitStudio job spec and stage result",
+  "description": "Job spec the runner hands to a stage process and the stage result it reads back (DC-002-02, spec 002-runner).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/job_spec"
+    },
+    {
+      "$ref": "#/$defs/stage_result"
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "module_path": {
+      "type": "string",
+      "maxLength": 200,
+      "pattern": "^[a-z_][a-z0-9_]{0,63}(\\.[a-z_][a-z0-9_]{0,63}){0,7}$"
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "validator_id": {
+      "type": "string",
+      "maxLength": 48,
+      "pattern": "^[a-z][a-z0-9-]{1,47}$"
+    },
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "artefact_kind": {
+      "enum": [
+        "video",
+        "image",
+        "figure",
+        "point-cloud",
+        "mesh",
+        "tiles",
+        "splat",
+        "onnx",
+        "table",
+        "trace",
+        "shard",
+        "field",
+        "text",
+        "model-card",
+        "telemetry",
+        "usd"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "local_path": {
+      "description": "absolute local path in forward-slash form (job specs are local only and never published): an optional drive, no empty, `.` or `..` segment, no backslash",
+      "type": "string",
+      "maxLength": 1024,
+      "pattern": "^([A-Za-z]:)?(/\\.?[A-Za-z0-9_@+~=,-]([A-Za-z0-9 ._@+~=,-]*[A-Za-z0-9_@+~=,-])?)+$"
+    },
+    "stage_dir": {
+      "description": "the execution folder <store>/runs/<run_id>/tmp/<stage key>/<shard> (FR-002-12)",
+      "allOf": [
+        {
+          "$ref": "#/$defs/local_path"
+        },
+        {
+          "pattern": "^.*/runs/[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}/tmp/[a-z][a-z0-9_]{1,31}(@[a-z0-9][a-z0-9-]{0,31})?/[0-9]{1,4}$"
+        }
+      ]
+    },
+    "input_name": {
+      "description": "a source id, or <stage key>/<output path> of an upstream stage (the names of the cache key, FR-002-08)",
+      "type": "string",
+      "maxLength": 360,
+      "pattern": "^([a-z0-9][a-z0-9-]{0,63}|[a-z][a-z0-9_]{1,31}(@[a-z0-9][a-z0-9-]{0,31})?/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15})$"
+    },
+    "shard": {
+      "type": "object",
+      "description": "0-based shard index; size = items per shard and total = items (the recipe's `shardable`)",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "size",
+        "total"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9999
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000
+        }
+      }
+    },
+    "job_spec": {
+      "type": "object",
+      "description": "job spec runs/<run_id>/tmp/<stage key>/<shard>/job.json written by the runner (plan.md D5); local only",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "run_id",
+        "stage",
+        "entry",
+        "params",
+        "seed",
+        "shard",
+        "inputs",
+        "output_dir",
+        "scratch_dir",
+        "resume",
+        "rerun",
+        "profiling",
+        "profile",
+        "vram_fraction",
+        "nvtx_range"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "editor hint; ignored by consumers"
+        },
+        "schema_version": {
+          "$ref": "#/$defs/schema_version"
+        },
+        "run_id": {
+          "$ref": "#/$defs/run_id"
+        },
+        "stage": {
+          "$ref": "manifest.schema.json#/$defs/stage_key"
+        },
+        "entry": {
+          "$ref": "#/$defs/module_path"
+        },
+        "params": {
+          "$ref": "manifest.schema.json#/$defs/params"
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "shard": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/shard"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/input_name"
+              },
+              "path": {
+                "$ref": "#/$defs/local_path"
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              }
+            }
+          },
+          "maxItems": 32
+        },
+        "output_dir": {
+          "$ref": "#/$defs/stage_dir"
+        },
+        "scratch_dir": {
+          "$ref": "#/$defs/local_path"
+        },
+        "resume": {
+          "type": "boolean"
+        },
+        "rerun": {
+          "type": "boolean"
+        },
+        "profiling": {
+          "type": "boolean"
+        },
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "cpu_slots"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/slug"
+            },
+            "cpu_slots": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 256
+            }
+          }
+        },
+        "vram_fraction": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nvtx_range": {
+          "type": "string",
+          "maxLength": 200,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:@/#-]{0,199}$"
+        }
+      }
+    },
+    "result_error_class": {
+      "description": "error classes a stage may report itself; the runner assigns the others (data-model 001 section 2.3)",
+      "enum": [
+        "oom",
+        "invalid-output",
+        "lock-not-held",
+        "unknown",
+        null
+      ]
+    },
+    "reason": {
+      "description": "why the stage could not run: one line, not blank",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^[^\\x00-\\x1f\\x7f]*[^\\x00-\\x20\\x7f][^\\x00-\\x1f\\x7f]*$"
+    },
+    "output_artefact": {
+      "type": "object",
+      "description": "artefact facts the stage reports for an output offered for publication (manifest artefact rules 4 and 5)",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "budget_class"
+      ],
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/artefact_kind"
+        },
+        "media_type": {
+          "$ref": "manifest.schema.json#/$defs/artefact/properties/media_type"
+        },
+        "budget_class": {
+          "$ref": "manifest.schema.json#/$defs/artefact/properties/budget_class"
+        },
+        "cases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/case_id"
+          },
+          "maxItems": 12,
+          "uniqueItems": true
+        },
+        "lane_measurements": {
+          "$ref": "manifest.schema.json#/$defs/lane_measurements"
+        },
+        "encoder": {
+          "$ref": "manifest.schema.json#/$defs/encoder"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "video"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "encoder"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "encoder"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "image",
+                  "figure",
+                  "table",
+                  "text",
+                  "model-card",
+                  "usd"
+                ]
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "lane_measurements"
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "lane_measurements"
+            ]
+          }
+        }
+      ]
+    },
+    "stage_output": {
+      "type": "object",
+      "description": "an output relative to the execution folder",
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "validator": {
+          "$ref": "#/$defs/validator_id"
+        },
+        "validated": {
+          "type": "boolean"
+        },
+        "artefact": {
+          "$ref": "#/$defs/output_artefact"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "validated"
+            ]
+          },
+          "then": {
+            "required": [
+              "validator"
+            ],
+            "properties": {
+              "validator": {
+                "pattern": "^stage-[a-z0-9-]{1,42}$"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "stage_result": {
+      "type": "object",
+      "description": "stage result result.json written by the stage helper (plan.md D5); at most 65,536 bytes",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "status",
+        "error_class",
+        "outputs",
+        "checkpoint"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "editor hint; ignored by consumers"
+        },
+        "schema_version": {
+          "$ref": "#/$defs/schema_version"
+        },
+        "status": {
+          "enum": [
+            "succeeded",
+            "failed",
+            "not_run"
+          ]
+        },
+        "error_class": {
+          "$ref": "#/$defs/result_error_class"
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stage_output"
+          },
+          "maxItems": 64
+        },
+        "observables": {
+          "type": "object",
+          "description": "observable -> value (finite)",
+          "propertyNames": {
+            "maxLength": 64,
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "additionalProperties": {
+            "type": "number"
+          },
+          "maxProperties": 32
+        },
+        "throughput": {
+          "$ref": "manifest.schema.json#/$defs/stage/properties/throughput"
+        },
+        "checkpoint": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "error_class": {
+                "const": null
+              },
+              "outputs": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "error_class": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "failed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "error_class": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

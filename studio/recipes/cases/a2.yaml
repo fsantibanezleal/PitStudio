@@ -1,0 +1,49 @@
+# Case A2, haul-road physics and electrification (spec 007 FR-007-34 to FR-007-40, FR-018-16; plan 007 A2-U2), CPU only.
+# One stage: route energy, fuel and CO2e per tonne for diesel, trolley-assist and battery-electric trucks (pitstudio.haulage.energy
+# over minephys.haulage) on a straight climb against the grade, on the road route from the deepest bench to the pit exit of the A1
+# pit design, with the saving of electrifying a share of the ramp, and the least-energy grade-constrained A* route over the real
+# terrain model (3DEP 2018) for a sweep of the grade limit. Every constant (gravity, the four drivetrain efficiencies, the diesel
+# lower heating value, the diesel CO2 factor) is a verified minephys knowledge row with a primary citation (rows of minephys spec 001,
+# DC-001-01 and DC-001-02); the run lists each row with its source. Rolling resistance and the trolley layout are illustrative
+# scenario assumptions. Nothing is validated against measurements.
+id: a2
+case: A2
+seed: 0
+description: A2 route energy, fuel and CO2e per tonne by drivetrain on the Bingham pit road and the least-energy A* routes over the real terrain.
+stages:
+  - id: s05_synthesize
+    variant: route-energy-sweep
+    env: pipeline
+    tool: minephys
+    entry: pitstudio_pipeline.haulage.a2_run
+    inputs: []  # the road network and the terrain grid are named in params; their digests are in the run record
+    params:
+      seed: 0
+      inputs:
+        road_network: processed/scene/a1-bingham-v3/st20_pit_design/design/road-network.geojson
+      scenario:
+        truck: {empty_mass_t: 165.0, payload_t: 227.0}   # the engine catalog class CAT_793F (public specification magnitudes)
+        rr_pct: 2.5                  # illustrative rolling resistance, an assumption for the site (swept below)
+        rr_sweep_pct: [2.0, 2.5, 4.0]
+        grade_min_pct: 0.0
+        grade_max_pct: 15.0
+        grade_n: 31
+        simplify_epsilon_m: 5.0      # Douglas-Peucker tolerance of the road polylines
+        trolley_n: 10                # steps of the electrified share of the ramp length
+        a_star:
+          terrain_grid: processed/scene/a1-bingham-v3/st10_terrain/terrain/grid.zarr
+          cell_m: 10.0               # the 1 m terrain model averaged to 10 m cells
+          g_max_sweep: [0.06, 0.08, 0.10, 0.12, 0.15, 0.20, 0.25]
+    resources: {gpu: none, disk_gib_est: 0.1, cpu: 1}
+    determinism: bitwise
+    timeout_s: 1800
+    outputs:
+      - {path: results-summary.json, schema: json, publish: true}
+      - {path: charts/a2-fuel-vs-grade.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a2-energy-vs-grade.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a2-co2-vs-grade.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a2-drivetrain-energy.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a2-trolley-length.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a2-route-length-vs-gmax.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a2-route-table.json, schema: contract-chart-series, publish: true}
+      - {path: charts/a2-assumptions.json, schema: contract-chart-series, publish: true}

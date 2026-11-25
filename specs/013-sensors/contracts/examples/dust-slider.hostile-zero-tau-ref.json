@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "source": {
+    "run_id": "20261007T120000Z-b1-sensors",
+    "sensor": "rotary-64",
+    "frame": 0
+  },
+  "returns": 98012,
+  "levels": 41,
+  "k": [
+    0.0,
+    0.016129,
+    0.018797,
+    0.021905,
+    0.025528,
+    0.029751,
+    0.034671,
+    0.040405,
+    0.047088,
+    0.054876,
+    0.063952,
+    0.074529,
+    0.086856,
+    0.101221,
+    0.117962,
+    0.137472,
+    0.160208,
+    0.186705,
+    0.217585,
+    0.253571,
+    0.29551,
+    0.344385,
+    0.401343,
+    0.467721,
+    0.545078,
+    0.63523,
+    0.740291,
+    0.862729,
+    1.005416,
+    1.171704,
+    1.365493,
+    1.591334,
+    1.854526,
+    2.161249,
+    2.518701,
+    2.935272,
+    3.42074,
+    3.986501,
+    4.645833,
+    5.414214,
+    6.309677
+  ],
+  "tau_ref": 0,
+  "rule": {
+    "tau_on": 0.3216,
+    "tau_floor_retro": 3.912,
+    "tau_floor_diffuse": 2.8134
+  },
+  "dust_return_intensity": 0.05,
+  "material_codes": {
+    "retro": 1,
+    "diffuse": 0,
+    "dust": 2
+  },
+  "label": "own Beer–Lambert dust model",
+  "quantisation": {
+    "offset_m": [
+      -120.0,
+      -120.0,
+      -8.0
+    ],
+    "scale_m": [
+      0.003662,
+      0.003662,
+      0.000488
+    ]
+  },
+  "encoding": {
+    "position": "uint16",
+    "intensity": "uint8",
+    "class": "uint8",
+    "tau_unit": "float32",
+    "r_edge_m": "float32",
+    "hash": "uint32",
+    "byte_order": "little",
+    "layout": "planar"
+  },
+  "payload": {
+    "path": "assets/sensors/b1/slider-rotary-64-f00000.bin",
+    "bytes": 1960240,
+    "sha256": "e0d98dc324387a546d6e41b5d196102a03c713e1b2cb30f477bf00f11bd9153a"
+  }
+}

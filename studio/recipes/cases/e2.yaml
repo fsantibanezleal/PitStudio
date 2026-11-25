@@ -1,0 +1,61 @@
+# Case E2: survey volumes. This recipe holds the real half of spec 017: the Bingham Canyon 2018 to 2023 excavated volume by
+# DEM differencing of the two 3DEP lidar models (FR-017-30..34), CPU only. The known-volume scene, the twelve rendered flights
+# and the COLMAP and Brush reconstructions (FR-017-35..45) are later stages and are not part of this recipe yet.
+id: e2-survey
+case: E2
+seed: 0
+description: E2 real Bingham Canyon 2018 to 2023 cut, fill and net volume with uncertainty bounds, difference map and table.
+stages:
+  - id: st10_terrain
+    variant: real-volume
+    env: studio
+    tool: pitstudio
+    entry: pitstudio_studio.survey.real_run
+    inputs:
+      - {id: usgs-3dep-bingham, sha256: 484a57cc33c95696d163bddf5dc6de353e71cc3d1946b568cf895939c6c90391}  # UT Central QL2 2018
+      - {id: usgs-3dep-bingham, sha256: e1b755b0f23f6a8f0f361fa941c819bf7bf804e8678dd372c48ccbfbea1cec19}  # UT 2023 Salt Lake Co
+    params:
+      id: bingham-2018-2023
+      dem_2018: raw/usgs-3dep-bingham/ut-central-ql2-2018-dem.tif
+      dem_2023: raw/usgs-3dep-bingham/ut-2023-salt-lake-co-dem.tif
+      licence:
+        spdx: LicenseRef-USGov-PD
+        licence_class: public-domain
+        attribution: U.S. Geological Survey, 3D Elevation Program (public domain)
+      # The GeoTIFFs carry no vertical-datum, geoid or accuracy tags, so the recipe supplies them with their sources
+      # (FR-017-31). The geoid model of either product is not stated by the product text read: it stays unspecified
+      # (UNVERIFIED), never guessed, and the run reports that.
+      dem_metadata:
+        epoch_2018:
+          project: UT Central QL2 2018
+          vertical_datum: NAVD88
+          rmse_z_m: 0.10
+          source: "The National Map product text of 'USGS one meter x40y449 UT Central QL2 2018': elevations in metres referenced to NAVD88; RMSEz is the QL2 specification bound for non-vegetated vertical accuracy (10 cm), not the project-reported value (UNVERIFIED)"
+        epoch_2023:
+          project: UT 2023 Salt Lake Co
+          vertical_datum: NAVD88
+          rmse_z_m: 0.10
+          source: "The National Map product text of 'USGS 1 Meter 12 x40y449 UT_2023SaltLakeCo_C24': elevations in metres referenced to NAVD88; RMSEz is the QL1 and QL2 specification bound (10 cm), not the project-reported value (UNVERIFIED)"
+      areas:
+        - id: pit-outline
+          label: Bingham pit outline (scene A1)
+          label_es: Contorno del pit de Bingham (escena A1)
+          footprint_file: processed/scene/a1-bingham-v3/inputs/pit-outline.geojson
+          origin_m: [402500.0, 4486500.0]
+          footprint_label: scene A1 pit outline (an st20 input derived from the 2018 DEM, not the Tang and Werner footprint)
+        - id: query-box
+          label: 3DEP query box, cells with data in both epochs
+          label_es: Caja de consulta 3DEP, celdas con dato en ambas épocas
+      map_area: pit-outline
+      notes:
+        - the site label stays provisional because the Tang and Werner mining footprint is not fetched
+        - the 2023 tile has no valid cell inside the pit outline; the two tiles overlap only in a strip east of the pit
+        - the geoid model of both DEMs is unspecified in the product text read (UNVERIFIED)
+    resources: {gpu: none, disk_gib_est: 4.0, cpu: 1}
+    determinism: bitwise
+    timeout_s: 3600
+    outputs:
+      - {path: survey-volume.json, schema: contract-survey-volume, publish: true}
+      - {path: charts/e2-volume-bars.json, schema: contract-chart-series, publish: true}
+      - {path: charts/e2-difference-map.json, schema: contract-chart-series, publish: true}
+      - {path: charts/e2-volume-table.json, schema: contract-chart-series, publish: true}

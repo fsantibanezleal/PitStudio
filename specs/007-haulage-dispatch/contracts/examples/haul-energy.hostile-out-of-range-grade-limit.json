@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "id": "a2-ramp-worked-example",
+  "knowledge": {
+    "package": "minephys",
+    "version": "0.1.0"
+  },
+  "routes": [
+    {
+      "id": "ramp-2km-10pct",
+      "length_m": 2000.0,
+      "segments": [
+        {
+          "length_m": 2000.0,
+          "grade_pct": 10.0,
+          "rolling_resistance_pct": 3.0,
+          "trolley": false
+        }
+      ],
+      "grade_limit_frac": 1.5,
+      "dp_tolerance_m": 0.5
+    }
+  ],
+  "rows": [
+    {
+      "route": "ramp-2km-10pct",
+      "drivetrain": "diesel",
+      "leg": "loaded",
+      "empty_mass_t": 173.0,
+      "payload_t": 227.0,
+      "wheel_energy_kwh": 283.4,
+      "source_energy_kwh": 809.71,
+      "regenerated_kwh": 0.0,
+      "source_energy_kwh_per_t": 3.567,
+      "fuel_l_per_t_km": 0.17925,
+      "co2e_kg_per_t": 0.9669,
+      "basis": {
+        "per_tonne": "payload-t",
+        "per_km": "along-road-km"
+      },
+      "knowledge_rows": [
+        "gravity_acceleration",
+        "diesel_drivetrain_efficiency",
+        "diesel_energy_density",
+        "diesel_co2_per_litre"
+      ],
+      "unverified_rows": [
+        "diesel_drivetrain_efficiency",
+        "diesel_energy_density"
+      ]
+    },
+    {
+      "route": "ramp-2km-10pct",
+      "drivetrain": "trolley",
+      "leg": "loaded",
+      "empty_mass_t": 173.0,
+      "payload_t": 227.0,
+      "wheel_energy_kwh": 283.4,
+      "source_energy_kwh": 809.71,
+      "regenerated_kwh": 0.0,
+      "source_energy_kwh_per_t": 3.567,
+      "fuel_l_per_t_km": 0.17925,
+      "co2e_kg_per_t": 0.9669,
+      "basis": {
+        "per_tonne": "payload-t",
+        "per_km": "along-road-km"
+      },
+      "knowledge_rows": [
+        "gravity_acceleration",
+        "diesel_drivetrain_efficiency",
+        "diesel_energy_density",
+        "diesel_co2_per_litre"
+      ],
+      "unverified_rows": [
+        "diesel_drivetrain_efficiency",
+        "diesel_energy_density"
+      ]
+    },
+    {
+      "route": "ramp-2km-10pct",
+      "drivetrain": "bev",
+      "leg": "loaded",
+      "empty_mass_t": 173.0,
+      "payload_t": 227.0,
+      "wheel_energy_kwh": 283.4,
+      "source_energy_kwh": 333.41,
+      "regenerated_kwh": 0.0,
+      "source_energy_kwh_per_t": 1.4688,
+      "fuel_l_per_t_km": null,
+      "co2e_kg_per_t": 0.5875,
+      "basis": {
+        "per_tonne": "payload-t",
+        "per_km": "along-road-km"
+      },
+      "knowledge_rows": [
+        "gravity_acceleration",
+        "bev_drivetrain_efficiency",
+        "grid_co2e_per_kwh"
+      ],
+      "unverified_rows": [
+        "bev_drivetrain_efficiency",
+        "grid_co2e_per_kwh"
+      ]
+    }
+  ],
+  "honesty": {
+    "label": "calibrated synthetic — not validated against real data",
+    "bias_note": "Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it."
+  }
+}

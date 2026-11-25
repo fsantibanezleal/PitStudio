@@ -1,0 +1,58 @@
+{
+  "scenario": "rain",
+  "backend": "isaac",
+  "poses": "traces/b1-haul-poses.parquet",
+  "sensors": [
+    {
+      "kind": "lidar",
+      "id": "rotary-64",
+      "scan_type": "rotary",
+      "channels": 64,
+      "elevation_fan_deg": [
+        -22.5,
+        22.5
+      ],
+      "azimuth_fan_deg": [
+        -180,
+        180
+      ],
+      "horizontal_resolution_deg": 0.2,
+      "min_range_m": 0.5,
+      "max_range_m": 200,
+      "range_accuracy_m": 0.02,
+      "max_returns": 2,
+      "frame_rate_hz": 10,
+      "mount_position_m": [
+        4.5,
+        0,
+        3.2
+      ],
+      "mount_rotation_deg": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "rain_rates_mm_h": [
+    0,
+    2,
+    10,
+    50
+  ],
+  "metrics": {
+    "k_min": 3,
+    "range_bin_m": 5,
+    "speeds_km_h": [
+      30,
+      40,
+      50
+    ],
+    "targets": [
+      "light-vehicle",
+      "person-vest",
+      "boulder",
+      "oncoming-truck"
+    ]
+  }
+}

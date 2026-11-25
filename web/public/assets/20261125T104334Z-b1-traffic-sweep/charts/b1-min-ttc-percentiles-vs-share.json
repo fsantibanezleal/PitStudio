@@ -1,0 +1,160 @@
+{
+ "caption": {
+  "en": "8 light vehicles; smallest TTC of each encounter (pair within 60 m); encounters that never close are left out.",
+  "es": "8 vehiculos livianos; menor TTC de cada encuentro (par a menos de 60 m); se omiten los que nunca se acercan."
+ },
+ "case": "B1",
+ "chart_type": "line",
+ "id": "b1-min-ttc-percentiles-vs-share",
+ "kind": "chart-series",
+ "kpi": "min_ttc",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; rule-based agents with illustrative behaviour inputs, see the run summary",
+  "method": "seeded DES truck trajectories on the pit road network replayed with lane-based mixed traffic, constant-velocity TTC per encounter, paired seeds",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "95 % bootstrap interval over the 30 seeds",
+    "es": "Intervalo bootstrap de 95 % sobre las 30 semillas"
+   },
+   "hi": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "id": "p5",
+   "label": {
+    "en": "5th percentile",
+    "es": "Percentil 5"
+   },
+   "lo": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % bootstrap interval over the 30 seeds",
+    "es": "Intervalo bootstrap de 95 % sobre las 30 semillas"
+   },
+   "hi": [
+    2.26335,
+    2.19656,
+    2.30286,
+    2.35894,
+    2.27765
+   ],
+   "id": "p25",
+   "label": {
+    "en": "25th percentile",
+    "es": "Percentil 25"
+   },
+   "lo": [
+    1.91997,
+    1.87465,
+    1.98063,
+    2.10003,
+    1.97057
+   ],
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    2.07707,
+    2.0269,
+    2.15154,
+    2.23772,
+    2.15689
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % bootstrap interval over the 30 seeds",
+    "es": "Intervalo bootstrap de 95 % sobre las 30 semillas"
+   },
+   "hi": [
+    9.1359,
+    9.09007,
+    9.05217,
+    9.18925,
+    9.04197
+   ],
+   "id": "p50",
+   "label": {
+    "en": "Median",
+    "es": "Mediana"
+   },
+   "lo": [
+    8.39343,
+    8.29757,
+    8.43691,
+    8.65869,
+    8.26029
+   ],
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    8.81196,
+    8.74328,
+    8.79446,
+    8.92147,
+    8.73448
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-55",
+  "FR-018-16"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Minimum time to collision of truck - light-vehicle encounters",
+  "es": "Tiempo minimo a la colision de encuentros camion - vehiculo liviano"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Autonomous share of the haul trucks",
+   "es": "Proporcion de camiones autonomos"
+  },
+  "unit": "%"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Minimum TTC per encounter",
+   "es": "TTC minimo por encuentro"
+  },
+  "unit": "s"
+ }
+}

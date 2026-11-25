@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "seed": 20261007,
+  "x_os_m": 1.0,
+  "drying_time_min": 60,
+  "arms": [
+    {
+      "family": "pit",
+      "arm": "structured",
+      "image_count": 10000,
+      "seed_source": "own"
+    },
+    {
+      "family": "crusher",
+      "arm": "structured",
+      "image_count": 10000,
+      "seed_source": "own"
+    },
+    {
+      "family": "pit",
+      "arm": "unstructured",
+      "image_count": 10000,
+      "seed_source": "structured-pit-train"
+    }
+  ],
+  "structured": {
+    "sun": {
+      "source": "solar-position",
+      "year": 2025,
+      "min_elevation_deg": 5
+    },
+    "dust": {
+      "source": "plume-field"
+    },
+    "wet_roads": {
+      "source": "watering-schedule"
+    },
+    "placement": {
+      "source": "pit-design",
+      "max_base_offset_m": 0.05
+    },
+    "rock_textures": {
+      "source": "lithology-cc0",
+      "lithologies": {
+        "quartz_monzonite": [
+          "rock-quartz-monzonite-01",
+          "rock-gravel-02"
+        ],
+        "limestone": [
+          "rock-limestone-01"
+        ]
+      }
+    }
+  },
+  "unstructured": {
+    "textures": "whole-pool-uniform",
+    "light_intensity_factor": {
+      "distribution": "normal",
+      "min": 0.1,
+      "max": 10
+    },
+    "colour_temperature_k": {
+      "distribution": "uniform",
+      "min": 2000,
+      "max": 12000
+    },
+    "sun_direction": "upper-hemisphere-uniform",
+    "object_positions": "visible-ground-uniform",
+    "distractors": {
+      "distribution": "uniform-integer",
+      "min": 0,
+      "max": 20
+    }
+  },
+  "texture_pool": [
+    {
+      "id": "rock-quartz-monzonite-01",
+      "source_id": "ambientcg",
+      "sha256": "a0b1c2d3e4f5061728394a5b6c7d8e9f0f1e2d3c4b5a69788796a5b4c3d2e1f0",
+      "spdx": "CC0-1.0"
+    },
+    {
+      "id": "rock-gravel-02",
+      "source_id": "polyhaven",
+      "sha256": "28394a5b6c7d8e9f8796a5b4c3d2e1f092a3b4c5d6e7f80928394a5b6c7d8e9f",
+      "spdx": "CC0-1.0"
+    },
+    {
+      "id": "rock-limestone-01",
+      "source_id": "ambientcg",
+      "sha256": "0f1e2d3c4b5a697892a3b4c5d6e7f8090f1e2d3c4b5a697892a3b4c5d6e7f809",
+      "spdx": "CC0-1.0"
+    },
+    {
+      "id": "tex-rusty-metal-03",
+      "source_id": "polyhaven",
+      "sha256": "8796a5b4c3d2e1f028394a5b6c7d8e9f92a3b4c5d6e7f8098796a5b4c3d2e1f0",
+      "spdx": "CC0-1.0"
+    }
+  ]
+}

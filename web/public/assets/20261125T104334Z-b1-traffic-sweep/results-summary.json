@@ -1,0 +1,152 @@
+{
+ "extra": {
+  "assumptions": [
+   "haul trucks follow the engine trajectories (recorded per segment: request, exit and kinematic times); a truck that brakes lags its schedule and the delay is applied to the engine tonnes after the fact, so queueing at loaders and dumps is not re-simulated",
+   "light vehicles are manned, drive seeded random trips between design nodes along the shortest road path at a share of the segment speed limit and dwell off the road at nodes",
+   "vehicles drive in a lane offset from the road centre line; opposing vehicles pass at twice the offset; each vehicle is a disc",
+   "the share of autonomous trucks acts only through the reaction time before braking; the yielding rules and the other inputs are the same for every vehicle",
+   "vehicles at rest in their plan, truck against truck, and vehicles on roads that run side by side without a shared node are not evaluated",
+   "constant-velocity TTC ignores braking and steering during the encounter; it is a screening metric",
+   "every behaviour input is illustrative and UNVERIFIED for any site; no incident or proximity record exists to calibrate or validate them",
+   "the sensors and the Cosmos reasoning of case B1 are not part of this run",
+   "Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it."
+  ],
+  "autonomous_shares": [
+   0.0,
+   0.25,
+   0.5,
+   0.75,
+   1.0
+  ],
+  "dispatcher": "sptf",
+  "engine": "minehaulsim 0.12.1+mp0.0.0+g98d5b25",
+  "fleet_size": 20,
+  "light_vehicles": [
+   0,
+   4,
+   8,
+   16
+  ],
+  "mode": "traffic",
+  "negotiated_goes": 196,
+  "network": {
+   "design_edges": 71,
+   "nodes": 72
+  },
+  "reference": {
+   "light_vehicles": 8,
+   "share": 0.5
+  },
+  "scenario": {
+   "horizon_s": 28800.0,
+   "loader_class": "SHOVEL_45",
+   "rolling_resistance_pct": 2.5,
+   "simplify_epsilon_m": 5.0,
+   "speed_limit_kmh": {
+    "bench-road": 40.0,
+    "ramp": 30.0
+   },
+   "truck_class": "CAT_793F",
+   "warmup_s": 3600.0
+  },
+  "seeds": 30,
+  "traffic": {
+   "accel_mps2": {
+    "haul-truck": 1.0,
+    "light-vehicle": 2.0
+   },
+   "brake_hold_s": 1.0,
+   "brake_ttc_s": 6.0,
+   "decel_mps2": {
+    "haul-truck": 2.0,
+    "light-vehicle": 4.0
+   },
+   "dt_s": 0.5,
+   "emergency_ttc_s": 3.5,
+   "encounter_radius_m": 60.0,
+   "follow_half_angle_deg": 20.0,
+   "lane_offset_m": 6.5,
+   "light_vehicle": {
+    "dwell_mean_s": 60.0,
+    "speed_factor": 0.9
+   },
+   "look_ahead_m": 100.0,
+   "near_miss_ttc_s": 3.0,
+   "radius_m": {
+    "haul-truck": 5.0,
+    "light-vehicle": 2.0
+   },
+   "reaction_s": {
+    "autonomous": 0.5,
+    "manned": 1.5
+   },
+   "release_s": 30.0
+  },
+  "variate_profile": "engine"
+ },
+ "headline": [
+  {
+   "kpi": "min_ttc",
+   "name": "5th percentile of the minimum time to collision of truck - light-vehicle encounters",
+   "note": "50 % autonomous trucks, 20 trucks, 8 light vehicles, 30 seeds, 8 h shift, first 1 h discarded; 95 % bootstrap interval 0.0 to 0.0 s; calibrated synthetic, behaviour inputs illustrative",
+   "unit": "s",
+   "value": 0.0
+  },
+  {
+   "kpi": "near_misses",
+   "name": "Near-misses per 1,000 vehicle-hours",
+   "note": "50 % autonomous trucks, 20 trucks, 8 light vehicles, 30 seeds, 8 h shift, first 1 h discarded; 95 % half-width 46.5; TTC threshold 3 s; calibrated synthetic, behaviour inputs illustrative",
+   "unit": "1/(1000 h)",
+   "value": 2205.3
+  }
+ ],
+ "label": "calibrated synthetic \u2014 not validated against real data. Rule-based agents with illustrative behaviour inputs; no proximity data exists to calibrate or validate them. Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it.",
+ "methods": [
+  "M2",
+  "M20"
+ ],
+ "rows": [
+  {
+   "autonomous_share": 0.0,
+   "light_vehicles": 8,
+   "near_misses_per_1000_vehicle_h": 2219.9,
+   "p5_min_ttc_s": 0.0,
+   "seeds": 30,
+   "throughput_tph": 8528.63
+  },
+  {
+   "autonomous_share": 0.25,
+   "light_vehicles": 8,
+   "near_misses_per_1000_vehicle_h": 2254.1,
+   "p5_min_ttc_s": 0.0,
+   "seeds": 30,
+   "throughput_tph": 8535.04
+  },
+  {
+   "autonomous_share": 0.5,
+   "light_vehicles": 8,
+   "near_misses_per_1000_vehicle_h": 2205.3,
+   "p5_min_ttc_s": 0.0,
+   "seeds": 30,
+   "throughput_tph": 8533.99
+  },
+  {
+   "autonomous_share": 0.75,
+   "light_vehicles": 8,
+   "near_misses_per_1000_vehicle_h": 2204.1,
+   "p5_min_ttc_s": 0.0,
+   "seeds": 30,
+   "throughput_tph": 8532.06
+  },
+  {
+   "autonomous_share": 1.0,
+   "light_vehicles": 8,
+   "near_misses_per_1000_vehicle_h": 2190.8,
+   "p5_min_ttc_s": 0.0,
+   "seeds": 30,
+   "throughput_tph": 8530.87
+  }
+ ],
+ "title": "Autonomous and manned traffic on the Bingham pit road network: time to collision, near-misses and throughput against the autonomous share",
+ "verdict": "ok"
+}

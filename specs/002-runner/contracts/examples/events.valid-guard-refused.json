@@ -1,0 +1,16 @@
+{
+  "seq": 4,
+  "t": "2026-10-07T21:00:03.250Z",
+  "run_id": "20261007T210000Z-c2-slope",
+  "type": "guard-refused",
+  "stage": {
+    "id": "st52_rtx_render"
+  },
+  "detail": "free VRAM below the estimate plus margin",
+  "data": {
+    "reason": "vram",
+    "free_bytes": 3221225472,
+    "needed_bytes": 9126805504,
+    "exit_code": 5
+  }
+}

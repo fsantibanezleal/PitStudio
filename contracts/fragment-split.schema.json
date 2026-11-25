@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/fragment-split.schema.json",
+  "title": "Mendeley per-fold validation subsets",
+  "description": "Validation subsets recorded on top of the spec 008 split file (DC-008-04): groups, folds and test lists live only there (DC-012-02, spec 012-fragmentation).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "source_id",
+    "archive_sha256",
+    "split_id",
+    "split_membership_sha256",
+    "validation_fraction",
+    "validation_seed",
+    "expansion",
+    "folds"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "kind": {
+      "const": "folds"
+    },
+    "source_id": {
+      "const": "mendeley-78ht3pjsr4"
+    },
+    "archive_sha256": {
+      "const": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d"
+    },
+    "split_id": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_][A-Za-z0-9._-]{0,127}$",
+      "description": "id of the spec 008 split file data/splits/<id>.json (DC-008-04) the validation subsets are carved from"
+    },
+    "split_membership_sha256": {
+      "$ref": "#/$defs/sha256",
+      "description": "membership_sha256 recorded in that split file; the 012 file is stale if it differs"
+    },
+    "validation_fraction": {
+      "const": 0.1
+    },
+    "validation_seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "expansion": {
+      "description": "files of an original k: k, k + 240, k + 480, k + 720",
+      "const": "dihedral-4"
+    },
+    "folds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/fold"
+      },
+      "minItems": 5,
+      "maxItems": 5
+    }
+  },
+  "$defs": {
+    "fold": {
+      "type": "object",
+      "description": "one fold of the spec 008 split file; the validation files are k + 240 m (m = 0..3) of the listed originals, carved by whole groups from that fold's training pool (FR-012-05)",
+      "additionalProperties": false,
+      "required": [
+        "fold",
+        "validation_originals"
+      ],
+      "properties": {
+        "fold": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "validation_originals": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "description": "original file number",
+            "minimum": 1,
+            "maximum": 240
+          },
+          "minItems": 1,
+          "maxItems": 240,
+          "uniqueItems": true
+        }
+      }
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

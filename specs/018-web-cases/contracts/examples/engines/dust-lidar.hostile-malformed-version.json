@@ -1,0 +1,15 @@
+{
+  "kind": "input",
+  "engine": "dust-lidar",
+  "engine_version": "v1",
+  "function": "apply_level",
+  "args": {
+    "frame": {
+      "artefact": "b1-lidar-frame-s1-0042",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 3600000
+    },
+    "returns": 120000,
+    "level": 12
+  }
+}

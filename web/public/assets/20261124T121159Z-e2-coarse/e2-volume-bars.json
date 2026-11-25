@@ -1,0 +1,110 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "e2-volume-bars",
+ "case": "E2",
+ "chart_type": "bar",
+ "status": "ok",
+ "title": {
+  "en": "Cut, fill and net surface change 2000 to 2018",
+  "es": "Corte, relleno y cambio neto de superficie 2000 a 2018"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "DEM differencing with exactly rounded sums (pitstudio.survey)",
+  "version": "pitstudio-survey-1.0",
+  "label": "measurement, not validation; coarse 30 m, 2000 to 2018"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-017-34"
+ ],
+ "y_axis": {
+  "label": {
+   "en": "Volume",
+   "es": "Volumen"
+  },
+  "unit": "m3"
+ },
+ "categories": [
+  {
+   "id": "cut",
+   "label": {
+    "en": "Cut",
+    "es": "Corte"
+   }
+  },
+  {
+   "id": "fill",
+   "label": {
+    "en": "Fill",
+    "es": "Relleno"
+   }
+  },
+  {
+   "id": "net",
+   "label": {
+    "en": "Net (fill minus cut)",
+    "es": "Neto (relleno menos corte)"
+   }
+  }
+ ],
+ "series": [
+  {
+   "id": "pit-outline",
+   "label": {
+    "en": "Bingham pit outline (scene A1)",
+    "es": "Contorno del pit de Bingham (escena A1)"
+   },
+   "y": [
+    546843326.9596374,
+    9497.977041391732,
+    -546833828.982596
+   ],
+   "lo": [
+    519317131.8552912,
+    -27516697.1273048,
+    -574360024.0869422
+   ],
+   "hi": [
+    574369522.0639836,
+    27535693.081387587,
+    -519307633.8782498
+   ],
+   "band_label": {
+    "en": "Fully correlated vertical-error bound from the RMSEz of both epochs",
+    "es": "Cota de error vertical totalmente correlacionado a partir del RMSEz de ambas \u00e9pocas"
+   }
+  },
+  {
+   "id": "query-box",
+   "label": {
+    "en": "2018 tile, cells with data in both DEMs",
+    "es": "Tile 2018, celdas con dato en ambos DEM"
+   },
+   "y": [
+    1308545511.084959,
+    324308411.3259001,
+    -984237099.759059
+   ],
+   "lo": [
+    1000461426.478135,
+    16224326.719076037,
+    -1292321184.3658829
+   ],
+   "hi": [
+    1616629595.691783,
+    632392495.9327241,
+    -676153015.1522349
+   ],
+   "band_label": {
+    "en": "Fully correlated vertical-error bound from the RMSEz of both epochs",
+    "es": "Cota de error vertical totalmente correlacionado a partir del RMSEz de ambas \u00e9pocas"
+   }
+  }
+ ],
+ "caption": {
+  "en": "Measurement of the surface change between two lidar epochs, not a validation.",
+  "es": "Medici\u00f3n del cambio de superficie entre dos \u00e9pocas lidar, no una validaci\u00f3n."
+ }
+}

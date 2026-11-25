@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "policy": "IL-1",
+  "twin": "dynamic-bicycle",
+  "label": "sim-to-sim",
+  "disclaimer": "simulation only — compared with a classical controller on the same simulator; no field claim",
+  "observation_size": 63,
+  "action_size": 2,
+  "policy_asset": {
+    "id": "il1-haul-truck-policy",
+    "path": "models/onnx/il1-haul-truck.onnx",
+    "sha256": "ffba49409e3516ff39f0200850a5e6c2b8c1094ad37409ab31a80031b14b8143",
+    "bytes": 412345
+  },
+  "replay": "il1-isaaclab-rollouts",
+  "parameters": {
+    "machine": "generic-haul-truck-220t",
+    "mass_kg": 160000,
+    "rated_payload_kg": 220000,
+    "yaw_inertia_kg_m2": 1800000,
+    "cg_to_front_axle_m": 2.6,
+    "cg_to_rear_axle_m": 2.7,
+    "cornering_stiffness_front_n_per_rad": 900000,
+    "cornering_stiffness_rear_n_per_rad": 1800000,
+    "max_steer_deg": 38,
+    "max_steer_rate_deg_per_s": 20,
+    "envelope": [
+      {
+        "speed_m_per_s": 0,
+        "rimpull_n": 900000,
+        "retarder_n": 0
+      },
+      {
+        "speed_m_per_s": 3,
+        "rimpull_n": 800000,
+        "retarder_n": 1100000
+      },
+      {
+        "speed_m_per_s": 6,
+        "rimpull_n": 450000,
+        "retarder_n": 1100000
+      },
+      {
+        "speed_m_per_s": 11.1,
+        "rimpull_n": 240000,
+        "retarder_n": 800000
+      }
+    ],
+    "dt_s": 0.01,
+    "kinematic_below_m_per_s": 1,
+    "substeps": 5
+  },
+  "input_ranges": {
+    "payload_fraction": [
+      0,
+      1
+    ],
+    "light_vehicle_speed_km_h": [
+      20,
+      40
+    ]
+  },
+  "goldens": {
+    "path": "goldens/il1-twin-goldens.bin",
+    "sha256": "493f304b6f56f21b37af871c1779fcbb0d5143a929ab0bba4c0fb96736b45057",
+    "bytes": 336000,
+    "sequences": 3,
+    "steps": 2000,
+    "policy_check_steps": 200
+  },
+  "field_claim": true
+}

@@ -1,0 +1,12 @@
+{
+  "kind": "input",
+  "engine": "blasting",
+  "engine_version": "0.1.0",
+  "function": "swebrec_passing",
+  "args": {
+    "sizes_m": [],
+    "x50_m": 0.31,
+    "xmax_m": 1.5,
+    "undulation": 2.1
+  }
+}

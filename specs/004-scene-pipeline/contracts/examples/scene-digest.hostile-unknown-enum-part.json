@@ -1,0 +1,247 @@
+{
+  "$schema": "https://fsantibanezleal.github.io/PitStudio/contracts/scene-digest.schema.json",
+  "schema_version": "1.0",
+  "kind": "scene-digest",
+  "case": "A1",
+  "manifest_id": "a1-bingham-scene",
+  "params_sha256": "1a7ae2af63dafb1ceb4c9738fe1c948b396c4d1746cd571c9dea273c0333529c",
+  "up_axis": "Z",
+  "meters_per_unit": 1.0,
+  "kilograms_per_unit": 1.0,
+  "lods": [
+    {
+      "lod": "lod0",
+      "prims": [
+        {
+          "path": "/World/Design/Bench_00",
+          "transform": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": 2884,
+          "faces": 5760,
+          "class": "bench"
+        },
+        {
+          "path": "/World/Fleet/Truck_00/Chassis",
+          "transform": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            500.0,
+            120.0,
+            -9.6,
+            1.0
+          ],
+          "vertices": 2400,
+          "faces": 4790,
+          "class": "haul_truck",
+          "part": "spoiler"
+        },
+        {
+          "path": "/World/Terrain/Lod0/Tile_0_1_0_0",
+          "transform": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": 21450,
+          "faces": 42100,
+          "class": "terrain"
+        }
+      ]
+    },
+    {
+      "lod": "lod1",
+      "prims": [
+        {
+          "path": "/World/Design/Bench_00",
+          "transform": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": 2884,
+          "faces": 5760,
+          "class": "bench"
+        },
+        {
+          "path": "/World/Fleet/Truck_00/Chassis",
+          "transform": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            500.0,
+            120.0,
+            -9.6,
+            1.0
+          ],
+          "vertices": 2400,
+          "faces": 4790,
+          "class": "haul_truck",
+          "part": "chassis"
+        },
+        {
+          "path": "/World/Terrain/Lod1/Tile_1_1_0_0",
+          "transform": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": 6120,
+          "faces": 11900,
+          "class": "terrain"
+        }
+      ]
+    },
+    {
+      "lod": "lod2",
+      "prims": [
+        {
+          "path": "/World/Design/Bench_00",
+          "transform": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": 2884,
+          "faces": 5760,
+          "class": "bench"
+        },
+        {
+          "path": "/World/Fleet/Truck_00/Chassis",
+          "transform": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            500.0,
+            120.0,
+            -9.6,
+            1.0
+          ],
+          "vertices": 2400,
+          "faces": 4790,
+          "class": "haul_truck",
+          "part": "chassis"
+        },
+        {
+          "path": "/World/Terrain/Lod2/Tile_2_1_0_0",
+          "transform": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "vertices": 1530,
+          "faces": 2890,
+          "class": "terrain"
+        }
+      ]
+    }
+  ]
+}

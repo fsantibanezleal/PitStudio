@@ -1,0 +1,13 @@
+{
+  "type": "about:blank",
+  "title": "Unprocessable Content",
+  "status": 422,
+  "detail": "Traceback (most recent call last):\n  File x, line 1",
+  "errors": [
+    {
+      "pointer": "/stages/0/id",
+      "keyword": "enum",
+      "message": "'st99_magic' is not a known stage id"
+    }
+  ]
+}

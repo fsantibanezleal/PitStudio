@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "policy": "IL-2",
+  "arm": "mpm",
+  "run_id": "20261007T160000Z-a3-il2b",
+  "controller": {
+    "kind": "policy",
+    "sha256": "7b9c73622ae9d18b41ec702e0aa8c8f88369af3c6fbc478758f1df5b2ccea170"
+  },
+  "deterministic_actions": true,
+  "seed_set_sha256": "4deddd68a04160587bcd5173b8d05c4babece41e267e6002e6f0bc5d5e659e8d",
+  "column_set": "dig-episode",
+  "table": {
+    "path": "il/il2/episodes-mpm.parquet",
+    "bytes": 9120,
+    "sha256": "874e4894737659a4b3f6d37b19ea63c7dec58df251b8f498a910bcce42957931",
+    "rows": 10
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "scenario": "bench-swe-ritter-400",
+  "kind": "benchmark",
+  "solver": "swe",
+  "device": "cpu",
+  "seed": 0,
+  "deterministic": true,
+  "benchmarks": [
+    "swe-ritter"
+  ],
+  "geometry": {
+    "shape": "channel",
+    "domain_min_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "domain_max_m": [
+      10.0,
+      0.1,
+      0.0
+    ],
+    "length_m": 10.0,
+    "width_m": 0.1
+  },
+  "counts": {
+    "cells_x": 400,
+    "cells_y": 4
+  },
+  "time_step": {
+    "end_time_s": 6.0
+  },
+  "output": {
+    "every_steps": 100,
+    "fields": true,
+    "replay": false
+  },
+  "materials": [],
+  "swe": {
+    "rheology": "frictionless",
+    "cfl": 0.45,
+    "h_dry_m": 0.0001,
+    "h_thr_m": 5e-06,
+    "boundary": "closed",
+    "initial": "dam-break",
+    "dam_x_m": 5.0,
+    "depth_left_m": 0.005,
+    "depth_right_m": -0.001
+  }
+}

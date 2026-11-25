@@ -41,13 +41,15 @@ the torch cu130 wheel ships, so no CUDA toolkit is installed.
   `GridSample` need it) and an **explicit IR version**: `onnx` now writes IR 14 by default and ONNX Runtime 1.30 reads at
   most IR 13, so an unpinned export fails to load. The capability probe pins IR 10 for its test graph.
 - **Parity** is checked layer by layer: CPU EP vs PyTorch (fp32 rtol 1e-3, atol 1e-5), then every other backend vs the
-  CPU EP ([DEC-0010](../architecture/decisions/DEC-0010-tensorrt-per-engine-parity.md)).
+  stored PyTorch fp32 outputs that the CPU EP matched
+  ([DEC-0010](../architecture/decisions/DEC-0010-tensorrt-per-engine-parity.md)).
 - **In the browser** the WebGPU EP is the recommended path; the WebGL EP and JSEP are being phased out [6]. Outputs can
   stay on the GPU (`preferredOutputLocation: 'gpu-buffer'`) [7]. Models load only on user action; the self-hosted ORT
   runtime is about 26.8–28.3 MB of `.wasm` plus glue (measured for the web budget).
 - **Operator gaps on WebGPU** shape the exports: `conv3d` is unsupported; NonMaxSuppression, ScatterElements and RoiAlign
-  are unconfirmed [8]. So detection does NMS in a TypeScript worker, and the GNS ships a dense-adjacency variant that
-  avoids scatter.
+  are unconfirmed [8]. Detection needs no NMS in the browser: D-FINE is NMS-free and its export keeps the top-K
+  selection inside the graph ([D-FINE](../models/d-fine.md)). The GNS ships a dense-adjacency variant that avoids
+  scatter.
 
 Artefacts it will produce: ONNX files with parity reports, the in-browser timing per tier (T1 WebGPU, T2 WASM), and the
 "Acceleration" table rows for ORT CPU and ORT CUDA.

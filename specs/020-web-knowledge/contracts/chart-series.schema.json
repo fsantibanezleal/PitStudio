@@ -1,0 +1,330 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/chart-series.schema.json",
+  "title": "Chart series",
+  "description": "One published chart of a case: the series, axes, units, colour scale and the producer label of one chart of one published run, read by the generic chart reader of the Charts tab (DC-020-05, spec 020-web-knowledge). One JSON file per chart, published as an artefact of kind chart-series, at most 524288 bytes (studio-showcase budget class).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "id", "case", "chart_type", "status", "title", "producer", "serves"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "kind": { "const": "chart-series" },
+    "id": { "$ref": "#/$defs/slug" },
+    "case": { "$ref": "#/$defs/case_id" },
+    "chart_type": { "enum": ["line", "bar", "scatter", "ecdf", "raster", "section", "table"] },
+    "status": {
+      "description": "ok: the chart carries its data. not-run: the value could not be computed; the reason is published and nothing is drawn.",
+      "enum": ["ok", "not-run"]
+    },
+    "title": { "$ref": "#/$defs/name_en_es" },
+    "caption": { "$ref": "#/$defs/name_en_es" },
+    "producer": { "$ref": "#/$defs/producer" },
+    "kpi": {
+      "description": "The id of the case KPI (DC-018-01) this chart shows; the Charts tab then lists no placeholder for it.",
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "serves": {
+      "description": "The requirement or success-criterion ids of the specs this chart serves.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": { "type": "string", "maxLength": 16, "pattern": "^(FR|NFR|SC|DC)-[0-9]{3}-[0-9]{2,3}$" }
+    },
+    "not_run_reason": { "$ref": "#/$defs/name_en_es" },
+    "x_axis": { "$ref": "#/$defs/axis" },
+    "y_axis": { "$ref": "#/$defs/axis" },
+    "categories": {
+      "description": "bar: the category of each value of a series, in order.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/category" }
+    },
+    "series": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": { "$ref": "#/$defs/series" }
+    },
+    "markers": {
+      "description": "The features of the chart (FR-020-08), each labelled with the number the read-out panel shows.",
+      "type": "array",
+      "maxItems": 24,
+      "items": { "$ref": "#/$defs/marker" }
+    },
+    "raster": { "$ref": "#/$defs/raster" },
+    "section": { "$ref": "#/$defs/section" },
+    "table": { "$ref": "#/$defs/table" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "not-run" } }, "required": ["status"] },
+      "then": {
+        "required": ["not_run_reason"],
+        "not": {
+          "anyOf": [
+            { "required": ["series"] },
+            { "required": ["categories"] },
+            { "required": ["raster"] },
+            { "required": ["section"] },
+            { "required": ["table"] }
+          ]
+        }
+      },
+      "else": {
+        "not": { "required": ["not_run_reason"] }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "ok" }, "chart_type": { "enum": ["line", "scatter", "ecdf"] } },
+        "required": ["status", "chart_type"]
+      },
+      "then": {
+        "required": ["x_axis", "y_axis", "series"],
+        "properties": { "series": { "items": { "required": ["id", "label", "x", "y"] } } },
+        "not": { "required": ["categories"] }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "ok" }, "chart_type": { "const": "bar" } },
+        "required": ["status", "chart_type"]
+      },
+      "then": {
+        "required": ["y_axis", "categories", "series"],
+        "properties": { "series": { "items": { "required": ["id", "label", "y"], "not": { "required": ["x"] } } } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "ok" }, "chart_type": { "const": "raster" } },
+        "required": ["status", "chart_type"]
+      },
+      "then": {
+        "required": ["x_axis", "y_axis", "raster"],
+        "not": { "anyOf": [{ "required": ["series"] }, { "required": ["section"] }, { "required": ["table"] }] }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "ok" }, "chart_type": { "const": "section" } },
+        "required": ["status", "chart_type"]
+      },
+      "then": {
+        "required": ["x_axis", "y_axis", "section"],
+        "not": { "anyOf": [{ "required": ["series"] }, { "required": ["raster"] }, { "required": ["table"] }] }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "ok" }, "chart_type": { "const": "table" } },
+        "required": ["status", "chart_type"]
+      },
+      "then": {
+        "required": ["table"],
+        "not": { "anyOf": [{ "required": ["series"] }, { "required": ["raster"] }, { "required": ["section"] }] }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": { "type": "string", "maxLength": 64, "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" },
+    "case_id": { "enum": ["A1", "A2", "A3", "B1", "B2", "C1", "C2", "C3", "D1", "D2", "E1", "E2"] },
+    "name_en_es": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["en", "es"],
+      "properties": {
+        "en": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "es": { "type": "string", "minLength": 1, "maxLength": 200 }
+      }
+    },
+    "producer": {
+      "description": "Who made the numbers: the studio tool, the method, the version and the data label of the run. Every published value carries all four.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool", "method", "version", "label"],
+      "properties": {
+        "tool": { "type": "string", "maxLength": 64, "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$" },
+        "method": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "version": { "type": "string", "maxLength": 64, "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$" },
+        "label": { "type": "string", "minLength": 1, "maxLength": 200 }
+      }
+    },
+    "axis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "unit"],
+      "properties": {
+        "label": { "$ref": "#/$defs/name_en_es" },
+        "unit": { "description": "The unit symbol; 1 for a dimensionless quantity.", "type": "string", "minLength": 1, "maxLength": 32 },
+        "scale": { "enum": ["linear", "log"] }
+      }
+    },
+    "category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": { "$ref": "#/$defs/slug" },
+        "label": { "$ref": "#/$defs/name_en_es" }
+      }
+    },
+    "number_or_null": { "type": ["number", "null"] },
+    "series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "y"],
+      "properties": {
+        "id": { "$ref": "#/$defs/slug" },
+        "label": { "$ref": "#/$defs/name_en_es" },
+        "unit": { "description": "The unit of y when it differs from the unit of the y axis.", "type": "string", "minLength": 1, "maxLength": 32 },
+        "draw": { "description": "line (default), step (an ECDF or a staircase) or points.", "enum": ["line", "step", "points"] },
+        "n": { "description": "The number of samples the series summarises.", "type": "integer", "minimum": 1, "maximum": 1000000000 },
+        "x": { "type": "array", "minItems": 1, "maxItems": 20000, "items": { "type": "number" } },
+        "y": { "type": "array", "minItems": 1, "maxItems": 20000, "items": { "$ref": "#/$defs/number_or_null" } },
+        "lo": { "description": "Lower edge of the band (line) or of the error bar (bar), same length as y.", "type": "array", "minItems": 1, "maxItems": 20000, "items": { "$ref": "#/$defs/number_or_null" } },
+        "hi": { "description": "Upper edge of the band (line) or of the error bar (bar), same length as y.", "type": "array", "minItems": 1, "maxItems": 20000, "items": { "$ref": "#/$defs/number_or_null" } },
+        "band_label": { "description": "What lo and hi are, for example the 95 % interval and its method.", "$ref": "#/$defs/name_en_es" }
+      },
+      "dependentRequired": { "lo": ["hi"], "hi": ["lo"], "band_label": ["lo"] }
+    },
+    "marker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "value_text", "orientation"],
+      "properties": {
+        "id": { "$ref": "#/$defs/slug" },
+        "label": { "$ref": "#/$defs/name_en_es" },
+        "value_text": { "description": "The number as the read-out shows it, with its unit.", "type": "string", "minLength": 1, "maxLength": 60 },
+        "orientation": { "enum": ["vertical", "horizontal", "point"] },
+        "x": { "type": "number" },
+        "y": { "type": "number" }
+      },
+      "allOf": [
+        { "if": { "properties": { "orientation": { "enum": ["vertical", "point"] } }, "required": ["orientation"] }, "then": { "required": ["x"] } },
+        { "if": { "properties": { "orientation": { "enum": ["horizontal", "point"] } }, "required": ["orientation"] }, "then": { "required": ["y"] } }
+      ]
+    },
+    "raster": {
+      "description": "A map of nx by ny cells over a rectangular extent; values are row-major, the first row being the top (y1) row; null is no data.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nx", "ny", "extent", "values", "colour"],
+      "properties": {
+        "nx": { "type": "integer", "minimum": 2, "maximum": 200 },
+        "ny": { "type": "integer", "minimum": 2, "maximum": 200 },
+        "extent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["x0", "x1", "y0", "y1"],
+          "properties": {
+            "x0": { "type": "number" },
+            "x1": { "type": "number" },
+            "y0": { "type": "number" },
+            "y1": { "type": "number" }
+          }
+        },
+        "values": { "type": "array", "minItems": 4, "maxItems": 40000, "items": { "$ref": "#/$defs/number_or_null" } },
+        "colour": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["colormap", "vmin", "vmax", "unit", "label"],
+          "properties": {
+            "colormap": { "description": "FR-020-10: viridis, cividis, inferno or magma only.", "enum": ["viridis", "cividis", "inferno", "magma"] },
+            "vmin": { "type": "number" },
+            "vmax": { "type": "number" },
+            "unit": { "type": "string", "minLength": 1, "maxLength": 32 },
+            "label": { "$ref": "#/$defs/name_en_es" }
+          }
+        }
+      }
+    },
+    "section": {
+      "description": "A vertical section: polylines (ground, benches, shells) and circles (slip circles), drawn with equal axis scales.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["polylines"],
+      "properties": {
+        "polylines": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "points"],
+            "properties": {
+              "id": { "$ref": "#/$defs/slug" },
+              "label": { "$ref": "#/$defs/name_en_es" },
+              "role": { "enum": ["ground", "bench", "shell", "water", "other"] },
+              "points": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 5000,
+                "items": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } }
+              }
+            }
+          }
+        },
+        "circles": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "cx", "cy", "r"],
+            "properties": {
+              "id": { "$ref": "#/$defs/slug" },
+              "label": { "$ref": "#/$defs/name_en_es" },
+              "role": { "enum": ["critical", "other"] },
+              "cx": { "type": "number" },
+              "cy": { "type": "number" },
+              "r": { "type": "number", "exclusiveMinimum": 0 }
+            }
+          }
+        }
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["columns", "rows"],
+      "properties": {
+        "columns": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 24,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "type"],
+            "properties": {
+              "id": { "$ref": "#/$defs/slug" },
+              "label": { "$ref": "#/$defs/name_en_es" },
+              "type": { "enum": ["number", "text"] },
+              "unit": { "type": "string", "minLength": 1, "maxLength": 32 }
+            },
+            "allOf": [
+              { "if": { "properties": { "type": { "const": "number" } }, "required": ["type"] }, "then": { "required": ["unit"] } }
+            ]
+          }
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 200,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 24,
+            "items": { "type": ["number", "string", "null"], "maxLength": 200 }
+          }
+        }
+      }
+    }
+  }
+}

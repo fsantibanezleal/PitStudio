@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "kind": "chart-series",
+  "id": "example-line-band",
+  "case": "A3",
+  "chart_type": "line",
+  "status": "ok",
+  "title": {
+    "en": "Example chart",
+    "es": "Gráfico de ejemplo"
+  },
+  "producer": {
+    "tool": "warp",
+    "method": "granular DEM",
+    "version": "1.0.0",
+    "label": "fixture of the contract tests, not a result"
+  },
+  "serves": [
+    "FR-018-16",
+    "FR-020-07"
+  ],
+  "x_axis": {
+    "label": {
+      "en": "Step",
+      "es": "Paso"
+    },
+    "unit": "1"
+  },
+  "y_axis": {
+    "label": {
+      "en": "Rollout error",
+      "es": "Error de rollout"
+    },
+    "unit": "m"
+  },
+  "series": [
+    {
+      "id": "error",
+      "label": {
+        "en": "Mean error",
+        "es": "Error medio"
+      },
+      "x": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "y": [
+        0.0,
+        0.01,
+        0.03,
+        0.06,
+        0.1
+      ],
+      "lo": [
+        0.0,
+        0.008,
+        0.02,
+        0.04,
+        0.07
+      ],
+      "hi": [
+        0.0,
+        0.012,
+        0.04,
+        0.08,
+        0.13
+      ],
+      "band_label": {
+        "en": "95 % interval, bootstrap",
+        "es": "Intervalo del 95 %, bootstrap"
+      }
+    },
+    {
+      "id": "gap",
+      "label": {
+        "en": "With a gap",
+        "es": "Con un hueco"
+      },
+      "x": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "y": [
+        0.0,
+        0.02,
+        null,
+        0.05,
+        0.09
+      ]
+    }
+  ],
+  "markers": [
+    {
+      "id": "limit",
+      "label": {
+        "en": "Acceptance limit",
+        "es": "Límite de aceptación"
+      },
+      "value_text": "0.08 m",
+      "orientation": "horizontal",
+      "y": 0.08
+    },
+    {
+      "id": "cross",
+      "label": {
+        "en": "Crossing",
+        "es": "Cruce"
+      },
+      "value_text": "step 3.4",
+      "orientation": "vertical",
+      "x": 3.4
+    }
+  ],
+  "unknown_field": 1
+}

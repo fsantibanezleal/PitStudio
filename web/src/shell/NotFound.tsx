@@ -5,7 +5,7 @@ import styles from "./shell.module.css";
 export function NotFound() {
   const { t } = useTranslation("shell");
   return (
-    <article className={styles.page}>
+    <article className={styles.page} data-not-found>
       <h1>{t("notFound.title")}</h1>
       <p className={styles.lead}>{t("notFound.body")}</p>
       <p>

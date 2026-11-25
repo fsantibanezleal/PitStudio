@@ -1,0 +1,27 @@
+{
+  "kind": "input",
+  "engine": "fno",
+  "engine_version": "0.1.0",
+  "function": "tailings_field",
+  "args": {
+    "model": {
+      "artefact": "c2-fno-tailings-fp32",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 6200000
+    },
+    "precision": "fp32",
+    "patch": {
+      "artefact": "c2-patch-07",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 16384
+    },
+    "breach_cell": {
+      "row": 8,
+      "col": 31
+    },
+    "release_volume_m3": 250000.0,
+    "yield_stress_pa": 50.0,
+    "viscosity_pa_s": 0.5,
+    "density_kg_per_m3": 1600.0
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "seq": 7,
+  "t": "2026-10-07T21:04:10Z",
+  "run_id": "20261007T210000Z-c2-slope",
+  "type": "stage-not-run",
+  "stage": {
+    "id": "st56_encode"
+  },
+  "detail": "pinned FFmpeg with av1_nvenc not found (PITSTUDIO_FFMPEG is unset)"
+}

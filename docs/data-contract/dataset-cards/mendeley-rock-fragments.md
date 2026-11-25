@@ -1,6 +1,6 @@
 # Mendeley rock-fragment segmentation images
 
-> 960 labelled 512 × 512 images of blasted rock fragments (240 originals × 4 flips/rotations) under CC BY 4.0: the
+> 960 labelled 512 × 512 images of blasted rock fragments (80 photographs × 3 crops × 4 flips/rotations) under CC BY 4.0: the
 > only real labelled set in PitStudio, and the basis of its one measured sim-to-real result. · Part of:
 > [Dataset cards](README.md) · Related: [D1 Blast and muck pile](../../cases/d1-blast-muck-pile.md) ·
 > [M11 Fragmentation segmentation](../../methods/m11-fragmentation-segmentation.md) ·
@@ -56,10 +56,12 @@ Here $A$ (px²) is the instance's pixel area and $d_{eq}$ (px) the diameter of a
 are therefore made **in pixels, or in relative terms** (ratios such as $x_{50}/x_{80}$, curve shape). Any conversion
 to millimetres is an assumption, stated on the [D1 case page](../../cases/d1-blast-muck-pile.md).
 
-### The 960 images are 240 originals × 4
+### The 960 images are 80 photographs × 3 crops × 4
 
-The bootstrap check verified exactly that files 241–960 are flips and rotations of files 001–240: normalised
-correlation 1.000 and label IoU 1.000 for all 240 × 3 pairs.
+Two layers of copies sit inside the archive.
+
+**Dihedral copies (exact).** The bootstrap check verified that files 241–960 are flips and rotations of files 001–240:
+normalised correlation 1.000 and label IoU 1.000 for all 240 × 3 pairs.
 
 | Files $k$ | Relation |
 |---|---|
@@ -68,12 +70,27 @@ correlation 1.000 and label IoU 1.000 for all 240 × 3 pairs.
 | 481–720 | vertical flip of file $k - 480$ |
 | 721–960 | 180° rotation of file $k - 720$ |
 
-Among the 240 originals there is **no pixel-level overlap**: a high-pass correlation test over all 28,680 pairs finds
-none above 0.7. A raw-intensity phase-correlation search flagged **9 visually similar pairs** (normalised
-cross-correlation > 0.9), but on this texture raw correlation does not separate related from unrelated tiles
-(high-pass correlation of those pairs is 0.19–0.32, inside the range of unrelated tiles). The 9 pairs are merged
-**conservatively**, which leaves **231 source groups** (240 without the merge); merging can only make the test
-harder, never easier. The number of unique labelled instances is $63{,}144 / 4 = 15{,}786$.
+**Crops of one photograph (rescaled).** Among files 001–240, files $k$, $k + 80$ and $k + 160$ ($k = 1 \ldots 80$) are
+three crops of one photograph: a wide letterboxed crop, a square crop and a narrow pillarboxed crop, each rescaled to
+512 × 512. The 240 "originals" are therefore 80 photographs × 3 crops, and the archive is 80 × 3 × 4 = 960 files. The
+scene of file $k$ is $s(k) = ((k - 1) \bmod 80) + 1$; dihedral copies keep $k \bmod 240$, so they keep the scene.
+
+Evidence (a DINOv2 ViT-B/14 embedding scan of files 1–240 and a visual check):
+
+- For 170 of the 240 originals the nearest DINOv2 neighbour is at offset $\pm 80$.
+- The median cosine similarity is 0.920 at offset 80 and 0.889 at offset 160, against 0.703 over all pairs
+  (99th percentile 0.919).
+- The only pair with perceptual-hash Hamming distance ≤ 4 is 109–119, which is scene 29–39 and already one of the nine
+  links below.
+
+**Why the bootstrap check missed it.** Its pixel-level, same-scale high-pass correlation test over all 28,680 pairs of
+originals found none above 0.7: it cannot see crops rescaled differently. A raw-intensity phase-correlation search
+flagged **9 visually similar pairs** (normalised cross-correlation > 0.9); on this texture raw correlation does not
+separate related from unrelated tiles (high-pass correlation of those pairs is 0.19–0.32, inside the range of unrelated
+tiles). The nine pairs are kept as links, mapped to scenes $s(a)$–$s(b)$, and merged **conservatively**: scenes 29–39,
+34–41, 36–37, 41–49, 59–60, 29–39 (again), 32–36, 36–38 and 36–41 give the components {29, 39},
+{32, 34, 36, 37, 38, 41, 49} and {59, 60}, so 80 − 8 = **72 source groups**. Merging can only make the test harder,
+never easier. The number of unique labelled instances is $63{,}144 / 4 = 15{,}786$.
 
 ### Collection and provenance
 
@@ -125,15 +142,16 @@ local check, not a pipeline artefact.
   instance and boundary metrics.
 - **Split by source group, never by file.** The group key of file $k$ is
 
-  $$g(k) = \big((k - 1) \bmod 240\big) + 1,$$
+  $$g(k) = s\big(((k - 1) \bmod 240) + 1\big), \qquad s(k) = \big((k - 1) \bmod 80\big) + 1,$$
 
-  merged with the 9 conservative similarity links, which gives 231 groups. A per-file split would put flipped copies of test tiles
-  into training and inflate TRTR.
+  merged with the 9 conservative similarity links mapped to scenes, which gives 72 groups. A per-file split would put
+  flipped copies and other crops of a test photograph into training and inflate TRTR.
 - **Evaluate on originals only:** test folds contain files 001–240 of the test groups. Training may use the shipped
-  flips or its own augmentation. The **effective real set is 240 tiles, not 960**.
-- **Grouped k-fold, not a single split.** With about 231 groups, one 80/20 split leaves only about 46 test tiles
-  ($0.2 \times 231 \approx 46$). The protocol uses a grouped k-fold (for example 5 folds) and reports the
-  TSTR / TRTR ratio with its fold spread.
+  flips or its own augmentation. The **effective independent real set is 80 scenes, not 240 tiles and not 960**.
+- **Grouped k-fold, not a single split.** With 72 groups, one 80/20 split leaves only about 14–15 test groups. The
+  protocol uses 5 grouped folds of exactly 48 test originals each (three crops per scene), assigned by a seeded greedy
+  rule and committed once by `s10_preprocess` as the split file that every later stage reads; the validation subset of
+  a fold is a seeded 10 % of its training-pool groups. The TSTR / TRTR ratio is reported with its fold spread.
 - **x50 in pixels.** The x50-error comparison of the U-Net against watershed + Swebrec
   ([M11](../../methods/m11-fragmentation-segmentation.md)) is computed in pixels on real images.
 
@@ -153,7 +171,7 @@ local check, not a pipeline artefact.
 
 - **One site type, one camera set-up, unknown scale.** The images may not represent other rock types, lighting or
   camera heights; results transfer only to similar photographs.
-- **240 effective tiles.** Small for a learned model; fold spread is reported because a single number would hide it.
+- **80 effective scenes (240 crops).** Small for a learned model; fold spread is reported because a single number would hide it.
 - **Label quality** is the authors'. Overlapping polygons hid 48 named instances; touching fragments may be merged or
   split differently from a sieve. Masks are 2-D projections of 3-D fragments, so a PSD from them is an image PSD,
   not a sieved PSD.
@@ -163,7 +181,7 @@ local check, not a pipeline artefact.
 ## In PitStudio
 
 - **Source id:** `mendeley-78ht3pjsr4` in `data/sources.yaml`.
-- **Stages:** `s00_download` → `s10_preprocess` (read masks, attach group keys, build grouped folds, originals-only
+- **Stages:** `s00_download` → `s10_preprocess` (read masks, attach group keys, write the grouped split file once, originals-only
   test lists) → `s30_train` (TRTR arm) → `s50_evaluate` (TSTR / TRTR, embedding test, duplicate scan, x50 error) →
   `s60_export` (metrics only).
 - **Cases:** [D1](../../cases/d1-blast-muck-pile.md).

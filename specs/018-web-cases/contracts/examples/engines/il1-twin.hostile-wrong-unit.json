@@ -1,0 +1,23 @@
+{
+  "kind": "input",
+  "engine": "il1-twin",
+  "engine_version": "0.1.0",
+  "function": "rollout",
+  "args": {
+    "bundle": {
+      "artefact": "a2-twin-bundle",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 52000
+    },
+    "policy": {
+      "artefact": "a2-policy",
+      "sha256": "9d8c7b6a5f4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c",
+      "bytes": 310000
+    },
+    "payload_fraction": 0.9,
+    "light_vehicle_speed_m_per_s": 40,
+    "light_vehicles": 1,
+    "steps": 600,
+    "seed": 11
+  }
+}

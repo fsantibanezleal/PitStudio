@@ -14,6 +14,9 @@ dependencies = [
     "numpy",
     "nvidia-ml-py",
     "nvidia-cuda-runtime>=13,<14",
+    "pyyaml>=6.0.3",
+    "filelock>=4.2.0",
+    "psutil>=7.2.2",
 ]
 
 [tool.uv]

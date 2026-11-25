@@ -1,0 +1,268 @@
+{
+  "$schema": "../capabilities.schema.json",
+  "generated": "2026-10-07",
+  "gpu": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+  "driver": "582.78",
+  "probes": {
+    "probe_00": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_01": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_02": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_03": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_04": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_05": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_06": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_07": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_08": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_09": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_10": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_11": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_12": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_13": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_14": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_15": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_16": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_17": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_18": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_19": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_20": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_21": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_22": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_23": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_24": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_25": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_26": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_27": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_28": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_29": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_30": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_31": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_32": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_33": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_34": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_35": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_36": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_37": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_38": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_39": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_40": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_41": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_42": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_43": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_44": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_45": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_46": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_47": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_48": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_49": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_50": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_51": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_52": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_53": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_54": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_55": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_56": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_57": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_58": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_59": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_60": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_61": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_62": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_63": {
+      "status": "skip",
+      "versions": {}
+    },
+    "probe_64": {
+      "status": "skip",
+      "versions": {}
+    }
+  }
+}

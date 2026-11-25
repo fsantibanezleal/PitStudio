@@ -1,0 +1,788 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/sensor-recipe.schema.json",
+  "title": "PitStudio sensor recipe block",
+  "description": "The params block of one st53_sensors or st57_rain_lidar stage, one renderer session (DC-013-01, spec 013-sensors).",
+  "type": "object",
+  "required": [
+    "scenario",
+    "backend",
+    "poses",
+    "sensors"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "scenario": {
+      "description": "Scenario rendered by this block (one renderer session).",
+      "enum": [
+        "S1",
+        "S2",
+        "S3",
+        "S4a",
+        "rain"
+      ]
+    },
+    "backend": {
+      "description": "Sensor backend: ovrtx for S1-S4a, isaac for the rain arm.",
+      "enum": [
+        "ovrtx",
+        "isaac"
+      ]
+    },
+    "poses": {
+      "description": "Pose trajectory file (a declared stage input).",
+      "$ref": "#/$defs/relpath"
+    },
+    "sensors": {
+      "description": "Sensors of the session.",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/lidar"
+          },
+          {
+            "$ref": "#/$defs/camera"
+          },
+          {
+            "$ref": "#/$defs/radar"
+          }
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 8
+    },
+    "dust": {
+      "$ref": "#/$defs/dust"
+    },
+    "metrics": {
+      "$ref": "#/$defs/metrics"
+    },
+    "exposure": {
+      "$ref": "#/$defs/exposure"
+    },
+    "haze": {
+      "$ref": "#/$defs/haze"
+    },
+    "rain_rates_mm_h": {
+      "description": "Rain rates (mm/h); default 0, 2, 10, 50.",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 200
+      },
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "enum": [
+              "S1",
+              "rain"
+            ]
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "properties": {
+          "sensors": {
+            "items": {
+              "properties": {
+                "kind": {
+                  "const": "lidar"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "enum": [
+              "S2",
+              "S3"
+            ]
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "properties": {
+          "sensors": {
+            "maxItems": 2,
+            "items": {
+              "properties": {
+                "kind": {
+                  "const": "camera"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "const": "S4a"
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "properties": {
+          "sensors": {
+            "items": {
+              "properties": {
+                "kind": {
+                  "const": "radar"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "enum": [
+              "S1",
+              "S2",
+              "S3",
+              "S4a"
+            ]
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "properties": {
+          "backend": {
+            "const": "ovrtx"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "const": "rain"
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "required": [
+          "rain_rates_mm_h",
+          "metrics"
+        ],
+        "properties": {
+          "backend": {
+            "const": "isaac"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "backend": {
+            "const": "ovrtx"
+          }
+        },
+        "required": [
+          "backend"
+        ]
+      },
+      "then": {
+        "properties": {
+          "rain_rates_mm_h": {
+            "items": {
+              "const": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "const": "S1"
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "required": [
+          "dust",
+          "metrics"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "const": "S2"
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "required": [
+          "exposure"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scenario": {
+            "const": "S3"
+          }
+        },
+        "required": [
+          "scenario"
+        ]
+      },
+      "then": {
+        "required": [
+          "haze"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "sensor_id": {
+      "description": "Sensor id, unique within one sensor block.",
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[a-z][a-z0-9-]{0,31}$"
+    },
+    "scan_type": {
+      "description": "Lidar scan pattern.",
+      "enum": [
+        "rotary",
+        "solid-state"
+      ]
+    },
+    "elevation_fan_deg": {
+      "description": "Elevation fan [e_min, e_max] (deg), hard limit of +/-45 deg; e_min < e_max is a checker rule.",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": -45,
+        "maximum": 45
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "azimuth_fan_deg": {
+      "description": "Azimuth fan [a_min, a_max] (deg); a_min < a_max is a checker rule.",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": -180,
+        "maximum": 180
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "mount_rotation_deg": {
+      "description": "Mount rotation about x, y, z (deg).",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": -180,
+        "maximum": 180
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "mount_position_m": {
+      "description": "Mount position x, y, z in the platform frame (m).",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": -100,
+        "maximum": 100
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "lidar": {
+      "description": "Generic lidar authored from datasheet-style parameters (S1 and the rain arm); no vendor profile.",
+      "type": "object",
+      "required": [
+        "kind",
+        "id",
+        "scan_type",
+        "channels",
+        "elevation_fan_deg",
+        "azimuth_fan_deg",
+        "horizontal_resolution_deg",
+        "min_range_m",
+        "max_range_m",
+        "range_accuracy_m",
+        "max_returns",
+        "mount_position_m",
+        "mount_rotation_deg"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "lidar"
+        },
+        "id": {
+          "$ref": "#/$defs/sensor_id"
+        },
+        "scan_type": {
+          "$ref": "#/$defs/scan_type"
+        },
+        "channels": {
+          "description": "Laser channels (beams per firing column).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 512
+        },
+        "elevation_fan_deg": {
+          "$ref": "#/$defs/elevation_fan_deg"
+        },
+        "azimuth_fan_deg": {
+          "$ref": "#/$defs/azimuth_fan_deg"
+        },
+        "horizontal_resolution_deg": {
+          "description": "Azimuth step between firing columns (deg).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "min_range_m": {
+          "description": "Minimum range (m).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50
+        },
+        "max_range_m": {
+          "description": "Maximum range (m); min_range_m < max_range_m is a checker rule.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 500
+        },
+        "range_accuracy_m": {
+          "description": "Gaussian range accuracy (m); the renderer's rangeAccuracyM.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "max_returns": {
+          "description": "Returns per beam (multi-echo); the renderer's maxReturns.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "frame_rate_hz": {
+          "description": "Scan rate (Hz).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "mount_position_m": {
+          "$ref": "#/$defs/mount_position_m"
+        },
+        "mount_rotation_deg": {
+          "$ref": "#/$defs/mount_rotation_deg"
+        }
+      }
+    },
+    "camera": {
+      "description": "Ideal pinhole camera (S2 drone survey, S3 crusher camera).",
+      "type": "object",
+      "required": [
+        "kind",
+        "id",
+        "width_px",
+        "height_px",
+        "focal_length_m",
+        "pixel_pitch_m",
+        "principal_point_px",
+        "render_mode",
+        "outputs",
+        "mount_position_m",
+        "mount_rotation_deg"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "camera"
+        },
+        "id": {
+          "$ref": "#/$defs/sensor_id"
+        },
+        "width_px": {
+          "description": "Image width (px), at most 1920.",
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1920
+        },
+        "height_px": {
+          "description": "Image height (px), at most 1080.",
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 1080
+        },
+        "focal_length_m": {
+          "description": "Focal length f (m).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "pixel_pitch_m": {
+          "description": "Pixel pitch p_x (m).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.0001
+        },
+        "principal_point_px": {
+          "description": "Principal point [c_x, c_y] (px).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1920
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "render_mode": {
+          "description": "Camera render mode.",
+          "enum": [
+            "realtime-pathtracing",
+            "pathtracing",
+            "minimal"
+          ]
+        },
+        "outputs": {
+          "description": "Render products of the camera.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "LdrColor",
+              "HdrColor",
+              "DistanceToCameraSD",
+              "DistanceToImagePlaneSD",
+              "SemanticSegmentation"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 5,
+          "uniqueItems": true
+        },
+        "mount_position_m": {
+          "$ref": "#/$defs/mount_position_m"
+        },
+        "mount_rotation_deg": {
+          "$ref": "#/$defs/mount_rotation_deg"
+        }
+      }
+    },
+    "radar": {
+      "description": "77 GHz-class proximity radar (S4a).",
+      "type": "object",
+      "required": [
+        "kind",
+        "id",
+        "wavelength_m",
+        "motion_bvh",
+        "range_resolution_m",
+        "velocity_resolution_m_per_s",
+        "azimuth_resolution_deg",
+        "elevation_resolution_deg",
+        "max_range_m",
+        "mount_position_m",
+        "mount_rotation_deg"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "radar"
+        },
+        "id": {
+          "$ref": "#/$defs/sensor_id"
+        },
+        "wavelength_m": {
+          "description": "Carrier wavelength (m): 3.70-3.95 mm (76-81 GHz).",
+          "type": "number",
+          "minimum": 0.0037,
+          "maximum": 0.00395
+        },
+        "motion_bvh": {
+          "description": "Motion BVH enabled (required for Doppler).",
+          "const": true
+        },
+        "range_resolution_m": {
+          "description": "Range resolution (m).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "velocity_resolution_m_per_s": {
+          "description": "Radial-velocity resolution (m/s); the renderer's velResMps.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "azimuth_resolution_deg": {
+          "description": "Boresight azimuth resolution (deg).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 30
+        },
+        "elevation_resolution_deg": {
+          "description": "Boresight elevation resolution (deg).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 30
+        },
+        "max_range_m": {
+          "description": "Maximum range (m).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 500
+        },
+        "frame_rate_hz": {
+          "description": "Frame rate (Hz).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "mount_position_m": {
+          "$ref": "#/$defs/mount_position_m"
+        },
+        "mount_rotation_deg": {
+          "$ref": "#/$defs/mount_rotation_deg"
+        }
+      }
+    },
+    "dust": {
+      "description": "Dust post-model settings read by s05_synthesize (S1).",
+      "type": "object",
+      "required": [
+        "transmittance_grid",
+        "beta_spacing_m",
+        "dust_return_intensity"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "transmittance_grid": {
+          "description": "One-way transmittance levels T1 of the uniform-layer sweep (pre-registered grid 1.0 ... 0.02).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "beta_spacing_m": {
+          "description": "Sample spacing of the extinction profile along a beam (m), at most 0.5.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.5
+        },
+        "dust_return_intensity": {
+          "description": "Display intensity of injected dust returns (normalised 0-1; no physical claim).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "extinction_fields": {
+          "description": "C3 extinction fields (declared stage inputs) for the field-driven runs.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relpath"
+          },
+          "minItems": 0,
+          "maxItems": 16,
+          "uniqueItems": true
+        }
+      }
+    },
+    "metrics": {
+      "description": "S1 metric settings (FR-013-36).",
+      "type": "object",
+      "required": [
+        "k_min",
+        "range_bin_m",
+        "speeds_km_h",
+        "targets"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "k_min": {
+          "description": "Target points needed for a detection (default 3).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "range_bin_m": {
+          "description": "Range-bin width (m), default 5.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50
+        },
+        "speeds_km_h": {
+          "description": "Truck speeds for the TTC margin (km/h), default 30, 40, 50.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 100
+          },
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true
+        },
+        "targets": {
+          "description": "Target ids as labelled in the scene.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          },
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true
+        }
+      }
+    },
+    "exposure": {
+      "description": "S2 exposure and noise post-model settings (FR-013-18).",
+      "type": "object",
+      "required": [
+        "exposure_time_s",
+        "f_number",
+        "kappa_e_m2_sr_per_w_s",
+        "gain_dn_per_e",
+        "read_noise_e",
+        "dn_max",
+        "vignetting"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "exposure_time_s": {
+          "description": "Exposure time t_e (s).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "f_number": {
+          "description": "Aperture f-number N (-).",
+          "type": "number",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "kappa_e_m2_sr_per_w_s": {
+          "description": "Lumped signal constant kappa (electrons per W sr^-1 m^-2 s).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000000000
+        },
+        "gain_dn_per_e": {
+          "description": "Conversion gain G (DN per electron).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "read_noise_e": {
+          "description": "Read noise sigma_read (electrons).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "dn_max": {
+          "description": "Saturation level DN_max.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "vignetting": {
+          "description": "Apply natural cos^4 vignetting.",
+          "type": "boolean"
+        }
+      }
+    },
+    "haze": {
+      "description": "S3 haze and box post-model settings (FR-013-16, FR-013-17).",
+      "type": "object",
+      "required": [
+        "airlight_rgb",
+        "min_box_area_px"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "airlight_rgb": {
+          "description": "Airlight A, linear RGB.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "min_box_area_px": {
+          "description": "Minimum semantic-component area for a box (px), default 16.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2073600
+        },
+        "extinction_field": {
+          "description": "C3 extinction field (a declared stage input).",
+          "$ref": "#/$defs/relpath"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+ "job": "e2-coarse",
+ "kind": "cpu",
+ "case": "E2",
+ "recipe": "cases/e2-coarse.yaml",
+ "slug": "e2-coarse",
+ "seed": 0,
+ "label": "measurement, not validation, coarse 30 m, 2000 to 2018: SRTM GL1 (February 2000) against the 3DEP 2018 lidar DEM; the bounds use the stable-ground sd of the old DEM",
+ "producer_paths": [
+  "src/pitstudio/survey",
+  "studio/src/pitstudio_studio/survey",
+  "studio/recipes/cases/e2-coarse.yaml"
+ ],
+ "notes": [
+  "Supersedes the strip run: the 2023 and 2013 3DEP tiles have no data over the pit. SRTM absolute accuracy figures are UNVERIFIED (secondary source); the stable-ground mean is reported, not removed."
+ ],
+ "stages": [
+  {
+   "id": "st10_terrain",
+   "variant": "coarse-2000-2018",
+   "tool": "pitstudio",
+   "outputs": [
+    {
+     "name": "survey-volume.json",
+     "from": "survey-volume.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e2c-survey-volume",
+     "media_type": "application/json",
+     "required_fields": [
+      "volumes"
+     ],
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "e2-run.json",
+     "from": "e2-run.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e2c-run-summary",
+     "media_type": "application/json",
+     "required_fields": [
+      "volumes",
+      "stable_ground",
+      "prepare"
+     ],
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "e2-volume-bars.json",
+     "from": "charts/e2-volume-bars.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e2c-e2-volume-bars",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "e2-difference-map.json",
+     "from": "charts/e2-difference-map.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e2c-e2-difference-map",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+    },
+    {
+     "name": "e2-volume-table.json",
+     "from": "charts/e2-volume-table.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "e2c-e2-volume-table",
+     "media_type": "application/json",
+     "licence_class": "public-domain",
+     "spdx": "LicenseRef-USGov-PD",
+     "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+    }
+   ]
+  }
+ ]
+}

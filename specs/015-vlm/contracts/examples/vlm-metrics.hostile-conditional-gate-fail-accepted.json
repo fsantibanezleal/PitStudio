@@ -1,0 +1,220 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261014T220000Z-b1",
+  "git_sha": "01e2b86d09a37a1a3d9b5aaaedfc7028fd41e137",
+  "generated": "2026-10-15",
+  "notices": {
+    "cosmos": "Built on NVIDIA Cosmos",
+    "honesty": "Zero-shot 2B VLM; not a safety system."
+  },
+  "bench": {
+    "status": "measured",
+    "performance": "public",
+    "label": "our hardware, not a comparative benchmark",
+    "n_queries": 200,
+    "paths": [
+      {
+        "path": "q8_0",
+        "status": "measured",
+        "context_tokens": 16384,
+        "vram_peak_bytes": 4812000000,
+        "prefill_tokens_per_s": 2150.0,
+        "decode_tokens_per_s": 96.5,
+        "wall_s_per_query": {
+          "mean": 1.8,
+          "p50": 1.4,
+          "p95": 4.2
+        },
+        "gpu": {
+          "name": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+          "driver": "581.42"
+        }
+      },
+      {
+        "path": "bf16",
+        "status": "measured",
+        "context_tokens": 16384,
+        "vram_peak_bytes": 9930000000,
+        "prefill_tokens_per_s": 1720.0,
+        "decode_tokens_per_s": 41.0,
+        "wall_s_per_query": {
+          "mean": 3.1,
+          "p50": 2.6,
+          "p95": 7.9
+        },
+        "gpu": {
+          "name": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+          "driver": "581.42"
+        }
+      }
+    ]
+  },
+  "gate": {
+    "status": "fail",
+    "n": 500,
+    "agree": 466,
+    "agreement": 0.932,
+    "wilson95": {
+      "lo": 0.9076,
+      "hi": 0.9508
+    },
+    "threshold": 0.95,
+    "q8_0_path": "accepted"
+  },
+  "task_a": {
+    "status": "measured",
+    "rows": [
+      {
+        "arm": "cosmos-q8_0",
+        "reasoning": false,
+        "type": 1,
+        "status": "rejected",
+        "reason": "rejected: agreement a = 0.932 < 0.95",
+        "n": 1080,
+        "balanced_accuracy": null,
+        "f1": null,
+        "unparseable_rate": null,
+        "error_rate": null,
+        "auroc": null,
+        "by_condition": []
+      },
+      {
+        "arm": "detector-rule",
+        "reasoning": false,
+        "type": 2,
+        "status": "not_applicable",
+        "reason": "no detector evidence for berms",
+        "n": 0,
+        "balanced_accuracy": null,
+        "f1": null,
+        "unparseable_rate": null,
+        "error_rate": null,
+        "auroc": null,
+        "by_condition": []
+      },
+      {
+        "arm": "constant",
+        "reasoning": false,
+        "type": 3,
+        "status": "measured",
+        "n": 1080,
+        "balanced_accuracy": {
+          "value": 0.25,
+          "lo": 0.25,
+          "hi": 0.25
+        },
+        "f1": {
+          "value": 0.1,
+          "lo": 0.1,
+          "hi": 0.1
+        },
+        "unparseable_rate": 0.0,
+        "error_rate": 0.0,
+        "auroc": null,
+        "by_condition": []
+      }
+    ],
+    "mcnemar": [
+      {
+        "type": 1,
+        "cosmos_arm": "cosmos-bf16",
+        "b": 60,
+        "c": 35,
+        "p": 0.013379,
+        "chi2_cc": 6.063,
+        "verdict": "Cosmos beats Qwen base"
+      },
+      {
+        "type": "pooled-binary",
+        "cosmos_arm": "cosmos-q8_0",
+        "b": 12,
+        "c": 10,
+        "p": 0.8318,
+        "chi2_cc": null,
+        "verdict": "no significant difference"
+      }
+    ]
+  },
+  "task_b": {
+    "status": "measured",
+    "n_pairs": 100,
+    "rows": [
+      {
+        "arm": "cosmos-bf16",
+        "status": "measured",
+        "input_mode": "native-video",
+        "n_pairs": 100,
+        "accuracy": {
+          "value": 0.56,
+          "lo": 0.4931,
+          "hi": 0.6269
+        },
+        "verdict": "not above chance",
+        "position_bias": 0.62,
+        "single_clip_auroc": 0.55,
+        "detection_rate": {
+          "gravity-x0.3": 0.5,
+          "zero-friction": 0.5,
+          "mass-injection": 0.5,
+          "time-reversal": 0.5,
+          "interpenetration": 0.5,
+          "frozen-particles": 0.5
+        }
+      },
+      {
+        "arm": "physics-check",
+        "status": "measured",
+        "input_mode": "simulation-state",
+        "n_pairs": 100,
+        "accuracy": {
+          "value": 0.97,
+          "lo": 0.9419,
+          "hi": 0.9981
+        },
+        "verdict": "above chance",
+        "position_bias": null,
+        "single_clip_auroc": null,
+        "detection_rate": null
+      }
+    ]
+  },
+  "task_c": {
+    "status": "measured",
+    "rows": [
+      {
+        "arm": "template-caption",
+        "status": "measured",
+        "n_captions": 2000,
+        "chair_i": 0,
+        "chair_s": 0,
+        "recall": 1,
+        "no_object_rate": 0.0,
+        "condition_ba": {
+          "dust": 1.0,
+          "night": 1.0,
+          "rain": 1.0
+        }
+      },
+      {
+        "arm": "qwen-base",
+        "status": "measured",
+        "n_captions": 2000,
+        "chair_i": 0.12,
+        "chair_s": 0.2,
+        "recall": 0.71,
+        "no_object_rate": 0.03,
+        "condition_ba": {
+          "dust": 0.64,
+          "night": 0.81,
+          "rain": 0.52
+        }
+      }
+    ]
+  },
+  "real_probe": {
+    "status": "not_measured",
+    "n_images": 0,
+    "cohen_kappa": null,
+    "rows": []
+  }
+}

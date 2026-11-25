@@ -98,7 +98,7 @@ calibrates.
 | Benchmark | Observable | Published reference | Status |
 |---|---|---|---|
 | Static pile | angle of repose (°) | crushed-stone gravel ≈ 45°, natural gravel with sand 25–30°, granite 35–40°, dry sand 34° [11] | handbook-grade; per-material targets come from lab data |
-| Hopper / chute discharge | mass flow rate $Q$ (kg/s) | Beverloo $Q = C\rho_b\sqrt{g}\,(D - kd)^{5/2}$; Hertz–Mindlin DEM reproduces the 5/2 exponent with fitted $C = 0.56$ for $4\times10^5$ spheres [12]; original law [13] | textbook ranges of $C$ and $k$ are UNVERIFIED — pinned at specification |
+| Hopper / chute discharge | mass flow rate $Q$ (kg/s) | Beverloo $Q = C\rho_b\sqrt{g}\,(D - kd)^{5/2}$; Hertz–Mindlin DEM reproduces the 5/2 exponent with fitted $C = 0.56$ for $4\times10^5$ spheres, fitted with the particle density, not $\rho_b$ [12]; original law [13] | textbook ranges of $C$ and $k$ are UNVERIFIED — pinned at specification |
 | Granular column collapse | normalised run-out $(R_\infty - R_i)/R_i$ | $\propto a$ for low aspect ratio $a = H_i/R_i$, $\propto a^{1/2}$ for high $a$, transition near $a \approx 1.7$ [14]; experiments [15][16] | prefactors UNVERIFIED — pinned at specification |
 | Conservation | total mass / volume drift (%) | exact | – |
 

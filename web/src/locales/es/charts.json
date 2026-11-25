@@ -1,0 +1,43 @@
+{
+  "reset": "Restablecer",
+  "showData": "Mostrar datos",
+  "hideData": "Ocultar datos",
+  "notAvailable": "no disponible",
+  "help": "Más y menos acercan, cero restablece, Mayús con una flecha desplaza, una flecha mueve la lectura una muestra, Inicio y Fin saltan a la primera y a la última muestra.",
+  "sandbox": {
+    "title": "Banco de gráficos",
+    "lead": "Gráficos interactivos usados por las pruebas del navegador.",
+    "sine": "Onda sinusoidal",
+    "kmh": "Rampa de velocidad en unidades de origen",
+    "big": "Un millón de muestras",
+    "gap": "Serie con un vacío",
+    "many": "Gráfico {{n}}",
+    "x": "tiempo",
+    "y": "valor",
+    "speed": "velocidad"
+  },
+  "lower": "borde inferior",
+  "upper": "borde superior",
+  "producer": "Producido con {{tool}}, método {{method}}, versión {{version}}. {{label}}.",
+  "notRun": "No ejecutado: {{reason}}",
+  "axes": "Eje horizontal: {{x}}. Eje vertical: {{y}}.",
+  "bandDefault": "banda de {{name}}",
+  "whisker": "bigotes: intervalo",
+  "category": "categoría",
+  "barHelp": "Las flechas mueven la lectura de un grupo de barras a otro; Inicio y Fin saltan al primero y al último; Escape la borra.",
+  "raster": {
+    "help": "Las flechas mueven la lectura celda a celda; Escape la borra. Apuntar a una celda muestra su valor.",
+    "noData": "sin datos"
+  },
+  "section": {
+    "equal": "misma escala en ambos ejes",
+    "radius": "radio {{r}} {{unit}}",
+    "element": "elemento",
+    "centre": "centro"
+  },
+  "intervalText": "intervalo del {{level}} % [{{lo}}, {{hi}}] {{unit}}",
+  "zeroReference": "sin diferencia",
+  "intervalAxis": "Eje horizontal: valor en {{unit}}; cada segmento es el intervalo del {{level}} % entre sus topes.",
+  "intervalHelp": "Las flechas mueven la lectura de un intervalo a otro; Escape la borra.",
+  "estimate": "estimación"
+}

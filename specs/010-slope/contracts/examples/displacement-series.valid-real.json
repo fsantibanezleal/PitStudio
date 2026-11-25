@@ -1,0 +1,54 @@
+{
+  "kind": "real-event",
+  "synthetic": false,
+  "event_id": "dewit-2025-event",
+  "source_id": "dewit-slope-failure",
+  "archive_bytes": 8943265,
+  "archive_md5": "3adeb6c853d2e87249b7d3549a2a00ca",
+  "archive_sha256": "0f1e2d3c4b5a6978a0b1c2d3e4f506171a2b3c4d5e6f70810f1e2d3c4b5a6978",
+  "archive_member": "Data/radar_deformation.csv",
+  "extraction": "series-as-delivered",
+  "source_units": {
+    "displacement": "mm",
+    "time": "h"
+  },
+  "t_0_h": 0.0,
+  "t_f_h": 410.0,
+  "t_f_source": {
+    "kind": "dataset-description",
+    "citation": "Zenodo record 15003054, dataset description (illustrative value)",
+    "url": "https://zenodo.org/records/15003054"
+  },
+  "snr_obs": 63.5,
+  "sampling": {
+    "n_samples": 8,
+    "interval_h": 50.0,
+    "regular": true
+  },
+  "attribution": "de Wit (2025). Data used for the study of time-lapse velocity variations during an open-pit mine slope failure using seismic noise interferometry. Zenodo. https://doi.org/10.5281/zenodo.15003054. Licensed under CC BY 4.0.",
+  "licence": {
+    "spdx": "CC-BY-4.0",
+    "licence_class": "attribution"
+  },
+  "use": "descriptive-evaluation-only",
+  "t_h": [
+    0.0,
+    50.0,
+    100.0,
+    150.0,
+    200.0,
+    250.0,
+    300.0,
+    350.0
+  ],
+  "los_displacement_mm": [
+    0.0,
+    2.1,
+    4.5,
+    7.4,
+    11.3,
+    17.0,
+    27.6,
+    52.9
+  ]
+}

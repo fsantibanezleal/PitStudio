@@ -1,0 +1,155 @@
+{
+ "job": "d2-mine-to-mill",
+ "kind": "cpu",
+ "case": "D2",
+ "recipe": "cases/d2.yaml",
+ "slug": "d2-mine-to-mill-chain",
+ "seed": 20261123,
+ "label": "calibrated synthetic, not validated against real data: illustrative UNVERIFIED bounds and assumptions, chain of minephys",
+ "producer_paths": [
+  "src/pitstudio/cases/d2",
+  "pipeline/src/pitstudio_pipeline/mine_to_mill",
+  "pipeline/src/pitstudio_pipeline/chartkit.py",
+  "studio/recipes/cases/d2.yaml"
+ ],
+ "notes": [
+  "Produced on the CPU by pitstudio_pipeline.mine_to_mill.d2_run (not by the GPU queue); no GPU time is used.",
+  "12,800 chain evaluations in the seeded sweeps and 17,408 in the Sobol design; the sweep file (3.9 MB) stays in the store and is not published."
+ ],
+ "stages": [
+  {
+   "id": "s05_synthesize",
+   "tool": "minephys",
+   "outputs": [
+    {
+     "name": "sweeps.json",
+     "from": "sweeps.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "sensitivity.json",
+     "from": "sensitivity.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "results-summary.json",
+     "from": "results-summary.json",
+     "kind": "table",
+     "publish": true,
+     "id": "d2-mine-to-mill-chain-results",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d2-energy-vs-p80.json",
+     "from": "charts/d2-energy-vs-p80.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d2-energy-vs-p80",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d2-throughput-vs-p80.json",
+     "from": "charts/d2-throughput-vs-p80.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d2-throughput-vs-p80",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d2-cost-vs-p80.json",
+     "from": "charts/d2-cost-vs-p80.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d2-cost-vs-p80",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d2-rom-x80-vs-powder-factor.json",
+     "from": "charts/d2-rom-x80-vs-powder-factor.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d2-rom-x80-vs-powder-factor",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d2-f80-vs-rom-x80.json",
+     "from": "charts/d2-f80-vs-rom-x80.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d2-f80-vs-rom-x80",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d2-energy-vs-f80.json",
+     "from": "charts/d2-energy-vs-f80.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d2-energy-vs-f80",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d2-sobol-first-order.json",
+     "from": "charts/d2-sobol-first-order.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d2-sobol-first-order",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d2-sobol-total.json",
+     "from": "charts/d2-sobol-total.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d2-sobol-total",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d2-chain-stages.json",
+     "from": "charts/d2-chain-stages.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d2-chain-stages",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    }
+   ]
+  }
+ ]
+}

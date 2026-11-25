@@ -68,9 +68,9 @@
   <text class="title" x="34" y="314">Mendeley rock fragments (real)</text>
   <text class="path" x="34" y="334">s00_download · SHA-256 7f4336a4…</text>
   <text class="item" x="34" y="356">CC BY 4.0 · 960 tiles, 512 × 512 px</text>
-  <text class="item" x="34" y="376">= 240 originals × 4 dihedral copies</text>
+  <text class="item" x="34" y="376">= 80 scenes × 3 crops × 4 copies</text>
   <text class="item" x="34" y="396">(identity, h-flip, v-flip, 180°)</text>
-  <text class="item" x="34" y="416">9 similar pairs merged → 231 groups</text>
+  <text class="item" x="34" y="416">9 similar pairs merged → 72 groups</text>
   <text class="item" x="34" y="436">15,786 unique rock instances</text>
   <text class="item" x="34" y="456">grouped k-fold (e.g. 5 folds)</text>
   <text class="caveat" x="34" y="482">no mm/px scale → PSD in pixels</text>
@@ -78,7 +78,7 @@
   <!-- data: leakage guard -->
   <rect class="box" x="20" y="520" width="300" height="135" rx="4"/>
   <text class="title" x="34" y="544">Leakage guard</text>
-  <text class="path" x="34" y="564">group = ((k − 1) mod 240) + 1</text>
+  <text class="path" x="34" y="564">group = scene ((k − 1) mod 80) + 1</text>
   <text class="item" x="34" y="586">+ 9 similar pairs merged</text>
   <text class="item" x="34" y="606">no copy of a test tile in training</text>
   <text class="caveat" x="34" y="632">a per-file split would inflate TRTR</text>

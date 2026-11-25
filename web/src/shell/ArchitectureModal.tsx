@@ -1,48 +1,49 @@
-import { Dialog } from "@base-ui/react/dialog";
-import { Tabs } from "@base-ui/react/tabs";
-import { Info, X } from "lucide-react";
+import { Info } from "lucide-react";
+import { type ComponentType, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useShellConfig } from "./config";
 import styles from "./shell.module.css";
 
-/** The ⓘ view: how the app and the repository behind it work, one tab per aspect. */
-export function ArchitectureModal() {
-  const { architectureTabs } = useShellConfig();
-  const { t } = useTranslation("shell");
-  const { t: tApp } = useTranslation("app");
-  const first = architectureTabs[0]?.id;
+// The dialog (base-ui dialog and tabs, the diagrams) is its own chunk (NFR-018-02). The info button is on every page: it is a plain
+// button until the chunk is in, and the chunk is requested once the page is idle after hydration, or at once when the pointer or the
+// keyboard reaches the button. When the chunk is in, the dialog (with its own trigger in the same place) replaces the plain button.
+const loadDialog = () => import("./ArchitectureDialog").then((m) => m.default);
 
+/** The info button of the header and, once its chunk is in, the view of how the app works. */
+export function ArchitectureModal() {
+  const { t } = useTranslation("shell");
+  const [Dialog, setDialog] = useState<ComponentType<{ openOnMount: boolean }> | null>(null);
+  const pressed = useRef(false);
+
+  useEffect(() => {
+    let live = true;
+    const load = () =>
+      void loadDialog().then((component) => {
+        if (live) setDialog(() => component);
+      });
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 200));
+    const handle = idle(load);
+    return () => {
+      live = false;
+      if (window.cancelIdleCallback && typeof handle === "number") window.cancelIdleCallback(handle);
+    };
+  }, []);
+
+  if (Dialog) return <Dialog openOnMount={pressed.current} />;
+  const load = () => void loadDialog().then((component) => setDialog(() => component));
   return (
-    <Dialog.Root>
-      <Dialog.Trigger className={styles.iconButton} aria-label={t("about")}>
-        <Info aria-hidden="true" size={18} />
-      </Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Backdrop className={styles.backdrop} />
-        <Dialog.Popup className={styles.modal}>
-          <div className={styles.modalHeader}>
-            <Dialog.Title className={styles.modalTitle}>{t("arch.title")}</Dialog.Title>
-            <Dialog.Close className={styles.iconButton} aria-label={t("arch.close")}>
-              <X aria-hidden="true" size={18} />
-            </Dialog.Close>
-          </div>
-          <Dialog.Description className={styles.muted}>{t("arch.description")}</Dialog.Description>
-          <Tabs.Root defaultValue={first} className={styles.tabs}>
-            <Tabs.List className={styles.tabList} aria-label={t("arch.tabs")}>
-              {architectureTabs.map((tab) => (
-                <Tabs.Tab key={tab.id} value={tab.id} className={styles.tab}>
-                  {tApp(tab.titleKey)}
-                </Tabs.Tab>
-              ))}
-            </Tabs.List>
-            {architectureTabs.map(({ id, Content }) => (
-              <Tabs.Panel key={id} value={id} className={styles.tabPanel}>
-                <Content />
-              </Tabs.Panel>
-            ))}
-          </Tabs.Root>
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
+    <button
+      type="button"
+      className={styles.iconButton}
+      aria-label={t("about")}
+      aria-haspopup="dialog"
+      onPointerEnter={load}
+      onFocus={load}
+      onClick={() => {
+        pressed.current = true;
+        load();
+      }}
+    >
+      <Info aria-hidden="true" size={18} />
+    </button>
   );
 }

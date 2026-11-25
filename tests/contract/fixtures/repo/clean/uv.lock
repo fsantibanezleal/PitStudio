@@ -1,0 +1,23 @@
+version = 1
+requires-python = "==3.14.*"
+
+[[package]]
+name = "nvidia-ml-py"
+version = "13.615.71"
+source = { registry = "https://pypi.org/simple" }
+
+[[package]]
+name = "minephys"
+version = "0.0.0"
+source = { registry = "https://pypi.org/simple" }
+
+[[package]]
+name = "minehaulsim"
+version = "0.0.0"
+source = { registry = "https://pypi.org/simple" }
+
+[[package]]
+name = "oreblocks"
+version = "0.0.0"
+source = { registry = "https://pypi.org/simple" }
+

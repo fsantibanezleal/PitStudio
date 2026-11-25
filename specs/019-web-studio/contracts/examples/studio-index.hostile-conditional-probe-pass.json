@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0",
+  "git_sha": "0123456789abcdef0123456789abcdef01234567",
+  "tools": [
+    {
+      "id": "openusd",
+      "position": {
+        "band": "scene",
+        "order": 0,
+        "group": "map",
+        "x_px": 40,
+        "y_px": 80
+      },
+      "version": {
+        "value": "26.8",
+        "release_date": "2026-08-01",
+        "from": "lock",
+        "lock": "studio/uv.lock"
+      },
+      "probe": {
+        "status": "pass",
+        "name": "usd",
+        "gpu": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+        "driver": "582.78",
+        "metrics": {
+          "stage_open_s": 0.42
+        }
+      },
+      "artefacts": [
+        "a1_scene_usd"
+      ]
+    },
+    {
+      "id": "warp",
+      "position": {
+        "band": "physics",
+        "order": 0,
+        "group": "map",
+        "x_px": 240,
+        "y_px": 80
+      },
+      "version": {
+        "value": "1.10.0",
+        "release_date": null,
+        "from": "lock",
+        "lock": "studio/uv.lock"
+      },
+      "probe": {
+        "status": "skip",
+        "name": "warp_newton",
+        "date": "2026-10-03",
+        "gpu": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+        "driver": "582.78"
+      },
+      "artefacts": []
+    },
+    {
+      "id": "isaac-sim-replicator",
+      "position": {
+        "band": "sensors-synthetic-data",
+        "order": 1,
+        "group": "map",
+        "x_px": 440,
+        "y_px": 160
+      },
+      "version": {
+        "value": "6.1.0.0",
+        "release_date": null,
+        "from": "lock",
+        "lock": "studio/isaac/uv.lock"
+      },
+      "probe": {
+        "status": "pass",
+        "name": "isaac",
+        "date": "2026-10-03",
+        "gpu": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+        "driver": "582.78",
+        "metrics": "measured locally, not published (licence)"
+      },
+      "artefacts": [
+        "b2_sdg_frames"
+      ]
+    },
+    {
+      "id": "cuopt",
+      "position": {
+        "band": "acceleration",
+        "order": 3,
+        "group": "not-adopted",
+        "x_px": 840,
+        "y_px": 400
+      },
+      "version": {
+        "value": "26.8.0",
+        "release_date": null,
+        "from": "own"
+      },
+      "probe": {
+        "status": "not-probed"
+      },
+      "artefacts": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "openusd",
+      "to": "warp",
+      "kind": "usd",
+      "state": "planned"
+    },
+    {
+      "from": "openusd",
+      "to": "isaac-sim-replicator",
+      "kind": "usd",
+      "state": "observed",
+      "evidence": {
+        "run_id": "20261005T101500Z-b2-sdg",
+        "from_artefact": "a1_scene_usd",
+        "to_artefact": "b2_sdg_frames"
+      }
+    }
+  ],
+  "honesty": {
+    "checks": [
+      {
+        "id": "done-needs-artefact",
+        "status": "pass",
+        "violations": []
+      },
+      {
+        "id": "not-yet-run-has-artefact",
+        "status": "pass",
+        "violations": []
+      },
+      {
+        "id": "outputs-only",
+        "status": "pass",
+        "violations": []
+      },
+      {
+        "id": "our-scenes",
+        "status": "pass",
+        "violations": []
+      },
+      {
+        "id": "local-only-scrub",
+        "status": "pass",
+        "violations": []
+      },
+      {
+        "id": "file-guards",
+        "status": "pass",
+        "violations": []
+      }
+    ],
+    "definition_of_done": {
+      "studio_tools": 4,
+      "satisfied": 3,
+      "missing": [
+        "warp"
+      ],
+      "met": false
+    }
+  }
+}

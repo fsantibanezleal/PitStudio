@@ -1,0 +1,53 @@
+// FR-018-75: the footer provenance line, from the runs the web manifest lists.
+
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import { fetchWebManifest } from "~/cases/manifest";
+import { isCaseId } from "~/cases/types";
+import type { ProvenanceItem } from "~/shell/config";
+import { publishedRunIds } from "~/studio/data";
+
+/** Items of the footer line for a published-run count: null while the manifest is being read. */
+export function provenanceItems(runs: number | null): ProvenanceItem[] {
+  if (runs === null) return [{ labelKey: "footer.provenanceLoading" }];
+  if (runs === 0) return [{ labelKey: "footer.provenanceNone" }];
+  return [{ labelKey: "footer.provenanceRuns", values: { count: runs }, href: "/studio/runs/" }];
+}
+
+/** Distinct run ids of the web index: its `runs` list and the run of every artefact record. A damaged file lists none. */
+export function countRuns(index: unknown): number {
+  if (typeof index !== "object" || index === null) return 0;
+  const { kind, runs, artefacts } = index as { kind?: unknown; runs?: unknown; artefacts?: unknown };
+  if (kind !== "web-index") return 0;
+  const ids = new Set<string>();
+  for (const list of [runs, artefacts])
+    if (Array.isArray(list))
+      for (const x of list) {
+        const id = (x as { run_id?: unknown } | null)?.run_id;
+        if (typeof id === "string" && id.length > 0) ids.add(id);
+      }
+  return ids.size;
+}
+
+/**
+ * The footer line of the app. It starts from the runs published when the site was built (so the prerendered page is right) and
+ * then reads `assets/manifest.json` once; a missing or unreadable file is "none published". The not-found page requests no
+ * asset (FR-018-13), so there the build-time count stays.
+ */
+export function usePublishedProvenance(): ProvenanceItem[] {
+  const [runs, setRuns] = useState<number | null>(publishedRunIds.length);
+  const { pathname } = useLocation();
+  const id = /^\/cases\/([^/]+)/.exec(pathname)?.[1];
+  const notFound = id !== undefined && !isCaseId(id);
+  useEffect(() => {
+    if (notFound || document.querySelector("[data-not-found]")) return;
+    let live = true;
+    void fetchWebManifest().then((json) => {
+      if (live) setRuns(json === null ? 0 : countRuns(json));
+    });
+    return () => {
+      live = false;
+    };
+  }, [notFound]);
+  return provenanceItems(runs);
+}

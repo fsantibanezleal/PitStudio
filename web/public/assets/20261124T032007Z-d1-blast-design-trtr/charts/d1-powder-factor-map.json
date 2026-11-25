@@ -1,0 +1,138 @@
+{
+ "caption": {
+  "en": "Kuz-Ram/KCO prediction on a burden by spacing grid at the reference charge length; the other inputs are fixed (see the recipe).",
+  "es": "Prediccion Kuz-Ram/KCO en una malla piedra por espaciamiento con el largo de carga de referencia; las demas entradas son fijas (ver la receta)."
+ },
+ "case": "D1",
+ "chart_type": "raster",
+ "id": "d1-powder-factor-map",
+ "kind": "chart-series",
+ "markers": [
+  {
+   "id": "reference-design",
+   "label": {
+    "en": "Reference design",
+    "es": "Diseno de referencia"
+   },
+   "orientation": "point",
+   "value_text": "0.60 kg/m3",
+   "x": 6.0,
+   "y": 7.0
+  }
+ ],
+ "producer": {
+  "label": "model output with illustrative site constants (UNVERIFIED), not validated against real data",
+  "method": "Kuz-Ram (Cunningham 2005) with KCO/Swebrec, scaled-distance PPV and ballistic flyrock of minephys.blasting",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "raster": {
+  "colour": {
+   "colormap": "cividis",
+   "label": {
+    "en": "Powder factor",
+    "es": "Factor de carga"
+   },
+   "unit": "kg/m3",
+   "vmax": 1.112647398146385,
+   "vmin": 0.36815538909255385
+  },
+  "extent": {
+   "x0": 4.25,
+   "x1": 8.25,
+   "y0": 4.75,
+   "y1": 8.75
+  },
+  "nx": 8,
+  "ny": 8,
+  "values": [
+   0.6544984694978735,
+   0.5890486225480862,
+   0.5354987477709875,
+   0.4908738521234052,
+   0.4531143250369894,
+   0.42074901610577586,
+   0.39269908169872414,
+   0.36815538909255385,
+   0.6954046238414906,
+   0.6258641614573416,
+   0.5689674195066742,
+   0.521553467881118,
+   0.4814339703518012,
+   0.4470458296123868,
+   0.41724277430489437,
+   0.3911651009108385,
+   0.74176493209759,
+   0.667588438887831,
+   0.6068985808071191,
+   0.5563236990731925,
+   0.5135295683752547,
+   0.4768488849198793,
+   0.445058959258554,
+   0.41724277430489437,
+   0.7947481415331321,
+   0.715273327379819,
+   0.650248479436199,
+   0.5960611061498491,
+   0.55021025183063,
+   0.5109095195570136,
+   0.4768488849198793,
+   0.4470458296123868,
+   0.8558826139587578,
+   0.7702943525628819,
+   0.7002675932389836,
+   0.6419119604690683,
+   0.592534117356063,
+   0.55021025183063,
+   0.5135295683752547,
+   0.4814339703518012,
+   0.9272061651219875,
+   0.8344855486097887,
+   0.7586232260088989,
+   0.6954046238414906,
+   0.6419119604690683,
+   0.5960611061498491,
+   0.5563236990731925,
+   0.521553467881118,
+   1.0114976346785318,
+   0.9103478712106786,
+   0.8275889738278897,
+   0.7586232260088989,
+   0.7002675932389836,
+   0.650248479436199,
+   0.6068985808071191,
+   0.5689674195066742,
+   1.112647398146385,
+   1.0013826583317464,
+   0.9103478712106786,
+   0.8344855486097887,
+   0.7702943525628819,
+   0.715273327379819,
+   0.667588438887831,
+   0.6258641614573416
+  ]
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-012-41"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Powder factor by burden and spacing",
+  "es": "Factor de carga segun piedra y espaciamiento"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Burden",
+   "es": "Piedra"
+  },
+  "unit": "m"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Spacing",
+   "es": "Espaciamiento"
+  },
+  "unit": "m"
+ }
+}

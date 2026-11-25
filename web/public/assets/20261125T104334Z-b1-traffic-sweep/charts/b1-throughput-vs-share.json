@@ -1,0 +1,183 @@
+{
+ "caption": {
+  "en": "Tonnes returned in the window after braking delays are applied to the engine schedule (first order: loader and dump queues are not re-simulated).",
+  "es": "Toneladas retornadas en la ventana tras aplicar las demoras de frenado al programa del motor (primer orden: no se re-simulan las colas)."
+ },
+ "case": "B1",
+ "chart_type": "line",
+ "id": "b1-throughput-vs-share",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; rule-based agents with illustrative behaviour inputs, see the run summary",
+  "method": "seeded DES truck trajectories on the pit road network replayed with lane-based mixed traffic, constant-velocity TTC per encounter, paired seeds",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    8560.16,
+    8560.84,
+    8560.84,
+    8561.24,
+    8556.66
+   ],
+   "id": "lv4",
+   "label": {
+    "en": "4 light vehicles",
+    "es": "4 vehiculos livianos"
+   },
+   "lo": [
+    8512.3,
+    8513.69,
+    8513.69,
+    8513.4,
+    8511.74
+   ],
+   "n": 30,
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    8536.23,
+    8537.27,
+    8537.27,
+    8537.32,
+    8534.2
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    8551.03,
+    8558.08,
+    8557.63,
+    8553.99,
+    8553.98
+   ],
+   "id": "lv8",
+   "label": {
+    "en": "8 light vehicles",
+    "es": "8 vehiculos livianos"
+   },
+   "lo": [
+    8506.24,
+    8512.0,
+    8510.36,
+    8510.13,
+    8507.77
+   ],
+   "n": 30,
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    8528.63,
+    8535.04,
+    8533.99,
+    8532.06,
+    8530.87
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    8545.16,
+    8550.12,
+    8549.0,
+    8543.75,
+    8550.34
+   ],
+   "id": "lv16",
+   "label": {
+    "en": "16 light vehicles",
+    "es": "16 vehiculos livianos"
+   },
+   "lo": [
+    8503.46,
+    8504.83,
+    8504.19,
+    8502.88,
+    8507.13
+   ],
+   "n": 30,
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    8524.31,
+    8527.48,
+    8526.59,
+    8523.31,
+    8528.73
+   ]
+  },
+  {
+   "id": "engine",
+   "label": {
+    "en": "Engine schedule, no light vehicles",
+    "es": "Programa del motor, sin vehiculos livianos"
+   },
+   "x": [
+    0.0,
+    25.0,
+    50.0,
+    75.0,
+    100.0
+   ],
+   "y": [
+    8540.47,
+    8540.47,
+    8540.47,
+    8540.47,
+    8540.47
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-55",
+  "FR-018-16"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Throughput against the share of autonomous trucks",
+  "es": "Rendimiento segun la proporcion de camiones autonomos"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Autonomous share of the haul trucks",
+   "es": "Proporcion de camiones autonomos"
+  },
+  "unit": "%"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Throughput",
+   "es": "Rendimiento"
+  },
+  "unit": "t/h"
+ }
+}

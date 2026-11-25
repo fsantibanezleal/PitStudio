@@ -1,0 +1,42 @@
+{
+  "document": "replay-shard-header",
+  "schema_version": "1.0",
+  "kind": "field",
+  "encoding": "float32",
+  "fps": 1,
+  "frames": {
+    "start": 0,
+    "count": 1
+  },
+  "items": 65536,
+  "channels": [
+    {
+      "name": "arrival_time",
+      "unit": "s",
+      "min": 0.0,
+      "max": 3600.0
+    }
+  ],
+  "bbox_m": {
+    "min": [
+      -1280.0,
+      -1280.0,
+      1500.0
+    ],
+    "max": [
+      1280.0,
+      1280.0,
+      2400.0
+    ]
+  },
+  "grid": {
+    "width": 256,
+    "height": 256
+  },
+  "payload": {
+    "path": "arrival-time.f32",
+    "bytes": 262144,
+    "sha256": "cc9e137d4d3993a35b97ca30a631aecbf3b8b49101b9c53eda123e849f1c1de8"
+  },
+  "code_type": "uint16"
+}

@@ -1,0 +1,669 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/cases.schema.json",
+  "title": "PitStudio case registry",
+  "description": "Case registry studio/cases.yaml read by the web build, the docs matrices and the CI checks (DC-018-01, spec 018-web-cases).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "categories",
+    "cases"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "categories": {
+      "type": "object",
+      "description": "the five labelled groups of the case rail, keyed by category letter",
+      "additionalProperties": false,
+      "required": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "properties": {
+        "A": {
+          "$ref": "#/$defs/category"
+        },
+        "B": {
+          "$ref": "#/$defs/category"
+        },
+        "C": {
+          "$ref": "#/$defs/category"
+        },
+        "D": {
+          "$ref": "#/$defs/category"
+        },
+        "E": {
+          "$ref": "#/$defs/category"
+        }
+      }
+    },
+    "cases": {
+      "type": "object",
+      "description": "one entry per canonical case id; a repeated id is a duplicate key, rejected by the loader",
+      "additionalProperties": false,
+      "required": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ],
+      "properties": {
+        "A1": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "A"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/a1.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "A2": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "A"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/a2.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "A3": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "A"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/a3.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "B1": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "B"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/b1.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "B2": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "B"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/b2.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "C1": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "C"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/c1.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "C2": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "C"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/c2.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "C3": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "C"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/c3.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "D1": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "D"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/d1.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "D2": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "D"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/d2.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "E1": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "E"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/e1.yaml"
+                }
+              }
+            }
+          ]
+        },
+        "E2": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/case"
+            },
+            {
+              "properties": {
+                "category": {
+                  "const": "E"
+                },
+                "recipe": {
+                  "const": "studio/recipes/cases/e2.yaml"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "title_text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "en",
+        "es"
+      ],
+      "properties": {
+        "en": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "es": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        }
+      }
+    },
+    "prose_text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "en",
+        "es"
+      ],
+      "properties": {
+        "en": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600
+        },
+        "es": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600
+        }
+      }
+    },
+    "category_id": {
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "method_id": {
+      "type": "string",
+      "maxLength": 3,
+      "pattern": "^M([1-9]|1[0-9]|2[0-3])$",
+      "description": "method ladder id M1-M23"
+    },
+    "engine_id": {
+      "enum": [
+        "des",
+        "policies",
+        "haulage",
+        "lp",
+        "routing",
+        "il1-twin",
+        "il2-twin",
+        "granular",
+        "gns",
+        "traffic",
+        "dust-lidar",
+        "detector",
+        "geotech",
+        "forecasters",
+        "swe",
+        "fno",
+        "plume",
+        "dust-particles",
+        "blasting",
+        "watershed",
+        "unet",
+        "comminution",
+        "meta-model",
+        "mincut",
+        "volume"
+      ],
+      "description": "engine ids of the engine table (spec 018 section 7.1)"
+    },
+    "layer": {
+      "enum": [
+        "terrain-2018",
+        "terrain-2023",
+        "roads",
+        "pit-shells",
+        "fleet",
+        "fields",
+        "sensors"
+      ]
+    },
+    "kpi_unit": {
+      "enum": [
+        "1",
+        "%",
+        "pp",
+        "s",
+        "min",
+        "h",
+        "m",
+        "mm",
+        "km",
+        "km2",
+        "m3",
+        "m3/shift",
+        "t/h",
+        "kWh/t",
+        "kg/t",
+        "L/t",
+        "L/(t.km)",
+        "USD",
+        "USD/t",
+        "kg/VKT",
+        "ug/m3",
+        "mm/s",
+        "passes/truck",
+        "1/(1000 h)"
+      ],
+      "description": "ASCII unit id; the web renders the display symbol"
+    },
+    "category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/title_text"
+        }
+      }
+    },
+    "kpi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "unit",
+        "orientation",
+        "headline"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/param_key"
+        },
+        "name": {
+          "$ref": "#/$defs/title_text"
+        },
+        "unit": {
+          "$ref": "#/$defs/kpi_unit"
+        },
+        "orientation": {
+          "enum": [
+            "higher-is-better",
+            "lower-is-better",
+            "target",
+            "neutral"
+          ]
+        },
+        "target_value": {
+          "type": "number",
+          "description": "value the KPI should approach, in its unit"
+        },
+        "headline": {
+          "type": "boolean",
+          "description": "shown on the Explore route (FR-018-05)"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "orientation": {
+                "const": "target"
+              }
+            },
+            "required": [
+              "orientation"
+            ]
+          },
+          "then": {
+            "required": [
+              "target_value"
+            ]
+          }
+        }
+      ]
+    },
+    "synthetic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "validation"
+      ],
+      "properties": {
+        "label": {
+          "$ref": "#/$defs/title_text"
+        },
+        "validation": {
+          "enum": [
+            "validated-against-real",
+            "descriptive-only",
+            "unvalidated"
+          ],
+          "description": "validation class of spec 008 (FR-008-36); unvalidated is labelled 'calibrated synthetic - not validated against real data'"
+        },
+        "reference_source": {
+          "$ref": "#/$defs/slug"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "validation": {
+                "const": "validated-against-real"
+              }
+            },
+            "required": [
+              "validation"
+            ]
+          },
+          "then": {
+            "required": [
+              "reference_source"
+            ]
+          }
+        }
+      ]
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "title",
+        "question",
+        "kpis",
+        "sources",
+        "synthetic_data",
+        "methods",
+        "tools",
+        "engines",
+        "layers",
+        "recipe",
+        "validity"
+      ],
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/category_id"
+        },
+        "title": {
+          "$ref": "#/$defs/title_text"
+        },
+        "question": {
+          "$ref": "#/$defs/prose_text"
+        },
+        "kpis": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/kpi"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/slug"
+          },
+          "description": "data source ids of data/sources.yaml"
+        },
+        "synthetic_data": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/synthetic"
+          }
+        },
+        "methods": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 23,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/method_id"
+          }
+        },
+        "tools": {
+          "type": "object",
+          "description": "tool registry id -> role in the tool matrix (named or supporting)",
+          "propertyNames": {
+            "type": "string",
+            "maxLength": 48,
+            "pattern": "^[a-z][a-z0-9-]{1,47}$"
+          },
+          "additionalProperties": {
+            "enum": [
+              "named",
+              "supporting"
+            ]
+          },
+          "minProperties": 1,
+          "maxProperties": 32
+        },
+        "engines": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/engine_id"
+          }
+        },
+        "layers": {
+          "type": "array",
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/layer"
+          }
+        },
+        "clock_fps": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 240,
+          "default": 10,
+          "description": "SimClock step rate in frames per second (FR-018-22)"
+        },
+        "recipe": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/relpath"
+            },
+            {
+              "pattern": "^studio/recipes/cases/[a-e][1-3]\\.yaml$"
+            }
+          ],
+          "description": "studio/recipes/cases/<id in lower case>.yaml (FR-018-19)"
+        },
+        "validity": {
+          "$ref": "#/$defs/prose_text"
+        }
+      }
+    }
+  }
+}

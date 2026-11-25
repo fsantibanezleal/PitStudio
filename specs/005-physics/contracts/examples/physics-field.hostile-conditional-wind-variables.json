@@ -1,0 +1,45 @@
+{
+  "kind": "physics-field",
+  "schema_version": "1.0",
+  "field_set": "wind",
+  "source": "synthetic test field: uniform 3 m/s westerly with a logarithmic profile",
+  "grid": {
+    "kind": "regular-3d",
+    "shape": [
+      16,
+      64,
+      64
+    ],
+    "cell_size_m": 25.0,
+    "cell_height_m": 20.0,
+    "origin_m": [
+      -800.0,
+      -800.0,
+      10.0
+    ]
+  },
+  "crs": {
+    "frame": "site-enu",
+    "origin": {
+      "epsg": 32612,
+      "easting_m": 404000.0,
+      "northing_m": 4488000.0,
+      "z0_m": 1600.0
+    }
+  },
+  "time": {
+    "mode": "static"
+  },
+  "variables": [
+    {
+      "name": "wind_u",
+      "unit": "m/s",
+      "dtype": "float32",
+      "dims": [
+        "z",
+        "y",
+        "x"
+      ]
+    }
+  ]
+}

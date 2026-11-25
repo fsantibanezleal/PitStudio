@@ -5,14 +5,38 @@ description = "PitStudio open studio lane: OpenUSD scene building, GPU physics (
 requires-python = "==3.14.*"
 dependencies = [
     "pitstudio",
-    "usd-core", "warp-lang", "newton[sim]", "usd-validation-nvidia", "simready-validate",
-    "numpy", "pyyaml", "pydantic", "zarr", "pyarrow",
-    "laspy[lazrs]", "rasterio", "pyproj", "shapely", "trimesh", "ortools",
-    "pynvvideocodec", "nvidia-ml-py", "nvtx",
+    "usd-core",
+    "warp-lang",
+    "newton[sim]",
+    "usd-validation-nvidia",
+    "simready-validate",
+    "numpy",
+    "pyyaml",
+    "pydantic",
+    "zarr",
+    "pyarrow",
+    "laspy[lazrs]",
+    "rasterio",
+    "pyproj",
+    "shapely",
+    "trimesh",
+    "ortools",
+    "pynvvideocodec",
+    "nvidia-ml-py",
+    "nvtx",
+    "cma>=4.5.0",
+    "simready-foundation-tier-core>=2026.8.0",  # the tier content that simready-validate checks scenes against (FR-004-34)
+    "pvlib>=0.16.1",
+    "scipy>=1.18.1",
+    "filelock>=4.3.0",
 ]   # direct deps only; versions are resolved and locked by uv (never hand-pinned)
 
 [dependency-groups]
-dev = []
+dev = [
+    "hypothesis>=6.169.0",
+    "pytest>=9.1.1",
+    "scipy>=1.18.1",
+]
 
 [tool.uv]
 package = false

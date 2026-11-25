@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/meta-model.schema.json",
+  "title": "Engine meta-model: input and output messages",
+  "description": "Input and output messages of the browser engine `meta-model` (cases D2): the learned mine-to-mill meta-model run with ORT-web (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `meta-model`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "meta-model",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "predict"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "predict"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/predict_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `meta-model`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "meta-model",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "predict"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "predict"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/predict_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "predict_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "rows"
+      ],
+      "properties": {
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "ONNX meta-model smaller than 10^6 bytes (NFR-017-01).",
+          "required": [
+            "artefact",
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "artefact": {
+              "$ref": "#/$defs/artefact_id",
+              "description": "Web-manifest artefact id (never a path); the loader resolves it (FR-018-43)."
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256",
+              "description": "SHA-256 of the artefact bytes, as in its manifest entry."
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 999999,
+              "description": "Size of the artefact in bytes; the engine's size cap."
+            }
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "One D2 input vector (spec 017 section 7) in SI units, fed to the model in this order (DC-011-02).",
+            "required": [
+              "burden_m",
+              "spacing_ratio",
+              "powder_factor_kg_per_m3",
+              "hole_diameter_m",
+              "bench_height_m",
+              "rock_factor",
+              "work_index_j_per_kg",
+              "crusher_css_m",
+              "target_p80_m",
+              "mill_power_w",
+              "efficiency",
+              "energy_cap_j_per_kg",
+              "explosive_cost_usd_per_kg",
+              "energy_cost_usd_per_j",
+              "consumables_cost_usd_per_kg"
+            ],
+            "properties": {
+              "burden_m": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 20
+              },
+              "spacing_ratio": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 3,
+                "description": "S / B."
+              },
+              "powder_factor_kg_per_m3": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 5
+              },
+              "hole_diameter_m": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "bench_height_m": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 50
+              },
+              "rock_factor": {
+                "type": "number",
+                "minimum": 0.8,
+                "maximum": 22,
+                "description": "Kuz-Ram rock factor A."
+              },
+              "work_index_j_per_kg": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 360000,
+                "description": "Bond work index (100 kWh/t = 360,000 J/kg)."
+              },
+              "crusher_css_m": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1,
+                "description": "Crusher closed-side setting."
+              },
+              "target_p80_m": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 0.01,
+                "description": "Target P80 of the mill product."
+              },
+              "mill_power_w": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 100000000.0
+              },
+              "efficiency": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1,
+                "description": "Mill efficiency eta."
+              },
+              "energy_cap_j_per_kg": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 360000,
+                "description": "Specific-energy cap of the configuration."
+              },
+              "explosive_cost_usd_per_kg": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "energy_cost_usd_per_j": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1e-05
+              },
+              "consumables_cost_usd_per_kg": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 256,
+          "description": "Batch of input vectors (at most 256, NFR-017-02)."
+        }
+      }
+    },
+    "predict_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rows"
+      ],
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "specific_energy_j_per_kg",
+              "throughput_kg_per_s",
+              "cost_usd_per_kg",
+              "extrapolation"
+            ],
+            "properties": {
+              "specific_energy_j_per_kg": {
+                "type": "number",
+                "minimum": 0
+              },
+              "throughput_kg_per_s": {
+                "type": "number",
+                "minimum": 0
+              },
+              "cost_usd_per_kg": {
+                "type": "number",
+                "minimum": 0
+              },
+              "extrapolation": {
+                "type": "boolean",
+                "description": "Outside the sweep box (FR-017-09)."
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 256,
+          "description": "One answer per input row, in order."
+        }
+      }
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+ "caption": {
+  "en": "Mean per fold; the run evaluated in bf16, the CPU recomputes in fp32 (largest file difference 0.0053). Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed.",
+  "es": "Media por particion; la corrida evaluo en bf16, la CPU recalcula en fp32 (mayor diferencia por archivo 0.0053). Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+ },
+ "case": "D1",
+ "categories": [
+  {
+   "id": "fold-0",
+   "label": {
+    "en": "Fold 0",
+    "es": "Particion 0"
+   }
+  },
+  {
+   "id": "fold-1",
+   "label": {
+    "en": "Fold 1",
+    "es": "Particion 1"
+   }
+  },
+  {
+   "id": "fold-2",
+   "label": {
+    "en": "Fold 2",
+    "es": "Particion 2"
+   }
+  },
+  {
+   "id": "fold-3",
+   "label": {
+    "en": "Fold 3",
+    "es": "Particion 3"
+   }
+  },
+  {
+   "id": "fold-4",
+   "label": {
+    "en": "Fold 4",
+    "es": "Particion 4"
+   }
+  }
+ ],
+ "chart_type": "bar",
+ "id": "d1-fold-iou",
+ "kind": "chart-series",
+ "producer": {
+  "label": "real images (Mendeley Data 78ht3pjsr4, CC BY 4.0); metrics only, no image is published",
+  "method": "TRTR U-Net inference on the CPU, FR-012-19 instance decoder, area-weighted instance PSD (FR-012-24)",
+  "tool": "pitstudio",
+  "version": "0.0.0"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "id": "run",
+   "label": {
+    "en": "Stored by the training run",
+    "es": "Guardado por la corrida"
+   },
+   "y": [
+    0.88389,
+    0.88505,
+    0.89446,
+    0.8926,
+    0.89865
+   ]
+  },
+  {
+   "id": "cpu",
+   "label": {
+    "en": "Recomputed on CPU",
+    "es": "Recalculado en CPU"
+   },
+   "y": [
+    0.8839355176926795,
+    0.8850916608278627,
+    0.894517877626117,
+    0.8926222603522411,
+    0.8986484812810618
+   ]
+  }
+ ],
+ "serves": [
+  "FR-012-29",
+  "FR-012-24"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Foreground IoU of each fold, trained and tested on real images",
+  "es": "IoU de primer plano de cada particion, entrenado y probado en imagenes reales"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Foreground IoU",
+   "es": "IoU de primer plano"
+  },
+  "unit": "1"
+ }
+}

@@ -1,0 +1,163 @@
+{
+  "schema_version": "1.0",
+  "header": {
+    "scenario_id": "a1-two-loader-smoke",
+    "bundle_sha256": "e7773b8c90b3acd0d3dfc7d087e45f5993a783761198b58329ba63ad3cc73899",
+    "seed": 42,
+    "dispatcher": "sptf",
+    "variate_profile": "deterministic",
+    "mode": "fast",
+    "horizon_s": 900.0,
+    "kpi_window": {
+      "warmup_s": 0.0
+    },
+    "engine": {
+      "package": "minehaulsim",
+      "version": "0.12.1",
+      "pin_sha256": "1994805904c975af1a6e43ca32c54300f9ebe02343dcdf6e3d3fcea3fa9133de"
+    },
+    "variates": {
+      "generator": "philox4x64-10",
+      "key_hash": "fnv-1a-64"
+    },
+    "producer": "python-reference",
+    "synthetic": true,
+    "honesty": {
+      "label": "calibrated synthetic — not validated against real data",
+      "bias_note": "Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it."
+    }
+  },
+  "events": [
+    {
+      "t_s": -1.0,
+      "seq": 1,
+      "kind": "arrive-loader",
+      "truck": 1,
+      "node": 1
+    },
+    {
+      "t_s": 30.0,
+      "seq": 2,
+      "kind": "arrive-loader",
+      "truck": 2,
+      "node": 2
+    },
+    {
+      "t_s": 288.0,
+      "seq": 3,
+      "kind": "load-end",
+      "truck": 1,
+      "node": 1
+    },
+    {
+      "t_s": 288.0,
+      "seq": 4,
+      "kind": "load-end",
+      "truck": 2,
+      "node": 2
+    },
+    {
+      "t_s": 715.4,
+      "seq": 5,
+      "kind": "arrive-dump",
+      "truck": 1,
+      "node": 4
+    },
+    {
+      "t_s": 742.9,
+      "seq": 6,
+      "kind": "arrive-dump",
+      "truck": 2,
+      "node": 5
+    },
+    {
+      "t_s": 770.4,
+      "seq": 7,
+      "kind": "dump-end",
+      "truck": 1,
+      "node": 4
+    },
+    {
+      "t_s": 797.9,
+      "seq": 8,
+      "kind": "dump-end",
+      "truck": 2,
+      "node": 5
+    }
+  ],
+  "cyclelog": [
+    {
+      "t_s": 30.0,
+      "truck": 1,
+      "node": 1,
+      "event": "load",
+      "payload_t": 0.0
+    },
+    {
+      "t_s": 30.0,
+      "truck": 2,
+      "node": 2,
+      "event": "load",
+      "payload_t": 0.0
+    },
+    {
+      "t_s": 288.0,
+      "truck": 1,
+      "node": 1,
+      "event": "haul",
+      "payload_t": 227.0
+    },
+    {
+      "t_s": 288.0,
+      "truck": 2,
+      "node": 2,
+      "event": "haul",
+      "payload_t": 227.0
+    },
+    {
+      "t_s": 715.4,
+      "truck": 1,
+      "node": 4,
+      "event": "dump",
+      "payload_t": 227.0
+    },
+    {
+      "t_s": 742.9,
+      "truck": 2,
+      "node": 5,
+      "event": "dump",
+      "payload_t": 227.0
+    },
+    {
+      "t_s": 770.4,
+      "truck": 1,
+      "node": 4,
+      "event": "return",
+      "payload_t": 0.0
+    },
+    {
+      "t_s": 797.9,
+      "truck": 2,
+      "node": 5,
+      "event": "return",
+      "payload_t": 0.0
+    }
+  ],
+  "results": {
+    "tonnes_t": 454.0,
+    "cycles": 2,
+    "truck_wait_s": 0.0,
+    "loader_wait_s": [
+      {
+        "loader": 1,
+        "wait_s": 0.0
+      },
+      {
+        "loader": 2,
+        "wait_s": 0.0
+      }
+    ],
+    "events_executed": 8,
+    "downtime": null
+  }
+}

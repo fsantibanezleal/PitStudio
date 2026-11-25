@@ -1,0 +1,47 @@
+{
+  "$schema": "../capabilities.schema.json",
+  "generated": "2026-10-07",
+  "gpu": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+  "driver": "582.78",
+  "probes": {
+    "warp_newton": {
+      "status": "pass",
+      "versions": {
+        "python": "3.14.4",
+        "warp": "1.17.0"
+      },
+      "metrics": {
+        "saxpy_16M_x20_s": 0.0123
+      },
+      "telemetry": {
+        "samples": 12,
+        "max_temp_c": 71,
+        "max_power_w": 80.5,
+        "pcie_replays_delta": 0
+      }
+    },
+    "ovrtx": {
+      "status": "pass",
+      "versions": {
+        "python": "3.12.15",
+        "ovrtx": "0.5.0"
+      },
+      "metrics": "measured locally, not published (licence)"
+    },
+    "tensorrt": {
+      "status": "fail",
+      "versions": {},
+      "error": "FileNotFoundError: ~\\Data\\x.onnx yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      "notes": [
+        "see <repo>\\studio\\bench"
+      ]
+    },
+    "isaacsim": {
+      "status": "skip",
+      "versions": {},
+      "notes": [
+        "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+      ]
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "scenario": "a3-dump-pile-mpm",
+  "kind": "production",
+  "solver": "mpm-newton",
+  "device": "cuda",
+  "seed": 42,
+  "deterministic": false,
+  "geometry": {
+    "shape": "box",
+    "domain_min_m": [
+      -10.0,
+      -10.0,
+      0.0
+    ],
+    "domain_max_m": [
+      10.0,
+      10.0,
+      8.0
+    ]
+  },
+  "counts": {
+    "particles": 2000000
+  },
+  "time_step": {
+    "dt_s": 0.001,
+    "end_time_s": 20.0
+  },
+  "output": {
+    "every_steps": 50,
+    "fields": true,
+    "replay": true,
+    "replay_fps": 30,
+    "shard_bytes_max": 10000000
+  },
+  "materials": [
+    {
+      "id": "blasted-rock-mpm",
+      "model": "mpm-granular",
+      "density_kg_m3": {
+        "value": 1800,
+        "status": "assumed",
+        "note": "bulk density of loose blasted rock, starting value"
+      },
+      "youngs_modulus_pa": {
+        "value": 10000000.0,
+        "status": "reduced",
+        "note": "continuum stiffness lowered for the implicit solve"
+      },
+      "youngs_modulus_real_pa": {
+        "value": 50000000000.0,
+        "status": "unverified",
+        "source": "typical intact-rock modulus from a secondary handbook table"
+      },
+      "friction_coefficient": {
+        "value": 0.68,
+        "status": "assumed",
+        "note": "Newton granular example default; its repose mapping is calibrated in spec 011"
+      },
+      "yield_pressure_pa": {
+        "value": 10000000000.0,
+        "status": "assumed",
+        "note": "effectively no compressive yield"
+      },
+      "viscosity_pa_s": {
+        "value": 0.0,
+        "status": "assumed",
+        "note": "no viscous term"
+      }
+    }
+  ],
+  "mpm_newton": {
+    "material": "blasted-rock-mpm",
+    "voxel_size_m": 0.1,
+    "grid_type": "sparse",
+    "max_iterations": 250,
+    "tolerance": 1e-05
+  }
+}

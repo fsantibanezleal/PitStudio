@@ -1,0 +1,46 @@
+{
+  "kind": "input",
+  "engine": "gns",
+  "engine_version": "0.1.0",
+  "function": "step",
+  "args": {
+    "model": {
+      "artefact": "a3-gns-fp32",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 3100000
+    },
+    "precision": "fp32",
+    "positions_m": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "components": 2
+      },
+      "byte_length": 16000
+    },
+    "velocity_history_m_per_s": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "history": 5,
+        "components": 2
+      },
+      "byte_length": 80000
+    },
+    "particle_type": {
+      "dtype": "uint8",
+      "shape": {
+        "particles": 2000
+      },
+      "byte_length": 2000
+    },
+    "bounds_m": [
+      0.0,
+      0.0,
+      2.0,
+      1.0
+    ],
+    "particle_diameter_m": 0.01,
+    "step_s": 0.0025
+  }
+}

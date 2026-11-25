@@ -1,0 +1,108 @@
+{
+ "methods": [
+  "M14"
+ ],
+ "title": "C1 single real event (de Wit): time-to-failure forecasts at the cut-offs 0.5 and 0.8",
+ "label": "single real event — no significance test; failure time at day resolution from two documentary sources",
+ "verdict": "ok",
+ "headline": [
+  {
+   "name": "SNR_obs of the real series",
+   "value": 539.7835,
+   "unit": "1",
+   "note": "FR-010-12, between t_0 and t_f"
+  },
+  {
+   "name": "Record length t_f - t_0",
+   "value": 1251.4733,
+   "unit": "h",
+   "note": "t_f 2014-02-23T00:00:00 with an uncertainty of 24 h"
+  }
+ ],
+ "rows": [
+  {
+   "cutoff": 0.5,
+   "method": "inverse_velocity",
+   "outcome": "predicted",
+   "t_hat_f_h": 1114.01,
+   "signed_error_h": -137.46
+  },
+  {
+   "cutoff": 0.5,
+   "method": "bayesian_ttf",
+   "outcome": "predicted",
+   "t_hat_f_h": 790.04,
+   "signed_error_h": -461.43
+  },
+  {
+   "cutoff": 0.5,
+   "method": "tcn",
+   "outcome": "predicted",
+   "t_hat_f_h": 1334.43,
+   "signed_error_h": 82.95
+  },
+  {
+   "cutoff": 0.5,
+   "method": "patchtst",
+   "outcome": "predicted",
+   "t_hat_f_h": 1409.56,
+   "signed_error_h": 158.08
+  },
+  {
+   "cutoff": 0.5,
+   "method": "chronos_bolt_zero_shot",
+   "outcome": "not run",
+   "t_hat_f_h": null,
+   "signed_error_h": null
+  },
+  {
+   "cutoff": 0.5,
+   "method": "chronos_bolt_fine_tuned",
+   "outcome": "no failure predicted",
+   "t_hat_f_h": 1879.66,
+   "signed_error_h": 628.19
+  },
+  {
+   "cutoff": 0.8,
+   "method": "inverse_velocity",
+   "outcome": "predicted",
+   "t_hat_f_h": 1120.49,
+   "signed_error_h": -130.98
+  },
+  {
+   "cutoff": 0.8,
+   "method": "bayesian_ttf",
+   "outcome": "predicted",
+   "t_hat_f_h": 1078.81,
+   "signed_error_h": -172.67
+  },
+  {
+   "cutoff": 0.8,
+   "method": "tcn",
+   "outcome": "predicted",
+   "t_hat_f_h": 1533.98,
+   "signed_error_h": 282.5
+  },
+  {
+   "cutoff": 0.8,
+   "method": "patchtst",
+   "outcome": "predicted",
+   "t_hat_f_h": 1274.86,
+   "signed_error_h": 23.39
+  },
+  {
+   "cutoff": 0.8,
+   "method": "chronos_bolt_zero_shot",
+   "outcome": "not run",
+   "t_hat_f_h": null,
+   "signed_error_h": null
+  },
+  {
+   "cutoff": 0.8,
+   "method": "chronos_bolt_fine_tuned",
+   "outcome": "no failure predicted",
+   "t_hat_f_h": 3007.45,
+   "signed_error_h": 1755.98
+  }
+ ]
+}

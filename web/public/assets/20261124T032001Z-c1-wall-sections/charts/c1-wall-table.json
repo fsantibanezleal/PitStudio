@@ -1,0 +1,192 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c1-wall-table",
+ "case": "C1",
+ "chart_type": "table",
+ "status": "ok",
+ "title": {
+  "en": "Wall sections: FoS, PoF and the pySlope check",
+  "es": "Secciones de talud: FS, PoF y la verificación con pySlope"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "Bishop and Spencer limit equilibrium over a circle grid, generalised Hoek-Brown, Monte Carlo PoF",
+  "version": "0.00.000",
+  "label": "illustrative rock-mass inputs, UNVERIFIED; 3DEP 2018 DEM section; educational, not design software"
+ },
+ "serves": [
+  "FR-010-01",
+  "FR-010-03",
+  "SC-010-05"
+ ],
+ "caption": {
+  "en": "Minimum FoS over a circle grid and PoF over the 64 most critical surfaces. Illustrative inputs, UNVERIFIED. Educational, not design software.",
+  "es": "FS mínimo sobre una grilla de círculos y PoF sobre las 64 superficies más críticas. Insumos ilustrativos, SIN VERIFICAR. Educativo, no software de diseño."
+ },
+ "table": {
+  "columns": [
+   {
+    "id": "section",
+    "label": {
+     "en": "Section",
+     "es": "Sección"
+    },
+    "type": "text"
+   },
+   {
+    "id": "face-height",
+    "label": {
+     "en": "Face height",
+     "es": "Altura de la cara"
+    },
+    "type": "number",
+    "unit": "m"
+   },
+   {
+    "id": "face-angle",
+    "label": {
+     "en": "Face angle",
+     "es": "Ángulo de la cara"
+    },
+    "type": "number",
+    "unit": "deg"
+   },
+   {
+    "id": "fos-bishop",
+    "label": {
+     "en": "FoS Bishop",
+     "es": "FS Bishop"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "fos-spencer",
+    "label": {
+     "en": "FoS Spencer",
+     "es": "FS Spencer"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "theta",
+    "label": {
+     "en": "Spencer interslice angle",
+     "es": "Ángulo entre dovelas de Spencer"
+    },
+    "type": "number",
+    "unit": "deg"
+   },
+   {
+    "id": "pof",
+    "label": {
+     "en": "PoF",
+     "es": "PoF"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "pof-lower",
+    "label": {
+     "en": "PoF Wilson lower",
+     "es": "PoF Wilson inferior"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "pof-upper",
+    "label": {
+     "en": "PoF Wilson upper",
+     "es": "PoF Wilson superior"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "samples",
+    "label": {
+     "en": "Samples N",
+     "es": "Muestras N"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "candidates",
+    "label": {
+     "en": "Candidate surfaces K",
+     "es": "Superficies candidatas K"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "oracle-fixed-pass",
+    "label": {
+     "en": "pySlope fixed circles",
+     "es": "pySlope círculos fijos"
+    },
+    "type": "text"
+   },
+   {
+    "id": "oracle-search-pass",
+    "label": {
+     "en": "pySlope searched minimum",
+     "es": "pySlope mínimo buscado"
+    },
+    "type": "text"
+   }
+  ],
+  "rows": [
+   [
+    "usgs-3dep-bingham-s1",
+    101.8,
+    32.1,
+    2.753,
+    2.755,
+    -22.94,
+    0.0,
+    0.0,
+    0.00192,
+    2000,
+    64,
+    "pass",
+    "pass"
+   ],
+   [
+    "usgs-3dep-bingham-s2",
+    104.1,
+    39.3,
+    1.866,
+    1.863,
+    -30.7,
+    0.0,
+    0.0,
+    0.00192,
+    2000,
+    64,
+    "pass",
+    "pass"
+   ],
+   [
+    "usgs-3dep-bingham-s3",
+    101.8,
+    45.0,
+    1.681,
+    1.68,
+    -35.26,
+    0.0005,
+    9e-05,
+    0.00283,
+    2000,
+    64,
+    "pass",
+    "pass"
+   ]
+  ]
+ }
+}

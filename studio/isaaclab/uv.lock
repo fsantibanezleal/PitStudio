@@ -734,6 +734,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "isaaclab-ov"
+version = "2.2.0"
+source = { git = "https://github.com/isaac-sim/IsaacLab?subdirectory=source%2Fisaaclab_ov&tag=v3.0.0-EA#ae37b028ea415c91ea2bc32609efcd759ed2b974" }
+dependencies = [
+    { name = "isaaclab" },
+    { name = "ovstage" },
+]
+
+[[package]]
 name = "isaaclab-physx"
 version = "6.0.0"
 source = { git = "https://github.com/isaac-sim/IsaacLab?subdirectory=source%2Fisaaclab_physx&tag=v3.0.0-EA#ae37b028ea415c91ea2bc32609efcd759ed2b974" }
@@ -1443,6 +1452,16 @@ wheels = [
 ]
 
 [[package]]
+name = "ovstage"
+version = "0.1.1.355824"
+source = { registry = "https://pypi.nvidia.com/" }
+wheels = [
+    { url = "https://pypi.nvidia.com/ovstage/ovstage-0.1.1.355824-py3-none-manylinux_2_35_aarch64.whl", hash = "sha256:046aa360959bf5344d912470aaa11d3ec1fc750e28816e5239ce0438864c9863" },
+    { url = "https://pypi.nvidia.com/ovstage/ovstage-0.1.1.355824-py3-none-manylinux_2_35_x86_64.whl", hash = "sha256:b4affd9e5b23620ec71901a164df4ae373d25de2c76b9fae4d193d97aa2df0ec" },
+    { url = "https://pypi.nvidia.com/ovstage/ovstage-0.1.1.355824-py3-none-win_amd64.whl", hash = "sha256:fc8ae7fe950aa2ff8fd24643047f7156ffa1b9b384ce3f024ee2193929e21a3b" },
+]
+
+[[package]]
 name = "packaging"
 version = "26.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1508,6 +1527,7 @@ dependencies = [
     { name = "isaaclab-assets" },
     { name = "isaaclab-contrib" },
     { name = "isaaclab-newton" },
+    { name = "isaaclab-ov" },
     { name = "isaaclab-physx" },
     { name = "isaaclab-rl" },
     { name = "isaaclab-tasks" },
@@ -1560,6 +1580,7 @@ requires-dist = [
     { name = "isaaclab-assets", git = "https://github.com/isaac-sim/IsaacLab?subdirectory=source%2Fisaaclab_assets&tag=v3.0.0-EA" },
     { name = "isaaclab-contrib", git = "https://github.com/isaac-sim/IsaacLab?subdirectory=source%2Fisaaclab_contrib&tag=v3.0.0-EA" },
     { name = "isaaclab-newton", git = "https://github.com/isaac-sim/IsaacLab?subdirectory=source%2Fisaaclab_newton&tag=v3.0.0-EA" },
+    { name = "isaaclab-ov", git = "https://github.com/isaac-sim/IsaacLab?subdirectory=source%2Fisaaclab_ov&tag=v3.0.0-EA" },
     { name = "isaaclab-physx", git = "https://github.com/isaac-sim/IsaacLab?subdirectory=source%2Fisaaclab_physx&tag=v3.0.0-EA" },
     { name = "isaaclab-rl", git = "https://github.com/isaac-sim/IsaacLab?subdirectory=source%2Fisaaclab_rl&tag=v3.0.0-EA" },
     { name = "isaaclab-tasks", git = "https://github.com/isaac-sim/IsaacLab?subdirectory=source%2Fisaaclab_tasks&tag=v3.0.0-EA" },

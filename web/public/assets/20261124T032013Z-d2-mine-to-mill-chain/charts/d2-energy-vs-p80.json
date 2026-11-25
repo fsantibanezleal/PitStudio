@@ -1,0 +1,122 @@
+{
+ "caption": {
+  "en": "Median and 10 to 90 percent range of 12800 chain evaluations of the sweep in 15 bins of target P80; every other input varies over its box.",
+  "es": "Mediana y rango 10 a 90 por ciento de 12800 evaluaciones de la cadena en 15 tramos de P80 objetivo; las demas entradas varian en su caja."
+ },
+ "case": "D2",
+ "chart_type": "line",
+ "id": "d2-energy-vs-p80",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic, not validated against real data",
+  "method": "Kuz-Ram/KCO blast, Whiten crusher, Bond law and cost chain; scrambled-Sobol sweeps and Saltelli/Jansen Sobol indices",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "10th to 90th percentile",
+    "es": "Percentil 10 a 90"
+   },
+   "hi": [
+    19.55439623904789,
+    17.360854989078398,
+    17.281461507843453,
+    15.58265898863823,
+    15.152606834094456,
+    14.35505455610287,
+    13.168769197672397,
+    13.34269558721262,
+    12.941349129420612,
+    11.98377041405034,
+    10.874527887534448,
+    10.800694902633591,
+    10.692313380473943,
+    10.66956508302258,
+    9.146018721419594
+   ],
+   "id": "median-energy",
+   "label": {
+    "en": "Median",
+    "es": "Mediana"
+   },
+   "lo": [
+    10.259060438751838,
+    9.912999654416447,
+    8.285514663089394,
+    7.106366191019967,
+    7.937569840012092,
+    7.141125793915569,
+    6.365820693682325,
+    5.8876101277643835,
+    6.0800659705092395,
+    5.758693665301622,
+    5.749932717306417,
+    5.41915087026657,
+    5.412772013010401,
+    5.477432750037788,
+    5.725925708016305
+   ],
+   "n": 12800,
+   "x": [
+    82.12364060538155,
+    97.78763219320143,
+    112.52379751800058,
+    127.13567675628627,
+    141.60834301191454,
+    157.3914910107851,
+    172.86581693647,
+    187.83291736259483,
+    202.70436304687922,
+    217.95490470249206,
+    231.653282379445,
+    247.27057551665763,
+    261.9780684588477,
+    277.33277934936007,
+    292.3452986099829
+   ],
+   "y": [
+    15.796003902576146,
+    14.371031297644926,
+    12.125928117152299,
+    9.683834660623397,
+    11.520527233624009,
+    11.11096677423385,
+    10.808095716590206,
+    9.924589979715217,
+    9.78366893610507,
+    8.651028977457582,
+    8.445678929191693,
+    7.489393760338722,
+    8.557054116282035,
+    8.01073166404982,
+    7.844859231581495
+   ]
+  }
+ ],
+ "serves": [
+  "FR-017-01",
+  "FR-017-02"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Specific energy against the target P80",
+  "es": "Energia especifica segun el P80 objetivo"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Target P80",
+   "es": "P80 objetivo"
+  },
+  "unit": "um"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Specific energy",
+   "es": "Energia especifica"
+  },
+  "unit": "kWh/t"
+ }
+}

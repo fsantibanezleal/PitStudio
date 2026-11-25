@@ -63,8 +63,9 @@ PitStudio hardens the basic test in four ways:
   relative to it.
 - **An injected-shift check.** A deliberate, known perturbation of real data (for example haze on against haze off)
   must be detected; otherwise the test lacks power and its "pass" means nothing.
-- **Grouped cross-validation with bootstrap intervals.** Folds respect source groups (`StratifiedGroupKFold`,
-  scikit-learn 1.9.1 in `pipeline/uv.lock` [15]), and AUCs carry bootstrap confidence intervals.
+- **Grouped cross-validation with bootstrap intervals.** Folds respect source groups (the seeded greedy grouped
+  split that `s10_preprocess` writes once, spec 008), and AUCs carry bootstrap confidence intervals (scikit-learn 1.9.1 in
+  `pipeline/uv.lock` [15]).
 
 ### Thresholds
 
@@ -123,9 +124,9 @@ specification phase established:
 | Instance area p10 / p50 / p90 | 102 / 807 / 5,298 px |
 | Equivalent diameter p10 / p50 / p90 | 11 / 32 / 82 px |
 | Physical scale | **none** (no mm per pixel anywhere) |
-| Structure | **240 originals × 4**: images 241–480, 481–720 and 721–960 are the horizontal flip, vertical flip and 180° rotation of images 1–240 (verified exactly: correlation 1.000 and label IoU 1.000 for all 240 × 3 pairs) |
-| Overlaps | none at pixel level (high-pass correlation test over all 28,680 pairs); 9 visually similar pairs (raw correlation > 0.9) are merged conservatively |
-| Independent units | **231 source groups**; 15,786 unique labelled instances |
+| Structure | **80 photographs × 3 crops × 4**: files *k*, *k* + 80 and *k* + 160 of 1–240 are three crops of one photograph (DINOv2 scan); images 241–480, 481–720 and 721–960 are the horizontal flip, vertical flip and 180° rotation of images 1–240 (verified exactly: correlation 1.000 and label IoU 1.000 for all 240 × 3 pairs) |
+| Overlaps | none at same-scale pixel level (high-pass correlation test over all 28,680 pairs, blind to rescaled crops); 9 visually similar pairs (raw correlation > 0.9) are merged conservatively |
+| Independent units | **72 source groups** (80 scenes before merging); 15,786 unique labelled instances |
 
 In 48 images, 48 named instances have no pixels (fully overlapped polygons); this is harmless.
 
@@ -138,11 +139,11 @@ every real-data claim look *better* than it is.
 
 The rules that follow:
 
-1. **Group key** $g(k) = ((k - 1) \bmod 240) + 1$ for image $k$, merged with the 9 conservative similarity links: 231 groups.
+1. **Group key** $g(k) = s(((k - 1) \bmod 240) + 1)$ with scene $s(k) = ((k - 1) \bmod 80) + 1$ for image $k$, merged with the 9 conservative similarity links mapped to scenes: 72 groups.
 2. **Evaluate on originals only** (images 1–240 that fall in the test groups). Training may use the shipped flips or
-   its own augmentation; the effective real set is 240 tiles, not 960.
-3. **Grouped k-fold.** A single 80/20 split would leave about 46 test groups. The specification fixes a grouped
-   k-fold (for example 5 folds), and $\rho$ is reported with its fold spread.
+   its own augmentation; the effective independent real set is 80 scenes, not 960.
+3. **Grouped k-fold.** A single 80/20 split would leave about 14–15 test groups. The specification fixes 5 grouped
+   folds of exactly 48 originals each, written once by `s10_preprocess` and only read by later stages, and $\rho$ is reported with its fold spread.
 4. **Pixels, not millimetres.** Without a physical scale, size comparisons (for example the median fragment size
    $x_{50}$ against the watershed + Swebrec baseline [19]) are made in pixels or as ratios ($x_{50}/x_{80}$, curve
    shape). Real-world sizes need a stated scale assumption in the D1 card.
@@ -173,7 +174,7 @@ validated against real data"**.
 
 | Data type | Real reference | Protocol | Claim allowed |
 |---|---|---|---|
-| Muck-pile fragment images | Mendeley, 231 groups | DINOv2 C2ST with baseline; TSTR/TRTR; duplicates | Measured sim-to-real |
+| Muck-pile fragment images | Mendeley, 72 groups | DINOv2 C2ST with baseline; TSTR/TRTR; duplicates | Measured sim-to-real |
 | Terrain statistics | Real DEMs of the same site | C2ST on terrain features | Measured input gap |
 | Equipment and people images | None, unless the optional real probe (≤ 200 images, two labellers) is labelled | Synthetic held-out mAP, randomisation ablation, corruption curves | "Not measured" for sim-to-real |
 | Slope displacement | One real failure event (de Wit) [20] | Descriptive time-to-failure error at the 50 % and 80 % record cut-offs | No C2ST, no TSTR, no significance ("single real event") |
@@ -211,7 +212,7 @@ Paired binary outcomes on the same queries (the vision-language comparison) use 
   no physical scale. It says nothing about equipment or people unless the optional probe is labelled.
 - **Thresholds are proposals.** The values above are starting points, calibrated once in the first milestone; they
   are not sourced norms.
-- **Test power is finite.** With about 231 groups, small input gaps are undetectable; a "pass" is bounded by the
+- **Test power is finite.** With 72 groups, small input gaps are undetectable; a "pass" is bounded by the
   injected-shift check.
 - **Duplicate thresholds** (perceptual-hash distance, embedding similarity) are proposed defaults until fixed.
 - **Simulation-grade twin, not a live digital twin.** No claim reaches beyond the real data actually measured.
@@ -265,7 +266,7 @@ Paired binary outcomes on the same queries (the vision-language comparison) use 
     CC BY 4.0. DOI: 10.17632/78ht3pjsr4.1
 14. Mendeley Data public API: file list with size and SHA-256. URL:
     https://data.mendeley.com/public-api/datasets/78ht3pjsr4/files?folder_id=root&version=1
-15. scikit-learn 1.9.1 on PyPI (BSD-3; `StratifiedGroupKFold`). URL: https://pypi.org/pypi/scikit-learn/1.9.1/json
+15. scikit-learn 1.9.1 on PyPI (BSD-3). URL: https://pypi.org/pypi/scikit-learn/1.9.1/json
 16. ImageHash on PyPI (BSD-2). URL: https://pypi.org/pypi/ImageHash/json
 17. Meta AI. DINOv3 repository (custom DINOv3 License, gated weights). URL: https://github.com/facebookresearch/dinov3
 18. Ronneberger, Fischer, Brox (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation (MICCAI 2015).

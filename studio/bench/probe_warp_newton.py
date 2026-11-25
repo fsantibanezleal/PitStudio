@@ -43,11 +43,12 @@ def body(r: dict[str, Any]) -> None:
     import newton
 
     r["versions"]["newton"] = newton.__version__
-    builder = newton.ModelBuilder()
+    builder = newton.ModelBuilder()  # Newton is Z-up by default; gravity acts along -Z
+    up = int(getattr(builder.up_axis, "value", builder.up_axis))  # Axis enum -> 0/1/2
     for k in range(64):
-        builder.add_particle(
-            pos=wp.vec3(0.1 * (k % 8), 1.0 + 0.1 * (k // 8), 0.0), vel=wp.vec3(0.0), mass=1.0, radius=0.04
-        )
+        p = [0.1 * (k % 8), 0.0, 0.0]
+        p[up] = 1.0 + 0.1 * (k // 8)
+        builder.add_particle(pos=wp.vec3(*p), vel=wp.vec3(0.0), mass=1.0, radius=0.04)
     builder.add_ground_plane()
     model = builder.finalize(device=dev)
     solver = newton.solvers.SolverXPBD(model)
@@ -64,8 +65,9 @@ def body(r: dict[str, Any]) -> None:
         wp.synchronize_device(dev)
     z = s0.particle_q.numpy()
     # after 1 s of free fall from ~1 m, every particle must have dropped and stayed above the ground
-    if not (np.all(z[:, 1] < 1.0) and np.all(z[:, 1] > -0.05)):
-        raise AssertionError(f"unexpected particle heights: min {z[:, 1].min():.3f}, max {z[:, 1].max():.3f}")
+    h = z[:, up]
+    if not (np.all(h < 1.0) and np.all(h > -0.05)):
+        raise AssertionError(f"unexpected particle heights: min {h.min():.3f}, max {h.max():.3f}")
     r["metrics"]["newton_particles"] = int(z.shape[0])
 
 

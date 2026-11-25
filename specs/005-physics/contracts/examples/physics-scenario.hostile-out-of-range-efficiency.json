@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "scenario": "bench-vehicles-grade-10pct",
+  "kind": "benchmark",
+  "solver": "vehicles",
+  "device": "cpu",
+  "seed": 1,
+  "deterministic": true,
+  "benchmarks": [
+    "vehicles-steady-speed",
+    "vehicles-energy"
+  ],
+  "geometry": {
+    "shape": "grade-segment",
+    "domain_min_m": [
+      0.0,
+      -5.0,
+      0.0
+    ],
+    "domain_max_m": [
+      3000.0,
+      5.0,
+      300.0
+    ],
+    "length_m": 3000.0,
+    "grade_pct": 10
+  },
+  "counts": {
+    "vehicles": 1
+  },
+  "time_step": {
+    "dt_s": 0.05,
+    "end_time_s": 600.0
+  },
+  "output": {
+    "every_steps": 20,
+    "fields": false,
+    "replay": false
+  },
+  "materials": [],
+  "vehicle_cards": [
+    {
+      "id": "truck-220t",
+      "label": "Loaded 220 t class haul truck",
+      "mass_kg": {
+        "value": 380000,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      },
+      "power_w": {
+        "value": 1700000.0,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      },
+      "efficiency": {
+        "value": 1.2,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      },
+      "traction_coefficient": {
+        "value": 0.45,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      },
+      "drive_weight_fraction": {
+        "value": 0.67,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      },
+      "rolling_resistance_pct": {
+        "value": 2.0,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      },
+      "retarder_power_w": {
+        "value": 3000000.0,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      },
+      "retarder_efficiency": {
+        "value": 0.9,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      },
+      "drag_coefficient": {
+        "value": 0.9,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      },
+      "frontal_area_m2": {
+        "value": 50,
+        "status": "assumed",
+        "note": "illustrative value for a 220 t class haul truck, not a manufacturer figure"
+      }
+    }
+  ],
+  "vehicles": {
+    "road": "grade-segment",
+    "air_density_kg_m3": 1.2,
+    "fleet": [
+      "truck-220t"
+    ]
+  }
+}

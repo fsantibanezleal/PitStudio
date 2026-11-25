@@ -1,0 +1,138 @@
+{
+ "caption": {
+  "en": "Kuz-Ram/KCO prediction on a burden by spacing grid at the reference charge length; the other inputs are fixed (see the recipe).",
+  "es": "Prediccion Kuz-Ram/KCO en una malla piedra por espaciamiento con el largo de carga de referencia; las demas entradas son fijas (ver la receta)."
+ },
+ "case": "D1",
+ "chart_type": "raster",
+ "id": "d1-oversize-map",
+ "kind": "chart-series",
+ "markers": [
+  {
+   "id": "reference-design",
+   "label": {
+    "en": "Reference design",
+    "es": "Diseno de referencia"
+   },
+   "orientation": "point",
+   "value_text": "3.6 %",
+   "x": 6.0,
+   "y": 7.0
+  }
+ ],
+ "producer": {
+  "label": "model output with illustrative site constants (UNVERIFIED), not validated against real data",
+  "method": "Kuz-Ram (Cunningham 2005) with KCO/Swebrec, scaled-distance PPV and ballistic flyrock of minephys.blasting",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "raster": {
+  "colour": {
+   "colormap": "magma",
+   "label": {
+    "en": "Oversize above the limit",
+    "es": "Sobretamano sobre el limite"
+   },
+   "unit": "%",
+   "vmax": 13.971375628031934,
+   "vmin": 0.5071737310321067
+  },
+  "extent": {
+   "x0": 4.25,
+   "x1": 8.25,
+   "y0": 4.75,
+   "y1": 8.75
+  },
+  "nx": 8,
+  "ny": 8,
+  "values": [
+   1.4572044656357974,
+   2.4319409999917663,
+   3.722075069357922,
+   5.319117793253703,
+   7.192617232224485,
+   9.296315504830222,
+   11.57509686992676,
+   13.971375628031934,
+   1.283409300540428,
+   2.144161978713799,
+   3.2896705343544164,
+   4.717641376506865,
+   6.406587815003196,
+   8.320360761585766,
+   10.413584430993916,
+   12.636933177176912,
+   1.1235840887288684,
+   1.878265988449379,
+   2.887680525613434,
+   4.154359700402166,
+   5.664385781718639,
+   7.390599219093829,
+   9.296717738461012,
+   11.341558073149937,
+   0.9769305773611348,
+   1.6332658230260977,
+   2.5151779335489954,
+   3.6287866091617715,
+   4.966402392235814,
+   6.508688831911879,
+   8.227669331677657,
+   10.089986261509276,
+   0.8426789259324163,
+   1.4081850394410345,
+   2.1712008672687966,
+   3.1403329138924074,
+   4.31285573358362,
+   5.676073911926338,
+   7.209418900773301,
+   8.886863181760118,
+   0.7200926356379589,
+   1.2020693963101126,
+   1.8547723751315415,
+   2.688333181588287,
+   3.7038195810195296,
+   4.894008747791101,
+   6.24476552726605,
+   7.736743611961961,
+   0.6084744230529404,
+   1.0139998565799613,
+   1.564922953154535,
+   2.2720775670141635,
+   3.139260690045609,
+   4.163593639821106,
+   5.33635584716553,
+   6.644109417766641,
+   0.5071737310321067,
+   0.8431081699202925,
+   1.3007171867408185,
+   1.8908503947421496,
+   2.6190867491542202,
+   3.485826459825081,
+   4.4867326106523775,
+   5.613411450226058
+  ]
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-012-41"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Oversize share by burden and spacing",
+  "es": "Sobretamano segun piedra y espaciamiento"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Burden",
+   "es": "Piedra"
+  },
+  "unit": "m"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Spacing",
+   "es": "Espaciamiento"
+  },
+  "unit": "m"
+ }
+}

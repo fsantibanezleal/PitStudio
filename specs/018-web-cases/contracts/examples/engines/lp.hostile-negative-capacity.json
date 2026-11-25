@@ -1,0 +1,30 @@
+{
+  "kind": "input",
+  "engine": "lp",
+  "engine_version": "0.1.0",
+  "function": "solve",
+  "args": {
+    "paths": [
+      {
+        "loader": 0,
+        "dump": 0,
+        "objective_weight": 1.0,
+        "round_trip_s": 1500.0
+      },
+      {
+        "loader": 1,
+        "dump": 0,
+        "objective_weight": 1.0,
+        "round_trip_s": 1800.0
+      }
+    ],
+    "loader_capacity_per_s": [
+      0.004,
+      -0.001
+    ],
+    "dump_capacity_per_s": [
+      0.01
+    ],
+    "trucks": 12
+  }
+}

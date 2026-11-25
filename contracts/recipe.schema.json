@@ -1,0 +1,887 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/recipe.schema.json",
+  "title": "PitStudio recipe",
+  "description": "Runner recipes and the console job request (DC-001-02, spec 001-contracts).",
+  "$ref": "#/$defs/recipe",
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "tool_id": {
+      "type": "string",
+      "maxLength": 48,
+      "pattern": "^[a-z][a-z0-9-]{1,47}$"
+    },
+    "variant": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,31}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "module_path": {
+      "type": "string",
+      "maxLength": 200,
+      "pattern": "^[a-z_][a-z0-9_]{0,63}(\\.[a-z_][a-z0-9_]{0,63}){0,7}$"
+    },
+    "param_key": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "probe": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[a-z][a-z0-9_]{0,31}$"
+    },
+    "binary_id": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[a-z][a-z0-9-]{1,31}$"
+    },
+    "validator_id": {
+      "type": "string",
+      "maxLength": 48,
+      "pattern": "^[a-z][a-z0-9-]{1,47}$"
+    },
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "stage_id": {
+      "enum": [
+        "s00_download",
+        "s05_synthesize",
+        "s10_preprocess",
+        "s20_feature_extraction",
+        "s30_train",
+        "s40_infer",
+        "s50_evaluate",
+        "s60_export",
+        "s62_accel",
+        "s64_bench",
+        "st10_terrain",
+        "st20_pit_design",
+        "st30_assets",
+        "st40_compose",
+        "st45_validate",
+        "st45b_kit_validate",
+        "st50_physics",
+        "st52_rtx_render",
+        "st53_sensors",
+        "st54_vehicles",
+        "st55_sdg",
+        "st56_encode",
+        "st57_rain_lidar",
+        "st58_kit_capture",
+        "st58b_capture_splat",
+        "st59_reason_bench",
+        "st59a_vqa",
+        "st59b_plausibility",
+        "st59c_captions",
+        "st60_il_train",
+        "st61_il_mpm_eval"
+      ]
+    },
+    "environment": {
+      "enum": [
+        "studio",
+        "isaac",
+        "rtx",
+        "isaaclab",
+        "kit",
+        "reason",
+        "pipeline",
+        "accel",
+        "external"
+      ]
+    },
+    "param_value_0": {
+      "description": "a scalar parameter value (non-finite numbers are rejected by the loader)",
+      "type": [
+        "string",
+        "number",
+        "boolean",
+        "null"
+      ],
+      "maxLength": 1024
+    },
+    "param_value_1": {
+      "description": "a parameter value with at most 1 further level(s) of nesting",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/param_value_0"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/param_value_0"
+          },
+          "maxItems": 1024
+        },
+        {
+          "type": "object",
+          "propertyNames": {
+            "maxLength": 64,
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/param_value_0"
+          },
+          "maxProperties": 64
+        }
+      ]
+    },
+    "param_value_2": {
+      "description": "a parameter value with at most 2 further level(s) of nesting",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/param_value_0"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/param_value_1"
+          },
+          "maxItems": 1024
+        },
+        {
+          "type": "object",
+          "propertyNames": {
+            "maxLength": 64,
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/param_value_1"
+          },
+          "maxProperties": 64
+        }
+      ]
+    },
+    "param_value_3": {
+      "description": "a parameter value with at most 3 further level(s) of nesting",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/param_value_0"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/param_value_2"
+          },
+          "maxItems": 1024
+        },
+        {
+          "type": "object",
+          "propertyNames": {
+            "maxLength": 64,
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/param_value_2"
+          },
+          "maxProperties": 64
+        }
+      ]
+    },
+    "params": {
+      "type": "object",
+      "description": "effective parameters; nesting depth <= 4 including this object",
+      "propertyNames": {
+        "maxLength": 64,
+        "pattern": "^[a-z][a-z0-9_]{0,63}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/param_value_3"
+      },
+      "maxProperties": 64
+    },
+    "stage_key": {
+      "type": "object",
+      "description": "stage id plus optional variant",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/stage_id"
+        },
+        "variant": {
+          "$ref": "#/$defs/variant"
+        }
+      }
+    },
+    "stage_input": {
+      "description": "a source (logical id + SHA-256) or an upstream stage; never a path",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "sha256"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/slug"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stage"
+          ],
+          "properties": {
+            "stage": {
+              "$ref": "#/$defs/stage_id"
+            },
+            "variant": {
+              "$ref": "#/$defs/variant"
+            },
+            "output": {
+              "$ref": "#/$defs/relpath"
+            }
+          }
+        }
+      ]
+    },
+    "resources": {
+      "type": "object",
+      "description": "estimates in GiB (2^30 B)",
+      "additionalProperties": false,
+      "required": [
+        "gpu"
+      ],
+      "properties": {
+        "gpu": {
+          "enum": [
+            "exclusive",
+            "nvenc",
+            "none"
+          ]
+        },
+        "vram_gib_est": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 256
+        },
+        "disk_gib_est": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "cpu": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "gpu": {
+                "const": "exclusive"
+              }
+            },
+            "required": [
+              "gpu"
+            ]
+          },
+          "then": {
+            "required": [
+              "vram_gib_est"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "gpu": {
+                "const": "none"
+              }
+            },
+            "required": [
+              "gpu"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "vram_gib_est"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "determinism": {
+      "description": "`bitwise` shorthand, or a class object",
+      "oneOf": [
+        {
+          "const": "bitwise"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "class"
+          ],
+          "properties": {
+            "class": {
+              "const": "bitwise"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "class",
+            "observables"
+          ],
+          "properties": {
+            "class": {
+              "const": "statistical"
+            },
+            "observables": {
+              "type": "object",
+              "description": "observable -> tolerance",
+              "propertyNames": {
+                "maxLength": 64,
+                "pattern": "^[a-z][a-z0-9_]{0,63}$"
+              },
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "rtol",
+                  "atol"
+                ],
+                "properties": {
+                  "rtol": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "atol": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              },
+              "minProperties": 1,
+              "maxProperties": 32
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "class",
+            "reason"
+          ],
+          "properties": {
+            "class": {
+              "const": "none"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 10,
+              "maxLength": 300
+            }
+          }
+        }
+      ]
+    },
+    "stage": {
+      "type": "object",
+      "description": "recipe stage (data-model §3.2); `env` is bound to `id` (§3.3)",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "env",
+        "tool",
+        "entry",
+        "inputs",
+        "resources",
+        "determinism",
+        "timeout_s",
+        "outputs"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/stage_id"
+        },
+        "variant": {
+          "$ref": "#/$defs/variant"
+        },
+        "env": {
+          "$ref": "#/$defs/environment"
+        },
+        "tool": {
+          "$ref": "#/$defs/tool_id"
+        },
+        "entry": {
+          "$ref": "#/$defs/module_path"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stage_input"
+          },
+          "maxItems": 32
+        },
+        "params": {
+          "$ref": "#/$defs/params"
+        },
+        "resources": {
+          "$ref": "#/$defs/resources"
+        },
+        "requires": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/probe"
+          },
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "binaries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "sha256"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/binary_id"
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              }
+            }
+          },
+          "maxItems": 8
+        },
+        "determinism": {
+          "$ref": "#/$defs/determinism"
+        },
+        "retry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "oom_fallback"
+          ],
+          "properties": {
+            "oom_fallback": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/params"
+              },
+              "minItems": 1,
+              "maxItems": 4
+            }
+          }
+        },
+        "timeout_s": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 604800
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "schema"
+            ],
+            "properties": {
+              "path": {
+                "$ref": "#/$defs/relpath"
+              },
+              "schema": {
+                "$ref": "#/$defs/validator_id"
+              },
+              "publish": {
+                "type": "boolean"
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "shardable": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "shard_size",
+            "total"
+          ],
+          "properties": {
+            "shard_size": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000000
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000000
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "s00_download",
+                  "s05_synthesize",
+                  "s10_preprocess",
+                  "s20_feature_extraction",
+                  "s30_train",
+                  "s40_infer",
+                  "s50_evaluate",
+                  "s60_export"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "const": "pipeline"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "s62_accel"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "const": "accel"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "st10_terrain",
+                  "st20_pit_design",
+                  "st30_assets",
+                  "st40_compose",
+                  "st45_validate",
+                  "st50_physics",
+                  "st56_encode"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "const": "studio"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "st52_rtx_render",
+                  "st54_vehicles",
+                  "st55_sdg",
+                  "st57_rain_lidar"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "const": "isaac"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "st53_sensors"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "const": "rtx"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "st45b_kit_validate",
+                  "st58_kit_capture"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "const": "kit"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "st58b_capture_splat"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "const": "external"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "st59_reason_bench",
+                  "st59a_vqa",
+                  "st59b_plausibility",
+                  "st59c_captions"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "const": "reason"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "enum": [
+                  "st60_il_train",
+                  "st61_il_mpm_eval"
+                ]
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "const": "isaaclab"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "id": {
+                "const": "s64_bench"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "env": {
+                "enum": [
+                  "accel",
+                  "pipeline"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "recipe": {
+      "type": "object",
+      "description": "runner recipe (data-model §3.1)",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "case",
+        "seed",
+        "stages"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "editor hint; ignored by consumers"
+        },
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "case": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/case_id"
+            },
+            {
+              "const": "bench"
+            }
+          ]
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stage"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        }
+      }
+    },
+    "job_request": {
+      "type": "object",
+      "description": "body of the console's POST /jobs (data-model §3.5); never an inline recipe",
+      "additionalProperties": false,
+      "required": [
+        "recipe",
+        "profile"
+      ],
+      "properties": {
+        "recipe": {
+          "$ref": "#/$defs/slug"
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stage_key"
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "force": {
+          "type": "boolean",
+          "default": false
+        },
+        "rerun_check": {
+          "type": "boolean",
+          "default": false
+        },
+        "profile": {
+          "$ref": "#/$defs/slug"
+        }
+      }
+    }
+  }
+}

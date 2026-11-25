@@ -1,0 +1,87 @@
+{
+  "kind": "physics-parity-golden",
+  "schema_version": "1.0",
+  "golden_id": "swe-dam-break-v1",
+  "created": "2026-10-07T10:05:00Z",
+  "git_sha": "3f1c2a9b7d4e5f60718293a4b5c6d7e8f9012345",
+  "twin": "swe-dam-break",
+  "engine": "swe",
+  "solver_version": "1.17.0",
+  "scenario": {
+    "schema_version": "1.0",
+    "scenario": "golden-swe-dam-break",
+    "kind": "parity-golden",
+    "solver": "swe",
+    "device": "cpu",
+    "seed": 0,
+    "deterministic": true,
+    "geometry": {
+      "shape": "channel",
+      "domain_min_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "domain_max_m": [
+        10.0,
+        0.1,
+        0.0
+      ],
+      "length_m": 10.0,
+      "width_m": 0.1
+    },
+    "counts": {
+      "cells_x": 256,
+      "cells_y": 4
+    },
+    "time_step": {
+      "end_time_s": 6.0
+    },
+    "output": {
+      "every_steps": 100,
+      "fields": true,
+      "replay": false
+    },
+    "materials": [],
+    "swe": {
+      "rheology": "frictionless",
+      "cfl": 0.45,
+      "h_dry_m": 0.0001,
+      "h_thr_m": 5e-06,
+      "boundary": "closed",
+      "initial": "dam-break",
+      "dam_x_m": 5.0,
+      "depth_left_m": 0.005,
+      "depth_right_m": 0.0
+    },
+    "twin": "swe-dam-break"
+  },
+  "scenario_sha256": "b59e6caae535cea21db9e933cb9b8164ec5144945223b5171692e132655cb63b",
+  "initial_state": {
+    "file": "goldens/swe-dam-break-v1/initial.f32",
+    "sha256": "96e1958f246f078702b29d94281c7ee1883b01782ff40330d31155456f19ae1e",
+    "bytes": 8192,
+    "layout": "grid-depth-bed-f32le",
+    "items": 1024
+  },
+  "observables": {
+    "runout_m": 7.52,
+    "discharge": {
+      "unit": "m3/s",
+      "t_s": [
+        0.0,
+        2.0,
+        4.0,
+        6.0
+      ],
+      "values": [
+        0.0,
+        4.1e-05,
+        4.1e-05,
+        4.1e-05
+      ]
+    },
+    "mass_drift_rel": 1.2e-06
+  },
+  "outputs_sha256": "c0352c8edbff2d45def569ca1309ad5b1bc62c83b5b3de9e3e16bee1a8cc2608"
+}

@@ -1,0 +1,15 @@
+{
+  "recipe": "a2-haulage",
+  "stages": [
+    {
+      "id": "st50_physics",
+      "variant": "dem",
+      "params": {
+        "crf": 1
+      }
+    }
+  ],
+  "force": false,
+  "rerun_check": true,
+  "profile": "laptop-rtx5000ada"
+}

@@ -1,0 +1,41 @@
+{
+ "cases": [
+  "D1"
+ ],
+ "criteria": [],
+ "id": "d1-unet-trtr-iou",
+ "kind": "comparison",
+ "rows": [
+  {
+   "group": "d1-trtr",
+   "interval": {
+    "hi": 0.89875,
+    "level": 0.95,
+    "lo": 0.88311,
+    "method": "t"
+   },
+   "kind": "estimate",
+   "metric": {
+    "id": "tstr_trtr_iou",
+    "name": {
+     "en": "Foreground IoU, trained and tested on real images",
+     "es": "IoU de primer plano, entrenado y probado en im\u00e1genes reales"
+    },
+    "orientation": "higher-is-better",
+    "unit": "1"
+   },
+   "n": 5,
+   "system": "U-Net, trained on real images (TRTR), five folds",
+   "value": 0.89093
+  }
+ ],
+ "run_ids": [
+  "20261011T235848Z-d1-unet-trtr-v2"
+ ],
+ "schema_version": "1.0",
+ "tab": "sim-to-real",
+ "title": {
+  "en": "D1 fragmentation U-Net, real-image IoU",
+  "es": "D1 U-Net de fragmentaci\u00f3n, IoU en im\u00e1genes reales"
+ }
+}

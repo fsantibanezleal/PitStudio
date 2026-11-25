@@ -1,0 +1,341 @@
+/* Layout and components of the studio pages. Colours come from the shared tokens (light and dark). */
+.connect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.error {
+  color: var(--danger, #b00020);
+}
+
+.block {
+  margin-block: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.block h2 {
+  margin-top: 0;
+  font-size: 1.125rem;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.25rem 1rem;
+  margin: 0;
+}
+
+.facts dt {
+  color: var(--fg-muted);
+}
+
+.facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.plain {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notice {
+  padding: 0.5rem 0.75rem;
+  border-inline-start: 3px solid var(--border-strong);
+  background: var(--bg);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.chip {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.chipLabel {
+  color: var(--fg-muted);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0 0.5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.command {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  white-space: pre;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 0.75rem;
+}
+
+.staticMap {
+  display: grid;
+  gap: 1rem;
+}
+
+.mapSvg {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.mapNode {
+  cursor: pointer;
+}
+
+.mapNodeBox {
+  fill: var(--bg);
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+}
+
+.mapNode:focus-visible .mapNodeBox,
+.mapNode:hover .mapNodeBox {
+  stroke-width: 3;
+}
+
+.mapNodeBox[data-lane="live"] {
+  stroke: var(--success);
+}
+
+.mapNodeBox[data-lane="replay"] {
+  stroke: var(--info);
+}
+
+.mapNodeBox[data-lane="local-only"] {
+  stroke: var(--warning);
+}
+
+.mapNodeName {
+  fill: var(--fg);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mapNodeMeta,
+.mapNodeNote {
+  fill: var(--fg-muted);
+  font-size: 11px;
+}
+
+.mapEdge {
+  stroke: var(--fg-muted);
+  stroke-width: 1.5;
+}
+
+.mapEdgeLabel {
+  fill: var(--fg-muted);
+  font-size: 10px;
+}
+
+.mapGroupLabel {
+  fill: var(--fg);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.table th,
+.table td {
+  padding: 0.375rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+
+.table caption {
+  padding-block: 0.25rem;
+  text-align: start;
+  color: var(--fg-muted);
+}
+
+.loop {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-inline-start: 1.5rem;
+}
+
+.loopStep {
+  overflow-wrap: anywhere;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  overflow-wrap: anywhere;
+}
+
+.tree,
+.treeGroup {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.treeGroup {
+  padding-inline-start: 1.25rem;
+}
+
+.treeItem {
+  padding-block: 0.125rem;
+}
+
+.treeItem:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
+.treeRow {
+  cursor: default;
+  overflow-wrap: anywhere;
+}
+
+.treeKey {
+  font-weight: 600;
+}
+
+.treeSummary {
+  margin-inline-start: 0.5rem;
+  color: var(--fg-muted);
+}
+
+.dag,
+.det {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.dagNode {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.flowFrame {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.flowNode {
+  /* React Flow turns pointer events off on nodes that are neither draggable nor selectable; the link must stay clickable */
+  pointer-events: all;
+  display: grid;
+  align-content: center;
+  gap: 0.125rem;
+  box-sizing: border-box;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-strong);
+  border-left-width: 6px;
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 0.75rem;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.flowNode:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.flowNode[data-lane="live"] {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, var(--bg));
+}
+
+.flowNode[data-lane="replay"] {
+  border-color: var(--info);
+  background: color-mix(in srgb, var(--info) 12%, var(--bg));
+}
+
+.flowNode[data-lane="local-only"] {
+  border-color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 14%, var(--bg));
+}
+
+.flowNodeHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+}
+
+.flowNodeMeta {
+  display: flex;
+  gap: 0.5rem;
+  color: var(--fg-muted);
+}
+
+.flowNodeNote {
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.flowHandle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.conditions {
+  margin-block: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-inline-start: 3px solid var(--border-strong);
+  background: var(--bg);
+  font-size: 0.875rem;
+}
+
+.gpuStages {
+  display: grid;
+  gap: 1rem;
+}
+
+.chartNotes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.how {
+  display: inline-block;
+}

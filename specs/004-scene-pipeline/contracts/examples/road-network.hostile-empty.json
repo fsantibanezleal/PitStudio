@@ -1,0 +1,15 @@
+{
+  "$schema": "https://fsantibanezleal.github.io/PitStudio/contracts/road-network.schema.json",
+  "type": "FeatureCollection",
+  "schema_version": "1.0",
+  "frame": "site-enu",
+  "site_origin": {
+    "epsg": 26912,
+    "easting_m": 406500.0,
+    "northing_m": 4484500.0,
+    "z0_m": 1800.0
+  },
+  "provenance": "design-code",
+  "exit_node": "n0",
+  "features": []
+}

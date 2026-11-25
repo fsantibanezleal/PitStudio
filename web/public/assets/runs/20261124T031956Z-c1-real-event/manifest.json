@@ -1,0 +1,420 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261124T031956Z-c1-real-event",
+ "recipe": {
+  "id": "c1-slope",
+  "path": "cases/c1.yaml",
+  "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
+ },
+ "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-24T03:19:56Z",
+ "profile": "imported",
+ "seed": 20261007,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s00_download"
+   },
+   "tool": "pitstudio",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "f21ad7921f40533bb7ab7470c5a1640fb7e4691274a0e07a959a0a4bdc3f230e",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 20261007,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "charts/c1-real-event.json",
+     "sha256": "f7c823ba3032410c8e272d4134c32605adcf2aa6cfd08c7236fdf2cc474fe7e6",
+     "bytes": 6003
+    },
+    {
+     "name": "charts/c1-real-event-sensitivity.json",
+     "sha256": "754f874f71d09f847b0bcdbfbd33fd063aec4e4f6c115bb46b409dcd9a011cf7",
+     "bytes": 6074
+    },
+    {
+     "name": "charts/c1-real-event-failure-time.json",
+     "sha256": "20e4cee2a90090da509a2cd2cb36b370de305d5deb202ce74c1dfd9af1c6e4f5",
+     "bytes": 2906
+    },
+    {
+     "name": "charts/c1-real-event-iv.json",
+     "sha256": "7eaea2bd8cf5a256e3daee66a41754fca49e973fb1cb3a18b9e7443401c023d5",
+     "bytes": 68978
+    },
+    {
+     "name": "charts/c1-real-event-disp.json",
+     "sha256": "87ce8e0f844b6462b1ea71e72c0ae288cc96ae1b2e306d80e5d9e3e2e3e389f2",
+     "bytes": 9445
+    },
+    {
+     "name": "charts/c1-real-event-archive.json",
+     "sha256": "6dbd61ce74131d6f9a16b72fb34428eb59cfaf3a21348231d3f11ae7ea60847a",
+     "bytes": 2935
+    },
+    {
+     "name": "real-event.json",
+     "sha256": "f59a986c07d9642ace57af888c2b24d7c95ed708229e7093e5ff6977b651af07",
+     "bytes": 139782
+    },
+    {
+     "name": "results-summary.json",
+     "sha256": "c186af861d2b8f9ba8d0c51fa330ab044d75a485aa6cdec405c8392c4721c9ad",
+     "bytes": 2242
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "c1-real-event",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event.json",
+   "bytes": 6003,
+   "sha256": "f7c823ba3032410c8e272d4134c32605adcf2aa6cfd08c7236fdf2cc474fe7e6",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s00_download"
+    }
+   },
+   "inputs": [
+    {
+     "id": "dewit-slope-failure",
+     "sha256": "b0d3eca632c5c7831d391f6f90b4d88b1a7384b3eb596c19ddaaf64147a24d22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "attribution",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Slope failure seismic velocity series of the Bingham Canyon 2013 event: de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902"
+  },
+  {
+   "id": "c1-real-event-sensitivity",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-sensitivity.json",
+   "bytes": 6074,
+   "sha256": "754f874f71d09f847b0bcdbfbd33fd063aec4e4f6c115bb46b409dcd9a011cf7",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s00_download"
+    }
+   },
+   "inputs": [
+    {
+     "id": "dewit-slope-failure",
+     "sha256": "b0d3eca632c5c7831d391f6f90b4d88b1a7384b3eb596c19ddaaf64147a24d22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "attribution",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Slope failure seismic velocity series of the Bingham Canyon 2013 event: de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902"
+  },
+  {
+   "id": "c1-real-event-failure-time",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-failure-time.json",
+   "bytes": 2906,
+   "sha256": "20e4cee2a90090da509a2cd2cb36b370de305d5deb202ce74c1dfd9af1c6e4f5",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s00_download"
+    }
+   },
+   "inputs": [
+    {
+     "id": "dewit-slope-failure",
+     "sha256": "b0d3eca632c5c7831d391f6f90b4d88b1a7384b3eb596c19ddaaf64147a24d22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "attribution",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Slope failure seismic velocity series of the Bingham Canyon 2013 event: de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902"
+  },
+  {
+   "id": "c1-real-event-iv",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-iv.json",
+   "bytes": 68978,
+   "sha256": "7eaea2bd8cf5a256e3daee66a41754fca49e973fb1cb3a18b9e7443401c023d5",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s00_download"
+    }
+   },
+   "inputs": [
+    {
+     "id": "dewit-slope-failure",
+     "sha256": "b0d3eca632c5c7831d391f6f90b4d88b1a7384b3eb596c19ddaaf64147a24d22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "attribution",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Slope failure seismic velocity series of the Bingham Canyon 2013 event: de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902"
+  },
+  {
+   "id": "c1-real-event-disp",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-disp.json",
+   "bytes": 9445,
+   "sha256": "87ce8e0f844b6462b1ea71e72c0ae288cc96ae1b2e306d80e5d9e3e2e3e389f2",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s00_download"
+    }
+   },
+   "inputs": [
+    {
+     "id": "dewit-slope-failure",
+     "sha256": "b0d3eca632c5c7831d391f6f90b4d88b1a7384b3eb596c19ddaaf64147a24d22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "attribution",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Slope failure seismic velocity series of the Bingham Canyon 2013 event: de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902"
+  },
+  {
+   "id": "c1-real-event-archive",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/charts/c1-real-event-archive.json",
+   "bytes": 2935,
+   "sha256": "6dbd61ce74131d6f9a16b72fb34428eb59cfaf3a21348231d3f11ae7ea60847a",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s00_download"
+    }
+   },
+   "inputs": [
+    {
+     "id": "dewit-slope-failure",
+     "sha256": "b0d3eca632c5c7831d391f6f90b4d88b1a7384b3eb596c19ddaaf64147a24d22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-chronos-bolt-fine-tuned",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-patchtst",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "kind": "source"
+    },
+    {
+     "id": "c1-onnx-tcn",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "kind": "source"
+    }
+   ],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "attribution",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Slope failure seismic velocity series of the Bingham Canyon 2013 event: de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902"
+  },
+  {
+   "id": "c1-real-event-results",
+   "run_id": "20261124T031956Z-c1-real-event",
+   "git_sha": "2045397467f05c8edd4d2403379ee4684bab058b",
+   "path": "assets/20261124T031956Z-c1-real-event/results-summary.json",
+   "bytes": 2242,
+   "sha256": "c186af861d2b8f9ba8d0c51fa330ab044d75a485aa6cdec405c8392c4721c9ad",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s00_download"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "attribution",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Slope failure seismic velocity series of the Bingham Canyon 2013 event: de Wit and Snieder, Seismica 5(1), doi 10.26443/seismica.v5i1.1902"
+  }
+ ],
+ "notes": [
+  "produced on the CPU, on this machine, with pitstudio, outside the runner",
+  "job c1-real-event",
+  "no GPU time and no timing are recorded",
+  "single real event \u2014 no significance test; failure time at day resolution from two documentary sources, prism-median series",
+  "supersedes run 20261124T030648Z-c1-real-event: its published files are removed when this run is published",
+  "producer paths: pipeline/src/pitstudio_pipeline/slope, studio/recipes/cases/c1.yaml; git sha 2045397467f05c8edd4d2403379ee4684bab058b; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Produced on the CPU by pitstudio_pipeline.slope.c1_results (not by the GPU queue); no GPU time is used.",
+  "The forecasts and errors come from the files of GPU job 33-slope-forecasters (ttf-results.json and the ONNX files).",
+  "de Wit (2025). Data used for the study of time-lapse velocity variations during an open-pit mine slope failure using seismic noise interferometry. Zenodo. https://doi.org/10.5281/zenodo.15003054. Licensed under CC BY 4.0."
+ ]
+}

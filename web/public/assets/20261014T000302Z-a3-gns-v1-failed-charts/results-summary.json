@@ -1,0 +1,173 @@
+{
+ "extra": {
+  "export_parity_passed": true,
+  "sc_011_01": "fail",
+  "verdict_text": "Not a working model: it does not meet SC-011-01, published only as a failed evaluation."
+ },
+ "headline": [
+  {
+   "name": "Geometries passing the criterion",
+   "note": "criterion SC-011-01: failed",
+   "unit": "of 20",
+   "value": 0
+  },
+  {
+   "name": "Geometries whose rollout diverged",
+   "unit": "of 20",
+   "value": 19
+  },
+  {
+   "name": "Repose tolerance",
+   "unit": "deg",
+   "value": 1.5
+  }
+ ],
+ "label": "calibrated synthetic, not validated against real data",
+ "methods": [
+  "M8"
+ ],
+ "rows": [
+  {
+   "diverged": true,
+   "family": "column-collapse",
+   "geometry": "g081",
+   "pass": false,
+   "reason": "diverged at step 73"
+  },
+  {
+   "diverged": true,
+   "family": "column-collapse",
+   "geometry": "g082",
+   "pass": false,
+   "reason": "diverged at step 68"
+  },
+  {
+   "diverged": true,
+   "family": "column-collapse",
+   "geometry": "g083",
+   "pass": false,
+   "reason": "diverged at step 63"
+  },
+  {
+   "diverged": true,
+   "family": "column-collapse",
+   "geometry": "g084",
+   "pass": false,
+   "reason": "diverged at step 73"
+  },
+  {
+   "diverged": true,
+   "family": "column-collapse",
+   "geometry": "g085",
+   "pass": false,
+   "reason": "diverged at step 75"
+  },
+  {
+   "diverged": true,
+   "family": "column-collapse",
+   "geometry": "g086",
+   "pass": false,
+   "reason": "diverged at step 78"
+  },
+  {
+   "diverged": true,
+   "family": "column-collapse",
+   "geometry": "g087",
+   "pass": false,
+   "reason": "diverged at step 73"
+  },
+  {
+   "diverged": true,
+   "family": "column-collapse",
+   "geometry": "g088",
+   "pass": false,
+   "reason": "diverged at step 58"
+  },
+  {
+   "diverged": true,
+   "family": "pile-formation",
+   "geometry": "g089",
+   "pass": false,
+   "reason": "diverged at step 28"
+  },
+  {
+   "diverged": true,
+   "family": "pile-formation",
+   "geometry": "g090",
+   "pass": false,
+   "reason": "diverged at step 19"
+  },
+  {
+   "diverged": true,
+   "family": "pile-formation",
+   "geometry": "g091",
+   "pass": false,
+   "reason": "diverged at step 22"
+  },
+  {
+   "diverged": true,
+   "family": "pile-formation",
+   "geometry": "g092",
+   "pass": false,
+   "reason": "diverged at step 24"
+  },
+  {
+   "diverged": true,
+   "family": "pile-formation",
+   "geometry": "g093",
+   "pass": false,
+   "reason": "diverged at step 19"
+  },
+  {
+   "diverged": true,
+   "family": "pile-formation",
+   "geometry": "g094",
+   "pass": false,
+   "reason": "diverged at step 18"
+  },
+  {
+   "diverged": true,
+   "family": "dump-over-crest",
+   "geometry": "g095",
+   "pass": false,
+   "reason": "diverged at step 27"
+  },
+  {
+   "diverged": true,
+   "family": "dump-over-crest",
+   "geometry": "g096",
+   "pass": false,
+   "reason": "diverged at step 28"
+  },
+  {
+   "diverged": false,
+   "family": "dump-over-crest",
+   "geometry": "g097",
+   "pass": false,
+   "reason": "fewer than 3 reference packings at rest (2 found)"
+  },
+  {
+   "diverged": true,
+   "family": "dump-over-crest",
+   "geometry": "g098",
+   "pass": false,
+   "reason": "diverged at step 30"
+  },
+  {
+   "diverged": true,
+   "family": "dump-over-crest",
+   "geometry": "g099",
+   "pass": false,
+   "reason": "diverged at step 28"
+  },
+  {
+   "diverged": true,
+   "family": "dump-over-crest",
+   "geometry": "g100",
+   "pass": false,
+   "reason": "diverged at step 26"
+  }
+ ],
+ "title": "Graph network simulator v1 against the discrete element reference: FAILED acceptance SC-011-01",
+ "verdict": "failed"
+}

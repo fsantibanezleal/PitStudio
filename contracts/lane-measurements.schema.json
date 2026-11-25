@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/lane-measurements.schema.json",
+  "title": "PitStudio lane measurements",
+  "description": "Lane measurements assets/lane-measurements.json of the built Pages artifact, written by the T2 lane-gate suite in CI (DC-018-06, spec 018-web-cases).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "git_sha",
+    "generated",
+    "runner",
+    "entries"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "git_sha": {
+      "$ref": "#/$defs/git_sha",
+      "description": "the measured commit"
+    },
+    "generated": {
+      "$ref": "#/$defs/utc_timestamp"
+    },
+    "runner": {
+      "$ref": "#/$defs/runner"
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2048,
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "git_sha": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,6})?Z$"
+    },
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "runner": {
+      "type": "object",
+      "description": "CI runner configuration of the measurements (spec 018 section 7.3)",
+      "additionalProperties": false,
+      "required": [
+        "os_image",
+        "cpu_model",
+        "logical_cpus",
+        "memory_bytes",
+        "browser",
+        "browser_version",
+        "headless",
+        "playwright_version",
+        "node_version",
+        "forced_tier",
+        "interactions",
+        "runs"
+      ],
+      "properties": {
+        "os_image": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+        },
+        "cpu_model": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 ()@.,_+-]{0,127}$"
+        },
+        "logical_cpus": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "memory_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "browser": {
+          "const": "chromium"
+        },
+        "browser_version": {
+          "$ref": "#/$defs/version"
+        },
+        "headless": {
+          "const": true
+        },
+        "playwright_version": {
+          "$ref": "#/$defs/semver"
+        },
+        "node_version": {
+          "$ref": "#/$defs/semver"
+        },
+        "forced_tier": {
+          "const": "T2"
+        },
+        "interactions": {
+          "const": 50,
+          "description": "interactions per engine for the p95 interaction time"
+        },
+        "runs": {
+          "const": 5,
+          "description": "full runs per engine for the median run time"
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "description": "measurements of one engine or one artefact",
+      "additionalProperties": false,
+      "required": [
+        "measurements"
+      ],
+      "properties": {
+        "engine": {
+          "$ref": "cases.schema.json#/$defs/engine_id"
+        },
+        "artefact": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "measurements": {
+          "$ref": "manifest.schema.json#/$defs/lane_measurements"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "engine"
+          ]
+        },
+        {
+          "required": [
+            "artefact"
+          ]
+        }
+      ]
+    }
+  }
+}

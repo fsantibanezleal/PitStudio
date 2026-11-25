@@ -1,0 +1,433 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/mincut.schema.json",
+  "title": "Engine mincut: input and output messages",
+  "description": "Input and output messages of the browser engine `mincut` (cases E1): the ultimate pit and nested shells by minimum cut (minephys.planning) (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `mincut`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "mincut",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "ultimate_pit",
+            "nested_shells"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "ultimate_pit"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/ultimate_pit_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "nested_shells"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/nested_shells_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `mincut`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "mincut",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "ultimate_pit",
+            "nested_shells"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "ultimate_pit"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/ultimate_pit_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "nested_shells"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/nested_shells_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "ultimate_pit_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shape",
+        "block_count",
+        "pattern",
+        "values_cents"
+      ],
+      "properties": {
+        "shape": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Regular block grid in C order, level 0 at the top (minephys regular_grid_precedence).",
+          "required": [
+            "levels",
+            "rows",
+            "cols"
+          ],
+          "properties": {
+            "levels": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
+            "rows": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
+            "cols": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            }
+          }
+        },
+        "block_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000,
+          "description": "Blocks (levels x rows x cols, at most 10^5)."
+        },
+        "pattern": {
+          "enum": [
+            "1-5",
+            "1-9"
+          ],
+          "description": "Precedence pattern."
+        },
+        "values_cents": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -1073741824,
+            "maximum": 1073741824
+          },
+          "minItems": 1,
+          "maxItems": 100000,
+          "description": "Block values in integer US cents, |v| <= 2^30 (minephys exactness bound)."
+        }
+      }
+    },
+    "ultimate_pit_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pit_value_cents",
+        "block_count",
+        "blocks"
+      ],
+      "properties": {
+        "pit_value_cents": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "block_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 99999
+          },
+          "minItems": 0,
+          "maxItems": 100000,
+          "description": "Indices of the pit blocks, ascending."
+        }
+      }
+    },
+    "nested_shells_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shape",
+        "block_count",
+        "pattern",
+        "tonnage_kg",
+        "grade",
+        "price_cents_per_kg",
+        "selling_cost_cents_per_kg",
+        "recovery",
+        "processing_cost_cents_per_kg",
+        "mining_cost_cents_per_kg",
+        "revenue_factors"
+      ],
+      "properties": {
+        "shape": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Regular block grid in C order, level 0 at the top (minephys regular_grid_precedence).",
+          "required": [
+            "levels",
+            "rows",
+            "cols"
+          ],
+          "properties": {
+            "levels": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
+            "rows": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
+            "cols": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            }
+          }
+        },
+        "block_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000,
+          "description": "Blocks (levels x rows x cols, at most 10^5)."
+        },
+        "pattern": {
+          "enum": [
+            "1-5",
+            "1-9"
+          ],
+          "description": "Precedence pattern."
+        },
+        "tonnage_kg": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000000.0
+          },
+          "minItems": 1,
+          "maxItems": 100000,
+          "description": "Block mass (>= 0)."
+        },
+        "grade": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minItems": 1,
+          "maxItems": 100000,
+          "description": "Block grade as a mass fraction."
+        },
+        "price_cents_per_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000000.0,
+          "description": "Metal price per kilogram of metal."
+        },
+        "selling_cost_cents_per_kg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000000.0
+        },
+        "recovery": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "processing_cost_cents_per_kg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000.0
+        },
+        "mining_cost_cents_per_kg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000.0
+        },
+        "revenue_factors": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 2
+          },
+          "minItems": 1,
+          "maxItems": 40,
+          "description": "Increasing revenue factors in (0, 2] (FR-017-28)."
+        }
+      }
+    },
+    "nested_shells_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shells"
+      ],
+      "properties": {
+        "shells": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "revenue_factor",
+              "pit_value_cents",
+              "block_count",
+              "blocks"
+            ],
+            "properties": {
+              "revenue_factor": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 2
+              },
+              "pit_value_cents": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "block_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000
+              },
+              "blocks": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 99999
+                },
+                "minItems": 0,
+                "maxItems": 100000,
+                "description": "Indices of the pit blocks, ascending."
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 40,
+          "description": "One pit per revenue factor."
+        }
+      }
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}

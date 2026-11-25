@@ -84,7 +84,7 @@ once per epoch and resumes from its last checkpoint after an interruption.
 ## Splits, seeds and evaluation
 
 - **Group splits are fixed at ingestion** ([Ingestion](../data-contract/ingestion.md)). Real fragment images are split
-  by source group (231 groups; test on originals only; grouped *k*-fold). Synthetic data is grouped by scenario seed,
+  by source group (72 groups; test on originals only; grouped *k*-fold). Synthetic data is grouped by scenario seed,
   pit layout or shift; duplicates across splits are checked before any metric.
 - **Seeds.** One master seed per recipe; per-stage seeds are derived from it; every seed is in the manifest.
 - **Held-out data is touched by `s50_evaluate` only.** Model and threshold choices use validation data.

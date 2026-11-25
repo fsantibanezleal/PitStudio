@@ -1,0 +1,398 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/plausibility-pairs.schema.json",
+  "title": "Plausibility pair index",
+  "description": "Task-B plausibility pair index written by the pair builder: calibrated and singly corrupted clips with the confirming detector statistic (DC-015-06, spec 015-vlm).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "pairs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/pair"
+      },
+      "maxItems": 100,
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "seed",
+    "pairs"
+  ],
+  "$defs": {
+    "artefact_id": {
+      "type": "string",
+      "maxLength": 96,
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,95}$"
+    },
+    "run_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 16,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "corruption": {
+      "enum": [
+        "gravity-x0.3",
+        "zero-friction",
+        "mass-injection",
+        "time-reversal",
+        "interpenetration",
+        "frozen-particles"
+      ]
+    },
+    "clip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "duration_s": {
+          "type": "number",
+          "minimum": 5,
+          "maximum": 8
+        },
+        "frame_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2000
+        },
+        "fps": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 240
+        },
+        "camera_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "scene_id": {
+          "$ref": "#/$defs/artefact_id"
+        }
+      },
+      "required": [
+        "asset_id",
+        "path",
+        "sha256",
+        "duration_s",
+        "frame_count",
+        "fps",
+        "camera_id",
+        "scene_id"
+      ]
+    },
+    "confirmation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "statistic": {
+          "enum": [
+            "fitted_g_ratio",
+            "repose_angle_deg",
+            "mass_increase_pct",
+            "reversed_frame_fraction",
+            "deep_overlap_contact_fraction",
+            "frozen_particle_fraction"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "sustained_s": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 8
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "own_detector_triggered": {
+          "const": true
+        },
+        "calibrated_detectors_clear": {
+          "const": true
+        }
+      },
+      "required": [
+        "statistic",
+        "value",
+        "sustained_s",
+        "own_detector_triggered",
+        "calibrated_detectors_clear"
+      ]
+    },
+    "pair": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pair_id": {
+          "$ref": "#/$defs/artefact_id"
+        },
+        "scenario": {
+          "enum": [
+            "muck-pile-formation",
+            "truck-dump",
+            "bench-collapse"
+          ]
+        },
+        "source_run_id": {
+          "$ref": "#/$defs/run_id"
+        },
+        "corruptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/corruption"
+          },
+          "maxItems": 1,
+          "minItems": 1
+        },
+        "calibrated": {
+          "$ref": "#/$defs/clip"
+        },
+        "corrupted": {
+          "$ref": "#/$defs/clip"
+        },
+        "confirmation": {
+          "$ref": "#/$defs/confirmation"
+        }
+      },
+      "required": [
+        "pair_id",
+        "scenario",
+        "source_run_id",
+        "corruptions",
+        "calibrated",
+        "corrupted",
+        "confirmation"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "corruptions": {
+                "contains": {
+                  "const": "gravity-x0.3"
+                },
+                "maxItems": 1
+              }
+            },
+            "required": [
+              "corruptions"
+            ]
+          },
+          "then": {
+            "properties": {
+              "confirmation": {
+                "properties": {
+                  "statistic": {
+                    "const": "fitted_g_ratio"
+                  },
+                  "value": {
+                    "minimum": 0.285,
+                    "maximum": 0.315
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "corruptions": {
+                "contains": {
+                  "const": "zero-friction"
+                },
+                "maxItems": 1
+              }
+            },
+            "required": [
+              "corruptions"
+            ]
+          },
+          "then": {
+            "properties": {
+              "confirmation": {
+                "properties": {
+                  "statistic": {
+                    "const": "repose_angle_deg"
+                  },
+                  "value": {
+                    "exclusiveMaximum": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "corruptions": {
+                "contains": {
+                  "const": "mass-injection"
+                },
+                "maxItems": 1
+              }
+            },
+            "required": [
+              "corruptions"
+            ]
+          },
+          "then": {
+            "properties": {
+              "confirmation": {
+                "properties": {
+                  "statistic": {
+                    "const": "mass_increase_pct"
+                  },
+                  "value": {
+                    "minimum": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "corruptions": {
+                "contains": {
+                  "const": "time-reversal"
+                },
+                "maxItems": 1
+              }
+            },
+            "required": [
+              "corruptions"
+            ]
+          },
+          "then": {
+            "properties": {
+              "confirmation": {
+                "properties": {
+                  "statistic": {
+                    "const": "reversed_frame_fraction"
+                  },
+                  "value": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "corruptions": {
+                "contains": {
+                  "const": "interpenetration"
+                },
+                "maxItems": 1
+              }
+            },
+            "required": [
+              "corruptions"
+            ]
+          },
+          "then": {
+            "properties": {
+              "confirmation": {
+                "properties": {
+                  "statistic": {
+                    "const": "deep_overlap_contact_fraction"
+                  },
+                  "value": {
+                    "minimum": 0.1
+                  },
+                  "sustained_s": {
+                    "minimum": 1,
+                    "not": {
+                      "const": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "corruptions": {
+                "contains": {
+                  "const": "frozen-particles"
+                },
+                "maxItems": 1
+              }
+            },
+            "required": [
+              "corruptions"
+            ]
+          },
+          "then": {
+            "properties": {
+              "confirmation": {
+                "properties": {
+                  "statistic": {
+                    "const": "frozen_particle_fraction"
+                  },
+                  "value": {
+                    "minimum": 0.05
+                  },
+                  "sustained_s": {
+                    "minimum": 1,
+                    "not": {
+                      "const": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

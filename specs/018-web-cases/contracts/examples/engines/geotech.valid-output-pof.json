@@ -1,0 +1,13 @@
+{
+  "kind": "output",
+  "engine": "geotech",
+  "engine_version": "0.1.0",
+  "function": "pof_monte_carlo",
+  "result": {
+    "n_samples": 2000,
+    "failures": 37,
+    "pof": 0.0185,
+    "wilson_low": 0.0134,
+    "wilson_high": 0.0255
+  }
+}

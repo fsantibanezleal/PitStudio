@@ -1,0 +1,68 @@
+# Which Python environment owns a test file (FR-000-17: tests pass in the environment that owns the code).
+# The root environment (`uv sync` at the repository root) owns every file not matched here. A file owned by another environment is not
+# collected by a run in this one: it is ignored, never skipped (tests/conftest.py). The running environment is named by the variable
+# PITSTUDIO_TEST_ENV (root, pipeline, studio); the default is root. First matching owner wins; globs are relative to the repository root.
+studio:     # Warp, Newton, cma, OpenUSD (studio/pyproject.toml)
+  - tests/unit/test_t_005_*.py
+  - tests/metamorphic/test_t_005_*.py
+  - tests/pipeline/test_t_005_031_*.py   # the Warp shallow-water dam breaks (spec 005, FR-005-24, FR-005-25)
+  - tests/unit/test_swe_open_boundary.py   # open boundaries of the Warp shallow-water solver never make water (spec 005, FR-005-28)
+  - tests/unit/test_c2_breach_run.py     # the C2 breach run on a synthetic terrain (Warp CPU, rasterio, shapely, spec 005 and 020)
+  - tests/property/test_t_005_032_*.py   # the Warp shallow-water balance properties (spec 005, FR-005-26, FR-005-28)
+  - tests/unit/test_t_011_03[3-9]_*.py
+  - tests/unit/test_t_011_060_*.py
+  - tests/unit/test_t_011_014_planar_*.py   # the planar reference-data generator (Warp DEM, spec 011 FR-011-03)
+  - tests/unit/test_t_011_heap_simulator_smoke.py
+  - tests/contract/test_t_011_036_*.py
+  - tests/unit/test_t_009_011_*.py
+  - tests/unit/test_t_009_016_*.py      # the SDG table, inputs and shard driver import pitstudio_studio, minephys and scipy
+  - tests/unit/test_t_009_100_*.py      # camera and object line of sight on the carved surface (the SDG table, studio environment)
+  - tests/unit/test_t_004_099_*.py      # the carved design surface of st20_pit_design (OpenUSD, zarr, shapely, studio environment)
+  - tests/unit/test_t_004_100_*.py      # procedural machine and person assets of st30_assets (OpenUSD, studio environment)
+  - tests/unit/test_t_004_101_*.py      # windrow ridges of st20_pit_design (shapely, scipy, OpenUSD, studio environment)
+  - tests/unit/test_t_009_101_*.py      # camera clearance and object visibility with size and occlusion (the SDG table, studio environment)
+  - tests/property/test_t_009_013_*.py
+  - tests/pipeline/test_t_004_053_*.py
+  - tests/property/test_t_006_030_*.py   # the real nvtx package (spec 006, FR-006-17)
+  - tests/unit/test_t_006_033_*.py       # a Warp CPU workload with the real nvtx package (NFR-006-02)
+  # imports proven by the root run of 2026-11-22 (ModuleNotFoundError in the root environment, green in this one)
+  - tests/metamorphic/test_t_004_011_*.py   # pyproj, pitstudio_studio.scene
+  - tests/metamorphic/test_t_004_020_*.py   # shapely, pitstudio_studio.scene.design
+  - tests/property/test_t_004_0[12][13]_*.py   # rasterio, shapely (hole fill, ramp, cut and fill)
+  - tests/property/test_t_004_031_*.py      # pxr
+  - tests/property/test_t_004_052_*.py      # pxr
+  - tests/unit/test_sdg_inputs_tool.py      # shapely, the SDG input builder of the studio lane
+  - tests/unit/test_t_004_0[0-4]*_*.py      # pxr, pyproj, shapely, laspy through pitstudio_studio.scene (spec 004 scene pipeline)
+  - tests/unit/test_web_terrain_extract.py  # pxr, scipy: the OpenUSD side of the web bake (spec 016, FR-016-19)
+  - tests/unit/test_t_004_05*_*.py
+  - tests/unit/test_t_004_09[24-8]_*.py
+  - tests/unit/test_t_013_01[345]_*.py      # pyarrow and pitstudio_rtx (studio/rtx): the sensor lane
+  - tests/unit/test_t_013_024_*.py
+  - tests/unit/test_t_013_060_*.py
+  - tests/unit/test_t_013_092_*.py
+  - tests/contract/test_t_013_017_*.py
+  - tests/pipeline/test_t_017_023_*.py   # OR-Tools SimpleMaxFlow oracle of the min-cut (studio environment, plan 017)
+  - tests/pipeline/test_t_017_042_*.py   # rasterio GeoTIFFs of the DEM grid preparation (studio environment)
+  - tests/pipeline/test_t_017_102_*.py
+  - tests/pipeline/test_t_017_103_*.py   # the coarse E2 pair: rasterio, pyproj, pitstudio_studio.survey
+pipeline:   # torch, onnx, onnxruntime, polars, scipy ... (pipeline/pyproject.toml)
+  - tests/pipeline/**
+  - tests/unit/test_t_012_*.py
+  - tests/unit/test_t_017_011_*.py   # the D2 sweeps and Sobol indices import pitstudio_pipeline.mine_to_mill (scipy Sobol)
+  - tests/unit/test_t_017_063_*.py   # the D2 run imports pitstudio_pipeline (chart kit, sweeps, Sobol indices)
+  - tests/property/test_t_012_*.py
+  - tests/property/test_t_011_050_*.py
+  - tests/unit/test_t_009_017_*.py
+  # imports proven by the root run of 2026-11-22 (pitstudio_pipeline, onnx, pycocotools, imagehash: absent from the root environment)
+  - tests/contract/test_t_009_060_*.py
+  - tests/contract/test_t_009_070_*.py
+  - tests/metamorphic/test_t_009_032_*.py
+  - tests/property/test_t_009_020_*.py
+  - tests/unit/test_t_009_019_*.py
+  - tests/unit/test_t_009_03[23]_*.py
+  - tests/unit/test_t_009_050_*.py
+  - tests/unit/test_t_009_061_*.py
+  - tests/unit/test_t_009_09[78]_*.py
+  - tests/unit/test_t_016_01[013]_*.py
+  - tests/unit/test_t_016_020_*.py
+  - tests/unit/test_t_016_041_*.py

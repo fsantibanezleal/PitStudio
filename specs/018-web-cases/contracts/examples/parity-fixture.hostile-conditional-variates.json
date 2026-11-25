@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "engine": "geotech",
+  "fixture": "pof-planar-count",
+  "function": "pof_monte_carlo",
+  "reference": {
+    "name": "minephys",
+    "version": "0.1.0",
+    "callable": "minephys.geotech.pof_monte_carlo"
+  },
+  "tolerance": {
+    "class": "monte-carlo-count"
+  },
+  "cases": [
+    {
+      "name": "planar-slide-8-samples",
+      "input": {
+        "height_m": 30.0,
+        "slope_deg": 50.0,
+        "plane_deg": 35.0,
+        "unit_weight_n_per_m3": 25000.0
+      },
+      "output": {
+        "failing_samples": 2,
+        "pof": 0.25
+      }
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261013T171809Z-c1-slope-forecasters",
+ "recipe": {
+  "id": "c1-slope",
+  "path": "cases/c1.yaml",
+  "sha256": "09a1cc712808f5fadf56402eefb70a9572434b0796a5b514dba4cf3d620df599"
+ },
+ "git_sha": "90131431ee164e2d4e3c9d500b10fc488caa652d",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-10-13T17:18:09Z",
+ "profile": "imported",
+ "seed": 20261012,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s30_train"
+   },
+   "tool": "pytorch",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "ab3daa580c28c51ddbe7fa7abaf5e04973e2f59110081a76556e985af3880f80",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 2517.0
+    }
+   ],
+   "params": {},
+   "seed": 20261012,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 2517.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "training-manifest.json",
+     "sha256": "6fe9b1ee7a3410131ac672098eda3dc378c7de0d6e6ad020d8edf5c87b895b67",
+     "bytes": 1742
+    }
+   ]
+  },
+  {
+   "key": {
+    "id": "s50_evaluate"
+   },
+   "tool": "pitstudio",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "53cb0bd6b1f7567ffce17300b8747de27011612b44ead1aaec625d6a7d2efcc0",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 2517.0
+    }
+   ],
+   "params": {},
+   "seed": 20261012,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 2517.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "ttf-results.json",
+     "sha256": "1ab841ebe81502414ee3b47cbaf427270230a75aaa5da9da173eba9982b7254f",
+     "bytes": 8949175
+    },
+    {
+     "name": "results-summary.json",
+     "sha256": "9b4de3b33b8b9c6164c44e1a248abaf04563de300bb4cc63c1586085b1ab0381",
+     "bytes": 1768
+    }
+   ]
+  },
+  {
+   "key": {
+    "id": "s60_export"
+   },
+   "tool": "onnx-runtime",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "b6f33a963f9adebf8866c6ceac6ebb5e93157c55e6244de84f9d789f88f104c4",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 2517.0
+    }
+   ],
+   "params": {},
+   "seed": 20261012,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 2517.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "tcn-c1.onnx",
+     "sha256": "eb554d9497904f199b286df30565c466b468f33c3f19ae2e123c3846266a8af5",
+     "bytes": 482046
+    },
+    {
+     "name": "patchtst-c1.onnx",
+     "sha256": "a6828219f8c7289f9b32496ed378f32ed21a558d99fe2f24b6336f477ede8f22",
+     "bytes": 2394468
+    },
+    {
+     "name": "chronos-bolt-fine-tuned-c1.onnx",
+     "sha256": "c3bb733e518912bca08c238f5cc0885daf1b1376fdb05b01bfd047c88e5b7f07",
+     "bytes": 35779064
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "c1-slope-forecasters-results",
+   "run_id": "20261013T171809Z-c1-slope-forecasters",
+   "git_sha": "90131431ee164e2d4e3c9d500b10fc488caa652d",
+   "path": "assets/20261013T171809Z-c1-slope-forecasters/results-summary.json",
+   "bytes": 1768,
+   "sha256": "9b4de3b33b8b9c6164c44e1a248abaf04563de300bb4cc63c1586085b1ab0381",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C1"
+   ],
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced by the GPU queue, outside the runner",
+  "job 33-slope-forecasters; script sha256 ca4b07cfce55b46b600f54e708d0d3d8f767e881e16ac6bfd12466bb450bcec7; log sha256 c87bedecbae00347e84e69ccd1115f407790eee922cb242330aaa2e30cf68298",
+  "started 2026-10-13T16:36:12Z; ended 2026-10-13T17:18:09Z; GPU-hours 0.3735",
+  "calibrated synthetic, not validated against real data: Voight-synthesised events at nominal signal-to-noise, no observed SNR",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Job 33 trained TCN, PatchTST and fine-tuned Chronos-Bolt and exported them to ONNX; the evaluation file ttf-results.json is its output."
+ ]
+}

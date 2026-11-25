@@ -9,8 +9,8 @@ requires-python = "==3.12.*"
 # blocks, without Kit-only extras), and [tool.uv] mirrors its tested overrides (torch 2.11.0, Warp 1.16.0,
 # Newton 1.5.2, MuJoCo 3.11).
 dependencies = [
-    "isaaclab", "isaaclab-assets", "isaaclab-contrib", "isaaclab-newton", "isaaclab-physx", "isaaclab-rl",
-    "isaaclab-tasks",
+    "isaaclab", "isaaclab-assets", "isaaclab-contrib", "isaaclab-newton", "isaaclab-ov", "isaaclab-physx",
+    "isaaclab-rl", "isaaclab-tasks",  # isaaclab.app.sim_launcher imports isaaclab_ov's config classes unconditionally
     # generic
     "numpy>=2", "torch==2.11.0", "torchvision==0.26.0", "onnx>=1.18.0", "prettytable>=3.3.0", "psutil",
     "protobuf>=4.25.8,!=5.26.0", "hidapi>=0.14.0", "gymnasium>=1.2.0", "trimesh>=4.6.8", "pyglet>=2.1.6,<3", "einops",
@@ -40,6 +40,7 @@ isaaclab = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", s
 isaaclab-assets = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_assets" }
 isaaclab-contrib = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_contrib" }
 isaaclab-newton = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_newton" }
+isaaclab-ov = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_ov" }
 isaaclab-physx = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_physx" }
 isaaclab-rl = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_rl" }
 isaaclab-tasks = { git = "https://github.com/isaac-sim/IsaacLab", tag = "v3.0.0-EA", subdirectory = "source/isaaclab_tasks" }

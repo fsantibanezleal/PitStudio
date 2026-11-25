@@ -1,0 +1,57 @@
+# source registry of the clean fixture repository
+sources:
+- id: example-haul-network
+  kind: real
+  title: Example haul-road network
+  landing_url: https://example.org/data/haul-network
+  access: direct
+  files:
+  - url: https://example.org/data/haul-network/network.geojson
+    sha256: '2222222222222222222222222222222222222222222222222222222222222222'
+    bytes: 120000
+    kind: vector
+  spdx: CC0-1.0
+  licence_url: https://example.org/data/haul-network/licence
+  licence_class: open-no-attribution
+  redistribution: redistributable
+  citation: Example agency (2024). Haul-road network.
+  card: data/cards/example-haul-network.md
+  account:
+    needed: false
+- id: example-station-hourly
+  kind: real
+  title: Example hourly station records
+  landing_url: https://example.org/data/stations
+  access: api
+  files:
+  - url: https://example.org/api/stations?id=123&format=csv
+    sha256: '7777777777777777777777777777777777777777777777777777777777777777'
+    bytes: 52000
+    kind: table
+  spdx: CC-BY-4.0
+  licence_url: https://example.org/data/stations/licence
+  licence_class: attribution
+  redistribution: redistributable
+  attribution: 'Station data: Example Weather Service, CC BY 4.0.'
+  citation: Example Weather Service (2025). Hourly station records.
+  card: data/cards/example-station-hourly.md
+  account:
+    needed: false
+- id: example-lidar-tiles
+  kind: real
+  title: Example public-domain lidar tiles
+  landing_url: https://example.org/data/lidar-tiles
+  access: direct
+  files:
+  - url: https://example.org/data/lidar-tiles/tile-001.laz
+    sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    bytes: 734003200
+    kind: point-cloud
+  spdx: LicenseRef-USGov-PD
+  licence_url: https://example.org/data/lidar-tiles/licence
+  licence_class: public-domain
+  redistribution: redistributable
+  citation: Example agency (2024). Lidar tiles.
+  card: data/cards/example-lidar-tiles.md
+  account:
+    needed: false

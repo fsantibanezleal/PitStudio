@@ -1,6 +1,7 @@
 import { FolderGit2 } from "lucide-react";
 import type { ArchitectureTab, ShellConfig } from "~/shell/config";
 import { archTab } from "./architecture";
+import { usePublishedProvenance } from "./provenance";
 
 const ARCH_TABS = ["what", "lanes", "studio", "webflow", "science", "contracts", "tools"];
 
@@ -11,7 +12,9 @@ export const shellConfig: ShellConfig = {
   ...__BUILD_INFO__,
   repoUrl: "https://github.com/fsantibanezleal/PitStudio",
   routes: [
-    { path: "/", labelKey: "nav.explore", end: true },
+    // The App stays the leftmost entry and the landing never moves it (problem-context-first, 2026-10-13).
+    { path: "/app", labelKey: "nav.explore" },
+    { path: "/", labelKey: "nav.introduction", end: true },
     { path: "/cases", labelKey: "nav.cases" },
     { path: "/studio", labelKey: "nav.studio" },
     { path: "/theory", labelKey: "nav.theory" },
@@ -25,6 +28,7 @@ export const shellConfig: ShellConfig = {
   footer: {
     licenceKey: "footer.licence",
     provenance: [{ labelKey: "footer.provenanceNone" }],
+    useProvenance: usePublishedProvenance,
   },
   architectureTabs: ARCH_TABS.map(
     (id): ArchitectureTab => ({ id, titleKey: `arch.${id}.title`, Content: archTab(id) }),

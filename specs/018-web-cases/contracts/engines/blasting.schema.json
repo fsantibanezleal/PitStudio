@@ -1,0 +1,856 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/engines/blasting.schema.json",
+  "title": "Engine blasting: input and output messages",
+  "description": "Input and output messages of the browser engine `blasting` (cases D1): the minephys.blasting port: Kuz-Ram, uniformity, Swebrec and KCO, PPV site law and flyrock range (DC-018-02, spec 018-web-cases).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "input": {
+      "type": "object",
+      "description": "Request to the engine `blasting`: envelope, function and its arguments in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "args"
+      ],
+      "properties": {
+        "kind": {
+          "const": "input",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "blasting",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "charge_per_hole",
+            "powder_factor",
+            "kuznetsov_x50",
+            "uniformity_index",
+            "swebrec_passing",
+            "kco_undulation",
+            "ppv_scaled_distance",
+            "flyrock_range_no_drag"
+          ],
+          "description": "Function of the engine to evaluate."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "charge_per_hole"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/charge_per_hole_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "powder_factor"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/powder_factor_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "kuznetsov_x50"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/kuznetsov_x50_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "uniformity_index"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/uniformity_index_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "swebrec_passing"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/swebrec_passing_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "kco_undulation"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/kco_undulation_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "ppv_scaled_distance"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/ppv_scaled_distance_args"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "flyrock_range_no_drag"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "$ref": "#/$defs/flyrock_range_no_drag_args"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "Result of the engine `blasting`: envelope, function and its outputs in SI units.",
+      "required": [
+        "kind",
+        "engine",
+        "engine_version",
+        "function",
+        "result"
+      ],
+      "properties": {
+        "kind": {
+          "const": "output",
+          "description": "Message kind: input for a request, output for a result (the discriminator of the root oneOf)."
+        },
+        "engine": {
+          "const": "blasting",
+          "description": "Engine id of spec 018 section 7.1."
+        },
+        "engine_version": {
+          "$ref": "#/$defs/semver",
+          "description": "Engine version; the host rejects any version other than the loaded one."
+        },
+        "function": {
+          "enum": [
+            "charge_per_hole",
+            "powder_factor",
+            "kuznetsov_x50",
+            "uniformity_index",
+            "swebrec_passing",
+            "kco_undulation",
+            "ppv_scaled_distance",
+            "flyrock_range_no_drag"
+          ],
+          "description": "Function that produced the result."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "charge_per_hole"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/charge_per_hole_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "powder_factor"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/powder_factor_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "kuznetsov_x50"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/kuznetsov_x50_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "uniformity_index"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/uniformity_index_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "swebrec_passing"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/swebrec_passing_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "kco_undulation"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/kco_undulation_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "ppv_scaled_distance"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/ppv_scaled_distance_result"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "function": {
+                "const": "flyrock_range_no_drag"
+              }
+            },
+            "required": [
+              "function"
+            ]
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "$ref": "#/$defs/flyrock_range_no_drag_result"
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "charge_per_hole_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "explosive_density_kg_per_m3",
+        "hole_diameter_m",
+        "charge_length_m"
+      ],
+      "properties": {
+        "explosive_density_kg_per_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2000
+        },
+        "hole_diameter_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Hole diameter d (validity <= 1 m)."
+        },
+        "charge_length_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "description": "Charge length L."
+        }
+      }
+    },
+    "charge_per_hole_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "charge_kg"
+      ],
+      "properties": {
+        "charge_kg": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "powder_factor_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "charge_kg",
+        "burden_m",
+        "spacing_m",
+        "bench_height_m"
+      ],
+      "properties": {
+        "charge_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000.0
+        },
+        "burden_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "description": "Burden B."
+        },
+        "spacing_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "description": "Spacing S."
+        },
+        "bench_height_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "description": "Bench height H."
+        }
+      }
+    },
+    "powder_factor_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "powder_factor_kg_per_m3"
+      ],
+      "properties": {
+        "powder_factor_kg_per_m3": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "kuznetsov_x50_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rock_factor",
+        "powder_factor_kg_per_m3",
+        "charge_kg",
+        "rws"
+      ],
+      "properties": {
+        "rock_factor": {
+          "type": "number",
+          "minimum": 0.8,
+          "maximum": 22,
+          "description": "Rock factor A (validity 0.8 to 22)."
+        },
+        "powder_factor_kg_per_m3": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 5,
+          "description": "Powder factor (validity <= 5 kg/m3)."
+        },
+        "charge_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000.0,
+          "description": "Charge per hole."
+        },
+        "rws": {
+          "type": "number",
+          "minimum": 20,
+          "maximum": 200,
+          "description": "Relative weight strength, ANFO = 100 (validity >= 20)."
+        },
+        "variant": {
+          "enum": [
+            "cunningham1983",
+            "cunningham2005"
+          ],
+          "description": "Exponent variant (default cunningham1983)."
+        }
+      }
+    },
+    "kuznetsov_x50_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x50_m"
+      ],
+      "properties": {
+        "x50_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Median fragment size."
+        }
+      }
+    },
+    "uniformity_index_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "burden_m",
+        "spacing_m",
+        "hole_diameter_m",
+        "charge_length_m",
+        "bench_height_m",
+        "drilling_deviation_m"
+      ],
+      "properties": {
+        "burden_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "description": "Burden B."
+        },
+        "spacing_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "description": "Spacing S."
+        },
+        "hole_diameter_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Hole diameter d (validity <= 1 m)."
+        },
+        "charge_length_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "description": "Charge length L."
+        },
+        "bench_height_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "description": "Bench height H."
+        },
+        "drilling_deviation_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Drilling deviation W (>= 0)."
+        },
+        "bottom_charge_length_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "column_charge_length_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "dependentRequired": {
+        "bottom_charge_length_m": [
+          "column_charge_length_m"
+        ],
+        "column_charge_length_m": [
+          "bottom_charge_length_m"
+        ]
+      }
+    },
+    "uniformity_index_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "uniformity"
+      ],
+      "properties": {
+        "uniformity": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Rosin-Rammler uniformity index n."
+        }
+      }
+    },
+    "swebrec_passing_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sizes_m",
+        "x50_m",
+        "xmax_m",
+        "undulation"
+      ],
+      "properties": {
+        "sizes_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 100
+          },
+          "minItems": 1,
+          "maxItems": 1024,
+          "description": "Sieve sizes (at most 1,024)."
+        },
+        "x50_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "xmax_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "undulation": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "description": "Swebrec undulation b (> 0)."
+        }
+      }
+    },
+    "swebrec_passing_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passing"
+      ],
+      "properties": {
+        "passing": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minItems": 1,
+          "maxItems": 1024,
+          "description": "Passing fraction at each size."
+        }
+      }
+    },
+    "kco_undulation_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "uniformity",
+        "x50_m",
+        "xmax_m"
+      ],
+      "properties": {
+        "uniformity": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10,
+          "description": "Uniformity index n."
+        },
+        "x50_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "xmax_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "kco_undulation_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "undulation"
+      ],
+      "properties": {
+        "undulation": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "ppv_scaled_distance_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "distance_m",
+        "charge_per_delay_kg",
+        "k_site_m_per_s",
+        "site_exponent"
+      ],
+      "properties": {
+        "distance_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000.0
+        },
+        "charge_per_delay_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000.0
+        },
+        "k_site_m_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "description": "Site constant K (validity <= 100 m/s)."
+        },
+        "site_exponent": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 5,
+          "description": "Site exponent beta (> 0)."
+        }
+      }
+    },
+    "ppv_scaled_distance_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scaled_distance_m_per_kg_half",
+        "ppv_m_per_s"
+      ],
+      "properties": {
+        "scaled_distance_m_per_kg_half": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "ppv_m_per_s": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "flyrock_range_no_drag_args": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "launch_speed_m_per_s",
+        "launch_angle_rad"
+      ],
+      "properties": {
+        "launch_speed_m_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 500,
+          "description": "Launch speed (validity <= 500 m/s)."
+        },
+        "launch_angle_rad": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.5707963267948966
+        },
+        "gravity_m_per_s2": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "description": "Gravity (default 9.80665)."
+        }
+      }
+    },
+    "flyrock_range_no_drag_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "range_m"
+      ],
+      "properties": {
+        "range_m": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "unit_scales": {
+      "description": "Unit scale s_y of every numeric result field, per function, in the field's own unit; the parity tolerance is 1e-12 s_y + rtol |y| (FR-018-51).",
+      "const": {
+        "charge_per_hole": {
+          "charge_kg": 1
+        },
+        "powder_factor": {
+          "powder_factor_kg_per_m3": 1
+        },
+        "kuznetsov_x50": {
+          "x50_m": 1
+        },
+        "uniformity_index": {
+          "uniformity": 1
+        },
+        "swebrec_passing": {
+          "passing": 1
+        },
+        "kco_undulation": {
+          "undulation": 1
+        },
+        "ppv_scaled_distance": {
+          "scaled_distance_m_per_kg_half": 1,
+          "ppv_m_per_s": 0.001
+        },
+        "flyrock_range_no_drag": {
+          "range_m": 1
+        }
+      }
+    },
+    "semver": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}

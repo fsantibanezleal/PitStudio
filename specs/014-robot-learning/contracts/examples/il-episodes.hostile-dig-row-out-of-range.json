@@ -1,0 +1,9 @@
+{
+  "seed": 1000000,
+  "termination": "completed",
+  "fill_factor": 3.5,
+  "cycle_time_s": 14.5,
+  "productivity_per_s": 0.06345,
+  "stalled": false,
+  "lift_off": true
+}

@@ -1,0 +1,858 @@
+{
+  "schema_version": "1.0",
+  "id": "a1-dispatch-eval",
+  "recipe": "a1-dispatch-evaluate",
+  "engine": {
+    "package": "minehaulsim",
+    "version": "0.12.1",
+    "pin_sha256": "1994805904c975af1a6e43ca32c54300f9ebe02343dcdf6e3d3fcea3fa9133de"
+  },
+  "mode": "traffic",
+  "variate_profile": "engine",
+  "primary_metric": "production_t_per_h",
+  "ci_method": "paired-t",
+  "ci_level": 0.95,
+  "min_pairs": 30,
+  "scenarios": [
+    {
+      "fleet_size": 24,
+      "bundle_sha256": "861c6f6b98f79f88a41387874745511f064023a5498a6932ca9d400f5ed9bed5"
+    }
+  ],
+  "test_seeds": [
+    5330628811270438694,
+    2840944675832644373,
+    164409102104928391,
+    5145666976155377350,
+    5799157049751754250,
+    1016805546646110624,
+    6619696653579920663,
+    5235369476426088185,
+    1647500329562594382,
+    534531544887981034,
+    1858077642028993818,
+    2851074426681328860,
+    2222654201688244394,
+    5623660972155599221,
+    7827415879309372280,
+    8287005166579338184,
+    341979164469415601,
+    4681128984750013420,
+    2472186278796650411,
+    7304503437051717442,
+    3213825054629863734,
+    2283252830050857262,
+    4043261454646556942,
+    6138454460518943255,
+    9018796943469977241,
+    5954487033297942039,
+    9134568916279703151,
+    3616222728872413432,
+    3747318942939946219,
+    7596581622416309262
+  ],
+  "rows": [
+    {
+      "seed": 5330628811270438694,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2910.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8559,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2474,
+      "loader_hours_per_kt": 0.6873
+    },
+    {
+      "seed": 5330628811270438694,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3063.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9009,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.8351,
+      "loader_hours_per_kt": 0.6529
+    },
+    {
+      "seed": 2840944675832644373,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2959.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8703,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1108,
+      "loader_hours_per_kt": 0.6759
+    },
+    {
+      "seed": 2840944675832644373,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2895.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8517,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2877,
+      "loader_hours_per_kt": 0.6906
+    },
+    {
+      "seed": 164409102104928391,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2917.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8579,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2276,
+      "loader_hours_per_kt": 0.6856
+    },
+    {
+      "seed": 164409102104928391,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3070.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.903,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.8172,
+      "loader_hours_per_kt": 0.6514
+    },
+    {
+      "seed": 5145666976155377350,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2966.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8724,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.0917,
+      "loader_hours_per_kt": 0.6743
+    },
+    {
+      "seed": 5145666976155377350,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2902.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8538,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2677,
+      "loader_hours_per_kt": 0.689
+    },
+    {
+      "seed": 5799157049751754250,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2924.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.86,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2079,
+      "loader_hours_per_kt": 0.684
+    },
+    {
+      "seed": 5799157049751754250,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3077.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.905,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.7994,
+      "loader_hours_per_kt": 0.65
+    },
+    {
+      "seed": 1016805546646110624,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2973.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8744,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.0727,
+      "loader_hours_per_kt": 0.6727
+    },
+    {
+      "seed": 1016805546646110624,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2909.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8558,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2478,
+      "loader_hours_per_kt": 0.6873
+    },
+    {
+      "seed": 6619696653579920663,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2931.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8621,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1883,
+      "loader_hours_per_kt": 0.6824
+    },
+    {
+      "seed": 6619696653579920663,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3084.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9071,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.7817,
+      "loader_hours_per_kt": 0.6485
+    },
+    {
+      "seed": 5235369476426088185,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2980.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8765,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.0537,
+      "loader_hours_per_kt": 0.6711
+    },
+    {
+      "seed": 5235369476426088185,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2916.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8579,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2281,
+      "loader_hours_per_kt": 0.6857
+    },
+    {
+      "seed": 1647500329562594382,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2938.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8641,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1688,
+      "loader_hours_per_kt": 0.6807
+    },
+    {
+      "seed": 1647500329562594382,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3091.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9092,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.7641,
+      "loader_hours_per_kt": 0.647
+    },
+    {
+      "seed": 534531544887981034,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2987.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8785,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.0348,
+      "loader_hours_per_kt": 0.6696
+    },
+    {
+      "seed": 534531544887981034,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2923.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.86,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2084,
+      "loader_hours_per_kt": 0.684
+    },
+    {
+      "seed": 1858077642028993818,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2945.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8662,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1494,
+      "loader_hours_per_kt": 0.6791
+    },
+    {
+      "seed": 1858077642028993818,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3098.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9112,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.7466,
+      "loader_hours_per_kt": 0.6455
+    },
+    {
+      "seed": 2851074426681328860,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2994.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8806,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.016,
+      "loader_hours_per_kt": 0.668
+    },
+    {
+      "seed": 2851074426681328860,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2930.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.862,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1888,
+      "loader_hours_per_kt": 0.6824
+    },
+    {
+      "seed": 2222654201688244394,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2952.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8682,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1301,
+      "loader_hours_per_kt": 0.6775
+    },
+    {
+      "seed": 2222654201688244394,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3105.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9133,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.7291,
+      "loader_hours_per_kt": 0.6441
+    },
+    {
+      "seed": 5623660972155599221,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2910.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8559,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2474,
+      "loader_hours_per_kt": 0.6873
+    },
+    {
+      "seed": 5623660972155599221,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2846.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8373,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.4304,
+      "loader_hours_per_kt": 0.7025
+    },
+    {
+      "seed": 7827415879309372280,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2959.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8703,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1108,
+      "loader_hours_per_kt": 0.6759
+    },
+    {
+      "seed": 7827415879309372280,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3112.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9153,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.7117,
+      "loader_hours_per_kt": 0.6426
+    },
+    {
+      "seed": 8287005166579338184,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2917.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8579,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2276,
+      "loader_hours_per_kt": 0.6856
+    },
+    {
+      "seed": 8287005166579338184,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2853.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8394,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.4097,
+      "loader_hours_per_kt": 0.7008
+    },
+    {
+      "seed": 341979164469415601,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2966.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8724,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.0917,
+      "loader_hours_per_kt": 0.6743
+    },
+    {
+      "seed": 341979164469415601,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3119.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9174,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.6944,
+      "loader_hours_per_kt": 0.6412
+    },
+    {
+      "seed": 4681128984750013420,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2924.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.86,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2079,
+      "loader_hours_per_kt": 0.684
+    },
+    {
+      "seed": 4681128984750013420,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2860.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8414,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.3891,
+      "loader_hours_per_kt": 0.6991
+    },
+    {
+      "seed": 2472186278796650411,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2973.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8744,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.0727,
+      "loader_hours_per_kt": 0.6727
+    },
+    {
+      "seed": 2472186278796650411,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3126.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9195,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.6772,
+      "loader_hours_per_kt": 0.6398
+    },
+    {
+      "seed": 7304503437051717442,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2931.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8621,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1883,
+      "loader_hours_per_kt": 0.6824
+    },
+    {
+      "seed": 7304503437051717442,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2867.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8435,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.3686,
+      "loader_hours_per_kt": 0.6974
+    },
+    {
+      "seed": 3213825054629863734,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2980.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8765,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.0537,
+      "loader_hours_per_kt": 0.6711
+    },
+    {
+      "seed": 3213825054629863734,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3133.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9215,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.66,
+      "loader_hours_per_kt": 0.6383
+    },
+    {
+      "seed": 2283252830050857262,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2938.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8641,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1688,
+      "loader_hours_per_kt": 0.6807
+    },
+    {
+      "seed": 2283252830050857262,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2874.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8455,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.3483,
+      "loader_hours_per_kt": 0.6957
+    },
+    {
+      "seed": 4043261454646556942,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2987.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8785,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.0348,
+      "loader_hours_per_kt": 0.6696
+    },
+    {
+      "seed": 4043261454646556942,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3140.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9236,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.6429,
+      "loader_hours_per_kt": 0.6369
+    },
+    {
+      "seed": 6138454460518943255,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2945.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8662,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1494,
+      "loader_hours_per_kt": 0.6791
+    },
+    {
+      "seed": 6138454460518943255,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2881.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8476,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.328,
+      "loader_hours_per_kt": 0.694
+    },
+    {
+      "seed": 9018796943469977241,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2994.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8806,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.016,
+      "loader_hours_per_kt": 0.668
+    },
+    {
+      "seed": 9018796943469977241,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3147.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9256,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.6259,
+      "loader_hours_per_kt": 0.6355
+    },
+    {
+      "seed": 5954487033297942039,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2952.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8682,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1301,
+      "loader_hours_per_kt": 0.6775
+    },
+    {
+      "seed": 5954487033297942039,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2888.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8497,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.3078,
+      "loader_hours_per_kt": 0.6923
+    },
+    {
+      "seed": 9134568916279703151,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2910.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8559,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2474,
+      "loader_hours_per_kt": 0.6873
+    },
+    {
+      "seed": 9134568916279703151,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3063.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.9009,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.8351,
+      "loader_hours_per_kt": 0.6529
+    },
+    {
+      "seed": 3616222728872413432,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2959.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8703,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.1108,
+      "loader_hours_per_kt": 0.6759
+    },
+    {
+      "seed": 3616222728872413432,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2895.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8517,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2877,
+      "loader_hours_per_kt": 0.6906
+    },
+    {
+      "seed": 3747318942939946219,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2917.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8579,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2276,
+      "loader_hours_per_kt": 0.6856
+    },
+    {
+      "seed": 3747318942939946219,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 3070.15,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.903,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 7.8172,
+      "loader_hours_per_kt": 0.6514
+    },
+    {
+      "seed": 7596581622416309262,
+      "dispatcher": "sptf",
+      "fleet_size": 24,
+      "production_t_per_h": 2966.0,
+      "queue_time_mean_min": 2.4,
+      "loader_utilisation_frac": 0.8724,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.0917,
+      "loader_hours_per_kt": 0.6743
+    },
+    {
+      "seed": 7596581622416309262,
+      "dispatcher": "ppo",
+      "fleet_size": 24,
+      "production_t_per_h": 2902.85,
+      "queue_time_mean_min": 2.1,
+      "loader_utilisation_frac": 0.8538,
+      "match_factor": 0.93,
+      "truck_hours_per_kt": 8.2677,
+      "loader_hours_per_kt": 0.689
+    }
+  ],
+  "comparisons": [
+    {
+      "learned": "ppo",
+      "baseline": "sptf",
+      "fleet_size": 24,
+      "n_pairs": 30,
+      "differences": [
+        {
+          "seed": 5330628811270438694,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 2840944675832644373,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 164409102104928391,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 5145666976155377350,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 5799157049751754250,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 1016805546646110624,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 6619696653579920663,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 5235369476426088185,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 1647500329562594382,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 534531544887981034,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 1858077642028993818,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 2851074426681328860,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 2222654201688244394,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 5623660972155599221,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 7827415879309372280,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 8287005166579338184,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 341979164469415601,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 4681128984750013420,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 2472186278796650411,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 7304503437051717442,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 3213825054629863734,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 2283252830050857262,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 4043261454646556942,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 6138454460518943255,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 9018796943469977241,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 5954487033297942039,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 9134568916279703151,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 3616222728872413432,
+          "diff_t_per_h": -63.1511
+        },
+        {
+          "seed": 3747318942939946219,
+          "diff_t_per_h": 153.1511
+        },
+        {
+          "seed": 7596581622416309262,
+          "diff_t_per_h": -63.1511
+        }
+      ],
+      "mean_diff_t_per_h": 45.0,
+      "sd_diff_t_per_h": 110.0,
+      "t_crit": 2.0452,
+      "ci95": {
+        "low_t_per_h": -11.0742,
+        "high_t_per_h": 86.0741
+      },
+      "verdict": "learned-better"
+    }
+  ],
+  "honesty": {
+    "label": "calibrated synthetic — not validated against real data",
+    "bias_note": "Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it."
+  }
+}

@@ -1,0 +1,368 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/survey-flight.schema.json",
+  "title": "E2 survey flight record",
+  "description": "One rendered drone flight and sensor-noise seed with exact intrinsics, poses and depth (DC-017-05, spec 017-planning-survey).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "synthetic",
+    "flight",
+    "design",
+    "seed",
+    "camera",
+    "images",
+    "scene"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "flight": {
+      "$ref": "#/$defs/slug"
+    },
+    "design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gsd_cm_per_px",
+        "overlap_pct",
+        "sun_elevation_deg"
+      ],
+      "properties": {
+        "gsd_cm_per_px": {
+          "enum": [
+            2,
+            4,
+            8
+          ]
+        },
+        "overlap_pct": {
+          "enum": [
+            70,
+            80
+          ]
+        },
+        "sun_elevation_deg": {
+          "enum": [
+            30,
+            60
+          ]
+        }
+      },
+      "description": "Survey design of FR-017-36; overlap_pct is both the forward and the side overlap."
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "camera": {
+      "$ref": "#/$defs/camera"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/image"
+      },
+      "minItems": 1,
+      "maxItems": 20000
+    },
+    "scene": {
+      "$ref": "#/$defs/scene"
+    }
+  },
+  "$defs": {
+    "camera": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "distortion",
+        "width_px",
+        "height_px",
+        "fx_px",
+        "fy_px",
+        "cx_px",
+        "cy_px"
+      ],
+      "properties": {
+        "model": {
+          "const": "pinhole"
+        },
+        "distortion": {
+          "const": "none"
+        },
+        "width_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 16384
+        },
+        "height_px": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 16384
+        },
+        "fx_px": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0
+        },
+        "fy_px": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0
+        },
+        "cx_px": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 16384
+        },
+        "cy_px": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 16384
+        }
+      }
+    },
+    "file_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "sha256"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "sha256",
+        "tilt_deg",
+        "pose",
+        "depth"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "tilt_deg": {
+          "enum": [
+            -30,
+            0,
+            30
+          ]
+        },
+        "pose": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "position_m",
+            "rotation_wxyz"
+          ],
+          "properties": {
+            "position_m": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "rotation_wxyz": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": -1,
+                "maximum": 1
+              },
+              "minItems": 4,
+              "maxItems": 4
+            }
+          },
+          "description": "Camera-to-world pose; camera axes x right, y down, z forward; unit quaternion."
+        },
+        "depth": {
+          "$ref": "#/$defs/file_ref"
+        }
+      },
+      "description": "One rendered image with its exact pose and its planar z-depth map (metres)."
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "usd",
+        "exact_surface",
+        "base_z_m",
+        "stockpile",
+        "cut"
+      ],
+      "properties": {
+        "usd": {
+          "$ref": "#/$defs/file_ref"
+        },
+        "exact_surface": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "sha256",
+            "cell_m"
+          ],
+          "properties": {
+            "name": {
+              "$ref": "#/$defs/relpath"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "cell_m": {
+              "const": 0.25
+            }
+          }
+        },
+        "base_z_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 10000
+        },
+        "stockpile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "shape",
+            "centre_m",
+            "radius_bottom_m",
+            "radius_top_m",
+            "height_m",
+            "volume_m3"
+          ],
+          "properties": {
+            "shape": {
+              "const": "conical-frustum"
+            },
+            "centre_m": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "radius_bottom_m": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1000
+            },
+            "radius_top_m": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "height_m": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1000
+            },
+            "volume_m3": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1000000000.0
+            }
+          }
+        },
+        "cut": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "shape",
+            "centre_m",
+            "length_m",
+            "depth_m",
+            "width_bottom_m",
+            "width_top_m",
+            "volume_m3"
+          ],
+          "properties": {
+            "shape": {
+              "const": "trapezoidal-prism"
+            },
+            "centre_m": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "length_m": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 10000
+            },
+            "depth_m": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1000
+            },
+            "width_bottom_m": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "width_top_m": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 10000
+            },
+            "volume_m3": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1000000000.0
+            }
+          }
+        }
+      },
+      "description": "Known-volume scene of FR-017-35 with its exact closed-form volumes."
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    }
+  }
+}

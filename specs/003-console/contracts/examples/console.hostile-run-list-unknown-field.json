@@ -1,0 +1,15 @@
+{
+  "runs": [
+    {
+      "run_id": "20261007T210000Z-c2-slope",
+      "recipe": "c2-slope",
+      "created": "2026-10-07T21:00:00Z",
+      "profile": "laptop-rtx5000ada",
+      "state": "running",
+      "stages": 6,
+      "published": false,
+      "valid": true
+    }
+  ],
+  "next": "/runs?page=2"
+}

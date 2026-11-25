@@ -53,7 +53,7 @@
 
   <rect class="box" x="360" y="170" width="400" height="64" rx="8"/>
   <text class="title" x="376" y="196">asset ≤ 25 MB?</text>
-  <text class="item" x="376" y="220">every file the browser loads for it</text>
+  <text class="item" x="376" y="220">its own model or data file (not shared runtimes)</text>
 
   <rect class="box" x="360" y="270" width="400" height="64" rx="8"/>
   <text class="title" x="376" y="296">fast enough on T2 (WASM)?</text>

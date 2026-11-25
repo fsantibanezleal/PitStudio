@@ -1,0 +1,43 @@
+{
+  "reset": "Reset",
+  "showData": "Show data",
+  "hideData": "Hide data",
+  "notAvailable": "not available",
+  "help": "Plus and minus zoom, zero resets, Shift with an arrow pans, an arrow moves the read-out by one sample, Home and End jump to the first and last sample.",
+  "sandbox": {
+    "title": "Chart sandbox",
+    "lead": "Interactive charts used by the browser tests.",
+    "sine": "Sine wave",
+    "kmh": "Speed ramp in source units",
+    "big": "One million samples",
+    "gap": "Series with a gap",
+    "many": "Chart {{n}}",
+    "x": "time",
+    "y": "value",
+    "speed": "speed"
+  },
+  "lower": "lower edge",
+  "upper": "upper edge",
+  "producer": "Produced with {{tool}}, method {{method}}, version {{version}}. {{label}}.",
+  "notRun": "Not run: {{reason}}",
+  "axes": "Horizontal axis: {{x}}. Vertical axis: {{y}}.",
+  "bandDefault": "band of {{name}}",
+  "whisker": "whiskers: interval",
+  "category": "category",
+  "barHelp": "Arrow keys move the read-out from bar group to bar group; Home and End jump to the first and the last; Escape clears it.",
+  "raster": {
+    "help": "Arrow keys move the read-out cell by cell; Escape clears it. Pointing at a cell shows its value.",
+    "noData": "no data"
+  },
+  "section": {
+    "equal": "equal scale on both axes",
+    "radius": "radius {{r}} {{unit}}",
+    "element": "element",
+    "centre": "centre"
+  },
+  "intervalText": "{{level}} % interval [{{lo}}, {{hi}}] {{unit}}",
+  "zeroReference": "no difference",
+  "intervalAxis": "Horizontal axis: value in {{unit}}; each segment is the {{level}} % interval between its end caps.",
+  "intervalHelp": "Arrow keys move the read-out from interval to interval; Escape clears it.",
+  "estimate": "estimate"
+}

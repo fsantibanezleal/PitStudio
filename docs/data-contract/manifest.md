@@ -27,7 +27,7 @@ project's honesty rules:
 | Manifest | Location | Committed? |
 |---|---|---|
 | Run manifest | `runs/<run_id>/manifest.json` in the studio store (`PITSTUDIO_STORE`, default a short path such as `C:\ps` on Windows) | no (local store) |
-| Run events and telemetry | `runs/<run_id>/events.jsonl`, `runs/<run_id>/telemetry.parquet` | no |
+| Run events and telemetry | `runs/<run_id>/events.jsonl`, `runs/<run_id>/telemetry.jsonl` | no |
 | Web asset manifest | `web/public/assets/manifest.json`, baked by `s60_export` and `studio publish` | yes |
 | Accepted model runs | `models/cards/` (model cards with their accepted run manifests) | yes |
 | Published run cards | web data baked by `studio publish <run>` (telemetry downsampled) | yes |
@@ -73,8 +73,8 @@ way the capability report already does it (the repository root becomes `<repo>`,
 
 ### Telemetry (per stage)
 
-NVML is sampled at 1–4 Hz while a stage runs; the full series stays in `telemetry.parquet`, and the manifest stores a
-summary.
+NVML is sampled at 1–4 Hz while a stage runs; the full series stays in `telemetry.jsonl` (one sample per line,
+flushed per line: crash-safe and streamable), and the manifest stores a summary.
 
 | Field | Definition and source |
 |---|---|

@@ -1,0 +1,240 @@
+{
+ "job": "d1-blast-trtr",
+ "kind": "cpu",
+ "case": "D1",
+ "recipe": "cases/d1.yaml",
+ "slug": "d1-blast-design-trtr",
+ "seed": 20261004,
+ "label": "design grids: model output with illustrative site constants (UNVERIFIED), not validated against real data; TRTR metrics: real images (Mendeley Data 78ht3pjsr4, CC BY 4.0), metrics only, no image is published",
+ "producer_paths": [
+  "src/pitstudio/cases/d1",
+  "pipeline/src/pitstudio_pipeline/fragmentation",
+  "pipeline/src/pitstudio_pipeline/chartkit.py",
+  "studio/recipes/cases/d1.yaml"
+ ],
+ "notes": [
+  "Produced on the CPU by pitstudio_pipeline.fragmentation.d1_run (not by the GPU queue); no GPU time is used.",
+  "The five fold models are the outputs of the GPU training run published as 20261011T235848Z-d1-unet-trtr-v2; here they only run inference on the CPU."
+ ],
+ "stages": [
+  {
+   "id": "s50_evaluate",
+   "tool": "pitstudio",
+   "outputs": [
+    {
+     "name": "design-grid-fragmentation.json",
+     "from": "design-grid-fragmentation.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "design-grid-vibration.json",
+     "from": "design-grid-vibration.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "design-grid-flyrock.json",
+     "from": "design-grid-flyrock.json",
+     "kind": "table",
+     "publish": false,
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "fold-report.json",
+     "from": "fold-report.json",
+     "kind": "table",
+     "publish": false,
+     "inputs": [
+      {
+       "id": "mendeley-78ht3pjsr4",
+       "sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "attribution",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+    },
+    {
+     "name": "results-summary.json",
+     "from": "results-summary.json",
+     "kind": "table",
+     "publish": true,
+     "id": "d1-blast-design-trtr-results",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "mendeley-78ht3pjsr4",
+       "sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "attribution",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+    },
+    {
+     "name": "charts/d1-p80-map.json",
+     "from": "charts/d1-p80-map.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-p80-map",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d1-oversize-map.json",
+     "from": "charts/d1-oversize-map.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-oversize-map",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d1-powder-factor-map.json",
+     "from": "charts/d1-powder-factor-map.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-powder-factor-map",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d1-ppv-curves.json",
+     "from": "charts/d1-ppv-curves.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-ppv-curves",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d1-flyrock-curves.json",
+     "from": "charts/d1-flyrock-curves.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-flyrock-curves",
+     "media_type": "application/json",
+     "budget_class": "studio-showcase",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0"
+    },
+    {
+     "name": "charts/d1-fold-iou.json",
+     "from": "charts/d1-fold-iou.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-fold-iou",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "mendeley-78ht3pjsr4",
+       "sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "attribution",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+    },
+    {
+     "name": "charts/d1-psd-pooled.json",
+     "from": "charts/d1-psd-pooled.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-psd-pooled",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "mendeley-78ht3pjsr4",
+       "sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "attribution",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+    },
+    {
+     "name": "charts/d1-psd-per-fold.json",
+     "from": "charts/d1-psd-per-fold.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-psd-per-fold",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "mendeley-78ht3pjsr4",
+       "sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "attribution",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+    },
+    {
+     "name": "charts/d1-training-curves.json",
+     "from": "charts/d1-training-curves.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-training-curves",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "mendeley-78ht3pjsr4",
+       "sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "attribution",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+    },
+    {
+     "name": "charts/d1-fold-table.json",
+     "from": "charts/d1-fold-table.json",
+     "kind": "chart-series",
+     "publish": true,
+     "id": "d1-fold-table",
+     "media_type": "application/json",
+     "inputs": [
+      {
+       "id": "mendeley-78ht3pjsr4",
+       "sha256": "7f4336a4fe1f83e3c828eed4c73e036d7694f94076b6f040e6211315693f402d",
+       "kind": "source"
+      }
+     ],
+     "budget_class": "studio-showcase",
+     "licence_class": "attribution",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Metrics computed on Mendeley Data set 78ht3pjsr4, CC BY 4.0; no image is redistributed."
+    }
+   ]
+  }
+ ]
+}

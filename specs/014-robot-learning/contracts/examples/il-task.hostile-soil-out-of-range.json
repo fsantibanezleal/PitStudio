@@ -1,0 +1,103 @@
+{
+  "policy": "IL-2",
+  "task": "Pit-Excavator-Dig-FEE",
+  "stage": "st60_il_train",
+  "observation_size": 46,
+  "action_size": 4,
+  "control_hz": 10,
+  "observation_layout": [
+    {
+      "segment": "joint_positions",
+      "size": 4
+    },
+    {
+      "segment": "joint_velocities",
+      "size": 4
+    },
+    {
+      "segment": "joint_torques",
+      "size": 4
+    },
+    {
+      "segment": "bucket_tip_pose",
+      "size": 3
+    },
+    {
+      "segment": "terrain_heights",
+      "size": 30
+    },
+    {
+      "segment": "fill_estimate",
+      "size": 1
+    }
+  ],
+  "reward_weights": {
+    "fill_gain": 1.0,
+    "target_fill": 2.0,
+    "stall": 1.0,
+    "lift_off": 0.5,
+    "joint_limit": 0.5,
+    "action_rate": 0.01,
+    "cycle_time": 0.05
+  },
+  "randomisation": {
+    "bulk_density_kg_m3": [
+      1500,
+      2100
+    ],
+    "cohesion_kpa": [
+      0,
+      20
+    ],
+    "adhesion_ratio": [
+      0,
+      0.5
+    ],
+    "friction_angle_deg": [
+      20,
+      40
+    ],
+    "soil_tool_friction_deg": [
+      10,
+      25
+    ],
+    "surcharge_kpa": 0,
+    "face_height_noise_m": 0.3
+  },
+  "seeds": {
+    "train": {
+      "start": 0,
+      "count": 4096
+    },
+    "eval": {
+      "start": 1000000,
+      "count": 100
+    },
+    "tune": {
+      "start": 2000000,
+      "count": 20
+    }
+  },
+  "training": {
+    "num_envs": 3072,
+    "iterations": 3000,
+    "checkpoint_every": 100,
+    "hidden_units": [
+      256,
+      256
+    ],
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_ratio": 0.2,
+    "steps_per_env": 24
+  },
+  "budget": {
+    "vram_gb": 6,
+    "gpu_hours": 16
+  },
+  "evaluation": {
+    "episodes": 100,
+    "deterministic_actions": true,
+    "time_limit_s": 30
+  }
+}

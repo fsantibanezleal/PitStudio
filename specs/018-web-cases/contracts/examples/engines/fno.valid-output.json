@@ -1,0 +1,36 @@
+{
+  "kind": "output",
+  "engine": "fno",
+  "engine_version": "0.1.0",
+  "function": "tailings_field",
+  "result": {
+    "times_s": [
+      450.0,
+      900.0,
+      1350.0,
+      1800.0,
+      2250.0,
+      2700.0,
+      3150.0,
+      3600.0
+    ],
+    "depth_m": {
+      "dtype": "float32",
+      "shape": {
+        "frames": 8,
+        "rows": 64,
+        "cols": 64
+      },
+      "byte_length": 131072
+    },
+    "max_depth_m": {
+      "dtype": "float32",
+      "shape": {
+        "rows": 64,
+        "cols": 64
+      },
+      "byte_length": 16384
+    },
+    "extrapolation": false
+  }
+}

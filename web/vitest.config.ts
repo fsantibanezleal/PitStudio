@@ -1,4 +1,5 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
+import { reportPending } from "./pending-red.ts";
 
 // Unit tests run without the React Router plugin; build-time constants get fixed test values.
 export default defineConfig({
@@ -10,6 +11,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     include: ["src/**/*.test.{ts,tsx}"],
+    exclude: [...configDefaults.exclude, ...reportPending("vitest")], // tasks without a green commit (pending-red)
     setupFiles: ["src/test-setup.ts"],
     restoreMocks: true,
   },

@@ -1,0 +1,28 @@
+{
+  "kind": "input",
+  "engine": "routing",
+  "engine_version": "0.1.0",
+  "function": "route",
+  "args": {
+    "dem": {
+      "artefact": "bingham-dem-8m-tile",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 1048576
+    },
+    "rows": 1025,
+    "cols": 512,
+    "cell_size_m": 8.0,
+    "start": {
+      "row": 10,
+      "col": 12
+    },
+    "goal": {
+      "row": 400,
+      "col": 380
+    },
+    "grade_max": 0.1,
+    "mass_kg": 380000.0,
+    "efficiency": 0.85,
+    "rolling_resistance": 0.025
+  }
+}

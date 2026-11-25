@@ -1,0 +1,224 @@
+{
+ "caption": {
+  "en": "Share of 87629 valid hours, 2015-01-01 to 2024-12-31 UTC, by direction the wind blows from and speed. Calm 11.3 %, variable 3.2 %.",
+  "es": "Porcentaje de 87629 horas validas, 2015-01-01 a 2024-12-31 UTC, por direccion de origen y velocidad. Calma 11.3 %, variable 3.2 %."
+ },
+ "case": "C3",
+ "categories": [
+  {
+   "id": "n",
+   "label": {
+    "en": "N",
+    "es": "N"
+   }
+  },
+  {
+   "id": "nne",
+   "label": {
+    "en": "NNE",
+    "es": "NNE"
+   }
+  },
+  {
+   "id": "ne",
+   "label": {
+    "en": "NE",
+    "es": "NE"
+   }
+  },
+  {
+   "id": "ene",
+   "label": {
+    "en": "ENE",
+    "es": "ENE"
+   }
+  },
+  {
+   "id": "e",
+   "label": {
+    "en": "E",
+    "es": "E"
+   }
+  },
+  {
+   "id": "ese",
+   "label": {
+    "en": "ESE",
+    "es": "ESE"
+   }
+  },
+  {
+   "id": "se",
+   "label": {
+    "en": "SE",
+    "es": "SE"
+   }
+  },
+  {
+   "id": "sse",
+   "label": {
+    "en": "SSE",
+    "es": "SSE"
+   }
+  },
+  {
+   "id": "s",
+   "label": {
+    "en": "S",
+    "es": "S"
+   }
+  },
+  {
+   "id": "ssw",
+   "label": {
+    "en": "SSW",
+    "es": "SSO"
+   }
+  },
+  {
+   "id": "sw",
+   "label": {
+    "en": "SW",
+    "es": "SO"
+   }
+  },
+  {
+   "id": "wsw",
+   "label": {
+    "en": "WSW",
+    "es": "OSO"
+   }
+  },
+  {
+   "id": "w",
+   "label": {
+    "en": "W",
+    "es": "O"
+   }
+  },
+  {
+   "id": "wnw",
+   "label": {
+    "en": "WNW",
+    "es": "ONO"
+   }
+  },
+  {
+   "id": "nw",
+   "label": {
+    "en": "NW",
+    "es": "NO"
+   }
+  },
+  {
+   "id": "nnw",
+   "label": {
+    "en": "NNW",
+    "es": "NNO"
+   }
+  }
+ ],
+ "chart_type": "bar",
+ "id": "c3-wind-rose",
+ "kind": "chart-series",
+ "producer": {
+  "label": "screening Gaussian plume, not AERMOD; illustrative scenario, not validated against measured concentrations",
+  "method": "US EPA AP-42 13.2.2 equation 1a unpaved-road PM10 factor; ISC3 Gaussian plume with ground reflection, Pasquill-Gifford rural dispersion",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "id": "speed-1",
+   "label": {
+    "en": "0 to 3 m/s",
+    "es": "0 a 3 m/s"
+   },
+   "y": [
+    2.999,
+    0.7429,
+    0.45761,
+    0.35833,
+    0.91294,
+    1.9731,
+    4.0432,
+    3.6723,
+    3.0241,
+    1.0122,
+    0.9506,
+    1.0339,
+    2.0518,
+    1.4721,
+    1.7814,
+    1.9069
+   ]
+  },
+  {
+   "id": "speed-2",
+   "label": {
+    "en": "3 to 6 m/s",
+    "es": "3 a 6 m/s"
+   },
+   "y": [
+    5.2768,
+    0.69498,
+    0.21682,
+    0.13124,
+    0.55233,
+    2.9579,
+    8.2085,
+    6.9988,
+    4.0352,
+    0.59227,
+    0.37202,
+    0.40626,
+    1.6855,
+    2.3919,
+    3.9268,
+    4.8101
+   ]
+  },
+  {
+   "id": "speed-3",
+   "label": {
+    "en": "above 6 m/s",
+    "es": "sobre 6 m/s"
+   },
+   "y": [
+    1.1104,
+    0.18031,
+    0.039941,
+    0.015976,
+    0.16433,
+    0.23508,
+    0.75203,
+    2.4889,
+    4.4894,
+    0.38458,
+    0.085588,
+    0.094718,
+    0.53293,
+    0.6208,
+    1.043,
+    1.6616
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-16",
+  "FR-018-51"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Wind rose of the station record",
+  "es": "Rosa de vientos del registro de la estacion"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Share of hours, wind from this direction",
+   "es": "Porcentaje de horas, viento desde esta direccion"
+  },
+  "unit": "%"
+ }
+}

@@ -1,0 +1,76 @@
+{
+  "spec": "000-foundation",
+  "examples": [
+    {
+      "file": "modules.valid.json",
+      "schema": "modules.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "excerpt of modules.yaml: one promoted edge with its two modules and its contract"
+    },
+    {
+      "file": "modules.hostile-unknown-availability-state.json",
+      "schema": "modules.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown availability state",
+      "rule": "FR-000-22",
+      "pointer": "/edges/0/availability",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "modules.hostile-missing-consumer-behaviour.json",
+      "schema": "modules.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "availability state without consumer behaviour",
+      "rule": "FR-000-22",
+      "pointer": "/edges/0/availability/stale",
+      "keyword": "required"
+    },
+    {
+      "file": "modules.hostile-unbounded-string.json",
+      "schema": "modules.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "string beyond its maxLength",
+      "rule": "FR-000-21",
+      "pointer": "/modules/0/title",
+      "keyword": "maxLength"
+    },
+    {
+      "file": "modules.hostile-unknown-contract-kind.json",
+      "schema": "modules.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown contract schema state",
+      "rule": "FR-000-21",
+      "pointer": "/contracts/0/schema_state",
+      "keyword": "enum"
+    },
+    {
+      "file": "modules.hostile-unknown-module-kind.json",
+      "schema": "modules.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "unknown module kind",
+      "rule": "FR-000-21",
+      "pointer": "/modules/0/kind",
+      "keyword": "enum"
+    }
+  ],
+  "not_schema_checkable": [
+    {
+      "schema": "modules.schema.json",
+      "class": "edge that introduces a cycle in the module graph",
+      "by": "tools/check_modules.py",
+      "rule": "FR-000-21"
+    },
+    {
+      "schema": "modules.schema.json",
+      "class": "edge naming a module or contract that does not exist",
+      "by": "tools/check_modules.py",
+      "rule": "FR-000-21"
+    }
+  ]
+}

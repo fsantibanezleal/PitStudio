@@ -1,0 +1,331 @@
+{
+ "caption": {
+  "en": "Saltelli/Jansen estimate with 17408 chain evaluations (N = 1024, seed 20261124); bars show the 95 percent bootstrap interval.",
+  "es": "Estimacion Saltelli/Jansen con 17408 evaluaciones (N = 1024, semilla 20261124); las barras muestran el intervalo bootstrap de 95 por ciento."
+ },
+ "case": "D2",
+ "categories": [
+  {
+   "id": "burden-m",
+   "label": {
+    "en": "Burden",
+    "es": "Piedra"
+   }
+  },
+  {
+   "id": "spacing-ratio",
+   "label": {
+    "en": "Spacing ratio S/B",
+    "es": "Razon de espaciamiento S/B"
+   }
+  },
+  {
+   "id": "powder-factor-kg-per-m3",
+   "label": {
+    "en": "Powder factor",
+    "es": "Factor de carga"
+   }
+  },
+  {
+   "id": "hole-diameter-mm",
+   "label": {
+    "en": "Hole diameter",
+    "es": "Diametro de perforacion"
+   }
+  },
+  {
+   "id": "bench-height-m",
+   "label": {
+    "en": "Bench height",
+    "es": "Altura de banco"
+   }
+  },
+  {
+   "id": "rock-factor",
+   "label": {
+    "en": "Rock factor",
+    "es": "Factor de roca"
+   }
+  },
+  {
+   "id": "bond-work-index-kwh-per-t",
+   "label": {
+    "en": "Bond work index",
+    "es": "Indice de trabajo de Bond"
+   }
+  },
+  {
+   "id": "crusher-css-mm",
+   "label": {
+    "en": "Crusher setting",
+    "es": "Abertura del chancador"
+   }
+  },
+  {
+   "id": "target-p80-um",
+   "label": {
+    "en": "Target P80",
+    "es": "P80 objetivo"
+   }
+  },
+  {
+   "id": "mill-power-kw",
+   "label": {
+    "en": "Mill power",
+    "es": "Potencia del molino"
+   }
+  },
+  {
+   "id": "efficiency",
+   "label": {
+    "en": "Efficiency",
+    "es": "Eficiencia"
+   }
+  },
+  {
+   "id": "energy-cap-kwh-per-t",
+   "label": {
+    "en": "Energy cap (not used by the chain)",
+    "es": "Tope de energia (no usado por la cadena)"
+   }
+  },
+  {
+   "id": "explosive-cost-usd-per-kg",
+   "label": {
+    "en": "Explosive cost",
+    "es": "Costo del explosivo"
+   }
+  },
+  {
+   "id": "energy-cost-usd-per-kwh",
+   "label": {
+    "en": "Energy cost",
+    "es": "Costo de la energia"
+   }
+  },
+  {
+   "id": "consumables-usd-per-t",
+   "label": {
+    "en": "Consumables",
+    "es": "Consumibles"
+   }
+  }
+ ],
+ "chart_type": "bar",
+ "id": "d2-sobol-total",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic, not validated against real data",
+  "method": "Kuz-Ram/KCO blast, Whiten crusher, Bond law and cost chain; scrambled-Sobol sweeps and Saltelli/Jansen Sobol indices",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "95 percent bootstrap interval",
+    "es": "Intervalo bootstrap de 95 por ciento"
+   },
+   "hi": [
+    2.1666812847560331e-07,
+    1.6370307839054005e-08,
+    5.592370456908463e-08,
+    2.2255865191855796e-08,
+    3.68601010899477e-08,
+    1.6806672422090288e-07,
+    0.648672183260412,
+    0.0005102047319642073,
+    0.4713829213217922,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "id": "energy",
+   "label": {
+    "en": "Specific energy",
+    "es": "Energia especifica"
+   },
+   "lo": [
+    1.7366023124380353e-07,
+    1.1816528122819826e-08,
+    4.28237092206569e-08,
+    1.6355588812196105e-08,
+    2.7719218301164167e-08,
+    1.3514561334946045e-07,
+    0.5398831610315522,
+    0.0004243893857308586,
+    0.3983240874570622,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "n": 17408,
+   "y": [
+    1.9502959694024536e-07,
+    1.397291884579367e-08,
+    4.8351862917056325e-08,
+    1.9163085945918603e-08,
+    3.230572324579288e-08,
+    1.503343559323679e-07,
+    0.5916186280499234,
+    0.00046658243697334965,
+    0.43390762375631153,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 percent bootstrap interval",
+    "es": "Intervalo bootstrap de 95 por ciento"
+   },
+   "hi": [
+    1.3673169996821655e-07,
+    1.1026771723347006e-08,
+    3.121016375496468e-08,
+    1.1279895237222676e-08,
+    2.7929983640437757e-08,
+    1.0003119054620186e-07,
+    0.3356841788791706,
+    0.00030863323920407126,
+    0.17768499770833332,
+    0.6463300937607187,
+    0.05164104269206517,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "id": "throughput",
+   "label": {
+    "en": "Mill throughput",
+    "es": "Rendimiento de la planta"
+   },
+   "lo": [
+    1.0233903230226614e-07,
+    6.821230150738669e-09,
+    2.2538484729206914e-08,
+    7.988264823601124e-09,
+    1.4832115937817176e-08,
+    7.295407924692359e-08,
+    0.2689492365989681,
+    0.00023795269383198995,
+    0.13927324590012674,
+    0.5121334494369265,
+    0.040868416570092825,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "n": 17408,
+   "y": [
+    1.1933530023832503e-07,
+    8.521914776291675e-09,
+    2.6454447932151404e-08,
+    9.685248018341506e-09,
+    2.072430329033905e-08,
+    8.61412991009973e-08,
+    0.3022112754600693,
+    0.00027173560245849943,
+    0.1572241121808434,
+    0.5807169464565022,
+    0.04603527488636552,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 percent bootstrap interval",
+    "es": "Intervalo bootstrap de 95 por ciento"
+   },
+   "hi": [
+    8.503913050398759e-08,
+    6.557252866103999e-09,
+    0.019648389217383645,
+    9.88133465567874e-09,
+    1.4297422994100965e-08,
+    6.50940880174029e-08,
+    0.2546495242258487,
+    0.00020090382721529707,
+    0.18170095851975077,
+    0.0,
+    0.0,
+    0.0,
+    0.014410607057791805,
+    0.5431544890013038,
+    0.15074361478371961
+   ],
+   "id": "cost",
+   "label": {
+    "en": "Cost per tonne",
+    "es": "Costo por tonelada"
+   },
+   "lo": [
+    6.515230936413926e-08,
+    4.363026629518294e-09,
+    0.01566391719494842,
+    6.227400698647435e-09,
+    1.0098205357696577e-08,
+    4.8976595551755974e-08,
+    0.2033661075406648,
+    0.00015840634282844094,
+    0.14486357981116615,
+    0.0,
+    0.0,
+    0.0,
+    0.011648847656754722,
+    0.4421641991059296,
+    0.12565028334919975
+   ],
+   "n": 17408,
+   "y": [
+    7.436123520034627e-08,
+    5.358267908054524e-09,
+    0.01745053765164811,
+    7.885376447305675e-09,
+    1.2429985339397782e-08,
+    5.707459127898222e-08,
+    0.22641475006496178,
+    0.00017715059764637466,
+    0.1646850432474861,
+    0.0,
+    0.0,
+    0.0,
+    0.013062927110524706,
+    0.49312180931038224,
+    0.13818063804593672
+   ]
+  }
+ ],
+ "serves": [
+  "FR-017-01",
+  "FR-017-02"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Total Sobol index of each input",
+  "es": "Indice de Sobol total de cada entrada"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Total Sobol index",
+   "es": "Indice de Sobol total"
+  },
+  "unit": "1"
+ }
+}

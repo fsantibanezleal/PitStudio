@@ -1,0 +1,373 @@
+{
+ "schema_version": "1.0",
+ "volumes": [
+  {
+   "id": "bingham-2000-2018-pit-outline",
+   "scope": "real",
+   "method": "dem-differencing",
+   "status": "ok",
+   "label": "measurement, not validation",
+   "licence": {
+    "spdx": "LicenseRef-USGov-PD",
+    "licence_class": "public-domain",
+    "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+   },
+   "surfaces": {
+    "before": {
+     "path": "data/raw/srtm-gl1-bingham/srtm-gl1-n40w113.tif",
+     "sha256": "f855eeb49139b416a2bad301d8fee9ee35c0118232b0707d43fad0f5ff069390",
+     "epoch": "2000",
+     "project": "SRTM GL1 (Shuttle Radar Topography Mission, 1 arc-second, STS-99, 2000-02-11 to 2000-02-21)",
+     "crs": "EPSG:4326",
+     "vertical_datum": "EGM96",
+     "rmse_z_m": 7.046447423059538
+    },
+    "after": {
+     "path": "data/processed/dem-2018-30m.tif",
+     "sha256": "22e708150c0852bea83849220e2162cf17f6d065eba5073ba0951bfd701dbfb8",
+     "epoch": "2018",
+     "project": "UT Central QL2 2018",
+     "crs": "EPSG:26912",
+     "vertical_datum": "NAVD88",
+     "rmse_z_m": 0.1
+    }
+   },
+   "grid": {
+    "cell_m": 30.0,
+    "shape": [
+     78,
+     90
+    ],
+    "origin_m": [
+     401070.0,
+     4485420.0
+    ],
+    "crs": "EPSG:26912"
+   },
+   "resampling": {
+    "method": "bilinear",
+    "source_crs": "EPSG:4326"
+   },
+   "vertical_transform": {
+    "kind": "grid",
+    "grid": {
+     "path": "data/processed/datum-navd88-minus-egm96.tif",
+     "sha256": "efb0a52bf05b66048e0880f86f3798e41bdd6fdc2ef2c94957758dd301591dc1"
+    },
+    "source": "height of NAVD88 minus height of EGM96 from the PROJ grids us_nga_egm96_15 (EGM96, NGA) and us_noaa_g2018u0 (GEOID18, NOAA), evaluated at the cell centres"
+   },
+   "polygon": {
+    "vertices": [
+     [
+      401116.2120800086,
+      4486109.907096306
+     ],
+     [
+      401194.1443110398,
+      4485943.469455146
+     ],
+     [
+      401206.8944413557,
+      4485894.549343943
+     ],
+     [
+      401201.91552254197,
+      4485836.045445847
+     ],
+     [
+      401222.7652256848,
+      4485785.435245063
+     ],
+     [
+      401360.8937472182,
+      4485671.850557374
+     ],
+     [
+      401488.5783392682,
+      4485601.468724143
+     ],
+     [
+      401548.31321842107,
+      4485591.634945128
+     ],
+     [
+      401794.4871511752,
+      4485597.625231169
+     ],
+     [
+      402131.54602947104,
+      4485499.1370079415
+     ],
+     [
+      402214.66641113476,
+      4485514.684291169
+     ],
+     [
+      402514.1850854916,
+      4485465.518300398
+     ],
+     [
+      402714.90426787245,
+      4485484.376752993
+     ],
+     [
+      402956.63724232966,
+      4485554.573930931
+     ],
+     [
+      403235.0438754811,
+      4485756.647575008
+     ],
+     [
+      403320.03638908104,
+      4485862.667444693
+     ],
+     [
+      403387.99403117225,
+      4485870.749339905
+     ],
+     [
+      403436.18860227097,
+      4485902.708637767
+     ],
+     [
+      403553.5528532405,
+      4486073.369689178
+     ],
+     [
+      403671.1608542829,
+      4486289.652972877
+     ],
+     [
+      403721.5346214113,
+      4486568.569889016
+     ],
+     [
+      403709.91694589914,
+      4486677.69115966
+     ],
+     [
+      403683.64748157124,
+      4486751.41245746
+     ],
+     [
+      403568.2535872728,
+      4486925.704117959
+     ],
+     [
+      403515.69594036625,
+      4487070.105372946
+     ],
+     [
+      403489.840304976,
+      4487100.90765471
+     ],
+     [
+      403445.1944911822,
+      4487122.2150366735
+     ],
+     [
+      403373.5278784347,
+      4487291.343573088
+     ],
+     [
+      403305.7065917284,
+      4487360.759447185
+     ],
+     [
+      403223.34353188844,
+      4487414.648848567
+     ],
+     [
+      402944.23732666706,
+      4487533.922986614
+     ],
+     [
+      402820.7288790329,
+      4487610.320618674
+     ],
+     [
+      402761.6084955555,
+      4487668.093499764
+     ],
+     [
+      402649.4659699652,
+      4487706.009632792
+     ],
+     [
+      402591.23699178814,
+      4487701.823156015
+     ],
+     [
+      402435.5681480237,
+      4487664.384692453
+     ],
+     [
+      402361.3487521328,
+      4487633.261137358
+     ],
+     [
+      402299.8454279692,
+      4487626.659907746
+     ],
+     [
+      402135.3939085542,
+      4487527.509403001
+     ],
+     [
+      401849.5450826621,
+      4486966.478858174
+     ],
+     [
+      401823.4206187547,
+      4486881.558332945
+     ],
+     [
+      401759.1193079546,
+      4486753.799392724
+     ],
+     [
+      401708.7131915842,
+      4486721.384827468
+     ],
+     [
+      401644.2146392828,
+      4486629.043540545
+     ],
+     [
+      401559.438578432,
+      4486613.956679743
+     ],
+     [
+      401492.4409192927,
+      4486583.399687071
+     ],
+     [
+      401396.73541601596,
+      4486528.722076746
+     ],
+     [
+      401326.4264986533,
+      4486459.1226564245
+     ],
+     [
+      401255.6339561762,
+      4486430.0066562295
+     ],
+     [
+      401176.77557013195,
+      4486337.139735376
+     ],
+     [
+      401120.37178361404,
+      4486169.791861769
+     ]
+    ],
+    "source": "scene A1 pit outline (an st20 input derived from the 2018 DEM, not the Tang and Werner footprint) intersected with the 3DEP query box",
+    "overlap_ratio": 1.0
+   },
+   "v_cut_m3": 546843326.9596374,
+   "v_fill_m3": 9497.977041391732,
+   "v_net_m3": -546833828.982596,
+   "cells": {
+    "valid": 4340,
+    "nodata": 0,
+    "nodata_fraction": 0.0
+   },
+   "uncertainty_m3": {
+    "uncorrelated": 417831.6356962478,
+    "correlated": 27526195.104346193
+   }
+  },
+  {
+   "id": "bingham-2000-2018-query-box",
+   "scope": "real",
+   "method": "dem-differencing",
+   "status": "ok",
+   "label": "measurement, not validation",
+   "licence": {
+    "spdx": "LicenseRef-USGov-PD",
+    "licence_class": "public-domain",
+    "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+   },
+   "surfaces": {
+    "before": {
+     "path": "data/raw/srtm-gl1-bingham/srtm-gl1-n40w113.tif",
+     "sha256": "f855eeb49139b416a2bad301d8fee9ee35c0118232b0707d43fad0f5ff069390",
+     "epoch": "2000",
+     "project": "SRTM GL1 (Shuttle Radar Topography Mission, 1 arc-second, STS-99, 2000-02-11 to 2000-02-21)",
+     "crs": "EPSG:4326",
+     "vertical_datum": "EGM96",
+     "rmse_z_m": 7.046447423059538
+    },
+    "after": {
+     "path": "data/processed/dem-2018-30m.tif",
+     "sha256": "22e708150c0852bea83849220e2162cf17f6d065eba5073ba0951bfd701dbfb8",
+     "epoch": "2018",
+     "project": "UT Central QL2 2018",
+     "crs": "EPSG:26912",
+     "vertical_datum": "NAVD88",
+     "rmse_z_m": 0.1
+    }
+   },
+   "grid": {
+    "cell_m": 30.0,
+    "shape": [
+     334,
+     161
+    ],
+    "origin_m": [
+     399990.0,
+     4479990.0
+    ],
+    "crs": "EPSG:26912"
+   },
+   "resampling": {
+    "method": "bilinear",
+    "source_crs": "EPSG:4326"
+   },
+   "vertical_transform": {
+    "kind": "grid",
+    "grid": {
+     "path": "data/processed/datum-navd88-minus-egm96.tif",
+     "sha256": "efb0a52bf05b66048e0880f86f3798e41bdd6fdc2ef2c94957758dd301591dc1"
+    },
+    "source": "height of NAVD88 minus height of EGM96 from the PROJ grids us_nga_egm96_15 (EGM96, NGA) and us_noaa_g2018u0 (GEOID18, NOAA), evaluated at the cell centres"
+   },
+   "polygon": {
+    "vertices": [
+     [
+      399990.0,
+      4479990.0
+     ],
+     [
+      404820.0,
+      4479990.0
+     ],
+     [
+      404820.0,
+      4490010.0
+     ],
+     [
+      399990.0,
+      4490010.0
+     ]
+    ],
+    "source": "provisional: no mining-footprint polygon intersects the 3DEP query box, so the area of interest is the whole query box and the site label stays provisional",
+    "overlap_ratio": 0.0
+   },
+   "v_cut_m3": 1308545511.084959,
+   "v_fill_m3": 324308411.3259001,
+   "v_net_m3": -984237099.759059,
+   "cells": {
+    "valid": 48575,
+    "nodata": 5199,
+    "nodata_fraction": 0.0966824115743668
+   },
+   "uncertainty_m3": {
+    "uncorrelated": 1397857.3647949093,
+    "correlated": 308084084.60682404
+   }
+  }
+ ]
+}

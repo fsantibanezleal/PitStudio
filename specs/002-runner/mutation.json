@@ -1,0 +1,30 @@
+{
+  "tool": "cosmic-ray 8.7.0 (uniform random sample of 30 mutants per module, seed 20261012, of 589, 332 and 597 generated; 60 s per-mutant timeout; fast in-process test subset)",
+  "date": "2026-10-12",
+  "git_sha": "0ad7a9d6306def2f0fbcf95ded8d9fe0fb63abc7",
+  "modules": {
+    "src/pitstudio/runner/cache.py": {
+      "killed": 27,
+      "survived": 3,
+      "timeout": 0,
+      "total": 30
+    },
+    "src/pitstudio/runner/guards.py": {
+      "killed": 30,
+      "survived": 0,
+      "timeout": 0,
+      "total": 30
+    },
+    "src/pitstudio/runner/telemetry.py": {
+      "killed": 30,
+      "survived": 0,
+      "timeout": 0,
+      "total": 30
+    }
+  },
+  "score": 0.9666666666666667,
+  "notes": [
+    "The three survivors of cache.py are two type-annotation operators and one number in the 256 MiB bound of Store.verify, which needs a 256 MiB file to observe.",
+    "A full run of the 1518 generated mutants was not finished: the machine was saturated by other sessions and one mutant took minutes."
+  ]
+}

@@ -1,0 +1,115 @@
+{
+ "caption": {
+  "en": "20,000 particles, 5 seeds; the mean bar carries the 95 % interval of the mean.",
+  "es": "20,000 part\u00edculas, 5 semillas; la barra de la media lleva su intervalo del 95 %."
+ },
+ "case": "A3",
+ "categories": [
+  {
+   "id": "seed-10",
+   "label": {
+    "en": "Seed 10",
+    "es": "Semilla 10"
+   }
+  },
+  {
+   "id": "seed-11",
+   "label": {
+    "en": "Seed 11",
+    "es": "Semilla 11"
+   }
+  },
+  {
+   "id": "seed-12",
+   "label": {
+    "en": "Seed 12",
+    "es": "Semilla 12"
+   }
+  },
+  {
+   "id": "seed-13",
+   "label": {
+    "en": "Seed 13",
+    "es": "Semilla 13"
+   }
+  },
+  {
+   "id": "seed-14",
+   "label": {
+    "en": "Seed 14",
+    "es": "Semilla 14"
+   }
+  },
+  {
+   "id": "mean",
+   "label": {
+    "en": "Mean",
+    "es": "Media"
+   }
+  }
+ ],
+ "chart_type": "bar",
+ "id": "a3-repose-by-seed",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic, not validated against real data",
+  "method": "granular discrete element model, repose angle of the settled heap",
+  "tool": "warp",
+  "version": "1.17.0"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "95 % interval of the mean, Student t, n = 5",
+    "es": "Intervalo del 95 % de la media, t de Student, n = 5"
+   },
+   "hi": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    27.8715
+   ],
+   "id": "repose",
+   "label": {
+    "en": "Angle of repose",
+    "es": "\u00c1ngulo de reposo"
+   },
+   "lo": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    26.4434
+   ],
+   "y": [
+    27.2201,
+    26.2083,
+    27.6281,
+    27.1304,
+    27.6001,
+    27.1574
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-86",
+  "FR-018-16",
+  "FR-020-56"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Angle of repose by seed",
+  "es": "\u00c1ngulo de reposo por semilla"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Angle of repose",
+   "es": "\u00c1ngulo de reposo"
+  },
+  "unit": "deg"
+ }
+}

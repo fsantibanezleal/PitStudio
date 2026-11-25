@@ -1,0 +1,58 @@
+{
+ "job": "21-dem-repose-n20k",
+ "case": "A3",
+ "recipe": "cases/a3.yaml",
+ "slug": "a3-dem-repose-20k",
+ "seed": 10,
+ "label": "calibrated synthetic, not validated against real data",
+ "gpu_hours": {
+  "file": "results.json",
+  "path": [
+   "runs"
+  ],
+  "each": "stepping_wall_s",
+  "divide": 3600
+ },
+ "notes": [
+  "GPU-hours are the summed stepping wall time of the five seeds, from results.json."
+ ],
+ "stages": [
+  {
+   "id": "st50_physics",
+   "tool": "warp",
+   "outputs": [
+    {
+     "name": "results.json",
+     "from": "results.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": false,
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "required_fields": [
+      "summary",
+      "seeds",
+      "repose_angles_deg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s50_evaluate",
+   "tool": "pitstudio",
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "derive": "a3-summary",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "id": "a3-dem-repose-results"
+    }
+   ]
+  }
+ ]
+}

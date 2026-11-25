@@ -1,0 +1,54 @@
+{
+ "extra": {
+  "particles": 20000,
+  "protocol": "funnel radius 5 d, batches fed from the resting heap top, settle p99 < 0.01 m/s, N=20000, CUDA",
+  "steps_per_s_mean": 2392.5
+ },
+ "headline": [
+  {
+   "name": "Mean repose angle",
+   "note": "5 seeds",
+   "unit": "deg",
+   "value": 27.1574
+  },
+  {
+   "name": "95 % interval half-width",
+   "note": "Student t",
+   "unit": "deg",
+   "value": 0.7141
+  },
+  {
+   "name": "Seed standard deviation",
+   "unit": "deg",
+   "value": 0.5751
+  }
+ ],
+ "label": "calibrated synthetic, not validated against real data",
+ "methods": [
+  "M7"
+ ],
+ "rows": [
+  {
+   "repose_deg": 27.22,
+   "seed": 10
+  },
+  {
+   "repose_deg": 26.208,
+   "seed": 11
+  },
+  {
+   "repose_deg": 27.628,
+   "seed": 12
+  },
+  {
+   "repose_deg": 27.13,
+   "seed": 13
+  },
+  {
+   "repose_deg": 27.6,
+   "seed": 14
+  }
+ ],
+ "title": "Granular repose angle of the discrete element model at 20,000 particles, five seeds",
+ "verdict": "ok"
+}

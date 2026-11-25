@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "kind": "terrain-grid",
+  "frame": "site-enu",
+  "layout": "north-up",
+  "up_axis": "Z",
+  "horizontal_unit": "m",
+  "vertical_unit": "m",
+  "cell_size_m": 1.0,
+  "rows": 4000,
+  "cols": 4000,
+  "x_min_m": -2000.0,
+  "y_max_m": 2000.0,
+  "origin": {
+    "epsg": 26912,
+    "easting_m": 406500.0,
+    "northing_m": 4484500.0,
+    "z0_m": 1800.0
+  },
+  "crs": {
+    "horizontal": {
+      "epsg": 26912
+    },
+    "vertical": {
+      "epsg": 5703
+    },
+    "horizontal_unit": {
+      "name": "metre",
+      "factor_to_m": 1.0
+    },
+    "vertical_unit": {
+      "name": "metre",
+      "factor_to_m": 1.0
+    }
+  },
+  "input_kind": "dem",
+  "method": "dem-crop",
+  "source_ids": [
+    "usgs-3dep-bingham"
+  ],
+  "project": "UT Central QL2 2018",
+  "epoch": 2018,
+  "arrays": {
+    "elevation": {
+      "dtype": "float32",
+      "unit": "m",
+      "shape": [
+        4000,
+        4000
+      ],
+      "chunk_shape": [
+        512,
+        512
+      ],
+      "sha256": "7b961cd56183d759c6597ecf1f2c989cdc97f8292d6f676a590bb138e4ca356a"
+    },
+    "valid_mask": {
+      "dtype": "bool",
+      "shape": [
+        4000,
+        4000
+      ],
+      "chunk_shape": [
+        512,
+        512
+      ],
+      "sha256": "22d6f7bd04444c70fa389ec5b6998ec94c22b051b7719e8e6d1df41ea1cdad86"
+    },
+    "fill_mask": {
+      "dtype": "bool",
+      "shape": [
+        4000,
+        4000
+      ],
+      "chunk_shape": [
+        512,
+        512
+      ],
+      "sha256": "b1864626e1e0dc202fcdfe16b5968424a470ad22707fbbd7e84b9baaa11a650f"
+    }
+  },
+  "counts": {
+    "valid_cells": 15990000,
+    "filled_cells": 120,
+    "nodata_cells": 10000,
+    "unfilled_holes": 3,
+    "rejected_non_finite": 0,
+    "rejected_sentinel": 10120,
+    "rejected_out_of_range": 0
+  },
+  "nodata_frac": 0.06,
+  "max_fill_cells": 16,
+  "elevation_range_m": {
+    "min": -420.5,
+    "max": 610.25
+  },
+  "source_elevation_range_m": {
+    "min": 1379.5,
+    "max": 2410.25
+  }
+}

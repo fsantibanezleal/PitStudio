@@ -1,0 +1,126 @@
+{
+ "job": "c3-dust",
+ "kind": "cpu",
+ "case": "C3",
+ "recipe": "cases/c3.yaml",
+ "slug": "c3-dust",
+ "seed": 0,
+ "label": "screening Gaussian plume, not AERMOD; illustrative scenario, not validated against measured concentrations: AP-42 equation 1a and ISC3 plume of minephys with real GHCNh wind 2015 to 2024",
+ "producer_paths": [
+  "pipeline/src/pitstudio_pipeline/dust",
+  "pipeline/src/pitstudio_pipeline/chartkit.py",
+  "studio/recipes/cases/c3.yaml"
+ ],
+ "notes": [
+  "Produced on the CPU by pitstudio_pipeline.dust.c3_run (not by the GPU queue); no GPU time is used.",
+  "Scenario values (silt, traffic on every road edge, release height, stability class D, receptors) are illustrative and UNVERIFIED for the site; GHCNh quality-code meanings are UNVERIFIED; water use is not computed (needs the haulage schedule)."
+ ],
+ "stages": [
+  {
+   "id": "s05_synthesize",
+   "tool": "minephys",
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "from": "results-summary.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c3-dust-results",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain).",
+     "required_fields": [
+      "headline",
+      "extra"
+     ]
+    },
+    {
+     "name": "charts/c3-ef-vs-silt.json",
+     "from": "charts/c3-ef-vs-silt.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c3-ef-vs-silt",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Emission factor: US EPA AP-42 section 13.2.2 Unpaved Roads (public domain); curves computed by minephys."
+    },
+    {
+     "name": "charts/c3-ef-vs-weight.json",
+     "from": "charts/c3-ef-vs-weight.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c3-ef-vs-weight",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Emission factor: US EPA AP-42 section 13.2.2 Unpaved Roads (public domain); curves computed by minephys."
+    },
+    {
+     "name": "charts/c3-ef-table.json",
+     "from": "charts/c3-ef-table.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c3-ef-table",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Emission factor: US EPA AP-42 section 13.2.2 Unpaved Roads (public domain); curves computed by minephys."
+    },
+    {
+     "name": "charts/c3-wind-rose.json",
+     "from": "charts/c3-wind-rose.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c3-wind-rose",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain)."
+    },
+    {
+     "name": "charts/c3-plume-map.json",
+     "from": "charts/c3-plume-map.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c3-plume-map",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain)."
+    },
+    {
+     "name": "charts/c3-conc-vs-distance.json",
+     "from": "charts/c3-conc-vs-distance.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c3-conc-vs-distance",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain)."
+    },
+    {
+     "name": "charts/c3-receptor-concentration.json",
+     "from": "charts/c3-receptor-concentration.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "c3-receptor-concentration",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain)."
+    }
+   ]
+  }
+ ]
+}

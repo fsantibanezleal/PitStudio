@@ -1,0 +1,24 @@
+{
+  "kind": "input",
+  "engine": "detector",
+  "engine_version": "0.1.0",
+  "function": "evaluate_all",
+  "args": {
+    "model": {
+      "artefact": "b2-d-fine-n-fp16",
+      "sha256": "3f1c2b9a8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a",
+      "bytes": 8000000
+    },
+    "variant": "d-fine-n-fp16",
+    "frame": {
+      "dtype": "uint8",
+      "shape": {
+        "rows": 640,
+        "cols": 640,
+        "channels": 3
+      },
+      "byte_length": 1228800
+    },
+    "score_threshold": 0.5
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "input",
+  "engine": "haulage",
+  "engine_version": "0.1.0",
+  "function": "mmc_queue",
+  "args": {
+    "arrival_rate_per_s": 0.01,
+    "service_rate_per_s": 0.0066667,
+    "servers": 2
+  }
+}

@@ -1,0 +1,456 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/tools.schema.json",
+  "title": "PitStudio tool registry",
+  "description": "The studio tool registry studio/tools.yaml (DC-001-03, spec 001-contracts).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tools"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "editor hint; ignored by consumers"
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      },
+      "minItems": 1,
+      "maxItems": 64
+    }
+  },
+  "$defs": {
+    "tool_id": {
+      "type": "string",
+      "maxLength": 48,
+      "pattern": "^[a-z][a-z0-9-]{1,47}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "package": {
+      "type": "string",
+      "maxLength": 100,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "binary_id": {
+      "type": "string",
+      "maxLength": 32,
+      "pattern": "^[a-z][a-z0-9-]{1,31}$"
+    },
+    "https_url": {
+      "type": "string",
+      "maxLength": 2048,
+      "pattern": "^https://[A-Za-z0-9.-]+(:[0-9]{1,5})?(/[A-Za-z0-9._~%!$&'()*+,;=:@/-]*)?(\\?[A-Za-z0-9._~%!$&'()*+,;=:@/?-]*)?$"
+    },
+    "spdx_id": {
+      "enum": [
+        "LicenseRef-USGov-PD",
+        "CC0-1.0",
+        "DL-DE-ZERO-2.0",
+        "CC-BY-4.0",
+        "LicenseRef-Copernicus-CLMS",
+        "CC-BY-SA-3.0",
+        "CC-BY-SA-4.0",
+        "Apache-2.0",
+        "MIT",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "MPL-2.0",
+        "LGPL-2.1-or-later",
+        "LicenseRef-TOST-1.0",
+        "LicenseRef-NVIDIA-Open-Model",
+        "LicenseRef-NVIDIA-SLA",
+        "LicenseRef-NvidiaProprietary",
+        "LicenseRef-NVIDIA-Omniverse",
+        "LicenseRef-TensorRT-SLA",
+        "LicenseRef-TensorRT-RTX-SLA"
+      ]
+    },
+    "licence_class": {
+      "enum": [
+        "public-domain",
+        "open-no-attribution",
+        "own",
+        "attribution",
+        "share-alike",
+        "display-only",
+        "reference-only"
+      ]
+    },
+    "case_id": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "E1",
+        "E2"
+      ]
+    },
+    "artefact_kind": {
+      "enum": [
+        "video",
+        "image",
+        "figure",
+        "point-cloud",
+        "mesh",
+        "tiles",
+        "splat",
+        "onnx",
+        "table",
+        "trace",
+        "shard",
+        "field",
+        "text",
+        "model-card",
+        "telemetry",
+        "usd"
+      ]
+    },
+    "tool_env": {
+      "enum": [
+        "root",
+        "runner",
+        "studio",
+        "isaac",
+        "rtx",
+        "isaaclab",
+        "kit",
+        "reason",
+        "pipeline",
+        "accel",
+        "web",
+        "external"
+      ]
+    },
+    "version_ref": {
+      "description": "a version reference resolved by the checker (data-model §4.2); never a literal string",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "from_lock",
+            "package"
+          ],
+          "properties": {
+            "from_lock": {
+              "enum": [
+                "uv.lock",
+                "studio/uv.lock",
+                "studio/isaac/uv.lock",
+                "studio/rtx/uv.lock",
+                "studio/isaaclab/uv.lock",
+                "pipeline/uv.lock",
+                "pipeline/accel/uv.lock",
+                "web/pnpm-lock.yaml"
+              ]
+            },
+            "package": {
+              "$ref": "#/$defs/package"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "from_binary",
+            "release",
+            "sha256"
+          ],
+          "properties": {
+            "from_binary": {
+              "$ref": "#/$defs/binary_id"
+            },
+            "release": {
+              "$ref": "#/$defs/version"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "from_git_tag",
+            "repository"
+          ],
+          "properties": {
+            "from_git_tag": {
+              "$ref": "#/$defs/version"
+            },
+            "repository": {
+              "$ref": "#/$defs/https_url"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "own"
+          ],
+          "properties": {
+            "own": {
+              "const": true
+            }
+          }
+        }
+      ]
+    },
+    "entry": {
+      "type": "object",
+      "description": "tool registry entry (data-model §4.1)",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "category",
+        "envs",
+        "version",
+        "spdx",
+        "osi",
+        "licence_class",
+        "ring",
+        "lane",
+        "performance",
+        "role",
+        "cases",
+        "produces",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/tool_id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "category": {
+          "enum": [
+            "studio-tool",
+            "component"
+          ]
+        },
+        "envs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tool_env"
+          },
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "version": {
+          "$ref": "#/$defs/version_ref"
+        },
+        "spdx": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/spdx_id"
+          },
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "osi": {
+          "type": "boolean"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/licence_class"
+        },
+        "ring": {
+          "enum": [
+            "Adopt",
+            "Trial",
+            "Assess",
+            "Hold"
+          ]
+        },
+        "lane": {
+          "enum": [
+            "live",
+            "replay",
+            "local-only"
+          ]
+        },
+        "performance": {
+          "enum": [
+            "public",
+            "local-only"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "cases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/case_id"
+          },
+          "maxItems": 12,
+          "uniqueItems": true
+        },
+        "produces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artefact_kind"
+          },
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "status": {
+          "enum": [
+            "not-yet-run",
+            "done",
+            "evaluated-not-adopted"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 600
+        },
+        "docs_page": {
+          "type": "string",
+          "maxLength": 96,
+          "pattern": "^docs/frameworks/(not-adopted-)?[a-z0-9-]{1,64}\\.md$"
+        },
+        "alternatives_rejected": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "reason"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              }
+            }
+          },
+          "maxItems": 8
+        },
+        "notice": {
+          "type": "string",
+          "maxLength": 300
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "evaluated-not-adopted"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "docs_page": {
+                "pattern": "^docs/frameworks/not-adopted-[a-z0-9-]{1,64}\\.md$"
+              }
+            }
+          },
+          "else": {
+            "not": {
+              "required": [
+                "reason"
+              ]
+            },
+            "properties": {
+              "docs_page": {
+                "not": {
+                  "pattern": "^docs/frameworks/not-adopted-[a-z0-9-]{1,64}\\.md$"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "category": {
+                "const": "studio-tool"
+              }
+            },
+            "required": [
+              "category"
+            ]
+          },
+          "then": {
+            "required": [
+              "docs_page"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "spdx": {
+                "contains": {
+                  "enum": [
+                    "LicenseRef-NVIDIA-SLA",
+                    "LicenseRef-NvidiaProprietary",
+                    "LicenseRef-NVIDIA-Omniverse",
+                    "LicenseRef-TensorRT-RTX-SLA"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "spdx"
+            ]
+          },
+          "then": {
+            "properties": {
+              "performance": {
+                "const": "local-only"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

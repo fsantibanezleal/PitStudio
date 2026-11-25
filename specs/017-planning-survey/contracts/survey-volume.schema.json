@@ -1,0 +1,859 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/survey-volume.schema.json",
+  "title": "E2 survey volumes",
+  "description": "Cut, fill and net volumes with uncertainty and error metrics written by s50_evaluate (DC-017-04, spec 017-planning-survey).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "volumes"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 200
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "volumes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/volume"
+      },
+      "minItems": 1,
+      "maxItems": 1024
+    }
+  },
+  "$defs": {
+    "crs": {
+      "type": "string",
+      "maxLength": 12,
+      "pattern": "^(EPSG:[0-9]{4,6}|local)$"
+    },
+    "errors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fill_pct",
+        "cut_pct",
+        "floor_fill_pct",
+        "floor_cut_pct",
+        "reprojection_rmse_px",
+        "alignment_rmse_m",
+        "depth_abs_median_m",
+        "gsd_cm_per_px",
+        "registration_ratio"
+      ],
+      "properties": {
+        "fill_pct": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 10000
+        },
+        "cut_pct": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 10000
+        },
+        "floor_fill_pct": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 10000
+        },
+        "floor_cut_pct": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 10000
+        },
+        "reprojection_rmse_px": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "alignment_rmse_m": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "depth_abs_median_m": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "gsd_cm_per_px": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "registration_ratio": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "description": "Error metrics of FR-017-39; reported only, with no pass field (SC-017-06)."
+    },
+    "grid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cell_m",
+        "shape",
+        "origin_m",
+        "crs"
+      ],
+      "properties": {
+        "cell_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65536
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "origin_m": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "crs": {
+          "$ref": "#/$defs/crs"
+        }
+      }
+    },
+    "licence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spdx",
+        "licence_class"
+      ],
+      "properties": {
+        "spdx": {
+          "$ref": "#/$defs/spdx_id"
+        },
+        "licence_class": {
+          "$ref": "#/$defs/licence_class"
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "licence_class": {
+                "enum": [
+                  "attribution",
+                  "share-alike",
+                  "display-only",
+                  "reference-only"
+                ]
+              }
+            },
+            "required": [
+              "licence_class"
+            ]
+          },
+          "then": {
+            "required": [
+              "attribution"
+            ]
+          }
+        }
+      ]
+    },
+    "licence_class": {
+      "enum": [
+        "public-domain",
+        "open-no-attribution",
+        "own",
+        "attribution",
+        "share-alike",
+        "display-only",
+        "reference-only"
+      ]
+    },
+    "polygon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vertices",
+        "source"
+      ],
+      "properties": {
+        "vertices": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 3,
+          "maxItems": 10000
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "overlap_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "relpath": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?(/[A-Za-z0-9_]([A-Za-z0-9._-]{0,98}[A-Za-z0-9_])?){0,15}$"
+    },
+    "resampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ],
+      "properties": {
+        "method": {
+          "enum": [
+            "none",
+            "bilinear"
+          ]
+        },
+        "source_crs": {
+          "$ref": "#/$defs/crs"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "method": {
+                "const": "bilinear"
+              }
+            },
+            "required": [
+              "method"
+            ]
+          },
+          "then": {
+            "required": [
+              "source_crs"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "source_crs"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "spdx_id": {
+      "enum": [
+        "LicenseRef-USGov-PD",
+        "CC0-1.0",
+        "DL-DE-ZERO-2.0",
+        "CC-BY-4.0",
+        "LicenseRef-Copernicus-CLMS",
+        "CC-BY-SA-3.0",
+        "CC-BY-SA-4.0",
+        "Apache-2.0",
+        "MIT",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "MPL-2.0",
+        "LGPL-2.1-or-later",
+        "LicenseRef-TOST-1.0",
+        "LicenseRef-NVIDIA-Open-Model",
+        "LicenseRef-NVIDIA-SLA",
+        "LicenseRef-NvidiaProprietary",
+        "LicenseRef-NVIDIA-Omniverse",
+        "LicenseRef-TensorRT-SLA",
+        "LicenseRef-TensorRT-RTX-SLA"
+      ]
+    },
+    "surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relpath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "project": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "crs": {
+          "$ref": "#/$defs/crs"
+        },
+        "vertical_datum": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "rmse_z_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "vertical_transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "none",
+            "constant",
+            "grid"
+          ]
+        },
+        "offset_m": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000
+        },
+        "grid": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "$ref": "#/$defs/relpath"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "none"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "offset_m"
+                  ]
+                },
+                {
+                  "required": [
+                    "grid"
+                  ]
+                },
+                {
+                  "required": [
+                    "source"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "constant"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "offset_m",
+              "source"
+            ],
+            "not": {
+              "required": [
+                "grid"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "grid"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "grid",
+              "source"
+            ],
+            "not": {
+              "required": [
+                "offset_m"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "volume": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scope",
+        "method",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "scope": {
+          "enum": [
+            "real",
+            "synthetic"
+          ]
+        },
+        "method": {
+          "enum": [
+            "dem-differencing",
+            "photogrammetric",
+            "splat"
+          ]
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "not_run",
+            "failed"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "label": {
+          "const": "measurement, not validation"
+        },
+        "licence": {
+          "$ref": "#/$defs/licence"
+        },
+        "flight": {
+          "$ref": "#/$defs/slug"
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807
+        },
+        "surfaces": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "before",
+            "after"
+          ],
+          "properties": {
+            "before": {
+              "$ref": "#/$defs/surface"
+            },
+            "after": {
+              "$ref": "#/$defs/surface"
+            }
+          }
+        },
+        "grid": {
+          "$ref": "#/$defs/grid"
+        },
+        "resampling": {
+          "$ref": "#/$defs/resampling"
+        },
+        "vertical_transform": {
+          "$ref": "#/$defs/vertical_transform"
+        },
+        "polygon": {
+          "$ref": "#/$defs/polygon"
+        },
+        "v_cut_m3": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        "v_fill_m3": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        "v_net_m3": {
+          "type": "number",
+          "minimum": -1000000000000.0,
+          "maximum": 1000000000000.0
+        },
+        "cells": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "valid",
+            "nodata",
+            "nodata_fraction"
+          ],
+          "properties": {
+            "valid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967296
+            },
+            "nodata": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967296
+            },
+            "nodata_fraction": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "uncertainty_m3": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "uncorrelated",
+            "correlated"
+          ],
+          "properties": {
+            "uncorrelated": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000000.0
+            },
+            "correlated": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000000.0
+            }
+          }
+        },
+        "errors": {
+          "$ref": "#/$defs/errors"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "ok"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "surfaces",
+              "grid",
+              "polygon",
+              "v_cut_m3",
+              "v_fill_m3",
+              "v_net_m3",
+              "cells"
+            ],
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "not_run",
+                  "failed"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "v_cut_m3"
+                  ]
+                },
+                {
+                  "required": [
+                    "v_fill_m3"
+                  ]
+                },
+                {
+                  "required": [
+                    "v_net_m3"
+                  ]
+                },
+                {
+                  "required": [
+                    "cells"
+                  ]
+                },
+                {
+                  "required": [
+                    "uncertainty_m3"
+                  ]
+                },
+                {
+                  "required": [
+                    "errors"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "real"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
+          "then": {
+            "required": [
+              "label",
+              "licence"
+            ],
+            "properties": {
+              "method": {
+                "const": "dem-differencing"
+              },
+              "licence": {
+                "required": [
+                  "attribution"
+                ]
+              },
+              "surfaces": {
+                "properties": {
+                  "before": {
+                    "required": [
+                      "project",
+                      "crs",
+                      "vertical_datum",
+                      "rmse_z_m"
+                    ]
+                  },
+                  "after": {
+                    "required": [
+                      "project",
+                      "crs",
+                      "vertical_datum",
+                      "rmse_z_m"
+                    ]
+                  }
+                }
+              }
+            },
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "flight"
+                  ]
+                },
+                {
+                  "required": [
+                    "seed"
+                  ]
+                },
+                {
+                  "required": [
+                    "errors"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "synthetic"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
+          "then": {
+            "required": [
+              "flight",
+              "seed"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "label"
+                  ]
+                },
+                {
+                  "required": [
+                    "uncertainty_m3"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "real"
+              },
+              "status": {
+                "const": "ok"
+              }
+            },
+            "required": [
+              "scope",
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "uncertainty_m3",
+              "resampling",
+              "vertical_transform"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "synthetic"
+              },
+              "status": {
+                "const": "ok"
+              }
+            },
+            "required": [
+              "scope",
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "errors"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

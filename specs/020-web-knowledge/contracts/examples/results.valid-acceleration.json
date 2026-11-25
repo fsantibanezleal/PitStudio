@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "kind": "acceleration",
+  "id": "b2-dfine-n-acceleration",
+  "tab": "acceleration",
+  "title": {
+    "en": "D-FINE-N acceleration",
+    "es": "Aceleración de D-FINE-N"
+  },
+  "cases": [
+    "B2"
+  ],
+  "run_ids": [
+    "20261006T150000Z-bench"
+  ],
+  "criteria": [
+    {
+      "requirement": "SC-016-01",
+      "status": "pass"
+    }
+  ],
+  "conditions": {
+    "gpu": "NVIDIA RTX 5000 Ada Generation Laptop GPU",
+    "driver": "582.78",
+    "power_limit_enforced_w": 110.0,
+    "throttle_frac": {
+      "sw_power_cap": 0.12,
+      "sw_thermal": 0.0,
+      "hw_thermal": 0.0,
+      "hw_slowdown": 0.0,
+      "power_brake": 0.0
+    },
+    "versions": {
+      "tensorrt": "11.3.0.99",
+      "onnxruntime": "1.30.0",
+      "torch": "2.14.1+cu130"
+    }
+  },
+  "rows": [
+    {
+      "model": "d-fine-n",
+      "backend": "pytorch",
+      "precision": "fp32",
+      "status": "accepted",
+      "latency_ms": {
+        "p50": 9.8,
+        "p95": 11.2
+      },
+      "throughput_items_per_s": 410.0,
+      "energy_j_per_inference": 0.21,
+      "accuracy_delta_pp": 0.0,
+      "parity": "pass"
+    },
+    {
+      "model": "d-fine-n",
+      "backend": "tensorrt",
+      "precision": "fp16",
+      "status": "accepted",
+      "latency_ms": {
+        "p50": 2.1,
+        "p95": 2.6
+      },
+      "throughput_items_per_s": 1890.0,
+      "energy_j_per_inference": 0.05,
+      "accuracy_delta_pp": -0.3,
+      "parity": "pass",
+      "tensorrt_licence_sha256": "c86915fd95bbefbdda3135aace3e6ad6b4612846dcbdbc5d2f5a38b139dd88b4"
+    },
+    {
+      "model": "d-fine-n",
+      "backend": "tensorrt",
+      "precision": "int8",
+      "status": "rejected",
+      "reason": "parity: task metric moved by 1.8 percentage points",
+      "latency_ms": {
+        "p50": 1.4,
+        "p95": 1.9
+      },
+      "throughput_items_per_s": 2650.0,
+      "energy_j_per_inference": 0.04,
+      "accuracy_delta_pp": -1.8,
+      "parity": "rejected",
+      "tensorrt_licence_sha256": "c86915fd95bbefbdda3135aace3e6ad6b4612846dcbdbc5d2f5a38b139dd88b4"
+    }
+  ]
+}

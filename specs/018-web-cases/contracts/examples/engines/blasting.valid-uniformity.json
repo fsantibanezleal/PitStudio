@@ -1,0 +1,14 @@
+{
+  "kind": "input",
+  "engine": "blasting",
+  "engine_version": "0.1.0",
+  "function": "uniformity_index",
+  "args": {
+    "burden_m": 7.0,
+    "spacing_m": 8.0,
+    "hole_diameter_m": 0.311,
+    "charge_length_m": 10.0,
+    "bench_height_m": 15.0,
+    "drilling_deviation_m": 0.3
+  }
+}

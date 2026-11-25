@@ -108,7 +108,7 @@
   <text x="336" y="388" class="item">manifest.json: versions (locks),</text>
   <text x="336" y="406" class="item">cache keys, seeds, determinism,</text>
   <text x="336" y="424" class="item">telemetry summary, licence class</text>
-  <text x="336" y="442" class="item">telemetry.parquet · events.jsonl</text>
+  <text x="336" y="442" class="item">telemetry.jsonl · events.jsonl</text>
   <text x="336" y="460" class="item">every stage writes one manifest</text>
   <rect class="box" x="30" y="330" width="240" height="170" rx="8"/>
   <text x="40" y="352" class="title">Console and publish</text>

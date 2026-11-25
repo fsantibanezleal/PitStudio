@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "kind": "excavator",
+  "id": "generic-excavator-30t",
+  "name": "Generic 30 t excavator",
+  "operating_mass_kg": 30000,
+  "base_mass_kg": 22000,
+  "boom_pivot_m": [
+    0.2,
+    2.0
+  ],
+  "links": {
+    "boom": {
+      "length_m": 6.0,
+      "mass_kg": 2500
+    },
+    "stick": {
+      "length_m": 3.0,
+      "mass_kg": 1200
+    },
+    "bucket": {
+      "length_m": 1.5,
+      "mass_kg": 1000
+    }
+  },
+  "joints": {
+    "swing": {
+      "lower_deg": -180,
+      "upper_deg": 180,
+      "torque_max_n_m": 120000,
+      "velocity_max_deg_per_s": 60
+    },
+    "boom": {
+      "lower_deg": -40,
+      "upper_deg": 60,
+      "torque_max_n_m": -5,
+      "velocity_max_deg_per_s": 30
+    },
+    "stick": {
+      "lower_deg": -150,
+      "upper_deg": -30,
+      "torque_max_n_m": 250000,
+      "velocity_max_deg_per_s": 40
+    },
+    "bucket": {
+      "lower_deg": -170,
+      "upper_deg": 40,
+      "torque_max_n_m": 120000,
+      "velocity_max_deg_per_s": 60
+    }
+  },
+  "bucket_width_m": 1.2,
+  "heaped_volume_m3": 1.5,
+  "sources": [
+    {
+      "id": "example-source",
+      "citation": "Illustrative source for this example file; a committed file cites the published reference",
+      "url": "https://example.org/generic-machine-dimensions",
+      "locator": "Table 1"
+    }
+  ],
+  "provenance": {
+    "operating_mass_kg": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "base_mass_kg": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "boom_pivot_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "links": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "joints": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "bucket_width_m": {
+      "source": "example-source",
+      "class": "published"
+    },
+    "heaped_volume_m3": {
+      "source": "example-source",
+      "class": "published"
+    }
+  }
+}

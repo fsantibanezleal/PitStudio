@@ -1,0 +1,191 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261014T000302Z-a3-gns-v1-failed-charts",
+ "recipe": {
+  "id": "a3-gns-v1-failed-charts",
+  "path": "cases/a3.yaml",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+ },
+ "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-10-14T00:03:02Z",
+ "profile": "imported",
+ "seed": 0,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "s30_train",
+    "variant": "gns"
+   },
+   "tool": "pytorch",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "2e7d7449de8c5fdce45f847e9822f3cbf1ff2cad172aaaa4c74562cff28f4612",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 24255.0
+    }
+   ],
+   "params": {},
+   "seed": 0,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 24255.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "train-manifest.json",
+     "sha256": "5e5770f81bcc68ddc40930ce0e57501e3e26ba668465b5fe364c1ca4724b14de",
+     "bytes": 43592
+    },
+    {
+     "name": "gns-a3-fp32.onnx",
+     "sha256": "813d585710fe0c7f8a14d73b699b93118a06e59a41101dda1a86af9b4751a82e",
+     "bytes": 6444284
+    },
+    {
+     "name": "gns-a3-fp16.onnx",
+     "sha256": "1d9109dfe8f44abaff606fe49d928c5be9b3f4748b42d25901d7bbfb1ade93c9",
+     "bytes": 3289018
+    }
+   ]
+  },
+  {
+   "key": {
+    "id": "s50_evaluate"
+   },
+   "tool": "pitstudio",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "0d2e79f9a0fbdd5f82b9ec3c7ed6548dd214bb1fcd5f6d88ba7dd2d4fc595d0b",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 24255.0
+    }
+   ],
+   "params": {},
+   "seed": 0,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 24255.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "evaluation.json",
+     "sha256": "4ffd39368052d1c371beb1713d6c25c1aee8e611a4055dcd05fc1c9e9bad5e2a",
+     "bytes": 52800
+    },
+    {
+     "name": "results-summary.json",
+     "sha256": "211f0cb8bb2926bdbe42a9769938256cd735039aef7d788ece78c7d36ac7da2d",
+     "bytes": 3519
+    },
+    {
+     "name": "charts/a3-gns-rollout-error.json",
+     "sha256": "e4137a63adb8ee40f42b2f26be2f862bfb6dc0e4249fd12f57ec66f3395bd329",
+     "bytes": 5198
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "a3-gns-v1-failed-results",
+   "run_id": "20261014T000302Z-a3-gns-v1-failed-charts",
+   "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
+   "path": "assets/20261014T000302Z-a3-gns-v1-failed-charts/results-summary.json",
+   "bytes": 3519,
+   "sha256": "211f0cb8bb2926bdbe42a9769938256cd735039aef7d788ece78c7d36ac7da2d",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
+  },
+  {
+   "id": "a3-gns-rollout-error",
+   "run_id": "20261014T000302Z-a3-gns-v1-failed-charts",
+   "git_sha": "42c61bc61148edc2645ed2e27d6318ce8e412279",
+   "path": "assets/20261014T000302Z-a3-gns-v1-failed-charts/charts/a3-gns-rollout-error.json",
+   "bytes": 5198,
+   "sha256": "e4137a63adb8ee40f42b2f26be2f862bfb6dc0e4249fd12f57ec66f3395bd329",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "s50_evaluate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A3"
+   ],
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced by the GPU queue, outside the runner",
+  "job 39-gns-train-v1-resume; script sha256 4b8802606d901ed68d0b3032d9ac761eff9fb3246505568fe6cf1ea5b20bbb2c; log sha256 ca6856e42d8739e141ae0e930eef52f3a8d48e325318832e248280d21090a7da",
+  "started 2026-10-13T17:18:47Z; ended 2026-10-14T00:03:02Z; GPU-hours missing",
+  "calibrated synthetic, not validated against real data; FAILED acceptance SC-011-01, not a working model",
+  "supersedes run 20261014T000302Z-a3-gns-v1-failed: its published files are removed when this run is published",
+  "producer paths: src/pitstudio/runner, studio/tools.yaml; git sha 42c61bc61148edc2645ed2e27d6318ce8e412279; unmodified",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "Evaluation verdict: SC-011-01 fail. Graph network simulator v1 is a failed evaluation, never a working model.",
+  "Republished with the rollout error chart of FR-018-86 (median over geometries with its minimum and maximum, divergence markers).",
+  "also job 27-gns-eval-export; script sha256 39df7040f1efa63a2be44cb3a8eb3fa4249188222d21c49b4d355bb332f7a321; log sha256 34b46d32660a17f683383daa8da1f3df5ae1fd4de1b1c2f7ce9779881e9bf28d",
+  "partial: GPU-hours missing; recipe cases/a3.yaml is not written yet: its sha256 is recorded as zeros"
+ ]
+}

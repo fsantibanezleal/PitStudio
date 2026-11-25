@@ -1,0 +1,363 @@
+{
+  "model_id": "d2-meta-mlp",
+  "engine": "meta-model",
+  "cases": [
+    "D2"
+  ],
+  "onnx": {
+    "path": "web/public/models/d2-meta-mlp.onnx",
+    "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "bytes": 96000
+  },
+  "opset": 17,
+  "ir_version": 10,
+  "precision": "fp32",
+  "delivery": "live",
+  "symbolic_dims": {
+    "B": {
+      "min": 1,
+      "max": 1024
+    }
+  },
+  "inputs": [
+    {
+      "name": "x",
+      "dtype": "float32",
+      "shape": [
+        "B",
+        15
+      ],
+      "unit": "per-channel",
+      "channel_axis": 1,
+      "channels": [
+        {
+          "name": "burden",
+          "unit": "m",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              1.647918
+            ],
+            "std": [
+              0.317142
+            ]
+          }
+        },
+        {
+          "name": "spacing_ratio",
+          "unit": "1",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              0.202733
+            ],
+            "std": [
+              0.117048
+            ]
+          }
+        },
+        {
+          "name": "powder_factor",
+          "unit": "kg/m^3",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              -0.510826
+            ],
+            "std": [
+              0.400189
+            ]
+          }
+        },
+        {
+          "name": "hole_diameter",
+          "unit": "mm",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              5.114215
+            ],
+            "std": [
+              0.361178
+            ]
+          }
+        },
+        {
+          "name": "bench_height",
+          "unit": "m",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              2.393746
+            ],
+            "std": [
+              0.181464
+            ]
+          }
+        },
+        {
+          "name": "rock_factor",
+          "unit": "1",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              2.012676
+            ],
+            "std": [
+              0.361642
+            ]
+          }
+        },
+        {
+          "name": "work_index",
+          "unit": "kWh/t",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              2.585242
+            ],
+            "std": [
+              0.292024
+            ]
+          }
+        },
+        {
+          "name": "crusher_css",
+          "unit": "mm",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              4.951744
+            ],
+            "std": [
+              0.200094
+            ]
+          }
+        },
+        {
+          "name": "target_p80",
+          "unit": "um",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              4.837037
+            ],
+            "std": [
+              0.299962
+            ]
+          }
+        },
+        {
+          "name": "mill_power",
+          "unit": "kW",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              9.21034
+            ],
+            "std": [
+              0.400189
+            ]
+          }
+        },
+        {
+          "name": "efficiency",
+          "unit": "1",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              -0.137218
+            ],
+            "std": [
+              0.049609
+            ]
+          }
+        },
+        {
+          "name": "energy_cap",
+          "unit": "kWh/t",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              2.649159
+            ],
+            "std": [
+              0.328926
+            ]
+          }
+        },
+        {
+          "name": "explosive_cost",
+          "unit": "USD/kg",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              -0.164252
+            ],
+            "std": [
+              0.200094
+            ]
+          }
+        },
+        {
+          "name": "energy_cost",
+          "unit": "USD/kWh",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              -2.446426
+            ],
+            "std": [
+              0.317142
+            ]
+          }
+        },
+        {
+          "name": "consumables_cost",
+          "unit": "USD/t",
+          "normalisation": {
+            "rule": "log-standardise",
+            "applied_in_graph": true,
+            "mean": [
+              0.0
+            ],
+            "std": [
+              0.400189
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "y",
+      "dtype": "float32",
+      "shape": [
+        "B",
+        3
+      ],
+      "unit": "per-channel",
+      "channel_axis": 1,
+      "channels": [
+        {
+          "name": "specific_energy",
+          "unit": "kWh/t"
+        },
+        {
+          "name": "throughput",
+          "unit": "t/h"
+        },
+        {
+          "name": "unit_cost",
+          "unit": "USD/t"
+        }
+      ],
+      "normalisation": {
+        "rule": "standardise",
+        "applied_in_graph": true,
+        "mean": [
+          11.5,
+          1180.0,
+          4.2
+        ],
+        "std": [
+          3.2,
+          310.0,
+          1.1
+        ]
+      }
+    }
+  ],
+  "training_envelope": {
+    "burden": {
+      "min": 3,
+      "max": 9,
+      "unit": "m"
+    },
+    "spacing_ratio": {
+      "min": 1.0,
+      "max": 1.5,
+      "unit": "1"
+    },
+    "powder_factor": {
+      "min": 0.3,
+      "max": 1.2,
+      "unit": "kg/m^3"
+    },
+    "hole_diameter": {
+      "min": 89,
+      "max": 311,
+      "unit": "mm"
+    },
+    "bench_height": {
+      "min": 8,
+      "max": 15,
+      "unit": "m"
+    },
+    "rock_factor": {
+      "min": 4,
+      "max": 14,
+      "unit": "1"
+    },
+    "work_index": {
+      "min": 8,
+      "max": 22,
+      "unit": "kWh/t"
+    },
+    "crusher_css": {
+      "min": 100,
+      "max": 200,
+      "unit": "mm"
+    },
+    "target_p80": {
+      "min": 75,
+      "max": 212,
+      "unit": "um"
+    },
+    "mill_power": {
+      "min": 5000,
+      "max": 20000,
+      "unit": "kW"
+    },
+    "efficiency": {
+      "min": 0.8,
+      "max": 0.95,
+      "unit": "1"
+    },
+    "energy_cap": {
+      "min": 8,
+      "max": 25,
+      "unit": "kWh/t"
+    },
+    "explosive_cost": {
+      "min": 0.6,
+      "max": 1.2,
+      "unit": "USD/kg"
+    },
+    "energy_cost": {
+      "min": 0.05,
+      "max": 0.15,
+      "unit": "USD/kWh"
+    },
+    "consumables_cost": {
+      "min": 0.5,
+      "max": 2.0,
+      "unit": "USD/t"
+    }
+  }
+}

@@ -42,19 +42,19 @@ empty, queue at shovel, spot and load, travel loaded, queue at dump, dump), posi
 Each event is a tuple ordered by a total key:
 
 $$
-\text{key}(e) = (t_e,\ \text{priority}_e,\ \text{seq}_e)
+\text{key}(e) = (t_e,\ \text{seq}_e)
 $$
 
-where $t_e$ is the event time (s), priority breaks ties between event types (for example "end dump" before
-"dispatch") and $\text{seq}_e$ is a monotonically increasing sequence id. The explicit tie-break is what makes two
-independent implementations produce the same trace [8].
+where $t_e$ is the event time (s) and $\text{seq}_e$ is a monotonically increasing sequence id, a global schedule
+counter: events at the same time run in the order they were scheduled. The reference engine has no priority field. The
+explicit tie-break is what makes two independent implementations produce the same trace [8].
 
 ```text
 run(scenario, seed, horizon):
     rng   = CounterPRNG(seed)              # same counter-based generator in Python and TS
     queue = heap of initial "dispatch" events, one per truck, at t = 0
     while queue not empty and queue.min.t <= horizon:
-        e = queue.pop_min()                 # by (t, priority, seq)
+        e = queue.pop_min()                 # by (t, seq)
         clock = e.t
         match e.type:
           dispatch     -> target = dispatcher(state, truck)          # decision point
@@ -70,10 +70,12 @@ run(scenario, seed, horizon):
 
 ### Travel and loading times
 
-Travel times are not drawn from an arbitrary distribution. Each road segment's time comes from the haul-physics model
-of [M06](m06-haul-road-energy-routing.md): the steady speed on a segment solves
+Travel times are not drawn from an arbitrary distribution. The reference engine computes each road segment's time
+with its own rimpull/retarder kinematics [1] over the route geometry that [M06](m06-haul-road-energy-routing.md)
+provides (segments of length, grade and rolling resistance): the steady speed on a segment solves
 $F_{\text{rim}}(v) = F_{\text{req}}(v)$ uphill and is capped by the retarder envelope downhill, with total resistance
-= rolling + grade resistance [2], plus seeded noise. Loading follows the standard pass model†:
+= rolling + grade resistance [2], plus seeded noise. M06's own per-segment speeds are reported next to the DES speeds,
+not passed in. Loading follows the standard pass model†:
 
 $$
 t_{\text{load}} = n_p \, t_{\text{sc}}, \qquad
@@ -127,7 +129,7 @@ browser reproduces it exactly:
 2. **No transcendental `Math.*` calls in variate generation.** JavaScript `Math` functions have
    implementation-dependent precision across browsers [8]; variates are drawn with integer arithmetic or from
    pre-baked variate streams in the golden fixture.
-3. **Explicit tie-break** by (time, priority, sequence id).
+3. **Explicit tie-break** by (time, sequence id).
 4. **Event traces compared exactly**, KPIs within tolerance.
 
 SimPy 4.1.2 (MIT) [5] provides an independent process-based oracle for small scenarios.
@@ -172,8 +174,8 @@ fallback when the live engine is unavailable.
 - Road network, fleet and shovel parameters come from the Bingham road network and generic, academically sourced
   truck parameters — not from any operator. A simulation-grade twin, not a live digital twin.
 - Breakdowns, shift changes and road deterioration enter only as modelled stochastic processes.
-- The DES is only as good as its travel-time model ([M06](m06-haul-road-energy-routing.md)); OEM rimpull charts are
-  proprietary and are not used.
+- The DES is only as good as its travel-time model (the engine's kinematics over the
+  [M06](m06-haul-road-energy-routing.md) route geometry); OEM rimpull charts are proprietary and are not used.
 - Exact-trace parity holds only within one version of the engine and the PRNG; a version bump re-bakes the goldens.
 
 ## In PitStudio

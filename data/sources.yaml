@@ -1,19 +1,477 @@
-# Data source registry — every real or synthetic source used by the pipeline.
+# Data source registry — every real or synthetic source used by the pipeline (schema: contracts/sources.schema.json).
 # Licences are traced to the ORIGINAL publisher (not a mirror's label). Third-party data is downloaded by the
 # pipeline's download stage and never committed. redistribution: redistributable | derived-only | no-redistribution
-sources: []
-# Example entry:
-# - id: example-dataset
-#   kind: real                      # real | synthetic
-#   title: "Example dataset"
-#   landing_url: "https://doi.org/10.xxxx/xxxxx"
-#   files:
-#     - url: "https://…/file.zip"
-#       sha256: "<64 hex>"
-#       bytes: 123456
-#   license: "CC-BY-4.0"            # SPDX id
-#   license_url: "https://…"
-#   attribution: "Author et al. (2024), Example dataset, DOI …"
-#   redistribution: derived-only
-#   citation: "…"
-#   card: data/cards/example-dataset.md
+sources:
+  - id: usda-naip-bingham
+    kind: real
+    title: "USDA NAIP orthophoto of the Bingham Canyon area, Utah (2018, 0.6 m, four bands: red, green, blue, near-infrared)"
+    landing_url: "https://planetarycomputer.microsoft.com/dataset/naip"
+    access: api                      # Microsoft Planetary Computer STAC collection `naip`, anonymous signed access
+    files:
+      - url: "https://naipeuwest.blob.core.windows.net/naip/v002/ut/2018/ut_060cm_2018/40112/m_4011231_se_12_060_20180909.tif"
+        sha256: "c9dbdf58dea5573a04b565b0c47b0bb9d4cea3b466e5e47235d38f678c6ef7fc"
+        bytes: 373773194
+        kind: raster
+        name: "m_4011231_se_12_060_20180909.tif"
+    spdx: LicenseRef-USGov-PD
+    licence_url: "https://www.fsa.usda.gov/help/policies-and-links/"
+    licence_class: public-domain
+    redistribution: redistributable
+    attribution: "Imagery: U.S. Department of Agriculture, Farm Service Agency, National Agriculture Imagery Program (NAIP), 2018."
+    citation: "U.S. Department of Agriculture, Farm Service Agency, Aerial Field Photography Office. National Agriculture Imagery Program (NAIP), Utah 2018, 60 cm, quarter quad m_4011231_se, acquired 2018-09-09. Accessed through the Microsoft Planetary Computer STAC API, 2026-11-22."
+    card: data/cards/usda-naip-bingham.md
+    account:
+      needed: false
+  - id: usgs-3dep-bingham
+    kind: real
+    title: "USGS 3DEP one-metre lidar DEMs of the Bingham Canyon area, Utah: UT Central QL2 2018 and UT 2023 Salt Lake Co (tile x40y449)"
+    landing_url: "https://apps.nationalmap.gov/downloader/"
+    access: api                      # The National Map Access API (tnmaccess), anonymous, files from the staged-products bucket
+    files:
+      - url: "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/UT_Central_QL2_2018/TIFF/USGS_one_meter_x40y449_UT_Central_QL2_2018.tif"
+        sha256: "484a57cc33c95696d163bddf5dc6de353e71cc3d1946b568cf895939c6c90391"
+        bytes: 165604778
+        kind: raster
+        name: "ut-central-ql2-2018-dem.tif"
+      - url: "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/UT_2023SaltLakeCo_C24/TIFF/USGS_1M_12_x40y449_UT_2023SaltLakeCo_C24.tif"
+        sha256: "e1b755b0f23f6a8f0f361fa941c819bf7bf804e8678dd372c48ccbfbea1cec19"
+        bytes: 257390595
+        kind: raster
+        name: "ut-2023-salt-lake-co-dem.tif"
+    spdx: LicenseRef-USGov-PD
+    licence_url: "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits"
+    licence_class: public-domain
+    redistribution: redistributable
+    attribution: "U.S. Geological Survey, 3D Elevation Program (public domain)"
+    citation: "U.S. Geological Survey, 3D Elevation Program, one-metre DEM tile x40y449, projects UT Central QL2 2018 and UT 2023 Salt Lake Co, The National Map. Accessed through the TNM Access API, 2026-10-12 and 2026-10-13."
+    card: data/cards/usgs-3dep-bingham.md
+    account:
+      needed: false
+  - id: srtm-gl1-bingham
+    kind: real
+    title: "SRTM GL1 one-arc-second elevation tile N40W113 (NASA, February 2000, EGM96 heights) over the Bingham Canyon area, Utah"
+    landing_url: "https://www.earthdata.nasa.gov/data/catalog/lpcloud-srtmgl1-003"
+    access: api                      # OpenTopography public data bucket (no key), a copy of the SRTM GL1 tiles of NASA LP DAAC
+    files:
+      - url: "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N40W113.tif"
+        sha256: "f855eeb49139b416a2bad301d8fee9ee35c0118232b0707d43fad0f5ff069390"
+        bytes: 11459943
+        kind: raster
+        name: "srtm-gl1-n40w113.tif"
+    spdx: LicenseRef-USGov-PD
+    licence_url: "https://www.earthdata.nasa.gov/data/catalog/lpcloud-srtmgl1-003"
+    licence_class: public-domain
+    redistribution: redistributable
+    attribution: "NASA Shuttle Radar Topography Mission (SRTM) Global 1 arc second, NASA JPL and NGA; distributed by NASA EOSDIS Land Processes DAAC (public domain)."
+    citation: "NASA Shuttle Radar Topography Mission Global 1 arc second (SRTMGL1 version 3), acquired 2000-02-11 to 2000-02-21, NASA EOSDIS Land Processes DAAC, catalog entry LPCLOUD SRTMGL1.003. Tile N40W113 fetched from the OpenTopography public bucket on 2026-11-24."
+    card: data/cards/srtm-gl1-bingham.md
+    account:
+      needed: false
+  - id: ghcnh-slc-wind
+    kind: real
+    title: "NOAA GHCNh hourly observations of station USW00024127, Salt Lake City International Airport, Utah, calendar years 2015 to 2024 (wind speed and direction used by case C3)"
+    landing_url: "https://www.ncei.noaa.gov/products/global-historical-climatology-network-hourly"
+    access: api                      # NCEI open data folder, anonymous HTTPS, one pipe-separated file per station and year
+    files:
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2015/psv/GHCNh_USW00024127_2015.psv"
+        sha256: "1bf226bfc3330cf88d85c97f4c4edac3bd99d57aadd4640cffdaf1e1ca41f4a3"
+        bytes: 11966848
+        kind: table
+        name: "ghcnh-usw00024127-2015.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2016/psv/GHCNh_USW00024127_2016.psv"
+        sha256: "d14d682a038e7715c2c5c33a7985771940397d3bd440e5238b3e0e45dceb318e"
+        bytes: 12214137
+        kind: table
+        name: "ghcnh-usw00024127-2016.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2017/psv/GHCNh_USW00024127_2017.psv"
+        sha256: "68e43b7629b1c18d1a349cdef0d8e628b7edda6c60b98fb7e4b55cb0b30cb78e"
+        bytes: 12382849
+        kind: table
+        name: "ghcnh-usw00024127-2017.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2018/psv/GHCNh_USW00024127_2018.psv"
+        sha256: "b259bc020d537cfa8f76cd7e1ae8cf8a80f182d3ce2870cc55da1fbd08ac8519"
+        bytes: 12140589
+        kind: table
+        name: "ghcnh-usw00024127-2018.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2019/psv/GHCNh_USW00024127_2019.psv"
+        sha256: "4cafb829629cda126a1f632054ff0a4b1e6fe5c8404fdfb9602fa24ac21b5f3a"
+        bytes: 12565024
+        kind: table
+        name: "ghcnh-usw00024127-2019.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2020/psv/GHCNh_USW00024127_2020.psv"
+        sha256: "1b89bbd96e4fe02b77e31284ef968abb084b54a74f0e7b3cd1ed2b0fb7afdb8d"
+        bytes: 11854259
+        kind: table
+        name: "ghcnh-usw00024127-2020.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2021/psv/GHCNh_USW00024127_2021.psv"
+        sha256: "da1437b1d268d8e4890efca0d0de685daca68566acd45868168609d1e7a743ec"
+        bytes: 12202923
+        kind: table
+        name: "ghcnh-usw00024127-2021.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2022/psv/GHCNh_USW00024127_2022.psv"
+        sha256: "0e4b76a89e85351bf5eee7ef8b7ffa082dffe08f2f4d4014b4521d99d955a12e"
+        bytes: 12250139
+        kind: table
+        name: "ghcnh-usw00024127-2022.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2023/psv/GHCNh_USW00024127_2023.psv"
+        sha256: "571c3b8f7a9279c191720733fe1ede427eef7f90f5b703953108e18974747c66"
+        bytes: 12715611
+        kind: table
+        name: "ghcnh-usw00024127-2023.psv"
+      - url: "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly/access/by-year/2024/psv/GHCNh_USW00024127_2024.psv"
+        sha256: "21c876e5ef94ecbc3639507b76bb1951f920ce78a2b931a1452f4bcee299e283"
+        bytes: 12322539
+        kind: table
+        name: "ghcnh-usw00024127-2024.psv"
+    spdx: CC0-1.0
+    licence_url: "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc%3AC01688"
+    licence_class: public-domain
+    redistribution: redistributable
+    attribution: "Menne, M.J., Noone, S., Casey, N.W., Dunn, R.H., McNeill, S., Kantor, D., Thorne, P.W., Orcutt, K., Cunningham, S., Risavi, N. (2023): Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, NOAA National Centers for Environmental Information. https://doi.org/10.25921/jp3d-3v19"
+    citation: "Menne et al. 2023, Global Historical Climatology Network-Hourly (GHCNh), subset: station USW00024127, 2015 to 2024, NOAA NCEI, https://doi.org/10.25921/jp3d-3v19. Accessed 2026-11-24."
+    card: data/cards/ghcnh-slc-wind.md
+    account:
+      needed: false
+# Colour maps of the SDG texture pool (specs 004 and 009, FR-009-08; sdg-realism-2026-11-23): one entry per CC0 texture.
+# Each map has a vegetation tint below 2 percent (share of pixels with HSV hue 60 to 150 degrees and saturation above 0.25),
+# measured by tools/sdg_inputs.py `textures`; the values are in data/cards/sdg-cc0-textures.md.
+  - id: ambientcg-rock023
+    kind: real
+    title: "ambientCG CC0 texture Rock023, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://ambientcg.com/view?id=Rock023"
+    access: api
+    files:
+      - url: "https://ambientcg.com/get?file=Rock023_1K-JPG.zip"
+        sha256: "8793a32778c79cd62eb26a200c85b3747d119e7c570a7318bd124fb8342a7b04"
+        bytes: 7832742
+        kind: archive
+        name: "Rock023_1K-JPG.zip"
+    spdx: CC0-1.0
+    licence_url: "https://docs.ambientcg.com/license/"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: ambientCG, CC0 (courtesy credit, not required)."
+    citation: "ambientCG, texture Rock023, CC0 1.0, https://ambientcg.com/view?id=Rock023, downloaded 2026-11-23; colour map SHA-256 4406a3a28fa0edd2734cf08c0720ef84d5edd1a4cf035f4c9e56de6c905151ff."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: ambientcg-rock027
+    kind: real
+    title: "ambientCG CC0 texture Rock027, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://ambientcg.com/view?id=Rock027"
+    access: api
+    files:
+      - url: "https://ambientcg.com/get?file=Rock027_1K-JPG.zip"
+        sha256: "725cb3fe84ee4312e2f39316463a7d4d502e3ae8a7adeea5145c4f3e0ea1e97e"
+        bytes: 4790149
+        kind: archive
+        name: "Rock027_1K-JPG.zip"
+    spdx: CC0-1.0
+    licence_url: "https://docs.ambientcg.com/license/"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: ambientCG, CC0 (courtesy credit, not required)."
+    citation: "ambientCG, texture Rock027, CC0 1.0, https://ambientcg.com/view?id=Rock027, downloaded 2026-11-23; colour map SHA-256 d86c2b71384cab25ab6498b50e88842af681b08640ecc8d832923f03b9f6dc6e."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: ambientcg-rock026
+    kind: real
+    title: "ambientCG CC0 texture Rock026, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://ambientcg.com/view?id=Rock026"
+    access: api
+    files:
+      - url: "https://ambientcg.com/get?file=Rock026_1K-JPG.zip"
+        sha256: "42217ec3ac5798b423ad86811062a247e7324c993b04d755889a0a8fbdf0381b"
+        bytes: 7285475
+        kind: archive
+        name: "Rock026_1K-JPG.zip"
+    spdx: CC0-1.0
+    licence_url: "https://docs.ambientcg.com/license/"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: ambientCG, CC0 (courtesy credit, not required)."
+    citation: "ambientCG, texture Rock026, CC0 1.0, https://ambientcg.com/view?id=Rock026, downloaded 2026-11-23; colour map SHA-256 6f2595c1a1e96b5cb69855787386e5d8804e29a0bc2074cbca572fb920afc7d6."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: ambientcg-rock024
+    kind: real
+    title: "ambientCG CC0 texture Rock024, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://ambientcg.com/view?id=Rock024"
+    access: api
+    files:
+      - url: "https://ambientcg.com/get?file=Rock024_1K-JPG.zip"
+        sha256: "faaddd5b71d37ebc30b0a9c9923363acd9708530d9fd002fca7704283bd5b539"
+        bytes: 8332391
+        kind: archive
+        name: "Rock024_1K-JPG.zip"
+    spdx: CC0-1.0
+    licence_url: "https://docs.ambientcg.com/license/"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: ambientCG, CC0 (courtesy credit, not required)."
+    citation: "ambientCG, texture Rock024, CC0 1.0, https://ambientcg.com/view?id=Rock024, downloaded 2026-11-23; colour map SHA-256 e07e1d804c6851cc84d5e74e0ad3f46bd68f087e1676a2b1cbdaf7882f8148b1."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: ambientcg-rock058
+    kind: real
+    title: "ambientCG CC0 texture Rock058, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://ambientcg.com/view?id=Rock058"
+    access: api
+    files:
+      - url: "https://ambientcg.com/get?file=Rock058_1K-JPG.zip"
+        sha256: "4d47ea9579507e4a410d87a78037d0b9c1fb5ecb6cbeba073f5ea0e13b95aa22"
+        bytes: 8109936
+        kind: archive
+        name: "Rock058_1K-JPG.zip"
+    spdx: CC0-1.0
+    licence_url: "https://docs.ambientcg.com/license/"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: ambientCG, CC0 (courtesy credit, not required)."
+    citation: "ambientCG, texture Rock058, CC0 1.0, https://ambientcg.com/view?id=Rock058, downloaded 2026-11-23; colour map SHA-256 ba46be27557942876629de570ce6d674d92a4bf32f8514fca0ca05510860df53."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: ambientcg-rock025
+    kind: real
+    title: "ambientCG CC0 texture Rock025, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://ambientcg.com/view?id=Rock025"
+    access: api
+    files:
+      - url: "https://ambientcg.com/get?file=Rock025_1K-JPG.zip"
+        sha256: "ffa84569d0c22aab682e8a0cee4b84495de4b7783e89c3ab37437aa3cdfb6f14"
+        bytes: 7211490
+        kind: archive
+        name: "Rock025_1K-JPG.zip"
+    spdx: CC0-1.0
+    licence_url: "https://docs.ambientcg.com/license/"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: ambientCG, CC0 (courtesy credit, not required)."
+    citation: "ambientCG, texture Rock025, CC0 1.0, https://ambientcg.com/view?id=Rock025, downloaded 2026-11-23; colour map SHA-256 4db440e006640d37b8a93cdf7d526b4a9f13923d1248f4d901cb5416ebbfeb10."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: ambientcg-rock051
+    kind: real
+    title: "ambientCG CC0 texture Rock051, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://ambientcg.com/view?id=Rock051"
+    access: api
+    files:
+      - url: "https://ambientcg.com/get?file=Rock051_1K-JPG.zip"
+        sha256: "036c5c18beb3c63cca9411c898d3a42a6a0dd923b5672ee35b021cd81b888aa9"
+        bytes: 8993166
+        kind: archive
+        name: "Rock051_1K-JPG.zip"
+    spdx: CC0-1.0
+    licence_url: "https://docs.ambientcg.com/license/"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: ambientCG, CC0 (courtesy credit, not required)."
+    citation: "ambientCG, texture Rock051, CC0 1.0, https://ambientcg.com/view?id=Rock051, downloaded 2026-11-23; colour map SHA-256 92bdd9212a6d5c6dcc7a143130e51f8b2eceeb1410825714e1565b1bc1102445."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: ambientcg-rock054
+    kind: real
+    title: "ambientCG CC0 texture Rock054, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://ambientcg.com/view?id=Rock054"
+    access: api
+    files:
+      - url: "https://ambientcg.com/get?file=Rock054_1K-JPG.zip"
+        sha256: "4d58487257a410c3f2e76af5d8084c52916cfc3891f9f64a4c1a4d189c4602e7"
+        bytes: 7351584
+        kind: archive
+        name: "Rock054_1K-JPG.zip"
+    spdx: CC0-1.0
+    licence_url: "https://docs.ambientcg.com/license/"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: ambientCG, CC0 (courtesy credit, not required)."
+    citation: "ambientCG, texture Rock054, CC0 1.0, https://ambientcg.com/view?id=Rock054, downloaded 2026-11-23; colour map SHA-256 da4507440a11374b449820eb0f0f6ed852ce51e18c27b3257806d51de8ecc0ee."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: ambientcg-rock060
+    kind: real
+    title: "ambientCG CC0 texture Rock060, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://ambientcg.com/view?id=Rock060"
+    access: api
+    files:
+      - url: "https://ambientcg.com/get?file=Rock060_1K-JPG.zip"
+        sha256: "8980f46548861525b17102ad38cbcd568eaf97faed4975ee48c7eb4cac718cc4"
+        bytes: 8028835
+        kind: archive
+        name: "Rock060_1K-JPG.zip"
+    spdx: CC0-1.0
+    licence_url: "https://docs.ambientcg.com/license/"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: ambientCG, CC0 (courtesy credit, not required)."
+    citation: "ambientCG, texture Rock060, CC0 1.0, https://ambientcg.com/view?id=Rock060, downloaded 2026-11-23; colour map SHA-256 0badf4e433aa96102c3beaeadb08ae4a9510d374ee251ddbf3ae77f73efaddad."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: polyhaven-rock-boulder-cracked
+    kind: real
+    title: "Poly Haven CC0 texture rock_boulder_cracked, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://polyhaven.com/a/rock_boulder_cracked"
+    access: api
+    files:
+      - url: "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rock_boulder_cracked/rock_boulder_cracked_diff_1k.jpg"
+        sha256: "e88c9e50109c7f610bc380a00b9bdac5954c392bb02134dedeea3358da57276a"
+        bytes: 998110
+        kind: image-set
+        name: "rock_boulder_cracked_diff_1k.jpg"
+    spdx: CC0-1.0
+    licence_url: "https://polyhaven.com/license"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: Poly Haven, CC0 (courtesy credit, not required)."
+    citation: "Poly Haven, texture rock_boulder_cracked, CC0 1.0, https://polyhaven.com/a/rock_boulder_cracked, downloaded 2026-11-23; colour map SHA-256 e88c9e50109c7f610bc380a00b9bdac5954c392bb02134dedeea3358da57276a."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: polyhaven-rock-boulder-dry
+    kind: real
+    title: "Poly Haven CC0 texture rock_boulder_dry, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://polyhaven.com/a/rock_boulder_dry"
+    access: api
+    files:
+      - url: "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rock_boulder_dry/rock_boulder_dry_diff_1k.jpg"
+        sha256: "20f653a42fb24f42aa40641663070d578678da49af18cc1049dbdd4ed8679f3c"
+        bytes: 859211
+        kind: image-set
+        name: "rock_boulder_dry_diff_1k.jpg"
+    spdx: CC0-1.0
+    licence_url: "https://polyhaven.com/license"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: Poly Haven, CC0 (courtesy credit, not required)."
+    citation: "Poly Haven, texture rock_boulder_dry, CC0 1.0, https://polyhaven.com/a/rock_boulder_dry, downloaded 2026-11-23; colour map SHA-256 20f653a42fb24f42aa40641663070d578678da49af18cc1049dbdd4ed8679f3c."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: polyhaven-worn-rock-natural-01
+    kind: real
+    title: "Poly Haven CC0 texture worn_rock_natural_01, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://polyhaven.com/a/worn_rock_natural_01"
+    access: api
+    files:
+      - url: "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/worn_rock_natural_01/worn_rock_natural_01_diff_1k.jpg"
+        sha256: "ef6c74732c61974c5df7f0f7185e7d6a97308198bf10aec7a0e95e953a617d9e"
+        bytes: 854615
+        kind: image-set
+        name: "worn_rock_natural_01_diff_1k.jpg"
+    spdx: CC0-1.0
+    licence_url: "https://polyhaven.com/license"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: Poly Haven, CC0 (courtesy credit, not required)."
+    citation: "Poly Haven, texture worn_rock_natural_01, CC0 1.0, https://polyhaven.com/a/worn_rock_natural_01, downloaded 2026-11-23; colour map SHA-256 ef6c74732c61974c5df7f0f7185e7d6a97308198bf10aec7a0e95e953a617d9e."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: polyhaven-rock-wall-11
+    kind: real
+    title: "Poly Haven CC0 texture rock_wall_11, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://polyhaven.com/a/rock_wall_11"
+    access: api
+    files:
+      - url: "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rock_wall_11/rock_wall_11_diff_1k.jpg"
+        sha256: "850f45c4ea8692c4ea990a2bb8b673cb1a94a2240c4a5dedab5d8a3d695256f6"
+        bytes: 762222
+        kind: image-set
+        name: "rock_wall_11_diff_1k.jpg"
+    spdx: CC0-1.0
+    licence_url: "https://polyhaven.com/license"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: Poly Haven, CC0 (courtesy credit, not required)."
+    citation: "Poly Haven, texture rock_wall_11, CC0 1.0, https://polyhaven.com/a/rock_wall_11, downloaded 2026-11-23; colour map SHA-256 850f45c4ea8692c4ea990a2bb8b673cb1a94a2240c4a5dedab5d8a3d695256f6."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: polyhaven-rock-face-03
+    kind: real
+    title: "Poly Haven CC0 texture rock_face_03, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://polyhaven.com/a/rock_face_03"
+    access: api
+    files:
+      - url: "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rock_face_03/rock_face_03_diff_1k.jpg"
+        sha256: "ea48e0e47ad42c8bd312476178b1248ec66f0eb19156a26a1c222f2a40caaf2d"
+        bytes: 927082
+        kind: image-set
+        name: "rock_face_03_diff_1k.jpg"
+    spdx: CC0-1.0
+    licence_url: "https://polyhaven.com/license"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: Poly Haven, CC0 (courtesy credit, not required)."
+    citation: "Poly Haven, texture rock_face_03, CC0 1.0, https://polyhaven.com/a/rock_face_03, downloaded 2026-11-23; colour map SHA-256 ea48e0e47ad42c8bd312476178b1248ec66f0eb19156a26a1c222f2a40caaf2d."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: polyhaven-quarry-wall
+    kind: real
+    title: "Poly Haven CC0 texture quarry_wall, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://polyhaven.com/a/quarry_wall"
+    access: api
+    files:
+      - url: "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/quarry_wall/quarry_wall_diff_1k.jpg"
+        sha256: "929c85d9acf3a3949bd271cd310d2c892ec8756d575b39861f179be31a41ad49"
+        bytes: 957172
+        kind: image-set
+        name: "quarry_wall_diff_1k.jpg"
+    spdx: CC0-1.0
+    licence_url: "https://polyhaven.com/license"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: Poly Haven, CC0 (courtesy credit, not required)."
+    citation: "Poly Haven, texture quarry_wall, CC0 1.0, https://polyhaven.com/a/quarry_wall, downloaded 2026-11-23; colour map SHA-256 929c85d9acf3a3949bd271cd310d2c892ec8756d575b39861f179be31a41ad49."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: polyhaven-dry-riverbed-rock
+    kind: real
+    title: "Poly Haven CC0 texture dry_riverbed_rock, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://polyhaven.com/a/dry_riverbed_rock"
+    access: api
+    files:
+      - url: "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dry_riverbed_rock/dry_riverbed_rock_diff_1k.jpg"
+        sha256: "5dc1fd5777f613451a703d2fc292d4a4e79987f90b991efa98c7ca02458c6a8a"
+        bytes: 1099450
+        kind: image-set
+        name: "dry_riverbed_rock_diff_1k.jpg"
+    spdx: CC0-1.0
+    licence_url: "https://polyhaven.com/license"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: Poly Haven, CC0 (courtesy credit, not required)."
+    citation: "Poly Haven, texture dry_riverbed_rock, CC0 1.0, https://polyhaven.com/a/dry_riverbed_rock, downloaded 2026-11-23; colour map SHA-256 5dc1fd5777f613451a703d2fc292d4a4e79987f90b991efa98c7ca02458c6a8a."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false
+  - id: polyhaven-gravel-ground-01
+    kind: real
+    title: "Poly Haven CC0 texture gravel_ground_01, 1K colour map (arid rock and ground pool of the SDG scene)"
+    landing_url: "https://polyhaven.com/a/gravel_ground_01"
+    access: api
+    files:
+      - url: "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_ground_01/gravel_ground_01_diff_1k.jpg"
+        sha256: "c3a12b0e3a9399913158dd5cfa1d67ede066970acd1f99e5b89969ac13f89089"
+        bytes: 954257
+        kind: image-set
+        name: "gravel_ground_01_diff_1k.jpg"
+    spdx: CC0-1.0
+    licence_url: "https://polyhaven.com/license"
+    licence_class: open-no-attribution
+    redistribution: redistributable
+    attribution: "Textures: Poly Haven, CC0 (courtesy credit, not required)."
+    citation: "Poly Haven, texture gravel_ground_01, CC0 1.0, https://polyhaven.com/a/gravel_ground_01, downloaded 2026-11-23; colour map SHA-256 c3a12b0e3a9399913158dd5cfa1d67ede066970acd1f99e5b89969ac13f89089."
+    card: data/cards/sdg-cc0-textures.md
+    account:
+      needed: false

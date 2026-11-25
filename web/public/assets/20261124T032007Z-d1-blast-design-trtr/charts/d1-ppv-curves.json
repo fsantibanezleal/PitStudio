@@ -1,0 +1,240 @@
+{
+ "caption": {
+  "en": "Square-root scaled-distance law with the illustrative site constants K = 1 m/s and beta = 1.6 (UNVERIFIED, not fitted on site data), against the regulatory limit.",
+  "es": "Ley de distancia escalada con las constantes de sitio ilustrativas K = 1 m/s y beta = 1.6 (UNVERIFIED, no ajustadas con datos de sitio), contra el limite regulatorio."
+ },
+ "case": "D1",
+ "chart_type": "line",
+ "id": "d1-ppv-curves",
+ "kind": "chart-series",
+ "producer": {
+  "label": "model output with illustrative site constants (UNVERIFIED), not validated against real data",
+  "method": "Kuz-Ram (Cunningham 2005) with KCO/Swebrec, scaled-distance PPV and ballistic flyrock of minephys.blasting",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "id": "charge-50-kg",
+   "label": {
+    "en": "50 kg per delay",
+    "es": "50 kg por retardo"
+   },
+   "n": 8,
+   "x": [
+    100.0,
+    200.0,
+    300.0,
+    500.0,
+    750.0,
+    1000.0,
+    1500.0,
+    2000.0
+   ],
+   "y": [
+    14.426999059072134,
+    4.759134846789696,
+    2.4876082927446825,
+    1.0985605433061172,
+    0.5742195599802813,
+    0.3623898318388476,
+    0.1894218129786279,
+    0.11954406247375456
+   ]
+  },
+  {
+   "id": "charge-100-kg",
+   "label": {
+    "en": "100 kg per delay",
+    "es": "100 kg por retardo"
+   },
+   "n": 8,
+   "x": [
+    100.0,
+    200.0,
+    300.0,
+    500.0,
+    750.0,
+    1000.0,
+    1500.0,
+    2000.0
+   ],
+   "y": [
+    25.118864315095795,
+    8.286135043349963,
+    4.331177601017987,
+    1.9127049995800733,
+    0.9997743227929728,
+    0.630957344480193,
+    0.32980253197823517,
+    0.2081383018504682
+   ]
+  },
+  {
+   "id": "charge-150-kg",
+   "label": {
+    "en": "150 kg per delay",
+    "es": "150 kg por retardo"
+   },
+   "n": 8,
+   "x": [
+    100.0,
+    200.0,
+    300.0,
+    500.0,
+    750.0,
+    1000.0,
+    1500.0,
+    2000.0
+   ],
+   "y": [
+    34.74345526857883,
+    11.461066018618487,
+    5.990719697896703,
+    2.6455806186651603,
+    1.3828497191155302,
+    0.8727161387290315,
+    0.4561702859457542,
+    0.28788896222803295
+   ]
+  },
+  {
+   "id": "charge-250-kg",
+   "label": {
+    "en": "250 kg per delay",
+    "es": "250 kg por retardo"
+   },
+   "n": 8,
+   "x": [
+    100.0,
+    200.0,
+    300.0,
+    500.0,
+    750.0,
+    1000.0,
+    1500.0,
+    2000.0
+   ],
+   "y": [
+    52.28197762956364,
+    17.24662076826518,
+    9.014839508886688,
+    3.981071705534972,
+    2.080913297798313,
+    1.313263902201883,
+    0.6864453895193462,
+    0.4332155269719663
+   ]
+  },
+  {
+   "id": "charge-400-kg",
+   "label": {
+    "en": "400 kg per delay",
+    "es": "400 kg por retardo"
+   },
+   "n": 8,
+   "x": [
+    100.0,
+    200.0,
+    300.0,
+    500.0,
+    750.0,
+    1000.0,
+    1500.0,
+    2000.0
+   ],
+   "y": [
+    76.14615754863513,
+    25.118864315095795,
+    13.129675284723453,
+    5.7982373094215625,
+    3.0307490076580463,
+    1.9127049995800733,
+    0.9997743227929728,
+    0.630957344480193
+   ]
+  },
+  {
+   "id": "charge-600-kg",
+   "label": {
+    "en": "600 kg per delay",
+    "es": "600 kg por retardo"
+   },
+   "n": 8,
+   "x": [
+    100.0,
+    200.0,
+    300.0,
+    500.0,
+    750.0,
+    1000.0,
+    1500.0,
+    2000.0
+   ],
+   "y": [
+    105.3224614567958,
+    34.74345526857883,
+    18.160466182844402,
+    8.019900743499225,
+    4.19201645651532,
+    2.6455806186651603,
+    1.3828497191155302,
+    0.8727161387290315
+   ]
+  },
+  {
+   "draw": "step",
+   "id": "limit-30-cfr-816-67",
+   "label": {
+    "en": "Limit, 30 CFR 816.67(d)(2)(i)",
+    "es": "Limite, 30 CFR 816.67(d)(2)(i)"
+   },
+   "n": 8,
+   "x": [
+    100.0,
+    200.0,
+    300.0,
+    500.0,
+    750.0,
+    1000.0,
+    1500.0,
+    2000.0
+   ],
+   "y": [
+    25.4,
+    25.4,
+    25.4,
+    25.4,
+    25.4,
+    25.4,
+    25.4,
+    19.049999999999997
+   ]
+  }
+ ],
+ "serves": [
+  "FR-012-41"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Peak particle velocity against distance",
+  "es": "Velocidad peak de particula segun distancia"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Distance to the receiver",
+   "es": "Distancia al receptor"
+  },
+  "scale": "log",
+  "unit": "m"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Peak particle velocity",
+   "es": "Velocidad peak de particula"
+  },
+  "scale": "log",
+  "unit": "mm/s"
+ }
+}

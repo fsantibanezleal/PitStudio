@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "pile_seed": 1042,
+  "generator": {
+    "passing_function": "swebrec-truncated",
+    "x50_m": 0.25,
+    "x_max_m": 1.5,
+    "x_min_m": 0.1,
+    "b": 0,
+    "target_volume_m3": 40.0,
+    "size_classes": 20,
+    "density_kg_per_m3": 2650,
+    "minephys_version": "0.3.0"
+  },
+  "realised": {
+    "fragment_count": 8214,
+    "total_volume_m3": 40.9,
+    "max_fragment_volume_m3": 1.406,
+    "x50_m": 0.4074,
+    "x80_m": 0.733
+  },
+  "view_count": 4,
+  "table": {
+    "format": "parquet",
+    "path": "data/synthetic/d1/piles/1042/fragments.parquet",
+    "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+    "rows": 8214
+  }
+}

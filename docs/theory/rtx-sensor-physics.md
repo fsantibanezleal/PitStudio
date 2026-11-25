@@ -281,8 +281,8 @@ resolution is $c/2B = 0.15$ m.
 ### Phase and line-of-sight displacement
 
 A slope radar images the pit wall repeatedly from a fixed position. Between two acquisitions, a pixel that moves by
-$\Delta d_{\mathrm{LOS}}$ (m) along the radar line of sight changes its interferometric phase by (citation UNVERIFIED —
-pinned at specification; GB-SAR interferometry is reviewed in [11], open-pit practice in [12]):
+$\Delta d_{\mathrm{LOS}}$ (m) along the radar line of sight changes its interferometric phase by (the form of [11],
+eqs. 4–5, which reviews GB-SAR interferometry; open-pit practice in [12]):
 
 $$
 \Delta\phi = \frac{4\pi}{\lambda}\, \Delta d_{\mathrm{LOS}} + \Delta\phi_{\mathrm{atm}} + \Delta\phi_{\mathrm{noise}}
@@ -296,8 +296,9 @@ d_{\mathrm{LOS}} = \mathbf{u} \cdot \hat{\mathbf{e}} = |\mathbf{u}| \cos\psi
 $$
 
 where $\psi$ is the angle between motion and line of sight. At $\psi = 60°$ the radar sees half of the motion; at
-$\psi = 90°$ it sees nothing. Siting the radar is therefore part of the physics. The sign convention (toward or away
-from the radar) is fixed in the specification; magnitudes do not depend on it.
+$\psi = 90°$ it sees nothing. Siting the radar is therefore part of the physics. The sign follows [11] (eq. 4,
+$\Delta\phi = 4\pi(R_2 - R_1)/\lambda$): a positive $\Delta d_{\mathrm{LOS}}$ is a range increase, i.e. motion away
+from the radar.
 
 ### Phase wrapping
 

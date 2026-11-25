@@ -1,0 +1,26 @@
+{
+  "kind": "input",
+  "engine": "haulage",
+  "engine_version": "0.1.0",
+  "function": "route_energy",
+  "args": {
+    "segments": [
+      {
+        "length_m": 1200.0,
+        "grade": 0.08,
+        "rolling_resistance": 0.025,
+        "trolley": false
+      },
+      {
+        "length_m": 800.0,
+        "grade": 0.1,
+        "rolling_resistance": 0.02,
+        "trolley": true
+      }
+    ],
+    "empty_mass_kg": 160000.0,
+    "payload_kg": 220000.0,
+    "drivetrain": "diesel",
+    "leg": "loaded"
+  }
+}

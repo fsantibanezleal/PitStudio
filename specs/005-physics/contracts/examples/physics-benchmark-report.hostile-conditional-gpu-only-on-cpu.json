@@ -1,0 +1,87 @@
+{
+  "kind": "physics-benchmark-report",
+  "schema_version": "1.0",
+  "report_id": "bench-dem-warp-1-17-0-cpu",
+  "created": "2026-10-07T08:00:00Z",
+  "run_id": "20261007T075500Z-bench-physics-dem-cpu",
+  "git_sha": "3f1c2a9b7d4e5f60718293a4b5c6d7e8f9012345",
+  "device": {
+    "kind": "cpu",
+    "name": "cpu"
+  },
+  "rows": [
+    {
+      "benchmark": "dem-restitution",
+      "solver": "dem",
+      "solver_version": "1.17.0",
+      "material": null,
+      "parameters": {
+        "restitution": 0.5,
+        "impact_speed_m_s": 1.0
+      },
+      "oracle": {
+        "kind": "reference-implementation",
+        "source": "SciPy solve_ivp (DOP853) of the damped Hertz contact ODE",
+        "status": "verified"
+      },
+      "checks": [
+        {
+          "quantity": "restitution",
+          "unit": "1",
+          "measured": 0.502,
+          "oracle": 0.5,
+          "tolerance": {
+            "kind": "abs",
+            "value": 0.01
+          },
+          "pass": true
+        }
+      ],
+      "verdict": "pass",
+      "gpu_only": false,
+      "deterministic": true
+    },
+    {
+      "benchmark": "dem-beverloo-silo",
+      "solver": "dem",
+      "solver_version": "1.17.0",
+      "material": {
+        "id": "gravel-10mm",
+        "card_sha256": "31ba80bbe35ed5c6aba30c9a6f357109123eb977b8f887ca008bcc2148cb7449"
+      },
+      "parameters": {
+        "orifice_ratios": "5,8,10,12.5,15,17.5,20"
+      },
+      "oracle": {
+        "kind": "published",
+        "source": "Beverloo law, exponent 5/2; DEM validation arXiv 2512.03698, section 4",
+        "url": "https://arxiv.org/abs/2512.03698",
+        "status": "verified"
+      },
+      "checks": [
+        {
+          "quantity": "beverloo_exponent",
+          "unit": "1",
+          "measured": 2.5,
+          "oracle": 2.5,
+          "tolerance": {
+            "kind": "abs",
+            "value": 0.15
+          },
+          "pass": true
+        }
+      ],
+      "verdict": "pass",
+      "reason": "no GPU",
+      "gpu_only": true,
+      "deterministic": true
+    }
+  ],
+  "overhead": [
+    {
+      "solver": "dem",
+      "device": "cpu",
+      "factor": 1.1
+    }
+  ]
+}

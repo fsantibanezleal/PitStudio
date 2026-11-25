@@ -76,8 +76,8 @@ written but not yet run on the reference machine.
 ### Export and web lane
 
 - **Opset 19**: the graph is `MatMul`-only, so the opset does not change web coverage, and 19 keeps an FP8 Q/DQ variant
-  possible in the TensorRT lane [5]. `Einsum` is avoided because its WebGPU registration in the ORT 1.30.0 tag was not
-  confirmed (UNVERIFIED) [6]. IR version **pinned to 10**; dynamo export with `verify=True`; onnxslim.
+  possible in the TensorRT lane [5]. `Einsum` is excluded by the export's operator whitelist (no `DFT`, `Einsum` or
+  complex tensors), because its WebGPU registration in the ORT 1.30.0 tag was not confirmed (UNVERIFIED) [6]. IR version **pinned to 10**; dynamo export with `verify=True`; onnxslim.
 - Parity: ONNX Runtime CPU fp32 vs PyTorch fp32 on ≥ 200 golden fields (rtol 1e-3 / atol 1e-5 / max abs 1e-4); fp16
   accepted only if the relative L2 error moves by ≤ 1 pp.
 - Size: about 10 MB fp32 / **~5 MB fp16 → LIVE** (ORT-web WebGPU, WASM fallback); gate ≤ 25 MB and ≤ 50 ms per

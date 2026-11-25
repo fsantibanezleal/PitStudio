@@ -1,0 +1,157 @@
+{
+ "caption": {
+  "en": "Energy per payload tonne of the A* route at each grade limit (source energy; battery figure net of regeneration). A route over terrain is not a designed road.",
+  "es": "Energia por tonelada de carga util de la ruta A* por limite (energia en la fuente; bateria neta de regeneracion). Una ruta sobre el terreno no es un camino disenado."
+ },
+ "case": "A2",
+ "chart_type": "table",
+ "id": "a2-route-table",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
+  "method": "wheel energy m g (RR + grade) L per segment, drivetrain efficiencies and regeneration, grade-constrained least-energy A*",
+  "tool": "minephys",
+  "version": "0.0.0+gcabb880"
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-018-16",
+  "FR-007-34",
+  "FR-007-35"
+ ],
+ "status": "ok",
+ "table": {
+  "columns": [
+   {
+    "id": "limit",
+    "label": {
+     "en": "Grade limit",
+     "es": "Limite de pendiente"
+    },
+    "type": "text"
+   },
+   {
+    "id": "status",
+    "label": {
+     "en": "Result",
+     "es": "Resultado"
+    },
+    "type": "text"
+   },
+   {
+    "id": "km",
+    "label": {
+     "en": "Length",
+     "es": "Largo"
+    },
+    "type": "number",
+    "unit": "km"
+   },
+   {
+    "id": "dz",
+    "label": {
+     "en": "Net climb",
+     "es": "Ascenso neto"
+    },
+    "type": "number",
+    "unit": "m"
+   },
+   {
+    "id": "steepest",
+    "label": {
+     "en": "Steepest edge",
+     "es": "Arista mas empinada"
+    },
+    "type": "number",
+    "unit": "%"
+   },
+   {
+    "id": "diesel",
+    "label": {
+     "en": "Diesel loaded climb",
+     "es": "Diesel subida cargada"
+    },
+    "type": "number",
+    "unit": "kWh/t"
+   },
+   {
+    "id": "bev",
+    "label": {
+     "en": "Battery round trip",
+     "es": "Bateria ciclo completo"
+    },
+    "type": "number",
+    "unit": "kWh/t"
+   }
+  ],
+  "rows": [
+   [
+    "6",
+    "no feasible route",
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    "8",
+    "no feasible route",
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    "10",
+    "route",
+    9.167,
+    668.9,
+    9.995,
+    11.94,
+    4.181
+   ],
+   [
+    "12",
+    "route",
+    8.289,
+    668.9,
+    11.98,
+    11.64,
+    4.025
+   ],
+   [
+    "15",
+    "route",
+    8.098,
+    668.9,
+    14.98,
+    11.58,
+    3.992
+   ],
+   [
+    "20",
+    "route",
+    7.939,
+    668.9,
+    19.83,
+    11.53,
+    3.968
+   ],
+   [
+    "25",
+    "route",
+    7.865,
+    668.9,
+    25.0,
+    11.5,
+    3.958
+   ]
+  ]
+ },
+ "title": {
+  "en": "Least-energy routes over the real terrain",
+  "es": "Rutas de minima energia sobre el terreno real"
+ }
+}

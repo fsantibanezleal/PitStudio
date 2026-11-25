@@ -1,0 +1,11 @@
+{
+  "seq": 12,
+  "t": "2026-10-07T23:41:00Z",
+  "run_id": "20261007T230000Z-b2-perception",
+  "type": "shard-finished",
+  "stage": {
+    "id": "st55_sdg",
+    "variant": "night"
+  },
+  "shard": 3
+}

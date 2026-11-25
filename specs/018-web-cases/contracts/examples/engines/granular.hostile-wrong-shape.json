@@ -1,0 +1,33 @@
+{
+  "kind": "input",
+  "engine": "granular",
+  "engine_version": "0.1.0",
+  "function": "dem_step",
+  "args": {
+    "positions_m": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "components": 2
+      },
+      "byte_length": 24000
+    },
+    "velocities_m_per_s": {
+      "dtype": "float32",
+      "shape": {
+        "particles": 2000,
+        "components": 3
+      },
+      "byte_length": 24000
+    },
+    "radius_m": 0.05,
+    "density_kg_per_m3": 2650.0,
+    "youngs_modulus_pa": 10000000.0,
+    "poisson_ratio": 0.25,
+    "restitution": 0.5,
+    "friction_static": 0.6,
+    "friction_rolling": 0.05,
+    "step_s": 0.0001,
+    "contact_capacity": 12
+  }
+}

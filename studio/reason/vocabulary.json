@@ -1,0 +1,14 @@
+{
+  "classes": {
+    "haul_truck": ["truck", "haul truck", "dump truck", "haulage truck", "mining truck"],
+    "shovel": ["shovel", "excavator", "digger"],
+    "light_vehicle": ["pickup", "light vehicle", "ute", "utility vehicle"],
+    "person": ["person", "worker", "pedestrian", "people", "man", "woman"],
+    "boulder": ["boulder", "large rock", "rock"]
+  },
+  "conditions": {
+    "dust": ["dust", "dusty"],
+    "night": ["night", "dark"],
+    "rain": ["rain", "rainy", "raining"]
+  }
+}

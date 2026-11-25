@@ -1,0 +1,28 @@
+{
+  "recipes": [
+    {
+      "id": "c2-slope",
+      "case": "C2",
+      "path": "studio/recipes/cases/c2-slope.yaml",
+      "sha256": "a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+      "stages": 6,
+      "valid": true,
+      "errors": []
+    },
+    {
+      "id": null,
+      "case": null,
+      "path": "studio/recipes/_bench/broken.yaml",
+      "sha256": "b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2",
+      "stages": 0,
+      "valid": false,
+      "errors": [
+        {
+          "pointer": "/stages/0/env",
+          "keyword": "const",
+          "message": "'isaac' was expected"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fsantibanezleal.github.io/PitStudio/contracts/haul-energy.schema.json",
+  "title": "Route-energy table",
+  "description": "Energy, fuel and CO2e per tonne by drivetrain and route, written by the route-energy engine (DC-007-05, spec 007-haulage-dispatch).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "knowledge",
+    "routes",
+    "rows",
+    "honesty"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "schema_version": {
+      "$ref": "#/$defs/schema_version"
+    },
+    "id": {
+      "$ref": "#/$defs/slug"
+    },
+    "knowledge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package",
+        "version"
+      ],
+      "properties": {
+        "package": {
+          "const": "minephys"
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/route"
+      },
+      "minItems": 1,
+      "maxItems": 256
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/row"
+      },
+      "minItems": 1,
+      "maxItems": 4096
+    },
+    "honesty": {
+      "$ref": "des-trace.schema.json#/$defs/honesty"
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+_-]{0,63}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "maxLength": 8,
+      "pattern": "^1\\.[0-9]{1,4}$"
+    },
+    "knowledge_row_id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "route_segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "length_m",
+        "grade_pct",
+        "rolling_resistance_pct",
+        "trolley"
+      ],
+      "properties": {
+        "length_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100000
+        },
+        "grade_pct": {
+          "type": "number",
+          "exclusiveMinimum": -100,
+          "exclusiveMaximum": 100
+        },
+        "rolling_resistance_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 30
+        },
+        "trolley": {
+          "type": "boolean"
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "length_m",
+        "segments"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "length_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0,
+          "description": "Along-road length (the per-km basis)."
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/route_segment"
+          },
+          "minItems": 1,
+          "maxItems": 2048
+        },
+        "grade_limit_frac": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "dp_tolerance_m": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "dem_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route",
+        "drivetrain",
+        "leg",
+        "empty_mass_t",
+        "payload_t",
+        "wheel_energy_kwh",
+        "source_energy_kwh",
+        "regenerated_kwh",
+        "source_energy_kwh_per_t",
+        "fuel_l_per_t_km",
+        "co2e_kg_per_t",
+        "basis",
+        "knowledge_rows",
+        "unverified_rows"
+      ],
+      "properties": {
+        "route": {
+          "$ref": "#/$defs/slug"
+        },
+        "drivetrain": {
+          "enum": [
+            "diesel",
+            "trolley",
+            "bev"
+          ]
+        },
+        "leg": {
+          "enum": [
+            "loaded",
+            "empty"
+          ]
+        },
+        "empty_mass_t": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "payload_t": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "wheel_energy_kwh": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000.0
+        },
+        "source_energy_kwh": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000.0
+        },
+        "regenerated_kwh": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000.0
+        },
+        "source_energy_kwh_per_t": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000.0
+        },
+        "fuel_l_per_t_km": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "co2e_kg_per_t": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000.0
+        },
+        "basis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "per_tonne",
+            "per_km"
+          ],
+          "properties": {
+            "per_tonne": {
+              "const": "payload-t"
+            },
+            "per_km": {
+              "const": "along-road-km"
+            }
+          }
+        },
+        "knowledge_rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/knowledge_row_id"
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "unverified_rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/knowledge_row_id"
+          },
+          "maxItems": 64,
+          "uniqueItems": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "drivetrain": {
+                "const": "bev"
+              }
+            },
+            "required": [
+              "drivetrain"
+            ]
+          },
+          "then": {
+            "properties": {
+              "fuel_l_per_t_km": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "fuel_l_per_t_km": {
+                "not": {
+                  "const": null
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "drivetrain": {
+                "const": "diesel"
+              }
+            },
+            "required": [
+              "drivetrain"
+            ]
+          },
+          "then": {
+            "properties": {
+              "regenerated_kwh": {
+                "maximum": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

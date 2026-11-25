@@ -1,0 +1,137 @@
+{
+ "kind": "run",
+ "schema_version": "1.0",
+ "run_id": "20261122T062641Z-a1-scene-bingham",
+ "recipe": {
+  "id": "a1-scene",
+  "path": "cases/a1-scene.yaml",
+  "sha256": "ff82581dd9105e3bdeb5b41c749d94a8abc3b4a666f3996d29ef2ccaf49c39b5"
+ },
+ "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+ "git_dirty": false,
+ "runner_version": "0.1.0",
+ "created": "2026-11-22T06:26:41Z",
+ "profile": "imported",
+ "seed": 0,
+ "published": true,
+ "launcher": "uv",
+ "gpu": null,
+ "stages": [
+  {
+   "key": {
+    "id": "st45_validate"
+   },
+   "tool": "pitstudio",
+   "env": {
+    "name": "external",
+    "python": null,
+    "lock_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "versions": {}
+   },
+   "cache_key": "722f28ce0905e059358587411d19dfa3f83f9dab08c123b61c2f25f1cbd442da",
+   "cache": "miss",
+   "status": "succeeded",
+   "exit_code": 0,
+   "error_class": null,
+   "attempts": [
+    {
+     "n": 1,
+     "error_class": null,
+     "duration_s": 0.0
+    }
+   ],
+   "params": {},
+   "seed": 0,
+   "determinism": {
+    "class": "none",
+    "rerun_check": "not-applicable"
+   },
+   "performance": "public",
+   "wall_s": 0.0,
+   "telemetry": null,
+   "thermal_flag": false,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "terrain-tiles.json",
+     "sha256": "5eda3d628af31464f03594030dd2e27cde5637c5774aa055b6741ac7d3c1ada3",
+     "bytes": 203303
+    },
+    {
+     "name": "terrain-summary.json",
+     "sha256": "4ba54031aa6ea14468ed3a177d94832e9da7887c5e861d4e30b8bab02f6f02d4",
+     "bytes": 1089
+    },
+    {
+     "name": "scene.manifest.json",
+     "sha256": "6f1a9154c222150e8766ff2143fd620dfe9d17fa2d15a6dd941d22b304676a5c",
+     "bytes": 6306
+    },
+    {
+     "name": "scene-validation-report.json",
+     "sha256": "e090211872f7a1c4daa0fb40ff5df271ecdbc63744d04f3cc11064b3e90a9f8a",
+     "bytes": 91321
+    },
+    {
+     "name": "terrain.usdc",
+     "sha256": "f119a57f22ada6859226a6712bc68239b116864cabb2cbcb173561a22c8b84ef",
+     "bytes": 100069929
+    }
+   ]
+  }
+ ],
+ "artefacts": [
+  {
+   "id": "layer-terrain-2023-bingham-tiles",
+   "run_id": "20261122T062641Z-a1-scene-bingham",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+   "path": "assets/20261122T062641Z-a1-scene-bingham/terrain-tiles.json",
+   "bytes": 203303,
+   "sha256": "5eda3d628af31464f03594030dd2e27cde5637c5774aa055b6741ac7d3c1ada3",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st45_validate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git"
+  },
+  {
+   "id": "layer-terrain-2023-bingham-summary",
+   "run_id": "20261122T062641Z-a1-scene-bingham",
+   "git_sha": "b13e825755a6add337f5fae767ba0d5a1dc1dcbe",
+   "path": "assets/20261122T062641Z-a1-scene-bingham/terrain-summary.json",
+   "bytes": 1089,
+   "sha256": "4ba54031aa6ea14468ed3a177d94832e9da7887c5e861d4e30b8bab02f6f02d4",
+   "kind": "table",
+   "producer": {
+    "tool": "pitstudio",
+    "stage": {
+     "id": "st45_validate"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "media_type": "application/json"
+  }
+ ],
+ "notes": [
+  "produced by the GPU queue, outside the runner",
+  "job a1-scene-bingham; script sha256 missing; log sha256 missing",
+  "started 2026-11-22T06:26:41Z; ended 2026-11-22T06:26:41Z; GPU-hours missing",
+  "real USGS 3DEP terrain (QL2 elevation model, 2018 acquisition), public domain; the scene pipeline output of spec 004 (CPU stages, no GPU)",
+  "git_sha is the checkout that imported the run, not the code that produced it; launcher uv is recorded for the contract, the stages were not launched by the runner",
+  "The scene was produced by the spec 004 pipeline stages st10 to st45 on this machine; the layer id terrain-2023 is the registry name of the case terrain layer.",
+  "partial: script missing; log missing; start time missing; GPU-hours missing"
+ ]
+}

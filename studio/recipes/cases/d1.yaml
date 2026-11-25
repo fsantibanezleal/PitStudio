@@ -1,0 +1,112 @@
+# Case D1: blast design and muck pile (spec 012-fragmentation). CPU only. One stage: the three design grids of FR-012-41
+# computed by `minephys.blasting` (fragmentation over burden x spacing x charge length, vibration over distance x charge per
+# delay, flyrock over launch speed x fragment size), the per-fold TRTR evaluation of the five on-disk fold models on their
+# test originals (foreground IoU recomputed on the CPU, instance size distribution of the labelled truth and of the
+# U-Net in pixels, training curves) and the chart-series files. Only metrics leave the stage (FR-012-38). The TSTR arm on
+# synthetic piles, the watershed baseline and the realism checks (FR-012-30..37) are later stages and are not part of this
+# recipe yet. The site constants K and beta of the vibration law are illustrative (UNVERIFIED), not fitted on site data.
+id: d1-blast-trtr
+case: D1
+seed: 20261004
+description: D1 blast design grids (x50, x80, oversize, PPV, flyrock) and the five-fold TRTR U-Net with per-fold instance PSDs.
+stages:
+  - id: s50_evaluate
+    variant: design-grids-and-trtr-folds
+    env: pipeline
+    tool: pitstudio
+    entry: pitstudio_pipeline.fragmentation.d1_run
+    inputs: []
+    params:
+      kuzram_variant: cunningham2005
+      distribution: kco-swebrec
+      fixed_inputs:
+        burden_m: 6.0
+        spacing_m: 7.0
+        bench_height_m: 12.0
+        hole_diameter_m: 0.25
+        charge_length_m: 7.2
+        drilling_deviation_m: 0.3
+        explosive_density_kg_per_m3: 850
+        rws: 100
+        rock_factor: 7
+        x_max_m: 1.5
+        oversize_limit_m: 1.0
+        distance_m: 300
+        charge_per_delay_kg: 150
+        k_site_m_per_s: 1.0
+        beta: 1.6
+        launch_speed_m_per_s: 40
+        fragment_diameter_m: 0.1
+        rock_density_kg_per_m3: 2650
+        drag_coefficient: 1.0
+        air_density_kg_per_m3: 1.24
+      grid_fragmentation:
+        burden_m: [4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0]
+        spacing_m: [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5]
+        charge_length_m: [6.0, 7.2, 8.4]
+      grid_vibration:
+        distance_m: [100, 200, 300, 500, 750, 1000, 1500, 2000]
+        charge_per_delay_kg: [50, 100, 150, 250, 400, 600]
+      grid_flyrock:
+        launch_speed_m_per_s: [20, 30, 40, 50, 60, 80]
+        fragment_diameter_m: [0.05, 0.1, 0.2, 0.4]
+      reference_design:
+        burden_m: 6.0
+        spacing_m: 7.0
+        charge_length_m: 7.2
+        distance_m: 300
+        charge_per_delay_kg: 150
+        launch_speed_m_per_s: 40
+        fragment_diameter_m: 0.1
+      folds:
+        run_dir: fragmentation-unet/trtr-v2-scene-groups   # under PITSTUDIO_MODELS: summary.json and fold0..fold4
+        data: processed/mendeley-unet-targets               # under PITSTUDIO_DATA: images.npy and labels.npy
+    resources:
+      gpu: none
+    determinism:
+      class: statistical
+      observables:
+        recomputed_mean_iou: {rtol: 0.001, atol: 0.0001}
+    timeout_s: 3600
+    outputs:
+      - path: design-grid-fragmentation.json
+        schema: contract-d1-design-grid
+      - path: design-grid-vibration.json
+        schema: contract-d1-design-grid
+      - path: design-grid-flyrock.json
+        schema: contract-d1-design-grid
+      - path: fold-report.json
+        schema: json
+      - path: results-summary.json
+        schema: json
+        publish: true
+      - path: charts/d1-p80-map.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d1-oversize-map.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d1-powder-factor-map.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d1-ppv-curves.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d1-flyrock-curves.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d1-fold-iou.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d1-psd-pooled.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d1-psd-per-fold.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d1-training-curves.json
+        schema: contract-chart-series
+        publish: true
+      - path: charts/d1-fold-table.json
+        schema: contract-chart-series
+        publish: true

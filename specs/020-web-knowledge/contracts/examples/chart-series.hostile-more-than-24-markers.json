@@ -1,0 +1,350 @@
+{
+  "schema_version": "1.0",
+  "kind": "chart-series",
+  "id": "example-line-band",
+  "case": "A3",
+  "chart_type": "line",
+  "status": "ok",
+  "title": {
+    "en": "Example chart",
+    "es": "Gráfico de ejemplo"
+  },
+  "producer": {
+    "tool": "warp",
+    "method": "granular DEM",
+    "version": "1.0.0",
+    "label": "fixture of the contract tests, not a result"
+  },
+  "serves": [
+    "FR-018-16",
+    "FR-020-07"
+  ],
+  "x_axis": {
+    "label": {
+      "en": "Step",
+      "es": "Paso"
+    },
+    "unit": "1"
+  },
+  "y_axis": {
+    "label": {
+      "en": "Rollout error",
+      "es": "Error de rollout"
+    },
+    "unit": "m"
+  },
+  "series": [
+    {
+      "id": "error",
+      "label": {
+        "en": "Mean error",
+        "es": "Error medio"
+      },
+      "x": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "y": [
+        0.0,
+        0.01,
+        0.03,
+        0.06,
+        0.1
+      ],
+      "lo": [
+        0.0,
+        0.008,
+        0.02,
+        0.04,
+        0.07
+      ],
+      "hi": [
+        0.0,
+        0.012,
+        0.04,
+        0.08,
+        0.13
+      ],
+      "band_label": {
+        "en": "95 % interval, bootstrap",
+        "es": "Intervalo del 95 %, bootstrap"
+      }
+    },
+    {
+      "id": "gap",
+      "label": {
+        "en": "With a gap",
+        "es": "Con un hueco"
+      },
+      "x": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "y": [
+        0.0,
+        0.02,
+        null,
+        0.05,
+        0.09
+      ]
+    }
+  ],
+  "markers": [
+    {
+      "id": "m0",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 0
+    },
+    {
+      "id": "m1",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 1
+    },
+    {
+      "id": "m2",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 2
+    },
+    {
+      "id": "m3",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 3
+    },
+    {
+      "id": "m4",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 4
+    },
+    {
+      "id": "m5",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 5
+    },
+    {
+      "id": "m6",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 6
+    },
+    {
+      "id": "m7",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 7
+    },
+    {
+      "id": "m8",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 8
+    },
+    {
+      "id": "m9",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 9
+    },
+    {
+      "id": "m10",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 10
+    },
+    {
+      "id": "m11",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 11
+    },
+    {
+      "id": "m12",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 12
+    },
+    {
+      "id": "m13",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 13
+    },
+    {
+      "id": "m14",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 14
+    },
+    {
+      "id": "m15",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 15
+    },
+    {
+      "id": "m16",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 16
+    },
+    {
+      "id": "m17",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 17
+    },
+    {
+      "id": "m18",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 18
+    },
+    {
+      "id": "m19",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 19
+    },
+    {
+      "id": "m20",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 20
+    },
+    {
+      "id": "m21",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 21
+    },
+    {
+      "id": "m22",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 22
+    },
+    {
+      "id": "m23",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 23
+    },
+    {
+      "id": "m24",
+      "label": {
+        "en": "Marker",
+        "es": "Marcador"
+      },
+      "value_text": "1",
+      "orientation": "vertical",
+      "x": 24
+    }
+  ]
+}

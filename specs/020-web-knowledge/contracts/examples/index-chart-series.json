@@ -1,0 +1,308 @@
+{
+  "spec": "020-web-knowledge",
+  "examples": [
+    {
+      "file": "chart-series.valid-line-band.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: line-band"
+    },
+    {
+      "file": "chart-series.valid-bar-error-bars.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: bar-error-bars"
+    },
+    {
+      "file": "chart-series.valid-scatter.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: scatter"
+    },
+    {
+      "file": "chart-series.valid-ecdf.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: ecdf"
+    },
+    {
+      "file": "chart-series.valid-raster.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: raster"
+    },
+    {
+      "file": "chart-series.valid-section.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: section"
+    },
+    {
+      "file": "chart-series.valid-table.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: table"
+    },
+    {
+      "file": "chart-series.valid-not-run.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: not-run"
+    },
+    {
+      "file": "chart-series.hostile-axis-without-unit.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "an axis without its unit",
+      "rule": "FR-020-07",
+      "pointer": "/y_axis",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-producer-without-label.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a chart without the data label of its producer",
+      "rule": "FR-018-16",
+      "pointer": "/producer",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-producer-without-version.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a chart without the version of its producer",
+      "rule": "FR-018-16",
+      "pointer": "/producer",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-unknown-chart-type.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a chart type outside the enum",
+      "rule": "FR-018-16",
+      "pointer": "/chart_type",
+      "keyword": "enum"
+    },
+    {
+      "file": "chart-series.hostile-line-without-series.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a line chart without a series (no chart is drawn without a published series)",
+      "rule": "FR-018-16",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-line-series-without-x.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a line series without its x values",
+      "rule": "FR-018-16",
+      "pointer": "/series/0",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-band-without-upper-edge.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a band with a lower edge and no upper edge",
+      "rule": "FR-018-16",
+      "pointer": "/series/0",
+      "keyword": "dependentRequired"
+    },
+    {
+      "file": "chart-series.hostile-bar-without-categories.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a bar chart without categories",
+      "rule": "FR-018-16",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-not-run-without-reason.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a value not run without its reason (never invented, never silent)",
+      "rule": "ADR-0040",
+      "pointer": "",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-not-run-with-data.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a value not run that carries data",
+      "rule": "ADR-0040",
+      "pointer": "",
+      "keyword": "not"
+    },
+    {
+      "file": "chart-series.hostile-raster-colormap-jet.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a colour map other than viridis, cividis, inferno or magma",
+      "rule": "FR-020-10",
+      "pointer": "/raster/colour/colormap",
+      "keyword": "enum"
+    },
+    {
+      "file": "chart-series.hostile-raster-colour-scale-without-unit.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a colour scale without its unit",
+      "rule": "FR-020-07",
+      "pointer": "/raster/colour",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-raster-over-the-size-cap.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a raster wider than 200 cells",
+      "rule": "ADR-0038",
+      "pointer": "/raster/nx",
+      "keyword": "maximum"
+    },
+    {
+      "file": "chart-series.hostile-more-than-24-markers.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "more markers than the cap",
+      "rule": "FR-020-08",
+      "pointer": "/markers",
+      "keyword": "maxItems"
+    },
+    {
+      "file": "chart-series.hostile-vertical-marker-without-x.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a vertical marker without its position",
+      "rule": "FR-020-08",
+      "pointer": "/markers/0",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-malformed-spec-id.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a spec id that is not a requirement id",
+      "rule": "FR-018-16",
+      "pointer": "/serves/0",
+      "keyword": "pattern"
+    },
+    {
+      "file": "chart-series.hostile-title-without-spanish.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a title without its Spanish text",
+      "rule": "FR-020-45",
+      "pointer": "/title",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-unknown-field.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a field the contract does not know",
+      "rule": "FR-018-16",
+      "pointer": "",
+      "keyword": "additionalProperties"
+    },
+    {
+      "file": "chart-series.hostile-table-number-column-without-unit.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a numeric table column without its unit",
+      "rule": "FR-020-11",
+      "pointer": "/table/columns/1",
+      "keyword": "required"
+    },
+    {
+      "file": "chart-series.hostile-section-circle-radius-zero.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a circle without a radius",
+      "rule": "FR-018-16",
+      "pointer": "/section/circles/0/r",
+      "keyword": "exclusiveMinimum"
+    },
+    {
+      "file": "chart-series.hostile-raster-with-a-series.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a raster that also carries a line series",
+      "rule": "FR-018-16",
+      "pointer": "",
+      "keyword": "not"
+    },
+    {
+      "file": "chart-series.hostile-wrong-schema-version.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a schema version the reader does not know",
+      "rule": "DC-020-05",
+      "pointer": "/schema_version",
+      "keyword": "const"
+    },
+    {
+      "file": "chart-series.hostile-unknown-case.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a case that does not exist",
+      "rule": "DC-018-01",
+      "pointer": "/case",
+      "keyword": "enum"
+    },
+    {
+      "file": "chart-series.valid-kpi-link.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": true,
+      "note": "valid chart-series example: a chart that names its KPI"
+    },
+    {
+      "file": "chart-series.hostile-kpi-malformed.json",
+      "schema": "chart-series.schema.json",
+      "target": "#",
+      "valid": false,
+      "class": "a KPI id that is not a KPI id",
+      "rule": "FR-018-87",
+      "pointer": "/kpi",
+      "keyword": "pattern"
+    }
+  ]
+}

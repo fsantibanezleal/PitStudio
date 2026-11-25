@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { useShellConfig } from "./config";
 import styles from "./shell.module.css";
 
@@ -6,6 +7,7 @@ export function Footer() {
   const { product, version, gitSha, buildDate, author, repoUrl, footer, access } = useShellConfig();
   const { t } = useTranslation("shell");
   const { t: tApp } = useTranslation("app");
+  const items = footer.useProvenance?.() ?? footer.provenance;
 
   return (
     <footer className={styles.footer}>
@@ -17,10 +19,14 @@ export function Footer() {
         </p>
         <p>
           {t("footer.provenance")}:{" "}
-          {footer.provenance.map((item, i) => (
+          {items.map((item, i) => (
             <span key={item.labelKey}>
               {i > 0 && " · "}
-              {item.href ? <a href={item.href}>{tApp(item.labelKey)}</a> : tApp(item.labelKey)}
+              {item.href ? (
+                <Link to={item.href}>{tApp(item.labelKey, item.values)}</Link>
+              ) : (
+                tApp(item.labelKey, item.values)
+              )}
             </span>
           ))}
         </p>

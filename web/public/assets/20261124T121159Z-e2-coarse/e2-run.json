@@ -1,0 +1,121 @@
+{
+ "kind": "e2-run",
+ "case": "E2",
+ "status": "ok",
+ "label": "measurement, not validation",
+ "prepare": {
+  "crs": "EPSG:26912",
+  "transform": [
+   30.0,
+   0.0,
+   399990.0,
+   0.0,
+   -30.0,
+   4490010.0
+  ],
+  "resampling": "bilinear",
+  "sha256_2018": "f855eeb49139b416a2bad301d8fee9ee35c0118232b0707d43fad0f5ff069390",
+  "sha256_2023": "22e708150c0852bea83849220e2162cf17f6d065eba5073ba0951bfd701dbfb8",
+  "project_2018": "SRTM GL1 (Shuttle Radar Topography Mission, 1 arc-second, STS-99, 2000-02-11 to 2000-02-21)",
+  "project_2023": "UT Central QL2 2018",
+  "vertical_datum_2018": "EGM96",
+  "vertical_datum_2023": "NAVD88",
+  "geoid_2018": "EGM96",
+  "geoid_2023": null,
+  "rmse_z_2018_m": 7.046447423059538,
+  "rmse_z_2023_m": 0.1,
+  "source_crs_2018": "EPSG:4326",
+  "vertical_transform": {
+   "kind": "grid",
+   "grid": {
+    "path": "data/processed/datum-navd88-minus-egm96.tif",
+    "sha256": "efb0a52bf05b66048e0880f86f3798e41bdd6fdc2ef2c94957758dd301591dc1"
+   },
+   "source": "height of NAVD88 minus height of EGM96 from the PROJ grids us_nga_egm96_15 (EGM96, NGA) and us_noaa_g2018u0 (GEOID18, NOAA), evaluated at the cell centres"
+  }
+ },
+ "metadata_from_recipe": {
+  "before": [
+   "geoid",
+   "project",
+   "rmse_z_m",
+   "source",
+   "vertical_datum"
+  ],
+  "after": [
+   "project",
+   "rmse_z_m",
+   "source",
+   "vertical_datum"
+  ]
+ },
+ "dem_metadata_sources": {
+  "before": "SRTM heights are referenced to EGM96 (USGS EROS SRTM 1 Arc-Second product page); acquisition 2000-02-11 to 2000-02-21 (NASA Earthdata catalog LPCLOUD SRTMGL1.003)",
+  "after": "The National Map product text: elevations in metres referenced to NAVD88; RMSEz is the QL2 specification bound, not the project-reported value (UNVERIFIED)"
+ },
+ "footprint_sha256": {
+  "pit-outline": "70d4767606f9700b0cc864fafe9d4fcb38a44c145117611fda5c80f4ce2494c0"
+ },
+ "volumes": [
+  {
+   "id": "bingham-2000-2018-pit-outline",
+   "v_cut_m3": 546843326.9596374,
+   "v_fill_m3": 9497.977041391732,
+   "v_net_m3": -546833828.982596,
+   "uncertainty_m3": {
+    "uncorrelated": 417831.6356962478,
+    "correlated": 27526195.104346193
+   },
+   "overlap_ratio": 1.0,
+   "cells": {
+    "valid": 4340,
+    "nodata": 0,
+    "nodata_fraction": 0.0
+   }
+  },
+  {
+   "id": "bingham-2000-2018-query-box",
+   "v_cut_m3": 1308545511.084959,
+   "v_fill_m3": 324308411.3259001,
+   "v_net_m3": -984237099.759059,
+   "uncertainty_m3": {
+    "uncorrelated": 1397857.3647949093,
+    "correlated": 308084084.60682404
+   },
+   "overlap_ratio": 0.0,
+   "cells": {
+    "valid": 48575,
+    "nodata": 5199,
+    "nodata_fraction": 0.0966824115743668
+   }
+  }
+ ],
+ "notes": [
+  "the site label stays provisional because the Tang and Werner mining footprint is not fetched",
+  {
+   "SRTM heights are the radar surface near 2000-02, the 2018 DEM is bare earth": "vegetation and radar penetration differences are inside the stable-ground sd"
+  }
+ ],
+ "versions": {
+  "python": "3.14.4"
+ },
+ "charts": [
+  "e2-volume-bars",
+  "e2-difference-map",
+  "e2-volume-table"
+ ],
+ "stable_ground": {
+  "mean_m": -5.465126351867183,
+  "sd_m": 7.046447423059538,
+  "median_m": -4.872371464592675,
+  "n_cells": 14160,
+  "min_distance_m": 3000.0
+ },
+ "sigma_srtm_m": 7.046447423059538,
+ "coarse_cell_m": 30.0,
+ "dem_source_sha256": "484a57cc33c95696d163bddf5dc6de353e71cc3d1946b568cf895939c6c90391",
+ "datum_grid_range_m": [
+  -0.6210114790927008,
+  -0.3049208876389393
+ ]
+}

@@ -1,0 +1,243 @@
+{
+  "notYetRun": "Not yet run",
+  "rail": {
+    "title": "Cases",
+    "open": "Open the page of case {{id}}",
+    "page": "Page"
+  },
+  "kpi": {
+    "name": "KPI",
+    "value": "Value",
+    "provenance": "Provenance",
+    "panelTitle": "Headline KPIs",
+    "openCase": "Open the case page"
+  },
+  "lane": {
+    "live": "LIVE",
+    "replay": "REPLAY",
+    "static": "STATIC"
+  },
+  "layers": {
+    "title": "Layers",
+    "terrain-2018": "Terrain 2018",
+    "terrain-2023": "Terrain 2023",
+    "roads": "Roads",
+    "pit-shells": "Pit shells",
+    "fleet": "Fleet",
+    "fields": "Fields",
+    "sensors": "Sensors"
+  },
+  "explore": {
+    "pick": "Select a case in the rail to see its layers and headline KPIs. Nothing plays until you start it."
+  },
+  "scene": {
+    "title": "Scene",
+    "terrain": "Bingham Canyon terrain tiles",
+    "noThreeD": "3D view needs WebGL 2 or WebGPU",
+    "summary": "Visible layers: {{layers}}",
+    "noLayers": "none"
+  },
+  "render": {
+    "title": "Rendered scene",
+    "pending": "No RTX render is published yet.",
+    "play": "Play the flyover",
+    "posterAlt": "Poster frame of the rendered flyover",
+    "stills": "Frames of the flyover",
+    "stillAt": "Flyover, {{t}}",
+    "stillAlt": "Frame of the rendered flyover at {{t}}",
+    "unavailable": "Video not available in this browser. The poster and the stills are the published frames.",
+    "failed": "The video could not be loaded. The poster and the stills are the published frames.",
+    "state": {
+      "idle": "loads when you play",
+      "loading": "loading",
+      "playing": "playing",
+      "unavailable": "unavailable",
+      "failed": "not loaded",
+      "integrity": "blocked"
+    },
+    "role": {
+      "openusd": "composed scene (spec 004)",
+      "ovrtx": "RTX path tracing",
+      "nvenc-ffmpeg": "AV1 and H.264 encoding"
+    }
+  },
+  "tier": {
+    "label": "Compute tier",
+    "detecting": "Detecting",
+    "t1": "T1 · WebGPU",
+    "t2": "T2 · WebAssembly",
+    "t0": "T0 · baked"
+  },
+  "catalogue": {
+    "title": "Case catalogue",
+    "case": "Case",
+    "name": "Title",
+    "category": "Category",
+    "kpis": "KPIs",
+    "real": "Real data",
+    "synthetic": "Synthetic data",
+    "none": "none"
+  },
+  "coverage": {
+    "title": "Method coverage matrix",
+    "legend": "● the case exercises the method. Every method M1 to M23 appears in at least one case.",
+    "method": "Method"
+  },
+  "tools": {
+    "title": "Studio tool matrix",
+    "legend": "● the tool is named in the case. ○ the tool has a supporting role.",
+    "tool": "Tool"
+  },
+  "matrix": {
+    "named": "named",
+    "supporting": "supporting"
+  },
+  "context": {
+    "question": "Question",
+    "sources": "Real data sources",
+    "noSources": "This case uses no real data source.",
+    "kind": {
+      "real": "real",
+      "synthetic": "synthetic"
+    },
+    "licence": "Licence",
+    "unregistered": "Not yet in the data source registry",
+    "card": "Dataset card",
+    "landing": "Publisher page",
+    "synthetic": "Synthetic data",
+    "unvalidated": "calibrated synthetic — not validated against real data",
+    "validated": "validated against a real reference",
+    "descriptive": "descriptive comparison only",
+    "validity": "Validity range",
+    "links": "Theory and methods",
+    "theory": "Theory"
+  },
+  "card": {
+    "sources": "Data sources",
+    "precomputed": "Precomputed on {{gpu}} on {{date}}"
+  },
+  "reproduce": {
+    "title": "Reproduce this",
+    "recipe": "Recipe",
+    "needsGpu": "This recipe needs an NVIDIA RTX GPU.",
+    "needsNvenc": "This recipe needs an NVIDIA GPU with a hardware video encoder.",
+    "noGpu": "This recipe needs no GPU.",
+    "copy": "Copy the commands",
+    "copied": "Copied",
+    "planned": "Not yet run — recipe planned",
+    "noRecipe": "No recipe produced the published runs below: a GPU queue job outside the runner did, and each run was recorded from that job with the import command shown.",
+    "published": "Published runs",
+    "cannotYet": "This run cannot be reproduced yet: its queue job is not named in the run record."
+  },
+  "engine": {
+    "state": {
+      "idle": "ready",
+      "loading": "loading",
+      "running": "running",
+      "done": "done",
+      "error": "error",
+      "replay": "precomputed"
+    },
+    "range": "Enter a number from {{min}} to {{max}} {{unit}}. The last valid value was kept.",
+    "capNote": "Clamped to the size cap of {{cap}} {{unit}}.",
+    "notice": {
+      "parity": "parity not confirmed — showing precomputed results",
+      "needsWebGpu": "needs WebGPU to compute live",
+      "noBackend": "this engine is not available in the browser yet — showing precomputed results",
+      "runtime": "{{runtime}} could not load — showing precomputed results",
+      "failed": "{{runtime}} failed — continuing on {{tier}}",
+      "tier": "{{runtime}} stopped working: this engine now runs on {{tier}}"
+    },
+    "control": {},
+    "progress": {
+      "label": "Downloading {{runtime}}",
+      "abort": "Abort"
+    },
+    "python": {
+      "run": "Run in Python",
+      "pass": "Python reference agrees with the browser result",
+      "fail": "Python reference differs from the browser result",
+      "unavailable": "Python reference could not load"
+    }
+  },
+  "clock": {
+    "label": "Simulation clock",
+    "play": "Play",
+    "pause": "Pause",
+    "stepBack": "Step back",
+    "stepForward": "Step forward",
+    "time": "Time",
+    "seconds": "{{t}} s"
+  },
+  "video": {
+    "title": "Replay video",
+    "unavailable": "Video not available in this browser",
+    "integrity": "integrity check failed",
+    "state": {
+      "idle": "not loaded",
+      "loading": "loading",
+      "playing": "playing",
+      "unavailable": "unavailable",
+      "integrity-failed": "blocked"
+    }
+  },
+  "charts": {
+    "chartTitle": "Chart of {{name}}",
+    "interval": "interval of the difference",
+    "values": "baseline and challenger",
+    "discordant": "discordant pairs",
+    "estimate": "estimate with its interval",
+    "position": "position",
+    "noData": "no data",
+    "runCharts": "Charts of this run ({{count}})",
+    "runChartsTitle": "Charts of the published runs",
+    "notTheKpi": "This chart shows {{row}}, as published. The value of {{kpi}} itself is measured by a run that is not published yet.",
+    "runHeading": "{{method}} ({{tool}}, run of {{date}})",
+    "kpisNotRun": "KPIs not yet run"
+  },
+  "case": {
+    "back": "All cases",
+    "tabs": "Case views",
+    "tabLoading": "Loading this view",
+    "tab": {
+      "scene": "Scene",
+      "simulate": "Simulate (live)",
+      "replay": "Studio replay",
+      "charts": "Charts",
+      "context": "Context"
+    },
+    "simulatePending": "The in-browser engines of this case ({{engines}}) are not published yet, so nothing is computed here.",
+    "replayPending": "No precomputed run of this case has been published yet.",
+    "chartsPending": "No result of this case has been published yet, so there is nothing to chart."
+  },
+  "builtWith": {
+    "title": "Built with",
+    "nvidia": "NVIDIA",
+    "used": "used in the published result",
+    "planned": "planned, not yet run",
+    "usedSentence": "Used in the published result.",
+    "plannedSentence": "Planned, not yet run.",
+    "plannedListSentence": "Planned, not yet run: {{parts}}.",
+    "counts": "{{used}} used, {{planned}} planned",
+    "none": "None listed",
+    "group": {
+      "omniverse": "Omniverse and NVIDIA tools",
+      "frameworks": "Frameworks and models",
+      "methods": "Methods",
+      "data": "Data"
+    }
+  },
+  "attribution": {
+    "scene": "Rendered in the browser with",
+    "simulate": "Calculated live with",
+    "chart": "Charted from results of",
+    "kpi": "Measured with",
+    "result": "Computed with"
+  },
+  "results": {
+    "title": "Published results",
+    "failed": "Failed evaluation: not a working model.",
+    "partial": "Partial provenance: the run notes name what is missing.",
+    "run": "Open the run record"
+  }
+}

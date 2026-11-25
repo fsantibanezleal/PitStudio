@@ -1,0 +1,119 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "e2-volume-table",
+ "case": "E2",
+ "chart_type": "table",
+ "status": "ok",
+ "title": {
+  "en": "Cut, fill and net volume",
+  "es": "Volumen de corte, relleno y neto"
+ },
+ "producer": {
+  "tool": "pitstudio",
+  "method": "DEM differencing with exactly rounded sums (pitstudio.survey)",
+  "version": "pitstudio-survey-1.0",
+  "label": "measurement, not validation; coarse 30 m, 2000 to 2018"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-017-34"
+ ],
+ "table": {
+  "columns": [
+   {
+    "id": "area",
+    "label": {
+     "en": "Area of interest",
+     "es": "\u00c1rea de inter\u00e9s"
+    },
+    "type": "text"
+   },
+   {
+    "id": "cut",
+    "label": {
+     "en": "Cut",
+     "es": "Corte"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "fill",
+    "label": {
+     "en": "Fill",
+     "es": "Relleno"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "net",
+    "label": {
+     "en": "Net",
+     "es": "Neto"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "bound-uncorrelated",
+    "label": {
+     "en": "Bound, uncorrelated error",
+     "es": "Cota, error no correlacionado"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "bound-correlated",
+    "label": {
+     "en": "Bound, fully correlated error",
+     "es": "Cota, error totalmente correlacionado"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "cells",
+    "label": {
+     "en": "Valid cells",
+     "es": "Celdas v\u00e1lidas"
+    },
+    "type": "number",
+    "unit": "1"
+   },
+   {
+    "id": "nodata",
+    "label": {
+     "en": "No-data fraction",
+     "es": "Fracci\u00f3n sin dato"
+    },
+    "type": "number",
+    "unit": "1"
+   }
+  ],
+  "rows": [
+   [
+    "Bingham pit outline (scene A1)",
+    546843326.9596374,
+    9497.977041391732,
+    -546833828.982596,
+    417831.6356962478,
+    27526195.104346193,
+    4340,
+    0.0
+   ],
+   [
+    "2018 tile, cells with data in both DEMs",
+    1308545511.084959,
+    324308411.3259001,
+    -984237099.759059,
+    1397857.3647949093,
+    308084084.60682404,
+    48575,
+    0.0966824115743668
+   ]
+  ]
+ }
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "input",
+  "engine": "granular",
+  "engine_version": "0.1.0",
+  "function": "mpm_collapse",
+  "args": {
+    "particle_count": 12000,
+    "aspect_ratio": 2.0,
+    "column_width_m": 0.2,
+    "friction_angle_rad": 30,
+    "density_kg_per_m3": 2650.0,
+    "youngs_modulus_pa": 1000000.0,
+    "poisson_ratio": 0.3,
+    "step_s": 0.0001,
+    "steps": 50000
+  }
+}

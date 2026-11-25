@@ -1,0 +1,123 @@
+{
+ "caption": {
+  "en": "Every constant, read from its minephys knowledge row with citation and page. The efficiencies are parameters of one published truck model, not measurements of this fleet.",
+  "es": "Cada constante, leida de su fila de minephys con cita y pagina. Las eficiencias son parametros de un modelo publicado de camion, no mediciones de esta flota."
+ },
+ "case": "A2",
+ "chart_type": "table",
+ "id": "a2-assumptions",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
+  "method": "wheel energy m g (RR + grade) L per segment, drivetrain efficiencies and regeneration, grade-constrained least-energy A*",
+  "tool": "minephys",
+  "version": "0.0.0+gcabb880"
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-018-16",
+  "FR-007-34",
+  "FR-007-35"
+ ],
+ "status": "ok",
+ "table": {
+  "columns": [
+   {
+    "id": "constant",
+    "label": {
+     "en": "Constant",
+     "es": "Constante"
+    },
+    "type": "text"
+   },
+   {
+    "id": "value",
+    "label": {
+     "en": "Value",
+     "es": "Valor"
+    },
+    "type": "number",
+    "unit": "as listed"
+   },
+   {
+    "id": "unit",
+    "label": {
+     "en": "Unit",
+     "es": "Unidad"
+    },
+    "type": "text"
+   },
+   {
+    "id": "status",
+    "label": {
+     "en": "Status",
+     "es": "Estado"
+    },
+    "type": "text"
+   },
+   {
+    "id": "source",
+    "label": {
+     "en": "Source",
+     "es": "Fuente"
+    },
+    "type": "text"
+   }
+  ],
+  "rows": [
+   [
+    "g",
+    9.80665,
+    "m/s2",
+    "verified table row",
+    "standard gravity: minephys knowledge row standard_gravity, nistsp811, Appendix B.8"
+   ],
+   [
+    "diesel_co2_kg_per_m3",
+    2697.1967,
+    "kg/m3",
+    "verified table row",
+    "diesel combustion CO2 factor: minephys knowledge row diesel_co2_kg_per_us_gal, epa2025ghghub, Table 2, p. 2"
+   ],
+   [
+    "eta_diesel",
+    0.354,
+    "1",
+    "verified table row",
+    "marginal fuel-to-wheel efficiency of a diesel-electric truck: minephys knowledge row diesel_electric_fuel_to_wheel_efficiency, lindgren2022, Table 2, p. 7"
+   ],
+   [
+    "fuel_energy_density_j_per_m3",
+    35811696000.0,
+    "J/m3",
+    "verified table row",
+    "diesel lower heating value: minephys knowledge row diesel_lower_heating_value_j_per_m3, afdc2026fuelproperties, Fuel Properties Comparison, row Low Sulfur Diesel, lower heating value (128,48"
+   ],
+   [
+    "eta_electric",
+    0.885,
+    "1",
+    "verified table row",
+    "DC-bus-to-wheel efficiency of the electric drive (trolley-assisted truck): minephys knowledge row electric_dc_bus_to_wheel_efficiency, lindgren2022, Table 2, p. 7"
+   ],
+   [
+    "eta_drive",
+    0.85845,
+    "1",
+    "verified table row",
+    "battery-to-wheel efficiency of a battery-electric truck: minephys knowledge row battery_electric_battery_to_wheel_efficiency, lindgren2022, Table 2, p. 7"
+   ],
+   [
+    "eta_regen",
+    0.85845,
+    "1",
+    "verified table row",
+    "wheel-to-battery electrical efficiency of regenerative braking: minephys knowledge row battery_electric_regeneration_efficiency, lindgren2022, Table 2, p. 7"
+   ]
+  ]
+ },
+ "title": {
+  "en": "Constants and their status",
+  "es": "Constantes y su estado"
+ }
+}

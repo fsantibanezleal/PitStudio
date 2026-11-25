@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "model": "gns-muck-pile",
+  "opset": 16,
+  "opset_reason": "ScatterElements with reduction add needs opset 16 or later; 17 is the lowest allowed",
+  "ir_version": 10,
+  "outputs": [
+    {
+      "name": "acceleration",
+      "role": "field"
+    }
+  ],
+  "post_processor_in_graph": false,
+  "gemm_heavy": false,
+  "web": false,
+  "live": false,
+  "domains": [
+    "ai.onnx"
+  ],
+  "precisions": [
+    "fp32",
+    "fp16"
+  ],
+  "task_metric": {
+    "id": "rollout_mass_error",
+    "unit": "pct",
+    "orientation": "lower-is-better"
+  },
+  "golden_set_id": "a1-gns-golden-v1"
+}

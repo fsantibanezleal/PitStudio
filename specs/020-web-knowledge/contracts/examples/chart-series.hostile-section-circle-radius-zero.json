@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "kind": "chart-series",
+  "id": "example-section",
+  "case": "C1",
+  "chart_type": "section",
+  "status": "ok",
+  "title": {
+    "en": "Example chart",
+    "es": "Gráfico de ejemplo"
+  },
+  "producer": {
+    "tool": "warp",
+    "method": "granular DEM",
+    "version": "1.0.0",
+    "label": "fixture of the contract tests, not a result"
+  },
+  "serves": [
+    "FR-018-16",
+    "FR-020-07"
+  ],
+  "x_axis": {
+    "label": {
+      "en": "Distance",
+      "es": "Distancia"
+    },
+    "unit": "m"
+  },
+  "y_axis": {
+    "label": {
+      "en": "Elevation",
+      "es": "Elevación"
+    },
+    "unit": "m"
+  },
+  "section": {
+    "polylines": [
+      {
+        "id": "ground",
+        "label": {
+          "en": "Ground",
+          "es": "Terreno"
+        },
+        "role": "ground",
+        "points": [
+          [
+            0,
+            40
+          ],
+          [
+            20,
+            40
+          ],
+          [
+            50,
+            10
+          ],
+          [
+            80,
+            10
+          ]
+        ]
+      },
+      {
+        "id": "water",
+        "label": {
+          "en": "Water table",
+          "es": "Nivel freático"
+        },
+        "role": "water",
+        "points": [
+          [
+            0,
+            25
+          ],
+          [
+            80,
+            8
+          ]
+        ]
+      }
+    ],
+    "circles": [
+      {
+        "id": "slip",
+        "label": {
+          "en": "Critical slip circle",
+          "es": "Círculo de falla crítico"
+        },
+        "role": "critical",
+        "cx": 35,
+        "cy": 45,
+        "r": 0
+      }
+    ]
+  },
+  "markers": [
+    {
+      "id": "toe",
+      "label": {
+        "en": "Toe",
+        "es": "Pie"
+      },
+      "value_text": "x = 50 m",
+      "orientation": "point",
+      "x": 50,
+      "y": 10
+    }
+  ]
+}
