@@ -1,0 +1,127 @@
+{
+ "job": "a1-fleet-sweep",
+ "kind": "cpu",
+ "case": "A1",
+ "recipe": "cases/a1.yaml",
+ "slug": "a1-fleet-sweep",
+ "seed": 0,
+ "label": "calibrated synthetic — not validated against real data; known DES cycle-time bias; class-representative equipment: minehaulsim discrete-event simulation of five dispatchers over the pit design road network, with exact queueing theory as the oracle",
+ "producer_paths": [
+  "pipeline/src/pitstudio_pipeline/haulage",
+  "src/pitstudio/haulage",
+  "pipeline/src/pitstudio_pipeline/chartkit.py",
+  "studio/recipes/cases/a1.yaml"
+ ],
+ "notes": [
+  "Produced on the CPU by pitstudio_pipeline.haulage.a1_run (not by the GPU queue); no GPU time is used.",
+  "Speed limits, rolling resistance and the loader and dump layout are illustrative and UNVERIFIED; no hourly rate exists, so cost per tonne is not computed; no learned dispatcher exists in this build and no dispatch verdict is made."
+ ],
+ "stages": [
+  {
+   "id": "s05_synthesize",
+   "tool": "minehaulsim",
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "from": "results-summary.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "a1-fleet-sweep-results",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys.",
+     "required_fields": [
+      "headline",
+      "extra"
+     ]
+    },
+    {
+     "name": "charts/a1-throughput-vs-fleet.json",
+     "from": "charts/a1-throughput-vs-fleet.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "a1-throughput-vs-fleet",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+    },
+    {
+     "name": "charts/a1-queue-vs-fleet.json",
+     "from": "charts/a1-queue-vs-fleet.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "a1-queue-vs-fleet",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+    },
+    {
+     "name": "charts/a1-match-factor-vs-fleet.json",
+     "from": "charts/a1-match-factor-vs-fleet.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "a1-match-factor-vs-fleet",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+    },
+    {
+     "name": "charts/a1-utilisation-vs-fleet.json",
+     "from": "charts/a1-utilisation-vs-fleet.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "a1-utilisation-vs-fleet",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+    },
+    {
+     "name": "charts/a1-hours-per-kt.json",
+     "from": "charts/a1-hours-per-kt.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "a1-hours-per-kt",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+    },
+    {
+     "name": "charts/a1-des-vs-mva.json",
+     "from": "charts/a1-des-vs-mva.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "a1-des-vs-mva",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+    },
+    {
+     "name": "charts/a1-dispatcher-table.json",
+     "from": "charts/a1-dispatcher-table.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "a1-dispatcher-table",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+    }
+   ]
+  }
+ ]
+}
