@@ -255,7 +255,13 @@ describe("the generated modules", () => {
           if (entry.isDirectory()) scan(full);
           else if (entry.name.endsWith(".js")) {
             const code = readFileSync(full, "utf8");
-            for (const id of names) expect(code.includes(id), `${id} in ${relative(WEB, full)}`).toBe(false);
+            // names as whole identifiers, chunk file paths removed first (a chunk named after a hook is not a runtime use of a type)
+            const text = code.replace(/(?:\.\/|\/?assets\/)[\w.-]+\.(?:js|css)/g, "");
+            for (const id of names)
+              expect(
+                new RegExp(String.raw`(?<![\w$])${id}(?![\w$])`).test(text),
+                `${id} in ${relative(WEB, full)}`,
+              ).toBe(false);
           }
         }
       };

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router";
 import { publishedBundles } from "~/results/bundles";
@@ -9,16 +10,34 @@ import { ClockControls } from "~/sim/ClockControls";
 import { DEFAULT_DURATION_S, useSimClock } from "~/sim/useSimClock";
 import { TierBadge } from "~/tier/TierBadge";
 import { CaseStory } from "./BuiltWithView";
-import { ChartsTab } from "./ChartsTab";
-import { ContextTab } from "./ContextTab";
 import { Stage } from "./ExploreView";
 import { artefactsOfCase, latestRunId, useWebManifest } from "./manifest";
-import { ReplayTab } from "./ReplayTab";
-import { ReproduceWithRuns } from "./ReproduceWithRuns";
 import { caseRegistry } from "./registry";
 import { replayDuration, replayVideosOf } from "./replayVideos";
-import { SimulateTab } from "./SimulateTab";
 import { type CaseEntry, type CaseId, caseEntry, isCaseId, type Lang, pick } from "./types";
+
+// Each tab other than the Scene is its own chunk, requested when the visitor opens it (NFR-018-02): the initial JavaScript of a case
+// page holds the shell, the case story and the Scene tab only.
+// The Reproduce block carries the recipe files of the cases: it is its own chunk, drawn once the page is hydrated.
+const ReproduceWithRuns = lazy(() =>
+  import("./ReproduceWithRuns").then((m) => ({ default: m.ReproduceWithRuns })),
+);
+const TAB_CHUNKS = {
+  simulate: () => import("./SimulateTab").then((m) => ({ default: m.SimulateTab })),
+  replay: () => import("./ReplayTab").then((m) => ({ default: m.ReplayTab })),
+  charts: () => import("./ChartsTab").then((m) => ({ default: m.ChartsTab })),
+  context: () => import("./ContextTab").then((m) => ({ default: m.ContextTab })),
+};
+const SimulateTab = lazy(TAB_CHUNKS.simulate);
+const ReplayTab = lazy(TAB_CHUNKS.replay);
+const ChartsTab = lazy(TAB_CHUNKS.charts);
+const ContextTab = lazy(TAB_CHUNKS.context);
+
+// A link that names a tab (`?tab=charts`) starts that tab's chunk while the page hydrates, so the tab is drawn as soon as it is selected.
+if (typeof window !== "undefined") {
+  const named = /[?&]tab=([a-z]+)/.exec(window.location.search)?.[1];
+  if (named && Object.hasOwn(TAB_CHUNKS, named)) void TAB_CHUNKS[named as keyof typeof TAB_CHUNKS]();
+}
 
 export const CASE_TAB_IDS = ["scene", "simulate", "replay", "charts", "context"] as const;
 
@@ -70,20 +89,26 @@ function Workbench({ caseId, entry }: { caseId: CaseId; entry: CaseEntry }) {
           onSelect={select}
         >
           {selected === "scene" && <Stage caseId={caseId} entry={entry} />}
-          {selected === "simulate" && <SimulateTab caseId={caseId} registry={caseRegistry} />}
-          {selected === "replay" && (
-            <ReplayTab caseId={caseId} artefacts={manifest.artefacts} clock={clock} />
-          )}
-          {selected === "charts" && (
-            <ChartsTab
-              caseId={caseId}
-              registry={caseRegistry}
-              rows={publishedBundles.flatMap((bundle) => bundle.comparison)}
-            />
-          )}
-          {selected === "context" && <ContextTab caseId={caseId} registry={caseRegistry} sources={[]} />}
+          <Suspense fallback={<p>{t("case.tabLoading")}</p>}>
+            {selected === "simulate" && <SimulateTab caseId={caseId} registry={caseRegistry} />}
+            {selected === "replay" && (
+              <ReplayTab caseId={caseId} artefacts={manifest.artefacts} clock={clock} />
+            )}
+            {selected === "charts" && (
+              <ChartsTab
+                caseId={caseId}
+                registry={caseRegistry}
+                rows={publishedBundles.flatMap((bundle) => bundle.comparison)}
+              />
+            )}
+            {selected === "context" && <ContextTab caseId={caseId} registry={caseRegistry} sources={[]} />}
+          </Suspense>
         </Tabs>
-        <ReproduceWithRuns caseId={caseId} runId={latestRunId(own)} />
+        {hydrated && (
+          <Suspense fallback={null}>
+            <ReproduceWithRuns caseId={caseId} runId={latestRunId(own)} />
+          </Suspense>
+        )}
       </CaseStory>
     </article>
   );

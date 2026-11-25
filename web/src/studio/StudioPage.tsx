@@ -2,8 +2,9 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import shell from "~/shell/shell.module.css";
 import { ConnectSection } from "./ConnectSection";
-import { studioIndex, studioTools, useRunSummaries } from "./data";
+import { studioIndex, studioTools } from "./data";
 import { Loop } from "./Loop";
+import { useRunSummaries } from "./runSummaries";
 import { StudioMap } from "./StudioMap";
 import styles from "./studio.module.css";
 

@@ -40,10 +40,13 @@ test.describe("Simulate tab (FR-018-14)", () => {
       page,
     }) => {
       await openSimulate(page, id, "&tier=t2");
+      const expected = (registry.cases[id] as { engines: string[] }).engines;
+      // the tab is its own chunk (NFR-018-02): wait for its panels before reading their order
+      await expect(page.locator('[data-testid="engine-panel"]')).toHaveCount(expected.length);
       const shown = await page
         .locator('[data-testid="engine-panel"]')
         .evaluateAll((els) => els.map((e) => e.getAttribute("data-engine")));
-      expect(shown).toEqual((registry.cases[id] as { engines: string[] }).engines);
+      expect(shown).toEqual(expected);
     });
   }
 

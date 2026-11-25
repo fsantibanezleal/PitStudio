@@ -29,6 +29,8 @@ test.describe("the rendered scene section (FR-018-73)", () => {
       await expect(video).toHaveAttribute("poster", /\.webp$/);
       const stills = section.locator("figure[data-still] img");
       await expect(stills).toHaveCount(3);
+      // a still is requested when it nears the viewport (NFR-018-01): bring each one into view before reading its size
+      for (let i = 0; i < 3; i++) await stills.nth(i).scrollIntoViewIfNeeded();
       await expect
         .poll(() => stills.evaluateAll((els) => els.map((e) => (e as HTMLImageElement).naturalWidth)))
         .toEqual([1920, 1920, 1920]);

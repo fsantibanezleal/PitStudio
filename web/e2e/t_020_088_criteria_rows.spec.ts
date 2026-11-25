@@ -97,6 +97,8 @@ test.describe("computed statuses (FR-020-24)", () => {
     await open(page, "results/?lang=en");
     const en = await page.locator('[data-model-row="dispatch"] [data-testid="criterion"]').innerText();
     await open(page, "results/?lang=es");
+    // the Spanish resources arrive as a chunk after hydration: wait for the text to change, then read it
+    await expect(page.locator('[data-model-row="dispatch"] [data-testid="criterion"]')).not.toHaveText(en);
     const es = await page.locator('[data-model-row="dispatch"] [data-testid="criterion"]').innerText();
     expect(es).not.toBe(en);
     expect(es.length).toBeGreaterThan(15);

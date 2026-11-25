@@ -5,6 +5,7 @@ import { loadAsset } from "~/assets/loader";
 import { type MediaCapabilitiesLike, pickVideoSource } from "~/media/pickVideoSource";
 import { NVIDIA_TOOL_IDS, type ToolInfo } from "./builtWith";
 import styles from "./cases.module.css";
+import { LazyImg } from "./LazyImg";
 import type { RenderState } from "./renderSummary";
 import type { Lang } from "./types";
 
@@ -177,11 +178,11 @@ export function SceneRender({
             {model.stills.map((s) => (
               <li key={s.artefact.id}>
                 <figure data-still={s.artefact.id}>
-                  <img
+                  <LazyImg
                     src={`${base}${s.artefact.path}`}
                     alt={t("render.stillAlt", { t: seconds(s.tS) })}
-                    loading="lazy"
-                    decoding="async"
+                    width={1920}
+                    height={1080}
                   />
                   <figcaption className={styles.unit}>
                     {t("render.stillAt", { t: seconds(s.tS) })} · {model.label}

@@ -68,7 +68,7 @@ describe("FR-018-85 · the D1 chart is titled with what it plots", () => {
       "Foreground IoU, trained and tested on real images",
     );
     expect(within(s).getByRole("heading", { level: 3 }).textContent).not.toContain("ratio");
-    expect(s.textContent).toContain("it is not the KPI");
+    expect(s.textContent).toContain("is measured by a run that is not published yet");
   });
 
   it("FR-018-85 · the estimate is drawn with its point and its interval and no zero reference", async () => {
@@ -86,6 +86,6 @@ describe("FR-018-85 · the D1 chart is titled with what it plots", () => {
     });
     const s = section("tstr_trtr_iou");
     expect(s.textContent).toContain("IoU de primer plano, entrenado y probado en imágenes reales");
-    expect(s.textContent).toContain("no es el KPI");
+    expect(s.textContent).toContain("lo mide una corrida que aún no está publicada");
   });
 });

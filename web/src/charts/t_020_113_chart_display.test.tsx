@@ -120,16 +120,17 @@ describe("FR-020-55 · a table of a chart series prints numbers readably, in bot
 
   it("FR-020-55 · English: at most five significant digits, whole numbers unchanged, null as not available", async () => {
     await renderApp(<SeriesChart doc={doc} />);
-    expect(cells()).toContain("175");
+    expect(cells()).toContain("174.96");
     expect(cells()).toContain("0.32513");
     expect(cells()).toContain("12");
     expect(cells()).toContain("1234600");
     expect(cells().join(" ")).not.toContain("999995");
+    expect(cells().join(" ")).not.toContain("25171");
   });
 
   it("FR-020-55 · Spanish: the same digits with the Spanish decimal comma", async () => {
     await renderApp(<SeriesChart doc={doc} />, { lang: "es" });
-    expect(cells()).toContain("175");
+    expect(cells()).toContain("174,96");
     expect(cells()).toContain("0,32513");
   });
 });

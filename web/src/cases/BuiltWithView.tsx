@@ -1,6 +1,7 @@
 import { createContext, lazy, type ReactNode, Suspense, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import { RunChartList } from "~/charts/RunChartList";
 import { methodRegistry, methodSlug } from "~/methods/registry";
 import { studioIndex, studioTools } from "~/studio/data";
 import {
@@ -22,12 +23,12 @@ import {
   usePublishedResults,
 } from "./publishedResults";
 import { useRenderSummary } from "./renderSummary";
-import { SceneRender } from "./SceneRender";
 import type { ArtefactRecord, CaseEntry, Lang } from "./types";
 import { pick } from "./types";
 import { usedForVisual } from "./visualUsed";
 
-const RunChartList = lazy(() => import("~/charts/RunCharts").then((m) => ({ default: m.RunChartList })));
+// The rendered scene (poster, stills, clip loader) is drawn after the summary is read in the browser, so its code is a chunk of its own.
+const SceneRender = lazy(() => import("./SceneRender").then((m) => ({ default: m.SceneRender })));
 
 const GROUP_IDS: BuiltGroupId[] = ["omniverse", "frameworks", "methods", "data"];
 
@@ -174,9 +175,7 @@ function ResultCard({
         ))}
       </ul>
       {result.partial && <p className={styles.unit}>{t("results.partial")}</p>}
-      <Suspense fallback={null}>
-        <RunChartList caseId={caseId} runId={result.runId} />
-      </Suspense>
+      <RunChartList caseId={caseId} runId={result.runId} />
       <p className={styles.producer} data-producer="result">
         {attributionText(t("attribution.result"), own.slice(0, 3), methods, words)}
       </p>
@@ -257,7 +256,12 @@ export function CaseStory({
             ))}
           </section>
         )}
-        <SceneRender state={render} tools={toolInfos} />
+        {/* drawn once the results above it are in place, so its stills are not taken for visible while the page above is still short */}
+        {published.status === "ready" && (
+          <Suspense fallback={null}>
+            <SceneRender state={render} tools={toolInfos} />
+          </Suspense>
+        )}
         {children}
       </AttributionContext.Provider>
     </PublishedCaseContext.Provider>

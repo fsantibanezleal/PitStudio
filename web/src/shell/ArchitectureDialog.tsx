@@ -1,20 +1,26 @@
 import { Dialog } from "@base-ui/react/dialog";
 import { Tabs } from "@base-ui/react/tabs";
 import { Info, X } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useShellConfig } from "./config";
 import styles from "./shell.module.css";
 
-/** The ⓘ view: how the app and the repository behind it work, one tab per aspect. */
-export function ArchitectureModal() {
+/** The info view: how the app and the repository behind it work, one tab per aspect. A chunk of its own (see ArchitectureModal). */
+export default function ArchitectureDialog({ openOnMount }: { openOnMount: boolean }) {
   const { architectureTabs } = useShellConfig();
   const { t } = useTranslation("shell");
   const { t: tApp } = useTranslation("app");
   const first = architectureTabs[0]?.id;
+  const trigger = useRef<HTMLButtonElement | null>(null);
+  // the visitor pressed the plain button before this chunk was in: open as that press would
+  useEffect(() => {
+    if (openOnMount) trigger.current?.click();
+  }, [openOnMount]);
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.iconButton} aria-label={t("about")}>
+      <Dialog.Trigger ref={trigger} className={styles.iconButton} aria-label={t("about")}>
         <Info aria-hidden="true" size={18} />
       </Dialog.Trigger>
       <Dialog.Portal>

@@ -8,6 +8,10 @@ import styles from "./seriesChart.module.css";
 
 type Lang = "en" | "es";
 
+/** A table number at five significant digits, in the page language; a value of the file is never printed as its raw float. */
+const cellNumber = (value: number, lang: Lang) =>
+  new Intl.NumberFormat(lang, { maximumSignificantDigits: 5, useGrouping: false }).format(value);
+
 function TablePlot({ doc, lang, title }: { doc: ChartDoc; lang: Lang; title: string }) {
   const { t } = useTranslation("charts");
   const table = doc.table;
@@ -30,7 +34,13 @@ function TablePlot({ doc, lang, title }: { doc: ChartDoc; lang: Lang; title: str
             // biome-ignore lint/suspicious/noArrayIndexKey: a table row has no id of its own, its order is its identity
             <tr key={i}>
               {row.map((cell, k) => (
-                <td key={table.columns[k]?.id}>{cell === null ? t("notAvailable") : cell}</td>
+                <td key={table.columns[k]?.id}>
+                  {cell === null
+                    ? t("notAvailable")
+                    : typeof cell === "number"
+                      ? cellNumber(cell, lang)
+                      : cell}
+                </td>
               ))}
             </tr>
           ))}

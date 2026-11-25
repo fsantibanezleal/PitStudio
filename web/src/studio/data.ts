@@ -2,17 +2,19 @@
 // `web/scripts/build-studio-index.mjs` (DC-019-03), and the hooks that read the published runs in the browser.
 // A file that is missing, failing or malformed is "nothing published" (ADR-0040): it never breaks a page and never shows a result.
 import { useEffect, useState } from "react";
-import { parseWebIndex } from "~/cases/manifest";
+import { fetchWebManifest, parseWebIndex } from "~/cases/manifest";
 import { caseRegistry } from "~/cases/registry";
 import { type ArtefactRecord, CASE_IDS } from "~/cases/types";
-import data from "./generated/studio-data.json";
+// Named imports; the run cards of the ledger are in `runSummaries.ts`, so a page that reads only the registry and the index (every case page)
+// does not carry them.
+import { index, run_ids, tools } from "./generated/studio-data.json";
 import type { PublishedTelemetry } from "./telemetry/GpuTimelines";
 import type { RunCard, StudioIndex, StudioTool } from "./types";
 
-export const studioTools = data.tools as unknown as StudioTool[];
-export const studioIndex = data.index as unknown as StudioIndex;
+export const studioTools = tools as unknown as StudioTool[];
+export const studioIndex = index as unknown as StudioIndex;
 /** Run ids published in the Pages artifact when this site was built (the pages of these ids are prerendered). */
-export const publishedRunIds: string[] = (data as unknown as { run_ids?: string[] }).run_ids ?? [];
+export const publishedRunIds: string[] = (run_ids as unknown as string[] | undefined) ?? [];
 export { caseRegistry };
 export const caseIds: readonly string[] = CASE_IDS;
 
@@ -47,13 +49,6 @@ export interface Loaded<T> {
   value: T;
 }
 
-/** The slim cards of the runs published with this build, part of the prerendered page data: the ledger and the loop read these. */
-export const studioRuns: RunCard[] = (data as unknown as { runs?: RunCard[] }).runs ?? [];
-const READY: Loaded<RunCard[]> = { status: "ready", value: studioRuns };
-
-export function useRunSummaries(): Loaded<RunCard[]> {
-  return READY;
-}
 export interface StudioManifest {
   artefacts: ArtefactRecord[];
   /** Run ids the web manifest lists as published (`runs[].run_id`). */
@@ -67,9 +62,9 @@ export function useStudioManifest(): Loaded<StudioManifest> {
     value: { artefacts: [], runs: [] },
   });
   useEffect(() => {
-    const controller = new AbortController();
-    void getJson("assets/manifest.json", controller.signal).then((raw) => {
-      if (controller.signal.aborted) return;
+    let live = true;
+    void fetchWebManifest().then((raw) => {
+      if (!live) return;
       const list = (raw as { runs?: unknown } | null)?.runs;
       const runs = Array.isArray(list)
         ? list
@@ -78,7 +73,9 @@ export function useStudioManifest(): Loaded<StudioManifest> {
         : [];
       setState({ status: "ready", value: { artefacts: parseWebIndex(raw), runs } });
     });
-    return () => controller.abort();
+    return () => {
+      live = false;
+    };
   }, []);
   return state;
 }

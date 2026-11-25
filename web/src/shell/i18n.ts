@@ -8,48 +8,54 @@ import shellEn from "~/locales/en/shell.json";
 import studioEn from "~/locales/en/studio.json";
 import surrogatesEn from "~/locales/en/surrogates.json";
 import terrain3dEn from "~/locales/en/terrain3d.json";
-import appEs from "~/locales/es/app.json";
-import casesEs from "~/locales/es/cases.json";
-import chartsEs from "~/locales/es/charts.json";
-import resultsEs from "~/locales/es/results.json";
-import shellEs from "~/locales/es/shell.json";
-import studioEs from "~/locales/es/studio.json";
-import surrogatesEs from "~/locales/es/surrogates.json";
-import terrain3dEs from "~/locales/es/terrain3d.json";
 import { DEFAULT_LANGUAGE, LANGUAGES } from "./prefs";
 
-// Resources are bundled (both languages are small). Prerendered HTML is always English; the stored or ?lang=
-// choice is applied after hydration (see useLanguageSync) so server and client markup match.
+// English is bundled (the prerendered HTML is always English); Spanish is one chunk read when the language is first switched to it
+// (NFR-018-02: it is about 13 KB gzip that no English visit needs). The stored or ?lang= choice is applied after hydration (see
+// useLanguageSync) so server and client markup match; `changeLanguage` settles once the Spanish resources are in.
 export const i18n = i18next.createInstance();
 
-void i18n.use(initReactI18next).init({
-  lng: DEFAULT_LANGUAGE,
-  fallbackLng: DEFAULT_LANGUAGE,
-  supportedLngs: [...LANGUAGES],
-  ns: ["shell", "app", "cases", "results", "charts", "studio", "surrogates", "terrain3d"],
-  defaultNS: "app",
-  resources: {
-    en: {
-      shell: shellEn,
-      app: appEn,
-      cases: casesEn,
-      results: resultsEn,
-      charts: chartsEn,
-      surrogates: surrogatesEn,
-      studio: studioEn,
-      terrain3d: terrain3dEn,
-    },
-    es: {
-      shell: shellEs,
-      app: appEs,
-      cases: casesEs,
-      results: resultsEs,
-      charts: chartsEs,
-      surrogates: surrogatesEs,
-      studio: studioEs,
-      terrain3d: terrain3dEs,
-    },
+type Bundle = Record<string, Record<string, unknown>>;
+const spanish = () => import("~/locales/es-bundle").then((m) => m.default as Bundle);
+let spanishLoad: Promise<Bundle> | null = null;
+const lazyLocales = {
+  type: "backend" as const,
+  init() {},
+  read(language: string, namespace: string, callback: (error: Error | null, data: unknown) => void) {
+    if (language !== "es") return callback(null, {});
+    spanishLoad ??= spanish();
+    spanishLoad.then(
+      (bundle) => callback(null, bundle[namespace] ?? {}),
+      (error: Error) => {
+        spanishLoad = null;
+        callback(error, null);
+      },
+    );
   },
-  interpolation: { escapeValue: false },
-  initAsync: false,
-});
+};
+
+void i18n
+  .use(lazyLocales)
+  .use(initReactI18next)
+  .init({
+    partialBundledLanguages: true,
+    lng: DEFAULT_LANGUAGE,
+    fallbackLng: DEFAULT_LANGUAGE,
+    supportedLngs: [...LANGUAGES],
+    ns: ["shell", "app", "cases", "results", "charts", "studio", "surrogates", "terrain3d"],
+    defaultNS: "app",
+    resources: {
+      en: {
+        shell: shellEn,
+        app: appEn,
+        cases: casesEn,
+        results: resultsEn,
+        charts: chartsEn,
+        surrogates: surrogatesEn,
+        studio: studioEn,
+        terrain3d: terrain3dEn,
+      },
+    },
+    interpolation: { escapeValue: false },
+    initAsync: false,
+  });

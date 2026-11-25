@@ -10,15 +10,9 @@ import { ReproduceBlock } from "./blocks/Reproduce";
 import { RoleBlock } from "./blocks/Role";
 import { WhereRanBlock } from "./blocks/WhereRan";
 import { ConnectSection } from "./ConnectSection";
-import {
-  caseRegistry,
-  studioIndex,
-  toolById,
-  useRunBundles,
-  useRunSummaries,
-  useStudioManifest,
-} from "./data";
+import { caseRegistry, studioIndex, toolById, useRunBundles, useStudioManifest } from "./data";
 import { clip } from "./format";
+import { useRunSummaries } from "./runSummaries";
 
 /** `/studio/tools/<id>`: the eight blocks of a studio tool (FR-019-08); any other id is the not-found page (FR-019-20). */
 export function ToolPage({ id }: { id: string | undefined }) {

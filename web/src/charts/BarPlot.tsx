@@ -31,12 +31,14 @@ export function BarPlot({ doc, lang, title }: { doc: ChartDoc; lang: Lang; title
   const span = hi > lo ? hi - lo : 1;
   const y0 = lo < 0 ? lo - 0.05 * span : lo;
   const y1 = hi + 0.05 * span;
-  const pw = W - M.left - M.right;
+  const yt = ticks(y0, y1, "linear", 5);
+  // the left margin grows with the widest value label (7 px per character at the tick font) so a large number is never cut off
+  const left = Math.max(M.left, 8 + 7 * Math.max(0, ...yt.map((v) => fmt(v, lang).length)));
+  const pw = W - left - M.right;
   const ph = H - M.top - M.bottom;
-  const px = (i: number) => M.left + ((i + 0.5) / nCat) * pw;
+  const px = (i: number) => left + ((i + 0.5) / nCat) * pw;
   const py = (v: number) => M.top + ph - ((v - y0) / (y1 - y0)) * ph;
   const barW = Math.min(48, (pw / nCat / (nSer + 0.5)) * 0.9);
-  const yt = ticks(y0, y1, "linear", 5);
   const unitOf = (k: number) => series[k]?.unit ?? yAxis.unit;
   const valueText = (k: number, i: number) => {
     const s = series[k];
@@ -91,14 +93,14 @@ export function BarPlot({ doc, lang, title }: { doc: ChartDoc; lang: Lang; title
         <title>{title}</title>
         {yt.map((v) => (
           <g key={v}>
-            <line className={styles.grid} x1={M.left} x2={W - M.right} y1={py(v)} y2={py(v)} />
-            <text className={styles.tick} x={M.left - 6} y={py(v)} textAnchor="end" dominantBaseline="middle">
+            <line className={styles.grid} x1={left} x2={W - M.right} y1={py(v)} y2={py(v)} />
+            <text className={styles.tick} x={left - 6} y={py(v)} textAnchor="end" dominantBaseline="middle">
               {fmt(v, lang)}
             </text>
           </g>
         ))}
-        <line className={styles.axis} x1={M.left} x2={W - M.right} y1={py(0)} y2={py(0)} />
-        <line className={styles.axis} x1={M.left} x2={M.left} y1={M.top} y2={M.top + ph} />
+        <line className={styles.axis} x1={left} x2={W - M.right} y1={py(0)} y2={py(0)} />
+        <line className={styles.axis} x1={left} x2={left} y1={M.top} y2={M.top + ph} />
         {cats.map((c, i) => (
           <text
             key={c.id}

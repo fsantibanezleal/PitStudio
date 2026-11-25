@@ -191,12 +191,14 @@
     "noData": "no data",
     "runCharts": "Charts of this run ({{count}})",
     "runChartsTitle": "Charts of the published runs",
-    "notTheKpi": "This chart shows {{row}}, as published; it is not the KPI {{kpi}}, which needs a run that is not published yet.",
+    "notTheKpi": "This chart shows {{row}}, as published. The value of {{kpi}} itself is measured by a run that is not published yet.",
+    "runHeading": "{{method}} ({{tool}}, run of {{date}})",
     "kpisNotRun": "KPIs not yet run"
   },
   "case": {
     "back": "All cases",
     "tabs": "Case views",
+    "tabLoading": "Loading this view",
     "tab": {
       "scene": "Scene",
       "simulate": "Simulate (live)",

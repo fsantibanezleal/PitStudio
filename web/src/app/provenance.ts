@@ -1,6 +1,8 @@
 // FR-018-75: the footer provenance line, from the runs the web manifest lists.
+
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import { fetchWebManifest } from "~/cases/manifest";
 import { isCaseId } from "~/cases/types";
 import type { ProvenanceItem } from "~/shell/config";
 import { publishedRunIds } from "~/studio/data";
@@ -39,14 +41,13 @@ export function usePublishedProvenance(): ProvenanceItem[] {
   const notFound = id !== undefined && !isCaseId(id);
   useEffect(() => {
     if (notFound || document.querySelector("[data-not-found]")) return;
-    const controller = new AbortController();
-    fetch(`${import.meta.env.BASE_URL}assets/manifest.json`, { signal: controller.signal })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((json) => setRuns(countRuns(json)))
-      .catch(() => {
-        if (!controller.signal.aborted) setRuns(0);
-      });
-    return () => controller.abort();
+    let live = true;
+    void fetchWebManifest().then((json) => {
+      if (live) setRuns(json === null ? 0 : countRuns(json));
+    });
+    return () => {
+      live = false;
+    };
   }, [notFound]);
   return provenanceItems(runs);
 }

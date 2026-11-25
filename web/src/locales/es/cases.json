@@ -191,12 +191,14 @@
     "noData": "sin datos",
     "runCharts": "Gráficos de esta corrida ({{count}})",
     "runChartsTitle": "Gráficos de las corridas publicadas",
-    "notTheKpi": "Este gráfico muestra {{row}}, tal como se publicó; no es el KPI {{kpi}}, que necesita una corrida que aún no está publicada.",
+    "notTheKpi": "Este gráfico muestra {{row}}, tal como se publicó. El valor de {{kpi}} lo mide una corrida que aún no está publicada.",
+    "runHeading": "{{method}} ({{tool}}, corrida del {{date}})",
     "kpisNotRun": "KPIs aún no ejecutados"
   },
   "case": {
     "back": "Todos los casos",
     "tabs": "Vistas del caso",
+    "tabLoading": "Cargando esta vista",
     "tab": {
       "scene": "Escena",
       "simulate": "Simular (en vivo)",

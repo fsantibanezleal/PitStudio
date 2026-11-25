@@ -63,7 +63,8 @@ test.describe("Reproduce this (FR-018-19, FR-018-20)", () => {
     for (const id of CASE_IDS) {
       await open(page, `cases/${id}/`);
       const path = `studio/recipes/cases/${id.toLowerCase()}.yaml`;
-      const commands = page.locator("[data-command]");
+      // the recipe commands only: a published imported run adds its own commands in its own block (FR-018-77)
+      const commands = page.locator('section[aria-labelledby="reproduce-title"] > [data-command]');
       if (recipeExists(id)) {
         await expect(page.getByText(path).first()).toBeVisible();
         await expect(commands).toHaveCount(3);

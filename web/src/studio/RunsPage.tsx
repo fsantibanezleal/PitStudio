@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
 import shell from "~/shell/shell.module.css";
 import { ConnectSection } from "./ConnectSection";
-import { caseIds, studioTools, useRunSummaries } from "./data";
+import { caseIds, studioTools } from "./data";
 import { RunsLedger } from "./RunsLedger";
+import { useRunSummaries } from "./runSummaries";
 
 /** `/studio/runs`: the ledger of published runs (FR-019-21). */
 export function RunsPage() {

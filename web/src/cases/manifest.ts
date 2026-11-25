@@ -65,25 +65,49 @@ export function latestRunId(artefacts: readonly ArtefactRecord[]): string | null
   return best;
 }
 
+/** The chart-series artefacts of a case, newest run first, then by artefact id. */
+export function chartArtefacts(artefacts: readonly ArtefactRecord[], caseId: string): ArtefactRecord[] {
+  return artefacts
+    .filter((a) => a.kind === "chart-series" && appliesToCase(a, caseId))
+    .sort((a, b) => b.run_id.localeCompare(a.run_id) || a.id.localeCompare(b.id));
+}
+
 export interface WebManifest {
   /** `loading` until the fetch settled; `ready` with an empty list when nothing is published or the file is unusable. */
   status: "loading" | "ready";
   artefacts: ArtefactRecord[];
 }
 
-/** Fetches `<base>assets/manifest.json` once in the browser. A missing, failing or malformed file is "nothing published". */
+// One request per page for every component that reads the manifest (a case page has ten of them, and the footer and the studio pages
+// read it too). The answer belongs to the `fetch` function that fetched it, so a replaced `fetch` (a test double, a service-worker swap)
+// never reads another one's answer. A missing, failing or non-JSON file answers `null`.
+const loads = new WeakMap<typeof fetch, Promise<unknown>>();
+
+/** The parsed JSON of `<base>assets/manifest.json`, requested once per page. */
+export function fetchWebManifest(): Promise<unknown> {
+  const get = globalThis.fetch;
+  let hit = loads.get(get);
+  if (!hit) {
+    hit = get(`${import.meta.env.BASE_URL}assets/manifest.json`)
+      .then((res) => (res.ok ? res.json() : null))
+      .catch(() => null);
+    loads.set(get, hit);
+  }
+  return hit;
+}
+
+/** Reads `<base>assets/manifest.json` (one request per page). A missing, failing or malformed file is "nothing published". */
 export function useWebManifest(): WebManifest {
   const [state, setState] = useState<WebManifest>({ status: "loading", artefacts: [] });
 
   useEffect(() => {
-    const controller = new AbortController();
-    fetch(`${import.meta.env.BASE_URL}assets/manifest.json`, { signal: controller.signal })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((json) => setState({ status: "ready", artefacts: parseWebIndex(json) }))
-      .catch(() => {
-        if (!controller.signal.aborted) setState({ status: "ready", artefacts: [] });
-      });
-    return () => controller.abort();
+    let live = true;
+    void fetchWebManifest().then((json) => {
+      if (live) setState({ status: "ready", artefacts: parseWebIndex(json) });
+    });
+    return () => {
+      live = false;
+    };
   }, []);
 
   return state;

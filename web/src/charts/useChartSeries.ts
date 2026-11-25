@@ -2,7 +2,7 @@
 // case, each fetched once and read through the contract (FR-020-55). A file that is missing, not JSON or not a valid chart
 // series is nothing published; a chart of another case is not drawn on this one.
 import { useEffect, useState } from "react";
-import { appliesToCase, useWebManifest } from "~/cases/manifest";
+import { chartArtefacts, useWebManifest } from "~/cases/manifest";
 import type { ArtefactRecord } from "~/cases/types";
 import { type ChartDoc, readChartSeries } from "./chartSeries";
 
@@ -39,12 +39,7 @@ function fetchJson(path: string): Promise<unknown> {
   return hit;
 }
 
-/** The chart-series artefacts of a case, newest run first, then by artefact id. */
-export function chartArtefacts(artefacts: readonly ArtefactRecord[], caseId: string): ArtefactRecord[] {
-  return artefacts
-    .filter((a) => a.kind === "chart-series" && appliesToCase(a, caseId))
-    .sort((a, b) => b.run_id.localeCompare(a.run_id) || a.id.localeCompare(b.id));
-}
+export { chartArtefacts };
 
 export function useChartSeries(caseId: string): CaseCharts {
   const manifest = useWebManifest();

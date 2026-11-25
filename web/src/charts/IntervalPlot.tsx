@@ -51,6 +51,9 @@ export function IntervalPlot({
   const pw = W - M.left - M.right;
   const H = M.top + intervals.length * ROW + M.bottom;
   const sx = (v: number) => M.left + ((v - x0) / (x1 - x0)) * pw;
+  // the zero label (7 px per character at the tick font) goes to the left of the line when it would run past the right edge
+  const zeroText = t("zeroReference");
+  const flipZero = sx(0) + 4 + zeroText.length * 7 > W - M.right;
   const readout =
     cursor === null
       ? null
@@ -115,8 +118,14 @@ export function IntervalPlot({
               y2={H - M.bottom}
               style={{ stroke: "var(--fg)", strokeWidth: 1.5, strokeDasharray: "5 4" }}
             />
-            <text className={styles.tick} x={sx(0) + 4} y={M.top + 10} style={{ fill: "var(--fg)" }}>
-              {t("zeroReference")}
+            <text
+              className={styles.tick}
+              x={flipZero ? sx(0) - 4 : sx(0) + 4}
+              y={M.top + 10}
+              textAnchor={flipZero ? "end" : "start"}
+              style={{ fill: "var(--fg)" }}
+            >
+              {zeroText}
             </text>
           </g>
         )}
