@@ -53,6 +53,7 @@ neuralop = ["neuraloperator>=2.0.0"]               # optional second spectral or
 dev = [
     "hypothesis>=6.169.0",
     "pytest>=9.1.1",
+    "simpy>=4.1.2",
 ]
 
 [tool.uv]
