@@ -1,0 +1,156 @@
+{
+ "kind": "c2-run",
+ "case": "C2",
+ "label": "synthetic breach scenario of a hypothetical facility on real terrain, not validated against real data",
+ "solver": {
+  "tool": "warp",
+  "method": "depth-averaged shallow water, Rusanov flux with hydrostatic reconstruction, Bingham bed stress",
+  "version": "warp-1.17.0-swe-1.0",
+  "label": "synthetic breach scenario of a hypothetical facility on real terrain, not validated against real data"
+ },
+ "device": "cpu",
+ "gpu_hours": null,
+ "terrain": {
+  "dem": "ut-central-ql2-2018-dem.tif",
+  "cell_m": 40.0,
+  "shape": [
+   200,
+   120
+  ],
+  "window_m": {
+   "x_min": 400000.0,
+   "x_max": 404800.0,
+   "y_min": 4480400.0,
+   "y_max": 4488400.0
+  },
+  "cells_filled": 759,
+  "elevation_min_m": 1265.2269174957275,
+  "elevation_max_m": 2794.880647277832,
+  "pit_cells": 2448
+ },
+ "breach": {
+  "x_m": 401000.0,
+  "y_m": 4487700.0,
+  "width_cells": 1,
+  "bed_elevation_m": 2265.444192657471,
+  "cells": 1
+ },
+ "run": {
+  "cell_m": 40,
+  "t_end_s": 21600,
+  "snapshot_s": 600,
+  "cfl": 0.45,
+  "max_dt_s": 2.0,
+  "h_dry_m": 0.0001,
+  "h_thr_m": 0.05,
+  "depth_exclusion_m": 100.0,
+  "distance_bin_m": 100.0,
+  "headline_scenario": "s1-reference"
+ },
+ "scenarios": [
+  {
+   "id": "s1-reference",
+   "label": "Reference: 100,000 m3, 100 Pa",
+   "source": "volume, yield stress, viscosity and density: inside the training envelope of the C2 surrogate (specs/011-surrogates contract example surrogate-io.valid-fno.json, training_envelope: volume 1e4 to 2e5 m3, yield stress 10 to 200 Pa, plastic viscosity 0.05 to 1 Pa s, density 1600 to 2000 kg/m3), values taken mid-range; peak discharge = volume x 422 / 3.8e6 per second, the ratio of the Mirai reconstruction (3.8 Mm3 released, 422 m3/s peak: Silva and Eleuterio 2023, NHESS 23:3095, quoted in docs/cases/c2-tailings-breach.md; the paper itself was not read: UNVERIFIED), base time T = 2 V / Q_p (FR-005-31)",
+   "volume_m3": 100000,
+   "peak_discharge_m3_s": 11.105,
+   "tau_y_pa": 100.0,
+   "mu_b_pa_s": 0.5,
+   "rho_kg_m3": 1800.0,
+   "steps": 10800,
+   "wall_s": 52.97,
+   "kpi": {
+    "arrival_time_pit_min": 141.7247429299942,
+    "max_depth_beyond_exclusion_m": 4.422805643512497,
+    "max_depth_anywhere_m": 4.422805643512497,
+    "inundated_area_km2": 0.256,
+    "run_out_m": 2146.7184258770408,
+    "pit_volume_end_m3": 63130.503862065496,
+    "max_speed_m_s": 0.0
+   },
+   "balance": {
+    "injected_m3": 100000.00000000262,
+    "released_m3": 100000.0,
+    "domain_m3": 87821.98546152884,
+    "boundary_outflow_m3": 12178.014538471154,
+    "clipped_m3": 0.0,
+    "residual": -2.6302586775272395e-14
+   }
+  },
+  {
+   "id": "s2-fluid",
+   "label": "Fluid: 100,000 m3, 10 Pa",
+   "source": "yield stress and plastic viscosity at the lower bound of the training envelope (10 Pa, 0.05 Pa s); volume, density and hydrograph as the reference scenario",
+   "volume_m3": 100000,
+   "peak_discharge_m3_s": 11.105,
+   "tau_y_pa": 10.0,
+   "mu_b_pa_s": 0.05,
+   "rho_kg_m3": 1800.0,
+   "steps": 10800,
+   "wall_s": 50.47,
+   "kpi": {
+    "arrival_time_pit_min": 141.33236004365097,
+    "max_depth_beyond_exclusion_m": 4.49502381516248,
+    "max_depth_anywhere_m": 4.49502381516248,
+    "inundated_area_km2": 0.2688,
+    "run_out_m": 2146.7184258770408,
+    "pit_volume_end_m3": 64085.81296020758,
+    "max_speed_m_s": 0.45639854424001236
+   },
+   "balance": {
+    "injected_m3": 100000.00000000262,
+    "released_m3": 100000.0,
+    "domain_m3": 86639.61061750316,
+    "boundary_outflow_m3": 13360.38938249695,
+    "clipped_m3": 0.0,
+    "residual": -2.5102053768932163e-14
+   }
+  },
+  {
+   "id": "s3-large",
+   "label": "Large: 200,000 m3, 100 Pa",
+   "source": "volume at the upper bound of the training envelope (2e5 m3); peak discharge = volume x 422 / 3.8e6 per second as the reference scenario; rheology and density as the reference scenario",
+   "volume_m3": 200000,
+   "peak_discharge_m3_s": 22.211,
+   "tau_y_pa": 100.0,
+   "mu_b_pa_s": 0.5,
+   "rho_kg_m3": 1800.0,
+   "steps": 10800,
+   "wall_s": 49.19,
+   "kpi": {
+    "arrival_time_pit_min": 113.25341397183696,
+    "max_depth_beyond_exclusion_m": 7.4092552752349485,
+    "max_depth_anywhere_m": 7.4092552752349485,
+    "inundated_area_km2": 0.5136,
+    "run_out_m": 2169.3316943243144,
+    "pit_volume_end_m3": 125255.28330603689,
+    "max_speed_m_s": 0.0
+   },
+   "balance": {
+    "injected_m3": 200000.0000000046,
+    "released_m3": 200000.0,
+    "domain_m3": 165473.03395387033,
+    "boundary_outflow_m3": 34526.96604612948,
+    "clipped_m3": 0.0,
+    "residual": -2.3974280338733837e-14
+   }
+  }
+ ],
+ "benchmarks": {
+  "device": "cpu",
+  "n_pass": 21,
+  "n_fail": 0,
+  "n_known_limit": 3,
+  "wall_s": 35.1,
+  "version": "swe-benchmarks-1.0"
+ },
+ "limits": [
+  {
+   "educational, not regulatory": "a depth-averaged 2-D flow with a single-phase Bingham rheology, no erosion, entrainment or breach mechanics"
+  },
+  "the facility, its volume and its breach are hypothetical scenario inputs; there is no real flood record for this terrain, so the fields are calibrated synthetic and not validated against real data",
+  "the bed force of the first-order hydrostatic reconstruction on a slope is smaller than the exact one by the factor S dx / (2 h) (slope S, cell dx, depth h); on steep cells with shallow flow the front runs slower than the exact equations would give",
+  "the Ritter front at the specified 1e-3 h_l threshold lags the analytical front by 14 to 21 percent (FR-005-24 asks 5 percent); at 0.1 h_l it is within 3 percent",
+  "the pit walls are steeper than the long-wave assumption of the shallow-water equations allows, so the flow on them is indicative"
+ ]
+}

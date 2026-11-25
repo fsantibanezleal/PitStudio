@@ -98,6 +98,11 @@
    "run_id": "20261125T012717Z-a1-fleet-sweep",
    "manifest": "20261125T012717Z-a1-fleet-sweep/manifest.json",
    "sha256": "351947c5649f1954c42a5e6b8cdf78ae87ad093f2a8c94ff886f0778929d2dce"
+  },
+  {
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "manifest": "20261125T035023Z-c2-cpu-40m/manifest.json",
+   "sha256": "521ffaa4f48a9b3589004b07546bd913320d5bc0efe7f24da44a4db31885f8e1"
   }
  ],
  "artefacts": [
@@ -5727,6 +5732,438 @@
    ],
    "media_type": "application/json",
    "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+  },
+  {
+   "id": "c2cpu-run-summary",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-run.json",
+   "bytes": 5633,
+   "sha256": "35d6bbd35f329aa7d57a5e2f4dffea7846336ce57ed3b46eee6aab378be646c9",
+   "kind": "table",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-solver-benchmarks",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/swe-benchmarks.json",
+   "bytes": 7522,
+   "sha256": "1f3c438f2d6a6ce2d71ed57dead97dada98db8906db276c3cbeff89fb5eee5a7",
+   "kind": "table",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-depth-map-s1-reference",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-depth-map-s1-reference.json",
+   "bytes": 217616,
+   "sha256": "01a45b03fcfa14733d42e1e2d61655ca479c0025cca60056f6b0e84282a596e9",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-arrival-map-s1-reference",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-arrival-map-s1-reference.json",
+   "bytes": 217904,
+   "sha256": "c1158f9183e3f42ab54a0c819e185a42b136b54468b0010ab60f84a15029604b",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-depth-map-s2-fluid",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-depth-map-s2-fluid.json",
+   "bytes": 217596,
+   "sha256": "bc1aaf9ed916ba32c2d28342b0ab52fe8085cf9e4134b793c30ceee51b99fdef",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-arrival-map-s2-fluid",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-arrival-map-s2-fluid.json",
+   "bytes": 217895,
+   "sha256": "34a382c427f9a76b6df81b4c9cfd969daa5d4eda8d6d6327868541e6ac82f2e1",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-depth-map-s3-large",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-depth-map-s3-large.json",
+   "bytes": 217740,
+   "sha256": "e7f590de72e32a38804578a88c7d215451b5804583c49c32710b8ea06c480b21",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-arrival-map-s3-large",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-arrival-map-s3-large.json",
+   "bytes": 218317,
+   "sha256": "340866aae942b34d8a8dcb19383274ed091018c3773d96c54ff90526fc7091af",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-arrival-distance",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-arrival-distance.json",
+   "bytes": 2900,
+   "sha256": "78852cb38266f51233da7232fa72032a0f1c4831a836062b70b3e292999242c3",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-front-time",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-front-time.json",
+   "bytes": 3978,
+   "sha256": "6460926934f371cb57cf62101699c548d84da1a2523afe402a89b9283be4722a",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-area-time",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-area-time.json",
+   "bytes": 3918,
+   "sha256": "6ff3a44254acef4f5366be9b79e28ab734478c83d74ee3f1fd792604e54b0bd9",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-pit-volume",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-pit-volume.json",
+   "bytes": 4032,
+   "sha256": "697214a8c00ad9a4b6daa71d6531bd4605f05df8703ffb97816f5712d071f3b2",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-area-bars",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-area-bars.json",
+   "bytes": 1448,
+   "sha256": "ce87b38fb77291b6f6081febd4335698dd904914756da6416fa85fe28a7359fc",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-depth-bars",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-depth-bars.json",
+   "bytes": 1561,
+   "sha256": "28652701618fd542023e01f977b8683eba9e53536cd65e30e6c734ddfea40f64",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-kpi-table",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-kpi-table.json",
+   "bytes": 3289,
+   "sha256": "98bde7a334ad81b43f74f9eb4ec94059ade8d116eb7661dc1473f9e7fb9993df",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c2cpu-solver-verification",
+   "run_id": "20261125T035023Z-c2-cpu-40m",
+   "git_sha": "8eda7b1f2c1083e86bca72db4a87fcdb12478b3a",
+   "path": "assets/20261125T035023Z-c2-cpu-40m/c2-solver-verification.json",
+   "bytes": 4744,
+   "sha256": "15cb897205d281a0932f4d8901ca27be4aecea79126b9ff5dd3c6d4da6635ff5",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "warp",
+    "stage": {
+     "id": "st50_physics",
+     "variant": "swe-breach-cpu-coarse"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "public-domain",
+   "spdx": "LicenseRef-USGov-PD",
+   "asset_host": "git",
+   "cases": [
+    "C2"
+   ],
+   "media_type": "application/json",
+   "attribution": "U.S. Geological Survey, 3D Elevation Program (public domain)"
   }
  ]
 }

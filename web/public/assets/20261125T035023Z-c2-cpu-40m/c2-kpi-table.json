@@ -1,0 +1,181 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c2-kpi-table",
+ "case": "C2",
+ "chart_type": "table",
+ "status": "ok",
+ "title": {
+  "en": "Breach scenarios and their results",
+  "es": "Escenarios de rotura y sus resultados"
+ },
+ "producer": {
+  "tool": "warp",
+  "method": "depth-averaged shallow water, Rusanov flux with hydrostatic reconstruction, Bingham bed stress",
+  "version": "warp-1.17.0-swe-1.0",
+  "label": "synthetic breach scenario of a hypothetical facility on real terrain, not validated against real data"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-005-30"
+ ],
+ "caption": {
+  "en": "A blank arrival means the flow never reached the pit outline in the simulated time",
+  "es": "Una llegada en blanco significa que el flujo no alcanz\u00f3 el contorno del rajo en el tiempo simulado"
+ },
+ "table": {
+  "columns": [
+   {
+    "id": "scenario",
+    "label": {
+     "en": "Scenario",
+     "es": "Escenario"
+    },
+    "type": "text"
+   },
+   {
+    "id": "volume",
+    "label": {
+     "en": "Released volume",
+     "es": "Volumen liberado"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "peak",
+    "label": {
+     "en": "Peak discharge",
+     "es": "Caudal peak"
+    },
+    "type": "number",
+    "unit": "m3/s"
+   },
+   {
+    "id": "tau-y",
+    "label": {
+     "en": "Yield stress",
+     "es": "Tensi\u00f3n de fluencia"
+    },
+    "type": "number",
+    "unit": "Pa"
+   },
+   {
+    "id": "mu-b",
+    "label": {
+     "en": "Plastic viscosity",
+     "es": "Viscosidad pl\u00e1stica"
+    },
+    "type": "number",
+    "unit": "Pa.s"
+   },
+   {
+    "id": "rho",
+    "label": {
+     "en": "Density",
+     "es": "Densidad"
+    },
+    "type": "number",
+    "unit": "kg/m3"
+   },
+   {
+    "id": "arrival-pit",
+    "label": {
+     "en": "First arrival at the pit outline",
+     "es": "Primera llegada al contorno del rajo"
+    },
+    "type": "number",
+    "unit": "min"
+   },
+   {
+    "id": "depth",
+    "label": {
+     "en": "Maximum depth beyond the breach",
+     "es": "Profundidad m\u00e1xima fuera de la rotura"
+    },
+    "type": "number",
+    "unit": "m"
+   },
+   {
+    "id": "area",
+    "label": {
+     "en": "Inundated area",
+     "es": "\u00c1rea inundada"
+    },
+    "type": "number",
+    "unit": "km2"
+   },
+   {
+    "id": "run-out",
+    "label": {
+     "en": "Run-out distance",
+     "es": "Alcance"
+    },
+    "type": "number",
+    "unit": "km"
+   },
+   {
+    "id": "pit-volume",
+    "label": {
+     "en": "Volume in the pit at the end",
+     "es": "Volumen en el rajo al final"
+    },
+    "type": "number",
+    "unit": "m3"
+   },
+   {
+    "id": "residual",
+    "label": {
+     "en": "Volume balance residual",
+     "es": "Residuo del balance de volumen"
+    },
+    "type": "number",
+    "unit": "1"
+   }
+  ],
+  "rows": [
+   [
+    "Reference: 100,000 m3, 100 Pa",
+    100000,
+    11.105,
+    100.0,
+    0.5,
+    1800.0,
+    141.7,
+    4.423,
+    0.256,
+    2.147,
+    63130.5,
+    2.63e-14
+   ],
+   [
+    "Fluid: 100,000 m3, 10 Pa",
+    100000,
+    11.105,
+    10.0,
+    0.05,
+    1800.0,
+    141.3,
+    4.495,
+    0.2688,
+    2.147,
+    64085.8,
+    2.51e-14
+   ],
+   [
+    "Large: 200,000 m3, 100 Pa",
+    200000,
+    22.211,
+    100.0,
+    0.5,
+    1800.0,
+    113.3,
+    7.409,
+    0.5136,
+    2.169,
+    125255.3,
+    2.4e-14
+   ]
+  ]
+ }
+}

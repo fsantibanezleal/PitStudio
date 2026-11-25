@@ -1,0 +1,71 @@
+{
+ "schema_version": "1.0",
+ "kind": "chart-series",
+ "id": "c2-depth-bars",
+ "case": "C2",
+ "chart_type": "bar",
+ "status": "ok",
+ "title": {
+  "en": "Maximum flow depth by scenario",
+  "es": "Profundidad m\u00e1xima del flujo por escenario"
+ },
+ "producer": {
+  "tool": "warp",
+  "method": "depth-averaged shallow water, Rusanov flux with hydrostatic reconstruction, Bingham bed stress",
+  "version": "warp-1.17.0-swe-1.0",
+  "label": "synthetic breach scenario of a hypothetical facility on real terrain, not validated against real data"
+ },
+ "serves": [
+  "FR-018-16",
+  "FR-005-30"
+ ],
+ "caption": {
+  "en": "Largest depth in any cell farther than 100 m from the breach (the breach cells hold the injected volume)",
+  "es": "Mayor profundidad en una celda a m\u00e1s de 100 m de la rotura (las celdas de rotura reciben el volumen)"
+ },
+ "kpi": "max_depth",
+ "y_axis": {
+  "label": {
+   "en": "Maximum depth",
+   "es": "Profundidad m\u00e1xima"
+  },
+  "unit": "m"
+ },
+ "categories": [
+  {
+   "id": "s1-reference",
+   "label": {
+    "en": "Reference: 100,000 m3, 100 Pa",
+    "es": "Referencia: 100.000 m3, 100 Pa"
+   }
+  },
+  {
+   "id": "s2-fluid",
+   "label": {
+    "en": "Fluid: 100,000 m3, 10 Pa",
+    "es": "Fluido: 100.000 m3, 10 Pa"
+   }
+  },
+  {
+   "id": "s3-large",
+   "label": {
+    "en": "Large: 200,000 m3, 100 Pa",
+    "es": "Grande: 200.000 m3, 100 Pa"
+   }
+  }
+ ],
+ "series": [
+  {
+   "id": "max-depth",
+   "label": {
+    "en": "Maximum depth",
+    "es": "Profundidad m\u00e1xima"
+   },
+   "y": [
+    4.423,
+    4.495,
+    7.409
+   ]
+  }
+ ]
+}
