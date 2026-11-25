@@ -1,0 +1,97 @@
+{
+ "caption": {
+  "en": "Equation 1a for 272 t and 6 % silt, times (1 minus control efficiency), levels of Table 13.2.2-5.",
+  "es": "Ecuacion 1a para 272 t y 6 % de limo, por (1 menos eficiencia de control), niveles de la Tabla 13.2.2-5."
+ },
+ "case": "C3",
+ "chart_type": "table",
+ "id": "c3-ef-table",
+ "kind": "chart-series",
+ "producer": {
+  "label": "screening Gaussian plume, not AERMOD; illustrative scenario, not validated against measured concentrations",
+  "method": "US EPA AP-42 13.2.2 equation 1a unpaved-road PM10 factor; ISC3 Gaussian plume with ground reflection, Pasquill-Gifford rural dispersion",
+  "tool": "minephys",
+  "version": "0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "serves": [
+  "FR-018-16",
+  "FR-018-51"
+ ],
+ "status": "ok",
+ "table": {
+  "columns": [
+   {
+    "id": "control-percent",
+    "label": {
+     "en": "Control efficiency",
+     "es": "Eficiencia de control"
+    },
+    "type": "number",
+    "unit": "%"
+   },
+   {
+    "id": "pm10-lb-per-vmt",
+    "label": {
+     "en": "PM10 factor",
+     "es": "Factor de PM10"
+    },
+    "type": "number",
+    "unit": "lb/VMT"
+   },
+   {
+    "id": "pm10-kg-per-vkt",
+    "label": {
+     "en": "PM10 factor",
+     "es": "Factor de PM10"
+    },
+    "type": "number",
+    "unit": "kg/VKT"
+   },
+   {
+    "id": "validity",
+    "label": {
+     "en": "Against the AP-42 ranges",
+     "es": "Frente a los rangos de AP-42"
+    },
+    "type": "text"
+   }
+  ],
+  "rows": [
+   [
+    0.0,
+    6.38341,
+    1.79916,
+    "extrapolated"
+   ],
+   [
+    62.0,
+    2.4257,
+    0.68368,
+    "extrapolated"
+   ],
+   [
+    68.0,
+    2.04269,
+    0.575731,
+    "extrapolated"
+   ],
+   [
+    74.0,
+    1.65969,
+    0.467781,
+    "extrapolated"
+   ],
+   [
+    80.0,
+    1.27668,
+    0.359832,
+    "extrapolated"
+   ]
+  ]
+ },
+ "title": {
+  "en": "PM10 emission factor of the reference case under dust control",
+  "es": "Factor de emision de PM10 del caso de referencia con control de polvo"
+ }
+}

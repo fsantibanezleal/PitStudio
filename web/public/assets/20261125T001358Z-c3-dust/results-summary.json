@@ -1,0 +1,167 @@
+{
+ "extra": {
+  "assumptions": [
+   "the scenario values (silt, passes per hour on every edge, release height, receptors) are illustrative and UNVERIFIED for the site",
+   "stability class D is assumed for every hour: GHCNh holds no insolation, so no hourly Pasquill class is derived",
+   "the station anemometer height (10 m by the usual WMO siting) is UNVERIFIED and no height correction is applied",
+   "GHCNh quality codes 1 and 5 are read as passed by the ISD convention; the documentation text of the codes could not be read (UNVERIFIED)",
+   "steady wind, flat terrain, no plume rise, deposition or terrain wake: the pit walls are not modelled; screening, not AERMOD",
+   "AP-42 equation 1a has no speed term, so no emission curve against speed is drawn"
+  ],
+  "inputs": [
+   {
+    "name": "ghcnh-usw00024127-2015.psv",
+    "sha256": "1bf226bfc3330cf88d85c97f4c4edac3bd99d57aadd4640cffdaf1e1ca41f4a3"
+   },
+   {
+    "name": "ghcnh-usw00024127-2016.psv",
+    "sha256": "d14d682a038e7715c2c5c33a7985771940397d3bd440e5238b3e0e45dceb318e"
+   },
+   {
+    "name": "ghcnh-usw00024127-2017.psv",
+    "sha256": "68e43b7629b1c18d1a349cdef0d8e628b7edda6c60b98fb7e4b55cb0b30cb78e"
+   },
+   {
+    "name": "ghcnh-usw00024127-2018.psv",
+    "sha256": "b259bc020d537cfa8f76cd7e1ae8cf8a80f182d3ce2870cc55da1fbd08ac8519"
+   },
+   {
+    "name": "ghcnh-usw00024127-2019.psv",
+    "sha256": "4cafb829629cda126a1f632054ff0a4b1e6fe5c8404fdfb9602fa24ac21b5f3a"
+   },
+   {
+    "name": "ghcnh-usw00024127-2020.psv",
+    "sha256": "1b89bbd96e4fe02b77e31284ef968abb084b54a74f0e7b3cd1ed2b0fb7afdb8d"
+   },
+   {
+    "name": "ghcnh-usw00024127-2021.psv",
+    "sha256": "da1437b1d268d8e4890efca0d0de685daca68566acd45868168609d1e7a743ec"
+   },
+   {
+    "name": "ghcnh-usw00024127-2022.psv",
+    "sha256": "0e4b76a89e85351bf5eee7ef8b7ffa082dffe08f2f4d4014b4521d99d955a12e"
+   },
+   {
+    "name": "ghcnh-usw00024127-2023.psv",
+    "sha256": "571c3b8f7a9279c191720733fe1ede427eef7f90f5b703953108e18974747c66"
+   },
+   {
+    "name": "ghcnh-usw00024127-2024.psv",
+    "sha256": "21c876e5ef94ecbc3639507b76bb1951f920ce78a2b931a1452f4bcee299e283"
+   },
+   {
+    "name": "road-network.geojson",
+    "sha256": "32ca471ebd42de69d96615fe9fc315093abfb770eff4f6f6881ee1e584719107"
+   },
+   {
+    "name": "pit-outline.geojson",
+    "sha256": "70d4767606f9700b0cc864fafe9d4fcb38a44c145117611fda5c80f4ce2494c0"
+   }
+  ],
+  "minephys": "minephys 0.0.0+g98d5b25",
+  "prevailing_wind": {
+   "from_deg": 157.5,
+   "hours": 11532,
+   "sector": "SSE",
+   "share_percent": 13.16,
+   "speed_m_s": 3.6
+  },
+  "reference": {
+   "in_range": false,
+   "pm10_kg_per_vkt": 1.79916,
+   "silt_percent": 6.0,
+   "weight_kg": 272000.0,
+   "weight_t": 272.0
+  },
+  "road": {
+   "length_m": 17524.0,
+   "map_pieces": 17486,
+   "receptor_pieces": 17486,
+   "total_emission_kg_per_s": 0.525473
+  },
+  "scenario": {
+   "passes_per_hour_per_edge": 60.0,
+   "receptor_height_m": 1.5,
+   "release_height_m": 3.0,
+   "silt_fraction": 0.06,
+   "size_class": "PM10",
+   "stability_class": "D",
+   "terrain": "rural"
+  },
+  "water_use": "not computed: the water_use KPI needs the haulage schedule (spec 007) and a watering schedule",
+  "wind": {
+   "calm_percent": 11.29,
+   "elevation_m": 1288.4,
+   "good_quality_codes": [
+    "1",
+    "5"
+   ],
+   "hours": 87629,
+   "latitude": 40.7706,
+   "longitude": -111.965,
+   "modelled_hours": 74966,
+   "name": "SALT LAKE CITY INTL AP",
+   "not_modelled_hours": 12663,
+   "period": "2015-01-01 to 2024-12-31 UTC",
+   "records": {
+    "calm": 9896,
+    "direction_out_of_range": 0,
+    "direction_quality_rejected": 0,
+    "dropped_duplicate_hour": 40307,
+    "dropped_no_speed": 54,
+    "dropped_speed_quality": 96,
+    "hours": 87629,
+    "rows": 128086,
+    "variable": 2767
+   },
+   "speed_median_m_s": 3.1,
+   "station": "USW00024127",
+   "unique_winds_evaluated": 801,
+   "variable_percent": 3.158
+  }
+ },
+ "headline": [
+  {
+   "kpi": "pm10_per_vkt",
+   "name": "PM10 emission factor, reference case",
+   "note": "AP-42 equation 1a, 272 t mean weight, 6 % silt (illustrative, UNVERIFIED for the site); the weight lies above the Table 13.2.2-3 range, so the value is an extrapolation",
+   "unit": "kg/VKT",
+   "value": 1.79916
+  },
+  {
+   "kpi": "receptor_concentration",
+   "name": "PM10 mean at the most exposed hypothetical receptor (S)",
+   "note": "mean over 74966 modelled hours of 2015-01-01 to 2024-12-31 UTC, stability class D assumed, hypothetical receptors (UNVERIFIED)",
+   "unit": "ug/m3",
+   "value": 301.3
+  }
+ ],
+ "label": "screening Gaussian plume, not AERMOD; illustrative scenario, not validated against measured concentrations",
+ "methods": [
+  "M16"
+ ],
+ "rows": [
+  {
+   "mean_ug_per_m3": 261.5,
+   "p99_hourly_ug_per_m3": 2842.0,
+   "receptor": "r-n"
+  },
+  {
+   "mean_ug_per_m3": 122.1,
+   "p99_hourly_ug_per_m3": 2286.0,
+   "receptor": "r-e"
+  },
+  {
+   "mean_ug_per_m3": 301.3,
+   "p99_hourly_ug_per_m3": 2642.0,
+   "receptor": "r-s"
+  },
+  {
+   "mean_ug_per_m3": 153.9,
+   "p99_hourly_ug_per_m3": 2802.0,
+   "receptor": "r-w"
+  }
+ ],
+ "title": "Haul-road dust: AP-42 PM10 emission factors and the Gaussian plume over the Bingham pit for real wind records",
+ "verdict": "ok"
+}

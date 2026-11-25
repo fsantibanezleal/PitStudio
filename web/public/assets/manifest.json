@@ -83,6 +83,11 @@
    "run_id": "20261124T121159Z-e2-coarse",
    "manifest": "20261124T121159Z-e2-coarse/manifest.json",
    "sha256": "7ff4a2ef6257b28c18d4191301d92ad75986e8e2c26e3b7ba1f52c7b96515617"
+  },
+  {
+   "run_id": "20261125T001358Z-c3-dust",
+   "manifest": "20261125T001358Z-c3-dust/manifest.json",
+   "sha256": "3659d073379339ab4edb464973e9330463687aa2d2275f1487b8fe11352e047a"
   }
  ],
  "artefacts": [
@@ -5062,6 +5067,214 @@
    ],
    "media_type": "application/json",
    "attribution": "NASA and USGS: SRTM GL1 (NASA JPL, NGA, public domain); U.S. Geological Survey, 3D Elevation Program (public domain)"
+  },
+  {
+   "id": "c3-dust-results",
+   "run_id": "20261125T001358Z-c3-dust",
+   "git_sha": "c6d6b667c4d2a60dc54b449178c7cc3653b225f8",
+   "path": "assets/20261125T001358Z-c3-dust/results-summary.json",
+   "bytes": 5181,
+   "sha256": "f2d3bae7d015608066655527a09aaef16fb0baf5d7981a3b05e0d6c45ce55520",
+   "kind": "table",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C3"
+   ],
+   "media_type": "application/json",
+   "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain)."
+  },
+  {
+   "id": "c3-ef-vs-silt",
+   "run_id": "20261125T001358Z-c3-dust",
+   "git_sha": "c6d6b667c4d2a60dc54b449178c7cc3653b225f8",
+   "path": "assets/20261125T001358Z-c3-dust/charts/c3-ef-vs-silt.json",
+   "bytes": 6142,
+   "sha256": "7955477e7cb25cae176a8e8023ebee8e3851e9854564a1a47e8a59981ef2a5cd",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C3"
+   ],
+   "media_type": "application/json",
+   "attribution": "Emission factor: US EPA AP-42 section 13.2.2 Unpaved Roads (public domain); curves computed by minephys."
+  },
+  {
+   "id": "c3-ef-vs-weight",
+   "run_id": "20261125T001358Z-c3-dust",
+   "git_sha": "c6d6b667c4d2a60dc54b449178c7cc3653b225f8",
+   "path": "assets/20261125T001358Z-c3-dust/charts/c3-ef-vs-weight.json",
+   "bytes": 6956,
+   "sha256": "0ab89257d36d1990c481f73298086ba9a7e77432b87ac3bac23e04d9eb77ff52",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C3"
+   ],
+   "media_type": "application/json",
+   "attribution": "Emission factor: US EPA AP-42 section 13.2.2 Unpaved Roads (public domain); curves computed by minephys."
+  },
+  {
+   "id": "c3-ef-table",
+   "run_id": "20261125T001358Z-c3-dust",
+   "git_sha": "c6d6b667c4d2a60dc54b449178c7cc3653b225f8",
+   "path": "assets/20261125T001358Z-c3-dust/charts/c3-ef-table.json",
+   "bytes": 1954,
+   "sha256": "d3b98cb0753c071a4895010b2795a47c22f511c3d688c0918f792c7f3ef2cd12",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C3"
+   ],
+   "media_type": "application/json",
+   "attribution": "Emission factor: US EPA AP-42 section 13.2.2 Unpaved Roads (public domain); curves computed by minephys."
+  },
+  {
+   "id": "c3-wind-rose",
+   "run_id": "20261125T001358Z-c3-dust",
+   "git_sha": "c6d6b667c4d2a60dc54b449178c7cc3653b225f8",
+   "path": "assets/20261125T001358Z-c3-dust/charts/c3-wind-rose.json",
+   "bytes": 3256,
+   "sha256": "11697c824f9f8a4d01e4b40a3160f3f2768a05b6a28f5fbb7731e56280d6d100",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C3"
+   ],
+   "media_type": "application/json",
+   "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain)."
+  },
+  {
+   "id": "c3-plume-map",
+   "run_id": "20261125T001358Z-c3-dust",
+   "git_sha": "c6d6b667c4d2a60dc54b449178c7cc3653b225f8",
+   "path": "assets/20261125T001358Z-c3-dust/charts/c3-plume-map.json",
+   "bytes": 357029,
+   "sha256": "2e79b8341248c8df51628b18cfbdf252ddf3098f92b5acf20eba85fda0acb51e",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C3"
+   ],
+   "media_type": "application/json",
+   "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain)."
+  },
+  {
+   "id": "c3-conc-vs-distance",
+   "run_id": "20261125T001358Z-c3-dust",
+   "git_sha": "c6d6b667c4d2a60dc54b449178c7cc3653b225f8",
+   "path": "assets/20261125T001358Z-c3-dust/charts/c3-conc-vs-distance.json",
+   "bytes": 24032,
+   "sha256": "438c724da9b563fc980c4a9b5f9769ed577a21f93f6fba0baaa589ae8c4830b9",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C3"
+   ],
+   "media_type": "application/json",
+   "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain)."
+  },
+  {
+   "id": "c3-receptor-concentration",
+   "run_id": "20261125T001358Z-c3-dust",
+   "git_sha": "c6d6b667c4d2a60dc54b449178c7cc3653b225f8",
+   "path": "assets/20261125T001358Z-c3-dust/charts/c3-receptor-concentration.json",
+   "bytes": 1923,
+   "sha256": "f7da8e934a9c86f1e7e84f1672cd99769925ce4a32776891ea1c45b6e8d06d58",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minephys",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "C3"
+   ],
+   "media_type": "application/json",
+   "attribution": "Wind: NOAA NCEI, Global Historical Climatology Network-Hourly (GHCNh), station USW00024127, CC0-1.0, https://doi.org/10.25921/jp3d-3v19. AP-42: US EPA, Compilation of Air Emission Factors, section 13.2.2 (public domain)."
   }
  ]
 }
