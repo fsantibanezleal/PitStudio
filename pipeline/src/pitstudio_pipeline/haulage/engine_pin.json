@@ -1,0 +1,34 @@
+{
+  "package": "minehaulsim",
+  "version": "0.12.1",
+  "modules": {
+    "des/sim.py": "b56a53e45d09e9222fcbe51002709c9acb57ba280ee82fc0b346f3264909e4a2",
+    "des/engine.py": "ebb2ccfcddafc5fe45c0950a1dc88ccdb901328878bdc6f142a421b5a9486a48",
+    "des/dispatch.py": "45583c0a3f56bcbddb8d98b4ba9d1e36873aac316640f8ff706322b8f636fa25",
+    "des/failures.py": "cb5aaa76e94e734a5d168f6b6011997c9292877c84b73a4c9430b80734e0f52e",
+    "des/traversal.py": "6e5aed07b347968fd2c2afbda69ae3d8ca4822967035bd45c84bd5487a6d7cc7",
+    "des/resources.py": "510ea100f8bfe4d97f590bce90a093799903ea2e71b24dbf20364410f5e16308",
+    "network/kinematics.py": "9c67f52bc4466ade099db7d08b1daa54caef91f73b34398ffd1be0cbe3bad36c",
+    "network/routing.py": "f21e2ace9a73864061d96af679f469759cc807d26b2bf60f699e2536ec9b0482",
+    "network/graph.py": "19200d5be8f4e37aa357297333b2b1b5d26b7b2e4bf838b776c8237ba10872dc",
+    "equipment/catalog.py": "00901db575aa4b2e707b33edf3d7cfbcdf5402b6855df462960851e29da4876a"
+  },
+  "callbacks": {
+    "_go_load": "arrive-loader",
+    "_loaded": "load-end",
+    "_depart_loaded": "depart-loaded",
+    "_arrive_dump": "arrive-dump",
+    "_dumped": "dump-end",
+    "_dispatch_next": "dispatch",
+    "start_loading": "loader-repair-end",
+    "leave": "segment-exit",
+    "_release_then": "junction-cross-end",
+    "probe": "zone-probe",
+    "bin_dump": "bin-dump",
+    "_lhd_start": "lhd-start",
+    "_lhd_dig": "lhd-dig",
+    "_lhd_to_tip": "lhd-to-tip",
+    "_lhd_at_tip": "lhd-at-tip",
+    "_lhd_after_tip": "lhd-after-tip"
+  }
+}
