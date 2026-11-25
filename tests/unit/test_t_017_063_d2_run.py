@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -29,6 +30,11 @@ from pitstudio_pipeline import chartkit
 from pitstudio_pipeline.mine_to_mill import d2_run
 
 ROOT = Path(__file__).resolve().parents[2]
+
+# the revision of the minephys pin in pyproject.toml, so the test follows a pin bump instead of one hard-coded hash
+PINNED_MINEPHYS = re.search(
+    r'minephys = \{ git = "[^"]+", rev = "([0-9a-f]{40})" \}', (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+).group(1)[:7]
 RECIPE = yaml.safe_load((ROOT / "studio/recipes/cases/d2.yaml").read_text(encoding="utf-8"))
 STAGE = RECIPE["stages"][0]
 SWEEP_SCHEMA = json.loads((ROOT / "contracts/comminution-sweep.schema.json").read_text(encoding="utf-8"))
@@ -73,7 +79,7 @@ def test_every_chart_is_valid_and_carries_its_producer_and_label(result) -> None
         assert chart["case"] == "D2" and chart["status"] == "ok"
         prod = chart["producer"]
         assert prod["tool"] == "minephys" and "Bond" in prod["method"]
-        assert prod["version"].startswith("0.") and "+g98d5b25" in prod["version"]
+        assert prod["version"].startswith("0.") and f"+g{PINNED_MINEPHYS}" in prod["version"]
         assert prod["label"] == "calibrated synthetic, not validated against real data"
         assert set(chart["serves"]) <= {"FR-017-01", "FR-017-02"}
 

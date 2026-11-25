@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from pathlib import Path
 
 import numpy as np
@@ -30,6 +31,11 @@ from pitstudio_pipeline.fragmentation import d1_run, fold_report
 from pitstudio_pipeline.fragmentation.unet import IMAGENET_MEAN, IMAGENET_STD
 
 ROOT = Path(__file__).resolve().parents[2]
+
+# the revision of the minephys pin in pyproject.toml, so the test follows a pin bump instead of one hard-coded hash
+PINNED_MINEPHYS = re.search(
+    r'minephys = \{ git = "[^"]+", rev = "([0-9a-f]{40})" \}', (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+).group(1)[:7]
 RECIPE = yaml.safe_load((ROOT / "studio/recipes/cases/d1.yaml").read_text(encoding="utf-8"))
 STAGE = RECIPE["stages"][0]
 GRID_SCHEMA = json.loads((ROOT / "contracts/d1-design-grid.schema.json").read_text(encoding="utf-8"))
@@ -127,7 +133,7 @@ def test_the_design_charts_are_valid_and_carry_producer_and_label(design) -> Non
     assert ids == ["d1-p80-map", "d1-oversize-map", "d1-powder-factor-map", "d1-ppv-curves", "d1-flyrock-curves"]
     for chart in design["charts"]:
         assert chartkit.problems(chart) == [], chart["id"]
-        assert chart["producer"]["tool"] == "minephys" and "+g98d5b25" in chart["producer"]["version"]
+        assert chart["producer"]["tool"] == "minephys" and f"+g{PINNED_MINEPHYS}" in chart["producer"]["version"]
         assert "UNVERIFIED" in chart["producer"]["label"] and "not validated" in chart["producer"]["label"]
 
 
