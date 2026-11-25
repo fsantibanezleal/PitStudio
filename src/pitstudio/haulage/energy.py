@@ -6,10 +6,10 @@ t, drivetrain diesel, trolley or bev) and a leg (loaded or empty) it reports the
 the tank and from the line or battery, the regenerated energy (bev only), and kWh/t, L/(t km) for diesel and kg CO2e/t, each
 stating its basis (payload tonnes, along-road kilometres).
 
-Physical constants come only from the `minephys` knowledge tables or from the caller, never from a literal here. Where the pinned
-`minephys` has no row for a constant (the drivetrain efficiencies and the fuel energy density have none), there is no default:
-`MissingKnowledgeRow` names it and the caller supplies it explicitly. Every result lists the row ids it used and the UNVERIFIED
-subset.
+Physical constants come only from the `minephys` knowledge tables or from the caller, never from a literal here. The default of
+every constant is a knowledge row (`TABLE_ROWS`: g, the four drivetrain efficiencies, the diesel lower heating value and the diesel
+CO2 factor); a pinned `minephys` that lacks a row raises `MissingKnowledgeRow` naming the constant, and the caller may supply it
+explicitly. Every result lists the row ids it used and the UNVERIFIED subset.
 """
 
 from __future__ import annotations
@@ -21,8 +21,8 @@ from typing import Any
 
 import minephys.knowledge as kn
 import numpy as np
+from minephys import InputError, units
 from minephys import haulage as mp
-from minephys import units
 
 from .errors import InvalidRouteInput, MissingKnowledgeRow
 
@@ -38,8 +38,16 @@ CONSTANT_NAMES = (
     "fuel_energy_density_j_per_m3",
     "diesel_co2_kg_per_m3",
 )
-# the knowledge-table rows that exist for these constants in the pinned `minephys`; the other names have no row
-TABLE_ROWS = {"g": "standard_gravity", "diesel_co2_kg_per_m3": "diesel_co2_kg_per_us_gal"}
+# the knowledge-table row of each constant in the pinned `minephys` (DC-001-01 and DC-001-02 of its spec 001)
+TABLE_ROWS = {
+    "g": "standard_gravity",
+    "eta_diesel": "diesel_electric_fuel_to_wheel_efficiency",
+    "eta_electric": "electric_dc_bus_to_wheel_efficiency",
+    "eta_drive": "battery_electric_battery_to_wheel_efficiency",
+    "eta_regen": "battery_electric_regeneration_efficiency",
+    "fuel_energy_density_j_per_m3": "diesel_lower_heating_value_j_per_m3",
+    "diesel_co2_kg_per_m3": "diesel_co2_kg_per_us_gal",
+}
 USED_BY = {
     "diesel": ("g", "eta_diesel", "fuel_energy_density_j_per_m3", "diesel_co2_kg_per_m3"),
     "trolley": ("g", "eta_diesel", "eta_electric", "fuel_energy_density_j_per_m3", "diesel_co2_kg_per_m3"),
@@ -59,15 +67,18 @@ def _finite(field: str, v: Any) -> float:
 
 def _entry(name: str) -> dict:
     row = TABLE_ROWS[name]
-    p = kn.get_parameter(row)
-    value = float(kn.get_value(row))
+    try:
+        p = kn.get_parameter(row)
+        value = float(kn.get_value(row))
+    except InputError as exc:  # an older pinned `minephys` without the row
+        raise MissingKnowledgeRow([name]) from exc
     if name == "diesel_co2_kg_per_m3":
         value = value / float(units.us_gal_to_m3(1))
     return {"value": value, "row_id": row, "verified": p.verification == "verified"}
 
 
 def default_constants() -> dict[str, dict]:
-    """{name: {"value", "row_id", "verified"}} for the constants that have a `minephys` knowledge row (g and the diesel CO2 factor)."""
+    """{name: {"value", "row_id", "verified"}} for every constant, each read from its `minephys` knowledge row."""
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         return {name: _entry(name) for name in TABLE_ROWS}
@@ -103,12 +114,13 @@ def _resolve(constants: Mapping[str, float] | None, drivetrain: str) -> dict[str
             continue
         if name in given:
             out[name] = {"value": float(given[name]), "row_id": None, "verified": None}
-        elif name in TABLE_ROWS:
+        else:
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
-                out[name] = _entry(name)
-        else:
-            missing.append(name)
+                try:
+                    out[name] = _entry(name)
+                except MissingKnowledgeRow:
+                    missing.append(name)
     if missing:
         raise MissingKnowledgeRow(missing)
     return out

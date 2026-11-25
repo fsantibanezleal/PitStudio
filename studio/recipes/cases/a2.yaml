@@ -2,9 +2,10 @@
 # One stage: route energy, fuel and CO2e per tonne for diesel, trolley-assist and battery-electric trucks (pitstudio.haulage.energy
 # over minephys.haulage) on a straight climb against the grade, on the road route from the deepest bench to the pit exit of the A1
 # pit design, with the saving of electrifying a share of the ramp, and the least-energy grade-constrained A* route over the real
-# terrain model (3DEP 2018) for a sweep of the grade limit. The gravity and the diesel CO2 factor are verified minephys knowledge
-# rows; the drivetrain efficiencies and the fuel energy density have no knowledge row, so they are explicit scenario inputs that the
-# run lists as UNVERIFIED. Rolling resistance and the trolley layout are illustrative. Nothing is validated against measurements.
+# terrain model (3DEP 2018) for a sweep of the grade limit. Every constant (gravity, the four drivetrain efficiencies, the diesel
+# lower heating value, the diesel CO2 factor) is a verified minephys knowledge row with a primary citation (rows of minephys spec 001,
+# DC-001-01 and DC-001-02); the run lists each row with its source. Rolling resistance and the trolley layout are illustrative
+# scenario assumptions. Nothing is validated against measurements.
 id: a2
 case: A2
 seed: 0
@@ -22,7 +23,7 @@ stages:
         road_network: processed/scene/a1-bingham-v3/st20_pit_design/design/road-network.geojson
       scenario:
         truck: {empty_mass_t: 165.0, payload_t: 227.0}   # the engine catalog class CAT_793F (public specification magnitudes)
-        rr_pct: 2.5                  # illustrative rolling resistance, UNVERIFIED for the site
+        rr_pct: 2.5                  # illustrative rolling resistance, an assumption for the site (swept below)
         rr_sweep_pct: [2.0, 2.5, 4.0]
         grade_min_pct: 0.0
         grade_max_pct: 15.0
@@ -33,12 +34,6 @@ stages:
           terrain_grid: processed/scene/a1-bingham-v3/st10_terrain/terrain/grid.zarr
           cell_m: 10.0               # the 1 m terrain model averaged to 10 m cells
           g_max_sweep: [0.06, 0.08, 0.10, 0.12, 0.15, 0.20, 0.25]
-      constants:                     # scenario inputs without a minephys knowledge row, UNVERIFIED; gravity and the CO2 factor come from verified rows
-        eta_diesel: 0.35             # the value of the minephys specification 001 section 7.4 worked example
-        fuel_energy_density_j_per_m3: 36000000000.0  # likewise
-        eta_electric: 0.9            # assumption, no source
-        eta_drive: 0.92              # assumption, no source
-        eta_regen: 0.6               # assumption, no source
     resources: {gpu: none, disk_gib_est: 0.1, cpu: 1}
     determinism: bitwise
     timeout_s: 1800

@@ -486,7 +486,7 @@ wheels = [
 [[package]]
 name = "minephys"
 version = "0.0.0"
-source = { git = "https://github.com/fsantibanezleal/minephys?rev=98d5b2525a81d9ea3de6d24dc7536450f458aee3#98d5b2525a81d9ea3de6d24dc7536450f458aee3" }
+source = { git = "https://github.com/fsantibanezleal/minephys?rev=cabb880bfd4761a3410bbc695b6de2ddc0c89e66#cabb880bfd4761a3410bbc695b6de2ddc0c89e66" }
 dependencies = [
     { name = "numpy" },
     { name = "pyyaml" },
@@ -767,7 +767,7 @@ requires-dist = [
     { name = "fastapi", marker = "extra == 'api'", specifier = ">=0.142.2" },
     { name = "filelock", marker = "extra == 'runner'", specifier = ">=4.0.10" },
     { name = "jsonschema", specifier = ">=4.26.0" },
-    { name = "minephys", git = "https://github.com/fsantibanezleal/minephys?rev=98d5b2525a81d9ea3de6d24dc7536450f458aee3" },
+    { name = "minephys", git = "https://github.com/fsantibanezleal/minephys?rev=cabb880bfd4761a3410bbc695b6de2ddc0c89e66" },
     { name = "numpy", specifier = ">=2.5.3" },
     { name = "nvidia-ml-py", marker = "extra == 'runner'", specifier = ">=13.615.71" },
     { name = "psutil", marker = "extra == 'runner'", specifier = ">=7.2.2" },

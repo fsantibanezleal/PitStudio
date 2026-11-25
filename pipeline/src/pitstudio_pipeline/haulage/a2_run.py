@@ -8,9 +8,9 @@ climb against its grade for diesel, trolley-assist and battery-electric trucks, 
 (the route is a path of design edges, so it cannot leave the network), with the saving of electrifying a share of the ramp length
 and the energy the battery truck regenerates on the way down; (3) the least-energy grade-constrained A* route over the real
 terrain model (3DEP 2018, averaged to the recipe's cell size) from the pit bottom to the pit exit for a sweep of the grade limit,
-with its energy. The efficiencies and the fuel energy density have no `minephys` knowledge-table row, so they are explicit scenario
-inputs listed with their status (UNVERIFIED); the gravity and the diesel CO2 factor are verified table rows. A route that does
-not exist at a grade limit is reported as such, never filled in.
+with its energy. Every constant (gravity, the four drivetrain efficiencies, the diesel lower heating value, the diesel CO2 factor) is
+read from its `minephys` knowledge row (DC-001-01, DC-001-02 of minephys spec 001) with its citation, page and status; the recipe may
+override one, and the constants table then says so. A route that does not exist at a grade limit is reported as such, never filled in.
 """
 # ruff: noqa: E501, B007
 
@@ -42,39 +42,27 @@ DT_NAMES = {
     "trolley": ("Trolley-assist", "Asistencia con trolley"),
     "bev": ("Battery-electric", "Electrico a bateria"),
 }
-CONSTANT_ROWS = [  # name, unit label, note
-    ("g", "m/s2", "standard gravity, minephys knowledge row standard_gravity (verified, NIST SP 811)"),
-    (
-        "diesel_co2_kg_per_m3",
-        "kg/m3",
-        "diesel CO2 factor, minephys knowledge row diesel_co2_kg_per_us_gal (verified, US EPA GHG Emission Factors Hub 2025)",
-    ),
-    (
-        "eta_diesel",
-        "1",
-        "tank-to-wheel efficiency of a diesel-electric truck: scenario input, UNVERIFIED, no knowledge row (the value of the minephys specification 001 worked example)",
-    ),
-    (
-        "fuel_energy_density_j_per_m3",
-        "J/m3",
-        "volumetric energy content of diesel: scenario input, UNVERIFIED, no knowledge row (the value of the minephys specification 001 worked example)",
-    ),
-    (
-        "eta_electric",
-        "1",
-        "line-to-wheel efficiency of a trolley-assisted truck: scenario input, UNVERIFIED, no knowledge row, no source",
-    ),
-    (
-        "eta_drive",
-        "1",
-        "battery-to-wheel efficiency of a battery-electric truck: scenario input, UNVERIFIED, no knowledge row, no source",
-    ),
-    (
-        "eta_regen",
-        "1",
-        "share of the descent energy a battery truck recovers: scenario input, UNVERIFIED, no knowledge row, no source",
-    ),
+CONSTANT_ROWS = [  # name, unit label, what it is
+    ("g", "m/s2", "standard gravity"),
+    ("diesel_co2_kg_per_m3", "kg/m3", "diesel combustion CO2 factor"),
+    ("eta_diesel", "1", "marginal fuel-to-wheel efficiency of a diesel-electric truck"),
+    ("fuel_energy_density_j_per_m3", "J/m3", "diesel lower heating value"),
+    ("eta_electric", "1", "DC-bus-to-wheel efficiency of the electric drive (trolley-assisted truck)"),
+    ("eta_drive", "1", "battery-to-wheel efficiency of a battery-electric truck"),
+    ("eta_regen", "1", "wheel-to-battery electrical efficiency of regenerative braking"),
 ]
+
+
+def constant_source(name: str, what: str, defaults: dict, consts: dict) -> tuple[str, str]:
+    """(status, source note) of one constant: its knowledge row with citation, page and status, or the recipe override."""
+    import minephys.knowledge as kn
+
+    row = defaults[name]["row_id"]
+    if name in consts:
+        return "scenario input", f"{what}: recipe input that overrides the knowledge row {row}"
+    r = kn.get_parameter(row)
+    status = "verified table row" if r.verification == "verified" else "UNVERIFIED table row"
+    return status, f"{what}: minephys knowledge row {row}, {r.citation}, {r.page}"
 
 
 def sig(x: float | None, n: int = 6) -> float | None:
@@ -204,7 +192,11 @@ def cells_to_segments(dem: Dem, cells, rr: float) -> list[dict]:
 
 def compute(params: dict[str, Any], data_root: Path) -> dict[str, Any]:
     p = params["scenario"]
-    consts = dict(params["constants"])
+    consts = dict(params.get("constants") or {})  # optional overrides of the knowledge rows
+    from pitstudio.haulage.energy import default_constants
+
+    defaults = default_constants()
+    effective = {n: consts.get(n, defaults[n]["value"]) for n, _, _ in CONSTANT_ROWS}
     geo = json.loads((data_root / params["inputs"]["road_network"]).read_text(encoding="utf-8"))
     from pitstudio.cases.d1.design_grid import minephys_identity
 
@@ -241,8 +233,8 @@ def compute(params: dict[str, Any], data_root: Path) -> dict[str, Any]:
             SERVES,
             kpi="fuel_per_tkm",
             caption=bi(
-                "Loaded climb of 1 km, diesel truck; basis: payload tonnes and along-road km. Efficiency and fuel density are UNVERIFIED inputs.",
-                "Subida cargada de 1 km, camion diesel; base: toneladas de carga util y km de camino. Eficiencia y densidad del combustible son supuestos NO VERIFICADOS.",
+                "Loaded climb of 1 km, diesel truck; basis: payload tonnes and along-road km. Constants: see the constants table.",
+                "Subida cargada de 1 km, camion diesel; base: toneladas de carga util y km de camino. Constantes: ver la tabla de constantes.",
             ),
             x_axis=ax("Road grade", "Pendiente del camino", "%"),
             y_axis=ax("Diesel fuel", "Combustible diesel", "L/(t.km)"),
@@ -424,7 +416,7 @@ def compute(params: dict[str, Any], data_root: Path) -> dict[str, Any]:
         goal = exit_cell
     a_rows, lens, a_found = [], [], []
     for gm in gmaxes:
-        res = find_route(dem, start, goal, mass_kg=mass_kg, rr_pct=p["rr_pct"], g_max=gm, eta=consts["eta_diesel"])
+        res = find_route(dem, start, goal, mass_kg=mass_kg, rr_pct=p["rr_pct"], g_max=gm, eta=effective["eta_diesel"])
         if isinstance(res, NoFeasibleRoute):
             a_rows.append([f"{gm * 100:g}", "no feasible route", None, None, None, None, None])
             lens.append(None)
@@ -506,21 +498,11 @@ def compute(params: dict[str, Any], data_root: Path) -> dict[str, Any]:
         )
     )
     # 4. the assumptions
-    from pitstudio.haulage.energy import default_constants
-
-    defaults = default_constants()
-    arows = []
-    for name, unit, note in CONSTANT_ROWS:
-        v = consts.get(name, defaults.get(name, {}).get("value"))
-        arows.append(
-            [
-                name,
-                sig(v, 8),
-                unit,
-                "verified table row" if name not in consts else "UNVERIFIED scenario input",
-                note[:190],
-            ]
-        )
+    arows, notes = [], []
+    for name, unit, what in CONSTANT_ROWS:
+        status, note = constant_source(name, what, defaults, consts)
+        arows.append([name, sig(effective[name], 8), unit, status, note[:190]])
+        notes.append(note)
     acols = [
         {"id": "constant", "label": bi("Constant", "Constante"), "type": "text"},
         {"id": "value", "label": bi("Value", "Valor"), "type": "number", "unit": "as listed"},
@@ -537,8 +519,8 @@ def compute(params: dict[str, Any], data_root: Path) -> dict[str, Any]:
             prod,
             SERVES,
             caption=bi(
-                "Every constant of the energy results. Only gravity and the diesel CO2 factor are verified table rows; the rest are inputs without a source.",
-                "Toda constante de los resultados de energia. Solo la gravedad y el factor de CO2 del diesel son filas verificadas; el resto son supuestos sin fuente.",
+                "Every constant, read from its minephys knowledge row with citation and page. The efficiencies are parameters of one published truck model, not measurements of this fleet.",
+                "Cada constante, leida de su fila de minephys con cita y pagina. Las eficiencias son parametros de un modelo publicado de camion, no mediciones de esta flota.",
             ),
             table={"columns": acols, "rows": arows},
         )
@@ -552,7 +534,7 @@ def compute(params: dict[str, Any], data_root: Path) -> dict[str, Any]:
         up["diesel_l_per_t_km"]["value"] * up["road_km"] + down["diesel_l_per_t_km"]["value"] * down["road_km"]
     ) / km
     where = f"diesel truck, deepest bench to the exit and back ({km:.1f} km), payload {pl:g} t, rolling resistance {p['rr_pct']:g} %"
-    tag = "efficiency and fuel density are UNVERIFIED inputs without a knowledge row; calibrated synthetic, not validated against real data"
+    tag = "constants are minephys knowledge rows (the efficiencies are parameters of one published truck model); calibrated synthetic, not validated against real data"
     headline = [
         {
             "kpi": "fuel_per_tkm",
@@ -619,19 +601,20 @@ def compute(params: dict[str, Any], data_root: Path) -> dict[str, Any]:
                 "goal_cell": list(goal),
                 "design_exit_cell": list(exit_cell),
                 "goal_limit": goal_limit,
-                "goal_note": "the cell of the design exit lies on terrain that the tight limits do not reach from the pit bottom; the goal is the cell nearest the exit, no lower than it, that the tightest limit reaching any such cell reaches (the relation to the real pit exit is UNVERIFIED)",
+                "goal_note": "the cell of the design exit lies on terrain that the tight limits do not reach from the pit bottom; the goal is the cell nearest the exit, no lower than it, that the tightest limit reaching any such cell reaches (the relation of that cell to the real pit exit has not been checked)",
                 "grade_limits_with_a_route": a_found,
                 "terrain": {k: grid[k] for k in ("source_ids", "epoch", "project")},
             },
             "truck": p["truck"],
-            "constants": {n: consts.get(n, defaults.get(n, {}).get("value")) for n, _, _ in CONSTANT_ROWS},
+            "constants": effective,
+            "constant_rows": {n: defaults[n]["row_id"] for n, _, _ in CONSTANT_ROWS},
             "minephys": f"minephys {version}",
             "diesel_round_trip_kwh_per_t": sig(diesel_total, 6),
             "co2e_note": "kg CO2e per tonne is shown for diesel only: the emissions of electricity need a grid intensity that has no default and none was supplied",
-            "assumptions": [c[2] for c in CONSTANT_ROWS if c[0] in consts]
+            "assumptions": notes
             + [
                 "the truck masses are those of the engine catalog class CAT_793F (public specification magnitudes)",
-                "rolling resistance and the trolley layout are illustrative scenario inputs, UNVERIFIED",
+                "rolling resistance (swept) and the trolley layout are illustrative scenario assumptions, not measurements of this pit",
                 "the A* route is a least-energy path over the terrain model, not a designed road; the design route follows the road network of the A1 pit design",
                 BIAS_NOTE,
             ],

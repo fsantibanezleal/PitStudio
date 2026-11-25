@@ -55,7 +55,7 @@ package = true
 where = ["src", "api"]
 
 [tool.uv.sources]
-minephys = { git = "https://github.com/fsantibanezleal/minephys", rev = "98d5b2525a81d9ea3de6d24dc7536450f458aee3" }
+minephys = { git = "https://github.com/fsantibanezleal/minephys", rev = "cabb880bfd4761a3410bbc695b6de2ddc0c89e66" }
 
 [tool.ruff]
 line-length = 120
