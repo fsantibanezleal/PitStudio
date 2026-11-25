@@ -1,0 +1,82 @@
+# Case C3, haul-road dust: the US EPA AP-42 section 13.2.2 unpaved-road PM10 emission factor (equation 1a) and the ISC3 Gaussian
+# plume over the Bingham pit with ten years of real hourly wind of the NOAA GHCNh station at Salt Lake City (spec 018 FR-018-51,
+# FR-018-16, spec 020 FR-020-08), CPU only. One stage: the factor curves with the validity ranges, the wind rose, the
+# concentration map of the prevailing wind over the road network of the A1 pit design, the ground-level centre line against
+# distance for three stability classes, and the long-term concentration at four hypothetical receptors. Every scenario value
+# (silt, traffic, release height, stability class, receptors) is illustrative and UNVERIFIED for the site; the plume is a
+# screening model, not AERMOD, and no concentration of this run is validated against a measurement.
+id: c3-dust
+case: C3
+seed: 0
+description: C3 AP-42 haul-road PM10 emission factors and Gaussian plume map over the Bingham pit for real GHCNh wind records.
+stages:
+  - id: s05_synthesize
+    variant: ap42-gaussian-plume
+    env: pipeline
+    tool: minephys
+    entry: pitstudio_pipeline.dust.c3_run
+    inputs: []  # the wind files are named in params and their digests are in data/sources.yaml and the run summary
+    params:
+      seed: 0
+      inputs:
+        wind_files:
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2015.psv
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2016.psv
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2017.psv
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2018.psv
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2019.psv
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2020.psv
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2021.psv
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2022.psv
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2023.psv
+          - raw/ghcnh-slc-wind/ghcnh-usw00024127-2024.psv
+        road_network: processed/scene/a1-bingham-v3/st20_pit_design/design/road-network.geojson
+        pit_outline: processed/scene/a1-bingham-v3/inputs/pit-outline.geojson
+      wind:
+        station: USW00024127
+        period: 2015-01-01 to 2024-12-31 UTC
+        # GHCNh quality codes seen in the files are 1, 5, A and blank; the documentation text of the codes was not readable, so
+        # 1 and 5 are read as "passed" by the ISD convention (UNVERIFIED) and every other code drops the record, counted.
+        good_quality_codes: ["1", "5"]
+        min_modelled_speed_m_s: 1.0  # slower hours are counted and not modelled (the Gaussian plume has u in the denominator)
+      scenario:
+        size_class: PM10
+        silt_fraction: 0.06            # illustrative, inside the AP-42 range 1.8 to 25.2 percent, UNVERIFIED for the site
+        truck:                         # the 220 t class truck of the A1 scene: empty mass 162 t (public specification sheet)
+          empty_mass_kg: 162000.0
+          payload_kg: 220000.0
+          loaded_fraction: 0.5         # loaded up the ramp, empty down: half of the passes
+        passes_per_hour_per_edge: 60.0 # illustrative traffic on every edge of the road network, UNVERIFIED
+        release_height_m: 3.0          # illustrative, UNVERIFIED
+        receptor_height_m: 1.5
+        stability_class: D             # neutral, assumed: GHCNh holds no insolation, so no hourly class is derived
+        terrain: rural
+      ef_sweeps:
+        silt_percent: {min: 1.0, max: 30.0, n: 59, weights_t: [100.0, 200.0, 260.0]}
+        weight_t: {min: 1.0, max: 300.0, n: 60, silt_percent: [4.0, 8.0, 16.0]}
+      control_percent: [0, 62, 68, 74, 80]  # Table 13.2.2-5 control levels
+      receptors:
+        offset_m: 1000.0               # hypothetical, at the middle of each side of the pit outline box, 1000 m outside it
+        source_spacing_m: 100.0
+      map:
+        nx: 200
+        ny: 200
+        half_width_m: 3000.0
+        source_spacing_m: 25.0
+      profile:
+        x_min_m: -3000.0   # distance along the wind axis through the pit centre, negative upwind
+        x_max_m: 3000.0
+        n: 300
+        classes: [B, D, F]
+    resources: {gpu: none, disk_gib_est: 0.1, cpu: 1}
+    determinism: bitwise
+    timeout_s: 1800
+    outputs:
+      - {path: results-summary.json, schema: json, publish: true}
+      - {path: charts/c3-ef-vs-silt.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c3-ef-vs-weight.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c3-ef-table.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c3-wind-rose.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c3-plume-map.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c3-conc-vs-distance.json, schema: contract-chart-series, publish: true}
+      - {path: charts/c3-receptor-concentration.json, schema: contract-chart-series, publish: true}
