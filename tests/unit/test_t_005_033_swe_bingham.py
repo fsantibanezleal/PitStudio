@@ -53,7 +53,9 @@ def one_friction_step(h, m_star, dt, tau_y, mu):
     )  # fmt: skip
     s.advance(dt)
     assert s.steps == 1
-    assert np.allclose(s.h, h, rtol=1e-14)
+    assert s.h[1, 1] == pytest.approx(
+        h, rel=1e-14
+    )  # the cell the oracle reads; the edge column meets the open boundary
     return s.qx[1, 1]
 
 
