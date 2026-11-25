@@ -93,6 +93,11 @@
    "run_id": "20261125T010907Z-a2-route-energy",
    "manifest": "20261125T010907Z-a2-route-energy/manifest.json",
    "sha256": "f76ebfe33adf053fab116e2cfe7025123c5bdd7a41811c87fc9678a9ecd16c4c"
+  },
+  {
+   "run_id": "20261125T012717Z-a1-fleet-sweep",
+   "manifest": "20261125T012717Z-a1-fleet-sweep/manifest.json",
+   "sha256": "351947c5649f1954c42a5e6b8cdf78ae87ad093f2a8c94ff886f0778929d2dce"
   }
  ],
  "artefacts": [
@@ -5514,6 +5519,214 @@
    ],
    "media_type": "application/json",
    "attribution": "Energy physics: minephys (gravity: NIST SP 811; diesel CO2 factor: US EPA GHG Emission Factors Hub 2025, public domain); terrain: USGS 3DEP, UT Central QL2 2018 (public domain); road network: the A1 pit design of PitStudio; truck: minehaulsim catalog class (public specification magnitudes, class-representative)."
+  },
+  {
+   "id": "a1-fleet-sweep-results",
+   "run_id": "20261125T012717Z-a1-fleet-sweep",
+   "git_sha": "3ca7a440d78d58759b8d5604fe686987d98d6caa",
+   "path": "assets/20261125T012717Z-a1-fleet-sweep/results-summary.json",
+   "bytes": 16163,
+   "sha256": "28bb8951ebecc9574e310e25f61351748a84dd911fa4e5dd58ac9609ac3e19f7",
+   "kind": "table",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+  },
+  {
+   "id": "a1-throughput-vs-fleet",
+   "run_id": "20261125T012717Z-a1-fleet-sweep",
+   "git_sha": "3ca7a440d78d58759b8d5604fe686987d98d6caa",
+   "path": "assets/20261125T012717Z-a1-fleet-sweep/charts/a1-throughput-vs-fleet.json",
+   "bytes": 7047,
+   "sha256": "e5a2b4113c3256e99eb0a210bda01e41c6744127c9bfbfdda86be61d8d051835",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+  },
+  {
+   "id": "a1-queue-vs-fleet",
+   "run_id": "20261125T012717Z-a1-fleet-sweep",
+   "git_sha": "3ca7a440d78d58759b8d5604fe686987d98d6caa",
+   "path": "assets/20261125T012717Z-a1-fleet-sweep/charts/a1-queue-vs-fleet.json",
+   "bytes": 7096,
+   "sha256": "6e09b262d36db9082192fa0b48aa22367727475d968e099d12dba178e73f29cf",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+  },
+  {
+   "id": "a1-match-factor-vs-fleet",
+   "run_id": "20261125T012717Z-a1-fleet-sweep",
+   "git_sha": "3ca7a440d78d58759b8d5604fe686987d98d6caa",
+   "path": "assets/20261125T012717Z-a1-fleet-sweep/charts/a1-match-factor-vs-fleet.json",
+   "bytes": 3641,
+   "sha256": "5853c030c63687b6b528589a94c763f0454ce2cc33d83096ec4b690bdd37e8d0",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+  },
+  {
+   "id": "a1-utilisation-vs-fleet",
+   "run_id": "20261125T012717Z-a1-fleet-sweep",
+   "git_sha": "3ca7a440d78d58759b8d5604fe686987d98d6caa",
+   "path": "assets/20261125T012717Z-a1-fleet-sweep/charts/a1-utilisation-vs-fleet.json",
+   "bytes": 7184,
+   "sha256": "ea43648188ffa2831c32e08d88359ac80150cdb8904a08679ec10c9073535c89",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+  },
+  {
+   "id": "a1-hours-per-kt",
+   "run_id": "20261125T012717Z-a1-fleet-sweep",
+   "git_sha": "3ca7a440d78d58759b8d5604fe686987d98d6caa",
+   "path": "assets/20261125T012717Z-a1-fleet-sweep/charts/a1-hours-per-kt.json",
+   "bytes": 7062,
+   "sha256": "74791de7e4dbe925180c8660637ce4908e7c65b6f260f38964309c36b728f91f",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+  },
+  {
+   "id": "a1-des-vs-mva",
+   "run_id": "20261125T012717Z-a1-fleet-sweep",
+   "git_sha": "3ca7a440d78d58759b8d5604fe686987d98d6caa",
+   "path": "assets/20261125T012717Z-a1-fleet-sweep/charts/a1-des-vs-mva.json",
+   "bytes": 2586,
+   "sha256": "0eef51352ba773e7b5cf9e83f356c2fe7b90fa627ffc5cbdc36ecf7b1350af0c",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
+  },
+  {
+   "id": "a1-dispatcher-table",
+   "run_id": "20261125T012717Z-a1-fleet-sweep",
+   "git_sha": "3ca7a440d78d58759b8d5604fe686987d98d6caa",
+   "path": "assets/20261125T012717Z-a1-fleet-sweep/charts/a1-dispatcher-table.json",
+   "bytes": 2788,
+   "sha256": "01d876ebe0b31adffb9ca98ed1e8dcc9229b7dd0cf45f0630898fab2c0b094d6",
+   "kind": "chart-series",
+   "producer": {
+    "tool": "minehaulsim",
+    "stage": {
+     "id": "s05_synthesize"
+    }
+   },
+   "inputs": [],
+   "lane": "static",
+   "budget_class": "studio-showcase",
+   "licence_class": "own",
+   "spdx": "CC-BY-4.0",
+   "asset_host": "git",
+   "cases": [
+    "A1"
+   ],
+   "media_type": "application/json",
+   "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); queueing oracle: minephys."
   }
  ]
 }

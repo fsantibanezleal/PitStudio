@@ -1,0 +1,228 @@
+{
+ "caption": {
+  "en": "Calibrated synthetic DES, 8 h shift, first 1 h discarded, three loader faces on the pit road network, traffic mode; 1 means balanced.",
+  "es": "DES sintetico calibrado, turno de 8 h (primeras 1 h descartadas), tres frentes en la red del pit, modo trafico; 1 es equilibrio."
+ },
+ "case": "A1",
+ "chart_type": "line",
+ "id": "a1-match-factor-vs-fleet",
+ "kind": "chart-series",
+ "kpi": "match_factor",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
+  "method": "seeded discrete-event haulage simulation, counter-based Philox variates, traffic mode, pit road network; exact MVA oracle",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    0.0532411,
+    0.105525,
+    0.157714,
+    0.209393,
+    0.261192,
+    0.313502,
+    0.417597,
+    0.520234,
+    0.623631,
+    0.726648,
+    0.830257,
+    0.932196,
+    1.03664,
+    1.24288,
+    1.45026,
+    1.65742,
+    1.86464,
+    2.07177
+   ],
+   "id": "sptf",
+   "label": {
+    "en": "SPTF",
+    "es": "SPTF"
+   },
+   "lo": [
+    0.0514433,
+    0.103378,
+    0.155035,
+    0.206835,
+    0.257998,
+    0.309929,
+    0.412995,
+    0.514703,
+    0.618131,
+    0.720805,
+    0.823613,
+    0.925604,
+    1.02955,
+    1.23468,
+    1.44053,
+    1.64622,
+    1.85203,
+    2.05776
+   ],
+   "n": 30,
+   "x": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    8.0,
+    10.0,
+    12.0,
+    14.0,
+    16.0,
+    18.0,
+    20.0,
+    24.0,
+    28.0,
+    32.0,
+    36.0,
+    40.0
+   ],
+   "y": [
+    0.0523422,
+    0.104451,
+    0.156375,
+    0.208114,
+    0.259595,
+    0.311715,
+    0.415296,
+    0.517469,
+    0.620881,
+    0.723727,
+    0.826935,
+    0.9289,
+    1.0331,
+    1.23878,
+    1.44539,
+    1.65182,
+    1.85833,
+    2.06476
+   ]
+  },
+  {
+   "band_label": {
+    "en": "95 % interval over 30 seeds (Student t)",
+    "es": "Intervalo de 95 % sobre 30 semillas (t de Student)"
+   },
+   "hi": [
+    0.0532411,
+    0.105432,
+    0.15826,
+    0.209997,
+    0.261672,
+    0.312933,
+    0.417631,
+    0.52113,
+    0.623626,
+    0.726447,
+    0.830715,
+    0.933076,
+    1.03588,
+    1.24277,
+    1.44974,
+    1.65737,
+    1.86464,
+    2.07177
+   ],
+   "id": "fixed",
+   "label": {
+    "en": "Fixed",
+    "es": "Fijo"
+   },
+   "lo": [
+    0.0514433,
+    0.102999,
+    0.155094,
+    0.206704,
+    0.258364,
+    0.30958,
+    0.413363,
+    0.51522,
+    0.617866,
+    0.720698,
+    0.823925,
+    0.925981,
+    1.02838,
+    1.23465,
+    1.4398,
+    1.64629,
+    1.85203,
+    2.05776
+   ],
+   "n": 30,
+   "x": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    8.0,
+    10.0,
+    12.0,
+    14.0,
+    16.0,
+    18.0,
+    20.0,
+    24.0,
+    28.0,
+    32.0,
+    36.0,
+    40.0
+   ],
+   "y": [
+    0.0523422,
+    0.104216,
+    0.156677,
+    0.208351,
+    0.260018,
+    0.311256,
+    0.415497,
+    0.518175,
+    0.620746,
+    0.723573,
+    0.82732,
+    0.929528,
+    1.03213,
+    1.23871,
+    1.44477,
+    1.65183,
+    1.85833,
+    2.06476
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-16",
+  "FR-007-17",
+  "FR-007-18"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Match factor against fleet size",
+  "es": "Factor de acoplamiento segun el tamano de la flota"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Trucks in the fleet",
+   "es": "Camiones en la flota"
+  },
+  "unit": "1"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Match factor",
+   "es": "Factor de acoplamiento"
+  },
+  "unit": "1"
+ }
+}

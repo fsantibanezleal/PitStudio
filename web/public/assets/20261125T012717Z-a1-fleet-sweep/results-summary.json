@@ -1,0 +1,812 @@
+{
+ "extra": {
+  "assumptions": [
+   "the engine's truck and loader classes are class-representative public-specification magnitudes, not OEM-exact (minehaulsim catalog)",
+   "speed limits per road class and the rolling resistance of the roads are illustrative and UNVERIFIED for the site",
+   "three loader faces on bench-road ends at three depths, a crusher at the pit exit and a waste dump near the rim; destinations are declared per loader",
+   "traffic mode: per-segment slots, no-overtake headway and FIFO queues; no junction or direction-zone constraint is declared; no breakdowns",
+   "the dispatchers are the engine's own policies and PitStudio's min-idle; no learned dispatcher exists in this build, so no verdict is made",
+   "Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it."
+  ],
+  "cost_per_tonne": "not computed: no truck or loader hourly rate was supplied and none has a source (FR-007-08)",
+  "dispatchers": [
+   "fixed",
+   "nearest",
+   "sptf",
+   "sq",
+   "min-idle"
+  ],
+  "engine": "minehaulsim 0.12.1+mp0.0.0+g98d5b25",
+  "fleet_sizes": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   10,
+   12,
+   14,
+   16,
+   18,
+   20,
+   24,
+   28,
+   32,
+   36,
+   40
+  ],
+  "mode": "traffic",
+  "network": {
+   "design_edges": 71,
+   "nodes": 72
+  },
+  "scenario": {
+   "horizon_s": 28800.0,
+   "loader_class": "SHOVEL_45",
+   "rolling_resistance_pct": 2.5,
+   "simplify_epsilon_m": 5.0,
+   "speed_limit_kmh": {
+    "bench-road": 40.0,
+    "ramp": 30.0
+   },
+   "truck_class": "CAT_793F",
+   "warmup_s": 3600.0
+  },
+  "seeds": 30,
+  "variate_profile": "engine"
+ },
+ "headline": [
+  {
+   "kpi": "throughput",
+   "name": "Peak mean throughput",
+   "note": "Fixed dispatch, 40 trucks, 30 seeds, 8 h shift, first 1 h discarded; 95 % half-width 36 t/h; calibrated synthetic, not validated against real data",
+   "unit": "t/h",
+   "value": 9515.0
+  },
+  {
+   "kpi": "queue_time",
+   "name": "Mean queue time at the loaders at the peak",
+   "note": "Fixed dispatch, 40 trucks, 30 seeds, 8 h shift, first 1 h discarded",
+   "unit": "min",
+   "value": 26.95
+  },
+  {
+   "kpi": "match_factor",
+   "name": "Match factor at the peak",
+   "note": "Fixed dispatch, 40 trucks, 30 seeds, 8 h shift, first 1 h discarded; 1 means balanced",
+   "unit": "1",
+   "value": 2.065
+  }
+ ],
+ "label": "calibrated synthetic \u2014 not validated against real data. Known DES bias: simulated truck cycle times tend to underestimate short hauls and overestimate long hauls; no real haul telemetry exists to correct it.",
+ "methods": [
+  "M1",
+  "M2"
+ ],
+ "rows": [
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.052342,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 746.678,
+   "trucks": 1
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.10422,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 1203.94,
+   "trucks": 2
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.15668,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 1556.15,
+   "trucks": 3
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.20835,
+   "queue_min": 0.060236,
+   "seeds": 30,
+   "throughput_tph": 2289.27,
+   "trucks": 4
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.26002,
+   "queue_min": 0.079312,
+   "seeds": 30,
+   "throughput_tph": 2737.98,
+   "trucks": 5
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.31126,
+   "queue_min": 0.1104,
+   "seeds": 30,
+   "throughput_tph": 3088.34,
+   "trucks": 6
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.4155,
+   "queue_min": 0.21711,
+   "seeds": 30,
+   "throughput_tph": 4248.22,
+   "trucks": 8
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.51818,
+   "queue_min": 0.46005,
+   "seeds": 30,
+   "throughput_tph": 5237.54,
+   "trucks": 10
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.62075,
+   "queue_min": 0.47908,
+   "seeds": 30,
+   "throughput_tph": 5980.44,
+   "trucks": 12
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.72357,
+   "queue_min": 1.4567,
+   "seeds": 30,
+   "throughput_tph": 6757.01,
+   "trucks": 14
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.82732,
+   "queue_min": 3.3269,
+   "seeds": 30,
+   "throughput_tph": 7070.92,
+   "trucks": 16
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 0.92953,
+   "queue_min": 3.0822,
+   "seeds": 30,
+   "throughput_tph": 7795.47,
+   "trucks": 18
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 1.0321,
+   "queue_min": 4.9446,
+   "seeds": 30,
+   "throughput_tph": 8130.98,
+   "trucks": 20
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 1.2387,
+   "queue_min": 6.958,
+   "seeds": 30,
+   "throughput_tph": 8936.67,
+   "trucks": 24
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 1.4448,
+   "queue_min": 11.195,
+   "seeds": 30,
+   "throughput_tph": 9248.24,
+   "trucks": 28
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 1.6518,
+   "queue_min": 15.809,
+   "seeds": 30,
+   "throughput_tph": 9450.23,
+   "trucks": 32
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 1.8583,
+   "queue_min": 21.192,
+   "seeds": 30,
+   "throughput_tph": 9510.3,
+   "trucks": 36
+  },
+  {
+   "dispatcher": "fixed",
+   "match_factor": 2.0648,
+   "queue_min": 26.955,
+   "seeds": 30,
+   "throughput_tph": 9514.99,
+   "trucks": 40
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.052342,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 746.678,
+   "trucks": 1
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.10445,
+   "queue_min": 0.061102,
+   "seeds": 30,
+   "throughput_tph": 1483.04,
+   "trucks": 2
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.15637,
+   "queue_min": 0.21058,
+   "seeds": 30,
+   "throughput_tph": 2212.28,
+   "trucks": 3
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.20808,
+   "queue_min": 0.69726,
+   "seeds": 30,
+   "throughput_tph": 2865.76,
+   "trucks": 4
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.25953,
+   "queue_min": 3.2719,
+   "seeds": 30,
+   "throughput_tph": 3149.95,
+   "trucks": 5
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.31126,
+   "queue_min": 7.5693,
+   "seeds": 30,
+   "throughput_tph": 3150.91,
+   "trucks": 6
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.41498,
+   "queue_min": 16.194,
+   "seeds": 30,
+   "throughput_tph": 3151.13,
+   "trucks": 8
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.519,
+   "queue_min": 24.784,
+   "seeds": 30,
+   "throughput_tph": 3159.02,
+   "trucks": 10
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.62368,
+   "queue_min": 33.168,
+   "seeds": 30,
+   "throughput_tph": 3154.32,
+   "trucks": 12
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.72742,
+   "queue_min": 41.415,
+   "seeds": 30,
+   "throughput_tph": 3154.49,
+   "trucks": 14
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.83149,
+   "queue_min": 49.438,
+   "seeds": 30,
+   "throughput_tph": 3153.29,
+   "trucks": 16
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 0.93575,
+   "queue_min": 57.115,
+   "seeds": 30,
+   "throughput_tph": 3151.89,
+   "trucks": 18
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 1.0391,
+   "queue_min": 64.802,
+   "seeds": 30,
+   "throughput_tph": 3150.09,
+   "trucks": 20
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 1.2473,
+   "queue_min": 79.093,
+   "seeds": 30,
+   "throughput_tph": 3156.87,
+   "trucks": 24
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 1.4533,
+   "queue_min": 93.01,
+   "seeds": 30,
+   "throughput_tph": 3194.58,
+   "trucks": 28
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 1.6639,
+   "queue_min": 105.77,
+   "seeds": 30,
+   "throughput_tph": 3269.98,
+   "trucks": 32
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 1.873,
+   "queue_min": 117.47,
+   "seeds": 30,
+   "throughput_tph": 3371.24,
+   "trucks": 36
+  },
+  {
+   "dispatcher": "nearest",
+   "match_factor": 2.0804,
+   "queue_min": 129.11,
+   "seeds": 30,
+   "throughput_tph": 3432.09,
+   "trucks": 40
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.052342,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 746.678,
+   "trucks": 1
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.10445,
+   "queue_min": 0.061102,
+   "seeds": 30,
+   "throughput_tph": 1483.04,
+   "trucks": 2
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.15637,
+   "queue_min": 0.21058,
+   "seeds": 30,
+   "throughput_tph": 2212.28,
+   "trucks": 3
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.20811,
+   "queue_min": 0.65183,
+   "seeds": 30,
+   "throughput_tph": 2843.25,
+   "trucks": 4
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.25959,
+   "queue_min": 0.71612,
+   "seeds": 30,
+   "throughput_tph": 3296.6,
+   "trucks": 5
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.31172,
+   "queue_min": 0.83561,
+   "seeds": 30,
+   "throughput_tph": 3765.29,
+   "trucks": 6
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.4153,
+   "queue_min": 1.0569,
+   "seeds": 30,
+   "throughput_tph": 4626.85,
+   "trucks": 8
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.51747,
+   "queue_min": 1.4739,
+   "seeds": 30,
+   "throughput_tph": 5460.0,
+   "trucks": 10
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.62088,
+   "queue_min": 2.1411,
+   "seeds": 30,
+   "throughput_tph": 6146.93,
+   "trucks": 12
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.72373,
+   "queue_min": 2.3233,
+   "seeds": 30,
+   "throughput_tph": 6770.92,
+   "trucks": 14
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.82693,
+   "queue_min": 2.4567,
+   "seeds": 30,
+   "throughput_tph": 7369.73,
+   "trucks": 16
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 0.9289,
+   "queue_min": 2.5755,
+   "seeds": 30,
+   "throughput_tph": 7963.84,
+   "trucks": 18
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 1.0331,
+   "queue_min": 2.766,
+   "seeds": 30,
+   "throughput_tph": 8540.47,
+   "trucks": 20
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 1.2388,
+   "queue_min": 4.8772,
+   "seeds": 30,
+   "throughput_tph": 9331.36,
+   "trucks": 24
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 1.4454,
+   "queue_min": 9.6854,
+   "seeds": 30,
+   "throughput_tph": 9511.34,
+   "trucks": 28
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 1.6518,
+   "queue_min": 15.444,
+   "seeds": 30,
+   "throughput_tph": 9507.36,
+   "trucks": 32
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 1.8583,
+   "queue_min": 21.194,
+   "seeds": 30,
+   "throughput_tph": 9507.15,
+   "trucks": 36
+  },
+  {
+   "dispatcher": "sptf",
+   "match_factor": 2.0648,
+   "queue_min": 26.957,
+   "seeds": 30,
+   "throughput_tph": 9507.42,
+   "trucks": 40
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.052342,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 746.678,
+   "trucks": 1
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.10437,
+   "queue_min": 0.0095629,
+   "seeds": 30,
+   "throughput_tph": 1424.7,
+   "trucks": 2
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.15658,
+   "queue_min": 0.015849,
+   "seeds": 30,
+   "throughput_tph": 1962.1,
+   "trucks": 3
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.20799,
+   "queue_min": 0.014005,
+   "seeds": 30,
+   "throughput_tph": 2445.48,
+   "trucks": 4
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.25965,
+   "queue_min": 0.0165,
+   "seeds": 30,
+   "throughput_tph": 2892.31,
+   "trucks": 5
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.31129,
+   "queue_min": 0.027047,
+   "seeds": 30,
+   "throughput_tph": 3310.27,
+   "trucks": 6
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.41525,
+   "queue_min": 0.27178,
+   "seeds": 30,
+   "throughput_tph": 4223.28,
+   "trucks": 8
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.51819,
+   "queue_min": 0.61827,
+   "seeds": 30,
+   "throughput_tph": 5176.89,
+   "trucks": 10
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.62099,
+   "queue_min": 1.1928,
+   "seeds": 30,
+   "throughput_tph": 6012.3,
+   "trucks": 12
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.72357,
+   "queue_min": 1.4188,
+   "seeds": 30,
+   "throughput_tph": 6730.63,
+   "trucks": 14
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.82713,
+   "queue_min": 1.8599,
+   "seeds": 30,
+   "throughput_tph": 7362.78,
+   "trucks": 16
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 0.92893,
+   "queue_min": 2.7945,
+   "seeds": 30,
+   "throughput_tph": 7883.85,
+   "trucks": 18
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 1.0325,
+   "queue_min": 3.4534,
+   "seeds": 30,
+   "throughput_tph": 8414.9,
+   "trucks": 20
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 1.2384,
+   "queue_min": 5.7773,
+   "seeds": 30,
+   "throughput_tph": 9161.85,
+   "trucks": 24
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 1.4454,
+   "queue_min": 9.7737,
+   "seeds": 30,
+   "throughput_tph": 9496.54,
+   "trucks": 28
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 1.6518,
+   "queue_min": 15.442,
+   "seeds": 30,
+   "throughput_tph": 9509.64,
+   "trucks": 32
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 1.8583,
+   "queue_min": 21.214,
+   "seeds": 30,
+   "throughput_tph": 9507.22,
+   "trucks": 36
+  },
+  {
+   "dispatcher": "sq",
+   "match_factor": 2.0648,
+   "queue_min": 26.964,
+   "seeds": 30,
+   "throughput_tph": 9509.75,
+   "trucks": 40
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.052342,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 746.678,
+   "trucks": 1
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.10428,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 1253.88,
+   "trucks": 2
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.15695,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 1698.46,
+   "trucks": 3
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.20891,
+   "queue_min": 0.0,
+   "seeds": 30,
+   "throughput_tph": 2109.92,
+   "trucks": 4
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.25992,
+   "queue_min": 0.019093,
+   "seeds": 30,
+   "throughput_tph": 2519.07,
+   "trucks": 5
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.31154,
+   "queue_min": 0.019199,
+   "seeds": 30,
+   "throughput_tph": 3058.37,
+   "trucks": 6
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.41564,
+   "queue_min": 0.27711,
+   "seeds": 30,
+   "throughput_tph": 4031.29,
+   "trucks": 8
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.51886,
+   "queue_min": 0.33109,
+   "seeds": 30,
+   "throughput_tph": 4974.65,
+   "trucks": 10
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.62081,
+   "queue_min": 0.49126,
+   "seeds": 30,
+   "throughput_tph": 5826.48,
+   "trucks": 12
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.72347,
+   "queue_min": 0.57096,
+   "seeds": 30,
+   "throughput_tph": 6712.89,
+   "trucks": 14
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.82666,
+   "queue_min": 1.0675,
+   "seeds": 30,
+   "throughput_tph": 7461.62,
+   "trucks": 16
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 0.92896,
+   "queue_min": 1.5328,
+   "seeds": 30,
+   "throughput_tph": 8097.62,
+   "trucks": 18
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 1.0331,
+   "queue_min": 2.3767,
+   "seeds": 30,
+   "throughput_tph": 8604.56,
+   "trucks": 20
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 1.2388,
+   "queue_min": 4.8748,
+   "seeds": 30,
+   "throughput_tph": 9332.34,
+   "trucks": 24
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 1.4454,
+   "queue_min": 9.6854,
+   "seeds": 30,
+   "throughput_tph": 9511.34,
+   "trucks": 28
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 1.6518,
+   "queue_min": 15.444,
+   "seeds": 30,
+   "throughput_tph": 9507.36,
+   "trucks": 32
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 1.8583,
+   "queue_min": 21.194,
+   "seeds": 30,
+   "throughput_tph": 9507.15,
+   "trucks": 36
+  },
+  {
+   "dispatcher": "min-idle",
+   "match_factor": 2.0648,
+   "queue_min": 26.957,
+   "seeds": 30,
+   "throughput_tph": 9507.42,
+   "trucks": 40
+  }
+ ],
+ "title": "Fleet size and dispatch rule on the Bingham pit road network: throughput, queueing and the gap to exact queueing theory",
+ "verdict": "ok"
+}

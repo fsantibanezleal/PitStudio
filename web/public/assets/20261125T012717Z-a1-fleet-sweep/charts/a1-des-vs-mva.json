@@ -1,0 +1,146 @@
+{
+ "caption": {
+  "en": "One loader, one dump, one flat 1.5 km route, engine profile, traffic mode, 30 seeds. The gap to exponential-station theory is a result, not a check.",
+  "es": "Una pala, un botadero, una ruta plana de 1,5 km, perfil del motor, modo trafico, 30 semillas. La brecha con la teoria exponencial es un resultado, no una verificacion."
+ },
+ "case": "A1",
+ "chart_type": "line",
+ "id": "a1-des-vs-mva",
+ "kind": "chart-series",
+ "producer": {
+  "label": "calibrated synthetic \u2014 not validated against real data; known DES cycle-time bias, see the run summary",
+  "method": "seeded discrete-event haulage simulation, counter-based Philox variates, traffic mode, pit road network; exact MVA oracle",
+  "tool": "minehaulsim",
+  "version": "0.12.1+mp0.0.0+g98d5b25"
+ },
+ "schema_version": "1.0",
+ "series": [
+  {
+   "band_label": {
+    "en": "95 % interval over the seeds (Student t)",
+    "es": "Intervalo de 95 % sobre las semillas (t de Student)"
+   },
+   "hi": [
+    4.09218,
+    8.1481,
+    12.0152,
+    13.9939,
+    14.0194,
+    14.0194,
+    14.0194,
+    14.0186,
+    14.0186,
+    14.0186,
+    14.0186,
+    14.0186
+   ],
+   "id": "des",
+   "label": {
+    "en": "Simulation (engine profile)",
+    "es": "Simulacion (perfil del motor)"
+   },
+   "lo": [
+    4.07146,
+    8.11553,
+    11.9697,
+    13.9,
+    13.92,
+    13.92,
+    13.92,
+    13.9177,
+    13.9177,
+    13.9177,
+    13.9177,
+    13.9177
+   ],
+   "n": 30,
+   "x": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    7.0,
+    8.0,
+    9.0,
+    10.0,
+    11.0,
+    12.0
+   ],
+   "y": [
+    4.08182,
+    8.13182,
+    11.9924,
+    13.947,
+    13.9697,
+    13.9697,
+    13.9697,
+    13.9682,
+    13.9682,
+    13.9682,
+    13.9682,
+    13.9682
+   ]
+  },
+  {
+   "id": "mva",
+   "label": {
+    "en": "Exact mean-value analysis",
+    "es": "Analisis de valor medio exacto"
+   },
+   "x": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    7.0,
+    8.0,
+    9.0,
+    10.0,
+    11.0,
+    12.0
+   ],
+   "y": [
+    4.2204,
+    7.70398,
+    10.3308,
+    12.0892,
+    13.11,
+    13.618,
+    13.8351,
+    13.9159,
+    13.9426,
+    13.9506,
+    13.9528,
+    13.9533
+   ]
+  }
+ ],
+ "serves": [
+  "FR-018-16",
+  "FR-007-17",
+  "FR-007-18"
+ ],
+ "status": "ok",
+ "title": {
+  "en": "Simulation against exact queueing theory",
+  "es": "Simulacion contra teoria de colas exacta"
+ },
+ "x_axis": {
+  "label": {
+   "en": "Trucks in the fleet",
+   "es": "Camiones en la flota"
+  },
+  "unit": "1"
+ },
+ "y_axis": {
+  "label": {
+   "en": "Fleet cycle rate",
+   "es": "Ciclos de la flota"
+  },
+  "unit": "cycles/h"
+ }
+}
