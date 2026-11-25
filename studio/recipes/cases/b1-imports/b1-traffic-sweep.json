@@ -1,0 +1,139 @@
+{
+ "job": "b1-traffic-sweep",
+ "kind": "cpu",
+ "case": "B1",
+ "recipe": "cases/b1.yaml",
+ "slug": "b1-traffic-sweep",
+ "seed": 0,
+ "label": "calibrated synthetic — not validated against real data; rule-based agents with illustrative behaviour inputs: minehaulsim discrete-event truck trajectories on the pit design road network replayed with manned light vehicles, constant-velocity time to collision per encounter",
+ "producer_paths": [
+  "pipeline/src/pitstudio_pipeline/haulage",
+  "src/pitstudio/haulage",
+  "pipeline/src/pitstudio_pipeline/chartkit.py",
+  "studio/recipes/cases/b1.yaml"
+ ],
+ "notes": [
+  "Produced on the CPU by pitstudio_pipeline.haulage.b1_run (not by the GPU queue); no GPU time is used.",
+  "Reaction times, decelerations, disc radii, the lane offset and the light-vehicle patrol are illustrative and UNVERIFIED; no proximity or incident record exists to calibrate or validate them, so the comparison is between model scenarios only. The RTX lidar and radar frames and the Cosmos reasoning of case B1 are not part of this run."
+ ],
+ "stages": [
+  {
+   "id": "s05_synthesize",
+   "tool": "minehaulsim",
+   "outputs": [
+    {
+     "name": "results-summary.json",
+     "from": "results-summary.json",
+     "kind": "table",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "b1-traffic-sweep-results",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20.",
+     "required_fields": [
+      "headline",
+      "extra"
+     ]
+    },
+    {
+     "name": "charts/b1-near-miss-rate-vs-share.json",
+     "from": "charts/b1-near-miss-rate-vs-share.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "b1-near-miss-rate-vs-share",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+    },
+    {
+     "name": "charts/b1-near-miss-rate-vs-density.json",
+     "from": "charts/b1-near-miss-rate-vs-density.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "b1-near-miss-rate-vs-density",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+    },
+    {
+     "name": "charts/b1-min-ttc-percentiles-vs-share.json",
+     "from": "charts/b1-min-ttc-percentiles-vs-share.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "b1-min-ttc-percentiles-vs-share",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+    },
+    {
+     "name": "charts/b1-min-ttc-distribution.json",
+     "from": "charts/b1-min-ttc-distribution.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "b1-min-ttc-distribution",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+    },
+    {
+     "name": "charts/b1-conflicts-per-shift.json",
+     "from": "charts/b1-conflicts-per-shift.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "b1-conflicts-per-shift",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+    },
+    {
+     "name": "charts/b1-throughput-vs-share.json",
+     "from": "charts/b1-throughput-vs-share.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "b1-throughput-vs-share",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+    },
+    {
+     "name": "charts/b1-scenario-table.json",
+     "from": "charts/b1-scenario-table.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "b1-scenario-table",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+    },
+    {
+     "name": "charts/b1-inputs-table.json",
+     "from": "charts/b1-inputs-table.json",
+     "kind": "chart-series",
+     "budget_class": "studio-showcase",
+     "publish": true,
+     "id": "b1-inputs-table",
+     "media_type": "application/json",
+     "licence_class": "own",
+     "spdx": "CC-BY-4.0",
+     "attribution": "Simulation: minehaulsim 0.12.1 (Apache-2.0) through the PitStudio adapter with Philox4x64-10 variates, replayed with PitStudio's lane-based traffic layer; road network: the A1 pit design of PitStudio; equipment classes: minehaulsim catalog (public specification magnitudes, class-representative); time to collision: closed form of docs M20."
+    }
+   ]
+  }
+ ]
+}
